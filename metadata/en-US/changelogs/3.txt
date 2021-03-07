@@ -1,3 +1,0 @@
-* Persist sorting order across application restarts
-* Display Open Collective donation links
-* Rework text strings
