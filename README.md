@@ -1,4 +1,4 @@
-# Foxy Droid
+# Droid-ify
 
 Material-ify with Droid-ify.
 
