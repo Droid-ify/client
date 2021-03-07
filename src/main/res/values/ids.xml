@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <item type="id" name="sections_list" />
+  <item type="id" name="divider_configuration" />
+  <item type="id" name="fragment_pager" />
+  <item type="id" name="main_content" />
+  <item type="id" name="preferences_list" />
+  <item type="id" name="toolbar_search" />
+
+</resources>

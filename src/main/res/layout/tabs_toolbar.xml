@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:layout_marginHorizontal="5dp"
+  android:background="@drawable/background_border">
+
+  <LinearLayout
+    android:id="@+id/tabs"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:theme="@style/Theme.Main.Light"/>
+
+  <FrameLayout
+    android:id="@+id/section_layout"
+    android:layout_width="match_parent"
+    android:layout_height="0dp">
+
+    <LinearLayout
+      android:id="@+id/section_change"
+      android:layout_width="match_parent"
+      android:layout_height="48dp"
+      android:orientation="horizontal"
+      android:gravity="center_vertical"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:background="?android:attr/selectableItemBackground"
+      android:theme="@style/Theme.Main.Light"
+      tools:ignore="UselessParent">
+
+      <TextView
+          android:id="@+id/section_name"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:fontFamily="sans-serif-medium"
+          android:gravity="center_vertical"
+          android:paddingStart="10dp"
+          android:paddingEnd="10dp"
+          android:textColor="?android:attr/textColorPrimary"
+          android:textSize="16sp" />
+
+      <ImageView
+        android:id="@+id/section_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_arrow_down"
+        tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+  </FrameLayout>
+
+</LinearLayout>

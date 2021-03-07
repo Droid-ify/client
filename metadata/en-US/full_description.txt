@@ -1,0 +1,10 @@
+Unofficial F-Droid client with Material UI.
+
+This app is an Direct Adaptation/Modification of Foxy-Droid
+
+Features:
+
+* Material F-Droid style
+* No cards or inappropriate animations
+* Fast repository syncing
+* Standard Android components and minimal dependencies

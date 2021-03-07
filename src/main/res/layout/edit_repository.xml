@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:animateLayoutChanges="true">
+
+  <ScrollView
+    android:id="@android:id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:paddingTop="4dp"
+      android:paddingStart="12dp"
+      android:paddingEnd="12dp"
+      android:paddingBottom="12dp">
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp"
+        android:text="@string/address" />
+
+      <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+          android:id="@+id/address"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:paddingTop="16dp"
+          android:paddingBottom="16dp"
+          android:textSize="16sp"
+          android:inputType="textUri"
+          android:hint="https://"
+          tools:ignore="Autofill,HardcodedText" />
+
+        <ImageView
+          android:id="@+id/address_mirror"
+          android:layout_width="36dp"
+          android:layout_height="match_parent"
+          android:layout_gravity="end"
+          android:scaleType="center"
+          android:src="@drawable/ic_arrow_down"
+          android:tint="?android:attr/textColorSecondary"
+          android:tintMode="src_in"
+          android:background="?android:attr/actionBarItemBackground"
+          android:visibility="gone"
+          tools:ignore="ContentDescription" />
+
+      </FrameLayout>
+
+      <TextView
+        android:id="@+id/address_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?attr/colorError"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp"
+        android:text="@string/fingerprint" />
+
+      <EditText
+        android:id="@+id/fingerprint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:gravity="top"
+        android:fontFamily="monospace"
+        android:textSize="16sp"
+        android:inputType="textNoSuggestions|textMultiLine"
+        tools:ignore="Autofill,LabelFor" />
+
+      <TextView
+        android:id="@+id/fingerprint_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?attr/colorError"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp"
+        android:text="@string/username" />
+
+      <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="16sp"
+        android:inputType="textNoSuggestions"
+        android:hint="@string/username"
+        tools:ignore="Autofill,LabelFor" />
+
+      <TextView
+        android:id="@+id/username_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?attr/colorError"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+      <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="-12dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="12sp"
+        android:text="@string/password" />
+
+      <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="16sp"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        tools:ignore="Autofill,LabelFor" />
+
+      <TextView
+        android:id="@+id/password_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-2dp"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="?attr/colorError"
+        android:textSize="12sp"
+        android:visibility="gone" />
+
+    </LinearLayout>
+
+  </ScrollView>
+
+  <LinearLayout
+    android:id="@+id/overlay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="?android:attr/colorBackground"
+    android:clickable="true"
+    tools:ignore="KeyboardInaccessibleWidget">
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content" />
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:fontFamily="sans-serif-light"
+      android:textColor="?android:attr/textColorPrimary"
+      android:textSize="20sp"
+      android:text="@string/checking_repository" />
+
+    <Button
+      android:id="@+id/skip"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      style="@android:style/Widget.Material.Button.Borderless.Colored"
+      android:text="@string/skip" />
+
+  </LinearLayout>
+
+</FrameLayout>

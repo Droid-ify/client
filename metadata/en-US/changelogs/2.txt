@@ -1,0 +1,3 @@
+* Allow to sort by date added and last update
+* Display more compatibility information for packages
+* Drop AppCompat and reduce APK file size

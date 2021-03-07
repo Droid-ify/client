@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:orientation="vertical"
+  android:gravity="center_vertical"
+  android:baselineAligned="false"
+  android:padding="16dp"
+  android:background="?android:attr/selectableItemBackground">
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="bottom">
+
+    <FrameLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1">
+
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        tools:ignore="UselessParent">
+
+        <TextView
+          android:id="@+id/version"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:textColor="?android:attr/textColorPrimary"
+          android:textSize="16sp"
+          android:singleLine="true"
+          tools:ignore="InefficientWeight" />
+
+        <TextView
+          android:id="@+id/status"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="1dp"
+          android:layout_marginStart="8dp"
+          android:paddingTop="1dp"
+          android:paddingBottom="1dp"
+          android:paddingStart="4dp"
+          android:paddingEnd="4dp"
+          android:fontFamily="sans-serif-medium"
+          android:textColor="?android:attr/colorBackground"
+          android:textSize="10sp"
+          android:textAllCaps="true"
+          android:singleLine="true"
+          tools:ignore="SmallSp" />
+
+      </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+      android:id="@+id/added"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:textColor="?android:attr/textColorPrimary"
+      android:textSize="14sp"
+      android:singleLine="true" />
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+      android:id="@+id/source"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textColor="?android:attr/textColorSecondary"
+      android:textSize="14sp"
+      android:singleLine="true" />
+
+    <TextView
+      android:id="@+id/size"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="16dp"
+      android:textColor="?android:attr/textColorSecondary"
+      android:textSize="14sp"
+      android:singleLine="true" />
+
+  </LinearLayout>
+
+  <TextView
+    android:id="@+id/signature"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="?android:attr/textColorSecondary"
+    android:textSize="14sp"
+    android:maxLines="1" />
+
+  <TextView
+    android:id="@+id/compatibility"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="?android:attr/textColorSecondary"
+    android:textSize="14sp"
+    android:singleLine="true" />
+
+</LinearLayout>

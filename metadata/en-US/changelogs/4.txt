@@ -1,0 +1,4 @@
+* Full text search
+* Search results ranking
+* Allow to view packages per repository
+* Automatic day/night theme for Android 10

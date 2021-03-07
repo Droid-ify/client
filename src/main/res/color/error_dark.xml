@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<selector
+  xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:state_enabled="false"
+    android:color="@color/error_default_dark"
+    android:alpha="0.3" />
+
+  <item
+    android:color="@color/error_default_dark" />
+
+</selector>
