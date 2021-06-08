@@ -1,42 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--AppBar-->
-<com.looker.droidify.widget.FragmentLinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:elevation="0dp"
-  android:orientation="vertical">
-
-  <LinearLayout
+<?xml version="1.0" encoding="UTF-8"?><!--AppBar-->
+<com.looker.droidify.widget.FragmentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:theme="?android:attr/actionBarTheme"
-    android:background="?android:attr/colorPrimaryDark"
-    android:elevation="0dp">
+    android:layout_height="match_parent"
+    android:elevation="0dp"
+    android:orientation="vertical">
 
-    <com.looker.droidify.widget.Toolbar
-      android:id="@+id/toolbar"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:popupTheme="@style/Theme.Main.Toolbar.Popup"
-      android:layout_margin="10dp"
-      android:background="@drawable/background_border"
-      android:theme="@style/Theme.Main.Light"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/colorBackground"
+        android:elevation="0dp"
+        android:orientation="vertical">
+
+        <com.looker.droidify.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/background_border" />
+
+        <FrameLayout
+            android:id="@+id/toolbar_extra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp" />
+
+    </LinearLayout>
 
     <FrameLayout
-      android:id="@+id/toolbar_extra"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:theme="@style/Theme.Main.Light"/>
-
-  </LinearLayout>
-
-  <FrameLayout
-    android:id="@+id/fragment_content"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:background="?android:attr/colorBackground" />
+        android:id="@+id/fragment_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp"
+        android:layout_weight="1"
+        android:background="?android:attr/colorBackground" />
 
 </com.looker.droidify.widget.FragmentLinearLayout>

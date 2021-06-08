@@ -14,7 +14,8 @@
     android:layout_width="24dp"
     android:layout_height="24dp"
     android:scaleType="centerInside"
-    android:tint="?android:attr/textColorSecondary"
+      android:layout_gravity="center"
+      android:tint="?android:attr/textColorSecondary"
     android:tintMode="src_in"
     tools:ignore="ContentDescription" />
 
@@ -25,8 +26,8 @@
     android:layout_weight="1"
     android:layout_marginStart="32dp"
     android:paddingTop="16dp"
-    android:paddingBottom="16dp"
-    android:textColor="?android:attr/textColorPrimary"
-    android:textSize="16sp" />
+      android:paddingBottom="16dp"
+      android:textColor="?android:attr/textColor"
+      android:textSize="16sp" />
 
 </LinearLayout>
