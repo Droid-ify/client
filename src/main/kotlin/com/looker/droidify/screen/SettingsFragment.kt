@@ -38,7 +38,7 @@ class SettingsFragment : ScreenFragment() {
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.preferences)
+        toolbar.setTitle(R.string.settings)
 
         val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
         val scroll = ScrollView(content.context)
