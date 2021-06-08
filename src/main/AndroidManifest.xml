@@ -16,8 +16,8 @@
     android:icon="@mipmap/ic_launcher"
     android:supportsRtl="true"
     android:allowBackup="false"
-    android:theme="@style/Theme.Main.Light"
-    tools:ignore="GoogleAppIndexingWarning">
+      android:theme="@style/MainTheme"
+      tools:ignore="GoogleAppIndexingWarning">
 
     <receiver
       android:name="com.looker.droidify.MainApplication$BootReceiver">
