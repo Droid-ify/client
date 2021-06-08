@@ -17,7 +17,6 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.utility.RxUtils
-import com.looker.droidify.widget.DividerItemDecoration
 import com.looker.droidify.widget.RecyclerFastScroller
 
 class ProductsFragment(): ScreenFragment(), CursorOwner.Callback {
@@ -80,7 +79,6 @@ class ProductsFragment(): ScreenFragment(), CursorOwner.Callback {
       recycledViewPool.setMaxRecycledViews(ProductsAdapter.ViewType.PRODUCT.ordinal, 30)
       val adapter = ProductsAdapter { screenActivity.navigateProduct(it.packageName) }
       this.adapter = adapter
-      addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
       RecyclerFastScroller(this)
       recyclerView = this
     }
