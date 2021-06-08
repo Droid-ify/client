@@ -2,5 +2,7 @@
 <resources>
 
   <attr name="colorError" format="color" />
+  <attr name="colorOnBackground" format="reference" />
+  <attr name="subTextColor" format="reference" />
 
 </resources>
