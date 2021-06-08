@@ -178,12 +178,12 @@ class TabsFragment: ScreenFragment() {
           true
         }
 
-      add(1, 0, 0, R.string.preferences)
-        .setOnMenuItemClickListener {
-          view.post { screenActivity.navigatePreferences() }
-          true
+            add(1, 0, 0, R.string.settings)
+                .setOnMenuItemClickListener {
+                    view.post { screenActivity.navigatePreferences() }
+                    true
+                }
         }
-    }
 
     searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
     productFragments.forEach { it.setSearchQuery(searchQuery) }

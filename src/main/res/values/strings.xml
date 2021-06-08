@@ -105,7 +105,7 @@
   <string name="password_missing">Password missing</string>
   <string name="permissions">Permissions</string>
   <string name="plus_more_FORMAT">+%d more</string>
-  <string name="preferences">Preferences</string>
+  <string name="settings">Settings</string>
   <string name="processing_FORMAT">Processing %1$s</string>
   <string name="project_website">Project website</string>
   <string name="promotes_non_free_network_services">Promotes non-free network services</string>
