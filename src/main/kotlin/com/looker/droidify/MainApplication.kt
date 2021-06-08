@@ -4,14 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.content.BroadcastReceiver
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.pm.PackageInfo
-import com.squareup.picasso.OkHttp3Downloader
-import com.squareup.picasso.Picasso
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
@@ -23,165 +17,180 @@ import com.looker.droidify.network.PicassoDownloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.extension.android.*
+import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.android.singleSignature
+import com.looker.droidify.utility.extension.android.versionCodeCompat
+import com.squareup.picasso.OkHttp3Downloader
+import com.squareup.picasso.Picasso
 import java.net.InetSocketAddress
 import java.net.Proxy
 
 @Suppress("unused")
-class MainApplication: Application() {
-  private fun PackageInfo.toInstalledItem(): InstalledItem {
-    val signatureString = singleSignature?.let(Utils::calculateHash).orEmpty()
-    return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
-  }
-
-  override fun attachBaseContext(base: Context) {
-    super.attachBaseContext(Utils.configureLocale(base))
-  }
-
-  override fun onCreate() {
-    super.onCreate()
-
-    val databaseUpdated = Database.init(this)
-    Preferences.init(this)
-    ProductPreferences.init(this)
-    RepositoryUpdater.init(this)
-    listenApplications()
-    listenPreferences()
-
-    Picasso.setSingletonInstance(Picasso.Builder(this)
-      .downloader(OkHttp3Downloader(PicassoDownloader.Factory(Cache.getImagesDir(this)))).build())
-
-    if (databaseUpdated) {
-      forceSyncAll()
+class MainApplication : Application() {
+    private fun PackageInfo.toInstalledItem(): InstalledItem {
+        val signatureString = singleSignature?.let(Utils::calculateHash).orEmpty()
+        return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
     }
 
-    Cache.cleanup(this)
-    updateSyncJob(false)
-  }
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(Utils.configureLocale(base))
+    }
 
-  private fun listenApplications() {
-    registerReceiver(object: BroadcastReceiver() {
-      override fun onReceive(context: Context, intent: Intent) {
-        val packageName = intent.data?.let { if (it.scheme == "package") it.schemeSpecificPart else null }
-        if (packageName != null) {
-          when (intent.action.orEmpty()) {
-            Intent.ACTION_PACKAGE_ADDED,
-            Intent.ACTION_PACKAGE_REMOVED -> {
-              val packageInfo = try {
-                packageManager.getPackageInfo(packageName, Android.PackageManager.signaturesFlag)
-              } catch (e: Exception) {
-                null
-              }
-              if (packageInfo != null) {
-                Database.InstalledAdapter.put(packageInfo.toInstalledItem())
-              } else {
-                Database.InstalledAdapter.delete(packageName)
-              }
-            }
-          }
+    override fun onCreate() {
+        super.onCreate()
+
+        val databaseUpdated = Database.init(this)
+        Preferences.init(this)
+        ProductPreferences.init(this)
+        RepositoryUpdater.init(this)
+        listenApplications()
+        listenPreferences()
+
+        Picasso.setSingletonInstance(
+            Picasso.Builder(this)
+                .downloader(OkHttp3Downloader(PicassoDownloader.Factory(Cache.getImagesDir(this))))
+                .build()
+        )
+
+        if (databaseUpdated) {
+            forceSyncAll()
         }
-      }
-    }, IntentFilter().apply {
-      addAction(Intent.ACTION_PACKAGE_ADDED)
-      addAction(Intent.ACTION_PACKAGE_REMOVED)
-      addDataScheme("package")
-    })
-    val installedItems = packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
-      .map { it.toInstalledItem() }
-    Database.InstalledAdapter.putAll(installedItems)
-  }
 
-  private fun listenPreferences() {
-    updateProxy()
-    var lastAutoSync = Preferences[Preferences.Key.AutoSync]
-    var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-    Preferences.observable.subscribe {
-      if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
+        Cache.cleanup(this)
+        updateSyncJob(false)
+    }
+
+    private fun listenApplications() {
+        registerReceiver(object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val packageName =
+                    intent.data?.let { if (it.scheme == "package") it.schemeSpecificPart else null }
+                if (packageName != null) {
+                    when (intent.action.orEmpty()) {
+                        Intent.ACTION_PACKAGE_ADDED,
+                        Intent.ACTION_PACKAGE_REMOVED -> {
+                            val packageInfo = try {
+                                packageManager.getPackageInfo(
+                                    packageName,
+                                    Android.PackageManager.signaturesFlag
+                                )
+                            } catch (e: Exception) {
+                                null
+                            }
+                            if (packageInfo != null) {
+                                Database.InstalledAdapter.put(packageInfo.toInstalledItem())
+                            } else {
+                                Database.InstalledAdapter.delete(packageName)
+                            }
+                        }
+                    }
+                }
+            }
+        }, IntentFilter().apply {
+            addAction(Intent.ACTION_PACKAGE_ADDED)
+            addAction(Intent.ACTION_PACKAGE_REMOVED)
+            addDataScheme("package")
+        })
+        val installedItems =
+            packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
+                .map { it.toInstalledItem() }
+        Database.InstalledAdapter.putAll(installedItems)
+    }
+
+    private fun listenPreferences() {
         updateProxy()
-      } else if (it == Preferences.Key.AutoSync) {
-        val autoSync = Preferences[Preferences.Key.AutoSync]
-        if (lastAutoSync != autoSync) {
-          lastAutoSync = autoSync
-          updateSyncJob(true)
-        }
-      } else if (it == Preferences.Key.UpdateUnstable) {
-        val updateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-        if (lastUpdateUnstable != updateUnstable) {
-          lastUpdateUnstable = updateUnstable
-          forceSyncAll()
-        }
-      }
-    }
-  }
-
-  private fun updateSyncJob(force: Boolean) {
-    val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
-    val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
-    if (reschedule) {
-      val autoSync = Preferences[Preferences.Key.AutoSync]
-      when (autoSync) {
-        Preferences.AutoSync.Never -> {
-          jobScheduler.cancel(Common.JOB_ID_SYNC)
-        }
-        Preferences.AutoSync.Wifi, Preferences.AutoSync.Always -> {
-          val period = 12 * 60 * 60 * 1000L // 12 hours
-          val wifiOnly = autoSync == Preferences.AutoSync.Wifi
-          jobScheduler.schedule(JobInfo
-            .Builder(Common.JOB_ID_SYNC, ComponentName(this, SyncService.Job::class.java))
-            .setRequiredNetworkType(if (wifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY)
-            .apply {
-              if (Android.sdk(26)) {
-                setRequiresBatteryNotLow(true)
-                setRequiresStorageNotLow(true)
-              }
-              if (Android.sdk(24)) {
-                setPeriodic(period, JobInfo.getMinFlexMillis())
-              } else {
-                setPeriodic(period)
-              }
+        var lastAutoSync = Preferences[Preferences.Key.AutoSync]
+        var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
+        Preferences.observable.subscribe {
+            if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
+                updateProxy()
+            } else if (it == Preferences.Key.AutoSync) {
+                val autoSync = Preferences[Preferences.Key.AutoSync]
+                if (lastAutoSync != autoSync) {
+                    lastAutoSync = autoSync
+                    updateSyncJob(true)
+                }
+            } else if (it == Preferences.Key.UpdateUnstable) {
+                val updateUnstable = Preferences[Preferences.Key.UpdateUnstable]
+                if (lastUpdateUnstable != updateUnstable) {
+                    lastUpdateUnstable = updateUnstable
+                    forceSyncAll()
+                }
             }
-            .build())
-          Unit
         }
-      }::class.java
     }
-  }
 
-  private fun updateProxy() {
-    val type = Preferences[Preferences.Key.ProxyType].proxyType
-    val host = Preferences[Preferences.Key.ProxyHost]
-    val port = Preferences[Preferences.Key.ProxyPort]
-    val socketAddress = when (type) {
-      Proxy.Type.DIRECT -> {
-        null
-      }
-      Proxy.Type.HTTP, Proxy.Type.SOCKS -> {
-        try {
-          InetSocketAddress.createUnresolved(host, port)
-        } catch (e: Exception) {
-          e.printStackTrace()
-          null
+    private fun updateSyncJob(force: Boolean) {
+        val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+        val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
+        if (reschedule) {
+            val autoSync = Preferences[Preferences.Key.AutoSync]
+            when (autoSync) {
+                Preferences.AutoSync.Never -> {
+                    jobScheduler.cancel(Common.JOB_ID_SYNC)
+                }
+                Preferences.AutoSync.Wifi, Preferences.AutoSync.Always -> {
+                    val period = 12 * 60 * 60 * 1000L // 12 hours
+                    val wifiOnly = autoSync == Preferences.AutoSync.Wifi
+                    jobScheduler.schedule(JobInfo
+                        .Builder(
+                            Common.JOB_ID_SYNC,
+                            ComponentName(this, SyncService.Job::class.java)
+                        )
+                        .setRequiredNetworkType(if (wifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY)
+                        .apply {
+                            if (Android.sdk(26)) {
+                                setRequiresBatteryNotLow(true)
+                                setRequiresStorageNotLow(true)
+                            }
+                            if (Android.sdk(24)) {
+                                setPeriodic(period, JobInfo.getMinFlexMillis())
+                            } else {
+                                setPeriodic(period)
+                            }
+                        }
+                        .build())
+                    Unit
+                }
+            }::class.java
         }
-      }
     }
-    val proxy = socketAddress?.let { Proxy(type, socketAddress) }
-    Downloader.proxy = proxy
-  }
 
-  private fun forceSyncAll() {
-    Database.RepositoryAdapter.getAll(null).forEach {
-      if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
-        Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
-      }
+    private fun updateProxy() {
+        val type = Preferences[Preferences.Key.ProxyType].proxyType
+        val host = Preferences[Preferences.Key.ProxyHost]
+        val port = Preferences[Preferences.Key.ProxyPort]
+        val socketAddress = when (type) {
+            Proxy.Type.DIRECT -> {
+                null
+            }
+            Proxy.Type.HTTP, Proxy.Type.SOCKS -> {
+                try {
+                    InetSocketAddress.createUnresolved(host, port)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    null
+                }
+            }
+        }
+        val proxy = socketAddress?.let { Proxy(type, socketAddress) }
+        Downloader.proxy = proxy
     }
-    Connection(SyncService::class.java, onBind = { connection, binder ->
-      binder.sync(SyncService.SyncRequest.FORCE)
-      connection.unbind(this)
-    }).bind(this)
-  }
 
-  class BootReceiver: BroadcastReceiver() {
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
-    override fun onReceive(context: Context, intent: Intent) = Unit
-  }
+    private fun forceSyncAll() {
+        Database.RepositoryAdapter.getAll(null).forEach {
+            if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
+                Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
+            }
+        }
+        Connection(SyncService::class.java, onBind = { connection, binder ->
+            binder.sync(SyncService.SyncRequest.FORCE)
+            connection.unbind(this)
+        }).bind(this)
+    }
+
+    class BootReceiver : BroadcastReceiver() {
+        @SuppressLint("UnsafeProtectedBroadcastReceiver")
+        override fun onReceive(context: Context, intent: Intent) = Unit
+    }
 }

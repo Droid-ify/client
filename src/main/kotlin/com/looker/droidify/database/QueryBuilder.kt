@@ -4,8 +4,8 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.CancellationSignal
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.utility.extension.android.*
-import com.looker.droidify.utility.extension.text.*
+import com.looker.droidify.utility.extension.android.asSequence
+import com.looker.droidify.utility.extension.text.debug
 
 class QueryBuilder {
   companion object {
