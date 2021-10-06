@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <color name="default_green">#3EDA86</color>
-  <color name="default_green_dark">#36C378</color>
-  <color name="white">#FFFFFF</color>
-  <color name="black">#1E1E1E</color>
-  <color name="grey_light">#333333</color>
-  <color name="grey_dark">#595959</color>
-  <color name="accent_default_dark">#ff47a2fc</color>
-  <color name="error_default_dark">#D36C6B</color>
-  <color name="accent_default_light">#ff1976d2</color>
-  <color name="error_default_light">#F48886</color>
+    <color name="default_green">#3EDA86</color>
+    <color name="default_green_dark">#36C378</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#1E1E1E</color>
+    <color name="pitch_black">#000000</color>
+    <color name="grey_light">#333333</color>
+    <color name="grey_dark">#595959</color>
+    <color name="accent_default_dark">#69ECA6</color>
+    <color name="accent_default_light">#2C8756</color>
+    <color name="error_default_dark">#D36C6B</color>
+    <color name="error_default_light">#F48886</color>
 </resources>

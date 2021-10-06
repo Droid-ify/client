@@ -100,6 +100,7 @@ class SettingsFragment : ScreenFragment() {
                     is Preferences.Theme.System -> getString(R.string.system)
                     is Preferences.Theme.Light -> getString(R.string.light)
                     is Preferences.Theme.Dark -> getString(R.string.dark)
+                    is Preferences.Theme.Amoled -> getString(R.string.amoled)
                 }
             }
             addSwitch(

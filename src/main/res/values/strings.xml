@@ -8,6 +8,7 @@
   <string name="all_applications_up_to_date">All applications up to date</string>
   <string name="already_exists">Already exists</string>
   <string name="always">Always</string>
+  <string name="amoled">Amoled</string>
   <string name="anti_features">Anti-features</string>
   <string name="application">Application</string>
   <string name="application_name" translatable="false">Droid-ify</string>

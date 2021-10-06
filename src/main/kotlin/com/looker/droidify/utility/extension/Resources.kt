@@ -7,6 +7,7 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
 import android.net.Uri
 import android.util.TypedValue
 import android.util.Xml
@@ -16,7 +17,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import com.looker.droidify.utility.extension.android.Android
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -37,7 +37,7 @@ fun Context.getDrawableCompat(resId: Int): Drawable {
                     .find { it == XmlPullParser.START_TAG || it == XmlPullParser.END_DOCUMENT }
                 if (eventType == XmlPullParser.START_TAG) {
                     when (it.name) {
-                        "vector" -> VectorDrawableCompat.createFromXmlInner(
+                        "vector" -> VectorDrawable.createFromXmlInner(
                             resources,
                             it,
                             Xml.asAttributeSet(it),
