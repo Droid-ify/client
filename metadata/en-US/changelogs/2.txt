@@ -1,0 +1,4 @@
+* Misc UI changes
+* Reformatted whole codebase
+* Updated Dependencies
+* Renamed Prefernces to Settings
