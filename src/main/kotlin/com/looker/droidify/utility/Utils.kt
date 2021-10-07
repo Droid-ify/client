@@ -3,11 +3,8 @@ package com.looker.droidify.utility
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.pm.Signature
-import android.content.res.Configuration
 import android.graphics.drawable.Drawable
-import android.os.LocaleList
 import android.provider.Settings
-import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
@@ -68,30 +65,6 @@ object Utils {
         } else {
             ""
         }
-    }
-
-    fun configureLocale(context: Context): Context {
-        val supportedLanguages = BuildConfig.LANGUAGES.toSet()
-        val configuration = context.resources.configuration
-        val currentLocales = if (Android.sdk(24)) {
-            val localesList = configuration.locales
-            (0 until localesList.size()).map(localesList::get)
-        } else {
-            @Suppress("DEPRECATION")
-            listOf(configuration.locale)
-        }
-        val compatibleLocales = currentLocales
-            .filter { it.language in supportedLanguages }
-            .let { if (it.isEmpty()) listOf(Locale.US) else it }
-        Locale.setDefault(compatibleLocales.first())
-        val newConfiguration = Configuration(configuration)
-        if (Android.sdk(24)) {
-            newConfiguration.setLocales(LocaleList(*compatibleLocales.toTypedArray()))
-        } else {
-            @Suppress("DEPRECATION")
-            newConfiguration.locale = compatibleLocales.first()
-        }
-        return context.createConfigurationContext(newConfiguration)
     }
 
     fun areAnimationsEnabled(context: Context): Boolean {

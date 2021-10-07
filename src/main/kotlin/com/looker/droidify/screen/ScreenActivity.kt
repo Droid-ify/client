@@ -1,6 +1,5 @@
 package com.looker.droidify.screen
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -17,7 +16,6 @@ import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.utility.KParcelable
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
@@ -70,10 +68,6 @@ abstract class ScreenActivity : FragmentActivity() {
             supportFragmentManager.executePendingTransactions()
             return supportFragmentManager.findFragmentById(R.id.main_content)
         }
-
-    override fun attachBaseContext(base: Context) {
-        super.attachBaseContext(Utils.configureLocale(base))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Preferences[Preferences.Key.Theme].getResId(resources.configuration))
