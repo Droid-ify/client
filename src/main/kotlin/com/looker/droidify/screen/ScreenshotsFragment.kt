@@ -62,52 +62,60 @@ class ScreenshotsFragment() : DialogFragment() {
         val repositoryId = requireArguments().getLong(EXTRA_REPOSITORY_ID)
         val dialog = Dialog(requireContext(), R.style.Theme_Main_Dark)
 
-        val window = dialog.window!!
-        val decorView = window.decorView
+        val window = dialog.window
+        val decorView = window?.decorView
 
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        if (window != null) {
+            WindowCompat.setDecorFitsSystemWindows(window, false)
+        }
 
         val background =
             dialog.context.getColorFromAttr(android.R.attr.colorBackground).defaultColor
-        decorView.setBackgroundColor(background.let {
+        decorView?.setBackgroundColor(background.let {
             ColorUtils.blendARGB(
                 0x00ffffff and it,
                 it,
                 0.9f
             )
         })
-        decorView.setPadding(0, 0, 0, 0)
+        decorView?.setPadding(0, 0, 0, 0)
         background.let { ColorUtils.blendARGB(0x00ffffff and it, it, 0.8f) }.let {
-            window.statusBarColor = it
-            window.navigationBarColor = it
+            window?.statusBarColor = it
+            window?.navigationBarColor = it
         }
-        window.attributes = window.attributes.apply {
-            title = ScreenshotsFragment::class.java.name
-            format = PixelFormat.TRANSLUCENT
-            windowAnimations = run {
-                val typedArray = dialog.context.obtainStyledAttributes(
-                    null,
-                    intArrayOf(android.R.attr.windowAnimationStyle), android.R.attr.dialogTheme, 0
-                )
-                try {
-                    typedArray.getResourceId(0, 0)
-                } finally {
-                    typedArray.recycle()
+        if (window != null) {
+            window.attributes = window.attributes.apply {
+                title = ScreenshotsFragment::class.java.name
+                format = PixelFormat.TRANSLUCENT
+                windowAnimations = run {
+                    val typedArray = dialog.context.obtainStyledAttributes(
+                        null,
+                        intArrayOf(android.R.attr.windowAnimationStyle),
+                        android.R.attr.dialogTheme,
+                        0
+                    )
+                    try {
+                        typedArray.getResourceId(0, 0)
+                    } finally {
+                        typedArray.recycle()
+                    }
                 }
-            }
-            if (Android.sdk(28)) {
-                layoutInDisplayCutoutMode =
-                    WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                if (Android.sdk(28)) {
+                    layoutInDisplayCutoutMode =
+                        WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+                }
             }
         }
 
 
         val toggleSystemUi = {
-            WindowInsetsControllerCompat(window, decorView).let { controller ->
-                controller.hide(WindowInsetsCompat.Type.statusBars())
-                controller.hide(WindowInsetsCompat.Type.navigationBars())
-                controller.systemBarsBehavior =
-                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            if (window != null && decorView != null) {
+                WindowInsetsControllerCompat(window, decorView).let { controller ->
+                    controller.hide(WindowInsetsCompat.Type.statusBars())
+                    controller.hide(WindowInsetsCompat.Type.navigationBars())
+                    controller.systemBarsBehavior =
+                        WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                }
             }
         }
 
@@ -246,17 +254,19 @@ class ScreenshotsFragment() : DialogFragment() {
             val screenshot = screenshots[position]
             val (width, height) = size
             if (width > 0 && height > 0) {
-                holder.image.load(
-                    PicassoDownloader.createScreenshotUri(
-                        repository!!,
-                        packageName,
-                        screenshot
-                    )
-                ) {
-                    placeholder(holder.placeholder)
-                    error(holder.placeholder)
-                    resize(width, height)
-                    centerInside()
+                repository?.let {
+                    holder.image.load(
+                        PicassoDownloader.createScreenshotUri(
+                            it,
+                            packageName,
+                            screenshot
+                        )
+                    ) {
+                        placeholder(holder.placeholder)
+                        error(holder.placeholder)
+                        resize(width, height)
+                        centerInside()
+                    }
                 }
             } else {
                 holder.image.clear()
