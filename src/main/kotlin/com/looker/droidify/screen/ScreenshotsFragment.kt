@@ -5,11 +5,13 @@ import android.content.Context
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.graphics.ColorUtils
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,6 +64,9 @@ class ScreenshotsFragment() : DialogFragment() {
 
         val window = dialog.window!!
         val decorView = window.decorView
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val background =
             dialog.context.getColorFromAttr(android.R.attr.colorBackground).defaultColor
         decorView.setBackgroundColor(background.let {
@@ -96,26 +101,18 @@ class ScreenshotsFragment() : DialogFragment() {
             }
         }
 
-        val hideFlags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE
-        decorView.systemUiVisibility =
-            decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                    View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-        val applyHide =
-            Runnable { decorView.systemUiVisibility = decorView.systemUiVisibility or hideFlags }
-        val handleClick = {
-            decorView.removeCallbacks(applyHide)
-            if ((decorView.systemUiVisibility and hideFlags) == hideFlags) {
-                decorView.systemUiVisibility = decorView.systemUiVisibility and hideFlags.inv()
-            } else {
-                decorView.systemUiVisibility = decorView.systemUiVisibility or hideFlags
+
+        val toggleSystemUi = {
+            WindowInsetsControllerCompat(window, decorView).let { controller ->
+                controller.hide(WindowInsetsCompat.Type.statusBars())
+                controller.hide(WindowInsetsCompat.Type.navigationBars())
+                controller.systemBarsBehavior =
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         }
-        decorView.postDelayed(applyHide, 2000L)
-        decorView.setOnClickListener { handleClick() }
 
         val viewPager = ViewPager2(dialog.context)
-        viewPager.adapter = Adapter(packageName) { handleClick() }
+        viewPager.adapter = Adapter(packageName) { toggleSystemUi() }
         viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(16)))
         viewPager.viewTreeObserver.addOnGlobalLayoutListener {
             (viewPager.adapter as Adapter).size = Pair(viewPager.width, viewPager.height)
@@ -143,7 +140,7 @@ class ScreenshotsFragment() : DialogFragment() {
             .subscribe { it ->
                 val (product, repository) = it
                 val screenshots = product?.screenshots.orEmpty()
-                (viewPager.adapter as Adapter).update(repository, screenshots)
+                (viewPager.adapter as Adapter).update(viewPager, repository, screenshots)
                 if (!restored) {
                     restored = true
                     val identifier = savedInstanceState?.getString(STATE_IDENTIFIER)
@@ -206,17 +203,20 @@ class ScreenshotsFragment() : DialogFragment() {
         private var repository: Repository? = null
         private var screenshots = emptyList<Product.Screenshot>()
 
-        fun update(repository: Repository?, screenshots: List<Product.Screenshot>) {
+        fun update(
+            viewPager: ViewPager2,
+            repository: Repository?,
+            screenshots: List<Product.Screenshot>
+        ) {
             this.repository = repository
             this.screenshots = screenshots
-            notifyDataSetChanged()
+            notifyItemChanged(viewPager.currentItem)
         }
 
         var size = Pair(0, 0)
             set(value) {
                 if (field != value) {
                     field = value
-                    notifyDataSetChanged()
                 }
             }
 
