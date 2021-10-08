@@ -205,7 +205,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
                 override val iconResId: Int
                     get() = when (donate) {
-                        is Product.Donate.Regular -> R.drawable.ic_public
+                        is Product.Donate.Regular -> R.drawable.ic_donate_regular
                         is Product.Donate.Bitcoin -> R.drawable.ic_donate_bitcoin
                         is Product.Donate.Litecoin -> R.drawable.ic_donate_litecoin
                         is Product.Donate.Flattr -> R.drawable.ic_donate_flattr
