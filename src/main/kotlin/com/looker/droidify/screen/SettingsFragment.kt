@@ -15,6 +15,7 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.utility.extension.resources.*
@@ -122,7 +123,7 @@ class SettingsFragment : ScreenFragment() {
             }
             addText(
                 title = "Droid-ify",
-                summary = "Iamlooker"
+                summary = "v ${BuildConfig.VERSION_NAME}"
             )
         }
 
