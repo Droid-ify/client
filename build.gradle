@@ -23,17 +23,24 @@ android {
     defaultConfig {
         archivesBaseName = 'droidify'
         applicationId 'com.looker.droidify'
-        minSdk 28
+        minSdk 21
         targetSdk 31
         versionCode 3
         versionName '0.3'
-
-        vectorDrawables.useSupportLibrary true
     }
 
     sourceSets.all {
         def javaDir = it.java.srcDirs.find { it.name == 'java' }
         it.java.srcDirs += new File(javaDir.parentFile, 'kotlin')
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = compileOptions.sourceCompatibility.toString()
     }
 
     buildTypes {
@@ -103,8 +110,10 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
     implementation 'androidx.core:core-ktx:1.6.0'
     implementation 'androidx.fragment:fragment-ktx:1.3.6'
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.1'

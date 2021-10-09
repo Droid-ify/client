@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
@@ -13,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
@@ -109,16 +109,14 @@ class SettingsFragment : ScreenFragment() {
                 getString(R.string.incompatible_versions_summary)
             )
         }
-        // Adding Credits to Foxy
-        //TODO "Fix Linking"
 
         preferences.addCategory("Credits") {
             addText(
                 title = "Based on an App by kitsunyan",
                 summary = "FoxyDroid"
-            ).also {
+            ).apply {
                 setOnClickListener {
-                    openURI(urlToSite = "https://github.com/kitsunyan/foxy-droid/")
+                    openURI()
                 }
             }
             addText(
@@ -127,13 +125,9 @@ class SettingsFragment : ScreenFragment() {
             )
         }
 
-        // End Credits
-
         disposable = Preferences.observable.subscribe(this::updatePreference)
         updatePreference(null)
     }
-
-    // Add Text for Credits
 
     private fun LinearLayout.addText(title: String, summary: String) {
         val text = TextView(context)
@@ -156,11 +150,11 @@ class SettingsFragment : ScreenFragment() {
         )
     }
 
-    private fun openURI(urlToSite: String) {
-        val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(urlToSite))
+    private fun openURI() {
+        val browserIntent =
+            Intent(Intent.ACTION_VIEW, "https://github.com/kitsunyan/foxy-droid/".toUri())
         startActivity(browserIntent)
     }
-    // End Add Text for Credits
 
     override fun onDestroyView() {
         super.onDestroyView()
