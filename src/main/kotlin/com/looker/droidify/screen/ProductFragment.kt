@@ -208,8 +208,9 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                                                 Intent.CATEGORY_LAUNCHER
                                             ), 0
                                         )
-                                        .asSequence().mapNotNull { it.activityInfo }
-                                        .filter { it.packageName == packageName }
+                                        .asSequence()
+                                        .mapNotNull { resolveInfo -> resolveInfo.activityInfo }
+                                        .filter { activityInfo -> activityInfo.packageName == packageName }
                                         .mapNotNull { activityInfo ->
                                             val label = try {
                                                 activityInfo.loadLabel(packageManager).toString()
@@ -217,7 +218,12 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                                                 e.printStackTrace()
                                                 null
                                             }
-                                            label?.let { Pair(activityInfo.name, it) }
+                                            label?.let { labelName ->
+                                                Pair(
+                                                    activityInfo.name,
+                                                    labelName
+                                                )
+                                            }
                                         }
                                         .toList()
                                 }
@@ -399,8 +405,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                         productRepository.second,
                         release
                     )
-                }
-                Unit
+                } else Unit
             }
             ProductAdapter.Action.LAUNCH -> {
                 val launcherActivities = installed?.launcherActivities.orEmpty()
@@ -432,8 +437,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 val binder = downloadConnection.binder
                 if (downloading && binder != null) {
                     binder.cancel(packageName)
-                }
-                Unit
+                } else Unit
             }
         }::class
     }
