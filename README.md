@@ -17,7 +17,7 @@ This app is an Direct Adaptation/Modification of [Foxy-Droid](https://github.com
     
 ### Screenshots
 
-<img src="metadata/en-US/images/screenshots/home-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-amoled.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-amoled.png" width="48%" />
+<img src="metadata/en-US/images/screenshots/home-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-amoled.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-amoled.png" width="48%" />
 
 ## Building and Installing
 
