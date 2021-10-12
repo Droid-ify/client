@@ -29,6 +29,7 @@
   <string name="could_not_download_FORMAT">Could not download %s</string>
   <string name="could_not_sync_FORMAT">Could not sync %s</string>
   <string name="could_not_validate_FORMAT">Could not validate %s</string>
+  <string name="credits">Credits</string>
   <string name="dark">Dark</string>
   <string name="date_added">Date added</string>
   <string name="delete">Delete</string>
@@ -64,6 +65,7 @@
   <string name="incompatible_versions_summary">Show application versions incompatible with the device</string>
   <string name="incompatible_with_FORMAT">Incompatible with %s</string>
   <string name="install">Install</string>
+    <string name="install_types">Installation Types</string>
   <string name="installed">Installed</string>
   <string name="integrity_check_error_DESC">Could not check integrity.</string>
   <string name="invalid_address">Invalid address</string>
@@ -147,6 +149,7 @@
   <string name="system">System</string>
   <string name="tap_to_install_DESC">Tap to install.</string>
   <string name="theme">Theme</string>
+    <string name="themes">Themes</string>
   <string name="tracks_or_reports_your_activity">Tracks or reports your activity</string>
   <string name="uninstall">Uninstall</string>
   <string name="unknown">Unknown</string>
@@ -166,5 +169,4 @@
   <string name="versions">Versions</string>
   <string name="waiting_to_start_download">Waiting to start download</string>
   <string name="website">Website</string>
-
 </resources>

@@ -83,6 +83,10 @@ class SettingsFragment : ScreenFragment() {
                 Preferences.Key.UpdateUnstable, getString(R.string.unstable_updates),
                 getString(R.string.unstable_updates_summary)
             )
+            addSwitch(
+                Preferences.Key.IncompatibleVersions, getString(R.string.incompatible_versions),
+                getString(R.string.incompatible_versions_summary)
+            )
         }
         preferences.addCategory(getString(R.string.proxy)) {
             addEnumeration(Preferences.Key.ProxyType, getString(R.string.proxy_type)) {
@@ -95,7 +99,7 @@ class SettingsFragment : ScreenFragment() {
             addEditString(Preferences.Key.ProxyHost, getString(R.string.proxy_host))
             addEditInt(Preferences.Key.ProxyPort, getString(R.string.proxy_port), 1..65535)
         }
-        preferences.addCategory(getString(R.string.other)) {
+        preferences.addCategory(getString(R.string.themes)) {
             addEnumeration(Preferences.Key.Theme, getString(R.string.theme)) {
                 when (it) {
                     is Preferences.Theme.System -> getString(R.string.system)
@@ -104,13 +108,14 @@ class SettingsFragment : ScreenFragment() {
                     is Preferences.Theme.Amoled -> getString(R.string.amoled)
                 }
             }
+        }
+        preferences.addCategory(getString(R.string.install_types)) {
             addSwitch(
-                Preferences.Key.IncompatibleVersions, getString(R.string.incompatible_versions),
-                getString(R.string.incompatible_versions_summary)
+                Preferences.Key.RootPermission, getString(R.string.root_permission),
+                getString(R.string.root_permission_description)
             )
         }
-
-        preferences.addCategory("Credits") {
+        preferences.addCategory(getString(R.string.credits)) {
             addText(
                 title = "Based on an App by kitsunyan",
                 summary = "FoxyDroid"

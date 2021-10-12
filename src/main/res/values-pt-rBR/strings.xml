@@ -155,15 +155,18 @@
   <string name="unverified">Não verificado</string>
   <string name="update">Atualização</string>
   <string name="updates">Atualizações</string>
-  <string name="upstream_source_code_is_not_free">O código fonte original não é livre</string>
-  <string name="username">Nome de usuário</string>
-  <string name="username_missing">Falta o nome de usuário</string>
-  <string name="validation_index_error_DESC">O índice não pôde ser validado.</string>
-  <string name="version_FORMAT">Versão %s</string>
-  <string name="versions">Versões</string>
-  <string name="waiting_to_start_download">Esperando para começar a baixar</string>
-  <string name="website">Página web</string>
-  <string name="root_permission">Instalação silenciosa</string>
-  <string name="root_permission_description">Permitir permissão de root para habilitar a instalação silenciosa</string>
+    <string name="upstream_source_code_is_not_free">O código fonte original não é livre</string>
+    <string name="username">Nome de usuário</string>
+    <string name="username_missing">Falta o nome de usuário</string>
+    <string name="validation_index_error_DESC">O índice não pôde ser validado.</string>
+    <string name="version_FORMAT">Versão %s</string>
+    <string name="versions">Versões</string>
+    <string name="waiting_to_start_download">Esperando para começar a baixar</string>
+    <string name="website">Página web</string>
+    <string name="root_permission">Instalação silenciosa</string>
+    <string name="root_permission_description">Permitir permissão de root para habilitar a instalação silenciosa</string>
+    <string name="themes">Temas</string>
+    <string name="credits">Créditos</string>
+    <string name="install_types">themes  Tipos de instalação</string>
 
 </resources>

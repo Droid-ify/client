@@ -155,15 +155,18 @@
   <string name="unverified">未验证</string>
   <string name="update">更新</string>
   <string name="updates">更新</string>
-  <string name="upstream_source_code_is_not_free">上游源代码不是自由的</string>
-  <string name="username">用户名</string>
-  <string name="username_missing">缺少用户名</string>
-  <string name="validation_index_error_DESC">无法验证索引。</string>
-  <string name="version_FORMAT">版本 %s</string>
-  <string name="versions">版本</string>
-  <string name="waiting_to_start_download">等待开始下载</string>
-  <string name="website">网站</string>
-  <string name="root_permission">静默安装</string>
-  <string name="root_permission_description">允许 Root 权限以启用静默安装</string>
+    <string name="upstream_source_code_is_not_free">上游源代码不是自由的</string>
+    <string name="username">用户名</string>
+    <string name="username_missing">缺少用户名</string>
+    <string name="validation_index_error_DESC">无法验证索引。</string>
+    <string name="version_FORMAT">版本 %s</string>
+    <string name="versions">版本</string>
+    <string name="waiting_to_start_download">等待开始下载</string>
+    <string name="website">网站</string>
+    <string name="root_permission">静默安装</string>
+    <string name="root_permission_description">允许 Root 权限以启用静默安装</string>
+    <string name="themes">主题</string>
+    <string name="credits">学分</string>
+    <string name="install_types">安装类型</string>
 
 </resources>

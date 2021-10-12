@@ -17,7 +17,7 @@ object Preferences {
 
     private val keys = sequenceOf(
         Key.AutoSync, Key.IncompatibleVersions, Key.ProxyHost, Key.ProxyPort, Key.ProxyType,
-        Key.SortOrder, Key.Theme, Key.UpdateNotify, Key.UpdateUnstable
+        Key.RootPermission, Key.SortOrder, Key.Theme, Key.UpdateNotify, Key.UpdateUnstable
     ).map { Pair(it.name, it) }.toMap()
 
     fun init(context: Context) {
@@ -123,6 +123,8 @@ object Preferences {
             "proxy_type",
             Value.EnumerationValue(Preferences.ProxyType.Direct)
         )
+
+        object RootPermission : Key<Boolean>("root_permission", Value.BooleanValue(false))
 
         object SortOrder : Key<Preferences.SortOrder>(
             "sort_order",
