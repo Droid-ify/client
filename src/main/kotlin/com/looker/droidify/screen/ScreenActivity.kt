@@ -18,6 +18,8 @@ import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.topjohnwu.superuser.Shell
+import java.io.File
 
 abstract class ScreenActivity : FragmentActivity() {
     companion object {
@@ -243,18 +245,35 @@ abstract class ScreenActivity : FragmentActivity() {
     }
 
     internal fun startPackageInstaller(cacheFileName: String) {
-        val (uri, flags) = if (Android.sdk(24)) {
-            Pair(Cache.getReleaseUri(this, cacheFileName), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        val file = Cache.getReleaseFile(this, cacheFileName)
+        if (Preferences[Preferences.Key.RootPermission]) {
+            val commandBuilder = StringBuilder()
+            commandBuilder.append("settings put global verifier_verify_adb_installs 0 ; ")
+            commandBuilder.append(
+                getPackageInstallCommand(file)
+            )
+            commandBuilder.append(" ; settings put global verifier_verify_adb_installs 1")
+            Shell.su(commandBuilder.toString()).exec()
         } else {
-            Pair(Uri.fromFile(Cache.getReleaseFile(this, cacheFileName)), 0)
+            val (uri, flags) = if (Android.sdk(24)) {
+                Pair(
+                    Cache.getReleaseUri(this, cacheFileName),
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } else {
+                Pair(Uri.fromFile(file), 0)
+            }
+            // TODO Handle deprecation
+            @Suppress("DEPRECATION")
+            startActivity(
+                Intent(Intent.ACTION_INSTALL_PACKAGE)
+                    .setDataAndType(uri, "application/vnd.android.package-archive").setFlags(flags)
+            )
         }
-        // TODO Handle deprecation
-        @Suppress("DEPRECATION")
-        startActivity(
-            Intent(Intent.ACTION_INSTALL_PACKAGE)
-                .setDataAndType(uri, "application/vnd.android.package-archive").setFlags(flags)
-        )
     }
+
+    private fun getPackageInstallCommand(cacheFile: File): String =
+        "cat \"${cacheFile.absolutePath}\" | pm install -t -r -S ${cacheFile.length()}"
 
     internal fun navigateProduct(packageName: String) = pushFragment(ProductFragment(packageName))
     internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
