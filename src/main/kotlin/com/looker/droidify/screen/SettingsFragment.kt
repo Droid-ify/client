@@ -182,7 +182,9 @@ class SettingsFragment : ScreenFragment() {
             preferences[Preferences.Key.ProxyHost]?.setEnabled(enabled)
             preferences[Preferences.Key.ProxyPort]?.setEnabled(enabled)
         }
-        preferences[Preferences.Key.RootPermission]?.setEnabled(Shell.getShell().isRoot)
+        preferences[Preferences.Key.RootPermission]?.setEnabled(
+            Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot
+        )
         if (key == Preferences.Key.Theme) {
             requireActivity().recreate()
         }

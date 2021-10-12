@@ -26,6 +26,8 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.startPackageInstaller
+import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.android.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -134,7 +136,6 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             }
             addOnScrollListener(scrollListener)
             addItemDecoration(adapter.gridItemDecoration)
-//      addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
             savedInstanceState?.getParcelable<ProductAdapter.SavedState>(STATE_ADAPTER)
                 ?.let(adapter::restoreState)
             layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
@@ -385,27 +386,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             ProductAdapter.Action.INSTALL,
             ProductAdapter.Action.UPDATE -> {
                 val installedItem = installed?.installedItem
-                val productRepository = Product.findSuggested(products, installedItem) { it.first }
-                val compatibleReleases = productRepository?.first?.selectedReleases.orEmpty()
-                    .filter { installedItem == null || installedItem.signature == it.signature }
-                val release = if (compatibleReleases.size >= 2) {
-                    compatibleReleases
-                        .filter { it.platforms.contains(Android.primaryPlatform) }
-                        .minByOrNull { it.platforms.size }
-                        ?: compatibleReleases.minByOrNull { it.platforms.size }
-                        ?: compatibleReleases.firstOrNull()
-                } else {
-                    compatibleReleases.firstOrNull()
-                }
-                val binder = downloadConnection.binder
-                if (productRepository != null && release != null && binder != null) {
-                    binder.enqueue(
-                        packageName,
-                        productRepository.first.name,
-                        productRepository.second,
-                        release
-                    )
-                } else Unit
+                startUpdate(packageName, installedItem, products, downloadConnection)
             }
             ProductAdapter.Action.LAUNCH -> {
                 val launcherActivities = installed?.launcherActivities.orEmpty()
