@@ -5,21 +5,17 @@ import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
-import android.content.pm.PackageInfo
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.InstalledItem
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.PicassoDownloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.android.singleSignature
-import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import java.net.InetSocketAddress
@@ -27,10 +23,6 @@ import java.net.Proxy
 
 @Suppress("unused")
 class MainApplication : Application() {
-    private fun PackageInfo.toInstalledItem(): InstalledItem {
-        val signatureString = singleSignature?.let(Utils::calculateHash).orEmpty()
-        return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
-    }
 
     override fun onCreate() {
         super.onCreate()

@@ -14,6 +14,7 @@ import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
+import com.looker.droidify.content.Preferences
 import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
@@ -300,9 +301,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         stateSubject.onNext(State.Success(task.packageName, task.name, task.release) {
             consumed = true
         })
-        if (!consumed) {
-            showNotificationInstall(task)
-        }
+        if (consumed || (Preferences[Preferences.Key.RootPermission])) {
+            PendingIntent.getBroadcast(
+                this,
+                0,
+                Intent(this, Receiver::class.java)
+                    .setAction("$ACTION_INSTALL.${task.packageName}")
+                    .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
+                PendingIntent.FLAG_UPDATE_CURRENT
+            )
+                .send()
+        } else showNotificationInstall(task)
     }
 
     private fun validatePackage(task: Task, file: File): ValidationError? {
@@ -436,7 +445,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { result, throwable ->
                         currentTask = null
-                        throwable?.printStackTrace()
+                        throwable.printStackTrace()
                         if (result == null || !result.success) {
                             showNotificationError(
                                 task,

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <attr name="colorError" format="color" />
-  <attr name="colorOnBackground" format="reference" />
-  <attr name="subTextColor" format="reference" />
+    <attr name="colorError" format="color" />
+    <attr name="colorOnBackground" format="reference" />
+    <attr name="subTextColor" format="reference" />
 
 </resources>
