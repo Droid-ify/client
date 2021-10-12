@@ -163,5 +163,7 @@
   <string name="versions">Versões</string>
   <string name="waiting_to_start_download">Esperando para começar a baixar</string>
   <string name="website">Página web</string>
+  <string name="root_permission">Instalação silenciosa</string>
+  <string name="root_permission_description">Permitir permissão de root para habilitar a instalação silenciosa</string>
 
 </resources>

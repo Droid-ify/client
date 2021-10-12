@@ -163,5 +163,7 @@
   <string name="versions">版本</string>
   <string name="waiting_to_start_download">等待开始下载</string>
   <string name="website">网站</string>
+  <string name="root_permission">静默安装</string>
+  <string name="root_permission_description">允许 Root 权限以启用静默安装</string>
 
 </resources>
