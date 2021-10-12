@@ -1,0 +1,5 @@
+* Added Amoled Theme
+* Add Silent Root Installation
+* Added Following Languages :-
+    * Portuguese
+    * Chinese
