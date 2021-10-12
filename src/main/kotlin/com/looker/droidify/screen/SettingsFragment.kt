@@ -19,6 +19,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.utility.extension.resources.*
+import com.topjohnwu.superuser.Shell
 import io.reactivex.rxjava3.disposables.Disposable
 
 
@@ -125,7 +126,7 @@ class SettingsFragment : ScreenFragment() {
                 }
             }
             addText(
-                title = "Droid-ify",
+                title = getString(R.string.application_name),
                 summary = "v ${BuildConfig.VERSION_NAME}"
             )
         }
@@ -181,6 +182,7 @@ class SettingsFragment : ScreenFragment() {
             preferences[Preferences.Key.ProxyHost]?.setEnabled(enabled)
             preferences[Preferences.Key.ProxyPort]?.setEnabled(enabled)
         }
+        preferences[Preferences.Key.RootPermission]?.setEnabled(Shell.getShell().isRoot)
         if (key == Preferences.Key.Theme) {
             requireActivity().recreate()
         }
