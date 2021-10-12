@@ -31,9 +31,9 @@
         android:id="@+id/fragment_content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="10dp"
-        android:paddingTop="10dp"
         android:layout_weight="1"
-        android:background="?android:attr/colorBackground" />
+        android:background="?android:attr/colorBackground"
+        android:paddingHorizontal="10dp"
+        android:paddingTop="10dp" />
 
 </com.looker.droidify.widget.FragmentLinearLayout>
