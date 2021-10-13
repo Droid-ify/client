@@ -20,14 +20,14 @@ apply plugin: "kotlin-kapt"
 
 android {
 
-    compileSdk 31
+    compileSdk = 31
     defaultConfig {
         archivesBaseName = 'droidify'
-        applicationId 'com.looker.droidify'
-        minSdk 21
-        targetSdk 31
-        versionCode 31
-        versionName '0.3.1'
+        applicationId = 'com.looker.droidify'
+        minSdk = 21
+        targetSdk = 31
+        versionCode = 31
+        versionName = "0.3.1"
     }
 
     sourceSets.all {
@@ -46,16 +46,16 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled = false
+            shrinkResources = false
         }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled = true
+            shrinkResources = true
         }
         all {
-            crunchPngs false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
+            crunchPngs = false
+            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard.pro")
         }
     }
 
@@ -89,17 +89,17 @@ android {
         if (!signing.any { _, v -> v == null }) {
             signingConfigs {
                 primary {
-                    storeFile file(signing.storeFile)
-                    storePassword signing.storePassword
-                    keyAlias signing.keyAlias
-                    keyPassword signing.keyPassword
-                    v2SigningEnabled false
+                    storeFile = file(signing.storeFile)
+                    storePassword = signing.storePassword
+                    keyAlias = signing.keyAlias
+                    keyPassword = signing.keyPassword
+                    v2SigningEnabled = false
                 }
             }
 
             buildTypes {
-                debug.signingConfig signingConfigs.primary
-                release.signingConfig signingConfigs.primary
+                debug.signingConfig = signingConfigs.primary
+                release.signingConfig = signingConfigs.primary
             }
         }
     }
@@ -108,7 +108,7 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {

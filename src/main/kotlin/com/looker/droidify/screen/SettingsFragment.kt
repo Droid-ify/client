@@ -143,7 +143,7 @@ class SettingsFragment : ScreenFragment() {
         text.textSize = 16F
         subText.textSize = 14F
         resources.sizeScaled(16).let { text.setPadding(it, it, 5, 5) }
-        resources.sizeScaled(16).let { subText.setPadding(it, 5, 5, 5) }
+        resources.sizeScaled(16).let { subText.setPadding(it, 5, 5, 25) }
         addView(
             text,
             LinearLayout.LayoutParams.MATCH_PARENT,
