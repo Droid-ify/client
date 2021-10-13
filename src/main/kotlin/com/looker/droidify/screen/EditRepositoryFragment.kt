@@ -474,8 +474,9 @@ class EditRepositoryFragment() : ScreenFragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { result, throwable ->
                         checkDisposable = null
-                        throwable.printStackTrace()
-                        val resultAddress = if (result.isEmpty()) address else result
+                        throwable?.printStackTrace()
+                        val resultAddress =
+                            result?.let { if (it.isEmpty()) null else it } ?: address
                         val allow = resultAddress == address || run {
                             layout.address.setText(resultAddress)
                             invalidateAddress(resultAddress)
