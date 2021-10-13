@@ -22,7 +22,6 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Product
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.network.PicassoDownloader
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.*
@@ -255,17 +254,10 @@ class ScreenshotsFragment() : DialogFragment() {
             val (width, height) = size
             if (width > 0 && height > 0) {
                 repository?.let {
-                    holder.image.load(
-                        PicassoDownloader.createScreenshotUri(
-                            it,
-                            packageName,
-                            screenshot
-                        )
-                    ) {
+                    holder.image.load(screenshot.path) {
                         placeholder(holder.placeholder)
                         error(holder.placeholder)
-                        resize(width, height)
-                        centerInside()
+                        size(width, height)
                     }
                 }
             } else {
