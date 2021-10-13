@@ -5,24 +5,24 @@ import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
+import coil.ImageLoader
+import coil.ImageLoaderFactory
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
+import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.network.PicassoDownloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
-import com.squareup.picasso.OkHttp3Downloader
-import com.squareup.picasso.Picasso
 import java.net.InetSocketAddress
 import java.net.Proxy
 
 @Suppress("unused")
-class MainApplication : Application() {
+class MainApplication : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
         super.onCreate()
@@ -33,12 +33,6 @@ class MainApplication : Application() {
         RepositoryUpdater.init(this)
         listenApplications()
         listenPreferences()
-
-        Picasso.setSingletonInstance(
-            Picasso.Builder(this)
-                .downloader(OkHttp3Downloader(PicassoDownloader.Factory(Cache.getImagesDir(this))))
-                .build()
-        )
 
         if (databaseUpdated) {
             forceSyncAll()
@@ -180,5 +174,12 @@ class MainApplication : Application() {
     class BootReceiver : BroadcastReceiver() {
         @SuppressLint("UnsafeProtectedBroadcastReceiver")
         override fun onReceive(context: Context, intent: Intent) = Unit
+    }
+
+    override fun newImageLoader(): ImageLoader {
+        return ImageLoader.Builder(this)
+            .callFactory(CoilDownloader.Factory(Cache.getImagesDir(this)))
+            .crossfade(true)
+            .build()
     }
 }

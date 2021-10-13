@@ -17,9 +17,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import coil.load
+import coil.request.ImageRequest
+import coil.util.CoilUtils
 import com.looker.droidify.utility.extension.android.Android
-import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.roundToInt
 
@@ -91,10 +92,14 @@ fun ViewGroup.inflate(layoutResId: Int): View {
     return LayoutInflater.from(context).inflate(layoutResId, this, false)
 }
 
-fun ImageView.load(uri: Uri, builder: RequestCreator.() -> Unit) {
-    Picasso.get().load(uri).noFade().apply(builder).into(this)
+fun ImageView.load(uri: String, builder: ImageRequest.Builder.() -> Unit = {}) {
+    this.load(uri = uri, builder = builder)
+}
+
+fun ImageView.load(uri: Uri, builder: ImageRequest.Builder.() -> Unit = {}) {
+    this.load(uri = uri, builder = builder)
 }
 
 fun ImageView.clear() {
-    Picasso.get().cancelRequest(this)
+    CoilUtils.clear(this)
 }

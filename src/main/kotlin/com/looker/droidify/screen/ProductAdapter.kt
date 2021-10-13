@@ -32,7 +32,7 @@ import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.entity.*
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.network.PicassoDownloader
+import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
@@ -1119,7 +1119,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 if (updateAll) {
                     if (item.product.icon.isNotEmpty() || item.product.metadataIcon.isNotEmpty()) {
                         holder.icon.load(
-                            PicassoDownloader.createIconUri(
+                            CoilDownloader.createIconUri(
                                 holder.icon, item.product.packageName,
                                 item.product.icon, item.product.metadataIcon, item.repository
                             )
@@ -1322,7 +1322,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 val inner = context.resources.sizeScaled(GRID_SPACING_INNER_DP)
                 val cellSize = (screenWidth - 2 * outer - (columns - 1) * inner) / columns
                 holder.image.load(
-                    PicassoDownloader.createScreenshotUri(
+                    CoilDownloader.createScreenshotUri(
                         item.repository,
                         item.packageName,
                         item.screenshot
@@ -1330,8 +1330,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 ) {
                     placeholder(holder.placeholder)
                     error(holder.placeholder)
-                    resize(cellSize, cellSize)
-                    centerCrop()
+                    size(cellSize)
                 }
             }
             ViewType.RELEASE -> {
