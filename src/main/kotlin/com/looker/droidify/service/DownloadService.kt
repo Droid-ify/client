@@ -445,7 +445,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { result, throwable ->
                         currentTask = null
-                        throwable.printStackTrace()
+                        throwable?.printStackTrace()
                         if (result == null || !result.success) {
                             showNotificationError(
                                 task,
