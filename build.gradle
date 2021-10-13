@@ -25,8 +25,8 @@ android {
         applicationId 'com.looker.droidify'
         minSdk 21
         targetSdk 31
-        versionCode 3
-        versionName '0.3'
+        versionCode 31
+        versionName '0.3.1'
     }
 
     sourceSets.all {
