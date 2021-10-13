@@ -15,7 +15,7 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.entity.Repository
-import com.looker.droidify.network.PicassoDownloader
+import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.nullIfEmpty
@@ -138,7 +138,7 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                 val repository: Repository? = repositories[productItem.repositoryId]
                 if ((productItem.icon.isNotEmpty() || productItem.metadataIcon.isNotEmpty()) && repository != null) {
                     holder.icon.load(
-                        PicassoDownloader.createIconUri(
+                        CoilDownloader.createIconUri(
                             holder.icon, productItem.packageName,
                             productItem.icon, productItem.metadataIcon, repository
                         )

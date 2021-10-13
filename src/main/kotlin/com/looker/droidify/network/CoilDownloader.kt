@@ -13,7 +13,7 @@ import java.io.File
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-object PicassoDownloader {
+object CoilDownloader {
     private const val HOST_ICON = "icon"
     private const val HOST_SCREENSHOT = "screenshot"
     private const val QUERY_ADDRESS = "address"

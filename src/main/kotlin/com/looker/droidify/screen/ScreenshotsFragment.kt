@@ -22,6 +22,7 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Product
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.graphics.PaddingDrawable
+import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.*
@@ -254,7 +255,13 @@ class ScreenshotsFragment() : DialogFragment() {
             val (width, height) = size
             if (width > 0 && height > 0) {
                 repository?.let {
-                    holder.image.load(screenshot.path) {
+                    holder.image.load(
+                        CoilDownloader.createScreenshotUri(
+                            it,
+                            packageName,
+                            screenshot
+                        )
+                    ) {
                         placeholder(holder.placeholder)
                         error(holder.placeholder)
                         size(width, height)
