@@ -3,6 +3,9 @@ package com.looker.droidify.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.looker.droidify.database.Database.jsonGenerate
+import com.looker.droidify.database.Database.jsonParse
 import com.looker.droidify.entity.Product
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.entity.Repository
@@ -64,4 +67,59 @@ class Lock {
     var package_name = ""
 
     var version_code = 0
+}
+
+class Converters {
+    @TypeConverter
+    fun toRepository(byteArray: ByteArray): Repository {
+        return byteArray.jsonParse {
+            Repository.deserialize(
+                0,//id,
+                it
+            )
+        }
+    }
+
+    @TypeConverter
+    fun toByteArray(repository: Repository): ByteArray {
+        return jsonGenerate(repository::serialize)
+    }
+
+    @TypeConverter
+    fun toProduct(byteArray: ByteArray): Product {
+        return byteArray.jsonParse {
+            Product.deserialize(
+                0,//repository_id,
+                "",//description,
+                it
+            )
+        }
+    }
+
+    @TypeConverter
+    fun toByteArray(product: Product): ByteArray {
+        return jsonGenerate(product::serialize)
+    }
+
+    @TypeConverter
+    fun toProductItem(byteArray: ByteArray): ProductItem {
+        return byteArray.jsonParse {
+            ProductItem.deserialize(
+                0,//repository_id,
+                "",//package_name,
+                "",//name,
+                "",//summary,
+                "",//version,
+                true,//compatible,
+                true,//canUpdate,
+                0,//matchRank,
+                it
+            )
+        }
+    }
+
+    @TypeConverter
+    fun toByteArray(productItem: ProductItem): ByteArray {
+        return jsonGenerate(productItem::serialize)
+    }
 }

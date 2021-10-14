@@ -340,11 +340,11 @@ object Database {
         return ObservableCursor(this, dataObservable(subject))
     }
 
-    private fun <T> ByteArray.jsonParse(callback: (JsonParser) -> T): T {
+    fun <T> ByteArray.jsonParse(callback: (JsonParser) -> T): T {
         return Json.factory.createParser(this).use { it.parseDictionary(callback) }
     }
 
-    private fun jsonGenerate(callback: (JsonGenerator) -> Unit): ByteArray {
+    fun jsonGenerate(callback: (JsonGenerator) -> Unit): ByteArray {
         val outputStream = ByteArrayOutputStream()
         Json.factory.createGenerator(outputStream).use { it.writeDictionary(callback) }
         return outputStream.toByteArray()
