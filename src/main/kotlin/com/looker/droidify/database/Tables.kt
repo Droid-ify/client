@@ -58,7 +58,7 @@ class Installed {
 
     var version = ""
     var version_code = 0
-    var signatures = ""
+    var signature = ""
 }
 
 @Entity
