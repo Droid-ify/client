@@ -74,7 +74,10 @@ class IndexMerger(file: File) : Closeable {
                     val description = it.getString(0)
                     val product = Json.factory.createParser(it.getBlob(1)).use {
                         it.nextToken()
-                        Product.deserialize(repositoryId, description, it)
+                        Product.deserialize(it).apply {
+                            this.repositoryId = repositoryId
+                            this.description = description
+                        }
                     }
                     val releases = it.getBlob(2)?.let {
                         Json.factory.createParser(it).use {

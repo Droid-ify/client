@@ -453,10 +453,9 @@ object Database {
         fun transform(cursor: Cursor): Repository {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Repository.ROW_DATA))
                 .jsonParse {
-                    Repository.deserialize(
-                        cursor.getLong(cursor.getColumnIndex(Schema.Repository.ROW_ID)),
-                        it
-                    )
+                    Repository.deserialize(it).apply {
+                        this.id = cursor.getLong(cursor.getColumnIndex(Schema.Repository.ROW_ID))
+                    }
                 }
         }
     }
@@ -567,27 +566,37 @@ object Database {
         private fun transform(cursor: Cursor): Product {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA))
                 .jsonParse {
-                    Product.deserialize(
-                        cursor.getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID)),
-                        cursor.getString(cursor.getColumnIndex(Schema.Product.ROW_DESCRIPTION)), it
-                    )
+                    Product.deserialize(it).apply {
+                        this.repositoryId = cursor
+                            .getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
+                        this.description = cursor
+                            .getString(cursor.getColumnIndex(Schema.Product.ROW_DESCRIPTION))
+                    }
                 }
         }
 
         fun transformItem(cursor: Cursor): ProductItem {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA_ITEM))
                 .jsonParse {
-                    ProductItem.deserialize(
-                        cursor.getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID)),
-                        cursor.getString(cursor.getColumnIndex(Schema.Product.ROW_PACKAGE_NAME)),
-                        cursor.getString(cursor.getColumnIndex(Schema.Product.ROW_NAME)),
-                        cursor.getString(cursor.getColumnIndex(Schema.Product.ROW_SUMMARY)),
-                        cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_VERSION))
-                            .orEmpty(),
-                        cursor.getInt(cursor.getColumnIndex(Schema.Product.ROW_COMPATIBLE)) != 0,
-                        cursor.getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_CAN_UPDATE)) != 0,
-                        cursor.getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_MATCH_RANK)), it
-                    )
+                    ProductItem.deserialize(it).apply {
+                        this.repositoryId = cursor
+                            .getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
+                        this.packageName = cursor
+                            .getString(cursor.getColumnIndex(Schema.Product.ROW_PACKAGE_NAME))
+                        this.name = cursor
+                            .getString(cursor.getColumnIndex(Schema.Product.ROW_NAME))
+                        this.summary = cursor
+                            .getString(cursor.getColumnIndex(Schema.Product.ROW_SUMMARY))
+                        this.installedVersion = cursor
+                            .getString(cursor.getColumnIndex(Schema.Installed.ROW_VERSION))
+                            .orEmpty()
+                        this.compatible = cursor
+                            .getInt(cursor.getColumnIndex(Schema.Product.ROW_COMPATIBLE)) != 0
+                        this.canUpdate = cursor
+                            .getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
+                        this.matchRank = cursor
+                            .getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_MATCH_RANK))
+                    }
                 }
         }
     }

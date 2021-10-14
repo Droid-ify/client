@@ -8,9 +8,9 @@ import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.json.forEachKey
 
 data class ProductItem(
-    val repositoryId: Long, val packageName: String, val name: String, val summary: String,
-    val icon: String, val metadataIcon: String, val version: String, val installedVersion: String,
-    val compatible: Boolean, val canUpdate: Boolean, val matchRank: Int
+    var repositoryId: Long, var packageName: String, var name: String, var summary: String,
+    val icon: String, val metadataIcon: String, val version: String, var installedVersion: String,
+    var compatible: Boolean, var canUpdate: Boolean, var matchRank: Int
 ) {
     sealed class Section : KParcelable {
         object All : Section() {
@@ -60,25 +60,45 @@ data class ProductItem(
 
     fun serialize(generator: JsonGenerator) {
         generator.writeNumberField("serialVersion", 1)
+        generator.writeNumberField("repositoryId", repositoryId)
+        generator.writeStringField("packageName", packageName)
+        generator.writeStringField("name", name)
+        generator.writeStringField("summary", summary)
         generator.writeStringField("icon", icon)
         generator.writeStringField("metadataIcon", metadataIcon)
         generator.writeStringField("version", version)
+        generator.writeStringField("installedVersion", installedVersion)
+        generator.writeBooleanField("compatible", compatible)
+        generator.writeBooleanField("canUpdate", canUpdate)
+        generator.writeNumberField("matchRank", matchRank)
     }
 
     companion object {
-        fun deserialize(
-            repositoryId: Long, packageName: String, name: String, summary: String,
-            installedVersion: String, compatible: Boolean, canUpdate: Boolean, matchRank: Int,
-            parser: JsonParser
-        ): ProductItem {
+        fun deserialize(parser: JsonParser): ProductItem {
+            var repositoryId = 0L
+            var packageName = ""
+            var name = ""
+            var summary = ""
             var icon = ""
             var metadataIcon = ""
             var version = ""
+            var installedVersion = ""
+            var compatible = false
+            var canUpdate = false
+            var matchRank = 0
             parser.forEachKey {
                 when {
+                    it.number("repositoryId") -> repositoryId = valueAsLong
+                    it.string("packageName") -> packageName = valueAsString
+                    it.string("name") -> name = valueAsString
+                    it.string("summary") -> summary = valueAsString
                     it.string("icon") -> icon = valueAsString
                     it.string("metadataIcon") -> metadataIcon = valueAsString
                     it.string("version") -> version = valueAsString
+                    it.string("installedVersion") -> installedVersion = valueAsString
+                    it.boolean("compatible") -> compatible = valueAsBoolean
+                    it.boolean("canUpdate") -> canUpdate = valueAsBoolean
+                    it.number("matchRank") -> matchRank = valueAsInt
                     else -> skipChildren()
                 }
             }

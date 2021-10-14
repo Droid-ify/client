@@ -8,7 +8,7 @@ import com.looker.droidify.utility.extension.json.writeArray
 import java.net.URL
 
 data class Repository(
-    val id: Long, val address: String, val mirrors: List<String>,
+    var id: Long, val address: String, val mirrors: List<String>,
     val name: String, val description: String, val version: Int, val enabled: Boolean,
     val fingerprint: String, val lastModified: String, val entityTag: String,
     val updated: Long, val timestamp: Long, val authentication: String
@@ -43,6 +43,7 @@ data class Repository(
 
     fun serialize(generator: JsonGenerator) {
         generator.writeNumberField("serialVersion", 1)
+        generator.writeNumberField("id", id)
         generator.writeStringField("address", address)
         generator.writeArray("mirrors") { mirrors.forEach { writeString(it) } }
         generator.writeStringField("name", name)
@@ -58,7 +59,8 @@ data class Repository(
     }
 
     companion object {
-        fun deserialize(id: Long, parser: JsonParser): Repository {
+        fun deserialize(parser: JsonParser): Repository {
+            var id = 0L
             var address = ""
             var mirrors = emptyList<String>()
             var name = ""
@@ -73,6 +75,7 @@ data class Repository(
             var authentication = ""
             parser.forEachKey {
                 when {
+                    it.string("id") -> id = valueAsLong
                     it.string("address") -> address = valueAsString
                     it.array("mirrors") -> mirrors = collectNotNullStrings()
                     it.string("name") -> name = valueAsString

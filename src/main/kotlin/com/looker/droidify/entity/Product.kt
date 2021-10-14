@@ -7,11 +7,11 @@ import com.looker.droidify.utility.extension.json.*
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 
 data class Product(
-    val repositoryId: Long,
+    var repositoryId: Long,
     val packageName: String,
     val name: String,
     val summary: String,
-    val description: String,
+    var description: String,
     val whatsNew: String,
     val icon: String,
     val metadataIcon: String,
@@ -93,10 +93,12 @@ data class Product(
     }
 
     fun serialize(generator: JsonGenerator) {
+        generator.writeNumberField("repositoryId",repositoryId)
         generator.writeNumberField("serialVersion", 1)
         generator.writeStringField("packageName", packageName)
         generator.writeStringField("name", name)
         generator.writeStringField("summary", summary)
+        generator.writeStringField("description", description)
         generator.writeStringField("whatsNew", whatsNew)
         generator.writeStringField("icon", icon)
         generator.writeStringField("metadataIcon", metadataIcon)
@@ -169,10 +171,12 @@ data class Product(
             }, { extract(it).versionCode }))
         }
 
-        fun deserialize(repositoryId: Long, description: String, parser: JsonParser): Product {
+        fun deserialize(parser: JsonParser): Product {
+            var repositoryId = 0L
             var packageName = ""
             var name = ""
             var summary = ""
+            var description = ""
             var whatsNew = ""
             var icon = ""
             var metadataIcon = ""
@@ -194,9 +198,11 @@ data class Product(
             var releases = emptyList<Release>()
             parser.forEachKey { it ->
                 when {
+                    it.string("repositoryId") -> repositoryId = valueAsLong
                     it.string("packageName") -> packageName = valueAsString
                     it.string("name") -> name = valueAsString
                     it.string("summary") -> summary = valueAsString
+                    it.string("description") -> description = valueAsString
                     it.string("whatsNew") -> whatsNew = valueAsString
                     it.string("icon") -> icon = valueAsString
                     it.string("metadataIcon") -> metadataIcon = valueAsString
