@@ -71,55 +71,20 @@ class Lock {
 
 class Converters {
     @TypeConverter
-    fun toRepository(byteArray: ByteArray): Repository {
-        return byteArray.jsonParse {
-            Repository.deserialize(
-                0,//id,
-                it
-            )
-        }
-    }
+    fun toRepository(byteArray: ByteArray) = byteArray.jsonParse { Repository.deserialize(it) }
 
     @TypeConverter
-    fun toByteArray(repository: Repository): ByteArray {
-        return jsonGenerate(repository::serialize)
-    }
+    fun toByteArray(repository: Repository) = jsonGenerate(repository::serialize)
 
     @TypeConverter
-    fun toProduct(byteArray: ByteArray): Product {
-        return byteArray.jsonParse {
-            Product.deserialize(
-                0,//repository_id,
-                "",//description,
-                it
-            )
-        }
-    }
+    fun toProduct(byteArray: ByteArray) = byteArray.jsonParse { Product.deserialize(it) }
 
     @TypeConverter
-    fun toByteArray(product: Product): ByteArray {
-        return jsonGenerate(product::serialize)
-    }
+    fun toByteArray(product: Product) = jsonGenerate(product::serialize)
 
     @TypeConverter
-    fun toProductItem(byteArray: ByteArray): ProductItem {
-        return byteArray.jsonParse {
-            ProductItem.deserialize(
-                0,//repository_id,
-                "",//package_name,
-                "",//name,
-                "",//summary,
-                "",//version,
-                true,//compatible,
-                true,//canUpdate,
-                0,//matchRank,
-                it
-            )
-        }
-    }
+    fun toProductItem(byteArray: ByteArray) = byteArray.jsonParse { ProductItem.deserialize(it) }
 
     @TypeConverter
-    fun toByteArray(productItem: ProductItem): ByteArray {
-        return jsonGenerate(productItem::serialize)
-    }
+    fun toByteArray(productItem: ProductItem) = jsonGenerate(productItem::serialize)
 }
