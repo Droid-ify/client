@@ -351,6 +351,7 @@ object Database {
     }
 
     object RepositoryAdapter {
+        // Done in put
         internal fun putWithoutNotification(repository: Repository, shouldReplace: Boolean): Long {
             return db.insertOrReplace(shouldReplace, Schema.Repository.name, ContentValues().apply {
                 if (shouldReplace) {
@@ -362,6 +363,7 @@ object Database {
             })
         }
 
+        // Done
         fun put(repository: Repository): Repository {
             val shouldReplace = repository.id >= 0L
             val newId = putWithoutNotification(repository, shouldReplace)
@@ -370,6 +372,7 @@ object Database {
             return if (newId != repository.id) repository.copy(id = newId) else repository
         }
 
+        // Done
         fun get(id: Long): Repository? {
             return db.query(
                 Schema.Repository.name,
@@ -381,6 +384,8 @@ object Database {
                 .use { it.firstOrNull()?.let(::transform) }
         }
 
+        // Done
+        // MAYBE signal has to be considered
         fun getAll(signal: CancellationSignal?): List<Repository> {
             return db.query(
                 Schema.Repository.name,
@@ -389,6 +394,8 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
+        // Done Pair<Long,Int> instead
+        // MAYBE signal has to be considered
         fun getAllDisabledDeleted(signal: CancellationSignal?): Set<Pair<Long, Boolean>> {
             return db.query(
                 Schema.Repository.name,
@@ -408,6 +415,7 @@ object Database {
             }
         }
 
+        // Done
         fun markAsDeleted(id: Long) {
             db.update(Schema.Repository.name, ContentValues().apply {
                 put(Schema.Repository.ROW_DELETED, 1)
@@ -415,6 +423,7 @@ object Database {
             notifyChanged(Subject.Repositories, Subject.Repository(id), Subject.Products)
         }
 
+        // Done
         fun cleanup(pairs: Set<Pair<Long, Boolean>>) {
             val result = pairs.windowed(10, 10, true).map {
                 val idsString = it.joinToString(separator = ", ") { it.first.toString() }
@@ -442,6 +451,7 @@ object Database {
             }
         }
 
+        // get the cursor in the specific table. Unnecessary with Room
         fun query(signal: CancellationSignal?): Cursor {
             return db.query(
                 Schema.Repository.name,
@@ -450,6 +460,7 @@ object Database {
             ).observable(Subject.Repositories)
         }
 
+        // Unnecessary with Room
         fun transform(cursor: Cursor): Repository {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Repository.ROW_DATA))
                 .jsonParse {
@@ -461,6 +472,7 @@ object Database {
     }
 
     object ProductAdapter {
+        // Done
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {
             return db.query(
                 Schema.Product.name,
@@ -474,6 +486,7 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
+        // Done
         fun getCount(repositoryId: Long): Int {
             return db.query(
                 Schema.Product.name, columns = arrayOf("COUNT (*)"),
@@ -485,6 +498,7 @@ object Database {
                 .use { it.firstOrNull()?.getInt(0) ?: 0 }
         }
 
+        // Complex left to wiring phase
         fun query(
             installed: Boolean, updates: Boolean, searchQuery: String,
             section: ProductItem.Section, order: ProductItem.Order, signal: CancellationSignal?
@@ -517,16 +531,17 @@ object Database {
             builder += """MAX((product.${Schema.Product.ROW_COMPATIBLE} AND
         (installed.${Schema.Installed.ROW_SIGNATURE} IS NULL OR $signatureMatches)) ||
         PRINTF('%016X', product.${Schema.Product.ROW_VERSION_CODE})) FROM ${Schema.Product.name} AS product"""
-
             builder += """JOIN ${Schema.Repository.name} AS repository
         ON product.${Schema.Product.ROW_REPOSITORY_ID} = repository.${Schema.Repository.ROW_ID}"""
             builder += """LEFT JOIN ${Schema.Lock.name} AS lock
         ON product.${Schema.Product.ROW_PACKAGE_NAME} = lock.${Schema.Lock.ROW_PACKAGE_NAME}"""
+
             if (!installed && !updates) {
                 builder += "LEFT"
             }
             builder += """JOIN ${Schema.Installed.name} AS installed
         ON product.${Schema.Product.ROW_PACKAGE_NAME} = installed.${Schema.Installed.ROW_PACKAGE_NAME}"""
+
             if (section is ProductItem.Section.Category) {
                 builder += """JOIN ${Schema.Category.name} AS category
           ON product.${Schema.Product.ROW_PACKAGE_NAME} = category.${Schema.Product.ROW_PACKAGE_NAME}"""
@@ -534,6 +549,7 @@ object Database {
 
             builder += """WHERE repository.${Schema.Repository.ROW_ENABLED} != 0 AND
         repository.${Schema.Repository.ROW_DELETED} == 0"""
+
             if (section is ProductItem.Section.Category) {
                 builder += "AND category.${Schema.Category.ROW_NAME} = ?"
                 builder %= section.name
@@ -541,18 +557,22 @@ object Database {
                 builder += "AND product.${Schema.Product.ROW_REPOSITORY_ID} = ?"
                 builder %= section.id.toString()
             }
+
             if (searchQuery.isNotEmpty()) {
                 builder += """AND ${Schema.Synthetic.ROW_MATCH_RANK} > 0"""
             }
 
             builder += "GROUP BY product.${Schema.Product.ROW_PACKAGE_NAME} HAVING 1"
+
             if (updates) {
                 builder += "AND ${Schema.Synthetic.ROW_CAN_UPDATE}"
             }
             builder += "ORDER BY"
+
             if (searchQuery.isNotEmpty()) {
                 builder += """${Schema.Synthetic.ROW_MATCH_RANK} DESC,"""
             }
+
             when (order) {
                 ProductItem.Order.NAME -> Unit
                 ProductItem.Order.DATE_ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
@@ -563,6 +583,7 @@ object Database {
             return builder.query(db, signal).observable(Subject.Products)
         }
 
+        // Unnecessary with Room
         private fun transform(cursor: Cursor): Product {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA))
                 .jsonParse {
@@ -575,6 +596,7 @@ object Database {
                 }
         }
 
+        // Unnecessary with Room
         fun transformItem(cursor: Cursor): ProductItem {
             return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA_ITEM))
                 .jsonParse {
@@ -602,6 +624,7 @@ object Database {
     }
 
     object CategoryAdapter {
+        // Done
         fun getAll(signal: CancellationSignal?): Set<String> {
             val builder = QueryBuilder()
 
@@ -620,6 +643,7 @@ object Database {
     }
 
     object InstalledAdapter {
+        // Done
         fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
             return db.query(
                 Schema.Installed.name,
@@ -632,6 +656,7 @@ object Database {
             ).use { it.firstOrNull()?.let(::transform) }
         }
 
+        // Done in insert
         private fun put(installedItem: InstalledItem, notify: Boolean) {
             db.insertOrReplace(true, Schema.Installed.name, ContentValues().apply {
                 put(Schema.Installed.ROW_PACKAGE_NAME, installedItem.packageName)
@@ -644,8 +669,10 @@ object Database {
             }
         }
 
+        // Done in insert
         fun put(installedItem: InstalledItem) = put(installedItem, true)
 
+        // Done in insert
         fun putAll(installedItems: List<InstalledItem>) {
             db.beginTransaction()
             try {
@@ -657,6 +684,7 @@ object Database {
             }
         }
 
+        // Done
         fun delete(packageName: String) {
             val count = db.delete(
                 Schema.Installed.name,
@@ -668,6 +696,7 @@ object Database {
             }
         }
 
+        // Unnecessary with Room
         private fun transform(cursor: Cursor): InstalledItem {
             return InstalledItem(
                 cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_PACKAGE_NAME)),
@@ -679,6 +708,7 @@ object Database {
     }
 
     object LockAdapter {
+        // Done in insert (Lock object instead of pair)
         private fun put(lock: Pair<String, Long>, notify: Boolean) {
             db.insertOrReplace(true, Schema.Lock.name, ContentValues().apply {
                 put(Schema.Lock.ROW_PACKAGE_NAME, lock.first)
@@ -689,8 +719,10 @@ object Database {
             }
         }
 
+        // Done in insert (Lock object instead of pair)
         fun put(lock: Pair<String, Long>) = put(lock, true)
 
+        // Done in insert (Lock object instead of pair)
         fun putAll(locks: List<Pair<String, Long>>) {
             db.beginTransaction()
             try {
@@ -702,12 +734,14 @@ object Database {
             }
         }
 
+        // Done
         fun delete(packageName: String) {
             db.delete(Schema.Lock.name, "${Schema.Lock.ROW_PACKAGE_NAME} = ?", arrayOf(packageName))
             notifyChanged(Subject.Products)
         }
     }
 
+    // TODO add temporary tables
     object UpdaterAdapter {
         private val Table.temporaryName: String
             get() = "${name}_temporary"

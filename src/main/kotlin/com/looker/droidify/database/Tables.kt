@@ -21,6 +21,13 @@ class Repository {
 
     @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
     var data: Repository? = null
+
+    class IdAndDeleted {
+        @ColumnInfo(name = "_id")
+        var id = 0L
+
+        var deleted = 0
+    }
 }
 
 @Entity(primaryKeys = ["repository_id", "package_name"])

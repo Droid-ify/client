@@ -17,7 +17,11 @@ import androidx.room.TypeConverters
 )
 @TypeConverters(Converters::class)
 abstract class DatabaseX : RoomDatabase() {
-    // TODO add the DAOs for the tables
+    abstract val repositoryDao: RepositoryDao
+    abstract val productDao: ProductDao
+    abstract val categoryDao: CategoryDao
+    abstract val installedDao: InstalledDao
+    abstract val lockDao: LockDao
 
     companion object {
         @Volatile
@@ -39,5 +43,20 @@ abstract class DatabaseX : RoomDatabase() {
                 return INSTANCE!!
             }
         }
+    }
+
+    fun cleanUp(pairs: Set<Pair<Long, Boolean>>) {
+        val result = pairs.windowed(10, 10, true).map {
+            val ids = it.map { it.first }.toLongArray()
+            val productsCount = productDao.deleteById(*ids)
+            val categoriesCount = categoryDao.deleteById(*ids)
+            val deleteIds = it.filter { it.second }.map { it.first }.toLongArray()
+            repositoryDao.deleteById(*deleteIds)
+            productsCount != 0 || categoriesCount != 0
+        }
+        // Use live objects and observers instead
+        /*if (result.any { it }) {
+            com.looker.droidify.database.Database.notifyChanged(com.looker.droidify.database.Database.Subject.Products)
+        }*/
     }
 }
