@@ -11,6 +11,7 @@
     <string name="amoled">Amoled</string>
     <string name="anti_features">Características indesejadas</string>
     <string name="application">Aplicativo</string>
+    <string name="application_name" translatable="false">Droid-ify</string>
     <string name="application_not_found">Aplicativo não encontrado</string>
     <string name="author_email">Email do autor</string>
     <string name="author_website">Página do autor</string>
@@ -28,6 +29,7 @@
     <string name="could_not_download_FORMAT">Não foi possível baixar %s</string>
     <string name="could_not_sync_FORMAT">Não foi possível sincronizar %s</string>
     <string name="could_not_validate_FORMAT">Não foi possível validar %s</string>
+    <string name="credits">Créditos</string>
     <string name="dark">Escuro</string>
     <string name="date_added">Data de adição</string>
     <string name="delete">Excluir</string>
@@ -63,12 +65,13 @@
     <string name="incompatible_versions_summary">Mostrar versões de aplicativos incompatíveis com o dispositivo</string>
     <string name="incompatible_with_FORMAT">Incompatível com %s</string>
     <string name="install">Instalar</string>
+    <string name="install_types">Tipos de instalação</string>
     <string name="installed">Instalado</string>
     <string name="integrity_check_error_DESC">Não foi possível verificar a integridade.</string>
     <string name="invalid_address">Endereço inválido</string>
     <string name="invalid_fingerprint_format">Formato de fingerprint inválido</string>
     <string name="invalid_metadata_error_DESC">Metadado inválido.</string>
-    <string name="invalid_permissions_error_DESC">Permissão inválido.</string>
+    <string name="invalid_permissions_error_DESC">Permissão inválida.</string>
     <string name="invalid_signature_error_DESC">Assinatura inválida.</string>
     <string name="invalid_username_format">Formato de nome do usuário inválido</string>
     <string name="last_update">Última atualização</string>
@@ -94,7 +97,7 @@
     <string name="no_proxy">Sem proxy</string>
     <string name="notify_about_updates">Notificar sobre atualizações</string>
     <string name="notify_about_updates_summary">Mostrar uma notificação quando atualizações estiverem disponíveis</string>
-    <string name="number_of_applications">Número de aplicativos</string>
+    <string name="number_of_applications">Numero de aplicativos</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Somente compatível com %s</string>
     <string name="only_on_wifi">Somente no Wi-Fi</string>
@@ -122,6 +125,8 @@
     <string name="repository_unsigned_DESC">Sem assinatura. Não foi possível verificar a lista de aplicativos. Tenha cuidado ao baixar
     aplicativos de repositórios sem assinatura.</string>
     <string name="requires_FORMAT">Requer %s</string>
+    <string name="root_permission">Instalação Silenciosa</string>
+    <string name="root_permission_description">Permitir acesso root para habilitar a Instalação Silenciosa</string>
     <string name="save">Salvar</string>
     <string name="saving_details">Salvando detalhes</string>
     <string name="screenshots">Capturas de tela</string>
@@ -141,9 +146,10 @@
     <string name="sync_repositories_automatically">Sincronizar repositórios automaticamente</string>
     <string name="syncing">Sincronizando</string>
     <string name="syncing_FORMAT">Sincronizando %s</string>
-    <string name="system">Sistema</string>
+    <string name="system">Seguir o do sistema</string>
     <string name="tap_to_install_DESC">Toque para instalar.</string>
     <string name="theme">Tema</string>
+    <string name="themes">Temas</string>
     <string name="tracks_or_reports_your_activity">Rastreia ou relata sua atividade</string>
     <string name="uninstall">Desinstalar</string>
     <string name="unknown">Desconhecido</string>
@@ -163,10 +169,4 @@
     <string name="versions">Versões</string>
     <string name="waiting_to_start_download">Esperando para começar a baixar</string>
     <string name="website">Página web</string>
-    <string name="root_permission">Instalação silenciosa</string>
-    <string name="root_permission_description">Permitir permissão de root para habilitar a instalação silenciosa</string>
-    <string name="themes">Temas</string>
-    <string name="credits">Créditos</string>
-    <string name="install_types">themes  Tipos de instalação</string>
-
 </resources>
