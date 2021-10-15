@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:' + versions.kotlin
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
 
     // Frontend
     implementation "androidx.fragment:fragment-ktx:1.4.0-alpha10"
