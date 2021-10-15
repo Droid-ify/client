@@ -1,0 +1,10 @@
+Cliente F-Droid no oficial con Diseño Material.
+
+Esta app es una Adaptación/Modificación Directa de Foxy-Droid.
+
+Características:
+
+* Estilo F-Droid Material
+* Sin cartas o animaciones inapropiadas
+* Sincronización rápida de repositorios
+* Componentes Android estándar y dependencias mínimas
