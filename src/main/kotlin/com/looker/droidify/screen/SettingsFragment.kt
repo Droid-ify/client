@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment

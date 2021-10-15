@@ -3,7 +3,7 @@ package com.looker.droidify.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 
 class FocusSearchView : SearchView {
     constructor(context: Context) : super(context)

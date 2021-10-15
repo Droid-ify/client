@@ -6,7 +6,7 @@ import android.os.Parcel
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.looker.droidify.R

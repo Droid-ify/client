@@ -9,7 +9,11 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.ScrollView
+import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection

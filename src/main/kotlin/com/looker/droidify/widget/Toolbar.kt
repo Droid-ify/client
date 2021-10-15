@@ -2,7 +2,7 @@ package com.looker.droidify.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 
 class Toolbar : Toolbar {
     constructor(context: Context) : super(context)
@@ -12,11 +12,6 @@ class Toolbar : Toolbar {
         attrs,
         defStyleAttr
     )
-
-    constructor(
-        context: Context, attrs: AttributeSet?, defStyleAttr: Int,
-        defStyleRes: Int
-    ) : super(context, attrs, defStyleAttr, defStyleRes)
 
     private var initalized = false
     private var layoutDirectionChanged: Int? = null
