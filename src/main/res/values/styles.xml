@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
 
-    <style name="MainTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+    <style name="MainTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:colorPrimaryDark">@color/white</item>
     </style>
 
-    <style name="Theme.Main.Light" parent="@android:style/Theme.Material.Light.NoActionBar">
+    <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:colorPrimary">@color/default_green</item>
@@ -24,7 +24,7 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="Theme.Main.Dark" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:colorPrimary">@color/default_green_dark</item>
@@ -43,7 +43,7 @@
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
     </style>
 
-    <style name="Theme.Main.Amoled" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:windowBackground">@color/pitch_black</item>
         <item name="android:colorPrimary">@color/default_green_dark</item>
@@ -62,7 +62,7 @@
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
     </style>
 
-    <style name="Widget.Main.Toolbar" parent="@android:style/Widget.Material.Toolbar">
+    <style name="Widget.Main.Toolbar" parent="Widget.Material3.Toolbar">
         <item name="android:titleTextAppearance">
             @android:style/TextAppearance.Material.Widget.Toolbar.Title
         </item>
@@ -71,12 +71,12 @@
         </item>
     </style>
 
-    <style name="Theme.Popup.Light" parent="android:Theme.Material.Light.Dialog.Alert">
+    <style name="Theme.Popup.Light" parent="Theme.Material3.Light.Dialog.Alert">
         <item name="android:colorControlActivated">@color/default_green</item>
         <item name="android:colorBackground">@color/white</item>
     </style>
 
-    <style name="Theme.Popup.Dark" parent="android:Theme.Material.Dialog.Alert">
+    <style name="Theme.Popup.Dark" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="android:colorBackground">@color/black</item>
     </style>
