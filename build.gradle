@@ -115,19 +115,20 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
 
     // Frontend
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha10"
-    implementation "androidx.appcompat:appcompat:1.4.0-beta01"
-    implementation "com.google.android.material:material:1.5.0-alpha04"
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation "androidx.appcompat:appcompat:1.4.0-beta01"
+    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha10"
+    implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
+    implementation "com.google.android.material:material:1.5.0-alpha04"
 
     // Backend
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'io.coil-kt:coil:1.4.0'
     implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+    implementation 'androidx.activity:activity-ktx:1.4.0-rc01'
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'com.github.topjohnwu.libsu:core:3.1.2'
     implementation "androidx.room:room-runtime:2.3.0"
     implementation "androidx.room:room-ktx:2.3.0"
