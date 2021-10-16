@@ -289,7 +289,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         val canUninstall = product != null && installed != null && !installed.isSystem
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
-        val canShare = product != null
+        val canShare = product != null && products[0].second.name == "F-Droid"
 
         val actions = mutableSetOf<Action>()
         if (canInstall) {
@@ -437,7 +437,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                     this.action = Intent.ACTION_SEND
                     putExtra(
                         Intent.EXTRA_TEXT,
-                        "https://www.f-droid.org/en/packages/${products[0].first.packageName}/"
+                        "https://www.f-droid.org/packages/${products[0].first.packageName}/"
                     )
                     type = "text/plain"
                 }
