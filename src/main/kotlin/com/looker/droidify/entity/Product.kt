@@ -93,7 +93,7 @@ data class Product(
     }
 
     fun serialize(generator: JsonGenerator) {
-        generator.writeNumberField("repositoryId",repositoryId)
+        generator.writeNumberField("repositoryId", repositoryId)
         generator.writeNumberField("serialVersion", 1)
         generator.writeStringField("packageName", packageName)
         generator.writeStringField("name", name)

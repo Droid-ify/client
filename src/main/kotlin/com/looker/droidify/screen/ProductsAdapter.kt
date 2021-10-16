@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -23,6 +24,8 @@ import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
     CursorRecyclerAdapter<ProductsAdapter.ViewType, RecyclerView.ViewHolder>() {
+    private var lastPosition = 0
+
     enum class ViewType { PRODUCT, LOADING, EMPTY }
 
     private class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -125,6 +128,11 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
         }
     }
 
+    override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+        super.onViewDetachedFromWindow(holder)
+        holder.itemView.clearAnimation()
+    }
+
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemEnumViewType(position)) {
             ViewType.PRODUCT -> {
@@ -187,5 +195,12 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                 holder.text.text = emptyText
             }
         }::class
+
+        val animation = AnimationUtils.loadAnimation(
+            holder.itemView.context,
+            if (position > lastPosition) R.anim.slide_up else R.anim.slide_down
+        )
+        holder.itemView.startAnimation(animation)
+        lastPosition = holder.adapterPosition
     }
 }
