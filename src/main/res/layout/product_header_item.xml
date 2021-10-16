@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="2sp"
                 android:singleLine="true"
-                android:textColor="?attr/subTextColor"
+                android:textColor="?attr/colorSurface"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="2dp"
-            android:indeterminateTint="?android:attr/colorPrimary" />
+            android:indeterminateTint="?attr/colorPrimary" />
 
     </LinearLayout>
 

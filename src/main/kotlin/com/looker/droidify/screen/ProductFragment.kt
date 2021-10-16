@@ -1,6 +1,5 @@
 package com.looker.droidify.screen
 
-import android.app.AlertDialog
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
@@ -13,11 +12,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -554,7 +555,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
             val names = requireArguments().getStringArrayList(EXTRA_NAMES)!!
             val labels = requireArguments().getStringArrayList(EXTRA_LABELS)!!
-            return AlertDialog.Builder(requireContext())
+            return MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.launch)
                 .setItems(labels.toTypedArray()) { _, position ->
                     (parentFragment as ProductFragment)

@@ -1,6 +1,5 @@
 package com.looker.droidify.screen
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -12,10 +11,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
@@ -23,7 +24,6 @@ import com.looker.droidify.content.Preferences
 import com.looker.droidify.utility.extension.resources.*
 import com.topjohnwu.superuser.Shell
 import io.reactivex.rxjava3.disposables.Disposable
-
 
 class SettingsFragment : ScreenFragment() {
     private val preferences = mutableMapOf<Preferences.Key<*>, Preference<*>>()
@@ -253,7 +253,7 @@ class SettingsFragment : ScreenFragment() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             )
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setTitle(title)
                 .setView(scroll)
                 .setPositiveButton(R.string.ok) { _, _ ->
@@ -295,7 +295,7 @@ class SettingsFragment : ScreenFragment() {
     ) {
         addPreference(key, title, { valueToString(Preferences[key]) }) {
             val values = key.default.value.values
-            AlertDialog.Builder(it)
+            MaterialAlertDialogBuilder(it)
                 .setTitle(title)
                 .setSingleChoiceItems(
                     values.map(valueToString).toTypedArray(),

@@ -52,7 +52,9 @@ object Utils {
 
     fun getToolbarIcon(context: Context, resId: Int): Drawable {
         val drawable = context.getDrawableCompat(resId).mutate()
-        drawable.setTintList(context.getColorFromAttr(android.R.attr.titleTextColor))
+        if (Android.sdk(23)) {
+            drawable.setTintList(context.getColorFromAttr(R.attr.colorOnPrimarySurface))
+        }
         return drawable
     }
 

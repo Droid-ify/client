@@ -1,6 +1,5 @@
 package com.looker.droidify.screen
 
-import android.app.AlertDialog
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.PorterDuff
@@ -18,8 +17,10 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Repository
@@ -474,7 +475,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { result, throwable ->
                         checkDisposable = null
-                        throwable?.printStackTrace()
+                        throwable.printStackTrace()
                         val resultAddress =
                             result?.let { if (it.isEmpty()) null else it } ?: address
                         val allow = resultAddress == address || run {
@@ -544,7 +545,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
             val mirrors = requireArguments().getStringArrayList(EXTRA_MIRRORS)!!
-            return AlertDialog.Builder(requireContext())
+            return MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.select_mirror)
                 .setItems(mirrors.toTypedArray()) { _, position ->
                     (parentFragment as EditRepositoryFragment)

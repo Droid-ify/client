@@ -202,9 +202,9 @@ class TabsFragment : ScreenFragment() {
         ProductsFragment.Source.values().forEach {
             val tab = TextView(layout.tabs.context)
             val selectedColor =
-                tab.context.getColorFromAttr(android.R.attr.textColorPrimary).defaultColor
+                tab.context.getColorFromAttr(R.attr.colorOnSurface).defaultColor
             val normalColor =
-                tab.context.getColorFromAttr(android.R.attr.textColorSecondary).defaultColor
+                tab.context.getColorFromAttr(R.attr.colorOnBackground).defaultColor
             tab.gravity = Gravity.CENTER
             tab.typeface = TypefaceExtra.medium
             tab.setTextColor(
@@ -300,6 +300,7 @@ class TabsFragment : ScreenFragment() {
             this.adapter = adapter
             addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
             setBackgroundResource(R.drawable.background_border)
+            setBackgroundColor(context.getColorFromAttr(R.attr.colorSurface).defaultColor)
             elevation = resources.sizeScaled(4).toFloat()
             content.addView(this, FrameLayout.LayoutParams.MATCH_PARENT, 0)
             visibility = View.GONE

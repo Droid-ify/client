@@ -6,66 +6,62 @@
     </style>
 
     <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
-        <item name="android:windowBackground">@color/white</item>
-        <item name="android:colorPrimary">@color/default_green</item>
-        <item name="android:colorPrimaryDark">@color/white</item>
+        <item name="colorPrimary">@color/green400</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSurface">@color/green50</item>
+        <item name="colorOnSurface">@color/black</item>
         <item name="android:colorBackground">@color/white</item>
-        <item name="colorOnBackground">@color/default_green</item>
+        <item name="colorOnBackground">@color/grey_dark</item>
         <item name="android:colorAccent">@color/accent_light</item>
-        <item name="android:colorControlActivated">@color/default_green</item>
         <item name="colorError">@color/error_light</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:titleTextColor" tools:targetApi="m">@color/black</item>
-        <item name="subTextColor">@color/grey_light</item>
-        <item name="android:popupTheme">@style/Theme.Popup.Light</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="switchStyle">@style/Theme.Switch</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
-        <item name="android:windowBackground">@color/black</item>
-        <item name="android:colorPrimary">@color/default_green_dark</item>
-        <item name="android:colorPrimaryDark">@color/black</item>
+        <item name="colorPrimary">@color/green200</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSurface">@color/grey_dark</item>
+        <item name="colorOnSurface">@color/green50</item>
+        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/black</item>
-        <item name="colorOnBackground">@color/grey_light</item>
+        <item name="colorOnBackground">@color/green200</item>
         <item name="android:colorAccent">@color/accent_dark</item>
-        <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:titleTextColor" tools:targetApi="m">@color/default_green_dark</item>
-        <item name="android:textColorPrimary">@color/default_green</item>
+        <item name="android:textColorPrimary">@color/green400</item>
         <item name="android:textColor">@color/white</item>
-        <item name="subTextColor">@color/grey_dark</item>
-        <item name="android:popupTheme">@style/Theme.Popup.Dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="switchStyle">@style/Theme.Switch</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:toolbarStyle">@style/Widget.Main.Toolbar</item>
-        <item name="android:windowBackground">@color/pitch_black</item>
-        <item name="android:colorPrimary">@color/default_green_dark</item>
-        <item name="android:colorPrimaryDark">@color/pitch_black</item>
+        <item name="colorPrimary">@color/green200</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSurface">@color/black</item>
+        <item name="colorOnSurface">@color/green50</item>
+        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/pitch_black</item>
-        <item name="colorOnBackground">@color/black</item>
+        <item name="colorOnBackground">@color/green50</item>
         <item name="android:colorAccent">@color/accent_dark</item>
-        <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:titleTextColor" tools:targetApi="m">@color/default_green_dark</item>
-        <item name="android:textColorPrimary">@color/default_green</item>
+        <item name="android:textColorPrimary">@color/green400</item>
         <item name="android:textColor">@color/white</item>
-        <item name="subTextColor">@color/black</item>
-        <item name="android:popupTheme">@style/Theme.Popup.Dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="switchStyle">@style/Theme.Switch</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="android:statusBarColor">@color/pitch_black</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Widget.Main.Toolbar" parent="Widget.Material3.Toolbar">
@@ -77,14 +73,9 @@
         </item>
     </style>
 
-    <style name="Theme.Popup.Light" parent="Theme.Material3.Light.Dialog.Alert">
-        <item name="android:colorControlActivated">@color/default_green</item>
-        <item name="android:colorBackground">@color/white</item>
-    </style>
-
-    <style name="Theme.Popup.Dark" parent="Theme.Material3.Dark.Dialog.Alert">
-        <item name="android:colorControlActivated">@color/default_green_dark</item>
-        <item name="android:colorBackground">@color/black</item>
+    <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="colorPrimary">?attr/colorOnSurface</item>
+        <item name="android:backgroundTint">?attr/colorSurface</item>
     </style>
 
     <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.Switch">

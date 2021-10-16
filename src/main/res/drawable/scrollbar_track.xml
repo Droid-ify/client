@@ -3,8 +3,10 @@
 
     <solid
         android:angle="0"
-        android:color="@null" />
+        android:color="?attr/colorSurface" />
 
-    <corners android:radius="6dp" />
+    <size android:width="6dp" />
+
+    <corners android:radius="3dp" />
 
 </shape>
