@@ -23,6 +23,7 @@
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -43,6 +44,7 @@
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -63,6 +65,7 @@
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
     </style>
 
     <style name="Widget.Main.Toolbar" parent="Widget.Material3.Toolbar">
@@ -82,6 +85,11 @@
     <style name="Theme.Popup.Dark" parent="Theme.Material3.Dark.Dialog.Alert">
         <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="android:colorBackground">@color/black</item>
+    </style>
+
+    <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="trackTint">@color/switch_track_color</item>
+        <item name="thumbTint">@color/switch_thumb_tint</item>
     </style>
 
 </resources>

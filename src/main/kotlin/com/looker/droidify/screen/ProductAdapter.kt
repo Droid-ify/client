@@ -72,7 +72,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         LAUNCH(R.string.launch),
         DETAILS(R.string.details),
         UNINSTALL(R.string.uninstall),
-        CANCEL(R.string.cancel)
+        CANCEL(R.string.cancel),
+        SHARE(R.string.share)
     }
 
     sealed class Status {

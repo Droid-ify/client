@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="action_failed">Action failed</string>
     <string name="add_repository">Add repository</string>
     <string name="address">Address</string>
@@ -132,6 +131,7 @@
     <string name="screenshots">Screenshots</string>
     <string name="search">Search</string>
     <string name="select_mirror">Select a mirror</string>
+    <string name="share">Share</string>
     <string name="show_more">Show more</string>
     <string name="show_older_versions">Show older versions</string>
     <string name="signature_FORMAT">Signature %s</string>

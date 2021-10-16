@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="action_failed">操作失败</string>
     <string name="add_repository">添加存储库</string>
     <string name="address">地址</string>
@@ -28,6 +27,7 @@
     <string name="could_not_download_FORMAT">无法下载 %s</string>
     <string name="could_not_sync_FORMAT">无法同步 %s</string>
     <string name="could_not_validate_FORMAT">无法验证 %s</string>
+    <string name="credits">鸣谢</string>
     <string name="dark">暗色</string>
     <string name="date_added">添加日期</string>
     <string name="delete">删除</string>
@@ -63,6 +63,7 @@
     <string name="incompatible_versions_summary">显示与设备不兼容的应用版本</string>
     <string name="incompatible_with_FORMAT">与 %s 不兼容</string>
     <string name="install">安装</string>
+    <string name="install_types">安装类型</string>
     <string name="installed">已安装</string>
     <string name="integrity_check_error_DESC">无法检查完整性。</string>
     <string name="invalid_address">地址无效</string>
@@ -127,6 +128,7 @@
     <string name="screenshots">截图</string>
     <string name="search">搜索</string>
     <string name="select_mirror">选择一个镜像</string>
+    <string name="share">分享</string>
     <string name="show_more">显示更多</string>
     <string name="show_older_versions">显示旧版本</string>
     <string name="signature_FORMAT">签名 %s</string>
@@ -166,7 +168,4 @@
     <string name="root_permission">后台安装</string>
     <string name="root_permission_description">允许 Root 权限以启用后台安装</string>
     <string name="themes">主题</string>
-    <string name="credits">鸣谢</string>
-    <string name="install_types">安装类型</string>
-
 </resources>
