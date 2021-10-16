@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="MainTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="android:colorPrimaryDark">@color/white</item>
@@ -16,12 +16,13 @@
         <item name="android:colorControlActivated">@color/default_green</item>
         <item name="colorError">@color/error_light</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:titleTextColor">@color/black</item>
+        <item name="android:titleTextColor" tools:targetApi="m">@color/black</item>
         <item name="subTextColor">@color/grey_light</item>
         <item name="android:popupTheme">@style/Theme.Popup.Light</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -34,13 +35,14 @@
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:titleTextColor">@color/default_green_dark</item>
+        <item name="android:titleTextColor" tools:targetApi="m">@color/default_green_dark</item>
         <item name="android:textColorPrimary">@color/default_green</item>
         <item name="android:textColor">@color/white</item>
         <item name="subTextColor">@color/grey_dark</item>
         <item name="android:popupTheme">@style/Theme.Popup.Dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -53,13 +55,14 @@
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="android:colorControlActivated">@color/default_green_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:titleTextColor">@color/default_green_dark</item>
+        <item name="android:titleTextColor" tools:targetApi="m">@color/default_green_dark</item>
         <item name="android:textColorPrimary">@color/default_green</item>
         <item name="android:textColor">@color/white</item>
         <item name="subTextColor">@color/black</item>
         <item name="android:popupTheme">@style/Theme.Popup.Dark</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="Widget.Main.Toolbar" parent="Widget.Material3.Toolbar">
