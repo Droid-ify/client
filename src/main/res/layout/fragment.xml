@@ -16,13 +16,14 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginHorizontal="10dp"
             android:background="@drawable/background_border" />
 
         <FrameLayout
             android:id="@+id/toolbar_extra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp" />
 
     </LinearLayout>
@@ -33,7 +34,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="?android:attr/colorBackground"
-        android:paddingHorizontal="10dp"
-        android:paddingTop="10dp" />
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp" />
 
 </com.looker.droidify.widget.FragmentLinearLayout>

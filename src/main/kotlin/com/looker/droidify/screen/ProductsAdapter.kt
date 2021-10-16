@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
-import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.transform.RoundedCornersTransformation
+import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
@@ -32,7 +33,7 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
         val name = itemView.findViewById<TextView>(R.id.name)!!
         val status = itemView.findViewById<TextView>(R.id.status)!!
         val summary = itemView.findViewById<TextView>(R.id.summary)!!
-        val icon = itemView.findViewById<ImageView>(R.id.icon)!!
+        val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 
         val progressIcon: Drawable
         val defaultIcon: Drawable
@@ -151,6 +152,7 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                             productItem.icon, productItem.metadataIcon, repository
                         )
                     ) {
+                        transformations(RoundedCornersTransformation(4.toPx))
                         placeholder(holder.progressIcon)
                         error(holder.defaultIcon)
                     }

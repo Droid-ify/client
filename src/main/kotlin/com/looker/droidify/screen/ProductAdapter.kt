@@ -23,10 +23,15 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
 import androidx.recyclerview.widget.RecyclerView
+import coil.transform.RoundedCornersTransformation
+import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
@@ -304,7 +309,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     private enum class Payload { REFRESH, STATUS }
 
     private class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val icon = itemView.findViewById<ImageView>(R.id.icon)!!
+        val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val name = itemView.findViewById<TextView>(R.id.name)!!
         val version = itemView.findViewById<TextView>(R.id.version)!!
         val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
@@ -331,7 +336,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)!!
-        val enabled = itemView.findViewById<Switch>(R.id.enabled)!!
+        val enabled = itemView.findViewById<SwitchMaterial>(R.id.enabled)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(itemView, title, enabled)
@@ -339,7 +344,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)!!
-        val icon = itemView.findViewById<ImageView>(R.id.icon)!!
+        val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
     }
 
     private class ExpandViewHolder(context: Context) : RecyclerView.ViewHolder(TextView(context)) {
@@ -352,7 +357,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             itemView.setTextSizeScaled(14)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.background =
-                itemView.resources.getDrawable(R.drawable.background_border, context.theme)
+                ResourcesCompat.getDrawable(
+                    itemView.resources,
+                    R.drawable.background_border,
+                    context.theme
+                )
             itemView.gravity = Gravity.CENTER
             itemView.isAllCaps = true
             itemView.layoutParams = RecyclerView.LayoutParams(
@@ -400,7 +409,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             private val measurement = Measurement<Int>()
         }
 
-        val icon = itemView.findViewById<ImageView>(R.id.icon)!!
+        val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val text = itemView.findViewById<TextView>(R.id.text)!!
         val link = itemView.findViewById<TextView>(R.id.link)!!
 
@@ -424,7 +433,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             private val measurement = Measurement<Int>()
         }
 
-        val icon = itemView.findViewById<ImageView>(R.id.icon)!!
+        val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val text = itemView.findViewById<TextView>(R.id.text)!!
 
         init {
@@ -443,7 +452,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class ScreenshotViewHolder(context: Context) :
         RecyclerView.ViewHolder(FrameLayout(context)) {
-        val image: ImageView
+        val image: AppCompatImageView
 
         val placeholder: Drawable
 
@@ -461,13 +470,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             val primaryColor =
                 itemView.context.getColorFromAttr(android.R.attr.textColor).defaultColor
 
-            image = object : ImageView(context) {
+            image = object : AppCompatImageView(context) {
                 override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
                     setMeasuredDimension(measuredWidth, measuredWidth)
                 }
             }
-            image.scaleType = ImageView.ScaleType.CENTER_CROP
             image.setBackgroundColor(ColorUtils.blendARGB(backgroundColor, accentColor, 0.1f))
             itemView.addView(
                 image,
@@ -1124,6 +1132,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                                 item.product.icon, item.product.metadataIcon, item.repository
                             )
                         ) {
+                            transformations(RoundedCornersTransformation(4.toPx))
                             placeholder(holder.progressIcon)
                             error(holder.defaultIcon)
                         }
@@ -1328,6 +1337,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         item.screenshot
                     )
                 ) {
+                    transformations(RoundedCornersTransformation(4.toPx))
                     placeholder(holder.placeholder)
                     error(holder.placeholder)
                     size(cellSize)

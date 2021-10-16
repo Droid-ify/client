@@ -16,7 +16,7 @@
         android:orientation="horizontal"
         android:paddingBottom="8dp">
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/icon"
             android:layout_width="64dp"
             android:layout_height="64dp"

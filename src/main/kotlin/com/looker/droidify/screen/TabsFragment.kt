@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
@@ -53,7 +54,7 @@ class TabsFragment : ScreenFragment() {
         val sectionLayout = view.findViewById<ViewGroup>(R.id.section_layout)!!
         val sectionChange = view.findViewById<View>(R.id.section_change)!!
         val sectionName = view.findViewById<TextView>(R.id.section_name)!!
-        val sectionIcon = view.findViewById<ImageView>(R.id.section_icon)!!
+        val sectionIcon = view.findViewById<ShapeableImageView>(R.id.section_icon)!!
     }
 
     private var searchMenuItem: MenuItem? = null

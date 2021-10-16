@@ -29,6 +29,13 @@ object TypefaceExtra {
     val light = Typeface.create("sans-serif-light", Typeface.NORMAL)!!
 }
 
+val Number.toPx
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        Resources.getSystem().displayMetrics
+    )
+
 fun Context.getDrawableCompat(resId: Int): Drawable {
     val drawable = if (!Android.sdk(24)) {
         val fileName = TypedValue().apply { resources.getValue(resId, this, true) }.string
@@ -90,10 +97,6 @@ fun TextView.setTextSizeScaled(size: Int) {
 
 fun ViewGroup.inflate(layoutResId: Int): View {
     return LayoutInflater.from(context).inflate(layoutResId, this, false)
-}
-
-fun ImageView.load(uri: String, builder: ImageRequest.Builder.() -> Unit = {}) {
-    this.load(uri = uri, builder = builder)
 }
 
 fun ImageView.load(uri: Uri, builder: ImageRequest.Builder.() -> Unit = {}) {

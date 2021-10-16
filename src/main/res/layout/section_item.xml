@@ -17,7 +17,7 @@
         android:textColor="?android:attr/textColor"
         android:textSize="14sp" />
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/icon"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

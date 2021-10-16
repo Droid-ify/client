@@ -40,7 +40,7 @@
                 android:textColor="?android:attr/textColor"
                 android:textSize="16sp" />
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/section_icon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
