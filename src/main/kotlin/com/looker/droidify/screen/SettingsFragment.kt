@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
@@ -105,6 +106,9 @@ class SettingsFragment : ScreenFragment() {
             addEnumeration(Preferences.Key.Theme, getString(R.string.theme)) {
                 when (it) {
                     is Preferences.Theme.System -> getString(R.string.system)
+                    is Preferences.Theme.AmoledSystem -> getString(R.string.system) + " " + getString(
+                        R.string.amoled
+                    )
                     is Preferences.Theme.Light -> getString(R.string.light)
                     is Preferences.Theme.Dark -> getString(R.string.dark)
                     is Preferences.Theme.Amoled -> getString(R.string.amoled)
@@ -316,7 +320,7 @@ class SettingsFragment : ScreenFragment() {
         val view = parent.inflate(R.layout.preference_item)
         val title = view.findViewById<TextView>(R.id.title)!!
         val summary = view.findViewById<TextView>(R.id.summary)!!
-        val check = view.findViewById<Switch>(R.id.check)!!
+        val check = view.findViewById<SwitchMaterial>(R.id.check)!!
 
         private var callback: (() -> Unit)? = null
 
