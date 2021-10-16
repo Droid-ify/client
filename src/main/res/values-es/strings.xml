@@ -1,3 +1,4 @@
+<resources>
      <string name="action_failed">Acción fallida</string>
      <string name="add_repository">Agregar repositorio</string>
      <string name="address">Dirección</string>
