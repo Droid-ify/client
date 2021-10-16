@@ -528,12 +528,15 @@ class TabsFragment : ScreenFragment() {
         override fun onPageSelected(position: Int) {
             val source = ProductsFragment.Source.values()[position]
             updateUpdateNotificationBlocker(source)
-            sortOrderMenu!!.first.isVisible = source.order
-            syncRepositoriesMenuItem!!.setShowAsActionFlags(
-                if (!source.order ||
-                    resources.configuration.screenWidthDp >= 400
-                ) MenuItem.SHOW_AS_ACTION_ALWAYS else 0
-            )
+            sortOrderMenu!!.first.apply {
+                isVisible = source.order
+                setShowAsActionFlags(
+                    if (!source.order ||
+                        resources.configuration.screenWidthDp >= 400
+                    ) MenuItem.SHOW_AS_ACTION_ALWAYS else 0
+                )
+            }
+            syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
             setSelectedTab(source)
             if (showSections && !source.sections) {
                 showSections = false
