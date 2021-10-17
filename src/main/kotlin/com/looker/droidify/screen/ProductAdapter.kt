@@ -11,7 +11,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
@@ -54,7 +53,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     StableRecyclerAdapter<ProductAdapter.ViewType, RecyclerView.ViewHolder>() {
     companion object {
         private const val GRID_SPACING_OUTER_DP = 16
-        private const val GRID_SPACING_INNER_DP = 4
+        private const val GRID_SPACING_INNER_DP = 8
     }
 
     interface Callbacks {
@@ -326,8 +325,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
 
         init {
-            if (Android.sdk(22)) {
-                action.setTextColor(action.context.getColorFromAttr(android.R.attr.textColor))
+            action.apply {
+                setTextSizeScaled(15)
+                setTextColor(action.context.getColorFromAttr(R.attr.colorOnPrimary))
+                height = itemView.resources.sizeScaled(48)
             }
             val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
             this.progressIcon = progressIcon
@@ -355,7 +356,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         init {
             itemView as TextView
             itemView.typeface = TypefaceExtra.medium
-            itemView.setTextSizeScaled(14)
+            itemView.setTextSizeScaled(15)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.background =
                 ResourcesCompat.getDrawable(
@@ -363,6 +364,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     R.drawable.background_border,
                     context.theme
                 )
+            itemView.backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
             itemView.gravity = Gravity.CENTER
             itemView.isAllCaps = true
             itemView.layoutParams = RecyclerView.LayoutParams(
@@ -382,7 +384,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         init {
             itemView as TextView
-            itemView.setTextSizeScaled(14)
+            itemView.setTextSizeScaled(15)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
             itemView.movementMethod = ClickableMovementMethod
@@ -518,19 +520,18 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 compatibility
             )
 
-        val setStatusActive: (Boolean) -> Unit
-
         init {
-            status.background =
-                GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, null).apply {
-                    setStatusActive = { active ->
-                        color = itemView.context.getColorFromAttr(
-                            if (active)
-                                android.R.attr.colorAccent else android.R.attr.textColorSecondary
-                        )
-                    }
-                    cornerRadius = itemView.resources.sizeScaled(2).toFloat()
-                }
+            status.apply {
+                background =
+                    ResourcesCompat.getDrawable(
+                        itemView.resources,
+                        R.drawable.background_border,
+                        itemView.context.theme
+                    )
+                backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
+                setPadding(15, 5, 15, 5)
+                setTextColor(itemView.context.getColorFromAttr(R.attr.colorPrimary))
+            }
         }
     }
 
@@ -546,8 +547,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             val title = TextView(itemView.context)
             title.gravity = Gravity.CENTER
             title.typeface = TypefaceExtra.light
-            title.setTextColor(context.getColorFromAttr(android.R.attr.textColorPrimary))
-            title.setTextSizeScaled(20)
+            title.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+            title.setTextSizeScaled(24)
             title.setText(R.string.application_not_found)
             itemView.addView(
                 title,
@@ -556,8 +557,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             )
             val packageName = TextView(itemView.context)
             packageName.gravity = Gravity.CENTER
-            packageName.setTextColor(context.getColorFromAttr(android.R.attr.textColorPrimary))
-            packageName.setTextSizeScaled(16)
+            packageName.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+            packageName.setTextSizeScaled(18)
             itemView.addView(
                 packageName,
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1133,7 +1134,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                                 item.product.icon, item.product.metadataIcon, item.repository
                             )
                         ) {
-                            transformations(RoundedCornersTransformation(4.toPx))
                             placeholder(holder.progressIcon)
                             error(holder.defaultIcon)
                         }
@@ -1150,7 +1150,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     holder.version.text =
                         version?.let { context.getString(R.string.version_FORMAT, it) }
                             ?: context.getString(R.string.unknown)
-                    holder.packageName.text = item.product.packageName
+                    holder.packageName.apply {
+                        text = item.product.packageName
+                        setTextSizeScaled(15)
+                    }
                     val action = action
                     holder.action.visibility = if (action == null) View.GONE else View.VISIBLE
                     if (action != null) {
@@ -1366,7 +1369,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 holder.version.text =
                     context.getString(R.string.version_FORMAT, item.release.version)
                 holder.version.setTextColor(primarySecondaryColor)
-                holder.setStatusActive(!grayOut)
                 holder.status.visibility = if (installed || suggested) View.VISIBLE else View.GONE
                 holder.status.setText(
                     when {

@@ -70,7 +70,7 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
             itemView.gravity = Gravity.CENTER
             itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
             itemView.typeface = TypefaceExtra.light
-            itemView.setTextColor(context.getColorFromAttr(android.R.attr.textColorPrimary))
+            itemView.setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
             itemView.setTextSizeScaled(20)
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
@@ -179,7 +179,7 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                         text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
                         if (background != null) {
                             setPadding(0, 0, 0, 0)
-                            setTextColor(holder.status.context.getColorFromAttr(android.R.attr.textColorPrimary))
+                            setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorPrimary))
                             background = null
                         }
                     }

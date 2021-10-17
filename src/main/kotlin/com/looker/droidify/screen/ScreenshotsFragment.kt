@@ -202,7 +202,7 @@ class ScreenshotsFragment() : DialogFragment() {
 
                 val placeholder =
                     itemView.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
-                placeholder.setTint(itemView.context.getColorFromAttr(android.R.attr.textColorPrimary).defaultColor
+                placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
                     .let { ColorUtils.blendARGB(0x00ffffff and it, it, 0.25f) })
                 this.placeholder = PaddingDrawable(placeholder, 4f)
             }

@@ -34,7 +34,7 @@
         <item name="colorOnBackground">@color/green200</item>
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:textColorPrimary">@color/green400</item>
+        <item name="android:textColorPrimary">@color/green200</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
@@ -45,7 +45,7 @@
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/green200</item>
+        <item name="colorPrimary">@color/green100</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/green50</item>
@@ -54,7 +54,7 @@
         <item name="colorOnBackground">@color/green50</item>
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
-        <item name="android:textColorPrimary">@color/green400</item>
+        <item name="android:textColorPrimary">@color/green100</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
@@ -76,6 +76,7 @@
     <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
         <item name="colorPrimary">?attr/colorOnSurface</item>
         <item name="android:backgroundTint">?attr/colorSurface</item>
+        <item name="colorOnSurfaceVariant">?attr/colorOnSurface</item>
     </style>
 
     <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.Switch">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="green50">#E8F5E9</color>
+    <color name="green100">#A3EBB7</color>
     <color name="green200">#6EC898</color>
     <color name="green300">#58C189</color>
     <color name="green400">#3EDA86</color>
@@ -13,5 +14,5 @@
 
     <color name="white">#FFFFFF</color>
     <color name="grey_light">#333333</color>
-    <color name="grey_dark">#595959</color>
+    <color name="grey_dark">#2C2C2C</color>
 </resources>
