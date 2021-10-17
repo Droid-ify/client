@@ -18,7 +18,7 @@ of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/)
 
 ### Screenshots
 
-<img src="metadata/en-US/images/screenshots/home-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-light.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-dark.png" width="48%" /><img src="metadata/en-US/images/screenshots/home-amoled.png" width="48%" /><img src="metadata/en-US/images/screenshots/app-amoled.png" width="48%" />
+<img src="metadata/en-US/images/phoneScreenshots/home-light.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-light.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/home-dark.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-dark.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/home-amoled.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-amoled.png" width="48%" />
 
 ## Building and Installing
 
