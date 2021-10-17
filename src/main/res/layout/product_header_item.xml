@@ -39,7 +39,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
                 android:textColor="?android:attr/textColor"
-                android:textSize="16sp" />
+                android:textSize="17sp" />
 
             <TextView
                 android:id="@+id/package_name"
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="2sp"
                 android:singleLine="true"
-                android:textColor="?attr/colorSurface"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="12sp" />
 
         </LinearLayout>

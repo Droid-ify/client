@@ -70,19 +70,15 @@ class ScreenshotsFragment() : DialogFragment() {
         }
 
         val background =
-            dialog.context.getColorFromAttr(android.R.attr.colorBackground).defaultColor
+            dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
         decorView?.setBackgroundColor(background.let {
             ColorUtils.blendARGB(
                 0x00ffffff and it,
                 it,
-                0.9f
+                1f
             )
         })
         decorView?.setPadding(0, 0, 0, 0)
-        background.let { ColorUtils.blendARGB(0x00ffffff and it, it, 0.8f) }.let {
-            window?.statusBarColor = it
-            window?.navigationBarColor = it
-        }
         if (window != null) {
             window.attributes = window.attributes.apply {
                 title = ScreenshotsFragment::class.java.name

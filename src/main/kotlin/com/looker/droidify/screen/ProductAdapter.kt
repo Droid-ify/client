@@ -356,7 +356,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         init {
             itemView as TextView
             itemView.typeface = TypefaceExtra.medium
-            itemView.setTextSizeScaled(15)
+            itemView.setTextSizeScaled(14)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.background =
                 ResourcesCompat.getDrawable(
