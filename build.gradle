@@ -112,8 +112,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:' + versions.kotlin
-
     // Frontend
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation "androidx.appcompat:appcompat:1.4.0-beta01"
