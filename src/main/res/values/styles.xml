@@ -6,7 +6,7 @@
     </style>
 
     <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/green400</item>
+        <item name="colorPrimary">@color/green300</item>
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/green50</item>
         <item name="colorOnSurface">@color/black</item>
@@ -79,9 +79,27 @@
         <item name="colorOnSurfaceVariant">?attr/colorOnSurface</item>
     </style>
 
+    <style name="Theme.Progress" parent="Widget.Material3.LinearProgressIndicator">
+        <item name="trackColor">?attr/colorSurface</item>
+        <item name="trackThickness">8dp</item>
+        <item name="trackCornerRadius">4dp</item>
+    </style>
+
     <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.Switch">
         <item name="trackTint">@color/switch_track_color</item>
         <item name="thumbTint">@color/switch_thumb_tint</item>
+    </style>
+
+    <style name="Shape.Small" parent="ShapeAppearance.Material3.SmallComponent">
+        <item name="cornerSize">@dimen/shape_small_corner</item>
+    </style>
+
+    <style name="Shape.Medium" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerSize">@dimen/shape_medium_corner</item>
+    </style>
+
+    <style name="Shape.Large" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSize">@dimen/shape_large_corner</item>
     </style>
 
 </resources>

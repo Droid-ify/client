@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
-import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -69,15 +68,8 @@ class ScreenshotsFragment() : DialogFragment() {
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
 
-        val background =
-            dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
-        decorView?.setBackgroundColor(background.let {
-            ColorUtils.blendARGB(
-                0x00ffffff and it,
-                it,
-                1f
-            )
-        })
+        val background = dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
+        decorView?.setBackgroundColor(background)
         decorView?.setPadding(0, 0, 0, 0)
         if (window != null) {
             window.attributes = window.attributes.apply {
@@ -85,10 +77,8 @@ class ScreenshotsFragment() : DialogFragment() {
                 format = PixelFormat.TRANSLUCENT
                 windowAnimations = run {
                     val typedArray = dialog.context.obtainStyledAttributes(
-                        null,
-                        intArrayOf(android.R.attr.windowAnimationStyle),
-                        android.R.attr.dialogTheme,
-                        0
+                        null, intArrayOf(android.R.attr.windowAnimationStyle),
+                        android.R.attr.dialogTheme, 0
                     )
                     try {
                         typedArray.getResourceId(0, 0)
@@ -198,8 +188,7 @@ class ScreenshotsFragment() : DialogFragment() {
 
                 val placeholder =
                     itemView.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
-                placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
-                    .let { ColorUtils.blendARGB(0x00ffffff and it, it, 0.25f) })
+                placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor)
                 this.placeholder = PaddingDrawable(placeholder, 4f)
             }
         }

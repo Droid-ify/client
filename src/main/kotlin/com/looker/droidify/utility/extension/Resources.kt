@@ -25,6 +25,7 @@ import org.xmlpull.v1.XmlPullParser
 import kotlin.math.roundToInt
 
 object TypefaceExtra {
+    val bold = Typeface.create("sans-serif-medium", Typeface.BOLD)!!
     val medium = Typeface.create("sans-serif-medium", Typeface.NORMAL)!!
     val light = Typeface.create("sans-serif-light", Typeface.NORMAL)!!
 }

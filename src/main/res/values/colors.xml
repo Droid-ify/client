@@ -3,11 +3,10 @@
     <color name="green50">#E8F5E9</color>
     <color name="green100">#A3EBB7</color>
     <color name="green200">#6EC898</color>
-    <color name="green300">#58C189</color>
-    <color name="green400">#3EDA86</color>
+    <color name="green300">#51DF93</color>
 
     <color name="red200">#EF9A9A</color>
-    <color name="red300">#E57373</color>
+    <color name="red300">#EF8A8A</color>
 
     <color name="pitch_black">#000000</color>
     <color name="black">#1E1E1E</color>

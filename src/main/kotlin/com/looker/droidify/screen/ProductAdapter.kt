@@ -22,13 +22,10 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.ColorUtils
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
 import androidx.recyclerview.widget.RecyclerView
-import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.looker.droidify.R
@@ -455,7 +452,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class ScreenshotViewHolder(context: Context) :
         RecyclerView.ViewHolder(FrameLayout(context)) {
-        val image: AppCompatImageView
+        val image: ShapeableImageView
 
         val placeholder: Drawable
 
@@ -466,20 +463,25 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             itemView as FrameLayout
             itemView.foreground =
                 itemView.context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
-            val backgroundColor =
-                itemView.context.getColorFromAttr(android.R.attr.colorBackground).defaultColor
-            val accentColor =
-                itemView.context.getColorFromAttr(android.R.attr.colorAccent).defaultColor
-            val primaryColor =
-                itemView.context.getColorFromAttr(android.R.attr.textColor).defaultColor
+            val surfaceColor =
+                itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
-            image = object : AppCompatImageView(context) {
+
+
+            image = object : ShapeableImageView(context) {
                 override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
                     setMeasuredDimension(measuredWidth, measuredWidth)
                 }
             }
-            image.setBackgroundColor(ColorUtils.blendARGB(backgroundColor, accentColor, 0.1f))
+
+            val radius = image.context.resources.getDimension(R.dimen.shape_medium_corner)
+
+            val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
+                .setAllCornerSizes(radius)
+                .build()
+            image.shapeAppearanceModel = shapeAppearanceModel
+            image.setBackgroundColor(surfaceColor)
             itemView.addView(
                 image,
                 FrameLayout.LayoutParams.MATCH_PARENT,
@@ -491,8 +493,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             )
 
             val placeholder = image.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
-            placeholder.setTint(ColorUtils.blendARGB(primaryColor, accentColor, 0.5f)
-                .let { ColorUtils.blendARGB(0x00ffffff and it, it, 0.2f) })
+            placeholder.setTint(surfaceColor)
             this.placeholder = PaddingDrawable(placeholder, 2f)
         }
     }
@@ -529,6 +530,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         itemView.context.theme
                     )
                 backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
+                typeface = TypefaceExtra.bold
                 setPadding(15, 5, 15, 5)
                 setTextColor(itemView.context.getColorFromAttr(R.attr.colorPrimary))
             }
@@ -1166,7 +1168,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 }
                 if (updateAll || updateStatus) {
                     val status = status
-                    holder.statusLayout.visibility = if (status != null) View.VISIBLE else View.GONE
+                    holder.statusLayout.visibility =
+                        if (status != null) View.VISIBLE else View.INVISIBLE
                     if (status != null) {
                         when (status) {
                             is Status.Pending -> {
@@ -1341,7 +1344,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         item.screenshot
                     )
                 ) {
-                    transformations(RoundedCornersTransformation(4.toPx))
                     placeholder(holder.placeholder)
                     error(holder.placeholder)
                     size(cellSize)

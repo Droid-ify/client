@@ -21,14 +21,13 @@
             android:id="@+id/icon"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginStart="1.667dp"
-            android:layout_marginEnd="1.667dp"
+            app:shapeAppearanceOverlay="@style/Shape.Medium"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="@dimen/text_margin"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -82,19 +81,17 @@
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress"
+            style="@style/Theme.Progress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="2dp"
-            app:trackCornerRadius="2dp" />
+            android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/action"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:cornerRadius="8dp" />
+        android:layout_height="56dp"
+        app:shapeAppearanceOverlay="@style/Shape.Medium" />
 
 </LinearLayout>
