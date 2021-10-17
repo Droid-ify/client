@@ -33,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="?android:attr/colorBackground"
-        android:layout_marginHorizontal="10dp" />
+        android:background="?android:attr/colorBackground" />
 
 </com.looker.droidify.widget.FragmentLinearLayout>

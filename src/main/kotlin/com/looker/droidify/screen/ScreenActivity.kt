@@ -229,7 +229,7 @@ abstract class ScreenActivity : FragmentActivity() {
                 if (!packageName.isNullOrEmpty()) {
                     val fragment = currentFragment
                     if (fragment !is ProductFragment || fragment.packageName != packageName) {
-                        pushFragment(ProductFragment(packageName))
+                        navigateProduct(packageName)
                     }
                 }
             }

@@ -12,7 +12,7 @@
     <string name="application">Applicazioni</string>
     <string name="application_not_found">Applicazione non trovata</string>
     <string name="author_email">Email autore</string>
-    <string name="author_website">Sito web dell'autore</string>
+    <string name="author_website">Sito web dell\'autore</string>
     <string name="available">Disponibile</string>
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Annulla</string>
@@ -65,7 +65,7 @@
     <string name="install">Installa</string>
     <string name="install_types">Tipi di installazione</string>
     <string name="installed">Installato</string>
-    <string name="integrity_check_error_DESC">Impossibile verificare l'integrità</string>
+    <string name="integrity_check_error_DESC">Impossibile verificare l\'integrità</string>
     <string name="invalid_address">Indirizzo non valido</string>
     <string name="invalid_fingerprint_format">Fingerprint in un formato non valido</string>
     <string name="invalid_metadata_error_DESC">Metadata non validi.</string>
@@ -124,7 +124,7 @@
     applicazioni da repository senza firma.</string>
     <string name="requires_FORMAT">Richiede %s</string>
     <string name="root_permission">Installazione silenziosa</string>
-    <string name="root_permission_description">Permetti i permessi Root per abilitare l'installazione silenziosa</string>
+    <string name="root_permission_description">Permetti i permessi Root per abilitare l\'installazione silenziosa</string>
     <string name="save">Salva</string>
     <string name="saving_details">Salvataggio dettagli</string>
     <string name="screenshots">Screenshots</string>
@@ -163,7 +163,7 @@
     <string name="upstream_source_code_is_not_free">Codice sorgente aggiornato non libero</string>
     <string name="username">Nome utente</string>
     <string name="username_missing">Nome utente mancante</string>
-    <string name="validation_index_error_DESC">L'indice non può essere convalidato</string>
+    <string name="validation_index_error_DESC">L\'indice non può essere convalidato</string>
     <string name="version_FORMAT">Versione %s</string>
     <string name="versions">Versioni</string>
     <string name="waiting_to_start_download">In attesa di inizio del download</string>
