@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -69,7 +70,13 @@ class ScreenshotsFragment() : DialogFragment() {
         }
 
         val background = dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
-        decorView?.setBackgroundColor(background)
+        decorView?.setBackgroundColor(
+            ColorUtils.blendARGB(
+                0x00FFFFFF and background,
+                background,
+                0.9f
+            )
+        )
         decorView?.setPadding(0, 0, 0, 0)
         if (window != null) {
             window.attributes = window.attributes.apply {
