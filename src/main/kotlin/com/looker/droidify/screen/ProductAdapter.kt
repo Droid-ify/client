@@ -699,6 +699,18 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 return if (length >= 0) subSequence(0, length) else null
             }
 
+            val screenshotItems = productRepository.first.screenshots
+                .map { Item.ScreenshotItem(productRepository.second, packageName, it) }
+            if (screenshotItems.isNotEmpty()) {
+                items += Item.SectionItem(
+                    SectionType.SCREENSHOTS,
+                    ExpandType.SCREENSHOTS,
+                    emptyList(),
+                    screenshotItems.size
+                )
+                items += screenshotItems
+            }
+
             val description = formatHtml(productRepository.first.description).apply {
                 if (productRepository.first.let { it.summary.isNotEmpty() && it.name != it.summary }) {
                     if (isNotEmpty()) {
@@ -877,19 +889,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         )
                     }
                 }
-            }
-
-            val screenshotItems = productRepository.first.screenshots
-                .map { Item.ScreenshotItem(productRepository.second, packageName, it) }
-            if (screenshotItems.isNotEmpty()) {
-                items += Item.SectionItem(
-                    SectionType.SCREENSHOTS,
-                    ExpandType.SCREENSHOTS,
-                    emptyList(),
-                    screenshotItems.size
-                )
-                items += screenshotItems
-
             }
         }
 
