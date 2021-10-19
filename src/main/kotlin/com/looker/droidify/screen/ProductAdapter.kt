@@ -334,11 +334,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     }
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.title)!!
         val enabled = itemView.findViewById<SwitchMaterial>(R.id.enabled)!!
 
         val statefulViews: Sequence<View>
-            get() = sequenceOf(itemView, title, enabled)
+            get() = sequenceOf(itemView, enabled)
     }
 
     private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -1200,7 +1199,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             ViewType.SWITCH -> {
                 holder as SwitchViewHolder
                 item as Item.SwitchItem
-                holder.title.setText(item.switchType.titleResId)
                 val (checked, enabled) = when (item.switchType) {
                     SwitchType.IGNORE_ALL_UPDATES -> {
                         val productPreference = ProductPreferences[item.packageName]
@@ -1214,6 +1212,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         )
                     }
                 }
+                holder.enabled.setText(item.switchType.titleResId)
                 holder.enabled.isChecked = checked
                 holder.statefulViews.forEach { it.isEnabled = enabled }
             }

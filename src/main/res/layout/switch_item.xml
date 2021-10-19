@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:textColor="?android:attr/textColor"
-        android:textSize="16sp" />
+    android:layout_height="wrap_content">
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/enabled"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="@dimen/text_margin"
         android:clickable="false"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
-
-</LinearLayout>
+        android:singleLine="true"
+        android:textSize="15sp" />
+</FrameLayout>
