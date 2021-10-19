@@ -14,12 +14,12 @@ import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import coil.load
 import coil.request.ImageRequest
 import coil.util.CoilUtils
+import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.utility.extension.android.Android
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.roundToInt
@@ -100,10 +100,10 @@ fun ViewGroup.inflate(layoutResId: Int): View {
     return LayoutInflater.from(context).inflate(layoutResId, this, false)
 }
 
-fun ImageView.load(uri: Uri, builder: ImageRequest.Builder.() -> Unit = {}) {
+fun ShapeableImageView.load(uri: Uri, builder: ImageRequest.Builder.() -> Unit = {}) {
     this.load(uri = uri, builder = builder)
 }
 
-fun ImageView.clear() {
+fun ShapeableImageView.clear() {
     CoilUtils.clear(this)
 }

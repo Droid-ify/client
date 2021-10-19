@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.ImageView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -16,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Product
@@ -174,9 +174,10 @@ class ScreenshotsFragment() : DialogFragment() {
         StableRecyclerAdapter<Adapter.ViewType, RecyclerView.ViewHolder>() {
         enum class ViewType { SCREENSHOT }
 
-        private class ViewHolder(context: Context) : RecyclerView.ViewHolder(ImageView(context)) {
-            val image: ImageView
-                get() = itemView as ImageView
+        private class ViewHolder(context: Context) :
+            RecyclerView.ViewHolder(ShapeableImageView(context)) {
+            val image: ShapeableImageView
+                get() = itemView as ShapeableImageView
 
             val placeholder: Drawable
 
