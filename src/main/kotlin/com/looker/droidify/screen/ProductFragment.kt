@@ -15,6 +15,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -34,6 +35,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     companion object {
@@ -375,8 +378,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            state.consume()
-            screenActivity.startPackageInstaller(state.release.cacheFileName)
+            lifecycleScope.launch(Dispatchers.IO) {
+                state.consume()
+                screenActivity.startPackageInstaller(state.release.cacheFileName)
+            }
         }
     }
 
