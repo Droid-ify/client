@@ -471,7 +471,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             image = object : ShapeableImageView(context) {
                 override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-                    setMeasuredDimension(measuredWidth, measuredWidth)
+                    setMeasuredDimension(measuredWidth, 2 * measuredWidth)
                 }
             }
 
