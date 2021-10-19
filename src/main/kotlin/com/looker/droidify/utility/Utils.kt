@@ -25,6 +25,9 @@ import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.text.hex
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.MessageDigest
 import java.security.cert.Certificate
@@ -102,7 +105,7 @@ object Utils {
         }
     }
 
-    internal fun Activity.startPackageInstaller(cacheFileName: String) {
+    suspend fun Activity.startPackageInstaller(cacheFileName: String) {
         val file = Cache.getReleaseFile(this, cacheFileName)
         if (Preferences[Preferences.Key.RootPermission]) {
             val commandBuilder = StringBuilder()
@@ -110,8 +113,16 @@ object Utils {
             if (verifyState == "1") commandBuilder.append("settings put global verifier_verify_adb_installs 0 ; ")
             commandBuilder.append(getPackageInstallCommand(file))
             commandBuilder.append(" ; settings put global verifier_verify_adb_installs $verifyState")
-            val result = Shell.su(commandBuilder.toString()).exec()
-            if (result.isSuccess) Shell.su("${getUtilBoxPath()} rm ${quote(file.absolutePath)}")
+            withContext(Dispatchers.IO) {
+                launch {
+                    val result = Shell.su(commandBuilder.toString()).exec()
+                    launch {
+                        if (result.isSuccess) {
+                            Shell.su("${getUtilBoxPath()} rm ${quote(file.absolutePath)}").submit()
+                        }
+                    }
+                }
+            }
         } else {
             val (uri, flags) = if (Android.sdk(24)) {
                 Pair(
