@@ -2,6 +2,8 @@
 
 Material-ify with Droid-ify.
 
+[![Get it on IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png)](https://android.izzysoft.de/repo/apk/com.looker.droidify)
+
 ## Description
 
 Unofficial F-Droid client with Material UI.
