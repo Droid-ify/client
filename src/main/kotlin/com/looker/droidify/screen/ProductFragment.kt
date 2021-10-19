@@ -105,7 +105,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.application)
+        toolbar.title = getString(R.string.application)
         this.toolbar = toolbar
 
         toolbar.menu.apply {
@@ -187,6 +187,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                     layoutManagerState = null
                     if (firstChanged || productChanged) {
                         this.products = products
+                        toolbar.title = products[0].first.name
                     }
                     if (firstChanged || installedItemChanged) {
                         installed = installedItem.value?.let {
