@@ -22,6 +22,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
@@ -461,7 +462,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         init {
             itemView as FrameLayout
             itemView.foreground =
-                itemView.context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
+                AppCompatResources.getDrawable(itemView.context, R.drawable.bg_item_rounded_ripple)
             val surfaceColor =
                 itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
