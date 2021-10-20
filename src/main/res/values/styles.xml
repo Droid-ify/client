@@ -10,10 +10,13 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/green50</item>
         <item name="colorOnSurface">@color/black</item>
+        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/grey_dark</item>
+        <item name="colorPrimarySurface">@color/green50</item>
         <item name="android:colorAccent">@color/accent_light</item>
         <item name="colorError">@color/error_light</item>
+        <item name="android:textColorPrimary">@color/green200</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
@@ -32,6 +35,7 @@
         <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/black</item>
         <item name="colorOnBackground">@color/green200</item>
+        <item name="colorPrimarySurface">@color/grey_dark</item>
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
         <item name="android:textColorPrimary">@color/green200</item>
