@@ -7,10 +7,11 @@
     android:background="@drawable/background_border"
     android:orientation="vertical">
 
-    <LinearLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@drawable/bg_item_rounded_ripple"
         android:orientation="horizontal" />
 
     <FrameLayout

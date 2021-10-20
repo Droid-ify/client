@@ -2,7 +2,6 @@ package com.looker.droidify.screen
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Canvas
 import android.graphics.ColorFilter
 import android.graphics.Paint
@@ -21,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
@@ -50,7 +51,7 @@ class TabsFragment : ScreenFragment() {
     }
 
     private class Layout(view: View) {
-        val tabs = view.findViewById<LinearLayout>(R.id.tabs)!!
+        val tabs = view.findViewById<TabLayout>(R.id.tabs)!!
         val sectionLayout = view.findViewById<ViewGroup>(R.id.section_layout)!!
         val sectionChange = view.findViewById<View>(R.id.section_change)!!
         val sectionName = view.findViewById<TextView>(R.id.section_name)!!
@@ -195,37 +196,6 @@ class TabsFragment : ScreenFragment() {
         val layout = Layout(view)
         this.layout = layout
 
-        layout.tabs.background = TabsBackgroundDrawable(
-            layout.tabs.context,
-            layout.tabs.layoutDirection == View.LAYOUT_DIRECTION_RTL
-        )
-        ProductsFragment.Source.values().forEach {
-            val tab = TextView(layout.tabs.context)
-            val selectedColor =
-                tab.context.getColorFromAttr(R.attr.colorOnSurface).defaultColor
-            val normalColor =
-                tab.context.getColorFromAttr(R.attr.colorOnBackground).defaultColor
-            tab.gravity = Gravity.CENTER
-            tab.typeface = TypefaceExtra.medium
-            tab.setTextColor(
-                ColorStateList(
-                    arrayOf(intArrayOf(android.R.attr.state_selected), intArrayOf()),
-                    intArrayOf(selectedColor, normalColor)
-                )
-            )
-            tab.setTextSizeScaled(14)
-            tab.isAllCaps = true
-            tab.text = getString(it.titleResId)
-            tab.background =
-                tab.context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
-            tab.setOnClickListener { _ ->
-                setSelectedTab(it)
-                viewPager!!.setCurrentItem(it.ordinal, Utils.areAnimationsEnabled(tab.context))
-            }
-            layout.tabs.addView(tab, 0, LinearLayout.LayoutParams.MATCH_PARENT)
-            (tab.layoutParams as LinearLayout.LayoutParams).weight = 1f
-        }
-
         showSections = savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0 != 0
         sections = savedInstanceState?.getParcelableArrayList<ProductItem.Section>(STATE_SECTIONS)
             .orEmpty()
@@ -260,6 +230,12 @@ class TabsFragment : ScreenFragment() {
             )
             registerOnPageChangeCallback(pageChangeCallback)
             offscreenPageLimit = 1
+        }
+
+        viewPager?.let {
+            TabLayoutMediator(layout.tabs, it) { tab, position ->
+                tab.text = getString(ProductsFragment.Source.values()[position].titleResId)
+            }.attach()
         }
 
         categoriesDisposable = Observable.just(Unit)
@@ -393,13 +369,6 @@ class TabsFragment : ScreenFragment() {
         }
     }
 
-    private fun setSelectedTab(source: ProductsFragment.Source) {
-        val layout = layout!!
-        (0 until layout.tabs.childCount).forEach {
-            layout.tabs.getChildAt(it).isSelected = it == source.ordinal
-        }
-    }
-
     internal fun selectUpdates() = selectUpdatesInternal(true)
 
     private fun selectUpdatesInternal(allowSmooth: Boolean) {
@@ -513,8 +482,6 @@ class TabsFragment : ScreenFragment() {
             } else {
                 if (fromSections) 1f else 0f
             }
-            (layout.tabs.background as TabsBackgroundDrawable)
-                .update(position + positionOffset, layout.tabs.childCount)
             assert(layout.sectionLayout.childCount == 1)
             val child = layout.sectionLayout.getChildAt(0)
             val height = child.layoutParams.height
@@ -538,7 +505,6 @@ class TabsFragment : ScreenFragment() {
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-            setSelectedTab(source)
             if (showSections && !source.sections) {
                 showSections = false
             }
