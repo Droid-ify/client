@@ -48,6 +48,8 @@ android {
         debug {
             minifyEnabled = false
             shrinkResources = false
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-debug"
         }
         release {
             minifyEnabled = true
