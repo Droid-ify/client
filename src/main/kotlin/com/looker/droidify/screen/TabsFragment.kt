@@ -278,6 +278,8 @@ class TabsFragment : ScreenFragment() {
             setBackgroundResource(R.drawable.background_border)
             elevation = resources.sizeScaled(4).toFloat()
             content.addView(this, FrameLayout.LayoutParams.MATCH_PARENT, 0)
+            val margins = resources.sizeScaled(8)
+            (layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
             visibility = View.GONE
         }
         sectionsList.backgroundTintList = context?.getColorFromAttr(R.attr.colorSurface)
@@ -436,7 +438,7 @@ class TabsFragment : ScreenFragment() {
         val sectionsList = sectionsList!!
         val value = if (sectionsList.visibility != View.VISIBLE) 0f else
             sectionsList.height.toFloat() / (sectionsList.parent as View).height
-        val target = if (showSections) 1f else 0f
+        val target = if (showSections) 0.98f else 0f
         sectionsAnimator?.cancel()
         sectionsAnimator = null
 
