@@ -79,8 +79,8 @@
     <string name="light">亮色</string>
     <string name="link_copied_to_clipboard">链接已复制到剪贴板</string>
     <string name="links">链接</string>
-    <string name="list_animation">列出动画</string>
-    <string name="list_animation_description">在主页上启用列表动画</string>
+    <string name="list_animation">列表动画</string>
+    <string name="list_animation_description">启用主页上的列表动画</string>
     <string name="merging_FORMAT">合并 %s</string>
     <string name="name">名称</string>
     <string name="network_error_DESC">网络错误.</string>
