@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import com.looker.droidify.BuildConfig
@@ -223,7 +224,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         0,
                         Intent(this, Receiver::class.java)
                             .setAction("$ACTION_OPEN.${task.packageName}"),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        else
+                            PendingIntent.FLAG_UPDATE_CURRENT
                     )
                 )
                 .apply {
@@ -287,7 +291,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         Intent(this, Receiver::class.java)
                             .setAction("$ACTION_INSTALL.${task.packageName}")
                             .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        else
+                            PendingIntent.FLAG_UPDATE_CURRENT
                     )
                 )
                 .setContentTitle(getString(R.string.downloaded_FORMAT, task.name))
@@ -308,7 +315,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 Intent(this, Receiver::class.java)
                     .setAction("$ACTION_INSTALL.${task.packageName}")
                     .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
-                PendingIntent.FLAG_UPDATE_CURRENT
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                else
+                    PendingIntent.FLAG_UPDATE_CURRENT
             )
                 .send()
         } else showNotificationInstall(task)
@@ -375,7 +385,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     this,
                     0,
                     Intent(this, this::class.java).setAction(ACTION_CANCEL),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    else
+                        PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
     }

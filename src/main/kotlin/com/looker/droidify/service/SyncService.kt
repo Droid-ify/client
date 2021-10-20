@@ -7,6 +7,7 @@ import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
@@ -250,7 +251,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     this,
                     0,
                     Intent(this, this::class.java).setAction(ACTION_CANCEL),
-                    PendingIntent.FLAG_UPDATE_CURRENT
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                    else
+                        PendingIntent.FLAG_UPDATE_CURRENT
                 )
             )
     }
@@ -436,7 +440,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                         0,
                         Intent(this, MainActivity::class.java)
                             .setAction(MainActivity.ACTION_UPDATES),
-                        PendingIntent.FLAG_UPDATE_CURRENT
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+                        else
+                            PendingIntent.FLAG_UPDATE_CURRENT
                     )
                 )
                 .setStyle(NotificationCompat.InboxStyle().applyHack {
