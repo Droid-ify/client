@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="MainTheme" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:colorPrimaryDark">@color/white</item>
+    <style name="MainTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:colorPrimaryDark">?android:attr/colorBackground</item>
     </style>
 
     <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
