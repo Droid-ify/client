@@ -166,9 +166,7 @@ class SettingsFragment : ScreenFragment() {
     }
 
     private fun openURI() {
-        val browserIntent =
-            Intent(Intent.ACTION_VIEW, "https://github.com/kitsunyan/foxy-droid/".toUri())
-        startActivity(browserIntent)
+        startActivity(Intent(Intent.ACTION_VIEW, "https://github.com/iamlooker/Droid-ify/".toUri()))
     }
 
     override fun onDestroyView() {
