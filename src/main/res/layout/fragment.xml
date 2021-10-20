@@ -10,15 +10,15 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/colorBackground"
         android:elevation="0dp"
-        android:paddingHorizontal="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
 
         <com.looker.droidify.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="?attr/colorPrimarySurface"
-            android:background="@drawable/background_border" />
+            android:background="@drawable/background_border"
+            android:backgroundTint="?attr/colorPrimarySurface" />
 
         <FrameLayout
             android:id="@+id/toolbar_extra"

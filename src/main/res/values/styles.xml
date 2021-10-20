@@ -13,16 +13,17 @@
         <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/grey_dark</item>
-        <item name="colorPrimarySurface">@color/green50</item>
         <item name="android:colorAccent">@color/accent_light</item>
         <item name="colorError">@color/error_light</item>
-        <item name="android:textColorPrimary">@color/green200</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:textColorPrimary">@color/black</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="android:statusBarColor">@color/white</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -35,7 +36,6 @@
         <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/black</item>
         <item name="colorOnBackground">@color/green200</item>
-        <item name="colorPrimarySurface">@color/grey_dark</item>
         <item name="android:colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
         <item name="android:textColorPrimary">@color/green200</item>
@@ -44,6 +44,8 @@
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -64,6 +66,8 @@
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="android:statusBarColor">@color/pitch_black</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
@@ -77,10 +81,24 @@
         </item>
     </style>
 
+    <style name="Theme.Tab" parent="Widget.Material3.TabLayout">
+        <item name="tabTextColor">@color/tab_text_color</item>
+        <item name="tabIndicatorColor">?android:attr/textColorPrimary</item>
+    </style>
+
     <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
         <item name="colorPrimary">?attr/colorOnSurface</item>
+        <item name="android:dialogCornerRadius" tools:targetApi="p">@dimen/shape_large_corner</item>
         <item name="android:backgroundTint">?attr/colorSurface</item>
         <item name="colorOnSurfaceVariant">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Theme.EditText" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="boxStrokeColor">?attr/colorPrimary</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="hintTextColor">?attr/colorPrimary</item>
+        <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
 
     <style name="Theme.Progress" parent="Widget.Material3.LinearProgressIndicator">

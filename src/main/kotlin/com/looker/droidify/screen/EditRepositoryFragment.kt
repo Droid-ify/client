@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
@@ -62,13 +61,9 @@ class EditRepositoryFragment() : ScreenFragment() {
     private class Layout(view: View) {
         val address = view.findViewById<EditText>(R.id.address)!!
         val addressMirror = view.findViewById<View>(R.id.address_mirror)!!
-        val addressError = view.findViewById<TextView>(R.id.address_error)!!
         val fingerprint = view.findViewById<EditText>(R.id.fingerprint)!!
-        val fingerprintError = view.findViewById<TextView>(R.id.fingerprint_error)!!
         val username = view.findViewById<EditText>(R.id.username)!!
-        val usernameError = view.findViewById<TextView>(R.id.username_error)!!
         val password = view.findViewById<EditText>(R.id.password)!!
-        val passwordError = view.findViewById<TextView>(R.id.password_error)!!
         val overlay = view.findViewById<View>(R.id.overlay)!!
         val skip = view.findViewById<View>(R.id.skip)!!
     }
@@ -269,6 +264,10 @@ class EditRepositoryFragment() : ScreenFragment() {
                     .map { it.withoutKnownPath }.toSet()
                 invalidateAddress()
             }
+
+        invalidateAddress()
+        invalidateFingerprint()
+        invalidateUsernamePassword()
     }
 
     override fun onDestroyView() {
@@ -282,14 +281,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         repositoriesDisposable = null
         checkDisposable?.dispose()
         checkDisposable = null
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        invalidateAddress()
-        invalidateFingerprint()
-        invalidateUsernamePassword()
     }
 
     private var addressError = false
@@ -312,12 +303,8 @@ class EditRepositoryFragment() : ScreenFragment() {
         } else {
             R.string.invalid_address
         }
-        layout.address.setError(addressErrorResId != null)
-        layout.addressError.visibility = if (addressErrorResId != null) View.VISIBLE else View.GONE
-        if (addressErrorResId != null) {
-            layout.addressError.setText(addressErrorResId)
-        }
         addressError = addressErrorResId != null
+        addressErrorResId?.let { layout.address.error = getString(it) }
         invalidateState()
     }
 
@@ -325,11 +312,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         val layout = layout!!
         val fingerprint = layout.fingerprint.text.toString().replace(" ", "")
         val fingerprintInvalid = fingerprint.isNotEmpty() && fingerprint.length != 64
-        layout.fingerprintError.visibility = if (fingerprintInvalid) View.VISIBLE else View.GONE
-        if (fingerprintInvalid) {
-            layout.fingerprintError.setText(R.string.invalid_fingerprint_format)
-        }
-        layout.fingerprint.setError(fingerprintInvalid)
         fingerprintError = fingerprintInvalid
         invalidateState()
     }
@@ -341,19 +323,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         val usernameInvalid = username.contains(':')
         val usernameEmpty = username.isEmpty() && password.isNotEmpty()
         val passwordEmpty = username.isNotEmpty() && password.isEmpty()
-        layout.usernameError.visibility =
-            if (usernameInvalid || usernameEmpty) View.VISIBLE else View.GONE
-        layout.passwordError.visibility = if (passwordEmpty) View.VISIBLE else View.GONE
-        if (usernameInvalid) {
-            layout.usernameError.setText(R.string.invalid_username_format)
-        } else if (usernameEmpty) {
-            layout.usernameError.setText(R.string.username_missing)
-        }
-        layout.username.setError(usernameEmpty)
-        if (passwordEmpty) {
-            layout.passwordError.setText(R.string.password_missing)
-        }
-        layout.password.setError(passwordEmpty)
         usernamePasswordError = usernameInvalid || usernameEmpty || passwordEmpty
         invalidateState()
     }
@@ -417,11 +386,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         layout?.address?.setText(address)
     }
 
-    private fun EditText.setError(error: Boolean) {
-        val drawable = background.mutate()
-        drawable.colorFilter = if (error) errorColorFilter else null
-    }
-
     private fun onSaveRepositoryClick(check: Boolean) {
         if (checkDisposable == null) {
             val layout = layout!!
@@ -475,7 +439,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe { result, throwable ->
                         checkDisposable = null
-                        throwable?.printStackTrace()
+                        throwable.printStackTrace()
                         val resultAddress =
                             result?.let { if (it.isEmpty()) null else it } ?: address
                         val allow = resultAddress == address || run {
