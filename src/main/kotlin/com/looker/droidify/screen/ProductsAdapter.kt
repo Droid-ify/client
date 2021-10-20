@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
+import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.entity.Repository
@@ -131,7 +132,9 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
-        holder.itemView.clearAnimation()
+        if (Preferences[Preferences.Key.ListAnimation]) {
+            holder.itemView.clearAnimation()
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -197,12 +200,17 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                 holder.text.text = emptyText
             }
         }::class
+        if (Preferences[Preferences.Key.ListAnimation]) {
+            setAnimation(holder.itemView, holder.adapterPosition)
+        }
+    }
 
+    private fun setAnimation(itemView: View, position: Int) {
         val animation = AnimationUtils.loadAnimation(
-            holder.itemView.context,
+            itemView.context,
             if (position > lastPosition) R.anim.slide_up else R.anim.slide_down
         )
-        holder.itemView.startAnimation(animation)
-        lastPosition = holder.adapterPosition
+        itemView.startAnimation(animation)
+        lastPosition = position
     }
 }

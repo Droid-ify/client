@@ -75,6 +75,8 @@
     <string name="light">Claro</string>
     <string name="link_copied_to_clipboard">Link copiado al portapapeles</string>
     <string name="links">Links</string>
+    <string name="list_animation">Lista de animaciones</string>
+    <string name="list_animation_description">"Habilitar la animación de lista en la página principal  "</string>
     <string name="merging_FORMAT">Uniendo %s</string>
     <string name="name">Nombre</string>
     <string name="network_error_DESC">Error de red.</string>

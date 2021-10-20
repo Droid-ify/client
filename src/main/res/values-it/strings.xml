@@ -79,6 +79,8 @@
     <string name="light">Chiaro</string>
     <string name="link_copied_to_clipboard">Link copiato sulla clipboard</string>
     <string name="links">Links</string>
+    <string name="list_animation">Elenco animazioni</string>
+    <string name="list_animation_description">Abilita l\'animazione dell\'elenco nella pagina principale</string>
     <string name="merging_FORMAT">Unione %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Errore di rete.</string>

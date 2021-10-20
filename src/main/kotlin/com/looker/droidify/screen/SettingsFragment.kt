@@ -114,6 +114,10 @@ class SettingsFragment : ScreenFragment() {
                     is Preferences.Theme.Amoled -> getString(R.string.amoled)
                 }
             }
+            addSwitch(
+                Preferences.Key.ListAnimation, getString(R.string.list_animation),
+                getString(R.string.list_animation_description)
+            )
         }
         preferences.addCategory(getString(R.string.install_types)) {
             addSwitch(

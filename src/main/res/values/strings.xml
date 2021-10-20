@@ -80,6 +80,8 @@
     <string name="light">Light</string>
     <string name="link_copied_to_clipboard">Link copied to clipboard</string>
     <string name="links">Links</string>
+    <string name="list_animation">List Animations</string>
+    <string name="list_animation_description">Enable List Animation on Main Page</string>
     <string name="merging_FORMAT">Merging %s</string>
     <string name="name">Name</string>
     <string name="network_error_DESC">Network error.</string>

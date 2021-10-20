@@ -16,8 +16,17 @@ object Preferences {
     private val subject = PublishSubject.create<Key<*>>()
 
     private val keys = sequenceOf(
-        Key.AutoSync, Key.IncompatibleVersions, Key.ProxyHost, Key.ProxyPort, Key.ProxyType,
-        Key.RootPermission, Key.SortOrder, Key.Theme, Key.UpdateNotify, Key.UpdateUnstable
+        Key.AutoSync,
+        Key.IncompatibleVersions,
+        Key.ListAnimation,
+        Key.ProxyHost,
+        Key.ProxyPort,
+        Key.ProxyType,
+        Key.RootPermission,
+        Key.SortOrder,
+        Key.Theme,
+        Key.UpdateNotify,
+        Key.UpdateUnstable
     ).map { Pair(it.name, it) }.toMap()
 
     fun init(context: Context) {
@@ -116,6 +125,9 @@ object Preferences {
 
         object IncompatibleVersions :
             Key<Boolean>("incompatible_versions", Value.BooleanValue(false))
+
+        object ListAnimation :
+            Key<Boolean>("list_animation", Value.BooleanValue(true))
 
         object ProxyHost : Key<String>("proxy_host", Value.StringValue("localhost"))
         object ProxyPort : Key<Int>("proxy_port", Value.IntValue(9050))
