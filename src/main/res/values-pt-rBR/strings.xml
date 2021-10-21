@@ -79,8 +79,8 @@
     <string name="light">Claro</string>
     <string name="link_copied_to_clipboard">Link copiado para a área de transferência</string>
     <string name="links">Links</string>
-    <string name="list_animation">Listar animações</string>
-    <string name="list_animation_description">Habilitar animação de lista na página principal</string>
+    <string name="list_animation">Animação da lista</string>
+    <string name="list_animation_description">Habilitar a animação da lista na página principal</string>
     <string name="merging_FORMAT">Incorporando %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Erro da rede.</string>
@@ -132,7 +132,7 @@
     <string name="screenshots">Capturas de tela</string>
     <string name="search">Pesquisar</string>
     <string name="select_mirror">Selecione um mirror</string>
-    <string name="share">Compartilhado</string>
+    <string name="share">Compartilhar</string>
     <string name="show_more">Mostrar mais</string>
     <string name="show_older_versions">Mostrar versões antigas</string>
     <string name="signature_FORMAT">Assinatura %s</string>
