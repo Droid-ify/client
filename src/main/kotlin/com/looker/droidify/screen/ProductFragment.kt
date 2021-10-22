@@ -108,7 +108,6 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.title = getString(R.string.application)
         this.toolbar = toolbar
 
         toolbar.menu.apply {
@@ -190,7 +189,6 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                     layoutManagerState = null
                     if (firstChanged || productChanged) {
                         this.products = products
-                        toolbar.title = products[0].first.name
                     }
                     if (firstChanged || installedItemChanged) {
                         installed = installedItem.value?.let {
@@ -342,6 +340,15 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         updateToolbarButtons()
     }
 
+    private fun updateToolbarTitle() {
+        val showPackageName = recyclerView?.let {
+            (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
+        } == true
+
+        if (showPackageName) toolbar?.title = products[0].first.name
+        else toolbar?.title = getString(R.string.application)
+    }
+
     private fun updateToolbarButtons() {
         val (actions, primaryAction) = actions
         val showPrimaryAction = recyclerView
@@ -394,6 +401,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             val lastPosition = lastPosition
             this.lastPosition = position
             if ((lastPosition == 0) != (position == 0)) {
+                updateToolbarTitle()
                 updateToolbarButtons()
             }
         }

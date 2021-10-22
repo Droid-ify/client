@@ -47,16 +47,6 @@
                 android:singleLine="true"
                 android:textColor="?android:attr/textColor"
                 android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/version"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="2sp"
-                android:singleLine="true"
-                android:textColor="?attr/colorOnSurface"
-                android:textSize="12sp" />
-
         </LinearLayout>
 
     </LinearLayout>

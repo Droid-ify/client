@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
@@ -24,11 +25,17 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
+import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
@@ -79,7 +86,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         data class Downloading(val read: Long, val total: Long?) : Status()
     }
 
-    enum class ViewType { HEADER, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, SCREENSHOT, RELEASE, EMPTY }
+    enum class ViewType { HEADER, RELEASE_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, SCREENSHOT, RELEASE, EMPTY }
 
     private enum class SwitchType(val titleResId: Int) {
         IGNORE_ALL_UPDATES(R.string.ignore_all_updates),
@@ -127,6 +134,14 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
             override val viewType: ViewType
                 get() = ViewType.HEADER
+        }
+
+        object ReleaseInfoItem : Item() {
+            override val descriptor: String
+                get() = "release_item"
+            override val viewType: ViewType
+                get() = ViewType.RELEASE_INFO
+
         }
 
         class SwitchItem(
@@ -309,7 +324,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     private class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val name = itemView.findViewById<TextView>(R.id.name)!!
-        val version = itemView.findViewById<TextView>(R.id.version)!!
         val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
         val action = itemView.findViewById<Button>(R.id.action)!!
         val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
@@ -332,6 +346,17 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             this.progressIcon = progressIcon
             this.defaultIcon = defaultIcon
         }
+    }
+
+    private class ReleaseInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
+        val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
+        val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
+        val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
+        val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
+        val devName = itemView.findViewById<MaterialTextView>(R.id.dev)!!
+        val devIcon = itemView.findViewById<ShapeableImageView>(R.id.dev_icon)!!
+        val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
     }
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -699,6 +724,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 return if (length >= 0) subSequence(0, length) else null
             }
 
+            items.add(Item.ReleaseInfoItem)
             val screenshotItems = productRepository.first.screenshots
                 .map { Item.ScreenshotItem(productRepository.second, packageName, it) }
             if (screenshotItems.isNotEmpty()) {
@@ -994,6 +1020,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             ViewType.HEADER -> HeaderViewHolder(parent.inflate(R.layout.product_header_item)).apply {
                 action.setOnClickListener { this@ProductAdapter.action?.let(callbacks::onActionClick) }
             }
+            ViewType.RELEASE_INFO -> ReleaseInfoViewHolder(parent.inflate(R.layout.release_info))
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[adapterPosition] as Item.SwitchItem
@@ -1145,12 +1172,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     holder.name.text = item.product.name
                     val canUpdate = item.product.canUpdate(installedItem) &&
                             !ProductPreferences[item.product.packageName].shouldIgnoreUpdate(item.product.versionCode)
-                    val version =
-                        (if (canUpdate) item.product.version else installedItem?.version)?.nullIfEmpty()
-                            ?: item.product.version.nullIfEmpty()
-                    holder.version.text =
-                        version?.let { context.getString(R.string.version_FORMAT, it) }
-                            ?: context.getString(R.string.unknown)
                     holder.packageName.apply {
                         text = item.product.packageName
                         setTextSizeScaled(15)
@@ -1195,6 +1216,31 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     }
                 }
                 Unit
+            }
+            ViewType.RELEASE_INFO -> {
+                holder as ReleaseInfoViewHolder
+                item as Item.ReleaseInfoItem
+
+                val imageSource = product?.source?.trimAfter('/', 4).plus(".png")
+                val sdk = product?.displayRelease?.targetSdkVersion
+
+                holder.version.doOnPreDraw {
+                    if (it.measuredWidth > 70 || sdk == 0) {
+                        holder.targetBlock.visibility = View.GONE
+                        holder.divider1.visibility = View.GONE
+                    }
+                }
+
+                holder.targetSdk.text = sdk.toString()
+                holder.version.text = product?.displayRelease?.version
+                holder.size.text = product?.displayRelease?.size?.formatSize()
+                holder.devName.text = product?.author?.name?.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
+                }
+                holder.devIcon.load(imageSource)
+                holder.dev.setOnClickListener {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, product?.source?.toUri()))
+                }
             }
             ViewType.SWITCH -> {
                 holder as SwitchViewHolder

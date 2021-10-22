@@ -13,10 +13,21 @@ private val sizeFormats = listOf("%.0f B", "%.0f kB", "%.1f MB", "%.2f GB")
 
 fun Long.formatSize(): String {
     val (size, index) = generateSequence(Pair(this.toFloat(), 0)) { (size, index) ->
-        if (size >= 1000f)
-            Pair(size / 1000f, index + 1) else null
+        if (size >= 1024f)
+            Pair(size / 1024f, index + 1) else null
     }.take(sizeFormats.size).last()
     return sizeFormats[index].format(Locale.US, size)
+}
+
+fun String?.trimAfter(char: Char, repeated: Int): String? {
+    var count = 0
+    this?.let {
+        for (i in it.indices) {
+            if (it[i] == char) count++
+            if (repeated == count) return it.substring(0, i)
+        }
+    }
+    return null
 }
 
 fun Char.halfByte(): Int {

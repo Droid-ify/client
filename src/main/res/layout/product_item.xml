@@ -5,11 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:layout_marginHorizontal="10dp"
-    android:orientation="horizontal"
     app:cardBackgroundColor="?android:attr/colorBackground"
     app:cardCornerRadius="@dimen/shape_medium_corner"
     app:cardElevation="0dp"
-    app:strokeColor="@null"
     app:strokeWidth="0dp">
 
     <LinearLayout
