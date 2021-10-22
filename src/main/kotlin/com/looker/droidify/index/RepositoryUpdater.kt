@@ -57,12 +57,10 @@ object RepositoryUpdater {
         }
     }
 
-    private lateinit var context: Context
     private val updaterLock = Any()
     private val cleanupLock = Any()
 
-    fun init(context: Context) {
-        this.context = context
+    fun init() {
 
         var lastDisabled = setOf<Long>()
         Observable.just(Unit)
@@ -93,18 +91,20 @@ object RepositoryUpdater {
     }
 
     fun update(
+        context: Context,
         repository: Repository, unstable: Boolean,
         callback: (Stage, Long, Long?) -> Unit
     ): Single<Boolean> {
-        return update(repository, listOf(IndexType.INDEX_V1, IndexType.INDEX), unstable, callback)
+        return update(context, repository, listOf(IndexType.INDEX_V1, IndexType.INDEX), unstable, callback)
     }
 
     private fun update(
+        context: Context,
         repository: Repository, indexTypes: List<IndexType>, unstable: Boolean,
         callback: (Stage, Long, Long?) -> Unit
     ): Single<Boolean> {
         val indexType = indexTypes[0]
-        return downloadIndex(repository, indexType, callback)
+        return downloadIndex(context, repository, indexType, callback)
             .flatMap { (result, file) ->
                 when {
                     result.isNotChanged -> {
@@ -115,6 +115,7 @@ object RepositoryUpdater {
                         file.delete()
                         if (result.code == 404 && indexTypes.isNotEmpty()) {
                             update(
+                                context,
                                 repository,
                                 indexTypes.subList(1, indexTypes.size),
                                 unstable,
@@ -132,6 +133,7 @@ object RepositoryUpdater {
                     else -> {
                         RxUtils.managedSingle {
                             processFile(
+                                context,
                                 repository, indexType, unstable,
                                 file, result.lastModified, result.entityTag, callback
                             )
@@ -142,6 +144,7 @@ object RepositoryUpdater {
     }
 
     private fun downloadIndex(
+        context: Context,
         repository: Repository, indexType: IndexType,
         callback: (Stage, Long, Long?) -> Unit
     ): Single<Pair<Downloader.Result, File>> {
@@ -179,6 +182,7 @@ object RepositoryUpdater {
     }
 
     private fun processFile(
+        context: Context,
         repository: Repository, indexType: IndexType, unstable: Boolean,
         file: File, lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -> Unit
     ): Boolean {
