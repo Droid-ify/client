@@ -377,7 +377,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             .setSmallIcon(android.R.drawable.stat_sys_download)
             .setColor(
                 ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                    .getColorFromAttr(android.R.attr.colorAccent).defaultColor
+                    .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
             )
             .addAction(
                 0, getString(R.string.cancel), PendingIntent.getService(

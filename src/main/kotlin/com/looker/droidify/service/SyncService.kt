@@ -218,7 +218,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 .setSmallIcon(android.R.drawable.stat_sys_warning)
                 .setColor(
                     ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorAccent).defaultColor
+                        .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
                 )
                 .setContentTitle(getString(R.string.could_not_sync_FORMAT, repository.name))
                 .setContentText(
@@ -244,7 +244,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             .setSmallIcon(R.drawable.ic_sync)
             .setColor(
                 ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                    .getColorFromAttr(android.R.attr.colorAccent).defaultColor
+                    .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
             )
             .addAction(
                 0, getString(R.string.cancel), PendingIntent.getService(
@@ -432,7 +432,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 )
                 .setColor(
                     ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorAccent).defaultColor
+                        .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
                 )
                 .setContentIntent(
                     PendingIntent.getActivity(
