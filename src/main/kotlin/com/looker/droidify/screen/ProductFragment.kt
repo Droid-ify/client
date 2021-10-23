@@ -30,6 +30,7 @@ import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startPackageInstaller
 import com.looker.droidify.utility.Utils.startUpdate
+import com.looker.droidify.utility.Utils.uninstallPackage
 import com.looker.droidify.utility.extension.android.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -41,7 +42,6 @@ import kotlinx.coroutines.launch
 class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     companion object {
         private const val EXTRA_PACKAGE_NAME = "packageName"
-
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
         private const val STATE_ADAPTER = "adapter"
     }
@@ -433,12 +433,11 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                // TODO Handle deprecation
-                @Suppress("DEPRECATION")
-                startActivity(
-                    Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-                        .setData(Uri.parse("package:$packageName"))
-                )
+                lifecycleScope.launch(Dispatchers.IO) {
+                    this@ProductFragment.context?.uninstallPackage(
+                        packageName
+                    )
+                }
             }
             ProductAdapter.Action.CANCEL -> {
                 val binder = downloadConnection.binder

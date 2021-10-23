@@ -1,14 +1,11 @@
 package com.looker.droidify.utility
 
-import android.animation.ValueAnimator
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.provider.Settings
 import android.util.Log
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
@@ -93,25 +90,14 @@ object Utils {
         }
     }
 
-    fun areAnimationsEnabled(context: Context): Boolean {
-        return if (Android.sdk(26)) {
-            ValueAnimator.areAnimatorsEnabled()
-        } else {
-            Settings.Global.getFloat(
-                context.contentResolver,
-                Settings.Global.ANIMATOR_DURATION_SCALE,
-                1f
-            ) != 0f
-        }
-    }
-
-    suspend fun Activity.startPackageInstaller(cacheFileName: String) {
+    suspend fun Context.startPackageInstaller(cacheFileName: String) {
         val file = Cache.getReleaseFile(this, cacheFileName)
         if (Preferences[Preferences.Key.RootPermission]) {
             val commandBuilder = StringBuilder()
-            val verifyState = getVerifyState()
+            val verifyState = getVerifyState
+            val userId = getCurrentUserState()
             if (verifyState == "1") commandBuilder.append("settings put global verifier_verify_adb_installs 0 ; ")
-            commandBuilder.append(getPackageInstallCommand(file))
+            commandBuilder.append(getPackageInstallCommand(file, userId))
             commandBuilder.append(" ; settings put global verifier_verify_adb_installs $verifyState")
             withContext(Dispatchers.IO) {
                 launch {
@@ -137,6 +123,22 @@ object Utils {
             startActivity(
                 Intent(Intent.ACTION_INSTALL_PACKAGE)
                     .setDataAndType(uri, "application/vnd.android.package-archive").setFlags(flags)
+            )
+        }
+    }
+
+    suspend fun Context.uninstallPackage(packageName: String) {
+        if (Preferences[Preferences.Key.RootPermission]) {
+            val commandBuilder = StringBuilder()
+            val userId = getCurrentUserState()
+            commandBuilder.append(getPackageUninstallCommand(packageName, userId))
+            withContext(Dispatchers.IO) { launch { Shell.su(commandBuilder.toString()).exec() } }
+        } else {
+            // TODO Handle deprecation
+            @Suppress("DEPRECATION")
+            startActivity(
+                Intent(Intent.ACTION_UNINSTALL_PACKAGE)
+                    .setData(Uri.parse("package:$packageName"))
             )
         }
     }
@@ -170,10 +172,18 @@ object Utils {
         } else Unit
     }
 
-    private fun getPackageInstallCommand(cacheFile: File): String =
-        "cat \"${cacheFile.absolutePath}\" | pm install -t -r -S ${cacheFile.length()}"
+    private fun getPackageInstallCommand(cacheFile: File, userId: String = "0"): String =
+        "cat \"${cacheFile.absolutePath}\" | pm install --user $userId -t -r -S ${cacheFile.length()}"
 
-    private fun getVerifyState(): String =
+    private fun getPackageUninstallCommand(packageName: String, userId: String = "0"): String =
+        "cat \"$packageName\" | pm uninstall --user $userId $packageName"
+
+    private fun getCurrentUserState(): String =
+        if (Android.sdk(25)) Shell.su("am get-current-user").exec().out[0]
+        else Shell.su("dumpsys activity | grep mCurrentUser").exec().out[0].trim()
+            .removePrefix("mCurrentUser=")
+
+    private val getVerifyState: String =
         Shell.sh("settings get global verifier_verify_adb_installs").exec().out[0]
 
     private fun quote(string: String) =
