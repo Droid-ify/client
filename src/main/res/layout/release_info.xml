@@ -23,7 +23,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Target"
+            android:text="@string/target"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
@@ -60,7 +60,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Version"
+            android:text="@string/version"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 
@@ -97,7 +97,7 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Size"
+            android:text="@string/size"
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="16sp" />
 

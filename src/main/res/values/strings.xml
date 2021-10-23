@@ -138,6 +138,7 @@
     <string name="show_older_versions">Show older versions</string>
     <string name="signature_FORMAT">Signature %s</string>
     <string name="signed_using_unsafe_algorithm">Signed using an unsafe algorithm</string>
+    <string name="size">Size</string>
     <string name="skip">Skip</string>
     <string name="socks_proxy">SOCKS proxy</string>
     <string name="sorting_order">Sorting order</string>
@@ -150,6 +151,7 @@
     <string name="syncing_FORMAT">Syncing %s</string>
     <string name="system">System</string>
     <string name="tap_to_install_DESC">Tap to install.</string>
+    <string name="target">Target</string>
     <string name="theme">Theme</string>
     <string name="themes">Themes</string>
     <string name="tracks_or_reports_your_activity">Tracks or reports your activity</string>
@@ -167,6 +169,7 @@
     <string name="username">Username</string>
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
+    <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download</string>

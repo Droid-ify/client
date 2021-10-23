@@ -125,6 +125,8 @@
     <string name="repository_unsigned_DESC">此存储库未签名，无法验证其应用列表。请小心下载
      来自此存储库的应用。</string>
     <string name="requires_FORMAT">需要 %s</string>
+    <string name="root_permission">后台安装</string>
+    <string name="root_permission_description">允许 Root 权限以启用后台安装</string>
     <string name="save">保存</string>
     <string name="saving_details">保存详情</string>
     <string name="screenshots">截图</string>
@@ -135,6 +137,7 @@
     <string name="show_older_versions">显示旧版本</string>
     <string name="signature_FORMAT">签名 %s</string>
     <string name="signed_using_unsafe_algorithm">使用不安全的算法签名</string>
+    <string name="size">尺寸</string>
     <string name="skip">跳过</string>
     <string name="socks_proxy">SOCKS 代理</string>
     <string name="sorting_order">排序顺序</string>
@@ -147,7 +150,9 @@
     <string name="syncing_FORMAT">同步中 %s</string>
     <string name="system">系统</string>
     <string name="tap_to_install_DESC">点击安装。</string>
+    <string name="target">目标</string>
     <string name="theme">主题</string>
+    <string name="themes">主题</string>
     <string name="tracks_or_reports_your_activity">跟踪或报告您的活动</string>
     <string name="uninstall">卸载</string>
     <string name="unknown">未知</string>
@@ -163,11 +168,9 @@
     <string name="username">用户名</string>
     <string name="username_missing">缺少用户名</string>
     <string name="validation_index_error_DESC">无法验证索引。</string>
+    <string name="version">版本</string>
     <string name="version_FORMAT">版本 %s</string>
     <string name="versions">版本</string>
     <string name="waiting_to_start_download">等待开始下载</string>
     <string name="website">网站</string>
-    <string name="root_permission">后台安装</string>
-    <string name="root_permission_description">允许 Root 权限以启用后台安装</string>
-    <string name="themes">主题</string>
 </resources>

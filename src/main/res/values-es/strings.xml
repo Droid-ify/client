@@ -127,6 +127,7 @@
     <string name="show_older_versions">Mostrar versiones más antiguas</string>
     <string name="signature_FORMAT">Firma %s</string>
     <string name="signed_using_unsafe_algorithm">Firmado usando un algoritmo inseguro</string>
+    <string name="size">Tamaño</string>
     <string name="skip">Saltar</string>
     <string name="socks_proxy">Proxy SOCKS</string>
     <string name="sorting_order">Ordenado</string>
@@ -139,6 +140,7 @@
     <string name="syncing_FORMAT">Sincronizando %s</string>
     <string name="system">Sistema</string>
     <string name="tap_to_install_DESC">Tocá para instalar.</string>
+    <string name="target">Objetivo</string>
     <string name="theme">Tema</string>
     <string name="themes">Temas</string>
     <string name="tracks_or_reports_your_activity">Rastrea o informa tu actividad</string>
@@ -156,6 +158,7 @@
     <string name="username">Nombre de usuario</string>
     <string name="username_missing">Falta el nombre de usuario</string>
     <string name="validation_index_error_DESC">El índice no pudo ser validado.</string>
+    <string name="version">Versión</string>
     <string name="version_FORMAT">Versión %s</string>
     <string name="versions">Versiones</string>
     <string name="waiting_to_start_download">Esperando para descargar</string>
