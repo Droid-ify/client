@@ -84,6 +84,7 @@
     <style name="Theme.Tab" parent="Widget.Material3.TabLayout">
         <item name="tabTextColor">@color/tab_text_color</item>
         <item name="tabIndicatorColor">?android:attr/textColorPrimary</item>
+        <item name="tabTextAppearance">?attr/textAppearanceBody1</item>
     </style>
 
     <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
