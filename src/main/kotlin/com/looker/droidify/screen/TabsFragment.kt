@@ -13,7 +13,6 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
 import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -103,20 +102,10 @@ class TabsFragment : ScreenFragment() {
         get() = if (host == null) emptySequence() else
             childFragmentManager.fragments.asSequence().mapNotNull { it as? ProductsFragment }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         syncConnection.bind(requireContext())
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
         toolbar.setTitle(R.string.application_name)
         // Move focus from SearchView to Toolbar

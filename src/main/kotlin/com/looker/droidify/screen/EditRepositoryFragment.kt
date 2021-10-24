@@ -10,14 +10,12 @@ import android.text.Editable
 import android.text.Selection
 import android.text.TextWatcher
 import android.util.Base64
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
@@ -85,37 +83,21 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     private var takenAddresses = emptySet<String>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         syncConnection.bind(requireContext())
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
-        if (repositoryId != null) {
-            toolbar.setTitle(R.string.edit_repository)
-        } else {
-            toolbar.setTitle(R.string.add_repository)
-        }
+        toolbar.setTitle(if (repositoryId != null) R.string.edit_repository else R.string.add_repository)
 
-        toolbar.menu.apply {
-            saveMenuItem = add(R.string.save)
-                .setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_save))
-                .setEnabled(false)
-                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                .setOnMenuItemClickListener {
-                    onSaveRepositoryClick(true)
-                    true
-                }
-        }
+        saveMenuItem = toolbar.menu.add(R.string.save)
+            .setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_save))
+            .setEnabled(false)
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            .setOnMenuItemClickListener {
+                onSaveRepositoryClick(true)
+                true
+            }
 
         val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
         errorColorFilter = PorterDuffColorFilter(

@@ -81,7 +81,6 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     private var installed: Installed? = null
     private var downloading = false
 
-    private var toolbar: Toolbar? = null
     private var recyclerView: RecyclerView? = null
 
     private var productDisposable: Disposable? = null
@@ -94,21 +93,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         downloadDisposable = null
     })
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
-        this.toolbar = toolbar
-
         toolbar.menu.apply {
             for (action in Action.values()) {
                 add(0, action.id, 0, action.adapterAction.titleResId)
@@ -253,8 +241,6 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        toolbar = null
         recyclerView = null
 
         productDisposable?.dispose()

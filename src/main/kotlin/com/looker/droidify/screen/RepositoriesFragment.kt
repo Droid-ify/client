@@ -7,7 +7,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
@@ -26,7 +25,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment, container, false).apply {
+        val view = inflater.inflate(R.layout.fragment, container, false).apply {
             val content = findViewById<FrameLayout>(R.id.fragment_content)!!
             content.addView(RecyclerView(content.context).apply {
                 id = android.R.id.list
@@ -41,6 +40,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                 recyclerView = this
             }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
         }
+        this.toolbar = view.findViewById(R.id.toolbar)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,13 +50,12 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         syncConnection.bind(requireContext())
         screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
-        screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.repositories)
+        toolbar.apply {
+            screenActivity.onToolbarCreated(this)
+            setTitle(R.string.repositories)
 
-        toolbar.menu.apply {
-            add(R.string.add_repository)
-                .setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_add))
+            menu.add(R.string.add_repository)
+                .setIcon(Utils.getToolbarIcon(this.context, R.drawable.ic_add))
                 .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                 .setOnMenuItemClickListener {
                     view.post { screenActivity.navigateAddRepository() }

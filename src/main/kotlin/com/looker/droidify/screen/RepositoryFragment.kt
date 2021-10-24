@@ -5,15 +5,13 @@ import android.text.SpannableStringBuilder
 import android.text.format.DateUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
@@ -46,24 +44,15 @@ class RepositoryFragment() : ScreenFragment() {
     private val syncConnection = Connection(SyncService::class.java)
     private var repositoryDisposable: Disposable? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return inflater.inflate(R.layout.fragment, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         syncConnection.bind(requireContext())
+
         repositoryDisposable = Observable.just(Unit)
             .concatWith(Database.observable(Database.Subject.Repository(repositoryId)))
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { updateRepositoryView() }
 
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar)!!
         screenActivity.onToolbarCreated(toolbar)
         toolbar.setTitle(R.string.repository)
 
