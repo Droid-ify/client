@@ -6,9 +6,9 @@ import android.os.Parcel
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
@@ -17,7 +17,7 @@ import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 
-abstract class ScreenActivity : FragmentActivity() {
+abstract class ScreenActivity : AppCompatActivity() {
     companion object {
         private const val STATE_FRAGMENT_STACK = "fragmentStack"
     }
