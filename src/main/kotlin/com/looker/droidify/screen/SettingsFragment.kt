@@ -45,7 +45,7 @@ class SettingsFragment : ScreenFragment() {
         toolbar.setTitle(R.string.settings)
 
         val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
-        val scroll = ScrollView(content.context)
+        val scroll = NestedScrollView(content.context)
         scroll.id = R.id.preferences_list
         scroll.isFillViewport = true
         content.addView(
@@ -238,7 +238,7 @@ class SettingsFragment : ScreenFragment() {
         stringToValue: (String) -> T?, configureEdit: (EditText) -> Unit
     ) {
         addPreference(key, title, { valueToString(Preferences[key]) }) { it ->
-            val scroll = ScrollView(it)
+            val scroll = NestedScrollView(it)
             scroll.resources.sizeScaled(20).let { scroll.setPadding(it, 0, it, 0) }
             val edit = EditText(it)
             configureEdit(edit)

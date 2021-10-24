@@ -88,7 +88,7 @@ class RepositoryFragment() : ScreenFragment() {
         }
 
         val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
-        val scroll = ScrollView(content.context)
+        val scroll = NestedScrollView(content.context)
         scroll.id = android.R.id.list
         scroll.isFillViewport = true
         content.addView(
