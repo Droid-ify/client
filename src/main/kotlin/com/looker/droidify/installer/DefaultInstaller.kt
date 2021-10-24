@@ -21,6 +21,10 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
         scope.launch { mDefaultInstaller(cacheFile) }
     }
 
+    override fun uninstall(packageName: String) {
+        scope.launch { mDefaultUninstaller(packageName) }
+    }
+
     private suspend fun mDefaultInstaller(cacheFile: File) {
         val (uri, flags) = if (Android.sdk(24)) {
             Pair(
@@ -40,4 +44,17 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
         }
     }
 
+    private fun mDefaultUninstaller(packageName: String){
+        val uri = Uri.fromParts("package", packageName, null)
+        val intent = Intent()
+        intent.data = uri
+        if (Android.sdk(28)) {
+            intent.action = Intent.ACTION_DELETE
+        } else {
+            intent.action = Intent.ACTION_UNINSTALL_PACKAGE
+            intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        context.startActivity(intent)
+    }
 }
