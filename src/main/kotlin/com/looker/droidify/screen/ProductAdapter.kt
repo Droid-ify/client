@@ -118,7 +118,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         EMAIL(R.drawable.ic_email, R.string.author_email),
         LICENSE(R.drawable.ic_copyright, R.string.license,
             format = { context, text -> context.getString(R.string.license_FORMAT, text) }),
-        SOURCE(R.drawable.ic_code, R.string.source_code),
         TRACKER(R.drawable.ic_bug_report, R.string.bug_tracker),
         CHANGELOG(R.drawable.ic_history, R.string.changelog),
         WEB(R.drawable.ic_public, R.string.project_website)
@@ -825,8 +824,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         Uri.parse("https://spdx.org/licenses/$it.html")
                     )
                 }
-                source.nullIfEmpty()
-                    ?.let { linkItems += Item.LinkItem.Typed(LinkType.SOURCE, "", Uri.parse(it)) }
                 tracker.nullIfEmpty()
                     ?.let { linkItems += Item.LinkItem.Typed(LinkType.TRACKER, "", Uri.parse(it)) }
                 changelog.nullIfEmpty()?.let {
