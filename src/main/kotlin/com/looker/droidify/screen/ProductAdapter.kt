@@ -1231,9 +1231,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 holder.targetSdk.text = sdk.toString()
                 holder.version.text = product?.displayRelease?.version
                 holder.size.text = product?.displayRelease?.size?.formatSize()
-                holder.devName.text = product?.author?.name?.replaceFirstChar {
+                val author = product?.author?.name?.replaceFirstChar {
                     if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
                 }
+                val devName = product?.source?.trimAfter('/', 4).trimBefore('/', 3)
+                holder.devName.text = if (author.isNullOrEmpty()) devName else author
                 when {
                     imageSource.toString()
                         .contains("kde.org") -> holder.devIcon.setImageResource(R.drawable.ic_kde)
@@ -1305,7 +1307,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 layoutParams.topMargin = if (position > 0 && items[position - 1] !is Item.LinkItem)
                     -context.resources.sizeScaled(8) else 0
                 holder.itemView.isEnabled = item.uri != null
-                holder.icon.setImageDrawable(holder.icon.context.getDrawableCompat(item.iconResId))
+                holder.icon.setImageResource(item.iconResId)
                 holder.text.text = item.getTitle(context)
                 holder.link.visibility = if (item.uri != null) View.VISIBLE else View.GONE
                 holder.link.text = item.displayLink
