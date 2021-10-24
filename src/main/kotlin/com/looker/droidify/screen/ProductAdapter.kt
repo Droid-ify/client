@@ -1234,7 +1234,13 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 holder.devName.text = product?.author?.name?.replaceFirstChar {
                     if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
                 }
-                holder.devIcon.load(imageSource)
+                when {
+                    imageSource.toString()
+                        .contains("kde.org") -> holder.devIcon.setImageResource(R.drawable.ic_kde)
+                    imageSource.toString()
+                        .contains("gitlab") -> holder.devIcon.setImageResource(R.drawable.ic_gitlab)
+                    imageSource.toString().contains("github") -> holder.devIcon.load(imageSource)
+                }
                 holder.dev.setOnClickListener {
                     context.startActivity(Intent(Intent.ACTION_VIEW, product?.source?.toUri()))
                 }
