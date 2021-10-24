@@ -114,6 +114,7 @@ class RepositoryFragment() : ScreenFragment() {
         } else {
             layout.addTitleText(R.string.address, repository.address)
             if (repository.updated > 0L) {
+                toolbar.title = repository.name
                 layout.addTitleText(R.string.name, repository.name)
                 layout.addTitleText(R.string.description, repository.description.replace('\n', ' '))
                 layout.addTitleText(R.string.last_update, run {

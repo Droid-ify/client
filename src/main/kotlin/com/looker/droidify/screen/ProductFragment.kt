@@ -13,12 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
@@ -330,8 +330,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
         } == true
 
-        if (showPackageName) toolbar?.title = products[0].first.name
-        else toolbar?.title = getString(R.string.application)
+        (toolbar.parent as CollapsingToolbarLayout).title = if (showPackageName) products[0].first.name else getString(R.string.application)
     }
 
     private fun updateToolbarButtons() {
