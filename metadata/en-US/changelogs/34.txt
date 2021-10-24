@@ -1,0 +1,6 @@
+- Update: Collapsing toolbar
+- Update: Improve installers (Root & non-root)
+- Update: New app icon(again)
+- Update: Release info blocks design
+- Update: Handle missing names and icons of authors
+- Other fixes, tweaks and clean ups
