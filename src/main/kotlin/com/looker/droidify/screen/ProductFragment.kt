@@ -387,7 +387,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         if (state is DownloadService.State.Success && isResumed) {
             lifecycleScope.launch(Dispatchers.IO) {
                 state.consume()
-                screenActivity.startPackageInstaller(state.release.cacheFileName)
+                context?.startPackageInstaller(state.release.cacheFileName)
             }
         }
     }
