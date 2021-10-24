@@ -77,6 +77,7 @@
 
     <style name="Theme.CollapsingToolbar" parent="Widget.Material3.CollapsingToolbar.Large">
         <item name="android:backgroundTint">?attr/colorSurface</item>
+        <item name="contentScrim">@android:color/transparent</item>
     </style>
 
     <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
