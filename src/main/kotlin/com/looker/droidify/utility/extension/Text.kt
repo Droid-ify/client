@@ -35,7 +35,7 @@ fun String?.trimBefore(char: Char, repeated: Int): String? {
     this?.let {
         for (i in it.indices) {
             if (it[i] == char) count++
-            if (repeated == count) return it.substring(i+1)
+            if (repeated == count) return it.substring(i + 1)
         }
     }
     return null

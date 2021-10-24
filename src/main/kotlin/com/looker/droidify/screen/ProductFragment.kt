@@ -15,7 +15,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,20 +23,17 @@ import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.*
+import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.Utils.startPackageInstaller
 import com.looker.droidify.utility.Utils.startUpdate
-import com.looker.droidify.utility.Utils.uninstallPackage
 import com.looker.droidify.utility.extension.android.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     companion object {
@@ -385,10 +381,12 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                state.consume()
-                context?.startPackageInstaller(state.release.cacheFileName)
-            }
+            state.consume()
+            AppInstaller
+                .getInstance(context)?.defaultInstaller?.install(
+                    "",
+                    state.release.cacheFileName
+                )
         }
     }
 
@@ -433,11 +431,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    this@ProductFragment.context?.uninstallPackage(
-                        packageName
-                    )
-                }
+                AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
+                Unit
             }
             ProductAdapter.Action.CANCEL -> {
                 val binder = downloadConnection.binder

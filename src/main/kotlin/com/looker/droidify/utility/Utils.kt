@@ -1,14 +1,10 @@
 package com.looker.droidify.utility
 
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.graphics.drawable.Drawable
-import android.net.Uri
-import android.util.Log
 import com.looker.droidify.R
-import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.entity.InstalledItem
 import com.looker.droidify.entity.Product
@@ -21,11 +17,6 @@ import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.text.hex
-import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
@@ -90,58 +81,8 @@ object Utils {
         }
     }
 
-    suspend fun Context.startPackageInstaller(cacheFileName: String) {
-        val file = Cache.getReleaseFile(this, cacheFileName)
-        if (Preferences[Preferences.Key.RootPermission]) {
-            val commandBuilder = StringBuilder()
-            val verifyState = getVerifyState
-            val userId = getCurrentUserState()
-            if (verifyState == "1") commandBuilder.append("settings put global verifier_verify_adb_installs 0 ; ")
-            commandBuilder.append(getPackageInstallCommand(file, userId))
-            commandBuilder.append(" ; settings put global verifier_verify_adb_installs $verifyState")
-            withContext(Dispatchers.IO) {
-                launch {
-                    val result = Shell.su(commandBuilder.toString()).exec()
-                    launch {
-                        if (result.isSuccess) {
-                            Shell.su("${getUtilBoxPath()} rm ${quote(file.absolutePath)}").submit()
-                        }
-                    }
-                }
-            }
-        } else {
-            val (uri, flags) = if (Android.sdk(24)) {
-                Pair(
-                    Cache.getReleaseUri(this, cacheFileName),
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION
-                )
-            } else {
-                Pair(Uri.fromFile(file), 0)
-            }
-            // TODO Handle deprecation
-            @Suppress("DEPRECATION")
-            startActivity(
-                Intent(Intent.ACTION_INSTALL_PACKAGE)
-                    .setDataAndType(uri, "application/vnd.android.package-archive").setFlags(flags)
-            )
-        }
-    }
-
-    suspend fun Context.uninstallPackage(packageName: String) {
-        if (Preferences[Preferences.Key.RootPermission]) {
-            val commandBuilder = StringBuilder()
-            val userId = getCurrentUserState()
-            commandBuilder.append(getPackageUninstallCommand(packageName, userId))
-            withContext(Dispatchers.IO) { launch { Shell.su(commandBuilder.toString()).exec() } }
-        } else {
-            // TODO Handle deprecation
-            @Suppress("DEPRECATION")
-            startActivity(
-                Intent(Intent.ACTION_UNINSTALL_PACKAGE)
-                    .setData(Uri.parse("package:$packageName"))
-            )
-        }
-    }
+    val rootInstallerEnabled: Boolean
+        get() = Preferences[Preferences.Key.RootPermission]
 
     fun startUpdate(
         packageName: String,
@@ -170,44 +111,5 @@ object Utils {
                 release
             )
         } else Unit
-    }
-
-    private fun getPackageInstallCommand(cacheFile: File, userId: String = "0"): String =
-        "cat \"${cacheFile.absolutePath}\" | pm install --user $userId -t -r -S ${cacheFile.length()}"
-
-    private fun getPackageUninstallCommand(packageName: String, userId: String = "0"): String =
-        "cat \"$packageName\" | pm uninstall --user $userId $packageName"
-
-    private fun getCurrentUserState(): String =
-        if (Android.sdk(25)) Shell.su("am get-current-user").exec().out[0]
-        else Shell.su("dumpsys activity | grep mCurrentUser").exec().out[0].trim()
-            .removePrefix("mCurrentUser=")
-
-    private val getVerifyState: String =
-        Shell.sh("settings get global verifier_verify_adb_installs").exec().out[0]
-
-    private fun quote(string: String) =
-        "\"${string.replace(Regex("""[\\$"`]""")) { c -> "\\${c.value}" }}\""
-
-    private fun getUtilBoxPath(): String {
-        listOf("toybox", "busybox").forEach {
-            var shellResult = Shell.su("which $it").exec()
-            if (shellResult.out.isNotEmpty()) {
-                val utilBoxPath = shellResult.out.joinToString("")
-                if (utilBoxPath.isNotEmpty()) {
-                    val utilBoxQuoted = quote(utilBoxPath)
-                    shellResult = Shell.su("$utilBoxQuoted --version").exec()
-                    if (shellResult.out.isNotEmpty()) {
-                        val utilBoxVersion = shellResult.out.joinToString("")
-                        Log.i(
-                            this.javaClass.canonicalName,
-                            "Using Utilbox $it : $utilBoxQuoted $utilBoxVersion"
-                        )
-                    }
-                    return utilBoxQuoted
-                }
-            }
-        }
-        return ""
     }
 }

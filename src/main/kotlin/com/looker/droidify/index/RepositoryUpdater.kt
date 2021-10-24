@@ -95,7 +95,13 @@ object RepositoryUpdater {
         repository: Repository, unstable: Boolean,
         callback: (Stage, Long, Long?) -> Unit
     ): Single<Boolean> {
-        return update(context, repository, listOf(IndexType.INDEX_V1, IndexType.INDEX), unstable, callback)
+        return update(
+            context,
+            repository,
+            listOf(IndexType.INDEX_V1, IndexType.INDEX),
+            unstable,
+            callback
+        )
     }
 
     private fun update(

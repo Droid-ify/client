@@ -9,16 +9,13 @@ import android.widget.FrameLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
+import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.utility.KParcelable
-import com.looker.droidify.utility.Utils.startPackageInstaller
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 abstract class ScreenActivity : FragmentActivity() {
     companion object {
@@ -218,8 +215,11 @@ abstract class ScreenActivity : FragmentActivity() {
             is SpecialIntent.Install -> {
                 val packageName = specialIntent.packageName
                 if (!packageName.isNullOrEmpty()) {
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        specialIntent.cacheFileName?.let { startPackageInstaller(it) }
+                    specialIntent.cacheFileName?.let {
+                        AppInstaller
+                            .getInstance(
+                                this@ScreenActivity
+                            )?.defaultInstaller?.install(packageName, it)
                     }
                 }
                 Unit
