@@ -10,13 +10,12 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/green50</item>
         <item name="colorOnSurface">@color/black</item>
-        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/grey_dark</item>
         <item name="android:colorAccent">@color/accent_light</item>
         <item name="colorError">@color/error_light</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorPrimary">@color/green900</item>
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -24,8 +23,10 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="tabStyle">@style/Theme.Tab</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/green50</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -33,7 +34,6 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/grey_dark</item>
         <item name="colorOnSurface">@color/green50</item>
-        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/black</item>
         <item name="colorOnBackground">@color/green200</item>
         <item name="android:colorAccent">@color/accent_dark</item>
@@ -46,8 +46,10 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="tabStyle">@style/Theme.Tab</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:statusBarColor">@color/grey_dark</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -55,7 +57,6 @@
         <item name="colorOnPrimary">@color/black</item>
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/green50</item>
-        <item name="toolbarStyle">@style/Widget.Main.Toolbar</item>
         <item name="android:colorBackground">@color/pitch_black</item>
         <item name="colorOnBackground">@color/green50</item>
         <item name="android:colorAccent">@color/accent_dark</item>
@@ -68,17 +69,18 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="tabStyle">@style/Theme.Tab</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="android:statusBarColor">@color/pitch_black</item>
+        <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="toolbarStyle">@style/Theme.Toolbar</item>
     </style>
 
-    <style name="Widget.Main.Toolbar" parent="Widget.Material3.Toolbar">
-        <item name="android:titleTextAppearance">
-            @android:style/TextAppearance.Material.Widget.Toolbar.Title
-        </item>
-        <item name="android:subtitleTextAppearance">
-            @android:style/TextAppearance.Material.Widget.Toolbar.Subtitle
-        </item>
+    <style name="Theme.CollapsingToolbar" parent="Widget.Material3.CollapsingToolbar.Large">
+        <item name="android:backgroundTint">?attr/colorSurface</item>
+    </style>
+
+    <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
+        <item name="android:backgroundTint">?attr/colorSurface</item>
     </style>
 
     <style name="Theme.Tab" parent="Widget.Material3.TabLayout">

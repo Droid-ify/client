@@ -3,8 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/background_border"
-    android:backgroundTint="?attr/colorPrimarySurface"
     android:orientation="vertical">
 
     <com.google.android.material.tabs.TabLayout
@@ -34,10 +32,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:layout_marginStart="@dimen/text_margin"
                 android:textColor="?android:attr/textColor"
                 android:textSize="16sp" />
 
