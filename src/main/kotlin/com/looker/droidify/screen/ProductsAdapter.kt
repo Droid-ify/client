@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R

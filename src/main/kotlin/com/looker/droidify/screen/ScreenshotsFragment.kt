@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -25,7 +26,10 @@ import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.resources.*
+import com.looker.droidify.utility.extension.resources.clear
+import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.droidify.utility.extension.resources.getDrawableCompat
+import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable

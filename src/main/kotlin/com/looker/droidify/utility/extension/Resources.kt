@@ -8,7 +8,6 @@ import android.content.res.Resources
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.VectorDrawable
-import android.net.Uri
 import android.util.TypedValue
 import android.util.Xml
 import android.view.LayoutInflater
@@ -16,8 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import coil.load
-import coil.request.ImageRequest
 import coil.util.CoilUtils
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.utility.extension.android.Android
@@ -98,10 +95,6 @@ fun TextView.setTextSizeScaled(size: Int) {
 
 fun ViewGroup.inflate(layoutResId: Int): View {
     return LayoutInflater.from(context).inflate(layoutResId, this, false)
-}
-
-fun ShapeableImageView.load(uri: Uri, builder: ImageRequest.Builder.() -> Unit = {}) {
-    this.load(uri = uri, builder = builder)
 }
 
 fun ShapeableImageView.clear() {

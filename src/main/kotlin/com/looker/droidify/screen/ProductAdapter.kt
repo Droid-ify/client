@@ -1221,7 +1221,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 holder as ReleaseInfoViewHolder
                 item as Item.ReleaseInfoItem
 
-                val imageSource = product?.source?.trimAfter('/', 4).plus(".png")
+                val imageSource = product?.source?.trimAfter('/', 4).plus(".png").toUri()
                 val sdk = product?.displayRelease?.targetSdkVersion
 
                 holder.version.doOnPreDraw {
