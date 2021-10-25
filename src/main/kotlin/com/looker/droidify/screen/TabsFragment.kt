@@ -2,11 +2,6 @@ package com.looker.droidify.screen
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.ColorFilter
-import android.graphics.Paint
-import android.graphics.PixelFormat
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateInterpolator
@@ -518,48 +513,6 @@ class TabsFragment : ScreenFragment() {
                 updateUpdateNotificationBlocker(source)
             }
         }
-    }
-
-    private class TabsBackgroundDrawable(context: Context, private val rtl: Boolean) : Drawable() {
-        private val height = context.resources.sizeScaled(2)
-        private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = context.getColorFromAttr(android.R.attr.textColor).defaultColor
-        }
-
-        private var position = 0f
-        private var total = 0
-
-        fun update(position: Float, total: Int) {
-            this.position = position
-            this.total = total
-            invalidateSelf()
-        }
-
-        override fun draw(canvas: Canvas) {
-            if (total > 0) {
-                val bounds = bounds
-                val width = bounds.width() / total.toFloat()
-                val x = width * position
-                if (rtl) {
-                    canvas.drawRect(
-                        bounds.right - width - x, (bounds.bottom - height).toFloat(),
-                        bounds.right - x, bounds.bottom.toFloat(), paint
-                    )
-                } else {
-                    canvas.drawRect(
-                        bounds.left + x + width / 4, // + width/4 from start
-                        (bounds.bottom - height).toFloat(),
-                        bounds.left + x + width - width / 4, // - width/4 from end
-                        bounds.bottom.toFloat(),
-                        paint
-                    )
-                }
-            }
-        }
-
-        override fun setAlpha(alpha: Int) = Unit
-        override fun setColorFilter(colorFilter: ColorFilter?) = Unit
-        override fun getOpacity(): Int = PixelFormat.TRANSLUCENT
     }
 
     private class SectionsAdapter(
