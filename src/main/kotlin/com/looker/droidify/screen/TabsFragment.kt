@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -111,24 +113,30 @@ class TabsFragment : ScreenFragment() {
         // Move focus from SearchView to Toolbar
         toolbar.isFocusableInTouchMode = true
 
-        val searchView = FocusSearchView(toolbar.context)
-        searchView.allowFocus = savedInstanceState?.getBoolean(STATE_SEARCH_FOCUSED) == true
-        searchView.maxWidth = Int.MAX_VALUE
-        searchView.queryHint = getString(R.string.search)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                searchView.clearFocus()
-                return true
+        val searchView = FocusSearchView(toolbar.context).apply {
+            setOnSearchClickListener {
+                ((toolbar.parent as CollapsingToolbarLayout).parent as AppBarLayout).setExpanded(
+                    false,
+                    true
+                )
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (isResumed) {
-                    searchQuery = newText.orEmpty()
-                    productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+            maxWidth = Int.MAX_VALUE
+            queryHint = getString(R.string.search)
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    clearFocus()
+                    return true
                 }
-                return true
-            }
-        })
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (isResumed) {
+                        searchQuery = newText.orEmpty()
+                        productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+                    }
+                    return true
+                }
+            })
+        }
 
         toolbar.menu.apply {
             if (Android.sdk(28) && !Android.Device.isHuaweiEmui) {
