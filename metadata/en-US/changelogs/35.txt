@@ -1,0 +1,3 @@
+- Old Icons Replaced with Material Icons
+- Top App Bar issues fixed
+- Add Icons to Install and Cancel Button to Improve Accessibility
