@@ -76,22 +76,28 @@ class Lock {
     var version_code = 0
 }
 
-class Converters {
+object Converters {
     @TypeConverter
+    @JvmStatic
     fun toRepository(byteArray: ByteArray) = byteArray.jsonParse { Repository.deserialize(it) }
 
     @TypeConverter
+    @JvmStatic
     fun toByteArray(repository: Repository) = jsonGenerate(repository::serialize)
 
     @TypeConverter
+    @JvmStatic
     fun toProduct(byteArray: ByteArray) = byteArray.jsonParse { Product.deserialize(it) }
 
     @TypeConverter
+    @JvmStatic
     fun toByteArray(product: Product) = jsonGenerate(product::serialize)
 
     @TypeConverter
+    @JvmStatic
     fun toProductItem(byteArray: ByteArray) = byteArray.jsonParse { ProductItem.deserialize(it) }
 
     @TypeConverter
+    @JvmStatic
     fun toByteArray(productItem: ProductItem) = jsonGenerate(productItem::serialize)
 }
