@@ -7,10 +7,8 @@ import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -330,7 +328,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
         } == true
 
-        (toolbar.parent as CollapsingToolbarLayout).title = if (showPackageName) products[0].first.name else getString(R.string.application)
+        (toolbar.parent as CollapsingToolbarLayout).title =
+            if (showPackageName) products[0].first.name else getString(R.string.application)
     }
 
     private fun updateToolbarButtons() {
@@ -369,8 +368,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            state.consume()
-            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO){
+            lifecycleScope.launch(Dispatchers.IO) {
+                state.consume()
                 AppInstaller
                     .getInstance(context)?.defaultInstaller?.install(
                         "",
@@ -421,7 +420,9 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
+                lifecycleScope.launch {
+                    AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
+                }
                 Unit
             }
             ProductAdapter.Action.CANCEL -> {
