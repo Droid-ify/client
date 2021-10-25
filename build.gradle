@@ -115,11 +115,11 @@ repositories {
 
 dependencies {
     // Frontend
+    implementation 'androidx.appcompat:appcompat:1.4.0-beta01'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation "androidx.appcompat:appcompat:1.4.0-beta01"
-    implementation "androidx.fragment:fragment-ktx:1.4.0-alpha10"
+    implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha10'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation "com.google.android.material:material:1.5.0-alpha04"
+    implementation 'com.google.android.material:material:1.5.0-alpha04'
 
     // Backend
     implementation 'io.coil-kt:coil:1.4.0'

@@ -42,11 +42,7 @@ object Utils {
     }
 
     fun getToolbarIcon(context: Context, resId: Int): Drawable {
-        val drawable = context.getDrawableCompat(resId).mutate()
-        if (Android.sdk(23)) {
-            drawable.setTintList(context.getColorFromAttr(R.attr.colorOnPrimarySurface))
-        }
-        return drawable
+        return context.getDrawableCompat(resId).mutate()
     }
 
     fun calculateHash(signature: Signature): String {
