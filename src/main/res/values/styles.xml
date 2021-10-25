@@ -131,4 +131,9 @@
         <item name="cornerSize">@dimen/shape_large_corner</item>
     </style>
 
+    <style name="PillShapeAppearance">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 </resources>

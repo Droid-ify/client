@@ -31,6 +31,7 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
@@ -324,7 +325,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val name = itemView.findViewById<TextView>(R.id.name)!!
         val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
-        val action = itemView.findViewById<Button>(R.id.action)!!
+        val action = itemView.findViewById<MaterialButton>(R.id.action)!!
         val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
         val status = itemView.findViewById<TextView>(R.id.status)!!
         val progress = itemView.findViewById<ProgressBar>(R.id.progress)!!
@@ -332,8 +333,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val progressIcon: Drawable
         val defaultIcon: Drawable
 
-        val actionTintNormal = action.context.getColorFromAttr(android.R.attr.colorPrimary)
+        val actionTintNormal = action.context.getColorFromAttr(R.attr.colorSurface)
         val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
+        val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnSurface)
+        val actionTintOnCancel = action.context.getColorFromAttr(R.attr.colorOnError)
 
         init {
             action.apply {
@@ -1174,13 +1177,27 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         setTextSizeScaled(15)
                     }
                     val action = action
-                    holder.action.visibility = if (action == null) View.GONE else View.VISIBLE
-                    if (action != null) {
-                        holder.action.setText(action.titleResId)
-                    }
-                    if (Android.sdk(22)) {
-                        holder.action.backgroundTintList = if (action == Action.CANCEL)
-                            holder.actionTintCancel else holder.actionTintNormal
+                    holder.action.apply {
+                        visibility = if (action == null) View.GONE else View.VISIBLE
+                        if (action != null) {
+                            setText(action.titleResId)
+                            setTextColor(
+                                if (action == Action.CANCEL) holder.actionTintOnCancel
+                                else holder.actionTintOnNormal
+                            )
+                        }
+                        if (Android.sdk(22)) {
+                            backgroundTintList = if (action == Action.CANCEL)
+                                holder.actionTintCancel else holder.actionTintNormal
+                        }
+                        icon =
+                            when (action) {
+                                Action.CANCEL -> context.getDrawable(R.drawable.ic_cancel)
+                                Action.LAUNCH -> context.getDrawable(R.drawable.ic_launch)
+                                else -> context.getDrawable(R.drawable.ic_download)
+                            }
+                        iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
+                        else holder.actionTintOnNormal
                     }
                 }
                 if (updateAll || updateStatus) {

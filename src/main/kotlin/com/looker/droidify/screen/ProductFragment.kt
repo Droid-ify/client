@@ -56,8 +56,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         val adapterAction: ProductAdapter.Action,
         val iconResId: Int
     ) {
-        INSTALL(1, ProductAdapter.Action.INSTALL, R.drawable.ic_archive),
-        UPDATE(2, ProductAdapter.Action.UPDATE, R.drawable.ic_archive),
+        INSTALL(1, ProductAdapter.Action.INSTALL, R.drawable.ic_download),
+        UPDATE(2, ProductAdapter.Action.UPDATE, R.drawable.ic_download),
         LAUNCH(3, ProductAdapter.Action.LAUNCH, R.drawable.ic_launch),
         DETAILS(4, ProductAdapter.Action.DETAILS, R.drawable.ic_tune),
         UNINSTALL(5, ProductAdapter.Action.UNINSTALL, R.drawable.ic_delete),
