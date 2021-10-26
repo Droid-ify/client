@@ -8,10 +8,10 @@ import android.text.style.TypefaceSpan
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.TextView
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
@@ -39,7 +39,7 @@ class RepositoryFragment() : ScreenFragment() {
     private val repositoryId: Long
         get() = requireArguments().getLong(EXTRA_REPOSITORY_ID)
 
-    private var layout: LinearLayout? = null
+    private var layout: LinearLayoutCompat? = null
 
     private val syncConnection = Connection(SyncService::class.java)
     private var repositoryDisposable: Disposable? = null
@@ -76,17 +76,13 @@ class RepositoryFragment() : ScreenFragment() {
                 }
         }
 
-        val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
+        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
         val scroll = NestedScrollView(content.context)
         scroll.id = android.R.id.list
         scroll.isFillViewport = true
-        content.addView(
-            scroll,
-            FrameLayout.LayoutParams.MATCH_PARENT,
-            FrameLayout.LayoutParams.MATCH_PARENT
-        )
-        val layout = LinearLayout(scroll.context)
-        layout.orientation = LinearLayout.VERTICAL
+        content.addView(scroll)
+        val layout = LinearLayoutCompat(scroll.context)
+        layout.orientation = LinearLayoutCompat.VERTICAL
         resources.sizeScaled(8).let { layout.setPadding(0, it, 0, it) }
         this.layout = layout
         scroll.addView(
@@ -164,12 +160,12 @@ class RepositoryFragment() : ScreenFragment() {
         }
     }
 
-    private fun LinearLayout.addTitleText(titleResId: Int, text: CharSequence) {
+    private fun LinearLayoutCompat.addTitleText(titleResId: Int, text: CharSequence) {
         if (text.isNotEmpty()) {
             val layout = inflate(R.layout.title_text_item)
-            val titleView = layout.findViewById<TextView>(R.id.title)!!
+            val titleView = layout.findViewById<MaterialTextView>(R.id.title)!!
             titleView.setText(titleResId)
-            val textView = layout.findViewById<TextView>(R.id.text)!!
+            val textView = layout.findViewById<MaterialTextView>(R.id.text)!!
             textView.text = text
             addView(layout)
         }

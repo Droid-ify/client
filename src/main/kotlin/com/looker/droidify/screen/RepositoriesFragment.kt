@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
@@ -26,7 +26,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         savedInstanceState: Bundle?
     ): View {
         val view = inflater.inflate(R.layout.fragment, container, false).apply {
-            val content = findViewById<FrameLayout>(R.id.fragment_content)!!
+            val content = findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
             content.addView(RecyclerView(content.context).apply {
                 id = android.R.id.list
                 layoutManager = LinearLayoutManager(context)
@@ -38,7 +38,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                                 syncConnection.binder?.setEnabled(repository, isEnabled) == true
                     })
                 recyclerView = this
-            }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+            })
         }
         this.toolbar = view.findViewById(R.id.toolbar)
         return view

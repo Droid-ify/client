@@ -44,7 +44,7 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
         }
     }
 
-    private fun mDefaultUninstaller(packageName: String){
+    private fun mDefaultUninstaller(packageName: String) {
         val uri = Uri.fromParts("package", packageName, null)
         val intent = Intent()
         intent.data = uri

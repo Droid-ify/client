@@ -27,13 +27,13 @@
                 android:layout_height="?actionBarSize" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <FrameLayout
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
             android:id="@+id/toolbar_extra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/fragment_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

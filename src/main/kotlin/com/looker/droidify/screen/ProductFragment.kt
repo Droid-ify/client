@@ -9,13 +9,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
-import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
@@ -108,7 +108,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             }
         }
 
-        val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
+        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
         content.addView(RecyclerView(content.context).apply {
             id = android.R.id.list
             val columns = (resources.configuration.screenWidthDp / 120).coerceIn(3, 5)
@@ -129,7 +129,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 ?.let(adapter::restoreState)
             layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
             recyclerView = this
-        }, FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT)
+        })
 
         var first = true
         productDisposable = Observable.just(Unit)

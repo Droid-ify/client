@@ -13,10 +13,10 @@ import android.util.Xml
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import coil.util.CoilUtils
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.utility.extension.android.Android
 import org.xmlpull.v1.XmlPullParser
 import kotlin.math.roundToInt
@@ -88,7 +88,7 @@ fun Resources.sizeScaled(size: Int): Int {
     return (size * displayMetrics.density).roundToInt()
 }
 
-fun TextView.setTextSizeScaled(size: Int) {
+fun MaterialTextView.setTextSizeScaled(size: Int) {
     val realSize = (size * resources.displayMetrics.scaledDensity).roundToInt()
     setTextSize(TypedValue.COMPLEX_UNIT_PX, realSize.toFloat())
 }

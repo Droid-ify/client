@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -19,7 +19,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="12dp">
 
-            <FrameLayout
+            <com.google.android.material.circularreveal.CircularRevealFrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -48,7 +48,7 @@
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />
 
-            </FrameLayout>
+            </com.google.android.material.circularreveal.CircularRevealFrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -86,11 +86,11 @@
                     android:layout_height="match_parent" />
             </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.core.widget.NestedScrollView>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -100,12 +100,12 @@
         android:orientation="vertical"
         tools:ignore="KeyboardInaccessibleWidget">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleHorizontal"
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            style="@style/Theme.Progress"
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -114,7 +114,7 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp" />
 
-        <Button
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/skip"
             style="@android:style/Widget.Material.Button.Borderless.Colored"
             android:layout_width="wrap_content"
@@ -122,6 +122,6 @@
             android:layout_marginTop="4dp"
             android:text="@string/skip" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </FrameLayout>

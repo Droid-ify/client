@@ -10,7 +10,7 @@
     android:gravity="center"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/sdk_block"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
             android:singleLine="true"
             android:textColor="?android:textColor"
             android:textSize="16sp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider1"
@@ -42,7 +42,7 @@
         android:layout_height="match_parent"
         android:layout_marginVertical="12dp" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/version_block"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             android:singleLine="true"
             android:textColor="?android:attr/textColor"
             android:textSize="16sp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider2"
@@ -74,7 +74,7 @@
         android:layout_height="match_parent"
         android:layout_marginVertical="12dp" />
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/size_block"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
             android:singleLine="true"
             android:textColor="?android:textColor"
             android:textSize="16sp" />
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider3"
@@ -117,7 +117,7 @@
         app:cardElevation="0dp"
         app:strokeWidth="0dp">
 
-        <LinearLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -142,6 +142,6 @@
                 android:singleLine="true"
                 android:textColor="?android:textColor"
                 android:textSize="12sp" />
-        </LinearLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>
 </androidx.appcompat.widget.LinearLayoutCompat>

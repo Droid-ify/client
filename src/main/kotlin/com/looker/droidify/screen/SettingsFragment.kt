@@ -9,14 +9,17 @@ import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
@@ -34,7 +37,7 @@ class SettingsFragment : ScreenFragment() {
         screenActivity.onToolbarCreated(toolbar)
         toolbar.setTitle(R.string.settings)
 
-        val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
+        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
         val scroll = NestedScrollView(content.context)
         scroll.id = R.id.preferences_list
         scroll.isFillViewport = true
@@ -43,14 +46,14 @@ class SettingsFragment : ScreenFragment() {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.MATCH_PARENT
         )
-        val scrollLayout = FrameLayout(content.context)
+        val scrollLayout = CircularRevealFrameLayout(content.context)
         scroll.addView(
             scrollLayout,
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        val preferences = LinearLayout(scrollLayout.context)
-        preferences.orientation = LinearLayout.VERTICAL
+        val preferences = LinearLayoutCompat(scrollLayout.context)
+        preferences.orientation = LinearLayoutCompat.VERTICAL
         scrollLayout.addView(
             preferences,
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -134,9 +137,9 @@ class SettingsFragment : ScreenFragment() {
         updatePreference(null)
     }
 
-    private fun LinearLayout.addText(title: String, summary: String) {
-        val text = TextView(context)
-        val subText = TextView(context)
+    private fun LinearLayoutCompat.addText(title: String, summary: String) {
+        val text = MaterialTextView(context)
+        val subText = MaterialTextView(context)
         text.text = title
         subText.text = summary
         text.textSize = 16F
@@ -145,13 +148,13 @@ class SettingsFragment : ScreenFragment() {
         resources.sizeScaled(16).let { subText.setPadding(it, 5, 5, 25) }
         addView(
             text,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         )
         addView(
             subText,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         )
     }
 
@@ -187,8 +190,11 @@ class SettingsFragment : ScreenFragment() {
         }
     }
 
-    private fun LinearLayout.addCategory(title: String, callback: LinearLayout.() -> Unit) {
-        val text = TextView(context)
+    private fun LinearLayoutCompat.addCategory(
+        title: String,
+        callback: LinearLayoutCompat.() -> Unit
+    ) {
+        val text = MaterialTextView(context)
         text.typeface = TypefaceExtra.medium
         text.setTextSizeScaled(14)
         text.setTextColor(text.context.getColorFromAttr(android.R.attr.colorAccent))
@@ -196,13 +202,13 @@ class SettingsFragment : ScreenFragment() {
         resources.sizeScaled(16).let { text.setPadding(it, it, it, 0) }
         addView(
             text,
-            LinearLayout.LayoutParams.MATCH_PARENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+            LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         )
         callback()
     }
 
-    private fun <T> LinearLayout.addPreference(
+    private fun <T> LinearLayoutCompat.addPreference(
         key: Preferences.Key<T>, title: String,
         summaryProvider: () -> String, dialogProvider: ((Context) -> AlertDialog)?
     ): Preference<T> {
@@ -212,7 +218,7 @@ class SettingsFragment : ScreenFragment() {
         return preference
     }
 
-    private fun LinearLayout.addSwitch(
+    private fun LinearLayoutCompat.addSwitch(
         key: Preferences.Key<Boolean>,
         title: String,
         summary: String
@@ -223,22 +229,21 @@ class SettingsFragment : ScreenFragment() {
         preference.setCallback { preference.check.isChecked = Preferences[key] }
     }
 
-    private fun <T> LinearLayout.addEdit(
+    private fun <T> LinearLayoutCompat.addEdit(
         key: Preferences.Key<T>, title: String, valueToString: (T) -> String,
-        stringToValue: (String) -> T?, configureEdit: (EditText) -> Unit
+        stringToValue: (String) -> T?, configureEdit: (TextInputEditText) -> Unit
     ) {
         addPreference(key, title, { valueToString(Preferences[key]) }) { it ->
             val scroll = NestedScrollView(it)
             scroll.resources.sizeScaled(20).let { scroll.setPadding(it, 0, it, 0) }
-            val edit = EditText(it)
+            val edit = TextInputEditText(it)
             configureEdit(edit)
             edit.id = android.R.id.edit
-            edit.setTextSizeScaled(16)
             edit.resources.sizeScaled(16)
                 .let { edit.setPadding(edit.paddingLeft, it, edit.paddingRight, it) }
             edit.setText(valueToString(Preferences[key]))
             edit.hint = edit.text.toString()
-            edit.setSelection(edit.text.length)
+            edit.text?.let { editable -> edit.setSelection(editable.length) }
             edit.requestFocus()
             scroll.addView(
                 edit,
@@ -260,11 +265,11 @@ class SettingsFragment : ScreenFragment() {
         }
     }
 
-    private fun LinearLayout.addEditString(key: Preferences.Key<String>, title: String) {
+    private fun LinearLayoutCompat.addEditString(key: Preferences.Key<String>, title: String) {
         addEdit(key, title, { it }, { it }, { })
     }
 
-    private fun LinearLayout.addEditInt(
+    private fun LinearLayoutCompat.addEditInt(
         key: Preferences.Key<Int>,
         title: String,
         range: IntRange?
@@ -280,7 +285,7 @@ class SettingsFragment : ScreenFragment() {
         }
     }
 
-    private fun <T : Preferences.Enumeration<T>> LinearLayout.addEnumeration(
+    private fun <T : Preferences.Enumeration<T>> LinearLayoutCompat.addEnumeration(
         key: Preferences.Key<T>,
         title: String,
         valueToString: (T) -> String
@@ -310,8 +315,8 @@ class SettingsFragment : ScreenFragment() {
         private val dialogProvider: ((Context) -> AlertDialog)?
     ) {
         val view = parent.inflate(R.layout.preference_item)
-        val title = view.findViewById<TextView>(R.id.title)!!
-        val summary = view.findViewById<TextView>(R.id.summary)!!
+        val title = view.findViewById<MaterialTextView>(R.id.title)!!
+        val summary = view.findViewById<MaterialTextView>(R.id.summary)!!
         val check = view.findViewById<SwitchMaterial>(R.id.check)!!
 
         private var callback: (() -> Unit)? = null

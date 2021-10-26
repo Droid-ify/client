@@ -3,12 +3,11 @@
 Material-ify with Droid-ify.
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-    alt="Get it on IzzyDroid"
-    width="48%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
+alt="Get it on IzzyDroid"
+width="48%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-    alt="Get it on F-Droid"
-    width="48%">](https://f-droid.org/packages/com.looker.droidify)
-
+alt="Get it on F-Droid"
+width="48%">](https://f-droid.org/packages/com.looker.droidify)
 
 ## Description
 

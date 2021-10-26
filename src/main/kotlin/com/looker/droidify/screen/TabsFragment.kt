@@ -6,16 +6,17 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
@@ -48,7 +49,7 @@ class TabsFragment : ScreenFragment() {
         val tabs = view.findViewById<TabLayout>(R.id.tabs)!!
         val sectionLayout = view.findViewById<ViewGroup>(R.id.section_layout)!!
         val sectionChange = view.findViewById<View>(R.id.section_change)!!
-        val sectionName = view.findViewById<TextView>(R.id.section_name)!!
+        val sectionName = view.findViewById<MaterialTextView>(R.id.section_name)!!
         val sectionIcon = view.findViewById<ShapeableImageView>(R.id.section_icon)!!
     }
 
@@ -176,7 +177,7 @@ class TabsFragment : ScreenFragment() {
         searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
         productFragments.forEach { it.setSearchQuery(searchQuery) }
 
-        val toolbarExtra = view.findViewById<FrameLayout>(R.id.toolbar_extra)!!
+        val toolbarExtra = view.findViewById<CircularRevealFrameLayout>(R.id.toolbar_extra)!!
         toolbarExtra.addView(toolbarExtra.inflate(R.layout.tabs_toolbar))
         val layout = Layout(view)
         this.layout = layout
@@ -197,7 +198,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
+        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
 
         viewPager = ViewPager2(content.context).apply {
             id = R.id.fragment_pager
@@ -208,11 +209,7 @@ class TabsFragment : ScreenFragment() {
                         .Source.values()[position]
                 )
             }
-            content.addView(
-                this,
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT
-            )
+            content.addView(this)
             registerOnPageChangeCallback(pageChangeCallback)
             offscreenPageLimit = 1
         }
@@ -263,7 +260,7 @@ class TabsFragment : ScreenFragment() {
             background = context.getDrawableCompat(R.drawable.background_border)
             backgroundTintList = context.getColorFromAttr(R.attr.colorSurface)
             elevation = resources.sizeScaled(4).toFloat()
-            content.addView(this, FrameLayout.LayoutParams.MATCH_PARENT, 0)
+            content.addView(this)
             val margins = resources.sizeScaled(8)
             (layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
             visibility = View.GONE
@@ -516,12 +513,12 @@ class TabsFragment : ScreenFragment() {
         enum class ViewType { SECTION }
 
         private class SectionViewHolder(context: Context) :
-            RecyclerView.ViewHolder(TextView(context)) {
-            val title: TextView
-                get() = itemView as TextView
+            RecyclerView.ViewHolder(MaterialTextView(context)) {
+            val title: MaterialTextView
+                get() = itemView as MaterialTextView
 
             init {
-                itemView as TextView
+                itemView as MaterialTextView
                 itemView.gravity = Gravity.CENTER_VERTICAL
                 itemView.resources.sizeScaled(16).let { itemView.setPadding(it, 0, it, 0) }
                 itemView.setTextColor(context.getColorFromAttr(android.R.attr.textColor))

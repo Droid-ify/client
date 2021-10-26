@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -9,25 +9,25 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom"
         android:orientation="horizontal">
 
-        <FrameLayout
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <LinearLayout
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 tools:ignore="UselessParent">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                     android:textSize="16sp"
                     tools:ignore="InefficientWeight" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,11 +54,11 @@
                     android:textSize="10sp"
                     tools:ignore="SmallSp" />
 
-            </LinearLayout>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </FrameLayout>
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/added"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,14 +67,14 @@
             android:textColor="?android:attr/textColor"
             android:textSize="14sp" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/source"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,9 +92,9 @@
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/signature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/compatibility"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -110,4 +110,4 @@
         android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

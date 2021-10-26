@@ -7,13 +7,13 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
@@ -32,9 +32,9 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
     enum class ViewType { PRODUCT, LOADING, EMPTY }
 
     private class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<TextView>(R.id.name)!!
-        val status = itemView.findViewById<TextView>(R.id.status)!!
-        val summary = itemView.findViewById<TextView>(R.id.summary)!!
+        val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
+        val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
+        val summary = itemView.findViewById<MaterialTextView>(R.id.summary)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 
         val progressIcon: Drawable
@@ -48,14 +48,11 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
     }
 
     private class LoadingViewHolder(context: Context) :
-        RecyclerView.ViewHolder(FrameLayout(context)) {
+        RecyclerView.ViewHolder(CircularRevealFrameLayout(context)) {
         init {
-            itemView as FrameLayout
-            val progressBar = ProgressBar(itemView.context)
-            itemView.addView(progressBar, FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            ).apply { gravity = Gravity.CENTER })
+            itemView as CircularRevealFrameLayout
+            val progressBar = CircularProgressIndicator(itemView.context)
+            itemView.addView(progressBar)
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.MATCH_PARENT
@@ -63,12 +60,13 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
         }
     }
 
-    private class EmptyViewHolder(context: Context) : RecyclerView.ViewHolder(TextView(context)) {
-        val text: TextView
-            get() = itemView as TextView
+    private class EmptyViewHolder(context: Context) :
+        RecyclerView.ViewHolder(MaterialTextView(context)) {
+        val text: MaterialTextView
+            get() = itemView as MaterialTextView
 
         init {
-            itemView as TextView
+            itemView as MaterialTextView
             itemView.gravity = Gravity.CENTER
             itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
             itemView.typeface = TypefaceExtra.light

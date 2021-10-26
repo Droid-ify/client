@@ -13,11 +13,11 @@ import android.util.Base64
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.textfield.TextInputEditText
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Repository
@@ -57,11 +57,11 @@ class EditRepositoryFragment() : ScreenFragment() {
     }
 
     private class Layout(view: View) {
-        val address = view.findViewById<EditText>(R.id.address)!!
+        val address = view.findViewById<TextInputEditText>(R.id.address)!!
         val addressMirror = view.findViewById<View>(R.id.address_mirror)!!
-        val fingerprint = view.findViewById<EditText>(R.id.fingerprint)!!
-        val username = view.findViewById<EditText>(R.id.username)!!
-        val password = view.findViewById<EditText>(R.id.password)!!
+        val fingerprint = view.findViewById<TextInputEditText>(R.id.fingerprint)!!
+        val username = view.findViewById<TextInputEditText>(R.id.username)!!
+        val password = view.findViewById<TextInputEditText>(R.id.password)!!
         val overlay = view.findViewById<View>(R.id.overlay)!!
         val skip = view.findViewById<View>(R.id.skip)!!
     }
@@ -99,7 +99,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 true
             }
 
-        val content = view.findViewById<FrameLayout>(R.id.fragment_content)!!
+        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
         errorColorFilter = PorterDuffColorFilter(
             content.context
                 .getColorFromAttr(R.attr.colorError).defaultColor, PorterDuff.Mode.SRC_IN

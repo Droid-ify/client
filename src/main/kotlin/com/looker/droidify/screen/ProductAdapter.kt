@@ -22,8 +22,8 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
@@ -33,8 +33,11 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.progressindicator.LinearProgressIndicator
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
@@ -49,7 +52,6 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.*
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.*
-import com.looker.droidify.widget.ClickableMovementMethod
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.util.*
@@ -323,12 +325,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-        val name = itemView.findViewById<TextView>(R.id.name)!!
-        val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
+        val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
+        val packageName = itemView.findViewById<MaterialTextView>(R.id.package_name)!!
         val action = itemView.findViewById<MaterialButton>(R.id.action)!!
         val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
-        val status = itemView.findViewById<TextView>(R.id.status)!!
-        val progress = itemView.findViewById<ProgressBar>(R.id.progress)!!
+        val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
+        val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
 
         val progressIcon: Drawable
         val defaultIcon: Drawable
@@ -340,7 +342,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         init {
             action.apply {
-                setTextSizeScaled(15)
                 setTextColor(action.context.getColorFromAttr(R.attr.colorOnPrimary))
                 height = itemView.resources.sizeScaled(48)
             }
@@ -351,7 +352,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     }
 
     private class ReleaseInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
+        val targetBlock = itemView.findViewById<LinearLayoutCompat>(R.id.sdk_block)!!
         val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
         val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
         val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
@@ -369,16 +370,17 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     }
 
     private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val title = itemView.findViewById<TextView>(R.id.title)!!
+        val title = itemView.findViewById<MaterialTextView>(R.id.title)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
     }
 
-    private class ExpandViewHolder(context: Context) : RecyclerView.ViewHolder(TextView(context)) {
-        val text: TextView
-            get() = itemView as TextView
+    private class ExpandViewHolder(context: Context) :
+        RecyclerView.ViewHolder(MaterialTextView(context)) {
+        val text: MaterialTextView
+            get() = itemView as MaterialTextView
 
         init {
-            itemView as TextView
+            itemView as MaterialTextView
             itemView.typeface = TypefaceExtra.medium
             itemView.setTextSizeScaled(14)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
@@ -402,16 +404,16 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         }
     }
 
-    private class TextViewHolder(context: Context) : RecyclerView.ViewHolder(TextView(context)) {
-        val text: TextView
-            get() = itemView as TextView
+    private class TextViewHolder(context: Context) :
+        RecyclerView.ViewHolder(MaterialTextView(context)) {
+        val text: MaterialTextView
+            get() = itemView as MaterialTextView
 
         init {
-            itemView as TextView
+            itemView as MaterialTextView
             itemView.setTextSizeScaled(15)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
-            itemView.movementMethod = ClickableMovementMethod
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.WRAP_CONTENT
@@ -437,8 +439,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         }
 
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-        val text = itemView.findViewById<TextView>(R.id.text)!!
-        val link = itemView.findViewById<TextView>(R.id.link)!!
+        val text = itemView.findViewById<MaterialTextView>(R.id.text)!!
+        val link = itemView.findViewById<MaterialTextView>(R.id.link)!!
 
         init {
             val margin = measurement.invalidate(itemView.resources) {
@@ -461,7 +463,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         }
 
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-        val text = itemView.findViewById<TextView>(R.id.text)!!
+        val text = itemView.findViewById<MaterialTextView>(R.id.text)!!
 
         init {
             val margin = measurement.invalidate(itemView.resources) {
@@ -478,7 +480,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     }
 
     private class ScreenshotViewHolder(context: Context) :
-        RecyclerView.ViewHolder(FrameLayout(context)) {
+        RecyclerView.ViewHolder(CircularRevealFrameLayout(context)) {
         val image: ShapeableImageView
 
         val placeholder: Drawable
@@ -487,7 +489,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         var gridCount = -1
 
         init {
-            itemView as FrameLayout
+            itemView as CircularRevealFrameLayout
             itemView.foreground =
                 AppCompatResources.getDrawable(itemView.context, R.drawable.bg_item_rounded_ripple)
             val surfaceColor =
@@ -503,17 +505,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             }
 
             val radius = image.context.resources.getDimension(R.dimen.shape_medium_corner)
-
             val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
                 .setAllCornerSizes(radius)
                 .build()
             image.shapeAppearanceModel = shapeAppearanceModel
             image.setBackgroundColor(surfaceColor)
-            itemView.addView(
-                image,
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            )
+            itemView.addView(image)
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.WRAP_CONTENT
@@ -528,13 +525,13 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateFormat = DateFormat.getDateFormat(itemView.context)!!
 
-        val version = itemView.findViewById<TextView>(R.id.version)!!
-        val status = itemView.findViewById<TextView>(R.id.status)!!
-        val source = itemView.findViewById<TextView>(R.id.source)!!
-        val added = itemView.findViewById<TextView>(R.id.added)!!
-        val size = itemView.findViewById<TextView>(R.id.size)!!
-        val signature = itemView.findViewById<TextView>(R.id.signature)!!
-        val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
+        val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
+        val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
+        val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
+        val added = itemView.findViewById<MaterialTextView>(R.id.added)!!
+        val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
+        val signature = itemView.findViewById<MaterialTextView>(R.id.signature)!!
+        val compatibility = itemView.findViewById<MaterialTextView>(R.id.compatibility)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(
@@ -565,15 +562,15 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     }
 
     private class EmptyViewHolder(context: Context) :
-        RecyclerView.ViewHolder(LinearLayout(context)) {
-        val packageName: TextView
+        RecyclerView.ViewHolder(LinearLayoutCompat(context)) {
+        val packageName: MaterialTextView
 
         init {
-            itemView as LinearLayout
-            itemView.orientation = LinearLayout.VERTICAL
+            itemView as LinearLayoutCompat
+            itemView.orientation = LinearLayoutCompat.VERTICAL
             itemView.gravity = Gravity.CENTER
             itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
-            val title = TextView(itemView.context)
+            val title = MaterialTextView(itemView.context)
             title.gravity = Gravity.CENTER
             title.typeface = TypefaceExtra.light
             title.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
@@ -581,17 +578,17 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             title.setText(R.string.application_not_found)
             itemView.addView(
                 title,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT
             )
-            val packageName = TextView(itemView.context)
+            val packageName = MaterialTextView(itemView.context)
             packageName.gravity = Gravity.CENTER
             packageName.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
             packageName.setTextSizeScaled(18)
             itemView.addView(
                 packageName,
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayoutCompat.LayoutParams.MATCH_PARENT,
+                LinearLayoutCompat.LayoutParams.WRAP_CONTENT
             )
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
@@ -1103,12 +1100,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 itemView.setOnClickListener {
                     val linkItem = items[adapterPosition] as Item.LinkItem
                     if (linkItem.uri?.let { callbacks.onUriClick(it, false) } != true) {
-                        linkItem.displayLink?.let { copyLinkToClipboard(itemView.context, it) }
+                        linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
                     }
                 }
                 itemView.setOnLongClickListener {
                     val linkItem = items[adapterPosition] as Item.LinkItem
-                    linkItem.displayLink?.let { copyLinkToClipboard(itemView.context, it) }
+                    linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
                     true
                 }
             }
@@ -1262,7 +1259,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     context.startActivity(Intent(Intent.ACTION_VIEW, product?.source?.toUri()))
                 }
                 holder.dev.setOnLongClickListener {
-                    product?.source?.let { copyLinkToClipboard(context, it) }
+                    product?.source?.let { copyLinkToClipboard(holder.dev, it) }
                     true
                 }
             }
@@ -1552,15 +1549,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         return builder
     }
 
-    private fun copyLinkToClipboard(context: Context, link: String) {
+    private fun copyLinkToClipboard(view: View, link: String) {
         val clipboardManager =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         clipboardManager.setPrimaryClip(ClipData.newPlainText(null, link))
-        Toast.makeText(
-            context,
-            context.getString(R.string.link_copied_to_clipboard),
-            Toast.LENGTH_SHORT
-        ).show()
+        Snackbar.make(view, R.string.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
     }
 
     private class LinkSpan(private val url: String, productAdapter: ProductAdapter) :

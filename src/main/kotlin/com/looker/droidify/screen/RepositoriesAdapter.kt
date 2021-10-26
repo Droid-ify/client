@@ -2,9 +2,9 @@ package com.looker.droidify.screen
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Repository
@@ -19,7 +19,7 @@ class RepositoriesAdapter(
     enum class ViewType { REPOSITORY }
 
     private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<TextView>(R.id.name)!!
+        val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
         val enabled = itemView.findViewById<SwitchMaterial>(R.id.enabled)!!
 
         var listenSwitch = true

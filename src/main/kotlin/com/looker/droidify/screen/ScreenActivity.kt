@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.os.Parcel
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
@@ -74,7 +74,7 @@ abstract class ScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         addContentView(
-            FrameLayout(this).apply { id = R.id.main_content },
+            CircularRevealFrameLayout(this).apply { id = R.id.main_content },
             ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
