@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!--AppBar-->
+<?xml version="1.0" encoding="UTF-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator"
@@ -9,26 +9,22 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout"
+        style="?attr/appBarLayoutStyle"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bottom_corner"
-        android:backgroundTint="?attr/colorSurface"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
+            style="?attr/collapsingToolbarLayoutLargeStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            app:contentScrim="@android:color/transparent"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:titleCollapseMode="scale">
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
+                style="?attr/toolbarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="@drawable/bottom_corner"
-                app:layout_collapseMode="pin" />
+                android:layout_height="?actionBarSize" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <FrameLayout

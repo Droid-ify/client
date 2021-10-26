@@ -20,7 +20,7 @@
             android:id="@+id/section_change"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="?android:attr/selectableItemBackground"
+            android:background="@drawable/bg_item_rounded_ripple"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
