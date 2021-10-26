@@ -29,6 +29,7 @@ import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.android.*
+import com.looker.droidify.utility.extension.text.trimAfter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -329,7 +330,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         } == true
 
         (toolbar.parent as CollapsingToolbarLayout).title =
-            if (showPackageName) products[0].first.name else getString(R.string.application)
+            if (showPackageName) products[0].first.name.trimAfter(' ', 2)
+            else getString(R.string.application)
     }
 
     private fun updateToolbarButtons() {

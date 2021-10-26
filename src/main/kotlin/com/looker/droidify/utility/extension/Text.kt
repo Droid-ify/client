@@ -27,7 +27,7 @@ fun String?.trimAfter(char: Char, repeated: Int): String? {
             if (repeated == count) return it.substring(0, i)
         }
     }
-    return null
+    return this
 }
 
 fun String?.trimBefore(char: Char, repeated: Int): String? {

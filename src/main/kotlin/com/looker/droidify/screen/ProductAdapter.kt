@@ -1194,6 +1194,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                             when (action) {
                                 Action.CANCEL -> context.getDrawable(R.drawable.ic_cancel)
                                 Action.LAUNCH -> context.getDrawable(R.drawable.ic_launch)
+                                Action.DETAILS -> context.getDrawable(R.drawable.ic_tune)
                                 else -> context.getDrawable(R.drawable.ic_download)
                             }
                         iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
