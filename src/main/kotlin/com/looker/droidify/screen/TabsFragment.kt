@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.appbar.AppBarLayout
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -109,12 +107,6 @@ class TabsFragment : ScreenFragment() {
         toolbar.isFocusableInTouchMode = true
 
         val searchView = FocusSearchView(toolbar.context).apply {
-            setOnSearchClickListener {
-                ((toolbar.parent as CollapsingToolbarLayout).parent as AppBarLayout).setExpanded(
-                    false,
-                    true
-                )
-            }
             maxWidth = Int.MAX_VALUE
             queryHint = getString(R.string.search)
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -131,6 +123,7 @@ class TabsFragment : ScreenFragment() {
                     return true
                 }
             })
+            setOnSearchClickListener { appBar.setExpanded(false, true) }
         }
 
         toolbar.menu.apply {

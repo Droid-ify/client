@@ -1151,7 +1151,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             ViewType.HEADER -> {
                 holder as HeaderViewHolder
                 item as Item.HeaderItem
-                val installedItem = installedItem
                 val updateStatus = Payload.STATUS in payloads
                 val updateAll = !updateStatus
                 if (updateAll) {
@@ -1170,8 +1169,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         holder.icon.setImageDrawable(holder.defaultIcon)
                     }
                     holder.name.text = item.product.name
-                    val canUpdate = item.product.canUpdate(installedItem) &&
-                            !ProductPreferences[item.product.packageName].shouldIgnoreUpdate(item.product.versionCode)
                     holder.packageName.apply {
                         text = item.product.packageName
                         setTextSizeScaled(15)
@@ -1263,6 +1260,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 }
                 holder.dev.setOnClickListener {
                     context.startActivity(Intent(Intent.ACTION_VIEW, product?.source?.toUri()))
+                }
+                holder.dev.setOnLongClickListener {
+                    product?.source?.let { copyLinkToClipboard(context, it) }
+                    true
                 }
             }
             ViewType.SWITCH -> {

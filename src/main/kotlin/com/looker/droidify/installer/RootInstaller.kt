@@ -26,7 +26,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
         scope.launch { mRootUninstaller(packageName) }
     }
 
-    private suspend fun mRootInstaller(cacheFile: File) {
+    private fun mRootInstaller(cacheFile: File) {
         if (rootInstallerEnabled) {
             val installCommand =
                 String.format(
@@ -35,15 +35,16 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
                     getCurrentUserState,
                     cacheFile.length()
                 )
-            Log.e("Install", installCommand)
-            withContext(Dispatchers.IO) {
-                launch {
-                    val result = Shell.su(installCommand).exec()
-                    launch {
-                        if (result.isSuccess) {
-                            Shell.su("$getUtilBoxPath rm ${cacheFile.absolutePath.quote}")
-                                .submit()
-                        }
+            val deleteCommand =
+                String.format(
+                    DELETE_PACKAGE,
+                    getUtilBoxPath,
+                    cacheFile.absolutePath.quote
+                )
+            scope.launch {
+                Shell.su(installCommand).submit {
+                    if (it.isSuccess) {
+                        Shell.su(deleteCommand).submit()
                     }
                 }
             }

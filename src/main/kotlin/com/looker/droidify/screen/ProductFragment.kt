@@ -16,7 +16,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
@@ -329,7 +328,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
         } == true
 
-        (toolbar.parent as CollapsingToolbarLayout).title =
+        collapsingToolbar.title =
             if (showPackageName) products[0].first.name.trimAfter(' ', 2)
             else getString(R.string.application)
     }
@@ -372,12 +371,12 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         if (state is DownloadService.State.Success && isResumed) {
             lifecycleScope.launch(Dispatchers.IO) {
                 state.consume()
-                AppInstaller
-                    .getInstance(context)?.defaultInstaller?.install(
-                        "",
-                        state.release.cacheFileName
-                    )
             }
+            AppInstaller
+                .getInstance(context)?.defaultInstaller?.install(
+                    "",
+                    state.release.cacheFileName
+                )
         }
     }
 
