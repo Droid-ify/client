@@ -31,7 +31,7 @@
                 android:id="@+id/section_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin"
+                android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:textColor="?android:attr/textColor"
@@ -42,6 +42,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="12dp"
+                android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_arrow_down"
                 tools:ignore="ContentDescription" />
 

@@ -90,14 +90,16 @@
 
     <style name="Theme.CollapsingToolbar" parent="Widget.Material3.CollapsingToolbar.Large">
         <item name="titleCollapseMode">scale</item>
-        <item name="android:backgroundTint">?attr/colorSurface</item>
+        <item name="expandedTitleMarginStart">32dp</item>
         <item name="contentScrim">@android:color/transparent</item>
+        <item name="android:backgroundTint">?attr/colorSurface</item>
+        <item name="expandedTitleTextAppearance">?textAppearanceHeadlineLarge</item>
     </style>
 
     <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
-        <item name="android:background">@drawable/bottom_corner</item>
-        <item name="android:backgroundTint">?attr/colorSurface</item>
         <item name="layout_collapseMode">pin</item>
+        <item name="android:backgroundTint">?attr/colorSurface</item>
+        <item name="android:background">@drawable/bottom_corner</item>
     </style>
 
     <style name="Theme.Tab" parent="Widget.Material3.TabLayout">
