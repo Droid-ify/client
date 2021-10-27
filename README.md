@@ -8,6 +8,13 @@ width="48%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
 width="48%">](https://f-droid.org/packages/com.looker.droidify)
+[<img src="https://support.crowdin.com/assets/logos/crowdin-logo-small-example@2x.png"
+alt="Crowdin"
+width="48%">](https://crowdin.com/project/droid-ify)
+&nbsp;&nbsp;
+[<img src="https://www.freepnglogos.com/uploads/telegram-logo-11.png"
+alt="Join Telegram Channel"
+width="48%">](https://t.me/droid_ify)
 
 ## Description
 
