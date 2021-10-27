@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="?attr/colorSurface" android:state_checked="false" />
+    <item android:alpha="0.7" android:color="?attr/colorPrimary" android:state_checked="false" />
     <item android:color="?attr/colorPrimary" android:state_checked="true" />
 </selector>
