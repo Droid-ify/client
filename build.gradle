@@ -77,6 +77,9 @@ android {
     }
 
     def keystorePropertiesFile = rootProject.file('keystore.properties')
+    buildFeatures {
+        viewBinding true
+    }
     if (keystorePropertiesFile.exists()) {
         def keystoreProperties = new Properties()
         keystoreProperties.load(keystorePropertiesFile.newDataInputStream())
@@ -129,7 +132,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'com.github.topjohnwu.libsu:core:3.1.2'
-    implementation "androidx.room:room-runtime:2.3.0"
-    implementation "androidx.room:room-ktx:2.3.0"
-    kapt "androidx.room:room-compiler:2.3.0"
+    implementation 'androidx.room:room-runtime:2.3.0'
+    implementation 'androidx.room:room-ktx:2.3.0'
+    kapt 'androidx.room:room-compiler:2.3.0'
 }

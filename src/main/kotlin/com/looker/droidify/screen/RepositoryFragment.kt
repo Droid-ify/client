@@ -10,10 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
+import com.looker.droidify.databinding.TitleTextItemBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
@@ -26,6 +26,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import java.util.*
 
 class RepositoryFragment() : ScreenFragment() {
+
+    private lateinit var titleBinding: TitleTextItemBinding
+
     companion object {
         private const val EXTRA_REPOSITORY_ID = "repositoryId"
     }
@@ -46,6 +49,7 @@ class RepositoryFragment() : ScreenFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        titleBinding = TitleTextItemBinding.inflate(layoutInflater)
         syncConnection.bind(requireContext())
 
         repositoryDisposable = Observable.just(Unit)
@@ -76,7 +80,7 @@ class RepositoryFragment() : ScreenFragment() {
                 }
         }
 
-        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
+        val content = fragmentBinding.fragmentContent
         val scroll = NestedScrollView(content.context)
         scroll.id = android.R.id.list
         scroll.isFillViewport = true

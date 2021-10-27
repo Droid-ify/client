@@ -12,14 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
-import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
+import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -37,6 +35,9 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlin.math.*
 
 class TabsFragment : ScreenFragment() {
+
+    private lateinit var tabsBinding: TabsToolbarBinding
+
     companion object {
         private const val STATE_SEARCH_FOCUSED = "searchFocused"
         private const val STATE_SEARCH_QUERY = "searchQuery"
@@ -45,12 +46,12 @@ class TabsFragment : ScreenFragment() {
         private const val STATE_SECTION = "section"
     }
 
-    private class Layout(view: View) {
-        val tabs = view.findViewById<TabLayout>(R.id.tabs)!!
-        val sectionLayout = view.findViewById<ViewGroup>(R.id.section_layout)!!
-        val sectionChange = view.findViewById<View>(R.id.section_change)!!
-        val sectionName = view.findViewById<MaterialTextView>(R.id.section_name)!!
-        val sectionIcon = view.findViewById<ShapeableImageView>(R.id.section_icon)!!
+    private class Layout(view: TabsToolbarBinding) {
+        val tabs = view.tabs
+        val sectionLayout = view.sectionLayout
+        val sectionChange = view.sectionChange
+        val sectionName = view.sectionName
+        val sectionIcon = view.sectionIcon
     }
 
     private var searchMenuItem: MenuItem? = null
@@ -97,6 +98,11 @@ class TabsFragment : ScreenFragment() {
     private val productFragments: Sequence<ProductsFragment>
         get() = if (host == null) emptySequence() else
             childFragmentManager.fragments.asSequence().mapNotNull { it as? ProductsFragment }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        tabsBinding = TabsToolbarBinding.inflate(layoutInflater)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -177,9 +183,9 @@ class TabsFragment : ScreenFragment() {
         searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
         productFragments.forEach { it.setSearchQuery(searchQuery) }
 
-        val toolbarExtra = view.findViewById<CircularRevealFrameLayout>(R.id.toolbar_extra)!!
-        toolbarExtra.addView(toolbarExtra.inflate(R.layout.tabs_toolbar))
-        val layout = Layout(view)
+        val toolbarExtra = fragmentBinding.toolbarExtra
+        toolbarExtra.addView(tabsBinding.root)
+        val layout = Layout(tabsBinding)
         this.layout = layout
 
         showSections = savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0 != 0
@@ -198,7 +204,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
+        val content = fragmentBinding.fragmentContent
 
         viewPager = ViewPager2(content.context).apply {
             id = R.id.fragment_pager

@@ -23,21 +23,24 @@ import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
+import com.looker.droidify.databinding.PreferenceItemBinding
 import com.looker.droidify.utility.extension.resources.*
 import com.topjohnwu.superuser.Shell
 import io.reactivex.rxjava3.disposables.Disposable
 
 class SettingsFragment : ScreenFragment() {
+
+    private lateinit var preferenceBinding: PreferenceItemBinding
     private val preferences = mutableMapOf<Preferences.Key<*>, Preference<*>>()
     private var disposable: Disposable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        preferenceBinding = PreferenceItemBinding.inflate(layoutInflater)
         screenActivity.onToolbarCreated(toolbar)
         toolbar.setTitle(R.string.settings)
 
-        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
+        val content = fragmentBinding.fragmentContent
         val scroll = NestedScrollView(content.context)
         scroll.id = R.id.preferences_list
         scroll.isFillViewport = true

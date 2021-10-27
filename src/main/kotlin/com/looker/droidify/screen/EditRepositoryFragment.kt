@@ -15,11 +15,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.textfield.TextInputEditText
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
+import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
@@ -27,7 +26,6 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -44,6 +42,9 @@ import kotlin.collections.ArrayList
 import kotlin.math.min
 
 class EditRepositoryFragment() : ScreenFragment() {
+
+    private lateinit var editRepositoryBinding: EditRepositoryBinding
+
     companion object {
         private const val EXTRA_REPOSITORY_ID = "repositoryId"
 
@@ -56,14 +57,14 @@ class EditRepositoryFragment() : ScreenFragment() {
         }
     }
 
-    private class Layout(view: View) {
-        val address = view.findViewById<TextInputEditText>(R.id.address)!!
-        val addressMirror = view.findViewById<View>(R.id.address_mirror)!!
-        val fingerprint = view.findViewById<TextInputEditText>(R.id.fingerprint)!!
-        val username = view.findViewById<TextInputEditText>(R.id.username)!!
-        val password = view.findViewById<TextInputEditText>(R.id.password)!!
-        val overlay = view.findViewById<View>(R.id.overlay)!!
-        val skip = view.findViewById<View>(R.id.skip)!!
+    private class Layout(view: EditRepositoryBinding) {
+        val address = view.address
+        val addressMirror = view.addressMirror
+        val fingerprint = view.fingerprint
+        val username = view.username
+        val password = view.password
+        val overlay = view.overlay
+        val skip = view.skip
     }
 
     private val repositoryId: Long?
@@ -85,6 +86,9 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        editRepositoryBinding = EditRepositoryBinding.inflate(layoutInflater)
+
         syncConnection.bind(requireContext())
 
         screenActivity.onToolbarCreated(toolbar)
@@ -99,14 +103,14 @@ class EditRepositoryFragment() : ScreenFragment() {
                 true
             }
 
-        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
+        val content = fragmentBinding.fragmentContent
         errorColorFilter = PorterDuffColorFilter(
             content.context
                 .getColorFromAttr(R.attr.colorError).defaultColor, PorterDuff.Mode.SRC_IN
         )
 
-        content.addView(content.inflate(R.layout.edit_repository))
-        val layout = Layout(content)
+        content.addView(editRepositoryBinding.root)
+        val layout = Layout(editRepositoryBinding)
         this.layout = layout
 
         layout.fingerprint.hint = generateSequence { "FF" }.take(32).joinToString(separator = " ")

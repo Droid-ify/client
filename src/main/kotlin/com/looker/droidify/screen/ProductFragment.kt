@@ -15,7 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
@@ -108,7 +107,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             }
         }
 
-        val content = view.findViewById<CircularRevealFrameLayout>(R.id.fragment_content)!!
+        val content = fragmentBinding.fragmentContent
         content.addView(RecyclerView(content.context).apply {
             id = android.R.id.list
             val columns = (resources.configuration.screenWidthDp / 120).coerceIn(3, 5)
