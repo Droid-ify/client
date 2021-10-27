@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -20,9 +21,9 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.resources.sizeScaled
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 class RepositoryFragment() : ScreenFragment() {
@@ -52,10 +53,7 @@ class RepositoryFragment() : ScreenFragment() {
         titleBinding = TitleTextItemBinding.inflate(layoutInflater)
         syncConnection.bind(requireContext())
 
-        repositoryDisposable = Observable.just(Unit)
-            .concatWith(Database.observable(Database.Subject.Repository(repositoryId)))
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { updateRepositoryView() }
+        lifecycleScope.launch(Dispatchers.Main) { updateRepositoryView() }
 
         screenActivity.onToolbarCreated(toolbar)
         toolbar.setTitle(R.string.repository)
