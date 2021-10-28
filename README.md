@@ -22,25 +22,25 @@ width="48%">](https://t.me/droid_ify)
 
 <div align="left">
 
-## Description
+## :book: Description
 
 Unofficial F-Droid client with Material UI.
 
 This app is an Direct Adaptation/Modification
 of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/)
 
-### Features
+### :mag_right: Features
 
 * Material F-Droid style
 * No cards or inappropriate animations
 * Fast repository syncing
 * Standard Android components and minimal dependencies
 
-### Screenshots
+### :camera: Screenshots
 
 <img src="metadata/en-US/images/phoneScreenshots/home-light.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-light.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/home-dark.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-dark.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/home-amoled.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/app-amoled.png" width="48%" />
 
-## Building and Installing
+## :hammer: Building and Installing
 
 Specify your Android SDK path either using the `ANDROID_HOME` environment variable, or by filling
 out the `sdk.dir`
@@ -58,7 +58,7 @@ key.password=key-password
 Run `./gradlew assembleRelease` to build the package, which can be installed using the Android
 package manager.
 
-## License
+## :scroll: License
 
 Droid-ify is available under the terms of the GNU General Public License v3 or later. Copyright ©
 2020 Iamlooker.
