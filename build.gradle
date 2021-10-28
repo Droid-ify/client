@@ -26,8 +26,8 @@ android {
         applicationId = 'com.looker.droidify'
         minSdk = 21
         targetSdk = 31
-        versionCode = 35
-        versionName = "0.3.5"
+        versionCode = 36
+        versionName = "0.3.6"
     }
 
     sourceSets.all {
@@ -118,15 +118,15 @@ repositories {
 
 dependencies {
     // Frontend
-    implementation 'androidx.appcompat:appcompat:1.4.0-beta01'
+    implementation 'androidx.appcompat:appcompat:1.4.0-rc01'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'androidx.fragment:fragment-ktx:1.4.0-alpha10'
     implementation 'androidx.vectordrawable:vectordrawable:1.1.0'
-    implementation 'com.google.android.material:material:1.5.0-alpha04'
+    implementation 'com.google.android.material:material:1.5.0-alpha05'
 
     // Backend
     implementation 'io.coil-kt:coil:1.4.0'
-    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
