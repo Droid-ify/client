@@ -1,6 +1,12 @@
+<div align="center">
+
+<img width="" src="src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Droid-ify" align="center">
+
 # Droid-ify
 
 Material-ify with Droid-ify.
+
+<div align="left">
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
