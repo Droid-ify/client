@@ -115,7 +115,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private enum class LinkType(
         val iconResId: Int, val titleResId: Int,
-        val format: ((Context, String) -> String)? = null
+        val format: ((Context, String) -> String)? = null,
     ) {
         AUTHOR(R.drawable.ic_person, R.string.author_website),
         EMAIL(R.drawable.ic_email, R.string.author_email),
@@ -149,7 +149,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         class SwitchItem(
             val switchType: SwitchType,
             val packageName: String,
-            val versionCode: Long
+            val versionCode: Long,
         ) : Item() {
             override val descriptor: String
                 get() = "switch.${switchType.name}"
@@ -160,7 +160,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         class SectionItem(
             val sectionType: SectionType, val expandType: ExpandType,
-            val items: List<Item>, val collapseCount: Int
+            val items: List<Item>, val collapseCount: Int,
         ) : Item() {
             constructor(sectionType: SectionType) : this(
                 sectionType,
@@ -255,7 +255,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         class PermissionsItem(
             val group: PermissionGroupInfo?,
-            val permissions: List<PermissionInfo>
+            val permissions: List<PermissionInfo>,
         ) : Item() {
             override val descriptor: String
                 get() = "permissions.${group?.name}.${permissions.joinToString(separator = ".") { it.name }}"
@@ -266,7 +266,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         class ScreenshotItem(
             val repository: Repository, val packageName: String,
-            val screenshot: Product.Screenshot
+            val screenshot: Product.Screenshot,
         ) : Item() {
             override val descriptor: String
                 get() = "screenshot.${repository.id}.${screenshot.identifier}"
@@ -277,7 +277,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         class ReleaseItem(
             val repository: Repository, val release: Release, val selectedRepository: Boolean,
-            val showSignature: Boolean
+            val showSignature: Boolean,
         ) : Item() {
             override val descriptor: String
                 get() = "release.${repository.id}.${release.identifier}"
@@ -603,7 +603,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             outRect: Rect,
             parent: RecyclerView,
             position: Int,
-            count: Int
+            count: Int,
         ) {
             val column = position % columns
             val rows = (count + columns - 1) / columns
@@ -631,7 +631,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             outRect: Rect,
             view: View,
             parent: RecyclerView,
-            state: RecyclerView.State
+            state: RecyclerView.State,
         ) {
             val holder = parent.getChildViewHolder(view)
             if (holder is ScreenshotViewHolder) {
@@ -664,7 +664,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     fun setProducts(
         context: Context, packageName: String,
-        products: List<Pair<Product, Repository>>, installedItem: InstalledItem?
+        products: List<Pair<Product, Repository>>, installedItem: InstalledItem?,
     ) {
         val productRepository = Product.findSuggested(products, installedItem) { it.first }
         items.clear()
@@ -759,9 +759,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 ) else null
                 val item = Item.TextItem(TextType.DESCRIPTION, description)
                 if (cropped != null) {
+                    val croppedItem = Item.TextItem(TextType.DESCRIPTION, cropped)
                     items += listOf(
-                        Item.TextItem(TextType.DESCRIPTION, cropped),
-                        Item.ExpandItem(ExpandType.DESCRIPTION, true, listOf(item))
+                        croppedItem,
+                        Item.ExpandItem(ExpandType.DESCRIPTION, true, listOf(item, croppedItem))
                     )
                 } else {
                     items += item
@@ -796,9 +797,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     if (ExpandType.CHANGES !in expanded) changes.lineCropped(12, 10) else null
                 val item = Item.TextItem(TextType.CHANGES, changes)
                 if (cropped != null) {
+                    val croppedItem = Item.TextItem(TextType.CHANGES, cropped)
                     items += listOf(
-                        Item.TextItem(TextType.CHANGES, cropped),
-                        Item.ExpandItem(ExpandType.CHANGES, true, listOf(item))
+                        croppedItem,
+                        Item.ExpandItem(ExpandType.CHANGES, true, listOf(item, croppedItem))
                     )
                 } else {
                     items += item
@@ -1011,7 +1013,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: ViewType
+        viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.HEADER -> HeaderViewHolder(parent.inflate(R.layout.product_header_item)).apply {
@@ -1073,25 +1075,41 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 itemView.setOnClickListener {
                     val position = adapterPosition
                     val expandItem = items[position] as Item.ExpandItem
-                    items.removeAt(position)
-                    expanded += expandItem.expandType
-                    if (expandItem.replace) {
-                        expandItem.items.forEachIndexed { index, item ->
-                            items[position - expandItem.items.size + index] = item
+                    if (expandItem.expandType !in expanded) {
+                        expanded += expandItem.expandType
+                        if (expandItem.replace) {
+                            items[position - 1] = expandItem.items[0]
+                            notifyItemRangeChanged(
+                                position - expandItem.items.size,
+                                expandItem.items.size
+                            )
+                            notifyItemChanged(position, Payload.REFRESH)
+                        } else {
+                            items.addAll(position, expandItem.items)
+                            if (position > 0) {
+                                // Update decorations
+                                notifyItemChanged(position - 1, Payload.REFRESH)
+                            }
+                            notifyItemChanged(position, Payload.REFRESH)
+                            notifyItemRangeInserted(position, expandItem.items.size)
                         }
-                        notifyItemRangeChanged(
-                            position - expandItem.items.size,
-                            expandItem.items.size
-                        )
-                        notifyItemRemoved(position)
                     } else {
-                        items.addAll(position, expandItem.items)
-                        if (position > 0) {
-                            // Update decorations
-                            notifyItemChanged(position - 1, Payload.REFRESH)
+                        expanded -= expandItem.expandType
+                        if (expandItem.replace) {
+                            items[position - 1] = expandItem.items[1]
+                            notifyItemRangeChanged(
+                                position - expandItem.items.size,
+                                expandItem.items.size
+                            )
+                            notifyItemChanged(position, Payload.REFRESH)
+                        } else {
+                            items.removeAt(position - 1)
+                            if (position > 0) {
+                                // Update decorations
+                                notifyItemRemoved(position - 1)
+                                notifyItemChanged(position - 1, Payload.REFRESH)
+                            }
                         }
-                        notifyItemRemoved(position)
-                        notifyItemRangeInserted(position, expandItem.items.size)
                     }
                 }
             }
@@ -1140,7 +1158,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
     override fun onBindViewHolder(
         holder: RecyclerView.ViewHolder,
         position: Int,
-        payloads: List<Any>
+        payloads: List<Any>,
     ) {
         val context = holder.itemView.context
         val item = items[position]
@@ -1304,12 +1322,14 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             ViewType.EXPAND -> {
                 holder as ExpandViewHolder
                 item as Item.ExpandItem
-                holder.text.setText(
+                holder.text.text = if (item.expandType !in expanded) {
                     when (item.expandType) {
-                        ExpandType.VERSIONS -> R.string.show_older_versions
-                        else -> R.string.show_more
+                        ExpandType.VERSIONS -> context.getString(R.string.show_older_versions)
+                        else -> context.getString(R.string.show_more)
                     }
-                )
+                } else {
+                    "Show Less"
+                }
             }
             ViewType.TEXT -> {
                 holder as TextViewHolder
@@ -1483,7 +1503,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     holder.compatibility.setTextColor(context.getColorFromAttr(R.attr.colorError))
                     holder.compatibility.text = when (incompatibility) {
                         is Release.Incompatibility.MinSdk,
-                        is Release.Incompatibility.MaxSdk -> context.getString(
+                        is Release.Incompatibility.MaxSdk,
+                        -> context.getString(
                             R.string.incompatible_with_FORMAT,
                             Android.name
                         )
@@ -1580,14 +1601,14 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             text: CharSequence?,
             start: Int,
             end: Int,
-            fm: Paint.FontMetricsInt?
+            fm: Paint.FontMetricsInt?,
         ): Int {
             return paint.measureText(".").roundToInt()
         }
 
         override fun draw(
             canvas: Canvas, text: CharSequence?, start: Int, end: Int,
-            x: Float, top: Int, y: Int, bottom: Int, paint: Paint
+            x: Float, top: Int, y: Int, bottom: Int, paint: Paint,
         ) {
             canvas.drawText(".", x, y.toFloat(), paint)
         }
