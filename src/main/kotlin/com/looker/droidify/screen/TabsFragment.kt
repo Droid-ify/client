@@ -264,7 +264,6 @@ class TabsFragment : ScreenFragment() {
             this.adapter = adapter
             addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
             background = context.getDrawableCompat(R.drawable.background_border)
-            backgroundTintList = context.getColorFromAttr(R.attr.colorSurface)
             elevation = resources.sizeScaled(4).toFloat()
             content.addView(this)
             val margins = resources.sizeScaled(8)

@@ -6,7 +6,6 @@
     android:layout_marginHorizontal="12dp"
     android:layout_marginVertical="4dp"
     android:background="@drawable/background_border"
-    android:backgroundTint="?attr/colorSurface"
     android:gravity="center"
     android:orientation="horizontal">
 
@@ -114,7 +113,7 @@
         android:layout_weight="1"
         app:cardBackgroundColor="?attr/colorSurface"
         app:cardCornerRadius="@dimen/shape_medium_corner"
-        app:cardElevation="0dp"
+        app:cardElevation="2dp"
         app:strokeWidth="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
