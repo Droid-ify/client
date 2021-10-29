@@ -28,7 +28,6 @@
     <string name="could_not_validate_FORMAT">No se pudo validar %s</string>
     <string name="credits">Créditos</string>
     <string name="dark">Oscuro</string>
-    <string name="date_added">Fecha agregado</string>
     <string name="delete">Eliminar</string>
     <string name="delete_repository_DESC">¿Seguro querés eliminar el repositorio?</string>
     <string name="description">Descripción</string>
@@ -68,7 +67,6 @@
     <string name="invalid_permissions_error_DESC">Permisos inválidos.</string>
     <string name="invalid_signature_error_DESC">Firma inválida.</string>
     <string name="invalid_username_format">Formato de nombre de usuario inválido</string>
-    <string name="last_update">Última actualización</string>
     <string name="launch">Lanzar</string>
     <string name="license">Licencia</string>
     <string name="license_FORMAT">Licencia %s</string>
@@ -110,6 +108,7 @@
     <string name="proxy_host">Host del Proxy</string>
     <string name="proxy_port">Puerto de Proxy</string>
     <string name="proxy_type">Tipo de Proxy</string>
+    <string name="recently_updated">Actualizado recientemente</string>
     <string name="repositories">Repositorios</string>
     <string name="repository">Repositorio</string>
     <string name="repository_not_used_DESC">Este repositorio aún no se usó. Debés habilitarlo para ver las apps que provee.</string>
@@ -162,5 +161,6 @@
     <string name="version_FORMAT">Versión %s</string>
     <string name="versions">Versiones</string>
     <string name="waiting_to_start_download">Esperando para descargar</string>
+    <string name="whats_new">Novedades</string>
     <string name="website">Sitio web</string>
 </resources>

@@ -29,7 +29,6 @@
     <string name="could_not_validate_FORMAT">Impossibile convalidare %s</string>
     <string name="credits">Crediti</string>
     <string name="dark">Scuro</string>
-    <string name="date_added">Data di aggiunta</string>
     <string name="delete">Elimina</string>
     <string name="delete_repository_DESC">Sicuro di voler eliminare la repository?</string>
     <string name="description">Descrizione</string>
@@ -72,7 +71,6 @@
     <string name="invalid_permissions_error_DESC">Permessi non validi.</string>
     <string name="invalid_signature_error_DESC">Firma non valida.</string>
     <string name="invalid_username_format">Formato nome utente non valido</string>
-    <string name="last_update">Ultimo aggiornamento</string>
     <string name="launch">Avvia</string>
     <string name="license">Licenze</string>
     <string name="license_FORMAT">Licenza %s</string>
@@ -118,6 +116,7 @@
     <string name="proxy_host">Host proxy</string>
     <string name="proxy_port">Porta proxy</string>
     <string name="proxy_type">Tipo proxy</string>
+    <string name="recently_updated">Aggiornato di recente</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">Questa repository non è ancora stata usata. Devi abilitarla per poter vedere
@@ -172,5 +171,6 @@
     <string name="version_FORMAT">Versione %s</string>
     <string name="versions">Versioni</string>
     <string name="waiting_to_start_download">In attesa di inizio del download</string>
+    <string name="whats_new">Cosa c\'è di nuovo</string>
     <string name="website">Sito web</string>
 </resources>

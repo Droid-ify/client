@@ -30,7 +30,6 @@
     <string name="could_not_validate_FORMAT">Could not validate %s</string>
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
-    <string name="date_added">Date added</string>
     <string name="delete">Delete</string>
     <string name="delete_repository_DESC">Are you sure you want to delete the repository?</string>
     <string name="description">Description</string>
@@ -73,7 +72,6 @@
     <string name="invalid_permissions_error_DESC">Invalid permissions.</string>
     <string name="invalid_signature_error_DESC">Invalid signature.</string>
     <string name="invalid_username_format">Invalid username format</string>
-    <string name="last_update">Last update</string>
     <string name="launch">Launch</string>
     <string name="license">License</string>
     <string name="license_FORMAT">License %s</string>
@@ -119,6 +117,7 @@
     <string name="proxy_host">Proxy host</string>
     <string name="proxy_port">Proxy port</string>
     <string name="proxy_type">Proxy type</string>
+    <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">This repository has not been used yet. You need to enable it to view
@@ -173,5 +172,6 @@
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download</string>
+    <string name="whats_new">What\'s New</string>
     <string name="website">Website</string>
 </resources>

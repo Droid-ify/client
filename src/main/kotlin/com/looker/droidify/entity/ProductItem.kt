@@ -54,8 +54,8 @@ data class ProductItem(
 
     enum class Order(val titleResId: Int) {
         NAME(R.string.name),
-        DATE_ADDED(R.string.date_added),
-        LAST_UPDATE(R.string.last_update)
+        DATE_ADDED(R.string.whats_new),
+        LAST_UPDATE(R.string.recently_updated)
     }
 
     fun serialize(generator: JsonGenerator) {

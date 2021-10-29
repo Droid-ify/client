@@ -29,7 +29,6 @@
     <string name="could_not_validate_FORMAT">Не удалось проверить %s</string>
     <string name="credits">Авторы</string>
     <string name="dark">Темная</string>
-    <string name="date_added">Дата добавления</string>
     <string name="delete">Удалить</string>
     <string name="delete_repository_DESC">Вы уверены, что хотите удалить репозиторий?</string>
     <string name="description">Описание</string>
@@ -70,7 +69,6 @@
     <string name="invalid_permissions_error_DESC">Неверные разрешения.</string>
     <string name="invalid_signature_error_DESC">Неверная подпись.</string>
     <string name="invalid_username_format">Неверный формат имени пользователя</string>
-    <string name="last_update">Последнее обновление</string>
     <string name="launch">Открыть</string>
     <string name="license">Лицензия</string>
     <string name="license_FORMAT">Лицензия %s</string>
@@ -118,6 +116,7 @@
     <string name="proxy_host">Хост прокси</string>
     <string name="proxy_port">Порт прокси</string>
     <string name="proxy_type">Тип прокси</string>
+    <string name="recently_updated">Недавно обновленный</string>
     <string name="repositories">Репозитории</string>
     <string name="repository">Репозиторий</string>
     <string name="repository_not_used_DESC">Этот репозиторий еще не использовался. Вам необходимо включить его для просмотра предоставляемых им приложений.</string>
@@ -170,5 +169,6 @@
     <string name="version_FORMAT">Версия %s</string>
     <string name="versions">Версии</string>
     <string name="waiting_to_start_download">Ожидание скачивания</string>
+    <string name="whats_new">Что нового</string>
     <string name="website">Веб-сайт</string>
 </resources>

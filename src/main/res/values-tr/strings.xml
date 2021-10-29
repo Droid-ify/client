@@ -10,7 +10,6 @@
     <string name="amoled">Amoled</string>
     <string name="anti_features">Karşıt özellikler</string>
     <string name="application">Uygulama</string>
-    <string name="application_name" translatable="false">Droid-ify</string>
     <string name="application_not_found">Uygulama bulunamadı</string>
     <string name="author_email">Yazarın e-posta Adresi</string>
     <string name="author_website">Yazarın Web Sitesi</string>
@@ -30,7 +29,6 @@
     <string name="could_not_validate_FORMAT">%s doğrulanamadı</string>
     <string name="credits">Jenerik</string>
     <string name="dark">Koyu</string>
-    <string name="date_added">Eklendiği tarih</string>
     <string name="delete">Sil</string>
     <string name="delete_repository_DESC">Bu depoyu silmek istediğinizden emin misiniz?</string>
     <string name="description">Açıklama</string>
@@ -72,7 +70,6 @@
     <string name="invalid_permissions_error_DESC">Geçersiz izinler.</string>
     <string name="invalid_signature_error_DESC">Geçersiz imza.</string>
     <string name="invalid_username_format">Geçersiz kullanıcı adı formatı</string>
-    <string name="last_update">Son güncelleme</string>
     <string name="launch">Başlat</string>
     <string name="license">Lisans</string>
     <string name="license_FORMAT">%s Lisansı</string>
@@ -118,6 +115,7 @@
     <string name="proxy_host">Proxy sağlayıcısı</string>
     <string name="proxy_port">Proxy portu</string>
     <string name="proxy_type">Proxy türü</string>
+    <string name="recently_updated">Son güncelleme</string>
     <string name="repositories">Depolar</string>
     <string name="repository">Depo</string>
     <string name="repository_not_used_DESC">Bu depo henüz kullanılmadı. Sağladığı uygulamaları görüntülemek için etkinleştirmeniz gerekir.</string>
@@ -170,5 +168,6 @@
     <string name="version_FORMAT">Sürüm %s</string>
     <string name="versions">Sürümler</string>
     <string name="waiting_to_start_download">İndirmenin başlaması bekleniyor</string>
+    <string name="whats_new">Ne var ne yok</string>
     <string name="website">Web sitesi</string>
 </resources>

@@ -29,7 +29,6 @@
     <string name="could_not_validate_FORMAT">无法验证 %s</string>
     <string name="credits">鸣谢</string>
     <string name="dark">暗色</string>
-    <string name="date_added">添加日期</string>
     <string name="delete">删除</string>
     <string name="delete_repository_DESC">您确定要删除此存储库吗？</string>
     <string name="description">描述</string>
@@ -72,7 +71,6 @@
     <string name="invalid_permissions_error_DESC">权限无效。</string>
     <string name="invalid_signature_error_DESC">签名无效。</string>
     <string name="invalid_username_format">用户名格式无效</string>
-    <string name="last_update">最近更新</string>
     <string name="launch">启动</string>
     <string name="license">许可证</string>
     <string name="license_FORMAT">许可证 %s</string>
@@ -118,6 +116,7 @@
     <string name="proxy_host">代理主机</string>
     <string name="proxy_port">代理端口</string>
     <string name="proxy_type">代理类型</string>
+    <string name="recently_updated">最近更新</string>
     <string name="repositories">存储库</string>
     <string name="repository">存储库</string>
     <string name="repository_not_used_DESC">您还未启用此存储库，请启用它，来查看
@@ -172,5 +171,6 @@
     <string name="version_FORMAT">版本 %s</string>
     <string name="versions">版本</string>
     <string name="waiting_to_start_download">等待开始下载</string>
+    <string name="whats_new">最新情况</string>
     <string name="website">网站</string>
 </resources>

@@ -115,7 +115,7 @@ class RepositoryFragment() : ScreenFragment() {
                 toolbar.title = repository.name
                 layout.addTitleText(R.string.name, repository.name)
                 layout.addTitleText(R.string.description, repository.description.replace('\n', ' '))
-                layout.addTitleText(R.string.last_update, run {
+                layout.addTitleText(R.string.recently_updated, run {
                     val lastUpdated = repository.updated
                     if (lastUpdated > 0L) {
                         val date = Date(repository.updated)
