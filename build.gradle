@@ -50,10 +50,12 @@ android {
             shrinkResources = false
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
+            resValue "string", "application_name", "Droid-ify-Debug"
         }
         release {
             minifyEnabled = true
             shrinkResources = true
+            resValue "string", "application_name", "Droid-ify"
         }
         all {
             crunchPngs = false
