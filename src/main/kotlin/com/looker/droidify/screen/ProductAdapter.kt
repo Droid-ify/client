@@ -22,6 +22,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
@@ -52,6 +53,7 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.*
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.*
+import com.looker.droidify.widget.ClickableMovementMethod
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.util.*
@@ -406,7 +408,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private class TextViewHolder(context: Context) :
         RecyclerView.ViewHolder(MaterialTextView(context)) {
-        val text: MaterialTextView
+        val text: TextView
             get() = itemView as MaterialTextView
 
         init {
@@ -414,6 +416,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             itemView.setTextSizeScaled(15)
             itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
+            itemView.movementMethod = ClickableMovementMethod
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.MATCH_PARENT,
                 RecyclerView.LayoutParams.WRAP_CONTENT
