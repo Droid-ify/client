@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="72dp"
-    app:cardBackgroundColor="?android:attr/colorBackground"
-    app:cardCornerRadius="@dimen/shape_large_corner"
-    app:cardElevation="0dp"
-    app:strokeWidth="0dp">
+    style="?attr/materialCardViewFilledStyle">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"

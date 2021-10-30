@@ -111,10 +111,7 @@
         android:layout_height="match_parent"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="?attr/colorSurface"
-        app:cardCornerRadius="@dimen/shape_medium_corner"
-        app:cardElevation="2dp"
-        app:strokeWidth="0dp">
+        style="?attr/materialCardViewElevatedStyle">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"

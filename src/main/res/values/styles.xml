@@ -31,6 +31,7 @@
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -138,6 +139,11 @@
     <style name="Theme.Switch" parent="Widget.Material3.CompoundButton.Switch">
         <item name="trackTint">@color/switch_track_tint</item>
         <item name="thumbTint">@color/switch_thumb_tint</item>
+    </style>
+
+    <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?android:attr/colorBackground</item>
+        <item name="cardCornerRadius">@dimen/shape_large_corner</item>
     </style>
 
     <style name="Shape.Small" parent="ShapeAppearance.Material3.SmallComponent">
