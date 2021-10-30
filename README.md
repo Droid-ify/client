@@ -4,7 +4,7 @@
 
 # Droid-ify
 
-Material-ify with Droid-ify.
+A quick material F-Droid package manager.
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
@@ -12,24 +12,17 @@ width="48%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
 [<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
 alt="Get it on F-Droid"
 width="48%">](https://f-droid.org/packages/com.looker.droidify)
-[<img src="https://support.crowdin.com/assets/logos/crowdin-logo-small-example@2x.png"
-alt="Crowdin"
-width="48%">](https://crowdin.com/project/droid-ify)
+[<img src="https://github.com/WeblateOrg/weblate/blob/main/weblate/static/weblate.svg"
+alt="Weblate"
+width="40%">](https://hosted.weblate.org/projects/droidify/#components)
 &nbsp;&nbsp;
-[<img src="https://www.freepnglogos.com/uploads/telegram-logo-11.png"
+[<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 alt="Join Telegram Channel"
-width="48%">](https://t.me/droid_ify)
+width="30%">](https://t.me/droid_ify)
 
 <div align="left">
 
-## :book: Description
-
-Unofficial F-Droid client with Material UI.
-
-This app is an Direct Adaptation/Modification
-of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/)
-
-### :mag_right: Features
+## :book: Features
 
 * Material F-Droid style
 * No cards or inappropriate animations
@@ -42,9 +35,8 @@ of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/)
 
 ## :hammer: Building and Installing
 
-Specify your Android SDK path either using the `ANDROID_HOME` environment variable, or by filling
-out the `sdk.dir`
-property in `local.properties`.
+Specify your Android SDK path either using the `ANDROID_HOME` environment variable, \
+or by filling out the `sdk.dir` property in `local.properties`.
 
 Signing can be done automatically using `keystore.properties` as follows:
 
@@ -59,6 +51,6 @@ Run `./gradlew assembleRelease` to build the package, which can be installed usi
 package manager.
 
 ## :scroll: License
-
-Droid-ify is available under the terms of the GNU General Public License v3 or later. Copyright ©
-2020 Iamlooker.
+Licensed GPLv3+. \
+Direct Adaptation/Modification of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/) \
+Copyright © 2020–2021 Iamlooker and contributors.
