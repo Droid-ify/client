@@ -142,8 +142,8 @@
     </style>
 
     <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">?android:attr/colorBackground</item>
         <item name="cardCornerRadius">@dimen/shape_large_corner</item>
+        <item name="cardBackgroundColor">?android:attr/colorBackground</item>
     </style>
 
     <style name="Shape.Small" parent="ShapeAppearance.Material3.SmallComponent">
