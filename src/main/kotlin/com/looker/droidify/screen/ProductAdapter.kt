@@ -1149,6 +1149,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     val releaseItem = items[adapterPosition] as Item.ReleaseItem
                     callbacks.onReleaseClick(releaseItem.release)
                 }
+                itemView.setOnLongClickListener {
+                    val releaseItem = items[adapterPosition] as Item.ReleaseItem
+                    copyLinkToClipboard(itemView, releaseItem.release.getDownloadUrl(releaseItem.repository))
+                    true
+                }
             }
             ViewType.EMPTY -> EmptyViewHolder(parent.context)
         }

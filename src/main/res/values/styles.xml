@@ -59,6 +59,7 @@
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -87,6 +88,7 @@
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
     </style>
 
     <style name="Theme.AppBarLayout" parent="Widget.Material3.AppBarLayout">
