@@ -6,6 +6,7 @@
 
 Material-ify with Droid-ify.
 
+
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
 width="48%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
@@ -19,6 +20,8 @@ width="48%">](https://crowdin.com/project/droid-ify)
 [<img src="https://www.freepnglogos.com/uploads/telegram-logo-11.png"
 alt="Join Telegram Channel"
 width="48%">](https://t.me/droid_ify)
+
+[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)]()
 
 <div align="left">
 
