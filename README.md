@@ -4,7 +4,7 @@
 
 # Droid-ify
 
-A quick material F-Droid package manager.
+A quick material F-Droid client.
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
@@ -14,7 +14,7 @@ alt="Get it on F-Droid"
 width="48%">](https://f-droid.org/packages/com.looker.droidify)
 [<img src="https://github.com/WeblateOrg/weblate/blob/main/weblate/static/weblate.svg"
 alt="Weblate"
-width="40%">](https://hosted.weblate.org/projects/droidify/#components)
+width="40%">](https://hosted.weblate.org/projects/droidify/localization/)
 &nbsp;&nbsp;
 [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 alt="Join Telegram Channel"
