@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">All applications up to date</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">AMOLED</string>
     <string name="anti_features">Anti-features</string>
     <string name="application">Application</string>
     <string name="application_not_found">Application not found</string>
@@ -125,7 +125,7 @@
     applications from unsigned repositories.</string>
     <string name="requires_FORMAT">Requires %s</string>
     <string name="root_permission">Silent Install</string>
-    <string name="root_permission_description">Allow Root Permission to enable Silent Install</string>
+    <string name="root_permission_description">Allow root permission for silent installs</string>
     <string name="save">Save</string>
     <string name="saving_details">Saving details</string>
     <string name="screenshots">Screenshots</string>
