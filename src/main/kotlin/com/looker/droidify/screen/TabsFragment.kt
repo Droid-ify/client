@@ -8,6 +8,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -32,6 +33,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
 import kotlin.math.*
 
 class TabsFragment : ScreenFragment() {
@@ -88,7 +90,6 @@ class TabsFragment : ScreenFragment() {
         }
     })
 
-    private var sortOrderDisposable: Disposable? = null
     private var categoriesDisposable: Disposable? = null
     private var repositoriesDisposable: Disposable? = null
     private var sectionsAnimator: ValueAnimator? = null
@@ -198,9 +199,11 @@ class TabsFragment : ScreenFragment() {
         }
 
         updateOrder()
-        sortOrderDisposable = Preferences.observable.subscribe {
-            if (it == Preferences.Key.SortOrder) {
-                updateOrder()
+        lifecycleScope.launchWhenStarted {
+            Preferences.subject.collect {
+                if (it == Preferences.Key.SortOrder) {
+                    updateOrder()
+                }
             }
         }
 
@@ -302,8 +305,6 @@ class TabsFragment : ScreenFragment() {
         viewPager = null
 
         syncConnection.unbind(requireContext())
-        sortOrderDisposable?.dispose()
-        sortOrderDisposable = null
         categoriesDisposable?.dispose()
         categoriesDisposable = null
         repositoriesDisposable?.dispose()

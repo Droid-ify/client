@@ -18,6 +18,9 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 
@@ -83,20 +86,22 @@ class MainApplication : Application(), ImageLoaderFactory {
         updateProxy()
         var lastAutoSync = Preferences[Preferences.Key.AutoSync]
         var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-        Preferences.observable.subscribe {
-            if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
-                updateProxy()
-            } else if (it == Preferences.Key.AutoSync) {
-                val autoSync = Preferences[Preferences.Key.AutoSync]
-                if (lastAutoSync != autoSync) {
-                    lastAutoSync = autoSync
-                    updateSyncJob(true)
-                }
-            } else if (it == Preferences.Key.UpdateUnstable) {
-                val updateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-                if (lastUpdateUnstable != updateUnstable) {
-                    lastUpdateUnstable = updateUnstable
-                    forceSyncAll()
+        MainScope().launch {
+            Preferences.subject.collect {
+                if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
+                    updateProxy()
+                } else if (it == Preferences.Key.AutoSync) {
+                    val autoSync = Preferences[Preferences.Key.AutoSync]
+                    if (lastAutoSync != autoSync) {
+                        lastAutoSync = autoSync
+                        updateSyncJob(true)
+                    }
+                } else if (it == Preferences.Key.UpdateUnstable) {
+                    val updateUnstable = Preferences[Preferences.Key.UpdateUnstable]
+                    if (lastUpdateUnstable != updateUnstable) {
+                        lastUpdateUnstable = updateUnstable
+                        forceSyncAll()
+                    }
                 }
             }
         }

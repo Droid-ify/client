@@ -15,6 +15,7 @@ import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -26,13 +27,12 @@ import com.looker.droidify.content.Preferences
 import com.looker.droidify.databinding.PreferenceItemBinding
 import com.looker.droidify.utility.extension.resources.*
 import com.topjohnwu.superuser.Shell
-import io.reactivex.rxjava3.disposables.Disposable
+import kotlinx.coroutines.flow.collect
 
 class SettingsFragment : ScreenFragment() {
 
     private lateinit var preferenceBinding: PreferenceItemBinding
     private val preferences = mutableMapOf<Preferences.Key<*>, Preference<*>>()
-    private var disposable: Disposable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -136,7 +136,9 @@ class SettingsFragment : ScreenFragment() {
             )
         }
 
-        disposable = Preferences.observable.subscribe(this::updatePreference)
+        lifecycleScope.launchWhenStarted {
+            Preferences.subject.collect { updatePreference(it) }
+        }
         updatePreference(null)
     }
 
@@ -167,10 +169,7 @@ class SettingsFragment : ScreenFragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-
         preferences.clear()
-        disposable?.dispose()
-        disposable = null
     }
 
     private fun updatePreference(key: Preferences.Key<*>?) {
@@ -199,7 +198,7 @@ class SettingsFragment : ScreenFragment() {
 
     private fun LinearLayoutCompat.addCategory(
         title: String,
-        callback: LinearLayoutCompat.() -> Unit
+        callback: LinearLayoutCompat.() -> Unit,
     ) {
         val text = MaterialTextView(context)
         text.typeface = TypefaceExtra.medium
@@ -217,7 +216,7 @@ class SettingsFragment : ScreenFragment() {
 
     private fun <T> LinearLayoutCompat.addPreference(
         key: Preferences.Key<T>, title: String,
-        summaryProvider: () -> String, dialogProvider: ((Context) -> AlertDialog)?
+        summaryProvider: () -> String, dialogProvider: ((Context) -> AlertDialog)?,
     ): Preference<T> {
         val preference =
             Preference(key, this@SettingsFragment, this, title, summaryProvider, dialogProvider)
@@ -228,7 +227,7 @@ class SettingsFragment : ScreenFragment() {
     private fun LinearLayoutCompat.addSwitch(
         key: Preferences.Key<Boolean>,
         title: String,
-        summary: String
+        summary: String,
     ) {
         val preference = addPreference(key, title, { summary }, null)
         preference.check.visibility = View.VISIBLE
@@ -238,7 +237,7 @@ class SettingsFragment : ScreenFragment() {
 
     private fun <T> LinearLayoutCompat.addEdit(
         key: Preferences.Key<T>, title: String, valueToString: (T) -> String,
-        stringToValue: (String) -> T?, configureEdit: (TextInputEditText) -> Unit
+        stringToValue: (String) -> T?, configureEdit: (TextInputEditText) -> Unit,
     ) {
         addPreference(key, title, { valueToString(Preferences[key]) }) { it ->
             val scroll = NestedScrollView(it)
@@ -279,7 +278,7 @@ class SettingsFragment : ScreenFragment() {
     private fun LinearLayoutCompat.addEditInt(
         key: Preferences.Key<Int>,
         title: String,
-        range: IntRange?
+        range: IntRange?,
     ) {
         addEdit(key, title, { it.toString() }, { it.toIntOrNull() }) {
             it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL
@@ -295,7 +294,7 @@ class SettingsFragment : ScreenFragment() {
     private fun <T : Preferences.Enumeration<T>> LinearLayoutCompat.addEnumeration(
         key: Preferences.Key<T>,
         title: String,
-        valueToString: (T) -> String
+        valueToString: (T) -> String,
     ) {
         addPreference(key, title, { valueToString(Preferences[key]) }) {
             val values = key.default.value.values
@@ -319,7 +318,7 @@ class SettingsFragment : ScreenFragment() {
         parent: ViewGroup,
         titleText: String,
         private val summaryProvider: () -> String,
-        private val dialogProvider: ((Context) -> AlertDialog)?
+        private val dialogProvider: ((Context) -> AlertDialog)?,
     ) {
         val view = parent.inflate(R.layout.preference_item)
         val title = view.findViewById<MaterialTextView>(R.id.title)!!

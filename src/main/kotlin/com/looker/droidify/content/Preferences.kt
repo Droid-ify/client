@@ -6,14 +6,18 @@ import android.content.res.Configuration
 import com.looker.droidify.R
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.utility.extension.android.Android
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 import java.net.Proxy
 
 object Preferences {
     private lateinit var preferences: SharedPreferences
 
-    private val subject = PublishSubject.create<Key<*>>()
+    private val _subject = MutableSharedFlow<Key<*>>()
+    val subject = _subject.asSharedFlow()
 
     private val keys = sequenceOf(
         Key.AutoSync,
@@ -31,16 +35,16 @@ object Preferences {
 
     fun init(context: Context) {
         preferences =
-            context.getSharedPreferences("${context.packageName}_preferences", Context.MODE_PRIVATE)
+            context.getSharedPreferences("${context.packageName}_preferences",
+                Context.MODE_PRIVATE)
         preferences.registerOnSharedPreferenceChangeListener { _, keyString ->
-            keys[keyString]?.let(
-                subject::onNext
-            )
+            MainScope().launch(Dispatchers.IO) {
+                keys[keyString]?.let {
+                    _subject.emit(it)
+                }
+            }
         }
     }
-
-    val observable: Observable<Key<*>>
-        get() = subject
 
     sealed class Value<T> {
         abstract val value: T
@@ -48,7 +52,7 @@ object Preferences {
         internal abstract fun get(
             preferences: SharedPreferences,
             key: String,
-            defaultValue: Value<T>
+            defaultValue: Value<T>,
         ): T
 
         internal abstract fun set(preferences: SharedPreferences, key: String, value: T)
@@ -57,7 +61,7 @@ object Preferences {
             override fun get(
                 preferences: SharedPreferences,
                 key: String,
-                defaultValue: Value<Boolean>
+                defaultValue: Value<Boolean>,
             ): Boolean {
                 return preferences.getBoolean(key, defaultValue.value)
             }
@@ -71,7 +75,7 @@ object Preferences {
             override fun get(
                 preferences: SharedPreferences,
                 key: String,
-                defaultValue: Value<Int>
+                defaultValue: Value<Int>,
             ): Int {
                 return preferences.getInt(key, defaultValue.value)
             }
@@ -85,7 +89,7 @@ object Preferences {
             override fun get(
                 preferences: SharedPreferences,
                 key: String,
-                defaultValue: Value<String>
+                defaultValue: Value<String>,
             ): String {
                 return preferences.getString(key, defaultValue.value) ?: defaultValue.value
             }
@@ -99,7 +103,7 @@ object Preferences {
             override fun get(
                 preferences: SharedPreferences,
                 key: String,
-                defaultValue: Value<T>
+                defaultValue: Value<T>,
             ): T {
                 val value = preferences.getString(key, defaultValue.value.valueString)
                 return defaultValue.value.values.find { it.valueString == value }

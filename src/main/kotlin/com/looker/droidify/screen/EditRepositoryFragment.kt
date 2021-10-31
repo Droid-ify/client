@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -28,7 +29,6 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -79,7 +79,6 @@ class EditRepositoryFragment() : ScreenFragment() {
     private var layout: Layout? = null
 
     private val syncConnection = Connection(SyncService::class.java)
-    private var repositoriesDisposable: Disposable? = null
     private var checkDisposable: Disposable? = null
 
     private var takenAddresses = emptySet<String>()
@@ -239,18 +238,13 @@ class EditRepositoryFragment() : ScreenFragment() {
             }
         }
 
-        repositoriesDisposable = Observable.just(Unit)
-            .concatWith(Database.observable(Database.Subject.Repositories))
-            .observeOn(Schedulers.io())
-            .flatMapSingle { RxUtils.querySingle { Database.RepositoryAdapter.getAll(it) } }
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { it ->
-                takenAddresses = it.asSequence().filter { it.id != repositoryId }
-                    .flatMap { (it.mirrors + it.address).asSequence() }
-                    .map { it.withoutKnownPath }.toSet()
-                invalidateAddress()
-            }
-
+        lifecycleScope.launchWhenCreated {
+            val list = Database.RepositoryAdapter.getAll(null)
+            takenAddresses = list.asSequence().filter { it.id != repositoryId }
+                .flatMap { (it.mirrors + it.address).asSequence() }
+                .map { it.withoutKnownPath }.toSet()
+            invalidateAddress()
+        }
         invalidateAddress()
         invalidateFingerprint()
         invalidateUsernamePassword()
@@ -263,8 +257,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         layout = null
 
         syncConnection.unbind(requireContext())
-        repositoriesDisposable?.dispose()
-        repositoriesDisposable = null
         checkDisposable?.dispose()
         checkDisposable = null
     }
@@ -453,7 +445,7 @@ class EditRepositoryFragment() : ScreenFragment() {
     private fun onSaveRepositoryProceedInvalidate(
         address: String,
         fingerprint: String,
-        authentication: String
+        authentication: String,
     ) {
         val binder = syncConnection.binder
         if (binder != null) {
