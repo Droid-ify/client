@@ -6,26 +6,29 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
+import com.looker.droidify.ui.ProductsViewModel
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.widget.RecyclerFastScroller
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
 
 class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
+
+    private val viewModel: ProductsViewModel by viewModels()
+
     companion object {
         private const val EXTRA_SOURCE = "source"
-
-        private const val STATE_CURRENT_SEARCH_QUERY = "currentSearchQuery"
-        private const val STATE_CURRENT_SECTION = "currentSection"
-        private const val STATE_CURRENT_ORDER = "currentOrder"
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
     }
 
@@ -44,13 +47,25 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
     val source: Source
         get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
-    private var searchQuery = ""
-    private var section: ProductItem.Section = ProductItem.Section.All
-    private var order = ProductItem.Order.NAME
+    private val searchQuery: String
+        get() {
+            var _searchQuery = ""
+            lifecycleScope.launchWhenStarted { viewModel.searchQuery.collect { _searchQuery = it } }
+            return _searchQuery
+        }
+    private val section: ProductItem.Section
+        get() {
+            var _section: ProductItem.Section = ProductItem.Section.All
+            lifecycleScope.launchWhenStarted { viewModel.sections.collect { _section = it } }
+            return _section
+        }
+    private val order: ProductItem.Order
+        get() {
+            var _order: ProductItem.Order = ProductItem.Order.LAST_UPDATE
+            lifecycleScope.launchWhenStarted { viewModel.order.collect { _order = it } }
+            return _order
+        }
 
-    private var currentSearchQuery = ""
-    private var currentSection: ProductItem.Section = ProductItem.Section.All
-    private var currentOrder = ProductItem.Order.NAME
     private var layoutManagerState: Parcelable? = null
 
     private var recyclerView: RecyclerView? = null
@@ -98,12 +113,6 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        currentSearchQuery = savedInstanceState?.getString(STATE_CURRENT_SEARCH_QUERY).orEmpty()
-        currentSection =
-            savedInstanceState?.getParcelable(STATE_CURRENT_SECTION) ?: ProductItem.Section.All
-        currentOrder = savedInstanceState?.getString(STATE_CURRENT_ORDER)
-            ?.let(ProductItem.Order::valueOf) ?: ProductItem.Order.NAME
         layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 
         screenActivity.cursorOwner.attach(this, request)
@@ -128,10 +137,6 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putString(STATE_CURRENT_SEARCH_QUERY, currentSearchQuery)
-        outState.putParcelable(STATE_CURRENT_SECTION, currentSection)
-        outState.putString(STATE_CURRENT_ORDER, currentOrder.name)
         (layoutManagerState ?: recyclerView?.layoutManager?.onSaveInstanceState())
             ?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
     }
@@ -149,23 +154,14 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
                 }
             }
         }
-
         layoutManagerState?.let {
             layoutManagerState = null
             recyclerView?.layoutManager?.onRestoreInstanceState(it)
         }
-
-        if (currentSearchQuery != searchQuery || currentSection != section || currentOrder != order) {
-            currentSearchQuery = searchQuery
-            currentSection = section
-            currentOrder = order
-            recyclerView?.scrollToPosition(0)
-        }
     }
 
     internal fun setSearchQuery(searchQuery: String) {
-        if (this.searchQuery != searchQuery) {
-            this.searchQuery = searchQuery
+        viewModel.setSearchQuery(searchQuery) {
             if (view != null) {
                 screenActivity.cursorOwner.attach(this, request)
             }
@@ -173,8 +169,7 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
     }
 
     internal fun setSection(section: ProductItem.Section) {
-        if (this.section != section) {
-            this.section = section
+        viewModel.setSection(section) {
             if (view != null) {
                 screenActivity.cursorOwner.attach(this, request)
             }
@@ -182,8 +177,7 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
     }
 
     internal fun setOrder(order: ProductItem.Order) {
-        if (this.order != order) {
-            this.order = order
+        viewModel.setOrder(order) {
             if (view != null) {
                 screenActivity.cursorOwner.attach(this, request)
             }
