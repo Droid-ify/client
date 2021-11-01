@@ -50,19 +50,19 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
     private val searchQuery: String
         get() {
             var _searchQuery = ""
-            lifecycleScope.launchWhenStarted { viewModel.searchQuery.collect { _searchQuery = it } }
+            lifecycleScope.launchWhenCreated { viewModel.searchQuery.collect { _searchQuery = it } }
             return _searchQuery
         }
     private val section: ProductItem.Section
         get() {
             var _section: ProductItem.Section = ProductItem.Section.All
-            lifecycleScope.launchWhenStarted { viewModel.sections.collect { _section = it } }
+            lifecycleScope.launchWhenCreated { viewModel.sections.collect { _section = it } }
             return _section
         }
     private val order: ProductItem.Order
         get() {
             var _order: ProductItem.Order = ProductItem.Order.LAST_UPDATE
-            lifecycleScope.launchWhenStarted { viewModel.order.collect { _order = it } }
+            lifecycleScope.launchWhenCreated { viewModel.order.collect { _order = it } }
             return _order
         }
 
@@ -95,7 +95,7 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         return RecyclerView(requireContext()).apply {
             id = android.R.id.list

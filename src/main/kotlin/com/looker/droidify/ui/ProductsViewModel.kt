@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.looker.droidify.entity.ProductItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class ProductsViewModel : ViewModel() {
@@ -14,9 +16,21 @@ class ProductsViewModel : ViewModel() {
     private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
     private val _searchQuery = MutableStateFlow("")
 
-    val order: StateFlow<ProductItem.Order> = _order
-    val sections: StateFlow<ProductItem.Section> = _sections
-    val searchQuery: StateFlow<String> = _searchQuery
+    val order: StateFlow<ProductItem.Order> = _order.stateIn(
+        initialValue = ProductItem.Order.LAST_UPDATE,
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000)
+    )
+    val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
+        initialValue = ProductItem.Section.All,
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000)
+    )
+    val searchQuery: StateFlow<String> = _searchQuery.stateIn(
+        initialValue = "",
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000)
+    )
 
     fun setSection(newSection: ProductItem.Section, perform: () -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
