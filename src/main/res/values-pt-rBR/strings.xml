@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">Todos os aplicativos estão atualizados</string>
     <string name="already_exists">Já existe</string>
     <string name="always">Sempre</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">AMOLED</string>
     <string name="anti_features">Características indesejadas</string>
     <string name="application">Aplicativo</string>
     <string name="application_not_found">Aplicativo não encontrado</string>
@@ -125,7 +125,7 @@
     aplicativos de repositórios sem assinatura.</string>
     <string name="requires_FORMAT">Requer %s</string>
     <string name="root_permission">Instalação Silenciosa</string>
-    <string name="root_permission_description">Permitir acesso root para habilitar a Instalação Silenciosa</string>
+    <string name="root_permission_description">Permitir acesso root para instalações silenciosas</string>
     <string name="save">Salvar</string>
     <string name="saving_details">Salvando detalhes</string>
     <string name="screenshots">Capturas de tela</string>
