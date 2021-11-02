@@ -7,8 +7,8 @@
     <string name="all_applications_up_to_date">所有应用已更新至最新版本</string>
     <string name="already_exists">已经存在</string>
     <string name="always">总是</string>
-    <string name="amoled">Amoled</string>
-    <string name="anti_features">反自由的功能</string>
+    <string name="amoled">AMOLED</string>
+    <string name="anti_features">负面特征</string>
     <string name="application">应用</string>
     <string name="application_not_found">应用未找到</string>
     <string name="author_email">作者邮箱</string>
@@ -20,7 +20,7 @@
     <string name="changelog">更新日志</string>
     <string name="changes">更新内容</string>
     <string name="checking_repository">检查存储库</string>
-    <string name="compiled_for_debugging">编译调试</string>
+    <string name="compiled_for_debugging">调试目的的编译构建</string>
     <string name="confirmation">确认</string>
     <string name="connecting">连接中</string>
     <string name="contains_non_free_media">包含非自由媒体</string>
@@ -119,8 +119,7 @@
     <string name="recently_updated">最近更新</string>
     <string name="repositories">存储库</string>
     <string name="repository">存储库</string>
-    <string name="repository_not_used_DESC">您还未启用此存储库，请启用它，来查看
-     它提供的应用程序。</string>
+    <string name="repository_not_used_DESC">您还未启用此存储库。您需要启用它以查看它提供的应用。</string>
     <string name="repository_unsigned_DESC">此存储库未签名，无法验证其应用列表。请小心下载
      来自此存储库的应用。</string>
     <string name="requires_FORMAT">需要 %s</string>
@@ -136,7 +135,7 @@
     <string name="show_older_versions">显示旧版本</string>
     <string name="signature_FORMAT">签名 %s</string>
     <string name="signed_using_unsafe_algorithm">使用不安全的算法签名</string>
-    <string name="size">尺寸</string>
+    <string name="size">大小</string>
     <string name="skip">跳过</string>
     <string name="socks_proxy">SOCKS 代理</string>
     <string name="sorting_order">排序顺序</string>
