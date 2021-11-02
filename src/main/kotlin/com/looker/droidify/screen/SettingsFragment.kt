@@ -3,6 +3,7 @@ package com.looker.droidify.screen
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputType
@@ -123,16 +124,14 @@ class SettingsFragment : ScreenFragment() {
         }
         preferences.addCategory(getString(R.string.credits)) {
             addText(
-                title = "Based on an App by kitsunyan",
-                summary = "FoxyDroid"
-            ).apply {
-                setOnClickListener {
-                    openURI()
-                }
-            }
+                title = "Based on Foxy-Droid",
+                summary = "FoxyDroid",
+                url = "https://github.com/kitsunyan/foxy-droid/"
+            )
             addText(
                 title = getString(R.string.application_name),
-                summary = "v ${BuildConfig.VERSION_NAME}"
+                summary = "v ${BuildConfig.VERSION_NAME}",
+                url = "https://github.com/iamlooker/Droid-ify/"
             )
         }
 
@@ -142,15 +141,17 @@ class SettingsFragment : ScreenFragment() {
         updatePreference(null)
     }
 
-    private fun LinearLayoutCompat.addText(title: String, summary: String) {
+    private fun LinearLayoutCompat.addText(title: String, summary: String, url: String) {
         val text = MaterialTextView(context)
         val subText = MaterialTextView(context)
         text.text = title
         subText.text = summary
-        text.textSize = 16F
-        subText.textSize = 14F
-        resources.sizeScaled(16).let { text.setPadding(it, it, 5, 5) }
-        resources.sizeScaled(16).let { subText.setPadding(it, 5, 5, 25) }
+        text.setTextSizeScaled(16)
+        subText.setTextSizeScaled(14)
+        resources.sizeScaled(16).let {
+            text.setPadding(it, it, 5, 5)
+            subText.setPadding(it, 5, 5, 25)
+        }
         addView(
             text,
             LinearLayoutCompat.LayoutParams.MATCH_PARENT,
@@ -161,10 +162,12 @@ class SettingsFragment : ScreenFragment() {
             LinearLayoutCompat.LayoutParams.MATCH_PARENT,
             LinearLayoutCompat.LayoutParams.WRAP_CONTENT
         )
+        text.setOnClickListener { openURI(url.toUri()) }
+        subText.setOnClickListener { openURI(url.toUri()) }
     }
 
-    private fun openURI() {
-        startActivity(Intent(Intent.ACTION_VIEW, "https://github.com/iamlooker/Droid-ify/".toUri()))
+    private fun openURI(url: Uri) {
+        startActivity(Intent(Intent.ACTION_VIEW, url))
     }
 
     override fun onDestroyView() {
