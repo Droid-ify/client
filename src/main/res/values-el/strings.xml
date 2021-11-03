@@ -167,5 +167,5 @@
     <string name="tracks_or_reports_your_activity">Καταγράφει ή αναφέρει τη δραστηριότητά σας</string>
     <string name="validation_index_error_DESC">Αδυναμία επαλήθευσης δείκτη.</string>
     <string name="root_permission_description">Επιτρέψτε την Άδεια Root για να ενεργοποιήσετε τη Σιωπηλή Εγκατάσταση</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">AMOLED</string>
 </resources>
