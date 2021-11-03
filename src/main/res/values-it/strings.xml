@@ -2,22 +2,22 @@
 <resources>
     <string name="action_failed">Azione fallita</string>
     <string name="add_repository">Aggiungi repository</string>
-    <string name="address">Collegamento / Link</string>
+    <string name="address">Indirizzo</string>
     <string name="all_applications">Tutte le applicazioni</string>
     <string name="all_applications_up_to_date">Tutte le applicazioni aggiornate</string>
     <string name="already_exists">Già esistente</string>
     <string name="always">Sempre</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">AMOLED</string>
     <string name="anti_features">Anti-caratteristiche</string>
-    <string name="application">Applicazioni</string>
+    <string name="application">Applicazione</string>
     <string name="application_not_found">Applicazione non trovata</string>
-    <string name="author_email">Email autore</string>
+    <string name="author_email">E-mail dell\'autore</string>
     <string name="author_website">Sito web dell\'autore</string>
     <string name="available">Disponibile</string>
-    <string name="bug_tracker">Bug tracker</string>
+    <string name="bug_tracker">Inseguitore di errore</string>
     <string name="cancel">Annulla</string>
     <string name="cant_edit_sync_DESC">Non puoi modificare la repository mentre è in aggiornamento.</string>
-    <string name="changelog">Changelog</string>
+    <string name="changelog">Registro delle modifiche</string>
     <string name="changes">Cambiamenti</string>
     <string name="checking_repository">Controllo repository</string>
     <string name="compiled_for_debugging">Compilato per debugging</string>
@@ -35,7 +35,7 @@
     <string name="details">Dettagli</string>
     <string name="donate">Dona</string>
     <string name="downloaded_FORMAT">Scaricato %s</string>
-    <string name="downloading">In download</string>
+    <string name="downloading">Scaricamento in corso</string>
     <string name="downloading_FORMAT">Scaricamento %s</string>
     <string name="edit_repository">Modifica repository</string>
     <string name="file_format_error_DESC">Il file è in un formato non valido.</string>
@@ -43,7 +43,7 @@
     <string name="has_advertising">Contiene annunci</string>
     <string name="has_non_free_dependencies">Contiene dipendenze non libere</string>
     <string name="has_security_vulnerabilities">Contiene vulnerabilità</string>
-    <string name="http_error_DESC">Risposta del server non valida</string>
+    <string name="http_error_DESC">Risposta del server non valida.</string>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="ignore_all_updates">Ignora tutti gli aggiornamenti</string>
     <string name="ignore_this_update">Ignora questo aggiornamento</string>
@@ -59,12 +59,12 @@
     Disinstalla prima quella.</string>
     <string name="incompatible_version">Versione non compatibile</string>
     <string name="incompatible_versions">Versioni non compatibili</string>
-    <string name="incompatible_versions_summary">Mostra le versioni delle applicazioni non compatibili con il tuo dispositivo.</string>
+    <string name="incompatible_versions_summary">Mostra le versioni delle applicazioni incompatibili con il dispositivo</string>
     <string name="incompatible_with_FORMAT">Non compatibile con %s</string>
     <string name="install">Installa</string>
     <string name="install_types">Tipi di installazione</string>
     <string name="installed">Installato</string>
-    <string name="integrity_check_error_DESC">Impossibile verificare l\'integrità</string>
+    <string name="integrity_check_error_DESC">Impossibile verificare l\'integrità.</string>
     <string name="invalid_address">Indirizzo non valido</string>
     <string name="invalid_fingerprint_format">Fingerprint in un formato non valido</string>
     <string name="invalid_metadata_error_DESC">Metadata non validi.</string>
@@ -75,8 +75,8 @@
     <string name="license">Licenze</string>
     <string name="license_FORMAT">Licenza %s</string>
     <string name="light">Chiaro</string>
-    <string name="link_copied_to_clipboard">Link copiato sulla clipboard</string>
-    <string name="links">Links</string>
+    <string name="link_copied_to_clipboard">Collegamento copiato negli appunti</string>
+    <string name="links">Collegamenti</string>
     <string name="list_animation">Elenco animazioni</string>
     <string name="list_animation_description">Abilita l\'animazione dell\'elenco nella pagina principale</string>
     <string name="merging_FORMAT">Unione %s</string>
@@ -117,7 +117,7 @@
     <string name="proxy_port">Porta proxy</string>
     <string name="proxy_type">Tipo proxy</string>
     <string name="recently_updated">Aggiornato di recente</string>
-    <string name="repositories">Repositories</string>
+    <string name="repositories">Repository</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">Questa repository non è ancora stata usata. Devi abilitarla per poter vedere
     le applicazioni che offre.</string>
@@ -125,10 +125,10 @@
     applicazioni da repository senza firma.</string>
     <string name="requires_FORMAT">Richiede %s</string>
     <string name="root_permission">Installazione silenziosa</string>
-    <string name="root_permission_description">Permetti i permessi Root per abilitare l\'installazione silenziosa</string>
+    <string name="root_permission_description">Consenti il permesso di Root per abilitare installazioni silenziose</string>
     <string name="save">Salva</string>
     <string name="saving_details">Salvataggio dettagli</string>
-    <string name="screenshots">Screenshots</string>
+    <string name="screenshots">Schermate</string>
     <string name="search">Cerca</string>
     <string name="select_mirror">Seleziona alternativa</string>
     <string name="share">Condividi</string>
@@ -138,7 +138,7 @@
     <string name="signed_using_unsafe_algorithm">Firmato usando un algoritmo non sicuro</string>
     <string name="size">Taglia</string>
     <string name="skip">Salta</string>
-    <string name="socks_proxy">SOCKS proxy</string>
+    <string name="socks_proxy">Proxy SOCKS</string>
     <string name="sorting_order">Ordinamento</string>
     <string name="source_code">Codice sorgente</string>
     <string name="source_code_no_longer_available">Codice sorgente non più disponibile</string>
@@ -166,11 +166,11 @@
     <string name="upstream_source_code_is_not_free">Codice sorgente aggiornato non libero</string>
     <string name="username">Nome utente</string>
     <string name="username_missing">Nome utente mancante</string>
-    <string name="validation_index_error_DESC">L\'indice non può essere convalidato</string>
+    <string name="validation_index_error_DESC">Non è stato possibile convalidare l\'indice.</string>
     <string name="version">Versione</string>
     <string name="version_FORMAT">Versione %s</string>
     <string name="versions">Versioni</string>
-    <string name="waiting_to_start_download">In attesa di inizio del download</string>
+    <string name="waiting_to_start_download">In attesa di inizio dello scaricamento</string>
     <string name="whats_new">Cosa c\'è di nuovo</string>
     <string name="website">Sito web</string>
 </resources>
