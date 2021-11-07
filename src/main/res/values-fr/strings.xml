@@ -110,4 +110,6 @@
     <string name="link_copied_to_clipboard">Lien copié dans le presse-papiers</string>
     <string name="incompatible_version">Version incompatible</string>
     <string name="has_advertising">Contient des annonces</string>
+    <string name="http_error_DESC">Réponse du serveur invalide.</string>
+    <string name="http_proxy">Proxy HTTP</string>
 </resources>
