@@ -22,6 +22,7 @@ import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.appsList.AppListFragment
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.*
@@ -85,7 +86,7 @@ class TabsFragment : ScreenFragment() {
 
     private val syncConnection = Connection(SyncService::class.java, onBind = { _, _ ->
         viewPager?.let {
-            val source = ProductsFragment.Source.values()[it.currentItem]
+            val source = AppListFragment.Source.values()[it.currentItem]
             updateUpdateNotificationBlocker(source)
         }
     })
@@ -96,9 +97,9 @@ class TabsFragment : ScreenFragment() {
 
     private var needSelectUpdates = false
 
-    private val productFragments: Sequence<ProductsFragment>
+    private val productFragments: Sequence<AppListFragment>
         get() = if (host == null) emptySequence() else
-            childFragmentManager.fragments.asSequence().mapNotNull { it as? ProductsFragment }
+            childFragmentManager.fragments.asSequence().mapNotNull { it as? AppListFragment }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -212,9 +213,9 @@ class TabsFragment : ScreenFragment() {
         viewPager = ViewPager2(content.context).apply {
             id = R.id.fragment_pager
             adapter = object : FragmentStateAdapter(this@TabsFragment) {
-                override fun getItemCount(): Int = ProductsFragment.Source.values().size
-                override fun createFragment(position: Int): Fragment = ProductsFragment(
-                    ProductsFragment
+                override fun getItemCount(): Int = AppListFragment.Source.values().size
+                override fun createFragment(position: Int): Fragment = AppListFragment(
+                    AppListFragment
                         .Source.values()[position]
                 )
             }
@@ -225,7 +226,7 @@ class TabsFragment : ScreenFragment() {
 
         viewPager?.let {
             TabLayoutMediator(layout.tabs, it) { tab, position ->
-                tab.text = getString(ProductsFragment.Source.values()[position].titleResId)
+                tab.text = getString(AppListFragment.Source.values()[position].titleResId)
             }.attach()
         }
 
@@ -336,7 +337,7 @@ class TabsFragment : ScreenFragment() {
     override fun onAttachFragment(childFragment: Fragment) {
         super.onAttachFragment(childFragment)
 
-        if (view != null && childFragment is ProductsFragment) {
+        if (view != null && childFragment is AppListFragment) {
             childFragment.setSearchQuery(searchQuery)
             childFragment.setSection(section)
             childFragment.setOrder(Preferences[Preferences.Key.SortOrder].order)
@@ -365,7 +366,7 @@ class TabsFragment : ScreenFragment() {
         if (view != null) {
             val viewPager = viewPager
             viewPager?.setCurrentItem(
-                ProductsFragment.Source.UPDATES.ordinal,
+                AppListFragment.Source.UPDATES.ordinal,
                 allowSmooth && viewPager.isLaidOut
             )
         } else {
@@ -373,8 +374,8 @@ class TabsFragment : ScreenFragment() {
         }
     }
 
-    private fun updateUpdateNotificationBlocker(activeSource: ProductsFragment.Source) {
-        val blockerFragment = if (activeSource == ProductsFragment.Source.UPDATES) {
+    private fun updateUpdateNotificationBlocker(activeSource: AppListFragment.Source) {
+        val blockerFragment = if (activeSource == AppListFragment.Source.UPDATES) {
             productFragments.find { it.source == activeSource }
         } else {
             null
@@ -464,9 +465,9 @@ class TabsFragment : ScreenFragment() {
             positionOffsetPixels: Int
         ) {
             val layout = layout!!
-            val fromSections = ProductsFragment.Source.values()[position].sections
+            val fromSections = AppListFragment.Source.values()[position].sections
             val toSections = if (positionOffset <= 0f) fromSections else
-                ProductsFragment.Source.values()[position + 1].sections
+                AppListFragment.Source.values()[position + 1].sections
             val offset = if (fromSections != toSections) {
                 if (fromSections) 1f - positionOffset else positionOffset
             } else {
@@ -484,7 +485,7 @@ class TabsFragment : ScreenFragment() {
         }
 
         override fun onPageSelected(position: Int) {
-            val source = ProductsFragment.Source.values()[position]
+            val source = AppListFragment.Source.values()[position]
             updateUpdateNotificationBlocker(source)
             sortOrderMenu!!.first.apply {
                 isVisible = source.order
@@ -501,7 +502,7 @@ class TabsFragment : ScreenFragment() {
         }
 
         override fun onPageScrollStateChanged(state: Int) {
-            val source = ProductsFragment.Source.values()[viewPager!!.currentItem]
+            val source = AppListFragment.Source.values()[viewPager!!.currentItem]
             layout!!.sectionChange.isEnabled =
                 state != ViewPager2.SCROLL_STATE_DRAGGING && source.sections
             if (state == ViewPager2.SCROLL_STATE_IDLE) {

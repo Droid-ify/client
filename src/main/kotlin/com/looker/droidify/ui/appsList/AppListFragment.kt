@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.appsList
 
 import android.database.Cursor
 import android.os.Bundle
@@ -14,7 +14,8 @@ import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
-import com.looker.droidify.ui.ProductsViewModel
+import com.looker.droidify.screen.BaseFragment
+import com.looker.droidify.screen.ProductsAdapter
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.widget.RecyclerFastScroller
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -23,9 +24,9 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.collect
 
-class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
+class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 
-    private val viewModel: ProductsViewModel by viewModels()
+    private val viewModel: AppListViewModel by viewModels()
 
     companion object {
         private const val EXTRA_SOURCE = "source"
@@ -34,7 +35,7 @@ class ProductsFragment() : BaseFragment(), CursorOwner.Callback {
 
     enum class Source(val titleResId: Int, val sections: Boolean, val order: Boolean) {
         AVAILABLE(R.string.available, true, true),
-        INSTALLED(R.string.installed, false, false),
+        INSTALLED(R.string.installed, false, true),
         UPDATES(R.string.updates, false, false)
     }
 

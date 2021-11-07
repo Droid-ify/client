@@ -1,4 +1,4 @@
-package com.looker.droidify.ui
+package com.looker.droidify.ui.appsList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class ProductsViewModel : ViewModel() {
+class AppListViewModel : ViewModel() {
 
     private val _order = MutableStateFlow(ProductItem.Order.LAST_UPDATE)
     private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
