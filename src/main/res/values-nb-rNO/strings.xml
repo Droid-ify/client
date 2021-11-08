@@ -33,7 +33,7 @@
     <string name="integrity_check_error_DESC">Kunne ikke sjekke filens gyldighet.</string>
     <string name="light">Lys</string>
     <string name="invalid_username_format">Ugyldig brukernavnsformat</string>
-    <string name="license_FORMAT">%s-lisens</string>
+    <string name="license_FORMAT">Lisens %s</string>
     <string name="link_copied_to_clipboard">Lenke kopiert til utklippstavle</string>
     <string name="list_animation">Listeanimasjoner</string>
     <string name="list_animation_description">Skru på listeanimasjoner på hovedsiden</string>
@@ -46,7 +46,7 @@
     <string name="notify_about_updates">Gi merknad om oppgraderinger</string>
     <string name="number_of_applications">Antall programmer</string>
     <string name="only_compatible_with_FORMAT">Kun kompatibelt med %s</string>
-    <string name="other">Annet</string>
+    <string name="other">Andre</string>
     <string name="password_missing">Passord mangler</string>
     <string name="permissions">Tilganger</string>
     <string name="plus_more_FORMAT">+%d til</string>
@@ -61,8 +61,8 @@
     <string name="repository">Pakkebrønn</string>
     <string name="requires_FORMAT">Krever %s</string>
     <string name="repository_unsigned_DESC">Usignert. Kunne ikke bekrefte programlisten. Vær forsiktig med å laste ned programmer fra usignerte pakkebrønner.</string>
-    <string name="root_permission">Stille installasjon</string>
-    <string name="root_permission_description">Tillat rot-tilganger for stille installasjoner</string>
+    <string name="root_permission">Stille Installasjon</string>
+    <string name="root_permission_description">Tillat root-tillatelse for stille installasjoner</string>
     <string name="screenshots">Skjermavbildninger</string>
     <string name="search">Søk</string>
     <string name="select_mirror">Velg et speil</string>
@@ -157,15 +157,15 @@
     <string name="tap_to_install_DESC">Trykk for å installere.</string>
     <string name="theme">Drakt</string>
     <string name="uninstall">Avinstaller</string>
-    <string name="signature_FORMAT">%s-signatur</string>
+    <string name="signature_FORMAT">Signatur %s</string>
     <string name="unstable_updates">Ustabile oppgraderinger</string>
     <string name="incompatible_signature_DESC">Denne versjonen er signert med et annet sertifikat enn det som er installert på enheten din. Avinstaller det først.</string>
     <string name="ok">OK</string>
     <string name="parsing_index_error_DESC">Kunne ikke tolke indeksfilen.</string>
     <string name="promotes_non_free_software">Promoterer ufri programvare</string>
     <string name="source_code_no_longer_available">Kildekoden er ikke lenger tilgjengelig</string>
-    <string name="updates">Oppgraderinger</string>
+    <string name="updates">Oppdateringer</string>
     <string name="whats_new">Seneste</string>
     <string name="repository_not_used_DESC">Denne pakkebrønnen har ikke blitt brukt enda. Du må skru den på for å vise programmene den tilbyr.</string>
-    <string name="update">Oppgradering</string>
+    <string name="update">Oppdater</string>
 </resources>
