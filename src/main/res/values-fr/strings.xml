@@ -125,7 +125,7 @@
     <string name="incompatible_signature_DESC">Cette version est signée avec un certificat différent de celle installée sur votre appareil. Désinstallez-la d\'abord.</string>
     <string name="incompatible_with_FORMAT">Incompatible avec %s</string>
     <string name="install_types">Types d\'installation</string>
-    <string name="installed">Installé(e)</string>
+    <string name="installed">Installé</string>
     <string name="invalid_metadata_error_DESC">Metadonnées invalides.</string>
     <string name="invalid_permissions_error_DESC">Permissions invalides.</string>
     <string name="invalid_signature_error_DESC">Signature invalide.</string>
@@ -157,4 +157,15 @@
     <string name="username">Nom d\'utilisateur</string>
     <string name="username_missing">Nom d\'utilisateur manquant</string>
     <string name="validation_index_error_DESC">L\'index n\'a pas pu être validé.</string>
+    <string name="incompatible_api_DESC_FORMAT">Votre %1$s (API version %2$d) n\'est pas pris en charge. %3$s</string>
+    <string name="integrity_check_error_DESC">Impossible de vérifier l\'intégrité.</string>
+    <string name="invalid_fingerprint_format">Format d\'empreinte digitale non valide</string>
+    <string name="list_animation">Animations de listes</string>
+    <string name="processing_FORMAT">Traitement de %1$s</string>
+    <string name="parsing_index_error_DESC">Impossible d\'analyser le fichier d\'index.</string>
+    <string name="merging_FORMAT">Fusionner %s</string>
+    <string name="list_animation_description">Activer l\'animation de la liste sur la page principale</string>
+    <string name="sorting_order">Ordre de tri</string>
+    <string name="requires_FORMAT">Requiert %s</string>
+    <string name="unstable_updates_summary">Suggérer l\'installation de versions instables</string>
 </resources>
