@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">Все приложения в актуальном состоянии</string>
     <string name="already_exists">Уже существует</string>
     <string name="always">Всегда</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">AMOLED</string>
     <string name="anti_features">Анти-функции</string>
     <string name="application">Приложение</string>
     <string name="application_not_found">Приложение не найдено</string>
@@ -123,7 +123,7 @@
     <string name="repository_unsigned_DESC">Без подписи. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
     <string name="requires_FORMAT">Требуется %s</string>
     <string name="root_permission">Тихая установка</string>
-    <string name="root_permission_description">Разрешить Root права для включения тихой установки</string>
+    <string name="root_permission_description">Разрешить разрешение root для автоматической установки</string>
     <string name="save">Сохранить</string>
     <string name="saving_details">Сохранение данных</string>
     <string name="screenshots">Скриншоты</string>
