@@ -6,6 +6,12 @@
 
 A quick material F-Droid client.
 
+[![Github repo stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?style=flat)]()
+[![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify)]()
+[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)]()
+[![Github release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag)]()
+[![Github watchers](https://img.shields.io/github/watchers/Iamlooker/Droid-ify?label=Watch)]()
+[![Github forks](https://img.shields.io/github/forks/Iamlooker/Droid-ify?label=Fork)]()
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
@@ -20,8 +26,6 @@ width="40%">](https://hosted.weblate.org/projects/droidify/localization/)
 [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 alt="Join Telegram Channel"
 width="30%">](https://t.me/droid_ify)
-
-[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)]()
 
 <div align="left">
 
