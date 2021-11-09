@@ -53,7 +53,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     private enum class Action(
         val id: Int,
         val adapterAction: ProductAdapter.Action,
-        val iconResId: Int
+        val iconResId: Int,
     ) {
         INSTALL(1, ProductAdapter.Action.INSTALL, R.drawable.ic_download),
         UPDATE(2, ProductAdapter.Action.UPDATE, R.drawable.ic_download),
@@ -65,7 +65,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     private class Installed(
         val installedItem: InstalledItem, val isSystem: Boolean,
-        val launcherActivities: List<Pair<String, String>>
+        val launcherActivities: List<Pair<String, String>>,
     )
 
     val packageName: String
@@ -370,12 +370,12 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         if (state is DownloadService.State.Success && isResumed) {
             lifecycleScope.launch(Dispatchers.IO) {
                 state.consume()
+                AppInstaller
+                    .getInstance(context)?.defaultInstaller?.install(
+                        "",
+                        state.release.cacheFileName
+                    )
             }
-            AppInstaller
-                .getInstance(context)?.defaultInstaller?.install(
-                    "",
-                    state.release.cacheFileName
-                )
         }
     }
 
@@ -397,7 +397,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     override fun onActionClick(action: ProductAdapter.Action) {
         when (action) {
             ProductAdapter.Action.INSTALL,
-            ProductAdapter.Action.UPDATE -> {
+            ProductAdapter.Action.UPDATE,
+            -> {
                 val installedItem = installed?.installedItem
                 startUpdate(packageName, installedItem, products, downloadConnection)
             }

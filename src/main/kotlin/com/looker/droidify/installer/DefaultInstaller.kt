@@ -12,18 +12,15 @@ import java.io.File
 
 class DefaultInstaller(context: Context) : BaseInstaller(context) {
 
-    override fun install(packageName: String, cacheFileName: String) {
+    override suspend fun install(packageName: String, cacheFileName: String) {
         val cacheFile = Cache.getReleaseFile(context, cacheFileName)
-        scope.launch { mDefaultInstaller(cacheFile) }
+        mDefaultInstaller(cacheFile)
     }
 
-    override fun install(packageName: String, cacheFile: File) {
-        scope.launch { mDefaultInstaller(cacheFile) }
-    }
+    override suspend fun install(packageName: String, cacheFile: File) =
+        mDefaultInstaller(cacheFile)
 
-    override fun uninstall(packageName: String) {
-        scope.launch { mDefaultUninstaller(packageName) }
-    }
+    override suspend fun uninstall(packageName: String) = mDefaultUninstaller(packageName)
 
     private suspend fun mDefaultInstaller(cacheFile: File) {
         val (uri, flags) = if (Android.sdk(24)) {
@@ -37,17 +34,21 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
         // TODO Handle deprecation
         @Suppress("DEPRECATION")
         withContext(Dispatchers.IO) {
-            context.startActivity(
-                Intent(Intent.ACTION_INSTALL_PACKAGE)
-                    .setDataAndType(uri, "application/vnd.android.package-archive").setFlags(flags)
-            )
+            launch {
+                context.startActivity(
+                    Intent(Intent.ACTION_INSTALL_PACKAGE)
+                        .setDataAndType(uri, "application/vnd.android.package-archive")
+                        .setFlags(flags)
+                )
+            }
         }
     }
 
-    private fun mDefaultUninstaller(packageName: String) {
+    private suspend fun mDefaultUninstaller(packageName: String) {
         val uri = Uri.fromParts("package", packageName, null)
         val intent = Intent()
         intent.data = uri
+        @Suppress("DEPRECATION")
         if (Android.sdk(28)) {
             intent.action = Intent.ACTION_DELETE
         } else {
@@ -55,6 +56,6 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
             intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        context.startActivity(intent)
+        withContext(Dispatchers.IO) { launch { context.startActivity(intent) } }
     }
 }

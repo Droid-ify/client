@@ -3,9 +3,9 @@ package com.looker.droidify.installer
 import java.io.File
 
 interface InstallationEvents {
-    fun install(packageName: String, cacheFileName: String)
+    suspend fun install(packageName: String, cacheFileName: String)
 
-    fun install(packageName: String, cacheFile: File)
+    suspend fun install(packageName: String, cacheFile: File)
 
-    fun uninstall(packageName: String)
+    suspend fun uninstall(packageName: String)
 }

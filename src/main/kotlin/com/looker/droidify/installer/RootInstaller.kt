@@ -13,20 +13,16 @@ import java.io.File
 
 class RootInstaller(context: Context) : BaseInstaller(context) {
 
-    override fun install(packageName: String, cacheFileName: String) {
+    override suspend fun install(packageName: String, cacheFileName: String) {
         val cacheFile = Cache.getReleaseFile(context, cacheFileName)
-        scope.launch { mRootInstaller(cacheFile) }
+        mRootInstaller(cacheFile)
     }
 
-    override fun install(packageName: String, cacheFile: File) {
-        scope.launch { mRootInstaller(cacheFile) }
-    }
+    override suspend fun install(packageName: String, cacheFile: File) = mRootInstaller(cacheFile)
 
-    override fun uninstall(packageName: String) {
-        scope.launch { mRootUninstaller(packageName) }
-    }
+    override suspend fun uninstall(packageName: String) = mRootUninstaller(packageName)
 
-    private fun mRootInstaller(cacheFile: File) {
+    private suspend fun mRootInstaller(cacheFile: File) {
         if (rootInstallerEnabled) {
             val installCommand =
                 String.format(
@@ -41,10 +37,12 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
                     getUtilBoxPath,
                     cacheFile.absolutePath.quote
                 )
-            scope.launch {
-                Shell.su(installCommand).submit {
-                    if (it.isSuccess) {
-                        Shell.su(deleteCommand).submit()
+            withContext(Dispatchers.IO) {
+                launch {
+                    Shell.su(installCommand).submit {
+                        if (it.isSuccess) {
+                            Shell.su(deleteCommand).submit()
+                        }
                     }
                 }
             }
