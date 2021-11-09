@@ -39,7 +39,8 @@ import kotlin.math.*
 
 class TabsFragment : ScreenFragment() {
 
-    private lateinit var tabsBinding: TabsToolbarBinding
+    private var _tabsBinding: TabsToolbarBinding? = null
+    private val tabsBinding get() = _tabsBinding!!
 
     companion object {
         private const val STATE_SEARCH_FOCUSED = "searchFocused"
@@ -103,7 +104,7 @@ class TabsFragment : ScreenFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        tabsBinding = TabsToolbarBinding.inflate(layoutInflater)
+        _tabsBinding = TabsToolbarBinding.inflate(layoutInflater)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -312,6 +313,8 @@ class TabsFragment : ScreenFragment() {
         repositoriesDisposable = null
         sectionsAnimator?.cancel()
         sectionsAnimator = null
+
+        _tabsBinding = null
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

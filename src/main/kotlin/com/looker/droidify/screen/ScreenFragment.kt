@@ -10,7 +10,8 @@ import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.looker.droidify.databinding.FragmentBinding
 
 open class ScreenFragment : BaseFragment() {
-    lateinit var fragmentBinding: FragmentBinding
+    private var _fragmentBinding: FragmentBinding? = null
+    val fragmentBinding get() = _fragmentBinding!!
 
     lateinit var toolbar: Toolbar
     lateinit var collapsingToolbar: CollapsingToolbarLayout
@@ -18,17 +19,22 @@ open class ScreenFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        fragmentBinding = FragmentBinding.inflate(layoutInflater)
+        _fragmentBinding = FragmentBinding.inflate(layoutInflater)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         this.toolbar = fragmentBinding.toolbar
         this.collapsingToolbar = fragmentBinding.collapsingToolbar
         this.appBar = fragmentBinding.appbarLayout
         return fragmentBinding.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragmentBinding = null
     }
 }

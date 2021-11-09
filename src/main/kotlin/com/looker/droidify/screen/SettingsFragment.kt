@@ -32,7 +32,7 @@ import kotlinx.coroutines.flow.collect
 
 class SettingsFragment : ScreenFragment() {
 
-    private lateinit var preferenceBinding: PreferenceItemBinding
+    private var preferenceBinding: PreferenceItemBinding? = null
     private val preferences = mutableMapOf<Preferences.Key<*>, Preference<*>>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -173,6 +173,7 @@ class SettingsFragment : ScreenFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         preferences.clear()
+        preferenceBinding = null
     }
 
     private fun updatePreference(key: Preferences.Key<*>?) {

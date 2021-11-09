@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TitleTextItemBinding
@@ -19,7 +18,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
@@ -28,7 +26,7 @@ import java.util.*
 
 class RepositoryFragment() : ScreenFragment() {
 
-    private lateinit var titleBinding: TitleTextItemBinding
+    private var titleBinding: TitleTextItemBinding? = null
 
     companion object {
         private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -98,6 +96,7 @@ class RepositoryFragment() : ScreenFragment() {
         super.onDestroyView()
 
         layout = null
+        titleBinding = null
         syncConnection.unbind(requireContext())
         repositoryDisposable?.dispose()
         repositoryDisposable = null
@@ -164,10 +163,11 @@ class RepositoryFragment() : ScreenFragment() {
 
     private fun LinearLayoutCompat.addTitleText(titleResId: Int, text: CharSequence) {
         if (text.isNotEmpty()) {
-            val layout = inflate(R.layout.title_text_item)
-            val titleView = layout.findViewById<MaterialTextView>(R.id.title)!!
+            val binding = TitleTextItemBinding.inflate(layoutInflater)
+            val layout = binding.root
+            val titleView = binding.title
+            val textView = binding.text
             titleView.setText(titleResId)
-            val textView = layout.findViewById<MaterialTextView>(R.id.text)!!
             textView.text = text
             addView(layout)
         }

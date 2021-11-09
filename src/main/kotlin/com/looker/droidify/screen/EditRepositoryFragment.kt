@@ -43,7 +43,8 @@ import kotlin.math.min
 
 class EditRepositoryFragment() : ScreenFragment() {
 
-    private lateinit var editRepositoryBinding: EditRepositoryBinding
+    private var _editRepositoryBinding: EditRepositoryBinding? = null
+    private val editRepositoryBinding get() = _editRepositoryBinding!!
 
     companion object {
         private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -86,7 +87,7 @@ class EditRepositoryFragment() : ScreenFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        editRepositoryBinding = EditRepositoryBinding.inflate(layoutInflater)
+        _editRepositoryBinding = EditRepositoryBinding.inflate(layoutInflater)
 
         syncConnection.bind(requireContext())
 
@@ -259,6 +260,7 @@ class EditRepositoryFragment() : ScreenFragment() {
         syncConnection.unbind(requireContext())
         checkDisposable?.dispose()
         checkDisposable = null
+        _editRepositoryBinding = null
     }
 
     private var addressError = false
