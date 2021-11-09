@@ -1,2 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="amoled">AMOLED</string>
+    <string name="target">Tarcza</string>
+    <string name="version">Wersja</string>
+    <string name="validation_index_error_DESC">Indeks nie mógł zostać zatwierdzony.</string>
+    <string name="website">Strona</string>
+    <string name="whats_new">Nowości</string>
+    <string name="version_FORMAT">Wersja %s</string>
+    <string name="username_missing">Brak nazwy użytkownika</string>
+    <string name="waiting_to_start_download">Oczekiwanie na rozpoczęcie pobierania</string>
+    <string name="unverified">Niezweryfikowany</string>
+    <string name="username">Nazwa użytkownika</string>
+    <string name="updates">Aktualizacje</string>
+    <string name="unstable_updates_summary">Sugeruj instalację niestabilnych wersji</string>
+    <string name="unstable_updates">Niestabilne aktualizacje</string>
+    <string name="unsigned">Nieoznaczony</string>
+    <string name="unknown_error_DESC">Nieznany błąd.</string>
+    <string name="uninstall">Odinstaluj</string>
+    <string name="tracks_or_reports_your_activity">Śledzenie lub raportowanie aktywności użytkownika</string>
+    <string name="theme">Temat</string>
+    <string name="add_repository">Dodaj repozytorium</string>
+    <string name="always">Zawsze</string>
+    <string name="anti_features">Anty-funkcje</string>
+    <string name="upstream_source_code_is_not_free">Upstreamowy kod źródłowy nie jest darmowy</string>
+    <string name="update">Aktualizacja</string>
+    <string name="unknown_FORMAT">Nieznany: %s</string>
+    <string name="address">Adres</string>
+    <string name="all_applications_up_to_date">Wszystkie wnioski są aktualne</string>
+    <string name="already_exists">Już istnieje</string>
+    <string name="unknown">Nieznany</string>
+    <string name="themes">Tematy</string>
+    <string name="tap_to_install_DESC">Stuknij , aby zainstalować.</string>
+    <string name="sync_repositories_automatically">Automatyczna synchronizacja repozytoriów</string>
+    <string name="syncing">Synchronizacja</string>
+    <string name="syncing_FORMAT">Synchronizacja %s</string>
+    <string name="versions">Wersje</string>
+    <string name="system">System</string>
+    <string name="action_failed">Działanie nieudane</string>
+    <string name="all_applications">Wszystkie aplikacje</string>
+</resources>
