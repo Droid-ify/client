@@ -40,9 +40,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
             withContext(Dispatchers.IO) {
                 launch {
                     Shell.su(installCommand).submit {
-                        if (it.isSuccess) {
-                            Shell.su(deleteCommand).submit()
-                        }
+                        if (it.isSuccess) Shell.su(deleteCommand).submit()
                     }
                 }
             }
@@ -53,7 +51,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
         if (rootInstallerEnabled) {
             val uninstallCommand =
                 String.format(ROOT_UNINSTALL_PACKAGE, getCurrentUserState, packageName)
-            withContext(Dispatchers.IO) { launch { Shell.su(uninstallCommand).exec() } }
+            withContext(Dispatchers.IO) { launch { Shell.su(uninstallCommand).submit() } }
         }
     }
 
