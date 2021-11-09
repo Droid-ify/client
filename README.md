@@ -6,12 +6,12 @@
 
 A quick material F-Droid client.
 
-[![Github repo stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?style=flat)]()
-[![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify)]()
-[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)]()
-[![Github release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag)]()
-[![Github watchers](https://img.shields.io/github/watchers/Iamlooker/Droid-ify?label=Watch)]()
-[![Github forks](https://img.shields.io/github/forks/Iamlooker/Droid-ify?label=Fork)]()
+[![Github repo stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?style=flat)](https://github.com/Iamlooker/Droid-ify/stargazers)
+[![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify)](https://github.com/Iamlooker/Droid-ify/blob/master/COPYING)
+[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)](https://github.com/Iamlooker/Droid-ify/releases/)
+[![Github release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag)](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[![Github watchers](https://img.shields.io/github/watchers/Iamlooker/Droid-ify?label=Watch)](https://github.com/Iamlooker/Droid-ify/watchers)
+[![Github forks](https://img.shields.io/github/forks/Iamlooker/Droid-ify?label=Fork)](https://github.com/Iamlooker/Droid-ify/network/members)
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
 alt="Get it on IzzyDroid"
