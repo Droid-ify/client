@@ -307,46 +307,44 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             if (downloading) ProductAdapter.Action.CANCEL else primaryAction?.adapterAction
         (recyclerView?.adapter as? ProductAdapter)?.setAction(adapterAction)
 
-        val toolbar = toolbar
-        if (toolbar != null) {
-            for (action in sequenceOf(
-                Action.INSTALL,
-                Action.SHARE,
-                Action.UPDATE,
-                Action.UNINSTALL
-            )) {
-                toolbar.menu.findItem(action.id).isEnabled = !downloading
-            }
+        for (action in sequenceOf(
+            Action.INSTALL,
+            Action.SHARE,
+            Action.UPDATE,
+            Action.UNINSTALL
+        )) {
+            toolbar.menu.findItem(action.id).isEnabled = !downloading
         }
         this.actions = Pair(actions, primaryAction)
         updateToolbarButtons()
     }
 
     private fun updateToolbarTitle() {
-        val showPackageName = recyclerView?.let {
-            (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
-        } == true
-
-        collapsingToolbar.title =
-            if (showPackageName) products[0].first.name.trimAfter(' ', 2)
-            else getString(R.string.application)
+        lifecycleScope.launch(Dispatchers.IO) {
+            val showPackageName = recyclerView
+                ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+            collapsingToolbar.title =
+                if (showPackageName) products[0].first.name.trimAfter(' ', 2)
+                else getString(R.string.application)
+        }
     }
 
     private fun updateToolbarButtons() {
-        val (actions, primaryAction) = actions
-        val showPrimaryAction = recyclerView
-            ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
-        val displayActions = actions.toMutableSet()
-        if (!showPrimaryAction && primaryAction != null) {
-            displayActions -= primaryAction
-        }
-        if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
-            displayActions -= Action.DETAILS
-        }
-        val toolbar = toolbar
-        if (toolbar != null) {
-            for (action in Action.values()) {
-                toolbar.menu.findItem(action.id).isVisible = action in displayActions
+        lifecycleScope.launch(Dispatchers.IO) {
+            val (actions, primaryAction) = actions
+            val showPrimaryAction = recyclerView
+                ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+            val displayActions = actions.toMutableSet()
+            if (!showPrimaryAction && primaryAction != null) {
+                displayActions -= primaryAction
+            }
+            if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
+                displayActions -= Action.DETAILS
+            }
+
+            launch(Dispatchers.Main) {
+                for (action in Action.values())
+                    toolbar.menu.findItem(action.id).isVisible = action in displayActions
             }
         }
     }
