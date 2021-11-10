@@ -14,7 +14,6 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.screen.BaseFragment
-import com.looker.droidify.screen.ProductsAdapter
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.widget.RecyclerFastScroller
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -61,8 +60,8 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             isVerticalScrollBarEnabled = false
             setHasFixedSize(true)
-            recycledViewPool.setMaxRecycledViews(ProductsAdapter.ViewType.PRODUCT.ordinal, 30)
-            val adapter = ProductsAdapter { screenActivity.navigateProduct(it.packageName) }
+            recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
+            val adapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }
             this.adapter = adapter
             RecyclerFastScroller(this)
             recyclerView = this
@@ -79,7 +78,7 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
             .flatMapSingle { RxUtils.querySingle { Database.RepositoryAdapter.getAll(it) } }
             .map { list -> list.asSequence().map { Pair(it.id, it) }.toMap() }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { (recyclerView?.adapter as? ProductsAdapter)?.repositories = it }
+            .subscribe { (recyclerView?.adapter as? AppListAdapter)?.repositories = it }
     }
 
     override fun onDestroyView() {
@@ -93,7 +92,7 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
     }
 
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-        (recyclerView?.adapter as? ProductsAdapter)?.apply {
+        (recyclerView?.adapter as? AppListAdapter)?.apply {
             this.cursor = cursor
             viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                 emptyText = when {

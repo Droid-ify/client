@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.appsList
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -25,8 +25,8 @@ import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
-class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
-    CursorRecyclerAdapter<ProductsAdapter.ViewType, RecyclerView.ViewHolder>() {
+class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
+    CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
     private var lastPosition = 0
 
     enum class ViewType { PRODUCT, LOADING, EMPTY }
@@ -147,20 +147,17 @@ class ProductsAdapter(private val onClick: (ProductItem) -> Unit) :
                 holder.summary.visibility =
                     if (holder.summary.text.isNotEmpty()) View.VISIBLE else View.GONE
                 val repository: Repository? = repositories[productItem.repositoryId]
-                if ((productItem.icon.isNotEmpty() || productItem.metadataIcon.isNotEmpty()) && repository != null) {
-                    holder.icon.load(
+                holder.icon.load(
+                    repository?.let {
                         CoilDownloader.createIconUri(
                             holder.icon, productItem.packageName,
-                            productItem.icon, productItem.metadataIcon, repository
+                            productItem.icon, productItem.metadataIcon, it
                         )
-                    ) {
-                        transformations(RoundedCornersTransformation(4.toPx))
-                        placeholder(holder.progressIcon)
-                        error(holder.defaultIcon)
                     }
-                } else {
-                    holder.icon.clear()
-                    holder.icon.setImageDrawable(holder.defaultIcon)
+                ) {
+                    transformations(RoundedCornersTransformation(4.toPx))
+                    placeholder(holder.progressIcon)
+                    error(holder.defaultIcon)
                 }
                 holder.status.apply {
                     if (productItem.canUpdate) {

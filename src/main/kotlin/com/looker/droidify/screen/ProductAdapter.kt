@@ -1177,19 +1177,14 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 val updateStatus = Payload.STATUS in payloads
                 val updateAll = !updateStatus
                 if (updateAll) {
-                    if (item.product.icon.isNotEmpty() || item.product.metadataIcon.isNotEmpty()) {
-                        holder.icon.load(
-                            CoilDownloader.createIconUri(
-                                holder.icon, item.product.packageName,
-                                item.product.icon, item.product.metadataIcon, item.repository
-                            )
-                        ) {
-                            placeholder(holder.progressIcon)
-                            error(holder.defaultIcon)
-                        }
-                    } else {
-                        holder.icon.clear()
-                        holder.icon.setImageDrawable(holder.defaultIcon)
+                    holder.icon.load(
+                        CoilDownloader.createIconUri(
+                            holder.icon, item.product.packageName,
+                            item.product.icon, item.product.metadataIcon, item.repository
+                        )
+                    ) {
+                        placeholder(holder.progressIcon)
+                        error(holder.defaultIcon)
                     }
                     holder.name.text = item.product.name
                     holder.packageName.apply {
