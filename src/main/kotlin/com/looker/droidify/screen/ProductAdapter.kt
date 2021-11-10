@@ -498,8 +498,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             val surfaceColor =
                 itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
-
-
             image = object : ShapeableImageView(context) {
                 override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -1151,7 +1149,8 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 }
                 itemView.setOnLongClickListener {
                     val releaseItem = items[adapterPosition] as Item.ReleaseItem
-                    copyLinkToClipboard(itemView, releaseItem.release.getDownloadUrl(releaseItem.repository))
+                    copyLinkToClipboard(itemView,
+                        releaseItem.release.getDownloadUrl(releaseItem.repository))
                     true
                 }
             }
