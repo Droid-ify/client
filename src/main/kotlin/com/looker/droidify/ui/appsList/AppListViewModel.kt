@@ -2,12 +2,10 @@ package com.looker.droidify.ui.appsList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.entity.ProductItem
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class AppListViewModel : ViewModel() {
@@ -21,6 +19,7 @@ class AppListViewModel : ViewModel() {
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000)
     )
+
     val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
         initialValue = ProductItem.Section.All,
         scope = viewModelScope,
@@ -31,6 +30,32 @@ class AppListViewModel : ViewModel() {
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000)
     )
+
+    fun request(source: AppListFragment.Source): CursorOwner.Request {
+        var mSearchQuery = ""
+        var mSections: ProductItem.Section = ProductItem.Section.All
+        var mOrder: ProductItem.Order = ProductItem.Order.NAME
+        viewModelScope.launch { searchQuery.collect { if (source.sections) mSearchQuery = it } }
+        viewModelScope.launch { sections.collect { if (source.sections) mSections = it } }
+        viewModelScope.launch { order.collect { if (source.order) mOrder = it } }
+        return when (source) {
+            AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(
+                mSearchQuery,
+                mSections,
+                mOrder
+            )
+            AppListFragment.Source.INSTALLED -> CursorOwner.Request.ProductsInstalled(
+                mSearchQuery,
+                mSections,
+                mOrder
+            )
+            AppListFragment.Source.UPDATES -> CursorOwner.Request.ProductsUpdates(
+                mSearchQuery,
+                mSections,
+                mOrder
+            )
+        }
+    }
 
     fun setSection(newSection: ProductItem.Section, perform: () -> Unit) {
         viewModelScope.launch(Dispatchers.Main) {
