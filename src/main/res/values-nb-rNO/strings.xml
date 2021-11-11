@@ -11,11 +11,11 @@
     <string name="compiled_for_debugging">Kompilert for avlusing</string>
     <string name="confirmation">Bekreftelse</string>
     <string name="could_not_download_FORMAT">Kunne ikke laste ned %s</string>
-    <string name="connecting">Kobler til …</string>
+    <string name="connecting">Kobler til</string>
     <string name="contains_non_free_media">Inneholder ufri media</string>
     <string name="delete_repository_DESC">Vil du slette pakkebrønnen\?</string>
     <string name="downloaded_FORMAT">Lastet ned %s</string>
-    <string name="downloading">Laster ned …</string>
+    <string name="downloading">Laster ned</string>
     <string name="fingerprint">Fingeravtrykk</string>
     <string name="has_advertising">Har reklame</string>
     <string name="has_non_free_dependencies">Har ufrie avhengigheter</string>
@@ -51,7 +51,7 @@
     <string name="permissions">Tilganger</string>
     <string name="plus_more_FORMAT">+%d til</string>
     <string name="settings">Innstillinger</string>
-    <string name="processing_FORMAT">Behandler %1$s …</string>
+    <string name="processing_FORMAT">Behandler %1$s</string>
     <string name="promotes_non_free_network_services">Promoterer ufrie nettverkstjenester</string>
     <string name="provided_by_FORMAT">Tilbudt av %s</string>
     <string name="proxy_host">Mellomtjenervert</string>
@@ -61,7 +61,7 @@
     <string name="repository">Pakkebrønn</string>
     <string name="requires_FORMAT">Krever %s</string>
     <string name="repository_unsigned_DESC">Usignert. Kunne ikke bekrefte programlisten. Vær forsiktig med å laste ned programmer fra usignerte pakkebrønner.</string>
-    <string name="root_permission">Stille installasjon</string>
+    <string name="root_permission">Stille Installasjon</string>
     <string name="root_permission_description">Tillat rot-tilganger for stille installasjoner</string>
     <string name="screenshots">Skjermavbildninger</string>
     <string name="search">Søk</string>
@@ -76,7 +76,7 @@
     <string name="suggested">Foreslått</string>
     <string name="signed_using_unsafe_algorithm">Signert ved bruk av en utrygg algoritme</string>
     <string name="syncing">Synkroniserer</string>
-    <string name="syncing_FORMAT">Synkroniserer %s …</string>
+    <string name="syncing_FORMAT">Synkroniserer %s</string>
     <string name="system">System</string>
     <string name="target">Mål</string>
     <string name="sync_repositories_automatically">Synkroniser pakkebrønner automatisk</string>
@@ -92,14 +92,14 @@
     <string name="website">Nettside</string>
     <string name="validation_index_error_DESC">Kunne ikke bekrefte indeksen.</string>
     <string name="version_FORMAT">Versjon %s</string>
-    <string name="waiting_to_start_download">Venter på å laste ned …</string>
+    <string name="waiting_to_start_download">Venter på å laste ned</string>
     <string name="action_failed">Handlingen mislyktes</string>
     <string name="all_applications_up_to_date">Alt er av nyeste dato</string>
     <string name="launch">Kjør</string>
     <string name="notify_about_updates_summary">Vis en merknad når oppgraderinger er tilgjengelige</string>
     <string name="add_repository">Legg til pakkebrønn</string>
     <string name="credits">Bidragsytere</string>
-    <string name="downloading_FORMAT">Laster ned %s …</string>
+    <string name="downloading_FORMAT">Laster ned %s</string>
     <string name="network_error_DESC">Nettverksfeil.</string>
     <string name="no_proxy">Ingen mellomtjener</string>
     <string name="only_on_wifi">Kun på Wi-Fi</string>
