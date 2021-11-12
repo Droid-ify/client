@@ -131,7 +131,7 @@ object Preferences {
             Key<Boolean>("incompatible_versions", Value.BooleanValue(false))
 
         object ListAnimation :
-            Key<Boolean>("list_animation", Value.BooleanValue(true))
+            Key<Boolean>("list_animation", Value.BooleanValue(false))
 
         object ProxyHost : Key<String>("proxy_host", Value.StringValue("localhost"))
         object ProxyPort : Key<Int>("proxy_port", Value.IntValue(9050))
