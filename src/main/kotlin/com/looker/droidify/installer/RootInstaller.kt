@@ -3,7 +3,6 @@ package com.looker.droidify.installer
 import android.content.Context
 import android.util.Log
 import com.looker.droidify.content.Cache
-import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.extension.android.Android
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -23,36 +22,32 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     override suspend fun uninstall(packageName: String) = mRootUninstaller(packageName)
 
     private suspend fun mRootInstaller(cacheFile: File) {
-        if (rootInstallerEnabled) {
-            val installCommand =
-                String.format(
-                    ROOT_INSTALL_PACKAGE,
-                    cacheFile.absolutePath,
-                    getCurrentUserState,
-                    cacheFile.length()
-                )
-            val deleteCommand =
-                String.format(
-                    DELETE_PACKAGE,
-                    getUtilBoxPath,
-                    cacheFile.absolutePath.quote
-                )
-            withContext(Dispatchers.IO) {
-                launch {
-                    Shell.su(installCommand).submit {
-                        if (it.isSuccess) Shell.su(deleteCommand).submit()
-                    }
+        val installCommand =
+            String.format(
+                ROOT_INSTALL_PACKAGE,
+                cacheFile.absolutePath,
+                getCurrentUserState,
+                cacheFile.length()
+            )
+        val deleteCommand =
+            String.format(
+                DELETE_PACKAGE,
+                getUtilBoxPath,
+                cacheFile.absolutePath.quote
+            )
+        withContext(Dispatchers.IO) {
+            launch {
+                Shell.su(installCommand).submit {
+                    if (it.isSuccess) Shell.su(deleteCommand).submit()
                 }
             }
         }
     }
 
     private suspend fun mRootUninstaller(packageName: String) {
-        if (rootInstallerEnabled) {
-            val uninstallCommand =
-                String.format(ROOT_UNINSTALL_PACKAGE, getCurrentUserState, packageName)
-            withContext(Dispatchers.IO) { launch { Shell.su(uninstallCommand).submit() } }
-        }
+        val uninstallCommand =
+            String.format(ROOT_UNINSTALL_PACKAGE, getCurrentUserState, packageName)
+        withContext(Dispatchers.IO) { launch { Shell.su(uninstallCommand).submit() } }
     }
 
     private val getCurrentUserState: String =
