@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="address">Adres</string>
+    <string name="all_applications_up_to_date">Alle applicaties up-to-date</string>
+    <string name="already_exists">Bestaat al.</string>
+    <string name="all_applications">Alle applicaties</string>
+    <string name="action_failed">Actie mislukt</string>
+    <string name="add_repository">Repositie toevoegen</string>
+</resources>
