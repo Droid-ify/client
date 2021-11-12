@@ -17,6 +17,7 @@ import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.text.hex
+import com.topjohnwu.superuser.Shell
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
@@ -78,13 +79,14 @@ object Utils {
     }
 
     val rootInstallerEnabled: Boolean
-        get() = Preferences[Preferences.Key.RootPermission]
+        get() = Preferences[Preferences.Key.RootPermission] && (Shell.getCachedShell()?.isRoot
+            ?: Shell.getShell().isRoot)
 
     fun startUpdate(
         packageName: String,
         installedItem: InstalledItem?,
         products: List<Pair<Product, Repository>>,
-        downloadConnection: Connection<DownloadService.Binder, DownloadService>
+        downloadConnection: Connection<DownloadService.Binder, DownloadService>,
     ) {
         val productRepository = Product.findSuggested(products, installedItem) { it.first }
         val compatibleReleases = productRepository?.first?.selectedReleases.orEmpty()
