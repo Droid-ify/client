@@ -188,12 +188,9 @@ class SettingsFragment : ScreenFragment() {
             preferences[Preferences.Key.ProxyHost]?.setEnabled(enabled)
             preferences[Preferences.Key.ProxyPort]?.setEnabled(enabled)
         }
-        if (key != null && !(Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot)
-        ) {
-            Preferences[Preferences.Key.RootPermission] = false
-            preferences[Preferences.Key.RootPermission]?.setEnabled(false)
-        } else if (Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot) {
-            preferences[Preferences.Key.RootPermission]?.setEnabled(true)
+        if (key == Preferences.Key.RootPermission) {
+            preferences[Preferences.Key.RootPermission]?.setEnabled(Shell.getCachedShell()?.isRoot
+                ?: Shell.getShell().isRoot)
         }
         if (key == Preferences.Key.Theme) {
             requireActivity().recreate()
