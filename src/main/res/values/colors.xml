@@ -14,6 +14,7 @@
     <color name="black">#1E1E1E</color>
 
     <color name="white">#FFFFFF</color>
-    <color name="grey_light">#333333</color>
+    <color name="darker_white">#DDDDDD</color>
+    <color name="grey_light">#505050</color>
     <color name="grey_dark">#2C2C2C</color>
 </resources>

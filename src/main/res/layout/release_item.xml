@@ -78,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondaryNoDisable"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondaryNoDisable"
+            android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -97,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="1"
-        android:textColor="?android:attr/textColorSecondaryNoDisable"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -105,7 +105,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textColor="?android:attr/textColorSecondaryNoDisable"
+        android:textColor="?android:attr/textColorSecondary"
         android:textSize="14sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
