@@ -114,7 +114,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         val layout = Layout(editRepositoryBinding)
         this.layout = layout
 
-        layout.fingerprint.hint = generateSequence { "FF" }.take(32).joinToString(separator = " ")
         layout.fingerprint.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) =
                 Unit
