@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
@@ -21,6 +23,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 
@@ -94,15 +97,17 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
         (recyclerView?.adapter as? AppListAdapter)?.apply {
             this.cursor = cursor
-            viewLifecycleOwner.lifecycleScope.launchWhenCreated {
-                emptyText = when {
-                    cursor == null -> ""
-                    viewModel.searchQuery.first()
-                        .isNotEmpty() -> getString(R.string.no_matching_applications_found)
-                    else -> when (source) {
-                        Source.AVAILABLE -> getString(R.string.no_applications_available)
-                        Source.INSTALLED -> getString(R.string.no_applications_installed)
-                        Source.UPDATES -> getString(R.string.all_applications_up_to_date)
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.CREATED) {
+                    emptyText = when {
+                        cursor == null -> ""
+                        viewModel.searchQuery.first()
+                            .isNotEmpty() -> getString(R.string.no_matching_applications_found)
+                        else -> when (source) {
+                            Source.AVAILABLE -> getString(R.string.no_applications_available)
+                            Source.INSTALLED -> getString(R.string.no_applications_installed)
+                            Source.UPDATES -> getString(R.string.all_applications_up_to_date)
+                        }
                     }
                 }
             }

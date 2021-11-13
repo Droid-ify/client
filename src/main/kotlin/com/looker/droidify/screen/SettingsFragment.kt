@@ -16,6 +16,8 @@ import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,6 +31,7 @@ import com.looker.droidify.databinding.PreferenceItemBinding
 import com.looker.droidify.utility.extension.resources.*
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 
 class SettingsFragment : ScreenFragment() {
 
@@ -135,8 +138,10 @@ class SettingsFragment : ScreenFragment() {
             )
         }
 
-        lifecycleScope.launchWhenStarted {
-            Preferences.subject.collect { updatePreference(it) }
+        lifecycleScope.launch {
+            Preferences.subject
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect { updatePreference(it) }
         }
         updatePreference(null)
     }

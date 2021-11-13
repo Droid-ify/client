@@ -8,6 +8,8 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +37,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlin.math.*
 
 class TabsFragment : ScreenFragment() {
@@ -201,12 +204,12 @@ class TabsFragment : ScreenFragment() {
         }
 
         updateOrder()
-        lifecycleScope.launchWhenStarted {
-            Preferences.subject.collect {
-                if (it == Preferences.Key.SortOrder) {
-                    updateOrder()
+        lifecycleScope.launch {
+            Preferences.subject
+                .flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
+                .collect {
+                    if (it == Preferences.Key.SortOrder) updateOrder()
                 }
-            }
         }
 
         val content = fragmentBinding.fragmentContent
@@ -531,7 +534,6 @@ class TabsFragment : ScreenFragment() {
                 itemView as MaterialTextView
                 itemView.gravity = Gravity.CENTER_VERTICAL
                 itemView.resources.sizeScaled(16).let { itemView.setPadding(it, 0, it, 0) }
-                itemView.setTextColor(context.getColorFromAttr(android.R.attr.textColor))
                 itemView.setTextSizeScaled(16)
                 itemView.background =
                     context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
