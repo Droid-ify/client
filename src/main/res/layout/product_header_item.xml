@@ -34,16 +34,16 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
-                android:textSize="17sp" />
+                android:textAppearance="?textAppearanceBody1" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/package_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textSize="14sp" />
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondaryNoDisable" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

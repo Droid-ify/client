@@ -339,7 +339,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         val actionTintNormal = action.context.getColorFromAttr(R.attr.colorSurface)
         val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
-        val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnSurface)
+        val actionTintOnNormal = action.context.getColorFromAttr(android.R.attr.textColorPrimary)
         val actionTintOnCancel = action.context.getColorFromAttr(R.attr.colorOnError)
 
         init {
@@ -1186,7 +1186,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     holder.name.text = item.product.name
                     holder.packageName.apply {
                         text = item.product.packageName
-                        setTextSizeScaled(15)
                     }
                     val action = action
                     holder.action.apply {

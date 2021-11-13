@@ -2,9 +2,9 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    style="?attr/materialCardViewFilledStyle">
+    android:layout_height="72dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
@@ -39,14 +39,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:singleLine="true"
-                    android:textSize="16sp" />
+                    android:textAppearance="?textAppearanceBody1" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:maxWidth="70dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:textAppearance="?textAppearanceCaption" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -55,7 +56,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textSize="14sp" />
+                android:textColor="?android:attr/textColorSecondaryNoDisable"
+                android:textAppearance="?textAppearanceBody2" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

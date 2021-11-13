@@ -534,7 +534,6 @@ class TabsFragment : ScreenFragment() {
                 itemView as MaterialTextView
                 itemView.gravity = Gravity.CENTER_VERTICAL
                 itemView.resources.sizeScaled(16).let { itemView.setPadding(it, 0, it, 0) }
-                itemView.setTextSizeScaled(16)
                 itemView.background =
                     context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
                 itemView.layoutParams = RecyclerView.LayoutParams(

@@ -12,9 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:fontFamily="sans-serif-medium"
-        android:singleLine="true"
-        android:textSize="14sp" />
+        android:singleLine="true" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/icon"
@@ -22,7 +20,6 @@
         android:layout_height="match_parent"
         android:scaleType="center"
         android:src="@drawable/ic_arrow_down"
-        android:tintMode="src_in"
         tools:ignore="ContentDescription" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
