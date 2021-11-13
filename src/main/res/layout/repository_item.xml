@@ -13,7 +13,6 @@
         android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:singleLine="true"
-        android:textColor="?android:attr/textColor"
         android:textSize="16sp" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial

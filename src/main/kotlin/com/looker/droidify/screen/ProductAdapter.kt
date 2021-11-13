@@ -385,7 +385,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             itemView as MaterialTextView
             itemView.typeface = TypefaceExtra.medium
             itemView.setTextSizeScaled(14)
-            itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.background =
                 ResourcesCompat.getDrawable(
                     itemView.resources,
@@ -414,7 +413,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         init {
             itemView as MaterialTextView
             itemView.setTextSizeScaled(15)
-            itemView.setTextColor(itemView.context.getColorFromAttr(android.R.attr.textColor))
             itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
             itemView.movementMethod = ClickableMovementMethod
             itemView.layoutParams = RecyclerView.LayoutParams(

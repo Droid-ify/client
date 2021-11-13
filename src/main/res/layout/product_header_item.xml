@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:singleLine="true"
-                android:textColor="?android:attr/textColor"
                 android:textSize="17sp" />
 
             <com.google.android.material.textview.MaterialTextView
@@ -44,7 +43,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="?android:attr/textColor"
                 android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 

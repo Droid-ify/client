@@ -34,7 +34,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:textColor="?android:attr/textColor"
                 android:textSize="16sp" />
 
             <com.google.android.material.imageview.ShapeableImageView

@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textColor="?android:textColor"
             android:textSize="16sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -63,7 +62,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textColor="?android:attr/textColor"
             android:textSize="16sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -95,7 +93,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:singleLine="true"
-            android:textColor="?android:textColor"
             android:textSize="16sp" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -136,7 +133,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textColor="?android:textColor"
                 android:textSize="12sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
     </com.google.android.material.card.MaterialCardView>

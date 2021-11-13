@@ -14,7 +14,6 @@
         android:layout_weight="1"
         android:fontFamily="sans-serif-medium"
         android:singleLine="true"
-        android:textColor="?android:attr/textColor"
         android:textSize="14sp" />
 
     <com.google.android.material.imageview.ShapeableImageView
@@ -23,7 +22,6 @@
         android:layout_height="match_parent"
         android:scaleType="center"
         android:src="@drawable/ic_arrow_down"
-        android:tint="?android:attr/textColor"
         android:tintMode="src_in"
         tools:ignore="ContentDescription" />
 
