@@ -1274,10 +1274,18 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     imageSource.toString().contains("github") -> holder.devIcon.load(imageSource)
                 }
                 holder.dev.setOnClickListener {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, product?.source?.toUri()))
+                    product?.source?.let { link ->
+                        if (link.isNotEmpty()) {
+                            context.startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
+                        }
+                    }
                 }
                 holder.dev.setOnLongClickListener {
-                    product?.source?.let { copyLinkToClipboard(holder.dev, it) }
+                    product?.source?.let { link ->
+                        if (link.isNotEmpty()) {
+                            copyLinkToClipboard(holder.dev, link)
+                        }
+                    }
                     true
                 }
             }
