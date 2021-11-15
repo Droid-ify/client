@@ -10,7 +10,6 @@ import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
@@ -45,7 +44,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.entity.*
-import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
@@ -545,65 +543,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         }
     }
 
-    val gridItemDecoration = object : RecyclerView.ItemDecoration() {
-        private fun decorateScreenshot(
-            outRect: Rect,
-            parent: RecyclerView,
-            position: Int,
-            count: Int,
-        ) {
-            val column = position % columns
-            val rows = (count + columns - 1) / columns
-            val row = position / columns
-            val outer = parent.resources.sizeScaled(GRID_SPACING_OUTER_DP)
-            val inner = parent.resources.sizeScaled(GRID_SPACING_INNER_DP)
-            val total = 2 * outer + (columns - 1) * inner
-            // Each column should have this spacing
-            val average = total / columns
-            // Start spacing is in the range from [outer] to [average - outer]
-            // Interpolate between these values
-            val start =
-                (outer - ((2 * outer - average) * (column.toFloat() / (columns - 1)))).roundToInt()
-            val end = average - start
-            val bottom = if (row + 1 >= rows) outer else 0
-            val rtl = parent.layoutDirection == View.LAYOUT_DIRECTION_RTL
-            if (rtl) {
-                outRect.set(end, inner, start, bottom)
-            } else {
-                outRect.set(start, inner, end, bottom)
-            }
-        }
-
-        override fun getItemOffsets(
-            outRect: Rect,
-            view: View,
-            parent: RecyclerView,
-            state: RecyclerView.State,
-        ) {
-            val holder = parent.getChildViewHolder(view)
-            if (holder is ScreenshotViewHolder) {
-                val position = holder.adapterPosition
-                if (position >= 0) {
-                    val first =
-                        items.subList(0, position).indexOfLast { it !is Item.ScreenshotItem } + 1
-                    val gridCount =
-                        items.subList(first, items.size).indexOfFirst { it !is Item.ScreenshotItem }
-                            .let { if (it < 0) items.size - first else it }
-                    val gridPosition = position - first
-                    decorateScreenshot(outRect, parent, gridPosition, gridCount)
-                    holder.gridPosition = gridPosition
-                    holder.gridCount = gridCount
-                } else if (position == -1 && holder.gridPosition >= 0 && holder.gridCount >= 0) {
-                    decorateScreenshot(outRect, parent, holder.gridPosition, holder.gridCount)
-                }
-            }
-        }
-    }
-
-    fun requiresGrid(position: Int): Boolean {
-        return items[position] is Item.ScreenshotItem
-    }
-
     private val items = mutableListOf<Item>()
     private val expanded = mutableSetOf<ExpandType>()
     private var product: Product? = null
@@ -1080,8 +1019,10 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 }
                 itemView.setOnLongClickListener {
                     val releaseItem = items[adapterPosition] as Item.ReleaseItem
-                    copyLinkToClipboard(itemView,
-                        releaseItem.release.getDownloadUrl(releaseItem.repository))
+                    copyLinkToClipboard(
+                        itemView,
+                        releaseItem.release.getDownloadUrl(releaseItem.repository)
+                    )
                     true
                 }
             }
