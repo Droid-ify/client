@@ -23,18 +23,18 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.doOnPreDraw
+import androidx.core.widget.NestedScrollView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.LinearProgressIndicator
@@ -131,7 +131,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         abstract val descriptor: String
         abstract val viewType: ViewType
 
-        class AppInfoItem(val repository: Repository, val product: Product) : Item() {
+        class AppInfoItem(
+            val repository: Repository,
+            val product: Product,
+            val packageName: String,
+            val screenshots: List<Product.Screenshot>,
+        ) : Item() {
             override val descriptor: String
                 get() = "app_info.${product.name}"
 
@@ -313,6 +318,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
         val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
         val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
+        val screenshotsSection =
+            itemView.findViewById<LinearLayoutCompat>(R.id.screenshots_section)!!
+        val screenshotsSectionIcon =
+            itemView.findViewById<ShapeableImageView>(R.id.screenshots_section_icon)!!
+        val screenshotsView = itemView.findViewById<NestedScrollView>(R.id.screenshots_view)!!
+        val screenshotsRecycler = itemView.findViewById<RecyclerView>(R.id.screenshots_recycler)!!
 
         val progressIcon: Drawable
         val defaultIcon: Drawable
@@ -606,7 +617,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         items.clear()
 
         if (productRepository != null) {
-            items += Item.AppInfoItem(productRepository.second, productRepository.first)
+            items += Item.AppInfoItem(
+                productRepository.second,
+                productRepository.first,
+                packageName,
+                productRepository.first.screenshots
+            )
 
             if (installedItem != null) {
                 items.add(
@@ -1127,6 +1143,25 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                             }
                         iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
                         else holder.actionTintOnNormal
+                    }
+                    if (item.screenshots.isEmpty()) {
+                        holder.screenshotsSection.visibility = View.GONE
+                        holder.screenshotsView.visibility = View.GONE
+                    } else {
+                        holder.screenshotsSection.visibility = View.VISIBLE
+                        holder.screenshotsView.visibility = View.VISIBLE
+                        holder.screenshotsSection.setOnClickListener {
+                            val isExpanded = holder.screenshotsView.visibility == View.VISIBLE
+                            holder.screenshotsSectionIcon.scaleY = if (isExpanded) -1f else 1f
+                            holder.screenshotsView.visibility =
+                                if (isExpanded) View.GONE else View.VISIBLE
+                        }
+                        holder.screenshotsRecycler.layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        holder.screenshotsRecycler.adapter =
+                            ScreenshotsAdapter { callbacks.onScreenshotClick(it) }.apply {
+                                setScreenshots(item.repository, item.packageName, item.screenshots)
+                            }
                     }
                 }
                 if (updateAll || updateStatus) {
