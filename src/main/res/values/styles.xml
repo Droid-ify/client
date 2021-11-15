@@ -95,7 +95,6 @@
     </style>
 
     <style name="Theme.AppBarLayout" parent="Widget.Material3.AppBarLayout">
-        <item name="android:background">@drawable/bottom_corner</item>
         <item name="android:backgroundTint">?attr/colorSurface</item>
         <item name="android:fitsSystemWindows">true</item>
     </style>
