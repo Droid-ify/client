@@ -91,7 +91,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         data class Downloading(val read: Long, val total: Long?) : Status()
     }
 
-    enum class ViewType { APP_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, SCREENSHOT, RELEASE, EMPTY }
+    enum class ViewType { APP_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
 
     private enum class SwitchType(val titleResId: Int) {
         IGNORE_ALL_UPDATES(R.string.ignore_all_updates),
@@ -104,7 +104,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         LINKS(R.string.links, android.R.attr.colorAccent),
         DONATE(R.string.donate, android.R.attr.colorAccent),
         PERMISSIONS(R.string.permissions, android.R.attr.colorAccent),
-        SCREENSHOTS(R.string.screenshots, android.R.attr.colorAccent),
         VERSIONS(R.string.versions, android.R.attr.colorAccent)
     }
 
@@ -256,17 +255,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
             override val viewType: ViewType
                 get() = ViewType.PERMISSIONS
-        }
-
-        class ScreenshotItem(
-            val repository: Repository, val packageName: String,
-            val screenshot: Product.Screenshot,
-        ) : Item() {
-            override val descriptor: String
-                get() = "screenshot.${repository.id}.${screenshot.identifier}"
-
-            override val viewType: ViewType
-                get() = ViewType.SCREENSHOT
         }
 
         class ReleaseItem(
@@ -470,47 +458,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         }
     }
 
-    private class ScreenshotViewHolder(context: Context) :
-        RecyclerView.ViewHolder(CircularRevealFrameLayout(context)) {
-        val image: ShapeableImageView
-
-        val placeholder: Drawable
-
-        var gridPosition = -1
-        var gridCount = -1
-
-        init {
-            itemView as CircularRevealFrameLayout
-            itemView.foreground =
-                AppCompatResources.getDrawable(itemView.context, R.drawable.bg_item_rounded_ripple)
-            val surfaceColor =
-                itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
-
-            image = object : ShapeableImageView(context) {
-                override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-                    super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-                    setMeasuredDimension(measuredWidth, 2 * measuredWidth)
-                }
-            }
-
-            val radius = image.context.resources.getDimension(R.dimen.shape_medium_corner)
-            val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
-                .setAllCornerSizes(radius)
-                .build()
-            image.shapeAppearanceModel = shapeAppearanceModel
-            image.setBackgroundColor(surfaceColor)
-            itemView.addView(image)
-            itemView.layoutParams = RecyclerView.LayoutParams(
-                RecyclerView.LayoutParams.MATCH_PARENT,
-                RecyclerView.LayoutParams.WRAP_CONTENT
-            )
-
-            val placeholder = image.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
-            placeholder.setTint(surfaceColor)
-            this.placeholder = PaddingDrawable(placeholder, 2f)
-        }
-    }
-
     private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val dateFormat = DateFormat.getDateFormat(itemView.context)!!
 
@@ -710,18 +657,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 val length = if (end < 0) -1 else asSequence().take(end)
                     .indexOfLast { it != '\n' }.let { if (it >= 0) it + 1 else end }
                 return if (length >= 0) subSequence(0, length) else null
-            }
-
-            val screenshotItems = productRepository.first.screenshots
-                .map { Item.ScreenshotItem(productRepository.second, packageName, it) }
-            if (screenshotItems.isNotEmpty()) {
-                items += Item.SectionItem(
-                    SectionType.SCREENSHOTS,
-                    ExpandType.SCREENSHOTS,
-                    emptyList(),
-                    screenshotItems.size
-                )
-                items += screenshotItems
             }
 
             val description = formatHtml(productRepository.first.description).apply {
@@ -1122,12 +1057,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         permissionsItem.permissions.map { it.name })
                 }
             }
-            ViewType.SCREENSHOT -> ScreenshotViewHolder(parent.context).apply {
-                itemView.setOnClickListener {
-                    val screenshotItem = items[adapterPosition] as Item.ScreenshotItem
-                    callbacks.onScreenshotClick(screenshotItem.screenshot)
-                }
-            }
             ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
                 itemView.setOnClickListener {
                     val releaseItem = items[adapterPosition] as Item.ReleaseItem
@@ -1405,25 +1334,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     }
                 }
                 holder.text.text = builder
-            }
-            ViewType.SCREENSHOT -> {
-                holder as ScreenshotViewHolder
-                item as Item.ScreenshotItem
-                val screenWidth = context.resources.displayMetrics.widthPixels
-                val outer = context.resources.sizeScaled(GRID_SPACING_OUTER_DP)
-                val inner = context.resources.sizeScaled(GRID_SPACING_INNER_DP)
-                val cellSize = (screenWidth - 2 * outer - (columns - 1) * inner) / columns
-                holder.image.load(
-                    CoilDownloader.createScreenshotUri(
-                        item.repository,
-                        item.packageName,
-                        item.screenshot
-                    )
-                ) {
-                    placeholder(holder.placeholder)
-                    error(holder.placeholder)
-                    size(cellSize)
-                }
             }
             ViewType.RELEASE -> {
                 holder as ReleaseViewHolder
