@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_failed">Eylem başarısız</string>
-    <string name="add_repository">Depo ekle</string>nm 
+    <string name="add_repository">Depo ekle</string>nm
     <string name="address">Adres</string>
     <string name="all_applications">Tüm uygulamalar</string>
     <string name="all_applications_up_to_date">Tüm uygulamalar güncel</string>

@@ -47,8 +47,8 @@
                     android:layout_height="wrap_content"
                     android:maxWidth="70dp"
                     android:singleLine="true"
-                    android:textColor="?android:attr/textColorSecondary"
-                    android:textAppearance="?textAppearanceCaption" />
+                    android:textAppearance="?textAppearanceCaption"
+                    android:textColor="?android:attr/textColorSecondary" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -57,8 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="?android:attr/textColorSecondary"
-                android:textAppearance="?textAppearanceBody2" />
+                android:textAppearance="?textAppearanceBody2"
+                android:textColor="?android:attr/textColorSecondary" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

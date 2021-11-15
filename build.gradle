@@ -120,25 +120,38 @@ repositories {
 }
 
 dependencies {
-    // Frontend
-    implementation 'androidx.appcompat:appcompat:1.4.0-rc01'
-    implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.fragment:fragment-ktx:1.4.0-rc01'
-    implementation 'com.google.android.material:material:1.5.0-alpha05'
 
-    // Backend
-    implementation 'io.coil-kt:coil:1.4.0'
+    // Core
     implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.room:room-runtime:2.3.0'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
+    implementation 'androidx.appcompat:appcompat:1.4.0-rc01'
+    implementation 'androidx.fragment:fragment-ktx:1.4.0-rc01'
+
+    // Material3
+    implementation 'com.google.android.material:material:1.5.0-beta01'
+
+    // Coil
+    implementation 'io.coil-kt:coil:1.4.0'
+
+    // OkHttps
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
+    // LibSu
     implementation 'com.github.topjohnwu.libsu:core:3.1.2'
+
+    // JackSon
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.0'
+
+    // Coroutines / Lifecycle
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.4.0'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
+    // Room
+    implementation 'androidx.room:room-runtime:2.3.0'
     implementation 'androidx.room:room-ktx:2.3.0'
     kapt 'androidx.room:room-compiler:2.3.0'
 }
