@@ -12,7 +12,6 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -111,19 +110,12 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         content.addView(RecyclerView(content.context).apply {
             id = android.R.id.list
             val columns = (resources.configuration.screenWidthDp / 120).coerceIn(3, 5)
-            val layoutManager = GridLayoutManager(context, columns)
-            this.layoutManager = layoutManager
+            this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             isMotionEventSplittingEnabled = false
             isVerticalScrollBarEnabled = false
             val adapter = ProductAdapter(this@ProductFragment, columns)
             this.adapter = adapter
-            layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                override fun getSpanSize(position: Int): Int {
-                    return if (adapter.requiresGrid(position)) 1 else layoutManager.spanCount
-                }
-            }
             addOnScrollListener(scrollListener)
-            addItemDecoration(adapter.gridItemDecoration)
             savedInstanceState?.getParcelable<ProductAdapter.SavedState>(STATE_ADAPTER)
                 ?.let(adapter::restoreState)
             layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
