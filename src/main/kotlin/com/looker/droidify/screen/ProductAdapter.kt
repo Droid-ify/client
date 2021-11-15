@@ -91,7 +91,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         data class Downloading(val read: Long, val total: Long?) : Status()
     }
 
-    enum class ViewType { HEADER, RELEASE_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, SCREENSHOT, RELEASE, EMPTY }
+    enum class ViewType { APP_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, SCREENSHOT, RELEASE, EMPTY }
 
     private enum class SwitchType(val titleResId: Int) {
         IGNORE_ALL_UPDATES(R.string.ignore_all_updates),
@@ -132,20 +132,12 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         abstract val descriptor: String
         abstract val viewType: ViewType
 
-        class HeaderItem(val repository: Repository, val product: Product) : Item() {
+        class AppInfoItem(val repository: Repository, val product: Product) : Item() {
             override val descriptor: String
-                get() = "header"
+                get() = "app_info.${product.name}"
 
             override val viewType: ViewType
-                get() = ViewType.HEADER
-        }
-
-        object ReleaseInfoItem : Item() {
-            override val descriptor: String
-                get() = "release_item"
-            override val viewType: ViewType
-                get() = ViewType.RELEASE_INFO
-
+                get() = ViewType.APP_INFO
         }
 
         class SwitchItem(
@@ -325,7 +317,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private enum class Payload { REFRESH, STATUS }
 
-    private class HeaderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class AppInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
         val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
         val packageName = itemView.findViewById<MaterialTextView>(R.id.package_name)!!
@@ -351,9 +343,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             this.progressIcon = progressIcon
             this.defaultIcon = defaultIcon
         }
-    }
 
-    private class ReleaseInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val targetBlock = itemView.findViewById<LinearLayoutCompat>(R.id.sdk_block)!!
         val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
         val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
@@ -669,7 +659,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         items.clear()
 
         if (productRepository != null) {
-            items += Item.HeaderItem(productRepository.second, productRepository.first)
+            items += Item.AppInfoItem(productRepository.second, productRepository.first)
 
             if (installedItem != null) {
                 items.add(
@@ -722,7 +712,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                 return if (length >= 0) subSequence(0, length) else null
             }
 
-            items.add(Item.ReleaseInfoItem)
             val screenshotItems = productRepository.first.screenshots
                 .map { Item.ScreenshotItem(productRepository.second, packageName, it) }
             if (screenshotItems.isNotEmpty()) {
@@ -970,7 +959,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
             val translate = this.action == null || action == null ||
                     this.action == Action.CANCEL || action == Action.CANCEL
             this.action = action
-            val index = items.indexOfFirst { it is Item.HeaderItem }
+            val index = items.indexOfFirst { it is Item.AppInfoItem }
             if (index >= 0) {
                 if (translate) {
                     notifyItemChanged(index)
@@ -987,7 +976,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val translate = (this.status == null) != (status == null)
         if (this.status != status) {
             this.status = status
-            val index = items.indexOfFirst { it is Item.HeaderItem }
+            val index = items.indexOfFirst { it is Item.AppInfoItem }
             if (index >= 0) {
                 if (translate) {
                     notifyItemChanged(index)
@@ -1015,10 +1004,9 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return when (viewType) {
-            ViewType.HEADER -> HeaderViewHolder(parent.inflate(R.layout.product_header_item)).apply {
+            ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x)).apply {
                 action.setOnClickListener { this@ProductAdapter.action?.let(callbacks::onActionClick) }
             }
-            ViewType.RELEASE_INFO -> ReleaseInfoViewHolder(parent.inflate(R.layout.release_info))
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[adapterPosition] as Item.SwitchItem
@@ -1037,7 +1025,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     }
                     ProductPreferences[switchItem.packageName] = productPreference
                     items.asSequence().mapIndexedNotNull { index, item ->
-                        if (item is Item.HeaderItem ||
+                        if (item is Item.AppInfoItem ||
                             item is Item.SectionItem
                         ) index else null
                     }.forEach { notifyItemChanged(it, Payload.REFRESH) }
@@ -1168,9 +1156,9 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         val context = holder.itemView.context
         val item = items[position]
         when (getItemEnumViewType(position)) {
-            ViewType.HEADER -> {
-                holder as HeaderViewHolder
-                item as Item.HeaderItem
+            ViewType.APP_INFO -> {
+                holder as AppInfoViewHolder
+                item as Item.AppInfoItem
                 val updateStatus = Payload.STATUS in payloads
                 val updateAll = !updateStatus
                 if (updateAll) {
@@ -1241,11 +1229,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                         }::class
                     }
                 }
-                Unit
-            }
-            ViewType.RELEASE_INFO -> {
-                holder as ReleaseInfoViewHolder
-                item as Item.ReleaseInfoItem
 
                 val imageSource = product?.source?.trimAfter('/', 4).plus(".png").toUri()
                 val sdk = product?.displayRelease?.targetSdkVersion
