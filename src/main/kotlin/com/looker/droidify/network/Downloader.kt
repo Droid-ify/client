@@ -68,7 +68,7 @@ object Downloader {
 
     fun download(
         url: String, target: File, lastModified: String, entityTag: String, authentication: String,
-        callback: ((read: Long, total: Long?) -> Unit)?
+        callback: ((read: Long, total: Long?) -> Unit)?,
     ): Single<Result> {
         val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
         val request = Request.Builder().url(url)

@@ -18,7 +18,7 @@ object PackageItemResolver {
 
     private fun load(
         context: Context, localCache: LocalCache, packageName: String,
-        nonLocalized: CharSequence?, resId: Int
+        nonLocalized: CharSequence?, resId: Int,
     ): CharSequence? {
         return when {
             nonLocalized != null -> {
@@ -63,7 +63,7 @@ object PackageItemResolver {
     fun loadLabel(
         context: Context,
         localCache: LocalCache,
-        packageItemInfo: PackageItemInfo
+        packageItemInfo: PackageItemInfo,
     ): CharSequence? {
         return load(
             context, localCache, packageItemInfo.packageName,
@@ -74,7 +74,7 @@ object PackageItemResolver {
     fun loadDescription(
         context: Context,
         localCache: LocalCache,
-        permissionInfo: PermissionInfo
+        permissionInfo: PermissionInfo,
     ): CharSequence? {
         return load(
             context, localCache, permissionInfo.packageName,
@@ -88,29 +88,35 @@ object PackageItemResolver {
             when (permissionInfo.name) {
                 android.Manifest.permission.READ_CONTACTS,
                 android.Manifest.permission.WRITE_CONTACTS,
-                android.Manifest.permission.GET_ACCOUNTS ->
+                android.Manifest.permission.GET_ACCOUNTS,
+                ->
                     android.Manifest.permission_group.CONTACTS
                 android.Manifest.permission.READ_CALENDAR,
-                android.Manifest.permission.WRITE_CALENDAR ->
+                android.Manifest.permission.WRITE_CALENDAR,
+                ->
                     android.Manifest.permission_group.CALENDAR
                 android.Manifest.permission.SEND_SMS,
                 android.Manifest.permission.RECEIVE_SMS,
                 android.Manifest.permission.READ_SMS,
                 android.Manifest.permission.RECEIVE_MMS,
                 android.Manifest.permission.RECEIVE_WAP_PUSH,
-                "android.permission.READ_CELL_BROADCASTS" ->
+                "android.permission.READ_CELL_BROADCASTS",
+                ->
                     android.Manifest.permission_group.SMS
                 android.Manifest.permission.READ_EXTERNAL_STORAGE,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.ACCESS_MEDIA_LOCATION ->
+                android.Manifest.permission.ACCESS_MEDIA_LOCATION,
+                ->
                     android.Manifest.permission_group.STORAGE
                 android.Manifest.permission.ACCESS_FINE_LOCATION,
                 android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION ->
+                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                ->
                     android.Manifest.permission_group.LOCATION
                 android.Manifest.permission.READ_CALL_LOG,
                 android.Manifest.permission.WRITE_CALL_LOG,
-                @Suppress("DEPRECATION") android.Manifest.permission.PROCESS_OUTGOING_CALLS ->
+                @Suppress("DEPRECATION") android.Manifest.permission.PROCESS_OUTGOING_CALLS,
+                ->
                     android.Manifest.permission_group.CALL_LOG
                 android.Manifest.permission.READ_PHONE_STATE,
                 android.Manifest.permission.READ_PHONE_NUMBERS,
@@ -118,7 +124,8 @@ object PackageItemResolver {
                 android.Manifest.permission.ADD_VOICEMAIL,
                 android.Manifest.permission.USE_SIP,
                 android.Manifest.permission.ANSWER_PHONE_CALLS,
-                android.Manifest.permission.ACCEPT_HANDOVER ->
+                android.Manifest.permission.ACCEPT_HANDOVER,
+                ->
                     android.Manifest.permission_group.PHONE
                 android.Manifest.permission.RECORD_AUDIO ->
                     android.Manifest.permission_group.MICROPHONE

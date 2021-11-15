@@ -211,7 +211,7 @@ class ScreenshotsFragment() : DialogFragment() {
         fun update(
             viewPager: ViewPager2,
             repository: Repository?,
-            screenshots: List<Product.Screenshot>
+            screenshots: List<Product.Screenshot>,
         ) {
             this.repository = repository
             this.screenshots = screenshots
@@ -239,7 +239,7 @@ class ScreenshotsFragment() : DialogFragment() {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
-            viewType: ViewType
+            viewType: ViewType,
         ): RecyclerView.ViewHolder {
             return ViewHolder(parent.context).apply {
                 itemView.setOnClickListener { onClick() }

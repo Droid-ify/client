@@ -30,7 +30,7 @@ class IndexHandler(private val repositoryId: Long, private val callback: Callbac
     interface Callback {
         fun onRepository(
             mirrors: List<String>, name: String, description: String,
-            certificate: String, version: Int, timestamp: Long
+            certificate: String, version: Int, timestamp: Long,
         )
 
         fun onProduct(product: Product)
@@ -181,7 +181,7 @@ class IndexHandler(private val repositoryId: Long, private val callback: Callbac
         uri: String,
         localName: String,
         qName: String,
-        attributes: Attributes
+        attributes: Attributes,
     ) {
         super.startElement(uri, localName, qName, attributes)
 

@@ -9,7 +9,7 @@ import android.os.IBinder
 class Connection<B : IBinder, S : ConnectionService<B>>(
     private val serviceClass: Class<S>,
     private val onBind: ((Connection<B, S>, B) -> Unit)? = null,
-    private val onUnbind: ((Connection<B, S>, B) -> Unit)? = null
+    private val onUnbind: ((Connection<B, S>, B) -> Unit)? = null,
 ) : ServiceConnection {
     var binder: B? = null
         private set

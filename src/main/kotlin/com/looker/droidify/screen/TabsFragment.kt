@@ -402,7 +402,7 @@ class TabsFragment : ScreenFragment() {
 
     private fun setSectionsAndUpdate(
         categories: List<ProductItem.Section.Category>?,
-        repositories: List<ProductItem.Section.Repository>?
+        repositories: List<ProductItem.Section.Repository>?,
     ) {
         val oldCategories = collectOldSections(categories)
         val oldRepositories = collectOldSections(repositories)
@@ -468,7 +468,7 @@ class TabsFragment : ScreenFragment() {
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
-            positionOffsetPixels: Int
+            positionOffsetPixels: Int,
         ) {
             val layout = layout!!
             val fromSections = AppListFragment.Source.values()[position].sections
@@ -520,7 +520,7 @@ class TabsFragment : ScreenFragment() {
 
     private class SectionsAdapter(
         private val sections: () -> List<ProductItem.Section>,
-        private val onClick: (ProductItem.Section) -> Unit
+        private val onClick: (ProductItem.Section) -> Unit,
     ) : StableRecyclerAdapter<SectionsAdapter.ViewType,
             RecyclerView.ViewHolder>() {
         enum class ViewType { SECTION }
@@ -546,7 +546,7 @@ class TabsFragment : ScreenFragment() {
         fun configureDivider(
             context: Context,
             position: Int,
-            configuration: DividerItemDecoration.Configuration
+            configuration: DividerItemDecoration.Configuration,
         ) {
             val currentSection = sections()[position]
             val nextSection = sections().getOrNull(position + 1)
@@ -580,7 +580,7 @@ class TabsFragment : ScreenFragment() {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
-            viewType: ViewType
+            viewType: ViewType,
         ): RecyclerView.ViewHolder {
             return SectionViewHolder(parent.context).apply {
                 itemView.setOnClickListener { onClick(sections()[adapterPosition]) }

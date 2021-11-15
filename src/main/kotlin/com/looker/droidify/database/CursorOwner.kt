@@ -13,7 +13,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
         data class ProductsAvailable(
             val searchQuery: String, val section: ProductItem.Section,
-            val order: ProductItem.Order
+            val order: ProductItem.Order,
         ) : Request() {
             override val id: Int
                 get() = 1
@@ -21,7 +21,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
         data class ProductsInstalled(
             val searchQuery: String, val section: ProductItem.Section,
-            val order: ProductItem.Order
+            val order: ProductItem.Order,
         ) : Request() {
             override val id: Int
                 get() = 2
@@ -29,7 +29,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
         data class ProductsUpdates(
             val searchQuery: String, val section: ProductItem.Section,
-            val order: ProductItem.Order
+            val order: ProductItem.Order,
         ) : Request() {
             override val id: Int
                 get() = 3
@@ -48,7 +48,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private data class ActiveRequest(
         val request: Request,
         val callback: Callback?,
-        val cursor: Cursor?
+        val cursor: Cursor?,
     )
 
     init {

@@ -61,7 +61,7 @@ fun JsonParser.forEach(requiredToken: JsonToken, callback: JsonParser.() -> Unit
 
 fun <T> JsonParser.collectNotNull(
     requiredToken: JsonToken,
-    callback: JsonParser.() -> T?
+    callback: JsonParser.() -> T?,
 ): List<T> {
     val list = mutableListOf<T>()
     forEach(requiredToken) {

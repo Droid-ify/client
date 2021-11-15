@@ -13,7 +13,7 @@ import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class RepositoriesAdapter(
     private val onClick: (Repository) -> Unit,
-    private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean
+    private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean,
 ) :
     CursorRecyclerAdapter<RepositoriesAdapter.ViewType, RecyclerView.ViewHolder>() {
     enum class ViewType { REPOSITORY }
@@ -38,7 +38,7 @@ class RepositoriesAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: ViewType
+        viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return ViewHolder(parent.inflate(R.layout.repository_item)).apply {
             itemView.setOnClickListener { onClick(getRepository(adapterPosition)) }

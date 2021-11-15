@@ -11,7 +11,7 @@ data class Repository(
     var id: Long, val address: String, val mirrors: List<String>,
     val name: String, val description: String, val version: Int, val enabled: Boolean,
     val fingerprint: String, val lastModified: String, val entityTag: String,
-    val updated: Long, val timestamp: Long, val authentication: String
+    val updated: Long, val timestamp: Long, val authentication: String,
 ) {
     fun edit(address: String, fingerprint: String, authentication: String): Repository {
         val addressChanged = this.address != address
@@ -28,7 +28,7 @@ data class Repository(
 
     fun update(
         mirrors: List<String>, name: String, description: String, version: Int,
-        lastModified: String, entityTag: String, timestamp: Long
+        lastModified: String, entityTag: String, timestamp: Long,
     ): Repository {
         return copy(
             mirrors = mirrors, name = name, description = description,
@@ -100,7 +100,7 @@ data class Repository(
         fun newRepository(
             address: String,
             fingerprint: String,
-            authentication: String
+            authentication: String,
         ): Repository {
             val name = try {
                 URL(address).let { "${it.host}${it.path}" }
@@ -112,7 +112,7 @@ data class Repository(
 
         private fun defaultRepository(
             address: String, name: String, description: String,
-            version: Int, enabled: Boolean, fingerprint: String, authentication: String
+            version: Int, enabled: Boolean, fingerprint: String, authentication: String,
         ): Repository {
             return Repository(
                 -1, address, emptyList(), name, description, version, enabled,

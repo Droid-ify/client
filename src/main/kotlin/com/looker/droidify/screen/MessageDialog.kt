@@ -68,7 +68,7 @@ class MessageDialog() : DialogFragment() {
 
         class ReleaseIncompatible(
             val incompatibilities: List<Release.Incompatibility>,
-            val platforms: List<String>, val minSdkVersion: Int, val maxSdkVersion: Int
+            val platforms: List<String>, val minSdkVersion: Int, val maxSdkVersion: Int,
         ) : Message() {
             override fun writeToParcel(dest: Parcel, flags: Int) {
                 dest.writeInt(incompatibilities.size)

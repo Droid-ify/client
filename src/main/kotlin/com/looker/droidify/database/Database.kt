@@ -308,7 +308,7 @@ object Database {
     private fun SQLiteDatabase.insertOrReplace(
         replace: Boolean,
         table: String,
-        contentValues: ContentValues
+        contentValues: ContentValues,
     ): Long {
         return if (replace) replace(table, null, contentValues) else insert(
             table,
@@ -320,7 +320,7 @@ object Database {
     private fun SQLiteDatabase.query(
         table: String, columns: Array<String>? = null,
         selection: Pair<String, Array<String>>? = null, orderBy: String? = null,
-        signal: CancellationSignal? = null
+        signal: CancellationSignal? = null,
     ): Cursor {
         return query(
             false,
@@ -501,7 +501,7 @@ object Database {
         // Complex left to wiring phase
         fun query(
             installed: Boolean, updates: Boolean, searchQuery: String,
-            section: ProductItem.Section, order: ProductItem.Order, signal: CancellationSignal?
+            section: ProductItem.Section, order: ProductItem.Order, signal: CancellationSignal?,
         ): Cursor {
             val builder = QueryBuilder()
 

@@ -10,10 +10,11 @@ import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import kotlin.math.roundToInt
 
 class DividerItemDecoration(
-    context: Context, private val configure: (
+    context: Context,
+    private val configure: (
         context: Context,
-        position: Int, configuration: Configuration
-    ) -> Unit
+        position: Int, configuration: Configuration,
+    ) -> Unit,
 ) : RecyclerView.ItemDecoration() {
     interface Configuration {
         fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int)
@@ -49,7 +50,7 @@ class DividerItemDecoration(
         view: View,
         top: Int,
         width: Int,
-        rtl: Boolean
+        rtl: Boolean,
     ) {
         val divider = divider
         val left = if (rtl) configuration.paddingEnd else configuration.paddingStart
@@ -105,7 +106,7 @@ class DividerItemDecoration(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         val configuration = view.configuration
         val position = parent.getChildAdapterPosition(view)

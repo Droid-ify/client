@@ -49,7 +49,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         data class Connecting(val name: String) : State()
         data class Syncing(
             val name: String, val stage: RepositoryUpdater.Stage,
-            val read: Long, val total: Long?
+            val read: Long, val total: Long?,
         ) : State()
 
         object Finishing : State()
@@ -58,7 +58,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private class Task(val repositoryId: Long, val manual: Boolean)
     private data class CurrentTask(
         val task: Task?, val disposable: Disposable,
-        val hasUpdates: Boolean, val lastState: State
+        val hasUpdates: Boolean, val lastState: State,
     )
 
     private enum class Started { NO, AUTO, MANUAL }

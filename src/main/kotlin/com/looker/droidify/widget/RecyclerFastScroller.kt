@@ -33,7 +33,7 @@ class RecyclerFastScroller(private val recyclerView: RecyclerView) {
     private data class FastScrolling(
         val startAtThumbOffset: Float?,
         val startY: Float,
-        val currentY: Float
+        val currentY: Float,
     )
 
     private var scrolling = false
@@ -130,7 +130,7 @@ class RecyclerFastScroller(private val recyclerView: RecyclerView) {
         itemHeight: Int,
         thumbHeight: Int,
         range: Int,
-        fastScrolling: FastScrolling
+        fastScrolling: FastScrolling,
     ) {
         val offset = calculateOffset(thumbHeight, fastScrolling)
         val scrollPosition = ((range - recyclerView.height) * offset).roundToInt()

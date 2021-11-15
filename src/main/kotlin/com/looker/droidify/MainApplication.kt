@@ -53,7 +53,8 @@ class MainApplication : Application(), ImageLoaderFactory {
                 if (packageName != null) {
                     when (intent.action.orEmpty()) {
                         Intent.ACTION_PACKAGE_ADDED,
-                        Intent.ACTION_PACKAGE_REMOVED -> {
+                        Intent.ACTION_PACKAGE_REMOVED,
+                        -> {
                             val packageInfo = try {
                                 packageManager.getPackageInfo(
                                     packageName,

@@ -6,10 +6,11 @@ import android.database.Cursor
 import android.database.CursorWrapper
 
 class ObservableCursor(
-    cursor: Cursor, private val observable: (
+    cursor: Cursor,
+    private val observable: (
         register: Boolean,
-        observer: () -> Unit
-    ) -> Unit
+        observer: () -> Unit,
+    ) -> Unit,
 ) : CursorWrapper(cursor) {
     private var registered = false
     private val contentObservable = ContentObservable()

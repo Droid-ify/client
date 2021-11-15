@@ -29,7 +29,7 @@ data class Release(
     val permissions: List<String>,
     val features: List<String>,
     val platforms: List<String>,
-    val incompatibilities: List<Incompatibility>
+    val incompatibilities: List<Incompatibility>,
 ) {
     sealed class Incompatibility {
         object MinSdk : Incompatibility()

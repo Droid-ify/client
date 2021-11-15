@@ -25,7 +25,7 @@ object RxUtils {
     private fun <T, R> managedSingle(
         create: () -> T,
         cancel: (T) -> Unit,
-        execute: (T) -> R
+        execute: (T) -> R,
     ): Single<R> {
         return Single.create {
             val task = create()

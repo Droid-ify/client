@@ -22,7 +22,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         val view = fragmentBinding.root.apply {
             val content = fragmentBinding.fragmentContent

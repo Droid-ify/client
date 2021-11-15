@@ -78,7 +78,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
         class Success(
             packageName: String, name: String, val release: Release,
-            val consume: () -> Unit
+            val consume: () -> Unit,
         ) : State(packageName, name)
 
         class Error(packageName: String, name: String) : State(packageName, name)
@@ -89,7 +89,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     private class Task(
         val packageName: String, val name: String, val release: Release,
-        val url: String, val authentication: String
+        val url: String, val authentication: String,
     ) {
         val notificationTag: String
             get() = "download-$packageName"

@@ -16,7 +16,7 @@ object IndexV1Parser {
             name: String,
             description: String,
             version: Int,
-            timestamp: Long
+            timestamp: Long,
         )
 
         fun onProduct(product: Product)
@@ -26,17 +26,17 @@ object IndexV1Parser {
     private class Screenshots(
         val phone: List<String>,
         val smallTablet: List<String>,
-        val largeTablet: List<String>
+        val largeTablet: List<String>,
     )
 
     private class Localized(
         val name: String, val summary: String, val description: String,
-        val whatsNew: String, val metadataIcon: String, val screenshots: Screenshots?
+        val whatsNew: String, val metadataIcon: String, val screenshots: Screenshots?,
     )
 
     private fun <T> Map<String, Localized>.getAndCall(
         key: String,
-        callback: (String, Localized) -> T?
+        callback: (String, Localized) -> T?,
     ): T? {
         return this[key]?.let { callback(key, it) }
     }
@@ -50,7 +50,7 @@ object IndexV1Parser {
 
     private fun Map<String, Localized>.findString(
         fallback: String,
-        callback: (Localized) -> String
+        callback: (Localized) -> String,
     ): String {
         return (find { _, localized -> callback(localized).nullIfEmpty() } ?: fallback).trim()
     }

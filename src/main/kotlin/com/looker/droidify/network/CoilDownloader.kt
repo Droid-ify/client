@@ -92,7 +92,7 @@ object CoilDownloader {
     fun createScreenshotUri(
         repository: Repository,
         packageName: String,
-        screenshot: Product.Screenshot
+        screenshot: Product.Screenshot,
     ): Uri {
         return Uri.Builder().scheme("https").authority(HOST_SCREENSHOT)
             .appendQueryParameter(QUERY_ADDRESS, repository.address)
@@ -115,7 +115,7 @@ object CoilDownloader {
         packageName: String,
         icon: String,
         metadataIcon: String,
-        repository: Repository
+        repository: Repository,
     ): Uri {
         val size = (view.layoutParams.let { min(it.width, it.height) } /
                 view.resources.displayMetrics.density).roundToInt()
@@ -124,7 +124,7 @@ object CoilDownloader {
 
     private fun createIconUri(
         context: Context, packageName: String, icon: String, metadataIcon: String,
-        targetSizeDp: Int, repository: Repository
+        targetSizeDp: Int, repository: Repository,
     ): Uri {
         return Uri.Builder().scheme("https").authority(HOST_ICON)
             .appendQueryParameter(QUERY_ADDRESS, repository.address)

@@ -32,7 +32,7 @@ object RepositoryUpdater {
     private enum class IndexType(
         val jarName: String,
         val contentName: String,
-        val certificateFromIndex: Boolean
+        val certificateFromIndex: Boolean,
     ) {
         INDEX("index.jar", "index.xml", true),
         INDEX_V1("index-v1.jar", "index-v1.json", false)
@@ -93,7 +93,7 @@ object RepositoryUpdater {
     fun update(
         context: Context,
         repository: Repository, unstable: Boolean,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Single<Boolean> {
         return update(
             context,
@@ -107,7 +107,7 @@ object RepositoryUpdater {
     private fun update(
         context: Context,
         repository: Repository, indexTypes: List<IndexType>, unstable: Boolean,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Single<Boolean> {
         val indexType = indexTypes[0]
         return downloadIndex(context, repository, indexType, callback)
@@ -152,7 +152,7 @@ object RepositoryUpdater {
     private fun downloadIndex(
         context: Context,
         repository: Repository, indexType: IndexType,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Single<Pair<Downloader.Result, File>> {
         return Single.just(Unit)
             .map { Cache.getTemporaryFile(context) }
@@ -190,7 +190,7 @@ object RepositoryUpdater {
     private fun processFile(
         context: Context,
         repository: Repository, indexType: IndexType, unstable: Boolean,
-        file: File, lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -> Unit
+        file: File, lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -> Unit,
     ): Boolean {
         var rollback = true
         return synchronized(updaterLock) {
@@ -216,7 +216,7 @@ object RepositoryUpdater {
                             IndexHandler(repository.id, object : IndexHandler.Callback {
                                 override fun onRepository(
                                     mirrors: List<String>, name: String, description: String,
-                                    certificate: String, version: Int, timestamp: Long
+                                    certificate: String, version: Int, timestamp: Long,
                                 ) {
                                     changedRepository = repository.update(
                                         mirrors, name, description, version,
@@ -278,7 +278,7 @@ object RepositoryUpdater {
                                                 name: String,
                                                 description: String,
                                                 version: Int,
-                                                timestamp: Long
+                                                timestamp: Long,
                                             ) {
                                                 changedRepository = repository.update(
                                                     mirrors, name, description, version,
@@ -299,7 +299,7 @@ object RepositoryUpdater {
 
                                             override fun onReleases(
                                                 packageName: String,
-                                                releases: List<Release>
+                                                releases: List<Release>,
                                             ) {
                                                 if (Thread.interrupted()) {
                                                     throw InterruptedException()
@@ -432,7 +432,7 @@ object RepositoryUpdater {
     private fun transformProduct(
         product: Product,
         features: Set<String>,
-        unstable: Boolean
+        unstable: Boolean,
     ): Product {
         val releasePairs =
             product.releases.distinctBy { it.identifier }.sortedByDescending { it.versionCode }

@@ -118,7 +118,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: ViewType
+        viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {

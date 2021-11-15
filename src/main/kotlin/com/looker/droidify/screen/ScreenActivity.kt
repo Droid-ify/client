@@ -32,7 +32,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
     private class FragmentStackItem(
         val className: String, val arguments: Bundle?,
-        val savedState: Fragment.SavedState?
+        val savedState: Fragment.SavedState?,
     ) : KParcelable {
         override fun writeToParcel(dest: Parcel, flags: Int) {
             dest.writeString(className)

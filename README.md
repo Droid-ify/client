@@ -58,6 +58,7 @@ Run `./gradlew assembleRelease` to build the package, which can be installed usi
 package manager.
 
 ## :scroll: License
+
 Licensed GPLv3+. \
 Direct Adaptation/Modification of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/) \
 Copyright © 2020–2021 Iamlooker and contributors.

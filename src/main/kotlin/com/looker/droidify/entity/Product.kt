@@ -28,7 +28,7 @@ data class Product(
     val licenses: List<String>,
     val donates: List<Donate>,
     val screenshots: List<Screenshot>,
-    val releases: List<Release>
+    val releases: List<Release>,
 ) {
     data class Author(val name: String, val email: String, val web: String)
 
@@ -163,7 +163,7 @@ data class Product(
         fun <T> findSuggested(
             products: List<T>,
             installedItem: InstalledItem?,
-            extract: (T) -> Product
+            extract: (T) -> Product,
         ): T? {
             return products.maxWithOrNull(compareBy({
                 extract(it).compatible &&
