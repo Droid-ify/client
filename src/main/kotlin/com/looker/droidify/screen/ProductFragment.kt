@@ -19,7 +19,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.*
-import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.RxUtils
@@ -358,13 +357,9 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch(Dispatchers.Default) {
                 state.consume()
-                AppInstaller
-                    .getInstance(context)?.defaultInstaller?.install(
-                        "",
-                        state.release.cacheFileName
-                    )
+                screenActivity.defaultInstaller?.install(state.release.cacheFileName)
             }
         }
     }
@@ -411,8 +406,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                lifecycleScope.launch {
-                    AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
+                lifecycleScope.launch(Dispatchers.Default) {
+                    screenActivity.defaultInstaller?.uninstall(packageName)
                 }
                 Unit
             }

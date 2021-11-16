@@ -12,17 +12,15 @@ abstract class AppInstaller {
         fun getInstance(context: Context?): AppInstaller? {
             if (INSTANCE == null) {
                 synchronized(AppInstaller::class.java) {
-                    if (INSTANCE == null) {
-                        context?.let {
-                            INSTANCE = object : AppInstaller() {
-                                override val defaultInstaller: BaseInstaller
-                                    get() {
-                                        return when (rootInstallerEnabled) {
-                                            false -> DefaultInstaller(it)
-                                            true -> RootInstaller(it)
-                                        }
+                    context?.let {
+                        INSTANCE = object : AppInstaller() {
+                            override val defaultInstaller: BaseInstaller
+                                get() {
+                                    return when (rootInstallerEnabled) {
+                                        false -> DefaultInstaller(it)
+                                        true -> RootInstaller(it)
                                     }
-                            }
+                                }
                         }
                     }
                 }

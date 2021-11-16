@@ -11,6 +11,10 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class DefaultInstaller(context: Context) : BaseInstaller(context) {
+    override suspend fun install(cacheFileName: String) {
+        val cacheFile = Cache.getReleaseFile(context, cacheFileName)
+        mDefaultInstaller(cacheFile)
+    }
 
     override suspend fun install(packageName: String, cacheFileName: String) {
         val cacheFile = Cache.getReleaseFile(context, cacheFileName)
