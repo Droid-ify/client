@@ -22,6 +22,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
@@ -73,14 +75,14 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
     }
 
-    enum class Action(val titleResId: Int) {
-        INSTALL(R.string.install),
-        UPDATE(R.string.update),
-        LAUNCH(R.string.launch),
-        DETAILS(R.string.details),
-        UNINSTALL(R.string.uninstall),
-        CANCEL(R.string.cancel),
-        SHARE(R.string.share)
+    enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
+        INSTALL(R.string.install, R.drawable.ic_download),
+        UPDATE(R.string.update, R.drawable.ic_download),
+        LAUNCH(R.string.launch, R.drawable.ic_launch),
+        DETAILS(R.string.details, R.drawable.ic_tune),
+        UNINSTALL(R.string.uninstall, R.drawable.ic_delete),
+        CANCEL(R.string.cancel, R.drawable.ic_cancel),
+        SHARE(R.string.share, R.drawable.ic_share)
     }
 
     sealed class Status {
@@ -1065,6 +1067,7 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                     holder.action.apply {
                         visibility = if (action == null) View.GONE else View.VISIBLE
                         if (action != null) {
+                            icon = context.getDrawable(action.iconResId)
                             setText(action.titleResId)
                             setTextColor(
                                 if (action == Action.CANCEL) holder.actionTintOnCancel
@@ -1075,13 +1078,6 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
                             backgroundTintList = if (action == Action.CANCEL)
                                 holder.actionTintCancel else holder.actionTintNormal
                         }
-                        icon =
-                            when (action) {
-                                Action.CANCEL -> context.getDrawable(R.drawable.ic_cancel)
-                                Action.LAUNCH -> context.getDrawable(R.drawable.ic_launch)
-                                Action.DETAILS -> context.getDrawable(R.drawable.ic_tune)
-                                else -> context.getDrawable(R.drawable.ic_download)
-                            }
                         iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
                         else holder.actionTintOnNormal
                     }

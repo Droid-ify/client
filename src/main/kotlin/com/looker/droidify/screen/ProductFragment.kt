@@ -94,7 +94,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         toolbar.menu.apply {
             for (action in Action.values()) {
                 add(0, action.id, 0, action.adapterAction.titleResId)
-                    .setIcon(Utils.getToolbarIcon(toolbar.context, action.adapterAction.iconsId))
+                    .setIcon(Utils.getToolbarIcon(toolbar.context, action.adapterAction.iconResId))
                     .setVisible(false)
                     .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                     .setOnMenuItemClickListener {
