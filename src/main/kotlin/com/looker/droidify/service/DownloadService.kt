@@ -14,11 +14,12 @@ import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
+import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.extension.android.*
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.*
@@ -26,6 +27,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
@@ -279,48 +282,37 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                .setColor(
-                    ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorAccent).defaultColor
-                )
-                .setContentIntent(
-                    PendingIntent.getBroadcast(
-                        this,
-                        0,
-                        Intent(this, Receiver::class.java)
-                            .setAction("$ACTION_INSTALL.${task.packageName}")
-                            .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
-                        if (Android.sdk(23))
-                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                        else
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    )
-                )
+                .setColor(getColorFromAttr(android.R.attr.colorAccent).defaultColor)
+                .setContentIntent(installIntent(task))
                 .setContentTitle(getString(R.string.downloaded_FORMAT, task.name))
                 .setContentText(getString(R.string.tap_to_install_DESC))
                 .build()
         )
     }
 
+    private fun installIntent(task: Task): PendingIntent = PendingIntent.getBroadcast(
+        this,
+        0,
+        Intent(this, Receiver::class.java)
+            .setAction("$ACTION_INSTALL.${task.packageName}")
+            .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
+        if (Android.sdk(23)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        else PendingIntent.FLAG_UPDATE_CURRENT
+    )
+
     private fun publishSuccess(task: Task) {
         var consumed = false
         stateSubject.onNext(State.Success(task.packageName, task.name, task.release) {
             consumed = true
         })
-        if (consumed || (Preferences[Preferences.Key.RootPermission])) {
-            PendingIntent.getBroadcast(
-                this,
-                0,
-                Intent(this, Receiver::class.java)
-                    .setAction("$ACTION_INSTALL.${task.packageName}")
-                    .putExtra(EXTRA_CACHE_FILE_NAME, task.release.cacheFileName),
-                if (Android.sdk(23))
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                else
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            )
-                .send()
-        } else showNotificationInstall(task)
+        if (!consumed) {
+            if (rootInstallerEnabled) {
+                MainScope().launch {
+                    AppInstaller.getInstance(this@DownloadService)
+                        ?.defaultInstaller?.install(task.release.cacheFileName)
+                }
+            } else showNotificationInstall(task)
+        }
     }
 
     private fun validatePackage(task: Task, file: File): ValidationError? {
