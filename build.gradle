@@ -125,6 +125,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0-rc01'
     implementation 'androidx.fragment:fragment-ktx:1.4.0-rc01'
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
     // Material3
     implementation 'com.google.android.material:material:1.5.0-beta01'
@@ -136,7 +137,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.9.2'
 
     // RxJava
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.1'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.2'
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
 
     // LibSu
