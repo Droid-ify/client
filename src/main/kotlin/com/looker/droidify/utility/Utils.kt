@@ -3,7 +3,11 @@ package com.looker.droidify.utility
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
+import android.content.res.Configuration
 import android.graphics.drawable.Drawable
+import android.os.Build
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.entity.InstalledItem
@@ -109,5 +113,52 @@ object Utils {
                 release
             )
         } else Unit
+    }
+
+    fun Context.setLanguage(): Configuration {
+        var setLocalCode = Preferences[Preferences.Key.Language]
+        if (setLocalCode == PREFS_LANGUAGE_DEFAULT) {
+            setLocalCode = Locale.getDefault().language
+        }
+        val config = resources.configuration
+        val sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            config.locales[0]
+        } else {
+            config.locale
+        }
+        if (setLocalCode != sysLocale.language || setLocalCode != "${sysLocale.language}-r${sysLocale.country}") {
+            val newLocale = getLocaleOfCode(setLocalCode)
+            Locale.setDefault(newLocale)
+            config.setLocale(newLocale)
+        }
+        return config
+    }
+
+    val languagesList: List<String>
+        get() {
+            val entryVals = arrayOfNulls<String>(1)
+            entryVals[0] = PREFS_LANGUAGE_DEFAULT
+            return entryVals.plus(BuildConfig.DETECTED_LOCALES.sorted()).filterNotNull()
+        }
+
+    fun translateLocale(locale: Locale): String {
+        val country = locale.getDisplayCountry(locale)
+        val language = locale.getDisplayLanguage(locale)
+        return (language.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+                + (if (country.isNotEmpty() && country.compareTo(language, true) != 0)
+            "($country)" else ""))
+    }
+
+    fun Context.getLocaleOfCode(localeCode: String): Locale = when {
+        localeCode.isEmpty() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            resources.configuration.locales[0]
+        } else {
+            resources.configuration.locale
+        }
+        localeCode.contains("-r") -> Locale(
+            localeCode.substring(0, 2),
+            localeCode.substring(4)
+        )
+        else -> Locale(localeCode)
     }
 }

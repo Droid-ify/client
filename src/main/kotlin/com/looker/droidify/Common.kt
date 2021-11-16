@@ -9,5 +9,8 @@ object Common {
     const val NOTIFICATION_ID_UPDATES = 2
     const val NOTIFICATION_ID_DOWNLOADING = 3
 
+    const val PREFS_LANGUAGE = "languages"
+    const val PREFS_LANGUAGE_DEFAULT = "system"
+
     const val JOB_ID_SYNC = 1
 }
