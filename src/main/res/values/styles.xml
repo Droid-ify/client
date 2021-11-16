@@ -146,7 +146,7 @@
     </style>
 
     <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
-        <item name="cardBackgroundColor">?android:attr/colorBackground</item>
+        <item name="cardBackgroundColor">@android:color/transparent</item>
         <item name="cardCornerRadius">@dimen/shape_large_corner</item>
     </style>
 
