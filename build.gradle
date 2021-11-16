@@ -155,3 +155,21 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.3.0'
     kapt 'androidx.room:room-compiler:2.3.0'
 }
+
+// using a task as a preBuild dependency instead of a function that takes some time insures that it runs
+task detectAndroidLocals {
+    Set<String> langsList = new HashSet<>()
+
+    // in /res are (almost) all languages that have a translated string is saved. this is safer and saves some time
+    fileTree("src/main/res").visit { FileVisitDetails details ->
+        if (details.file.path.endsWith("strings.xml")
+                && details.file.canonicalFile.getText('UTF-8').contains("<string")) {
+            def languageCode = details.file.parentFile.name.replace("values-", "")
+            languageCode = (languageCode == "values") ? "en" : languageCode
+            langsList.add(languageCode)
+        }
+    }
+    def langsListString = "{${langsList.collect { "\"${it}\"" }.join(",")}}"
+    android.defaultConfig.buildConfigField "String[]", "DETECTED_LOCALES", langsListString
+}
+preBuild.dependsOn detectAndroidLocals
