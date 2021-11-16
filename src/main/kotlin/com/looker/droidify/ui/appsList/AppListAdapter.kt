@@ -170,7 +170,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
                                 null
                             ).apply {
                                 color =
-                                    holder.status.context.getColorFromAttr(android.R.attr.colorAccent)
+                                    holder.status.context.getColorFromAttr(R.attr.colorAccent)
                                 cornerRadius = holder.status.resources.sizeScaled(2).toFloat()
                             }
                         }

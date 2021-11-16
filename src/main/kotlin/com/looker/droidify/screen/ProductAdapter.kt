@@ -100,11 +100,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
     private enum class SectionType(val titleResId: Int, val colorAttrResId: Int) {
         ANTI_FEATURES(R.string.anti_features, R.attr.colorError),
-        CHANGES(R.string.changes, android.R.attr.colorAccent),
-        LINKS(R.string.links, android.R.attr.colorAccent),
-        DONATE(R.string.donate, android.R.attr.colorAccent),
-        PERMISSIONS(R.string.permissions, android.R.attr.colorAccent),
-        VERSIONS(R.string.versions, android.R.attr.colorAccent)
+        CHANGES(R.string.changes, R.attr.colorAccent),
+        LINKS(R.string.links, R.attr.colorAccent),
+        DONATE(R.string.donate, R.attr.colorAccent),
+        PERMISSIONS(R.string.permissions, R.attr.colorAccent),
+        VERSIONS(R.string.versions, R.attr.colorAccent)
     }
 
     internal enum class ExpandType {

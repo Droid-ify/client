@@ -13,26 +13,29 @@
         <item name="colorOnSurface">@color/black</item>
         <item name="android:colorBackground">@color/white</item>
         <item name="colorOnBackground">@color/grey_dark</item>
-        <item name="android:colorAccent">@color/accent_light</item>
+        <item name="colorAccent">@color/accent_light</item>
         <item name="colorError">@color/error_light</item>
         <item name="colorOutline">@color/green75</item>
         <item name="colorControlActivated">@color/green300</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textColorPrimary">@color/green900</item>
         <item name="android:textColorSecondary">@color/grey_light</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
-        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="switchStyle">@style/Theme.Switch</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
-        <item name="tabStyle">@style/Theme.Tab</item>
-        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="android:overScrollMode">never</item>
         <item name="android:statusBarColor">@color/green50</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -43,25 +46,28 @@
         <item name="colorOnSurface">@color/green50</item>
         <item name="android:colorBackground">@color/black</item>
         <item name="colorOnBackground">@color/green200</item>
-        <item name="android:colorAccent">@color/accent_dark</item>
+        <item name="colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
         <item name="colorOutline">@color/green50</item>
         <item name="colorControlActivated">@color/green200</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/green200</item>
         <item name="android:textColorSecondary">@color/darker_white</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
-        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="switchStyle">@style/Theme.Switch</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
-        <item name="tabStyle">@style/Theme.Tab</item>
-        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="android:overScrollMode">never</item>
         <item name="android:statusBarColor">@color/grey_dark</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -72,26 +78,28 @@
         <item name="colorOnSurface">@color/green50</item>
         <item name="android:colorBackground">@color/pitch_black</item>
         <item name="colorOnBackground">@color/green50</item>
-        <item name="android:colorAccent">@color/accent_dark</item>
+        <item name="colorAccent">@color/accent_dark</item>
         <item name="colorError">@color/error_dark</item>
         <item name="colorOutline">@color/green50</item>
         <item name="colorControlActivated">@color/green100</item>
-        <item name="colorControlNormal">@color/green300</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorPrimary">@color/green100</item>
         <item name="android:textColorSecondary">@color/darker_white</item>
-        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
-        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
-        <item name="switchStyle">@style/Theme.Switch</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
-        <item name="tabStyle">@style/Theme.Tab</item>
-        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="android:overScrollMode">never</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
+
+        <item name="tabStyle">@style/Theme.Tab</item>
+        <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
+        <item name="textInputStyle">@style/Theme.EditText</item>
+        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
+        <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
     <style name="Theme.AppBarLayout" parent="Widget.Material3.AppBarLayout">

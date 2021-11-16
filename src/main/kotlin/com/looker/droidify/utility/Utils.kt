@@ -38,7 +38,7 @@ object Utils {
         val progressIcon: Drawable =
             createDefaultApplicationIcon(context, android.R.attr.textColorSecondary)
         val defaultIcon: Drawable =
-            createDefaultApplicationIcon(context, android.R.attr.colorAccent)
+            createDefaultApplicationIcon(context, R.attr.colorAccent)
         return Pair(progressIcon, defaultIcon)
     }
 

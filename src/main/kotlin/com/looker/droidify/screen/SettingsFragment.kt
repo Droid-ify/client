@@ -209,7 +209,7 @@ class SettingsFragment : ScreenFragment() {
         val text = MaterialTextView(context)
         text.typeface = TypefaceExtra.medium
         text.setTextSizeScaled(14)
-        text.setTextColor(text.context.getColorFromAttr(android.R.attr.colorAccent))
+        text.setTextColor(text.context.getColorFromAttr(R.attr.colorAccent))
         text.text = title
         resources.sizeScaled(16).let { text.setPadding(it, it, it, 0) }
         addView(

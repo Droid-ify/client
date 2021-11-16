@@ -216,10 +216,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.stat_sys_warning)
-                .setColor(
-                    ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorAccent).defaultColor
-                )
+                .setColor(getColorFromAttr(R.attr.colorAccent).defaultColor)
                 .setContentIntent(
                     PendingIntent.getBroadcast(
                         this,
@@ -282,7 +279,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                .setColor(getColorFromAttr(android.R.attr.colorAccent).defaultColor)
+                .setColor(getColorFromAttr(R.attr.colorAccent).defaultColor)
                 .setContentIntent(installIntent(task))
                 .setContentTitle(getString(R.string.downloaded_FORMAT, task.name))
                 .setContentText(getString(R.string.tap_to_install_DESC))
