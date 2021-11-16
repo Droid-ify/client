@@ -70,12 +70,27 @@ class SettingsFragment : ScreenFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        preferences.addCategory(requireContext().getString(R.string.prefs_language_title)) {
+        preferences.addCategory(requireContext().getString(R.string.prefs_personalization)) {
             addList(
                 Preferences.Key.Language,
                 context.getString(R.string.prefs_language_title),
                 languagesList
             ) { translateLocale(context.getLocaleOfCode(it)) }
+            addEnumeration(Preferences.Key.Theme, getString(R.string.theme)) {
+                when (it) {
+                    is Preferences.Theme.System -> getString(R.string.system)
+                    is Preferences.Theme.AmoledSystem -> getString(R.string.system) + " " + getString(
+                        R.string.amoled
+                    )
+                    is Preferences.Theme.Light -> getString(R.string.light)
+                    is Preferences.Theme.Dark -> getString(R.string.dark)
+                    is Preferences.Theme.Amoled -> getString(R.string.amoled)
+                }
+            }
+            addSwitch(
+                Preferences.Key.ListAnimation, getString(R.string.list_animation),
+                getString(R.string.list_animation_description)
+            )
         }
         preferences.addCategory(getString(R.string.updates)) {
             addEnumeration(
@@ -111,23 +126,6 @@ class SettingsFragment : ScreenFragment() {
             }
             addEditString(Preferences.Key.ProxyHost, getString(R.string.proxy_host))
             addEditInt(Preferences.Key.ProxyPort, getString(R.string.proxy_port), 1..65535)
-        }
-        preferences.addCategory(getString(R.string.themes)) {
-            addEnumeration(Preferences.Key.Theme, getString(R.string.theme)) {
-                when (it) {
-                    is Preferences.Theme.System -> getString(R.string.system)
-                    is Preferences.Theme.AmoledSystem -> getString(R.string.system) + " " + getString(
-                        R.string.amoled
-                    )
-                    is Preferences.Theme.Light -> getString(R.string.light)
-                    is Preferences.Theme.Dark -> getString(R.string.dark)
-                    is Preferences.Theme.Amoled -> getString(R.string.amoled)
-                }
-            }
-            addSwitch(
-                Preferences.Key.ListAnimation, getString(R.string.list_animation),
-                getString(R.string.list_animation_description)
-            )
         }
         preferences.addCategory(getString(R.string.install_types)) {
             addSwitch(
