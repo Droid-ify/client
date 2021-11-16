@@ -50,15 +50,14 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     private enum class Action(
         val id: Int,
-        val adapterAction: ProductAdapter.Action,
-        val iconResId: Int,
+        val adapterAction: ProductAdapter.Action
     ) {
-        INSTALL(1, ProductAdapter.Action.INSTALL, R.drawable.ic_download),
-        UPDATE(2, ProductAdapter.Action.UPDATE, R.drawable.ic_download),
-        LAUNCH(3, ProductAdapter.Action.LAUNCH, R.drawable.ic_launch),
-        DETAILS(4, ProductAdapter.Action.DETAILS, R.drawable.ic_tune),
-        UNINSTALL(5, ProductAdapter.Action.UNINSTALL, R.drawable.ic_delete),
-        SHARE(6, ProductAdapter.Action.SHARE, R.drawable.ic_share)
+        INSTALL(1, ProductAdapter.Action.INSTALL),
+        UPDATE(2, ProductAdapter.Action.UPDATE),
+        LAUNCH(3, ProductAdapter.Action.LAUNCH),
+        DETAILS(4, ProductAdapter.Action.DETAILS),
+        UNINSTALL(5, ProductAdapter.Action.UNINSTALL),
+        SHARE(6, ProductAdapter.Action.SHARE)
     }
 
     private class Installed(
@@ -95,7 +94,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         toolbar.menu.apply {
             for (action in Action.values()) {
                 add(0, action.id, 0, action.adapterAction.titleResId)
-                    .setIcon(Utils.getToolbarIcon(toolbar.context, action.iconResId))
+                    .setIcon(Utils.getToolbarIcon(toolbar.context, action.adapterAction.iconsId))
                     .setVisible(false)
                     .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                     .setOnMenuItemClickListener {
