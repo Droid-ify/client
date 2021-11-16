@@ -318,6 +318,27 @@ class SettingsFragment : ScreenFragment() {
         }
     }
 
+    private fun <T> LinearLayoutCompat.addList(
+        key: Preferences.Key<T>,
+        title: String,
+        values: List<T>,
+        valueToString: (T) -> String,
+    ) {
+        addPreference(key, title, { valueToString(Preferences[key]) }) {
+            MaterialAlertDialogBuilder(it)
+                .setTitle(title)
+                .setSingleChoiceItems(
+                    values.map(valueToString).toTypedArray(),
+                    values.indexOf(Preferences[key])
+                ) { dialog, which ->
+                    dialog.dismiss()
+                    post { Preferences[key] = values[which] }
+                }
+                .setNegativeButton(R.string.cancel, null)
+                .create()
+        }
+    }
+
     private class Preference<T>(
         private val key: Preferences.Key<T>,
         fragment: Fragment,
