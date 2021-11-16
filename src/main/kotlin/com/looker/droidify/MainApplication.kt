@@ -16,6 +16,7 @@ import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.MainScope
@@ -87,6 +88,7 @@ class MainApplication : Application(), ImageLoaderFactory {
         updateProxy()
         var lastAutoSync = Preferences[Preferences.Key.AutoSync]
         var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
+        var lastLanguage = Preferences[Preferences.Key.Language]
         MainScope().launch {
             Preferences.subject.collect {
                 if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
@@ -102,6 +104,18 @@ class MainApplication : Application(), ImageLoaderFactory {
                     if (lastUpdateUnstable != updateUnstable) {
                         lastUpdateUnstable = updateUnstable
                         forceSyncAll()
+                    }
+                } else if (it == Preferences.Key.Language) {
+                    val language = Preferences[Preferences.Key.Language]
+                    if (language != lastLanguage) {
+                        lastLanguage = language
+                        val refresh = Intent.makeRestartActivityTask(
+                            ComponentName(
+                                baseContext,
+                                MainActivity::class.java
+                            )
+                        )
+                        applicationContext.startActivity(refresh)
                     }
                 }
             }
@@ -187,5 +201,14 @@ class MainApplication : Application(), ImageLoaderFactory {
             .callFactory(CoilDownloader.Factory(Cache.getImagesDir(this)))
             .crossfade(true)
             .build()
+    }
+}
+
+class ContextWraperX(base: Context) : ContextWrapper(base) {
+    companion object {
+        fun wrap(context: Context): ContextWrapper {
+            val config = context.setLanguage()
+            return ContextWraperX(context.createConfigurationContext(config))
+        }
     }
 }
