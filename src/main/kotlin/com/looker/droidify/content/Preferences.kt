@@ -3,6 +3,8 @@ package com.looker.droidify.content
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import com.looker.droidify.Common.PREFS_LANGUAGE
+import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.utility.extension.android.Android
@@ -20,6 +22,7 @@ object Preferences {
     val subject = _subject.asSharedFlow()
 
     private val keys = sequenceOf(
+        Key.Language,
         Key.AutoSync,
         Key.IncompatibleVersions,
         Key.ListAnimation,
@@ -122,6 +125,7 @@ object Preferences {
     }
 
     sealed class Key<T>(val name: String, val default: Value<T>) {
+        object Language : Key<String>(PREFS_LANGUAGE, Value.StringValue(PREFS_LANGUAGE_DEFAULT))
         object AutoSync : Key<Preferences.AutoSync>(
             "auto_sync",
             Value.EnumerationValue(Preferences.AutoSync.Wifi)

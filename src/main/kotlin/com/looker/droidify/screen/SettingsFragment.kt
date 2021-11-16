@@ -28,6 +28,9 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.databinding.PreferenceItemBinding
+import com.looker.droidify.utility.Utils.getLocaleOfCode
+import com.looker.droidify.utility.Utils.languagesList
+import com.looker.droidify.utility.Utils.translateLocale
 import com.looker.droidify.utility.extension.resources.*
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.flow.collect
@@ -67,6 +70,13 @@ class SettingsFragment : ScreenFragment() {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
+        preferences.addCategory(requireContext().getString(R.string.prefs_language_title)) {
+            addList(
+                Preferences.Key.Language,
+                context.getString(R.string.prefs_language_title),
+                languagesList
+            ) { translateLocale(context.getLocaleOfCode(it)) }
+        }
         preferences.addCategory(getString(R.string.updates)) {
             addEnumeration(
                 Preferences.Key.AutoSync,

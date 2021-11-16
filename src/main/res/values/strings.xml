@@ -173,4 +173,5 @@
     <string name="waiting_to_start_download">Waiting to start download</string>
     <string name="whats_new">What\'s New</string>
     <string name="website">Website</string>
+    <string name="prefs_language_title">Langugage</string>
 </resources>
