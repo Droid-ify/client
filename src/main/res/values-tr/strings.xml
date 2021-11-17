@@ -54,14 +54,14 @@
     <string name="incompatible_older_DESC">Bu sürüm aygıtınızda kurulu olandan daha eski. Önce onu kaldırın.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s platformunuz desteklenmemektedir.
     Desteklenen platformlar: %2$s.</string>
-    <string name="incompatible_signature_DESC">Bu sürüm cihazınızdaki yüklü olan sürümden farklı bir sertifika ile imzalanmış. Önce onu kaldırın.</string>
+    <string name="incompatible_signature_DESC">Bu sürüm aygıtınızda kurulu olan sürümden farklı bir sertifika ile imzalanmış. Önce onu kaldırın.</string>
     <string name="incompatible_version">Uyumsuz sürüm</string>
     <string name="incompatible_versions">Uyumsuz sürümler</string>
     <string name="incompatible_versions_summary">Uygulamanın aygıt ile uyumlu olmayan sürümlerini göster</string>
     <string name="incompatible_with_FORMAT">%s ile uyumsuz</string>
-    <string name="install">Yükle</string>
-    <string name="install_types">Yükleme Türleri</string>
-    <string name="installed">Yüklendi</string>
+    <string name="install">Kur</string>
+    <string name="install_types">Kurulum Türleri</string>
+    <string name="installed">Kuruldu</string>
     <string name="integrity_check_error_DESC">Bütünlük kontrol edilemedi.</string>
     <string name="invalid_address">Geçersiz adres</string>
     <string name="invalid_fingerprint_format">Geçersiz parmak izi biçimi</string>
@@ -120,7 +120,7 @@
     <string name="repository_not_used_DESC">Bu depo henüz kullanılmadı. Sağladığı uygulamaları görüntülemek için etkinleştirmeniz gerekir.</string>
     <string name="repository_unsigned_DESC">İmzalanmamış. Uygulama listesi doğrulanamadı. İmzalanmamış depolardan uygulama indirirken dikkat edin.</string>
     <string name="requires_FORMAT">%s gerektirir</string>
-    <string name="root_permission">Sessiz Yükleme</string>
+    <string name="root_permission">Sessiz Kurulum</string>
     <string name="root_permission_description">Sessiz kurulumlar için root iznine izin ver</string>
     <string name="save">Kaydet</string>
     <string name="saving_details">Ayrıntılar kaydediliyor…</string>
@@ -144,7 +144,7 @@
     <string name="syncing">Senkronize ediliyor</string>
     <string name="syncing_FORMAT">%s senkronize ediliyor…</string>
     <string name="system">Sistem</string>
-    <string name="tap_to_install_DESC">Yüklemek için dokunun.</string>
+    <string name="tap_to_install_DESC">Kurmak için dokunun.</string>
     <string name="target">Hedef</string>
     <string name="theme">Tema</string>
     <string name="themes">Temalar</string>
@@ -155,7 +155,7 @@
     <string name="unknown_FORMAT">Bilinmeyen: %s</string>
     <string name="unsigned">İmzalanmamış</string>
     <string name="unstable_updates">Kararsız güncellemeler</string>
-    <string name="unstable_updates_summary">Kararsız sürümleri yüklemeyi öner</string>
+    <string name="unstable_updates_summary">Kararsız sürümleri kurmayı öner</string>
     <string name="unverified">Doğrulanmamış</string>
     <string name="update">Güncelleme</string>
     <string name="updates">Güncellemeler</string>
