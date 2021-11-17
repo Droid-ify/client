@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">所有应用已更新至最新版本</string>
     <string name="already_exists">已经存在</string>
     <string name="always">总是</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">黑色</string>
     <string name="anti_features">负面特征</string>
     <string name="application">应用</string>
     <string name="application_not_found">应用未找到</string>
@@ -19,10 +19,10 @@
     <string name="cant_edit_sync_DESC">无法编辑存储库，因为它现在正在同步。</string>
     <string name="changelog">更新日志</string>
     <string name="changes">更新内容</string>
-    <string name="checking_repository">检查存储库</string>
+    <string name="checking_repository">检查存储库…</string>
     <string name="compiled_for_debugging">调试目的的编译构建</string>
     <string name="confirmation">确认</string>
-    <string name="connecting">连接中</string>
+    <string name="connecting">连接中…</string>
     <string name="contains_non_free_media">包含非自由媒体</string>
     <string name="could_not_download_FORMAT">无法下载 %s</string>
     <string name="could_not_sync_FORMAT">无法同步 %s</string>
@@ -36,7 +36,7 @@
     <string name="donate">捐助</string>
     <string name="downloaded_FORMAT">已下载 %s</string>
     <string name="downloading">下载中</string>
-    <string name="downloading_FORMAT">正在下载 %s</string>
+    <string name="downloading_FORMAT">正在下载 %s…</string>
     <string name="edit_repository">编辑存储库</string>
     <string name="file_format_error_DESC">文件格式无效。</string>
     <string name="fingerprint">指纹</string>
@@ -107,7 +107,7 @@
     <string name="permissions">权限</string>
     <string name="plus_more_FORMAT">+%d 个</string>
     <string name="settings">设置</string>
-    <string name="processing_FORMAT">正在处理 %1$s</string>
+    <string name="processing_FORMAT">正在处理 %1$s…</string>
     <string name="project_website">项目网站</string>
     <string name="promotes_non_free_network_services">推广非自由网络服务</string>
     <string name="promotes_non_free_software">推广非自由软件</string>
@@ -126,7 +126,7 @@
     <string name="root_permission">后台安装</string>
     <string name="root_permission_description">允许 Root 权限以启用后台安装</string>
     <string name="save">保存</string>
-    <string name="saving_details">保存详情</string>
+    <string name="saving_details">保存详情中…</string>
     <string name="screenshots">截图</string>
     <string name="search">搜索</string>
     <string name="select_mirror">选择一个镜像</string>
@@ -145,7 +145,7 @@
     <string name="sync_repositories">同步存储库</string>
     <string name="sync_repositories_automatically">自动同步存储库</string>
     <string name="syncing">同步中</string>
-    <string name="syncing_FORMAT">同步中 %s</string>
+    <string name="syncing_FORMAT">正在同步 %s…</string>
     <string name="system">系统</string>
     <string name="tap_to_install_DESC">点击安装。</string>
     <string name="target">目标</string>
@@ -169,7 +169,7 @@
     <string name="version">版本</string>
     <string name="version_FORMAT">版本 %s</string>
     <string name="versions">版本</string>
-    <string name="waiting_to_start_download">等待开始下载</string>
+    <string name="waiting_to_start_download">等待开始下载…</string>
     <string name="whats_new">最新情况</string>
     <string name="website">网站</string>
 </resources>
