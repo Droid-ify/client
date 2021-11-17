@@ -61,7 +61,7 @@
     <string name="incompatible_with_FORMAT">%s ile uyumsuz</string>
     <string name="install">Kur</string>
     <string name="install_types">Kurulum Türleri</string>
-    <string name="installed">Kuruldu</string>
+    <string name="installed">Kurulu</string>
     <string name="integrity_check_error_DESC">Bütünlük kontrol edilemedi.</string>
     <string name="invalid_address">Geçersiz adres</string>
     <string name="invalid_fingerprint_format">Geçersiz parmak izi biçimi</string>
