@@ -2,7 +2,7 @@
 <resources>
     <string name="already_exists">Finnes allerede</string>
     <string name="always">Alltid</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Svart</string>
     <string name="author_email">Utviklerens e-postadresse</string>
     <string name="author_website">Utviklerens nettside</string>
     <string name="changelog">Endringslogg</string>
@@ -168,4 +168,6 @@
     <string name="whats_new">Seneste</string>
     <string name="repository_not_used_DESC">Denne pakkebrønnen har ikke blitt brukt enda. Du må skru den på for å vise programmene den tilbyr.</string>
     <string name="update">Oppgradering</string>
+    <string name="prefs_language_title">Språk</string>
+    <string name="prefs_personalization">Personalisering</string>
 </resources>
