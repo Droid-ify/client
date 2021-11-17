@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">Все приложения в актуальном состоянии</string>
     <string name="already_exists">Уже существует</string>
     <string name="always">Всегда</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Черная</string>
     <string name="anti_features">Анти-функции</string>
     <string name="application">Приложение</string>
     <string name="application_not_found">Приложение не найдено</string>
@@ -19,10 +19,10 @@
     <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
     <string name="changelog">Список изменений</string>
     <string name="changes">Изменения</string>
-    <string name="checking_repository">Проверка репозитория</string>
+    <string name="checking_repository">Проверка репозитория…</string>
     <string name="compiled_for_debugging">Скомпилировано для отладки</string>
     <string name="confirmation">Подтверждение</string>
-    <string name="connecting">Подключение</string>
+    <string name="connecting">Подключение…</string>
     <string name="contains_non_free_media">Содержит несвободные материалы</string>
     <string name="could_not_download_FORMAT">Не удалось скачать %s</string>
     <string name="could_not_sync_FORMAT">Не удалось синхронизировать %s</string>
@@ -30,13 +30,13 @@
     <string name="credits">Авторы</string>
     <string name="dark">Темная</string>
     <string name="delete">Удалить</string>
-    <string name="delete_repository_DESC">Вы уверены, что хотите удалить репозиторий?</string>
+    <string name="delete_repository_DESC">Удалить репозиторий\?</string>
     <string name="description">Описание</string>
     <string name="details">Подробности</string>
     <string name="donate">Пожертвовать</string>
     <string name="downloaded_FORMAT">Скачано %s</string>
     <string name="downloading">Скачивание</string>
-    <string name="downloading_FORMAT">Скачивание %s</string>
+    <string name="downloading_FORMAT">Скачивание %s…</string>
     <string name="edit_repository">Редактировать репозиторий</string>
     <string name="file_format_error_DESC">Недопустимый формат файла.</string>
     <string name="fingerprint">Отпечаток</string>
@@ -76,7 +76,7 @@
     <string name="link_copied_to_clipboard">Ссылка скопирована в буфер обмена</string>
     <string name="links">Ссылки</string>
     <string name="list_animation">Анимация списков</string>
-    <string name="list_animation_description">Включить анимацию списка на главной странице</string>
+    <string name="list_animation_description">Показывать анимацию списка на главной странице</string>
     <string name="merging_FORMAT">Слияние %s</string>
     <string name="name">Имя</string>
     <string name="network_error_DESC">Ошибка сети.</string>
@@ -107,7 +107,7 @@
     <string name="permissions">Разрешения</string>
     <string name="plus_more_FORMAT">+%d больше</string>
     <string name="settings">Настройки</string>
-    <string name="processing_FORMAT">Обработка %1$s</string>
+    <string name="processing_FORMAT">Обработка %1$s…</string>
     <string name="project_website">Сайт проекта</string>
     <string name="promotes_non_free_network_services">Продвигает несвободные сетевые услуги</string>
     <string name="promotes_non_free_software">Продвижение несвободного ПО</string>
@@ -123,9 +123,9 @@
     <string name="repository_unsigned_DESC">Без подписи. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
     <string name="requires_FORMAT">Требуется %s</string>
     <string name="root_permission">Тихая установка</string>
-    <string name="root_permission_description">Разрешить разрешение root для автоматической установки</string>
+    <string name="root_permission_description">Предоставить Root права для включения тихой установки</string>
     <string name="save">Сохранить</string>
-    <string name="saving_details">Сохранение данных</string>
+    <string name="saving_details">Сохранение данных…</string>
     <string name="screenshots">Скриншоты</string>
     <string name="search">Поиск</string>
     <string name="select_mirror">Выберите зеркало</string>
@@ -144,7 +144,7 @@
     <string name="sync_repositories">Синхронизация репозиториев</string>
     <string name="sync_repositories_automatically">Синхронизировать репозитории автоматически</string>
     <string name="syncing">Синхронизация</string>
-    <string name="syncing_FORMAT">Синхронизация %s</string>
+    <string name="syncing_FORMAT">Синхронизация %s…</string>
     <string name="system">Система</string>
     <string name="tap_to_install_DESC">Нажмите, чтобы установить.</string>
     <string name="target">Целевой</string>
@@ -168,7 +168,9 @@
     <string name="version">Версия</string>
     <string name="version_FORMAT">Версия %s</string>
     <string name="versions">Версии</string>
-    <string name="waiting_to_start_download">Ожидание скачивания</string>
+    <string name="waiting_to_start_download">Ожидание скачивания…</string>
     <string name="whats_new">Что нового</string>
     <string name="website">Веб-сайт</string>
+    <string name="prefs_language_title">Язык</string>
+    <string name="prefs_personalization">Персонализация</string>
 </resources>
