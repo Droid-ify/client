@@ -78,7 +78,7 @@
     <string name="link_copied_to_clipboard">Link copiado para a área de transferência</string>
     <string name="links">Links</string>
     <string name="list_animation">Animação da lista</string>
-    <string name="list_animation_description">Habilitar a animação da lista na página principal</string>
+    <string name="list_animation_description">Mostrar a animação da lista na página principal</string>
     <string name="merging_FORMAT">Incorporando %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Erro da rede.</string>
@@ -107,7 +107,7 @@
     <string name="permissions">Permissões</string>
     <string name="plus_more_FORMAT">+%d mais</string>
     <string name="settings">Configurações</string>
-    <string name="processing_FORMAT">Processando %1$s</string>
+    <string name="processing_FORMAT">Processando %1$s…</string>
     <string name="project_website">Página do projeto</string>
     <string name="promotes_non_free_network_services">Promove serviços de rede não livres</string>
     <string name="promotes_non_free_software">Promove software não livre</string>
@@ -125,7 +125,7 @@
     <string name="root_permission">Instalação Silenciosa</string>
     <string name="root_permission_description">Permitir acesso root para instalações silenciosas</string>
     <string name="save">Salvar</string>
-    <string name="saving_details">Salvando detalhes</string>
+    <string name="saving_details">Salvando detalhes…</string>
     <string name="screenshots">Capturas de tela</string>
     <string name="search">Pesquisar</string>
     <string name="select_mirror">Selecione um mirror</string>
@@ -144,7 +144,7 @@
     <string name="sync_repositories">Sincronizar repositórios</string>
     <string name="sync_repositories_automatically">Sincronizar repositórios automaticamente</string>
     <string name="syncing">Sincronizando</string>
-    <string name="syncing_FORMAT">Sincronizando %s</string>
+    <string name="syncing_FORMAT">Sincronizando %s…</string>
     <string name="system">Seguir o do sistema</string>
     <string name="tap_to_install_DESC">Toque para instalar.</string>
     <string name="target">Meta</string>
