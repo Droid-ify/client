@@ -1,0 +1,1 @@
+- Fix Normal Install Crash
