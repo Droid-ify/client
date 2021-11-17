@@ -7,10 +7,10 @@
     <string name="all_applications_up_to_date">Tutte le applicazioni aggiornate</string>
     <string name="already_exists">Già esistente</string>
     <string name="always">Sempre</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Nero</string>
     <string name="anti_features">Anti-caratteristiche</string>
-    <string name="application">Applicazione</string>
-    <string name="application_not_found">Applicazione non trovata</string>
+    <string name="application">App</string>
+    <string name="application_not_found">App non trovata</string>
     <string name="author_email">E-mail dell\'autore</string>
     <string name="author_website">Sito web dell\'autore</string>
     <string name="available">Disponibile</string>
@@ -19,10 +19,10 @@
     <string name="cant_edit_sync_DESC">Non puoi modificare la repository mentre è in aggiornamento.</string>
     <string name="changelog">Registro delle modifiche</string>
     <string name="changes">Cambiamenti</string>
-    <string name="checking_repository">Controllo repository</string>
+    <string name="checking_repository">Controllo repository…</string>
     <string name="compiled_for_debugging">Compilato per debugging</string>
     <string name="confirmation">Convalida</string>
-    <string name="connecting">Connessione</string>
+    <string name="connecting">Connessione…</string>
     <string name="contains_non_free_media">Contiene media non liberi</string>
     <string name="could_not_download_FORMAT">Impossibile scaricare %s</string>
     <string name="could_not_sync_FORMAT">Impossibile sincronizzare %s</string>
@@ -30,13 +30,13 @@
     <string name="credits">Crediti</string>
     <string name="dark">Scuro</string>
     <string name="delete">Elimina</string>
-    <string name="delete_repository_DESC">Sicuro di voler eliminare la repository?</string>
+    <string name="delete_repository_DESC">Eliminare il repository\?</string>
     <string name="description">Descrizione</string>
     <string name="details">Dettagli</string>
     <string name="donate">Dona</string>
     <string name="downloaded_FORMAT">Scaricato %s</string>
     <string name="downloading">Scaricamento in corso</string>
-    <string name="downloading_FORMAT">Scaricamento %s</string>
+    <string name="downloading_FORMAT">Scaricamento %s…</string>
     <string name="edit_repository">Modifica repository</string>
     <string name="file_format_error_DESC">Il file è in un formato non valido.</string>
     <string name="fingerprint">Fingerprint</string>
@@ -78,7 +78,7 @@
     <string name="link_copied_to_clipboard">Collegamento copiato negli appunti</string>
     <string name="links">Collegamenti</string>
     <string name="list_animation">Elenco animazioni</string>
-    <string name="list_animation_description">Abilita l\'animazione dell\'elenco nella pagina principale</string>
+    <string name="list_animation_description">Mostra l\'animazione della lista nella pagina principale</string>
     <string name="merging_FORMAT">Unione %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Errore di rete.</string>
@@ -107,7 +107,7 @@
     <string name="permissions">Permessi</string>
     <string name="plus_more_FORMAT">+%d altro</string>
     <string name="settings">Impostazioni</string>
-    <string name="processing_FORMAT">Elaborazione %1$s</string>
+    <string name="processing_FORMAT">Elaborazione %1$s…</string>
     <string name="project_website">Sito web del progetto</string>
     <string name="promotes_non_free_network_services">Promuove servizi di rete non liberi</string>
     <string name="promotes_non_free_software">Promuove software non liberi</string>
@@ -119,15 +119,13 @@
     <string name="recently_updated">Aggiornato di recente</string>
     <string name="repositories">Repository</string>
     <string name="repository">Repository</string>
-    <string name="repository_not_used_DESC">Questa repository non è ancora stata usata. Devi abilitarla per poter vedere
-    le applicazioni che offre.</string>
-    <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. Stai attento quando scarichi
-    applicazioni da repository senza firma.</string>
+    <string name="repository_not_used_DESC">Questa repository non è ancora stata usata. Devi abilitarla per poter vedere le applicazioni che offre.</string>
+    <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. Stai attento quando scarichi applicazioni da repository senza firma.</string>
     <string name="requires_FORMAT">Richiede %s</string>
     <string name="root_permission">Installazione silenziosa</string>
     <string name="root_permission_description">Consenti il permesso di Root per abilitare installazioni silenziose</string>
     <string name="save">Salva</string>
-    <string name="saving_details">Salvataggio dettagli</string>
+    <string name="saving_details">Salvataggio dei dettagli…</string>
     <string name="screenshots">Schermate</string>
     <string name="search">Cerca</string>
     <string name="select_mirror">Seleziona alternativa</string>
@@ -146,7 +144,7 @@
     <string name="sync_repositories">Sincronizza repositories</string>
     <string name="sync_repositories_automatically">Sincronizza automaticamente le repositories</string>
     <string name="syncing">Sincronizzando</string>
-    <string name="syncing_FORMAT">Sincronizzando %s</string>
+    <string name="syncing_FORMAT">Sincronizzando %s…</string>
     <string name="system">Sistema</string>
     <string name="tap_to_install_DESC">Tocca per installare.</string>
     <string name="target">Obiettivo</string>
@@ -170,7 +168,9 @@
     <string name="version">Versione</string>
     <string name="version_FORMAT">Versione %s</string>
     <string name="versions">Versioni</string>
-    <string name="waiting_to_start_download">In attesa di inizio dello scaricamento</string>
+    <string name="waiting_to_start_download">In attesa dell\'inizio dello scaricamento…</string>
     <string name="whats_new">Cosa c\'è di nuovo</string>
     <string name="website">Sito web</string>
+    <string name="prefs_language_title">Lingua</string>
+    <string name="prefs_personalization">Personalizzazione</string>
 </resources>
