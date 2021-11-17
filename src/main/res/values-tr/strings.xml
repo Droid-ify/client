@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">Eylem başarısız</string>
-    <string name="add_repository">Depo ekle</string>nm
-    <string name="address">Adres</string>
+    <string name="action_failed">Eylem başarısız oldu</string>
+    <string name="add_repository">Yeni depo ekle</string>nm
+    <string name="address">Depo adresi</string>
     <string name="all_applications">Tüm uygulamalar</string>
     <string name="all_applications_up_to_date">Tüm uygulamalar güncel</string>
-    <string name="already_exists">Zaten var</string>
+    <string name="already_exists">Zaten mevcut</string>
     <string name="always">Her zaman</string>
     <string name="amoled">AMOLED</string>
     <string name="anti_features">Karşıt özellikler</string>
