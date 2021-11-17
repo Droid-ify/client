@@ -3,15 +3,15 @@
     <string name="action_failed">A ação falhou</string>
     <string name="add_repository">Adicionar repositório</string>
     <string name="address">Endereço</string>
-    <string name="all_applications">Todos os aplicativos</string>
-    <string name="all_applications_up_to_date">Todos os aplicativos estão atualizados</string>
+    <string name="all_applications">Todas as aplicações</string>
+    <string name="all_applications_up_to_date">Todas as aplicações em dia</string>
     <string name="already_exists">Já existe</string>
     <string name="always">Sempre</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Preto</string>
     <string name="anti_features">Características indesejadas</string>
-    <string name="application">Aplicativo</string>
-    <string name="application_not_found">Aplicativo não encontrado</string>
-    <string name="author_email">Email do autor</string>
+    <string name="application">Aplicar</string>
+    <string name="application_not_found">App não encontrado</string>
+    <string name="author_email">E-mail do autor</string>
     <string name="author_website">Página do autor</string>
     <string name="available">Disponível</string>
     <string name="bug_tracker">Rastreador de erros</string>
@@ -19,10 +19,10 @@
     <string name="cant_edit_sync_DESC">Não é possível editar o repositório pois ele está sincronizando no momento.</string>
     <string name="changelog">Lista de mudanças</string>
     <string name="changes">Mudanças</string>
-    <string name="checking_repository">Checando o repositório</string>
+    <string name="checking_repository">Checando o repositório…</string>
     <string name="compiled_for_debugging">Compilado para depuração</string>
     <string name="confirmation">Confirmação</string>
-    <string name="connecting">Conectando</string>
+    <string name="connecting">Conectando…</string>
     <string name="contains_non_free_media">Contém mídia não livre</string>
     <string name="could_not_download_FORMAT">Não foi possível baixar %s</string>
     <string name="could_not_sync_FORMAT">Não foi possível sincronizar %s</string>
@@ -30,13 +30,13 @@
     <string name="credits">Créditos</string>
     <string name="dark">Escuro</string>
     <string name="delete">Excluir</string>
-    <string name="delete_repository_DESC">Tem certeza que deseja excluir o repositório?</string>
+    <string name="delete_repository_DESC">Eliminar o repositório\?</string>
     <string name="description">Descrição</string>
     <string name="details">Detalhes</string>
     <string name="donate">Doar</string>
     <string name="downloaded_FORMAT">Baixado %s</string>
     <string name="downloading">Baixando</string>
-    <string name="downloading_FORMAT">Baixando %s</string>
+    <string name="downloading_FORMAT">Baixando %s…</string>
     <string name="edit_repository">Editar repositório</string>
     <string name="file_format_error_DESC">Formato de arquivo inválido.</string>
     <string name="fingerprint">Fingerprint</string>
@@ -59,7 +59,7 @@
     instalado no seu dispositivo. Desinstale-a primeiro.</string>
     <string name="incompatible_version">Versão incompatível</string>
     <string name="incompatible_versions">Versões incompatíveis</string>
-    <string name="incompatible_versions_summary">Mostrar versões de aplicativos incompatíveis com o dispositivo</string>
+    <string name="incompatible_versions_summary">Mostrar versões do aplicativo incompatíveis com o dispositivo</string>
     <string name="incompatible_with_FORMAT">Incompatível com %s</string>
     <string name="install">Instalar</string>
     <string name="install_types">Tipos de instalação</string>
@@ -88,14 +88,14 @@
         <item quantity="one">%d nova atualização.</item>
         <item quantity="other">%d novas atualizações.</item>
     </plurals>
-    <string name="no_applications_available">Não há aplicativos disponíveis</string>
-    <string name="no_applications_installed">Nenhum aplicativo instalado</string>
+    <string name="no_applications_available">Não há aplicações disponíveis</string>
+    <string name="no_applications_installed">Nenhuma aplicação instalada</string>
     <string name="no_description_available_DESC">Nenhuma descrição disponível.</string>
-    <string name="no_matching_applications_found">Nenhum aplicativo correspondente encontrado</string>
+    <string name="no_matching_applications_found">Não foram encontrados aplicativos correspondentes</string>
     <string name="no_proxy">Sem proxy</string>
     <string name="notify_about_updates">Notificar sobre atualizações</string>
     <string name="notify_about_updates_summary">Mostrar uma notificação quando atualizações estiverem disponíveis</string>
-    <string name="number_of_applications">Número de aplicativos</string>
+    <string name="number_of_applications">Número de aplicações</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Somente compatível com %s</string>
     <string name="only_on_wifi">Somente no Wi-Fi</string>
@@ -119,10 +119,8 @@
     <string name="recently_updated">Atualização recente</string>
     <string name="repositories">Repositórios</string>
     <string name="repository">Repositório</string>
-    <string name="repository_not_used_DESC">Este repositório ainda não foi usado. Você precisa o ativar para visualizar
-    os aplicativos que ele fornece.</string>
-    <string name="repository_unsigned_DESC">Sem assinatura. Não foi possível verificar a lista de aplicativos. Tenha cuidado ao baixar
-    aplicativos de repositórios sem assinatura.</string>
+    <string name="repository_not_used_DESC">Este repositório ainda não foi utilizado. Você precisa habilitá-lo para visualizar os aplicativos que ele fornece.</string>
+    <string name="repository_unsigned_DESC">Sem assinatura. Não foi possível verificar a lista de aplicativos. Tenha cuidado ao baixar aplicativos de repositórios não assinados.</string>
     <string name="requires_FORMAT">Requer %s</string>
     <string name="root_permission">Instalação Silenciosa</string>
     <string name="root_permission_description">Permitir acesso root para instalações silenciosas</string>
@@ -138,7 +136,7 @@
     <string name="signed_using_unsafe_algorithm">Assinado usando um algoritmo inseguro</string>
     <string name="size">Tamanho</string>
     <string name="skip">Pular</string>
-    <string name="socks_proxy">SOCKS proxy</string>
+    <string name="socks_proxy">proxy SOCKS</string>
     <string name="sorting_order">Ordenar por</string>
     <string name="source_code">Código fonte</string>
     <string name="source_code_no_longer_available">Código fonte não está mais disponível</string>
@@ -170,7 +168,9 @@
     <string name="version">Versão</string>
     <string name="version_FORMAT">Versão %s</string>
     <string name="versions">Versões</string>
-    <string name="waiting_to_start_download">Esperando para começar a baixar</string>
+    <string name="waiting_to_start_download">Esperando para começar a baixar…</string>
     <string name="whats_new">O que há de novo</string>
     <string name="website">Página web</string>
+    <string name="prefs_language_title">Idioma</string>
+    <string name="prefs_personalization">Personalização</string>
 </resources>
