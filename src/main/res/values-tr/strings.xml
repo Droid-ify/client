@@ -27,7 +27,7 @@
     <string name="could_not_download_FORMAT">%s indirilemedi</string>
     <string name="could_not_sync_FORMAT">%s senkronize edilemedi</string>
     <string name="could_not_validate_FORMAT">%s doğrulanamadı</string>
-    <string name="credits">Jenerik</string>
+    <string name="credits">Katkı Sağlayanlar</string>
     <string name="dark">Koyu</string>
     <string name="delete">Sil</string>
     <string name="delete_repository_DESC">Bu depoyu silmek istediğinizden emin misiniz?</string>
