@@ -7,7 +7,7 @@
     <string name="always">Immer</string>
     <string name="address">Adresse</string>
     <string name="action_failed">Vorgang fehlgeschlagen</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Schwarz</string>
     <string name="application">Anwendung</string>
     <string name="anti_features">Anti-Merkmale</string>
     <string name="available">Verfügbar</string>
@@ -16,9 +16,9 @@
     <string name="bug_tracker">Fehlerverwaltung</string>
     <string name="changelog">Änderungsliste</string>
     <string name="cant_edit_sync_DESC">Die Paketquelle kann nicht bearbeitet werden, da es gerade synchronisiert wird.</string>
-    <string name="checking_repository">Paketquelle abfragen</string>
+    <string name="checking_repository">Paketquelle wird abgefragt …</string>
     <string name="compiled_for_debugging">Kompiliert für die Fehlersuche</string>
-    <string name="connecting">Verbinden</string>
+    <string name="connecting">Verbinden …</string>
     <string name="confirmation">Bestätigung</string>
     <string name="could_not_validate_FORMAT">Konnte nicht validieren %s</string>
     <string name="dark">Dunkel</string>
@@ -45,7 +45,7 @@
     <string name="invalid_signature_error_DESC">Ungültige Signatur.</string>
     <string name="launch">Start</string>
     <string name="light">Hell</string>
-    <string name="list_animation_description">Aktivieren der Listenanimation auf der Startseite</string>
+    <string name="list_animation_description">Listenanimation auf der Hauptseite anzeigen</string>
     <string name="new_updates_available">Neue Aktualisierungen verfügbar</string>
     <string name="never">Nie</string>
     <string name="network_error_DESC">Netzwerk Fehler.</string>
@@ -61,14 +61,14 @@
     <string name="permissions">Berechtigungen</string>
     <string name="plus_more_FORMAT">+%d mehr</string>
     <string name="settings">Einstellungen</string>
-    <string name="processing_FORMAT">Verarbeitung %1$s</string>
+    <string name="processing_FORMAT">Verarbeitung %1$s …</string>
     <string name="promotes_non_free_software">Bewirbt unfreie Software</string>
     <string name="proxy">Proxy</string>
     <string name="repositories">Paketquellen</string>
     <string name="requires_FORMAT">Benötigt %s</string>
     <string name="root_permission">Stumme Installation</string>
     <string name="save">Speichern</string>
-    <string name="saving_details">Details speichern</string>
+    <string name="saving_details">Details werden gespeichert …</string>
     <string name="screenshots">Bildschirmfotos</string>
     <string name="skip">Überspringen</string>
     <string name="suggested">Empfohlen</string>
@@ -82,11 +82,11 @@
     <string name="version">Version</string>
     <string name="versions">Versionen</string>
     <string name="whats_new">Was gibt es Neues</string>
-    <string name="waiting_to_start_download">Warten auf den Downloadbeginn</string>
+    <string name="waiting_to_start_download">Warten auf den Downloadbeginn …</string>
     <string name="validation_index_error_DESC">Der Index konnte nicht validiert werden.</string>
     <string name="website">Webseite</string>
     <string name="changes">Änderungen</string>
-    <string name="author_email">Autor E-Mail</string>
+    <string name="author_email">E-Mail des Autors</string>
     <string name="could_not_download_FORMAT">Konnte nicht herunterladen %s</string>
     <string name="author_website">Autor Website</string>
     <string name="delete">Löschen</string>
@@ -130,7 +130,7 @@
     <string name="username_missing">Benutzername fehlt</string>
     <string name="edit_repository">Paketquelle bearbeiten</string>
     <string name="file_format_error_DESC">Ungültiges Dateiformat.</string>
-    <string name="downloading_FORMAT">Herunterladen %s</string>
+    <string name="downloading_FORMAT">%s wird heruntergeladen …</string>
     <string name="incompatible_with_FORMAT">Inkompatibel mit %s</string>
     <string name="incompatible_versions">Inkompatible Versionen</string>
     <string name="invalid_address">Ungültige Adresse</string>
@@ -139,9 +139,9 @@
     <string name="promotes_non_free_network_services">Bewirbt unfreie Netzwerkdienste</string>
     <string name="unknown_FORMAT">Unbekannt: %s</string>
     <string name="unknown_error_DESC">Unbekannter Fehler.</string>
-    <string name="syncing_FORMAT">Synchronisierung %s</string>
+    <string name="syncing_FORMAT">Synchronisierung %s …</string>
     <string name="incompatible_signature_DESC">Diese Version ist mit einem anderen Zertifikat signiert als die auf Deinem Gerät installierte Version. Deinstalliere diese zuerst.</string>
-    <string name="delete_repository_DESC">Bist Du Dir sicher, das Du die Paketquelle löschen willst\?</string>
+    <string name="delete_repository_DESC">Die Paketquelle löschen\?</string>
     <string name="incompatible_older_DESC">Diese Version ist älter als diejenige, die auf Ihrem Gerät installiert ist. Deinstalliere diese zuerst.</string>
     <string name="incompatible_api_DESC_FORMAT">Deine %1$s (API-Version %2$d) wird nicht unterstützt. %3$s</string>
     <string name="incompatible_api_min_DESC_FORMAT">Minimale API-Version ist %d.</string>
@@ -168,4 +168,6 @@
     <string name="merging_FORMAT">Zusammenführung %s</string>
     <string name="name">Name</string>
     <string name="upstream_source_code_is_not_free">Upstream Quellcode ist nicht frei</string>
+    <string name="prefs_language_title">Sprache</string>
+    <string name="prefs_personalization">Personalisierung</string>
 </resources>
