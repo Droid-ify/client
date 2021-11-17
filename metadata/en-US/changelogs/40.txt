@@ -1,0 +1,5 @@
+- Added: Language preference
+- Update: horizontal scrolling screenshots
+- Fix: Background root installer
+- Add: Only ask for root when selected
+- Tons of UI/UX tweaks
