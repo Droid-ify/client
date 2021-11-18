@@ -3,7 +3,6 @@ package com.looker.droidify.installer
 import android.content.Context
 import android.util.Log
 import com.looker.droidify.content.Cache
-import com.looker.droidify.utility.extension.android.Android
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,6 +25,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     override suspend fun uninstall(packageName: String) = mRootUninstaller(packageName)
 
     private suspend fun mRootInstaller(cacheFile: File) {
+        Log.e("UserID", getCurrentUserState)
         val installCommand =
             String.format(
                 ROOT_INSTALL_PACKAGE,
@@ -55,9 +55,9 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     }
 
     private val getCurrentUserState: String =
-        if (Android.sdk(25)) Shell.su("am get-current-user").exec().out[0]
-        else Shell.su("dumpsys activity | grep mCurrentUser").exec().out[0].trim()
-            .removePrefix("mCurrentUser=")
+        Shell.su("dumpsys activity | grep -E \"mUserLru\"")
+            .exec().out[0].trim()
+            .removePrefix("mUserLru: [").removeSuffix("]")
 
     private val String.quote
         get() = "\"${this.replace(Regex("""[\\$"`]""")) { c -> "\\${c.value}" }}\""
