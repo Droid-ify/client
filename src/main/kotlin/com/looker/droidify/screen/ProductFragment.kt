@@ -19,6 +19,7 @@ import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.*
+import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.RxUtils
@@ -50,7 +51,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     private enum class Action(
         val id: Int,
-        val adapterAction: ProductAdapter.Action
+        val adapterAction: ProductAdapter.Action,
     ) {
         INSTALL(1, ProductAdapter.Action.INSTALL),
         UPDATE(2, ProductAdapter.Action.UPDATE),
@@ -356,9 +357,9 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            lifecycleScope.launch(Dispatchers.Default) {
+            lifecycleScope.launch(Dispatchers.IO) {
                 state.consume()
-                screenActivity.defaultInstaller?.install(state.release.cacheFileName)
+                AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
             }
         }
     }
@@ -405,8 +406,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                lifecycleScope.launch(Dispatchers.Default) {
-                    screenActivity.defaultInstaller?.uninstall(packageName)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
                 }
                 Unit
             }

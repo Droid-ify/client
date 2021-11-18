@@ -6,7 +6,6 @@ import android.net.Uri
 import com.looker.droidify.content.Cache
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -38,13 +37,11 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
         // TODO Handle deprecation
         @Suppress("DEPRECATION")
         withContext(Dispatchers.IO) {
-            launch {
-                context.startActivity(
-                    Intent(Intent.ACTION_INSTALL_PACKAGE)
-                        .setDataAndType(uri, "application/vnd.android.package-archive")
-                        .setFlags(flags)
-                )
-            }
+            context.startActivity(
+                Intent(Intent.ACTION_INSTALL_PACKAGE)
+                    .setDataAndType(uri, "application/vnd.android.package-archive")
+                    .setFlags(flags)
+            )
         }
     }
 
@@ -60,6 +57,6 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
             intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        withContext(Dispatchers.IO) { launch { context.startActivity(intent) } }
+        withContext(Dispatchers.IO) { context.startActivity(intent) }
     }
 }

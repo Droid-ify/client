@@ -69,8 +69,6 @@ abstract class ScreenActivity : AppCompatActivity() {
             return supportFragmentManager.findFragmentById(R.id.main_content)
         }
 
-    val defaultInstaller = AppInstaller.getInstance(this)?.defaultInstaller
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(Preferences[Preferences.Key.Theme].getResId(resources.configuration))
         super.onCreate(savedInstanceState)
@@ -220,9 +218,11 @@ abstract class ScreenActivity : AppCompatActivity() {
             is SpecialIntent.Install -> {
                 val packageName = specialIntent.packageName
                 if (!packageName.isNullOrEmpty()) {
-                    lifecycleScope.launch(Dispatchers.Default) {
+                    lifecycleScope.launch(Dispatchers.IO) {
                         specialIntent.cacheFileName?.let {
-                            defaultInstaller?.install(packageName, it)
+                            AppInstaller.getInstance(this@ScreenActivity)?.defaultInstaller?.install(
+                                packageName,
+                                it)
                         }
                     }
                 }

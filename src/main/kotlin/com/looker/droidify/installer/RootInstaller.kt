@@ -5,7 +5,6 @@ import android.util.Log
 import com.looker.droidify.content.Cache
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -25,7 +24,6 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     override suspend fun uninstall(packageName: String) = mRootUninstaller(packageName)
 
     private suspend fun mRootInstaller(cacheFile: File) {
-        Log.e("UserID", getCurrentUserState)
         val installCommand =
             String.format(
                 ROOT_INSTALL_PACKAGE,
@@ -40,18 +38,14 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
                 cacheFile.absolutePath.quote
             )
         withContext(Dispatchers.IO) {
-            launch {
-                Shell.su(installCommand).submit {
-                    if (it.isSuccess) Shell.su(deleteCommand).submit()
-                }
-            }
+            Shell.su(installCommand).submit { if (it.isSuccess) Shell.su(deleteCommand).submit() }
         }
     }
 
     private suspend fun mRootUninstaller(packageName: String) {
         val uninstallCommand =
             String.format(ROOT_UNINSTALL_PACKAGE, getCurrentUserState, packageName)
-        withContext(Dispatchers.IO) { launch { Shell.su(uninstallCommand).submit() } }
+        withContext(Dispatchers.IO) { Shell.su(uninstallCommand).submit() }
     }
 
     private val getCurrentUserState: String =
