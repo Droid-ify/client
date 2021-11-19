@@ -8,7 +8,7 @@
     <string name="whats_new">Nowości</string>
     <string name="version_FORMAT">Wersja %s</string>
     <string name="username_missing">Brak nazwy użytkownika</string>
-    <string name="waiting_to_start_download">Oczekiwanie na rozpoczęcie pobierania</string>
+    <string name="waiting_to_start_download">Oczekiwanie na rozpoczęcie pobierania…</string>
     <string name="unverified">Niezweryfikowany</string>
     <string name="username">Nazwa użytkownika</string>
     <string name="updates">Aktualizacje</string>
@@ -33,16 +33,16 @@
     <string name="tap_to_install_DESC">Stuknij , aby zainstalować.</string>
     <string name="sync_repositories_automatically">Automatyczna synchronizacja repozytoriów</string>
     <string name="syncing">Synchronizacja</string>
-    <string name="syncing_FORMAT">Synchronizacja %s</string>
+    <string name="syncing_FORMAT">Synchronizacja %s…</string>
     <string name="versions">Wersje</string>
     <string name="system">System</string>
     <string name="action_failed">Działanie nieudane</string>
     <string name="all_applications">Wszystkie aplikacje</string>
-    <string name="connecting">Podłączenie</string>
+    <string name="connecting">Podłączenie…</string>
     <string name="contains_non_free_media">Zawiera media niezawierające substancji wolnych</string>
     <string name="could_not_sync_FORMAT">Nie można zsynchronizować %s</string>
     <string name="password_missing">Brak hasła</string>
-    <string name="processing_FORMAT">Obróbka %1$s</string>
+    <string name="processing_FORMAT">Obróbka %1$s…</string>
     <string name="proxy_port">Port proxy</string>
     <string name="proxy_host">Host proxy</string>
     <string name="proxy">Proxy</string>
@@ -66,7 +66,7 @@
     <string name="cancel">Anuluj</string>
     <string name="has_non_free_dependencies">Posiada niewolne zależności</string>
     <string name="donate">Darowizna</string>
-    <string name="downloading_FORMAT">Pobieranie %s</string>
+    <string name="downloading_FORMAT">Pobieranie %s…</string>
     <string name="file_format_error_DESC">Nieważny format pliku.</string>
     <string name="fingerprint">Odcisk palca</string>
     <string name="has_advertising">posiada reklamę</string>
@@ -101,7 +101,7 @@
     <string name="no_applications_available">Brak dostępnych aplikacji</string>
     <string name="no_matching_applications_found">Nie znaleziono pasujących aplikacji</string>
     <string name="changes">Zmiany</string>
-    <string name="checking_repository">Kontrola repozytorium</string>
+    <string name="checking_repository">Kontrola repozytorium…</string>
     <string name="compiled_for_debugging">Skompilowane do debugowania</string>
     <string name="confirmation">Potwierdzenie</string>
     <string name="could_not_download_FORMAT">Nie można pobrać %s</string>
@@ -129,13 +129,13 @@
     <string name="size">Rozmiar</string>
     <string name="show_older_versions">Pokaż starsze wersje</string>
     <string name="select_mirror">Wybierz lustro</string>
-    <string name="number_of_applications">Liczba wniosków</string>
+    <string name="number_of_applications">Liczba aplikacji</string>
     <string name="only_compatible_with_FORMAT">Zgodne tylko z %s</string>
     <string name="suggested">Sugerowana strona</string>
     <string name="source_code_no_longer_available">Kod źródłowy już niedostępny</string>
     <string name="show_more">Pokaż więcej</string>
     <string name="search">Szukaj</string>
-    <string name="saving_details">Zapisywanie danych</string>
+    <string name="saving_details">Zapisywanie danych…</string>
     <string name="save">Zapisz</string>
     <string name="other">Inne</string>
     <string name="integrity_check_error_DESC">Nie można sprawdzić spójności.</string>
@@ -170,4 +170,6 @@
     <string name="open_DESC_FORMAT">Otworzyć %s\?</string>
     <string name="invalid_fingerprint_format">Nieważny format odcisku palca</string>
     <string name="http_proxy">Proxy HTTP</string>
+    <string name="prefs_language_title">Język</string>
+    <string name="prefs_personalization">Personalizacja</string>
 </resources>
