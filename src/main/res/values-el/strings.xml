@@ -116,7 +116,7 @@
     <string name="share">Κοινοποίηση</string>
     <string name="show_more">Εμφάνιση περισσοτέρων</string>
     <string name="show_older_versions">Εμφάνιση παλαιοτέρων εκδόσεων</string>
-    <string name="signature_FORMAT">Signature %s</string>
+    <string name="signature_FORMAT">Υπογραφή %s</string>
     <string name="size">Μέγεθος</string>
     <string name="skip">Παράβλεψη</string>
     <string name="sorting_order">Σειρά ταξινόμησης</string>
