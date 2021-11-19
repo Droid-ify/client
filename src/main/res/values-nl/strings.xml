@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="address">Adres</string>
-    <string name="all_applications_up_to_date">Alle applicaties up-to-date</string>
+    <string name="all_applications_up_to_date">Alle apps zijn up to date</string>
     <string name="already_exists">Bestaat al</string>
-    <string name="all_applications">Alle applicaties</string>
+    <string name="all_applications">Alle apps</string>
     <string name="action_failed">Actie mislukt</string>
     <string name="add_repository">Repositie toevoegen</string>
     <string name="always">Altijd</string>
     <string name="amoled">AMOLED</string>
     <string name="anti_features">Antifuncties</string>
-    <string name="application">Aanvraag</string>
+    <string name="application">Applicatie</string>
     <string name="author_website">Website van auteur</string>
     <string name="available">Beschikbaar</string>
     <string name="compiled_for_debugging">Gecompileerd voor debugging</string>
@@ -18,16 +18,16 @@
     <string name="unverified">Niet gecontroleerd</string>
     <string name="username">Gebruikersnaam</string>
     <string name="upstream_source_code_is_not_free">Upstream broncode is niet vrij</string>
-    <string name="waiting_to_start_download">Wachten om te beginnen met downloaden</string>
+    <string name="waiting_to_start_download">Wachten om te beginnen met downloaden…</string>
     <string name="whats_new">Wat is nieuw</string>
     <string name="website">Webside</string>
-    <string name="application_not_found">Applicatie niet gevonden</string>
-    <string name="author_email">Auteur e-mail</string>
+    <string name="application_not_found">App niet gevonden</string>
+    <string name="author_email">E-mail van de auteur</string>
     <string name="versions">Versies</string>
     <string name="updates">Bijwerkingen</string>
     <string name="cancel">Annuleer</string>
     <string name="cant_edit_sync_DESC">Kan het archief niet bewerken, omdat het nu aan het synchroniseren is.</string>
-    <string name="checking_repository">Controle repository</string>
+    <string name="checking_repository">Ik controleer de opslagplaats…</string>
     <string name="changes">Wijzigingen</string>
     <string name="changelog">Wijzigingsoverzicht</string>
     <string name="version">Versie</string>
