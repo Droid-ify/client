@@ -7,9 +7,9 @@
     <string name="all_applications_up_to_date">Las apps están al día</string>
     <string name="already_exists">Ya existe</string>
     <string name="always">Siempre</string>
-    <string name="amoled">Negro</string>
-    <string name="anti_features">Anti-funciones</string>
-    <string name="application">App</string>
+    <string name="amoled">Amoled</string>
+    <string name="anti_features">Anti-funcionalidades</string>
+    <string name="application">Aplicación</string>
     <string name="application_not_found">App no encontrada</string>
     <string name="author_email">E-mail del autor</string>
     <string name="author_website">Sitio web del autor</string>
@@ -168,6 +168,6 @@
         <item quantity="one">%d nueva actualización.</item>
         <item quantity="other">%d nuevas actualizaciones.</item>
     </plurals>
-    <string name="prefs_language_title">Idioma</string>
+    <string name="prefs_language_title">Lengua</string>
     <string name="prefs_personalization">Personalización</string>
 </resources>
