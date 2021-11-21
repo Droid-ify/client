@@ -216,7 +216,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.stat_sys_warning)
-                .setColor(getColorFromAttr(R.attr.colorAccent).defaultColor)
+                .setColor(
+                    ContextThemeWrapper(this, R.style.Theme_Main_Light)
+                        .getColorFromAttr(R.attr.colorAccent).defaultColor
+                )
                 .setContentIntent(
                     PendingIntent.getBroadcast(
                         this,
