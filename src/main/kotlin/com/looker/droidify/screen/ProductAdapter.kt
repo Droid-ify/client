@@ -59,12 +59,8 @@ import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.math.*
 
-class ProductAdapter(private val callbacks: Callbacks, private val columns: Int) :
+class ProductAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<ProductAdapter.ViewType, RecyclerView.ViewHolder>() {
-    companion object {
-        private const val GRID_SPACING_OUTER_DP = 16
-        private const val GRID_SPACING_INNER_DP = 8
-    }
 
     interface Callbacks {
         fun onActionClick(action: Action)

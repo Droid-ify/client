@@ -108,11 +108,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         val content = fragmentBinding.fragmentContent
         content.addView(RecyclerView(content.context).apply {
             id = android.R.id.list
-            val columns = (resources.configuration.screenWidthDp / 120).coerceIn(3, 5)
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             isMotionEventSplittingEnabled = false
             isVerticalScrollBarEnabled = false
-            val adapter = ProductAdapter(this@ProductFragment, columns)
+            val adapter = ProductAdapter(this@ProductFragment)
             this.adapter = adapter
             addOnScrollListener(scrollListener)
             savedInstanceState?.getParcelable<ProductAdapter.SavedState>(STATE_ADAPTER)
