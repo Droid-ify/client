@@ -330,14 +330,11 @@ class ProductAdapter(private val callbacks: Callbacks, private val columns: Int)
 
         val actionTintNormal = action.context.getColorFromAttr(R.attr.colorSurface)
         val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
-        val actionTintOnNormal = action.context.getColorFromAttr(android.R.attr.textColorPrimary)
+        val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnSurface)
         val actionTintOnCancel = action.context.getColorFromAttr(R.attr.colorOnError)
 
         init {
-            action.apply {
-                setTextColor(action.context.getColorFromAttr(R.attr.colorOnPrimary))
-                height = itemView.resources.sizeScaled(48)
-            }
+            action.height = itemView.resources.sizeScaled(48)
             val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
             this.progressIcon = progressIcon
             this.defaultIcon = defaultIcon
