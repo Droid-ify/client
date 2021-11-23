@@ -87,7 +87,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
         data class Downloading(val read: Long, val total: Long?) : Status()
     }
 
-    enum class ViewType { APP_INFO, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
+    enum class ViewType { APP_INFO, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
 
     private enum class SwitchType(val titleResId: Int) {
         IGNORE_ALL_UPDATES(R.string.ignore_all_updates),
@@ -105,7 +105,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
 
     internal enum class ExpandType {
         NOTHING, DESCRIPTION, CHANGES,
-        LINKS, DONATES, PERMISSIONS, SCREENSHOTS, VERSIONS
+        LINKS, DONATES, PERMISSIONS, VERSIONS
     }
 
     private enum class TextType { DESCRIPTION, ANTI_FEATURES, CHANGES }
@@ -131,13 +131,24 @@ class ProductAdapter(private val callbacks: Callbacks) :
             val repository: Repository,
             val product: Product,
             val packageName: String,
-            val screenshots: List<Product.Screenshot>,
         ) : Item() {
             override val descriptor: String
                 get() = "app_info.${product.name}"
 
             override val viewType: ViewType
                 get() = ViewType.APP_INFO
+        }
+
+        class ScreenshotItem(
+            val screenshots: List<Product.Screenshot>,
+            val packageName: String,
+            val repository: Repository,
+        ) : Item() {
+            override val descriptor: String
+                get() = "screenshot.${screenshots.size}"
+            override val viewType: ViewType
+                get() = ViewType.SCREENSHOT
+
         }
 
         class SwitchItem(
@@ -314,12 +325,6 @@ class ProductAdapter(private val callbacks: Callbacks) :
         val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
         val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
         val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
-        val screenshotsSection =
-            itemView.findViewById<LinearLayoutCompat>(R.id.screenshots_section)!!
-        val screenshotsSectionIcon =
-            itemView.findViewById<ShapeableImageView>(R.id.screenshots_section_icon)!!
-        val screenshotsView = itemView.findViewById<NestedScrollView>(R.id.screenshots_view)!!
-        val screenshotsRecycler = itemView.findViewById<RecyclerView>(R.id.screenshots_recycler)!!
 
         val progressIcon: Drawable
         val defaultIcon: Drawable
@@ -344,6 +349,16 @@ class ProductAdapter(private val callbacks: Callbacks) :
         val devName = itemView.findViewById<MaterialTextView>(R.id.dev)!!
         val devIcon = itemView.findViewById<ShapeableImageView>(R.id.dev_icon)!!
         val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
+    }
+
+    private class ScreenShotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        val screenshotsSection =
+            itemView.findViewById<LinearLayoutCompat>(R.id.screenshots_section)!!
+        val screenshotsSectionIcon =
+            itemView.findViewById<ShapeableImageView>(R.id.screenshots_section_icon)!!
+        val screenshotsView = itemView.findViewById<NestedScrollView>(R.id.screenshots_view)!!
+        val screenshotsRecycler = itemView.findViewById<RecyclerView>(R.id.screenshots_recycler)!!
     }
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -554,8 +569,12 @@ class ProductAdapter(private val callbacks: Callbacks) :
             items += Item.AppInfoItem(
                 productRepository.second,
                 productRepository.first,
+                packageName
+            )
+            items += Item.ScreenshotItem(
+                productRepository.first.screenshots,
                 packageName,
-                productRepository.first.screenshots
+                productRepository.second
             )
 
             if (installedItem != null) {
@@ -892,6 +911,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
             ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x)).apply {
                 action.setOnClickListener { this@ProductAdapter.action?.let(callbacks::onActionClick) }
             }
+            ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.inflate(R.layout.screenshot_scrollview))
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[adapterPosition] as Item.SwitchItem
@@ -1074,25 +1094,6 @@ class ProductAdapter(private val callbacks: Callbacks) :
                         iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
                         else holder.actionTintOnNormal
                     }
-                    if (item.screenshots.isEmpty()) {
-                        holder.screenshotsSection.visibility = View.GONE
-                        holder.screenshotsView.visibility = View.GONE
-                    } else {
-                        holder.screenshotsSection.visibility = View.VISIBLE
-                        holder.screenshotsView.visibility = View.VISIBLE
-                        holder.screenshotsSection.setOnClickListener {
-                            val isExpanded = holder.screenshotsView.visibility == View.VISIBLE
-                            holder.screenshotsSectionIcon.scaleY = if (isExpanded) -1f else 1f
-                            holder.screenshotsView.visibility =
-                                if (isExpanded) View.GONE else View.VISIBLE
-                        }
-                        holder.screenshotsRecycler.layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        holder.screenshotsRecycler.adapter =
-                            ScreenshotsAdapter { callbacks.onScreenshotClick(it) }.apply {
-                                setScreenshots(item.repository, item.packageName, item.screenshots)
-                            }
-                    }
                 }
                 if (updateAll || updateStatus) {
                     val status = status
@@ -1163,6 +1164,29 @@ class ProductAdapter(private val callbacks: Callbacks) :
                         }
                     }
                     true
+                }
+            }
+            ViewType.SCREENSHOT -> {
+                holder as ScreenShotViewHolder
+                item as Item.ScreenshotItem
+                if (item.screenshots.isEmpty()) {
+                    holder.screenshotsSection.visibility = View.GONE
+                    holder.screenshotsView.visibility = View.GONE
+                } else {
+                    holder.screenshotsSection.visibility = View.VISIBLE
+                    holder.screenshotsView.visibility = View.VISIBLE
+                    holder.screenshotsSection.setOnClickListener {
+                        val isExpanded = holder.screenshotsView.visibility == View.VISIBLE
+                        holder.screenshotsSectionIcon.scaleY = if (isExpanded) -1f else 1f
+                        holder.screenshotsView.visibility =
+                            if (isExpanded) View.GONE else View.VISIBLE
+                    }
+                    holder.screenshotsRecycler.layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    holder.screenshotsRecycler.adapter =
+                        ScreenshotsAdapter { callbacks.onScreenshotClick(it) }.apply {
+                            setScreenshots(item.repository, item.packageName, item.screenshots)
+                        }
                 }
             }
             ViewType.SWITCH -> {
