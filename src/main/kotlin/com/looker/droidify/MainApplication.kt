@@ -19,7 +19,8 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
@@ -89,7 +90,7 @@ class MainApplication : Application(), ImageLoaderFactory {
         var lastAutoSync = Preferences[Preferences.Key.AutoSync]
         var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
         var lastLanguage = Preferences[Preferences.Key.Language]
-        MainScope().launch {
+        CoroutineScope(Dispatchers.Default).launch {
             Preferences.subject.collect {
                 if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
                     updateProxy()

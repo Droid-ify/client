@@ -27,8 +27,7 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.PublishSubject
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
 import java.util.concurrent.TimeUnit
@@ -44,6 +43,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
         private val downloadingSubject = PublishSubject.create<State.Downloading>()
     }
+
+    val scope = CoroutineScope(Dispatchers.Default)
 
     class Receiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -171,6 +172,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
         downloadingDisposable?.dispose()
         downloadingDisposable = null
+        scope.cancel()
         cancelTasks(null)
         cancelCurrentTask(null)
     }
@@ -310,7 +312,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         })
         if (!consumed) {
             if (rootInstallerEnabled) {
-                MainScope().launch {
+                scope.launch {
                     AppInstaller.getInstance(this@DownloadService)
                         ?.defaultInstaller?.install(task.release.cacheFileName)
                 }

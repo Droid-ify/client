@@ -7,36 +7,33 @@ import com.looker.droidify.entity.ProductPreference
 import com.looker.droidify.utility.extension.json.Json
 import com.looker.droidify.utility.extension.json.parseDictionary
 import com.looker.droidify.utility.extension.json.writeDictionary
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.nio.charset.Charset
 
 object ProductPreferences {
     private val defaultProductPreference = ProductPreference(false, 0L)
     private lateinit var preferences: SharedPreferences
-    private val subject = PublishSubject.create<Pair<String, Long?>>()
+    private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>()
+    private val subject = mutableSubject.asSharedFlow()
 
     fun init(context: Context) {
         preferences = context.getSharedPreferences("product_preferences", Context.MODE_PRIVATE)
         Database.LockAdapter.putAll(preferences.all.keys
             .mapNotNull { packageName ->
-                this[packageName].databaseVersionCode?.let {
-                    Pair(
-                        packageName,
-                        it
-                    )
-                }
+                this[packageName].databaseVersionCode?.let { Pair(packageName, it) }
             })
-        subject
-            .observeOn(Schedulers.io())
-            .subscribe { (packageName, versionCode) ->
-                if (versionCode != null) {
-                    Database.LockAdapter.put(Pair(packageName, versionCode))
-                } else {
-                    Database.LockAdapter.delete(packageName)
-                }
+        CoroutineScope(Dispatchers.Default).launch {
+            subject.collect { (packageName, versionCode) ->
+                if (versionCode != null) Database.LockAdapter.put(Pair(packageName, versionCode))
+                else Database.LockAdapter.delete(packageName)
             }
+        }
     }
 
     private val ProductPreference.databaseVersionCode: Long?
@@ -71,7 +68,9 @@ object ProductPreferences {
         if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates ||
             oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode
         ) {
-            subject.onNext(Pair(packageName, productPreference.databaseVersionCode))
+            CoroutineScope(Dispatchers.Default).launch {
+                mutableSubject.emit(Pair(packageName, productPreference.databaseVersionCode))
+            }
         }
     }
 }

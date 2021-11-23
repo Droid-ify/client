@@ -8,8 +8,8 @@ import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.utility.extension.android.Android
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -41,7 +41,7 @@ object Preferences {
             context.getSharedPreferences("${context.packageName}_preferences",
                 Context.MODE_PRIVATE)
         preferences.registerOnSharedPreferenceChangeListener { _, keyString ->
-            MainScope().launch(Dispatchers.IO) {
+            CoroutineScope(Dispatchers.Default).launch {
                 keys[keyString]?.let {
                     _subject.emit(it)
                 }
