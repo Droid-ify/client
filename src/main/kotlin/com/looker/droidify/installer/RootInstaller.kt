@@ -58,21 +58,10 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     private val getUtilBoxPath: String
         get() {
             listOf("toybox", "busybox").forEach {
-                var shellResult = Shell.su("which $it").exec()
+                val shellResult = Shell.su("which $it").exec()
                 if (shellResult.out.isNotEmpty()) {
                     val utilBoxPath = shellResult.out.joinToString("")
-                    if (utilBoxPath.isNotEmpty()) {
-                        val utilBoxQuoted = utilBoxPath.quote
-                        shellResult = Shell.su("$utilBoxQuoted --version").exec()
-                        if (shellResult.out.isNotEmpty()) {
-                            val utilBoxVersion = shellResult.out.joinToString("")
-                            Log.i(
-                                this.javaClass.canonicalName,
-                                "Using Utilbox $it : $utilBoxQuoted $utilBoxVersion"
-                            )
-                        }
-                        return utilBoxQuoted
-                    }
+                    if (utilBoxPath.isNotEmpty()) return utilBoxPath.quote
                 }
             }
             return ""
