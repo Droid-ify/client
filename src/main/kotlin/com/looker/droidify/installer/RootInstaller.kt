@@ -1,7 +1,6 @@
 package com.looker.droidify.installer
 
 import android.content.Context
-import android.util.Log
 import com.looker.droidify.content.Cache
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +36,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
                 getUtilBoxPath,
                 cacheFile.absolutePath.quote
             )
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             Shell.su(installCommand).submit { if (it.isSuccess) Shell.su(deleteCommand).submit() }
         }
     }
@@ -45,7 +44,7 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
     private suspend fun mRootUninstaller(packageName: String) {
         val uninstallCommand =
             String.format(ROOT_UNINSTALL_PACKAGE, getCurrentUserState, packageName)
-        withContext(Dispatchers.IO) { Shell.su(uninstallCommand).submit() }
+        withContext(Dispatchers.Default) { Shell.su(uninstallCommand).submit() }
     }
 
     private val getCurrentUserState: String =

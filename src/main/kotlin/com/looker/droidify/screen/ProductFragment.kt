@@ -33,6 +33,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     companion object {
@@ -306,11 +307,11 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             toolbar.menu.findItem(action.id).isEnabled = !downloading
         }
         this.actions = Pair(actions, primaryAction)
-        updateToolbarButtons()
+        lifecycleScope.launch { updateToolbarButtons() }
     }
 
-    private fun updateToolbarTitle() {
-        lifecycleScope.launch(Dispatchers.IO) {
+    private suspend fun updateToolbarTitle() {
+        withContext(Dispatchers.Default) {
             val showPackageName = recyclerView
                 ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
             collapsingToolbar.title =
@@ -319,8 +320,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
     }
 
-    private fun updateToolbarButtons() {
-        lifecycleScope.launch(Dispatchers.IO) {
+    private suspend fun updateToolbarButtons() {
+        withContext(Dispatchers.Default) {
             val (actions, primaryAction) = actions
             val showPrimaryAction = recyclerView
                 ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
@@ -356,7 +357,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            lifecycleScope.launch(Dispatchers.IO) {
+            lifecycleScope.launch {
                 state.consume()
                 AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
             }
@@ -372,8 +373,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             val lastPosition = lastPosition
             this.lastPosition = position
             if ((lastPosition == 0) != (position == 0)) {
-                updateToolbarTitle()
-                updateToolbarButtons()
+                lifecycleScope.launch {
+                    launch { updateToolbarTitle() }
+                    launch { updateToolbarButtons() }
+                }
             }
         }
     }
@@ -405,7 +408,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 )
             }
             ProductAdapter.Action.UNINSTALL -> {
-                lifecycleScope.launch(Dispatchers.IO) {
+                lifecycleScope.launch {
                     AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
                 }
                 Unit
@@ -425,10 +428,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                     )
                     type = "text/plain"
                 }
-
-                val shareIntent = Intent.createChooser(sendIntent, null)
-                startActivity(shareIntent)
-
+                startActivity(Intent.createChooser(sendIntent, null))
             }
         }::class
     }

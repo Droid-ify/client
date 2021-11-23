@@ -17,7 +17,6 @@ import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class ScreenActivity : AppCompatActivity() {
@@ -218,11 +217,10 @@ abstract class ScreenActivity : AppCompatActivity() {
             is SpecialIntent.Install -> {
                 val packageName = specialIntent.packageName
                 if (!packageName.isNullOrEmpty()) {
-                    lifecycleScope.launch(Dispatchers.IO) {
+                    lifecycleScope.launch {
                         specialIntent.cacheFileName?.let {
-                            AppInstaller.getInstance(this@ScreenActivity)?.defaultInstaller?.install(
-                                packageName,
-                                it)
+                            AppInstaller.getInstance(this@ScreenActivity)
+                                ?.defaultInstaller?.install(packageName, it)
                         }
                     }
                 }

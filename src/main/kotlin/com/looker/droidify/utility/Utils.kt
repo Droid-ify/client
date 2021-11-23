@@ -83,8 +83,8 @@ object Utils {
     }
 
     val rootInstallerEnabled: Boolean
-        get() = Preferences[Preferences.Key.RootPermission] && (Shell.getCachedShell()?.isRoot
-            ?: Shell.getShell().isRoot)
+        get() = Preferences[Preferences.Key.RootPermission] &&
+                (Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot)
 
     fun startUpdate(
         packageName: String,
