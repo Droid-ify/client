@@ -1,8 +1,9 @@
 package com.looker.droidify.installer
 
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import android.content.pm.PackageInstaller.SessionParams
 import com.looker.droidify.content.Cache
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.Dispatchers
@@ -25,38 +26,48 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
 
     override suspend fun uninstall(packageName: String) = mDefaultUninstaller(packageName)
 
-    private suspend fun mDefaultInstaller(cacheFile: File) {
-        val (uri, flags) = if (Android.sdk(24)) {
-            Pair(
-                Cache.getReleaseUri(context, cacheFile.name),
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-        } else {
-            Pair(Uri.fromFile(cacheFile), 0)
+    private fun mDefaultInstaller(cacheFile: File) {
+        val sessionInstaller = context.packageManager.packageInstaller
+        val sessionParams =
+            SessionParams(SessionParams.MODE_FULL_INSTALL)
+
+        if (Android.sdk(31)) {
+            sessionParams.setRequireUserAction(SessionParams.USER_ACTION_NOT_REQUIRED)
         }
-        // TODO Handle deprecation
-        @Suppress("DEPRECATION")
-        withContext(Dispatchers.Default) {
-            context.startActivity(
-                Intent(Intent.ACTION_INSTALL_PACKAGE)
-                    .setDataAndType(uri, "application/vnd.android.package-archive")
-                    .setFlags(flags)
-            )
+
+        val id = sessionInstaller.createSession(sessionParams)
+
+        val session = sessionInstaller.openSession(id)
+
+        session.use { activeSession ->
+            activeSession.openWrite("package", 0, cacheFile.length()).use { packageStream ->
+                cacheFile.inputStream().use { fileStream ->
+                    fileStream.copyTo(packageStream)
+                }
+            }
+
+            val intent = Intent(context, InstallerService::class.java)
+
+            val flags = if (Android.sdk(31)) PendingIntent.FLAG_MUTABLE else 0
+
+            val pendingIntent = PendingIntent.getService(context, id, intent, flags)
+
+            session.commit(pendingIntent.intentSender)
         }
     }
 
     private suspend fun mDefaultUninstaller(packageName: String) {
-        val uri = Uri.fromParts("package", packageName, null)
-        val intent = Intent()
-        intent.data = uri
-        @Suppress("DEPRECATION")
-        if (Android.sdk(28)) {
-            intent.action = Intent.ACTION_DELETE
-        } else {
-            intent.action = Intent.ACTION_UNINSTALL_PACKAGE
-            intent.putExtra(Intent.EXTRA_RETURN_RESULT, true)
+        val sessionInstaller = context.packageManager.packageInstaller
+
+        val intent = Intent(context, InstallerService::class.java)
+        intent.putExtra(InstallerService.KEY_ACTION, InstallerService.ACTION_UNINSTALL)
+
+        val flags = if (Android.sdk(31)) PendingIntent.FLAG_MUTABLE else 0
+
+        val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
+
+        withContext(Dispatchers.IO) {
+            sessionInstaller.uninstall(packageName, pendingIntent.intentSender)
         }
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        withContext(Dispatchers.Default) { context.startActivity(intent) }
     }
 }
