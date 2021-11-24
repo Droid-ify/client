@@ -2,6 +2,7 @@ package com.looker.droidify.ui.appsList
 
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 
     companion object {
         private const val EXTRA_SOURCE = "source"
+        private const val STATE_LAYOUT_MANAGER = "layoutManager"
     }
 
     enum class Source(val titleResId: Int, val sections: Boolean, val order: Boolean) {
@@ -47,6 +49,8 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 
     val source: Source
         get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
+
+    private var layoutManagerState: Parcelable? = null
 
     private var recyclerView: RecyclerView? = null
 
@@ -73,6 +77,7 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 
         screenActivity.cursorOwner.attach(this, viewModel.request(source))
         repositoriesDisposable = Observable.just(Unit)
@@ -94,6 +99,12 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
         repositoriesDisposable = null
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (layoutManagerState ?: recyclerView?.layoutManager?.onSaveInstanceState())
+            ?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
+    }
+
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
         (recyclerView?.adapter as? AppListAdapter)?.apply {
             this.cursor = cursor
@@ -111,6 +122,10 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
                     }
                 }
             }
+        }
+        layoutManagerState?.let {
+            layoutManagerState = null
+            recyclerView?.layoutManager?.onRestoreInstanceState(it)
         }
     }
 
