@@ -11,6 +11,9 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class DefaultInstaller(context: Context) : BaseInstaller(context) {
+
+    private val sessionInstaller = context.packageManager.packageInstaller
+
     override suspend fun install(cacheFileName: String) {
         val cacheFile = Cache.getReleaseFile(context, cacheFileName)
         mDefaultInstaller(cacheFile)
@@ -27,9 +30,7 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
     override suspend fun uninstall(packageName: String) = mDefaultUninstaller(packageName)
 
     private fun mDefaultInstaller(cacheFile: File) {
-        val sessionInstaller = context.packageManager.packageInstaller
-        val sessionParams =
-            SessionParams(SessionParams.MODE_FULL_INSTALL)
+        val sessionParams = SessionParams(SessionParams.MODE_FULL_INSTALL)
 
         if (Android.sdk(31)) {
             sessionParams.setRequireUserAction(SessionParams.USER_ACTION_NOT_REQUIRED)
@@ -58,8 +59,6 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
     }
 
     private suspend fun mDefaultUninstaller(packageName: String) {
-        val sessionInstaller = context.packageManager.packageInstaller
-
         val intent = Intent(context, InstallerService::class.java)
         intent.putExtra(InstallerService.KEY_ACTION, InstallerService.ACTION_UNINSTALL)
 
