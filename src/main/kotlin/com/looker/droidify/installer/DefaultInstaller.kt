@@ -66,7 +66,7 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
 
         val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             sessionInstaller.uninstall(packageName, pendingIntent.intentSender)
         }
     }
