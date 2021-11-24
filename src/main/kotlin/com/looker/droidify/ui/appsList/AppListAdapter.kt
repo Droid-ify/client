@@ -178,7 +178,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
                         text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
                         if (background != null) {
                             setPadding(0, 0, 0, 0)
-                            setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorPrimary))
+                            setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorControlNormal))
                             background = null
                         }
                     }
