@@ -54,6 +54,7 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
 
             session.commit(pendingIntent.intentSender)
         }
+        cacheFile.delete()
     }
 
     private suspend fun mDefaultUninstaller(packageName: String) {
