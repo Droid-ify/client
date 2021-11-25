@@ -82,8 +82,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     private var productDisposable: Disposable? = null
     private var downloadDisposable: Disposable? = null
     private val downloadConnection = Connection(DownloadService::class.java, onBind = { _, binder ->
-        updateDownloadState(binder.getState(packageName))
-        downloadDisposable = binder.events(packageName).subscribe { updateDownloadState(it) }
+        lifecycleScope.launch { updateDownloadState(binder.getState(packageName)) }
+        downloadDisposable = binder.events(packageName).subscribe {
+            lifecycleScope.launch { updateDownloadState(it) }
+        }
     }, onUnbind = { _, _ ->
         downloadDisposable?.dispose()
         downloadDisposable = null
@@ -220,7 +222,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                             installedItem.value
                         )
                     }
-                    updateButtons()
+                    lifecycleScope.launch { updateButtons() }
                 }
             }
 
@@ -248,11 +250,11 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
     }
 
-    private fun updateButtons() {
+    private suspend fun updateButtons() {
         updateButtons(ProductPreferences[packageName])
     }
 
-    private fun updateButtons(preference: ProductPreference) {
+    private suspend fun updateButtons(preference: ProductPreference) {
         val installed = installed
         val product = Product.findSuggested(products, installed?.installedItem) { it.first }?.first
         val compatible = product != null && product.selectedReleases.firstOrNull()
@@ -307,7 +309,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             toolbar.menu.findItem(action.id).isEnabled = !downloading
         }
         this.actions = Pair(actions, primaryAction)
-        lifecycleScope.launch { updateToolbarButtons() }
+        withContext(Dispatchers.Main) { updateToolbarButtons() }
     }
 
     private suspend fun updateToolbarTitle() {
@@ -340,7 +342,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
     }
 
-    private fun updateDownloadState(state: DownloadService.State?) {
+    private suspend fun updateDownloadState(state: DownloadService.State?) {
         val status = when (state) {
             is DownloadService.State.Pending -> ProductAdapter.Status.Pending
             is DownloadService.State.Connecting -> ProductAdapter.Status.Connecting
@@ -357,7 +359,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
         (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
-            lifecycleScope.launch {
+            withContext(Dispatchers.Default) {
                 state.consume()
                 AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
             }
@@ -387,7 +389,15 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             ProductAdapter.Action.UPDATE,
             -> {
                 val installedItem = installed?.installedItem
-                startUpdate(packageName, installedItem, products, downloadConnection)
+                lifecycleScope.launch {
+                    startUpdate(
+                        packageName,
+                        installedItem,
+                        products,
+                        downloadConnection
+                    )
+                }
+                Unit
             }
             ProductAdapter.Action.LAUNCH -> {
                 val launcherActivities = installed?.launcherActivities.orEmpty()
@@ -447,7 +457,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
     }
 
     override fun onPreferenceChanged(preference: ProductPreference) {
-        updateButtons(preference)
+        lifecycleScope.launch { updateButtons(preference) }
     }
 
     override fun onPermissionsClick(group: String?, permissions: List<String>) {

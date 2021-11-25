@@ -22,6 +22,8 @@ import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.text.hex
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collect
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
@@ -86,7 +88,7 @@ object Utils {
         get() = Preferences[Preferences.Key.RootPermission] &&
                 (Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot)
 
-    fun startUpdate(
+    suspend fun startUpdate(
         packageName: String,
         installedItem: InstalledItem?,
         products: List<Pair<Product, Repository>>,
@@ -95,24 +97,27 @@ object Utils {
         val productRepository = Product.findSuggested(products, installedItem) { it.first }
         val compatibleReleases = productRepository?.first?.selectedReleases.orEmpty()
             .filter { installedItem == null || installedItem.signature == it.signature }
-        val release = if (compatibleReleases.size >= 2) {
-            compatibleReleases
-                .filter { it.platforms.contains(Android.primaryPlatform) }
-                .minByOrNull { it.platforms.size }
-                ?: compatibleReleases.minByOrNull { it.platforms.size }
-                ?: compatibleReleases.firstOrNull()
-        } else {
-            compatibleReleases.firstOrNull()
+        val releaseFlow = MutableStateFlow(compatibleReleases.firstOrNull())
+        if (compatibleReleases.size > 1) {
+            releaseFlow.emit(
+                compatibleReleases
+                    .filter { it.platforms.contains(Android.primaryPlatform) }
+                    .minByOrNull { it.platforms.size }
+                    ?: compatibleReleases.minByOrNull { it.platforms.size }
+                    ?: compatibleReleases.firstOrNull()
+            )
         }
         val binder = downloadConnection.binder
-        if (productRepository != null && release != null && binder != null) {
-            binder.enqueue(
-                packageName,
-                productRepository.first.name,
-                productRepository.second,
-                release
-            )
-        } else Unit
+        releaseFlow.collect {
+            if (productRepository != null && it != null && binder != null) {
+                binder.enqueue(
+                    packageName,
+                    productRepository.first.name,
+                    productRepository.second,
+                    it
+                )
+            }
+        }
     }
 
     fun Context.setLanguage(): Configuration {
