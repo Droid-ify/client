@@ -29,8 +29,6 @@ width="30%">](https://t.me/droid_ify)
 [<img src = "https://hosted.weblate.org/widgets/droidify/-/open-graph.png"
 alt= "Translation State"
 width="60%">](https://hosted.weblate.org/projects/droidify/localization/)
-  
-  ## Don't Edit Source Strings or Send Pull Request
 
 <div align="left">
 
