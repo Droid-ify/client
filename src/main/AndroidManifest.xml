@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
 
     <application
-        android:name="com.looker.droidify.MainApplication"
+        android:name=".MainApplication"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/application_name"
@@ -21,7 +21,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <receiver
-            android:name="com.looker.droidify.MainApplication$BootReceiver"
+            android:name=".MainApplication$BootReceiver"
             android:exported="true">
 
             <intent-filter>
@@ -31,7 +31,7 @@
         </receiver>
 
         <activity
-            android:name="com.looker.droidify.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize">
@@ -79,23 +79,23 @@
 
         </activity>
 
-        <service android:name="com.looker.droidify.service.SyncService" />
+        <service android:name=".service.SyncService" />
 
         <service
-            android:name="com.looker.droidify.service.SyncService$Job"
+            android:name=".service.SyncService$Job"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name="com.looker.droidify.service.DownloadService" />
+        <service android:name=".service.DownloadService" />
 
-        <receiver android:name="com.looker.droidify.service.DownloadService$Receiver" />
+        <receiver android:name=".service.DownloadService$Receiver" />
 
         <service
-            android:name="com.looker.droidify.installer.InstallerService"
+            android:name=".installer.InstallerService"
             android:exported="false" />
 
         <provider
-            android:name="com.looker.droidify.content.Cache$Provider"
+            android:name=".content.Cache$Provider"
             android:authorities="${applicationId}.provider.cache"
             android:exported="false"
             android:grantUriPermissions="true" />
