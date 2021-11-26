@@ -35,9 +35,11 @@ class AppListViewModel : ViewModel() {
         var mSearchQuery = ""
         var mSections: ProductItem.Section = ProductItem.Section.All
         var mOrder: ProductItem.Order = ProductItem.Order.NAME
-        viewModelScope.launch { searchQuery.collect { if (source.sections) mSearchQuery = it } }
-        viewModelScope.launch { sections.collect { if (source.sections) mSections = it } }
-        viewModelScope.launch { order.collect { if (source.order) mOrder = it } }
+        viewModelScope.launch {
+            launch { searchQuery.collect { if (source.sections) mSearchQuery = it } }
+            launch { sections.collect { if (source.sections) mSections = it } }
+            launch { order.collect { if (source.order) mOrder = it } }
+        }
         return when (source) {
             AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(
                 mSearchQuery,
@@ -58,28 +60,28 @@ class AppListViewModel : ViewModel() {
     }
 
     fun setSection(newSection: ProductItem.Section, perform: () -> Unit) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             if (newSection != sections.value) {
                 _sections.emit(newSection)
-                perform()
+                launch(Dispatchers.Main) { perform() }
             }
         }
     }
 
     fun setOrder(newOrder: ProductItem.Order, perform: () -> Unit) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             if (newOrder != order.value) {
                 _order.emit(newOrder)
-                perform()
+                launch(Dispatchers.Main) { perform() }
             }
         }
     }
 
     fun setSearchQuery(newSearchQuery: String, perform: () -> Unit) {
-        viewModelScope.launch(Dispatchers.Main) {
+        viewModelScope.launch {
             if (newSearchQuery != searchQuery.value) {
                 _searchQuery.emit(newSearchQuery)
-                perform()
+                launch(Dispatchers.Main) { perform() }
             }
         }
     }
