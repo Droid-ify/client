@@ -109,7 +109,7 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
         (recyclerView?.adapter as? AppListAdapter)?.apply {
             this.cursor = cursor
             lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.CREATED) {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
                     emptyText = when {
                         cursor == null -> ""
                         viewModel.searchQuery.first()
