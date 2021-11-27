@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">All your applications are up to date</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">Black</string>
     <string name="anti_features">Anti-features</string>
     <string name="application">Application</string>
     <string name="application_not_found">Could not find that application</string>
@@ -48,8 +48,8 @@
     <string name="ignore_all_updates">Ignore all new versions</string>
     <string name="ignore_this_update">Ignore this version</string>
     <string name="incompatible_api_DESC_FORMAT">Your %1$s (API version %2$d) is not supported. %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">The max. API version is %d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">The min. API version is %d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">The max API version is %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">The min API version is %d.</string>
     <string name="incompatible_features_DESC">Missing features.</string>
     <string name="incompatible_older_DESC">This version is older than the one installed on your device.
     Uninstall that first.</string>
@@ -166,7 +166,7 @@
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
     <string name="version">Version</string>
-    <string name="version_FORMAT">%s version</string>
+    <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download…</string>
     <string name="whats_new">What\'s New</string>
