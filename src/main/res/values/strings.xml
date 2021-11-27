@@ -161,12 +161,12 @@
     <string name="unverified">Unverified</string>
     <string name="update">Update</string>
     <string name="updates">Updates</string>
-    <string name="upstream_source_code_is_not_free">Upstream source code is not free</string>
+    <string name="upstream_source_code_is_not_free">The upstream source code is not free</string>
     <string name="username">Username</string>
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
     <string name="version">Version</string>
-    <string name="version_FORMAT">Version %s</string>
+    <string name="version_FORMAT">%s version</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download…</string>
     <string name="whats_new">What\'s New</string>
