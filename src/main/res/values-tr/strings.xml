@@ -3,7 +3,7 @@
     <string name="action_failed">Eylem başarısız oldu</string>
     <string name="add_repository">Yeni depo ekle</string>nm
     <string name="address">Depo adresi</string>
-    <string name="all_applications">Tüm uygulamalar</string>
+    <string name="all_applications">Tüm Uygulamalar</string>
     <string name="all_applications_up_to_date">Tüm uygulamalar güncel</string>
     <string name="already_exists">Zaten mevcut</string>
     <string name="always">Her zaman</string>
@@ -95,8 +95,8 @@
     <string name="notify_about_updates_summary">Mevcut bir güncelleme olduğunda bildirim göster</string>
     <string name="number_of_applications">Uygulama sayısı</string>
     <string name="ok">Tamam</string>
-    <string name="only_compatible_with_FORMAT">Sadece %s ile uyumlu</string>
-    <string name="only_on_wifi">Sadece Wi-Fi üzerinde</string>
+    <string name="only_compatible_with_FORMAT">Yalnızca %s ile uyumlu</string>
+    <string name="only_on_wifi">Yalnızca Wi-Fi\'de</string>
     <string name="open_DESC_FORMAT">%s açılsın mı?</string>
     <string name="other">Diğer</string>
     <string name="parsing_index_error_DESC">Dizin dosyası çözümlenemedi.</string>
