@@ -88,7 +88,7 @@
         <item quantity="many">%d новых обновлений.</item>
         <item quantity="other">%d новых обновлений.</item>
     </plurals>
-    <string name="no_applications_available">Приложения не доступны</string>
+    <string name="no_applications_available">Приложения недоступны</string>
     <string name="no_applications_installed">Нет установленных приложений</string>
     <string name="no_description_available_DESC">Описание отсутствует.</string>
     <string name="no_matching_applications_found">Соответствующих приложений не найдено</string>
@@ -120,7 +120,7 @@
     <string name="repositories">Репозитории</string>
     <string name="repository">Репозиторий</string>
     <string name="repository_not_used_DESC">Этот репозиторий еще не использовался. Вам необходимо включить его для просмотра предоставляемых им приложений.</string>
-    <string name="repository_unsigned_DESC">Без подписи. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
+    <string name="repository_unsigned_DESC">Подпись отсутствует. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
     <string name="requires_FORMAT">Требуется %s</string>
     <string name="root_permission">Тихая установка</string>
     <string name="root_permission_description">Предоставить Root права для включения тихой установки</string>
