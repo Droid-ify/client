@@ -10,7 +10,7 @@
     <string name="amoled">AMOLED</string>
     <string name="anti_features">负面特征</string>
     <string name="application">应用</string>
-    <string name="application_not_found">应用未找到</string>
+    <string name="application_not_found">未找到应用</string>
     <string name="author_email">作者邮箱</string>
     <string name="author_website">作者网站</string>
     <string name="available">可用</string>
