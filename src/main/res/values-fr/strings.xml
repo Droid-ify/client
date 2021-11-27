@@ -71,7 +71,7 @@
     <string name="repositories">Dépôts</string>
     <string name="unknown">Inconnu</string>
     <string name="always">Toujours</string>
-    <string name="application">Appli</string>
+    <string name="application">Application</string>
     <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
