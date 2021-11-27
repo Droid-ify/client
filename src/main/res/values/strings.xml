@@ -3,14 +3,14 @@
     <string name="action_failed">Action failed</string>
     <string name="add_repository">Add repository</string>
     <string name="address">Address</string>
-    <string name="all_applications">All apps</string>
-    <string name="all_applications_up_to_date">All apps up to date</string>
+    <string name="all_applications">All Applications</string>
+    <string name="all_applications_up_to_date">All Applications up to date</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
     <string name="amoled">Amoled</string>
     <string name="anti_features">Anti-features</string>
-    <string name="application">App</string>
-    <string name="application_not_found">App not found</string>
+    <string name="application">Application</string>
+    <string name="application_not_found">Application not found</string>
     <string name="author_email">Author e-mail</string>
     <string name="author_website">Author website</string>
     <string name="available">Available</string>
@@ -59,7 +59,7 @@
     installed on your device. Uninstall that first.</string>
     <string name="incompatible_version">Incompatible version</string>
     <string name="incompatible_versions">Incompatible versions</string>
-    <string name="incompatible_versions_summary">Show app versions incompatible with the device</string>
+    <string name="incompatible_versions_summary">Show Application versions incompatible with the device</string>
     <string name="incompatible_with_FORMAT">Incompatible with %s</string>
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>
@@ -88,14 +88,14 @@
         <item quantity="one">%d new update.</item>
         <item quantity="other">%d new updates.</item>
     </plurals>
-    <string name="no_applications_available">No apps available</string>
-    <string name="no_applications_installed">No apps installed</string>
+    <string name="no_applications_available">No Applications available</string>
+    <string name="no_applications_installed">No Applications installed</string>
     <string name="no_description_available_DESC">No description available.</string>
-    <string name="no_matching_applications_found">No matching apps found</string>
+    <string name="no_matching_applications_found">No matching Applications found</string>
     <string name="no_proxy">No proxy</string>
     <string name="notify_about_updates">Notify about updates</string>
     <string name="notify_about_updates_summary">Show a notification when updates are available</string>
-    <string name="number_of_applications">Number of apps</string>
+    <string name="number_of_applications">Number of Applications</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Only compatible with %s</string>
     <string name="only_on_wifi">Only on Wi-Fi</string>
@@ -119,8 +119,8 @@
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
-    <string name="repository_not_used_DESC">This repository has not been used yet. You need to enable it to view the apps it provides.</string>
-    <string name="repository_unsigned_DESC">Unsigned. Could not verify the app list. Be careful downloading apps from unsigned repositories.</string>
+    <string name="repository_not_used_DESC">This repository has not been used yet. You need to enable it to view the Applications it provides.</string>
+    <string name="repository_unsigned_DESC">Unsigned. Could not verify the Application list. Be careful downloading Applications from unsigned repositories.</string>
     <string name="requires_FORMAT">Requires %s</string>
     <string name="root_permission">Silent Install</string>
     <string name="root_permission_description">Allow root permission for silent installs</string>
