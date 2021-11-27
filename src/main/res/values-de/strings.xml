@@ -167,7 +167,7 @@
     <string name="links">Webseiten</string>
     <string name="merging_FORMAT">Zusammenführung %s</string>
     <string name="name">Name</string>
-    <string name="upstream_source_code_is_not_free">Upstream Quellcode ist nicht frei</string>
+    <string name="upstream_source_code_is_not_free">Upstream-Quellcode ist nicht frei</string>
     <string name="prefs_language_title">Sprache</string>
     <string name="prefs_personalization">Personalisierung</string>
 </resources>
