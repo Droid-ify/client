@@ -30,7 +30,7 @@
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
     <string name="delete">Delete</string>
-    <string name="delete_repository_DESC">Delete the repository\?</string>
+    <string name="delete_repository_DESC">Delete the repository?</string>
     <string name="description">Description</string>
     <string name="details">Details</string>
     <string name="donate">Donate</string>
