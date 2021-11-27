@@ -1,25 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.switchmaterial.SwitchMaterial xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="54dp"
+    android:id="@+id/repository_switch"
     android:background="?android:attr/selectableItemBackground"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_weight="1"
-        android:singleLine="true"
-        android:textSize="16sp" />
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/enabled"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+    android:orientation="horizontal"/>

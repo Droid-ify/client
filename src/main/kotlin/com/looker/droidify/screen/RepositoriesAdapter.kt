@@ -4,7 +4,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Repository
@@ -19,8 +18,7 @@ class RepositoriesAdapter(
     enum class ViewType { REPOSITORY }
 
     private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
-        val enabled = itemView.findViewById<SwitchMaterial>(R.id.enabled)!!
+        val switch = itemView.findViewById<SwitchMaterial>(R.id.repository_switch)!!
 
         var listenSwitch = true
     }
@@ -42,11 +40,11 @@ class RepositoriesAdapter(
     ): RecyclerView.ViewHolder {
         return ViewHolder(parent.inflate(R.layout.repository_item)).apply {
             itemView.setOnClickListener { onClick(getRepository(adapterPosition)) }
-            enabled.setOnCheckedChangeListener { _, isChecked ->
+            switch.setOnCheckedChangeListener { _, isChecked ->
                 if (listenSwitch) {
                     if (!onSwitch(getRepository(adapterPosition), isChecked)) {
                         listenSwitch = false
-                        enabled.isChecked = !isChecked
+                        switch.isChecked = !isChecked
                         listenSwitch = true
                     }
                 }
@@ -59,8 +57,8 @@ class RepositoriesAdapter(
         val repository = getRepository(position)
         val lastListenSwitch = holder.listenSwitch
         holder.listenSwitch = false
-        holder.enabled.isChecked = repository.enabled
+        holder.switch.isChecked = repository.enabled
         holder.listenSwitch = lastListenSwitch
-        holder.name.text = repository.name
+        holder.switch.text = repository.name
     }
 }
