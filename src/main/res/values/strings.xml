@@ -3,14 +3,14 @@
     <string name="action_failed">Action failed</string>
     <string name="add_repository">Add repository</string>
     <string name="address">Address</string>
-    <string name="all_applications">All Applications</string>
-    <string name="all_applications_up_to_date">All Applications up to date</string>
+    <string name="all_applications">All applications</string>
+    <string name="all_applications_up_to_date">All your applications are up to date</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
-    <string name="amoled">Amoled</string>
+    <string name="amoled">Black</string>
     <string name="anti_features">Anti-features</string>
     <string name="application">Application</string>
-    <string name="application_not_found">Application not found</string>
+    <string name="application_not_found">Could not find that application</string>
     <string name="author_email">Author e-mail</string>
     <string name="author_website">Author website</string>
     <string name="available">Available</string>
@@ -30,7 +30,7 @@
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
     <string name="delete">Delete</string>
-    <string name="delete_repository_DESC">Delete the repository\?</string>
+    <string name="delete_repository_DESC">Delete the repository?</string>
     <string name="description">Description</string>
     <string name="details">Details</string>
     <string name="donate">Donate</string>
@@ -45,11 +45,11 @@
     <string name="has_security_vulnerabilities">Has security vulnerabilities</string>
     <string name="http_error_DESC">Invalid server response.</string>
     <string name="http_proxy">HTTP proxy</string>
-    <string name="ignore_all_updates">Ignore all updates</string>
-    <string name="ignore_this_update">Ignore this update</string>
+    <string name="ignore_all_updates">Ignore all new versions</string>
+    <string name="ignore_this_update">Ignore this version</string>
     <string name="incompatible_api_DESC_FORMAT">Your %1$s (API version %2$d) is not supported. %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">Maximum API version is %d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">Minimum API version is %d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">The max API version is %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">The min API version is %d.</string>
     <string name="incompatible_features_DESC">Missing features.</string>
     <string name="incompatible_older_DESC">This version is older than the one installed on your device.
     Uninstall that first.</string>
@@ -59,7 +59,7 @@
     installed on your device. Uninstall that first.</string>
     <string name="incompatible_version">Incompatible version</string>
     <string name="incompatible_versions">Incompatible versions</string>
-    <string name="incompatible_versions_summary">Show Application versions incompatible with the device</string>
+    <string name="incompatible_versions_summary">Show application versions incompatible with the device</string>
     <string name="incompatible_with_FORMAT">Incompatible with %s</string>
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>
@@ -73,7 +73,7 @@
     <string name="invalid_username_format">Invalid username format</string>
     <string name="launch">Launch</string>
     <string name="license">License</string>
-    <string name="license_FORMAT">License %s</string>
+    <string name="license_FORMAT">%s license</string>
     <string name="light">Light</string>
     <string name="link_copied_to_clipboard">Link copied to clipboard</string>
     <string name="links">Links</string>
@@ -83,19 +83,19 @@
     <string name="name">Name</string>
     <string name="network_error_DESC">Network error.</string>
     <string name="never">Never</string>
-    <string name="new_updates_available">New updates available</string>
+    <string name="new_updates_available">New versions of applications available</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d new update.</item>
-        <item quantity="other">%d new updates.</item>
+        <item quantity="one">%d application has a new version.</item>
+        <item quantity="other">%d applications with new versions.</item>
     </plurals>
-    <string name="no_applications_available">No Applications available</string>
-    <string name="no_applications_installed">No Applications installed</string>
+    <string name="no_applications_available">No available applications</string>
+    <string name="no_applications_installed">No installed applications</string>
     <string name="no_description_available_DESC">No description available.</string>
-    <string name="no_matching_applications_found">No matching Applications found</string>
+    <string name="no_matching_applications_found">Could not find any such applications</string>
     <string name="no_proxy">No proxy</string>
-    <string name="notify_about_updates">Notify about updates</string>
-    <string name="notify_about_updates_summary">Show a notification when updates are available</string>
-    <string name="number_of_applications">Number of Applications</string>
+    <string name="notify_about_updates">Notify about new versions of applications</string>
+    <string name="notify_about_updates_summary">Show a notification when new versions are available</string>
+    <string name="number_of_applications">Number of applications</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Only compatible with %s</string>
     <string name="only_on_wifi">Only on Wi-Fi</string>
@@ -119,8 +119,8 @@
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
-    <string name="repository_not_used_DESC">This repository has not been used yet. You need to enable it to view the Applications it provides.</string>
-    <string name="repository_unsigned_DESC">Unsigned. Could not verify the Application list. Be careful downloading Applications from unsigned repositories.</string>
+    <string name="repository_not_used_DESC">This repository has not been used yet. Turn it on to view the applications in it.</string>
+    <string name="repository_unsigned_DESC">Unsigned. Could not verify the application list. Be careful downloading applications from unsigned repositories.</string>
     <string name="requires_FORMAT">Requires %s</string>
     <string name="root_permission">Silent Install</string>
     <string name="root_permission_description">Allow root permission for silent installs</string>
@@ -161,7 +161,7 @@
     <string name="unverified">Unverified</string>
     <string name="update">Update</string>
     <string name="updates">Updates</string>
-    <string name="upstream_source_code_is_not_free">Upstream source code is not free</string>
+    <string name="upstream_source_code_is_not_free">The upstream source code is not free</string>
     <string name="username">Username</string>
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
