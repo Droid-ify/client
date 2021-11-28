@@ -4,13 +4,13 @@
     <string name="add_repository">添加存储库</string>
     <string name="address">地址</string>
     <string name="all_applications">所有应用</string>
-    <string name="all_applications_up_to_date">所有应用已更新至最新版本</string>
+    <string name="all_applications_up_to_date">所有应用已是最新</string>
     <string name="already_exists">已经存在</string>
     <string name="always">总是</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">黑色</string>
     <string name="anti_features">负面特征</string>
     <string name="application">应用</string>
-    <string name="application_not_found">未找到应用</string>
+    <string name="application_not_found">找不到应用</string>
     <string name="author_email">作者邮箱</string>
     <string name="author_website">作者网站</string>
     <string name="available">可用</string>
@@ -45,11 +45,11 @@
     <string name="has_security_vulnerabilities">包含安全漏洞</string>
     <string name="http_error_DESC">服务器响应无效。</string>
     <string name="http_proxy">HTTP 代理</string>
-    <string name="ignore_all_updates">忽略所有更新</string>
-    <string name="ignore_this_update">忽略此更新</string>
+    <string name="ignore_all_updates">忽略所有新版本</string>
+    <string name="ignore_this_update">忽略此版本</string>
     <string name="incompatible_api_DESC_FORMAT">您的 %1$s（API 版本 %2$d）不受支持。 %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">最大 API 版本为 %d。</string>
-    <string name="incompatible_api_min_DESC_FORMAT">最小 API 版本为 %d。</string>
+    <string name="incompatible_api_max_DESC_FORMAT">最高 API 版本为 %d。</string>
+    <string name="incompatible_api_min_DESC_FORMAT">最低 API 版本为 %d。</string>
     <string name="incompatible_features_DESC">缺少的功能。</string>
     <string name="incompatible_older_DESC">此版本比您设备上安装的版本旧。
      请先卸载您已有的版本。</string>
@@ -83,18 +83,17 @@
     <string name="name">名称</string>
     <string name="network_error_DESC">网络错误.</string>
     <string name="never">从不</string>
-    <string name="new_updates_available">有更新可用</string>
+    <string name="new_updates_available">有应用程序的新版本可用</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d 个更新.</item>
-        <item quantity="other">%d 个更新.</item>
+        <item quantity="other">%d 个应用程序有新版本。</item>
     </plurals>
     <string name="no_applications_available">没有可用的应用</string>
     <string name="no_applications_installed">没有已安装的应用</string>
     <string name="no_description_available_DESC">没有可用的描述。</string>
-    <string name="no_matching_applications_found">未找到匹配的应用</string>
+    <string name="no_matching_applications_found">找不到任何这样的应用</string>
     <string name="no_proxy">无代理</string>
-    <string name="notify_about_updates">更新通知</string>
-    <string name="notify_about_updates_summary">有可用更新时显示通知</string>
+    <string name="notify_about_updates">通知新应用版本</string>
+    <string name="notify_about_updates_summary">有新版本可用时显示通知</string>
     <string name="number_of_applications">应用数量</string>
     <string name="ok">好的</string>
     <string name="only_compatible_with_FORMAT">仅与 %s 兼容</string>
@@ -119,7 +118,7 @@
     <string name="recently_updated">最近更新</string>
     <string name="repositories">存储库</string>
     <string name="repository">存储库</string>
-    <string name="repository_not_used_DESC">您还未启用此存储库。您需要启用它以查看它提供的应用。</string>
+    <string name="repository_not_used_DESC">您还未启用此存储库。您需要启用它以查看其中的应用。</string>
     <string name="repository_unsigned_DESC">未签名。无法验证应用列表。从未签名的存储库下载应用时要小心。</string>
     <string name="requires_FORMAT">需要 %s</string>
     <string name="root_permission">后台安装</string>
