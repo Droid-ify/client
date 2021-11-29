@@ -1,6 +1,4 @@
-Unofficial F-Droid client with Material UI.
-
-This app is an Direct Adaptation/Modification of Foxy-Droid
+A quick material F-Droid client
 
 Features:
 
@@ -8,3 +6,26 @@ Features:
 * No cards or inappropriate animations
 * Fast repository syncing
 * Standard Android components and minimal dependencies
+
+Available in:
+
+- Brazillian Portugese
+- English
+- Finnish
+- French
+- German
+- Greek
+- Hungarian
+- Italian
+- Norwegian Bokmål
+- Peninsular Arabic
+- Polish
+- Russian
+- Simplified Chinese
+- Spanish
+- Turkish
+
+A direct adaptation/modification of Foxy-Droid
+
+Copylefted libre software, licensed GPLv3+. \
+Use, study, change, and share; with all.
