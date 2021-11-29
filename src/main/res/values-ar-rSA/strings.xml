@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">فشلت المهمة</string>
+    <string name="action_failed">فشلت العملية</string>
     <string name="add_repository">إضافة مستودع</string>
     <string name="address">العناوين</string>
     <string name="all_applications">كل التطبيقات</string>
     <string name="all_applications_up_to_date">كل التطبيقات محدثة</string>
     <string name="already_exists">متوفر مسبقا</string>
     <string name="always">دائما</string>
-    <string name="amoled">أمولد</string>
-    <string name="anti_features">مميزات مضادة</string>
+    <string name="amoled">أموليد (أسود)</string>
+    <string name="anti_features">مميزات غير مرغوبة</string>
     <string name="application">التطبيقات</string>
-    <string name="application_not_found">لم يتم العثور على التطبيق</string>
-    <string name="author_email">بريد المنشئ</string>
+    <string name="application_not_found">لم يتم العثور على ذلك التطبيق</string>
+    <string name="author_email">بريد المطور</string>
     <string name="author_website">موقع المنشئ الإلكتروني</string>
     <string name="available">متوفر</string>
     <string name="bug_tracker">متعقب العلل</string>
@@ -19,10 +19,10 @@
     <string name="cant_edit_sync_DESC">لا يمكن تحرير المستودع لأنه يتم مزامنته الآن.</string>
     <string name="changelog">سجل التغييرات</string>
     <string name="changes">التغيرات</string>
-    <string name="checking_repository">التحقق من المستودع</string>
+    <string name="checking_repository">جارى التحقق من المستودع…</string>
     <string name="compiled_for_debugging">تم تجميعه من أجل التصحيح</string>
     <string name="confirmation">تأكيد</string>
-    <string name="connecting">توصيل</string>
+    <string name="connecting">جارى التوصيل…</string>
     <string name="contains_non_free_media">يحتوي على وسائط ليست حرة</string>
     <string name="could_not_download_FORMAT">تعذر تنزيل %s</string>
     <string name="could_not_sync_FORMAT">تعذر مزامنة %s</string>
@@ -36,7 +36,7 @@
     <string name="donate">التبرع</string>
     <string name="downloaded_FORMAT">تم تحميل %s</string>
     <string name="downloading">قيد التحميل</string>
-    <string name="downloading_FORMAT">قيد التحميل%s</string>
+    <string name="downloading_FORMAT">قيد التحميل %s…</string>
     <string name="edit_repository">تعديل المستودع</string>
     <string name="file_format_error_DESC">صيغة ملف غير صالحة.</string>
     <string name="fingerprint">البصمة</string>
@@ -48,8 +48,8 @@
     <string name="ignore_all_updates">تجاهل جميع التحديثات</string>
     <string name="ignore_this_update">تجاهل هذا التحديث</string>
     <string name="incompatible_api_DESC_FORMAT">%1$s (إصدار API %2$d) غير مدعوم. %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">الحد الأقصى لإصدار API هو%d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">الحد الأدنى لإصدار API هو%d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">الحد الأقصى لإصدار API هو %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">الحد الأدنى لإصدار API هو %d.</string>
     <string name="incompatible_features_DESC">مميزات مفقودة.</string>
     <string name="incompatible_older_DESC">هذا الإصدار اقدم من ذلك
      المثبت على جهازك. قم بإلغاء تثبيته أولاً.</string>
@@ -73,32 +73,32 @@
     <string name="invalid_username_format">صيغة أسم المستخدم خاطئة</string>
     <string name="launch">تشغيل</string>
     <string name="license">الرخصة</string>
-    <string name="license_FORMAT">الرخصة %s</string>
+    <string name="license_FORMAT">%s الرخصة</string>
     <string name="light">مظيء</string>
     <string name="link_copied_to_clipboard">تم نسخ الرابط إلى الحافظة</string>
     <string name="links">الروابط</string>
     <string name="list_animation">تأثيرات القائمة</string>
-    <string name="list_animation_description">تمكين تأثيرات القائمة على الصفحة الرئيسية</string>
+    <string name="list_animation_description">إظهار تأثيرات القائمة على الصفحة الرئيسية</string>
     <string name="merging_FORMAT">دمج %s</string>
     <string name="name">الاسم</string>
     <string name="network_error_DESC">خطاء في الشبكة.</string>
     <string name="never">أبدا</string>
-    <string name="new_updates_available">تحديثات جديدة متوفرة</string>
+    <string name="new_updates_available">يوجد تحديثات جديدة</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="zero">%d تحديث جديد.</item>
         <item quantity="one">%d تحديث جديد.</item>
-        <item quantity="two">%d تحديث جديد.</item>
-        <item quantity="few">%d تحديثات جديدة.</item>
-        <item quantity="many">%d تحديثات جديدة.</item>
+        <item quantity="two">%d تحديثان جديدان.</item>
+        <item quantity="few">%d بضعة تحديثات جديدة.</item>
+        <item quantity="many">%d الكثير من التحديثات الجديدة.</item>
         <item quantity="other">%d تحديثات جديدة.</item>
     </plurals>
     <string name="no_applications_available">لا توجد تطبيقات متاحة</string>
-    <string name="no_applications_installed">لم يتم تثبيت أي تطبيق</string>
+    <string name="no_applications_installed">لا توجد تطبيقات مثبتة</string>
     <string name="no_description_available_DESC">لا يوجد وصف متاح.</string>
     <string name="no_matching_applications_found">لم يتم العثور على تطبيق مشابه</string>
     <string name="no_proxy">بدون بروكسي</string>
-    <string name="notify_about_updates">تنبيه حول التحديثات</string>
-    <string name="notify_about_updates_summary">عرض تنبيهات عند توفر تحديثات جديدة</string>
+    <string name="notify_about_updates">تنبيه (إشعار) حول التحديثات</string>
+    <string name="notify_about_updates_summary">عرض تنبيه عند توفر تحديثات جديدة</string>
     <string name="number_of_applications">عدد التطبيقات</string>
     <string name="ok">حسناً</string>
     <string name="only_compatible_with_FORMAT">متوافق فقط مع %s</string>
@@ -111,7 +111,7 @@
     <string name="permissions">الصلاحيات</string>
     <string name="plus_more_FORMAT">+%d أخرى</string>
     <string name="settings">الاعدادات</string>
-    <string name="processing_FORMAT">معالجة%1$s</string>
+    <string name="processing_FORMAT">تجرى المعالجة %1$s…</string>
     <string name="project_website">موقع المشروع</string>
     <string name="promotes_non_free_network_services">يروج لخدمات شبكة غير حرة</string>
     <string name="promotes_non_free_software">يروج لبرمجيات غير حرة</string>
@@ -123,15 +123,13 @@
     <string name="recently_updated">تم تحديثه مؤخرا</string>
     <string name="repositories">المستودعات</string>
     <string name="repository">المستودع</string>
-    <string name="repository_not_used_DESC">لم يتم استخدام هذا المستودع بعد. تحتاج إلى تمكينه لعرض
-     التطبيقات التي يوفرها.</string>
-    <string name="repository_unsigned_DESC">غير موقع. تعذر التحقق من قائمة التطبيقات. كن حذرا عند تنزيل
-     التطبيقات من المستودعات غير الموقعة.</string>
+    <string name="repository_not_used_DESC">هذا المتستودع لم يستخدم بعد. قم بتمكينه لعرض التطبيقات التي يحتوي عليها.</string>
+    <string name="repository_unsigned_DESC">غير موقع. تعذر التحقق من قائمة التطبيقات. كن حذرا عند تنزيل التطبيقات من مستودعات غير موقعة.</string>
     <string name="requires_FORMAT">يتطلب %s</string>
     <string name="root_permission">تثبيت صامت</string>
     <string name="root_permission_description">السماح لصلاحية الجذر لتمكين التثبيت الصامت</string>
     <string name="save">حفظ</string>
-    <string name="saving_details">حفظ التفاصيل</string>
+    <string name="saving_details">جارى حفظ التفاصيل…</string>
     <string name="screenshots">صور الشاشة</string>
     <string name="search">بحث</string>
     <string name="select_mirror">اختيار مرآة</string>
@@ -150,7 +148,7 @@
     <string name="sync_repositories">مزامنة المستودعات</string>
     <string name="sync_repositories_automatically">مزامنة المستودعات بشكل دائم</string>
     <string name="syncing">مزامنة</string>
-    <string name="syncing_FORMAT">مزامنة %s</string>
+    <string name="syncing_FORMAT">جارى المزامنة %s…</string>
     <string name="system">النظام</string>
     <string name="tap_to_install_DESC">اضغط لتثبيت.</string>
     <string name="target">الهدف</string>
@@ -167,14 +165,16 @@
     <string name="unverified">لم يتم التحقق منها</string>
     <string name="update">تحديث</string>
     <string name="updates">تحديثات</string>
-    <string name="upstream_source_code_is_not_free">الكود العلوي غير حر</string>
+    <string name="upstream_source_code_is_not_free">الكود المصدرى ليس حرا</string>
     <string name="username">اسم المستخدم</string>
     <string name="username_missing">اسم المستخدم مفقود</string>
     <string name="validation_index_error_DESC">تعذر التحقق من صحة الفهرس.</string>
     <string name="version">الإصدار</string>
     <string name="version_FORMAT">الإصدار %s</string>
     <string name="versions">الإصدارات</string>
-    <string name="waiting_to_start_download">في انتظار بدء التنزيل</string>
+    <string name="waiting_to_start_download">فى انتظار بدء التنزيل…</string>
     <string name="whats_new">ما هو الجديد</string>
     <string name="website">الموقع الإلكتروني</string>
+    <string name="prefs_language_title">اللغة</string>
+    <string name="prefs_personalization">التفضيلات</string>
 </resources>
