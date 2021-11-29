@@ -60,6 +60,13 @@ key.password=key-password
 Run `./gradlew assembleRelease` to build the package, which can be installed using the Android
 package manager.
 
+## 👁️‍🗨️ Translations
+[Translate Droid-ify on Hosted Weblate](https://hosted.weblate.org/engage/droidify/). \
+[![Translation status](https://hosted.weblate.org/widgets/droidify/-/multi-auto.svg)](https://hosted.weblate.org/engage/droidify/?utm_source=widget)
+
+You can always add other lanuages.
+  
+
 ## :scroll: License
 
 Licensed GPLv3+. \
