@@ -2,15 +2,15 @@
 <resources>
     <string name="address">Osoite</string>
     <string name="all_applications">Kaikki sovellukset</string>
-    <string name="all_applications_up_to_date">Kaikki sovellukset ajan tasalla</string>
+    <string name="all_applications_up_to_date">Kaikki sovelluksesi ovat ajan tasalla</string>
     <string name="already_exists">Jo olemassa</string>
     <string name="always">Aina</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Musta</string>
     <string name="anti_features">Anti-ominaisuudet</string>
     <string name="application">Sovellus</string>
     <string name="action_failed">Toiminta epäonnistui</string>
     <string name="add_repository">Lisää arkisto</string>
-    <string name="application_not_found">Sovellusta ei löydy</string>
+    <string name="application_not_found">Tätä sovellusta ei löytynyt</string>
     <string name="author_email">Tekijän sähköposti</string>
     <string name="author_website">Kirjoittajan verkkosivusto</string>
     <string name="available">Saatavilla</string>
@@ -45,8 +45,8 @@
     <string name="has_security_vulnerabilities">On tietoturva-aukkoja</string>
     <string name="http_error_DESC">Virheellinen palvelinvastaus.</string>
     <string name="http_proxy">HTTP-välityspalvelin</string>
-    <string name="ignore_all_updates">Jätä kaikki päivitykset huomiotta</string>
-    <string name="ignore_this_update">Unohda tämä päivitys</string>
+    <string name="ignore_all_updates">Jätä kaikki uudet versiot huomiotta</string>
+    <string name="ignore_this_update">Jätä tämä versio huomiotta</string>
     <string name="incompatible_api_DESC_FORMAT">Sinun %1$s (API-versio %2$d) ei ole tuettu. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">Suurin API-versio on %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">Vähimmäis API-versio on %d.</string>
@@ -68,7 +68,7 @@
     <string name="invalid_username_format">Virheellinen käyttäjänimen muoto</string>
     <string name="launch">Laukaisu</string>
     <string name="license">Lisenssi</string>
-    <string name="license_FORMAT">Lisenssi %s</string>
+    <string name="license_FORMAT">%s -lisenssi</string>
     <string name="light">Valo</string>
     <string name="link_copied_to_clipboard">Linkki kopioitu leikepöydälle</string>
     <string name="links">Linkit</string>
@@ -78,15 +78,15 @@
     <string name="name">Nimi</string>
     <string name="network_error_DESC">Verkko virhe.</string>
     <string name="never">Koskaan</string>
-    <string name="new_updates_available">Uusia päivityksiä saatavilla</string>
+    <string name="new_updates_available">Sovellusten uudet versiot saatavilla</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d uusi päivitys.</item>
         <item quantity="other">%d uutta päivitystä.</item>
     </plurals>
-    <string name="no_applications_available">Ei sovelluksia saatavilla</string>
+    <string name="no_applications_available">Ei käytettävissä olevia sovelluksia</string>
     <string name="no_applications_installed">Ei asennettuja sovelluksia</string>
     <string name="no_description_available_DESC">Kuvausta ei ole saatavilla.</string>
-    <string name="no_matching_applications_found">Vastaavia sovelluksia ei löytynyt</string>
+    <string name="no_matching_applications_found">Ei löytynyt tällaisia sovelluksia</string>
     <string name="provided_by_FORMAT">Toimittanut %s</string>
     <string name="proxy_host">Proxy-isäntä</string>
     <string name="proxy_port">Proxy portti</string>
@@ -115,8 +115,8 @@
     <string name="search">Haku</string>
     <string name="select_mirror">Valitse peili</string>
     <string name="no_proxy">Ei proxy</string>
-    <string name="notify_about_updates">Ilmoita päivityksistä</string>
-    <string name="notify_about_updates_summary">Näytä ilmoitus, kun päivityksiä on saatavilla</string>
+    <string name="notify_about_updates">Ilmoita sovellusten uusista versioista</string>
+    <string name="notify_about_updates_summary">Näytä ilmoitus, kun uusia versioita on saatavilla</string>
     <string name="only_compatible_with_FORMAT">Yhteensopiva vain %s</string>
     <string name="share">Osake</string>
     <string name="show_more">Näytä lisää</string>
@@ -130,7 +130,7 @@
     <string name="unsigned">Merkitsemätön</string>
     <string name="unstable_updates">Epävakaat päivitykset</string>
     <string name="unverified">Vahvistamaton</string>
-    <string name="upstream_source_code_is_not_free">Alkuperäinen lähdekoodi ei ole ilmainen</string>
+    <string name="upstream_source_code_is_not_free">Alkuperäinen lähdekoodi ei ole vapaa</string>
     <string name="website">Verkkosivut</string>
     <string name="whats_new">Mitä uutta</string>
     <string name="waiting_to_start_download">Odotan latauksen aloittamista…</string>
@@ -157,7 +157,7 @@
     <string name="update">Päivitys</string>
     <string name="updates">Päivitykset</string>
     <string name="promotes_non_free_software">Edistää ei-vapaita ohjelmia</string>
-    <string name="repository_not_used_DESC">Tätä arkistoa ei ole vielä käytetty. Sinun on otettava se käyttöön nähdäksesi sen tarjoamat sovellukset.</string>
+    <string name="repository_not_used_DESC">Tätä arkistoa ei ole vielä käytetty. Ota se käyttöön nähdäksesi siinä olevat sovellukset.</string>
     <string name="proxy">Proxy</string>
     <string name="repository_unsigned_DESC">Allekirjoittamaton. Sovellusluetteloa ei voitu tarkistaa. Ole varovainen ladatessasi sovelluksia allekirjoittamattomista arkistoista.</string>
     <string name="version_FORMAT">Versio %s</string>
