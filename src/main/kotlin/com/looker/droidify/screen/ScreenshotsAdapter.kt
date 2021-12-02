@@ -48,7 +48,6 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
                 .setAllCornerSizes(radius)
                 .build()
             image.shapeAppearanceModel = shapeAppearanceModel
-            image.setBackgroundColor(surfaceColor)
             itemView.addView(image)
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.WRAP_CONTENT,

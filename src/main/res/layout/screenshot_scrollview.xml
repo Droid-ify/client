@@ -20,7 +20,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="@string/screenshots"
-            android:textColor="?attr/colorAccent" />
+            android:textColor="?attr/colorPrimary" />
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/screenshots_section_icon"
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:scaleType="center"
             android:src="@drawable/ic_arrow_down"
-            android:tint="?attr/colorAccent"
+            android:tint="?attr/colorPrimary"
             tools:ignore="ContentDescription" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 

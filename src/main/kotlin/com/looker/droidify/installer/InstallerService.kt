@@ -74,7 +74,7 @@ class InstallerService : Service() {
             .setAutoCancel(true)
             .setColor(
                 ContextThemeWrapper(this, R.style.Theme_Main_Light)
-                    .getColorFromAttr(android.R.attr.colorAccent).defaultColor
+                    .getColorFromAttr(R.attr.colorPrimary).defaultColor
             )
 
         when (status) {

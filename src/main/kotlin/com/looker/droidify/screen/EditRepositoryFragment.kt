@@ -93,7 +93,8 @@ class EditRepositoryFragment() : ScreenFragment() {
         syncConnection.bind(requireContext())
 
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(if (repositoryId != null) R.string.edit_repository else R.string.add_repository)
+        collapsingToolbar.title =
+            getString(if (repositoryId != null) R.string.edit_repository else R.string.add_repository)
 
         saveMenuItem = toolbar.menu.add(R.string.save)
             .setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_save))
@@ -179,7 +180,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 } catch (e: Exception) {
                     Pair(null, null)
                 }
-                layout.address.setText(addressText?.nullIfEmpty() ?: layout.address.hint)
+                layout.address.setText(addressText)
                 layout.fingerprint.setText(fingerprintText)
             } else {
                 layout.address.setText(repository.address)

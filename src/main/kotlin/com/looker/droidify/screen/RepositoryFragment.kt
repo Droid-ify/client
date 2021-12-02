@@ -19,7 +19,6 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.sizeScaled
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -44,7 +43,6 @@ class RepositoryFragment() : ScreenFragment() {
     private var layout: LinearLayoutCompat? = null
 
     private val syncConnection = Connection(SyncService::class.java)
-    private var repositoryDisposable: Disposable? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +52,7 @@ class RepositoryFragment() : ScreenFragment() {
         lifecycleScope.launch(Dispatchers.Main) { updateRepositoryView() }
 
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.repository)
+        collapsingToolbar.title = getString(R.string.repository)
 
         toolbar.menu.apply {
             add(R.string.edit_repository)
@@ -98,8 +96,6 @@ class RepositoryFragment() : ScreenFragment() {
         layout = null
         titleBinding = null
         syncConnection.unbind(requireContext())
-        repositoryDisposable?.dispose()
-        repositoryDisposable = null
     }
 
     private fun updateRepositoryView() {
@@ -111,7 +107,7 @@ class RepositoryFragment() : ScreenFragment() {
         } else {
             layout.addTitleText(R.string.address, repository.address)
             if (repository.updated > 0L) {
-                toolbar.title = repository.name
+                collapsingToolbar.title = repository.name
                 layout.addTitleText(R.string.name, repository.name)
                 layout.addTitleText(R.string.description, repository.description.replace('\n', ' '))
                 layout.addTitleText(R.string.recently_updated, run {

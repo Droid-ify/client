@@ -237,7 +237,5 @@
         app:iconGravity="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/status_layout"
-        app:shapeAppearanceOverlay="@style/PillShapeAppearance" />
-
+        app:layout_constraintTop_toBottomOf="@id/status_layout"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

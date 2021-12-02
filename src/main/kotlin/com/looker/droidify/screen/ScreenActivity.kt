@@ -14,6 +14,7 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.installer.AppInstaller
+import com.looker.droidify.ui.appDetail.AppDetailFragment
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
@@ -235,7 +236,7 @@ abstract class ScreenActivity : AppCompatActivity() {
                 val packageName = intent.packageName
                 if (!packageName.isNullOrEmpty()) {
                     val fragment = currentFragment
-                    if (fragment !is ProductFragment || fragment.packageName != packageName) {
+                    if (fragment !is AppDetailFragment || fragment.packageName != packageName) {
                         navigateProduct(packageName)
                     }
                 }
@@ -243,7 +244,7 @@ abstract class ScreenActivity : AppCompatActivity() {
         }
     }
 
-    internal fun navigateProduct(packageName: String) = pushFragment(ProductFragment(packageName))
+    internal fun navigateProduct(packageName: String) = pushFragment(AppDetailFragment(packageName))
     internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
     internal fun navigatePreferences() = pushFragment(SettingsFragment())
     internal fun navigateAddRepository() = pushFragment(EditRepositoryFragment(null))

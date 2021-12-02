@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.appDetail
 
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -20,6 +20,9 @@ import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.*
 import com.looker.droidify.installer.AppInstaller
+import com.looker.droidify.screen.MessageDialog
+import com.looker.droidify.screen.ScreenFragment
+import com.looker.droidify.screen.ScreenshotsFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.RxUtils
@@ -35,7 +38,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
+class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     companion object {
         private const val EXTRA_PACKAGE_NAME = "packageName"
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
@@ -52,14 +55,14 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     private enum class Action(
         val id: Int,
-        val adapterAction: ProductAdapter.Action,
+        val adapterAction: AppDetailAdapter.Action,
     ) {
-        INSTALL(1, ProductAdapter.Action.INSTALL),
-        UPDATE(2, ProductAdapter.Action.UPDATE),
-        LAUNCH(3, ProductAdapter.Action.LAUNCH),
-        DETAILS(4, ProductAdapter.Action.DETAILS),
-        UNINSTALL(5, ProductAdapter.Action.UNINSTALL),
-        SHARE(6, ProductAdapter.Action.SHARE)
+        INSTALL(1, AppDetailAdapter.Action.INSTALL),
+        UPDATE(2, AppDetailAdapter.Action.UPDATE),
+        LAUNCH(3, AppDetailAdapter.Action.LAUNCH),
+        DETAILS(4, AppDetailAdapter.Action.DETAILS),
+        UNINSTALL(5, AppDetailAdapter.Action.UNINSTALL),
+        SHARE(6, AppDetailAdapter.Action.SHARE)
     }
 
     private class Installed(
@@ -114,10 +117,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             isMotionEventSplittingEnabled = false
             isVerticalScrollBarEnabled = false
-            val adapter = ProductAdapter(this@ProductFragment)
+            val adapter = AppDetailAdapter(this@AppDetailFragment)
             this.adapter = adapter
             addOnScrollListener(scrollListener)
-            savedInstanceState?.getParcelable<ProductAdapter.SavedState>(STATE_ADAPTER)
+            savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
                 ?.let(adapter::restoreState)
             layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
             recyclerView = this
@@ -213,7 +216,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                         }
                     }
                     val recyclerView = recyclerView!!
-                    val adapter = recyclerView.adapter as ProductAdapter
+                    val adapter = recyclerView.adapter as AppDetailAdapter
                     if (firstChanged || productChanged || installedItemChanged) {
                         adapter.setProducts(
                             recyclerView.context,
@@ -246,7 +249,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         val layoutManagerState =
             layoutManagerState ?: recyclerView?.layoutManager?.onSaveInstanceState()
         layoutManagerState?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
-        val adapterState = (recyclerView?.adapter as? ProductAdapter)?.saveState()
+        val adapterState = (recyclerView?.adapter as? AppDetailAdapter)?.saveState()
         adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
     }
 
@@ -297,8 +300,8 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
 
         val adapterAction =
-            if (downloading) ProductAdapter.Action.CANCEL else primaryAction?.adapterAction
-        (recyclerView?.adapter as? ProductAdapter)?.setAction(adapterAction)
+            if (downloading) AppDetailAdapter.Action.CANCEL else primaryAction?.adapterAction
+        (recyclerView?.adapter as? AppDetailAdapter)?.setAction(adapterAction)
 
         for (action in sequenceOf(
             Action.INSTALL,
@@ -344,9 +347,9 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
 
     private suspend fun updateDownloadState(state: DownloadService.State?) {
         val status = when (state) {
-            is DownloadService.State.Pending -> ProductAdapter.Status.Pending
-            is DownloadService.State.Connecting -> ProductAdapter.Status.Connecting
-            is DownloadService.State.Downloading -> ProductAdapter.Status.Downloading(
+            is DownloadService.State.Pending -> AppDetailAdapter.Status.Pending
+            is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting
+            is DownloadService.State.Downloading -> AppDetailAdapter.Status.Downloading(
                 state.read,
                 state.total
             )
@@ -357,7 +360,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             this.downloading = downloading
             updateButtons()
         }
-        (recyclerView?.adapter as? ProductAdapter)?.setStatus(status)
+        (recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
             withContext(Dispatchers.Default) {
                 state.consume()
@@ -383,10 +386,10 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
         }
     }
 
-    override fun onActionClick(action: ProductAdapter.Action) {
+    override fun onActionClick(action: AppDetailAdapter.Action) {
         when (action) {
-            ProductAdapter.Action.INSTALL,
-            ProductAdapter.Action.UPDATE,
+            AppDetailAdapter.Action.INSTALL,
+            AppDetailAdapter.Action.UPDATE,
             -> {
                 val installedItem = installed?.installedItem
                 lifecycleScope.launch {
@@ -399,7 +402,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 }
                 Unit
             }
-            ProductAdapter.Action.LAUNCH -> {
+            AppDetailAdapter.Action.LAUNCH -> {
                 val launcherActivities = installed?.launcherActivities.orEmpty()
                 if (launcherActivities.size >= 2) {
                     LaunchDialog(launcherActivities).show(
@@ -411,25 +414,25 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
                 }
                 Unit
             }
-            ProductAdapter.Action.DETAILS -> {
+            AppDetailAdapter.Action.DETAILS -> {
                 startActivity(
                     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                         .setData(Uri.parse("package:$packageName"))
                 )
             }
-            ProductAdapter.Action.UNINSTALL -> {
+            AppDetailAdapter.Action.UNINSTALL -> {
                 lifecycleScope.launch {
                     AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
                 }
                 Unit
             }
-            ProductAdapter.Action.CANCEL -> {
+            AppDetailAdapter.Action.CANCEL -> {
                 val binder = downloadConnection.binder
                 if (downloading && binder != null) {
                     binder.cancel(packageName)
                 } else Unit
             }
-            ProductAdapter.Action.SHARE -> {
+            AppDetailAdapter.Action.SHARE -> {
                 val sendIntent: Intent = Intent().apply {
                     this.action = Intent.ACTION_SEND
                     putExtra(
@@ -552,7 +555,7 @@ class ProductFragment() : ScreenFragment(), ProductAdapter.Callbacks {
             return MaterialAlertDialogBuilder(requireContext())
                 .setTitle(R.string.launch)
                 .setItems(labels.toTypedArray()) { _, position ->
-                    (parentFragment as ProductFragment)
+                    (parentFragment as AppDetailFragment)
                         .startLauncherActivity(names[position])
                 }
                 .setNegativeButton(R.string.cancel, null)

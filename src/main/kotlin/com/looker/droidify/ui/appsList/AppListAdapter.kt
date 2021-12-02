@@ -2,11 +2,11 @@ package com.looker.droidify.ui.appsList
 
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.GradientDrawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
@@ -163,16 +163,16 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
                     if (productItem.canUpdate) {
                         text = productItem.version
                         if (background == null) {
-                            resources.sizeScaled(4).let { setPadding(it, 0, it, 0) }
-                            setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorBackground))
-                            background = GradientDrawable(
-                                GradientDrawable.Orientation.TOP_BOTTOM,
-                                null
-                            ).apply {
-                                color =
-                                    holder.status.context.getColorFromAttr(R.attr.colorAccent)
-                                cornerRadius = holder.status.resources.sizeScaled(2).toFloat()
-                            }
+                            background =
+                                ResourcesCompat.getDrawable(
+                                    holder.itemView.resources,
+                                    R.drawable.background_border,
+                                    context.theme
+                                )
+                            setPadding(8, 15, 1, 15)
+                            backgroundTintList =
+                                context.getColorFromAttr(R.attr.colorSecondaryContainer)
+                            setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
                         }
                     } else {
                         text = productItem.installedVersion.nullIfEmpty() ?: productItem.version

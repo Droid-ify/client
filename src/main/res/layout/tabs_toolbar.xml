@@ -7,9 +7,9 @@
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs"
+        android:backgroundTint="?attr/colorSurface"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/bg_item_rounded_ripple" />
+        android:layout_height="48dp" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/section_layout"
@@ -20,7 +20,6 @@
             android:id="@+id/section_change"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@drawable/bg_item_rounded_ripple"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"

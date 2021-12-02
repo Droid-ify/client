@@ -1,111 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:baselineAligned="false"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
-        android:orientation="horizontal">
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <com.google.android.material.circularreveal.CircularRevealFrameLayout
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:singleLine="true"
-                    android:textSize="16sp"
-                    tools:ignore="InefficientWeight" />
+                    android:textAllCaps="true"
+                    android:textAppearance="?textAppearanceLabelLarge" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/status"
+                    android:id="@+id/installation_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="1dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingStart="4dp"
-                    android:paddingTop="1dp"
-                    android:paddingEnd="4dp"
-                    android:paddingBottom="1dp"
                     android:singleLine="true"
                     android:textAllCaps="true"
-                    android:textColor="?android:attr/colorBackground"
-                    android:textSize="10sp"
-                    tools:ignore="SmallSp" />
+                    android:textAppearance="?textAppearanceLabelMedium" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/added"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:singleLine="true"
+                android:textSize="14sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/source"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:singleLine="true"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/added"
-            android:layout_width="wrap_content"
+            android:id="@+id/signature"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:singleLine="true"
-            android:textSize="14sp" />
-
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/source"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/size"
-            android:layout_width="wrap_content"
+            android:id="@+id/compatibility"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:singleLine="true"
             android:textColor="?android:attr/textColorSecondary"
             android:textSize="14sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/signature"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="14sp" />
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/compatibility"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textColor="?android:attr/textColorSecondary"
-        android:textSize="14sp" />
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</com.google.android.material.card.MaterialCardView>

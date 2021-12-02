@@ -13,6 +13,7 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
+import com.looker.droidify.widget.RecyclerFastScroller
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
     private var recyclerView: RecyclerView? = null
@@ -37,9 +38,11 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                                 syncConnection.binder?.setEnabled(repository, isEnabled) == true
                     })
                 recyclerView = this
+                RecyclerFastScroller(this)
             })
         }
         this.toolbar = fragmentBinding.toolbar
+        this.collapsingToolbar = fragmentBinding.collapsingToolbar
         return view
     }
 
@@ -49,18 +52,15 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         syncConnection.bind(requireContext())
         screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
 
-        toolbar.apply {
-            screenActivity.onToolbarCreated(this)
-            setTitle(R.string.repositories)
-
-            menu.add(R.string.add_repository)
-                .setIcon(Utils.getToolbarIcon(this.context, R.drawable.ic_add))
-                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigateAddRepository() }
-                    true
-                }
-        }
+        screenActivity.onToolbarCreated(toolbar)
+        toolbar.menu.add(R.string.add_repository)
+            .setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_add))
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            .setOnMenuItemClickListener {
+                view.post { screenActivity.navigateAddRepository() }
+                true
+            }
+        collapsingToolbar.title = getString(R.string.repositories)
     }
 
     override fun onDestroyView() {

@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.circularreveal.CircularRevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.switchmaterial.SwitchMaterial xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/update_state_switch"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/enabled"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/text_margin"
-        android:clickable="false"
-        android:singleLine="true"
-        android:textSize="15sp" />
-</com.google.android.material.circularreveal.CircularRevealFrameLayout>
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:layout_marginHorizontal="@dimen/text_margin"
+    android:singleLine="true"
+    android:textSize="15sp" />

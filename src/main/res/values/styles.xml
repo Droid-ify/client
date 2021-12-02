@@ -6,21 +6,28 @@
     </style>
 
     <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/green300</item>
-        <item name="colorPrimaryContainer">@color/green100</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSurface">@color/green50</item>
-        <item name="colorOnSurface">@color/black</item>
-        <item name="android:colorBackground">@color/white</item>
-        <item name="colorOnBackground">@color/grey_dark</item>
-        <item name="colorAccent">@color/accent_light</item>
-        <item name="colorError">@color/error_light</item>
-        <item name="colorOutline">@color/green75</item>
-        <item name="colorControlActivated">@color/green300</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:textColorPrimary">@color/green900</item>
-        <item name="android:textColorSecondary">@color/grey_light</item>
-        <item name="android:overScrollMode">never</item>
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_light_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_light_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_light_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_light_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_light_onSecondaryContainer</item>
+        <item name="colorError">@color/md_theme_light_error</item>
+        <item name="colorErrorContainer">@color/md_theme_light_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_light_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_light_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_light_background</item>
+        <item name="colorOnBackground">@color/md_theme_light_onBackground</item>
+        <item name="colorSurface">@color/md_theme_light_surface</item>
+        <item name="colorOnSurface">@color/md_theme_light_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_light_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_light_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_light_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_light_primaryInverse</item>
         <item name="android:statusBarColor">@color/green50</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
@@ -34,26 +41,33 @@
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/green200</item>
-        <item name="colorPrimaryContainer">@color/green900</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="android:colorBackground">@color/md_theme_dark_background</item>
+        <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
         <item name="colorSurface">@color/grey_dark</item>
-        <item name="colorOnSurface">@color/green50</item>
-        <item name="android:colorBackground">@color/black</item>
-        <item name="colorOnBackground">@color/green200</item>
-        <item name="colorAccent">@color/accent_dark</item>
-        <item name="colorError">@color/error_dark</item>
-        <item name="colorOutline">@color/green50</item>
-        <item name="colorControlActivated">@color/green200</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/green200</item>
-        <item name="android:textColorSecondary">@color/darker_white</item>
-        <item name="android:overScrollMode">never</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <item name="android:statusBarColor">@color/grey_dark</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
@@ -66,26 +80,33 @@
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">@color/green100</item>
-        <item name="colorPrimaryContainer">@color/green900</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <item name="colorSurface">@color/black</item>
-        <item name="colorOnSurface">@color/green50</item>
+        <item name="colorPrimary">@color/md_theme_dark_primary</item>
+        <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/md_theme_dark_onPrimaryContainer</item>
+        <item name="colorSecondary">@color/md_theme_dark_secondary</item>
+        <item name="colorOnSecondary">@color/md_theme_dark_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/md_theme_dark_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/md_theme_dark_onSecondaryContainer</item>
+        <item name="colorError">@color/md_theme_dark_error</item>
+        <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
+        <item name="colorOnError">@color/md_theme_dark_onError</item>
+        <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
+        <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
+        <item name="colorOutline">@color/md_theme_dark_outline</item>
+        <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
+        <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorPrimaryInverse">@color/md_theme_dark_primaryInverse</item>
         <item name="android:colorBackground">@color/pitch_black</item>
         <item name="colorOnBackground">@color/green50</item>
-        <item name="colorAccent">@color/accent_dark</item>
-        <item name="colorError">@color/error_dark</item>
-        <item name="colorOutline">@color/green50</item>
-        <item name="colorControlActivated">@color/green100</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:textColorPrimary">@color/green100</item>
-        <item name="android:textColorSecondary">@color/darker_white</item>
-        <item name="android:overScrollMode">never</item>
         <item name="android:statusBarColor">@color/black</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
 
@@ -98,7 +119,7 @@
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
-        <item name="materialCardViewFilledStyle">@style/Theme.Card</item>
+        <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
@@ -118,12 +139,9 @@
     <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
         <item name="layout_collapseMode">pin</item>
         <item name="android:backgroundTint">?attr/colorSurface</item>
-        <item name="android:background">@drawable/bottom_corner</item>
     </style>
 
     <style name="Theme.Tab" parent="Widget.Material3.TabLayout">
-        <item name="tabTextColor">@color/tab_text_color</item>
-        <item name="tabIndicatorColor">?android:attr/textColorPrimary</item>
         <item name="tabTextAppearance">?attr/textAppearanceBody1</item>
     </style>
 

@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.appDetail
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -21,7 +21,6 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -47,6 +46,7 @@ import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.entity.*
 import com.looker.droidify.network.CoilDownloader
+import com.looker.droidify.screen.ScreenshotsAdapter
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
@@ -59,8 +59,8 @@ import java.lang.ref.WeakReference
 import java.util.*
 import kotlin.math.*
 
-class ProductAdapter(private val callbacks: Callbacks) :
-    StableRecyclerAdapter<ProductAdapter.ViewType, RecyclerView.ViewHolder>() {
+class AppDetailAdapter(private val callbacks: Callbacks) :
+    StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
 
     interface Callbacks {
         fun onActionClick(action: Action)
@@ -96,11 +96,11 @@ class ProductAdapter(private val callbacks: Callbacks) :
 
     private enum class SectionType(val titleResId: Int, val colorAttrResId: Int) {
         ANTI_FEATURES(R.string.anti_features, R.attr.colorError),
-        CHANGES(R.string.changes, R.attr.colorAccent),
-        LINKS(R.string.links, R.attr.colorAccent),
-        DONATE(R.string.donate, R.attr.colorAccent),
-        PERMISSIONS(R.string.permissions, R.attr.colorAccent),
-        VERSIONS(R.string.versions, R.attr.colorAccent)
+        CHANGES(R.string.changes, R.attr.colorPrimary),
+        LINKS(R.string.links, R.attr.colorPrimary),
+        DONATE(R.string.donate, R.attr.colorPrimary),
+        PERMISSIONS(R.string.permissions, R.attr.colorPrimary),
+        VERSIONS(R.string.versions, R.attr.colorPrimary)
     }
 
     internal enum class ExpandType {
@@ -129,8 +129,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
 
         class AppInfoItem(
             val repository: Repository,
-            val product: Product,
-            val packageName: String,
+            val product: Product
         ) : Item() {
             override val descriptor: String
                 get() = "app_info.${product.name}"
@@ -329,9 +328,9 @@ class ProductAdapter(private val callbacks: Callbacks) :
         val progressIcon: Drawable
         val defaultIcon: Drawable
 
-        val actionTintNormal = action.context.getColorFromAttr(R.attr.colorSurface)
+        val actionTintNormal = action.context.getColorFromAttr(R.attr.colorPrimary)
+        val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnPrimary)
         val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
-        val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnSurface)
         val actionTintOnCancel = action.context.getColorFromAttr(R.attr.colorOnError)
 
         init {
@@ -362,7 +361,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
     }
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val enabled = itemView.findViewById<SwitchMaterial>(R.id.enabled)!!
+        val enabled = itemView.findViewById<SwitchMaterial>(R.id.update_state_switch)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(itemView, enabled)
@@ -404,7 +403,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
 
     private class TextViewHolder(context: Context) :
         RecyclerView.ViewHolder(MaterialTextView(context)) {
-        val text: TextView
+        val text: MaterialTextView
             get() = itemView as MaterialTextView
 
         init {
@@ -481,7 +480,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
         val dateFormat = DateFormat.getDateFormat(itemView.context)!!
 
         val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
-        val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
+        val status = itemView.findViewById<MaterialTextView>(R.id.installation_status)!!
         val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
         val added = itemView.findViewById<MaterialTextView>(R.id.added)!!
         val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
@@ -499,21 +498,6 @@ class ProductAdapter(private val callbacks: Callbacks) :
                 signature,
                 compatibility
             )
-
-        init {
-            status.apply {
-                background =
-                    ResourcesCompat.getDrawable(
-                        itemView.resources,
-                        R.drawable.background_border,
-                        itemView.context.theme
-                    )
-                backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
-                typeface = TypefaceExtra.bold
-                setPadding(15, 5, 15, 5)
-                setTextColor(itemView.context.getColorFromAttr(R.attr.colorPrimary))
-            }
-        }
     }
 
     private class EmptyViewHolder(context: Context) :
@@ -568,8 +552,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
         if (productRepository != null) {
             items += Item.AppInfoItem(
                 productRepository.second,
-                productRepository.first,
-                packageName
+                productRepository.first
             )
             items += Item.ScreenshotItem(
                 productRepository.first.screenshots,
@@ -709,8 +692,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
                     )
                 }
                 author.email.nullIfEmpty()?.let {
-                    linkItems += Item.LinkItem
-                        .Typed(LinkType.EMAIL, "", Uri.parse("mailto:$it"))
+                    linkItems += Item.LinkItem.Typed(LinkType.EMAIL, "", Uri.parse("mailto:$it"))
                 }
                 linkItems += licenses.asSequence().map {
                     Item.LinkItem.Typed(
@@ -887,7 +869,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
                     val from = items.indexOfFirst { it is Item.ReleaseItem }
                     val to = items.indexOfLast { it is Item.ReleaseItem }
                     if (from in 0..to) {
-                        notifyItemRangeChanged(from, to - from + 1)
+                        notifyItemRangeChanged(0, 1)
                     }
                 } else {
                     notifyItemChanged(index, Payload.STATUS)
@@ -909,7 +891,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
     ): RecyclerView.ViewHolder {
         return when (viewType) {
             ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x)).apply {
-                action.setOnClickListener { this@ProductAdapter.action?.let(callbacks::onActionClick) }
+                action.setOnClickListener { this@AppDetailAdapter.action?.let(callbacks::onActionClick) }
             }
             ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.inflate(R.layout.screenshot_scrollview))
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
@@ -1118,14 +1100,12 @@ class ProductAdapter(private val callbacks: Callbacks) :
                                 if (status.total != null) {
                                     holder.progress.progress =
                                         (holder.progress.max.toFloat() * status.read / status.total).roundToInt()
-                                }
-                                Unit
+                                } else Unit
                             }
                         }::class
                     }
                 }
 
-                val imageSource = product?.source?.trimAfter('/', 4).plus(".png").toUri()
                 val sdk = product?.displayRelease?.targetSdkVersion
 
                 holder.version.doOnPreDraw {
@@ -1143,13 +1123,9 @@ class ProductAdapter(private val callbacks: Callbacks) :
                 }
                 val devName = product?.source?.trimAfter('/', 4).trimBefore('/', 3)
                 holder.devName.text = if (author.isNullOrEmpty()) devName else author
-                when {
-                    imageSource.toString()
-                        .contains("kde.org") -> holder.devIcon.setImageResource(R.drawable.ic_kde)
-                    imageSource.toString()
-                        .contains("gitlab") -> holder.devIcon.setImageResource(R.drawable.ic_gitlab)
-                    imageSource.toString().contains("github") -> holder.devIcon.load(imageSource)
-                }
+
+                holder.devIcon.load(R.drawable.ic_code)
+
                 holder.dev.setOnClickListener {
                     product?.source?.let { link ->
                         if (link.isNotEmpty()) {
@@ -1334,30 +1310,46 @@ class ProductAdapter(private val callbacks: Callbacks) :
                         installedItem?.signature == item.release.signature
                 val suggested =
                     incompatibility == null && item.release.selected && item.selectedRepository
-                val olderOrSignature = installedItem?.let {
-                    it.versionCode > item.release.versionCode ||
-                            it.signature != item.release.signature
-                } == true
-                val grayOut = incompatibility != null || olderOrSignature
-                val primarySecondaryColor = context.getColorFromAttr(
-                    if (grayOut)
-                        android.R.attr.textColorSecondary else android.R.attr.textColor
-                )
+
+                if (suggested) {
+                    holder.itemView.apply {
+                        background = ResourcesCompat.getDrawable(
+                            holder.itemView.resources,
+                            R.drawable.background_border,
+                            holder.itemView.context.theme
+                        )
+                        backgroundTintList =
+                            holder.itemView.context.getColorFromAttr(R.attr.colorSurface)
+                    }
+                } else {
+                    holder.itemView.background = null
+                }
                 holder.version.text =
                     context.getString(R.string.version_FORMAT, item.release.version)
-                holder.version.setTextColor(primarySecondaryColor)
-                holder.status.visibility = if (installed || suggested) View.VISIBLE else View.GONE
-                holder.status.setText(
-                    when {
-                        installed -> R.string.installed
-                        suggested -> R.string.suggested
-                        else -> R.string.unknown
-                    }
-                )
+
+                holder.status.apply {
+                    visibility = if (installed || suggested) View.VISIBLE else View.GONE
+                    setText(
+                        when {
+                            installed -> R.string.installed
+                            suggested -> R.string.suggested
+                            else -> R.string.unknown
+                        }
+                    )
+                    background =
+                        ResourcesCompat.getDrawable(
+                            holder.itemView.resources,
+                            R.drawable.background_border,
+                            context.theme
+                        )
+                    setPadding(15, 15, 15, 15)
+                    backgroundTintList =
+                        context.getColorFromAttr(R.attr.colorSecondaryContainer)
+                    setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
+                }
                 holder.source.text =
                     context.getString(R.string.provided_by_FORMAT, item.repository.name)
                 holder.added.text = holder.dateFormat.format(item.release.added)
-                holder.added.setTextColor(primarySecondaryColor)
                 holder.size.text = item.release.size.formatSize()
                 holder.signature.visibility =
                     if (item.showSignature && item.release.signature.isNotEmpty())
@@ -1466,7 +1458,7 @@ class ProductAdapter(private val callbacks: Callbacks) :
         Snackbar.make(view, R.string.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
     }
 
-    private class LinkSpan(private val url: String, productAdapter: ProductAdapter) :
+    private class LinkSpan(private val url: String, productAdapter: AppDetailAdapter) :
         ClickableSpan() {
         private val productAdapterReference = WeakReference(productAdapter)
 

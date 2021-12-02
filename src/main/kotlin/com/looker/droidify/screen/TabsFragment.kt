@@ -115,7 +115,7 @@ class TabsFragment : ScreenFragment() {
         syncConnection.bind(requireContext())
 
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.application_name)
+        collapsingToolbar.title = getString(R.string.application_name)
         // Move focus from SearchView to Toolbar
         toolbar.isFocusableInTouchMode = true
 
@@ -136,7 +136,7 @@ class TabsFragment : ScreenFragment() {
                     return true
                 }
             })
-            setOnSearchClickListener { appBar.setExpanded(false, true) }
+            setOnSearchClickListener { fragmentBinding.appbarLayout.setExpanded(false, true) }
         }
 
         toolbar.menu.apply {
@@ -337,16 +337,6 @@ class TabsFragment : ScreenFragment() {
         if (needSelectUpdates) {
             needSelectUpdates = false
             selectUpdatesInternal(false)
-        }
-    }
-
-    override fun onAttachFragment(childFragment: Fragment) {
-        super.onAttachFragment(childFragment)
-
-        if (view != null && childFragment is AppListFragment) {
-            childFragment.setSearchQuery(searchQuery)
-            childFragment.setSection(section)
-            childFragment.setOrder(Preferences[Preferences.Key.SortOrder].order)
         }
     }
 

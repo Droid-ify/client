@@ -45,7 +45,7 @@ class SettingsFragment : ScreenFragment() {
         super.onViewCreated(view, savedInstanceState)
         preferenceBinding = PreferenceItemBinding.inflate(layoutInflater)
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.setTitle(R.string.settings)
+        collapsingToolbar.title = getString(R.string.settings)
 
         val content = fragmentBinding.fragmentContent
         val scroll = NestedScrollView(content.context)
@@ -202,8 +202,10 @@ class SettingsFragment : ScreenFragment() {
             preferences[Preferences.Key.ProxyPort]?.setEnabled(enabled)
         }
         if (key == Preferences.Key.RootPermission) {
-            preferences[Preferences.Key.RootPermission]?.setEnabled(Shell.getCachedShell()?.isRoot
-                ?: Shell.getShell().isRoot)
+            preferences[Preferences.Key.RootPermission]?.setEnabled(
+                Shell.getCachedShell()?.isRoot
+                    ?: Shell.getShell().isRoot
+            )
         }
         if (key == Preferences.Key.Theme) {
             requireActivity().recreate()
@@ -217,7 +219,7 @@ class SettingsFragment : ScreenFragment() {
         val text = MaterialTextView(context)
         text.typeface = TypefaceExtra.medium
         text.setTextSizeScaled(14)
-        text.setTextColor(text.context.getColorFromAttr(R.attr.colorAccent))
+        text.setTextColor(text.context.getColorFromAttr(R.attr.colorPrimary))
         text.text = title
         resources.sizeScaled(16).let { text.setPadding(it, it, it, 0) }
         addView(
