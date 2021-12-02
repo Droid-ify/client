@@ -6,14 +6,13 @@ import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.os.Bundle
-import android.text.Editable
 import android.text.Selection
-import android.text.TextWatcher
 import android.util.Base64
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -115,51 +114,44 @@ class EditRepositoryFragment() : ScreenFragment() {
         val layout = Layout(editRepositoryBinding)
         this.layout = layout
 
-        layout.fingerprint.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) =
-                Unit
+        val validChar: (Char) -> Boolean =
+            { it in '0'..'9' || it in 'a'..'f' || it in 'A'..'F' }
 
-            override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
-
-            private val validChar: (Char) -> Boolean =
-                { it in '0'..'9' || it in 'a'..'f' || it in 'A'..'F' }
-
-            private fun logicalPosition(s: String, position: Int): Int {
-                return if (position > 0) s.asSequence().take(position)
+        layout.fingerprint.doAfterTextChanged { text ->
+            fun logicalPosition(text: String, position: Int): Int {
+                return if (position > 0) text.asSequence().take(position)
                     .count(validChar) else position
             }
 
-            private fun realPosition(s: String, position: Int): Int {
+            fun realPosition(text: String, position: Int): Int {
                 return if (position > 0) {
                     var left = position
-                    val index = s.indexOfFirst {
+                    val index = text.indexOfFirst {
                         validChar(it) && run {
                             left -= 1
                             left <= 0
                         }
                     }
-                    if (index >= 0) min(index + 1, s.length) else s.length
+                    if (index >= 0) min(index + 1, text.length) else text.length
                 } else {
                     position
                 }
             }
 
-            override fun afterTextChanged(s: Editable) {
-                val inputString = s.toString()
-                val outputString = inputString.uppercase(Locale.US)
-                    .filter(validChar).windowed(2, 2, true).take(32).joinToString(separator = " ")
-                if (inputString != outputString) {
-                    val inputStart = logicalPosition(inputString, Selection.getSelectionStart(s))
-                    val inputEnd = logicalPosition(inputString, Selection.getSelectionEnd(s))
-                    s.replace(0, s.length, outputString)
-                    Selection.setSelection(
-                        s,
-                        realPosition(outputString, inputStart),
-                        realPosition(outputString, inputEnd)
-                    )
-                }
+            val inputString = text.toString()
+            val outputString = inputString.uppercase(Locale.US)
+                .filter(validChar).windowed(2, 2, true).take(32).joinToString(separator = " ")
+            if (inputString != outputString) {
+                val inputStart = logicalPosition(inputString, Selection.getSelectionStart(text))
+                val inputEnd = logicalPosition(inputString, Selection.getSelectionEnd(text))
+                text?.replace(0, text.length, outputString)
+                Selection.setSelection(
+                    text,
+                    realPosition(outputString, inputStart),
+                    realPosition(outputString, inputEnd)
+                )
             }
-        })
+        }
 
         if (savedInstanceState == null) {
             val repository = repositoryId?.let(Database.RepositoryAdapter::get)
@@ -222,10 +214,10 @@ class EditRepositoryFragment() : ScreenFragment() {
             }
         }
 
-        layout.address.addTextChangedListener(SimpleTextWatcher { invalidateAddress() })
-        layout.fingerprint.addTextChangedListener(SimpleTextWatcher { invalidateFingerprint() })
-        layout.username.addTextChangedListener(SimpleTextWatcher { invalidateUsernamePassword() })
-        layout.password.addTextChangedListener(SimpleTextWatcher { invalidateUsernamePassword() })
+        layout.address.doAfterTextChanged { invalidateAddress() }
+        layout.fingerprint.doAfterTextChanged { invalidateFingerprint() }
+        layout.username.doAfterTextChanged { invalidateUsernamePassword() }
+        layout.password.doAfterTextChanged { invalidateUsernamePassword() }
 
         (layout.overlay.parent as ViewGroup).layoutTransition?.setDuration(200L)
         layout.overlay.background!!.apply {
@@ -469,12 +461,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         } else {
             invalidateState()
         }
-    }
-
-    private class SimpleTextWatcher(private val callback: (Editable) -> Unit) : TextWatcher {
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
-        override fun onTextChanged(s: CharSequence, start: Int, count: Int, after: Int) = Unit
-        override fun afterTextChanged(s: Editable) = callback(s)
     }
 
     class SelectMirrorDialog() : DialogFragment() {
