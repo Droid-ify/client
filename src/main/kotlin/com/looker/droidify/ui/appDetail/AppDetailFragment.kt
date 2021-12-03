@@ -35,6 +35,8 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -83,15 +85,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private var recyclerView: RecyclerView? = null
 
     private var productDisposable: Disposable? = null
-    private var downloadDisposable: Disposable? = null
     private val downloadConnection = Connection(DownloadService::class.java, onBind = { _, binder ->
-        lifecycleScope.launch { updateDownloadState(binder.getState(packageName)) }
-        downloadDisposable = binder.events(packageName).subscribe {
-            lifecycleScope.launch { updateDownloadState(it) }
+        lifecycleScope.launch {
+            binder.stateSubject.filter { it.packageName == packageName }.collect {
+                updateDownloadState(it)
+            }
         }
-    }, onUnbind = { _, _ ->
-        downloadDisposable?.dispose()
-        downloadDisposable = null
     })
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -238,8 +237,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
         productDisposable?.dispose()
         productDisposable = null
-        downloadDisposable?.dispose()
-        downloadDisposable = null
         downloadConnection.unbind(requireContext())
     }
 
@@ -363,7 +360,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         (recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
         if (state is DownloadService.State.Success && isResumed) {
             withContext(Dispatchers.Default) {
-                state.consume()
                 AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
             }
         }
