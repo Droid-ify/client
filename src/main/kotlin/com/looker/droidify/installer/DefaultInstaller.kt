@@ -13,6 +13,18 @@ import java.io.File
 class DefaultInstaller(context: Context) : BaseInstaller(context) {
 
     private val sessionInstaller = context.packageManager.packageInstaller
+    private val intent = Intent(context, InstallerService::class.java)
+
+    companion object {
+        val flags = if (Android.sdk(31)) PendingIntent.FLAG_MUTABLE else 0
+        val sessionParams = SessionParams(SessionParams.MODE_FULL_INSTALL)
+    }
+
+    init {
+        if (Android.sdk(31)) {
+            sessionParams.setRequireUserAction(SessionParams.USER_ACTION_NOT_REQUIRED)
+        }
+    }
 
     override suspend fun install(cacheFileName: String) {
         val cacheFile = Cache.getReleaseFile(context, cacheFileName)
@@ -30,11 +42,6 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
     override suspend fun uninstall(packageName: String) = mDefaultUninstaller(packageName)
 
     private fun mDefaultInstaller(cacheFile: File) {
-        val sessionParams = SessionParams(SessionParams.MODE_FULL_INSTALL)
-
-        if (Android.sdk(31)) {
-            sessionParams.setRequireUserAction(SessionParams.USER_ACTION_NOT_REQUIRED)
-        }
 
         val id = sessionInstaller.createSession(sessionParams)
 
@@ -47,10 +54,6 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
                 }
             }
 
-            val intent = Intent(context, InstallerService::class.java)
-
-            val flags = if (Android.sdk(31)) PendingIntent.FLAG_MUTABLE else 0
-
             val pendingIntent = PendingIntent.getService(context, id, intent, flags)
 
             session.commit(pendingIntent.intentSender)
@@ -59,10 +62,7 @@ class DefaultInstaller(context: Context) : BaseInstaller(context) {
     }
 
     private suspend fun mDefaultUninstaller(packageName: String) {
-        val intent = Intent(context, InstallerService::class.java)
         intent.putExtra(InstallerService.KEY_ACTION, InstallerService.ACTION_UNINSTALL)
-
-        val flags = if (Android.sdk(31)) PendingIntent.FLAG_MUTABLE else 0
 
         val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
