@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green50">#E8F5E9</color>
-    <color name="green75">#D3FAD6</color>
-    <color name="green100">#A3EBB7</color>
-    <color name="green200">#6EC898</color>
-    <color name="green300">#51DF93</color>
-    <color name="green900">#1B5E20</color>
-
-    <color name="red200">#EF9A9A</color>
-    <color name="red300">#EF8A8A</color>
-
     <color name="pitch_black">#000000</color>
-    <color name="black">#1E1E1E</color>
-
-    <color name="white">#FFFFFF</color>
-    <color name="darker_white">#DDDDDD</color>
-    <color name="grey_light">#505050</color>
     <color name="grey_dark">#2C2C2C</color>
 
     <color name="md_theme_light_primary">#006D3E</color>

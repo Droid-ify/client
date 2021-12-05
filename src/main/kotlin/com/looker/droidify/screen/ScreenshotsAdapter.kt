@@ -3,10 +3,9 @@ package com.looker.droidify.screen
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.entity.Product
@@ -25,14 +24,12 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
     private val items = mutableListOf<Item.ScreenshotItem>()
 
     private class ViewHolder(context: Context) :
-        RecyclerView.ViewHolder(CircularRevealFrameLayout(context)) {
+        RecyclerView.ViewHolder(MaterialCardView(context)) {
         val image: ShapeableImageView
         val placeholder: Drawable
 
         init {
-            itemView as CircularRevealFrameLayout
-            itemView.foreground =
-                AppCompatResources.getDrawable(itemView.context, R.drawable.bg_item_rounded_ripple)
+            itemView as MaterialCardView
             val surfaceColor =
                 itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
@@ -48,6 +45,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
                 .setAllCornerSizes(radius)
                 .build()
             image.shapeAppearanceModel = shapeAppearanceModel
+            itemView.shapeAppearanceModel = shapeAppearanceModel
             itemView.addView(image)
             itemView.layoutParams = RecyclerView.LayoutParams(
                 RecyclerView.LayoutParams.WRAP_CONTENT,
