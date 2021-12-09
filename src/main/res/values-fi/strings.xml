@@ -80,8 +80,8 @@
     <string name="never">Koskaan</string>
     <string name="new_updates_available">Sovellusten uudet versiot saatavilla</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d uusi päivitys.</item>
-        <item quantity="other">%d uutta päivitystä.</item>
+        <item quantity="one">%d -sovelluksella on uusi versio.</item>
+        <item quantity="other">%d -sovelluksia, joilla on uusia versioita.</item>
     </plurals>
     <string name="no_applications_available">Ei käytettävissä olevia sovelluksia</string>
     <string name="no_applications_installed">Ei asennettuja sovelluksia</string>
