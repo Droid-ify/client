@@ -29,7 +29,6 @@ import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.doOnPreDraw
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -100,11 +99,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         LINKS(R.string.links, R.attr.colorPrimary),
         DONATE(R.string.donate, R.attr.colorPrimary),
         PERMISSIONS(R.string.permissions, R.attr.colorPrimary),
+        SCREENSHOTS(R.string.screenshots, R.attr.colorPrimary),
         VERSIONS(R.string.versions, R.attr.colorPrimary)
     }
 
     internal enum class ExpandType {
-        NOTHING, DESCRIPTION, CHANGES,
+        NOTHING, SCREENSHOTS, DESCRIPTION, CHANGES,
         LINKS, DONATES, PERMISSIONS, VERSIONS
     }
 
@@ -350,14 +350,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
     }
 
-    private class ScreenShotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class ScreenShotViewHolder(context: Context) :
+        RecyclerView.ViewHolder(RecyclerView(context)) {
 
-        val screenshotsSection =
-            itemView.findViewById<LinearLayoutCompat>(R.id.screenshots_section)!!
-        val screenshotsSectionIcon =
-            itemView.findViewById<ShapeableImageView>(R.id.screenshots_section_icon)!!
-        val screenshotsView = itemView.findViewById<NestedScrollView>(R.id.screenshots_view)!!
-        val screenshotsRecycler = itemView.findViewById<RecyclerView>(R.id.screenshots_recycler)!!
+        val screenshotsRecycler: RecyclerView
+            get() = itemView as RecyclerView
     }
 
     private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -554,11 +551,33 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 productRepository.second,
                 productRepository.first
             )
-            items += Item.ScreenshotItem(
+
+            val screenShotItem = mutableListOf<Item>()
+            screenShotItem += Item.ScreenshotItem(
                 productRepository.first.screenshots,
                 packageName,
                 productRepository.second
             )
+
+            if (productRepository.first.screenshots.isNotEmpty()) {
+                expanded += ExpandType.SCREENSHOTS
+                if (ExpandType.SCREENSHOTS in expanded) {
+                    items += Item.SectionItem(
+                        SectionType.SCREENSHOTS,
+                        ExpandType.SCREENSHOTS,
+                        emptyList(),
+                        screenShotItem.size
+                    )
+                    items += screenShotItem
+                } else {
+                    items += Item.SectionItem(
+                        SectionType.SCREENSHOTS,
+                        ExpandType.SCREENSHOTS,
+                        screenShotItem,
+                        0
+                    )
+                }
+            }
 
             if (installedItem != null) {
                 items.add(
@@ -893,7 +912,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x)).apply {
                 action.setOnClickListener { this@AppDetailAdapter.action?.let(callbacks::onActionClick) }
             }
-            ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.inflate(R.layout.screenshot_scrollview))
+            ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[adapterPosition] as Item.SwitchItem
@@ -1145,21 +1164,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             ViewType.SCREENSHOT -> {
                 holder as ScreenShotViewHolder
                 item as Item.ScreenshotItem
-                if (item.screenshots.isEmpty()) {
-                    holder.screenshotsSection.visibility = View.GONE
-                    holder.screenshotsView.visibility = View.GONE
-                } else {
-                    holder.screenshotsSection.visibility = View.VISIBLE
-                    holder.screenshotsView.visibility = View.VISIBLE
-                    holder.screenshotsSection.setOnClickListener {
-                        val isExpanded = holder.screenshotsView.visibility == View.VISIBLE
-                        holder.screenshotsSectionIcon.scaleY = if (isExpanded) -1f else 1f
-                        holder.screenshotsView.visibility =
-                            if (isExpanded) View.GONE else View.VISIBLE
-                    }
-                    holder.screenshotsRecycler.layoutManager =
+                holder.screenshotsRecycler.run {
+                    layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    holder.screenshotsRecycler.adapter =
+                    adapter =
                         ScreenshotsAdapter { callbacks.onScreenshotClick(it) }.apply {
                             setScreenshots(item.repository, item.packageName, item.screenshots)
                         }

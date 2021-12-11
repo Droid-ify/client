@@ -2,7 +2,7 @@ package com.looker.droidify
 
 import android.content.Context
 import android.content.Intent
-import com.looker.droidify.ContextWraperX.Companion.wrap
+import com.looker.droidify.ContextWrapperX.Companion.wrap
 import com.looker.droidify.screen.ScreenActivity
 
 class MainActivity : ScreenActivity() {
