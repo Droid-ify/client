@@ -1,5 +1,6 @@
 package com.looker.droidify.screen
 
+import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -29,6 +30,11 @@ class RepositoriesAdapter(
         val repoDesc = itemView.findViewById<MaterialTextView>(R.id.repository_description)!!
 
         var isEnabled = true
+
+        val textColor: ColorStateList
+            get() = if (isEnabled) itemView.context.getColorFromAttr(R.attr.colorOnPrimaryContainer)
+            else itemView.context.getColorFromAttr(R.attr.colorOnBackground)
+
     }
 
     override val viewTypeClass: Class<ViewType>
@@ -61,26 +67,25 @@ class RepositoriesAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder as ViewHolder
         val repository = getRepository(position)
+
+        holder.isEnabled = repository.enabled
         holder.repoName.text = repository.name
         holder.repoDesc.text = repository.description.trim()
-        if (repository.enabled) {
-            holder.isEnabled = true
-            holder.item.setCardBackgroundColor(
-                holder.item.context.getColorFromAttr(R.attr.colorPrimaryContainer)
-            )
-            holder.repoName.setTextColor(holder.repoName.context.getColorFromAttr(R.attr.colorOnPrimaryContainer))
-            holder.repoDesc.setTextColor(holder.repoDesc.context.getColorFromAttr(R.attr.colorOnPrimaryContainer))
-            holder.checkMark.load(R.drawable.ic_check)
-            holder.checkMark.imageTintList =
-                holder.checkMark.context.getColorFromAttr(R.attr.colorOnPrimaryContainer)
-        } else {
-            holder.isEnabled = false
-            holder.item.setCardBackgroundColor(holder.item.context.getColorFromAttr(android.R.attr.colorBackground))
-            holder.repoName.setTextColor(holder.repoName.context.getColorFromAttr(R.attr.colorOnBackground))
-            holder.repoDesc.setTextColor(holder.repoDesc.context.getColorFromAttr(R.attr.colorOnBackground))
-            holder.checkMark.clear()
-            holder.checkMark.imageTintList =
-                holder.checkMark.context.getColorFromAttr(R.attr.colorOnBackground)
+
+        holder.item.setCardBackgroundColor(
+            if (repository.enabled) holder.item.context.getColorFromAttr(R.attr.colorPrimaryContainer)
+            else holder.item.context.getColorFromAttr(android.R.attr.colorBackground)
+        )
+
+        holder.checkMark.apply {
+            if (repository.enabled) load(R.drawable.ic_check)
+            else clear()
+        }
+
+        holder.textColor.let {
+            holder.repoName.setTextColor(it)
+            holder.repoDesc.setTextColor(it)
+            holder.checkMark.imageTintList = it
         }
     }
 }
