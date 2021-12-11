@@ -171,4 +171,5 @@
     <string name="website">Web sitesi</string>
     <string name="prefs_language_title">Dil</string>
     <string name="prefs_personalization">Kişiselleştirme</string>
+    <string name="show_less">Daha Az Göster</string>
 </resources>
