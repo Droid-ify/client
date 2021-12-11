@@ -173,4 +173,5 @@
     <string name="website">Página web</string>
     <string name="prefs_language_title">Idioma</string>
     <string name="prefs_personalization">Personalização</string>
+    <string name="show_less">Mostrar Menos</string>
 </resources>
