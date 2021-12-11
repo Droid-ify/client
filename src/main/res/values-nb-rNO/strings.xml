@@ -170,4 +170,5 @@
     <string name="update">Oppgradering</string>
     <string name="prefs_language_title">Språk</string>
     <string name="prefs_personalization">Personalisering</string>
+    <string name="show_less">Vis mindre</string>
 </resources>
