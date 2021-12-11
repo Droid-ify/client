@@ -169,7 +169,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
                                     R.drawable.background_border,
                                     context.theme
                                 )
-                            setPadding(8, 15, 1, 15)
+                            resources.sizeScaled(6).let { setPadding(it, it, it, it) }
                             backgroundTintList =
                                 context.getColorFromAttr(R.attr.colorSecondaryContainer)
                             setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
