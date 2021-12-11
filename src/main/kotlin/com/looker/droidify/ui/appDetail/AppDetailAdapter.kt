@@ -1211,9 +1211,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         ExpandType.VERSIONS -> context.getString(R.string.show_older_versions)
                         else -> context.getString(R.string.show_more)
                     }
-                } else {
-                    "Show Less"
-                }
+                } else context.getString(R.string.show_less)
             }
             ViewType.TEXT -> {
                 holder as TextViewHolder
