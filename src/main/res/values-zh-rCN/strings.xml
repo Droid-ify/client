@@ -172,4 +172,5 @@
     <string name="website">网站</string>
     <string name="prefs_language_title">语言</string>
     <string name="prefs_personalization">个性化</string>
+    <string name="show_less">显示较少程序</string>
 </resources>
