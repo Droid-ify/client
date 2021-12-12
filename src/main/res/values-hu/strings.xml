@@ -4,14 +4,14 @@
     <string name="add_repository">Tároló hozzáadása</string>
     <string name="address">Cím</string>
     <string name="all_applications">Összes alkalmazás</string>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Fekete</string>
     <string name="credits">Köszönet</string>
     <string name="donate">Adományozás</string>
     <string name="install_types">Telepítési típusok</string>
     <string name="list_animation">Listaanimációk</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d új frissítés.</item>
-        <item quantity="other">%d új frissítés.</item>
+        <item quantity="one">%d alkalmazásnak van új verziója.</item>
+        <item quantity="other">%d alkalmazásnak van új verziója.</item>
     </plurals>
     <string name="settings">Beállítások</string>
     <string name="recently_updated">Nemrég frissített</string>
@@ -25,7 +25,7 @@
     <string name="version">Verzió</string>
     <string name="whats_new">Újdonságok</string>
     <string name="prefs_language_title">Nyelv</string>
-    <string name="all_applications_up_to_date">Az összes alkalmazás naprakész</string>
+    <string name="all_applications_up_to_date">Az összes alkalmazása naprakész</string>
     <string name="already_exists">Már létezik</string>
     <string name="always">Mindig</string>
     <string name="anti_features">Előnytelen funkciók</string>
@@ -59,11 +59,11 @@
     <string name="has_security_vulnerabilities">Biztonsági sérülékenységei vannak</string>
     <string name="http_error_DESC">Érvénytelen kiszolgálóválasz.</string>
     <string name="http_proxy">HTTP proxy</string>
-    <string name="ignore_all_updates">Összes frissítés mellőzése</string>
-    <string name="ignore_this_update">Ezen frissítés mellőzése</string>
+    <string name="ignore_all_updates">Összes új verzió mellőzése</string>
+    <string name="ignore_this_update">Ezen verzió mellőzése</string>
     <string name="incompatible_api_DESC_FORMAT">A következő verzió nem támogatott: %1$s (API verzió: %2$d). %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">Maximális API verzió: %d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">Minimális API verzió: %d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">A maximális API verzió: %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">A minimális API verzió: %d.</string>
     <string name="incompatible_features_DESC">Hiányzó funkciók.</string>
     <string name="incompatible_version">Nem kompatibilis verzió</string>
     <string name="incompatible_versions">Nem kompatibilis verziók</string>
@@ -80,7 +80,7 @@
     <string name="invalid_username_format">Érvénytelen felhasználónév-formátum</string>
     <string name="launch">Indítás</string>
     <string name="license">Licenc</string>
-    <string name="license_FORMAT">Licenc: %s</string>
+    <string name="license_FORMAT">%s licenc</string>
     <string name="light">Világos</string>
     <string name="link_copied_to_clipboard">Hivatkozás a vágólapra másolva</string>
     <string name="links">Hivatkozások</string>
@@ -88,14 +88,14 @@
     <string name="name">Név</string>
     <string name="network_error_DESC">Hálózati hiba.</string>
     <string name="never">Soha</string>
-    <string name="new_updates_available">Új frissítések érhetők el</string>
+    <string name="new_updates_available">Új alkalmazásverziók érhetők el</string>
     <string name="no_applications_available">Nem érhetők el alkalmazások</string>
-    <string name="no_applications_installed">Nincsenek alkalmazások telepítve</string>
+    <string name="no_applications_installed">Nincsenek telepített alkalmazások</string>
     <string name="no_description_available_DESC">Nem érhető el leírás.</string>
-    <string name="no_matching_applications_found">Nem találhatók megfelelő alkalmazások</string>
+    <string name="no_matching_applications_found">Nem találhatók ilyen alkalmazások</string>
     <string name="no_proxy">Nincs proxy</string>
-    <string name="notify_about_updates">Értesítés a frissítésekről</string>
-    <string name="notify_about_updates_summary">Értesítés megjelenítése, ha frissítések érhetők el</string>
+    <string name="notify_about_updates">Értesítés az alkalmazások új verzióiról</string>
+    <string name="notify_about_updates_summary">Értesítés megjelenítése, ha új verziók érhetők el</string>
     <string name="number_of_applications">Alkalmazások száma</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Csak ezzel kompatibilis: %s</string>
@@ -168,6 +168,7 @@
     <string name="incompatible_signature_DESC">Ez a verzió a jelenleg az eszközére telepített verziójától eltérő tanúsítvánnyal rendelkezik. Előbb távolítsa el azt.</string>
     <string name="processing_FORMAT">%1$s feldolgozása…</string>
     <string name="syncing_FORMAT">%s szinkronizálása…</string>
-    <string name="repository_not_used_DESC">Ez a tároló még nem volt használva. Engedélyeznie kell, hogy megtekintse az általa biztosított alkalmazásokat.</string>
+    <string name="repository_not_used_DESC">Ez a tároló még nem volt használva. Kapcsolja be, hogy megtekintse a benne lévő alkalmazásokat.</string>
     <string name="repository_unsigned_DESC">Nincs aláírva. Nem sikerült ellenőrizni az alkalmazáslistát. Legyen óvatos amikor nem aláírt tárolókból tölt le alkalmazásokat.</string>
+    <string name="show_less">Kevesebb megjelenítése</string>
 </resources>
