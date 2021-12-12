@@ -40,4 +40,5 @@
     <string name="edit_repository">रिपोसिट्री संपादित करें</string>
     <string name="file_format_error_DESC">अमान्य फाइल प्रारूप।</string>
     <string name="fingerprint">फिंगरप्रिंट</string>
+    <string name="has_advertising">विज्ञापन है</string>
 </resources>
