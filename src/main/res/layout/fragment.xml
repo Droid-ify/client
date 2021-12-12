@@ -32,11 +32,12 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.circularreveal.CircularRevealFrameLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/fragment_content"
+        style="?materialCardViewFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_recycler_bottom"
-        android:backgroundTint="?android:colorBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        app:cardBackgroundColor="?android:colorBackground"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:shapeAppearanceOverlay="@style/Shape.BottomSheet" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

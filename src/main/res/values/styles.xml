@@ -188,6 +188,11 @@
         <item name="cornerSize">@dimen/shape_large_corner</item>
     </style>
 
+    <style name="Shape.BottomSheet" parent="ShapeAppearance.Material3.LargeComponent">
+        <item name="cornerSizeTopRight">@dimen/shape_large_corner</item>
+        <item name="cornerSizeTopLeft">@dimen/shape_large_corner</item>
+    </style>
+
     <style name="PillShapeAppearance">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
