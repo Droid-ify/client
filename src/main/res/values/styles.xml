@@ -42,6 +42,7 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
+        <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
@@ -81,6 +82,7 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
+        <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
@@ -120,6 +122,7 @@
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
+        <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
     </style>
 
@@ -173,6 +176,10 @@
 
     <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">@android:color/transparent</item>
+        <item name="cardCornerRadius">@dimen/shape_large_corner</item>
+    </style>
+
+    <style name="Theme.Card.Elevated" parent="Widget.Material3.CardView.Elevated">
         <item name="cardCornerRadius">@dimen/shape_large_corner</item>
     </style>
 
