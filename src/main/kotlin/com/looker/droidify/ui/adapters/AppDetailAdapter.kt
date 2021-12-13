@@ -888,7 +888,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     val from = items.indexOfFirst { it is Item.ReleaseItem }
                     val to = items.indexOfLast { it is Item.ReleaseItem }
                     if (from in 0..to) {
-                        notifyItemRangeChanged(0, 1)
+                        notifyItemRangeChanged(from, to - from)
                     }
                 } else {
                     notifyItemChanged(index, Payload.STATUS)
@@ -972,7 +972,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         expanded += expandItem.expandType
                         if (expandItem.replace) {
                             items[position - 1] = expandItem.items[0]
-                            notifyItemRangeChanged(position - 1, position)
+                            notifyItemRangeChanged(position - 1, 2)
                         } else {
                             items.addAll(position, expandItem.items)
                             if (position > 0) {
@@ -984,7 +984,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         expanded -= expandItem.expandType
                         if (expandItem.replace) {
                             items[position - 1] = expandItem.items[1]
-                            notifyItemRangeChanged(position - 1, position)
+                            notifyItemRangeChanged(position - 1, 2)
                         } else {
                             items.removeAt(position - 1)
                             if (position > 0) {
