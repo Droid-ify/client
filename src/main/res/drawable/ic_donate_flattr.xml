@@ -2,11 +2,12 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
     android:height="24dp"
+    android:tint="?attr/colorOnSurface"
     android:viewportWidth="24"
     android:viewportHeight="24">
 
     <path
-        android:fillColor="?android:attr/colorBackground"
+        android:fillColor="@android:color/white"
         android:pathData="M9.461 3C5.183 3 3 5.464 3 10.064v3.213 6.438L7.19 15.52v-4.902c0-1.906 .505-3.118 2.199-3.391
       .592-.116 1.824-.075 2.607-.075v2.911c0 .027 .004 .074 .01 .098 .033 .118 .139 .204 .266 .204 .071 0 .138-.037
       .207-.105l7.262-7.259-4.875-.001zM21 4.285L16.81 8.48v4.902c0 1.906-.505 3.118-2.199 3.391-.592 .116-1.824 .075
