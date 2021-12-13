@@ -3,6 +3,8 @@ package com.looker.droidify.screen
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.card.MaterialCardView
@@ -105,7 +107,13 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
                 item.screenshot
             )
         ) {
-            placeholder(holder.placeholder)
+            placeholder(
+                PaddingDrawable(
+                    holder.placeholder.mutate()
+                        .toBitmap(height = cellSize.toInt(), width = cellSize.toInt() / 4)
+                        .toDrawable(context.resources), 1f
+                )
+            )
             error(holder.placeholder)
             size(cellSize.toInt())
         }
