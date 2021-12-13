@@ -972,35 +972,24 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         expanded += expandItem.expandType
                         if (expandItem.replace) {
                             items[position - 1] = expandItem.items[0]
-                            notifyItemRangeChanged(
-                                position - expandItem.items.size,
-                                expandItem.items.size
-                            )
-                            notifyItemChanged(position, Payload.REFRESH)
+                            notifyItemRangeChanged(position - 1, position)
                         } else {
                             items.addAll(position, expandItem.items)
                             if (position > 0) {
-                                // Update decorations
-                                notifyItemChanged(position - 1, Payload.REFRESH)
+                                notifyItemInserted(position)
+                                notifyItemChanged(position)
                             }
-                            notifyItemChanged(position, Payload.REFRESH)
-                            notifyItemRangeInserted(position, expandItem.items.size)
                         }
                     } else {
                         expanded -= expandItem.expandType
                         if (expandItem.replace) {
                             items[position - 1] = expandItem.items[1]
-                            notifyItemRangeChanged(
-                                position - expandItem.items.size,
-                                expandItem.items.size
-                            )
-                            notifyItemChanged(position, Payload.REFRESH)
+                            notifyItemRangeChanged(position - 1, position)
                         } else {
                             items.removeAt(position - 1)
                             if (position > 0) {
-                                // Update decorations
                                 notifyItemRemoved(position - 1)
-                                notifyItemChanged(position - 1, Payload.REFRESH)
+                                notifyItemChanged(position)
                             }
                         }
                     }
