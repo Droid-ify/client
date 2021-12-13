@@ -132,7 +132,7 @@ dependencies {
     implementation 'io.coil-kt:coil:1.4.0'
 
     // OkHttps
-    implementation 'com.squareup.okhttp3:okhttp:4.9.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.3'
 
     // RxJava
     implementation 'io.reactivex.rxjava3:rxjava:3.1.3'
