@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="shape_margin">8dp</dimen>
+    <dimen name="shape_margin_small">4dp</dimen>
+    <dimen name="shape_margin_medium">8dp</dimen>
     <dimen name="shape_small_corner">4dp</dimen>
     <dimen name="shape_medium_corner">8dp</dimen>
     <dimen name="shape_large_corner">16dp</dimen>
