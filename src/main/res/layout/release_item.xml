@@ -7,6 +7,8 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
+        android:layout_marginHorizontal="@dimen/shape_margin_medium"
+        android:layout_marginVertical="@dimen/shape_margin_small"
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.LinearLayoutCompat
