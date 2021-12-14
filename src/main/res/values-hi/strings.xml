@@ -33,12 +33,23 @@
     <string name="delete_repository_DESC">रिपोसिट्री हटाएं\?</string>
     <string name="details">विवरण</string>
     <string name="description">उल्लेख</string>
-    <string name="donate">दान करना</string>
+    <string name="donate">डोनेट</string>
     <string name="downloaded_FORMAT">%s डाउनलोड किया</string>
     <string name="downloading">डाउनलोड हो रहा है</string>
     <string name="downloading_FORMAT">%s... डाउनलोड हो रहा है</string>
-    <string name="edit_repository">रिपोसिट्री संपादित करें</string>
+    <string name="edit_repository">रिपोसिट्री एडिट करें</string>
     <string name="file_format_error_DESC">अमान्य फाइल प्रारूप।</string>
     <string name="fingerprint">फिंगरप्रिंट</string>
     <string name="has_advertising">विज्ञापन है</string>
+    <string name="incompatible_api_max_DESC_FORMAT">अधिकतम API वर्शन %d है।</string>
+    <string name="incompatible_api_min_DESC_FORMAT">न्यूनतम API वर्शन %d है।</string>
+    <string name="incompatible_features_DESC">नामौजूद विशेषताएं।</string>
+    <string name="has_security_vulnerabilities">सुरक्षा कमजोरियां हैं</string>
+    <string name="http_error_DESC">अमान्य सर्वर प्रतिक्रिया।</string>
+    <string name="http_proxy">HTTP प्रॉक्सी</string>
+    <string name="ignore_all_updates">सभी नए वर्शन पर ध्यान न दें</string>
+    <string name="ignore_this_update">इस वर्शन पर ध्यान न दें</string>
+    <string name="incompatible_api_DESC_FORMAT">आपका %1$s (API वर्शन %2$d) सपोर्टेड नहीं है। %3$s</string>
+    <string name="incompatible_older_DESC">यह वर्शन आपके डिवाइस पर इंस्टॉल किए गए वर्शन से पुराना है। पहले उसे अनइंस्टॉल कर दें।</string>
+    <string name="incompatible_platforms_DESC_FORMAT">आपका %1$s प्लेटफॉर्म सपोर्टेड नहीं है। सपोर्टेड प्लैटफ़ॉर्म: %2$s.</string>
 </resources>
