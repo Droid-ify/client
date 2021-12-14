@@ -22,8 +22,8 @@ android {
         applicationId = 'com.looker.droidify'
         minSdk = 21
         targetSdk = 31
-        versionCode = 41
-        versionName = "0.4.1"
+        versionCode = 42
+        versionName = "0.4.2"
         vectorDrawables.useSupportLibrary = true
     }
 
