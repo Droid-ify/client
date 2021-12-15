@@ -28,6 +28,7 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.adapters.AppDetailAdapter
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.android.*
 import com.looker.droidify.utility.extension.text.trimAfter
@@ -359,7 +360,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             updateButtons()
         }
         (recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
-        if (state is DownloadService.State.Success && isResumed) {
+        if (state is DownloadService.State.Success && isResumed && !rootInstallerEnabled) {
             withContext(Dispatchers.Default) {
                 AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
             }
