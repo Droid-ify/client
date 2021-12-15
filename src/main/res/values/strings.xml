@@ -174,4 +174,10 @@
     <string name="prefs_language_title">Language</string>
     <string name="prefs_personalization">Personalization</string>
     <string name="show_less">Show Less</string>
+    <string name="latest">Latest</string>
+    <string name="explore">Explore</string>
+    <string name="update_all">Update all</string>
+    <string name="installed_applications">Installed applications</string>
+    <string name="sort_filter">Sort &amp; Filter</string>
+    <string name="new_applications">New applications</string>
 </resources>
