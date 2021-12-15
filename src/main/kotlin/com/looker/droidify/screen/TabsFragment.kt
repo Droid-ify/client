@@ -24,7 +24,7 @@ import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.ui.appsList.AppListFragment
+import com.looker.droidify.ui.fragments.AppListFragment
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.*

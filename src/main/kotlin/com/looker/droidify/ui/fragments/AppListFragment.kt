@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.appsList
+package com.looker.droidify.ui.fragments
 
 import android.database.Cursor
 import android.os.Bundle
@@ -16,6 +16,8 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.screen.BaseFragment
+import com.looker.droidify.ui.adapters.AppListAdapter
+import com.looker.droidify.ui.viewmodels.AppListViewModel
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.widget.RecyclerFastScroller
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

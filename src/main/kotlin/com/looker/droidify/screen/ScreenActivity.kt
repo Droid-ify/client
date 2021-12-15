@@ -14,7 +14,7 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.installer.AppInstaller
-import com.looker.droidify.ui.appDetail.AppDetailFragment
+import com.looker.droidify.ui.fragments.AppDetailFragment
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty

@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.appDetail
+package com.looker.droidify.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.ClipData

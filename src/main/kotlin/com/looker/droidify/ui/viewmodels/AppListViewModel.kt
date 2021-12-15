@@ -1,9 +1,10 @@
-package com.looker.droidify.ui.appsList
+package com.looker.droidify.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.entity.ProductItem
+import com.looker.droidify.ui.fragments.AppListFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
