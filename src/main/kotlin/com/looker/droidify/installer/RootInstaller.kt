@@ -2,6 +2,7 @@ package com.looker.droidify.installer
 
 import android.content.Context
 import com.looker.droidify.content.Cache
+import com.looker.droidify.utility.extension.android.Android
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,7 +12,8 @@ class RootInstaller(context: Context) : BaseInstaller(context) {
 
     companion object {
         private val getCurrentUserState: String =
-            Shell.su("dumpsys activity | grep -E \"mUserLru\"")
+            if (Android.sdk(25)) Shell.su("am get-current-user").exec().out[0]
+            else Shell.su("dumpsys activity | grep -E \"mUserLru\"")
                 .exec().out[0].trim()
                 .removePrefix("mUserLru: [").removeSuffix("]")
 
