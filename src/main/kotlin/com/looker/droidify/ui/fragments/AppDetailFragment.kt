@@ -315,7 +315,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private suspend fun updateToolbarTitle() {
-        withContext(Dispatchers.Default) {
+        withContext(Dispatchers.Main) {
             val showPackageName = recyclerView
                 ?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
             collapsingToolbar.title =
