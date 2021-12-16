@@ -57,7 +57,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
                 marginEnd = image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
             }
 
-            val placeholder = image.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
+            val placeholder = image.context.getDrawableCompat(R.drawable.ic_screenshot_placeholder).mutate()
             placeholder.setTint(surfaceColor)
             this.placeholder = PaddingDrawable(placeholder, 2f)
         }
