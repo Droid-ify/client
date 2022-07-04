@@ -70,5 +70,5 @@ fun ViewGroup.inflate(layoutResId: Int): View {
 }
 
 fun ShapeableImageView.clear() {
-    CoilUtils.clear(this)
+    CoilUtils.dispose(this)
 }
