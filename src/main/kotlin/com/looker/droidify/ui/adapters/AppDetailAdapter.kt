@@ -44,19 +44,22 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.entity.*
-import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.screen.ScreenshotsAdapter
 import com.looker.droidify.utility.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.extension.android.*
+import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.*
-import com.looker.droidify.utility.extension.text.*
+import com.looker.droidify.utility.extension.text.formatSize
+import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.droidify.utility.extension.text.trimAfter
+import com.looker.droidify.utility.extension.text.trimBefore
 import com.looker.droidify.widget.ClickableMovementMethod
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.util.*
-import kotlin.math.*
+import kotlin.math.roundToInt
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -1054,9 +1057,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 val updateAll = !updateStatus
                 if (updateAll) {
                     holder.icon.load(
-                        CoilDownloader.createIconUri(
-                            holder.icon, item.product.packageName,
-                            item.product.icon, item.product.metadataIcon, item.repository
+                        item.product.packageName.icon(
+                            view = holder.icon,
+                            icon = item.product.icon,
+                            metadataIcon = item.product.metadataIcon,
+                            repository = item.repository
                         )
                     ) {
                         placeholder(holder.progressIcon)

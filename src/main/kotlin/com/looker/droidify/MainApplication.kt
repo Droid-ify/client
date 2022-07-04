@@ -7,12 +7,12 @@ import android.app.job.JobScheduler
 import android.content.*
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -25,7 +25,6 @@ import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 
-@Suppress("unused")
 class MainApplication : Application(), ImageLoaderFactory {
 
     override fun onCreate() {
@@ -198,7 +197,11 @@ class MainApplication : Application(), ImageLoaderFactory {
 
     override fun newImageLoader(): ImageLoader {
         return ImageLoader.Builder(this)
-            .callFactory(CoilDownloader.Factory(Cache.getImagesDir(this)))
+            .diskCache {
+                DiskCache.Builder()
+                    .directory(cacheDir.resolve("image_cache"))
+                    .build()
+            }
             .crossfade(true)
             .build()
     }

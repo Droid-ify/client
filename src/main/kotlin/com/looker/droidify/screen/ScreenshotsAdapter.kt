@@ -13,7 +13,7 @@ import com.looker.droidify.R
 import com.looker.droidify.entity.Product
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.network.CoilDownloader
+import com.looker.droidify.utility.extension.url
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -53,11 +53,13 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
                 RecyclerView.LayoutParams.WRAP_CONTENT,
                 RecyclerView.LayoutParams.MATCH_PARENT
             ).apply {
-                marginStart = image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
+                marginStart =
+                    image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
                 marginEnd = image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
             }
 
-            val placeholder = image.context.getDrawableCompat(R.drawable.ic_screenshot_placeholder).mutate()
+            val placeholder =
+                image.context.getDrawableCompat(R.drawable.ic_screenshot_placeholder).mutate()
             placeholder.setTint(surfaceColor)
             this.placeholder = PaddingDrawable(placeholder, 2f)
         }
@@ -101,11 +103,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
         val inner = context.resources.sizeScaled(GRID_SPACING_INNER_DP)
         val cellSize = (screenWidth - outer - inner) / 1.5
         holder.image.load(
-            CoilDownloader.createScreenshotUri(
-                item.repository,
-                item.packageName,
-                item.screenshot
-            )
+            item.screenshot.url(item.repository, item.packageName)
         ) {
             placeholder(
                 PaddingDrawable(
