@@ -13,7 +13,6 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
@@ -32,8 +31,11 @@ import com.looker.droidify.utility.extension.text.formatSize
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import kotlin.math.roundToInt
 
@@ -66,7 +68,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     private enum class Started { NO, AUTO, MANUAL }
 
-    private val scope = CoroutineScope(Dispatchers.Default + lifecycleScope.coroutineContext)
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     private var started = Started.NO
     private val tasks = mutableListOf<Task>()

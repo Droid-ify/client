@@ -1,11 +1,11 @@
 package com.looker.droidify.service
 
+import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import androidx.lifecycle.LifecycleService
 import com.looker.droidify.utility.extension.android.Android
 
-abstract class ConnectionService<T : IBinder> : LifecycleService() {
+abstract class ConnectionService<T : IBinder> : Service() {
     abstract override fun onBind(intent: Intent): T
 
     fun startSelf() {

@@ -9,7 +9,6 @@ import android.content.Intent
 import android.net.Uri
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
@@ -49,7 +48,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         private val downloadState = mutableDownloadState.asSharedFlow()
     }
 
-    val scope = CoroutineScope(Dispatchers.Default + lifecycleScope.coroutineContext)
+    val scope = CoroutineScope(Dispatchers.Default)
 
     class Receiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -388,34 +387,39 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             )
     }
 
-    private suspend fun publishForegroundState(force: Boolean, state: State) = withContext(Dispatchers.Default) {
-        if (force || currentTask != null) {
-            currentTask = currentTask?.copy(lastState = state)
-            startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
-                when (state) {
-                    is State.Connecting -> {
-                        setContentTitle(getString(R.string.downloading_FORMAT, state.name))
-                        setContentText(getString(R.string.connecting))
-                        setProgress(1, 0, true)
-                    }
-                    is State.Downloading -> {
-                        setContentTitle(getString(R.string.downloading_FORMAT, state.name))
-                        if (state.total != null) {
-                            setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-                            setProgress(100, (100f * state.read / state.total).roundToInt(), false)
-                        } else {
-                            setContentText(state.read.formatSize())
-                            setProgress(0, 0, true)
+    private suspend fun publishForegroundState(force: Boolean, state: State) =
+        withContext(Dispatchers.Default) {
+            if (force || currentTask != null) {
+                currentTask = currentTask?.copy(lastState = state)
+                startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
+                    when (state) {
+                        is State.Connecting -> {
+                            setContentTitle(getString(R.string.downloading_FORMAT, state.name))
+                            setContentText(getString(R.string.connecting))
+                            setProgress(1, 0, true)
                         }
-                    }
-                    is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
-                        throw IllegalStateException()
-                    }
-                }::class
-            }.build())
-            mutableStateSubject.emit(state)
+                        is State.Downloading -> {
+                            setContentTitle(getString(R.string.downloading_FORMAT, state.name))
+                            if (state.total != null) {
+                                setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
+                                setProgress(
+                                    100,
+                                    (100f * state.read / state.total).roundToInt(),
+                                    false
+                                )
+                            } else {
+                                setContentText(state.read.formatSize())
+                                setProgress(0, 0, true)
+                            }
+                        }
+                        is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
+                            throw IllegalStateException()
+                        }
+                    }::class
+                }.build())
+                mutableStateSubject.emit(state)
+            }
         }
-    }
 
     private fun handleDownload() {
         if (currentTask == null) {
