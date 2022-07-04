@@ -4,14 +4,12 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.Repository
-import com.looker.droidify.utility.extension.resources.clear
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.widget.CursorRecyclerAdapter
@@ -77,10 +75,8 @@ class RepositoriesAdapter(
             else holder.item.context.getColorFromAttr(android.R.attr.colorBackground)
         )
 
-        holder.checkMark.apply {
-            if (repository.enabled) load(R.drawable.ic_check)
-            else clear()
-        }
+        if (repository.enabled) holder.checkMark.visibility = View.VISIBLE
+        else holder.checkMark.visibility = View.INVISIBLE
 
         holder.textColor.let {
             holder.repoName.setTextColor(it)
