@@ -21,8 +21,8 @@ android {
         applicationId = 'com.looker.droidify'
         minSdk = 21
         targetSdk = 31
-        versionCode = 43
-        versionName = "0.4.3"
+        versionCode = 44
+        versionName = "0.4.4"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -42,8 +42,6 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled = false
-            shrinkResources = false
             applicationIdSuffix = ".debug"
             versionNameSuffix = "-debug"
             resValue "string", "application_name", "Droid-ify-Debug"
@@ -52,10 +50,7 @@ android {
             minifyEnabled = true
             shrinkResources = true
             resValue "string", "application_name", "Droid-ify"
-        }
-        all {
-            crunchPngs = false
-            proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard.pro")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard.pro")
         }
     }
     packagingOptions {
