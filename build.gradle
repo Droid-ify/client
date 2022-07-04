@@ -71,7 +71,7 @@ android {
 
     def keystorePropertiesFile = rootProject.file('keystore.properties')
     buildFeatures {
-        dataBinding true
+        viewBinding true
     }
     lint {
         ignore 'InvalidVectorPath'

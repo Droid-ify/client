@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-    </data>
-
-    <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/update_state_switch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/text_margin"
-        android:clickable="false"
-        android:singleLine="true"
-        android:textSize="15sp" />
-</layout>
+<com.google.android.material.switchmaterial.SwitchMaterial xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/update_state_switch"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/text_margin"
+    android:clickable="false"
+    android:singleLine="true"
+    android:textSize="15sp" />
