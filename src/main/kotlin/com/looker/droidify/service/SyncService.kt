@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
@@ -65,7 +66,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     private enum class Started { NO, AUTO, MANUAL }
 
-    private val scope = CoroutineScope(Dispatchers.Default)
+    private val scope = CoroutineScope(Dispatchers.Default + lifecycleScope.coroutineContext)
 
     private var started = Started.NO
     private val tasks = mutableListOf<Task>()
@@ -173,11 +174,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 .let(notificationManager::createNotificationChannel)
         }
 
-        stateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
+        stateSubject.debounce(50L).onEach { publishForegroundState(false, it) }.launchIn(scope)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        scope.cancel()
         cancelTasks { true }
         cancelCurrentTask { true }
     }
