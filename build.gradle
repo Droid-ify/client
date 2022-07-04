@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.4'
+        classpath 'com.android.tools.build:gradle:7.2.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10'
     }
 }
@@ -59,25 +59,23 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard.pro")
         }
     }
-
-    lintOptions {
-        warning 'InvalidPackage'
-        ignore 'InvalidVectorPath'
-    }
-
     packagingOptions {
-        exclude '/DebugProbesKt.bin'
-        exclude '/kotlin/**.kotlin_builtins'
-        exclude '/kotlin/**.kotlin_metadata'
-        exclude '/META-INF/**.kotlin_module'
-        exclude '/META-INF/**.pro'
-        exclude '/META-INF/**.version'
-        exclude '/okhttp3/internal/publicsuffix/*'
+        jniLibs {
+            excludes += ['/okhttp3/internal/publicsuffix/*']
+        }
+        resources {
+            excludes += ['/DebugProbesKt.bin', '/kotlin/**.kotlin_builtins', '/kotlin/**.kotlin_metadata', '/META-INF/**.kotlin_module', '/META-INF/**.pro', '/META-INF/**.version', '/okhttp3/internal/publicsuffix/*']
+        }
     }
+
 
     def keystorePropertiesFile = rootProject.file('keystore.properties')
     buildFeatures {
         dataBinding true
+    }
+    lint {
+        ignore 'InvalidVectorPath'
+        warning 'InvalidPackage'
     }
     if (keystorePropertiesFile.exists()) {
         def keystoreProperties = new Properties()
