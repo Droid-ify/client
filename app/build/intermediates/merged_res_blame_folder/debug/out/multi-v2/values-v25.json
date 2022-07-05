@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.looker.droidify.app-mergeDebugResources-48:/values-v25/values-v25.xml",
+            "map": [
+                {
+                    "source": "/home/mohit/.gradle/caches/transforms-3/c37c6d3ff19edbdfa5216425187d658a/transformed/appcompat-1.4.2/res/values-v25/values-v25.xml",
+                    "from": {
+                        "startLines": "2,3,4,6",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,126,209,308",
+                        "endLines": "2,3,5,7",
+                        "endColumns": "70,82,12,12",
+                        "endOffsets": "121,204,303,414"
+                    }
+                }
+            ]
+        }
+    ]
+}

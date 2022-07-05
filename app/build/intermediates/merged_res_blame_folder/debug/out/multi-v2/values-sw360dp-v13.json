@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.looker.droidify.app-mergeDebugResources-48:/values-sw360dp-v13/values-sw360dp-v13.xml",
+            "map": [
+                {
+                    "source": "/home/mohit/.gradle/caches/transforms-3/fa9fa1d1d95b14c0b11097a8af52ae1e/transformed/preference-1.2.0/res/values-sw360dp-v13/values-sw360dp-v13.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "71",
+                        "endOffsets": "122"
+                    }
+                }
+            ]
+        }
+    ]
+}

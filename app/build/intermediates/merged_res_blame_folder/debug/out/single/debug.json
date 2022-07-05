@@ -1,0 +1,290 @@
+[
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_link_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/link_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xhdpi_ic_launcher_round.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_launch.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_launch.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/animator_slide_in_keep.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/animator/slide_in_keep.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_tune.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_tune.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_litecoin.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_litecoin.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_search.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_search.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_new_releases.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_new_releases.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xxxhdpi_ic_launcher_round.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xxxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_public.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_public.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xxxhdpi_ic_launcher.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xxxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/color_switch_thumb_tint.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/color/switch_thumb_tint.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_product_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/product_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_share.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_share.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_copyright.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_copyright.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_item_app_info_x.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/item_app_info_x.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_photo_camera.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_photo_camera.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_sync.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_sync.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_delete.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_delete.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_history.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_history.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_download.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_download.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/animator_slide_out.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/animator/slide_out.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_code.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_code.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_kde.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_kde.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_check.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_check.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_bug_report.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_bug_report.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_scrollbar_thumb.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/scrollbar_thumb.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_title_text_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/title_text_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_permissions_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/permissions_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_sort.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_sort.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/menu_navigation_menu_main.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/menu/navigation_menu_main.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xxhdpi_ic_launcher_round.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xxhdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-mdpi_ic_launcher.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_tabs_toolbar.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/tabs_toolbar.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_release_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/release_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_scrollbar_track.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/scrollbar_track.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_person.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_person.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_opencollective.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_opencollective.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-hdpi_ic_launcher_round.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-hdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_regular.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_regular.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_preference_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/preference_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_section_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/section_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_fragment.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/fragment.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_email.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_email.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_background_recycler_bottom.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/background_recycler_bottom.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_save.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_save.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_flattr.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_flattr.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_repository_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/repository_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_switch_item.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/switch_item.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xhdpi_ic_launcher.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_edit.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_edit.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_liberapay.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_liberapay.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_background_border.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/background_border.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_screenshot_placeholder.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_screenshot_placeholder.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/animator_slide_in.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/animator/slide_in.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_add.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_add.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/anim_slide_up.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/anim/slide_up.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_arrow_down.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_arrow_down.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-xxhdpi_ic_launcher.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-mdpi_ic_launcher_round.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_cancel.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_cancel.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_perm_device_information.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_perm_device_information.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/layout_edit_repository.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/layout/edit_repository.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_gitlab.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_gitlab.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_donate_bitcoin.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_donate_bitcoin.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/mipmap-hdpi_ic_launcher.png.flat",
+        "source": "com.looker.droidify.app-main-52:/mipmap-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/anim_slide_down.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/anim/slide_down.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/color_switch_track_tint.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/color/switch_track_tint.xml"
+    },
+    {
+        "merged": "com.looker.droidify.app-merged_res-50:/drawable_ic_application_default.xml.flat",
+        "source": "com.looker.droidify.app-main-52:/drawable/ic_application_default.xml"
+    }
+]

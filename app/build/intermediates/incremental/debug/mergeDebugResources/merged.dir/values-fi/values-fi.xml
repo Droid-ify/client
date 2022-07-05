@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="mtrl_badge_content_description">
+    <item quantity="one">%d uusi ilmoitus</item>
+    <item quantity="other">%d uutta ilmoitusta</item>
+  </plurals>
+    <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d -sovelluksella on uusi versio.</item>
+        <item quantity="other">%d -sovelluksia, joilla on uusia versioita.</item>
+    </plurals>
+    <string msgid="5976598919945601918" name="abc_action_bar_home_description">"Siirry etusivulle"</string>
+    <string msgid="8388173803310557296" name="abc_action_bar_up_description">"Siirry ylös"</string>
+    <string msgid="3937310113216875497" name="abc_action_menu_overflow_description">"Lisäasetukset"</string>
+    <string msgid="4692188335987374352" name="abc_action_mode_done">"Valmis"</string>
+    <string msgid="1189761859438369441" name="abc_activity_chooser_view_see_all">"Näytä kaikki"</string>
+    <string msgid="2165779757652331008" name="abc_activitychooserview_choose_application">"Valitse sovellus"</string>
+    <string msgid="4215997306490295099" name="abc_capital_off">"POIS PÄÄLTÄ"</string>
+    <string msgid="884982626291842264" name="abc_capital_on">"PÄÄLLÄ"</string>
+    <string msgid="8833365367933412986" name="abc_menu_alt_shortcut_label">"Alt+"</string>
+    <string msgid="2223301931652355242" name="abc_menu_ctrl_shortcut_label">"Ctrl+"</string>
+    <string msgid="838001238306846836" name="abc_menu_delete_shortcut_label">"delete"</string>
+    <string msgid="7986526966204849475" name="abc_menu_enter_shortcut_label">"enter"</string>
+    <string msgid="375214403600139847" name="abc_menu_function_shortcut_label">"Fn+"</string>
+    <string msgid="4192209724446364286" name="abc_menu_meta_shortcut_label">"Meta+"</string>
+    <string msgid="4741552369836443843" name="abc_menu_shift_shortcut_label">"Vaihto+"</string>
+    <string msgid="5473865519181928982" name="abc_menu_space_shortcut_label">"välilyönti"</string>
+    <string msgid="6180552449598693998" name="abc_menu_sym_shortcut_label">"Sym+"</string>
+    <string msgid="5520303668377388990" name="abc_prepend_shortcut_label">"Valikko+"</string>
+    <string msgid="7208076849092622260" name="abc_search_hint">"Haku…"</string>
+    <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Tyhjennä kysely"</string>
+    <string msgid="693312494995508443" name="abc_searchview_description_query">"Hakukysely"</string>
+    <string msgid="3417662926640357176" name="abc_searchview_description_search">"Haku"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Lähetä kysely"</string>
+    <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Puhehaku"</string>
+    <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Jaa…"</string>
+    <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Jaa: <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
+    <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Tiivistä"</string>
+    <string name="action_failed">Toiminta epäonnistui</string>
+    <string name="add_repository">Lisää arkisto</string>
+    <string name="address">Osoite</string>
+    <string name="all_applications">Kaikki sovellukset</string>
+    <string name="all_applications_up_to_date">Kaikki sovelluksesi ovat ajan tasalla</string>
+    <string name="already_exists">Jo olemassa</string>
+    <string name="always">Aina</string>
+    <string name="amoled">Musta</string>
+    <string name="anti_features">Anti-ominaisuudet</string>
+    <string name="application">Sovellus</string>
+    <string name="application_not_found">Tätä sovellusta ei löytynyt</string>
+    <string name="author_email">Tekijän sähköposti</string>
+    <string name="author_website">Kirjoittajan verkkosivusto</string>
+    <string name="available">Saatavilla</string>
+    <string name="bottomsheet_action_expand_halfway">Laajenna puoliväliin</string>
+    <string name="bug_tracker">Vikojen jäljitin</string>
+    <string name="cancel">Peruuta</string>
+    <string name="cant_edit_sync_DESC">Arkistoa ei voi muokata, koska se synkronoidaan juuri nyt.</string>
+    <string name="changelog">Muutosloki</string>
+    <string name="changes">Muutokset</string>
+    <string name="character_counter_content_description">%1$d/%2$d merkkiä kirjoitettu</string>
+    <string name="character_counter_overflowed_content_description">Merkkiraja ylitetty: %1$d/%2$d</string>
+    <string name="checking_repository">Tarkistetaan tietovarastoa…</string>
+    <string name="clear_text_end_icon_content_description">Tyhjennä teksti</string>
+    <string name="compiled_for_debugging">Käännetty virheenkorjausta varten</string>
+    <string name="confirmation">Vahvistus</string>
+    <string name="connecting">Yhdistetään…</string>
+    <string name="contains_non_free_media">Sisältää ei-vapaata mediaa</string>
+    <string msgid="6083905920877235314" name="copy">"Kopioi"</string>
+    <string name="could_not_download_FORMAT">Ei voitu ladata %s</string>
+    <string name="could_not_sync_FORMAT">Ei voitu synkronoida %s</string>
+    <string name="could_not_validate_FORMAT">Ei voitu validoida %s</string>
+    <string name="credits">Opintopisteet</string>
+    <string name="dark">Pimeä</string>
+    <string name="delete">Poista</string>
+    <string name="delete_repository_DESC">Poista arkisto\?</string>
+    <string name="description">Description</string>
+    <string name="details">Tiedot</string>
+    <string name="donate">Lahjoita</string>
+    <string name="downloaded_FORMAT">Ladattu %s</string>
+    <string name="downloading">Lataaminen</string>
+    <string name="downloading_FORMAT">Ladataan %s…</string>
+    <string name="edit_repository">Muokkaa arkistoa</string>
+    <string name="error_icon_content_description">Virhe</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Lisäasetukset"</string>
+    <string name="exposed_dropdown_menu_content_description">Näytä avattava valikko</string>
+    <string name="file_format_error_DESC">Väärä tiedostomuoto.</string>
+    <string name="fingerprint">Sormenjälki</string>
+    <string name="has_advertising">On mainontaa</string>
+    <string name="has_non_free_dependencies">Ei-vapaita riippuvuuksia</string>
+    <string name="has_security_vulnerabilities">On tietoturva-aukkoja</string>
+    <string name="http_error_DESC">Virheellinen palvelinvastaus.</string>
+    <string name="http_proxy">HTTP-välityspalvelin</string>
+    <string name="icon_content_description">Valintaikkunan kuvake</string>
+    <string name="ignore_all_updates">Jätä kaikki uudet versiot huomiotta</string>
+    <string name="ignore_this_update">Jätä tämä versio huomiotta</string>
+    <string name="incompatible_api_DESC_FORMAT">Sinun %1$s (API-versio %2$d) ei ole tuettu. %3$s</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Suurin API-versio on %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">Vähimmäis API-versio on %d.</string>
+    <string name="incompatible_features_DESC">Puuttuvat ominaisuudet.</string>
+    <string name="incompatible_older_DESC">Tämä versio on vanhempi kuin laitteeseesi asennettu versio. Poista se ensin.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Alustasi %1$s ei ole tuettu. Tuetut alustat: %2$s.</string>
+    <string name="incompatible_signature_DESC">Tämä versio on allekirjoitettu eri varmenteella kuin laitteeseesi asennettu varmenne. Poista se ensin.</string>
+    <string name="incompatible_version">Yhteensopimaton versio</string>
+    <string name="incompatible_versions">Yhteensopimattomat versiot</string>
+    <string name="incompatible_versions_summary">Näytä sovellusversiot, jotka eivät ole yhteensopivia laitteen kanssa</string>
+    <string name="incompatible_with_FORMAT">Yhteensopimaton %s</string>
+    <string name="install">Asenna</string>
+    <string name="install_types">Asennuksen tyypit</string>
+    <string name="installed">Asennettu</string>
+    <string name="integrity_check_error_DESC">Ei voitu tarkistaa eheyttä.</string>
+    <string name="invalid_address">Virheellinen osoite</string>
+    <string name="invalid_fingerprint_format">Virheellinen sormenjälkimuoto</string>
+    <string name="invalid_metadata_error_DESC">Virheelliset metatiedot.</string>
+    <string name="invalid_permissions_error_DESC">Virheelliset käyttöoikeudet.</string>
+    <string name="invalid_signature_error_DESC">Virheellinen allekirjoitus.</string>
+    <string name="invalid_username_format">Virheellinen käyttäjänimen muoto</string>
+    <string name="item_view_role_description">Välilehti</string>
+    <string name="launch">Laukaisu</string>
+    <string name="license">Lisenssi</string>
+    <string name="license_FORMAT">%s -lisenssi</string>
+    <string name="light">Valo</string>
+    <string name="link_copied_to_clipboard">Linkki kopioitu leikepöydälle</string>
+    <string name="links">Linkit</string>
+    <string name="list_animation">Lista-animaatiot</string>
+    <string name="list_animation_description">Näytä listan animaatio pääsivulla</string>
+    <string name="material_clock_toggle_content_description">Valitse AP tai IP</string>
+    <string name="material_hour_selection">Valitse tunti</string>
+    <string name="material_hour_suffix">klo %1$s</string>
+    <string name="material_minute_selection">Valitse minuutit</string>
+    <string name="material_minute_suffix">%1$s minuuttia</string>
+    <string name="material_timepicker_am">ap</string>
+    <string name="material_timepicker_clock_mode_description">Vaihda ajan syöttämiseen kellotilassa.</string>
+    <string name="material_timepicker_hour">Tunnit</string>
+    <string name="material_timepicker_minute">Minuutti</string>
+    <string name="material_timepicker_pm">ip</string>
+    <string name="material_timepicker_select_time">Valitse aika</string>
+    <string name="material_timepicker_text_input_mode_description">Vaihda ajan syöttämiseen tekstitilassa.</string>
+    <string name="merging_FORMAT">Yhdistäminen %s</string>
+    <string name="mtrl_badge_numberless_content_description">Uusi ilmoitus</string>
+    <string name="mtrl_chip_close_icon_content_description">Poista %1$s</string>
+    <string name="mtrl_exceed_max_badge_number_content_description">Yli %1$d uutta ilmoitusta</string>
+    <string name="mtrl_picker_a11y_next_month">Vaihda seuraavaan kuukauteen</string>
+    <string name="mtrl_picker_a11y_prev_month">Vaihda edelliseen kuukauteen</string>
+    <string name="mtrl_picker_announce_current_selection">Nykyinen valinta: %1$s</string>
+    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Valitse päivämäärä</string>
+    <string name="mtrl_picker_date_header_unselected">Valittu päivämäärä</string>
+    <string name="mtrl_picker_day_of_week_column_header">Päiväsarake: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Virheellinen muoto</string>
+    <string name="mtrl_picker_invalid_format_example">Esimerkki: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Käytä muotoa %1$s</string>
+    <string name="mtrl_picker_invalid_range">Virheellinen alue</string>
+    <string name="mtrl_picker_navigate_to_year_description">Siirry vuoteen %1$s</string>
+    <string name="mtrl_picker_out_of_range">Aikavälin ulkop.: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Alkamispäivä – %1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s – päättymispäivä</string>
+    <string name="mtrl_picker_range_header_selected">%1$s – %2$s</string>
+    <string name="mtrl_picker_range_header_title">Valitse jakso</string>
+    <string name="mtrl_picker_range_header_unselected">Alkamispäivä – päättymispäivä</string>
+    <string name="mtrl_picker_save">Tallenna</string>
+    <string name="mtrl_picker_text_input_date_hint">Päivämäärä</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Päättymispäivä</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Alkamispäivä</string>
+    <string name="mtrl_picker_text_input_day_abbr">p</string>
+    <string name="mtrl_picker_text_input_month_abbr">k</string>
+    <string name="mtrl_picker_text_input_year_abbr">v</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Vaihda syöttötavaksi kalenteri</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Siirry päivän valintaan napauttamalla</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Valitse syöttötavaksi teksti</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Siirry vuoden valintaan napauttamalla</string>
+    <string name="name">Nimi</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Siirry ylös"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Avaa navigoinnin vetopaneeli"</string>
+    <string name="network_error_DESC">Verkko virhe.</string>
+    <string name="never">Koskaan</string>
+    <string name="new_updates_available">Sovellusten uudet versiot saatavilla</string>
+    <string name="no_applications_available">Ei käytettävissä olevia sovelluksia</string>
+    <string name="no_applications_installed">Ei asennettuja sovelluksia</string>
+    <string name="no_description_available_DESC">Kuvausta ei ole saatavilla.</string>
+    <string name="no_matching_applications_found">Ei löytynyt tällaisia sovelluksia</string>
+    <string name="no_proxy">Ei proxy</string>
+    <string msgid="6573031135582639649" name="not_set">"Ei asetettu"</string>
+    <string name="notify_about_updates">Ilmoita sovellusten uusista versioista</string>
+    <string name="notify_about_updates_summary">Näytä ilmoitus, kun uusia versioita on saatavilla</string>
+    <string name="number_of_applications">Sovellusten määrä</string>
+    <string name="ok">OKEI</string>
+    <string name="only_compatible_with_FORMAT">Yhteensopiva vain %s</string>
+    <string name="only_on_wifi">Vain Wi-Fi</string>
+    <string name="open_DESC_FORMAT">Avaa %s\?</string>
+    <string name="other">Muut</string>
+    <string name="parsing_index_error_DESC">Indeksitiedostoa ei voitu analysoida.</string>
+    <string name="password">Salasana</string>
+    <string name="password_missing">Salasana puuttuu</string>
+    <string name="password_toggle_content_description">Näytä salasana</string>
+    <string name="permissions">Luvat</string>
+    <string name="plus_more_FORMAT">+%d lisää</string>
+    <string msgid="6685851473431805375" name="preference_copied">"<ns1:g id="SUMMARY">%1$s</ns1:g> kopioitiin leikepöydälle."</string>
+    <string name="prefs_language_title">Kieli</string>
+    <string name="prefs_personalization">Mukauttaminen</string>
+    <string name="processing_FORMAT">Käsitellään %1$s…</string>
+    <string name="project_website">Hankkeen verkkosivusto</string>
+    <string name="promotes_non_free_network_services">Edistää muita kuin ilmaisia verkkopalveluja</string>
+    <string name="promotes_non_free_software">Edistää ei-vapaita ohjelmia</string>
+    <string name="provided_by_FORMAT">Toimittanut %s</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_host">Proxy-isäntä</string>
+    <string name="proxy_port">Proxy portti</string>
+    <string name="proxy_type">Proxy tyyppi</string>
+    <string name="recently_updated">Äskettäin päivitetty</string>
+    <string name="repositories">Tietovarastot</string>
+    <string name="repository">Varasto</string>
+    <string name="repository_not_used_DESC">Tätä arkistoa ei ole vielä käytetty. Ota se käyttöön nähdäksesi siinä olevat sovellukset.</string>
+    <string name="repository_unsigned_DESC">Allekirjoittamaton. Sovellusluetteloa ei voitu tarkistaa. Ole varovainen ladatessasi sovelluksia allekirjoittamattomista arkistoista.</string>
+    <string name="requires_FORMAT">Vaatii %s</string>
+    <string name="root_permission">Hiljainen asennus</string>
+    <string name="root_permission_description">Salli pääkäyttäjän oikeudet hiljaisiin asennuksiin</string>
+    <string name="save">Tallenna</string>
+    <string name="saving_details">Tallennetaan tietoja…</string>
+    <string name="screenshots">Kuvakaappaukset</string>
+    <string name="search">Haku</string>
+    <string msgid="6264217191555673260" name="search_menu_title">"Haku"</string>
+    <string name="select_mirror">Valitse peili</string>
+    <string name="settings">Asetukset</string>
+    <string name="share">Osake</string>
+    <string name="show_less">Näytä vähemmän</string>
+    <string name="show_more">Näytä lisää</string>
+    <string name="show_older_versions">Näytä vanhemmat versiot</string>
+    <string name="signature_FORMAT">Allekirjoitus %s</string>
+    <string name="signed_using_unsafe_algorithm">Allekirjoitettu vaarallisella algoritmilla</string>
+    <string name="size">Koko</string>
+    <string name="skip">Ohita</string>
+    <string name="socks_proxy">SOCKS-välityspalvelin</string>
+    <string name="sorting_order">Lajittelu järjestys</string>
+    <string name="source_code">Lähdekoodi</string>
+    <string name="source_code_no_longer_available">Lähdekoodi ei enää saatavilla</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="suggested">Suositeltu</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string name="sync_repositories">Synkronoi arkistot</string>
+    <string name="sync_repositories_automatically">Synkronoi arkistot automaattisesti</string>
+    <string name="syncing">Synkronointi</string>
+    <string name="syncing_FORMAT">Synkronoidaan %s…</string>
+    <string name="system">Järjestelmä</string>
+    <string name="tap_to_install_DESC">Napauta asentaaksesi.</string>
+    <string name="target">Kohde</string>
+    <string name="theme">Teema</string>
+    <string name="themes">Teemat</string>
+    <string name="tracks_or_reports_your_activity">Seuraa toimintaasi tai raportoi siitä</string>
+    <string name="uninstall">Poista asennus</string>
+    <string name="unknown">Tuntematon</string>
+    <string name="unknown_FORMAT">Tuntematon: %s</string>
+    <string name="unknown_error_DESC">Tuntematon virhe.</string>
+    <string name="unsigned">Merkitsemätön</string>
+    <string name="unstable_updates">Epävakaat päivitykset</string>
+    <string name="unstable_updates_summary">Ehdota epävakaiden versioiden asentamista</string>
+    <string name="unverified">Vahvistamaton</string>
+    <string name="update">Päivitys</string>
+    <string name="updates">Päivitykset</string>
+    <string name="upstream_source_code_is_not_free">Alkuperäinen lähdekoodi ei ole vapaa</string>
+    <string name="username">Käyttäjänimi</string>
+    <string name="username_missing">Käyttäjätunnus puuttuu</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"POIS KÄYTÖSTÄ"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"KÄYTÖSSÄ"</string>
+    <string name="validation_index_error_DESC">Indeksiä ei voitu validoida.</string>
+    <string name="version">Versio</string>
+    <string name="version_FORMAT">Versio %s</string>
+    <string name="versions">Versiot</string>
+    <string name="waiting_to_start_download">Odotan latauksen aloittamista…</string>
+    <string name="website">Verkkosivut</string>
+    <string name="whats_new">Mitä uutta</string>
+</resources>

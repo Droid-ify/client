@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="mtrl_badge_content_description">
+    <item quantity="one">%d notificación nueva</item>
+    <item quantity="other">%d notificaciones nuevas</item>
+  </plurals>
+    <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d nueva actualización.</item>
+        <item quantity="other">%d nuevas actualizaciones.</item>
+    </plurals>
+    <string msgid="5976598919945601918" name="abc_action_bar_home_description">"Ir a inicio"</string>
+    <string msgid="8388173803310557296" name="abc_action_bar_up_description">"Desplazarse hacia arriba"</string>
+    <string msgid="3937310113216875497" name="abc_action_menu_overflow_description">"Más opciones"</string>
+    <string msgid="4692188335987374352" name="abc_action_mode_done">"Hecho"</string>
+    <string msgid="1189761859438369441" name="abc_activity_chooser_view_see_all">"Ver todo"</string>
+    <string msgid="2165779757652331008" name="abc_activitychooserview_choose_application">"Seleccionar una aplicación"</string>
+    <string msgid="4215997306490295099" name="abc_capital_off">"DESACTIVADO"</string>
+    <string msgid="884982626291842264" name="abc_capital_on">"ACTIVADO"</string>
+    <string msgid="8833365367933412986" name="abc_menu_alt_shortcut_label">"Alt +"</string>
+    <string msgid="2223301931652355242" name="abc_menu_ctrl_shortcut_label">"Ctrl +"</string>
+    <string msgid="838001238306846836" name="abc_menu_delete_shortcut_label">"Suprimir"</string>
+    <string msgid="7986526966204849475" name="abc_menu_enter_shortcut_label">"Intro"</string>
+    <string msgid="375214403600139847" name="abc_menu_function_shortcut_label">"Función +"</string>
+    <string msgid="4192209724446364286" name="abc_menu_meta_shortcut_label">"Meta +"</string>
+    <string msgid="4741552369836443843" name="abc_menu_shift_shortcut_label">"Mayús +"</string>
+    <string msgid="5473865519181928982" name="abc_menu_space_shortcut_label">"Espacio"</string>
+    <string msgid="6180552449598693998" name="abc_menu_sym_shortcut_label">"Sym +"</string>
+    <string msgid="5520303668377388990" name="abc_prepend_shortcut_label">"Menú +"</string>
+    <string msgid="7208076849092622260" name="abc_search_hint">"Buscar…"</string>
+    <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Borrar consulta"</string>
+    <string msgid="693312494995508443" name="abc_searchview_description_query">"Consulta de búsqueda"</string>
+    <string msgid="3417662926640357176" name="abc_searchview_description_search">"Buscar"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Enviar consulta"</string>
+    <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Búsqueda por voz"</string>
+    <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Compartir con"</string>
+    <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Compartir con <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
+    <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Ocultar"</string>
+    <string name="action_failed">Acción fallida</string>
+    <string name="add_repository">Agregar repositorio</string>
+    <string name="address">Dirección</string>
+    <string name="all_applications">Todas las aplicaciones</string>
+    <string name="all_applications_up_to_date">Todas las aplicaciones al día</string>
+    <string name="already_exists">Ya existe</string>
+    <string name="always">Siempre</string>
+    <string name="amoled">AMOLED</string>
+    <string name="anti_features">Anti-funciones</string>
+    <string name="application">Aplicación</string>
+    <string name="application_not_found">App no encontrada</string>
+    <string name="author_email">E-mail del autor</string>
+    <string name="author_website">Sitio web del autor</string>
+    <string name="available">Disponible</string>
+    <string name="bottomsheet_action_expand_halfway">Desplegar hasta la mitad</string>
+    <string name="bug_tracker">Rastrea-bugs</string>
+    <string name="cancel">Cancelar</string>
+    <string name="cant_edit_sync_DESC">No puede editarse el repositorio porque está sincronizándose.</string>
+    <string name="changelog">Registro de cambios</string>
+    <string name="changes">Cambios</string>
+    <string name="character_counter_content_description">Caracteres introducidos: %1$d de %2$d</string>
+    <string name="character_counter_overflowed_content_description">Límite de caracteres superado (%1$d de %2$d)</string>
+    <string name="checking_repository">Comprobando repositorio…</string>
+    <string name="clear_text_end_icon_content_description">Borrar texto</string>
+    <string name="compiled_for_debugging">Compilado para depuración</string>
+    <string name="confirmation">Confirmación</string>
+    <string name="connecting">Conectando…</string>
+    <string name="contains_non_free_media">Contiene medios no libres</string>
+    <string msgid="6083905920877235314" name="copy">"Copiar"</string>
+    <string name="could_not_download_FORMAT">No se pudo descargar %s</string>
+    <string name="could_not_sync_FORMAT">No se pudo sincronizar %s</string>
+    <string name="could_not_validate_FORMAT">No se pudo validar %s</string>
+    <string name="credits">Créditos</string>
+    <string name="dark">Oscuro</string>
+    <string name="delete">Eliminar</string>
+    <string name="delete_repository_DESC">¿Eliminar repositorio\?</string>
+    <string name="description">Descripción</string>
+    <string name="details">Detalles</string>
+    <string name="donate">Donar</string>
+    <string name="downloaded_FORMAT"> %s descargado</string>
+    <string name="downloading">Descargando</string>
+    <string name="downloading_FORMAT">Descargando %s…</string>
+    <string name="edit_repository">Editar repositorio</string>
+    <string name="error_icon_content_description">Error</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Ajustes avanzados"</string>
+    <string name="exposed_dropdown_menu_content_description">Mostrar menú desplegable</string>
+    <string name="file_format_error_DESC">Formato de archivo inválido.</string>
+    <string name="fingerprint">Huella</string>
+    <string name="has_advertising">Tiene anuncios</string>
+    <string name="has_non_free_dependencies">Tiene dependencias no libres</string>
+    <string name="has_security_vulnerabilities">Tiene vulnerabilidades de seguridad</string>
+    <string name="http_error_DESC">Respuesta del servidor inválida.</string>
+    <string name="http_proxy">Proxy HTTP</string>
+    <string name="icon_content_description">Icono del cuadro de diálogo</string>
+    <string name="ignore_all_updates">Ignorar todas las actualizaciones</string>
+    <string name="ignore_this_update">Ignorar esta actualización</string>
+    <string name="incompatible_api_DESC_FORMAT">Tu %1$s (API versión %2$d) no está soportada. %3$s</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Versión máxima del API: %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">Versión mínima de API: %d.</string>
+    <string name="incompatible_features_DESC">Características faltantes.</string>
+    <string name="incompatible_older_DESC">Esta versión es más antigua que la de tu dispositivo. Desinstalá esa primero.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Tu plataforma %1$s no está soportada. Plataformas soportadas: %2$s.</string>
+    <string name="incompatible_signature_DESC">Esta versión está firmada con un certificado diferente que la instalada en tu dispositivo. Desinstalá esa primero.</string>
+    <string name="incompatible_version">Versión incompatible</string>
+    <string name="incompatible_versions">Versiones incompatibles</string>
+    <string name="incompatible_versions_summary">Mostrar versiones de aplicaciones incompatibles con el dispositivo</string>
+    <string name="incompatible_with_FORMAT">Incompatible con %s</string>
+    <string name="install">Instalar</string>
+    <string name="install_types">Tipos de Instalación</string>
+    <string name="installed">Instalado</string>
+    <string name="integrity_check_error_DESC">No pudo comprobarse integridad.</string>
+    <string name="invalid_address">Dirección inválida</string>
+    <string name="invalid_fingerprint_format">Formato de huella inválido</string>
+    <string name="invalid_metadata_error_DESC">Metadatos inválidos.</string>
+    <string name="invalid_permissions_error_DESC">Permisos inválidos.</string>
+    <string name="invalid_signature_error_DESC">Firma inválida.</string>
+    <string name="invalid_username_format">Formato de nombre de usuario inválido</string>
+    <string name="item_view_role_description">Pestaña</string>
+    <string name="launch">Lanzar</string>
+    <string name="license">Licencia</string>
+    <string name="license_FORMAT">Licencia %s</string>
+    <string name="light">Claro</string>
+    <string name="link_copied_to_clipboard">Link copiado al portapapeles</string>
+    <string name="links">Links</string>
+    <string name="list_animation">Animación de lista</string>
+    <string name="list_animation_description">Animar la Lista en la Página Principal</string>
+    <string name="material_clock_toggle_content_description">Selecciona AM o PM</string>
+    <string name="material_hour_selection">Seleccionar hora</string>
+    <string name="material_hour_suffix">%1$s en punto</string>
+    <string name="material_minute_selection">Seleccionar minutos</string>
+    <string name="material_minute_suffix">%1$s minutos</string>
+    <string name="material_timepicker_am">A.M.</string>
+    <string name="material_timepicker_clock_mode_description">Cambia al modo de reloj para escribir la hora.</string>
+    <string name="material_timepicker_hour">Hora</string>
+    <string name="material_timepicker_minute">Minuto</string>
+    <string name="material_timepicker_pm">P.M.</string>
+    <string name="material_timepicker_select_time">Seleccionar la hora</string>
+    <string name="material_timepicker_text_input_mode_description">Cambia al modo de introducción de texto para escribir la hora.</string>
+    <string name="merging_FORMAT">Uniendo %s</string>
+    <string name="mtrl_badge_numberless_content_description">Notificación nueva</string>
+    <string name="mtrl_chip_close_icon_content_description">Retirar %1$s</string>
+    <string name="mtrl_exceed_max_badge_number_content_description">Más de %1$d notificaciones nuevas</string>
+    <string name="mtrl_picker_a11y_next_month">Cambiar al mes siguiente</string>
+    <string name="mtrl_picker_a11y_prev_month">Cambiar al mes anterior</string>
+    <string name="mtrl_picker_announce_current_selection">Selección actual: %1$s</string>
+    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Selecciona una fecha</string>
+    <string name="mtrl_picker_date_header_unselected">Fecha seleccionada</string>
+    <string name="mtrl_picker_day_of_week_column_header">Columna de días: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Formato no válido.</string>
+    <string name="mtrl_picker_invalid_format_example">Ejemplo: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Usar: %1$s</string>
+    <string name="mtrl_picker_invalid_range">El periodo no es válido.</string>
+    <string name="mtrl_picker_navigate_to_year_description">Ir al año %1$s</string>
+    <string name="mtrl_picker_out_of_range">Fuera del periodo válido: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Fecha de inicio–%1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s–Fecha de finalización</string>
+    <string name="mtrl_picker_range_header_selected">%1$s – %2$s</string>
+    <string name="mtrl_picker_range_header_title">Selecciona un periodo</string>
+    <string name="mtrl_picker_range_header_unselected">Fecha de inicio–Fecha de finalización</string>
+    <string name="mtrl_picker_save">Guardar</string>
+    <string name="mtrl_picker_text_input_date_hint">Fecha</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Fecha de finalización</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Fecha de inicio</string>
+    <string name="mtrl_picker_text_input_day_abbr">d</string>
+    <string name="mtrl_picker_text_input_month_abbr">m</string>
+    <string name="mtrl_picker_text_input_year_abbr">a</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Cambiar al modo de introducción Calendario</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Toca para seleccionar un día</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Cambiar al modo de introducción Texto</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Toca para seleccionar un año</string>
+    <string name="name">Nombre</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Desplazarse hacia arriba"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Abrir panel de navegación"</string>
+    <string name="network_error_DESC">Error de red.</string>
+    <string name="never">Nunca</string>
+    <string name="new_updates_available">Nuevas actualizaciones disponibles</string>
+    <string name="no_applications_available">No hay aplicaciones disponibles</string>
+    <string name="no_applications_installed">No hay aplicaciones instaladas</string>
+    <string name="no_description_available_DESC">No hay descripción.</string>
+    <string name="no_matching_applications_found">No se encontraron apps coincidentes</string>
+    <string name="no_proxy">Sin proxy</string>
+    <string msgid="6573031135582639649" name="not_set">"Sin establecer"</string>
+    <string name="notify_about_updates">Notificar actualizaciones</string>
+    <string name="notify_about_updates_summary">Muestra una notificación cuando hay actualizaciones</string>
+    <string name="number_of_applications">Número de aplicaciones</string>
+    <string name="ok">OK</string>
+    <string name="only_compatible_with_FORMAT">Sólo conpatible con %s</string>
+    <string name="only_on_wifi">Sólo con Wi-Fi</string>
+    <string name="open_DESC_FORMAT">¿Abrir %s?</string>
+    <string name="other">Otro</string>
+    <string name="parsing_index_error_DESC">No pudo analizarse el archivo de índice.</string>
+    <string name="password">Contraseña</string>
+    <string name="password_missing">Contraseña faltante</string>
+    <string name="password_toggle_content_description">Mostrar contraseña</string>
+    <string name="permissions">Permisos</string>
+    <string name="plus_more_FORMAT">+%d más</string>
+    <string msgid="6685851473431805375" name="preference_copied">"\"<ns1:g id="SUMMARY">%1$s</ns1:g>\" se ha copiado en el portapapeles."</string>
+    <string name="prefs_language_title">Lengua</string>
+    <string name="prefs_personalization">Personalización</string>
+    <string name="processing_FORMAT">Procesando %1$s…</string>
+    <string name="project_website">Sitio web del proyecto</string>
+    <string name="promotes_non_free_network_services">Promueve servicios de red no libres</string>
+    <string name="promotes_non_free_software">Promueve software no libre</string>
+    <string name="provided_by_FORMAT">Provisto por %s</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_host">Host del Proxy</string>
+    <string name="proxy_port">Puerto de Proxy</string>
+    <string name="proxy_type">Tipo de Proxy</string>
+    <string name="recently_updated">Actualizado recientemente</string>
+    <string name="repositories">Repositorios</string>
+    <string name="repository">Repositorio</string>
+    <string name="repository_not_used_DESC">Este repositorio aún no se usó. Debés habilitarlo para ver qué apps provee.</string>
+    <string name="repository_unsigned_DESC">Sin firmar. No se pudo verificar la lista de apps; sé cuidadoso al descargar apps de repositorios sin firmar.</string>
+    <string name="requires_FORMAT">Requiere %s</string>
+    <string name="root_permission">Instalación Silenciosa</string>
+    <string name="root_permission_description">Concede permisos root para activar la instalación silenciosa</string>
+    <string name="save">Guardar</string>
+    <string name="saving_details">Guardando detalles…</string>
+    <string name="screenshots">Capturas</string>
+    <string name="search">Buscar</string>
+    <string msgid="6264217191555673260" name="search_menu_title">"Buscar"</string>
+    <string name="select_mirror">Elegir espejo</string>
+    <string name="settings">Ajustes</string>
+    <string name="share">Cuota</string>
+    <string name="show_more">Mostrar más</string>
+    <string name="show_older_versions">Mostrar versiones más antiguas</string>
+    <string name="signature_FORMAT">Firma %s</string>
+    <string name="signed_using_unsafe_algorithm">Firmado usando un algoritmo inseguro</string>
+    <string name="size">Tamaño</string>
+    <string name="skip">Saltar</string>
+    <string name="socks_proxy">Proxy SOCKS</string>
+    <string name="sorting_order">Ordenado</string>
+    <string name="source_code">Código fuente</string>
+    <string name="source_code_no_longer_available">El código fuente ya no está disponible</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="suggested">Sugerido</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string name="sync_repositories">Sincronizar repositorios</string>
+    <string name="sync_repositories_automatically">Sincronizar repositories automáticamente</string>
+    <string name="syncing">Sincronizando</string>
+    <string name="syncing_FORMAT">Sincronizando %s…</string>
+    <string name="system">Sistema</string>
+    <string name="tap_to_install_DESC">Tocá para instalar.</string>
+    <string name="target">Objetivo</string>
+    <string name="theme">Tema</string>
+    <string name="themes">Temas</string>
+    <string name="tracks_or_reports_your_activity">Rastrea o informa tu actividad</string>
+    <string name="uninstall">Desinstalar</string>
+    <string name="unknown">Desconocido</string>
+    <string name="unknown_FORMAT">Desconocido: %s</string>
+    <string name="unknown_error_DESC">Error desconocido.</string>
+    <string name="unsigned">No firmado</string>
+    <string name="unstable_updates">Actualizaciones inestables</string>
+    <string name="unstable_updates_summary">Sugerir instalar versiones inestables</string>
+    <string name="unverified">No verificado</string>
+    <string name="update">Actualizar</string>
+    <string name="updates">Actualizaciones</string>
+    <string name="upstream_source_code_is_not_free">El código original no es libre</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="username_missing">Falta el nombre de usuario</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"DESACTIVADA"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"ACTIVADO"</string>
+    <string name="validation_index_error_DESC">El índice no pudo ser validado.</string>
+    <string name="version">Versión</string>
+    <string name="version_FORMAT">Versión %s</string>
+    <string name="versions">Versiones</string>
+    <string name="waiting_to_start_download">Esperando para descargar…</string>
+    <string name="website">Sitio web</string>
+    <string name="whats_new">Novedades</string>
+</resources>

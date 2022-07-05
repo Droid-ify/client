@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="address">ලිපිනය</string>
+    <string name="all_applications">සියළුම යෙදුම්</string>
+    <string name="already_exists">දැනටමත් පවතී</string>
+    <string name="always">සැමවිටම</string>
+    <string name="anti_features">ප්‍රති-විශේෂාංග</string>
+    <string name="available">තිබේ</string>
+    <string name="cancel">අවලංගු</string>
+    <string name="all_applications_up_to_date">සියළුම යෙදුම් යාවත්කාලීනයි</string>
+    <string name="application">යෙදුම</string>
+</resources>

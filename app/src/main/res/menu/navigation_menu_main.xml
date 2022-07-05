@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/exploreTab"
+        android:icon="@drawable/ic_public"
+        android:title="@string/explore" />
+    <item
+        android:id="@+id/latestTab"
+        android:icon="@drawable/ic_new_releases"
+        android:title="@string/latest" />
+    <item
+        android:id="@+id/installedTab"
+        android:icon="@drawable/ic_launch"
+        android:title="@string/installed" />
+</menu>

@@ -1,0 +1,235 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.looker.droidify.debug"
+4    android:versionCode="45"
+5    android:versionName="0.4.5-debug" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+8-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="31" />
+9-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:6:5-67
+11-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+12-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:7:5-77
+12-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:7:22-74
+13    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+13-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:8:5-81
+13-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:8:22-78
+14    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+14-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:9:5-83
+14-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:9:22-80
+15    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+15-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:10:5-82
+15-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:10:22-79
+16    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+16-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:11:5-77
+16-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:11:22-74
+17    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
+17-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:12:5-94
+17-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:12:22-91
+18
+19    <application
+19-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:14:5-103:19
+20        android:name="com.looker.droidify.MainApplication"
+20-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:15:9-40
+21        android:allowBackup="false"
+21-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:16:9-36
+22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+22-->[androidx.core:core:1.8.0] /home/mohit/.gradle/caches/transforms-3/35f4a948deebfe6e56a5492680c1f66f/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+23        android:debuggable="true"
+24        android:icon="@mipmap/ic_launcher"
+24-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:17:9-43
+25        android:label="@string/application_name"
+25-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:18:9-49
+26        android:supportsRtl="true"
+26-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:19:9-35
+27        android:theme="@style/MainTheme" >
+27-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:20:9-41
+28        <receiver
+28-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:23:9-31:20
+29            android:name="com.looker.droidify.MainApplication$BootReceiver"
+29-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:24:13-57
+30            android:exported="true" >
+30-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:25:13-36
+31            <intent-filter>
+31-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:27:13-29:29
+32                <action android:name="android.intent.action.BOOT_COMPLETED" />
+32-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:28:17-79
+32-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:28:25-76
+33            </intent-filter>
+34        </receiver>
+35
+36        <activity
+36-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:33:9-80:20
+37            android:name="com.looker.droidify.MainActivity"
+37-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:34:13-41
+38            android:exported="true"
+38-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:35:13-36
+39            android:launchMode="singleTask"
+39-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:36:13-44
+40            android:windowSoftInputMode="adjustResize" >
+40-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:37:13-55
+41            <intent-filter>
+41-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:39:13-42:29
+42                <action android:name="android.intent.action.MAIN" />
+42-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:40:17-69
+42-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:40:25-66
+43
+44                <category android:name="android.intent.category.LAUNCHER" />
+44-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:41:17-77
+44-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:41:27-74
+45            </intent-filter>
+46            <intent-filter>
+46-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:44:13-51:29
+47                <action android:name="android.intent.action.VIEW" />
+47-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:17-69
+47-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:25-66
+48
+49                <category android:name="android.intent.category.DEFAULT" />
+49-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:17-76
+49-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:27-73
+50                <category android:name="android.intent.category.BROWSABLE" />
+50-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:17-78
+50-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:27-75
+51
+52                <data android:scheme="fdroid.app" />
+52-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+52-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:23-50
+53            </intent-filter>
+54            <intent-filter>
+54-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:53:13-62:29
+55                <action android:name="android.intent.action.VIEW" />
+55-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:17-69
+55-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:25-66
+56
+57                <category android:name="android.intent.category.DEFAULT" />
+57-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:17-76
+57-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:27-73
+58                <category android:name="android.intent.category.BROWSABLE" />
+58-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:17-78
+58-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:27-75
+59
+60                <data
+60-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+61                    android:host="details"
+61-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:60:21-43
+62                    android:scheme="market" />
+62-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:23-50
+63            </intent-filter>
+64            <intent-filter>
+64-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:64:13-78:29
+65                <action android:name="android.intent.action.VIEW" />
+65-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:17-69
+65-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:45:25-66
+66
+67                <category android:name="android.intent.category.DEFAULT" />
+67-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:17-76
+67-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:47:27-73
+68                <category android:name="android.intent.category.BROWSABLE" />
+68-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:17-78
+68-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:48:27-75
+69
+70                <data android:scheme="http" />
+70-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+70-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:23-50
+71                <data android:scheme="https" />
+71-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+71-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:23-50
+72                <data android:host="f-droid.org" />
+72-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+72-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:60:21-43
+73                <data android:host="www.f-droid.org" />
+73-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+73-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:60:21-43
+74                <data android:host="staging.f-droid.org" />
+74-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+74-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:60:21-43
+75                <data android:pathPattern="/app/.*" />
+75-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+75-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:75:23-52
+76                <data android:pathPattern="/packages/.*" />
+76-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+76-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:75:23-52
+77                <data android:pathPattern="/.*/packages/.*" />
+77-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:50:17-53
+77-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:75:23-52
+78            </intent-filter>
+79        </activity>
+80
+81        <service android:name="com.looker.droidify.service.SyncService" />
+81-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:82:9-56
+81-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:82:18-53
+82        <service
+82-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:84:9-87:72
+83            android:name="com.looker.droidify.service.SyncService$Job"
+83-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:85:13-52
+84            android:exported="true"
+84-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:86:13-36
+85            android:permission="android.permission.BIND_JOB_SERVICE" />
+85-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:87:13-69
+86        <service android:name="com.looker.droidify.service.DownloadService" />
+86-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:89:9-60
+86-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:89:18-57
+87
+88        <receiver android:name="com.looker.droidify.service.DownloadService$Receiver" />
+88-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:91:9-70
+88-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:91:19-67
+89
+90        <service
+90-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:93:9-95:40
+91            android:name="com.looker.droidify.installer.InstallerService"
+91-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:94:13-55
+92            android:exported="false" />
+92-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:95:13-37
+93
+94        <provider
+95            android:name="com.looker.droidify.content.Cache$Provider"
+95-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:98:13-51
+96            android:authorities="com.looker.droidify.debug.provider.cache"
+96-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:99:13-66
+97            android:exported="false"
+97-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:100:13-37
+98            android:grantUriPermissions="true" />
+98-->/home/mohit/AndroidStudioProjects/Droid-ify/app/src/main/AndroidManifest.xml:101:13-47
+99
+100        <uses-library
+100-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:25:9-27:40
+101            android:name="androidx.window.extensions"
+101-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:26:13-54
+102            android:required="false" />
+102-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:27:13-37
+103        <uses-library
+103-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:28:9-30:40
+104            android:name="androidx.window.sidecar"
+104-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:29:13-51
+105            android:required="false" />
+105-->[androidx.window:window:1.0.0] /home/mohit/.gradle/caches/transforms-3/9982d3983b63d32682f1426943e749ba/transformed/jetified-window-1.0.0/AndroidManifest.xml:30:13-37
+106
+107        <provider
+107-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+108            android:name="androidx.startup.InitializationProvider"
+108-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+109            android:authorities="com.looker.droidify.debug.androidx-startup"
+109-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+110            android:exported="false" >
+110-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+111            <meta-data
+111-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+112                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+112-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+113                android:value="androidx.startup" />
+113-->[androidx.emoji2:emoji2:1.0.0] /home/mohit/.gradle/caches/transforms-3/f8ad4ecbba1955e278e438ce5dfa9b77/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+114            <meta-data
+114-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/mohit/.gradle/caches/transforms-3/9841f93b088814fef45498d8400e7f50/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+115                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+115-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/mohit/.gradle/caches/transforms-3/9841f93b088814fef45498d8400e7f50/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+116                android:value="androidx.startup" />
+116-->[androidx.lifecycle:lifecycle-process:2.4.0] /home/mohit/.gradle/caches/transforms-3/9841f93b088814fef45498d8400e7f50/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+117        </provider>
+118    </application>
+119
+120</manifest>

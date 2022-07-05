@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="mtrl_badge_content_description">
+    <item quantity="one">%d yeni bildirim</item>
+    <item quantity="other">%d yeni bildirim</item>
+  </plurals>
+    <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d uygulamanın yeni bir sürümü var.</item>
+        <item quantity="other">%d uygulamanın sürümleri var.</item>
+    </plurals>
+    <string msgid="5976598919945601918" name="abc_action_bar_home_description">"Eve gidiş yolunu göster"</string>
+    <string msgid="8388173803310557296" name="abc_action_bar_up_description">"Yukarı git"</string>
+    <string msgid="3937310113216875497" name="abc_action_menu_overflow_description">"Diğer seçenekler"</string>
+    <string msgid="4692188335987374352" name="abc_action_mode_done">"Bitti"</string>
+    <string msgid="1189761859438369441" name="abc_activity_chooser_view_see_all">"Tümünü göster"</string>
+    <string msgid="2165779757652331008" name="abc_activitychooserview_choose_application">"Bir uygulama seçin"</string>
+    <string msgid="4215997306490295099" name="abc_capital_off">"KAPAT"</string>
+    <string msgid="884982626291842264" name="abc_capital_on">"AÇ"</string>
+    <string msgid="8833365367933412986" name="abc_menu_alt_shortcut_label">"Alt+"</string>
+    <string msgid="2223301931652355242" name="abc_menu_ctrl_shortcut_label">"Ctrl+"</string>
+    <string msgid="838001238306846836" name="abc_menu_delete_shortcut_label">"sil"</string>
+    <string msgid="7986526966204849475" name="abc_menu_enter_shortcut_label">"enter"</string>
+    <string msgid="375214403600139847" name="abc_menu_function_shortcut_label">"Function+"</string>
+    <string msgid="4192209724446364286" name="abc_menu_meta_shortcut_label">"Meta+"</string>
+    <string msgid="4741552369836443843" name="abc_menu_shift_shortcut_label">"Üst Karakter+"</string>
+    <string msgid="5473865519181928982" name="abc_menu_space_shortcut_label">"boşluk"</string>
+    <string msgid="6180552449598693998" name="abc_menu_sym_shortcut_label">"Sym+"</string>
+    <string msgid="5520303668377388990" name="abc_prepend_shortcut_label">"Menü+"</string>
+    <string msgid="7208076849092622260" name="abc_search_hint">"Ara…"</string>
+    <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Sorguyu temizle"</string>
+    <string msgid="693312494995508443" name="abc_searchview_description_query">"Arama sorgusu"</string>
+    <string msgid="3417662926640357176" name="abc_searchview_description_search">"Ara"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Sorguyu gönder"</string>
+    <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Sesli arama"</string>
+    <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Şununla paylaş:"</string>
+    <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"<ns1:g id="APPLICATION_NAME">%s</ns1:g> ile paylaş"</string>
+    <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Daralt"</string>
+    <string name="action_failed">Eylem başarısız oldu</string>
+    <string name="add_repository">Yeni depo ekle</string>
+    <string name="address">Depo adresi</string>
+    <string name="all_applications">Tüm uygulamalar</string>
+    <string name="all_applications_up_to_date">Tüm uygulamalarınız güncel</string>
+    <string name="already_exists">Zaten mevcut</string>
+    <string name="always">Her zaman</string>
+    <string name="amoled">Siyah</string>
+    <string name="anti_features">Karşıt özellikler</string>
+    <string name="application">Uygulama</string>
+    <string name="application_not_found">Bu uygulama bulunamadı</string>
+    <string name="author_email">Yazarın e-posta adresi</string>
+    <string name="author_website">Yazarın web sitesi</string>
+    <string name="available">Mevcut</string>
+    <string name="bottomsheet_action_expand_halfway">Yarım genişlet</string>
+    <string name="bug_tracker">Hata izleme</string>
+    <string name="cancel">İptal et</string>
+    <string name="cant_edit_sync_DESC">Depo şuan senkronize edildiği için düzenlenemiyor.</string>
+    <string name="changelog">Değişim Günlüğü</string>
+    <string name="changes">Değişiklikler</string>
+    <string name="character_counter_content_description">Girilen karakter: %1$d / %2$d</string>
+    <string name="character_counter_overflowed_content_description">Karakter sınırı aşıldı %1$d / %2$d</string>
+    <string name="checking_repository">Depo denetleniyor…</string>
+    <string name="clear_text_end_icon_content_description">Metni temizle</string>
+    <string name="compiled_for_debugging">Hata ayıklama için derlendi</string>
+    <string name="confirmation">Onay</string>
+    <string name="connecting">Bağlanıyor…</string>
+    <string name="contains_non_free_media">Özgür olmayan içerik içerir</string>
+    <string msgid="6083905920877235314" name="copy">"Kopyala"</string>
+    <string name="could_not_download_FORMAT">%s indirilemedi</string>
+    <string name="could_not_sync_FORMAT">%s senkronize edilemedi</string>
+    <string name="could_not_validate_FORMAT">%s doğrulanamadı</string>
+    <string name="credits">Katkı Sağlayanlar</string>
+    <string name="dark">Koyu</string>
+    <string name="delete">Sil</string>
+    <string name="delete_repository_DESC">Depo silinsin mi\?</string>
+    <string name="description">Açıklama</string>
+    <string name="details">Ayrıntılar</string>
+    <string name="donate">Bağış</string>
+    <string name="downloaded_FORMAT">%s indirildi</string>
+    <string name="downloading">İndiriliyor</string>
+    <string name="downloading_FORMAT">%s indiriliyor…</string>
+    <string name="edit_repository">Depoyu düzenle</string>
+    <string name="error_icon_content_description">Hata</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Gelişmiş"</string>
+    <string name="exposed_dropdown_menu_content_description">Açılır menüyü göster</string>
+    <string name="file_format_error_DESC">Geçersiz dosya biçimi.</string>
+    <string name="fingerprint">Parmak izi</string>
+    <string name="has_advertising">Reklam içerir</string>
+    <string name="has_non_free_dependencies">Özgür olmayan bağımlılıklar içerir</string>
+    <string name="has_security_vulnerabilities">Güvenlik açığına sahip</string>
+    <string name="http_error_DESC">Geçersiz sunucu yanıtı.</string>
+    <string name="http_proxy">HTTP proxy</string>
+    <string name="icon_content_description">İletişim kutusu simgesi</string>
+    <string name="ignore_all_updates">Tüm yeni sürümleri yoksay</string>
+    <string name="ignore_this_update">Bu sürümü yoksay</string>
+    <string name="incompatible_api_DESC_FORMAT">Sizin %1$s (API sürümü %2$d) desteklenmemektedir. %3$s</string>
+    <string name="incompatible_api_max_DESC_FORMAT">En yüksek API sürümü %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">En düşük API sürümü %d.</string>
+    <string name="incompatible_features_DESC">Özellikleri eksik.</string>
+    <string name="incompatible_older_DESC">Bu sürüm aygıtınızda kurulu olandan daha eski. Önce onu kaldırın.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s platformunuz desteklenmemektedir.
+    Desteklenen platformlar: %2$s.</string>
+    <string name="incompatible_signature_DESC">Bu sürüm aygıtınızda kurulu olan sürümden farklı bir sertifika ile imzalanmış. Önce onu kaldırın.</string>
+    <string name="incompatible_version">Uyumsuz sürüm</string>
+    <string name="incompatible_versions">Uyumsuz sürümler</string>
+    <string name="incompatible_versions_summary">Aygıtla uyumlu olmayan uygulama sürümlerini göster</string>
+    <string name="incompatible_with_FORMAT">%s ile uyumsuz</string>
+    <string name="install">Kur</string>
+    <string name="install_types">Kurulum Türleri</string>
+    <string name="installed">Kurulu</string>
+    <string name="integrity_check_error_DESC">Bütünlük kontrol edilemedi.</string>
+    <string name="invalid_address">Geçersiz adres</string>
+    <string name="invalid_fingerprint_format">Geçersiz parmak izi biçimi</string>
+    <string name="invalid_metadata_error_DESC">Geçersiz metaveri.</string>
+    <string name="invalid_permissions_error_DESC">Geçersiz izinler.</string>
+    <string name="invalid_signature_error_DESC">Geçersiz imza.</string>
+    <string name="invalid_username_format">Geçersiz kullanıcı adı biçimi</string>
+    <string name="item_view_role_description">Sekme</string>
+    <string name="launch">Başlat</string>
+    <string name="license">Lisans</string>
+    <string name="license_FORMAT">%s lisansı</string>
+    <string name="light">Açık</string>
+    <string name="link_copied_to_clipboard">Bağlantı panoya kopyalandı</string>
+    <string name="links">Bağlantılar</string>
+    <string name="list_animation">Liste Animasyonu</string>
+    <string name="list_animation_description">Liste canlandırmasını ana sayfada göster</string>
+    <string name="material_clock_toggle_content_description">ÖÖ veya ÖS\'yi seçin</string>
+    <string name="material_hour_selection">Saat seçin</string>
+    <string name="material_hour_suffix">Saat %1$s</string>
+    <string name="material_minute_selection">Dakikayı seçin</string>
+    <string name="material_minute_suffix">%1$s dakika</string>
+    <string name="material_timepicker_am">AM</string>
+    <string name="material_timepicker_clock_mode_description">Zaman girişi için saat moduna geçin.</string>
+    <string name="material_timepicker_hour">Saat</string>
+    <string name="material_timepicker_minute">Dakika</string>
+    <string name="material_timepicker_pm">PM</string>
+    <string name="material_timepicker_select_time">Zamanı seçin</string>
+    <string name="material_timepicker_text_input_mode_description">Zaman girişi için metin girişi moduna geçin.</string>
+    <string name="merging_FORMAT">%s birleştiriliyor</string>
+    <string name="mtrl_badge_numberless_content_description">Yeni bildirim</string>
+    <string name="mtrl_chip_close_icon_content_description">%1$s içeriğini kaldır</string>
+    <string name="mtrl_exceed_max_badge_number_content_description">%1$d adetten fazla yeni bildirim</string>
+    <string name="mtrl_picker_a11y_next_month">Sonraki aya değiştir</string>
+    <string name="mtrl_picker_a11y_prev_month">Önceki aya değiştir</string>
+    <string name="mtrl_picker_announce_current_selection">Geçerli seçim: %1$s</string>
+    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Tarih Seçin</string>
+    <string name="mtrl_picker_date_header_unselected">Seçilen tarih</string>
+    <string name="mtrl_picker_day_of_week_column_header">Gün sütunu: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Geçersiz biçim.</string>
+    <string name="mtrl_picker_invalid_format_example">Örnek: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Tarih biçimi: %1$s</string>
+    <string name="mtrl_picker_invalid_range">Geçersiz aralık.</string>
+    <string name="mtrl_picker_navigate_to_year_description">%1$s yılına git</string>
+    <string name="mtrl_picker_out_of_range">İzin verilen aralığın dışında: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Başlangıç tarihi – %1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s – Bitiş tarihi</string>
+    <string name="mtrl_picker_range_header_selected">%1$s-%2$s</string>
+    <string name="mtrl_picker_range_header_title">Aralık Seçin</string>
+    <string name="mtrl_picker_range_header_unselected">Başlangıç tarihi - Bitiş tarihi</string>
+    <string name="mtrl_picker_save">Kaydet</string>
+    <string name="mtrl_picker_text_input_date_hint">Tarih</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Bitiş tarihi</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Başlangıç tarihi</string>
+    <string name="mtrl_picker_text_input_day_abbr">g</string>
+    <string name="mtrl_picker_text_input_month_abbr">a</string>
+    <string name="mtrl_picker_text_input_year_abbr">y</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Takvim giriş moduna geç</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Gün seçmeye geçmek için dokunun</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Metin giriş moduna geç</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Yıl seçmeye geçmek için dokunun</string>
+    <string name="name">İsim</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Yukarı git"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Gezinme çekmecesini aç"</string>
+    <string name="network_error_DESC">Bağlantı hatası.</string>
+    <string name="never">Asla</string>
+    <string name="new_updates_available">Uygulamaların yeni sürümleri var</string>
+    <string name="no_applications_available">Kullanılabilir uygulama yok</string>
+    <string name="no_applications_installed">Kurulu uygulama yok</string>
+    <string name="no_description_available_DESC">Açıklama yok.</string>
+    <string name="no_matching_applications_found">Böyle bir uygulama bulunamadı</string>
+    <string name="no_proxy">Proxy yok</string>
+    <string msgid="6573031135582639649" name="not_set">"Ayarlanmadı"</string>
+    <string name="notify_about_updates">Uygulamaların yeni sürümleri hakkında bilgilendir</string>
+    <string name="notify_about_updates_summary">Yeni sürümler kullanılabilir olduğunda bir bildirim göster</string>
+    <string name="number_of_applications">Uygulama sayısı</string>
+    <string name="ok">Tamam</string>
+    <string name="only_compatible_with_FORMAT">Yalnızca %s ile uyumlu</string>
+    <string name="only_on_wifi">Yalnızca Wi-Fi\'de</string>
+    <string name="open_DESC_FORMAT">%s açılsın mı?</string>
+    <string name="other">Diğer</string>
+    <string name="parsing_index_error_DESC">Dizin dosyası çözümlenemedi.</string>
+    <string name="password">Parola</string>
+    <string name="password_missing">Parola eksik</string>
+    <string name="password_toggle_content_description">Şifreyi göster</string>
+    <string name="permissions">İzinler</string>
+    <string name="plus_more_FORMAT">+%d daha</string>
+    <string msgid="6685851473431805375" name="preference_copied">"\"<ns1:g id="SUMMARY">%1$s</ns1:g>\" panoya kopyalandı."</string>
+    <string name="prefs_language_title">Dil</string>
+    <string name="prefs_personalization">Kişiselleştirme</string>
+    <string name="processing_FORMAT">%1$s işleniyor…</string>
+    <string name="project_website">Proje web sitesi</string>
+    <string name="promotes_non_free_network_services">Özgür olmayan ağ hizmetlerini destekler</string>
+    <string name="promotes_non_free_software">Özgür olmayan yazılımı destekler</string>
+    <string name="provided_by_FORMAT">%s tarafından sağlandı</string>
+    <string name="proxy">Proxy</string>
+    <string name="proxy_host">Proxy sağlayıcısı</string>
+    <string name="proxy_port">Vekil bağlantı noktası</string>
+    <string name="proxy_type">Proxy türü</string>
+    <string name="recently_updated">Son güncelleme</string>
+    <string name="repositories">Depolar</string>
+    <string name="repository">Depo</string>
+    <string name="repository_not_used_DESC">Bu depo henüz kullanılmadı. İçindeki uygulamaları görüntülemek için etkinleştirin.</string>
+    <string name="repository_unsigned_DESC">İmzalanmamış. Uygulama listesi doğrulanamadı. İmzalanmamış depolardan uygulama indirirken dikkatli olun.</string>
+    <string name="requires_FORMAT">%s gerektirir</string>
+    <string name="root_permission">Sessiz Kurulum</string>
+    <string name="root_permission_description">Sessiz kurulumlar için root iznine izin ver</string>
+    <string name="save">Kaydet</string>
+    <string name="saving_details">Ayrıntılar kaydediliyor…</string>
+    <string name="screenshots">Ekran görüntüleri</string>
+    <string name="search">Arama</string>
+    <string msgid="6264217191555673260" name="search_menu_title">"Ara"</string>
+    <string name="select_mirror">Bir yansı seç</string>
+    <string name="settings">Ayarlar</string>
+    <string name="share">Paylaş</string>
+    <string name="show_less">Daha Az Göster</string>
+    <string name="show_more">Daha fazla göster</string>
+    <string name="show_older_versions">Eski sürümleri göster</string>
+    <string name="signature_FORMAT">İmza %s</string>
+    <string name="signed_using_unsafe_algorithm">Güvenli olmayan bir algoritma ile imzalanmış</string>
+    <string name="size">Boyut</string>
+    <string name="skip">Atla</string>
+    <string name="socks_proxy">SOCKS vekili</string>
+    <string name="sorting_order">Sıralama düzeni</string>
+    <string name="source_code">Kaynak kodu</string>
+    <string name="source_code_no_longer_available">Kaynak kodu artık mevcut değil</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="suggested">Önerilen</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string name="sync_repositories">Depoları senkronize et</string>
+    <string name="sync_repositories_automatically">Depoları otomatik senkronize et</string>
+    <string name="syncing">Senkronize ediliyor</string>
+    <string name="syncing_FORMAT">%s senkronize ediliyor…</string>
+    <string name="system">Sistem</string>
+    <string name="tap_to_install_DESC">Kurmak için dokunun.</string>
+    <string name="target">Hedef</string>
+    <string name="theme">Tema</string>
+    <string name="themes">Temalar</string>
+    <string name="tracks_or_reports_your_activity">Etkinliğinizi takip eder ya da raporlar</string>
+    <string name="uninstall">Kaldır</string>
+    <string name="unknown">Bilinmeyen</string>
+    <string name="unknown_FORMAT">Bilinmeyen: %s</string>
+    <string name="unknown_error_DESC">Bilinmeyen hata.</string>
+    <string name="unsigned">İmzalanmamış</string>
+    <string name="unstable_updates">Kararsız güncellemeler</string>
+    <string name="unstable_updates_summary">Kararsız sürümleri kurmayı öner</string>
+    <string name="unverified">Doğrulanmamış</string>
+    <string name="update">Güncelleme</string>
+    <string name="updates">Güncellemeler</string>
+    <string name="upstream_source_code_is_not_free">Yukarı akış kaynak kodu özgür değil</string>
+    <string name="username">Kullanıcı adı</string>
+    <string name="username_missing">Kullanıcı adı yok</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"KAPALI"</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"AÇIK"</string>
+    <string name="validation_index_error_DESC">Dizin doğrulanamadı.</string>
+    <string name="version">Sürüm</string>
+    <string name="version_FORMAT">Sürüm %s</string>
+    <string name="versions">Sürümler</string>
+    <string name="waiting_to_start_download">İndirmenin başlaması bekleniyor…</string>
+    <string name="website">Web sitesi</string>
+    <string name="whats_new">Ne var ne yok</string>
+</resources>

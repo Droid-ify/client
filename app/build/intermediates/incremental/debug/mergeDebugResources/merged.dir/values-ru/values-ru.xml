@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <plurals name="mtrl_badge_content_description">
+    <item quantity="one">%d новое уведомление</item>
+    <item quantity="few">%d новых уведомления</item>
+    <item quantity="many">%d новых уведомлений</item>
+    <item quantity="other">%d нового уведомления</item>
+  </plurals>
+    <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d новое обновлений.</item>
+        <item quantity="few">%d новых обновлений.</item>
+        <item quantity="many">%d новых обновлений.</item>
+        <item quantity="other">%d новых обновлений.</item>
+    </plurals>
+    <string msgid="5976598919945601918" name="abc_action_bar_home_description">"Перейти на главный экран"</string>
+    <string msgid="8388173803310557296" name="abc_action_bar_up_description">"Перейти вверх"</string>
+    <string msgid="3937310113216875497" name="abc_action_menu_overflow_description">"Ещё"</string>
+    <string msgid="4692188335987374352" name="abc_action_mode_done">"Готово"</string>
+    <string msgid="1189761859438369441" name="abc_activity_chooser_view_see_all">"Показать все"</string>
+    <string msgid="2165779757652331008" name="abc_activitychooserview_choose_application">"Выберите приложение"</string>
+    <string msgid="4215997306490295099" name="abc_capital_off">"ВЫКЛ"</string>
+    <string msgid="884982626291842264" name="abc_capital_on">"ВКЛ"</string>
+    <string msgid="8833365367933412986" name="abc_menu_alt_shortcut_label">"Alt +"</string>
+    <string msgid="2223301931652355242" name="abc_menu_ctrl_shortcut_label">"Ctrl +"</string>
+    <string msgid="838001238306846836" name="abc_menu_delete_shortcut_label">"Delete"</string>
+    <string msgid="7986526966204849475" name="abc_menu_enter_shortcut_label">"Ввод"</string>
+    <string msgid="375214403600139847" name="abc_menu_function_shortcut_label">"Fn +"</string>
+    <string msgid="4192209724446364286" name="abc_menu_meta_shortcut_label">"Meta +"</string>
+    <string msgid="4741552369836443843" name="abc_menu_shift_shortcut_label">"Shift +"</string>
+    <string msgid="5473865519181928982" name="abc_menu_space_shortcut_label">"Пробел"</string>
+    <string msgid="6180552449598693998" name="abc_menu_sym_shortcut_label">"Sym +"</string>
+    <string msgid="5520303668377388990" name="abc_prepend_shortcut_label">"Меню +"</string>
+    <string msgid="7208076849092622260" name="abc_search_hint">"Введите запрос"</string>
+    <string msgid="3741173234950517107" name="abc_searchview_description_clear">"Удалить запрос"</string>
+    <string msgid="693312494995508443" name="abc_searchview_description_query">"Поисковый запрос"</string>
+    <string msgid="3417662926640357176" name="abc_searchview_description_search">"Поиск"</string>
+    <string msgid="1486535517437947103" name="abc_searchview_description_submit">"Отправить запрос"</string>
+    <string msgid="2293578557972875415" name="abc_searchview_description_voice">"Голосовой поиск"</string>
+    <string msgid="8875138169939072951" name="abc_shareactionprovider_share_with">"Поделиться с помощью"</string>
+    <string msgid="9055268688411532828" name="abc_shareactionprovider_share_with_application">"Поделиться с помощью <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
+    <string msgid="1656852541809559762" name="abc_toolbar_collapse_description">"Свернуть"</string>
+    <string name="action_failed">Действие не удалось</string>
+    <string name="add_repository">Добавить репозиторий</string>
+    <string name="address">Адрес</string>
+    <string name="all_applications">Все приложения</string>
+    <string name="all_applications_up_to_date">Все ваши приложения в актуальном состоянии</string>
+    <string name="already_exists">Уже существует</string>
+    <string name="always">Всегда</string>
+    <string name="amoled">Черная</string>
+    <string name="anti_features">Анти-функции</string>
+    <string name="application">Приложение</string>
+    <string name="application_not_found">Не удалось найти это приложение</string>
+    <string name="author_email">Электронная почта автора</string>
+    <string name="author_website">Сайт автора</string>
+    <string name="available">Доступно</string>
+    <string name="bottomsheet_action_expand_halfway">Развернуть наполовину</string>
+    <string name="bug_tracker">Баг трекер</string>
+    <string name="cancel">Отмена</string>
+    <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
+    <string name="changelog">Список изменений</string>
+    <string name="changes">Изменения</string>
+    <string name="character_counter_content_description">Введено символов: %1$d из %2$d</string>
+    <string name="character_counter_overflowed_content_description">Превышено ограничение на количество символов (%1$d из %2$d)</string>
+    <string name="checking_repository">Проверка репозитория…</string>
+    <string name="clear_text_end_icon_content_description">Очистить текстовое поле</string>
+    <string name="compiled_for_debugging">Скомпилировано для отладки</string>
+    <string name="confirmation">Подтверждение</string>
+    <string name="connecting">Подключение…</string>
+    <string name="contains_non_free_media">Содержит несвободные материалы</string>
+    <string msgid="6083905920877235314" name="copy">"Копировать"</string>
+    <string name="could_not_download_FORMAT">Не удалось скачать %s</string>
+    <string name="could_not_sync_FORMAT">Не удалось синхронизировать %s</string>
+    <string name="could_not_validate_FORMAT">Не удалось проверить %s</string>
+    <string name="credits">Авторы</string>
+    <string name="dark">Темная</string>
+    <string name="delete">Удалить</string>
+    <string name="delete_repository_DESC">Удалить репозиторий\?</string>
+    <string name="description">Описание</string>
+    <string name="details">Подробности</string>
+    <string name="donate">Пожертвовать</string>
+    <string name="downloaded_FORMAT">Скачано %s</string>
+    <string name="downloading">Скачивание</string>
+    <string name="downloading_FORMAT">Скачивание %s…</string>
+    <string name="edit_repository">Редактировать репозиторий</string>
+    <string name="error_icon_content_description">Ошибка</string>
+    <string msgid="2427401033573778270" name="expand_button_title">"Дополнительно"</string>
+    <string name="exposed_dropdown_menu_content_description">Показать раскрывающееся меню</string>
+    <string name="file_format_error_DESC">Недопустимый формат файла.</string>
+    <string name="fingerprint">Отпечаток</string>
+    <string name="has_advertising">Имеет рекламу</string>
+    <string name="has_non_free_dependencies">Имеет несвободные зависимости</string>
+    <string name="has_security_vulnerabilities">Имеет уязвимости безопасности</string>
+    <string name="http_error_DESC">Некорректный ответ сервера.</string>
+    <string name="http_proxy">HTTP прокси</string>
+    <string name="icon_content_description">Значок диалогового окна</string>
+    <string name="ignore_all_updates">Игнорировать все новые версии</string>
+    <string name="ignore_this_update">Игнорировать эту версию</string>
+    <string name="incompatible_api_DESC_FORMAT">Ваш %1$s (версия API %2$d) не поддерживается. %3$s</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Максимальная версия API %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API %d.</string>
+    <string name="incompatible_features_DESC">Отсутствующие функции.</string>
+    <string name="incompatible_older_DESC">Эта версия старше той, которая установлена на вашем устройстве. Сначала удалите ее.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не поддерживается.
+Поддерживаемые платформы: %2$s.</string>
+    <string name="incompatible_signature_DESC">Эта версия подписана сертификатом, отличным от того, который установленным на вашем устройстве. Сначала удалите его.</string>
+    <string name="incompatible_version">Несовместимая версия</string>
+    <string name="incompatible_versions">Несовместимые версии</string>
+    <string name="incompatible_versions_summary">Показать версии приложений, несовместимые с устройством</string>
+    <string name="incompatible_with_FORMAT">Несовместимо с %s</string>
+    <string name="install">Установить</string>
+    <string name="install_types">Типы установки</string>
+    <string name="installed">Установлено</string>
+    <string name="integrity_check_error_DESC">Не удалось проверить целостность.</string>
+    <string name="invalid_address">Неверный адрес</string>
+    <string name="invalid_fingerprint_format">Неверный формат отпечатка</string>
+    <string name="invalid_metadata_error_DESC">Неверные метаданные.</string>
+    <string name="invalid_permissions_error_DESC">Неверные разрешения.</string>
+    <string name="invalid_signature_error_DESC">Неверная подпись.</string>
+    <string name="invalid_username_format">Неверный формат имени пользователя</string>
+    <string name="item_view_role_description">Вкладка</string>
+    <string name="launch">Открыть</string>
+    <string name="license">Лицензия</string>
+    <string name="license_FORMAT">Лицензия %s</string>
+    <string name="light">Светлая</string>
+    <string name="link_copied_to_clipboard">Ссылка скопирована в буфер обмена</string>
+    <string name="links">Ссылки</string>
+    <string name="list_animation">Анимация списков</string>
+    <string name="list_animation_description">Показывать анимацию списка на главной странице</string>
+    <string name="material_clock_toggle_content_description">Выберите AM (до полудня) или PM (после полудня)</string>
+    <string name="material_hour_selection">Выберите час</string>
+    <string name="material_hour_suffix">%1$s ч.</string>
+    <string name="material_minute_selection">Выберите минуты</string>
+    <string name="material_minute_suffix">%1$s мин.</string>
+    <string name="material_timepicker_am">AM</string>
+    <string name="material_timepicker_clock_mode_description">Чтобы ввести время, перейдите в режим часов.</string>
+    <string name="material_timepicker_hour">Час</string>
+    <string name="material_timepicker_minute">Минуты</string>
+    <string name="material_timepicker_pm">PM</string>
+    <string name="material_timepicker_select_time">Выбор времени</string>
+    <string name="material_timepicker_text_input_mode_description">Чтобы ввести время, перейдите в режим ввода текста.</string>
+    <string name="merging_FORMAT">Слияние %s</string>
+    <string name="mtrl_badge_numberless_content_description">Новое уведомление</string>
+    <string name="mtrl_chip_close_icon_content_description">Удалить \"%1$s\"</string>
+    <string name="mtrl_exceed_max_badge_number_content_description">Новых уведомлений больше %1$d</string>
+    <string name="mtrl_picker_a11y_next_month">Перейти к следующему месяцу</string>
+    <string name="mtrl_picker_a11y_prev_month">Перейти к предыдущему месяцу</string>
+    <string name="mtrl_picker_announce_current_selection">Выбранный элемент: %1$s</string>
+    <string name="mtrl_picker_confirm">@android:string/ok</string>
+    <string name="mtrl_picker_date_header_selected">%1$s</string>
+    <string name="mtrl_picker_date_header_title">Выберите дату</string>
+    <string name="mtrl_picker_date_header_unselected">Выбранная дата</string>
+    <string name="mtrl_picker_day_of_week_column_header">Столбец со днями недели: %1$s</string>
+    <string name="mtrl_picker_invalid_format">Недействительный формат.</string>
+    <string name="mtrl_picker_invalid_format_example">Пример: %1$s</string>
+    <string name="mtrl_picker_invalid_format_use">Используйте: %1$s</string>
+    <string name="mtrl_picker_invalid_range">Недопустимый диапазон.</string>
+    <string name="mtrl_picker_navigate_to_year_description">Перейти к %1$s году</string>
+    <string name="mtrl_picker_out_of_range">Вне диапазона: %1$s</string>
+    <string name="mtrl_picker_range_header_only_end_selected">Дата начала – %1$s</string>
+    <string name="mtrl_picker_range_header_only_start_selected">%1$s – дата окончания</string>
+    <string name="mtrl_picker_range_header_selected">%1$s – %2$s</string>
+    <string name="mtrl_picker_range_header_title">Выберите диапазон дат</string>
+    <string name="mtrl_picker_range_header_unselected">Дата начала – дата окончания</string>
+    <string name="mtrl_picker_save">Сохранить</string>
+    <string name="mtrl_picker_text_input_date_hint">Дата</string>
+    <string name="mtrl_picker_text_input_date_range_end_hint">Дата окончания</string>
+    <string name="mtrl_picker_text_input_date_range_start_hint">Дата начала</string>
+    <string name="mtrl_picker_text_input_day_abbr">д</string>
+    <string name="mtrl_picker_text_input_month_abbr">м</string>
+    <string name="mtrl_picker_text_input_year_abbr">г</string>
+    <string name="mtrl_picker_toggle_to_calendar_input_mode">Перейти в режим выбора дней</string>
+    <string name="mtrl_picker_toggle_to_day_selection">Нажмите, чтобы перейти к выбору дня</string>
+    <string name="mtrl_picker_toggle_to_text_input_mode">Перейти в режим ввода текста</string>
+    <string name="mtrl_picker_toggle_to_year_selection">Нажмите, чтобы перейти к выбору года</string>
+    <string name="name">Имя</string>
+    <string msgid="6301633601645100427" name="nav_app_bar_navigate_up_description">"Перейти вверх"</string>
+    <string msgid="7456070600745802113" name="nav_app_bar_open_drawer_description">"Открыть панель навигации"</string>
+    <string name="network_error_DESC">Ошибка сети.</string>
+    <string name="never">Никогда</string>
+    <string name="new_updates_available">Доступны новые версии приложений</string>
+    <string name="no_applications_available">Нет доступных приложений</string>
+    <string name="no_applications_installed">Нет установленных приложений</string>
+    <string name="no_description_available_DESC">Описание отсутствует.</string>
+    <string name="no_matching_applications_found">Не удалось найти ни одного подобного приложения</string>
+    <string name="no_proxy">Без прокси</string>
+    <string msgid="6573031135582639649" name="not_set">"Не указано"</string>
+    <string name="notify_about_updates">Уведомлять о новых версиях приложений</string>
+    <string name="notify_about_updates_summary">Отображать уведомление о доступности новых версий</string>
+    <string name="number_of_applications">Количество приложений</string>
+    <string name="ok">ОК</string>
+    <string name="only_compatible_with_FORMAT">Совместимо только с %s</string>
+    <string name="only_on_wifi">Только по Wi-Fi</string>
+    <string name="open_DESC_FORMAT">Открыть %s?</string>
+    <string name="other">Прочее</string>
+    <string name="parsing_index_error_DESC">Не удалось разобрать индексный файл.</string>
+    <string name="password">Пароль</string>
+    <string name="password_missing">Пароль отсутствует</string>
+    <string name="password_toggle_content_description">Показать пароль</string>
+    <string name="permissions">Разрешения</string>
+    <string name="plus_more_FORMAT">+%d больше</string>
+    <string msgid="6685851473431805375" name="preference_copied">"Текст \"<ns1:g id="SUMMARY">%1$s</ns1:g>\" скопирован в буфер обмена"</string>
+    <string name="prefs_language_title">Язык</string>
+    <string name="prefs_personalization">Персонализация</string>
+    <string name="processing_FORMAT">Обработка %1$s…</string>
+    <string name="project_website">Сайт проекта</string>
+    <string name="promotes_non_free_network_services">Продвигает несвободные сетевые услуги</string>
+    <string name="promotes_non_free_software">Продвижение несвободного ПО</string>
+    <string name="provided_by_FORMAT">Предоставлено %s</string>
+    <string name="proxy">Прокси</string>
+    <string name="proxy_host">Хост прокси</string>
+    <string name="proxy_port">Порт прокси</string>
+    <string name="proxy_type">Тип прокси</string>
+    <string name="recently_updated">Недавно обновленный</string>
+    <string name="repositories">Репозитории</string>
+    <string name="repository">Репозиторий</string>
+    <string name="repository_not_used_DESC">Этот репозиторий еще не использовался. Вам необходимо включить его для просмотра находящиеся в нем приложений.</string>
+    <string name="repository_unsigned_DESC">Подпись отсутствует. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
+    <string name="requires_FORMAT">Требуется %s</string>
+    <string name="root_permission">Тихая установка</string>
+    <string name="root_permission_description">Предоставить Root права для включения тихой установки</string>
+    <string name="save">Сохранить</string>
+    <string name="saving_details">Сохранение данных…</string>
+    <string name="screenshots">Скриншоты</string>
+    <string name="search">Поиск</string>
+    <string msgid="6264217191555673260" name="search_menu_title">"Поиск"</string>
+    <string name="select_mirror">Выберите зеркало</string>
+    <string name="settings">Настройки</string>
+    <string name="share">Поделиться</string>
+    <string name="show_less">Показать меньше</string>
+    <string name="show_more">Показать больше</string>
+    <string name="show_older_versions">Показать старые версии</string>
+    <string name="signature_FORMAT">Подпись %s</string>
+    <string name="signed_using_unsafe_algorithm">Подписано с использованием небезопасного алгоритма</string>
+    <string name="size">Размер</string>
+    <string name="skip">Пропустить</string>
+    <string name="socks_proxy">SOCKS прокси</string>
+    <string name="sorting_order">Сортировка</string>
+    <string name="source_code">Исходный код</string>
+    <string name="source_code_no_longer_available">Исходный код больше не доступен</string>
+    <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">">999"</string>
+    <string name="suggested">Рекомендуется</string>
+    <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
+    <string name="sync_repositories">Синхронизация репозиториев</string>
+    <string name="sync_repositories_automatically">Синхронизировать репозитории автоматически</string>
+    <string name="syncing">Синхронизация</string>
+    <string name="syncing_FORMAT">Синхронизация %s…</string>
+    <string name="system">Система</string>
+    <string name="tap_to_install_DESC">Нажмите, чтобы установить.</string>
+    <string name="target">Целевой</string>
+    <string name="theme">Тема</string>
+    <string name="themes">Темы</string>
+    <string name="tracks_or_reports_your_activity">Отслеживает или сообщает о вашей активности</string>
+    <string name="uninstall">Удалить</string>
+    <string name="unknown">Неизвестно</string>
+    <string name="unknown_FORMAT">Неизвестно: %s</string>
+    <string name="unknown_error_DESC">Неизвестная ошибка.</string>
+    <string name="unsigned">Неподписанный</string>
+    <string name="unstable_updates">Нестабильные обновления</string>
+    <string name="unstable_updates_summary">Предлагать установить нестабильные версии</string>
+    <string name="unverified">Непроверенный</string>
+    <string name="update">Обновить</string>
+    <string name="updates">Обновления</string>
+    <string name="upstream_source_code_is_not_free">Исходный код вышестоящего не является открытым</string>
+    <string name="username">Имя пользователя</string>
+    <string name="username_missing">Имя пользователя отсутствует</string>
+    <string msgid="3140233346420563315" name="v7_preference_off">"ВЫКЛ."</string>
+    <string msgid="89551595707643515" name="v7_preference_on">"ВКЛ."</string>
+    <string name="validation_index_error_DESC">Индекс не может быть проверен.</string>
+    <string name="version">Версия</string>
+    <string name="version_FORMAT">Версия %s</string>
+    <string name="versions">Версии</string>
+    <string name="waiting_to_start_download">Ожидание скачивания…</string>
+    <string name="website">Веб-сайт</string>
+    <string name="whats_new">Что нового</string>
+</resources>
