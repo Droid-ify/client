@@ -118,6 +118,7 @@ dependencies {
     implementation "androidx.preference:preference-ktx:1.2.0"
     implementation "androidx.navigation:navigation-fragment-ktx:2.5.0"
     implementation "androidx.navigation:navigation-ui-ktx:2.5.0"
+    implementation 'me.zhanghai.android.fastscroll:library:1.1.8'
 
     // Material3
     implementation 'com.google.android.material:material:1.6.1'
