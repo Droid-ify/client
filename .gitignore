@@ -1,6 +1,7 @@
 /*
 !/.gitignore
 !/build.gradle
+!/settings.gradle.kts
 !/COPYING
 !/gradle
 !/gradle.properties
