@@ -24,6 +24,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/application_name"
         android:supportsRtl="true"
+        android:testOnly="true"
         android:theme="@style/MainTheme" >
         <receiver
             android:name="com.looker.droidify.MainApplication$BootReceiver"
