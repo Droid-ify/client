@@ -32,6 +32,7 @@ object Downloader {
 
 	private fun createClient(proxy: Proxy?, cache: Cache?): OkHttpClient {
 		return OkHttpClient.Builder()
+			.fastFallback(true)
 			.connectTimeout(30L, TimeUnit.SECONDS)
 			.readTimeout(15L, TimeUnit.SECONDS)
 			.writeTimeout(15L, TimeUnit.SECONDS)
