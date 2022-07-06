@@ -10,6 +10,9 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -111,19 +114,28 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 
 		val content = fragmentBinding.fragmentContent
-		content.addView(RecyclerView(content.context).apply {
-			id = android.R.id.list
-			this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-			isMotionEventSplittingEnabled = false
-			isVerticalScrollBarEnabled = false
-			val adapter = AppDetailAdapter(this@AppDetailFragment)
-			this.adapter = adapter
-			addOnScrollListener(scrollListener)
-			savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
-				?.let(adapter::restoreState)
-			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
-			recyclerView = this
-		})
+		content.addView(
+			RecyclerView(content.context).apply {
+				id = android.R.id.list
+				this.layoutManager =
+					LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+				isMotionEventSplittingEnabled = false
+				isVerticalScrollBarEnabled = false
+				val adapter = AppDetailAdapter(this@AppDetailFragment)
+				this.adapter = adapter
+				addOnScrollListener(scrollListener)
+				savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+					?.let(adapter::restoreState)
+				layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+				recyclerView = this
+				clipToPadding = false
+				ViewCompat.setOnApplyWindowInsetsListener(this) { list, windowInsets ->
+					val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+					list.updatePadding(bottom = insets.bottom)
+					WindowInsetsCompat.CONSUMED
+				}
+			}
+		)
 
 		var first = true
 		productDisposable = Observable.just(Unit)

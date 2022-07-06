@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
@@ -28,22 +31,30 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 	): View {
 		val view = fragmentBinding.root.apply {
 			val content = fragmentBinding.fragmentContent
-			content.addView(RecyclerView(content.context).apply {
-				id = android.R.id.list
-				layoutManager = LinearLayoutManager(context)
-				isMotionEventSplittingEnabled = false
-				setHasFixedSize(true)
-				adapter = RepositoriesAdapter({ screenActivity.navigateRepository(it.id) },
-					{ repository, isEnabled ->
-						repository.enabled != isEnabled &&
-								syncConnection.binder?.setEnabled(repository, isEnabled) == true
-					})
-				recyclerView = this
-				FastScrollerBuilder(this)
-					.setThumbDrawable(context.getDrawableCompat(R.drawable.scrollbar_thumb))
-					.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
-					.build()
-			})
+			content.addView(
+				RecyclerView(content.context).apply {
+					id = android.R.id.list
+					layoutManager = LinearLayoutManager(context)
+					isMotionEventSplittingEnabled = false
+					setHasFixedSize(true)
+					adapter = RepositoriesAdapter({ screenActivity.navigateRepository(it.id) },
+						{ repository, isEnabled ->
+							repository.enabled != isEnabled &&
+									syncConnection.binder?.setEnabled(repository, isEnabled) == true
+						})
+					recyclerView = this
+					clipToPadding = false
+					FastScrollerBuilder(this)
+						.setThumbDrawable(context.getDrawableCompat(R.drawable.scrollbar_thumb))
+						.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
+						.build()
+					ViewCompat.setOnApplyWindowInsetsListener(this) { list, windowInsets ->
+						val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+						list.updatePadding(bottom = insets.bottom)
+						WindowInsetsCompat.CONSUMED
+					}
+				}
+			)
 		}
 		this.toolbar = fragmentBinding.toolbar
 		this.collapsingToolbar = fragmentBinding.collapsingToolbar

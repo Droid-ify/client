@@ -9,6 +9,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
@@ -76,6 +79,12 @@ class RepositoryFragment() : ScreenFragment() {
 
 		val content = fragmentBinding.fragmentContent
 		val scroll = NestedScrollView(content.context)
+		scroll.clipToPadding = false
+		ViewCompat.setOnApplyWindowInsetsListener(scroll) { list, windowInsets ->
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			list.updatePadding(bottom = insets.bottom)
+			WindowInsetsCompat.CONSUMED
+		}
 		scroll.id = android.R.id.list
 		scroll.isFillViewport = true
 		content.addView(scroll)

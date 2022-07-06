@@ -13,6 +13,9 @@ import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.net.toUri
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -48,6 +51,12 @@ class SettingsFragment : ScreenFragment() {
 
 		val content = fragmentBinding.fragmentContent
 		val scroll = NestedScrollView(content.context)
+		scroll.clipToPadding = false
+		ViewCompat.setOnApplyWindowInsetsListener(scroll) { list, windowInsets ->
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			list.updatePadding(bottom = insets.bottom)
+			WindowInsetsCompat.CONSUMED
+		}
 		scroll.id = R.id.preferences_list
 		scroll.isFillViewport = true
 		content.addView(

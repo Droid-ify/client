@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -74,6 +77,12 @@ class AppListFragment() : BaseFragment(), CursorOwner.Callback {
 				.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
 				.build()
 			recyclerView = this
+			clipToPadding = false
+			ViewCompat.setOnApplyWindowInsetsListener(this) { list, windowInsets ->
+				val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+				list.updatePadding(top = 16, bottom = insets.bottom)
+				WindowInsetsCompat.CONSUMED
+			}
 		}
 	}
 

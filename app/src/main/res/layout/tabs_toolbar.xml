@@ -9,7 +9,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:backgroundTint="?attr/colorSurface" />
+        android:background="@android:color/transparent" />
 
     <com.google.android.material.circularreveal.CircularRevealFrameLayout
         android:id="@+id/section_layout"

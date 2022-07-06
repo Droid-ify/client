@@ -12,6 +12,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -110,6 +113,12 @@ class EditRepositoryFragment() : ScreenFragment() {
 		)
 
 		content.addView(editRepositoryBinding.root)
+		editRepositoryBinding.root.clipToPadding = false
+		ViewCompat.setOnApplyWindowInsetsListener(editRepositoryBinding.root) { list, windowInsets ->
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			list.updatePadding(bottom = insets.bottom)
+			WindowInsetsCompat.CONSUMED
+		}
 		val layout = Layout(editRepositoryBinding)
 		this.layout = layout
 

@@ -2,6 +2,7 @@ package com.looker.droidify.screen
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
@@ -10,6 +11,10 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -18,6 +23,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.elevation.SurfaceColors
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
@@ -31,7 +39,6 @@ import com.looker.droidify.ui.fragments.AppListFragment
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.DividerItemDecoration
@@ -261,6 +268,12 @@ class TabsFragment : ScreenFragment() {
 			}
 		updateSection()
 
+		val backgroundPath = ShapeAppearanceModel.builder()
+			.setAllCornerSizes(context?.resources?.getDimension(R.dimen.shape_medium_corner) ?: 0F)
+			.build()
+		val background = MaterialShapeDrawable(backgroundPath)
+		val color = SurfaceColors.SURFACE_3.getColor(requireContext())
+		background.fillColor = ColorStateList.valueOf(color)
 		val sectionsList = RecyclerView(toolbar.context).apply {
 			id = R.id.sections_list
 			layoutManager = LinearLayoutManager(context)
@@ -277,12 +290,22 @@ class TabsFragment : ScreenFragment() {
 			}
 			this.adapter = adapter
 			addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
-			background = context.getDrawableCompat(R.drawable.background_border)
+			this.background = background
 			elevation = resources.sizeScaled(4).toFloat()
 			content.addView(this)
-			val margins = resources.sizeScaled(8)
-			(layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
 			visibility = View.GONE
+		}
+		ViewCompat.setOnApplyWindowInsetsListener(sectionsList) { list, windowInsets ->
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			val margins = resources.sizeScaled(8)
+			list.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+				leftMargin = margins
+				rightMargin = margins
+				topMargin = margins
+				bottomMargin = insets.bottom
+			}
+			list.updatePadding(bottom = insets.bottom)
+			WindowInsetsCompat.CONSUMED
 		}
 		this.sectionsList = sectionsList
 

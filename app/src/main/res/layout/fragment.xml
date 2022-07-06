@@ -10,7 +10,8 @@
         style="?attr/appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
+        app:elevation="8dp"
+        app:liftOnScroll="false">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -23,7 +24,9 @@
                 android:id="@+id/toolbar"
                 style="?attr/toolbarStyle"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize" />
+                android:layout_height="?actionBarSize"
+                android:background="@android:color/transparent"
+                android:elevation="0dp" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
         <com.google.android.material.circularreveal.CircularRevealFrameLayout
@@ -32,12 +35,11 @@
             android:layout_height="wrap_content" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.card.MaterialCardView
+    <FrameLayout
         android:id="@+id/fragment_content"
-        style="?materialCardViewFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="?android:colorBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:shapeAppearanceOverlay="@style/Shape.BottomSheet" />
+        android:background="?android:colorBackground"
+        android:paddingHorizontal="8dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
