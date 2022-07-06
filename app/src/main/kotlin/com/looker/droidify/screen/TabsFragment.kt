@@ -83,7 +83,7 @@ class TabsFragment : ScreenFragment() {
 						.forEach { index -> it.getChildAt(index)!!.isEnabled = !value }
 				}
 				layout?.sectionIcon?.scaleY = if (value) -1f else 1f
-				if ((sectionsList?.parent as? View)?.height ?: 0 > 0) {
+				if (((sectionsList?.parent as? View)?.height ?: 0) > 0) {
 					animateSectionsList()
 				}
 			}
@@ -199,7 +199,7 @@ class TabsFragment : ScreenFragment() {
 		val layout = Layout(tabsBinding)
 		this.layout = layout
 
-		showSections = savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0 != 0
+		showSections = (savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0) != 0
 		sections = savedInstanceState?.getParcelableArrayList<ProductItem.Section>(STATE_SECTIONS)
 			.orEmpty()
 		section = savedInstanceState?.getParcelable(STATE_SECTION) ?: ProductItem.Section.All
@@ -268,6 +268,7 @@ class TabsFragment : ScreenFragment() {
 			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
 			val adapter = SectionsAdapter({ sections }) {
+				this.scrollToPosition(0)
 				if (showSections) {
 					showSections = false
 					section = it
@@ -578,7 +579,7 @@ class TabsFragment : ScreenFragment() {
 			viewType: ViewType,
 		): RecyclerView.ViewHolder {
 			return SectionViewHolder(parent.context).apply {
-				itemView.setOnClickListener { onClick(sections()[adapterPosition]) }
+				itemView.setOnClickListener { onClick(sections()[absoluteAdapterPosition]) }
 			}
 		}
 
