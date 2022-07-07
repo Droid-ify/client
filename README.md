@@ -25,7 +25,7 @@ width="40%">](https://hosted.weblate.org/projects/droidify/localization/)
 &nbsp;&nbsp;
 [<img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
 alt="Join Telegram Channel"
-width="30%">](https://t.me/droid_ify)
+width="30%">](https://t.me/droidify)
 [<img src = "https://hosted.weblate.org/widgets/droidify/-/open-graph.png"
 alt= "Translation State"
 width="60%">](https://hosted.weblate.org/projects/droidify/localization/)
