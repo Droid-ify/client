@@ -18,7 +18,7 @@ import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.notificationManager
@@ -350,7 +350,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			) {
 				ValidationError.METADATA
 			} else {
-				val signature = packageInfo.singleSignature?.let(Utils::calculateHash).orEmpty()
+				val signature = packageInfo.singleSignature?.calculateHash.orEmpty()
 				if (signature.isEmpty() || signature != task.release.signature) {
 					ValidationError.SIGNATURE
 				} else {

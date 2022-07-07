@@ -35,7 +35,7 @@ object Utils {
 	}
 
 	fun PackageInfo.toInstalledItem(): InstalledItem {
-		val signatureString = singleSignature?.let(Utils::calculateHash).orEmpty()
+		val signatureString = singleSignature?.calculateHash.orEmpty()
 		return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
 	}
 
@@ -51,37 +51,39 @@ object Utils {
 		return context.getDrawableCompat(resId).mutate()
 	}
 
-	fun calculateHash(signature: Signature): String {
-		return MessageDigest.getInstance("MD5").digest(signature.toCharsString().toByteArray())
+	inline val Signature.calculateHash
+		get() = MessageDigest.getInstance("MD5")
+			.digest(toCharsString().toByteArray())
 			.hex()
-	}
 
-	fun calculateFingerprint(certificate: Certificate): String {
-		val encoded = try {
-			certificate.encoded
-		} catch (e: CertificateEncodingException) {
-			null
+	inline val Certificate.fingerprint: String
+		get() {
+			val encoded = try {
+				encoded
+			} catch (e: CertificateEncodingException) {
+				null
+			}
+			return encoded?.fingerprint.orEmpty()
 		}
-		return encoded?.let(::calculateFingerprint).orEmpty()
-	}
 
-	fun calculateFingerprint(key: ByteArray): String {
-		return if (key.size >= 256) {
-			try {
-				val fingerprint = MessageDigest.getInstance("SHA-256").digest(key)
-				val builder = StringBuilder()
-				for (byte in fingerprint) {
-					builder.append("%02X".format(Locale.US, byte.toInt() and 0xff))
+	inline val ByteArray.fingerprint: String
+		get() {
+			return if (size >= 256) {
+				try {
+					val fingerprint = MessageDigest.getInstance("SHA-256").digest(this)
+					val builder = StringBuilder()
+					for (byte in fingerprint) {
+						builder.append("%02X".format(Locale.US, byte.toInt() and 0xff))
+					}
+					builder.toString()
+				} catch (e: Exception) {
+					e.printStackTrace()
+					""
 				}
-				builder.toString()
-			} catch (e: Exception) {
-				e.printStackTrace()
+			} else {
 				""
 			}
-		} else {
-			""
 		}
-	}
 
 	val rootInstallerEnabled: Boolean
 		get() = Preferences[Preferences.Key.RootPermission] &&

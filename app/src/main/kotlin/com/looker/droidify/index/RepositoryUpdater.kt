@@ -10,7 +10,7 @@ import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
 import com.looker.droidify.utility.RxUtils
-import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.text.unhex
 import io.reactivex.rxjava3.core.Observable
@@ -374,10 +374,10 @@ object RepositoryUpdater {
 								}
 							}
 						}
-						val fingerprintFromJar = Utils.calculateFingerprint(certificateFromJar)
+						val fingerprintFromJar = certificateFromJar.fingerprint
 						if (indexType.certificateFromIndex) {
 							val fingerprintFromIndex =
-								certificateFromIndex?.unhex()?.let(Utils::calculateFingerprint)
+								certificateFromIndex?.unhex()?.fingerprint
 							if (fingerprintFromIndex == null || fingerprintFromJar != fingerprintFromIndex) {
 								throw UpdateException(
 									ErrorType.VALIDATION,
