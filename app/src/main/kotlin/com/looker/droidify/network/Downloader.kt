@@ -2,8 +2,10 @@ package com.looker.droidify.network
 
 import com.looker.droidify.utility.ProgressInputStream
 import com.looker.droidify.utility.RxUtils
+import com.looker.droidify.utility.extension.await
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Cache
 import okhttp3.Call
 import okhttp3.OkHttpClient
@@ -13,6 +15,7 @@ import java.io.FileOutputStream
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.resume
 
 object Downloader {
 	private data class ClientConfiguration(val cache: Cache?, val onion: Boolean)
@@ -65,6 +68,58 @@ object Downloader {
 			}
 		}
 		return client.newCall(newRequest)
+	}
+
+	suspend inline fun downloadFile(
+		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
+		crossinline callback: (read: Long, total: Long?) -> Unit
+	): Result {
+		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
+		val request = Request.Builder().url(url)
+			.apply {
+				if (entityTag.isNotEmpty()) addHeader("If-None-Match", entityTag)
+				else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
+				if (start != null) addHeader("Range", "bytes=$start-")
+			}
+
+		val result = createCall(request, authentication, null).await()
+		return suspendCancellableCoroutine { cont ->
+			result.use { response ->
+				if (result.code == 304) {
+					cont.resume(Result(response.code, lastModified, entityTag))
+				} else {
+					val body = response.body
+					val append = start != null && response.header("Content-Range") != null
+					val progressStart = if (append && start != null) start else 0L
+					val progressTotal =
+						body.contentLength().let { if (it >= 0L) it else null }
+							?.let { progressStart + it }
+					val inputStream = ProgressInputStream(body.byteStream()) {
+						if (Thread.interrupted()) {
+							throw InterruptedException()
+						}
+						callback(progressStart + it, progressTotal)
+					}
+					inputStream.use { input ->
+						val outputStream = if (append) FileOutputStream(
+							target,
+							true
+						) else FileOutputStream(target)
+						outputStream.use { output ->
+							input.copyTo(output)
+							output.fd.sync()
+						}
+					}
+					cont.resume(
+						Result(
+							response.code,
+							response.header("Last-Modified").orEmpty(),
+							response.header("ETag").orEmpty()
+						)
+					)
+				}
+			}
+		}
 	}
 
 	fun download(

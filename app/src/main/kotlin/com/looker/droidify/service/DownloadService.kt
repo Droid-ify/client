@@ -28,8 +28,6 @@ import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.formatSize
 import com.looker.droidify.utility.extension.text.hex
 import com.looker.droidify.utility.extension.text.nullIfEmpty
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -43,12 +41,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 		private const val EXTRA_CACHE_FILE_NAME =
 			"${BuildConfig.APPLICATION_ID}.intent.extra.CACHE_FILE_NAME"
-
-		private val mutableDownloadState = MutableSharedFlow<State.Downloading>()
-		private val downloadState = mutableDownloadState.asSharedFlow()
 	}
 
-	val scope = CoroutineScope(Dispatchers.Default)
+	val scope = CoroutineScope(Dispatchers.IO)
 
 	class Receiver : BroadcastReceiver() {
 		override fun onReceive(context: Context, intent: Intent) {
@@ -79,6 +74,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	sealed class State(val packageName: String, val name: String) {
+		object EMPTY : State("", "")
 		class Pending(packageName: String, name: String) : State(packageName, name)
 		class Connecting(packageName: String, name: String) : State(packageName, name)
 		class Downloading(packageName: String, name: String, val read: Long, val total: Long?) :
@@ -92,6 +88,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		class Cancel(packageName: String, name: String) : State(packageName, name)
 	}
 
+	private val mutableDownloadState = MutableStateFlow<State>(State.EMPTY)
 	private val mutableStateSubject = MutableSharedFlow<State>()
 
 	private class Task(
@@ -102,7 +99,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			get() = "download-$packageName"
 	}
 
-	private data class CurrentTask(val task: Task, val disposable: Disposable, val lastState: State)
+	private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
 
 	private var started = false
 	private val tasks = mutableListOf<Task>()
@@ -156,7 +153,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		downloadState.debounce(50L).onEach { publishForegroundState(false, it) }.launchIn(scope)
+		mutableDownloadState.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
@@ -195,7 +192,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						)
 					)
 				}
-				it.disposable.dispose()
+				it.job.cancel()
 			}
 		}
 	}
@@ -415,12 +412,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
 							throw IllegalStateException()
 						}
+						State.EMPTY -> setProgress(1, 0, true)
 					}::class
 				}.build())
 				mutableStateSubject.emit(state)
 			}
 		}
 
+	// TODO: Fix file corruption
 	private fun handleDownload() {
 		if (currentTask == null) {
 			if (tasks.isNotEmpty()) {
@@ -434,38 +433,51 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				lateinit var disposable: Disposable
-				disposable = Downloader
-					.download(
+				val job = scope.launch {
+					val result = Downloader.downloadFile(
 						task.url,
 						partialReleaseFile,
 						"",
 						"",
 						task.authentication
 					) { read, total ->
-						if (!disposable.isDisposed) {
-							scope.launch {
-								mutableDownloadState.emit(
-									State.Downloading(
-										task.packageName,
-										task.name,
-										read,
-										total
-									)
+						launch {
+							mutableDownloadState.emit(
+								State.Downloading(
+									packageName = task.packageName,
+									name = task.name,
+									read = read,
+									total = total
 								)
-							}
+							)
 						}
 					}
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe { result, throwable ->
-						currentTask = null
-						throwable?.printStackTrace()
-						if (result == null || !result.success) {
-							showNotificationError(
-								task,
-								if (result != null) ErrorType.Http else ErrorType.Network
+
+					currentTask = null
+					if (!result.success) {
+						showNotificationError(task, ErrorType.Http)
+						launch {
+							mutableStateSubject.emit(
+								State.Error(
+									task.packageName,
+									task.name
+								)
 							)
-							scope.launch {
+						}
+					} else {
+						val validationError = validatePackage(task, partialReleaseFile)
+						if (validationError == null) {
+							val releaseFile =
+								Cache.getReleaseFile(
+									this@DownloadService,
+									task.release.cacheFileName
+								)
+							partialReleaseFile.renameTo(releaseFile)
+							publishSuccess(task)
+						} else {
+							partialReleaseFile.delete()
+							showNotificationError(task, ErrorType.Validation(validationError))
+							launch {
 								mutableStateSubject.emit(
 									State.Error(
 										task.packageName,
@@ -473,29 +485,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 									)
 								)
 							}
-						} else {
-							val validationError = validatePackage(task, partialReleaseFile)
-							if (validationError == null) {
-								val releaseFile =
-									Cache.getReleaseFile(this, task.release.cacheFileName)
-								partialReleaseFile.renameTo(releaseFile)
-								publishSuccess(task)
-							} else {
-								partialReleaseFile.delete()
-								showNotificationError(task, ErrorType.Validation(validationError))
-								scope.launch {
-									mutableStateSubject.emit(
-										State.Error(
-											task.packageName,
-											task.name
-										)
-									)
-								}
-							}
 						}
-						handleDownload()
 					}
-				currentTask = CurrentTask(task, disposable, initialState)
+					handleDownload()
+				}
+				currentTask = CurrentTask(task, job, initialState)
 			} else if (started) {
 				started = false
 				stopForeground(true)

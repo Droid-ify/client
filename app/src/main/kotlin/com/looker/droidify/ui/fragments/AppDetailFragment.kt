@@ -362,7 +362,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				state.read,
 				state.total
 			)
-			is DownloadService.State.Success, is DownloadService.State.Error, is DownloadService.State.Cancel, null -> null
+			else -> null
 		}
 		val downloading = status != null
 		if (this.downloading != downloading) {
