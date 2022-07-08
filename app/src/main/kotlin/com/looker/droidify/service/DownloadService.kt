@@ -3,8 +3,6 @@ package com.looker.droidify.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.ContextThemeWrapper
@@ -37,42 +35,10 @@ import kotlin.math.roundToInt
 
 class DownloadService : ConnectionService<DownloadService.Binder>() {
 	companion object {
-		private const val ACTION_OPEN = "${BuildConfig.APPLICATION_ID}.intent.action.OPEN"
-		private const val ACTION_INSTALL = "${BuildConfig.APPLICATION_ID}.intent.action.INSTALL"
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
-		private const val EXTRA_CACHE_FILE_NAME =
-			"${BuildConfig.APPLICATION_ID}.intent.extra.CACHE_FILE_NAME"
 	}
 
 	val scope = CoroutineScope(Dispatchers.IO)
-
-	class Receiver : BroadcastReceiver() {
-		override fun onReceive(context: Context, intent: Intent) {
-			val action = intent.action.orEmpty()
-			when {
-				action.startsWith("$ACTION_OPEN.") -> {
-					val packageName = action.substring(ACTION_OPEN.length + 1)
-					context.startActivity(
-						Intent(context, MainActivity::class.java)
-							.setAction(Intent.ACTION_VIEW)
-							.setData(Uri.parse("package:$packageName"))
-							.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-					)
-				}
-				action.startsWith("$ACTION_INSTALL.") -> {
-					val packageName = action.substring(ACTION_INSTALL.length + 1)
-					val cacheFileName = intent.getStringExtra(EXTRA_CACHE_FILE_NAME)
-					context.startActivity(
-						Intent(context, MainActivity::class.java)
-							.setAction(MainActivity.ACTION_INSTALL)
-							.setData(Uri.parse("package:$packageName"))
-							.putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, cacheFileName)
-							.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-					)
-				}
-			}
-		}
-	}
 
 	sealed class State(val packageName: String, val name: String) {
 		object EMPTY : State("", "")

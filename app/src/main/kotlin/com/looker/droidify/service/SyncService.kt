@@ -252,10 +252,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					this,
 					0,
 					Intent(this, this::class.java).setAction(ACTION_CANCEL),
-					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-						PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-					else
-						PendingIntent.FLAG_UPDATE_CURRENT
+					if (Android.sdk(23)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+					else PendingIntent.FLAG_UPDATE_CURRENT
 				)
 			)
 	}
