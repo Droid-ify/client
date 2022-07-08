@@ -6,11 +6,11 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
@@ -48,9 +48,9 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	}
 
 	private class LoadingViewHolder(context: Context) :
-		RecyclerView.ViewHolder(CircularRevealFrameLayout(context)) {
+		RecyclerView.ViewHolder(FrameLayout(context)) {
 		init {
-			itemView as CircularRevealFrameLayout
+			itemView as FrameLayout
 			val progressBar = CircularProgressIndicator(itemView.context)
 			itemView.addView(progressBar)
 			itemView.layoutParams = RecyclerView.LayoutParams(

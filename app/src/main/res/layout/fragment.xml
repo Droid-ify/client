@@ -29,7 +29,7 @@
                 android:elevation="0dp" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-        <com.google.android.material.circularreveal.CircularRevealFrameLayout
+        <FrameLayout
             android:id="@+id/toolbar_extra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

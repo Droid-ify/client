@@ -10,6 +10,7 @@ import android.text.InputType
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.net.toUri
@@ -22,7 +23,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.circularreveal.CircularRevealFrameLayout
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.TextInputEditText
@@ -64,7 +64,7 @@ class SettingsFragment : ScreenFragment() {
 			ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.MATCH_PARENT
 		)
-		val scrollLayout = CircularRevealFrameLayout(content.context)
+		val scrollLayout = FrameLayout(content.context)
 		scroll.addView(
 			scrollLayout,
 			ViewGroup.LayoutParams.MATCH_PARENT,

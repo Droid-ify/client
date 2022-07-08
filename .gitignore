@@ -15,3 +15,5 @@
 .cxx
 local.properties
 /.idea/
+/release/droidify-release.apk
+/release/output-metadata.json

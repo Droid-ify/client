@@ -11,7 +11,7 @@
         android:layout_height="48dp"
         android:background="@android:color/transparent" />
 
-    <com.google.android.material.circularreveal.CircularRevealFrameLayout
+    <FrameLayout
         android:id="@+id/section_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp">
@@ -46,5 +46,5 @@
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-    </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+    </FrameLayout>
 </androidx.appcompat.widget.LinearLayoutCompat>

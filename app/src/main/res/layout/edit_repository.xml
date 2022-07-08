@@ -19,7 +19,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="12dp">
 
-            <com.google.android.material.circularreveal.CircularRevealFrameLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -48,7 +48,7 @@
                     android:visibility="gone"
                     tools:ignore="ContentDescription" />
 
-            </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+            </FrameLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
