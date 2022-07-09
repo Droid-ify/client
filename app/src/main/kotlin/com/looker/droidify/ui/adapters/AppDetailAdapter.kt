@@ -14,7 +14,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
-import android.text.format.DateFormat
 import android.text.style.*
 import android.text.util.Linkify
 import android.view.Gravity
@@ -58,6 +57,10 @@ import com.looker.droidify.utility.extension.text.trimBefore
 import com.looker.droidify.widget.ClickableMovementMethod
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -477,8 +480,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val dateFormat = DateFormat.getDateFormat(itemView.context)!!
-
 		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
 		val status = itemView.findViewById<MaterialTextView>(R.id.installation_status)!!
 		val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
@@ -1352,7 +1353,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.source.text =
 					context.getString(R.string.provided_by_FORMAT, item.repository.name)
-				holder.added.text = holder.dateFormat.format(item.release.added)
+				holder.added.text = LocalDateTime.ofInstant(
+					Instant.ofEpochMilli(item.release.added),
+					TimeZone.getDefault().toZoneId()
+				).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 				holder.size.text = item.release.size.formatSize()
 				holder.signature.visibility =
 					if (item.showSignature && item.release.signature.isNotEmpty())
