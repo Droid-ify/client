@@ -170,4 +170,11 @@
     <string name="unstable_updates_summary">Suggérer l\'installation de versions instables</string>
     <string name="prefs_language_title">Langue</string>
     <string name="prefs_personalization">Personnalisation</string>
+    <string name="show_less">Afficher moins</string>
+    <string name="latest">Le plus récent</string>
+    <string name="sort_filter">Trier et filtrer</string>
+    <string name="new_applications">Nouvelles applications</string>
+    <string name="explore">Explorer</string>
+    <string name="update_all">Tout mettre à jour</string>
+    <string name="installed_applications">Applications installées</string>
 </resources>
