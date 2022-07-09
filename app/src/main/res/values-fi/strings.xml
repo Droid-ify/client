@@ -171,4 +171,10 @@
     <string name="prefs_personalization">Mukauttaminen</string>
     <string name="prefs_language_title">Kieli</string>
     <string name="show_less">Näytä vähemmän</string>
+    <string name="latest">Uusimmat</string>
+    <string name="explore">Tutustu</string>
+    <string name="update_all">Päivitä kaikki</string>
+    <string name="installed_applications">Asennetut sovellukset</string>
+    <string name="new_applications">Uudet sovellukset</string>
+    <string name="sort_filter">Lajittele ja suodata</string>
 </resources>
