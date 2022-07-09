@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
+import android.text.method.LinkMovementMethod
 import android.text.style.*
 import android.text.util.Linkify
 import android.view.Gravity
@@ -54,7 +55,6 @@ import com.looker.droidify.utility.extension.text.formatSize
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import com.looker.droidify.utility.extension.text.trimAfter
 import com.looker.droidify.utility.extension.text.trimBefore
-import com.looker.droidify.widget.ClickableMovementMethod
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.time.Instant
@@ -413,7 +413,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			itemView as MaterialTextView
 			itemView.setTextSizeScaled(15)
 			itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
-			itemView.movementMethod = ClickableMovementMethod
+			itemView.movementMethod = LinkMovementMethod()
 			itemView.layoutParams = RecyclerView.LayoutParams(
 				RecyclerView.LayoutParams.MATCH_PARENT,
 				RecyclerView.LayoutParams.WRAP_CONTENT
@@ -919,7 +919,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
 				itemView.setOnClickListener {
-					val switchItem = items[adapterPosition] as Item.SwitchItem
+					val switchItem = items[absoluteAdapterPosition] as Item.SwitchItem
 					val productPreference = when (switchItem.switchType) {
 						SwitchType.IGNORE_ALL_UPDATES -> {
 							ProductPreferences[switchItem.packageName].let { it.copy(ignoreUpdates = !it.ignoreUpdates) }
@@ -944,7 +944,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.SECTION -> SectionViewHolder(parent.inflate(R.layout.section_item)).apply {
 				itemView.setOnClickListener {
-					val position = adapterPosition
+					val position = absoluteAdapterPosition
 					val sectionItem = items[position] as Item.SectionItem
 					if (sectionItem.items.isNotEmpty()) {
 						expanded += sectionItem.expandType
@@ -952,7 +952,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							sectionItem.sectionType, sectionItem.expandType, emptyList(),
 							sectionItem.items.size + sectionItem.collapseCount
 						)
-						notifyItemChanged(adapterPosition, Payload.REFRESH)
+						notifyItemChanged(position, Payload.REFRESH)
 						items.addAll(position + 1, sectionItem.items)
 						notifyItemRangeInserted(position + 1, sectionItem.items.size)
 					} else if (sectionItem.collapseCount > 0) {
@@ -962,7 +962,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							items.subList(position + 1, position + 1 + sectionItem.collapseCount)
 								.toList(), 0
 						)
-						notifyItemChanged(adapterPosition, Payload.REFRESH)
+						notifyItemChanged(position, Payload.REFRESH)
 						repeat(sectionItem.collapseCount) { items.removeAt(position + 1) }
 						notifyItemRangeRemoved(position + 1, sectionItem.collapseCount)
 					}
@@ -970,7 +970,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.EXPAND -> ExpandViewHolder(parent.context).apply {
 				itemView.setOnClickListener {
-					val position = adapterPosition
+					val position = absoluteAdapterPosition
 					val expandItem = items[position] as Item.ExpandItem
 					if (expandItem.expandType !in expanded) {
 						expanded += expandItem.expandType
@@ -1005,20 +1005,20 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.TEXT -> TextViewHolder(parent.context)
 			ViewType.LINK -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
 				itemView.setOnClickListener {
-					val linkItem = items[adapterPosition] as Item.LinkItem
+					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
 					if (linkItem.uri?.let { callbacks.onUriClick(it, false) } != true) {
 						linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					}
 				}
 				itemView.setOnLongClickListener {
-					val linkItem = items[adapterPosition] as Item.LinkItem
+					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
 					linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					true
 				}
 			}
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
-					val permissionsItem = items[adapterPosition] as Item.PermissionsItem
+					val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
 					callbacks.onPermissionsClick(
 						permissionsItem.group?.name,
 						permissionsItem.permissions.map { it.name })
@@ -1026,11 +1026,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
 				itemView.setOnClickListener {
-					val releaseItem = items[adapterPosition] as Item.ReleaseItem
+					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
 					callbacks.onReleaseClick(releaseItem.release)
 				}
 				itemView.setOnLongClickListener {
-					val releaseItem = items[adapterPosition] as Item.ReleaseItem
+					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
 					copyLinkToClipboard(
 						itemView,
 						releaseItem.release.getDownloadUrl(releaseItem.repository)
