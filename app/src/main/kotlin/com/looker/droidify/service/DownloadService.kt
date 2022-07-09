@@ -122,7 +122,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		mutableDownloadState.onEach { publishForegroundState(false, it) }.launchIn(scope)
+		mutableDownloadState.debounce(50L).onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
