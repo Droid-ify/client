@@ -281,8 +281,8 @@ class TabsFragment : ScreenFragment() {
 			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
 			val adapter = SectionsAdapter({ sections }) {
-				this.scrollToPosition(0)
 				if (showSections) {
+					scrollToPosition(0)
 					showSections = false
 					section = it
 					updateSection()
