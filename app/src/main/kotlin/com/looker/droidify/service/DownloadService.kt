@@ -27,8 +27,6 @@ import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.formatSize
 import com.looker.droidify.utility.extension.text.hex
 import com.looker.droidify.utility.extension.text.nullIfEmpty
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -68,7 +66,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			get() = "download-$packageName"
 	}
 
-	private data class CurrentTask(val task: Task, val job: Disposable, val lastState: State)
+	private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
 
 	private var started = false
 	private val tasks = mutableListOf<Task>()
@@ -122,7 +120,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		mutableDownloadState.debounce(50L).onEach { publishForegroundState(false, it) }.launchIn(scope)
+		mutableDownloadState.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
@@ -161,7 +159,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						)
 					)
 				}
-				it.job.dispose()
+				it.job.cancel()
 			}
 		}
 	}
@@ -403,68 +401,52 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				lateinit var disposable: Disposable
-				disposable = Downloader
-					.download(
+				val job = scope.launch {
+					val result = Downloader.downloadFile(
 						task.url,
 						partialReleaseFile,
 						"",
 						"",
 						task.authentication
 					) { read, total ->
-						if (!disposable.isDisposed) {
-							scope.launch {
-								mutableDownloadState.emit(
-									State.Downloading(
-										task.packageName,
-										task.name,
-										read,
-										total
-									)
+						launch {
+							mutableDownloadState.emit(
+								State.Downloading(
+									task.packageName,
+									task.name,
+									read,
+									total
 								)
-							}
-						}
-					}
-					.observeOn(AndroidSchedulers.mainThread())
-					.subscribe { result, throwable ->
-						currentTask = null
-						throwable?.printStackTrace()
-						if (result == null || !result.success) {
-							showNotificationError(
-								task,
-								if (result != null) ErrorType.Http else ErrorType.Network
 							)
-							scope.launch {
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName,
-										task.name
-									)
+						}
+					}
+					currentTask = null
+					if (!result.success) {
+						showNotificationError(task, ErrorType.Http)
+						scope.launch {
+							mutableStateSubject.emit(State.Error(task.packageName, task.name))
+						}
+					} else {
+						val validationError = validatePackage(task, partialReleaseFile)
+						if (validationError == null) {
+							val releaseFile =
+								Cache.getReleaseFile(
+									this@DownloadService,
+									task.release.cacheFileName
 								)
-							}
+							partialReleaseFile.renameTo(releaseFile)
+							publishSuccess(task)
 						} else {
-							val validationError = validatePackage(task, partialReleaseFile)
-							if (validationError == null) {
-								val releaseFile =
-									Cache.getReleaseFile(this, task.release.cacheFileName)
-								partialReleaseFile.renameTo(releaseFile)
-								publishSuccess(task)
-							} else {
-								partialReleaseFile.delete()
-								showNotificationError(task, ErrorType.Validation(validationError))
-								scope.launch {
-									mutableStateSubject.emit(
-										State.Error(
-											task.packageName,
-											task.name
-										)
-									)
-								}
+							partialReleaseFile.delete()
+							showNotificationError(task, ErrorType.Validation(validationError))
+							scope.launch {
+								mutableStateSubject.emit(State.Error(task.packageName, task.name))
 							}
 						}
-						handleDownload()
 					}
-				currentTask = CurrentTask(task, disposable, initialState)
+					handleDownload()
+				}
+				currentTask = CurrentTask(task, job, initialState)
 			} else if (started) {
 				started = false
 				stopForeground(true)
