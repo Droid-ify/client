@@ -170,4 +170,11 @@
     <string name="upstream_source_code_is_not_free">Der Upstream-Quellcode ist nicht frei</string>
     <string name="prefs_language_title">Sprache</string>
     <string name="prefs_personalization">Personalisierung</string>
+    <string name="show_less">Weniger anzeigen</string>
+    <string name="latest">Neueste</string>
+    <string name="explore">Entdecken</string>
+    <string name="update_all">Alle aktualisieren</string>
+    <string name="installed_applications">Installierte Anwendungen</string>
+    <string name="sort_filter">Sortieren und filtern</string>
+    <string name="new_applications">Neue Anwendungen</string>
 </resources>
