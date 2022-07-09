@@ -297,12 +297,6 @@ data class Repository(
 			)
 		}, run {
 			defaultRepository(
-				"https://repo.unifiedpush.org/", "UnifiedPush",
-				"A repository of apps for unifiedPush.",
-				21, false, "DF11176406C63A7876103CE6CC1A8FCA239DF76AA5F6DE5CDBAFE73ECDBF1875", ""
-			)
-		}, run {
-			defaultRepository(
 				"https://nanolx.org/fdroid/repo", "NanoDroid",
 				"A companion repository to microG's installer.",
 				21, false, "862ED9F13A3981432BF86FE93D14596B381D75BE83A1D616E2D44A12654AD015", ""
