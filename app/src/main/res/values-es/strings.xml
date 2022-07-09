@@ -170,4 +170,11 @@
     </plurals>
     <string name="prefs_language_title">Lengua</string>
     <string name="prefs_personalization">Personalización</string>
+    <string name="show_less">Mostrar menos</string>
+    <string name="latest">Más reciente</string>
+    <string name="explore">Explorar</string>
+    <string name="installed_applications">Aplicaciones instaladas</string>
+    <string name="sort_filter">Ordenar y filtrar</string>
+    <string name="update_all">Actualizar todo</string>
+    <string name="new_applications">Nuevas aplicaciones</string>
 </resources>
