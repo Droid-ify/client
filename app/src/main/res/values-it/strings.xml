@@ -173,4 +173,11 @@
     <string name="website">Sito web</string>
     <string name="prefs_language_title">Lingua</string>
     <string name="prefs_personalization">Personalizzazione</string>
+    <string name="update_all">Aggiorna tutto</string>
+    <string name="sort_filter">Ordina e filtra</string>
+    <string name="latest">Ultime novità</string>
+    <string name="show_less">Mostra meno</string>
+    <string name="new_applications">Nuove applicazioni</string>
+    <string name="explore">Esplorare</string>
+    <string name="installed_applications">Applicazioni installate</string>
 </resources>
