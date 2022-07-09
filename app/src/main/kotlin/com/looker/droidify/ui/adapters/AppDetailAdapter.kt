@@ -989,9 +989,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							items[position - 1] = expandItem.items[1]
 							notifyItemRangeChanged(position - 1, 2)
 						} else {
-							items.removeAt(position - 1)
+							items.removeAll(expandItem.items)
 							if (position > 0) {
-								notifyItemRemoved(position - 1)
+								notifyItemRangeRemoved(
+									position - expandItem.items.size,
+									expandItem.items.size
+								)
 								notifyItemChanged(position)
 							}
 						}
