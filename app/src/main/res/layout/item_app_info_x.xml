@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
         android:layout_marginVertical="4dp"
+        android:gravity="center_horizontal"
         android:background="@drawable/background_border"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/status_layout"
@@ -20,44 +21,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="16dp"
+            app:shapeAppearanceOverlay="@style/Shape.Medium"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?android:attr/textColorSecondary" />
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                app:shapeAppearanceOverlay="@style/Shape.Medium"
-                tools:ignore="ContentDescription" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_margin"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textAppearance="?textAppearanceBody1" />
-
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/package_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textAppearance="?textAppearanceBody2"
-                    android:textColor="?android:attr/textColorSecondary" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/package_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:layout_marginBottom="4dp"
+            android:textColor="?android:attr/textColorSecondary" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/release_info"
@@ -184,6 +173,7 @@
                         android:id="@+id/dev_icon"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
+                        android:src="@drawable/ic_code"
                         app:shapeAppearanceOverlay="@style/Shape.Small"
                         app:srcCompat="@drawable/ic_code" />
 
@@ -191,6 +181,7 @@
                         android:id="@+id/dev"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:text="@string/source_code"
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:textSize="12sp" />

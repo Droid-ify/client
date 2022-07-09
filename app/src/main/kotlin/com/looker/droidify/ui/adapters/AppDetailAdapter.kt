@@ -53,8 +53,6 @@ import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.text.formatSize
 import com.looker.droidify.utility.extension.text.nullIfEmpty
-import com.looker.droidify.utility.extension.text.trimAfter
-import com.looker.droidify.utility.extension.text.trimBefore
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.time.Instant
@@ -351,8 +349,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
 		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
 		val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
-		val devName = itemView.findViewById<MaterialTextView>(R.id.dev)!!
-		val devIcon = itemView.findViewById<ShapeableImageView>(R.id.dev_icon)!!
 		val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
 	}
 
@@ -1046,6 +1042,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		onBindViewHolder(holder, position, emptyList())
 	}
 
+
 	override fun onBindViewHolder(
 		holder: RecyclerView.ViewHolder,
 		position: Int,
@@ -1135,13 +1132,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.targetSdk.text = sdk.toString()
 				holder.version.text = product?.displayRelease?.version
 				holder.size.text = product?.displayRelease?.size?.formatSize()
-				val author = product?.author?.name?.replaceFirstChar {
-					if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-				}
-				val devName = product?.source?.trimAfter('/', 4).trimBefore('/', 3)
-				holder.devName.text = if (author.isNullOrEmpty()) devName else author
-
-				holder.devIcon.load(R.drawable.ic_code)
 
 				holder.dev.setOnClickListener {
 					product?.source?.let { link ->
@@ -1163,6 +1153,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder as ScreenShotViewHolder
 				item as Item.ScreenshotItem
 				holder.screenshotsRecycler.run {
+					clipToPadding = false
 					layoutManager =
 						LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 					adapter =

@@ -129,9 +129,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 				recyclerView = this
 				clipToPadding = false
+				val horizontalPadding = resources.getDimension(R.dimen.shape_margin_small)
 				ViewCompat.setOnApplyWindowInsetsListener(this) { list, windowInsets ->
 					val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-					list.updatePadding(bottom = insets.bottom)
+					list.updatePadding(
+						bottom = insets.bottom,
+						left = horizontalPadding.toInt(),
+						right = horizontalPadding.toInt()
+					)
 					WindowInsetsCompat.CONSUMED
 				}
 			}
