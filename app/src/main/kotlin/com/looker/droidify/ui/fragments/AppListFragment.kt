@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -18,11 +19,11 @@ import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
-import com.looker.droidify.screen.BaseFragment
 import com.looker.droidify.ui.adapters.AppListAdapter
 import com.looker.droidify.ui.viewmodels.AppListViewModel
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
+import com.looker.droidify.utility.extension.screenActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -31,7 +32,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
-class AppListFragment() : BaseFragment(), CursorOwner.Callback {
+class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 	private val viewModel: AppListViewModel by viewModels()
 

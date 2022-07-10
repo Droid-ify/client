@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.looker.droidify.databinding.FragmentBinding
 
-open class ScreenFragment : BaseFragment() {
+open class ScreenFragment : Fragment() {
 	private var _fragmentBinding: FragmentBinding? = null
 	val fragmentBinding get() = _fragmentBinding!!
 
@@ -29,6 +30,8 @@ open class ScreenFragment : BaseFragment() {
 		this.collapsingToolbar = fragmentBinding.collapsingToolbar
 		return fragmentBinding.root
 	}
+
+	open fun onBackPressed(): Boolean = false
 
 	override fun onDestroyView() {
 		super.onDestroyView()

@@ -29,6 +29,7 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single

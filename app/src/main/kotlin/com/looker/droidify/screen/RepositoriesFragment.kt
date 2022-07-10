@@ -17,6 +17,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
+import com.looker.droidify.utility.extension.screenActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {

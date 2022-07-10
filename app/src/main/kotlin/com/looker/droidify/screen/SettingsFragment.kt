@@ -35,6 +35,7 @@ import com.looker.droidify.utility.Utils.getLocaleOfCode
 import com.looker.droidify.utility.Utils.languagesList
 import com.looker.droidify.utility.Utils.translateLocale
 import com.looker.droidify.utility.extension.resources.*
+import com.looker.droidify.utility.extension.screenActivity
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.launch
 

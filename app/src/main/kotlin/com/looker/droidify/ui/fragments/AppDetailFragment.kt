@@ -33,6 +33,7 @@ import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.Utils.startUpdate
+import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.text.trimAfter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable

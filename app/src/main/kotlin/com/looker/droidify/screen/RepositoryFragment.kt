@@ -22,6 +22,7 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.extension.screenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
