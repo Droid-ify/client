@@ -1,10 +1,7 @@
 package com.looker.droidify.network
 
-import android.util.Log
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.RxUtils
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.looker.droidify.utility.Result
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.*
 import okio.IOException
@@ -41,7 +38,7 @@ object Downloader {
 			.proxy(proxy).cache(cache).build()
 	}
 
-	class Result(val code: Int, val lastModified: String, val entityTag: String) {
+	class RequestCode(val code: Int, val lastModified: String, val entityTag: String) {
 		val success: Boolean
 			get() = code == HttpURLConnection.HTTP_OK || code == HttpURLConnection.HTTP_PARTIAL
 
@@ -72,7 +69,7 @@ object Downloader {
 	suspend inline fun downloadFile(
 		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
 		crossinline callback: (read: Long, total: Long?) -> Unit
-	): Result {
+	): Result<RequestCode> {
 		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
 		val request = Request.Builder().url(url)
 			.apply {
@@ -85,13 +82,21 @@ object Downloader {
 			call.enqueue(
 				object : Callback {
 					override fun onFailure(call: Call, e: IOException) {
-						Log.e("Cancel", " Call Failed", e)
+						cont.resume(Result.Error(e))
 					}
 
 					override fun onResponse(call: Call, response: Response) {
 						response.use { result ->
 							if (response.code == 304) {
-								cont.resume(Result(result.code, lastModified, entityTag))
+								cont.resume(
+									Result.Success(
+										RequestCode(
+											result.code,
+											lastModified,
+											entityTag
+										)
+									)
+								)
 							} else {
 								val body = result.body
 								val append = start != null && result.header("Content-Range") != null
@@ -113,10 +118,12 @@ object Downloader {
 									}
 								}
 								cont.resume(
-									Result(
-										result.code,
-										result.header("Last-Modified").orEmpty(),
-										result.header("ETag").orEmpty()
+									Result.Success(
+										RequestCode(
+											result.code,
+											result.header("Last-Modified").orEmpty(),
+											result.header("ETag").orEmpty()
+										)
 									)
 								)
 							}
@@ -126,65 +133,5 @@ object Downloader {
 			)
 			cont.invokeOnCancellation { call.cancel() }
 		}
-	}
-
-	fun download(
-		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
-		callback: ((read: Long, total: Long?) -> Unit)?,
-	): Single<Result> {
-		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
-		val request = Request.Builder().url(url)
-			.apply {
-				if (entityTag.isNotEmpty()) {
-					addHeader("If-None-Match", entityTag)
-				} else if (lastModified.isNotEmpty()) {
-					addHeader("If-Modified-Since", lastModified)
-				}
-				if (start != null) {
-					addHeader("Range", "bytes=$start-")
-				}
-			}
-
-		return RxUtils
-			.callSingle { createCall(request, authentication, null) }
-			.subscribeOn(Schedulers.io())
-			.flatMap { result ->
-				RxUtils
-					.managedSingle {
-						result.use { it ->
-							if (result.code == 304) {
-								Result(it.code, lastModified, entityTag)
-							} else {
-								val body = it.body!!
-								val append = start != null && it.header("Content-Range") != null
-								val progressStart = if (append && start != null) start else 0L
-								val progressTotal =
-									body.contentLength().let { if (it >= 0L) it else null }
-										?.let { progressStart + it }
-								val inputStream = ProgressInputStream(body.byteStream()) {
-									if (Thread.interrupted()) {
-										throw InterruptedException()
-									}
-									callback?.invoke(progressStart + it, progressTotal)
-								}
-								inputStream.use { input ->
-									val outputStream = if (append) FileOutputStream(
-										target,
-										true
-									) else FileOutputStream(target)
-									outputStream.use { output ->
-										input.copyTo(output)
-										output.fd.sync()
-									}
-								}
-								Result(
-									it.code,
-									it.header("Last-Modified").orEmpty(),
-									it.header("ETag").orEmpty()
-								)
-							}
-						}
-					}
-			}
 	}
 }

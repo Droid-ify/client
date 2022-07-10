@@ -22,20 +22,14 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.entity.ProductItem
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.RxUtils
+import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.notificationManager
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.formatSize
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import java.lang.ref.WeakReference
 import kotlin.math.roundToInt
 
@@ -62,13 +56,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private class Task(val repositoryId: Long, val manual: Boolean)
 	private data class CurrentTask(
-		val task: Task?, val disposable: Disposable,
+		val task: Task?, val job: kotlinx.coroutines.Job,
 		val hasUpdates: Boolean, val lastState: State,
 	)
 
 	private enum class Started { NO, AUTO, MANUAL }
 
-	private val scope = CoroutineScope(Dispatchers.Default)
+	private val scope = CoroutineScope(Dispatchers.IO)
 
 	private var started = Started.NO
 	private val tasks = mutableListOf<Task>()
@@ -176,7 +170,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		stateSubject.debounce(50L).onEach { publishForegroundState(false, it) }.launchIn(scope)
+		stateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
@@ -203,7 +197,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		return currentTask?.let {
 			if (condition(it)) {
 				currentTask = null
-				it.disposable.dispose()
+				it.job.cancel()
 				RepositoryUpdater.await()
 				it
 			} else {
@@ -345,11 +339,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
 					val unstable = Preferences[Preferences.Key.UpdateUnstable]
-					lateinit var disposable: Disposable
-					disposable = RepositoryUpdater
-						.update(this, repository, unstable) { stage, progress, total ->
-							if (!disposable.isDisposed) {
-								scope.launch {
+					val job = scope.launch {
+						val request = RepositoryUpdater
+							.update(
+								this@SyncService,
+								repository,
+								unstable
+							) { stage, progress, total ->
+								launch {
 									mutableStateSubject.emit(
 										State.Syncing(
 											repository.name,
@@ -360,24 +357,31 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									)
 								}
 							}
-						}
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe { result, throwable ->
-							currentTask = null
-							throwable?.printStackTrace()
-							if (throwable != null && task.manual) {
-								showNotificationError(repository, throwable as Exception)
+						currentTask = null
+						when (request) {
+							Result.Loading -> {
+								launch {
+									mutableStateSubject.emit(State.Connecting(repository.name))
+								}
 							}
-							handleNextTask(result == true || hasUpdates)
+							is Result.Error -> {
+								request.exception?.printStackTrace()
+								if (task.manual) showNotificationError(
+									repository,
+									request.exception as Exception
+								)
+							}
+							is Result.Success -> handleNextTask(request.data || hasUpdates)
 						}
-					currentTask = CurrentTask(task, disposable, hasUpdates, initialState)
+					}
+					currentTask = CurrentTask(task, job, hasUpdates, initialState)
 				} else {
 					handleNextTask(hasUpdates)
 				}
 			} else if (started != Started.NO) {
 				if (hasUpdates && Preferences[Preferences.Key.UpdateNotify]) {
-					val disposable = RxUtils
-						.querySingle { it ->
+					val job = scope.launch {
+						val products = withContext(Dispatchers.IO) {
 							Database.ProductAdapter
 								.query(
 									installed = true,
@@ -385,25 +389,21 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									searchQuery = "",
 									section = ProductItem.Section.All,
 									order = ProductItem.Order.NAME,
-									signal = it
+									signal = null
 								)
 								.use {
 									it.asSequence().map(Database.ProductAdapter::transformItem)
 										.toList()
 								}
 						}
-						.subscribeOn(Schedulers.io())
-						.observeOn(AndroidSchedulers.mainThread())
-						.subscribe { result, throwable ->
-							throwable?.printStackTrace()
-							currentTask = null
-							handleNextTask(false)
-							val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-							if (!blocked && result != null && result.isNotEmpty()) {
-								displayUpdatesNotification(result)
-							}
+						currentTask = null
+						handleNextTask(false)
+						val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
+						if (!blocked && products.isNotEmpty()) {
+							displayUpdatesNotification(products)
 						}
-					currentTask = CurrentTask(null, disposable, true, State.Finishing)
+					}
+					currentTask = CurrentTask(null, job, true, State.Finishing)
 				} else {
 					scope.launch { mutableFinishState.emit(Unit) }
 					val needStop = started == Started.MANUAL

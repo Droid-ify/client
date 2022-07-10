@@ -9,13 +9,15 @@ import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
+import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.text.unhex
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.xml.sax.InputSource
 import java.io.File
 import java.security.cert.X509Certificate
@@ -61,7 +63,6 @@ object RepositoryUpdater {
 	private val cleanupLock = Any()
 
 	fun init() {
-
 		var lastDisabled = setOf<Long>()
 		Observable.just(Unit)
 			.concatWith(Database.observable(Database.Subject.Repositories))
@@ -90,45 +91,50 @@ object RepositoryUpdater {
 		synchronized(updaterLock) { }
 	}
 
-	fun update(
+	suspend fun update(
 		context: Context,
-		repository: Repository, unstable: Boolean,
-		callback: (Stage, Long, Long?) -> Unit,
-	): Single<Boolean> {
-		return update(
-			context,
-			repository,
-			listOf(IndexType.INDEX_V1, IndexType.INDEX),
-			unstable,
-			callback
-		)
-	}
+		repository: Repository,
+		unstable: Boolean,
+		callback: (Stage, Long, Long?) -> Unit
+	) = update(
+		context = context,
+		repository = repository,
+		unstable = unstable,
+		indexTypes = listOf(IndexType.INDEX_V1, IndexType.INDEX),
+		callback = callback
+	)
 
-	private fun update(
+	private suspend fun update(
 		context: Context,
-		repository: Repository, indexTypes: List<IndexType>, unstable: Boolean,
-		callback: (Stage, Long, Long?) -> Unit,
-	): Single<Boolean> {
+		repository: Repository,
+		unstable: Boolean,
+		indexTypes: List<IndexType>,
+		callback: (Stage, Long, Long?) -> Unit
+	): Result<Boolean> = withContext(Dispatchers.IO) {
 		val indexType = indexTypes[0]
-		return downloadIndex(context, repository, indexType, callback)
-			.flatMap { (result, file) ->
+		when (val request = downloadIndex(context, repository, indexType, callback)) {
+			Result.Loading -> Result.Loading
+			is Result.Error -> Result.Error(request.exception)
+			is Result.Success -> {
+				val result = request.data.requestCode
+				val file = request.data.file
 				when {
 					result.isNotChanged -> {
 						file.delete()
-						Single.just(false)
+						Result.Success(false)
 					}
 					!result.success -> {
 						file.delete()
 						if (result.code == 404 && indexTypes.isNotEmpty()) {
 							update(
-								context,
-								repository,
-								indexTypes.subList(1, indexTypes.size),
-								unstable,
-								callback
+								context = context,
+								repository = repository,
+								indexTypes = indexTypes.subList(1, indexTypes.size),
+								unstable = unstable,
+								callback = callback
 							)
 						} else {
-							Single.error(
+							Result.Error(
 								UpdateException(
 									ErrorType.HTTP,
 									"Invalid response: HTTP ${result.code}"
@@ -137,54 +143,60 @@ object RepositoryUpdater {
 						}
 					}
 					else -> {
-						RxUtils.managedSingle {
+						Result.Success(
 							processFile(
-								context,
-								repository, indexType, unstable,
-								file, result.lastModified, result.entityTag, callback
+								context = context,
+								repository = repository,
+								indexType = indexType,
+								unstable = unstable,
+								file = file,
+								lastModified = result.lastModified,
+								entityTag = result.entityTag,
+								callback = callback
 							)
-						}
+						)
 					}
 				}
 			}
+		}
 	}
 
-	private fun downloadIndex(
+	private suspend fun downloadIndex(
 		context: Context,
-		repository: Repository, indexType: IndexType,
-		callback: (Stage, Long, Long?) -> Unit,
-	): Single<Pair<Downloader.Result, File>> {
-		return Single.just(Unit)
-			.map { Cache.getTemporaryFile(context) }
-			.flatMap { file ->
-				Downloader
-					.download(
-						Uri.parse(repository.address).buildUpon()
-							.appendPath(indexType.jarName).build().toString(),
-						file,
-						repository.lastModified,
-						repository.entityTag,
-						repository.authentication
-					) { read, total -> callback(Stage.DOWNLOAD, read, total) }
-					.subscribeOn(Schedulers.io())
-					.map { Pair(it, file) }
-					.onErrorResumeNext {
-						file.delete()
-						when (it) {
-							is InterruptedException, is RuntimeException, is Error -> Single.error(
-								it
-							)
-							is Exception -> Single.error(
-								UpdateException(
-									ErrorType.NETWORK,
-									"Network error",
-									it
-								)
-							)
-							else -> Single.error(it)
-						}
+		repository: Repository,
+		indexType: IndexType,
+		callback: (Stage, Long, Long?) -> Unit
+	): Result<IndexFile> = withContext(Dispatchers.IO) {
+		val file = Cache.getTemporaryFile(context)
+		val downloadResult = Downloader.downloadFile(
+			Uri.parse(repository.address).buildUpon()
+				.appendPath(indexType.jarName).build().toString(),
+			file,
+			repository.lastModified,
+			repository.entityTag,
+			repository.authentication
+		) { read, total -> callback(Stage.DOWNLOAD, read, total) }
+
+		when (downloadResult) {
+			Result.Loading -> Result.Loading
+			is Result.Error -> {
+				file.delete()
+				when (downloadResult.exception) {
+					is InterruptedException, is RuntimeException, is Error -> {
+						Result.Error(downloadResult.exception)
 					}
+					is Exception -> Result.Error(
+						UpdateException(
+							ErrorType.NETWORK,
+							"Network error",
+							downloadResult.exception
+						)
+					)
+					else -> Result.Error(downloadResult.exception)
+				}
 			}
+			is Result.Success -> Result.Success(IndexFile(downloadResult.data, file))
+		}
 	}
 
 	private fun processFile(
@@ -473,3 +485,8 @@ object RepositoryUpdater {
 		return product.copy(releases = releases)
 	}
 }
+
+data class IndexFile(
+	val requestCode: Downloader.RequestCode,
+	val file: File
+)

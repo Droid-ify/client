@@ -17,6 +17,7 @@ import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
 import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.extension.android.Android
@@ -434,26 +435,54 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						}
 					}
 					currentTask = null
-					if (!result.success) {
-						showNotificationError(task, ErrorType.Http)
-						scope.launch {
-							mutableStateSubject.emit(State.Error(task.packageName, task.name))
-						}
-					} else {
-						val validationError = validatePackage(task, partialReleaseFile)
-						if (validationError == null) {
-							val releaseFile =
-								Cache.getReleaseFile(
-									this@DownloadService,
-									task.release.cacheFileName
+					when (result) {
+						Result.Loading -> {
+							launch {
+								mutableStateSubject.emit(
+									State.Connecting(
+										packageName = task.packageName,
+										name = task.name
+									)
 								)
-							partialReleaseFile.renameTo(releaseFile)
-							publishSuccess(task)
-						} else {
-							partialReleaseFile.delete()
-							showNotificationError(task, ErrorType.Validation(validationError))
-							scope.launch {
-								mutableStateSubject.emit(State.Error(task.packageName, task.name))
+							}
+						}
+						is Result.Error -> result.exception?.printStackTrace()
+						is Result.Success -> {
+							if (!result.data.success) {
+								showNotificationError(task, ErrorType.Http)
+								launch {
+									mutableStateSubject.emit(
+										State.Error(
+											task.packageName,
+											task.name
+										)
+									)
+								}
+							} else {
+								val validationError = validatePackage(task, partialReleaseFile)
+								if (validationError == null) {
+									val releaseFile =
+										Cache.getReleaseFile(
+											this@DownloadService,
+											task.release.cacheFileName
+										)
+									partialReleaseFile.renameTo(releaseFile)
+									publishSuccess(task)
+								} else {
+									partialReleaseFile.delete()
+									showNotificationError(
+										task,
+										ErrorType.Validation(validationError)
+									)
+									launch {
+										mutableStateSubject.emit(
+											State.Error(
+												task.packageName,
+												task.name
+											)
+										)
+									}
+								}
 							}
 						}
 					}
