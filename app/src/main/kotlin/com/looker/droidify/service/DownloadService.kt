@@ -397,7 +397,20 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					startSelf()
 				}
 				val initialState = State.Connecting(task.packageName, task.name)
+				val intent = Intent(this, MainActivity::class.java)
+					.setAction(Intent.ACTION_VIEW)
+					.setData(Uri.parse("package:${task.packageName}"))
+					.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+					addNextIntentWithParentStack(intent)
+					getPendingIntent(
+						0,
+						if (Android.sdk(31)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+						else PendingIntent.FLAG_UPDATE_CURRENT
+					)
+				}
 				stateNotificationBuilder.setWhen(System.currentTimeMillis())
+				stateNotificationBuilder.setContentIntent(resultPendingIntent)
 				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
