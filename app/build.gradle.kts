@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-	compileSdk = 31
+	compileSdk = 32
 	namespace = "com.looker.droidify"
 	defaultConfig {
 		applicationId = "com.looker.droidify"
 		minSdk = 21
-		targetSdk = 31
+		targetSdk = 32
 		versionCode = 46
 		versionName = "0.4.6"
 		vectorDrawables.useSupportLibrary = true
@@ -76,12 +76,9 @@ dependencies {
 	// Core
 	implementation("androidx.core:core-ktx:1.8.0")
 	implementation("androidx.appcompat:appcompat:1.4.2")
-	implementation("androidx.appcompat:appcompat-resources:1.4.2")
 	implementation("androidx.fragment:fragment-ktx:1.5.0")
 	implementation("androidx.activity:activity-ktx:1.5.0")
 	implementation("androidx.preference:preference-ktx:1.2.0")
-	implementation("androidx.navigation:navigation-fragment-ktx:2.5.0")
-	implementation("androidx.navigation:navigation-ui-ktx:2.5.0")
 	implementation("me.zhanghai.android.fastscroll:library:1.1.8")
 
 	// Material3
