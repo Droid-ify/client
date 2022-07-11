@@ -2,7 +2,9 @@ package com.looker.droidify.network
 
 import com.looker.droidify.utility.ProgressInputStream
 import com.looker.droidify.utility.Result
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import okhttp3.*
 import okio.IOException
 import java.io.File
@@ -66,6 +68,12 @@ object Downloader {
 		return client.newCall(newRequest)
 	}
 
+	suspend fun createCallIO(
+		request: Request.Builder,
+		authentication: String,
+		cache: Cache?
+	): Call = withContext(Dispatchers.IO) { createCall(request, authentication, cache) }
+
 	suspend inline fun downloadFile(
 		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
 		crossinline callback: (read: Long, total: Long?) -> Unit
@@ -77,8 +85,8 @@ object Downloader {
 				else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
 				if (start != null) addHeader("Range", "bytes=$start-")
 			}
+		val call = createCallIO(request, authentication, null)
 		return suspendCancellableCoroutine { cont ->
-			val call = createCall(request, authentication, null)
 			call.enqueue(
 				object : Callback {
 					override fun onFailure(call: Call, e: IOException) {
