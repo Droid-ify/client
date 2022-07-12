@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.graphics.ColorUtils
-import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
@@ -68,10 +67,6 @@ class ScreenshotsFragment() : DialogFragment() {
 
 		val window = dialog.window
 		val decorView = window?.decorView
-
-		if (window != null) {
-			WindowCompat.setDecorFitsSystemWindows(window, false)
-		}
 
 		val background = dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 		decorView?.setBackgroundColor(

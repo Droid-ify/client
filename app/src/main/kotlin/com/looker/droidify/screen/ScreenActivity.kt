@@ -8,7 +8,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
@@ -100,7 +99,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
-		WindowCompat.setDecorFitsSystemWindows(window, false)
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {

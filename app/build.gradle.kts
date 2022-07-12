@@ -36,7 +36,6 @@ android {
 	buildTypes {
 		debug {
 			applicationIdSuffix = ".debug"
-			versionNameSuffix = "-debug"
 			resValue("string", "application_name", "Droid-ify-Debug")
 		}
 		release {
@@ -74,6 +73,7 @@ android {
 dependencies {
 
 	// Core
+	implementation(kotlin("stdlib"))
 	implementation("androidx.core:core-ktx:1.8.0")
 	implementation("androidx.appcompat:appcompat:1.4.2")
 	implementation("androidx.fragment:fragment-ktx:1.5.0")

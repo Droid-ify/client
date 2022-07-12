@@ -6,9 +6,6 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
@@ -49,11 +46,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 						.setThumbDrawable(context.getDrawableCompat(R.drawable.scrollbar_thumb))
 						.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
 						.build()
-					ViewCompat.setOnApplyWindowInsetsListener(this) { list, windowInsets ->
-						val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-						list.updatePadding(bottom = insets.bottom)
-						WindowInsetsCompat.CONSUMED
-					}
 				}
 			)
 		}
