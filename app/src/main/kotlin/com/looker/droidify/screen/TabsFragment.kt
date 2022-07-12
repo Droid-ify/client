@@ -11,10 +11,6 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updateLayoutParams
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -294,19 +290,9 @@ class TabsFragment : ScreenFragment() {
 			this.background = background
 			elevation = resources.sizeScaled(4).toFloat()
 			content.addView(this)
-			visibility = View.GONE
-		}
-		ViewCompat.setOnApplyWindowInsetsListener(sectionsList) { list, windowInsets ->
-			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 			val margins = resources.sizeScaled(8)
-			list.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-				leftMargin = margins
-				rightMargin = margins
-				topMargin = margins
-				bottomMargin = insets.bottom
-			}
-			list.updatePadding(bottom = insets.bottom)
-			WindowInsetsCompat.CONSUMED
+			(layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
+			visibility = View.GONE
 		}
 		this.sectionsList = sectionsList
 
