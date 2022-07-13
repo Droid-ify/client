@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
-import androidx.core.net.toFile
 import com.looker.installer.utils.BaseInstaller
 import com.looker.installer.InstallerService
 import kotlinx.coroutines.Dispatchers
