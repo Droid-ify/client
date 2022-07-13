@@ -11,7 +11,7 @@
     <string name="application">Приложение</string>
     <string name="application_not_found">Приложението не може да бъде намерено</string>
     <string name="author_email">Ел. поща на автора</string>
-    <string name="available">Налично</string>
+    <string name="available">Налични</string>
     <string name="bug_tracker">Тракер за грешки</string>
     <string name="cancel">Отказ</string>
     <string name="changelog">Списък на промените</string>
@@ -177,4 +177,9 @@
     <string name="website">Уебстраница</string>
     <string name="prefs_language_title">Език</string>
     <string name="prefs_personalization">Персонализация</string>
+    <string name="installer">Инсталатор</string>
+    <string name="legacy_installer">Стар Инсталатор</string>
+    <string name="session_installer">Session Инсталатор</string>
+    <string name="root_installer">Root Инсталатор</string>
+    <string name="shizuku_installer">Shizuku Инсталатор</string>
 </resources>
