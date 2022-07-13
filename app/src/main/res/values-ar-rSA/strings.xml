@@ -177,4 +177,16 @@
     <string name="website">الموقع الإلكتروني</string>
     <string name="prefs_language_title">اللغة</string>
     <string name="prefs_personalization">التفضيلات</string>
+    <string name="show_less">عرض أقل</string>
+    <string name="latest">الاخيرة</string>
+    <string name="explore">استكشف</string>
+    <string name="update_all">تحديث الكل</string>
+    <string name="installed_applications">التطبيقات المثبتة</string>
+    <string name="sort_filter">الفرز والتصفية</string>
+    <string name="root_installer">مثبت الجذر</string>
+    <string name="installer">المثبت</string>
+    <string name="new_applications">تطبيقات جديدة</string>
+    <string name="session_installer">مثبت الجلسة</string>
+    <string name="legacy_installer">المثبت القديم</string>
+    <string name="shizuku_installer">مثبت شيزوكو</string>
 </resources>
