@@ -3,6 +3,7 @@ package com.looker.droidify.content
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
@@ -30,6 +31,13 @@ object Cache {
 		}
 	}
 
+	private fun subPath(dir: File, file: File): String {
+		val dirPath = "${dir.path}/"
+		val filePath = file.path
+		filePath.startsWith(dirPath) || throw RuntimeException()
+		return filePath.substring(dirPath.length)
+	}
+
 	fun getImagesDir(context: Context): File {
 		return ensureCacheDir(context, "images")
 	}
@@ -51,6 +59,16 @@ object Cache {
 				}
 			}
 		}
+	}
+
+	fun getReleaseUri(context: Context, cacheFileName: String): Uri {
+		val file = getReleaseFile(context, cacheFileName)
+		val packageInfo =
+			context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PROVIDERS)
+		val authority =
+			packageInfo.providers.find { it.name == Provider::class.java.name }!!.authority
+		return Uri.Builder().scheme("content").authority(authority)
+			.encodedPath(subPath(context.cacheDir, file)).build()
 	}
 
 	fun getTemporaryFile(context: Context): File {

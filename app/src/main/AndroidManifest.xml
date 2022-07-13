@@ -88,8 +88,16 @@
         <service android:name=".service.DownloadService" />
 
         <service
-            android:name=".installer.InstallerService"
+            android:name="com.looker.installer.InstallerService"
             android:exported="false" />
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <provider
             android:name=".content.Cache$Provider"

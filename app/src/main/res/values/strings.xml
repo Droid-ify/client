@@ -63,6 +63,11 @@
     <string name="incompatible_with_FORMAT">Incompatible with %s</string>
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>
+    <string name="installer">Installer</string>
+    <string name="legacy_installer">Legacy Installer</string>
+    <string name="session_installer">Session Installer</string>
+    <string name="root_installer">Root Installer</string>
+    <string name="shizuku_installer">Shizuku Installer</string>
     <string name="installed">Installed</string>
     <string name="integrity_check_error_DESC">Could not check integrity.</string>
     <string name="invalid_address">Invalid address</string>

@@ -10,9 +10,6 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +19,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.entity.*
-import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.screen.MessageDialog
 import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.screen.ScreenshotsFragment
@@ -31,8 +27,9 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.adapters.AppDetailAdapter
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.Utils.startUpdate
+import com.looker.droidify.utility.extension.app_file.installApk
+import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.text.trimAfter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -361,10 +358,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			updateButtons()
 		}
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
-		if (state is DownloadService.State.Success && isResumed && !rootInstallerEnabled) {
-			withContext(Dispatchers.Default) {
-				AppInstaller.getInstance(context)?.defaultInstaller?.install(state.release.cacheFileName)
-			}
+		if (state is DownloadService.State.Success && isResumed) {
+			packageName.installApk(context, state.release.cacheFileName)
 		}
 	}
 
@@ -420,9 +415,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				)
 			}
 			AppDetailAdapter.Action.UNINSTALL -> {
-				lifecycleScope.launch {
-					AppInstaller.getInstance(context)?.defaultInstaller?.uninstall(packageName)
-				}
+				lifecycleScope.launch { packageName.uninstallApk(context) }
 				Unit
 			}
 			AppDetailAdapter.Action.CANCEL -> {

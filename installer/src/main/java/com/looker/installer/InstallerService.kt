@@ -1,16 +1,14 @@
-package com.looker.droidify.installer
+package com.looker.installer
 
 import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.IBinder
-import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
-import com.looker.droidify.Common
-import com.looker.droidify.R
-import com.looker.droidify.utility.extension.android.notificationManager
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.core_common.NotificationExtension
+import com.looker.core_common.NotificationExtension.NOTIFICATION_ID_INSTALLING
+import com.looker.core_common.notificationManager
 
 /**
  * Runs during or after a PackageInstaller session in order to handle completion, failure, or
@@ -70,27 +68,23 @@ class InstallerService : Service() {
 
 		// start building
 		val builder = NotificationCompat
-			.Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
+			.Builder(this, NotificationExtension.NOTIFICATION_CHANNEL_INSTALLING)
 			.setAutoCancel(true)
-			.setColor(
-				ContextThemeWrapper(this, R.style.Theme_Main_Light)
-					.getColorFromAttr(R.attr.colorPrimary).defaultColor
-			)
 
 		when (status) {
 			PackageInstaller.STATUS_SUCCESS -> {
 				if (installerAction == ACTION_UNINSTALL)
 				// remove any notification for this app
-					notificationManager.cancel(notificationTag, Common.NOTIFICATION_ID_DOWNLOADING)
+					notificationManager.cancel(notificationTag, NOTIFICATION_ID_INSTALLING)
 				else {
 					val notification = builder
 						.setSmallIcon(android.R.drawable.stat_sys_download_done)
-						.setContentTitle(getString(R.string.installed))
+						.setContentTitle("Installed")
 						.setContentText(appLabel)
 						.build()
 					notificationManager.notify(
 						notificationTag,
-						Common.NOTIFICATION_ID_DOWNLOADING,
+						NOTIFICATION_ID_INSTALLING,
 						notification
 					)
 				}
@@ -102,12 +96,12 @@ class InstallerService : Service() {
 				// problem occurred when installing/uninstalling package
 				val notification = builder
 					.setSmallIcon(android.R.drawable.stat_notify_error)
-					.setContentTitle(getString(R.string.unknown_error_DESC))
+					.setContentTitle("Unknown Error")
 					.setContentText(message)
 					.build()
 				notificationManager.notify(
 					notificationTag,
-					Common.NOTIFICATION_ID_DOWNLOADING,
+					NOTIFICATION_ID_INSTALLING,
 					notification
 				)
 			}

@@ -22,9 +22,6 @@ fun SQLiteDatabase.execWithResult(sql: String) {
 	rawQuery(sql, null).use { it.count }
 }
 
-val Context.notificationManager: NotificationManager
-	get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 val PackageInfo.versionCodeCompat: Long
 	get() = if (Android.sdk(28)) longVersionCode else @Suppress("DEPRECATION") versionCode.toLong()
 

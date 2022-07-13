@@ -13,9 +13,10 @@ import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.ui.fragments.AppDetailFragment
+import com.looker.droidify.ui.fragments.SettingsFragment
 import com.looker.droidify.utility.KParcelable
+import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.droidify.utility.extension.text.nullIfEmpty
 import kotlinx.coroutines.launch
@@ -221,8 +222,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 				if (!packageName.isNullOrEmpty()) {
 					lifecycleScope.launch {
 						specialIntent.cacheFileName?.let {
-							AppInstaller.getInstance(this@ScreenActivity)
-								?.defaultInstaller?.install(packageName, it)
+							packageName.installApk(this@ScreenActivity, it)
 						}
 					}
 				}

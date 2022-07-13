@@ -10,7 +10,7 @@ android {
 	namespace = "com.looker.droidify"
 	defaultConfig {
 		applicationId = "com.looker.droidify"
-		minSdk = 21
+		minSdk = 23
 		targetSdk = 32
 		versionCode = 46
 		versionName = "0.4.6"
@@ -72,6 +72,9 @@ android {
 
 dependencies {
 
+	implementation(project(mapOf("path" to ":core-common")))
+	implementation(project(mapOf("path" to ":installer")))
+
 	// Core
 	implementation(kotlin("stdlib"))
 	implementation("androidx.core:core-ktx:1.8.0")
@@ -104,7 +107,6 @@ dependencies {
 	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
-	implementation("androidx.lifecycle:lifecycle-service:2.5.0")
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs
