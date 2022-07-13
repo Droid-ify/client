@@ -177,4 +177,9 @@
     <string name="explore">Explorer</string>
     <string name="update_all">Tout mettre à jour</string>
     <string name="installed_applications">Applications installées</string>
+    <string name="session_installer">Installateur de session</string>
+    <string name="legacy_installer">Installateur hérité</string>
+    <string name="installer">Installateur</string>
+    <string name="root_installer">Installateur racine</string>
+    <string name="shizuku_installer">Installateur Shizuku</string>
 </resources>
