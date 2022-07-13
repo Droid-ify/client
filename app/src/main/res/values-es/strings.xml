@@ -180,6 +180,6 @@
     <string name="root_installer">Instalador de root</string>
     <string name="installer">Instalador</string>
     <string name="session_installer">Instalador de sesión</string>
-    <string name="legacy_installer">Instalador heredado</string>
+    <string name="legacy_installer">Instalador de legado</string>
     <string name="shizuku_installer">Instalador de Shizuku</string>
 </resources>
