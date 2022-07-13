@@ -72,6 +72,9 @@ android {
 
 dependencies {
 
+	implementation(project(mapOf("path" to ":core-common")))
+	implementation(project(mapOf("path" to ":installer")))
+
 	// Core
 	implementation(kotlin("stdlib"))
 	implementation("androidx.core:core-ktx:1.8.0")

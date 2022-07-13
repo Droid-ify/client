@@ -13,6 +13,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.looker.core_common.notificationManager
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
@@ -25,7 +26,6 @@ import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
-import com.looker.droidify.utility.extension.android.notificationManager
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.formatSize
 import kotlinx.coroutines.*

@@ -21,7 +21,6 @@ import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.text.hex
-import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.security.MessageDigest
 import java.security.cert.Certificate
@@ -84,10 +83,6 @@ object Utils {
 				""
 			}
 		}
-
-	val rootInstallerEnabled: Boolean
-		get() = Preferences[Preferences.Key.RootPermission] &&
-				(Shell.getCachedShell()?.isRoot ?: Shell.getShell().isRoot)
 
 	suspend fun startUpdate(
 		packageName: String,

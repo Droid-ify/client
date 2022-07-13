@@ -8,26 +8,29 @@ import android.net.Uri
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import com.looker.core_common.notificationManager
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
+import com.looker.droidify.content.Preferences
 import com.looker.droidify.entity.Release
 import com.looker.droidify.entity.Repository
-import com.looker.droidify.installer.AppInstaller
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.Utils.calculateHash
-import com.looker.droidify.utility.Utils.rootInstallerEnabled
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.android.notificationManager
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
+import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.text.formatSize
 import com.looker.droidify.utility.extension.text.hex
 import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.droidify.utility.extension.toIntDef
+import com.looker.installer.model.TYPE_ROOT
+import com.looker.installer.model.TYPE_SHIZUKU
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -278,10 +281,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			consumed = true
 		}
 		if (!consumed) {
-			if (rootInstallerEnabled) {
+			val installer = Preferences[Preferences.Key.InstallerType].toIntDef
+			if (installer == TYPE_ROOT || installer == TYPE_SHIZUKU) {
 				scope.launch {
-					AppInstaller.getInstance(this@DownloadService)
-						?.defaultInstaller?.install(task.release.cacheFileName)
+					task.packageName.installApk(this@DownloadService, task.release.cacheFileName)
 				}
 			} else showNotificationInstall(task)
 		}

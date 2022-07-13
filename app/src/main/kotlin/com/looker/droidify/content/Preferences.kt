@@ -3,6 +3,7 @@ package com.looker.droidify.content
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import com.looker.core_common.device.Miui
 import com.looker.droidify.Common.PREFS_LANGUAGE
 import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
@@ -29,7 +30,7 @@ object Preferences {
 		Key.ProxyHost,
 		Key.ProxyPort,
 		Key.ProxyType,
-		Key.RootPermission,
+		Key.InstallerType,
 		Key.SortOrder,
 		Key.Theme,
 		Key.UpdateNotify,
@@ -146,7 +147,12 @@ object Preferences {
 			Value.EnumerationValue(Preferences.ProxyType.Direct)
 		)
 
-		object RootPermission : Key<Boolean>("root_permission", Value.BooleanValue(false))
+		object InstallerType : Key<Preferences.InstallerType>(
+			"installer_type",
+			Value.EnumerationValue(
+				if (Miui.isMiui) Preferences.InstallerType.Legacy else Preferences.InstallerType.Session
+			)
+		)
 
 		object SortOrder : Key<Preferences.SortOrder>(
 			"sort_order",
@@ -191,6 +197,16 @@ object Preferences {
 		object Name : SortOrder("name", ProductItem.Order.NAME)
 		object Added : SortOrder("added", ProductItem.Order.DATE_ADDED)
 		object Update : SortOrder("update", ProductItem.Order.LAST_UPDATE)
+	}
+
+	sealed class InstallerType(override val valueString: String) : Enumeration<InstallerType> {
+		override val values: List<InstallerType>
+			get() = listOf(Session, Legacy, Shizuku, Root)
+
+		object Legacy : InstallerType("legacy_installer")
+		object Shizuku : InstallerType("shizuku_installer")
+		object Session : InstallerType("session_installer")
+		object Root : InstallerType("root_installer")
 	}
 
 	sealed class Theme(override val valueString: String) : Enumeration<Theme> {

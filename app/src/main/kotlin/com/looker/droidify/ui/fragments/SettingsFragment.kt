@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.fragments
 
 import android.app.Dialog
 import android.content.Context
@@ -17,6 +17,7 @@ import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -28,18 +29,20 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.databinding.PreferenceItemBinding
+import com.looker.droidify.screen.ScreenFragment
+import com.looker.droidify.ui.viewmodels.SettingsViewModel
 import com.looker.droidify.utility.Utils.getLocaleOfCode
 import com.looker.droidify.utility.Utils.languagesList
 import com.looker.droidify.utility.Utils.translateLocale
 import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.utility.extension.screenActivity
-import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.launch
 
 class SettingsFragment : ScreenFragment() {
 
 	private var preferenceBinding: PreferenceItemBinding? = null
 	private val preferences = mutableMapOf<Preferences.Key<*>, Preference<*>>()
+	private val viewModel by viewModels<SettingsViewModel>()
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -128,10 +131,17 @@ class SettingsFragment : ScreenFragment() {
 			addEditInt(Preferences.Key.ProxyPort, getString(R.string.proxy_port), 1..65535)
 		}
 		preferences.addCategory(getString(R.string.install_types)) {
-			addSwitch(
-				Preferences.Key.RootPermission, getString(R.string.root_permission),
-				getString(R.string.root_permission_description)
-			)
+			addEnumeration(
+				Preferences.Key.InstallerType, getString(R.string.installer),
+				onClick = { viewModel.installerSelected(it) }
+			) {
+				when (it) {
+					Preferences.InstallerType.Legacy -> getString(R.string.legacy_installer)
+					Preferences.InstallerType.Session -> getString(R.string.session_installer)
+					Preferences.InstallerType.Shizuku -> getString(R.string.shizuku_installer)
+					Preferences.InstallerType.Root -> getString(R.string.root_installer)
+				}
+			}
 		}
 		preferences.addCategory(getString(R.string.credits)) {
 			addText(
@@ -200,12 +210,6 @@ class SettingsFragment : ScreenFragment() {
 			}
 			preferences[Preferences.Key.ProxyHost]?.setEnabled(enabled)
 			preferences[Preferences.Key.ProxyPort]?.setEnabled(enabled)
-		}
-		if (key == Preferences.Key.RootPermission) {
-			preferences[Preferences.Key.RootPermission]?.setEnabled(
-				Shell.getCachedShell()?.isRoot
-					?: Shell.getShell().isRoot
-			)
 		}
 		if (key == Preferences.Key.Theme) {
 			requireActivity().recreate()
@@ -310,7 +314,8 @@ class SettingsFragment : ScreenFragment() {
 	private fun <T : Preferences.Enumeration<T>> LinearLayoutCompat.addEnumeration(
 		key: Preferences.Key<T>,
 		title: String,
-		valueToString: (T) -> String,
+		onClick: (T) -> Unit = {},
+		valueToString: (T) -> String
 	) {
 		addPreference(key, title, { valueToString(Preferences[key]) }) {
 			val values = key.default.value.values
@@ -321,7 +326,10 @@ class SettingsFragment : ScreenFragment() {
 					values.indexOf(Preferences[key])
 				) { dialog, which ->
 					dialog.dismiss()
-					post { Preferences[key] = values[which] }
+					post {
+						Preferences[key] = values[which]
+						onClick(Preferences[key])
+					}
 				}
 				.setNegativeButton(R.string.cancel, null)
 				.create()
