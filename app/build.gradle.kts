@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-	compileSdk = 32
+	compileSdk = Android.compileSdk
 	namespace = "com.looker.droidify"
 	defaultConfig {
-		applicationId = "com.looker.droidify"
-		minSdk = 23
-		targetSdk = 32
-		versionCode = 47
-		versionName = "0.4.7"
+		applicationId = Android.appId
+		minSdk = Android.minSdk
+		targetSdk = Android.compileSdk
+		versionCode = Android.versionCode
+		versionName = Android.versionName
 		vectorDrawables.useSupportLibrary = true
 	}
 
@@ -50,18 +50,10 @@ android {
 	}
 	packagingOptions {
 		jniLibs {
-			excludes += "/okhttp3/internal/publicsuffix/*"
+			excludes += Excludes.jniExclude
 		}
 		resources {
-			excludes += listOf(
-				"/DebugProbesKt.bin",
-				"/kotlin/**.kotlin_builtins",
-				"/kotlin/**.kotlin_metadata",
-				"/META-INF/**.kotlin_module",
-				"/META-INF/**.pro",
-				"/META-INF/**.version",
-				"/okhttp3/internal/publicsuffix/*"
-			)
+			excludes += Excludes.listExclude
 		}
 	}
 
@@ -72,41 +64,33 @@ android {
 
 dependencies {
 
-	implementation(project(mapOf("path" to ":core-common")))
-	implementation(project(mapOf("path" to ":installer")))
+	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.installer))
 
-	// Core
 	implementation(kotlin("stdlib"))
-	implementation("androidx.core:core-ktx:1.8.0")
-	implementation("androidx.appcompat:appcompat:1.4.2")
-	implementation("androidx.fragment:fragment-ktx:1.5.0")
-	implementation("androidx.activity:activity-ktx:1.5.0")
-	implementation("androidx.preference:preference-ktx:1.2.0")
-	implementation("me.zhanghai.android.fastscroll:library:1.1.8")
+	implementation(Core.core)
+	implementation(AndroidX.appCompat)
 
-	// Material3
-	implementation("com.google.android.material:material:1.6.1")
+	implementation(AndroidX.fragment)
+	implementation(AndroidX.activity)
+	implementation(AndroidX.preference)
+	implementation(Lifecycle.runtime)
 
-	// Coil
-	implementation("io.coil-kt:coil:2.1.0")
+	implementation(AndroidX.material)
 
-	// OkHttps
-	implementation("com.squareup.okhttp3:okhttp:5.0.0-alpha.9")
+	implementation(Coil.coil)
 
-	// RxJava
-	implementation("io.reactivex.rxjava3:rxjava:3.1.5")
-	implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
+	implementation(Coroutines.core)
+	implementation(Coroutines.android)
 
-	// LibSu
-	implementation("com.github.topjohnwu.libsu:core:3.2.1")
+	implementation(OkHttp.okhttp)
 
-	// JackSon
-	implementation("com.fasterxml.jackson.core:jackson-core:2.13.3")
+	implementation(RxJava.android)
+	implementation(RxJava.rxjava)
 
-	// Coroutines / Lifecycle
-	implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+	implementation(Jackson.core)
+
+	implementation(Others.fastScroller)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-	compileSdk = 32
+	compileSdk = Android.compileSdk
 	namespace = "com.looker.installer"
 	defaultConfig {
-		minSdk = 23
-		targetSdk = 32
+		minSdk = Android.minSdk
+		targetSdk = Android.compileSdk
 
 		consumerProguardFiles("consumer-rules.pro")
 	}
@@ -32,16 +32,15 @@ android {
 }
 
 dependencies {
-	implementation(project(":core-common"))
+	implementation(project(Modules.coreCommon))
 
-	implementation("androidx.core:core-ktx:1.8.0")
+	implementation(Core.core)
 	implementation(kotlin("stdlib"))
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.3")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.3")
+	implementation(Coroutines.core)
+	implementation(Coroutines.android)
 
-	api("com.github.topjohnwu.libsu:core:3.2.1")
+	api(Others.libsu)
 
-	val shizukuVersion = "12.0.0"
-	api("dev.rikka.shizuku:api:$shizukuVersion")
-	api("dev.rikka.shizuku:provider:$shizukuVersion")
+	api(Others.shizukuApi)
+	api(Others.shizukuProvider)
 }

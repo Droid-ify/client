@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-	compileSdk = 32
+	compileSdk = Android.compileSdk
 	namespace = "com.looker.core_common"
 	defaultConfig {
-		minSdk = 23
-		targetSdk = 32
+		minSdk = Android.minSdk
+		targetSdk = Android.compileSdk
 
 		consumerProguardFiles("consumer-rules.pro")
 	}
@@ -33,5 +33,5 @@ android {
 
 dependencies {
 	implementation(kotlin("stdlib"))
-	implementation("androidx.core:core-ktx:1.8.0")
+	implementation(Core.core)
 }
