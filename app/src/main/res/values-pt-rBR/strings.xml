@@ -180,4 +180,9 @@
     <string name="update_all">Atualizar tudo</string>
     <string name="sort_filter">Ordenar e Filtrar</string>
     <string name="new_applications">Novos aplicativos</string>
+    <string name="installer">Instalador</string>
+    <string name="legacy_installer">Instalador antigo</string>
+    <string name="shizuku_installer">Instalador Shizuku</string>
+    <string name="root_installer">Instalador root</string>
+    <string name="session_installer">Instalador de sessão</string>
 </resources>
