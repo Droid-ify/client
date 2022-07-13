@@ -177,4 +177,9 @@
     <string name="sort_filter">Ordenar y filtrar</string>
     <string name="update_all">Actualizar todo</string>
     <string name="new_applications">Nuevas aplicaciones</string>
+    <string name="root_installer">Instalador de root</string>
+    <string name="installer">Instalador</string>
+    <string name="session_installer">Instalador de sesión</string>
+    <string name="legacy_installer">Instalador heredado</string>
+    <string name="shizuku_installer">Instalador de Shizuku</string>
 </resources>
