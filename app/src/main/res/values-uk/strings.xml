@@ -172,4 +172,15 @@
     <string name="target">Цільовий</string>
     <string name="version">Версія</string>
     <string name="waiting_to_start_download">Очікування завантаження…</string>
+    <string name="show_less">Показати менше</string>
+    <string name="latest">Останні</string>
+    <string name="explore">Огляд</string>
+    <string name="update_all">Оновити все</string>
+    <string name="installed_applications">Встановлені додатки</string>
+    <string name="sort_filter">Сортувати та фільтрувати</string>
+    <string name="new_applications">Нові додатки</string>
+    <string name="legacy_installer">Застарілий інсталятор</string>
+    <string name="installer">Інсталятор</string>
+    <string name="root_installer">Root інсталятор</string>
+    <string name="shizuku_installer">Shizuku інсталятор</string>
 </resources>
