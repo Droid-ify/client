@@ -40,18 +40,22 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textview.MaterialTextView
+import com.looker.core_common.file.KParcelable
+import com.looker.core_common.formatSize
+import com.looker.core_common.nullIfEmpty
+import com.looker.core_model.InstalledItem
+import com.looker.core_model.Product
+import com.looker.core_model.Release
+import com.looker.core_model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
-import com.looker.core_common.file.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.*
-import com.looker.core_common.formatSize
-import com.looker.core_common.nullIfEmpty
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.time.Instant
@@ -68,8 +72,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		fun onActionClick(action: Action)
 		fun onPreferenceChanged(preference: com.looker.core_model.ProductPreference)
 		fun onPermissionsClick(group: String?, permissions: List<String>)
-		fun onScreenshotClick(screenshot: com.looker.core_model.Product.Screenshot)
-		fun onReleaseClick(release: com.looker.core_model.Release)
+		fun onScreenshotClick(screenshot: Product.Screenshot)
+		fun onReleaseClick(release: Release)
 		fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
 	}
 
@@ -131,8 +135,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		abstract val viewType: ViewType
 
 		class AppInfoItem(
-			val repository: com.looker.core_model.Repository,
-			val product: com.looker.core_model.Product
+			val repository: Repository,
+			val product: Product
 		) : Item() {
 			override val descriptor: String
 				get() = "app_info.${product.name}"
@@ -142,9 +146,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		class ScreenshotItem(
-			val screenshots: List<com.looker.core_model.Product.Screenshot>,
+			val screenshots: List<Product.Screenshot>,
 			val packageName: String,
-			val repository: com.looker.core_model.Repository,
+			val repository: Repository,
 		) : Item() {
 			override val descriptor: String
 				get() = "screenshot.${screenshots.size}"
@@ -226,36 +230,36 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			class Donate(val donate: com.looker.core_model.Product.Donate) : LinkItem() {
+			class Donate(val donate: Product.Donate) : LinkItem() {
 				override val descriptor: String
 					get() = "link.donate.$donate"
 
 				override val iconResId: Int
 					get() = when (donate) {
-						is com.looker.core_model.Product.Donate.Regular -> R.drawable.ic_donate_regular
-						is com.looker.core_model.Product.Donate.Bitcoin -> R.drawable.ic_donate_bitcoin
-						is com.looker.core_model.Product.Donate.Litecoin -> R.drawable.ic_donate_litecoin
-						is com.looker.core_model.Product.Donate.Flattr -> R.drawable.ic_donate_flattr
-						is com.looker.core_model.Product.Donate.Liberapay -> R.drawable.ic_donate_liberapay
-						is com.looker.core_model.Product.Donate.OpenCollective -> R.drawable.ic_donate_opencollective
+						is Product.Donate.Regular -> R.drawable.ic_donate_regular
+						is Product.Donate.Bitcoin -> R.drawable.ic_donate_bitcoin
+						is Product.Donate.Litecoin -> R.drawable.ic_donate_litecoin
+						is Product.Donate.Flattr -> R.drawable.ic_donate_flattr
+						is Product.Donate.Liberapay -> R.drawable.ic_donate_liberapay
+						is Product.Donate.OpenCollective -> R.drawable.ic_donate_opencollective
 					}
 
 				override fun getTitle(context: Context): String = when (donate) {
-					is com.looker.core_model.Product.Donate.Regular -> context.getString(R.string.website)
-					is com.looker.core_model.Product.Donate.Bitcoin -> "Bitcoin"
-					is com.looker.core_model.Product.Donate.Litecoin -> "Litecoin"
-					is com.looker.core_model.Product.Donate.Flattr -> "Flattr"
-					is com.looker.core_model.Product.Donate.Liberapay -> "Liberapay"
-					is com.looker.core_model.Product.Donate.OpenCollective -> "Open Collective"
+					is Product.Donate.Regular -> context.getString(R.string.website)
+					is Product.Donate.Bitcoin -> "Bitcoin"
+					is Product.Donate.Litecoin -> "Litecoin"
+					is Product.Donate.Flattr -> "Flattr"
+					is Product.Donate.Liberapay -> "Liberapay"
+					is Product.Donate.OpenCollective -> "Open Collective"
 				}
 
 				override val uri: Uri? = when (donate) {
-					is com.looker.core_model.Product.Donate.Regular -> Uri.parse(donate.url)
-					is com.looker.core_model.Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
-					is com.looker.core_model.Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
-					is com.looker.core_model.Product.Donate.Flattr -> Uri.parse("https://flattr.com/thing/${donate.id}")
-					is com.looker.core_model.Product.Donate.Liberapay -> Uri.parse("https://liberapay.com/~${donate.id}")
-					is com.looker.core_model.Product.Donate.OpenCollective -> Uri.parse("https://opencollective.com/${donate.id}")
+					is Product.Donate.Regular -> Uri.parse(donate.url)
+					is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
+					is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
+					is Product.Donate.Flattr -> Uri.parse("https://flattr.com/thing/${donate.id}")
+					is Product.Donate.Liberapay -> Uri.parse("https://liberapay.com/~${donate.id}")
+					is Product.Donate.OpenCollective -> Uri.parse("https://opencollective.com/${donate.id}")
 				}
 			}
 		}
@@ -272,7 +276,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		class ReleaseItem(
-			val repository: com.looker.core_model.Repository, val release: com.looker.core_model.Release, val selectedRepository: Boolean,
+			val repository: Repository,
+			val release: Release,
+			val selectedRepository: Boolean,
 			val showSignature: Boolean,
 		) : Item() {
 			override val descriptor: String
@@ -535,14 +541,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private val items = mutableListOf<Item>()
 	private val expanded = mutableSetOf<ExpandType>()
-	private var product: com.looker.core_model.Product? = null
-	private var installedItem: com.looker.core_model.InstalledItem? = null
+	private var product: Product? = null
+	private var installedItem: InstalledItem? = null
 
 	fun setProducts(
 		context: Context, packageName: String,
-		products: List<Pair<com.looker.core_model.Product, com.looker.core_model.Repository>>, installedItem: com.looker.core_model.InstalledItem?,
+		products: List<Pair<Product, Repository>>, installedItem: InstalledItem?,
 	) {
-		val productRepository = com.looker.core_model.Product.findSuggested(products, installedItem) { it.first }
+		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
 
 		if (productRepository != null) {
@@ -1380,17 +1386,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				if (incompatibility != null) {
 					holder.compatibility.setTextColor(context.getColorFromAttr(R.attr.colorError))
 					holder.compatibility.text = when (incompatibility) {
-						is com.looker.core_model.Release.Incompatibility.MinSdk,
-						is com.looker.core_model.Release.Incompatibility.MaxSdk,
+						is Release.Incompatibility.MinSdk,
+						is Release.Incompatibility.MaxSdk,
 						-> context.getString(
 							R.string.incompatible_with_FORMAT,
 							Android.name
 						)
-						is com.looker.core_model.Release.Incompatibility.Platform -> context.getString(
+						is Release.Incompatibility.Platform -> context.getString(
 							R.string.incompatible_with_FORMAT,
 							Android.primaryPlatform ?: context.getString(R.string.unknown)
 						)
-						is com.looker.core_model.Release.Incompatibility.Feature -> context.getString(
+						is Release.Incompatibility.Feature -> context.getString(
 							R.string.requires_FORMAT,
 							incompatibility.feature
 						)
