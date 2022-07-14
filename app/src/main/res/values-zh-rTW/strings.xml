@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="add_repository">增加儲存庫</string>
+    <string name="address">地址</string>
+    <string name="action_failed">操作失敗</string>
+</resources>
