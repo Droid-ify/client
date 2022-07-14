@@ -15,7 +15,7 @@
     <string name="light">Světlé</string>
     <string name="number_of_applications">Počet aplikací</string>
     <string name="processing_FORMAT">Zpracovávání %1$s…</string>
-    <string name="parsing_index_error_DESC">Nezdařilo se analyzovat soubor indexu.</string>
+    <string name="parsing_index_error_DESC">Nezdařilo se zpracovat soubor indexu.</string>
     <string name="password">Heslo</string>
     <string name="password_missing">Chybí heslo</string>
     <string name="project_website">Webová stránka projektu</string>
@@ -51,7 +51,7 @@
     <string name="file_format_error_DESC">Neplatný formát souboru.</string>
     <string name="fingerprint">Otisk prstu</string>
     <string name="has_advertising">Obsahuje reklamy</string>
-    <string name="has_non_free_dependencies">Obsahuje ne-svobodné soubory</string>
+    <string name="has_non_free_dependencies">Obsahuje nesvobodné závislosti</string>
     <string name="has_security_vulnerabilities">Obsahuje bezpečnostní zranitelnosti</string>
     <string name="http_error_DESC">Neplatná odpověď serveru.</string>
     <string name="http_proxy">HTTP proxy</string>
@@ -88,7 +88,7 @@
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d aplikace má novou verzi.</item>
         <item quantity="few">%d aplikace mají novou verzi.</item>
-        <item quantity="other"></item>
+        <item quantity="other">%d aplikací má novou verzi.</item>
     </plurals>
     <string name="no_applications_available">Žádné dostupné aplikace</string>
     <string name="no_applications_installed">Žádné instalované aplikace</string>
@@ -126,7 +126,7 @@
     <string name="signed_using_unsafe_algorithm">Podepsáno za použití nebezpečného algoritmu</string>
     <string name="size">Velikost</string>
     <string name="skip">Přeskočit</string>
-    <string name="socks_proxy">SOCKS proxy</string>
+    <string name="socks_proxy">Proxy SOCKS</string>
     <string name="sorting_order">Pořadí řazení</string>
     <string name="source_code">Zdrojový kód</string>
     <string name="source_code_no_longer_available">Zdrojový kód již není dostupný</string>
@@ -175,4 +175,12 @@
     <string name="application">Aplikace</string>
     <string name="author_email">E-mail autora</string>
     <string name="author_website">Webová stránka autora</string>
+    <string name="compiled_for_debugging">Zkompilováno pro ladění</string>
+    <string name="installer">Instalátor</string>
+    <string name="legacy_installer">Původní instalátor</string>
+    <string name="session_installer">Instalátor pomocí relací</string>
+    <string name="root_installer">Root instalátor</string>
+    <string name="shizuku_installer">Instalátor Shizuku</string>
+    <string name="unstable_updates_summary">Navrhnout instalaci nestabilních verzí</string>
+    <string name="select_mirror">Vybrat mirror</string>
 </resources>
