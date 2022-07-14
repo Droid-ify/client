@@ -61,6 +61,11 @@ object Jackson {
 	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.3"
 }
 
+object Gson {
+	private const val version = "2.9.0"
+	const val gson = "com.google.code.gson:gson:$version"
+}
+
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.0"
 	const val runtime =

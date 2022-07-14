@@ -3,8 +3,9 @@ package com.looker.droidify.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.entity.ProductItem
+import com.looker.core_model.ProductItem
 import com.looker.droidify.ui.fragments.AppListFragment
+import com.looker.droidify.utility.extension.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,12 +15,12 @@ import kotlinx.coroutines.launch
 
 class AppListViewModel : ViewModel() {
 
-	private val _order = MutableStateFlow(ProductItem.Order.LAST_UPDATE)
+	private val _order = MutableStateFlow(Order.LAST_UPDATE)
 	private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
 	private val _searchQuery = MutableStateFlow("")
 
-	val order: StateFlow<ProductItem.Order> = _order.stateIn(
-		initialValue = ProductItem.Order.LAST_UPDATE,
+	val order: StateFlow<Order> = _order.stateIn(
+		initialValue = Order.LAST_UPDATE,
 		scope = viewModelScope,
 		started = SharingStarted.WhileSubscribed(5000)
 	)
@@ -38,7 +39,7 @@ class AppListViewModel : ViewModel() {
 	fun request(source: AppListFragment.Source): CursorOwner.Request {
 		var mSearchQuery = ""
 		var mSections: ProductItem.Section = ProductItem.Section.All
-		var mOrder: ProductItem.Order = ProductItem.Order.NAME
+		var mOrder: Order = Order.NAME
 		viewModelScope.launch {
 			launch { searchQuery.collect { if (source.sections) mSearchQuery = it } }
 			launch { sections.collect { if (source.sections) mSections = it } }
@@ -72,7 +73,7 @@ class AppListViewModel : ViewModel() {
 		}
 	}
 
-	fun setOrder(newOrder: ProductItem.Order, perform: () -> Unit) {
+	fun setOrder(newOrder: Order, perform: () -> Unit) {
 		viewModelScope.launch {
 			if (newOrder != order.value) {
 				_order.emit(newOrder)

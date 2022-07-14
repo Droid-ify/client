@@ -1,8 +1,8 @@
-package com.looker.droidify.entity
+package com.looker.core_model
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.utility.extension.json.forEachKey
+import com.looker.core_common.file.forEachKey
 
 data class ProductPreference(val ignoreUpdates: Boolean, val ignoreVersionCode: Long) {
 	fun shouldIgnoreUpdate(versionCode: Long): Boolean {

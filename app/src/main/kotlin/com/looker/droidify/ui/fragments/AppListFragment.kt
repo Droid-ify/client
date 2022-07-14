@@ -15,10 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.ProductItem
+import com.looker.core_model.ProductItem
 import com.looker.droidify.ui.adapters.AppListAdapter
 import com.looker.droidify.ui.viewmodels.AppListViewModel
 import com.looker.droidify.utility.RxUtils
+import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.screenActivity
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -137,7 +138,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		}
 	}
 
-	internal fun setOrder(order: ProductItem.Order) {
+	internal fun setOrder(order: Order) {
 		viewModel.setOrder(order) {
 			if (view != null) {
 				screenActivity.cursorOwner.attach(this, viewModel.request(source))

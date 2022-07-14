@@ -3,9 +3,9 @@ package com.looker.droidify.network
 import android.content.Context
 import android.net.Uri
 import android.view.View
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.Repository
-import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.core_model.Product
+import com.looker.core_model.Repository
+import com.looker.core_common.nullIfEmpty
 import okhttp3.Cache
 import okhttp3.Call
 import okhttp3.HttpUrl.Companion.toHttpUrl

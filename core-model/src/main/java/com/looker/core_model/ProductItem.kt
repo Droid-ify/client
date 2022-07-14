@@ -1,11 +1,10 @@
-package com.looker.droidify.entity
+package com.looker.core_model
 
 import android.os.Parcel
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.R
-import com.looker.droidify.utility.KParcelable
-import com.looker.droidify.utility.extension.json.forEachKey
+import com.looker.core_common.file.KParcelable
+import com.looker.core_common.file.forEachKey
 
 data class ProductItem(
 	var repositoryId: Long, var packageName: String, var name: String, var summary: String,
@@ -50,12 +49,6 @@ data class ProductItem(
 				}
 			}
 		}
-	}
-
-	enum class Order(val titleResId: Int) {
-		NAME(R.string.name),
-		DATE_ADDED(R.string.whats_new),
-		LAST_UPDATE(R.string.recently_updated)
 	}
 
 	fun serialize(generator: JsonGenerator) {

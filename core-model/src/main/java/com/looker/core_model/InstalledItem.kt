@@ -1,4 +1,4 @@
-package com.looker.droidify.entity
+package com.looker.core_model
 
 // Redundant to Room's Installed
 class InstalledItem(

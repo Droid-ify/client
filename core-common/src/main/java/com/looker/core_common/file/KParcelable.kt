@@ -1,4 +1,4 @@
-package com.looker.droidify.utility
+package com.looker.core_common.file
 
 import android.os.Parcel
 import android.os.Parcelable

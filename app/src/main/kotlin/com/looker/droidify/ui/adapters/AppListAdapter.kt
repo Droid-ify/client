@@ -17,12 +17,12 @@ import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.ProductItem
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.ProductItem
+import com.looker.core_model.Repository
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.*
-import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.core_common.nullIfEmpty
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(private val onClick: (ProductItem) -> Unit) :

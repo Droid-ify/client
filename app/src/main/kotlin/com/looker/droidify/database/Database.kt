@@ -8,15 +8,16 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.CancellationSignal
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.entity.InstalledItem
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.ProductItem
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.InstalledItem
+import com.looker.core_model.Product
+import com.looker.core_model.ProductItem
+import com.looker.core_model.Repository
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.firstOrNull
-import com.looker.droidify.utility.extension.json.Json
-import com.looker.droidify.utility.extension.json.parseDictionary
-import com.looker.droidify.utility.extension.json.writeDictionary
+import com.looker.core_common.file.Json
+import com.looker.core_common.file.parseDictionary
+import com.looker.core_common.file.writeDictionary
+import com.looker.droidify.utility.extension.Order
 import io.reactivex.rxjava3.core.Observable
 import java.io.ByteArrayOutputStream
 
@@ -501,7 +502,7 @@ object Database {
 		// Complex left to wiring phase
 		fun query(
 			installed: Boolean, updates: Boolean, searchQuery: String,
-			section: ProductItem.Section, order: ProductItem.Order, signal: CancellationSignal?,
+			section: ProductItem.Section, order: Order, signal: CancellationSignal?,
 		): Cursor {
 			val builder = QueryBuilder()
 
@@ -574,9 +575,9 @@ object Database {
 			}
 
 			when (order) {
-				ProductItem.Order.NAME -> Unit
-				ProductItem.Order.DATE_ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
-				ProductItem.Order.LAST_UPDATE -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
+				Order.NAME -> Unit
+				Order.DATE_ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
+				Order.LAST_UPDATE -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
 			}::class
 			builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 

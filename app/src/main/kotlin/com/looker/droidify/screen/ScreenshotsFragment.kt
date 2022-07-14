@@ -19,8 +19,8 @@ import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.Product
+import com.looker.core_model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.android.Android

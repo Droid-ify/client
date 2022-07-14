@@ -1,6 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch")
-
-package com.looker.droidify.utility.extension.text
+package com.looker.core_common
 
 import android.util.Log
 import java.util.*

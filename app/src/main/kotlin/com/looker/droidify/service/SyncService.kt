@@ -20,14 +20,15 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.ProductItem
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.ProductItem
+import com.looker.core_model.Repository
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.text.formatSize
+import com.looker.core_common.formatSize
+import com.looker.droidify.utility.extension.Order
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.lang.ref.WeakReference
@@ -388,7 +389,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									updates = true,
 									searchQuery = "",
 									section = ProductItem.Section.All,
-									order = ProductItem.Order.NAME,
+									order = Order.NAME,
 									signal = null
 								)
 								.use {

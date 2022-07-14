@@ -1,10 +1,10 @@
-package com.looker.droidify.entity
+package com.looker.core_model
 
 import android.net.Uri
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.droidify.utility.extension.json.*
+import com.looker.core_common.file.*
 
 data class Release(
 	val selected: Boolean,

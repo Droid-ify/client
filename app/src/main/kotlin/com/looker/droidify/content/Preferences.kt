@@ -7,7 +7,8 @@ import com.looker.core_common.device.Miui
 import com.looker.droidify.Common.PREFS_LANGUAGE
 import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
-import com.looker.droidify.entity.ProductItem
+import com.looker.core_model.ProductItem
+import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -189,14 +190,14 @@ object Preferences {
 		object Socks : ProxyType("socks", Proxy.Type.SOCKS)
 	}
 
-	sealed class SortOrder(override val valueString: String, val order: ProductItem.Order) :
+	sealed class SortOrder(override val valueString: String, val order: Order) :
 		Enumeration<SortOrder> {
 		override val values: List<SortOrder>
 			get() = listOf(Name, Added, Update)
 
-		object Name : SortOrder("name", ProductItem.Order.NAME)
-		object Added : SortOrder("added", ProductItem.Order.DATE_ADDED)
-		object Update : SortOrder("update", ProductItem.Order.LAST_UPDATE)
+		object Name : SortOrder("name", Order.NAME)
+		object Added : SortOrder("added", Order.DATE_ADDED)
+		object Update : SortOrder("update", Order.LAST_UPDATE)
 	}
 
 	sealed class InstallerType(override val valueString: String) : Enumeration<InstallerType> {

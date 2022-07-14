@@ -15,10 +15,10 @@ import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.fragments.AppDetailFragment
 import com.looker.droidify.ui.fragments.SettingsFragment
-import com.looker.droidify.utility.KParcelable
+import com.looker.core_common.file.KParcelable
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
-import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.core_common.nullIfEmpty
 import kotlinx.coroutines.launch
 
 abstract class ScreenActivity : AppCompatActivity() {

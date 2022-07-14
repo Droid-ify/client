@@ -18,7 +18,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.*
 import com.looker.droidify.screen.MessageDialog
 import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.screen.ScreenshotsFragment
@@ -31,7 +30,7 @@ import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.droidify.utility.extension.text.trimAfter
+import com.looker.core_common.trimAfter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -69,7 +68,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private class Installed(
-		val installedItem: InstalledItem, val isSystem: Boolean,
+		val installedItem: com.looker.core_model.InstalledItem, val isSystem: Boolean,
 		val launcherActivities: List<Pair<String, String>>,
 	)
 
@@ -79,7 +78,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
 	private var actions = Pair(emptySet<Action>(), null as Action?)
-	private var products = emptyList<Pair<Product, Repository>>()
+	private var products = emptyList<Pair<com.looker.core_model.Product, com.looker.core_model.Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
 
@@ -254,9 +253,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		updateButtons(ProductPreferences[packageName])
 	}
 
-	private suspend fun updateButtons(preference: ProductPreference) {
+	private suspend fun updateButtons(preference: com.looker.core_model.ProductPreference) {
 		val installed = installed
-		val product = Product.findSuggested(products, installed?.installedItem) { it.first }?.first
+		val product = com.looker.core_model.Product.findSuggested(products, installed?.installedItem) { it.first }?.first
 		val compatible = product != null && product.selectedReleases.firstOrNull()
 			.let { it != null && it.incompatibilities.isEmpty() }
 		val canInstall = product != null && installed == null && compatible
@@ -451,7 +450,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	override fun onPreferenceChanged(preference: ProductPreference) {
+	override fun onPreferenceChanged(preference: com.looker.core_model.ProductPreference) {
 		lifecycleScope.launch { updateButtons(preference) }
 	}
 
@@ -461,7 +460,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		)
 	}
 
-	override fun onScreenshotClick(screenshot: Product.Screenshot) {
+	override fun onScreenshotClick(screenshot: com.looker.core_model.Product.Screenshot) {
 		val pair = products.asSequence()
 			.map { it ->
 				Pair(
@@ -480,7 +479,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	override fun onReleaseClick(release: Release) {
+	override fun onReleaseClick(release: com.looker.core_model.Release) {
 		val installedItem = installed?.installedItem
 		when {
 			release.incompatibilities.isNotEmpty() -> {

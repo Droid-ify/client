@@ -1,10 +1,10 @@
-package com.looker.droidify.entity
+package com.looker.core_model
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.utility.extension.json.collectNotNullStrings
-import com.looker.droidify.utility.extension.json.forEachKey
-import com.looker.droidify.utility.extension.json.writeArray
+import com.looker.core_common.file.collectNotNullStrings
+import com.looker.core_common.file.forEachKey
+import com.looker.core_common.file.writeArray
 import java.net.URL
 
 data class Repository(

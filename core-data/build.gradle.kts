@@ -5,7 +5,7 @@ plugins {
 
 android {
 	compileSdk = Android.compileSdk
-	namespace = "com.looker.core_common"
+	namespace = "com.looker.core_data"
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
@@ -32,8 +32,8 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
-	implementation(Core.core)
+	implementation(project(Modules.coreModel))
+	implementation(project(Modules.coreCommon))
 
-	api(Jackson.core)
+	implementation(Gson.gson)
 }

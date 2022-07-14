@@ -1,6 +1,4 @@
-@file:Suppress("PackageDirectoryMismatch")
-
-package com.looker.droidify.utility.extension.json
+package com.looker.core_common.file
 
 import com.fasterxml.jackson.core.*
 

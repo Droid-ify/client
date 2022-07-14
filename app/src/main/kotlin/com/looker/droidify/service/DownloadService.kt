@@ -15,8 +15,8 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
-import com.looker.droidify.entity.Release
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.Release
+import com.looker.core_model.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.Utils.calculateHash
@@ -25,9 +25,9 @@ import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.text.formatSize
-import com.looker.droidify.utility.extension.text.hex
-import com.looker.droidify.utility.extension.text.nullIfEmpty
+import com.looker.core_common.formatSize
+import com.looker.core_common.hex
+import com.looker.core_common.nullIfEmpty
 import com.looker.droidify.utility.extension.toIntDef
 import com.looker.installer.model.TYPE_ROOT
 import com.looker.installer.model.TYPE_SHIZUKU
@@ -79,7 +79,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	inner class Binder : android.os.Binder() {
 		val stateSubject = mutableStateSubject.asSharedFlow()
 
-		fun enqueue(packageName: String, name: String, repository: Repository, release: Release) {
+		fun enqueue(packageName: String, name: String, repository: com.looker.core_model.Repository, release: Release) {
 			val task = Task(
 				packageName,
 				name,

@@ -10,9 +10,9 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
-import com.looker.droidify.entity.InstalledItem
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.InstalledItem
+import com.looker.core_model.Product
+import com.looker.core_model.Repository
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
@@ -20,7 +20,7 @@ import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
-import com.looker.droidify.utility.extension.text.hex
+import com.looker.core_common.hex
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.security.MessageDigest
 import java.security.cert.Certificate
@@ -35,7 +35,12 @@ object Utils {
 
 	fun PackageInfo.toInstalledItem(): InstalledItem {
 		val signatureString = singleSignature?.calculateHash.orEmpty()
-		return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
+		return InstalledItem(
+			packageName,
+			versionName.orEmpty(),
+			versionCodeCompat,
+			signatureString
+		)
 	}
 
 	fun getDefaultApplicationIcons(context: Context): Pair<Drawable, Drawable> {
