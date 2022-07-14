@@ -13,22 +13,22 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
+import com.looker.core_model.ProductItem
+import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
-import com.looker.core_model.ProductItem
-import com.looker.core_model.Repository
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.Result
+import com.looker.core_common.result.Result
+import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.core_common.formatSize
-import com.looker.droidify.utility.extension.Order
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.lang.ref.WeakReference
@@ -247,8 +247,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					this,
 					0,
 					Intent(this, this::class.java).setAction(ACTION_CANCEL),
-					if (Android.sdk(23)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-					else PendingIntent.FLAG_UPDATE_CURRENT
+					PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 				)
 			)
 	}
@@ -361,9 +360,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 						currentTask = null
 						when (request) {
 							Result.Loading -> {
-								launch {
-									mutableStateSubject.emit(State.Connecting(repository.name))
-								}
+								mutableStateSubject.emit(State.Connecting(repository.name))
 							}
 							is Result.Error -> {
 								request.exception?.printStackTrace()

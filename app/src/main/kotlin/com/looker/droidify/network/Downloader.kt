@@ -1,7 +1,7 @@
 package com.looker.droidify.network
 
+import com.looker.core_common.result.Result
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.Result
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext

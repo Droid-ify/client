@@ -35,5 +35,8 @@ dependencies {
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
+	implementation(Coroutines.core)
+	implementation(Coroutines.android)
+
 	api(Jackson.core)
 }

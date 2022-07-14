@@ -9,7 +9,7 @@ import com.looker.core_model.Release
 import com.looker.core_model.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.Result
+import com.looker.core_common.result.Result
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xml.sax.InputSource
 import java.io.File
+import java.lang.IllegalArgumentException
 import java.security.cert.X509Certificate
 import java.util.*
 import java.util.jar.JarEntry
@@ -168,33 +169,43 @@ object RepositoryUpdater {
 		callback: (Stage, Long, Long?) -> Unit
 	): Result<IndexFile> = withContext(Dispatchers.IO) {
 		val file = Cache.getTemporaryFile(context)
-		val downloadResult = Downloader.downloadFile(
-			Uri.parse(repository.address).buildUpon()
-				.appendPath(indexType.jarName).build().toString(),
-			file,
-			repository.lastModified,
-			repository.entityTag,
-			repository.authentication
-		) { read, total -> callback(Stage.DOWNLOAD, read, total) }
+		val downloadResult = try {
+			Downloader.downloadFile(
+				Uri.parse(repository.address).buildUpon()
+					.appendPath(indexType.jarName).build().toString(),
+				file,
+				repository.lastModified,
+				repository.entityTag,
+				repository.authentication
+			) { read, total -> callback(Stage.DOWNLOAD, read, total) }
+		} catch (e: IllegalArgumentException) {
+			Result.Error(IllegalArgumentException())
+		}
 
 		when (downloadResult) {
-			Result.Loading -> Result.Loading
 			is Result.Error -> {
 				file.delete()
 				when (downloadResult.exception) {
-					is InterruptedException, is RuntimeException, is Error -> {
-						Result.Error(downloadResult.exception)
+					is IllegalArgumentException -> {
+						Result.Error(
+							UpdateException(
+								ErrorType.VALIDATION,
+								"Url is invalid",
+								downloadResult.exception as IllegalArgumentException
+							)
+						)
 					}
 					is Exception -> Result.Error(
 						UpdateException(
 							ErrorType.NETWORK,
 							"Network error",
-							downloadResult.exception
+							downloadResult.exception as Exception
 						)
 					)
 					else -> Result.Error(downloadResult.exception)
 				}
 			}
+			Result.Loading -> Result.Loading
 			is Result.Success -> Result.Success(IndexFile(downloadResult.data, file))
 		}
 	}

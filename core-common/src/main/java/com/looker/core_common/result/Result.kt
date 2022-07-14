@@ -1,4 +1,4 @@
-package com.looker.droidify.utility
+package com.looker.core_common.result
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
