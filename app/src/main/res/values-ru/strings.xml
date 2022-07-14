@@ -174,4 +174,14 @@
     <string name="prefs_language_title">Язык</string>
     <string name="prefs_personalization">Персонализация</string>
     <string name="show_less">Показать меньше</string>
+    <string name="installer">Установщик</string>
+    <string name="legacy_installer">Устаревший установщик</string>
+    <string name="root_installer">Root установщик</string>
+    <string name="shizuku_installer">Shizuku установщик</string>
+    <string name="latest">Новое</string>
+    <string name="explore">Обзор</string>
+    <string name="update_all">Обновить все</string>
+    <string name="installed_applications">Установленные приложения</string>
+    <string name="sort_filter">Сортировать и фильтровать</string>
+    <string name="new_applications">Новые приложения</string>
 </resources>
