@@ -12,7 +12,6 @@ import com.looker.core_common.formatSize
 import com.looker.core_common.hex
 import com.looker.core_common.notificationManager
 import com.looker.core_common.nullIfEmpty
-import com.looker.core_common.result.Result
 import com.looker.core_model.Release
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.Common
@@ -21,6 +20,7 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.network.Downloader
+import com.looker.core_common.result.Result
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
