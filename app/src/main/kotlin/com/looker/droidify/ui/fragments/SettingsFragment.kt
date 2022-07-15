@@ -11,8 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.FrameLayout
+import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.net.toUri
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.DialogFragment
@@ -65,8 +65,8 @@ class SettingsFragment : ScreenFragment() {
 			ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
-		val preferences = LinearLayoutCompat(scrollLayout.context)
-		preferences.orientation = LinearLayoutCompat.VERTICAL
+		val preferences = LinearLayout(scrollLayout.context)
+		preferences.orientation = LinearLayout.VERTICAL
 		scrollLayout.addView(
 			preferences,
 			ViewGroup.LayoutParams.MATCH_PARENT,
@@ -164,7 +164,7 @@ class SettingsFragment : ScreenFragment() {
 		updatePreference(null)
 	}
 
-	private fun LinearLayoutCompat.addText(title: String, summary: String, url: String) {
+	private fun LinearLayout.addText(title: String, summary: String, url: String) {
 		val text = MaterialTextView(context)
 		val subText = MaterialTextView(context)
 		text.text = title
@@ -177,13 +177,13 @@ class SettingsFragment : ScreenFragment() {
 		}
 		addView(
 			text,
-			LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-			LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+			LinearLayout.LayoutParams.MATCH_PARENT,
+			LinearLayout.LayoutParams.WRAP_CONTENT
 		)
 		addView(
 			subText,
-			LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-			LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+			LinearLayout.LayoutParams.MATCH_PARENT,
+			LinearLayout.LayoutParams.WRAP_CONTENT
 		)
 		text.setOnClickListener { openURI(url.toUri()) }
 		subText.setOnClickListener { openURI(url.toUri()) }
@@ -216,9 +216,9 @@ class SettingsFragment : ScreenFragment() {
 		}
 	}
 
-	private fun LinearLayoutCompat.addCategory(
+	private fun LinearLayout.addCategory(
 		title: String,
-		callback: LinearLayoutCompat.() -> Unit,
+		callback: LinearLayout.() -> Unit,
 	) {
 		val text = MaterialTextView(context)
 		text.typeface = TypefaceExtra.medium
@@ -228,13 +228,13 @@ class SettingsFragment : ScreenFragment() {
 		resources.sizeScaled(16).let { text.setPadding(it, it, it, 0) }
 		addView(
 			text,
-			LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-			LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+			LinearLayout.LayoutParams.MATCH_PARENT,
+			LinearLayout.LayoutParams.WRAP_CONTENT
 		)
 		callback()
 	}
 
-	private fun <T> LinearLayoutCompat.addPreference(
+	private fun <T> LinearLayout.addPreference(
 		key: Preferences.Key<T>, title: String,
 		summaryProvider: () -> String, dialogProvider: ((Context) -> AlertDialog)?,
 	): Preference<T> {
@@ -244,7 +244,7 @@ class SettingsFragment : ScreenFragment() {
 		return preference
 	}
 
-	private fun LinearLayoutCompat.addSwitch(
+	private fun LinearLayout.addSwitch(
 		key: Preferences.Key<Boolean>,
 		title: String,
 		summary: String,
@@ -255,7 +255,7 @@ class SettingsFragment : ScreenFragment() {
 		preference.setCallback { preference.check.isChecked = Preferences[key] }
 	}
 
-	private fun <T> LinearLayoutCompat.addEdit(
+	private fun <T> LinearLayout.addEdit(
 		key: Preferences.Key<T>, title: String, valueToString: (T) -> String,
 		stringToValue: (String) -> T?, configureEdit: (TextInputEditText) -> Unit,
 	) {
@@ -291,11 +291,11 @@ class SettingsFragment : ScreenFragment() {
 		}
 	}
 
-	private fun LinearLayoutCompat.addEditString(key: Preferences.Key<String>, title: String) {
+	private fun LinearLayout.addEditString(key: Preferences.Key<String>, title: String) {
 		addEdit(key, title, { it }, { it }, { })
 	}
 
-	private fun LinearLayoutCompat.addEditInt(
+	private fun LinearLayout.addEditInt(
 		key: Preferences.Key<Int>,
 		title: String,
 		range: IntRange?,
@@ -311,7 +311,7 @@ class SettingsFragment : ScreenFragment() {
 		}
 	}
 
-	private fun <T : Preferences.Enumeration<T>> LinearLayoutCompat.addEnumeration(
+	private fun <T : Preferences.Enumeration<T>> LinearLayout.addEnumeration(
 		key: Preferences.Key<T>,
 		title: String,
 		onClick: (T) -> Unit = {},
@@ -336,7 +336,7 @@ class SettingsFragment : ScreenFragment() {
 		}
 	}
 
-	private fun <T> LinearLayoutCompat.addList(
+	private fun <T> LinearLayout.addList(
 		key: Preferences.Key<T>,
 		title: String,
 		values: List<T>,
