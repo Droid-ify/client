@@ -43,6 +43,8 @@
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="textAppearanceHeadlineMedium">@style/HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/HeadlineSmall</item>
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
@@ -82,6 +84,8 @@
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="textAppearanceHeadlineMedium">@style/HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/HeadlineSmall</item>
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
@@ -121,6 +125,24 @@
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
         <item name="collapsingToolbarLayoutLargeStyle">@style/Theme.CollapsingToolbar</item>
+        <item name="textAppearanceHeadlineMedium">@style/HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/HeadlineSmall</item>
+    </style>
+
+    <style name="HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">32sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="lineHeight">32sp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="Theme.AppBarLayout" parent="Widget.Material3.AppBarLayout">
@@ -146,8 +168,12 @@
 
     <style name="Theme.EditText" parent="Widget.Material3.TextInputLayout.FilledBox">
         <item name="boxBackgroundColor">?attr/colorSurface</item>
-        <item name="boxStrokeColor">?attr/colorPrimary</item>
-        <item name="boxStrokeWidth">2dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/shape_medium_corner</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/shape_medium_corner</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/shape_medium_corner</item>
+        <item name="boxCornerRadiusTopStart">@dimen/shape_medium_corner</item>
         <item name="hintTextColor">?attr/colorPrimary</item>
         <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
