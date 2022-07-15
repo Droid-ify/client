@@ -45,7 +45,7 @@
     <string name="ignore_this_update">Αγνόηση αυτής της ενημέρωσης</string>
     <string name="incompatible_api_max_DESC_FORMAT">Η μέγιστη έκδοση API είναι %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">Η ελάχιστη έκδοση API είναι %d.</string>
-    <string name="incompatible_features_DESC">Missing features.</string>
+    <string name="incompatible_features_DESC">Λείπουν χαρακτηριστικά.</string>
     <string name="incompatible_version">Ασύμβατη έκδοση</string>
     <string name="incompatible_versions">Ασύμβατες εκδόσεις</string>
     <string name="incompatible_versions_summary">Εμφάνιση εκδόσεων εφαρμογών ασύμβατων με τη συσκευή</string>
@@ -66,7 +66,7 @@
     <string name="links">Σύνδεσμοι</string>
     <string name="list_animation">Κινήσεις Λίστας</string>
     <string name="list_animation_description">Εμφάνιση κινήσεων λίστας στην αρχική σελίδα</string>
-    <string name="merging_FORMAT">Merging %s</string>
+    <string name="merging_FORMAT">Συγχώνευση %s</string>
     <string name="name">Όνομα</string>
     <string name="network_error_DESC">Σφάλμα δικτύου.</string>
     <string name="never">Ποτέ</string>
@@ -170,4 +170,16 @@
     <string name="amoled">Amoled</string>
     <string name="prefs_personalization">Εξατομίκευση</string>
     <string name="prefs_language_title">Γλώσσα</string>
+    <string name="latest">Πρόσφατα</string>
+    <string name="sort_filter">Ταξινόμηση &amp; Φιλτράρισμα</string>
+    <string name="installed_applications">Εγκατεστημένες εφαρμογές</string>
+    <string name="installer">Πρόγραμμα Εγκατάστασης</string>
+    <string name="legacy_installer">Παλιό πρόγραμμα Εγκατάστασης</string>
+    <string name="session_installer">Πρόγραμμα Εκατάστασης Συνεδρίας</string>
+    <string name="root_installer">Πρόγραμμα Εγκατάστασης Root</string>
+    <string name="shizuku_installer">Πρόγραμμα Εγκατάστασης Shizuku</string>
+    <string name="show_less">Εμφάνιση Λιγότερων</string>
+    <string name="explore">Εξερεύνηση</string>
+    <string name="update_all">Ενημέρωση όλων</string>
+    <string name="new_applications">Νέες εφαρμογές</string>
 </resources>
