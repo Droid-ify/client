@@ -61,6 +61,10 @@ object Jackson {
 	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.3"
 }
 
+object Kotlin {
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
+}
+
 object Gson {
 	private const val version = "2.9.0"
 	const val gson = "com.google.code.gson:gson:$version"

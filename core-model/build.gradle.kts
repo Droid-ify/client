@@ -1,6 +1,7 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
@@ -34,4 +35,5 @@ android {
 dependencies {
 	implementation(project(Modules.coreCommon))
 	implementation(Core.core)
+	api(Kotlin.serialization)
 }
