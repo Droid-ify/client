@@ -7,7 +7,6 @@ import com.looker.core_common.device.Miui
 import com.looker.droidify.Common.PREFS_LANGUAGE
 import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
-import com.looker.core_model.ProductItem
 import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
