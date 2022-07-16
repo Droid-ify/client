@@ -83,6 +83,16 @@ object Room {
 	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
 }
 
+object Startup {
+	private const val startupVersion = "1.1.1"
+	const val lib = "androidx.startup:startup-runtime:$startupVersion"
+}
+
+object Work {
+	private const val version = "2.7.1"
+	const val manager = "androidx.work:work-runtime-ktx:$version"
+}
+
 object Version {
 	const val kotlinVersion = "1.7.10"
 }
