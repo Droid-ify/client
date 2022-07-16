@@ -21,6 +21,7 @@ import com.looker.droidify.content.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.network.Downloader
 import com.looker.core_common.result.Result
+import com.looker.core_datastore.model.InstallerType
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
@@ -28,8 +29,6 @@ import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.toIntDef
-import com.looker.installer.model.TYPE_ROOT
-import com.looker.installer.model.TYPE_SHIZUKU
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -286,7 +285,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 		if (!consumed) {
 			val installer = Preferences[Preferences.Key.InstallerType].toIntDef
-			if (installer == TYPE_ROOT || installer == TYPE_SHIZUKU) {
+			if (installer == InstallerType.ROOT || installer == InstallerType.SHIZUKU) {
 				scope.launch {
 					task.packageName.installApk(this@DownloadService, task.release.cacheFileName)
 				}

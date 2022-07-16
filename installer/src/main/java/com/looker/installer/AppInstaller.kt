@@ -1,11 +1,11 @@
 package com.looker.installer
 
 import android.content.Context
+import com.looker.core_datastore.model.*
 import com.looker.installer.installer.LegacyInstaller
 import com.looker.installer.installer.RootInstaller
 import com.looker.installer.installer.SessionInstaller
 import com.looker.installer.installer.ShizukuInstaller
-import com.looker.installer.model.*
 import com.looker.installer.utils.BaseInstaller
 
 abstract class AppInstaller {
@@ -14,7 +14,7 @@ abstract class AppInstaller {
 	companion object {
 		@Volatile
 		private var INSTANCE: AppInstaller? = null
-		fun getInstance(context: Context?, @InstallerType installerType: Int): AppInstaller? {
+		fun getInstance(context: Context?, installerType: InstallerType): AppInstaller? {
 			if (INSTANCE == null) {
 				synchronized(AppInstaller::class.java) {
 					context?.let {
@@ -22,11 +22,10 @@ abstract class AppInstaller {
 							override val defaultInstaller: BaseInstaller
 								get() {
 									return when (installerType) {
-										TYPE_SHIZUKU -> ShizukuInstaller(it)
-										TYPE_SESSION -> SessionInstaller(it)
-										TYPE_ROOT -> RootInstaller(it)
-										TYPE_LEGACY -> LegacyInstaller(it)
-										else -> SessionInstaller(it)
+										InstallerType.LEGACY -> LegacyInstaller(it)
+										InstallerType.SESSION -> SessionInstaller(it)
+										InstallerType.SHIZUKU -> ShizukuInstaller(it)
+										InstallerType.ROOT -> RootInstaller(it)
 									}
 								}
 						}

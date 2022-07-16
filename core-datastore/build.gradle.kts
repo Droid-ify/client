@@ -5,7 +5,7 @@ plugins {
 
 android {
 	compileSdk = Android.compileSdk
-	namespace = "com.looker.installer"
+	namespace = "com.looker.core_datastore"
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
@@ -32,16 +32,8 @@ android {
 }
 
 dependencies {
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatastore))
-
 	implementation(Core.core)
-	implementation(kotlin("stdlib"))
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
-
-	api(Others.libsu)
-
-	api(Others.shizukuApi)
-	api(Others.shizukuProvider)
+	api(Datastore.datastore)
 }

@@ -66,6 +66,7 @@ dependencies {
 
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.installer))
 
 	implementation(kotlin("stdlib"))

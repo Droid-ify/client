@@ -39,6 +39,11 @@ object AndroidX {
 	const val material = "com.google.android.material:material:1.6.1"
 }
 
+object Datastore {
+	private const val version = "1.0.0"
+	const val datastore = "androidx.datastore:datastore-preferences:$version"
+}
+
 object OkHttp {
 	private const val version = "5.0.0-alpha.9"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
@@ -65,15 +70,10 @@ object Kotlin {
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
 }
 
-object Gson {
-	private const val version = "2.9.0"
-	const val gson = "com.google.code.gson:gson:$version"
-}
-
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.0"
-	const val runtime =
-		"androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 }
 
 object Room {
