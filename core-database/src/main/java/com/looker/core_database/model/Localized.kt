@@ -1,5 +1,11 @@
-package com.looker.core_model.new_model
+package com.looker.core_database.model
 
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+
+@Serializable
 data class Localized(
 	val locale: String,
 	val name: String,
@@ -16,4 +22,10 @@ data class Localized(
 	val tenInchScreenshots: List<String>,
 	val tvScreenshots: List<String>,
 	val wearScreenshots: List<String>,
-)
+) {
+	fun toJson() = Json.encodeToString(this)
+
+	companion object {
+		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Localized>(json)
+	}
+}

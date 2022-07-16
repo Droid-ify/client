@@ -1,6 +1,12 @@
-package com.looker.core_model.new_model
+package com.looker.core_database.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "repo_table")
 data class Repo(
+	@PrimaryKey(autoGenerate = true)
+	val repoId: Long,
 	val address: String,
 	val mirrors: List<String>,
 	val name: String,

@@ -1,10 +1,18 @@
-package com.looker.core_model.new_model
+package com.looker.core_database.model
 
-import com.looker.core_model.util.STRING_DELIMITER
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
+@Entity(tableName = "app_table")
 data class App(
-	val icon: String,
+	@PrimaryKey(autoGenerate = true)
 	val packageName: String,
+	val repoId: Long,
+	val icon: String,
 	val license: String,
 	val suggestedVersionName: String,
 	val website: String,
@@ -23,28 +31,42 @@ data class App(
 	val apks: List<Apk>
 )
 
+@Serializable
 sealed class Donate(val id: String) {
+	@Serializable
 	data class Regular(val url: String) : Donate(url)
+
+	@Serializable
 	data class Bitcoin(val address: String) : Donate(address)
+
+	@Serializable
 	data class LiteCoin(val address: String) : Donate(address)
+
+	@Serializable
 	data class Flattr(val userId: String) : Donate(userId)
+
+	@Serializable
 	data class LiberaPay(val userId: String) : Donate(userId)
+
+	@Serializable
 	data class OpenCollective(val userId: String) : Donate(userId)
+
+	fun toJson() = Json.encodeToString(this)
+
+	companion object {
+		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Donate>(json)
+	}
 }
 
+@Serializable
 data class Author(
 	val name: String,
 	val website: String,
 	val email: String
 ) {
-	override fun toString(): String = name + STRING_DELIMITER + website + STRING_DELIMITER + email
-}
+	fun toJson() = Json.encodeToString(this)
 
-fun String.toAuthor(): Author {
-	val authorInList = split(STRING_DELIMITER)
-	return Author(
-		authorInList[0],
-		authorInList[1],
-		authorInList[2]
-	)
+	companion object {
+		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Author>(json)
+	}
 }

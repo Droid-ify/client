@@ -1,11 +1,13 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	id("com.google.devtools.ksp") version ("1.7.0-1.0.6")
+	kotlin("plugin.serialization") version "1.7.10"
 }
 
 android {
 	compileSdk = Android.compileSdk
-	namespace = "com.looker.core_model"
+	namespace = "com.looker.core_database"
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
@@ -32,6 +34,10 @@ android {
 }
 
 dependencies {
-	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreModel))
 	implementation(Core.core)
+	api(Kotlin.serialization)
+	implementation(Room.roomRuntime)
+	implementation(Room.roomKtx)
+	ksp(Room.roomCompiler)
 }
