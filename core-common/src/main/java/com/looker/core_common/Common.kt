@@ -1,4 +1,4 @@
-package com.looker.droidify
+package com.looker.core_common
 
 object Common {
 	const val NOTIFICATION_CHANNEL_SYNCING = "syncing"

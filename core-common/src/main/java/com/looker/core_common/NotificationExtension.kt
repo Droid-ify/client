@@ -3,11 +3,6 @@ package com.looker.core_common
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationChannelGroupCompat
 
-object NotificationExtension {
-	const val NOTIFICATION_CHANNEL_INSTALLING = "installing"
-	const val NOTIFICATION_ID_INSTALLING = 4
-}
-
 /**
  * Helper method to build a notification channel group.
  *

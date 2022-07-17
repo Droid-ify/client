@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import com.looker.core_common.device.Miui
-import com.looker.droidify.Common.PREFS_LANGUAGE
-import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
+import com.looker.core_common.Common.PREFS_LANGUAGE
+import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android

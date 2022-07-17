@@ -18,7 +18,7 @@ import com.looker.core_common.notificationManager
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.Common
+import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
@@ -368,6 +368,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									repository,
 									request.exception as Exception
 								)
+								handleNextTask(request.data == true || hasUpdates)
 							}
 							is Result.Success -> handleNextTask(request.data || hasUpdates)
 						}

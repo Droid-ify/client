@@ -10,7 +10,7 @@ import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
+import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.service.Connection

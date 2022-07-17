@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.onStart
 
 sealed interface Result<out T> {
 	data class Success<T>(val data: T) : Result<T>
-	data class Error(val exception: Throwable? = null) :
-		Result<Nothing>
+	data class Error<T>(val exception: Throwable? = null, val data: T? = null) :
+		Result<T>
 	object Loading : Result<Nothing>
 }
 

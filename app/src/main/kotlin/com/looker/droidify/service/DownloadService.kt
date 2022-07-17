@@ -14,7 +14,7 @@ import com.looker.core_common.notificationManager
 import com.looker.core_common.nullIfEmpty
 import com.looker.core_model.Release
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.Common
+import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.content.Cache
