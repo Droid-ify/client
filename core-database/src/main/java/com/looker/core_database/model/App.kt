@@ -9,7 +9,7 @@ import kotlinx.serialization.json.Json
 
 @Entity(tableName = "app_table")
 data class App(
-	@PrimaryKey(autoGenerate = true)
+	@PrimaryKey(autoGenerate = false)
 	val packageName: String,
 	val repoId: Long,
 	val icon: String,

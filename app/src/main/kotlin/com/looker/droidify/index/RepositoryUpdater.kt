@@ -7,7 +7,7 @@ import com.looker.core_common.unhex
 import com.looker.core_model.Product
 import com.looker.core_model.Release
 import com.looker.core_model.Repository
-import com.looker.droidify.content.Cache
+import com.looker.core_common.cache.Cache
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream

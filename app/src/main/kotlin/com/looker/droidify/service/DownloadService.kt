@@ -17,7 +17,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.droidify.content.Cache
+import com.looker.core_common.cache.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.network.Downloader
 import com.looker.core_common.result.Result

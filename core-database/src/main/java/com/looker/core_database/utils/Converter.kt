@@ -24,8 +24,10 @@ object Converter {
 	fun toAuthor(byteArray: ByteArray): Author = Author.fromJson(jsonBuilder, String(byteArray))
 
 	@TypeConverter
-	fun toLocalized(byteArray: ByteArray): Localized =
-		Localized.fromJson(jsonBuilder, String(byteArray))
+	fun toLocalized(byteArray: ByteArray): List<Localized> =
+		if (String(byteArray) == "") emptyList()
+		else String(byteArray).split(STRING_DELIMITER)
+			.map { Localized.fromJson(jsonBuilder, String(byteArray)) }
 
 	@TypeConverter
 	fun toDonates(byteArray: ByteArray): List<Donate> =
@@ -45,7 +47,10 @@ object Converter {
 	fun authorToArray(author: Author): ByteArray = author.toJson().toByteArray()
 
 	@TypeConverter
-	fun localizedToArray(localized: Localized): ByteArray = localized.toJson().toByteArray()
+	fun localizedToArray(localized: List<Localized>): ByteArray =
+		if (localized.isNotEmpty())
+			localized.joinToString(STRING_DELIMITER) { it.toJson() }.toByteArray()
+		else "".toByteArray()
 
 	@TypeConverter
 	fun donateToArray(donates: List<Donate>): ByteArray =
