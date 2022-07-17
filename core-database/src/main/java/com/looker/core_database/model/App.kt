@@ -2,10 +2,6 @@ package com.looker.core_database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Entity(tableName = "app_table")
 data class App(
@@ -14,59 +10,27 @@ data class App(
 	val repoId: Long,
 	val icon: String,
 	val license: String,
-	val suggestedVersionName: String,
 	val website: String,
+	val authorName: String,
+	val authorWebsite: String,
+	val authorEmail: String,
 	val sourceCode: String,
 	val changelog: String,
 	val issueTracker: String,
-	val translation: String,
+	val helpTranslate: String,
 	val added: Long,
 	val lastUpdated: Long,
+	val suggestedVersionName: String,
 	val suggestedVersionCode: Long,
-	val author: Author,
+	val installedVersionCode: Long?,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
+	val regularDonate: String,
+	val bitcoinId: String,
+	val liteCoinAddress: String,
+	val flattrId: String,
+	val liberaPay: String,
+	val openCollective: String,
 	val localized: List<Localized>,
-	val donate: List<Donate>,
 	val apks: List<Apk>
 )
-
-@Serializable
-sealed class Donate(val id: String) {
-	@Serializable
-	data class Regular(val url: String) : Donate(url)
-
-	@Serializable
-	data class Bitcoin(val address: String) : Donate(address)
-
-	@Serializable
-	data class LiteCoin(val address: String) : Donate(address)
-
-	@Serializable
-	data class Flattr(val userId: String) : Donate(userId)
-
-	@Serializable
-	data class LiberaPay(val userId: String) : Donate(userId)
-
-	@Serializable
-	data class OpenCollective(val userId: String) : Donate(userId)
-
-	fun toJson() = Json.encodeToString(this)
-
-	companion object {
-		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Donate>(json)
-	}
-}
-
-@Serializable
-data class Author(
-	val name: String,
-	val website: String,
-	val email: String
-) {
-	fun toJson() = Json.encodeToString(this)
-
-	companion object {
-		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Author>(json)
-	}
-}
