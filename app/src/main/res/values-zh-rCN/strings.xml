@@ -83,9 +83,9 @@
     <string name="name">名称</string>
     <string name="network_error_DESC">网络错误.</string>
     <string name="never">从不</string>
-    <string name="new_updates_available">有应用程序的新版本可用</string>
+    <string name="new_updates_available">有应用的新版本可用</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="other">%d 个应用程序有新版本。</item>
+        <item quantity="other">%d 个应用有新版本。</item>
     </plurals>
     <string name="no_applications_available">没有可用的应用</string>
     <string name="no_applications_installed">没有已安装的应用</string>
@@ -168,9 +168,20 @@
     <string name="version_FORMAT">版本 %s</string>
     <string name="versions">版本</string>
     <string name="waiting_to_start_download">等待开始下载…</string>
-    <string name="whats_new">最近上架</string>
+    <string name="whats_new">更新日志</string>
     <string name="website">网站</string>
     <string name="prefs_language_title">语言</string>
     <string name="prefs_personalization">个性化</string>
     <string name="show_less">显示较少程序</string>
+    <string name="installed_applications">已安装应用</string>
+    <string name="sort_filter">排序 &amp; 过滤</string>
+    <string name="latest">最新</string>
+    <string name="explore">探索</string>
+    <string name="update_all">更新全部</string>
+    <string name="installer">安装器</string>
+    <string name="legacy_installer">传统安装器</string>
+    <string name="session_installer">会话安装器</string>
+    <string name="root_installer">Root 安装器</string>
+    <string name="shizuku_installer">Shizuku 安装器</string>
+    <string name="new_applications">新应用</string>
 </resources>
