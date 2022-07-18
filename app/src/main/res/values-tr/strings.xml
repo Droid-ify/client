@@ -96,7 +96,7 @@
     <string name="number_of_applications">Uygulama sayısı</string>
     <string name="ok">Tamam</string>
     <string name="only_compatible_with_FORMAT">Yalnızca %s ile uyumlu</string>
-    <string name="only_on_wifi">Yalnızca Wi-Fi\'de</string>
+    <string name="only_on_wifi">Yalnızca Wi-Fi</string>
     <string name="open_DESC_FORMAT">%s açılsın mı?</string>
     <string name="other">Diğer</string>
     <string name="parsing_index_error_DESC">Dizin dosyası çözümlenemedi.</string>
@@ -157,7 +157,7 @@
     <string name="unstable_updates">Kararsız güncellemeler</string>
     <string name="unstable_updates_summary">Kararsız sürümleri kurmayı öner</string>
     <string name="unverified">Doğrulanmamış</string>
-    <string name="update">Güncelleme</string>
+    <string name="update">Güncelleştir</string>
     <string name="updates">Güncellemeler</string>
     <string name="upstream_source_code_is_not_free">Yukarı akış kaynak kodu özgür değil</string>
     <string name="username">Kullanıcı adı</string>
