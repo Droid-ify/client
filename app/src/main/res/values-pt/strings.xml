@@ -177,4 +177,8 @@
     <string name="unstable_updates_summary">Sugerir instalação de versões instáveis</string>
     <string name="explore">Explorar</string>
     <string name="update_all">Atualizar tudo</string>
+    <string name="legacy_installer">Instalador antigo</string>
+    <string name="installer">Instalador</string>
+    <string name="root_installer">Instalador de root</string>
+    <string name="shizuku_installer">Instalador de Shizuku</string>
 </resources>
