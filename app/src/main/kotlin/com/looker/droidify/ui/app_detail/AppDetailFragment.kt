@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.looker.core_common.trimAfter
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -29,7 +30,6 @@ import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.core_common.trimAfter
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -77,7 +77,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
 	private var actions = Pair(emptySet<Action>(), null as Action?)
-	private var products = emptyList<Pair<com.looker.core_model.Product, com.looker.core_model.Repository>>()
+	private var products =
+		emptyList<Pair<com.looker.core_model.Product, com.looker.core_model.Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
 
@@ -254,7 +255,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private suspend fun updateButtons(preference: com.looker.core_model.ProductPreference) {
 		val installed = installed
-		val product = com.looker.core_model.Product.findSuggested(products, installed?.installedItem) { it.first }?.first
+		val product = com.looker.core_model.Product.findSuggested(
+			products,
+			installed?.installedItem
+		) { it.first }?.first
 		val compatible = product != null && product.selectedReleases.firstOrNull()
 			.let { it != null && it.incompatibilities.isEmpty() }
 		val canInstall = product != null && installed == null && compatible

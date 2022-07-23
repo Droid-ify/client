@@ -16,7 +16,13 @@ import java.util.*
 import kotlin.concurrent.thread
 
 object Cache {
-	private fun ensureCacheDir(context: Context, name: String): File {
+
+	const val RELEASE_DIR = "releases"
+	const val PARTIAL_DIR = "partial"
+	const val IMAGES_DIR = "images"
+	const val TEMP_DIR = "temporary"
+
+	fun ensureCacheDir(context: Context, name: String): File {
 		return File(
 			context.cacheDir,
 			name
@@ -39,15 +45,15 @@ object Cache {
 	}
 
 	fun getImagesDir(context: Context): File {
-		return ensureCacheDir(context, "images")
+		return ensureCacheDir(context, IMAGES_DIR)
 	}
 
 	fun getPartialReleaseFile(context: Context, cacheFileName: String): File {
-		return File(ensureCacheDir(context, "partial"), cacheFileName)
+		return File(ensureCacheDir(context, PARTIAL_DIR), cacheFileName)
 	}
 
 	fun getReleaseFile(context: Context, cacheFileName: String): File {
-		return File(ensureCacheDir(context, "releases"), cacheFileName).apply {
+		return File(ensureCacheDir(context, RELEASE_DIR), cacheFileName).apply {
 			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
 				// Make readable for package installer
 				val cacheDir = context.cacheDir.parentFile!!.parentFile!!
@@ -72,17 +78,17 @@ object Cache {
 	}
 
 	fun getTemporaryFile(context: Context): File {
-		return File(ensureCacheDir(context, "temporary"), UUID.randomUUID().toString())
+		return File(ensureCacheDir(context, TEMP_DIR), UUID.randomUUID().toString())
 	}
 
 	fun cleanup(context: Context) {
 		thread {
 			cleanup(
 				context,
-				Pair("images", 0),
-				Pair("partial", 24),
-				Pair("releases", 24),
-				Pair("temporary", 1)
+				Pair(IMAGES_DIR, 0),
+				Pair(PARTIAL_DIR, 24),
+				Pair(RELEASE_DIR, 24),
+				Pair(TEMP_DIR, 1)
 			)
 		}
 	}
@@ -143,7 +149,7 @@ object Cache {
 
 		private fun getFileAndTypeForUri(uri: Uri): Pair<File, String> {
 			return when (uri.pathSegments?.firstOrNull()) {
-				"releases" -> Pair(
+				RELEASE_DIR -> Pair(
 					File(context!!.cacheDir, uri.encodedPath!!),
 					"application/vnd.android.package-archive"
 				)
