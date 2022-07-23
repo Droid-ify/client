@@ -10,15 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.looker.core_common.file.KParcelable
+import com.looker.core_common.nullIfEmpty
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.fragments.AppDetailFragment
 import com.looker.droidify.ui.fragments.SettingsFragment
-import com.looker.core_common.file.KParcelable
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
-import com.looker.core_common.nullIfEmpty
 import kotlinx.coroutines.launch
 
 abstract class ScreenActivity : AppCompatActivity() {
@@ -81,6 +81,10 @@ abstract class ScreenActivity : AppCompatActivity() {
 				ViewGroup.LayoutParams.MATCH_PARENT
 			)
 		)
+
+		supportFragmentManager.addFragmentOnAttachListener { _, _ ->
+			hideKeyboard()
+		}
 
 		if (savedInstanceState == null) {
 			cursorOwner = CursorOwner()
@@ -162,12 +166,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 	private fun hideKeyboard() {
 		(getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
 			?.hideSoftInputFromWindow((currentFocus ?: window.decorView).windowToken, 0)
-	}
-
-	@Deprecated("Deprecated in Java")
-	override fun onAttachFragment(fragment: Fragment) {
-		super.onAttachFragment(fragment)
-		hideKeyboard()
 	}
 
 	internal fun onToolbarCreated(toolbar: Toolbar) {
