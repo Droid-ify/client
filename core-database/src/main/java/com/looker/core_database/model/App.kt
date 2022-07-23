@@ -2,71 +2,41 @@ package com.looker.core_database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 
 @Entity(tableName = "app_table")
+@Serializable
 data class App(
-	@PrimaryKey(autoGenerate = true)
-	val packageName: String,
-	val repoId: Long,
-	val icon: String,
-	val license: String,
-	val suggestedVersionName: String,
-	val website: String,
-	val sourceCode: String,
-	val changelog: String,
-	val issueTracker: String,
-	val translation: String,
-	val added: Long,
-	val lastUpdated: Long,
-	val suggestedVersionCode: Long,
-	val author: Author,
-	val categories: List<String>,
-	val antiFeatures: List<String>,
-	val localized: List<Localized>,
-	val donate: List<Donate>,
-	val apks: List<Apk>
+	@PrimaryKey(autoGenerate = false)
+	@SerialName("packageName") val packageName: String,
+	@SerialName("name") val nameFallback: String,
+	@SerialName("description") val descriptionFallback: String,
+	@SerialName("summary") val summaryFallback: String,
+	@SerialName("icon") val iconFallback: String,
+	@SerialName("license") val license: String,
+	@SerialName("webSite") val website: String,
+	@SerialName("authorName") val authorName: String,
+	@SerialName("authorWebSite") val authorWebsite: String,
+	@SerialName("authorEmail") val authorEmail: String,
+	@SerialName("sourceCode") val sourceCode: String,
+	@SerialName("changelog") val changelog: String,
+	@SerialName("issueTracker") val issueTracker: String,
+	@SerialName("translate") val helpTranslate: String,
+	@SerialName("added") val added: Long,
+	@SerialName("lastUpdated") val lastUpdated: Long,
+	@SerialName("suggestedVersionName") val suggestedVersionName: String,
+	@SerialName("suggestedVersionCode") val suggestedVersionCode: Long,
+	@SerialName("categories") val categories: List<String>,
+	@SerialName("antiFeatures") val antiFeatures: List<String>,
+	@SerialName("donate") val regularDonate: String,
+	@SerialName("bitcoin") val bitcoinId: String,
+	@SerialName("litecoin") val liteCoinAddress: String,
+	@SerialName("flattrID") val flattrId: String,
+	@SerialName("liberapayID") val liberaPay: String,
+	@SerialName("openCollective") val openCollective: String,
+	@SerialName("localized") val localized: Map<String, Localized>,
+	val repoId: Long = 0L,
+	val installedVersionCode: Long = 0L,
+	val apks: List<Apk> = emptyList()
 )
-
-@Serializable
-sealed class Donate(val id: String) {
-	@Serializable
-	data class Regular(val url: String) : Donate(url)
-
-	@Serializable
-	data class Bitcoin(val address: String) : Donate(address)
-
-	@Serializable
-	data class LiteCoin(val address: String) : Donate(address)
-
-	@Serializable
-	data class Flattr(val userId: String) : Donate(userId)
-
-	@Serializable
-	data class LiberaPay(val userId: String) : Donate(userId)
-
-	@Serializable
-	data class OpenCollective(val userId: String) : Donate(userId)
-
-	fun toJson() = Json.encodeToString(this)
-
-	companion object {
-		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Donate>(json)
-	}
-}
-
-@Serializable
-data class Author(
-	val name: String,
-	val website: String,
-	val email: String
-) {
-	fun toJson() = Json.encodeToString(this)
-
-	companion object {
-		fun fromJson(builder: Json, json: String) = builder.decodeFromString<Author>(json)
-	}
-}

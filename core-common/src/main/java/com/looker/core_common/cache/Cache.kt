@@ -1,4 +1,4 @@
-package com.looker.droidify.content
+package com.looker.core_common.cache
 
 import android.content.ContentProvider
 import android.content.ContentValues
@@ -7,10 +7,10 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
+import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.system.Os
-import com.looker.droidify.utility.extension.android.Android
 import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
@@ -48,7 +48,7 @@ object Cache {
 
 	fun getReleaseFile(context: Context, cacheFileName: String): File {
 		return File(ensureCacheDir(context, "releases"), cacheFileName).apply {
-			if (!Android.sdk(24)) {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
 				// Make readable for package installer
 				val cacheDir = context.cacheDir.parentFile!!.parentFile!!
 				generateSequence(this) { it.parentFile!! }.takeWhile { it != cacheDir }.forEach {

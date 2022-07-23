@@ -2,14 +2,17 @@ package com.looker.core_database.utils
 
 import androidx.room.TypeConverter
 import com.looker.core_database.model.Apk
-import com.looker.core_database.model.Author
-import com.looker.core_database.model.Donate
 import com.looker.core_database.model.Localized
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 object Converter {
 
-	private val jsonBuilder = Json { ignoreUnknownKeys = true }
+	private val jsonBuilder = Json {
+		ignoreUnknownKeys = true
+		encodeDefaults = true
+	}
 
 	@TypeConverter
 	fun toStringList(byteArray: ByteArray): List<String> =
@@ -21,16 +24,9 @@ object Converter {
 		else String(byteArray).split(STRING_DELIMITER).map { Apk.fromJson(jsonBuilder, it) }
 
 	@TypeConverter
-	fun toAuthor(byteArray: ByteArray): Author = Author.fromJson(jsonBuilder, String(byteArray))
-
-	@TypeConverter
-	fun toLocalized(byteArray: ByteArray): Localized =
-		Localized.fromJson(jsonBuilder, String(byteArray))
-
-	@TypeConverter
-	fun toDonates(byteArray: ByteArray): List<Donate> =
-		if (String(byteArray) == "") emptyList()
-		else String(byteArray).split("|").map { Donate.fromJson(jsonBuilder, it) }
+	fun toLocalized(byteArray: ByteArray): Map<String, Localized> =
+		if (String(byteArray) == "") emptyMap()
+		else jsonBuilder.decodeFromString(String(byteArray))
 
 	@TypeConverter
 	fun listToArray(list: List<String>): ByteArray =
@@ -42,13 +38,7 @@ object Converter {
 		else "".toByteArray()
 
 	@TypeConverter
-	fun authorToArray(author: Author): ByteArray = author.toJson().toByteArray()
-
-	@TypeConverter
-	fun localizedToArray(localized: Localized): ByteArray = localized.toJson().toByteArray()
-
-	@TypeConverter
-	fun donateToArray(donates: List<Donate>): ByteArray =
-		if (donates.isNotEmpty()) donates.joinToString("|") { it.toJson() }.toByteArray()
+	fun localizedToArray(localized: Map<String, Localized>): ByteArray =
+		if (localized.isNotEmpty()) jsonBuilder.encodeToString(localized).toByteArray()
 		else "".toByteArray()
 }

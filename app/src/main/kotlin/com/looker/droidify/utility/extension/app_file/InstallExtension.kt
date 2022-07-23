@@ -1,7 +1,7 @@
 package com.looker.droidify.utility.extension.app_file
 
 import android.content.Context
-import com.looker.droidify.content.Cache
+import com.looker.core_common.cache.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.utility.extension.toIntDef
 import com.looker.installer.AppInstaller

@@ -20,8 +20,8 @@ import com.looker.core_database.utils.Converter
 )
 @TypeConverters(Converter::class)
 abstract class AppDatabase : RoomDatabase() {
-	abstract fun repoDao(): RepoDao
-	abstract fun appDao(): AppDao
+	abstract val repoDao: RepoDao
+	abstract val appDao: AppDao
 
 	companion object {
 		@Volatile

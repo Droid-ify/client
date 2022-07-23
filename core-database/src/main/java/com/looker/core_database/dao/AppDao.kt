@@ -14,18 +14,26 @@ interface AppDao {
 	@Query(
 		value = """
 			SELECT * FROM app_table
-			WHERE packageName = :packageName
+			WHERE authorName= :authorName
 		"""
 	)
-	suspend fun getApp(packageName: String): App
+	fun getAppsFromAuthor(authorName: String): Flow<List<App>>
 
 	@Query(
 		value = """
 			SELECT apks FROM app_table
+			WHERE packageName= :packageName
+		"""
+	)
+	fun getApks(packageName: String): Flow<List<Apk>>
+
+	@Query(
+		value = """
+			SELECT * FROM app_table
 			WHERE packageName = :packageName
 		"""
 	)
-	suspend fun getApksFor(packageName: String): List<Apk>
+	fun getApp(packageName: String): Flow<App>
 
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun insertAppsOrIgnore(apps: List<App>)

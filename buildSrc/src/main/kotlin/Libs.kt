@@ -94,5 +94,6 @@ object Work {
 }
 
 object Version {
-	const val kotlinVersion = "1.7.10"
+	const val kotlin = "1.7.10"
+	const val ksp = "1.7.10-1.0.6"
 }

@@ -1,5 +1,6 @@
 package com.looker.core_database.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
@@ -7,21 +8,20 @@ import kotlinx.serialization.json.Json
 
 @Serializable
 data class Localized(
-	val locale: String,
-	val name: String,
-	val icon: String,
-	val summary: String,
-	val description: String,
-	val whatsNew: String,
-	val promoGraphics: String,
-	val featureGraphics: String,
-	val tvBanner: String,
-	val video: String,
-	val phoneScreenshots: List<String>,
-	val sevenInchScreenshots: List<String>,
-	val tenInchScreenshots: List<String>,
-	val tvScreenshots: List<String>,
-	val wearScreenshots: List<String>,
+	@SerialName("name") val name: String,
+	@SerialName("icon") val icon: String,
+	@SerialName("summary") val summary: String,
+	@SerialName("description") val description: String,
+	@SerialName("whatsNew") val whatsNew: String,
+	@SerialName("promoGraphic") val promoGraphics: String,
+	@SerialName("featureGraphic") val featureGraphics: String,
+	@SerialName("tvBanner") val tvBanner: String,
+	@SerialName("video") val video: String,
+	@SerialName("phoneScreenshots") val phoneScreenshots: List<String>,
+	@SerialName("sevenInchScreenshots") val sevenInchScreenshots: List<String>,
+	@SerialName("tenInchScreenshots") val tenInchScreenshots: List<String>,
+	@SerialName("tvScreenshots") val tvScreenshots: List<String>,
+	@SerialName("wearScreenshots") val wearScreenshots: List<String>,
 ) {
 	fun toJson() = Json.encodeToString(this)
 

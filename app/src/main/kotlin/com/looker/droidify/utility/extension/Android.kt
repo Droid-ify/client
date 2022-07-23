@@ -2,8 +2,6 @@
 
 package com.looker.droidify.utility.extension.android
 
-import android.app.NotificationManager
-import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.database.Cursor

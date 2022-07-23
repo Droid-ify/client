@@ -100,7 +100,7 @@
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <provider
-            android:name=".content.Cache$Provider"
+            android:name="com.looker.core_common.cache.Cache$Provider"
             android:authorities="${applicationId}.provider.cache"
             android:exported="false"
             android:grantUriPermissions="true" />
