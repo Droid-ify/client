@@ -45,7 +45,7 @@ data class UserPreferences(
  * This class handles the data storing and retrieval
  */
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
-	private val TAG: String = "UserPreferenceRepo"
+	private val tag: String = "UserPreferenceRepo"
 
 	/**
 	 * Keys for the data store
@@ -71,7 +71,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
-			if (exception is IOException) Log.e(TAG, "Error reading preferences.", exception)
+			if (exception is IOException) Log.e(tag, "Error reading preferences.", exception)
 			else throw exception
 		}
 		.map(::mapUserPreferences)
@@ -180,7 +180,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
 	/**
-	 * Maps [preferences] to [UserPreferences]
+	 * Maps [Preferences] to [UserPreferences]
 	 */
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
 		val language = preferences[PreferencesKeys.LANGUAGE] ?: Locale.getDefault().language
