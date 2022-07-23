@@ -2,14 +2,25 @@ package com.looker.core_datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.*
-import com.looker.core_datastore.model.*
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.looker.core_datastore.model.AutoSync
+import com.looker.core_datastore.model.InstallerType
+import com.looker.core_datastore.model.ProxyType
+import com.looker.core_datastore.model.SortOrder
+import com.looker.core_datastore.model.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
 import java.util.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 
 /**
  * Settings data class
@@ -26,7 +37,8 @@ data class UserPreferences(
 	val sortOrder: SortOrder,
 	val proxyType: ProxyType,
 	val proxyHost: String,
-	val proxyPort: Int
+	val proxyPort: Int,
+	val cleanUpDuration: Duration
 )
 
 /**
@@ -51,6 +63,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_TYPE = stringPreferencesKey("key_proxy_type")
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
+		val CLEAN_UP_DURATION = longPreferencesKey("clean_up_duration")
 	}
 
 	/**
@@ -147,6 +160,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		PreferencesKeys.PROXY_PORT.update(proxyPort)
 	}
 
+	suspend fun setCleanUpDuration(duration: Duration) {
+		PreferencesKeys.CLEAN_UP_DURATION.update(duration.inWholeHours)
+	}
+
 	/**
 	 * Simple function to reduce boiler plate
 	 */
@@ -189,6 +206,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val proxyHost = preferences[PreferencesKeys.PROXY_HOST] ?: "localhost"
 		val proxyPort = preferences[PreferencesKeys.PROXY_PORT] ?: 9050
 
+		val cleanUpDuration = preferences[PreferencesKeys.CLEAN_UP_DURATION]?.hours ?: 12L.hours
+
 		return UserPreferences(
 			language = language,
 			incompatibleVersions = incompatibleVersions,
@@ -201,7 +220,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			sortOrder = sortOrder,
 			proxyType = proxyType,
 			proxyHost = proxyHost,
-			proxyPort = proxyPort
+			proxyPort = proxyPort,
+			cleanUpDuration = cleanUpDuration
 		)
 	}
 }
