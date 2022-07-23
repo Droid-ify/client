@@ -2,35 +2,41 @@ package com.looker.core_database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 @Entity(tableName = "app_table")
+@Serializable
 data class App(
 	@PrimaryKey(autoGenerate = false)
-	val packageName: String,
-	val repoId: Long,
-	val icon: String,
-	val license: String,
-	val website: String,
-	val authorName: String,
-	val authorWebsite: String,
-	val authorEmail: String,
-	val sourceCode: String,
-	val changelog: String,
-	val issueTracker: String,
-	val helpTranslate: String,
-	val added: Long,
-	val lastUpdated: Long,
-	val suggestedVersionName: String,
-	val suggestedVersionCode: Long,
-	val installedVersionCode: Long?,
-	val categories: List<String>,
-	val antiFeatures: List<String>,
-	val regularDonate: String,
-	val bitcoinId: String,
-	val liteCoinAddress: String,
-	val flattrId: String,
-	val liberaPay: String,
-	val openCollective: String,
-	val localized: List<Localized>,
-	val apks: List<Apk>
+	@SerialName("packageName") val packageName: String,
+	@SerialName("name") val nameFallback: String,
+	@SerialName("description") val descriptionFallback: String,
+	@SerialName("summary") val summaryFallback: String,
+	@SerialName("icon") val iconFallback: String,
+	@SerialName("license") val license: String,
+	@SerialName("webSite") val website: String,
+	@SerialName("authorName") val authorName: String,
+	@SerialName("authorWebSite") val authorWebsite: String,
+	@SerialName("authorEmail") val authorEmail: String,
+	@SerialName("sourceCode") val sourceCode: String,
+	@SerialName("changelog") val changelog: String,
+	@SerialName("issueTracker") val issueTracker: String,
+	@SerialName("translate") val helpTranslate: String,
+	@SerialName("added") val added: Long,
+	@SerialName("lastUpdated") val lastUpdated: Long,
+	@SerialName("suggestedVersionName") val suggestedVersionName: String,
+	@SerialName("suggestedVersionCode") val suggestedVersionCode: Long,
+	@SerialName("categories") val categories: List<String>,
+	@SerialName("antiFeatures") val antiFeatures: List<String>,
+	@SerialName("donate") val regularDonate: String,
+	@SerialName("bitcoin") val bitcoinId: String,
+	@SerialName("litecoin") val liteCoinAddress: String,
+	@SerialName("flattrID") val flattrId: String,
+	@SerialName("liberapayID") val liberaPay: String,
+	@SerialName("openCollective") val openCollective: String,
+	@SerialName("localized") val localized: Map<String, Localized>,
+	val repoId: Long = 0L,
+	val installedVersionCode: Long = 0L,
+	val apks: List<Apk> = emptyList()
 )

@@ -16,7 +16,7 @@ interface RepoDao {
 			WHERE repoId = :repoId
 		"""
 	)
-	fun getRepo(repoId: Long): Repo
+	fun getRepo(repoId: Long): Flow<Repo>
 
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun insertReposOrIgnore(repoEntities: List<Repo>)

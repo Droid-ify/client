@@ -1,6 +1,7 @@
 package com.looker.core_database.dao
 
 import androidx.room.*
+import com.looker.core_database.model.Apk
 import com.looker.core_database.model.App
 import kotlinx.coroutines.flow.Flow
 
@@ -20,11 +21,19 @@ interface AppDao {
 
 	@Query(
 		value = """
+			SELECT apks FROM app_table
+			WHERE packageName= :packageName
+		"""
+	)
+	fun getApks(packageName: String): Flow<List<Apk>>
+
+	@Query(
+		value = """
 			SELECT * FROM app_table
 			WHERE packageName = :packageName
 		"""
 	)
-	fun getApp(packageName: String): App
+	fun getApp(packageName: String): Flow<App>
 
 	@Insert(onConflict = OnConflictStrategy.IGNORE)
 	suspend fun insertAppsOrIgnore(apps: List<App>)

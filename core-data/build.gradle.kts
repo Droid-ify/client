@@ -39,4 +39,5 @@ dependencies {
 	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
+	implementation(OkHttp.okhttp)
 }
