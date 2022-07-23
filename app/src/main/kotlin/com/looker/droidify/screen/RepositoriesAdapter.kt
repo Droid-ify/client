@@ -9,7 +9,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.Repository
+import com.looker.core_model.Repository
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.widget.CursorRecyclerAdapter

@@ -17,3 +17,6 @@ local.properties
 /.idea/
 /release/
 /buildSrc/build/
+/core-data/build/
+/core-database/build/
+/core-datastore/build/

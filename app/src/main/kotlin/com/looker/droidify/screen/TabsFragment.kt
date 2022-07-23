@@ -28,10 +28,10 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
-import com.looker.droidify.entity.ProductItem
+import com.looker.core_model.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.ui.fragments.AppListFragment
+import com.looker.droidify.ui.app_list.AppListFragment
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android

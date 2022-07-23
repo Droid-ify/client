@@ -6,8 +6,8 @@ import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.looker.core_common.NotificationExtension
-import com.looker.core_common.NotificationExtension.NOTIFICATION_ID_INSTALLING
+import com.looker.core_common.Common.NOTIFICATION_CHANNEL_DOWNLOADING
+import com.looker.core_common.Common.NOTIFICATION_ID_DOWNLOADING
 import com.looker.core_common.notificationManager
 
 /**
@@ -68,14 +68,14 @@ class InstallerService : Service() {
 
 		// start building
 		val builder = NotificationCompat
-			.Builder(this, NotificationExtension.NOTIFICATION_CHANNEL_INSTALLING)
+			.Builder(this, NOTIFICATION_CHANNEL_DOWNLOADING)
 			.setAutoCancel(true)
 
 		when (status) {
 			PackageInstaller.STATUS_SUCCESS -> {
 				if (installerAction == ACTION_UNINSTALL)
 				// remove any notification for this app
-					notificationManager.cancel(notificationTag, NOTIFICATION_ID_INSTALLING)
+					notificationManager.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
 				else {
 					val notification = builder
 						.setSmallIcon(android.R.drawable.stat_sys_download_done)
@@ -84,7 +84,7 @@ class InstallerService : Service() {
 						.build()
 					notificationManager.notify(
 						notificationTag,
-						NOTIFICATION_ID_INSTALLING,
+						NOTIFICATION_ID_DOWNLOADING,
 						notification
 					)
 				}
@@ -101,7 +101,7 @@ class InstallerService : Service() {
 					.build()
 				notificationManager.notify(
 					notificationTag,
-					NOTIFICATION_ID_INSTALLING,
+					NOTIFICATION_ID_DOWNLOADING,
 					notification
 				)
 			}

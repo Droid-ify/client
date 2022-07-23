@@ -1,11 +1,14 @@
 package com.looker.droidify.network
 
+import com.looker.core_common.result.Result
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.Result
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlinx.coroutines.withContext
-import okhttp3.*
+import okhttp3.Cache
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.Response
 import okio.IOException
 import java.io.File
 import java.io.FileOutputStream
@@ -68,78 +71,75 @@ object Downloader {
 		return client.newCall(newRequest)
 	}
 
-	suspend fun createCallIO(
-		request: Request.Builder,
-		authentication: String,
-		cache: Cache?
-	): Call = withContext(Dispatchers.IO) { createCall(request, authentication, cache) }
-
 	suspend inline fun downloadFile(
 		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
 		crossinline callback: (read: Long, total: Long?) -> Unit
-	): Result<RequestCode> {
+	): Result<RequestCode> = suspendCancellableCoroutine { cont ->
 		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
-		val request = Request.Builder().url(url)
-			.apply {
-				if (entityTag.isNotEmpty()) addHeader("If-None-Match", entityTag)
-				else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
-				if (start != null) addHeader("Range", "bytes=$start-")
-			}
-		val call = createCallIO(request, authentication, null)
-		return suspendCancellableCoroutine { cont ->
-			call.enqueue(
-				object : Callback {
-					override fun onFailure(call: Call, e: IOException) {
-						cont.resume(Result.Error(e))
-					}
+		val request = try {
+			Request.Builder().url(url)
+		} catch (e: IllegalArgumentException) {
+			e.printStackTrace()
+			cont.resume(Result.Error(e))
+			null
+		}?.apply {
+			if (entityTag.isNotEmpty()) addHeader("If-None-Match", entityTag)
+			else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
+			if (start != null) addHeader("Range", "bytes=$start-")
+		}
+		val call = request?.let { createCall(it, authentication, null) }
+		call?.enqueue(
+			object : Callback {
+				override fun onFailure(call: Call, e: IOException) {
+					cont.resume(Result.Error(e))
+				}
 
-					override fun onResponse(call: Call, response: Response) {
-						response.use { result ->
-							if (response.code == 304) {
-								cont.resume(
-									Result.Success(
-										RequestCode(
-											result.code,
-											lastModified,
-											entityTag
-										)
+				override fun onResponse(call: Call, response: Response) {
+					response.use { result ->
+						if (response.code == 304) {
+							cont.resume(
+								Result.Success(
+									RequestCode(
+										result.code,
+										lastModified,
+										entityTag
 									)
 								)
-							} else {
-								val body = result.body
-								val append = start != null && result.header("Content-Range") != null
-								val progressStart = if (append && start != null) start else 0L
-								val progressTotal =
-									body.contentLength().let { if (it >= 0L) it else null }
-										?.let { progressStart + it }
-								val inputStream = ProgressInputStream(body.byteStream()) {
-									callback(progressStart + it, progressTotal)
-								}
-								inputStream.use { input ->
-									val outputStream = if (append) FileOutputStream(
-										target,
-										true
-									) else FileOutputStream(target)
-									outputStream.use { output ->
-										input.copyTo(output)
-										output.fd.sync()
-									}
-								}
-								cont.resume(
-									Result.Success(
-										RequestCode(
-											result.code,
-											result.header("Last-Modified").orEmpty(),
-											result.header("ETag").orEmpty()
-										)
-									)
-								)
+							)
+						} else {
+							val body = result.body
+							val append = start != null && result.header("Content-Range") != null
+							val progressStart = if (append && start != null) start else 0L
+							val progressTotal =
+								body.contentLength().let { if (it >= 0L) it else null }
+									?.let { progressStart + it }
+							val inputStream = ProgressInputStream(body.byteStream()) {
+								callback(progressStart + it, progressTotal)
 							}
+							inputStream.use { input ->
+								val outputStream = if (append) FileOutputStream(
+									target,
+									true
+								) else FileOutputStream(target)
+								outputStream.use { output ->
+									input.copyTo(output)
+									output.fd.sync()
+								}
+							}
+							cont.resume(
+								Result.Success(
+									RequestCode(
+										result.code,
+										result.header("Last-Modified").orEmpty(),
+										result.header("ETag").orEmpty()
+									)
+								)
+							)
 						}
 					}
 				}
-			)
-			cont.invokeOnCancellation { call.cancel() }
-		}
+			}
+		)
+		cont.invokeOnCancellation { call?.cancel() }
 	}
 }

@@ -5,14 +5,14 @@ import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
-import android.os.Build
+import com.looker.core_common.hex
+import com.looker.core_model.InstalledItem
+import com.looker.core_model.Product
+import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.Common.PREFS_LANGUAGE_DEFAULT
+import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
-import com.looker.droidify.entity.InstalledItem
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.Repository
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
@@ -20,7 +20,6 @@ import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
-import com.looker.droidify.utility.extension.text.hex
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.security.MessageDigest
 import java.security.cert.Certificate
@@ -35,7 +34,12 @@ object Utils {
 
 	fun PackageInfo.toInstalledItem(): InstalledItem {
 		val signatureString = singleSignature?.calculateHash.orEmpty()
-		return InstalledItem(packageName, versionName.orEmpty(), versionCodeCompat, signatureString)
+		return InstalledItem(
+			packageName,
+			versionName.orEmpty(),
+			versionCodeCompat,
+			signatureString
+		)
 	}
 
 	fun getDefaultApplicationIcons(context: Context): Pair<Drawable, Drawable> {
@@ -122,12 +126,8 @@ object Utils {
 			setLocalCode = Locale.getDefault().toString()
 		}
 		val config = resources.configuration
-		val sysLocale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			config.locales[0]
-		} else {
-			config.locale
-		}
-		if (setLocalCode != sysLocale.language || setLocalCode != "${sysLocale.language}-r${sysLocale.country}") {
+		val sysLocale = if (Android.sdk(24)) config.locales[0] else config.locale
+		if (setLocalCode != sysLocale.toString() || setLocalCode != "${sysLocale.language}-r${sysLocale.country}") {
 			val newLocale = getLocaleOfCode(setLocalCode)
 			Locale.setDefault(newLocale)
 			config.setLocale(newLocale)
@@ -151,7 +151,7 @@ object Utils {
 	}
 
 	fun Context.getLocaleOfCode(localeCode: String): Locale = when {
-		localeCode.isEmpty() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+		localeCode.isEmpty() -> if (Android.sdk(24)) {
 			resources.configuration.locales[0]
 		} else {
 			resources.configuration.locale
@@ -159,6 +159,10 @@ object Utils {
 		localeCode.contains("-r") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(4)
+		)
+		localeCode.contains("_") -> Locale(
+			localeCode.substring(0, 2),
+			localeCode.substring(3)
 		)
 		else -> Locale(localeCode)
 	}

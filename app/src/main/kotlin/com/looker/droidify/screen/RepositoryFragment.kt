@@ -110,7 +110,7 @@ class RepositoryFragment() : ScreenFragment() {
 			if (repository.updated > 0L) {
 				collapsingToolbar.title = repository.name
 				layout.addTitleText(R.string.name, repository.name)
-				layout.addTitleText(R.string.description, repository.description.replace('\n', ' '))
+				layout.addTitleText(R.string.description, repository.description.replace('\n', ' ').trim())
 				layout.addTitleText(R.string.recently_updated, run {
 					val lastUpdated = repository.updated
 					if (lastUpdated > 0L) {

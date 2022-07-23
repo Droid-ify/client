@@ -6,8 +6,8 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
-import com.looker.installer.utils.BaseInstaller
 import com.looker.installer.InstallerService
+import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -18,7 +18,8 @@ internal class SessionInstaller(context: Context) : BaseInstaller(context) {
 	private val intent = Intent(context, InstallerService::class.java)
 
 	companion object {
-		val flags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
+		val flags =
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
 	}
 
 	override suspend fun install(packageName: String, uri: Uri, file: File) {
@@ -50,13 +51,11 @@ internal class SessionInstaller(context: Context) : BaseInstaller(context) {
 		}
 	}
 
-	private suspend fun mDefaultUninstaller(packageName: String) {
+	private suspend fun mDefaultUninstaller(packageName: String) = withContext(Dispatchers.IO) {
 		intent.putExtra(InstallerService.KEY_ACTION, InstallerService.ACTION_UNINSTALL)
 
 		val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
-		withContext(Dispatchers.IO) {
-			sessionInstaller.uninstall(packageName, pendingIntent.intentSender)
-		}
+		sessionInstaller.uninstall(packageName, pendingIntent.intentSender)
 	}
 }

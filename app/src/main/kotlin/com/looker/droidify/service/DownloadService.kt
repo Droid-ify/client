@@ -8,29 +8,27 @@ import android.net.Uri
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import com.looker.core_common.formatSize
+import com.looker.core_common.hex
 import com.looker.core_common.notificationManager
+import com.looker.core_common.nullIfEmpty
+import com.looker.core_model.Release
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.Common
+import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.droidify.content.Cache
+import com.looker.core_common.cache.Cache
 import com.looker.droidify.content.Preferences
-import com.looker.droidify.entity.Release
-import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.utility.Result
+import com.looker.core_common.result.Result
+import com.looker.core_datastore.model.InstallerType
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.text.formatSize
-import com.looker.droidify.utility.extension.text.hex
-import com.looker.droidify.utility.extension.text.nullIfEmpty
 import com.looker.droidify.utility.extension.toIntDef
-import com.looker.installer.model.TYPE_ROOT
-import com.looker.installer.model.TYPE_SHIZUKU
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -79,7 +77,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	inner class Binder : android.os.Binder() {
 		val stateSubject = mutableStateSubject.asSharedFlow()
 
-		fun enqueue(packageName: String, name: String, repository: Repository, release: Release) {
+		fun enqueue(
+			packageName: String,
+			name: String,
+			repository: com.looker.core_model.Repository,
+			release: Release
+		) {
 			val task = Task(
 				packageName,
 				name,
@@ -282,7 +285,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 		if (!consumed) {
 			val installer = Preferences[Preferences.Key.InstallerType].toIntDef
-			if (installer == TYPE_ROOT || installer == TYPE_SHIZUKU) {
+			if (installer == InstallerType.ROOT || installer == InstallerType.SHIZUKU) {
 				scope.launch {
 					task.packageName.installApk(this@DownloadService, task.release.cacheFileName)
 				}
@@ -351,8 +354,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					this,
 					0,
 					Intent(this, this::class.java).setAction(ACTION_CANCEL),
-					if (Android.sdk(23)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-					else PendingIntent.FLAG_UPDATE_CURRENT
+					PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 				)
 			)
 	}

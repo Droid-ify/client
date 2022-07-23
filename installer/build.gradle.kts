@@ -33,6 +33,7 @@ android {
 
 dependencies {
 	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreDatastore))
 
 	implementation(Core.core)
 	implementation(kotlin("stdlib"))

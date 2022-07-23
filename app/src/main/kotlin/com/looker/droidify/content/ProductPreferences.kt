@@ -3,10 +3,10 @@ package com.looker.droidify.content
 import android.content.Context
 import android.content.SharedPreferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.ProductPreference
-import com.looker.droidify.utility.extension.json.Json
-import com.looker.droidify.utility.extension.json.parseDictionary
-import com.looker.droidify.utility.extension.json.writeDictionary
+import com.looker.core_model.ProductPreference
+import com.looker.core_common.file.Json
+import com.looker.core_common.file.parseDictionary
+import com.looker.core_common.file.writeDictionary
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow

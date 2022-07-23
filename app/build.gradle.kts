@@ -64,7 +64,9 @@ android {
 
 dependencies {
 
+	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.installer))
 
 	implementation(kotlin("stdlib"))
@@ -91,6 +93,9 @@ dependencies {
 	implementation(Jackson.core)
 
 	implementation(Others.fastScroller)
+
+	// WorkManager
+	implementation(Work.manager)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

@@ -39,6 +39,11 @@ object AndroidX {
 	const val material = "com.google.android.material:material:1.6.1"
 }
 
+object Datastore {
+	private const val version = "1.0.0"
+	const val datastore = "androidx.datastore:datastore-preferences:$version"
+}
+
 object OkHttp {
 	private const val version = "5.0.0-alpha.9"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
@@ -54,17 +59,21 @@ object Others {
 	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
 	private const val shizukuVersion = "12.1.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
-	const val shizukuProvider = "dev.rikka.shizuku:api:$shizukuVersion"
+	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
 
 object Jackson {
 	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.3"
 }
 
+object Kotlin {
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
+}
+
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.0"
-	const val runtime =
-		"androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 }
 
 object Room {
@@ -74,6 +83,17 @@ object Room {
 	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
 }
 
+object Startup {
+	private const val startupVersion = "1.1.1"
+	const val lib = "androidx.startup:startup-runtime:$startupVersion"
+}
+
+object Work {
+	private const val version = "2.7.1"
+	const val manager = "androidx.work:work-runtime-ktx:$version"
+}
+
 object Version {
-	const val kotlinVersion = "1.7.10"
+	const val kotlin = "1.7.10"
+	const val ksp = "1.7.10-1.0.6"
 }

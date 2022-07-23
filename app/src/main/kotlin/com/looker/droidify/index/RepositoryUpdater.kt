@@ -2,24 +2,25 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
-import com.looker.droidify.content.Cache
+import com.looker.core_common.cache.Cache
+import com.looker.core_common.result.Result
+import com.looker.core_common.unhex
+import com.looker.core_model.Product
+import com.looker.core_model.Release
+import com.looker.core_model.Repository
 import com.looker.droidify.database.Database
-import com.looker.droidify.entity.Product
-import com.looker.droidify.entity.Release
-import com.looker.droidify.entity.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.Result
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.text.unhex
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xml.sax.InputSource
 import java.io.File
+import java.net.UnknownHostException
 import java.security.cert.X509Certificate
 import java.util.*
 import java.util.jar.JarEntry
@@ -114,7 +115,7 @@ object RepositoryUpdater {
 		val indexType = indexTypes[0]
 		when (val request = downloadIndex(context, repository, indexType, callback)) {
 			Result.Loading -> Result.Loading
-			is Result.Error -> Result.Error(request.exception)
+			is Result.Error -> Result.Error(request.exception, false)
 			is Result.Success -> {
 				val result = request.data.requestCode
 				val file = request.data.file
@@ -178,23 +179,40 @@ object RepositoryUpdater {
 		) { read, total -> callback(Stage.DOWNLOAD, read, total) }
 
 		when (downloadResult) {
-			Result.Loading -> Result.Loading
 			is Result.Error -> {
 				file.delete()
 				when (downloadResult.exception) {
-					is InterruptedException, is RuntimeException, is Error -> {
-						Result.Error(downloadResult.exception)
-					}
-					is Exception -> Result.Error(
-						UpdateException(
-							ErrorType.NETWORK,
-							"Network error",
-							downloadResult.exception
+					is UnknownHostException -> {
+						Result.Error(
+							UpdateException(
+								ErrorType.VALIDATION,
+								"Url is invalid",
+								downloadResult.exception as UnknownHostException
+							)
 						)
-					)
+					}
+					is IllegalArgumentException -> {
+						Result.Error(
+							UpdateException(
+								ErrorType.HTTP,
+								"Url is invalid",
+								downloadResult.exception as IllegalArgumentException
+							)
+						)
+					}
+					is Exception -> {
+						Result.Error(
+							UpdateException(
+								ErrorType.NETWORK,
+								"Network error",
+								downloadResult.exception as Exception
+							)
+						)
+					}
 					else -> Result.Error(downloadResult.exception)
 				}
 			}
+			Result.Loading -> Result.Loading
 			is Result.Success -> Result.Success(IndexFile(downloadResult.data, file))
 		}
 	}

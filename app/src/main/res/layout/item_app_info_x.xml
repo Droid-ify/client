@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textAlignment="center"
-            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textAppearance="?textAppearanceHeadlineMedium"
             android:textColor="?android:attr/textColorSecondary" />
 
         <com.google.android.material.textview.MaterialTextView

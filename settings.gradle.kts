@@ -15,4 +15,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Droid-ify"
-include(":app", ":installer", ":core-common")
+include(":app", ":installer", ":core-common", ":core-model", ":core-datastore", ":core-database")
+include(":core-data")
