@@ -13,8 +13,7 @@ suspend fun String.installApk(context: Context?, fileName: String) =
 		val installerType = Preferences[Preferences.Key.InstallerType].toIntDef
 		val fileUri = context?.let { Cache.getReleaseUri(it, fileName) }
 			?: throw IllegalStateException()
-		val file = context?.let { Cache.getReleaseFile(it, fileName) }
-			?: throw IllegalStateException()
+		val file = Cache.getReleaseFile(context, fileName)
 		AppInstaller.getInstance(context, installerType)?.defaultInstaller
 			?.install(this@installApk, fileUri, file)
 	}
