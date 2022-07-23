@@ -2,12 +2,12 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
+import com.looker.core_common.cache.Cache
 import com.looker.core_common.result.Result
 import com.looker.core_common.unhex
 import com.looker.core_model.Product
 import com.looker.core_model.Release
 import com.looker.core_model.Repository
-import com.looker.core_common.cache.Cache
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
@@ -169,29 +169,34 @@ object RepositoryUpdater {
 		callback: (Stage, Long, Long?) -> Unit
 	): Result<IndexFile> = withContext(Dispatchers.IO) {
 		val file = Cache.getTemporaryFile(context)
-		val downloadResult = try {
-			Downloader.downloadFile(
-				Uri.parse(repository.address).buildUpon()
-					.appendPath(indexType.jarName).build().toString(),
-				file,
-				repository.lastModified,
-				repository.entityTag,
-				repository.authentication
-			) { read, total -> callback(Stage.DOWNLOAD, read, total) }
-		} catch (e: IllegalArgumentException) {
-			Result.Error(IllegalArgumentException())
-		}
+		val downloadResult = Downloader.downloadFile(
+			Uri.parse(repository.address).buildUpon()
+				.appendPath(indexType.jarName).build().toString(),
+			file,
+			repository.lastModified,
+			repository.entityTag,
+			repository.authentication
+		) { read, total -> callback(Stage.DOWNLOAD, read, total) }
 
 		when (downloadResult) {
 			is Result.Error -> {
 				file.delete()
 				when (downloadResult.exception) {
-					is IllegalArgumentException, is UnknownHostException -> {
+					is UnknownHostException -> {
 						Result.Error(
 							UpdateException(
 								ErrorType.VALIDATION,
 								"Url is invalid",
-								downloadResult.exception as Exception
+								downloadResult.exception as UnknownHostException
+							)
+						)
+					}
+					is IllegalArgumentException -> {
+						Result.Error(
+							UpdateException(
+								ErrorType.HTTP,
+								"Url is invalid",
+								downloadResult.exception as IllegalArgumentException
 							)
 						)
 					}
