@@ -1,10 +1,10 @@
-package com.looker.droidify.ui.viewmodels
+package com.looker.droidify.ui.app_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.database.CursorOwner
 import com.looker.core_model.ProductItem
-import com.looker.droidify.ui.fragments.AppListFragment
+import com.looker.droidify.ui.app_list.AppListFragment
 import com.looker.droidify.utility.extension.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

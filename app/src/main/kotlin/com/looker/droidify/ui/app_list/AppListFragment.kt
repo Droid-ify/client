@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.fragments
+package com.looker.droidify.ui.app_list
 
 import android.database.Cursor
 import android.os.Bundle
@@ -16,8 +16,6 @@ import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.core_model.ProductItem
-import com.looker.droidify.ui.adapters.AppListAdapter
-import com.looker.droidify.ui.viewmodels.AppListViewModel
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.resources.getDrawableCompat

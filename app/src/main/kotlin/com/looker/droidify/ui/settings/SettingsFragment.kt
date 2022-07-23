@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.fragments
+package com.looker.droidify.ui.settings
 
 import android.app.Dialog
 import android.content.Context
@@ -30,7 +30,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.databinding.PreferenceItemBinding
 import com.looker.droidify.screen.ScreenFragment
-import com.looker.droidify.ui.viewmodels.SettingsViewModel
 import com.looker.droidify.utility.Utils.getLocaleOfCode
 import com.looker.droidify.utility.Utils.languagesList
 import com.looker.droidify.utility.Utils.translateLocale

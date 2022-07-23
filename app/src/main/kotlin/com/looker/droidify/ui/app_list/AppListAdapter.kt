@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.adapters
+package com.looker.droidify.ui.app_list
 
 import android.content.Context
 import android.graphics.drawable.Drawable

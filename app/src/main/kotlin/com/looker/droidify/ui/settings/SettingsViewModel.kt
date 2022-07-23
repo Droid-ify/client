@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.viewmodels
+package com.looker.droidify.ui.settings
 
 import android.content.pm.PackageManager
 import android.util.Log
@@ -18,8 +18,7 @@ class SettingsViewModel : ViewModel() {
 	private val shizukuPermissionListener = object : Shizuku.OnRequestPermissionResultListener {
 		override fun onRequestPermissionResult(requestCode: Int, grantResult: Int) {
 			if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
-				if (grantResult == PackageManager.PERMISSION_GRANTED) {
-				} else {
+				if (grantResult != PackageManager.PERMISSION_GRANTED) {
 					Preferences[Preferences.Key.InstallerType] =
 						Preferences.InstallerType.Session
 				}

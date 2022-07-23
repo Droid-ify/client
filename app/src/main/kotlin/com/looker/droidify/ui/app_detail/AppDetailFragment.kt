@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.fragments
+package com.looker.droidify.ui.app_detail
 
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
@@ -23,7 +23,6 @@ import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.screen.ScreenshotsFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
-import com.looker.droidify.ui.adapters.AppDetailAdapter
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate

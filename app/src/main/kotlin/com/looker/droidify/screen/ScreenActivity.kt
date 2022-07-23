@@ -15,8 +15,8 @@ import com.looker.core_common.nullIfEmpty
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.ui.fragments.AppDetailFragment
-import com.looker.droidify.ui.fragments.SettingsFragment
+import com.looker.droidify.ui.app_detail.AppDetailFragment
+import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import kotlinx.coroutines.launch

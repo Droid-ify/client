@@ -1,4 +1,4 @@
-package com.looker.droidify.ui.adapters
+package com.looker.droidify.ui.app_detail
 
 import android.annotation.SuppressLint
 import android.content.ClipData
@@ -15,7 +15,12 @@ import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
-import android.text.style.*
+import android.text.style.BulletSpan
+import android.text.style.ClickableSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.ReplacementSpan
+import android.text.style.TypefaceSpan
+import android.text.style.URLSpan
 import android.text.util.Linkify
 import android.view.Gravity
 import android.view.MotionEvent
@@ -55,7 +60,12 @@ import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.*
+import com.looker.droidify.utility.extension.resources.TypefaceExtra
+import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.droidify.utility.extension.resources.getDrawableCompat
+import com.looker.droidify.utility.extension.resources.inflate
+import com.looker.droidify.utility.extension.resources.setTextSizeScaled
+import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
 import java.lang.ref.WeakReference
 import java.time.Instant
