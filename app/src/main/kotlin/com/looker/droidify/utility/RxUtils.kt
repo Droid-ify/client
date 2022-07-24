@@ -57,10 +57,6 @@ object RxUtils {
 		}
 	}
 
-	fun <R> managedSingle(execute: () -> R): Single<R> {
-		return managedSingle({ }, { }, { execute() })
-	}
-
 	fun callSingle(create: () -> Call): Single<Response> {
 		return managedSingle(create, Call::cancel, Call::execute)
 	}
