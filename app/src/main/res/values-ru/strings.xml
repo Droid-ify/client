@@ -184,4 +184,5 @@
     <string name="installed_applications">Установленные приложения</string>
     <string name="sort_filter">Сортировать и фильтровать</string>
     <string name="new_applications">Новые приложения</string>
+    <string name="session_installer">Сессионный установщик</string>
 </resources>
