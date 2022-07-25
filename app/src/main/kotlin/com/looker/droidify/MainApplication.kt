@@ -4,7 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.IntentFilter
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.looker.core_common.Common
@@ -38,9 +43,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 		listenApplications()
 		listenPreferences()
 
-		if (databaseUpdated) {
-			forceSyncAll()
-		}
+		if (databaseUpdated) forceSyncAll()
 
 		Cache.cleanup(this)
 		updateSyncJob(false)
