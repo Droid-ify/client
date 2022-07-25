@@ -12,12 +12,12 @@ data class Repo(
 	val repoId: Long = 0L,
 	val enabled: Boolean = false,
 	val deleted: Boolean = false,
+	val fingerprint: String = "",
+	val entityTag: String = "",
 	@SerialName("address") val address: String,
-	@SerialName("mirrors") val mirrors: List<String>,
+	@SerialName("mirrors") val mirrors: List<String> = emptyList(),
 	@SerialName("name") val name: String,
 	@SerialName("description") val description: String,
 	@SerialName("version") val version: Int,
-	@SerialName("finger") val fingerprint: String,
-	@SerialName("apkName") val entityTag: String,
 	@SerialName("timestamp") val timestamp: Long
 )

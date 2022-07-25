@@ -12,19 +12,19 @@ data class Apk(
 	@SerialName("size") val size: Long,
 	@SerialName("added") val added: Long,
 	@SerialName("versionCode") val versionCode: Long,
-	@SerialName("versionName") val versionName: String,
-	@SerialName("hash") val hash: String,
-	@SerialName("hashType") val hashType: String,
-	@SerialName("sig") val signature: String,
-	@SerialName("signer") val signer: String,
-	@SerialName("srcname") val srcName: String,
-	@SerialName("minSdkVersion") val minSdk: Int,
-	@SerialName("maxSdkVersion") val maxSdk: Int,
-	@SerialName("targetSdkVersion") val targetSdk: Int,
-	@SerialName("uses-permission") val permissions: List<String>,
-	@SerialName("uses-permission-sdk-23") val permissionsV23: List<String>,
-	@SerialName("features") val features: List<String>,
-	@SerialName("nativecode") val platforms: List<String>
+	@SerialName("versionName") val versionName: String = "",
+	@SerialName("hash") val hash: String = "",
+	@SerialName("hashType") val hashType: String = "",
+	@SerialName("sig") val signature: String = "",
+	@SerialName("signer") val signer: String = "",
+	@SerialName("srcname") val srcName: String = "",
+	@SerialName("minSdkVersion") val minSdk: Int = -1,
+	@SerialName("maxSdkVersion") val maxSdk: Int = -1,
+	@SerialName("targetSdkVersion") val targetSdk: Int = -1,
+	@SerialName("uses-permission") val permissions: LinkedHashSet<String> = linkedSetOf(),
+	@SerialName("uses-permission-sdk-23") val emptyPermission: LinkedHashSet<String> = linkedSetOf(),
+	@SerialName("features") val features: List<String> = emptyList(),
+	@SerialName("nativecode") val platforms: List<String> = emptyList()
 ) {
 	fun toJson() = Json.encodeToString(this)
 
