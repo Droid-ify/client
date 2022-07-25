@@ -5,9 +5,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {
 
-	fun getRepoStream() : Flow<List<Repo>>
+	fun getRepoStream(): Flow<List<Repo>>
 
-	fun getRepo(repoId: Long) : Flow<Repo>
+	fun getRepo(repoId: Long): Flow<Repo>
 
 	suspend fun addRepos(repos: List<Repo>)
 
