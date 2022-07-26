@@ -145,7 +145,7 @@
     <string name="sync_repositories_automatically">Синхронизировать репозитории автоматически</string>
     <string name="syncing">Синхронизация</string>
     <string name="syncing_FORMAT">Синхронизация %s…</string>
-    <string name="system">Система</string>
+    <string name="system">Системная</string>
     <string name="tap_to_install_DESC">Нажмите, чтобы установить.</string>
     <string name="target">Целевой</string>
     <string name="theme">Тема</string>
