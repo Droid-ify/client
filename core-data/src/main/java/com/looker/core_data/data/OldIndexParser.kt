@@ -1,17 +1,30 @@
 package com.looker.core_data.data
 
 import android.os.Build
+import com.looker.core_data.IndexParser
 import com.looker.core_data.IndexParser.Companion.validateIcon
 import com.looker.core_data.ParserCallback
 import com.looker.core_database.model.Apk
 import com.looker.core_database.model.App
+import kotlinx.coroutines.runBlocking
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
+import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
-class LegacyIndexHandler(private val repoId: Long, private val callback: ParserCallback) :
-	DefaultHandler() {
+class OldIndexParser : IndexParser<DefaultHandler> {
+	override suspend fun parseIndex(
+		repoId: Long,
+		inputStream: InputStream,
+		parserCallback: ParserCallback
+	): DefaultHandler = LegacyIndexHandler(repoId, parserCallback)
+}
+
+internal class LegacyIndexHandler(
+	private val repoId: Long,
+	private val callback: ParserCallback
+) : DefaultHandler() {
 
 	companion object {
 		private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -128,8 +141,6 @@ class LegacyIndexHandler(private val repoId: Long, private val callback: ParserC
 				minSdk = minSdkVersion,
 				maxSdk = maxSdkVersion,
 				targetSdk = targetSdkVersion,
-				permissions = permissions.toList(),
-				permissionsV23 = emptyList(),
 				features = features.toList(),
 				platforms = platforms.toList()
 			)
@@ -209,20 +220,24 @@ class LegacyIndexHandler(private val repoId: Long, private val callback: ParserC
 				if (repoBuilder != null) {
 					val mirrors = (listOf(repoBuilder.address) + repoBuilder.mirrors)
 						.filter { it.isNotEmpty() }.distinct()
-					callback.onRepo(
-						mirrors,
-						repoBuilder.name,
-						repoBuilder.description,
-						repoBuilder.version,
-						repoBuilder.timestamp
-					)
+					// TODO: Fix 
+					runBlocking {
+						callback.onRepo(
+							mirrors,
+							repoBuilder.name,
+							repoBuilder.description,
+							repoBuilder.version,
+							repoBuilder.timestamp
+						)
+					}
 					this.repoBuilder = null
 				}
 			}
 			localName == "application" && appBuilder != null -> {
 				val app = appBuilder.build()
 				this.appBuilder = null
-				callback.onApp(app)
+				// TODO: Fix
+				runBlocking { callback.onApp(app) }
 			}
 			localName == "package" && appBuilder != null && apkBuilder != null -> {
 				appBuilder.apks.add(apkBuilder.build())

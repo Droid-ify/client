@@ -26,6 +26,10 @@ class AppRepositoryImpl(private val appDao: AppDao) : AppRepository {
 	override suspend fun insertApps(apps: List<App>) =
 		appDao.insertAppsOrIgnore(apps)
 
+	override suspend fun insertApps(vararg app: App) {
+		appDao.insertAppsOrIgnore(app.toList())
+	}
+
 	override suspend fun updateAppData(app: App) =
 		appDao.updateApp(app)
 

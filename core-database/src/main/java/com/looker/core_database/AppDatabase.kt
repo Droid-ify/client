@@ -27,7 +27,6 @@ abstract class AppDatabase : RoomDatabase() {
 		@Volatile
 		private var INSTANCE: AppDatabase? = null
 
-		// TODO Prepopulate with [https://developer.android.com/training/data-storage/room/prepopulate]
 		fun getInstance(context: Context): AppDatabase {
 			synchronized(this) {
 				if (INSTANCE == null) {
@@ -37,6 +36,7 @@ abstract class AppDatabase : RoomDatabase() {
 							AppDatabase::class.java,
 							"app_database.db"
 						)
+						.createFromAsset("database/repo.db")
 						.build()
 				}
 				return INSTANCE!!

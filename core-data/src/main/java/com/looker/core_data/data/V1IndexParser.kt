@@ -8,8 +8,11 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.InputStream
 
-class V1IndexParser : IndexParser {
-	private val json = Json { encodeDefaults = true }
+class V1IndexParser : IndexParser<Unit> {
+	private val json = Json {
+		ignoreUnknownKeys = true
+		encodeDefaults = true
+	}
 
 	@OptIn(ExperimentalSerializationApi::class)
 	override suspend fun parseIndex(

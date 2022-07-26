@@ -4,7 +4,12 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
+import android.content.IntentFilter
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import com.looker.core_common.Common
@@ -22,11 +27,14 @@ import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 
 class MainApplication : Application(), ImageLoaderFactory {
+
+	private val appScope = CoroutineScope(Dispatchers.IO)
 
 	override fun onCreate() {
 		super.onCreate()
@@ -38,12 +46,15 @@ class MainApplication : Application(), ImageLoaderFactory {
 		listenApplications()
 		listenPreferences()
 
-		if (databaseUpdated) {
-			forceSyncAll()
-		}
+		if (databaseUpdated) forceSyncAll()
 
 		Cache.cleanup(this)
 		updateSyncJob(false)
+	}
+
+	override fun onTerminate() {
+		super.onTerminate()
+		appScope.cancel("Application Terminated")
 	}
 
 	private fun listenApplications() {
@@ -89,7 +100,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 		var lastAutoSync = Preferences[Preferences.Key.AutoSync]
 		var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
 		var lastLanguage = Preferences[Preferences.Key.Language]
-		CoroutineScope(Dispatchers.Default).launch {
+		appScope.launch(Dispatchers.Default) {
 			Preferences.subject.collect {
 				if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
 					updateProxy()

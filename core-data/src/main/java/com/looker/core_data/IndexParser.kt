@@ -3,7 +3,7 @@ package com.looker.core_data
 import com.looker.core_database.model.App
 import java.io.InputStream
 
-interface IndexParser {
+interface IndexParser<T> {
 
 	companion object {
 		internal fun validateIcon(icon: String): String {
@@ -11,13 +11,13 @@ interface IndexParser {
 		}
 	}
 
-	suspend fun parseIndex(repoId: Long, inputStream: InputStream, parserCallback: ParserCallback)
+	suspend fun parseIndex(repoId: Long, inputStream: InputStream, parserCallback: ParserCallback) : T
 
 }
 
 interface ParserCallback {
 
-	fun onRepo(
+	suspend fun onRepo(
 		mirrors: List<String>,
 		name: String,
 		description: String,
@@ -25,6 +25,6 @@ interface ParserCallback {
 		timestamp: Long,
 	)
 
-	fun onApp(app: App)
+	suspend fun onApp(app: App)
 
 }

@@ -17,6 +17,8 @@ interface AppRepository {
 
 	suspend fun insertApps(apps: List<App>)
 
+	suspend fun insertApps(vararg app: App)
+
 	suspend fun updateAppData(app: App)
 
 	suspend fun deleteAppData(packageName: String)
