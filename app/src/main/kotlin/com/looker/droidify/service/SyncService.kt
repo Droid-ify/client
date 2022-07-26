@@ -21,6 +21,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -160,13 +161,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		if (Android.sdk(26)) {
 			NotificationChannel(
 				Common.NOTIFICATION_CHANNEL_SYNCING,
-				getString(R.string.syncing), NotificationManager.IMPORTANCE_LOW
+				getString(stringRes.syncing), NotificationManager.IMPORTANCE_LOW
 			)
 				.apply { setShowBadge(false) }
 				.let(notificationManager::createNotificationChannel)
 			NotificationChannel(
 				Common.NOTIFICATION_CHANNEL_UPDATES,
-				getString(R.string.updates), NotificationManager.IMPORTANCE_LOW
+				getString(stringRes.updates), NotificationManager.IMPORTANCE_LOW
 			)
 				.let(notificationManager::createNotificationChannel)
 		}
@@ -216,17 +217,17 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					ContextThemeWrapper(this, R.style.Theme_Main_Light)
 						.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 				)
-				.setContentTitle(getString(R.string.could_not_sync_FORMAT, repository.name))
+				.setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
 				.setContentText(
 					getString(
 						when (exception) {
 							is RepositoryUpdater.UpdateException -> when (exception.errorType) {
-								RepositoryUpdater.ErrorType.NETWORK -> R.string.network_error_DESC
-								RepositoryUpdater.ErrorType.HTTP -> R.string.http_error_DESC
-								RepositoryUpdater.ErrorType.VALIDATION -> R.string.validation_index_error_DESC
-								RepositoryUpdater.ErrorType.PARSING -> R.string.parsing_index_error_DESC
+								RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
+								RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
+								RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
+								RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
 							}
-							else -> R.string.unknown_error_DESC
+							else -> stringRes.unknown_error_DESC
 						}
 					)
 				)
@@ -243,7 +244,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 			)
 			.addAction(
-				0, getString(R.string.cancel), PendingIntent.getService(
+				0, getString(stringRes.cancel), PendingIntent.getService(
 					this,
 					0,
 					Intent(this, this::class.java).setAction(ACTION_CANCEL),
@@ -259,12 +260,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
 					when (state) {
 						is State.Connecting -> {
-							setContentTitle(getString(R.string.syncing_FORMAT, state.name))
-							setContentText(getString(R.string.connecting))
+							setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
+							setContentText(getString(stringRes.connecting))
 							setProgress(0, 0, true)
 						}
 						is State.Syncing -> {
-							setContentTitle(getString(R.string.syncing_FORMAT, state.name))
+							setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
 							when (state.stage) {
 								RepositoryUpdater.Stage.DOWNLOAD -> {
 									if (state.total != null) {
@@ -284,7 +285,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 										state.total?.let { 100f * state.read / it }?.roundToInt()
 									setContentText(
 										getString(
-											R.string.processing_FORMAT,
+											stringRes.processing_FORMAT,
 											"${progress ?: 0}%"
 										)
 									)
@@ -295,20 +296,20 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 										?: state.read)).roundToInt()
 									setContentText(
 										getString(
-											R.string.merging_FORMAT,
+											stringRes.merging_FORMAT,
 											"${state.read} / ${state.total ?: state.read}"
 										)
 									)
 									setProgress(100, progress, false)
 								}
 								RepositoryUpdater.Stage.COMMIT -> {
-									setContentText(getString(R.string.saving_details))
+									setContentText(getString(stringRes.saving_details))
 									setProgress(0, 0, true)
 								}
 							}
 						}
 						is State.Finishing -> {
-							setContentTitle(getString(R.string.syncing))
+							setContentTitle(getString(stringRes.syncing))
 							setContentText(null)
 							setProgress(0, 0, true)
 						}
@@ -423,7 +424,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			Common.NOTIFICATION_ID_UPDATES, NotificationCompat
 				.Builder(this, Common.NOTIFICATION_CHANNEL_UPDATES)
 				.setSmallIcon(R.drawable.ic_new_releases)
-				.setContentTitle(getString(R.string.new_updates_available))
+				.setContentTitle(getString(stringRes.new_updates_available))
 				.setContentText(
 					resources.getQuantityString(
 						R.plurals.new_updates_DESC_FORMAT,
@@ -458,7 +459,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					if (productItems.size > maxUpdates) {
 						val summary =
-							getString(R.string.plus_more_FORMAT, productItems.size - maxUpdates)
+							getString(stringRes.plus_more_FORMAT, productItems.size - maxUpdates)
 						if (Android.sdk(24)) {
 							addLine(summary)
 						} else {

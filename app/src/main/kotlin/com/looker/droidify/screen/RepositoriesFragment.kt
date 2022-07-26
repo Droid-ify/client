@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -16,6 +15,8 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.screenActivity
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import com.looker.droidify.R.drawable as drawableRes
+import com.looker.droidify.R.string as stringRes
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 	private var recyclerView: RecyclerView? = null
@@ -43,8 +44,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 					recyclerView = this
 					clipToPadding = false
 					FastScrollerBuilder(this)
-						.setThumbDrawable(context.getDrawableCompat(R.drawable.scrollbar_thumb))
-						.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
+						.setThumbDrawable(context.getDrawableCompat(drawableRes.scrollbar_thumb))
+						.setTrackDrawable(context.getDrawableCompat(drawableRes.scrollbar_track))
 						.build()
 				}
 			)
@@ -61,14 +62,14 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 		screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
 
 		screenActivity.onToolbarCreated(toolbar)
-		toolbar.menu.add(R.string.add_repository)
-			.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_add))
+		toolbar.menu.add(stringRes.add_repository)
+			.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_add))
 			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 			.setOnMenuItemClickListener {
 				view.post { screenActivity.navigateAddRepository() }
 				true
 			}
-		collapsingToolbar.title = getString(R.string.repositories)
+		collapsingToolbar.title = getString(stringRes.repositories)
 	}
 
 	override fun onDestroyView() {

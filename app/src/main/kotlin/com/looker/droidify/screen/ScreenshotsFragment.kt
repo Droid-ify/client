@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
+import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.core_model.Product
@@ -194,7 +195,7 @@ class ScreenshotsFragment() : DialogFragment() {
 				)
 
 				val placeholder =
-					itemView.context.getDrawableCompat(R.drawable.ic_photo_camera).mutate()
+					itemView.context.getDrawableCompat(drawableRes.ic_photo_camera).mutate()
 				placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor)
 				this.placeholder = PaddingDrawable(placeholder, 4f)
 			}

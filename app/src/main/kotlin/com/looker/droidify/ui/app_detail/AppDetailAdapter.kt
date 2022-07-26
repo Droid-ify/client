@@ -53,6 +53,8 @@ import com.looker.core_model.Product
 import com.looker.core_model.Release
 import com.looker.core_model.Repository
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
@@ -88,13 +90,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
-		INSTALL(R.string.install, R.drawable.ic_download),
-		UPDATE(R.string.update, R.drawable.ic_download),
-		LAUNCH(R.string.launch, R.drawable.ic_launch),
-		DETAILS(R.string.details, R.drawable.ic_tune),
-		UNINSTALL(R.string.uninstall, R.drawable.ic_delete),
-		CANCEL(R.string.cancel, R.drawable.ic_cancel),
-		SHARE(R.string.share, R.drawable.ic_share)
+		INSTALL(stringRes.install, drawableRes.ic_download),
+		UPDATE(stringRes.update, drawableRes.ic_download),
+		LAUNCH(stringRes.launch, drawableRes.ic_launch),
+		DETAILS(stringRes.details, drawableRes.ic_tune),
+		UNINSTALL(stringRes.uninstall, drawableRes.ic_delete),
+		CANCEL(stringRes.cancel, drawableRes.ic_cancel),
+		SHARE(stringRes.share, drawableRes.ic_share)
 	}
 
 	sealed class Status {
@@ -106,18 +108,18 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	enum class ViewType { APP_INFO, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
 
 	private enum class SwitchType(val titleResId: Int) {
-		IGNORE_ALL_UPDATES(R.string.ignore_all_updates),
-		IGNORE_THIS_UPDATE(R.string.ignore_this_update)
+		IGNORE_ALL_UPDATES(stringRes.ignore_all_updates),
+		IGNORE_THIS_UPDATE(stringRes.ignore_this_update)
 	}
 
 	private enum class SectionType(val titleResId: Int, val colorAttrResId: Int) {
-		ANTI_FEATURES(R.string.anti_features, R.attr.colorError),
-		CHANGES(R.string.changes, R.attr.colorPrimary),
-		LINKS(R.string.links, R.attr.colorPrimary),
-		DONATE(R.string.donate, R.attr.colorPrimary),
-		PERMISSIONS(R.string.permissions, R.attr.colorPrimary),
-		SCREENSHOTS(R.string.screenshots, R.attr.colorPrimary),
-		VERSIONS(R.string.versions, R.attr.colorPrimary)
+		ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
+		CHANGES(stringRes.changes, R.attr.colorPrimary),
+		LINKS(stringRes.links, R.attr.colorPrimary),
+		DONATE(stringRes.donate, R.attr.colorPrimary),
+		PERMISSIONS(stringRes.permissions, R.attr.colorPrimary),
+		SCREENSHOTS(stringRes.screenshots, R.attr.colorPrimary),
+		VERSIONS(stringRes.versions, R.attr.colorPrimary)
 	}
 
 	internal enum class ExpandType {
@@ -131,13 +133,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val iconResId: Int, val titleResId: Int,
 		val format: ((Context, String) -> String)? = null,
 	) {
-		AUTHOR(R.drawable.ic_person, R.string.author_website),
-		EMAIL(R.drawable.ic_email, R.string.author_email),
-		LICENSE(R.drawable.ic_copyright, R.string.license,
-			format = { context, text -> context.getString(R.string.license_FORMAT, text) }),
-		TRACKER(R.drawable.ic_bug_report, R.string.bug_tracker),
-		CHANGELOG(R.drawable.ic_history, R.string.changelog),
-		WEB(R.drawable.ic_public, R.string.project_website)
+		AUTHOR(drawableRes.ic_person, stringRes.author_website),
+		EMAIL(drawableRes.ic_email, stringRes.author_email),
+		LICENSE(drawableRes.ic_copyright, stringRes.license,
+			format = { context, text -> context.getString(stringRes.license_FORMAT, text) }),
+		TRACKER(drawableRes.ic_bug_report, stringRes.bug_tracker),
+		CHANGELOG(drawableRes.ic_history, stringRes.changelog),
+		WEB(drawableRes.ic_public, stringRes.project_website)
 	}
 
 	private sealed class Item {
@@ -246,16 +248,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 				override val iconResId: Int
 					get() = when (donate) {
-						is Product.Donate.Regular -> R.drawable.ic_donate_regular
-						is Product.Donate.Bitcoin -> R.drawable.ic_donate_bitcoin
-						is Product.Donate.Litecoin -> R.drawable.ic_donate_litecoin
-						is Product.Donate.Flattr -> R.drawable.ic_donate_flattr
-						is Product.Donate.Liberapay -> R.drawable.ic_donate_liberapay
-						is Product.Donate.OpenCollective -> R.drawable.ic_donate_opencollective
+						is Product.Donate.Regular -> drawableRes.ic_donate_regular
+						is Product.Donate.Bitcoin -> drawableRes.ic_donate_bitcoin
+						is Product.Donate.Litecoin -> drawableRes.ic_donate_litecoin
+						is Product.Donate.Flattr -> drawableRes.ic_donate_flattr
+						is Product.Donate.Liberapay -> drawableRes.ic_donate_liberapay
+						is Product.Donate.OpenCollective -> drawableRes.ic_donate_opencollective
 					}
 
 				override fun getTitle(context: Context): String = when (donate) {
-					is Product.Donate.Regular -> context.getString(R.string.website)
+					is Product.Donate.Regular -> context.getString(stringRes.website)
 					is Product.Donate.Bitcoin -> "Bitcoin"
 					is Product.Donate.Litecoin -> "Litecoin"
 					is Product.Donate.Flattr -> "Flattr"
@@ -398,7 +400,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			itemView.background =
 				ResourcesCompat.getDrawable(
 					itemView.resources,
-					R.drawable.background_border,
+					drawableRes.background_border,
 					context.theme
 				)
 			itemView.backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
@@ -526,7 +528,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			title.typeface = TypefaceExtra.light
 			title.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
 			title.setTextSizeScaled(24)
-			title.setText(R.string.application_not_found)
+			title.setText(stringRes.application_not_found)
 			itemView.addView(
 				title,
 				LinearLayoutCompat.LayoutParams.MATCH_PARENT,
@@ -680,18 +682,18 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 			val antiFeatures = productRepository.first.antiFeatures.map {
 				when (it) {
-					"Ads" -> context.getString(R.string.has_advertising)
-					"ApplicationDebuggable" -> context.getString(R.string.compiled_for_debugging)
-					"DisabledAlgorithm" -> context.getString(R.string.signed_using_unsafe_algorithm)
-					"KnownVuln" -> context.getString(R.string.has_security_vulnerabilities)
-					"NoSourceSince" -> context.getString(R.string.source_code_no_longer_available)
-					"NonFreeAdd" -> context.getString(R.string.promotes_non_free_software)
-					"NonFreeAssets" -> context.getString(R.string.contains_non_free_media)
-					"NonFreeDep" -> context.getString(R.string.has_non_free_dependencies)
-					"NonFreeNet" -> context.getString(R.string.promotes_non_free_network_services)
-					"Tracking" -> context.getString(R.string.tracks_or_reports_your_activity)
-					"UpstreamNonFree" -> context.getString(R.string.upstream_source_code_is_not_free)
-					else -> context.getString(R.string.unknown_FORMAT, it)
+					"Ads" -> context.getString(stringRes.has_advertising)
+					"ApplicationDebuggable" -> context.getString(stringRes.compiled_for_debugging)
+					"DisabledAlgorithm" -> context.getString(stringRes.signed_using_unsafe_algorithm)
+					"KnownVuln" -> context.getString(stringRes.has_security_vulnerabilities)
+					"NoSourceSince" -> context.getString(stringRes.source_code_no_longer_available)
+					"NonFreeAdd" -> context.getString(stringRes.promotes_non_free_software)
+					"NonFreeAssets" -> context.getString(stringRes.contains_non_free_media)
+					"NonFreeDep" -> context.getString(stringRes.has_non_free_dependencies)
+					"NonFreeNet" -> context.getString(stringRes.promotes_non_free_network_services)
+					"Tracking" -> context.getString(stringRes.tracks_or_reports_your_activity)
+					"UpstreamNonFree" -> context.getString(stringRes.upstream_source_code_is_not_free)
+					else -> context.getString(stringRes.unknown_FORMAT, it)
 				}
 			}.joinToString(separator = "\n") { "\u2022 $it" }
 			if (antiFeatures.isNotEmpty()) {
@@ -1113,16 +1115,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					if (status != null) {
 						when (status) {
 							is Status.Pending -> {
-								holder.status.setText(R.string.waiting_to_start_download)
+								holder.status.setText(stringRes.waiting_to_start_download)
 								holder.progress.isIndeterminate = true
 							}
 							is Status.Connecting -> {
-								holder.status.setText(R.string.connecting)
+								holder.status.setText(stringRes.connecting)
 								holder.progress.isIndeterminate = true
 							}
 							is Status.Downloading -> {
 								holder.status.text = context.getString(
-									R.string.downloading_FORMAT, if (status.total == null)
+									stringRes.downloading_FORMAT, if (status.total == null)
 										status.read.formatSize() else "${status.read.formatSize()} / ${status.total.formatSize()}"
 								)
 								holder.progress.isIndeterminate = status.total == null
@@ -1220,10 +1222,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				item as Item.ExpandItem
 				holder.text.text = if (item.expandType !in expanded) {
 					when (item.expandType) {
-						ExpandType.VERSIONS -> context.getString(R.string.show_older_versions)
-						else -> context.getString(R.string.show_more)
+						ExpandType.VERSIONS -> context.getString(stringRes.show_older_versions)
+						else -> context.getString(stringRes.show_more)
 					}
-				} else context.getString(R.string.show_less)
+				} else context.getString(stringRes.show_less)
 			}
 			ViewType.TEXT -> {
 				holder as TextViewHolder
@@ -1259,7 +1261,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 					} else {
 						null
-					} ?: context.getDrawableCompat(R.drawable.ic_perm_device_information)
+					} ?: context.getDrawableCompat(drawableRes.ic_perm_device_information)
 				)
 				val localCache = PackageItemResolver.LocalCache()
 				val labels = item.permissions.map { permission ->
@@ -1325,7 +1327,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					holder.itemView.apply {
 						background = ResourcesCompat.getDrawable(
 							holder.itemView.resources,
-							R.drawable.background_border,
+							drawableRes.background_border,
 							holder.itemView.context.theme
 						)
 						backgroundTintList =
@@ -1335,21 +1337,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					holder.itemView.background = null
 				}
 				holder.version.text =
-					context.getString(R.string.version_FORMAT, item.release.version)
+					context.getString(stringRes.version_FORMAT, item.release.version)
 
 				holder.status.apply {
 					visibility = if (installed || suggested) View.VISIBLE else View.GONE
 					setText(
 						when {
-							installed -> R.string.installed
-							suggested -> R.string.suggested
-							else -> R.string.unknown
+							installed -> stringRes.installed
+							suggested -> stringRes.suggested
+							else -> stringRes.unknown
 						}
 					)
 					background =
 						ResourcesCompat.getDrawable(
 							holder.itemView.resources,
-							R.drawable.background_border,
+							drawableRes.background_border,
 							context.theme
 						)
 					setPadding(15, 15, 15, 15)
@@ -1358,7 +1360,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
 				}
 				holder.source.text =
-					context.getString(R.string.provided_by_FORMAT, item.repository.name)
+					context.getString(stringRes.provided_by_FORMAT, item.repository.name)
 				holder.added.text = LocalDateTime.ofInstant(
 					Instant.ofEpochMilli(item.release.added),
 					TimeZone.getDefault().toZoneId()
@@ -1373,7 +1375,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					val signature = bytes.joinToString(separator = " ")
 					val builder = SpannableStringBuilder(
 						context.getString(
-							R.string.signature_FORMAT,
+							stringRes.signature_FORMAT,
 							signature
 						)
 					)
@@ -1399,22 +1401,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						is Release.Incompatibility.MinSdk,
 						is Release.Incompatibility.MaxSdk,
 						-> context.getString(
-							R.string.incompatible_with_FORMAT,
+							stringRes.incompatible_with_FORMAT,
 							Android.name
 						)
 						is Release.Incompatibility.Platform -> context.getString(
-							R.string.incompatible_with_FORMAT,
-							Android.primaryPlatform ?: context.getString(R.string.unknown)
+							stringRes.incompatible_with_FORMAT,
+							Android.primaryPlatform ?: context.getString(stringRes.unknown)
 						)
 						is Release.Incompatibility.Feature -> context.getString(
-							R.string.requires_FORMAT,
+							stringRes.requires_FORMAT,
 							incompatibility.feature
 						)
 					}
 				} else if (singlePlatform != null) {
 					holder.compatibility.setTextColor(context.getColorFromAttr(android.R.attr.textColorSecondary))
 					holder.compatibility.text =
-						context.getString(R.string.only_compatible_with_FORMAT, singlePlatform)
+						context.getString(stringRes.only_compatible_with_FORMAT, singlePlatform)
 				}
 				val enabled = status == null
 				holder.statefulViews.forEach { it.isEnabled = enabled }
@@ -1468,7 +1470,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val clipboardManager =
 			view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
 		clipboardManager.setPrimaryClip(ClipData.newPlainText(null, link))
-		Snackbar.make(view, R.string.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
+		Snackbar.make(view, stringRes.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
 	}
 
 	private class LinkSpan(private val url: String, productAdapter: AppDetailAdapter) :

@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core_common.nullIfEmpty
 import com.looker.core_model.Repository
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.network.Downloader
@@ -93,9 +94,9 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 		screenActivity.onToolbarCreated(toolbar)
 		collapsingToolbar.title =
-			getString(if (repositoryId != null) R.string.edit_repository else R.string.add_repository)
+			getString(if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository)
 
-		saveMenuItem = toolbar.menu.add(R.string.save)
+		saveMenuItem = toolbar.menu.add(stringRes.save)
 			.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_save))
 			.setEnabled(false)
 			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -269,12 +270,12 @@ class EditRepositoryFragment() : ScreenFragment() {
 		val normalizedAddress = normalizeAddress(addressText)
 		val addressErrorResId = if (normalizedAddress != null) {
 			if (normalizedAddress.withoutKnownPath in takenAddresses) {
-				R.string.already_exists
+				stringRes.already_exists
 			} else {
 				null
 			}
 		} else {
-			R.string.invalid_address
+			stringRes.invalid_address
 		}
 		addressError = addressErrorResId != null
 		addressErrorResId?.let { layout.address.error = getString(it) }
@@ -477,12 +478,12 @@ class EditRepositoryFragment() : ScreenFragment() {
 		override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
 			val mirrors = requireArguments().getStringArrayList(EXTRA_MIRRORS)!!
 			return MaterialAlertDialogBuilder(requireContext())
-				.setTitle(R.string.select_mirror)
+				.setTitle(stringRes.select_mirror)
 				.setItems(mirrors.toTypedArray()) { _, position ->
 					(parentFragment as EditRepositoryFragment)
 						.setMirror(mirrors[position])
 				}
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(stringRes.cancel, null)
 				.create()
 		}
 	}

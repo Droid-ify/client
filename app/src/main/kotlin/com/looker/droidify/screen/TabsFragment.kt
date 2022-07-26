@@ -25,6 +25,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
@@ -130,7 +131,7 @@ class TabsFragment : ScreenFragment() {
 
 		val searchView = FocusSearchView(toolbar.context).apply {
 			maxWidth = Int.MAX_VALUE
-			queryHint = getString(R.string.search)
+			queryHint = getString(stringRes.search)
 			setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 				override fun onQueryTextSubmit(query: String?): Boolean {
 					clearFocus()
@@ -153,12 +154,12 @@ class TabsFragment : ScreenFragment() {
 				setGroupDividerEnabled(true)
 			}
 
-			searchMenuItem = add(0, R.id.toolbar_search, 0, R.string.search)
+			searchMenuItem = add(0, R.id.toolbar_search, 0, stringRes.search)
 				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_search))
 				.setActionView(searchView)
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
 
-			sortOrderMenu = addSubMenu(0, 0, 0, R.string.sorting_order)
+			sortOrderMenu = addSubMenu(0, 0, 0, stringRes.sorting_order)
 				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sort))
 				.let { menu ->
 					menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -175,20 +176,20 @@ class TabsFragment : ScreenFragment() {
 					Pair(menu.item, items)
 				}
 
-			syncRepositoriesMenuItem = add(0, 0, 0, R.string.sync_repositories)
+			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
 				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sync))
 				.setOnMenuItemClickListener {
 					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
 					true
 				}
 
-			add(1, 0, 0, R.string.repositories)
+			add(1, 0, 0, stringRes.repositories)
 				.setOnMenuItemClickListener {
 					view.post { screenActivity.navigateRepositories() }
 					true
 				}
 
-			add(1, 0, 0, R.string.settings)
+			add(1, 0, 0, stringRes.settings)
 				.setOnMenuItemClickListener {
 					view.post { screenActivity.navigatePreferences() }
 					true
@@ -425,7 +426,7 @@ class TabsFragment : ScreenFragment() {
 			section = ProductItem.Section.All
 		}
 		layout?.sectionName?.text = when (val section = section) {
-			is ProductItem.Section.All -> getString(R.string.all_applications)
+			is ProductItem.Section.All -> getString(stringRes.all_applications)
 			is ProductItem.Section.Category -> section.name
 			is ProductItem.Section.Repository -> section.name
 		}
@@ -607,7 +608,7 @@ class TabsFragment : ScreenFragment() {
 				section.javaClass != nextSection.javaClass
 			) margin else 0
 			holder.title.text = when (section) {
-				is ProductItem.Section.All -> holder.itemView.resources.getString(R.string.all_applications)
+				is ProductItem.Section.All -> holder.itemView.resources.getString(stringRes.all_applications)
 				is ProductItem.Section.Category -> section.name
 				is ProductItem.Section.Repository -> section.name
 			}

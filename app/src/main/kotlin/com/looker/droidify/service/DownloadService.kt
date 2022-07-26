@@ -17,6 +17,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.core_common.cache.Cache
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.network.Downloader
@@ -121,7 +122,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		if (Android.sdk(26)) {
 			NotificationChannel(
 				Common.NOTIFICATION_CHANNEL_DOWNLOADING,
-				getString(R.string.downloading), NotificationManager.IMPORTANCE_LOW
+				getString(stringRes.downloading), NotificationManager.IMPORTANCE_LOW
 			)
 				.apply { setShowBadge(false) }
 				.let(notificationManager::createNotificationChannel)
@@ -208,36 +209,36 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						is ErrorType.Network -> {
 							setContentTitle(
 								getString(
-									R.string.could_not_download_FORMAT,
+									stringRes.could_not_download_FORMAT,
 									task.name
 								)
 							)
-							setContentText(getString(R.string.network_error_DESC))
+							setContentText(getString(stringRes.network_error_DESC))
 						}
 						is ErrorType.Http -> {
 							setContentTitle(
 								getString(
-									R.string.could_not_download_FORMAT,
+									stringRes.could_not_download_FORMAT,
 									task.name
 								)
 							)
-							setContentText(getString(R.string.http_error_DESC))
+							setContentText(getString(stringRes.http_error_DESC))
 						}
 						is ErrorType.Validation -> {
 							setContentTitle(
 								getString(
-									R.string.could_not_validate_FORMAT,
+									stringRes.could_not_validate_FORMAT,
 									task.name
 								)
 							)
 							setContentText(
 								getString(
 									when (errorType.validateError) {
-										ValidationError.INTEGRITY -> R.string.integrity_check_error_DESC
-										ValidationError.FORMAT -> R.string.file_format_error_DESC
-										ValidationError.METADATA -> R.string.invalid_metadata_error_DESC
-										ValidationError.SIGNATURE -> R.string.invalid_signature_error_DESC
-										ValidationError.PERMISSIONS -> R.string.invalid_permissions_error_DESC
+										ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
+										ValidationError.FORMAT -> stringRes.file_format_error_DESC
+										ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
+										ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
+										ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
 									}
 								)
 							)
@@ -271,8 +272,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						.getColorFromAttr(R.attr.colorPrimary).defaultColor
 				)
 				.setContentIntent(resultPendingIntent)
-				.setContentTitle(getString(R.string.downloaded_FORMAT, task.name))
-				.setContentText(getString(R.string.tap_to_install_DESC))
+				.setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
+				.setContentText(getString(stringRes.tap_to_install_DESC))
 				.build()
 		)
 	}
@@ -347,10 +348,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setSmallIcon(android.R.drawable.stat_sys_download)
 			.setColor(
 				ContextThemeWrapper(this, R.style.Theme_Main_Light)
-					.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
+					.getColorFromAttr(R.attr.colorPrimary).defaultColor
 			)
 			.addAction(
-				0, getString(R.string.cancel), PendingIntent.getService(
+				0, getString(stringRes.cancel), PendingIntent.getService(
 					this,
 					0,
 					Intent(this, this::class.java).setAction(ACTION_CANCEL),
@@ -366,12 +367,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
 					when (state) {
 						is State.Connecting -> {
-							setContentTitle(getString(R.string.downloading_FORMAT, state.name))
-							setContentText(getString(R.string.connecting))
+							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
+							setContentText(getString(stringRes.connecting))
 							setProgress(1, 0, true)
 						}
 						is State.Downloading -> {
-							setContentTitle(getString(R.string.downloading_FORMAT, state.name))
+							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
 							if (state.total != null) {
 								setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
 								setProgress(

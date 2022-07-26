@@ -8,6 +8,7 @@ import com.looker.core_datastore.model.ProxyType
 import com.looker.core_datastore.model.Theme
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
+import com.looker.core_common.R.string as stringRes
 
 // FAKE
 val Preferences.InstallerType.toIntDef: InstallerType
@@ -20,15 +21,15 @@ val Preferences.InstallerType.toIntDef: InstallerType
 
 fun Context?.themeName(theme: Theme) = this?.let {
 	when (theme) {
-		Theme.SYSTEM -> getString(R.string.system)
-		Theme.SYSTEM_BLACK -> getString(R.string.system) + " " + getString(R.string.amoled)
-		Theme.LIGHT -> getString(R.string.light)
-		Theme.DARK -> getString(R.string.dark)
-		Theme.AMOLED -> getString(R.string.amoled)
+		Theme.SYSTEM -> getString(stringRes.system)
+		Theme.SYSTEM_BLACK -> getString(stringRes.system) + " " + getString(stringRes.amoled)
+		Theme.LIGHT -> getString(stringRes.light)
+		Theme.DARK -> getString(stringRes.dark)
+		Theme.AMOLED -> getString(stringRes.amoled)
 	}
 } ?: ""
 
-fun Configuration.getThemeRes(theme: Theme) = when(theme){
+fun Configuration.getThemeRes(theme: Theme) = when (theme) {
 	Theme.SYSTEM -> {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
 			R.style.Theme_Main_Dark else R.style.Theme_Main_Light
@@ -42,28 +43,28 @@ fun Configuration.getThemeRes(theme: Theme) = when(theme){
 	Theme.AMOLED -> R.style.Theme_Main_Amoled
 }
 
-fun Context?.autoSyncName(autoSync: AutoSync) = this?.let{
+fun Context?.autoSyncName(autoSync: AutoSync) = this?.let {
 	when (autoSync) {
-		AutoSync.NEVER -> getString(R.string.never)
-		AutoSync.WIFI_ONLY -> getString(R.string.only_on_wifi)
-		AutoSync.WIFI_PLUGGED_IN -> getString(R.string.only_on_wifi)
-		AutoSync.ALWAYS -> getString(R.string.always)
+		AutoSync.NEVER -> getString(stringRes.never)
+		AutoSync.WIFI_ONLY -> getString(stringRes.only_on_wifi)
+		AutoSync.WIFI_PLUGGED_IN -> getString(stringRes.only_on_wifi)
+		AutoSync.ALWAYS -> getString(stringRes.always)
 	}
 } ?: ""
 
-fun Context?.proxyName(proxyType: ProxyType) = this?.let{
+fun Context?.proxyName(proxyType: ProxyType) = this?.let {
 	when (proxyType) {
-		ProxyType.DIRECT -> getString(R.string.no_proxy)
-		ProxyType.HTTP -> getString(R.string.http_proxy)
-		ProxyType.SOCKS -> getString(R.string.socks_proxy)
+		ProxyType.DIRECT -> getString(stringRes.no_proxy)
+		ProxyType.HTTP -> getString(stringRes.http_proxy)
+		ProxyType.SOCKS -> getString(stringRes.socks_proxy)
 	}
 } ?: ""
 
 fun Context?.installerName(installerType: InstallerType) = this?.let {
 	when (installerType) {
-		InstallerType.LEGACY -> getString(R.string.legacy_installer)
-		InstallerType.SESSION -> getString(R.string.session_installer)
-		InstallerType.SHIZUKU -> getString(R.string.shizuku_installer)
-		InstallerType.ROOT -> getString(R.string.root_installer)
+		InstallerType.LEGACY -> getString(stringRes.legacy_installer)
+		InstallerType.SESSION -> getString(stringRes.session_installer)
+		InstallerType.SHIZUKU -> getString(stringRes.shizuku_installer)
+		InstallerType.ROOT -> getString(stringRes.root_installer)
 	}
 } ?: ""

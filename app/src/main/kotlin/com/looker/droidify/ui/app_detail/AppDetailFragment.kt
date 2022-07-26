@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core_common.trimAfter
-import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.screen.MessageDialog
@@ -320,7 +320,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
 			collapsingToolbar.title =
 				if (showPackageName) products[0].first.name.trimAfter(' ', 2)
-				else getString(R.string.application)
+				else getString(stringRes.application)
 		}
 	}
 
@@ -547,12 +547,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			val names = requireArguments().getStringArrayList(EXTRA_NAMES)!!
 			val labels = requireArguments().getStringArrayList(EXTRA_LABELS)!!
 			return MaterialAlertDialogBuilder(requireContext())
-				.setTitle(R.string.launch)
+				.setTitle(stringRes.launch)
 				.setItems(labels.toTypedArray()) { _, position ->
 					(parentFragment as AppDetailFragment)
 						.startLauncherActivity(names[position])
 				}
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(stringRes.cancel, null)
 				.create()
 		}
 	}

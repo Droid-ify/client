@@ -27,6 +27,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textview.MaterialTextView
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.databinding.PreferenceItemBinding
 import com.looker.droidify.screen.ScreenFragment
@@ -47,7 +48,7 @@ class SettingsFragment : ScreenFragment() {
 		super.onViewCreated(view, savedInstanceState)
 		preferenceBinding = PreferenceItemBinding.inflate(layoutInflater)
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title = getString(R.string.settings)
+		collapsingToolbar.title = getString(stringRes.settings)
 
 		val content = fragmentBinding.fragmentContent
 		val scroll = NestedScrollView(content.context)
@@ -72,77 +73,77 @@ class SettingsFragment : ScreenFragment() {
 			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
 
-		preferences.addCategory(requireContext().getString(R.string.prefs_personalization)) {
+		preferences.addCategory(requireContext().getString(stringRes.prefs_personalization)) {
 			addList(
 				Preferences.Key.Language,
-				context.getString(R.string.prefs_language_title),
+				context.getString(stringRes.prefs_language_title),
 				languagesList
 			) { translateLocale(context.getLocaleOfCode(it)) }
-			addEnumeration(Preferences.Key.Theme, getString(R.string.theme)) {
+			addEnumeration(Preferences.Key.Theme, getString(stringRes.theme)) {
 				when (it) {
-					is Preferences.Theme.System -> getString(R.string.system)
-					is Preferences.Theme.AmoledSystem -> getString(R.string.system) + " " + getString(
-						R.string.amoled
+					is Preferences.Theme.System -> getString(stringRes.system)
+					is Preferences.Theme.AmoledSystem -> getString(stringRes.system) + " " + getString(
+						stringRes.amoled
 					)
-					is Preferences.Theme.Light -> getString(R.string.light)
-					is Preferences.Theme.Dark -> getString(R.string.dark)
-					is Preferences.Theme.Amoled -> getString(R.string.amoled)
+					is Preferences.Theme.Light -> getString(stringRes.light)
+					is Preferences.Theme.Dark -> getString(stringRes.dark)
+					is Preferences.Theme.Amoled -> getString(stringRes.amoled)
 				}
 			}
 			addSwitch(
-				Preferences.Key.ListAnimation, getString(R.string.list_animation),
-				getString(R.string.list_animation_description)
+				Preferences.Key.ListAnimation, getString(stringRes.list_animation),
+				getString(stringRes.list_animation_description)
 			)
 		}
-		preferences.addCategory(getString(R.string.updates)) {
+		preferences.addCategory(getString(stringRes.updates)) {
 			addEnumeration(
 				Preferences.Key.AutoSync,
-				getString(R.string.sync_repositories_automatically)
+				getString(stringRes.sync_repositories_automatically)
 			) {
 				when (it) {
-					Preferences.AutoSync.Never -> getString(R.string.never)
-					Preferences.AutoSync.Wifi -> getString(R.string.only_on_wifi)
-					Preferences.AutoSync.Always -> getString(R.string.always)
+					Preferences.AutoSync.Never -> getString(stringRes.never)
+					Preferences.AutoSync.Wifi -> getString(stringRes.only_on_wifi)
+					Preferences.AutoSync.Always -> getString(stringRes.always)
 				}
 			}
 			addSwitch(
-				Preferences.Key.UpdateNotify, getString(R.string.notify_about_updates),
-				getString(R.string.notify_about_updates_summary)
+				Preferences.Key.UpdateNotify, getString(stringRes.notify_about_updates),
+				getString(stringRes.notify_about_updates_summary)
 			)
 			addSwitch(
-				Preferences.Key.UpdateUnstable, getString(R.string.unstable_updates),
-				getString(R.string.unstable_updates_summary)
+				Preferences.Key.UpdateUnstable, getString(stringRes.unstable_updates),
+				getString(stringRes.unstable_updates_summary)
 			)
 			addSwitch(
-				Preferences.Key.IncompatibleVersions, getString(R.string.incompatible_versions),
-				getString(R.string.incompatible_versions_summary)
+				Preferences.Key.IncompatibleVersions, getString(stringRes.incompatible_versions),
+				getString(stringRes.incompatible_versions_summary)
 			)
 		}
-		preferences.addCategory(getString(R.string.proxy)) {
-			addEnumeration(Preferences.Key.ProxyType, getString(R.string.proxy_type)) {
+		preferences.addCategory(getString(stringRes.proxy)) {
+			addEnumeration(Preferences.Key.ProxyType, getString(stringRes.proxy_type)) {
 				when (it) {
-					is Preferences.ProxyType.Direct -> getString(R.string.no_proxy)
-					is Preferences.ProxyType.Http -> getString(R.string.http_proxy)
-					is Preferences.ProxyType.Socks -> getString(R.string.socks_proxy)
+					is Preferences.ProxyType.Direct -> getString(stringRes.no_proxy)
+					is Preferences.ProxyType.Http -> getString(stringRes.http_proxy)
+					is Preferences.ProxyType.Socks -> getString(stringRes.socks_proxy)
 				}
 			}
-			addEditString(Preferences.Key.ProxyHost, getString(R.string.proxy_host))
-			addEditInt(Preferences.Key.ProxyPort, getString(R.string.proxy_port), 1..65535)
+			addEditString(Preferences.Key.ProxyHost, getString(stringRes.proxy_host))
+			addEditInt(Preferences.Key.ProxyPort, getString(stringRes.proxy_port), 1..65535)
 		}
-		preferences.addCategory(getString(R.string.install_types)) {
+		preferences.addCategory(getString(stringRes.install_types)) {
 			addEnumeration(
-				Preferences.Key.InstallerType, getString(R.string.installer),
+				Preferences.Key.InstallerType, getString(stringRes.installer),
 				onClick = { viewModel.installerSelected(it) }
 			) {
 				when (it) {
-					Preferences.InstallerType.Legacy -> getString(R.string.legacy_installer)
-					Preferences.InstallerType.Session -> getString(R.string.session_installer)
-					Preferences.InstallerType.Shizuku -> getString(R.string.shizuku_installer)
-					Preferences.InstallerType.Root -> getString(R.string.root_installer)
+					Preferences.InstallerType.Legacy -> getString(stringRes.legacy_installer)
+					Preferences.InstallerType.Session -> getString(stringRes.session_installer)
+					Preferences.InstallerType.Shizuku -> getString(stringRes.shizuku_installer)
+					Preferences.InstallerType.Root -> getString(stringRes.root_installer)
 				}
 			}
 		}
-		preferences.addCategory(getString(R.string.credits)) {
+		preferences.addCategory(getString(stringRes.credits)) {
 			addText(
 				title = "Based on Foxy-Droid",
 				summary = "FoxyDroid",
@@ -278,11 +279,11 @@ class SettingsFragment : ScreenFragment() {
 			MaterialAlertDialogBuilder(it)
 				.setTitle(title)
 				.setView(scroll)
-				.setPositiveButton(R.string.ok) { _, _ ->
+				.setPositiveButton(stringRes.ok) { _, _ ->
 					val value = stringToValue(edit.text.toString()) ?: key.default.value
 					post { Preferences[key] = value }
 				}
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(stringRes.cancel, null)
 				.create()
 				.apply {
 					window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -330,7 +331,7 @@ class SettingsFragment : ScreenFragment() {
 						onClick(Preferences[key])
 					}
 				}
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(stringRes.cancel, null)
 				.create()
 		}
 	}
@@ -351,7 +352,7 @@ class SettingsFragment : ScreenFragment() {
 					dialog.dismiss()
 					post { Preferences[key] = values[which] }
 				}
-				.setNegativeButton(R.string.cancel, null)
+				.setNegativeButton(stringRes.cancel, null)
 				.create()
 		}
 	}

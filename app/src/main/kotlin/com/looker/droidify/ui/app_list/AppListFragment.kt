@@ -12,7 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.core_model.ProductItem
@@ -37,9 +38,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	}
 
 	enum class Source(val titleResId: Int, val sections: Boolean, val order: Boolean) {
-		AVAILABLE(R.string.available, true, true),
-		INSTALLED(R.string.installed, false, true),
-		UPDATES(R.string.updates, false, false)
+		AVAILABLE(stringRes.available, true, true),
+		INSTALLED(stringRes.installed, false, true),
+		UPDATES(stringRes.updates, false, false)
 	}
 
 	constructor(source: Source) : this() {
@@ -70,8 +71,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			val adapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }
 			this.adapter = adapter
 			FastScrollerBuilder(this)
-				.setThumbDrawable(context.getDrawableCompat(R.drawable.scrollbar_thumb))
-				.setTrackDrawable(context.getDrawableCompat(R.drawable.scrollbar_track))
+				.setThumbDrawable(context.getDrawableCompat(drawableRes.scrollbar_thumb))
+				.setTrackDrawable(context.getDrawableCompat(drawableRes.scrollbar_track))
 				.build()
 			recyclerView = this
 		}
@@ -108,11 +109,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 					emptyText = when {
 						cursor == null -> ""
 						viewModel.searchQuery.first()
-							.isNotEmpty() -> getString(R.string.no_matching_applications_found)
+							.isNotEmpty() -> getString(stringRes.no_matching_applications_found)
 						else -> when (source) {
-							Source.AVAILABLE -> getString(R.string.no_applications_available)
-							Source.INSTALLED -> getString(R.string.no_applications_installed)
-							Source.UPDATES -> getString(R.string.all_applications_up_to_date)
+							Source.AVAILABLE -> getString(stringRes.no_applications_available)
+							Source.INSTALLED -> getString(stringRes.no_applications_installed)
+							Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
 						}
 					}
 				}

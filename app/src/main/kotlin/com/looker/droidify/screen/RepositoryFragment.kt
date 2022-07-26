@@ -12,6 +12,8 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TitleTextItemBinding
 import com.looker.droidify.service.Connection
@@ -53,19 +55,19 @@ class RepositoryFragment() : ScreenFragment() {
 		lifecycleScope.launch(Dispatchers.Main) { updateRepositoryView() }
 
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title = getString(R.string.repository)
+		collapsingToolbar.title = getString(stringRes.repository)
 
 		toolbar.menu.apply {
-			add(R.string.edit_repository)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_edit))
+			add(stringRes.edit_repository)
+				.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_edit))
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 				.setOnMenuItemClickListener {
 					view.post { screenActivity.navigateEditRepository(repositoryId) }
 					true
 				}
 
-			add(R.string.delete)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_delete))
+			add(stringRes.delete)
+				.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_delete))
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 				.setOnMenuItemClickListener {
 					MessageDialog(MessageDialog.Message.DeleteRepositoryConfirm).show(
@@ -104,14 +106,14 @@ class RepositoryFragment() : ScreenFragment() {
 		val layout = layout!!
 		layout.removeAllViews()
 		if (repository == null) {
-			layout.addTitleText(R.string.address, getString(R.string.unknown))
+			layout.addTitleText(stringRes.address, getString(stringRes.unknown))
 		} else {
-			layout.addTitleText(R.string.address, repository.address)
+			layout.addTitleText(stringRes.address, repository.address)
 			if (repository.updated > 0L) {
 				collapsingToolbar.title = repository.name
-				layout.addTitleText(R.string.name, repository.name)
-				layout.addTitleText(R.string.description, repository.description.replace('\n', ' ').trim())
-				layout.addTitleText(R.string.recently_updated, run {
+				layout.addTitleText(stringRes.name, repository.name)
+				layout.addTitleText(stringRes.description, repository.description.replace('\n', ' ').trim())
+				layout.addTitleText(stringRes.recently_updated, run {
 					val lastUpdated = repository.updated
 					if (lastUpdated > 0L) {
 						val date = Date(repository.updated)
@@ -120,30 +122,30 @@ class RepositoryFragment() : ScreenFragment() {
 								DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE
 						DateUtils.formatDateTime(layout.context, date.time, format)
 					} else {
-						getString(R.string.unknown)
+						getString(stringRes.unknown)
 					}
 				})
 				if (repository.enabled && (repository.lastModified.isNotEmpty() || repository.entityTag.isNotEmpty())) {
 					layout.addTitleText(
-						R.string.number_of_applications,
+						stringRes.number_of_applications,
 						Database.ProductAdapter.getCount(repository.id).toString()
 					)
 				}
 			} else {
 				layout.addTitleText(
-					R.string.description,
-					getString(R.string.repository_not_used_DESC)
+					stringRes.description,
+					getString(stringRes.repository_not_used_DESC)
 				)
 			}
 			if (repository.fingerprint.isEmpty()) {
 				if (repository.updated > 0L) {
 					val builder =
-						SpannableStringBuilder(getString(R.string.repository_unsigned_DESC))
+						SpannableStringBuilder(getString(stringRes.repository_unsigned_DESC))
 					builder.setSpan(
 						ForegroundColorSpan(layout.context.getColorFromAttr(R.attr.colorError).defaultColor),
 						0, builder.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
 					)
-					layout.addTitleText(R.string.fingerprint, builder)
+					layout.addTitleText(stringRes.fingerprint, builder)
 				}
 			} else {
 				val fingerprint =
@@ -153,7 +155,7 @@ class RepositoryFragment() : ScreenFragment() {
 					TypefaceSpan("monospace"), 0, fingerprint.length,
 					SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
 				)
-				layout.addTitleText(R.string.fingerprint, fingerprint)
+				layout.addTitleText(stringRes.fingerprint, fingerprint)
 			}
 		}
 	}

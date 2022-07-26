@@ -1,9 +1,9 @@
 package com.looker.droidify.utility.extension
 
-import com.looker.droidify.R
+import com.looker.core_common.R.string as stringRes
 
 enum class Order(val titleResId: Int) {
-	NAME(R.string.name),
-	DATE_ADDED(R.string.whats_new),
-	LAST_UPDATE(R.string.recently_updated)
+	NAME(stringRes.name),
+	DATE_ADDED(stringRes.whats_new),
+	LAST_UPDATE(stringRes.recently_updated)
 }

@@ -10,6 +10,7 @@ import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
+import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
@@ -42,7 +43,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				}
 			}
 
-			val radius = image.context.resources.getDimension(R.dimen.shape_medium_corner)
+			val radius = image.context.resources.getDimension(dimenRes.shape_medium_corner)
 			val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
 				.setAllCornerSizes(radius)
 				.build()
@@ -54,8 +55,8 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				RecyclerView.LayoutParams.MATCH_PARENT
 			).apply {
 				marginStart =
-					image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
-				marginEnd = image.context.resources.getDimension(R.dimen.shape_small_corner).toInt()
+					image.context.resources.getDimension(dimenRes.shape_small_corner).toInt()
+				marginEnd = image.context.resources.getDimension(dimenRes.shape_small_corner).toInt()
 			}
 
 			val placeholder =
