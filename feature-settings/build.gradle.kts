@@ -29,6 +29,9 @@ android {
 	kotlinOptions {
 		jvmTarget = "1.8"
 	}
+	buildFeatures {
+		viewBinding = true
+	}
 }
 
 dependencies {
@@ -37,4 +40,6 @@ dependencies {
 	kotlin("stdlib")
 	implementation(Core.core)
 	implementation(AndroidX.material)
+	implementation(AndroidX.fragment)
+	implementation(Lifecycle.viewmodel)
 }

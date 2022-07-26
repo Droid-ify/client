@@ -56,7 +56,6 @@ android {
 			excludes += Excludes.listExclude
 		}
 	}
-
 	buildFeatures {
 		viewBinding = true
 	}
