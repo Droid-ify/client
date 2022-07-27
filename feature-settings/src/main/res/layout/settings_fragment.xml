@@ -1,13 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsFragment">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Hello" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <include
+            android:id="@+id/language"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/theme"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/list_animation"
+            layout="@layout/switch_type" />
+
+        <include
+            android:id="@+id/auto_sync"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/notify_updates"
+            layout="@layout/switch_type" />
+
+        <include
+            android:id="@+id/unstable_updates"
+            layout="@layout/switch_type" />
+
+        <include
+            android:id="@+id/incompatible_updates"
+            layout="@layout/switch_type" />
+
+        <include
+            android:id="@+id/proxy_type"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/proxy_host"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/proxy_port"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/installer"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/credit_foxy"
+            layout="@layout/enum_type" />
+
+        <include
+            android:id="@+id/droidify"
+            layout="@layout/enum_type" />
+
+    </LinearLayout>
+</ScrollView>
