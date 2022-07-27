@@ -16,7 +16,8 @@
             android:paddingStart="@dimen/shape_margin_large"
             android:text="@string/prefs_personalization"
             android:textAppearance="?textAppearanceHeadlineSmall"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <include
             android:id="@+id/language"
@@ -36,7 +37,8 @@
             android:paddingStart="@dimen/shape_margin_large"
             android:text="@string/updates"
             android:textAppearance="?textAppearanceHeadlineSmall"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <include
             android:id="@+id/auto_sync"
@@ -60,7 +62,8 @@
             android:paddingStart="@dimen/shape_margin_large"
             android:text="@string/proxy"
             android:textAppearance="?textAppearanceHeadlineSmall"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <include
             android:id="@+id/proxy_type"
@@ -80,7 +83,8 @@
             android:paddingStart="@dimen/shape_margin_large"
             android:text="@string/install_types"
             android:textAppearance="?textAppearanceHeadlineSmall"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <include
             android:id="@+id/installer"
@@ -92,7 +96,8 @@
             android:paddingStart="@dimen/shape_margin_large"
             android:text="@string/credits"
             android:textAppearance="?textAppearanceHeadlineSmall"
-            android:textColor="?colorPrimary" />
+            android:textColor="?colorPrimary"
+            android:textStyle="bold" />
 
         <include
             android:id="@+id/credit_foxy"
