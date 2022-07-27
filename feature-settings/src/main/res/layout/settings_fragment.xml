@@ -10,6 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/shape_margin_large"
+            android:text="@string/prefs_personalization"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?colorPrimary" />
+
         <include
             android:id="@+id/language"
             layout="@layout/enum_type" />
@@ -21,6 +29,14 @@
         <include
             android:id="@+id/list_animation"
             layout="@layout/switch_type" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/shape_margin_large"
+            android:text="@string/updates"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?colorPrimary" />
 
         <include
             android:id="@+id/auto_sync"
@@ -38,6 +54,14 @@
             android:id="@+id/incompatible_updates"
             layout="@layout/switch_type" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/shape_margin_large"
+            android:text="@string/proxy"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?colorPrimary" />
+
         <include
             android:id="@+id/proxy_type"
             layout="@layout/enum_type" />
@@ -50,9 +74,25 @@
             android:id="@+id/proxy_port"
             layout="@layout/enum_type" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/shape_margin_large"
+            android:text="@string/install_types"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?colorPrimary" />
+
         <include
             android:id="@+id/installer"
             layout="@layout/enum_type" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/shape_margin_large"
+            android:text="@string/credits"
+            android:textAppearance="?textAppearanceHeadlineSmall"
+            android:textColor="?colorPrimary" />
 
         <include
             android:id="@+id/credit_foxy"
