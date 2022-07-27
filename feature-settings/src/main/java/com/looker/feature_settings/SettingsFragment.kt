@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
@@ -24,7 +25,7 @@ import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
 import com.looker.core_datastore.model.Theme
-import com.looker.feature_settings.databinding.SettingsFragmentBinding
+import com.looker.feature_settings.databinding.SettingsPageBinding
 import kotlinx.coroutines.launch
 import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_common.R.string as stringRes
@@ -38,14 +39,16 @@ class SettingsFragment : Fragment() {
 	private val viewModel: SettingsViewModel by viewModels {
 		SettingsViewModelFactory(UserPreferencesRepository(requireContext()))
 	}
-	private var _binding: SettingsFragmentBinding? = null
+	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
 	override fun onCreateView(
-		inflater: LayoutInflater, container: ViewGroup?,
+		inflater: LayoutInflater,
+		container: ViewGroup?,
 		savedInstanceState: Bundle?
 	): View {
-		_binding = SettingsFragmentBinding.inflate(inflater, container, false)
+		_binding = SettingsPageBinding.inflate(inflater, container, false)
+		binding.toolbar.title = getString(stringRes.settings)
 		with(binding) {
 			language.title.text = getString(stringRes.prefs_language_title)
 			theme.title.text = getString(stringRes.theme)
@@ -120,7 +123,16 @@ class SettingsFragment : Fragment() {
 			.setTitle(title)
 			.setView(scroll)
 			.setPositiveButton(stringRes.ok) { _, _ ->
-				post { onFinish(customEditText.text.toString().toInt()) }
+				post {
+					val output = try {
+						customEditText.text.toString().toInt()
+					} catch (e: NumberFormatException) {
+						Toast.makeText(context, "PORT can only be a Integer", Toast.LENGTH_SHORT)
+							.show()
+						initialValue
+					}
+					onFinish(output)
+				}
 			}
 			.setNegativeButton(stringRes.cancel, null)
 			.create()
