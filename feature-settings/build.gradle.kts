@@ -36,9 +36,11 @@ android {
 
 dependencies {
 	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreDatastore))
 
 	kotlin("stdlib")
 	implementation(Core.core)
+	implementation(AndroidX.appCompat)
 	implementation(AndroidX.material)
 	implementation(AndroidX.fragment)
 	implementation(Lifecycle.viewmodel)

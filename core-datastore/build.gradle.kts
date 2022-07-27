@@ -32,6 +32,7 @@ android {
 }
 
 dependencies {
+	implementation(project(Modules.coreCommon))
 	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
