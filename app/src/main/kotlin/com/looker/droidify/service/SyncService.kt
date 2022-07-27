@@ -22,6 +22,7 @@ import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.style as styleRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -214,7 +215,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 				)
 				.setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
@@ -240,7 +241,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
 			.setSmallIcon(R.drawable.ic_sync)
 			.setColor(
-				ContextThemeWrapper(this, R.style.Theme_Main_Light)
+				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 			)
 			.addAction(
@@ -432,7 +433,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					)
 				)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 				)
 				.setContentIntent(

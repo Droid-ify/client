@@ -6,7 +6,7 @@ import android.content.res.Configuration
 import com.looker.core_common.device.Miui
 import com.looker.core_common.Common.PREFS_LANGUAGE
 import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
-import com.looker.droidify.R
+import com.looker.core_common.R.style as styleRes
 import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
@@ -219,27 +219,27 @@ object Preferences {
 		object System : Theme("system") {
 			override fun getResId(configuration: Configuration): Int {
 				return if ((configuration.uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-					R.style.Theme_Main_Dark else R.style.Theme_Main_Light
+					styleRes.Theme_Main_Dark else styleRes.Theme_Main_Light
 			}
 		}
 
 		object AmoledSystem : Theme("system-amoled") {
 			override fun getResId(configuration: Configuration): Int {
 				return if ((configuration.uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-					R.style.Theme_Main_Amoled else R.style.Theme_Main_Light
+					styleRes.Theme_Main_Amoled else styleRes.Theme_Main_Light
 			}
 		}
 
 		object Light : Theme("light") {
-			override fun getResId(configuration: Configuration): Int = R.style.Theme_Main_Light
+			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Light
 		}
 
 		object Dark : Theme("dark") {
-			override fun getResId(configuration: Configuration): Int = R.style.Theme_Main_Dark
+			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Dark
 		}
 
 		object Amoled : Theme("amoled") {
-			override fun getResId(configuration: Configuration): Int = R.style.Theme_Main_Amoled
+			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Amoled
 		}
 	}
 

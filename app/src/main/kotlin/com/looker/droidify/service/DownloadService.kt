@@ -17,6 +17,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
+import com.looker.core_common.R.style as styleRes
 import com.looker.core_common.R.string as stringRes
 import com.looker.core_common.cache.Cache
 import com.looker.droidify.content.Preferences
@@ -200,7 +201,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setAutoCancel(true)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(R.attr.colorPrimary).defaultColor
 				)
 				.setContentIntent(resultPendingIntent)
@@ -268,7 +269,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setAutoCancel(true)
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(R.attr.colorPrimary).defaultColor
 				)
 				.setContentIntent(resultPendingIntent)
@@ -347,7 +348,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
 			.setSmallIcon(android.R.drawable.stat_sys_download)
 			.setColor(
-				ContextThemeWrapper(this, R.style.Theme_Main_Light)
+				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColorFromAttr(R.attr.colorPrimary).defaultColor
 			)
 			.addAction(

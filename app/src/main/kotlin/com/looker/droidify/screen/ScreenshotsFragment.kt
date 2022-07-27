@@ -19,6 +19,7 @@ import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.R
+import com.looker.core_common.R.style as styleRes
 import com.looker.droidify.database.Database
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
@@ -64,7 +65,7 @@ class ScreenshotsFragment() : DialogFragment() {
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val packageName = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
 		val repositoryId = requireArguments().getLong(EXTRA_REPOSITORY_ID)
-		val dialog = Dialog(requireContext(), R.style.Theme_Main_Dark)
+		val dialog = Dialog(requireContext(), styleRes.Theme_Main_Dark)
 
 		val window = dialog.window
 		val decorView = window?.decorView
