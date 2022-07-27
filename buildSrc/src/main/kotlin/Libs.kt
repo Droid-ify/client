@@ -1,3 +1,15 @@
+object AndroidX {
+
+	const val appCompat = "androidx.appcompat:appcompat:1.4.2"
+
+	private const val version = "1.5.0"
+	const val fragment = "androidx.fragment:fragment-ktx:$version"
+	const val activity = "androidx.activity:activity-ktx:$version"
+
+	const val preference = "androidx.preference:preference-ktx:1.2.0"
+	const val material = "com.google.android.material:material:1.6.1"
+}
+
 object Core {
 	private const val coreVersion = "1.8.0"
 	const val core = "androidx.core:core-ktx:$coreVersion"
@@ -14,6 +26,11 @@ object Coroutines {
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
 
+object Datastore {
+	private const val version = "1.0.0"
+	const val datastore = "androidx.datastore:datastore-preferences:$version"
+}
+
 object Excludes {
 	const val jniExclude = "/okhttp3/internal/publicsuffix/*"
 	val listExclude: List<String> = listOf(
@@ -27,39 +44,17 @@ object Excludes {
 	)
 }
 
-object AndroidX {
+object Hilt {
+	private const val hiltVersion = "2.43"
+	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
+	const val android = "com.google.dagger:hilt-android:$hiltVersion"
 
-	const val appCompat = "androidx.appcompat:appcompat:1.4.2"
-
-	private const val version = "1.5.0"
-	const val fragment = "androidx.fragment:fragment-ktx:$version"
-	const val activity = "androidx.activity:activity-ktx:$version"
-
-	const val preference = "androidx.preference:preference-ktx:1.2.0"
-	const val material = "com.google.android.material:material:1.6.1"
-}
-
-object Datastore {
-	private const val version = "1.0.0"
-	const val datastore = "androidx.datastore:datastore-preferences:$version"
-}
-
-object OkHttp {
-	private const val version = "5.0.0-alpha.9"
-	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
-}
-
-object RxJava {
-	const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.5"
-	const val android = "io.reactivex.rxjava3:rxandroid:3.0.0"
-}
-
-object Others {
-	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
-	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
-	private const val shizukuVersion = "12.1.0"
-	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
-	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
+	const val compiler = "com.google.dagger:hilt-compiler:$hiltVersion"
+	const val plugin = "dagger.hilt.android.plugin"
+	private const val androidXHilt = "1.0.0"
+	const val work = "androidx.hilt:hilt-work:$androidXHilt"
+	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
+	const val navigation = "androidx.hilt:hilt-navigation-compose:$androidXHilt"
 }
 
 object Jackson {
@@ -76,6 +71,19 @@ object Lifecycle {
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 }
 
+object OkHttp {
+	private const val version = "5.0.0-alpha.9"
+	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
+}
+
+object Others {
+	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
+	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
+	private const val shizukuVersion = "12.1.0"
+	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
+	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
+}
+
 object Room {
 	private const val roomVersion = "2.4.2"
 	const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
@@ -83,17 +91,22 @@ object Room {
 	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
 }
 
+object RxJava {
+	const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.5"
+	const val android = "io.reactivex.rxjava3:rxandroid:3.0.0"
+}
+
 object Startup {
 	private const val startupVersion = "1.1.1"
 	const val lib = "androidx.startup:startup-runtime:$startupVersion"
 }
 
-object Work {
-	private const val version = "2.7.1"
-	const val manager = "androidx.work:work-runtime-ktx:$version"
-}
-
 object Version {
 	const val kotlin = "1.7.10"
 	const val ksp = "1.7.10-1.0.6"
+}
+
+object Work {
+	private const val version = "2.7.1"
+	const val manager = "androidx.work:work-runtime-ktx:$version"
 }
