@@ -3,8 +3,6 @@ package com.looker.droidify.service
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
-import android.app.job.JobParameters
-import android.app.job.JobService
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -13,28 +11,35 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.looker.core_common.Common
 import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
+import com.looker.core_common.result.Result
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
-import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.style as styleRes
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.core_common.result.Result
 import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import kotlin.math.roundToInt
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.style as styleRes
 
 class SyncService : ConnectionService<SyncService.Binder>() {
 	companion object {
@@ -44,7 +49,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		private val mutableFinishState = MutableSharedFlow<Unit>()
 
 		private val stateSubject = mutableStateSubject.asSharedFlow()
-		private val finishState = mutableFinishState.asSharedFlow()
 	}
 
 	private sealed class State {
@@ -76,8 +80,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	enum class SyncRequest { AUTO, MANUAL, FORCE }
 
 	inner class Binder : android.os.Binder() {
-		val finish: SharedFlow<Unit>
-			get() = finishState
 
 		private fun sync(ids: List<Long>, request: SyncRequest) {
 			val cancelledTask =
@@ -108,13 +110,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			if (repository.enabled) {
 				sync(listOf(repository.id), SyncRequest.FORCE)
 			}
-		}
-
-		fun cancelAuto(): Boolean {
-			val removed = cancelTasks { !it.manual }
-			val currentTask = cancelCurrentTask { it.task?.manual == false }
-			handleNextTask(currentTask?.hasUpdates == true)
-			return removed || currentTask != null
 		}
 
 		fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -470,46 +465,5 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				})
 				.build()
 		)
-	}
-
-	class Job : JobService() {
-		private val jobScope = CoroutineScope(Dispatchers.Default)
-		private var syncParams: JobParameters? = null
-		private val syncConnection =
-			Connection(SyncService::class.java, onBind = { connection, binder ->
-				jobScope.launch {
-					binder.finish.collect {
-						val params = syncParams
-						if (params != null) {
-							syncParams = null
-							connection.unbind(this@Job)
-							jobFinished(params, false)
-						}
-					}
-				}
-				binder.sync(SyncRequest.AUTO)
-			}, onUnbind = { _, binder ->
-				binder.cancelAuto()
-				jobScope.cancel()
-				val params = syncParams
-				if (params != null) {
-					syncParams = null
-					jobFinished(params, true)
-				}
-			})
-
-		override fun onStartJob(params: JobParameters): Boolean {
-			syncParams = params
-			syncConnection.bind(this)
-			return true
-		}
-
-		override fun onStopJob(params: JobParameters): Boolean {
-			syncParams = null
-			jobScope.cancel()
-			val reschedule = syncConnection.binder?.cancelAuto() == true
-			syncConnection.unbind(this)
-			return reschedule
-		}
 	}
 }

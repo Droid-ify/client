@@ -80,11 +80,6 @@
 
         <service android:name=".service.SyncService" />
 
-        <service
-            android:name=".service.SyncService$Job"
-            android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
         <service android:name=".service.DownloadService" />
 
         <service

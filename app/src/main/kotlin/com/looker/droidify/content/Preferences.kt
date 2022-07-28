@@ -16,7 +16,6 @@ object Preferences {
 	val subject = _subject.asSharedFlow()
 
 	private val keys = sequenceOf(
-		Key.IncompatibleVersions,
 		Key.SortOrder,
 		Key.UpdateNotify,
 		Key.UpdateUnstable
@@ -85,8 +84,6 @@ object Preferences {
 	}
 
 	sealed class Key<T>(val name: String, val default: Value<T>) {
-		object IncompatibleVersions :
-			Key<Boolean>("incompatible_versions", Value.BooleanValue(false))
 
 		object SortOrder : Key<Preferences.SortOrder>(
 			"sort_order",

@@ -36,7 +36,9 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -58,6 +60,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val initialSetup
+		get() = flow {
+			emit(userPreferencesRepository.fetchInitialPreferences())
+		}
+
+	private val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	private class Nullable<T>(val value: T?)
 
@@ -222,15 +231,31 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					}
 					val recyclerView = recyclerView!!
 					val adapter = recyclerView.adapter as AppDetailAdapter
-					if (firstChanged || productChanged || installedItemChanged) {
-						adapter.setProducts(
-							recyclerView.context,
-							packageName,
-							products,
-							installedItem.value
-						)
+					lifecycleScope.launch {
+						if (firstChanged || productChanged || installedItemChanged) {
+							initialSetup.collect { initial ->
+								adapter.setProducts(
+									recyclerView.context,
+									packageName,
+									products,
+									installedItem.value,
+									initial.incompatibleVersions
+								)
+								launch {
+									userPreferencesFlow.collectLatest {
+										adapter.setProducts(
+											recyclerView.context,
+											packageName,
+											products,
+											installedItem.value,
+											it.incompatibleVersions
+										)
+									}
+								}
+							}
+						}
+						launch { updateButtons() }
 					}
-					lifecycleScope.launch { updateButtons() }
 				}
 			}
 
@@ -369,9 +394,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
-				val installerType =
-					userPreferencesRepository.fetchInitialPreferences().installerType
-				packageName.installApk(context, state.release.cacheFileName, installerType)
+				initialSetup.collect {
+					packageName.installApk(context, state.release.cacheFileName, it.installerType)
+				}
 			}
 		}
 	}
@@ -429,9 +454,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 			AppDetailAdapter.Action.UNINSTALL -> {
 				lifecycleScope.launch {
-					val installerType =
-						userPreferencesRepository.fetchInitialPreferences().installerType
-					packageName.uninstallApk(context, installerType)
+					initialSetup.collect {
+						packageName.uninstallApk(context, it.installerType)
+					}
 				}
 				Unit
 			}

@@ -36,7 +36,7 @@ class AutoSyncWorker @AssistedInject constructor(
 	)
 
 	override suspend fun doWork(): Result = try {
-		Log.i(CleanUpWorker.TAG, "doWork: Started AutoSync")
+		Log.i(TAG, "doWork: Started AutoSync")
 		syncService.binder?.sync(SyncService.SyncRequest.AUTO)
 		Result.success()
 	} catch (e: Exception) {

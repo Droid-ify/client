@@ -194,7 +194,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.INSTALLER_TYPE] ?: InstallerType.SESSION.name
 		)
 		val autoSync = AutoSync.valueOf(
-			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.ALWAYS.name
+			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name
 		)
 		val sortOrder = SortOrder.valueOf(
 			preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.UPDATED.name

@@ -48,6 +48,7 @@ import com.google.android.material.textview.MaterialTextView
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.formatSize
 import com.looker.core_common.nullIfEmpty
+import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Release
@@ -69,6 +70,9 @@ import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.resources.setTextSizeScaled
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import java.lang.ref.WeakReference
 import java.time.Instant
 import java.time.LocalDateTime
@@ -79,6 +83,12 @@ import kotlin.math.roundToInt
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
 	StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
+
+	@EntryPoint
+	@InstallIn(SingletonComponent::class)
+	interface CustomUserRepositoryInjector {
+		fun userPreferencesRepository(): UserPreferencesRepository
+	}
 
 	interface Callbacks {
 		fun onActionClick(action: Action)
@@ -558,7 +568,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	fun setProducts(
 		context: Context, packageName: String,
-		products: List<Pair<Product, Repository>>, installedItem: InstalledItem?,
+		products: List<Pair<Product, Repository>>,
+		installedItem: InstalledItem?,
+		incompatible: Boolean
 	) {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
@@ -827,7 +839,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 		}
 
-		val incompatible = Preferences[Preferences.Key.IncompatibleVersions]
 		val compatibleReleasePairs = products.asSequence()
 			.flatMap { (product, repository) ->
 				product.releases.asSequence()

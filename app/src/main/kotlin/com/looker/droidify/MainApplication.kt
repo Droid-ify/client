@@ -69,7 +69,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 		updatePreference()
 
 		if (databaseUpdated) forceSyncAll()
-
 		cleanUp()
 	}
 
@@ -271,7 +270,10 @@ class ContextWrapperX(base: Context) : ContextWrapper(base) {
 	suspend fun wrap(context: Context): ContextWrapper {
 		val appContext = context.applicationContext
 		val hiltEntryPoint =
-			EntryPointAccessors.fromApplication(appContext, CustomUserRepositoryInjector::class.java)
+			EntryPointAccessors.fromApplication(
+				appContext,
+				CustomUserRepositoryInjector::class.java
+			)
 		val language = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences().language
 		val config = context.setLanguage(language)
 		return ContextWrapperX(context.createConfigurationContext(config))
