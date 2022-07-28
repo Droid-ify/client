@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -37,4 +39,7 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 	api(Datastore.datastore)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }

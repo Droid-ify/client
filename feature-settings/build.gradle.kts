@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -44,4 +46,7 @@ dependencies {
 	implementation(AndroidX.material)
 	implementation(AndroidX.fragment)
 	implementation(Lifecycle.viewmodel)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }

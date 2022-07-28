@@ -1,6 +1,5 @@
 package com.looker.core_datastore
 
-import android.content.Context
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,7 +8,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
@@ -23,11 +21,6 @@ import java.io.IOException
 import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
-
-/**
- * DataStore name
- */
-private const val PREFERENCES_NAME = "preferences"
 
 /**
  * Settings data class
@@ -51,8 +44,7 @@ data class UserPreferences(
 /**
  * This class handles the data storing and retrieval
  */
-class UserPreferencesRepository(private val context: Context) {
-	private val Context.dataStore by preferencesDataStore(name = PREFERENCES_NAME)
+class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private val tag: String = "UserPreferenceRepo"
 
 	/**
@@ -77,7 +69,7 @@ class UserPreferencesRepository(private val context: Context) {
 	/**
 	 * Provides a flow for the [UserPreferences]
 	 */
-	val userPreferencesFlow: Flow<UserPreferences> = context.applicationContext.dataStore.data
+	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
 			if (exception is IOException) Log.e(tag, "Error reading preferences.", exception)
 			else throw exception
@@ -176,7 +168,7 @@ class UserPreferencesRepository(private val context: Context) {
 	 * Simple function to reduce boiler plate
 	 */
 	private suspend inline fun <T> Preferences.Key<T>.update(newValue: T) {
-		context.applicationContext.dataStore.edit { preferences ->
+		dataStore.edit { preferences ->
 			preferences[this] = newValue
 		}
 	}
@@ -185,13 +177,13 @@ class UserPreferencesRepository(private val context: Context) {
 	 * Fetches the initial value of [UserPreferences]
 	 */
 	suspend fun fetchInitialPreferences() =
-		mapUserPreferences(context.applicationContext.dataStore.data.first().toPreferences())
+		mapUserPreferences(dataStore.data.first().toPreferences())
 
 	/**
 	 * Maps [Preferences] to [UserPreferences]
 	 */
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		val language = preferences[PreferencesKeys.LANGUAGE] ?: Locale.getDefault().language
+		val language = preferences[PreferencesKeys.LANGUAGE] ?: Locale.getDefault().toString()
 		val incompatibleVersions = preferences[PreferencesKeys.INCOMPATIBLE_VERSIONS] ?: false
 		val listAnimation = preferences[PreferencesKeys.LIST_ANIMATION] ?: false
 		val notifyUpdate = preferences[PreferencesKeys.NOTIFY_UPDATES] ?: true

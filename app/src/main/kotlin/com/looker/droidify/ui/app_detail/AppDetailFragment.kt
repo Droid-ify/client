@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core_common.trimAfter
-import com.looker.core_common.R.string as stringRes
+import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.screen.MessageDialog
@@ -30,6 +30,7 @@ import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -38,7 +39,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import com.looker.core_common.R.string as stringRes
 
+@AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	companion object {
 		private const val EXTRA_PACKAGE_NAME = "packageName"
@@ -51,6 +55,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			putString(EXTRA_PACKAGE_NAME, packageName)
 		}
 	}
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	private class Nullable<T>(val value: T?)
 
@@ -360,8 +367,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			updateButtons()
 		}
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
-		if (state is DownloadService.State.Success && isResumed) {
-			packageName.installApk(context, state.release.cacheFileName)
+		lifecycleScope.launch {
+			if (state is DownloadService.State.Success && isResumed) {
+				val installerType =
+					userPreferencesRepository.fetchInitialPreferences().installerType
+				packageName.installApk(context, state.release.cacheFileName, installerType)
+			}
 		}
 	}
 
@@ -417,7 +428,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				)
 			}
 			AppDetailAdapter.Action.UNINSTALL -> {
-				lifecycleScope.launch { packageName.uninstallApk(context) }
+				lifecycleScope.launch {
+					val installerType =
+						userPreferencesRepository.fetchInitialPreferences().installerType
+					packageName.uninstallApk(context, installerType)
+				}
 				Unit
 			}
 			AppDetailAdapter.Action.CANCEL -> {

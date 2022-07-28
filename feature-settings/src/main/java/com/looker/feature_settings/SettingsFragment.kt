@@ -1,5 +1,7 @@
 package com.looker.feature_settings
 
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +18,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core_common.BuildConfig
 import com.looker.core_datastore.UserPreferences
-import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.extension.autoSyncName
 import com.looker.core_datastore.extension.installerName
 import com.looker.core_datastore.extension.proxyName
@@ -26,19 +27,20 @@ import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
 import com.looker.core_datastore.model.Theme
 import com.looker.feature_settings.databinding.SettingsPageBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.*
 import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_common.R.string as stringRes
 
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
 	companion object {
 		fun newInstance() = SettingsFragment()
 	}
 
-	private val viewModel: SettingsViewModel by viewModels {
-		SettingsViewModelFactory(UserPreferencesRepository(requireContext()))
-	}
+	private val viewModel: SettingsViewModel by viewModels()
 	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
@@ -202,14 +204,15 @@ class SettingsFragment : Fragment() {
 
 	private fun updateUserPreference(userPreferences: UserPreferences) {
 		with(binding) {
-			language.content.text = userPreferences.language
+			language.content.text =
+				translateLocale(context?.getLocaleOfCode(userPreferences.language)!!)
 			language.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.language,
 					values = BuildConfig.DETECTED_LOCALES.toList(),
 					title = stringRes.prefs_language_title,
 					onClick = { viewModel.setLanguage(it) },
-					valueToString = { it }
+					valueToString = { translateLocale(context?.getLocaleOfCode(it)!!) }
 				).show()
 			}
 			theme.content.text = context.themeName(userPreferences.theme)
@@ -228,7 +231,7 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.autoSync,
 					values = AutoSync.values().toList(),
-					title = stringRes.theme,
+					title = stringRes.sync_repositories_automatically,
 					onClick = { viewModel.setAutoSync(it) },
 					valueToString = { view.context.autoSyncName(it) }
 				).show()
@@ -241,7 +244,7 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.proxyType,
 					values = ProxyType.values().toList(),
-					title = stringRes.theme,
+					title = stringRes.proxy_type,
 					onClick = { viewModel.setProxyType(it) },
 					valueToString = { view.context.proxyName(it) }
 				).show()
@@ -273,11 +276,36 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.installerType,
 					values = InstallerType.values().toList(),
-					title = stringRes.theme,
+					title = stringRes.installer,
 					onClick = { viewModel.setInstaller(it) },
 					valueToString = { view.context.installerName(it) }
 				).show()
 			}
 		}
+	}
+
+	private fun translateLocale(locale: Locale): String {
+		val country = locale.getDisplayCountry(locale)
+		val language = locale.getDisplayLanguage(locale)
+		return (language.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+				+ (if (country.isNotEmpty() && country.compareTo(language, true) != 0)
+			"($country)" else ""))
+	}
+
+	private fun Context.getLocaleOfCode(localeCode: String): Locale = when {
+		localeCode.isEmpty() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			resources.configuration.locales[0]
+		} else {
+			resources.configuration.locale
+		}
+		localeCode.contains("-r") -> Locale(
+			localeCode.substring(0, 2),
+			localeCode.substring(4)
+		)
+		localeCode.contains("_") -> Locale(
+			localeCode.substring(0, 2),
+			localeCode.substring(3)
+		)
+		else -> Locale(localeCode)
 	}
 }

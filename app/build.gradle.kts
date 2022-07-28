@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -64,6 +66,7 @@ dependencies {
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatastore))
+	implementation(project(Modules.featureSettings))
 	implementation(project(Modules.installer))
 
 	implementation(kotlin("stdlib"))
@@ -90,6 +93,11 @@ dependencies {
 	implementation(Jackson.core)
 
 	implementation(Others.fastScroller)
+
+	implementation(Hilt.android)
+	implementation(Hilt.work)
+	kapt(Hilt.compiler)
+	kapt(Hilt.androidX)
 
 	// WorkManager
 	implementation(Work.manager)

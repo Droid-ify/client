@@ -45,11 +45,11 @@ object Excludes {
 }
 
 object Hilt {
-	private const val hiltVersion = "2.43"
-	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"
-	const val android = "com.google.dagger:hilt-android:$hiltVersion"
+	private const val version = "2.43"
+	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
+	const val android = "com.google.dagger:hilt-android:$version"
 
-	const val compiler = "com.google.dagger:hilt-compiler:$hiltVersion"
+	const val compiler = "com.google.dagger:hilt-compiler:$version"
 	const val plugin = "dagger.hilt.android.plugin"
 	private const val androidXHilt = "1.0.0"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"

@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import com.looker.droidify.ContextWrapperX.Companion.wrap
 import com.looker.droidify.screen.ScreenActivity
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ScreenActivity() {
 	companion object {
 		const val ACTION_UPDATES = "${BuildConfig.APPLICATION_ID}.intent.action.UPDATES"

@@ -1,0 +1,288 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "0d7626b0162d5f61c7003e727ba776b3",
+    "entities": [
+      {
+        "tableName": "repo_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `enabled` INTEGER NOT NULL, `deleted` INTEGER NOT NULL, `fingerprint` TEXT NOT NULL, `entityTag` TEXT NOT NULL, `address` TEXT NOT NULL, `mirrors` BLOB NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `version` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "enabled",
+            "columnName": "enabled",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deleted",
+            "columnName": "deleted",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fingerprint",
+            "columnName": "fingerprint",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "entityTag",
+            "columnName": "entityTag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mirrors",
+            "columnName": "mirrors",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version",
+            "columnName": "version",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "repoId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "app_table",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `nameFallback` TEXT NOT NULL, `descriptionFallback` TEXT NOT NULL, `summaryFallback` TEXT NOT NULL, `iconFallback` TEXT NOT NULL, `license` TEXT NOT NULL, `website` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorWebsite` TEXT NOT NULL, `authorEmail` TEXT NOT NULL, `sourceCode` TEXT NOT NULL, `changelog` TEXT NOT NULL, `issueTracker` TEXT NOT NULL, `helpTranslate` TEXT NOT NULL, `added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `suggestedVersionName` TEXT NOT NULL, `suggestedVersionCode` INTEGER NOT NULL, `categories` BLOB NOT NULL, `antiFeatures` BLOB NOT NULL, `regularDonate` TEXT NOT NULL, `bitcoinId` TEXT NOT NULL, `liteCoinAddress` TEXT NOT NULL, `flattrId` TEXT NOT NULL, `liberaPay` TEXT NOT NULL, `openCollective` TEXT NOT NULL, `localized` BLOB NOT NULL, `repoId` INTEGER NOT NULL, `installedVersionCode` INTEGER NOT NULL, `apks` BLOB NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nameFallback",
+            "columnName": "nameFallback",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "descriptionFallback",
+            "columnName": "descriptionFallback",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summaryFallback",
+            "columnName": "summaryFallback",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "iconFallback",
+            "columnName": "iconFallback",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "license",
+            "columnName": "license",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "website",
+            "columnName": "website",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorName",
+            "columnName": "authorName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorWebsite",
+            "columnName": "authorWebsite",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "authorEmail",
+            "columnName": "authorEmail",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "sourceCode",
+            "columnName": "sourceCode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "changelog",
+            "columnName": "changelog",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "issueTracker",
+            "columnName": "issueTracker",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "helpTranslate",
+            "columnName": "helpTranslate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "added",
+            "columnName": "added",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "suggestedVersionName",
+            "columnName": "suggestedVersionName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "suggestedVersionCode",
+            "columnName": "suggestedVersionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categories",
+            "columnName": "categories",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "antiFeatures",
+            "columnName": "antiFeatures",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "regularDonate",
+            "columnName": "regularDonate",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bitcoinId",
+            "columnName": "bitcoinId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liteCoinAddress",
+            "columnName": "liteCoinAddress",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flattrId",
+            "columnName": "flattrId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "liberaPay",
+            "columnName": "liberaPay",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "openCollective",
+            "columnName": "openCollective",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "localized",
+            "columnName": "localized",
+            "affinity": "BLOB",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "installedVersionCode",
+            "columnName": "installedVersionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apks",
+            "columnName": "apks",
+            "affinity": "BLOB",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "packageName"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0d7626b0162d5f61c7003e727ba776b3')"
+    ]
+  }
+}

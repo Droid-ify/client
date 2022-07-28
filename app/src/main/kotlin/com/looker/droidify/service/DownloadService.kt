@@ -8,41 +8,56 @@ import android.net.Uri
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
+import com.looker.core_common.Common
+import com.looker.core_common.cache.Cache
 import com.looker.core_common.formatSize
 import com.looker.core_common.hex
 import com.looker.core_common.notificationManager
 import com.looker.core_common.nullIfEmpty
+import com.looker.core_common.result.Result
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.model.InstallerType
 import com.looker.core_model.Release
 import com.looker.droidify.BuildConfig
-import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.core_common.R.style as styleRes
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.cache.Cache
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.network.Downloader
-import com.looker.core_common.result.Result
-import com.looker.core_datastore.model.InstallerType
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.toIntDef
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.MessageDigest
+import javax.inject.Inject
 import kotlin.math.roundToInt
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.style as styleRes
 
+@AndroidEntryPoint
 class DownloadService : ConnectionService<DownloadService.Binder>() {
 	companion object {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 	}
 
 	val scope = CoroutineScope(Dispatchers.IO)
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	sealed class State(val packageName: String, val name: String) {
 		object EMPTY : State("", "")
@@ -93,7 +108,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				repository.authentication
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-				publishSuccess(task)
+				runBlocking { publishSuccess(task) }
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
@@ -279,20 +294,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		)
 	}
 
-	private fun publishSuccess(task: Task) {
-		var consumed = false
-		scope.launch {
-			mutableStateSubject.emit(State.Success(task.packageName, task.name, task.release))
-			consumed = true
-		}
-		if (!consumed) {
-			val installer = Preferences[Preferences.Key.InstallerType].toIntDef
-			if (installer == InstallerType.ROOT || installer == InstallerType.SHIZUKU) {
-				scope.launch {
-					task.packageName.installApk(this@DownloadService, task.release.cacheFileName)
-				}
-			} else showNotificationInstall(task)
-		}
+	private suspend fun publishSuccess(task: Task) {
+		mutableStateSubject.emit(State.Success(task.packageName, task.name, task.release))
+		val installerType =
+			userPreferencesRepository.fetchInitialPreferences().installerType
+		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
+			task.packageName.installApk(
+				this@DownloadService,
+				task.release.cacheFileName,
+				installerType
+			)
+		} else showNotificationInstall(task)
 	}
 
 	private fun validatePackage(task: Task, file: File): ValidationError? {

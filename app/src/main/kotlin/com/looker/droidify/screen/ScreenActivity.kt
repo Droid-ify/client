@@ -12,15 +12,23 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.nullIfEmpty
+import com.looker.core_datastore.UserPreferences
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.extension.getThemeRes
 import com.looker.droidify.R
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
-import com.looker.droidify.ui.settings.SettingsFragment
+import com.looker.droidify.utility.Utils.getLocaleOfCode
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
+import com.looker.feature_settings.SettingsFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import java.util.*
+import javax.inject.Inject
 
+@AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
 	companion object {
 		private const val STATE_FRAGMENT_STACK = "fragmentStack"
@@ -30,6 +38,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 		object Updates : SpecialIntent()
 		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent()
 	}
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -70,9 +81,30 @@ abstract class ScreenActivity : AppCompatActivity() {
 			return supportFragmentManager.findFragmentById(R.id.main_content)
 		}
 
+	private fun collectChange() {
+		lifecycleScope.launch {
+			userPreferencesRepository.userPreferencesFlow.collect {
+				setConfig(it)
+			}
+		}
+	}
+
+	private fun setConfig(userPreferences: UserPreferences) {
+		val config = resources.configuration
+		setTheme(config.getThemeRes(userPreferences.theme))
+		val locale = getLocaleOfCode(userPreferences.language)
+		Locale.setDefault(locale)
+		config.setLocale(locale)
+	}
+
 	override fun onCreate(savedInstanceState: Bundle?) {
-		setTheme(Preferences[Preferences.Key.Theme].getResId(resources.configuration))
 		super.onCreate(savedInstanceState)
+		lifecycleScope.launch {
+			flow { emit(userPreferencesRepository.fetchInitialPreferences()) }.collect {
+				setConfig(it)
+				collectChange()
+			}
+		}
 
 		addContentView(
 			FrameLayout(this).apply { id = R.id.main_content },
@@ -220,7 +252,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 				if (!packageName.isNullOrEmpty()) {
 					lifecycleScope.launch {
 						specialIntent.cacheFileName?.let {
-							packageName.installApk(this@ScreenActivity, it)
+							val installerType =
+								userPreferencesRepository.fetchInitialPreferences().installerType
+							packageName.installApk(this@ScreenActivity, it, installerType)
 						}
 					}
 				}
@@ -245,7 +279,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	internal fun navigateProduct(packageName: String) = pushFragment(AppDetailFragment(packageName))
 	internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
-	internal fun navigatePreferences() = pushFragment(SettingsFragment())
+	internal fun navigatePreferences() = pushFragment(SettingsFragment.newInstance())
 	internal fun navigateAddRepository() = pushFragment(EditRepositoryFragment(null))
 	internal fun navigateRepository(repositoryId: Long) =
 		pushFragment(RepositoryFragment(repositoryId))

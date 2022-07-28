@@ -1,17 +1,20 @@
 package com.looker.feature_settings
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
 import com.looker.core_datastore.model.Theme
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SettingsViewModel(
+@HiltViewModel
+class SettingsViewModel
+@Inject constructor(
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
@@ -85,16 +88,5 @@ class SettingsViewModel(
 		viewModelScope.launch {
 			userPreferencesRepository.setInstallerType(installerType)
 		}
-	}
-}
-
-internal class SettingsViewModelFactory(
-	private val userPreferencesRepository: UserPreferencesRepository
-) : ViewModelProvider.Factory {
-	@Suppress("UNCHECKED_CAST")
-	override fun <T : ViewModel> create(modelClass: Class<T>): T {
-		if (modelClass.isAssignableFrom(SettingsViewModel::class.java))
-			return SettingsViewModel(userPreferencesRepository) as T
-		throw IllegalArgumentException("Unknown ViewModel Class")
 	}
 }

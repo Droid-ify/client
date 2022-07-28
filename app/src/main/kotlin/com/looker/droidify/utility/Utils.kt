@@ -5,12 +5,13 @@ import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
+import android.os.Build
+import com.looker.core_common.BuildConfig
+import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.core_common.hex
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
-import com.looker.core_common.BuildConfig
-import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.service.Connection
