@@ -18,14 +18,17 @@ import com.looker.core_datastore.extension.getThemeRes
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
-import com.looker.droidify.utility.Utils.getLocaleOfCode
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.feature_settings.SettingsFragment
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -81,10 +84,29 @@ abstract class ScreenActivity : AppCompatActivity() {
 			return supportFragmentManager.findFragmentById(R.id.main_content)
 		}
 
+	@EntryPoint
+	@InstallIn(SingletonComponent::class)
+	interface CustomUserRepositoryInjector {
+		fun userPreferencesRepository(): UserPreferencesRepository
+	}
+
 	private fun collectChange() {
 		lifecycleScope.launch {
-			userPreferencesRepository.userPreferencesFlow.collect {
+			val activityContext = this@ScreenActivity
+			val hiltEntryPoint =
+				EntryPointAccessors.fromApplication(
+					activityContext,
+					CustomUserRepositoryInjector::class.java
+				)
+			flow {
+				emit(hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences())
+			}.collect {
 				setConfig(it)
+				launch {
+					hiltEntryPoint.userPreferencesRepository().userPreferencesFlow.collect {
+						setConfig(it)
+					}
+				}
 			}
 		}
 	}
@@ -92,20 +114,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 	private fun setConfig(userPreferences: UserPreferences) {
 		val config = resources.configuration
 		setTheme(config.getThemeRes(userPreferences.theme))
-		val locale = getLocaleOfCode(userPreferences.language)
-		Locale.setDefault(locale)
-		config.setLocale(locale)
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
+		collectChange()
 		super.onCreate(savedInstanceState)
-		lifecycleScope.launch {
-			flow { emit(userPreferencesRepository.fetchInitialPreferences()) }.collect {
-				setConfig(it)
-				collectChange()
-			}
-		}
-
 		addContentView(
 			FrameLayout(this).apply { id = R.id.main_content },
 			ViewGroup.LayoutParams(

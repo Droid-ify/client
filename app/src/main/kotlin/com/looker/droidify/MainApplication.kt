@@ -32,7 +32,11 @@ import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.AutoSyncWorker
 import com.looker.droidify.work.CleanUpWorker
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -152,7 +156,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 						updateSyncJob(true, lastAutoSync)
 					} else if (lastLanguage != newPreference.language) {
 						lastLanguage = newPreference.language
-						Preferences[Preferences.Key.Language] = lastLanguage
 						val refresh = Intent.makeRestartActivityTask(
 							ComponentName(
 								baseContext,
@@ -258,10 +261,19 @@ class MainApplication : Application(), ImageLoaderFactory {
 }
 
 class ContextWrapperX(base: Context) : ContextWrapper(base) {
-	companion object {
-		fun wrap(context: Context): ContextWrapper {
-			val config = context.setLanguage()
-			return ContextWrapperX(context.createConfigurationContext(config))
-		}
+
+	@EntryPoint
+	@InstallIn(SingletonComponent::class)
+	interface CustomUserRepositoryInjector {
+		fun userPreferencesRepository(): UserPreferencesRepository
+	}
+
+	suspend fun wrap(context: Context): ContextWrapper {
+		val appContext = context.applicationContext
+		val hiltEntryPoint =
+			EntryPointAccessors.fromApplication(appContext, CustomUserRepositoryInjector::class.java)
+		val language = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences().language
+		val config = context.setLanguage(language)
+		return ContextWrapperX(context.createConfigurationContext(config))
 	}
 }

@@ -14,15 +14,19 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
-import com.looker.droidify.R
-import com.looker.droidify.content.Preferences
-import com.looker.droidify.database.Database
+import com.looker.core_common.nullIfEmpty
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
+import com.looker.droidify.R
+import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.*
-import com.looker.core_common.nullIfEmpty
+import com.looker.droidify.utility.extension.resources.TypefaceExtra
+import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.droidify.utility.extension.resources.inflate
+import com.looker.droidify.utility.extension.resources.setTextSizeScaled
+import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.extension.resources.toPx
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
@@ -122,17 +126,10 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	): RecyclerView.ViewHolder {
 		return when (viewType) {
 			ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
-				itemView.setOnClickListener { onClick(getProductItem(adapterPosition)) }
+				itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
 			}
 			ViewType.LOADING -> LoadingViewHolder(parent.context)
 			ViewType.EMPTY -> EmptyViewHolder(parent.context)
-		}
-	}
-
-	override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
-		super.onViewDetachedFromWindow(holder)
-		if (Preferences[Preferences.Key.ListAnimation]) {
-			holder.itemView.clearAnimation()
 		}
 	}
 
@@ -198,9 +195,6 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 				holder.text.text = emptyText
 			}
 		}::class
-		if (Preferences[Preferences.Key.ListAnimation]) {
-			setAnimation(holder.itemView, holder.adapterPosition)
-		}
 	}
 
 	private fun setAnimation(itemView: View, position: Int) {

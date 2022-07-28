@@ -202,17 +202,24 @@ class SettingsFragment : Fragment() {
 		}
 	}
 
+	private val languageList: List<String>
+		get() {
+			val list = BuildConfig.DETECTED_LOCALES.toMutableList()
+			list.add(0, "system")
+			return list
+		}
+
 	private fun updateUserPreference(userPreferences: UserPreferences) {
 		with(binding) {
 			language.content.text =
-				translateLocale(context?.getLocaleOfCode(userPreferences.language)!!)
+				translateLocale(context?.getLocaleOfCode(userPreferences.language))
 			language.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.language,
-					values = BuildConfig.DETECTED_LOCALES.toList(),
+					values = languageList,
 					title = stringRes.prefs_language_title,
 					onClick = { viewModel.setLanguage(it) },
-					valueToString = { translateLocale(context?.getLocaleOfCode(it)!!) }
+					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
 				).show()
 			}
 			theme.content.text = context.themeName(userPreferences.theme)
@@ -284,15 +291,22 @@ class SettingsFragment : Fragment() {
 		}
 	}
 
-	private fun translateLocale(locale: Locale): String {
-		val country = locale.getDisplayCountry(locale)
-		val language = locale.getDisplayLanguage(locale)
-		return (language.replaceFirstChar { it.uppercase(Locale.getDefault()) }
-				+ (if (country.isNotEmpty() && country.compareTo(language, true) != 0)
-			"($country)" else ""))
+	private fun translateLocale(locale: Locale?): String {
+		val country = locale?.getDisplayCountry(locale)
+		val language = locale?.getDisplayLanguage(locale)
+		val languageDisplay = if (locale != null) {
+			(language?.replaceFirstChar { it.uppercase(Locale.getDefault()) }
+					+ (if (country?.isNotEmpty() == true && country.compareTo(
+					language.toString(),
+					true
+				) != 0
+			)
+				"($country)" else ""))
+		} else getString(stringRes.system)
+		return languageDisplay
 	}
 
-	private fun Context.getLocaleOfCode(localeCode: String): Locale = when {
+	private fun Context.getLocaleOfCode(localeCode: String): Locale? = when {
 		localeCode.isEmpty() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 			resources.configuration.locales[0]
 		} else {
@@ -306,6 +320,7 @@ class SettingsFragment : Fragment() {
 			localeCode.substring(0, 2),
 			localeCode.substring(3)
 		)
+		localeCode == "system" -> null
 		else -> Locale(localeCode)
 	}
 }

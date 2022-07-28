@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
@@ -183,7 +182,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 * Maps [Preferences] to [UserPreferences]
 	 */
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		val language = preferences[PreferencesKeys.LANGUAGE] ?: Locale.getDefault().toString()
+		val language = preferences[PreferencesKeys.LANGUAGE] ?: "system"
 		val incompatibleVersions = preferences[PreferencesKeys.INCOMPATIBLE_VERSIONS] ?: false
 		val listAnimation = preferences[PreferencesKeys.LIST_ANIMATION] ?: false
 		val notifyUpdate = preferences[PreferencesKeys.NOTIFY_UPDATES] ?: true

@@ -2,19 +2,12 @@ package com.looker.droidify.content
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.content.res.Configuration
-import com.looker.core_common.device.Miui
-import com.looker.core_common.Common.PREFS_LANGUAGE
-import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
-import com.looker.core_common.R.style as styleRes
 import com.looker.droidify.utility.extension.Order
-import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import java.net.Proxy
 
 object Preferences {
 	private lateinit var preferences: SharedPreferences
@@ -23,16 +16,8 @@ object Preferences {
 	val subject = _subject.asSharedFlow()
 
 	private val keys = sequenceOf(
-		Key.Language,
-		Key.AutoSync,
 		Key.IncompatibleVersions,
-		Key.ListAnimation,
-		Key.ProxyHost,
-		Key.ProxyPort,
-		Key.ProxyType,
-		Key.InstallerType,
 		Key.SortOrder,
-		Key.Theme,
 		Key.UpdateNotify,
 		Key.UpdateUnstable
 	).map { Pair(it.name, it) }.toMap()
@@ -77,34 +62,6 @@ object Preferences {
 			}
 		}
 
-		class IntValue(override val value: Int) : Value<Int>() {
-			override fun get(
-				preferences: SharedPreferences,
-				key: String,
-				defaultValue: Value<Int>,
-			): Int {
-				return preferences.getInt(key, defaultValue.value)
-			}
-
-			override fun set(preferences: SharedPreferences, key: String, value: Int) {
-				preferences.edit().putInt(key, value).apply()
-			}
-		}
-
-		class StringValue(override val value: String) : Value<String>() {
-			override fun get(
-				preferences: SharedPreferences,
-				key: String,
-				defaultValue: Value<String>,
-			): String {
-				return preferences.getString(key, defaultValue.value) ?: defaultValue.value
-			}
-
-			override fun set(preferences: SharedPreferences, key: String, value: String) {
-				preferences.edit().putString(key, value).apply()
-			}
-		}
-
 		class EnumerationValue<T : Enumeration<T>>(override val value: T) : Value<T>() {
 			override fun get(
 				preferences: SharedPreferences,
@@ -128,65 +85,16 @@ object Preferences {
 	}
 
 	sealed class Key<T>(val name: String, val default: Value<T>) {
-		object Language : Key<String>(PREFS_LANGUAGE, Value.StringValue(PREFS_LANGUAGE_DEFAULT))
-		object AutoSync : Key<Preferences.AutoSync>(
-			"auto_sync",
-			Value.EnumerationValue(Preferences.AutoSync.Wifi)
-		)
-
 		object IncompatibleVersions :
 			Key<Boolean>("incompatible_versions", Value.BooleanValue(false))
-
-		object ListAnimation :
-			Key<Boolean>("list_animation", Value.BooleanValue(false))
-
-		object ProxyHost : Key<String>("proxy_host", Value.StringValue("localhost"))
-		object ProxyPort : Key<Int>("proxy_port", Value.IntValue(9050))
-		object ProxyType : Key<Preferences.ProxyType>(
-			"proxy_type",
-			Value.EnumerationValue(Preferences.ProxyType.Direct)
-		)
-
-		object InstallerType : Key<Preferences.InstallerType>(
-			"installer_type",
-			Value.EnumerationValue(
-				if (Miui.isMiui) Preferences.InstallerType.Legacy else Preferences.InstallerType.Session
-			)
-		)
 
 		object SortOrder : Key<Preferences.SortOrder>(
 			"sort_order",
 			Value.EnumerationValue(Preferences.SortOrder.Update)
 		)
 
-		object Theme : Key<Preferences.Theme>(
-			"theme", Value.EnumerationValue(
-				if (Android.sdk(29))
-					Preferences.Theme.System else Preferences.Theme.Light
-			)
-		)
-
 		object UpdateNotify : Key<Boolean>("update_notify", Value.BooleanValue(true))
 		object UpdateUnstable : Key<Boolean>("update_unstable", Value.BooleanValue(false))
-	}
-
-	sealed class AutoSync(override val valueString: String) : Enumeration<AutoSync> {
-		override val values: List<AutoSync>
-			get() = listOf(Never, Wifi, Always)
-
-		object Never : AutoSync("never")
-		object Wifi : AutoSync("wifi")
-		object Always : AutoSync("always")
-	}
-
-	sealed class ProxyType(override val valueString: String, val proxyType: Proxy.Type) :
-		Enumeration<ProxyType> {
-		override val values: List<ProxyType>
-			get() = listOf(Direct, Http, Socks)
-
-		object Direct : ProxyType("direct", Proxy.Type.DIRECT)
-		object Http : ProxyType("http", Proxy.Type.HTTP)
-		object Socks : ProxyType("socks", Proxy.Type.SOCKS)
 	}
 
 	sealed class SortOrder(override val valueString: String, val order: Order) :
@@ -197,50 +105,6 @@ object Preferences {
 		object Name : SortOrder("name", Order.NAME)
 		object Added : SortOrder("added", Order.DATE_ADDED)
 		object Update : SortOrder("update", Order.LAST_UPDATE)
-	}
-
-	sealed class InstallerType(override val valueString: String) : Enumeration<InstallerType> {
-		override val values: List<InstallerType>
-			get() = listOf(Session, Legacy, Shizuku, Root)
-
-		object Legacy : InstallerType("legacy_installer")
-		object Shizuku : InstallerType("shizuku_installer")
-		object Session : InstallerType("session_installer")
-		object Root : InstallerType("root_installer")
-	}
-
-	sealed class Theme(override val valueString: String) : Enumeration<Theme> {
-		override val values: List<Theme>
-			get() = if (Android.sdk(29)) listOf(System, AmoledSystem, Light, Dark, Amoled)
-			else listOf(Light, Dark, Amoled)
-
-		abstract fun getResId(configuration: Configuration): Int
-
-		object System : Theme("system") {
-			override fun getResId(configuration: Configuration): Int {
-				return if ((configuration.uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-					styleRes.Theme_Main_Dark else styleRes.Theme_Main_Light
-			}
-		}
-
-		object AmoledSystem : Theme("system-amoled") {
-			override fun getResId(configuration: Configuration): Int {
-				return if ((configuration.uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-					styleRes.Theme_Main_Amoled else styleRes.Theme_Main_Light
-			}
-		}
-
-		object Light : Theme("light") {
-			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Light
-		}
-
-		object Dark : Theme("dark") {
-			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Dark
-		}
-
-		object Amoled : Theme("amoled") {
-			override fun getResId(configuration: Configuration): Int = styleRes.Theme_Main_Amoled
-		}
 	}
 
 	operator fun <T> get(key: Key<T>): T {

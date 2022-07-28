@@ -2,9 +2,10 @@ package com.looker.droidify
 
 import android.content.Context
 import android.content.Intent
-import com.looker.droidify.ContextWrapperX.Companion.wrap
+import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.screen.ScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ScreenActivity() {
@@ -29,6 +30,6 @@ class MainActivity : ScreenActivity() {
 	}
 
 	override fun attachBaseContext(newBase: Context) {
-		super.attachBaseContext(wrap(newBase))
+		lifecycleScope.launch { super.attachBaseContext(ContextWrapperX(newBase).wrap(newBase)) }
 	}
 }
