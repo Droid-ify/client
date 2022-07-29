@@ -16,6 +16,8 @@ import com.looker.droidify.work.di.DelegatingWorker
 import com.looker.droidify.work.di.delegatedData
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.toJavaDuration
 
@@ -44,17 +46,19 @@ class CleanUpWorker @AssistedInject constructor(
 				.build()
 	}
 
-	override suspend fun doWork(): Result = try {
-		Log.i(TAG, "doWork: Started Cleanup")
-		val context = applicationContext
-		context.deleteOldIcons()
-		context.deleteOldReleases()
-		context.deletePartialFiles()
-		context.deleteTemporaryFiles()
-		Result.success()
-	} catch (e: Exception) {
-		Log.e(TAG, "doWork: Failed to clean up", e)
-		Result.failure()
+	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+		try {
+			Log.i(TAG, "doWork: Started Cleanup")
+			val context = applicationContext
+			context.deleteOldIcons()
+			context.deleteOldReleases()
+			context.deletePartialFiles()
+			context.deleteTemporaryFiles()
+			Result.success()
+		} catch (e: Exception) {
+			Log.e(TAG, "doWork: Failed to clean up", e)
+			Result.failure()
+		}
 	}
 }
 
