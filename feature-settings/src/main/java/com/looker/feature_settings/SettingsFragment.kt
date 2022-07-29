@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
@@ -36,6 +37,7 @@ import kotlin.time.Duration.Companion.hours
 import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_common.R.string as stringRes
 import com.looker.core_common.R.plurals as pluralRes
+import com.looker.core_common.R.drawable as drawableRes
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -89,10 +91,12 @@ class SettingsFragment : Fragment() {
 		initialValue: T,
 		values: List<T>,
 		@StringRes title: Int,
+		@DrawableRes iconRes: Int,
 		onClick: (T) -> Unit,
 		valueToString: (T) -> String
 	) = MaterialAlertDialogBuilder(context)
 		.setTitle(title)
+		.setIcon(iconRes)
 		.setSingleChoiceItems(
 			values.map(valueToString).toTypedArray(),
 			values.indexOf(initialValue)
@@ -218,6 +222,7 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.language,
 					values = languageList,
 					title = stringRes.prefs_language_title,
+					iconRes = drawableRes.ic_language,
 					onClick = { viewModel.setLanguage(it) },
 					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
 				).show()
@@ -228,6 +233,7 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.theme,
 					values = Theme.values().toList(),
 					title = stringRes.theme,
+					iconRes = drawableRes.ic_themes,
 					onClick = { viewModel.setTheme(it) },
 					valueToString = { view.context.themeName(it) }
 				).show()
@@ -239,6 +245,7 @@ class SettingsFragment : Fragment() {
 					values = cleanUpIntervals,
 					valueToString = { it.toTime(context) },
 					title = stringRes.cleanup_title,
+					iconRes = drawableRes.ic_time,
 					onClick = { viewModel.setCleanUpDuration(it) }
 				).show()
 			}
@@ -248,6 +255,7 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.autoSync,
 					values = AutoSync.values().toList(),
 					title = stringRes.sync_repositories_automatically,
+					iconRes = drawableRes.ic_sync,
 					onClick = { viewModel.setAutoSync(it) },
 					valueToString = { view.context.autoSyncName(it) }
 				).show()
@@ -261,6 +269,7 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.proxyType,
 					values = ProxyType.values().toList(),
 					title = stringRes.proxy_type,
+					iconRes = drawableRes.ic_proxy,
 					onClick = { viewModel.setProxyType(it) },
 					valueToString = { view.context.proxyName(it) }
 				).show()
@@ -293,6 +302,7 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.installerType,
 					values = InstallerType.values().toList(),
 					title = stringRes.installer,
+					iconRes = drawableRes.ic_download,
 					onClick = { viewModel.setInstaller(it) },
 					valueToString = { view.context.installerName(it) }
 				).show()
