@@ -1,8 +1,8 @@
 object AndroidX {
 
-	const val appCompat = "androidx.appcompat:appcompat:1.4.2"
+	const val appCompat = "androidx.appcompat:appcompat:1.5.0-rc01"
 
-	private const val version = "1.5.0"
+	private const val version = "1.5.1"
 	const val fragment = "androidx.fragment:fragment-ktx:$version"
 	const val activity = "androidx.activity:activity-ktx:$version"
 
@@ -66,7 +66,7 @@ object Kotlin {
 }
 
 object Lifecycle {
-	private const val lifecycleVersion = "2.5.0"
+	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 }
@@ -85,7 +85,7 @@ object Others {
 }
 
 object Room {
-	private const val roomVersion = "2.4.2"
+	private const val roomVersion = "2.4.3"
 	const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
 	const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
 	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
