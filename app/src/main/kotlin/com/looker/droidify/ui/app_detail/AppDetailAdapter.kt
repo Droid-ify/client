@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
+import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.text.style.BulletSpan
 import android.text.style.ClickableSpan
@@ -22,6 +23,7 @@ import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
 import android.text.style.URLSpan
 import android.text.util.Linkify
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -48,15 +50,11 @@ import com.google.android.material.textview.MaterialTextView
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.formatSize
 import com.looker.core_common.nullIfEmpty
-import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Release
 import com.looker.core_model.Repository
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
 import com.looker.droidify.utility.PackageItemResolver
@@ -70,9 +68,6 @@ import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.resources.setTextSizeScaled
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import java.lang.ref.WeakReference
 import java.time.Instant
 import java.time.LocalDateTime
@@ -80,15 +75,11 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
+import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.string as stringRes
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
 	StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
-
-	@EntryPoint
-	@InstallIn(SingletonComponent::class)
-	interface CustomUserRepositoryInjector {
-		fun userPreferencesRepository(): UserPreferencesRepository
-	}
 
 	interface Callbacks {
 		fun onActionClick(action: Action)
@@ -503,6 +494,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+		val dateFormat = DateFormat.getDateFormat(itemView.context)!!
+
 		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
 		val status = itemView.findViewById<MaterialTextView>(R.id.installation_status)!!
 		val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
@@ -1372,10 +1365,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.source.text =
 					context.getString(stringRes.provided_by_FORMAT, item.repository.name)
-				holder.added.text = LocalDateTime.ofInstant(
-					Instant.ofEpochMilli(item.release.added),
-					TimeZone.getDefault().toZoneId()
-				).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+				val dateFormat = try {
+					LocalDateTime.ofInstant(
+						Instant.ofEpochMilli(item.release.added),
+						TimeZone.getDefault().toZoneId()
+					).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+				} catch (e: Exception) {
+					Log.e(
+						"AppDetailAdapter",
+						"onBindViewHolder: Date cannot be formatted locally",
+						e
+					)
+					e.printStackTrace()
+					holder.dateFormat.format(item.release.added)
+				}
+				holder.added.text = dateFormat
 				holder.size.text = item.release.size.formatSize()
 				holder.signature.visibility =
 					if (item.showSignature && item.release.signature.isNotEmpty())
