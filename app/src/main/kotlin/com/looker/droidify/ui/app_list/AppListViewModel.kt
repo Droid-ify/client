@@ -41,7 +41,7 @@ class AppListViewModel : ViewModel() {
 		var mSections: ProductItem.Section = ProductItem.Section.All
 		var mOrder: Order = Order.NAME
 		viewModelScope.launch {
-			launch { searchQuery.collect { if (source.sections) mSearchQuery = it } }
+			launch { searchQuery.collect { mSearchQuery = it } }
 			launch { sections.collect { if (source.sections) mSections = it } }
 			launch { order.collect { if (source.order) mOrder = it } }
 		}
