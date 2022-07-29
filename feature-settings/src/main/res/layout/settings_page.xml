@@ -57,8 +57,8 @@
                 layout="@layout/enum_type" />
 
             <include
-                android:id="@+id/list_animation"
-                layout="@layout/switch_type" />
+                android:id="@+id/clean_up"
+                layout="@layout/enum_type" />
 
             <TextView
                 android:layout_width="match_parent"

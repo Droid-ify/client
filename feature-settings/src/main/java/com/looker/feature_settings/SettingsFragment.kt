@@ -30,8 +30,12 @@ import com.looker.feature_settings.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.*
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.plurals as pluralRes
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -54,8 +58,7 @@ class SettingsFragment : Fragment() {
 		with(binding) {
 			language.title.text = getString(stringRes.prefs_language_title)
 			theme.title.text = getString(stringRes.theme)
-			listAnimation.title.text = getString(stringRes.list_animation)
-			listAnimation.content.text = getString(stringRes.list_animation_description)
+			cleanUp.title.text = getString(stringRes.cleanup_title)
 			autoSync.title.text = getString(stringRes.sync_repositories_automatically)
 			notifyUpdates.title.text = getString(stringRes.notify_about_updates)
 			notifyUpdates.content.text = getString(stringRes.notify_about_updates_summary)
@@ -186,9 +189,6 @@ class SettingsFragment : Fragment() {
 	private fun setChangeListener() {
 		with(binding) {
 			with(viewModel) {
-				listAnimation.checked.setOnCheckedChangeListener { _, checked ->
-					setListAnimation(checked)
-				}
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setNotifyUpdates(checked)
 				}
@@ -232,7 +232,16 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.themeName(it) }
 				).show()
 			}
-			listAnimation.checked.isChecked = userPreferences.listAnimation
+			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
+			cleanUp.root.setOnClickListener { view ->
+				view.addSingleCorrectDialog(
+					initialValue = userPreferences.cleanUpDuration,
+					values = cleanUpIntervals,
+					valueToString = { it.toTime(context) },
+					title = stringRes.cleanup_title,
+					onClick = { viewModel.setCleanUpDuration(it) }
+				).show()
+			}
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
@@ -289,6 +298,21 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 		}
+	}
+
+	private val cleanUpIntervals = listOf(
+		6.hours,
+		12.hours,
+		18.hours,
+		1.days,
+		2.days
+	)
+
+	private fun Duration.toTime(context: Context?): String {
+		val time = inWholeHours.toInt()
+		val days = inWholeDays.toInt()
+		return if (time >= 24) "$days " + context?.resources?.getQuantityString(pluralRes.days, days)
+		else "$time " + context?.resources?.getQuantityString(pluralRes.hours, time)
 	}
 
 	private fun translateLocale(locale: Locale?): String {

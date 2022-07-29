@@ -11,6 +11,7 @@ import android.content.IntentFilter
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -32,6 +33,8 @@ import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.AutoSyncWorker
 import com.looker.droidify.work.CleanUpWorker
+import com.looker.droidify.work.di.DelegatingWorker
+import com.looker.droidify.work.di.delegatedData
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -45,6 +48,8 @@ import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.toJavaDuration
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
@@ -128,7 +133,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			initialSetup.collect { initialPreference ->
-				updateSyncJob(false, initialPreference.autoSync)
+				updateSyncJob(false, initialPreference.autoSync, initialPreference.cleanUpDuration)
 				updateProxy(initialPreference)
 				var lastProxy = initialPreference.proxyType
 				var lastProxyPort = initialPreference.proxyPort
@@ -137,6 +142,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 				var lastUnstableUpdate = initialPreference.unstableUpdate
 				var lastLanguage = initialPreference.language
 				var lastTheme = initialPreference.theme
+				var lastInterval = initialPreference.cleanUpDuration
 				userPreferenceFlow.collect { newPreference ->
 					if (
 						newPreference.proxyType != lastProxy
@@ -150,9 +156,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 					} else if (lastUnstableUpdate != newPreference.unstableUpdate) {
 						lastUnstableUpdate = newPreference.unstableUpdate
 						forceSyncAll()
-					} else if (lastAutoSync != newPreference.autoSync) {
+					} else if (lastAutoSync != newPreference.autoSync || lastInterval != newPreference.cleanUpDuration) {
 						lastAutoSync = newPreference.autoSync
-						updateSyncJob(true, lastAutoSync)
+						lastInterval = newPreference.cleanUpDuration
+						updateSyncJob(true, lastAutoSync, lastInterval)
 					} else if (lastLanguage != newPreference.language) {
 						lastLanguage = newPreference.language
 						val refresh = Intent.makeRestartActivityTask(
@@ -177,7 +184,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 	}
 
-	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
+	private fun updateSyncJob(force: Boolean, autoSync: AutoSync, interval: Duration) {
 		val syncConditions = when (autoSync) {
 			AutoSync.ALWAYS -> AutoSyncWorker.SyncConditions(networkType = NetworkType.CONNECTED)
 			AutoSync.WIFI_ONLY -> AutoSyncWorker.SyncConditions(networkType = NetworkType.UNMETERED)
@@ -197,9 +204,11 @@ class MainApplication : Application(), ImageLoaderFactory {
 			.setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 			.setRequiresStorageNotLow(true)
 			.build()
-		val periodicSync = AutoSyncWorker.periodicWorkBuilder
-			.setConstraints(constraints)
-			.build()
+		val periodicSync =
+			PeriodicWorkRequestBuilder<DelegatingWorker>(interval.toJavaDuration())
+				.setInputData(AutoSyncWorker::class.delegatedData())
+				.setConstraints(constraints)
+				.build()
 		WorkManager.getInstance(this).apply {
 			enqueueUniquePeriodicWork(
 				AutoSyncWorker.TAG,

@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration
 
 @HiltViewModel
 class SettingsViewModel
@@ -36,9 +37,9 @@ class SettingsViewModel
 		}
 	}
 
-	fun setListAnimation(enable: Boolean) {
+	fun setCleanUpDuration(duration: Duration) {
 		viewModelScope.launch {
-			userPreferencesRepository.enableListAnimation(enable)
+			userPreferencesRepository.setCleanUpDuration(duration)
 		}
 	}
 

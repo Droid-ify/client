@@ -23,10 +23,6 @@ class AutoSyncWorker @AssistedInject constructor(
 ) : CoroutineWorker(context, workerParams) {
 	companion object {
 		const val TAG = "AutoSyncWorker"
-
-		val periodicWorkBuilder =
-			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
-				.setInputData(AutoSyncWorker::class.delegatedData())
 	}
 
 	private val syncService = Connection(
