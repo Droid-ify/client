@@ -17,12 +17,10 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.droidify.R
-import com.looker.core_common.R.style as styleRes
-import com.looker.droidify.database.Database
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
+import com.looker.droidify.R
+import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.android.Android
@@ -36,6 +34,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.style as styleRes
 
 class ScreenshotsFragment() : DialogFragment() {
 	companion object {
@@ -246,18 +246,18 @@ class ScreenshotsFragment() : DialogFragment() {
 		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 			holder as ViewHolder
 			val screenshot = screenshots[position]
-			val (width, height) = size
-			if (width > 0 && height > 0) {
-				repository?.let {
-					holder.image.load(screenshot.url(it, packageName)) {
-						placeholder(holder.placeholder)
-						error(holder.placeholder)
-						size(width, height)
-					}
+			repository?.let {
+				holder.image.load(screenshot.url(it, packageName)) {
+					placeholder(holder.placeholder)
+					error(holder.placeholder)
 				}
-			} else {
-				holder.image.clear()
 			}
+		}
+
+		override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
+			super.onViewDetachedFromWindow(holder)
+			holder as ViewHolder
+			holder.image.clear()
 		}
 	}
 }

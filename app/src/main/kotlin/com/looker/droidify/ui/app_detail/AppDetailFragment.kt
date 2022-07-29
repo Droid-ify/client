@@ -498,9 +498,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	override fun onPermissionsClick(group: String?, permissions: List<String>) {
-		MessageDialog(MessageDialog.Message.Permissions(group, permissions)).show(
-			childFragmentManager
-		)
+		MessageDialog(MessageDialog.Message.Permissions(group, permissions))
+			.show(childFragmentManager)
 	}
 
 	override fun onScreenshotClick(screenshot: com.looker.core_model.Product.Screenshot) {
@@ -515,9 +514,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		if (pair != null) {
 			val (repository, identifier) = pair
 			if (identifier != null) {
-				ScreenshotsFragment(packageName, repository.id, identifier).show(
-					childFragmentManager
-				)
+				ScreenshotsFragment(packageName, repository.id, identifier)
+					.show(childFragmentManager)
 			}
 		}
 	}
