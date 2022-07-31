@@ -578,7 +578,6 @@ object Database {
 				SortOrder.UPDATED -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
 				SortOrder.ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
 				SortOrder.NAME -> Unit
-				SortOrder.SIZE -> Unit
 			}::class
 			builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 
