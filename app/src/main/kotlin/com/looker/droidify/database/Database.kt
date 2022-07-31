@@ -16,7 +16,6 @@ import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
-import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.firstOrNull
 import io.reactivex.rxjava3.core.Observable

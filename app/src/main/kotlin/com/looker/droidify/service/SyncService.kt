@@ -24,7 +24,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
