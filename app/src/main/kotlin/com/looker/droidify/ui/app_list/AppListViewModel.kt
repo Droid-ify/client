@@ -2,30 +2,46 @@ package com.looker.droidify.ui.app_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.utility.extension.Order
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AppListViewModel : ViewModel() {
+@HiltViewModel
+class AppListViewModel
+@Inject constructor(
+	private val userPreferencesRepository: UserPreferencesRepository
+) : ViewModel() {
 
-	private val _order = MutableStateFlow(Preferences[Preferences.Key.SortOrder].order)
+	private val initialSetup = flow {
+		emit(userPreferencesRepository.fetchInitialPreferences().sortOrder)
+	}
+
+	private var lastSortOrder: SortOrder = SortOrder.UPDATED
+
+	private val userPreferences = userPreferencesRepository.userPreferencesFlow.filter {
+		it.sortOrder != lastSortOrder
+	}.map {
+		lastSortOrder = it.sortOrder
+		it.sortOrder
+	}
+
 	private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
 	private val _searchQuery = MutableStateFlow("")
 
-	val order: StateFlow<Order> = _order.stateIn(
-		initialValue = Preferences[Preferences.Key.SortOrder].order,
-		scope = viewModelScope,
-		started = SharingStarted.WhileSubscribed(5000)
-	)
 
-	val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
+	private val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
 		initialValue = ProductItem.Section.All,
 		scope = viewModelScope,
 		started = SharingStarted.WhileSubscribed(5000)
@@ -39,11 +55,16 @@ class AppListViewModel : ViewModel() {
 	fun request(source: AppListFragment.Source): CursorOwner.Request {
 		var mSearchQuery = ""
 		var mSections: ProductItem.Section = ProductItem.Section.All
-		var mOrder: Order = Order.NAME
+		var mOrder: SortOrder = SortOrder.NAME
 		viewModelScope.launch {
 			launch { searchQuery.collect { mSearchQuery = it } }
 			launch { sections.collect { if (source.sections) mSections = it } }
-			launch { order.collect { if (source.order) mOrder = it } }
+			initialSetup.collect { initialOrder ->
+				mOrder = initialOrder
+				userPreferences.collect {
+					mOrder = it
+				}
+			}
 		}
 		return when (source) {
 			AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(
@@ -68,15 +89,6 @@ class AppListViewModel : ViewModel() {
 		viewModelScope.launch {
 			if (newSection != sections.value) {
 				_sections.emit(newSection)
-				launch(Dispatchers.Main) { perform() }
-			}
-		}
-	}
-
-	fun setOrder(newOrder: Order, perform: () -> Unit) {
-		viewModelScope.launch {
-			if (newOrder != order.value) {
-				_order.emit(newOrder)
 				launch(Dispatchers.Main) { perform() }
 			}
 		}

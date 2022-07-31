@@ -12,15 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
-import com.looker.core_model.ProductItem
 import com.looker.droidify.utility.RxUtils
-import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -28,7 +26,10 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import me.zhanghai.android.fastscroll.FastScrollerBuilder
+import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.string as stringRes
 
+@AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 	private val viewModel: AppListViewModel by viewModels()
@@ -137,11 +138,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		}
 	}
 
-	internal fun setOrder(order: Order) {
-		viewModel.setOrder(order) {
-			if (view != null) {
-				screenActivity.cursorOwner.attach(this, viewModel.request(source))
-			}
+	internal fun setOrder() {
+		if (view != null) {
+			screenActivity.cursorOwner.attach(this, viewModel.request(source))
 		}
 	}
 }

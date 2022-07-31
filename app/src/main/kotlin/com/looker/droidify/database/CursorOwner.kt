@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
 import com.looker.droidify.utility.extension.Order
 
@@ -14,7 +15,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
 		data class ProductsAvailable(
 			val searchQuery: String, val section: ProductItem.Section,
-			val order: Order,
+			val order: SortOrder,
 		) : Request() {
 			override val id: Int
 				get() = 1
@@ -22,7 +23,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
 		data class ProductsInstalled(
 			val searchQuery: String, val section: ProductItem.Section,
-			val order: Order,
+			val order: SortOrder,
 		) : Request() {
 			override val id: Int
 				get() = 2
@@ -30,7 +31,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
 		data class ProductsUpdates(
 			val searchQuery: String, val section: ProductItem.Section,
-			val order: Order,
+			val order: SortOrder,
 		) : Request() {
 			override val id: Int
 				get() = 3

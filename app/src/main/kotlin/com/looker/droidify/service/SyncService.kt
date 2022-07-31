@@ -15,6 +15,7 @@ import com.looker.core_common.Common
 import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
 import com.looker.core_common.result.Result
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
@@ -384,7 +385,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									updates = true,
 									searchQuery = "",
 									section = ProductItem.Section.All,
-									order = Order.NAME,
+									order = SortOrder.NAME,
 									signal = null
 								)
 								.use {

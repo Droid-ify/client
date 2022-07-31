@@ -18,6 +18,7 @@ import com.looker.core_datastore.extension.getThemeRes
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
+import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.feature_settings.SettingsFragment
@@ -26,7 +27,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

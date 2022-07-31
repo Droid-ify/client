@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_datastore.model.Theme
 import com.looker.core_common.R.string as stringRes
 import com.looker.core_common.R.style as styleRes
@@ -32,6 +33,15 @@ fun Configuration.getThemeRes(theme: Theme) = when (theme) {
 	Theme.DARK -> styleRes.Theme_Main_Dark
 	Theme.AMOLED -> styleRes.Theme_Main_Amoled
 }
+
+fun Context?.sortOrderName(sortOrder: SortOrder) = this?.let {
+	when(sortOrder) {
+		SortOrder.UPDATED -> getString(stringRes.recently_updated)
+		SortOrder.ADDED -> getString(stringRes.whats_new)
+		SortOrder.NAME -> getString(stringRes.name)
+		SortOrder.SIZE -> getString(stringRes.size)
+	}
+} ?: ""
 
 fun Context?.autoSyncName(autoSync: AutoSync) = this?.let {
 	when (autoSync) {

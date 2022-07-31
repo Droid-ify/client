@@ -8,16 +8,17 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.CancellationSignal
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.looker.core_common.file.Json
+import com.looker.core_common.file.parseDictionary
+import com.looker.core_common.file.writeDictionary
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
+import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.firstOrNull
-import com.looker.core_common.file.Json
-import com.looker.core_common.file.parseDictionary
-import com.looker.core_common.file.writeDictionary
-import com.looker.droidify.utility.extension.Order
 import io.reactivex.rxjava3.core.Observable
 import java.io.ByteArrayOutputStream
 
@@ -502,7 +503,7 @@ object Database {
 		// Complex left to wiring phase
 		fun query(
 			installed: Boolean, updates: Boolean, searchQuery: String,
-			section: ProductItem.Section, order: Order, signal: CancellationSignal?,
+			section: ProductItem.Section, order: SortOrder, signal: CancellationSignal?,
 		): Cursor {
 			val builder = QueryBuilder()
 
@@ -575,9 +576,10 @@ object Database {
 			}
 
 			when (order) {
-				Order.NAME -> Unit
-				Order.DATE_ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
-				Order.LAST_UPDATE -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
+				SortOrder.UPDATED -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
+				SortOrder.ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
+				SortOrder.NAME -> Unit
+				SortOrder.SIZE -> Unit
 			}::class
 			builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 

@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.tabs_fragment
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -12,8 +12,7 @@ import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,12 +23,13 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
+import com.looker.core_datastore.extension.sortOrderName
+import com.looker.core_datastore.model.SortOrder
+import com.looker.core_model.ProductItem
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
-import com.looker.core_model.ProductItem
+import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.app_list.AppListFragment
@@ -42,6 +42,7 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.DividerItemDecoration
 import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -49,11 +50,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import com.looker.core_common.R.string as stringRes
 
+@AndroidEntryPoint
 class TabsFragment : ScreenFragment() {
 
 	private var _tabsBinding: TabsToolbarBinding? = null
 	private val tabsBinding get() = _tabsBinding!!
+
+	private val viewModel: TabsViewModel by viewModels()
 
 	companion object {
 		private const val STATE_SEARCH_FOCUSED = "searchFocused"
@@ -163,17 +168,15 @@ class TabsFragment : ScreenFragment() {
 				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sort))
 				.let { menu ->
 					menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-					val items = Preferences.Key.SortOrder.default.value.values
-						.map { sortOrder ->
-							menu
-								.add(sortOrder.order.titleResId)
-								.setOnMenuItemClickListener {
-									Preferences[Preferences.Key.SortOrder] = sortOrder
-									true
-								}
-						}
+					val menuItems = SortOrder.values().map { sortOrder ->
+						menu.add(context.sortOrderName(sortOrder))
+							.setOnMenuItemClickListener {
+								viewModel.setSortOrder(sortOrder)
+								true
+							}
+					}
 					menu.setGroupCheckable(0, true, true)
-					Pair(menu.item, items)
+					Pair(menu.item, menuItems)
 				}
 
 			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
@@ -213,13 +216,13 @@ class TabsFragment : ScreenFragment() {
 				.any { it !is ProductItem.Section.All } && !showSections
 		}
 
-		updateOrder()
 		lifecycleScope.launch {
-			Preferences.subject
-				.flowWithLifecycle(lifecycle, Lifecycle.State.STARTED)
-				.collect {
-					if (it == Preferences.Key.SortOrder) updateOrder()
+			viewModel.initialSetup.collect { initialSortOrder ->
+				updateOrder(initialSortOrder)
+				viewModel.userPreferences.collect { newSortOrder ->
+					updateOrder(newSortOrder)
 				}
+			}
 		}
 
 		val content = fragmentBinding.fragmentContent
@@ -396,10 +399,9 @@ class TabsFragment : ScreenFragment() {
 		syncConnection.binder?.setUpdateNotificationBlocker(blockerFragment)
 	}
 
-	private fun updateOrder() {
-		val order = Preferences[Preferences.Key.SortOrder].order
-		sortOrderMenu!!.second[order.ordinal].isChecked = true
-		productFragments.forEach { it.setOrder(order) }
+	private fun updateOrder(sortOrder: SortOrder) {
+		sortOrderMenu!!.second[sortOrder.ordinal].isChecked = true
+		productFragments.forEach { it.setOrder() }
 	}
 
 	private inline fun <reified T : ProductItem.Section> collectOldSections(list: List<T>?): List<T>? {
