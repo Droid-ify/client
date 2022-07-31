@@ -22,6 +22,7 @@ include(
 	":core-database",
 	":core-datastore",
 	":core-model",
+	":feature-downloads",
 	":feature-settings",
 	":installer"
 )
