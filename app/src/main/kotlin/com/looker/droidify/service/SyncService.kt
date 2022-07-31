@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
@@ -437,10 +436,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 						0,
 						Intent(this, MainActivity::class.java)
 							.setAction(MainActivity.ACTION_UPDATES),
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-							PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-						else
-							PendingIntent.FLAG_UPDATE_CURRENT
+						PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 					)
 				)
 				.setStyle(NotificationCompat.InboxStyle().applyHack {

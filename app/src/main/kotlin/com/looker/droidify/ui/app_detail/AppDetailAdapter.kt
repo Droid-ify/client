@@ -1104,10 +1104,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 								else holder.actionTintOnNormal
 							)
 						}
-						if (Android.sdk(22)) {
-							backgroundTintList = if (action == Action.CANCEL)
-								holder.actionTintCancel else holder.actionTintNormal
-						}
+						backgroundTintList = if (action == Action.CANCEL)
+							holder.actionTintCancel else holder.actionTintNormal
 						iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
 						else holder.actionTintOnNormal
 					}
@@ -1258,11 +1256,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				val packageManager = context.packageManager
 				holder.icon.setImageDrawable(
 					if (item.group != null && item.group.icon != 0) {
-						if (Android.sdk(22)) {
-							item.group.loadUnbadgedIcon(packageManager)
-						} else {
-							item.group.loadIcon(packageManager)
-						}
+						item.group.loadUnbadgedIcon(packageManager)
 					} else {
 						null
 					} ?: context.getDrawableCompat(drawableRes.ic_perm_device_information)
