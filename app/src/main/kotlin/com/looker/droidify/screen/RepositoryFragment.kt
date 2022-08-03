@@ -12,8 +12,6 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.drawable as drawableRes
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TitleTextItemBinding
 import com.looker.droidify.service.Connection
@@ -25,6 +23,8 @@ import com.looker.droidify.utility.extension.screenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.string as stringRes
 
 class RepositoryFragment() : ScreenFragment() {
 
@@ -109,32 +109,28 @@ class RepositoryFragment() : ScreenFragment() {
 			layout.addTitleText(stringRes.address, getString(stringRes.unknown))
 		} else {
 			layout.addTitleText(stringRes.address, repository.address)
-			if (repository.updated > 0L) {
-				collapsingToolbar.title = repository.name
-				layout.addTitleText(stringRes.name, repository.name)
-				layout.addTitleText(stringRes.description, repository.description.replace('\n', ' ').trim())
-				layout.addTitleText(stringRes.recently_updated, run {
-					val lastUpdated = repository.updated
-					if (lastUpdated > 0L) {
-						val date = Date(repository.updated)
-						val format =
-							if (DateUtils.isToday(date.time)) DateUtils.FORMAT_SHOW_TIME else
-								DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE
-						DateUtils.formatDateTime(layout.context, date.time, format)
-					} else {
-						getString(stringRes.unknown)
-					}
-				})
-				if (repository.enabled && (repository.lastModified.isNotEmpty() || repository.entityTag.isNotEmpty())) {
-					layout.addTitleText(
-						stringRes.number_of_applications,
-						Database.ProductAdapter.getCount(repository.id).toString()
-					)
+			collapsingToolbar.title = repository.name
+			layout.addTitleText(stringRes.name, repository.name)
+			layout.addTitleText(
+				stringRes.description,
+				repository.description.replace('\n', ' ').trim()
+			)
+			layout.addTitleText(stringRes.recently_updated, run {
+				val lastUpdated = repository.updated
+				if (lastUpdated > 0L) {
+					val date = Date(repository.updated)
+					val format =
+						if (DateUtils.isToday(date.time)) DateUtils.FORMAT_SHOW_TIME else
+							DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE
+					DateUtils.formatDateTime(layout.context, date.time, format)
+				} else {
+					getString(stringRes.unknown)
 				}
-			} else {
+			})
+			if (repository.enabled && (repository.lastModified.isNotEmpty() || repository.entityTag.isNotEmpty())) {
 				layout.addTitleText(
-					stringRes.description,
-					getString(stringRes.repository_not_used_DESC)
+					stringRes.number_of_applications,
+					Database.ProductAdapter.getCount(repository.id).toString()
 				)
 			}
 			if (repository.fingerprint.isEmpty()) {
