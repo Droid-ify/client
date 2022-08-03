@@ -21,7 +21,6 @@ import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.extension.android.Android
@@ -46,6 +45,8 @@ import com.looker.core_common.R.style as styleRes
 
 @AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
+	private var lastUnstableUpdates = false
+
 	companion object {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
@@ -55,7 +56,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		private val stateSubject = mutableStateSubject.asSharedFlow()
 	}
 
-	@Inject lateinit var userPreferencesRepository: UserPreferencesRepository
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 	private val userPreferences get() = userPreferencesRepository.userPreferencesFlow
 	private val initialSetup = flow {
 		emit(userPreferencesRepository.fetchInitialPreferences())
@@ -345,42 +347,31 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
-					val unstable = Preferences[Preferences.Key.UpdateUnstable]
-					val job = scope.launch {
-						val request = RepositoryUpdater
-							.update(
-								this@SyncService,
-								repository,
-								unstable
-							) { stage, progress, total ->
-								launch {
-									mutableStateSubject.emit(
-										State.Syncing(
-											repository.name,
-											stage,
-											progress,
-											total
+					scope.launch {
+						initialSetup.collect { initialPreference ->
+							handleFileDownload(
+								task = task,
+								initialState = initialState,
+								hasUpdates = hasUpdates,
+								unstableUpdates = initialPreference.unstableUpdate,
+								repository = repository
+							)
+							launch {
+								userPreferences.collect { newPreference ->
+									if (newPreference.unstableUpdate != lastUnstableUpdates) {
+										lastUnstableUpdates = newPreference.unstableUpdate
+										handleFileDownload(
+											task = task,
+											initialState = initialState,
+											hasUpdates = hasUpdates,
+											unstableUpdates = lastUnstableUpdates,
+											repository = repository
 										)
-									)
+									}
 								}
 							}
-						currentTask = null
-						when (request) {
-							Result.Loading -> {
-								mutableStateSubject.emit(State.Connecting(repository.name))
-							}
-							is Result.Error -> {
-								request.exception?.printStackTrace()
-								if (task.manual) showNotificationError(
-									repository,
-									request.exception as Exception
-								)
-								handleNextTask(request.data == true || hasUpdates)
-							}
-							is Result.Success -> handleNextTask(request.data || hasUpdates)
 						}
 					}
-					currentTask = CurrentTask(task, job, hasUpdates, initialState)
 				} else {
 					handleNextTask(hasUpdates)
 				}
@@ -391,16 +382,62 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 							hasUpdates = hasUpdates,
 							notifyUpdates = initialPreference.notifyUpdate
 						)
-						userPreferences.collect { newPreferences ->
-							handleUpdates(
-								hasUpdates = hasUpdates,
-								notifyUpdates = newPreferences.notifyUpdate
-							)
+						launch {
+							userPreferences.collect { newPreferences ->
+								handleUpdates(
+									hasUpdates = hasUpdates,
+									notifyUpdates = newPreferences.notifyUpdate
+								)
+							}
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private suspend fun handleFileDownload(
+		task: Task,
+		initialState: State,
+		hasUpdates: Boolean,
+		unstableUpdates: Boolean,
+		repository: Repository
+	) {
+		val job = scope.launch {
+			val request = RepositoryUpdater
+				.update(
+					this@SyncService,
+					repository,
+					unstableUpdates
+				) { stage, progress, total ->
+					launch {
+						mutableStateSubject.emit(
+							State.Syncing(
+								repository.name,
+								stage,
+								progress,
+								total
+							)
+						)
+					}
+				}
+			currentTask = null
+			when (request) {
+				Result.Loading -> {
+					mutableStateSubject.emit(State.Connecting(repository.name))
+				}
+				is Result.Error -> {
+					request.exception?.printStackTrace()
+					if (task.manual) showNotificationError(
+						repository,
+						request.exception as Exception
+					)
+					handleNextTask(request.data == true || hasUpdates)
+				}
+				is Result.Success -> handleNextTask(request.data || hasUpdates)
+			}
+		}
+		currentTask = CurrentTask(task, job, hasUpdates, initialState)
 	}
 
 	private suspend fun handleUpdates(hasUpdates: Boolean, notifyUpdates: Boolean) {

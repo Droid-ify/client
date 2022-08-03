@@ -20,7 +20,6 @@ import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.ProxyType
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -67,7 +66,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 		super.onCreate()
 
 		val databaseUpdated = Database.init(this)
-		Preferences.init(this)
 		ProductPreferences.init(this)
 		RepositoryUpdater.init()
 		listenApplications()
