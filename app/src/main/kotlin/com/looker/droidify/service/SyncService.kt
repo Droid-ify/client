@@ -14,6 +14,7 @@ import com.looker.core_common.Common
 import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
 import com.looker.core_common.result.Result
+import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
@@ -26,20 +27,24 @@ import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 import kotlin.math.roundToInt
 import com.looker.core_common.R.string as stringRes
 import com.looker.core_common.R.style as styleRes
 
+@AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
 	companion object {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
@@ -48,6 +53,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		private val mutableFinishState = MutableSharedFlow<Unit>()
 
 		private val stateSubject = mutableStateSubject.asSharedFlow()
+	}
+
+	@Inject lateinit var userPreferencesRepository: UserPreferencesRepository
+	private val userPreferences get() = userPreferencesRepository.userPreferencesFlow
+	private val initialSetup = flow {
+		emit(userPreferencesRepository.fetchInitialPreferences())
 	}
 
 	private sealed class State {
@@ -374,40 +385,57 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					handleNextTask(hasUpdates)
 				}
 			} else if (started != Started.NO) {
-				if (hasUpdates && Preferences[Preferences.Key.UpdateNotify]) {
-					val job = scope.launch {
-						val products = withContext(Dispatchers.IO) {
-							Database.ProductAdapter
-								.query(
-									installed = true,
-									updates = true,
-									searchQuery = "",
-									section = ProductItem.Section.All,
-									order = SortOrder.NAME,
-									signal = null
-								)
-								.use {
-									it.asSequence().map(Database.ProductAdapter::transformItem)
-										.toList()
-								}
+				scope.launch {
+					initialSetup.collect { initialPreference ->
+						handleUpdates(
+							hasUpdates = hasUpdates,
+							notifyUpdates = initialPreference.notifyUpdate
+						)
+						userPreferences.collect { newPreferences ->
+							handleUpdates(
+								hasUpdates = hasUpdates,
+								notifyUpdates = newPreferences.notifyUpdate
+							)
 						}
-						currentTask = null
-						handleNextTask(false)
-						val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-						if (!blocked && products.isNotEmpty()) {
-							displayUpdatesNotification(products)
-						}
-					}
-					currentTask = CurrentTask(null, job, true, State.Finishing)
-				} else {
-					scope.launch { mutableFinishState.emit(Unit) }
-					val needStop = started == Started.MANUAL
-					started = Started.NO
-					if (needStop) {
-						stopForeground(true)
-						stopSelf()
 					}
 				}
+			}
+		}
+	}
+
+	private suspend fun handleUpdates(hasUpdates: Boolean, notifyUpdates: Boolean) {
+		if (hasUpdates && notifyUpdates) {
+			val job = scope.launch {
+				val products = withContext(Dispatchers.IO) {
+					Database.ProductAdapter
+						.query(
+							installed = true,
+							updates = true,
+							searchQuery = "",
+							section = ProductItem.Section.All,
+							order = SortOrder.NAME,
+							signal = null
+						)
+						.use {
+							it.asSequence().map(Database.ProductAdapter::transformItem)
+								.toList()
+						}
+				}
+				currentTask = null
+				handleNextTask(false)
+				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
+				if (!blocked && products.isNotEmpty()) {
+					displayUpdatesNotification(products)
+				}
+			}
+			currentTask = CurrentTask(null, job, true, State.Finishing)
+		} else {
+			scope.launch { mutableFinishState.emit(Unit) }
+			val needStop = started == Started.MANUAL
+			started = Started.NO
+			if (needStop) {
+				stopForeground(true)
+				stopSelf()
 			}
 		}
 	}

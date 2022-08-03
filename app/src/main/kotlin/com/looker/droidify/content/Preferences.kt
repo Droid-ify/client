@@ -41,7 +41,6 @@ object Preferences {
 	}
 
 	sealed class Key<T>(val name: String, val default: Value<T>) {
-		object UpdateNotify : Key<Boolean>("update_notify", Value.BooleanValue(true))
 		object UpdateUnstable : Key<Boolean>("update_unstable", Value.BooleanValue(false))
 	}
 
