@@ -10,8 +10,6 @@ android {
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
-
-		consumerProguardFiles("consumer-rules.pro")
 	}
 
 	buildTypes {

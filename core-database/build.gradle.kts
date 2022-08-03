@@ -14,8 +14,6 @@ android {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
 
-		consumerProguardFiles("consumer-rules.pro")
-
 		ksp {
 			arg("room.schemaLocation", "$projectDir/schemas")
 		}
