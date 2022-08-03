@@ -5,6 +5,7 @@ object Modules {
 	const val coreDatabase = ":core-database"
 	const val coreDatastore = ":core-datastore"
 	const val coreModel = ":core-model"
+	const val coreDownloads = ":core-downloads"
 	const val featureSettings = ":feature-settings"
 	const val installer = ":installer"
 }

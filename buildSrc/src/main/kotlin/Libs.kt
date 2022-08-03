@@ -65,6 +65,14 @@ object Kotlin {
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
 }
 
+object Ktor {
+	private const val ktorVersion = "2.0.3"
+	const val android = "io.ktor:ktor-client-android:$ktorVersion"
+	const val json = "io.ktor:ktor-client-json:$ktorVersion"
+	const val serialization = "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
+	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
+}
+
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
