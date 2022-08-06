@@ -39,20 +39,15 @@ width="60%">](https://hosted.weblate.org/projects/droidify/localization/)
 
 ## :hammer: Building and Installing
 
-Specify your Android SDK path either using the `ANDROID_HOME` environment variable, \
-or by filling out the `sdk.dir` property in `local.properties`.
+You need [Android Studio](https://developer.android.com/studio) to build this App.\
+After Installing Android Studio, select `Project from Version Control` and paste the link of this repository.\
+Navigate to `Build > APK > Create New Keystore > Enter the password` and wait for the build to finish.
 
-Signing can be done automatically using `keystore.properties` as follows:
+## Contribution
 
-```properties
-store.file=/path/to/keystore
-store.password=key-store-password
-key.alias=key-alias
-key.password=key-password
-```
-
-Run `./gradlew assembleRelease` to build the package, which can be installed using the Android
-package manager.
+You can fork the [`dev`](https://github.com/Iamlooker/Droid-ify/tree/dev) branch and Open a Pull Request in the same branch.\
+Your PR will be reviewed and merged.\
+Your contributions are very important for this community.
 
 ## 👁️‍🗨️ Translations
 [Translate Droid-ify on Hosted Weblate](https://hosted.weblate.org/engage/droidify/). \
@@ -65,4 +60,4 @@ You can always add other lanuages.
 
 Licensed GPLv3+. \
 Direct Adaptation/Modification of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/) \
-Copyright © 2020–2021 Iamlooker and contributors.
+Copyright © 2022 Iamlooker and contributors.
