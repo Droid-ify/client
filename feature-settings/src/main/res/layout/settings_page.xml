@@ -42,6 +42,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/shape_margin_large"
                 android:paddingStart="@dimen/shape_margin_large"
                 android:text="@string/prefs_personalization"
                 android:textAppearance="?textAppearanceHeadlineSmall"
