@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_failed">عملیات ناموفق</string>
+    <string name="add_repository">اضافه کردن مخزن</string>
+    <string name="address">مکان</string>
+    <string name="all_applications">همه برنامه ها</string>
+    <string name="all_applications_up_to_date">تمام برنامه های شما به روز هستند</string>
 </resources>
