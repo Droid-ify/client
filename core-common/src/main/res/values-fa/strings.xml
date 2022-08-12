@@ -5,4 +5,14 @@
     <string name="address">مکان</string>
     <string name="all_applications">همه برنامه ها</string>
     <string name="all_applications_up_to_date">تمام برنامه های شما به روز هستند</string>
+    <string name="already_exists">از قبل وجود دارد</string>
+    <string name="amoled">سیاه</string>
+    <string name="application">برنامه</string>
+    <string name="application_not_found">برنامه پیدا نشد</string>
+    <string name="always">همیشه</string>
+    <string name="author_email">ایمیل سازنده</string>
+    <string name="author_website">وبسایت سازنده</string>
+    <string name="available">موجود</string>
+    <string name="bug_tracker">ردیاب اشکال</string>
+    <string name="cancel">لغو کردن</string>
 </resources>
