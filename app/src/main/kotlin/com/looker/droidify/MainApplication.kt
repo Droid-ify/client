@@ -33,6 +33,7 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
@@ -186,22 +187,34 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
 		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+		val syncConditions = when (autoSync) {
+			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
+			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
+			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
+				networkType = NetworkType.UNMETERED,
+				pluggedIn = true
+			)
+			AutoSync.NEVER -> SyncConditions(
+				networkType = NetworkType.NOT_REQUIRED,
+				canSync = false
+			)
+		}
 		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
 		if (reschedule) {
 			when (autoSync) {
 				AutoSync.NEVER -> jobScheduler.cancel(Common.JOB_ID_SYNC)
 				else -> {
 					val period = 12.hours.inWholeMilliseconds
-					val wifiOnly = autoSync == AutoSync.WIFI_ONLY
 					jobScheduler.schedule(JobInfo
 						.Builder(
 							Common.JOB_ID_SYNC,
 							ComponentName(this, SyncService.Job::class.java)
 						)
-						.setRequiredNetworkType(if (wifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY)
+						.setRequiredNetworkType(syncConditions.toJobNetworkType())
 						.apply {
 							if (Android.sdk(26)) {
-								setRequiresBatteryNotLow(true)
+								setRequiresCharging(syncConditions.pluggedIn)
+								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
 							if (Android.sdk(24)) {
