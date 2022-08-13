@@ -191,7 +191,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 			when (autoSync) {
 				AutoSync.NEVER -> jobScheduler.cancel(Common.JOB_ID_SYNC)
 				else -> {
-					val period = 12 * 60 * 60 * 1000L // 12 hours
+					val period = 12.hours.inWholeMilliseconds
 					val wifiOnly = autoSync == AutoSync.WIFI_ONLY
 					jobScheduler.schedule(JobInfo
 						.Builder(
