@@ -2,6 +2,8 @@ package com.looker.droidify
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.app.job.JobInfo
+import android.app.job.JobScheduler
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
@@ -15,6 +17,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import com.looker.core_common.Common
 import com.looker.core_common.cache.Cache
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
@@ -31,6 +34,7 @@ import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.AutoSyncWorker
+import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.droidify.work.di.DelegatingWorker
 import com.looker.droidify.work.di.delegatedData
@@ -47,7 +51,7 @@ import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
-import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.toJavaDuration
 
 @HiltAndroidApp
@@ -180,21 +184,53 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 	}
 
-	private fun updateSyncJob(force: Boolean, autoSync: AutoSync, interval: Duration) {
+	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
+		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
+		if (reschedule) {
+			when (autoSync) {
+				AutoSync.NEVER -> jobScheduler.cancel(Common.JOB_ID_SYNC)
+				else -> {
+					val period = 12 * 60 * 60 * 1000L // 12 hours
+					val wifiOnly = autoSync == AutoSync.WIFI_ONLY
+					jobScheduler.schedule(JobInfo
+						.Builder(
+							Common.JOB_ID_SYNC,
+							ComponentName(this, SyncService.Job::class.java)
+						)
+						.setRequiredNetworkType(if (wifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY)
+						.apply {
+							if (Android.sdk(26)) {
+								setRequiresBatteryNotLow(true)
+								setRequiresStorageNotLow(true)
+							}
+							if (Android.sdk(24)) {
+								setPeriodic(period, JobInfo.getMinFlexMillis())
+							} else {
+								setPeriodic(period)
+							}
+						}
+						.build())
+					Unit
+				}
+			}::class.java
+		}
+	}
+
+	private fun updateSyncJobWorker(force: Boolean, autoSync: AutoSync) {
 		val syncConditions = when (autoSync) {
-			AutoSync.ALWAYS -> AutoSyncWorker.SyncConditions(networkType = NetworkType.CONNECTED)
-			AutoSync.WIFI_ONLY -> AutoSyncWorker.SyncConditions(networkType = NetworkType.UNMETERED)
-			AutoSync.WIFI_PLUGGED_IN -> AutoSyncWorker.SyncConditions(
+			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
+			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
+			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
 				networkType = NetworkType.UNMETERED,
 				pluggedIn = true
 			)
-			AutoSync.NEVER -> AutoSyncWorker.SyncConditions(
+			AutoSync.NEVER -> SyncConditions(
 				networkType = NetworkType.NOT_REQUIRED,
 				canSync = false
 			)
 		}
 		val constraints = Constraints.Builder()
-			.setRequiresDeviceIdle(true)
 			.setRequiresCharging(syncConditions.pluggedIn)
 			.setRequiredNetworkType(syncConditions.networkType)
 			.setRequiresBatteryNotLow(syncConditions.batteryNotLow)
@@ -206,12 +242,13 @@ class MainApplication : Application(), ImageLoaderFactory {
 				.setConstraints(constraints)
 				.build()
 		WorkManager.getInstance(this).apply {
-			enqueueUniquePeriodicWork(
-				AutoSyncWorker.TAG,
-				if (force) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP,
-				periodicSync
-			)
-
+			if (syncConditions.canSync) {
+				enqueueUniquePeriodicWork(
+					AutoSyncWorker.TAG,
+					if (force) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP,
+					periodicSync
+				)
+			}
 		}
 	}
 

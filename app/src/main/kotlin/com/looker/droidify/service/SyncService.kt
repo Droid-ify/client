@@ -1,12 +1,16 @@
 package com.looker.droidify.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.job.JobParameters
+import android.app.job.JobService
 import android.content.Intent
 import android.graphics.Color
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
@@ -31,6 +35,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
@@ -48,12 +53,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	private var lastUnstableUpdates = false
 
 	companion object {
+		private const val TAG = "SyncService"
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
 		private val mutableStateSubject = MutableSharedFlow<State>()
 		private val mutableFinishState = MutableSharedFlow<Unit>()
 
 		private val stateSubject = mutableStateSubject.asSharedFlow()
+		private val finishState = mutableFinishState.asSharedFlow()
 	}
 
 	@Inject
@@ -92,8 +99,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	enum class SyncRequest { AUTO, MANUAL, FORCE }
 
 	inner class Binder : android.os.Binder() {
+		val finish: SharedFlow<Unit>
+			get() = finishState
 
 		private fun sync(ids: List<Long>, request: SyncRequest) {
+			Log.i(TAG, "Sync Started: ${request.name}")
 			val cancelledTask =
 				cancelCurrentTask { request == SyncRequest.FORCE && it.task?.repositoryId in ids }
 			cancelTasks { !it.manual && it.repositoryId in ids }
@@ -157,6 +167,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				Database.RepositoryAdapter.markAsDeleted(repository.id)
 				true
 			}
+		}
+
+		fun cancelAuto(): Boolean {
+			val removed = cancelTasks { !it.manual }
+			val currentTask = cancelCurrentTask { it.task?.manual == false }
+			handleNextTask(currentTask?.hasUpdates == true)
+			return removed || currentTask != null
 		}
 	}
 
@@ -526,5 +543,47 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				})
 				.build()
 		)
+	}
+
+	@SuppressLint("SpecifyJobSchedulerIdRange")
+	class Job : JobService() {
+		private val jobScope = CoroutineScope(Dispatchers.Default)
+		private var syncParams: JobParameters? = null
+		private val syncConnection =
+			Connection(SyncService::class.java, onBind = { connection, binder ->
+				jobScope.launch {
+					binder.finish.collect {
+						val params = syncParams
+						if (params != null) {
+							syncParams = null
+							connection.unbind(this@Job)
+							jobFinished(params, false)
+						}
+					}
+				}
+				binder.sync(SyncRequest.AUTO)
+			}, onUnbind = { _, binder ->
+				binder.cancelAuto()
+				jobScope.cancel()
+				val params = syncParams
+				if (params != null) {
+					syncParams = null
+					jobFinished(params, true)
+				}
+			})
+
+		override fun onStartJob(params: JobParameters): Boolean {
+			syncParams = params
+			syncConnection.bind(this)
+			return true
+		}
+
+		override fun onStopJob(params: JobParameters): Boolean {
+			syncParams = null
+			jobScope.cancel()
+			val reschedule = syncConnection.binder?.cancelAuto() == true
+			syncConnection.unbind(this)
+			return reschedule
+		}
 	}
 }
