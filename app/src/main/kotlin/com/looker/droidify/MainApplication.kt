@@ -37,8 +37,8 @@ import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.droidify.work.di.DelegatingWorker
-import com.looker.droidify.work.di.delegatedData
+import com.looker.droidify.work.DelegatingWorker
+import com.looker.droidify.work.delegatedData
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors

@@ -1,4 +1,4 @@
-package com.looker.droidify.work.di
+package com.looker.droidify.work
 
 import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
