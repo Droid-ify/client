@@ -45,7 +45,7 @@ object Excludes {
 }
 
 object Hilt {
-	private const val version = "2.43"
+	private const val version = "2.43.2"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
 	const val android = "com.google.dagger:hilt-android:$version"
 
@@ -62,11 +62,11 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0-RC"
 }
 
 object Ktor {
-	private const val ktorVersion = "2.0.3"
+	private const val ktorVersion = "2.1.0"
 	const val android = "io.ktor:ktor-client-android:$ktorVersion"
 	const val json = "io.ktor:ktor-client-json:$ktorVersion"
 	const val serialization = "io.ktor:ktor-client-serialization-jvm:$ktorVersion"

@@ -131,7 +131,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			initialSetup.collect { initialPreference ->
-				updateSyncJob(false, initialPreference.autoSync, initialPreference.cleanUpDuration)
+				updateSyncJob(false, initialPreference.autoSync)
 				updateProxy(initialPreference)
 				var lastProxy = initialPreference.proxyType
 				var lastProxyPort = initialPreference.proxyPort
@@ -140,7 +140,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 				var lastUnstableUpdate = initialPreference.unstableUpdate
 				var lastLanguage = initialPreference.language
 				var lastTheme = initialPreference.theme
-				var lastInterval = initialPreference.cleanUpDuration
 				userPreferenceFlow.collect { newPreference ->
 					if (
 						newPreference.proxyType != lastProxy
@@ -154,10 +153,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 					} else if (lastUnstableUpdate != newPreference.unstableUpdate) {
 						lastUnstableUpdate = newPreference.unstableUpdate
 						forceSyncAll()
-					} else if (lastAutoSync != newPreference.autoSync || lastInterval != newPreference.cleanUpDuration) {
+					} else if (lastAutoSync != newPreference.autoSync) {
 						lastAutoSync = newPreference.autoSync
-						lastInterval = newPreference.cleanUpDuration
-						updateSyncJob(true, lastAutoSync, lastInterval)
+						updateSyncJob(true, lastAutoSync)
 					} else if (lastLanguage != newPreference.language) {
 						lastLanguage = newPreference.language
 						val refresh = Intent.makeRestartActivityTask(
@@ -203,7 +201,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 			.setRequiresStorageNotLow(true)
 			.build()
 		val periodicSync =
-			PeriodicWorkRequestBuilder<DelegatingWorker>(interval.toJavaDuration())
+			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
 				.setInputData(AutoSyncWorker::class.delegatedData())
 				.setConstraints(constraints)
 				.build()

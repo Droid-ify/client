@@ -34,6 +34,7 @@ class CleanUpWorker @AssistedInject constructor(
 			.setRequiresDeviceIdle(true)
 			.build()
 
+		// TODO: Use variable time durations
 		val periodicWork =
 			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
 				.setConstraints(constraints)
