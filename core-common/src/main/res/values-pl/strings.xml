@@ -26,7 +26,7 @@
     <string name="update">Aktualizacja</string>
     <string name="unknown_FORMAT">Nieznany: %s</string>
     <string name="address">Adres</string>
-    <string name="all_applications_up_to_date">Wszystkie wnioski są aktualne</string>
+    <string name="all_applications_up_to_date">Wszystkie aplikacje są aktualne</string>
     <string name="already_exists">Już istnieje</string>
     <string name="unknown">Nieznany</string>
     <string name="themes">Tematy</string>
@@ -79,7 +79,7 @@
     <string name="edit_repository">Edytuj repozytorium</string>
     <string name="has_security_vulnerabilities">Posiada luki w zabezpieczeniach</string>
     <string name="incompatible_api_DESC_FORMAT">Twój %1$s (wersja API %2$d) nie jest obsługiwany. %3$s</string>
-    <string name="available">Dostępny</string>
+    <string name="available">Dostępne</string>
     <string name="bug_tracker">Śledzenie błędów</string>
     <string name="incompatible_api_max_DESC_FORMAT">Maksymalna wersja API to %d.</string>
     <string name="application_not_found">Nie znaleziono aplikacji</string>
@@ -147,7 +147,7 @@
     <string name="incompatible_versions">Niekompatybilne wersje</string>
     <string name="incompatible_versions_summary">Pokaż wersje aplikacji niekompatybilne z urządzeniem</string>
     <string name="install_types">Typy instalacji</string>
-    <string name="installed">Zainstalowany</string>
+    <string name="installed">Zainstalowane</string>
     <string name="invalid_address">Nieprawidłowy adres</string>
     <string name="invalid_metadata_error_DESC">Nieważne metadane.</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -183,5 +183,5 @@
     <string name="shizuku_installer">Instalator Shizuku</string>
     <string name="latest">Najnowsza</string>
     <string name="explore">Poznaj</string>
-    <string name="update_all">Zaktualizuj wszystko</string>
+    <string name="update_all">Aktualizuj wszystkie</string>
 </resources>
