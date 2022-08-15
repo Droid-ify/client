@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="address">Adres</string>
-    <string name="all_applications_up_to_date">Alle apps zijn up to date</string>
+    <string name="all_applications_up_to_date">Alle apps zijn de nieuwste versie</string>
     <string name="already_exists">Bestaat al</string>
     <string name="all_applications">Alle apps</string>
     <string name="action_failed">Actie mislukt</string>
-    <string name="add_repository">Repositie toevoegen</string>
+    <string name="add_repository">Bronopslagruimte toevoegen</string>
     <string name="always">Altijd</string>
     <string name="amoled">AMOLED</string>
     <string name="anti_features">Antifuncties</string>
@@ -177,4 +177,9 @@
     <string name="select_mirror">Kies een spiegel</string>
     <string name="downloading_FORMAT">%s aan het opslaan…</string>
     <string name="downloaded_FORMAT">%s opgeslagen</string>
+    <string name="shizuku_installer">Shizuku Installatie</string>
+    <string name="root_installer">Root Installatie</string>
+    <string name="installer">Installatie</string>
+    <string name="legacy_installer">Verouderde Installatie</string>
+    <string name="session_installer">Sessie Installatie</string>
 </resources>

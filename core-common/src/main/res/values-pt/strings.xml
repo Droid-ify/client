@@ -181,4 +181,5 @@
     <string name="installer">Instalador</string>
     <string name="root_installer">Instalador de root</string>
     <string name="shizuku_installer">Instalador de Shizuku</string>
+    <string name="session_installer">Instalador da sessão</string>
 </resources>

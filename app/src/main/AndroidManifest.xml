@@ -15,7 +15,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/application_name"
         android:supportsRtl="true"
-        android:theme="@style/MainTheme">
+        android:theme="@style/MainTheme"
+        android:networkSecurityConfig="@xml/network_security_config">
 
         <receiver
             android:name=".MainApplication$BootReceiver"
