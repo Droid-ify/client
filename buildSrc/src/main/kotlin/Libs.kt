@@ -1,6 +1,6 @@
 object AndroidX {
 
-	const val appCompat = "androidx.appcompat:appcompat:1.5.0-rc01"
+	const val appCompat = "androidx.appcompat:appcompat:1.5.0"
 
 	private const val version = "1.5.1"
 	const val fragment = "androidx.fragment:fragment-ktx:$version"
@@ -80,7 +80,7 @@ object Lifecycle {
 }
 
 object OkHttp {
-	private const val version = "5.0.0-alpha.9"
+	private const val version = "5.0.0-alpha.10"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
 }
 
