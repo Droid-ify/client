@@ -1,10 +1,7 @@
 object AndroidX {
-
 	const val appCompat = "androidx.appcompat:appcompat:1.5.0"
 
-	private const val version = "1.5.1"
-	const val fragment = "androidx.fragment:fragment-ktx:$version"
-	const val activity = "androidx.activity:activity-ktx:$version"
+	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
 	const val material = "com.google.android.material:material:1.6.1"
@@ -77,6 +74,10 @@ object Lifecycle {
 	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+
+	private const val version = "1.5.1"
+	const val fragment = "androidx.fragment:fragment-ktx:$version"
+	const val activity = "androidx.activity:activity-ktx:$version"
 }
 
 object OkHttp {

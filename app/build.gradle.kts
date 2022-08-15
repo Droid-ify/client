@@ -25,6 +25,8 @@ android {
 	}
 
 	compileOptions {
+		isCoreLibraryDesugaringEnabled = true
+
 		sourceCompatibility = JavaVersion.VERSION_1_8
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
@@ -63,6 +65,8 @@ android {
 
 dependencies {
 
+	coreLibraryDesugaring(AndroidX.desugar)
+
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatastore))
@@ -71,13 +75,9 @@ dependencies {
 
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
+
 	implementation(AndroidX.appCompat)
-
-	implementation(AndroidX.fragment)
-	implementation(AndroidX.activity)
 	implementation(AndroidX.preference)
-	implementation(Lifecycle.runtime)
-
 	implementation(AndroidX.material)
 
 	implementation(Coil.coil)
@@ -85,20 +85,23 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
-	implementation(OkHttp.okhttp)
-
-	implementation(RxJava.android)
-	implementation(RxJava.rxjava)
-
-	implementation(Jackson.core)
-
-	implementation(Others.fastScroller)
-
 	implementation(Hilt.android)
 	implementation(Hilt.work)
 	kapt(Hilt.compiler)
 	kapt(Hilt.androidX)
 
-	// WorkManager
+	implementation(Jackson.core)
+
+	implementation(Lifecycle.fragment)
+	implementation(Lifecycle.activity)
+	implementation(Lifecycle.runtime)
+
+	implementation(OkHttp.okhttp)
+
+	implementation(Others.fastScroller)
+
+	implementation(RxJava.android)
+	implementation(RxJava.rxjava)
+
 	implementation(Work.manager)
 }

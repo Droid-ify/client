@@ -39,7 +39,7 @@ dependencies {
 	implementation(Core.core)
 	implementation(AndroidX.appCompat)
 	implementation(AndroidX.material)
-	implementation(AndroidX.fragment)
+	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.viewmodel)
 
 	implementation(Hilt.android)
