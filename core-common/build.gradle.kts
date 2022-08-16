@@ -30,6 +30,8 @@ android {
 
 dependencies {
 	implementation(kotlin("stdlib"))
+
+	implementation(AndroidX.material)
 	implementation(Core.core)
 
 	implementation(Coroutines.core)
