@@ -17,8 +17,11 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.looker.core_common.Common
 import com.looker.core_common.cache.Cache
+import com.looker.core_common.debug
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.AutoSync
@@ -26,7 +29,6 @@ import com.looker.core_datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -308,7 +310,17 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	override fun newImageLoader(): ImageLoader {
 		return ImageLoader.Builder(this)
-			.callFactory(CoilDownloader.Factory(Cache.getImagesDir(this)))
+			.memoryCache {
+				MemoryCache.Builder(this)
+					.maxSizePercent(0.25)
+					.build()
+			}
+			.diskCache {
+				DiskCache.Builder()
+					.directory(Cache.getImagesDir(this))
+					.maxSizePercent(0.05)
+					.build()
+			}
 			.crossfade(true)
 			.build()
 	}
