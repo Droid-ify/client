@@ -1,6 +1,8 @@
 package com.looker.feature_settings
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -35,9 +37,9 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import com.looker.core_common.R.dimen as dimenRes
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.plurals as pluralRes
 import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.plurals as pluralRes
+import com.looker.core_common.R.string as stringRes
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -307,6 +309,12 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.installerName(it) }
 				).show()
 			}
+			creditFoxy.root.setOnClickListener {
+				"https://github.com/kitsunyan/foxy-droid".openLink(context)
+			}
+			droidify.root.setOnClickListener {
+				"https://github.com/Iamlooker/Droid-ify".openLink(context)
+			}
 		}
 	}
 
@@ -321,7 +329,10 @@ class SettingsFragment : Fragment() {
 	private fun Duration.toTime(context: Context?): String {
 		val time = inWholeHours.toInt()
 		val days = inWholeDays.toInt()
-		return if (time >= 24) "$days " + context?.resources?.getQuantityString(pluralRes.days, days)
+		return if (time >= 24) "$days " + context?.resources?.getQuantityString(
+			pluralRes.days,
+			days
+		)
 		else "$time " + context?.resources?.getQuantityString(pluralRes.hours, time)
 	}
 
@@ -338,6 +349,14 @@ class SettingsFragment : Fragment() {
 				"($country)" else ""))
 		} else getString(stringRes.system)
 		return languageDisplay
+	}
+
+	private fun String.openLink(context: Context?) {
+		try {
+			context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+		} catch (e: Exception) {
+			e.printStackTrace()
+		}
 	}
 
 	private fun Context.getLocaleOfCode(localeCode: String): Locale? = when {
