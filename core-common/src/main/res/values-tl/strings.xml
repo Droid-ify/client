@@ -1,2 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="all_applications_up_to_date">Ang lahat ng aplikasyon ay nasa pinakabagong bersyon</string>
+    <string name="already_exists">Mayroon na</string>
+    <string name="anti_features">Hindi kanais-nais na features</string>
+    <string name="application">Aplikasyon</string>
+    <string name="application_not_found">Hindi mahanap ang aplikasyon</string>
+    <string name="author_website">Website ng awtor</string>
+    <string name="author_email">E-mail ng awtor</string>
+    <string name="add_repository">Magdagdag ng repository</string>
+    <string name="all_applications">Lahat ng mga aplikasyon</string>
+</resources>
