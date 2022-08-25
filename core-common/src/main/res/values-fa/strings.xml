@@ -15,4 +15,7 @@
     <string name="available">موجود</string>
     <string name="bug_tracker">ردیاب اشکال</string>
     <string name="cancel">لغو کردن</string>
+    <string name="changes">تغییرات</string>
+    <string name="description">شرح</string>
+    <string name="changelog">تغییرات</string>
 </resources>
