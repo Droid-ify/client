@@ -9,7 +9,7 @@
     <string name="no_matching_applications_found">Не вдалося знайти ні одного подібного додатку</string>
     <string name="incompatible_features_DESC">Відсутні функції.</string>
     <string name="all_applications">Всі додатки</string>
-    <string name="cancel">Відмінити</string>
+    <string name="cancel">Скасувати</string>
     <string name="changes">Зміни</string>
     <string name="checking_repository">Перевіряю розпозиторії…</string>
     <string name="application">Додаток</string>
@@ -183,4 +183,5 @@
     <string name="installer">Інсталятор</string>
     <string name="root_installer">Root інсталятор</string>
     <string name="shizuku_installer">Shizuku інсталятор</string>
+    <string name="session_installer">Сесійний інсталятор</string>
 </resources>
