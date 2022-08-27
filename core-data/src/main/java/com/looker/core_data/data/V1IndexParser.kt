@@ -1,6 +1,5 @@
 package com.looker.core_data.data
 
-import com.looker.core_data.IndexParser
 import com.looker.core_data.ParserCallback
 import com.looker.core_data.model.JsonData
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -8,14 +7,14 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.InputStream
 
-class V1IndexParser : IndexParser<Unit> {
+class V1IndexParser {
 	private val json = Json {
 		ignoreUnknownKeys = true
 		encodeDefaults = true
 	}
 
 	@OptIn(ExperimentalSerializationApi::class)
-	override suspend fun parseIndex(
+	suspend fun parseIndex(
 		repoId: Long,
 		inputStream: InputStream,
 		parserCallback: ParserCallback

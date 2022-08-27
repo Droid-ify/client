@@ -2,71 +2,62 @@ package com.looker.droidify.work
 
 import android.content.Context
 import android.util.Log
+import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.looker.core_common.file.deleteOldIcons
 import com.looker.core_common.file.deleteOldReleases
 import com.looker.core_common.file.deletePartialFiles
 import com.looker.core_common.file.deleteTemporaryFiles
-import com.looker.core_datastore.UserPreferencesRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlin.time.Duration.Companion.hours
 import kotlin.time.toJavaDuration
 
-class CleanUpWorker(
-	context: Context,
-	workerParams: WorkerParameters,
-	private val userPreferencesRepository: UserPreferencesRepository
+@HiltWorker
+class CleanUpWorker @AssistedInject constructor(
+	@Assisted context: Context,
+	@Assisted workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
 	companion object {
-		private const val TAG = "CleanUpWorker"
-	}
+		const val TAG = "CleanUpWorker"
 
-	override suspend fun doWork(): Result = try {
-		val context = applicationContext
-		context.deleteOldIcons()
-		context.deleteOldReleases()
-		context.deletePartialFiles()
-		context.deleteTemporaryFiles()
-		Result.success()
-	} catch (e: Exception) {
-		Log.e(TAG, "doWork: Failed to clean up", e)
-		Result.failure()
-	}
-
-	suspend fun periodic(context: Context) {
-		val workManager = WorkManager.getInstance(context)
-		val interval = userPreferencesRepository.fetchInitialPreferences().cleanUpDuration
-		val constraints = Constraints.Builder()
+		private val constraints = Constraints.Builder()
 			.setRequiresBatteryNotLow(true)
 			.setRequiresDeviceIdle(true)
 			.build()
 
-		val cleanCache =
-			PeriodicWorkRequestBuilder<CleanUpWorker>(interval.toJavaDuration())
+		// TODO: Use variable time durations
+		val periodicWork =
+			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
 				.setConstraints(constraints)
+				.setInputData(CleanUpWorker::class.delegatedData())
 				.build()
 
-		workManager.enqueueUniquePeriodicWork(TAG, ExistingPeriodicWorkPolicy.REPLACE, cleanCache)
-		Log.d(
-			TAG,
-			"periodic: Scheduled periodic task and will be executed in every ${interval.inWholeHours} hours"
-		)
+		val forceWork =
+			OneTimeWorkRequestBuilder<DelegatingWorker>()
+				.setInputData(CleanUpWorker::class.delegatedData())
+				.build()
 	}
 
-	fun force(context: Context) {
-		val workManager = WorkManager.getInstance(context)
-		val cleanCache = OneTimeWorkRequestBuilder<CleanUpWorker>().build()
-		workManager.enqueueUniqueWork(
-			"$TAG.force",
-			ExistingWorkPolicy.APPEND_OR_REPLACE,
-			cleanCache
-		)
-		Log.d(TAG, "force: Started forced cache clean up")
+	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+		try {
+			Log.i(TAG, "doWork: Started Cleanup")
+			val context = applicationContext
+			context.deleteOldIcons()
+			context.deleteOldReleases()
+			context.deletePartialFiles()
+			context.deleteTemporaryFiles()
+			Result.success()
+		} catch (e: Exception) {
+			Log.e(TAG, "doWork: Failed to clean up", e)
+			Result.failure()
+		}
 	}
 }
 

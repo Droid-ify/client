@@ -10,51 +10,91 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
 import com.looker.core_common.Common
 import com.looker.core_common.cache.Cache
-import com.looker.droidify.content.Preferences
+import com.looker.core_common.debug
+import com.looker.core_datastore.UserPreferences
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.model.AutoSync
+import com.looker.core_datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.network.CoilDownloader
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.toJobNetworkType
+import com.looker.droidify.work.AutoSyncWorker
+import com.looker.droidify.work.AutoSyncWorker.SyncConditions
+import com.looker.droidify.work.CleanUpWorker
+import com.looker.droidify.work.DelegatingWorker
+import com.looker.droidify.work.delegatedData
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.android.HiltAndroidApp
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.toJavaDuration
 
+@HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
 
 	private val appScope = CoroutineScope(Dispatchers.IO)
+
+	@Inject
+	lateinit var userPreferenceRepository: UserPreferencesRepository
+
+	private val userPreferenceFlow get() = userPreferenceRepository.userPreferencesFlow
+	private val initialSetup
+		get() = flow { emit(userPreferenceRepository.fetchInitialPreferences()) }
 
 	override fun onCreate() {
 		super.onCreate()
 
 		val databaseUpdated = Database.init(this)
-		Preferences.init(this)
 		ProductPreferences.init(this)
 		RepositoryUpdater.init()
 		listenApplications()
-		listenPreferences()
+		updatePreference()
 
 		if (databaseUpdated) forceSyncAll()
-
-		Cache.cleanup(this)
-		updateSyncJob(false)
+		cleanUp()
 	}
 
 	override fun onTerminate() {
 		super.onTerminate()
 		appScope.cancel("Application Terminated")
+	}
+
+	private fun cleanUp() {
+		WorkManager.getInstance(this).apply {
+			enqueueUniquePeriodicWork(
+				CleanUpWorker.TAG,
+				ExistingPeriodicWorkPolicy.REPLACE,
+				CleanUpWorker.periodicWork
+			)
+		}
 	}
 
 	private fun listenApplications() {
@@ -95,31 +135,45 @@ class MainApplication : Application(), ImageLoaderFactory {
 		Database.InstalledAdapter.putAll(installedItems)
 	}
 
-	private fun listenPreferences() {
-		updateProxy()
-		var lastAutoSync = Preferences[Preferences.Key.AutoSync]
-		var lastUpdateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-		var lastLanguage = Preferences[Preferences.Key.Language]
-		appScope.launch(Dispatchers.Default) {
-			Preferences.subject.collect {
-				if (it == Preferences.Key.ProxyType || it == Preferences.Key.ProxyHost || it == Preferences.Key.ProxyPort) {
-					updateProxy()
-				} else if (it == Preferences.Key.AutoSync) {
-					val autoSync = Preferences[Preferences.Key.AutoSync]
-					if (lastAutoSync != autoSync) {
-						lastAutoSync = autoSync
-						updateSyncJob(true)
-					}
-				} else if (it == Preferences.Key.UpdateUnstable) {
-					val updateUnstable = Preferences[Preferences.Key.UpdateUnstable]
-					if (lastUpdateUnstable != updateUnstable) {
-						lastUpdateUnstable = updateUnstable
+	private fun updatePreference() {
+		appScope.launch {
+			initialSetup.collect { initialPreference ->
+				updateSyncJob(false, initialPreference.autoSync)
+				updateProxy(initialPreference)
+				var lastProxy = initialPreference.proxyType
+				var lastProxyPort = initialPreference.proxyPort
+				var lastProxyHost = initialPreference.proxyHost
+				var lastAutoSync = initialPreference.autoSync
+				var lastUnstableUpdate = initialPreference.unstableUpdate
+				var lastLanguage = initialPreference.language
+				var lastTheme = initialPreference.theme
+				userPreferenceFlow.collect { newPreference ->
+					if (
+						newPreference.proxyType != lastProxy
+						|| newPreference.proxyPort != lastProxyPort
+						|| newPreference.proxyHost != lastProxyHost
+					) {
+						lastProxy = newPreference.proxyType
+						lastProxyPort = newPreference.proxyPort
+						lastProxyHost = newPreference.proxyHost
+						updateProxy(newPreference)
+					} else if (lastUnstableUpdate != newPreference.unstableUpdate) {
+						lastUnstableUpdate = newPreference.unstableUpdate
 						forceSyncAll()
-					}
-				} else if (it == Preferences.Key.Language) {
-					val language = Preferences[Preferences.Key.Language]
-					if (language != lastLanguage) {
-						lastLanguage = language
+					} else if (lastAutoSync != newPreference.autoSync) {
+						lastAutoSync = newPreference.autoSync
+						updateSyncJob(true, lastAutoSync)
+					} else if (lastLanguage != newPreference.language) {
+						lastLanguage = newPreference.language
+						val refresh = Intent.makeRestartActivityTask(
+							ComponentName(
+								baseContext,
+								MainActivity::class.java
+							)
+						)
+						applicationContext.startActivity(refresh)
+					} else if (lastTheme != newPreference.theme) {
+						lastTheme = newPreference.theme
 						val refresh = Intent.makeRestartActivityTask(
 							ComponentName(
 								baseContext,
@@ -133,27 +187,36 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 	}
 
-	private fun updateSyncJob(force: Boolean) {
+	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
 		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+		val syncConditions = when (autoSync) {
+			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
+			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
+			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
+				networkType = NetworkType.UNMETERED,
+				pluggedIn = true
+			)
+			AutoSync.NEVER -> SyncConditions(
+				networkType = NetworkType.NOT_REQUIRED,
+				canSync = false
+			)
+		}
 		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
 		if (reschedule) {
-			val autoSync = Preferences[Preferences.Key.AutoSync]
 			when (autoSync) {
-				Preferences.AutoSync.Never -> {
-					jobScheduler.cancel(Common.JOB_ID_SYNC)
-				}
-				Preferences.AutoSync.Wifi, Preferences.AutoSync.Always -> {
-					val period = 12 * 60 * 60 * 1000L // 12 hours
-					val wifiOnly = autoSync == Preferences.AutoSync.Wifi
+				AutoSync.NEVER -> jobScheduler.cancel(Common.JOB_ID_SYNC)
+				else -> {
+					val period = 12.hours.inWholeMilliseconds
 					jobScheduler.schedule(JobInfo
 						.Builder(
 							Common.JOB_ID_SYNC,
 							ComponentName(this, SyncService.Job::class.java)
 						)
-						.setRequiredNetworkType(if (wifiOnly) JobInfo.NETWORK_TYPE_UNMETERED else JobInfo.NETWORK_TYPE_ANY)
+						.setRequiredNetworkType(syncConditions.toJobNetworkType())
 						.apply {
 							if (Android.sdk(26)) {
-								setRequiresBatteryNotLow(true)
+								setRequiresCharging(syncConditions.pluggedIn)
+								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
 							if (Android.sdk(24)) {
@@ -169,15 +232,48 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 	}
 
-	private fun updateProxy() {
-		val type = Preferences[Preferences.Key.ProxyType].proxyType
-		val host = Preferences[Preferences.Key.ProxyHost]
-		val port = Preferences[Preferences.Key.ProxyPort]
-		val socketAddress = when (type) {
-			Proxy.Type.DIRECT -> {
-				null
+	private fun updateSyncJobWorker(force: Boolean, autoSync: AutoSync) {
+		val syncConditions = when (autoSync) {
+			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
+			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
+			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
+				networkType = NetworkType.UNMETERED,
+				pluggedIn = true
+			)
+			AutoSync.NEVER -> SyncConditions(
+				networkType = NetworkType.NOT_REQUIRED,
+				canSync = false
+			)
+		}
+		val constraints = Constraints.Builder()
+			.setRequiresCharging(syncConditions.pluggedIn)
+			.setRequiredNetworkType(syncConditions.networkType)
+			.setRequiresBatteryNotLow(syncConditions.batteryNotLow)
+			.setRequiresStorageNotLow(true)
+			.build()
+		val periodicSync =
+			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
+				.setInputData(AutoSyncWorker::class.delegatedData())
+				.setConstraints(constraints)
+				.build()
+		WorkManager.getInstance(this).apply {
+			if (syncConditions.canSync) {
+				enqueueUniquePeriodicWork(
+					AutoSyncWorker.TAG,
+					if (force) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP,
+					periodicSync
+				)
 			}
-			Proxy.Type.HTTP, Proxy.Type.SOCKS -> {
+		}
+	}
+
+	private fun updateProxy(userPreferences: UserPreferences) {
+		val type = userPreferences.proxyType
+		val host = userPreferences.proxyHost
+		val port = userPreferences.proxyPort
+		val socketAddress = when (type) {
+			ProxyType.DIRECT -> null
+			ProxyType.HTTP, ProxyType.SOCKS -> {
 				try {
 					InetSocketAddress.createUnresolved(host, port)
 				} catch (e: Exception) {
@@ -186,7 +282,12 @@ class MainApplication : Application(), ImageLoaderFactory {
 				}
 			}
 		}
-		val proxy = socketAddress?.let { Proxy(type, socketAddress) }
+		val androidProxyType = when (type) {
+			ProxyType.DIRECT -> Proxy.Type.DIRECT
+			ProxyType.HTTP -> Proxy.Type.HTTP
+			ProxyType.SOCKS -> Proxy.Type.SOCKS
+		}
+		val proxy = socketAddress?.let { Proxy(androidProxyType, socketAddress) }
 		Downloader.proxy = proxy
 	}
 
@@ -209,17 +310,39 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	override fun newImageLoader(): ImageLoader {
 		return ImageLoader.Builder(this)
-			.callFactory(CoilDownloader.Factory(Cache.getImagesDir(this)))
+			.memoryCache {
+				MemoryCache.Builder(this)
+					.maxSizePercent(0.25)
+					.build()
+			}
+			.diskCache {
+				DiskCache.Builder()
+					.directory(Cache.getImagesDir(this))
+					.maxSizePercent(0.05)
+					.build()
+			}
 			.crossfade(true)
 			.build()
 	}
 }
 
 class ContextWrapperX(base: Context) : ContextWrapper(base) {
-	companion object {
-		fun wrap(context: Context): ContextWrapper {
-			val config = context.setLanguage()
-			return ContextWrapperX(context.createConfigurationContext(config))
-		}
+
+	@EntryPoint
+	@InstallIn(SingletonComponent::class)
+	interface CustomUserRepositoryInjector {
+		fun userPreferencesRepository(): UserPreferencesRepository
+	}
+
+	suspend fun wrap(context: Context): ContextWrapper {
+		val appContext = context.applicationContext
+		val hiltEntryPoint =
+			EntryPointAccessors.fromApplication(
+				appContext,
+				CustomUserRepositoryInjector::class.java
+			)
+		val language = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences().language
+		val config = context.setLanguage(language)
+		return ContextWrapperX(context.createConfigurationContext(config))
 	}
 }

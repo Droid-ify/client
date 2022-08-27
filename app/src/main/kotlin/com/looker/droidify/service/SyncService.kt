@@ -1,5 +1,6 @@
 package com.looker.droidify.service
 
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -7,36 +8,52 @@ import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
 import android.graphics.Color
-import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.looker.core_common.Common
 import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
+import com.looker.core_common.result.Result
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
 import com.looker.droidify.BuildConfig
-import com.looker.core_common.Common
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.core_common.result.Result
-import com.looker.droidify.utility.extension.Order
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 import kotlin.math.roundToInt
+import com.looker.core_common.R.string as stringRes
+import com.looker.core_common.R.style as styleRes
 
+@AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
+	private var lastUnstableUpdates = false
+
 	companion object {
+		private const val TAG = "SyncService"
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
 		private val mutableStateSubject = MutableSharedFlow<State>()
@@ -44,6 +61,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 		private val stateSubject = mutableStateSubject.asSharedFlow()
 		private val finishState = mutableFinishState.asSharedFlow()
+	}
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+	private val userPreferences get() = userPreferencesRepository.userPreferencesFlow
+	private val initialSetup = flow {
+		emit(userPreferencesRepository.fetchInitialPreferences())
 	}
 
 	private sealed class State {
@@ -79,6 +103,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			get() = finishState
 
 		private fun sync(ids: List<Long>, request: SyncRequest) {
+			Log.i(TAG, "Sync Started: ${request.name}")
 			val cancelledTask =
 				cancelCurrentTask { request == SyncRequest.FORCE && it.task?.repositoryId in ids }
 			cancelTasks { !it.manual && it.repositoryId in ids }
@@ -107,13 +132,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			if (repository.enabled) {
 				sync(listOf(repository.id), SyncRequest.FORCE)
 			}
-		}
-
-		fun cancelAuto(): Boolean {
-			val removed = cancelTasks { !it.manual }
-			val currentTask = cancelCurrentTask { it.task?.manual == false }
-			handleNextTask(currentTask?.hasUpdates == true)
-			return removed || currentTask != null
 		}
 
 		fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -149,6 +167,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				Database.RepositoryAdapter.markAsDeleted(repository.id)
 				true
 			}
+		}
+
+		fun cancelAuto(): Boolean {
+			val removed = cancelTasks { !it.manual }
+			val currentTask = cancelCurrentTask { it.task?.manual == false }
+			handleNextTask(currentTask?.hasUpdates == true)
+			return removed || currentTask != null
 		}
 	}
 
@@ -214,7 +239,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 				)
 				.setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
@@ -240,7 +265,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
 			.setSmallIcon(R.drawable.ic_sync)
 			.setColor(
-				ContextThemeWrapper(this, R.style.Theme_Main_Light)
+				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 			)
 			.addAction(
@@ -339,80 +364,132 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
-					val unstable = Preferences[Preferences.Key.UpdateUnstable]
-					val job = scope.launch {
-						val request = RepositoryUpdater
-							.update(
-								this@SyncService,
-								repository,
-								unstable
-							) { stage, progress, total ->
-								launch {
-									mutableStateSubject.emit(
-										State.Syncing(
-											repository.name,
-											stage,
-											progress,
-											total
+					scope.launch {
+						initialSetup.collect { initialPreference ->
+							handleFileDownload(
+								task = task,
+								initialState = initialState,
+								hasUpdates = hasUpdates,
+								unstableUpdates = initialPreference.unstableUpdate,
+								repository = repository
+							)
+							launch {
+								userPreferences.collect { newPreference ->
+									if (newPreference.unstableUpdate != lastUnstableUpdates) {
+										lastUnstableUpdates = newPreference.unstableUpdate
+										handleFileDownload(
+											task = task,
+											initialState = initialState,
+											hasUpdates = hasUpdates,
+											unstableUpdates = lastUnstableUpdates,
+											repository = repository
 										)
-									)
+									}
 								}
 							}
-						currentTask = null
-						when (request) {
-							Result.Loading -> {
-								mutableStateSubject.emit(State.Connecting(repository.name))
-							}
-							is Result.Error -> {
-								request.exception?.printStackTrace()
-								if (task.manual) showNotificationError(
-									repository,
-									request.exception as Exception
-								)
-								handleNextTask(request.data == true || hasUpdates)
-							}
-							is Result.Success -> handleNextTask(request.data || hasUpdates)
 						}
 					}
-					currentTask = CurrentTask(task, job, hasUpdates, initialState)
 				} else {
 					handleNextTask(hasUpdates)
 				}
 			} else if (started != Started.NO) {
-				if (hasUpdates && Preferences[Preferences.Key.UpdateNotify]) {
-					val job = scope.launch {
-						val products = withContext(Dispatchers.IO) {
-							Database.ProductAdapter
-								.query(
-									installed = true,
-									updates = true,
-									searchQuery = "",
-									section = ProductItem.Section.All,
-									order = Order.NAME,
-									signal = null
+				scope.launch {
+					initialSetup.collect { initialPreference ->
+						handleUpdates(
+							hasUpdates = hasUpdates,
+							notifyUpdates = initialPreference.notifyUpdate
+						)
+						launch {
+							userPreferences.collect { newPreferences ->
+								handleUpdates(
+									hasUpdates = hasUpdates,
+									notifyUpdates = newPreferences.notifyUpdate
 								)
-								.use {
-									it.asSequence().map(Database.ProductAdapter::transformItem)
-										.toList()
-								}
+							}
 						}
-						currentTask = null
-						handleNextTask(false)
-						val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-						if (!blocked && products.isNotEmpty()) {
-							displayUpdatesNotification(products)
-						}
-					}
-					currentTask = CurrentTask(null, job, true, State.Finishing)
-				} else {
-					scope.launch { mutableFinishState.emit(Unit) }
-					val needStop = started == Started.MANUAL
-					started = Started.NO
-					if (needStop) {
-						stopForeground(true)
-						stopSelf()
 					}
 				}
+			}
+		}
+	}
+
+	private suspend fun handleFileDownload(
+		task: Task,
+		initialState: State,
+		hasUpdates: Boolean,
+		unstableUpdates: Boolean,
+		repository: Repository
+	) {
+		val job = scope.launch {
+			val request = RepositoryUpdater
+				.update(
+					this@SyncService,
+					repository,
+					unstableUpdates
+				) { stage, progress, total ->
+					launch {
+						mutableStateSubject.emit(
+							State.Syncing(
+								repository.name,
+								stage,
+								progress,
+								total
+							)
+						)
+					}
+				}
+			currentTask = null
+			when (request) {
+				Result.Loading -> {
+					mutableStateSubject.emit(State.Connecting(repository.name))
+				}
+				is Result.Error -> {
+					request.exception?.printStackTrace()
+					if (task.manual) showNotificationError(
+						repository,
+						request.exception as Exception
+					)
+					handleNextTask(request.data == true || hasUpdates)
+				}
+				is Result.Success -> handleNextTask(request.data || hasUpdates)
+			}
+		}
+		currentTask = CurrentTask(task, job, hasUpdates, initialState)
+	}
+
+	private suspend fun handleUpdates(hasUpdates: Boolean, notifyUpdates: Boolean) {
+		if (hasUpdates && notifyUpdates) {
+			val job = scope.launch {
+				val products = withContext(Dispatchers.IO) {
+					Database.ProductAdapter
+						.query(
+							installed = true,
+							updates = true,
+							searchQuery = "",
+							section = ProductItem.Section.All,
+							order = SortOrder.NAME,
+							signal = null
+						)
+						.use {
+							it.asSequence().map(Database.ProductAdapter::transformItem)
+								.toList()
+						}
+				}
+				currentTask = null
+				handleNextTask(false)
+				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
+				if (!blocked && products.isNotEmpty()) {
+					displayUpdatesNotification(products)
+				}
+			}
+			currentTask = CurrentTask(null, job, true, State.Finishing)
+		} else {
+			scope.launch { mutableFinishState.emit(Unit) }
+			val needStop = started == Started.MANUAL
+			started = Started.NO
+			if (needStop) {
+				stopForeground(true)
+				stopSelf()
 			}
 		}
 	}
@@ -432,7 +509,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					)
 				)
 				.setColor(
-					ContextThemeWrapper(this, R.style.Theme_Main_Light)
+					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
 				)
 				.setContentIntent(
@@ -441,10 +518,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 						0,
 						Intent(this, MainActivity::class.java)
 							.setAction(MainActivity.ACTION_UPDATES),
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-							PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-						else
-							PendingIntent.FLAG_UPDATE_CURRENT
+						PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
 					)
 				)
 				.setStyle(NotificationCompat.InboxStyle().applyHack {
@@ -471,6 +545,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		)
 	}
 
+	@SuppressLint("SpecifyJobSchedulerIdRange")
 	class Job : JobService() {
 		private val jobScope = CoroutineScope(Dispatchers.Default)
 		private var syncParams: JobParameters? = null

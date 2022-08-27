@@ -9,10 +9,7 @@ import com.looker.core_common.hex
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
-import com.looker.core_common.BuildConfig
-import com.looker.core_common.Common.PREFS_LANGUAGE_DEFAULT
 import com.looker.droidify.R
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
@@ -120,37 +117,20 @@ object Utils {
 		}
 	}
 
-	fun Context.setLanguage(): Configuration {
-		var setLocalCode = Preferences[Preferences.Key.Language]
-		if (setLocalCode == PREFS_LANGUAGE_DEFAULT) {
-			setLocalCode = Locale.getDefault().toString()
-		}
+	fun Context.setLanguage(language: String): Configuration {
 		val config = resources.configuration
-		val sysLocale = if (Android.sdk(24)) config.locales[0] else config.locale
-		if (setLocalCode != sysLocale.toString() || setLocalCode != "${sysLocale.language}-r${sysLocale.country}") {
-			val newLocale = getLocaleOfCode(setLocalCode)
+		if (language != "system") {
+			val newLocale = getLocaleOfCode(language)
 			Locale.setDefault(newLocale)
 			config.setLocale(newLocale)
+		} else {
+			val locale = Locale.getDefault()
+			config.setLocale(locale)
 		}
 		return config
 	}
 
-	val languagesList: List<String>
-		get() {
-			val entryVals = arrayOfNulls<String>(1)
-			entryVals[0] = PREFS_LANGUAGE_DEFAULT
-			return entryVals.plus(BuildConfig.DETECTED_LOCALES.sorted()).filterNotNull()
-		}
-
-	fun translateLocale(locale: Locale): String {
-		val country = locale.getDisplayCountry(locale)
-		val language = locale.getDisplayLanguage(locale)
-		return (language.replaceFirstChar { it.uppercase(Locale.getDefault()) }
-				+ (if (country.isNotEmpty() && country.compareTo(language, true) != 0)
-			"($country)" else ""))
-	}
-
-	fun Context.getLocaleOfCode(localeCode: String): Locale = when {
+	private fun Context.getLocaleOfCode(localeCode: String): Locale = when {
 		localeCode.isEmpty() -> if (Android.sdk(24)) {
 			resources.configuration.locales[0]
 		} else {

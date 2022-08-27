@@ -3,6 +3,8 @@ plugins {
 	id("org.jetbrains.kotlin.android")
 	id("com.google.devtools.ksp") version Version.ksp
 	kotlin("plugin.serialization") version Version.kotlin
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -12,8 +14,6 @@ android {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
 
-		consumerProguardFiles("consumer-rules.pro")
-
 		ksp {
 			arg("room.schemaLocation", "$projectDir/schemas")
 		}
@@ -22,10 +22,7 @@ android {
 	buildTypes {
 		release {
 			isMinifyEnabled = true
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro"
-			)
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
 	}
 	compileOptions {
@@ -44,4 +41,7 @@ dependencies {
 	implementation(Room.roomRuntime)
 	implementation(Room.roomKtx)
 	ksp(Room.roomCompiler)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }

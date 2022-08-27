@@ -1,8 +1,8 @@
-import com.android.build.gradle.internal.tasks.factory.dependsOn
-
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -25,6 +25,8 @@ android {
 	}
 
 	compileOptions {
+		isCoreLibraryDesugaringEnabled = true
+
 		sourceCompatibility = JavaVersion.VERSION_1_8
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
@@ -56,7 +58,6 @@ android {
 			excludes += Excludes.listExclude
 		}
 	}
-
 	buildFeatures {
 		viewBinding = true
 	}
@@ -64,20 +65,19 @@ android {
 
 dependencies {
 
+	coreLibraryDesugaring(AndroidX.desugar)
+
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatastore))
+	implementation(project(Modules.featureSettings))
 	implementation(project(Modules.installer))
 
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
+
 	implementation(AndroidX.appCompat)
-
-	implementation(AndroidX.fragment)
-	implementation(AndroidX.activity)
 	implementation(AndroidX.preference)
-	implementation(Lifecycle.runtime)
-
 	implementation(AndroidX.material)
 
 	implementation(Coil.coil)
@@ -85,15 +85,23 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
+	implementation(Hilt.android)
+	implementation(Hilt.work)
+	kapt(Hilt.compiler)
+	kapt(Hilt.androidX)
+
+	implementation(Jackson.core)
+
+	implementation(Lifecycle.fragment)
+	implementation(Lifecycle.activity)
+	implementation(Lifecycle.runtime)
+
 	implementation(OkHttp.okhttp)
+
+	implementation(Others.fastScroller)
 
 	implementation(RxJava.android)
 	implementation(RxJava.rxjava)
 
-	implementation(Jackson.core)
-
-	implementation(Others.fastScroller)
-
-	// WorkManager
 	implementation(Work.manager)
 }

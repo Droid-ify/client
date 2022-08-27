@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
+import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.text.style.BulletSpan
 import android.text.style.ClickableSpan
@@ -22,6 +23,7 @@ import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
 import android.text.style.URLSpan
 import android.text.util.Linkify
+import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -53,9 +55,6 @@ import com.looker.core_model.Product
 import com.looker.core_model.Release
 import com.looker.core_model.Repository
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
 import com.looker.droidify.utility.PackageItemResolver
@@ -76,6 +75,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
+import com.looker.core_common.R.drawable as drawableRes
+import com.looker.core_common.R.string as stringRes
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
 	StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -493,6 +494,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+		val dateFormat = DateFormat.getDateFormat(itemView.context)!!
+
 		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
 		val status = itemView.findViewById<MaterialTextView>(R.id.installation_status)!!
 		val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
@@ -558,7 +561,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	fun setProducts(
 		context: Context, packageName: String,
-		products: List<Pair<Product, Repository>>, installedItem: InstalledItem?,
+		products: List<Pair<Product, Repository>>,
+		installedItem: InstalledItem?,
+		incompatible: Boolean
 	) {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
@@ -827,7 +832,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 		}
 
-		val incompatible = Preferences[Preferences.Key.IncompatibleVersions]
 		val compatibleReleasePairs = products.asSequence()
 			.flatMap { (product, repository) ->
 				product.releases.asSequence()
@@ -1100,10 +1104,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 								else holder.actionTintOnNormal
 							)
 						}
-						if (Android.sdk(22)) {
-							backgroundTintList = if (action == Action.CANCEL)
-								holder.actionTintCancel else holder.actionTintNormal
-						}
+						backgroundTintList = if (action == Action.CANCEL)
+							holder.actionTintCancel else holder.actionTintNormal
 						iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
 						else holder.actionTintOnNormal
 					}
@@ -1254,11 +1256,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				val packageManager = context.packageManager
 				holder.icon.setImageDrawable(
 					if (item.group != null && item.group.icon != 0) {
-						if (Android.sdk(22)) {
-							item.group.loadUnbadgedIcon(packageManager)
-						} else {
-							item.group.loadIcon(packageManager)
-						}
+						item.group.loadUnbadgedIcon(packageManager)
 					} else {
 						null
 					} ?: context.getDrawableCompat(drawableRes.ic_perm_device_information)
@@ -1361,10 +1359,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.source.text =
 					context.getString(stringRes.provided_by_FORMAT, item.repository.name)
-				holder.added.text = LocalDateTime.ofInstant(
-					Instant.ofEpochMilli(item.release.added),
-					TimeZone.getDefault().toZoneId()
-				).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+				val dateFormat = try {
+					LocalDateTime.ofInstant(
+						Instant.ofEpochMilli(item.release.added),
+						TimeZone.getDefault().toZoneId()
+					).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+				} catch (e: Exception) {
+					Log.e(
+						"AppDetailAdapter",
+						"onBindViewHolder: Date cannot be formatted locally",
+						e
+					)
+					e.printStackTrace()
+					holder.dateFormat.format(item.release.added)
+				}
+				holder.added.text = dateFormat
 				holder.size.text = item.release.size.formatSize()
 				holder.signature.visibility =
 					if (item.showSignature && item.release.signature.isNotEmpty())

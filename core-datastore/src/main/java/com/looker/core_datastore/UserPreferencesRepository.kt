@@ -18,7 +18,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.io.IOException
-import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
@@ -28,7 +27,6 @@ import kotlin.time.Duration.Companion.hours
 data class UserPreferences(
 	val language: String,
 	val incompatibleVersions: Boolean,
-	val listAnimation: Boolean,
 	val notifyUpdate: Boolean,
 	val unstableUpdate: Boolean,
 	val theme: Theme,
@@ -53,7 +51,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private object PreferencesKeys {
 		val LANGUAGE = stringPreferencesKey("key_language")
 		val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
-		val LIST_ANIMATION = booleanPreferencesKey("key_list_animation")
 		val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
 		val UNSTABLE_UPDATES = booleanPreferencesKey("key_unstable_updates")
 		val THEME = stringPreferencesKey("key_theme")
@@ -88,13 +85,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	suspend fun enableIncompatibleVersion(enable: Boolean) {
 		PreferencesKeys.INCOMPATIBLE_VERSIONS.update(enable)
-	}
-
-	/**
-	 * Animation for Items in List
-	 */
-	suspend fun enableListAnimation(enable: Boolean) {
-		PreferencesKeys.LIST_ANIMATION.update(enable)
 	}
 
 	/**
@@ -183,9 +173,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 * Maps [Preferences] to [UserPreferences]
 	 */
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		val language = preferences[PreferencesKeys.LANGUAGE] ?: Locale.getDefault().language
+		val language = preferences[PreferencesKeys.LANGUAGE] ?: "system"
 		val incompatibleVersions = preferences[PreferencesKeys.INCOMPATIBLE_VERSIONS] ?: false
-		val listAnimation = preferences[PreferencesKeys.LIST_ANIMATION] ?: false
 		val notifyUpdate = preferences[PreferencesKeys.NOTIFY_UPDATES] ?: true
 		val unstableUpdate = preferences[PreferencesKeys.UNSTABLE_UPDATES] ?: false
 		val theme = Theme.valueOf(
@@ -195,7 +184,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			preferences[PreferencesKeys.INSTALLER_TYPE] ?: InstallerType.SESSION.name
 		)
 		val autoSync = AutoSync.valueOf(
-			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.ALWAYS.name
+			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name
 		)
 		val sortOrder = SortOrder.valueOf(
 			preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.UPDATED.name
@@ -211,7 +200,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		return UserPreferences(
 			language = language,
 			incompatibleVersions = incompatibleVersions,
-			listAnimation = listAnimation,
 			notifyUpdate = notifyUpdate,
 			unstableUpdate = unstableUpdate,
 			theme = theme,

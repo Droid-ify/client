@@ -20,6 +20,8 @@
     <string name="changelog">Changelog</string>
     <string name="changes">Changes</string>
     <string name="checking_repository">Checking repository…</string>
+    <string name="cleanup_title">Clean up duration</string>
+    <string name="cleanup_description">Time required for cleanup to recheck</string>
     <string name="compiled_for_debugging">Compiled for debugging</string>
     <string name="confirmation">Confirmation</string>
     <string name="connecting">Connecting…</string>
@@ -29,6 +31,10 @@
     <string name="could_not_validate_FORMAT">Could not validate %s</string>
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
+    <plurals name="days">
+        <item quantity="one">Day</item>
+        <item quantity="other">Days</item>
+    </plurals>
     <string name="delete">Delete</string>
     <string name="delete_repository_DESC">Delete the repository?</string>
     <string name="description">Description</string>
@@ -43,6 +49,10 @@
     <string name="has_advertising">Has advertising</string>
     <string name="has_non_free_dependencies">Has non-free dependencies</string>
     <string name="has_security_vulnerabilities">Has security vulnerabilities</string>
+    <plurals name="hours">
+        <item quantity="one">Hour</item>
+        <item quantity="other">Hours</item>
+    </plurals>
     <string name="http_error_DESC">Invalid server response.</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Ignore all new versions</string>

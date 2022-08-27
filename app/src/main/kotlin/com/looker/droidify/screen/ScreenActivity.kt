@@ -12,15 +12,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.nullIfEmpty
+import com.looker.core_datastore.UserPreferences
+import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.extension.getThemeRes
 import com.looker.droidify.R
-import com.looker.droidify.content.Preferences
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
-import com.looker.droidify.ui.settings.SettingsFragment
+import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
+import com.looker.feature_settings.SettingsFragment
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
 	companion object {
 		private const val STATE_FRAGMENT_STACK = "fragmentStack"
@@ -30,6 +41,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 		object Updates : SpecialIntent()
 		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent()
 	}
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -70,10 +84,41 @@ abstract class ScreenActivity : AppCompatActivity() {
 			return supportFragmentManager.findFragmentById(R.id.main_content)
 		}
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		setTheme(Preferences[Preferences.Key.Theme].getResId(resources.configuration))
-		super.onCreate(savedInstanceState)
+	@EntryPoint
+	@InstallIn(SingletonComponent::class)
+	interface CustomUserRepositoryInjector {
+		fun userPreferencesRepository(): UserPreferencesRepository
+	}
 
+	private fun collectChange() {
+		lifecycleScope.launch {
+			val activityContext = this@ScreenActivity
+			val hiltEntryPoint =
+				EntryPointAccessors.fromApplication(
+					activityContext,
+					CustomUserRepositoryInjector::class.java
+				)
+			flow {
+				emit(hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences())
+			}.collect {
+				setConfig(it)
+				launch {
+					hiltEntryPoint.userPreferencesRepository().userPreferencesFlow.collect {
+						setConfig(it)
+					}
+				}
+			}
+		}
+	}
+
+	private fun setConfig(userPreferences: UserPreferences) {
+		val config = resources.configuration
+		setTheme(config.getThemeRes(userPreferences.theme))
+	}
+
+	override fun onCreate(savedInstanceState: Bundle?) {
+		collectChange()
+		super.onCreate(savedInstanceState)
 		addContentView(
 			FrameLayout(this).apply { id = R.id.main_content },
 			ViewGroup.LayoutParams(
@@ -220,7 +265,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 				if (!packageName.isNullOrEmpty()) {
 					lifecycleScope.launch {
 						specialIntent.cacheFileName?.let {
-							packageName.installApk(this@ScreenActivity, it)
+							val installerType =
+								userPreferencesRepository.fetchInitialPreferences().installerType
+							packageName.installApk(this@ScreenActivity, it, installerType)
 						}
 					}
 				}
@@ -245,7 +292,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	internal fun navigateProduct(packageName: String) = pushFragment(AppDetailFragment(packageName))
 	internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
-	internal fun navigatePreferences() = pushFragment(SettingsFragment())
+	internal fun navigatePreferences() = pushFragment(SettingsFragment.newInstance())
 	internal fun navigateAddRepository() = pushFragment(EditRepositoryFragment(null))
 	internal fun navigateRepository(repositoryId: Long) =
 		pushFragment(RepositoryFragment(repositoryId))

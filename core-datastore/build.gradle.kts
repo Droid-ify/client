@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -9,17 +11,12 @@ android {
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
-
-		consumerProguardFiles("consumer-rules.pro")
 	}
 
 	buildTypes {
 		release {
 			isMinifyEnabled = true
-			proguardFiles(
-				getDefaultProguardFile("proguard-android-optimize.txt"),
-				"proguard-rules.pro"
-			)
+			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
 	}
 	compileOptions {
@@ -32,8 +29,12 @@ android {
 }
 
 dependencies {
+	implementation(project(Modules.coreCommon))
 	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 	api(Datastore.datastore)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }

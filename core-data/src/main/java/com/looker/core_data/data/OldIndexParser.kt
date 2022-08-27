@@ -1,25 +1,14 @@
 package com.looker.core_data.data
 
 import android.os.Build
-import com.looker.core_data.IndexParser
-import com.looker.core_data.IndexParser.Companion.validateIcon
 import com.looker.core_data.ParserCallback
 import com.looker.core_database.model.Apk
 import com.looker.core_database.model.App
 import kotlinx.coroutines.runBlocking
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.*
-
-class OldIndexParser : IndexParser<DefaultHandler> {
-	override suspend fun parseIndex(
-		repoId: Long,
-		inputStream: InputStream,
-		parserCallback: ParserCallback
-	): DefaultHandler = LegacyIndexHandler(repoId, parserCallback)
-}
 
 internal class LegacyIndexHandler(
 	private val repoId: Long,
@@ -27,6 +16,10 @@ internal class LegacyIndexHandler(
 ) : DefaultHandler() {
 
 	companion object {
+		internal fun validateIcon(icon: String): String {
+			return if (icon.endsWith(".xml")) "" else icon
+		}
+
 		private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
 			.apply { timeZone = TimeZone.getTimeZone("UTC") }
 
