@@ -13,7 +13,7 @@ object Core {
 }
 
 object Coil {
-	private const val coilVersion = "2.1.0"
+	private const val coilVersion = "2.2.0"
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
@@ -59,7 +59,7 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0-RC"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
 }
 
 object Ktor {
