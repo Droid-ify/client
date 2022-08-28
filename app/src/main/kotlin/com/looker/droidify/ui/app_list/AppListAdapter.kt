@@ -10,7 +10,6 @@ import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.transform.RoundedCornersTransformation
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.textview.MaterialTextView
@@ -26,7 +25,6 @@ import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.utility.extension.resources.setTextSizeScaled
 import com.looker.droidify.utility.extension.resources.sizeScaled
-import com.looker.droidify.utility.extension.resources.toPx
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
@@ -154,7 +152,6 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 						)
 					}
 				) {
-					transformations(RoundedCornersTransformation(4.toPx))
 					placeholder(holder.progressIcon)
 					error(holder.defaultIcon)
 				}
