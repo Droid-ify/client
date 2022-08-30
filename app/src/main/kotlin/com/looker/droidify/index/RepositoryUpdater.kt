@@ -144,8 +144,8 @@ object RepositoryUpdater {
 						}
 					}
 					else -> {
-						Result.Success(
-							processFile(
+						try {
+							val data = processFile(
 								context = context,
 								repository = repository,
 								indexType = indexType,
@@ -155,7 +155,15 @@ object RepositoryUpdater {
 								entityTag = result.entityTag,
 								callback = callback
 							)
-						)
+							Result.Success(data)
+						} catch (e: Exception) {
+							Result.Error(
+								UpdateException(
+									ErrorType.PARSING,
+									e.message.toString()
+								)
+							)
+						}
 					}
 				}
 			}
