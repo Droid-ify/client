@@ -1,5 +1,6 @@
 package com.looker.feature_settings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,7 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core_common.BuildConfig
+import com.looker.core_common.BuildConfig as LocaleConfig
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.extension.autoSyncName
 import com.looker.core_datastore.extension.installerName
@@ -52,6 +53,7 @@ class SettingsFragment : Fragment() {
 	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
+	@SuppressLint("SetTextI18n")
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -77,7 +79,7 @@ class SettingsFragment : Fragment() {
 			creditFoxy.title.text = "Based on Foxy Droid"
 			creditFoxy.content.text = "FoxyDroid"
 			droidify.title.text = "Droid-ify"
-			droidify.content.text = "v0.4.8"
+			droidify.content.text = BuildConfig.VERSION_NAME
 		}
 		lifecycleScope.launch {
 			viewModel.initialSetup.collect {
@@ -210,7 +212,7 @@ class SettingsFragment : Fragment() {
 
 	private val languageList: List<String>
 		get() {
-			val list = BuildConfig.DETECTED_LOCALES.toMutableList()
+			val list = LocaleConfig.DETECTED_LOCALES.toMutableList()
 			list.add(0, "system")
 			return list
 		}

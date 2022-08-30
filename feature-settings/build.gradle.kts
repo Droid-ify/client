@@ -18,6 +18,18 @@ android {
 			isMinifyEnabled = true
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
+		all {
+			buildConfigField(
+				type = "String",
+				name = "VERSION_NAME",
+				value = "\"v${Android.versionName}\""
+			)
+			buildConfigField(
+				type = "int",
+				name = "VERSION_CODE",
+				value = "${Android.versionCode}"
+			)
+		}
 	}
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_1_8
