@@ -1232,6 +1232,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.TEXT -> {
 				holder as TextViewHolder
 				item as Item.TextItem
+				holder.text.setTextIsSelectable(true)
 				holder.text.text = item.text
 			}
 			ViewType.LINK -> {
