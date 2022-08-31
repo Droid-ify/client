@@ -60,6 +60,7 @@ object Jackson {
 
 object Kotlin {
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
 object Ktor {

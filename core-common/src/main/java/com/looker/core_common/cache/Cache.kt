@@ -14,6 +14,9 @@ import android.system.Os
 import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.seconds
 
 object Cache {
 
@@ -85,31 +88,31 @@ object Cache {
 		thread {
 			cleanup(
 				context,
-				Pair(IMAGES_DIR, 0),
-				Pair(PARTIAL_DIR, 24),
-				Pair(RELEASE_DIR, 24),
-				Pair(TEMP_DIR, 1)
+				Pair(IMAGES_DIR, 0.seconds),
+				Pair(PARTIAL_DIR, 24.hours),
+				Pair(RELEASE_DIR, 24.hours),
+				Pair(TEMP_DIR, 1.hours)
 			)
 		}
 	}
 
-	private fun cleanup(context: Context, vararg dirHours: Pair<String, Int>) {
+	private fun cleanup(context: Context, vararg dirHours: Pair<String, Duration>) {
 		val knownNames = dirHours.asSequence().map { it.first }.toSet()
 		val files = context.cacheDir.listFiles().orEmpty()
 		files.asSequence().filter { it.name !in knownNames }.forEach {
 			if (it.isDirectory) {
-				cleanupDir(it, 0)
+				cleanupDir(it, Duration.ZERO)
 				it.delete()
 			} else {
 				it.delete()
 			}
 		}
-		dirHours.forEach { (name, hours) ->
-			if (hours > 0) {
+		dirHours.forEach { (name, duration) ->
+			if (duration > Duration.ZERO) {
 				val file = File(context.cacheDir, name)
 				if (file.exists()) {
 					if (file.isDirectory) {
-						cleanupDir(file, hours)
+						cleanupDir(file, duration)
 					} else {
 						file.delete()
 					}
@@ -118,10 +121,10 @@ object Cache {
 		}
 	}
 
-	private fun cleanupDir(dir: File, hours: Int) {
+	private fun cleanupDir(dir: File, duration: Duration) {
 		dir.listFiles()?.forEach {
-			val older = hours <= 0 || run {
-				val olderThan = System.currentTimeMillis() / 1000L - hours * 60 * 60
+			val older = duration <= Duration.ZERO || run {
+				val olderThan = System.currentTimeMillis() / 1000L - duration.inWholeSeconds
 				try {
 					val stat = Os.lstat(it.path)
 					stat.st_atime < olderThan
@@ -131,7 +134,7 @@ object Cache {
 			}
 			if (older) {
 				if (it.isDirectory) {
-					cleanupDir(it, hours)
+					cleanupDir(it, duration)
 					if (it.isDirectory) {
 						it.delete()
 					}

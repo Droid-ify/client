@@ -8,10 +8,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.looker.core_common.file.deleteOldIcons
-import com.looker.core_common.file.deleteOldReleases
-import com.looker.core_common.file.deletePartialFiles
-import com.looker.core_common.file.deleteTemporaryFiles
+import com.looker.core_common.cache.Cache
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -49,10 +46,7 @@ class CleanUpWorker @AssistedInject constructor(
 		try {
 			Log.i(TAG, "doWork: Started Cleanup")
 			val context = applicationContext
-			context.deleteOldIcons()
-			context.deleteOldReleases()
-			context.deletePartialFiles()
-			context.deleteTemporaryFiles()
+			Cache.cleanup(context)
 			Result.success()
 		} catch (e: Exception) {
 			Log.e(TAG, "doWork: Failed to clean up", e)

@@ -21,7 +21,6 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core_common.Common
 import com.looker.core_common.cache.Cache
-import com.looker.core_common.debug
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.AutoSync
