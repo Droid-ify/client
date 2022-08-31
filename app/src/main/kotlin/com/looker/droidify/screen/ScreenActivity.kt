@@ -1,6 +1,7 @@
 package com.looker.droidify.screen
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.looker.core_common.R as styleR
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
@@ -149,6 +151,8 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) window.navigationBarColor =
+			resources.getColor(styleR.color.pitch_black, theme)
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {
