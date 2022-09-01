@@ -184,4 +184,13 @@
     <string name="root_installer">Root 安装器</string>
     <string name="shizuku_installer">Shizuku 安装器</string>
     <string name="new_applications">新应用</string>
+    <plurals name="days">
+        <item quantity="other">天</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">仅在连接 Wi-Fi 和充电时</string>
+    <string name="cleanup_title">清理持续时间</string>
+    <string name="cleanup_description">清理重新检查所需的时间</string>
+    <plurals name="hours">
+        <item quantity="other">小时</item>
+    </plurals>
 </resources>
