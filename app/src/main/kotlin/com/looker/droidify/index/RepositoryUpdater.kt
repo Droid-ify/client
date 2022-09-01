@@ -156,13 +156,8 @@ object RepositoryUpdater {
 								callback = callback
 							)
 							Result.Success(data)
-						} catch (e: Exception) {
-							Result.Error(
-								UpdateException(
-									ErrorType.PARSING,
-									e.message.toString()
-								)
-							)
+						} catch (e: UpdateException) {
+							Result.Error(e)
 						}
 					}
 				}
