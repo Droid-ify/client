@@ -136,7 +136,7 @@
     <string name="suggested">Sugerencias</string>
     <string name="sync_repositories">Sincronizar repositorios</string>
     <string name="sync_repositories_automatically">Sincronización automática de repositorios</string>
-    <string name="syncing">Sincronizando</string>
+    <string name="syncing">Sincronización</string>
     <string name="syncing_FORMAT">Sincronizando %s…</string>
     <string name="system">Sistema</string>
     <string name="tap_to_install_DESC">Pulsa para instalar.</string>
