@@ -47,7 +47,7 @@ fun Context?.autoSyncName(autoSync: AutoSync) = this?.let {
 	when (autoSync) {
 		AutoSync.NEVER -> getString(stringRes.never)
 		AutoSync.WIFI_ONLY -> getString(stringRes.only_on_wifi)
-		AutoSync.WIFI_PLUGGED_IN -> getString(stringRes.only_on_wifi)
+		AutoSync.WIFI_PLUGGED_IN -> getString(stringRes.only_on_wifi_with_charging)
 		AutoSync.ALWAYS -> getString(stringRes.always)
 	}
 } ?: ""
