@@ -184,4 +184,17 @@
     <string name="root_installer">Root інсталятор</string>
     <string name="shizuku_installer">Shizuku інсталятор</string>
     <string name="session_installer">Сесійний інсталятор</string>
+    <plurals name="hours">
+        <item quantity="one">Година</item>
+        <item quantity="few">Години</item>
+        <item quantity="many">Годин</item>
+        <item quantity="other">Годин</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">День</item>
+        <item quantity="few">Дні</item>
+        <item quantity="many">Днів</item>
+        <item quantity="other">Днів</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Тільки при Wi-Fi та зарядці</string>
 </resources>
