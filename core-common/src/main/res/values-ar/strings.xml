@@ -186,4 +186,23 @@
     <string name="installed_applications">التطبيقات المثبتة</string>
     <string name="sort_filter">الفرز والتصفية</string>
     <string name="new_applications">تطبيقات جديدة</string>
+    <string name="cleanup_description">الوقت المطلوب للتنظيف لإعادة الفحص</string>
+    <string name="cleanup_title">مدة التنظيف</string>
+    <plurals name="days">
+        <item quantity="zero">يوم</item>
+        <item quantity="one">يوم</item>
+        <item quantity="two">يوم</item>
+        <item quantity="few">ايام</item>
+        <item quantity="many">ايام</item>
+        <item quantity="other">يوم</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="zero">ساعة</item>
+        <item quantity="one">ساعة</item>
+        <item quantity="two">ساعة</item>
+        <item quantity="few">ساعات</item>
+        <item quantity="many">ساعات</item>
+        <item quantity="other">ساعة</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">فقط على شبكة Wi-Fi وعند الشحن</string>
 </resources>
