@@ -86,6 +86,7 @@
     <string name="new_updates_available">Nuove versioni di applicazioni disponibili</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d applicazione ha una nuova versione.</item>
+        <item quantity="many">%d applicazioni con nuove versioni.</item>
         <item quantity="other">%d applicazioni hanno una nuova versione.</item>
     </plurals>
     <string name="no_applications_available">Nessuna applicazione disponibile</string>
@@ -185,4 +186,17 @@
     <string name="session_installer">Installatore di sessione</string>
     <string name="legacy_installer">Installatore legacy</string>
     <string name="root_installer">Installatore root</string>
+    <string name="cleanup_description">Tempo necessario per la pulizia e il ricontrollo</string>
+    <plurals name="days">
+        <item quantity="one">Giorno</item>
+        <item quantity="many">Giorni</item>
+        <item quantity="other">Giorni</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Ora</item>
+        <item quantity="many">Ore</item>
+        <item quantity="other">Ore</item>
+    </plurals>
+    <string name="cleanup_title">Durata della pulizia</string>
+    <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
 </resources>
