@@ -181,4 +181,13 @@
     <string name="prefs_personalization">個性化</string>
     <string name="show_less">顯示較少程式</string>
     <string name="installer">安裝程式</string>
+    <string name="cleanup_title">清理时间</string>
+    <string name="cleanup_description">清理到复查所需时间</string>
+    <plurals name="hours">
+        <item quantity="other">小时</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="other">天数</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">仅在Wi-Fi和充电方面</string>
 </resources>
