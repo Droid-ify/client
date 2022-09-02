@@ -183,4 +183,15 @@
     <string name="session_installer">Oturum Kurucusu</string>
     <string name="root_installer">Root Kurucusu</string>
     <string name="shizuku_installer">Shizuku Kurucusu</string>
+    <string name="cleanup_title">Temizleme süresi</string>
+    <plurals name="days">
+        <item quantity="one">Gün</item>
+        <item quantity="other">Günler</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Sadece Wi-Fi açık ve Şarj Olurken</string>
+    <string name="cleanup_description">Temizleme işleminin yeniden kontrolü için gereken süre</string>
+    <plurals name="hours">
+        <item quantity="one">Saat</item>
+        <item quantity="other">Saatler</item>
+    </plurals>
 </resources>
