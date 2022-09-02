@@ -182,4 +182,15 @@
     <string name="session_installer">Sessioasentaja</string>
     <string name="root_installer">Root-asentaja</string>
     <string name="shizuku_installer">Shizuku-asentaja</string>
+    <string name="cleanup_title">Puhdistamisen kesto</string>
+    <string name="cleanup_description">Puhdistukseen kuluva aika uudelleentarkastukseen</string>
+    <plurals name="days">
+        <item quantity="one">Päivä</item>
+        <item quantity="other">Päivät</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Tunnin</item>
+        <item quantity="other">Tunnit</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Ainoastaan Wi-Fi ja lataus</string>
 </resources>
