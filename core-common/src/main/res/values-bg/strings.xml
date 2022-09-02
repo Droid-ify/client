@@ -182,4 +182,15 @@
     <string name="session_installer">Session Инсталатор</string>
     <string name="root_installer">Root Инсталатор</string>
     <string name="shizuku_installer">Shizuku Инсталатор</string>
+    <plurals name="days">
+        <item quantity="one">Ден</item>
+        <item quantity="other">Дни</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Само при Wi-Fi и зареждане</string>
+    <string name="cleanup_title">Продължителност на почистването</string>
+    <string name="cleanup_description">Време, необходимо за повторна проверка на почистването</string>
+    <plurals name="hours">
+        <item quantity="one">Час</item>
+        <item quantity="other">Часове</item>
+    </plurals>
 </resources>
