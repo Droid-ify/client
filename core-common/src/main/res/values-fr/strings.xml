@@ -44,8 +44,9 @@
     <string name="open_DESC_FORMAT">Ouvrir %s \?</string>
     <string name="ok">OK</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d application a une nouvelle version.</item>
-        <item quantity="other">%d applications ont une nouvelle version.</item>
+        <item quantity="one">L\'application %d a une nouvelle version.</item>
+        <item quantity="many">%d applications avec de nouvelles versions.</item>
+        <item quantity="other">%d applications avec de nouvelles versions.</item>
     </plurals>
     <string name="no_applications_available">Aucune application disponible</string>
     <string name="links">Liens</string>
@@ -182,4 +183,17 @@
     <string name="installer">Installateur</string>
     <string name="root_installer">Installateur racine</string>
     <string name="shizuku_installer">Installateur Shizuku</string>
+    <string name="cleanup_title">Durée de nettoyage</string>
+    <string name="cleanup_description">Temps nécessaire au nettoyage pour revérifier</string>
+    <plurals name="days">
+        <item quantity="one">Jour</item>
+        <item quantity="many">Journées</item>
+        <item quantity="other">Journées</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Heure</item>
+        <item quantity="many">Heures</item>
+        <item quantity="other">Heures</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Uniquement sur Wi-Fi et charge</string>
 </resources>
