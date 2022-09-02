@@ -186,5 +186,11 @@
         <item quantity="other">Stunden</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Nur während des Ladevorgangs und aktiviertem WLAN</string>
-    <string name="installer">Installer</string>
+    <string name="installer">Errichter</string>
+    <string name="cleanup_description">Erforderliche Zeit für die Bereinigung bis zur erneuten Prüfung</string>
+    <string name="cleanup_title">Dauer der Säuberung</string>
+    <string name="root_installer">Wurzel-Installateur</string>
+    <string name="legacy_installer">Älteres Installationsprogramm</string>
+    <string name="session_installer">Sitzung Installateur</string>
+    <string name="shizuku_installer">Shizuku-Installer</string>
 </resources>
