@@ -187,4 +187,17 @@
     <string name="session_installer">Сессионный установщик</string>
     <string name="cleanup_description">Время, необходимое для очистки до повторной проверки</string>
     <string name="cleanup_title">Продолжительность очистки</string>
+    <plurals name="days">
+        <item quantity="one">День</item>
+        <item quantity="few">Дня</item>
+        <item quantity="many">Дней</item>
+        <item quantity="other">Дней</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Час</item>
+        <item quantity="few">Часа</item>
+        <item quantity="many">Часов</item>
+        <item quantity="other">Часов</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Только при Wi-Fi и зарядке</string>
 </resources>
