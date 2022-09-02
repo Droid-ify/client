@@ -78,6 +78,7 @@
     <string name="new_updates_available">Novas versões disponíveis</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d aplicação tem uma nova versão.</item>
+        <item quantity="many">%d aplicações com novas versões.</item>
         <item quantity="other">%d aplicações têm novas versões.</item>
     </plurals>
     <string name="launch">Abrir</string>
@@ -182,4 +183,17 @@
     <string name="root_installer">Instalador de root</string>
     <string name="shizuku_installer">Instalador de Shizuku</string>
     <string name="session_installer">Instalador da sessão</string>
+    <string name="cleanup_title">Duração da limpeza</string>
+    <string name="cleanup_description">Tempo necessário para a limpeza para nova verificação</string>
+    <plurals name="days">
+        <item quantity="one">Día</item>
+        <item quantity="many">Días</item>
+        <item quantity="other">Días</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Apenas em Wi-Fi e Carregamento</string>
+    <plurals name="hours">
+        <item quantity="one">Hora</item>
+        <item quantity="many">Horas</item>
+        <item quantity="other">Horas</item>
+    </plurals>
 </resources>
