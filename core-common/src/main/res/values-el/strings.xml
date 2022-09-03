@@ -182,4 +182,15 @@
     <string name="explore">Εξερεύνηση</string>
     <string name="update_all">Ενημέρωση όλων</string>
     <string name="new_applications">Νέες εφαρμογές</string>
+    <string name="cleanup_description">Χρόνος που απαιτείται για την εκκαθάριση για επανέλεγχο</string>
+    <string name="cleanup_title">Διάρκεια εκκαθάρισης</string>
+    <plurals name="days">
+        <item quantity="one">Ημέρα</item>
+        <item quantity="other">Ημέρες</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Ώρα</item>
+        <item quantity="other">Ώρες</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi και Φόρτιση</string>
 </resources>
