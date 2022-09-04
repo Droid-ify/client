@@ -10,8 +10,8 @@
     <string name="install_types">Telepítési típusok</string>
     <string name="list_animation">Listaanimációk</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d alkalmazásnak van új verziója.</item>
-        <item quantity="other">%d alkalmazásnak van új verziója.</item>
+        <item quantity="one">%d alkalmazásnak új verziója van.</item>
+        <item quantity="other">%d alkalmazás új verziókkal.</item>
     </plurals>
     <string name="settings">Beállítások</string>
     <string name="recently_updated">Nemrég frissített</string>
@@ -127,7 +127,7 @@
     <string name="signature_FORMAT">Aláírás: %s</string>
     <string name="signed_using_unsafe_algorithm">Nem biztonságos algoritmussal aláírva</string>
     <string name="skip">Kihagyás</string>
-    <string name="socks_proxy">SOCKS proxy</string>
+    <string name="socks_proxy">SOCKS proxynek</string>
     <string name="sorting_order">Rendezési sorrend</string>
     <string name="source_code">Forráskód</string>
     <string name="source_code_no_longer_available">A forráskód már nem érhető el</string>
@@ -171,4 +171,26 @@
     <string name="repository_not_used_DESC">Ez a tároló még nem volt használva. Kapcsolja be, hogy megtekintse a benne lévő alkalmazásokat.</string>
     <string name="repository_unsigned_DESC">Nincs aláírva. Nem sikerült ellenőrizni az alkalmazáslistát. Legyen óvatos amikor nem aláírt tárolókból tölt le alkalmazásokat.</string>
     <string name="show_less">Kevesebb megjelenítése</string>
+    <string name="sort_filter">Rendezés &amp; szűrés</string>
+    <string name="only_on_wifi_with_charging">Csak Wi-Fi és töltés</string>
+    <string name="explore">Felfedezés</string>
+    <string name="update_all">Összes frissítése</string>
+    <string name="installed_applications">Telepített alkalmazások</string>
+    <string name="new_applications">Új alkalmazások</string>
+    <string name="installer">A telepítő</string>
+    <string name="legacy_installer">Hagyományos telepítő</string>
+    <string name="session_installer">Munkamenet telepítő</string>
+    <string name="root_installer">Gyökér telepítő</string>
+    <string name="shizuku_installer">Shizuku telepítő</string>
+    <string name="latest">Legújabb</string>
+    <string name="cleanup_title">A tisztítás időtartama</string>
+    <string name="cleanup_description">A tisztításhoz szükséges idő az újraellenőrzéshez</string>
+    <plurals name="hours">
+        <item quantity="one">Óra</item>
+        <item quantity="other">Órák</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">Nap</item>
+        <item quantity="other">Napok</item>
+    </plurals>
 </resources>
