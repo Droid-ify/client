@@ -36,7 +36,7 @@
     <string name="donate">डोनेट</string>
     <string name="downloaded_FORMAT">%s डाउनलोड किया</string>
     <string name="downloading">डाउनलोड हो रहा है</string>
-    <string name="downloading_FORMAT">%s... डाउनलोड हो रहा है</string>
+    <string name="downloading_FORMAT">Daunalod ho raha hai %s…</string>
     <string name="edit_repository">रिपोसिट्री एडिट करें</string>
     <string name="file_format_error_DESC">अमान्य फाइल प्रारूप।</string>
     <string name="fingerprint">फिंगरप्रिंट</string>
@@ -182,4 +182,15 @@
     <string name="validation_index_error_DESC">अनुक्रमणिका सत्यापित नहीं की जा सकी।</string>
     <string name="unverified">असत्यापित</string>
     <string name="sort_filter">छाँटें और फ़िल्टर करें</string>
+    <string name="cleanup_title">Nae anuprayog</string>
+    <string name="cleanup_description">Saphaee ke lie phir se jaanch karane ke lie aavashyak samay</string>
+    <string name="only_on_wifi_with_charging">Keval vaee-faee aur chaarjing par</string>
+    <plurals name="days">
+        <item quantity="one">दिन</item>
+        <item quantity="other">दिन</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Ghanta</item>
+        <item quantity="other">Ghante</item>
+    </plurals>
 </resources>
