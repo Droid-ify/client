@@ -43,7 +43,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				}
 			}
 
-			val radius = image.context.resources.getDimension(dimenRes.shape_medium_corner)
+			val radius = image.context.resources.getDimension(dimenRes.shape_small_corner)
 			val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
 				.setAllCornerSizes(radius)
 				.build()
@@ -73,7 +73,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 	) {
 		items.clear()
 		items += screenshots.map { Item.ScreenshotItem(repository, packageName, it) }
-		notifyDataSetChanged()
+		notifyItemRangeInserted(0, screenshots.size)
 	}
 
 	override val viewTypeClass: Class<ViewType>
