@@ -183,4 +183,17 @@
     <string name="shizuku_installer">Instalátor Shizuku</string>
     <string name="unstable_updates_summary">Navrhnout instalaci nestabilních verzí</string>
     <string name="select_mirror">Vybrat mirror</string>
+    <plurals name="days">
+        <item quantity="one">Den</item>
+        <item quantity="few">Dny</item>
+        <item quantity="other">Dní</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Hodina</item>
+        <item quantity="few">Hodiny</item>
+        <item quantity="other">Hodin</item>
+    </plurals>
+    <string name="cleanup_title">Doba trvání úklidu</string>
+    <string name="cleanup_description">Čas vyžadovaný k opětovné kontrole úklidu</string>
+    <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
 </resources>
