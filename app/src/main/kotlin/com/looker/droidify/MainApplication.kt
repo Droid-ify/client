@@ -10,10 +10,8 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
-import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -35,11 +33,8 @@ import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.toJobNetworkType
-import com.looker.droidify.work.AutoSyncWorker
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.droidify.work.DelegatingWorker
-import com.looker.droidify.work.delegatedData
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -54,7 +49,6 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.toJavaDuration
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
@@ -228,41 +222,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 					Unit
 				}
 			}::class.java
-		}
-	}
-
-	private fun updateSyncJobWorker(force: Boolean, autoSync: AutoSync) {
-		val syncConditions = when (autoSync) {
-			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
-			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
-			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
-				networkType = NetworkType.UNMETERED,
-				pluggedIn = true
-			)
-			AutoSync.NEVER -> SyncConditions(
-				networkType = NetworkType.NOT_REQUIRED,
-				canSync = false
-			)
-		}
-		val constraints = Constraints.Builder()
-			.setRequiresCharging(syncConditions.pluggedIn)
-			.setRequiredNetworkType(syncConditions.networkType)
-			.setRequiresBatteryNotLow(syncConditions.batteryNotLow)
-			.setRequiresStorageNotLow(true)
-			.build()
-		val periodicSync =
-			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
-				.setInputData(AutoSyncWorker::class.delegatedData())
-				.setConstraints(constraints)
-				.build()
-		WorkManager.getInstance(this).apply {
-			if (syncConditions.canSync) {
-				enqueueUniquePeriodicWork(
-					AutoSyncWorker.TAG,
-					if (force) ExistingPeriodicWorkPolicy.REPLACE else ExistingPeriodicWorkPolicy.KEEP,
-					periodicSync
-				)
-			}
 		}
 	}
 
