@@ -44,6 +44,7 @@ class ScreenshotsFragment() : DialogFragment() {
 		private const val EXTRA_IDENTIFIER = "identifier"
 
 		private const val STATE_IDENTIFIER = "identifier"
+		private var isSystemBarVisible = true
 	}
 
 	constructor(packageName: String, repositoryId: Long, identifier: String) : this() {
@@ -101,12 +102,16 @@ class ScreenshotsFragment() : DialogFragment() {
 			}
 		}
 
-
-		val toggleSystemUi = {
+		fun toggleSystemUi() {
 			if (window != null && decorView != null) {
 				WindowInsetsControllerCompat(window, decorView).let { controller ->
-					controller.hide(WindowInsetsCompat.Type.statusBars())
-					controller.hide(WindowInsetsCompat.Type.navigationBars())
+					isSystemBarVisible = if (isSystemBarVisible) {
+						controller.hide(WindowInsetsCompat.Type.systemBars())
+						false
+					} else {
+						controller.show(WindowInsetsCompat.Type.systemBars())
+						true
+					}
 					controller.systemBarsBehavior =
 						WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 				}
@@ -114,7 +119,9 @@ class ScreenshotsFragment() : DialogFragment() {
 		}
 
 		val viewPager = ViewPager2(dialog.context)
-		viewPager.adapter = Adapter(packageName) { toggleSystemUi() }
+		viewPager.adapter = Adapter(packageName) {
+			toggleSystemUi()
+		}
 		viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(16)))
 		viewPager.viewTreeObserver.addOnGlobalLayoutListener {
 			(viewPager.adapter as Adapter).size = Pair(viewPager.width, viewPager.height)
