@@ -1,19 +1,19 @@
 object AndroidX {
-	const val appCompat = "androidx.appcompat:appcompat:1.5.0"
+	const val appCompat = "androidx.appcompat:appcompat:1.6.0-rc01"
 
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
-	const val material = "com.google.android.material:material:1.6.1"
+	const val material = "com.google.android.material:material:1.7.0-rc01"
 }
 
 object Core {
-	private const val coreVersion = "1.8.0"
+	private const val coreVersion = "1.9.0"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
 object Coil {
-	private const val coilVersion = "2.2.0"
+	private const val coilVersion = "2.2.1"
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
@@ -55,7 +55,7 @@ object Hilt {
 }
 
 object Jackson {
-	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.3"
+	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.4"
 }
 
 object Kotlin {
@@ -64,8 +64,8 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val ktorVersion = "2.1.0"
-	const val android = "io.ktor:ktor-client-android:$ktorVersion"
+	private const val ktorVersion = "2.1.1"
+	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
 	const val json = "io.ktor:ktor-client-json:$ktorVersion"
 	const val serialization = "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
@@ -76,9 +76,8 @@ object Lifecycle {
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-	private const val version = "1.5.1"
-	const val fragment = "androidx.fragment:fragment-ktx:$version"
-	const val activity = "androidx.activity:activity-ktx:$version"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.2"
+	const val activity = "androidx.activity:activity-ktx:1.5.1"
 }
 
 object OkHttp {

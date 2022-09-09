@@ -1,14 +1,18 @@
 package com.looker.droidify.screen
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.looker.core_common.file.KParcelable
@@ -43,6 +47,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 		object Updates : SpecialIntent()
 		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent()
 	}
+
+	private val notificationPermission =
+		registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+
+		}
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
@@ -128,6 +137,25 @@ abstract class ScreenActivity : AppCompatActivity() {
 				ViewGroup.LayoutParams.MATCH_PARENT
 			)
 		)
+
+		when {
+			ContextCompat.checkSelfPermission(
+				this,
+				Manifest.permission.POST_NOTIFICATIONS
+			) == PackageManager.PERMISSION_GRANTED -> {
+
+			}
+			shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
+				if (Build.VERSION.SDK_INT >= 33) {
+					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+				}
+			}
+			else -> {
+				if (Build.VERSION.SDK_INT >= 33) {
+					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+				}
+			}
+		}
 
 		supportFragmentManager.addFragmentOnAttachListener { _, _ ->
 			hideKeyboard()
