@@ -12,7 +12,7 @@
     <string name="application">Aplicación</string>
     <string name="application_not_found">No se pudo encontrar esa aplicación</string>
     <string name="author_email">Correo electrónico del autor</string>
-    <string name="author_website">Página web del autor</string>
+    <string name="author_website">Sitio web del autor</string>
     <string name="available">Disponible</string>
     <string name="bug_tracker">Registro de incidencias</string>
     <string name="cancel">Cancelar</string>
@@ -86,7 +86,7 @@
     <string name="no_description_available_DESC">No hay descripción disponible.</string>
     <string name="no_matching_applications_found">No se ha podido encontrar ninguna aplicación de este tipo</string>
     <string name="no_proxy">Sin proxy</string>
-    <string name="notify_about_updates">Notificar actualizaciones</string>
+    <string name="notify_about_updates">Notificar sobre nuevas versiones de aplicaciones</string>
     <string name="notify_about_updates_summary">Mostrar una notificación cuando haya nuevas versiones disponibles</string>
     <string name="number_of_applications">Número de aplicaciones</string>
     <string name="ok">Aceptar</string>
@@ -116,7 +116,7 @@
     <string name="repository_unsigned_DESC">Sin firmar. No se ha podido verificar la lista de aplicaciones. Ten cuidado al descargar aplicaciones de repositorios no firmados.</string>
     <string name="requires_FORMAT">Requiere %s</string>
     <string name="root_permission">Instalación silenciosa</string>
-    <string name="root_permission_description">Permitir el permiso de root para las instalaciones silenciosas</string>
+    <string name="root_permission_description">Conceder el permiso de root para las instalaciones silenciosas</string>
     <string name="save">Guardar</string>
     <string name="saving_details">Guardando detalles…</string>
     <string name="screenshots">Capturas de pantalla</string>
@@ -167,7 +167,7 @@
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d tiene una nueva versión de la aplicación.</item>
         <item quantity="many">%d aplicaciones con nuevas versiones.</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="prefs_language_title">Idioma</string>
     <string name="prefs_personalization">Personalización</string>
