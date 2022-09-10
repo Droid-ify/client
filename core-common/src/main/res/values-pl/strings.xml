@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="amoled">AMOLED</string>
+    <string name="amoled">Czarny</string>
     <string name="target">Tarcza</string>
     <string name="version">Wersja</string>
     <string name="validation_index_error_DESC">Indeks nie mógł zostać zatwierdzony.</string>
@@ -18,7 +18,7 @@
     <string name="unknown_error_DESC">Nieznany błąd.</string>
     <string name="uninstall">Odinstaluj</string>
     <string name="tracks_or_reports_your_activity">Śledzenie lub raportowanie aktywności użytkownika</string>
-    <string name="theme">Temat</string>
+    <string name="theme">Motyw</string>
     <string name="add_repository">Dodaj repozytorium</string>
     <string name="always">Zawsze</string>
     <string name="anti_features">Anty-funkcje</string>
@@ -29,7 +29,7 @@
     <string name="all_applications_up_to_date">Wszystkie aplikacje są aktualne</string>
     <string name="already_exists">Już istnieje</string>
     <string name="unknown">Nieznany</string>
-    <string name="themes">Tematy</string>
+    <string name="themes">Motywy</string>
     <string name="tap_to_install_DESC">Stuknij , aby zainstalować.</string>
     <string name="sync_repositories_automatically">Automatyczna synchronizacja repozytoriów</string>
     <string name="syncing">Synchronizacja</string>
@@ -95,7 +95,7 @@
     <string name="incompatible_features_DESC">Brakujące funkcje.</string>
     <string name="incompatible_older_DESC">Ta wersja jest starsza niż ta zainstalowana na Twoim urządzeniu. Odinstaluj ją najpierw.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Twoja platforma %1$s nie jest obsługiwana. Obsługiwane platformy: %2$s.</string>
-    <string name="light">Światło</string>
+    <string name="light">Jasny</string>
     <string name="list_animation">Animacje listy</string>
     <string name="merging_FORMAT">Łączenie %s</string>
     <string name="no_applications_available">Brak dostępnych aplikacji</string>
@@ -106,7 +106,7 @@
     <string name="confirmation">Potwierdzenie</string>
     <string name="could_not_download_FORMAT">Nie można pobrać %s</string>
     <string name="could_not_validate_FORMAT">Nie można zatwierdzić %s</string>
-    <string name="credits">Kredyty</string>
+    <string name="credits">Podziękowania</string>
     <string name="delete">Usuń</string>
     <string name="delete_repository_DESC">Czy na pewno chcesz usunąć repozytorium\?</string>
     <string name="details">Szczegóły</string>
@@ -147,7 +147,7 @@
     <string name="incompatible_versions">Niekompatybilne wersje</string>
     <string name="incompatible_versions_summary">Pokaż wersje aplikacji niekompatybilne z urządzeniem</string>
     <string name="install_types">Typy instalacji</string>
-    <string name="installed">Zainstalowane</string>
+    <string name="installed">Zainstalowano</string>
     <string name="invalid_address">Nieprawidłowy adres</string>
     <string name="invalid_metadata_error_DESC">Nieważne metadane.</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -184,4 +184,19 @@
     <string name="latest">Najnowsza</string>
     <string name="explore">Poznaj</string>
     <string name="update_all">Aktualizuj wszystkie</string>
+    <string name="cleanup_title">Czas trwania czyszczenia</string>
+    <string name="cleanup_description">Czas potrzebny na oczyszczenie do ponownego sprawdzenia</string>
+    <plurals name="days">
+        <item quantity="one">Dzień</item>
+        <item quantity="few">Dni</item>
+        <item quantity="many">Dni</item>
+        <item quantity="other">Dni</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Tylko na Wi-Fi i podczas ładowania</string>
+    <plurals name="hours">
+        <item quantity="one">Godzina</item>
+        <item quantity="few">Godziny</item>
+        <item quantity="many">Godzin</item>
+        <item quantity="other">Godzin</item>
+    </plurals>
 </resources>
