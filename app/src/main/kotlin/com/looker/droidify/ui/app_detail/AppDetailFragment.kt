@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core_common.trimAfter
 import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_model.InstalledItem
+import com.looker.core_model.Product
+import com.looker.core_model.ProductPreference
+import com.looker.core_model.Repository
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.screen.MessageDialog
@@ -83,7 +87,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private class Installed(
-		val installedItem: com.looker.core_model.InstalledItem, val isSystem: Boolean,
+		val installedItem: InstalledItem, val isSystem: Boolean,
 		val launcherActivities: List<Pair<String, String>>,
 	)
 
@@ -94,7 +98,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private var actions = Pair(emptySet<Action>(), null as Action?)
 	private var products =
-		emptyList<Pair<com.looker.core_model.Product, com.looker.core_model.Repository>>()
+		emptyList<Pair<Product, Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
 
@@ -285,9 +289,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		updateButtons(ProductPreferences[packageName])
 	}
 
-	private suspend fun updateButtons(preference: com.looker.core_model.ProductPreference) {
+	private suspend fun updateButtons(preference: ProductPreference) {
 		val installed = installed
-		val product = com.looker.core_model.Product.findSuggested(
+		val product = Product.findSuggested(
 			products,
 			installed?.installedItem
 		) { it.first }?.first
@@ -493,7 +497,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	override fun onPreferenceChanged(preference: com.looker.core_model.ProductPreference) {
+	override fun onPreferenceChanged(preference: ProductPreference) {
 		lifecycleScope.launch { updateButtons(preference) }
 	}
 
@@ -502,7 +506,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			.show(childFragmentManager)
 	}
 
-	override fun onScreenshotClick(screenshot: com.looker.core_model.Product.Screenshot) {
+	override fun onScreenshotClick(screenshot: Product.Screenshot) {
 		val pair = products.asSequence()
 			.map { it ->
 				Pair(
