@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -20,16 +19,11 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.TypefaceExtra
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.inflate
-import com.looker.droidify.utility.extension.resources.setTextSizeScaled
-import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
-	private var lastPosition = 0
 
 	enum class ViewType { PRODUCT, LOADING, EMPTY }
 
@@ -135,7 +129,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 		when (getItemEnumViewType(position)) {
 			ViewType.PRODUCT -> {
 				holder as ProductViewHolder
-				val productItem = getProductItem(position)
+				val productItem = getProductItem(if (position > -1) position else 0)
 				holder.name.text = productItem.name
 				holder.summary.text =
 					if (productItem.name == productItem.summary) "" else productItem.summary
@@ -192,14 +186,5 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 				holder.text.text = emptyText
 			}
 		}::class
-	}
-
-	private fun setAnimation(itemView: View, position: Int) {
-		val animation = AnimationUtils.loadAnimation(
-			itemView.context,
-			if (position > lastPosition) R.anim.slide_up else R.anim.slide_down
-		)
-		itemView.startAnimation(animation)
-		lastPosition = position
 	}
 }
