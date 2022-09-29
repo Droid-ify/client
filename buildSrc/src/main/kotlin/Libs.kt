@@ -42,7 +42,7 @@ object Excludes {
 }
 
 object Hilt {
-	private const val version = "2.43.2"
+	private const val version = "2.44"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
 	const val android = "com.google.dagger:hilt-android:$version"
 
@@ -76,8 +76,8 @@ object Lifecycle {
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.2"
-	const val activity = "androidx.activity:activity-ktx:1.5.1"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.3"
+	const val activity = "androidx.activity:activity-ktx:1.6.0"
 }
 
 object OkHttp {
