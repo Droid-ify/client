@@ -8,7 +8,7 @@ import com.google.android.material.appbar.AppBarLayout
 fun View.setCollapsingBar(
 	appBar: AppBarLayout,
 	collapsable: () -> Boolean = { false }
-) = if (collapsable()) {
+) {
 	val params = appBar.layoutParams as CoordinatorLayout.LayoutParams
 	if (params.behavior == null)
 		params.behavior = AppBarLayout.Behavior()
@@ -18,6 +18,6 @@ fun View.setCollapsingBar(
 			return false
 		}
 	})
-	appBar.setExpanded(!collapsable(), true)
-	ViewCompat.setNestedScrollingEnabled(this, !collapsable())
-} else Unit
+	appBar.setExpanded(collapsable(), true)
+	ViewCompat.setNestedScrollingEnabled(this, collapsable())
+}
