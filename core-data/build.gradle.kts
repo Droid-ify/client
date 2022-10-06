@@ -2,6 +2,8 @@ plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
 	kotlin("plugin.serialization") version Version.kotlin
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -34,4 +36,7 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 	implementation(OkHttp.okhttp)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }
