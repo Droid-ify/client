@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.nullIfEmpty
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.extension.getThemeRes
@@ -143,15 +144,14 @@ abstract class ScreenActivity : AppCompatActivity() {
 				this,
 				Manifest.permission.POST_NOTIFICATIONS
 			) == PackageManager.PERMISSION_GRANTED -> {
-
 			}
 			shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-				if (Build.VERSION.SDK_INT >= 33) {
+				sdkAbove(Build.VERSION_CODES.TIRAMISU) {
 					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
 				}
 			}
 			else -> {
-				if (Build.VERSION.SDK_INT >= 33) {
+				sdkAbove(Build.VERSION_CODES.TIRAMISU) {
 					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
 				}
 			}
@@ -179,8 +179,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) window.navigationBarColor =
-			resources.getColor(styleR.color.pitch_black, theme)
+		sdkAbove(Build.VERSION_CODES.O) {
+			window.navigationBarColor = resources.getColor(styleR.color.pitch_black, theme)
+		}
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.PixelFormat
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -17,13 +18,13 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
+import com.looker.core_common.sdkAbove
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.RxUtils
-import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.clear
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat
@@ -95,7 +96,7 @@ class ScreenshotsFragment() : DialogFragment() {
 						typedArray.recycle()
 					}
 				}
-				if (Android.sdk(28)) {
+				sdkAbove(Build.VERSION_CODES.P) {
 					layoutInDisplayCutoutMode =
 						WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
 				}

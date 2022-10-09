@@ -3,6 +3,7 @@ package com.looker.droidify.ui.tabs_fragment
 import android.animation.ValueAnimator
 import android.content.Context
 import android.content.res.ColorStateList
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.MenuItem
@@ -23,6 +24,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.android.material.textview.MaterialTextView
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.extension.sortOrderName
 import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
@@ -155,8 +157,10 @@ class TabsFragment : ScreenFragment() {
 		}
 
 		toolbar.menu.apply {
-			if (Android.sdk(28) && !Android.Device.isHuaweiEmui) {
-				setGroupDividerEnabled(true)
+			if (!Android.Device.isHuaweiEmui) {
+				sdkAbove(Build.VERSION_CODES.P) {
+					setGroupDividerEnabled(true)
+				}
 			}
 
 			searchMenuItem = add(0, R.id.toolbar_search, 0, stringRes.search)

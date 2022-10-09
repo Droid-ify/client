@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
@@ -15,6 +16,7 @@ import com.looker.core_common.hex
 import com.looker.core_common.notificationManager
 import com.looker.core_common.nullIfEmpty
 import com.looker.core_common.result.Result
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_model.Release
@@ -135,7 +137,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	override fun onCreate() {
 		super.onCreate()
 
-		if (Android.sdk(26)) {
+		sdkAbove(Build.VERSION_CODES.O) {
 			NotificationChannel(
 				Common.NOTIFICATION_CHANNEL_DOWNLOADING,
 				getString(stringRes.downloading), NotificationManager.IMPORTANCE_LOW
@@ -196,6 +198,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		class Validation(val validateError: ValidationError) : ErrorType()
 	}
 
+	private inline val pendingIntentFlag
+		get() = sdkAbove(
+			sdk = Build.VERSION_CODES.S,
+			onSuccessful = { PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE },
+			orElse = { PendingIntent.FLAG_UPDATE_CURRENT }
+		)
+
 	private fun showNotificationError(task: Task, errorType: ErrorType) {
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(Intent.ACTION_VIEW)
@@ -205,8 +214,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			addNextIntentWithParentStack(intent)
 			getPendingIntent(
 				0,
-				if (Android.sdk(31)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-				else PendingIntent.FLAG_UPDATE_CURRENT
+				pendingIntentFlag
 			)
 		}
 		notificationManager.notify(task.notificationTag,
@@ -274,8 +282,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			addNextIntentWithParentStack(intent)
 			getPendingIntent(
 				0,
-				if (Android.sdk(31)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-				else PendingIntent.FLAG_UPDATE_CURRENT
+				pendingIntentFlag
 			)
 		}
 		notificationManager.notify(
@@ -425,8 +432,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					addNextIntentWithParentStack(intent)
 					getPendingIntent(
 						0,
-						if (Android.sdk(31)) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-						else PendingIntent.FLAG_UPDATE_CURRENT
+						pendingIntentFlag
 					)
 				}
 				stateNotificationBuilder.setWhen(System.currentTimeMillis())

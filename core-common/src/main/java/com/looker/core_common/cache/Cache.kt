@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.system.Os
+import com.looker.core_common.sdkAbove
 import java.io.File
 import java.util.*
 import kotlin.concurrent.thread
@@ -57,7 +58,7 @@ object Cache {
 
 	fun getReleaseFile(context: Context, cacheFileName: String): File {
 		return File(ensureCacheDir(context, RELEASE_DIR), cacheFileName).apply {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+			sdkAbove(Build.VERSION_CODES.N) {
 				// Make readable for package installer
 				val cacheDir = context.cacheDir.parentFile!!.parentFile!!
 				generateSequence(this) { it.parentFile!! }.takeWhile { it != cacheDir }.forEach {

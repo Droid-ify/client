@@ -5,7 +5,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import com.google.android.material.appbar.AppBarLayout
 
-fun View.setCollapsingBar(
+inline fun View.setCollapsingBar(
 	appBar: AppBarLayout,
 	collapsable: () -> Boolean = { false }
 ) {

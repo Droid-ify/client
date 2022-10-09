@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
+import com.looker.core_common.sdkAbove
 import com.looker.installer.InstallerService
 import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers
@@ -18,8 +19,11 @@ internal class SessionInstaller(context: Context) : BaseInstaller(context) {
 	private val intent = Intent(context, InstallerService::class.java)
 
 	companion object {
-		val flags =
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
+		val flags = sdkAbove(
+			sdk = Build.VERSION_CODES.S,
+			onSuccessful = { PendingIntent.FLAG_MUTABLE },
+			orElse = { 0 }
+		)
 	}
 
 	override suspend fun install(packageName: String, uri: Uri, file: File) {
@@ -31,7 +35,7 @@ internal class SessionInstaller(context: Context) : BaseInstaller(context) {
 	private fun mDefaultInstaller(cacheFile: File) {
 		val sessionParams =
 			PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+		sdkAbove(sdk = Build.VERSION_CODES.S) {
 			sessionParams.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
 		}
 		val id = sessionInstaller.createSession(sessionParams)

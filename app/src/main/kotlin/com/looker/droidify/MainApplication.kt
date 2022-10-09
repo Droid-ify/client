@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
 import androidx.work.WorkManager
@@ -19,6 +20,7 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core_common.Common
 import com.looker.core_common.cache.Cache
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.AutoSync
@@ -207,16 +209,21 @@ class MainApplication : Application(), ImageLoaderFactory {
 						)
 						.setRequiredNetworkType(syncConditions.toJobNetworkType())
 						.apply {
-							if (Android.sdk(26)) {
+							sdkAbove(sdk = Build.VERSION_CODES.O) {
 								setRequiresCharging(syncConditions.pluggedIn)
 								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
-							if (Android.sdk(24)) {
-								setPeriodic(period, JobInfo.getMinFlexMillis())
-							} else {
-								setPeriodic(period)
-							}
+							sdkAbove(
+								sdk = Build.VERSION_CODES.N,
+								onSuccessful = {
+									setPeriodic(
+										period,
+										JobInfo.getMinFlexMillis()
+									)
+								},
+								orElse = { setPeriodic(period) }
+							)
 						}
 						.build())
 					Unit

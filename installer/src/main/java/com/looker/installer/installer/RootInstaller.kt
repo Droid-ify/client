@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import com.looker.core_common.sdkAbove
 import com.looker.installer.utils.BaseInstaller
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -26,11 +27,15 @@ internal class RootInstaller(context: Context) : BaseInstaller(context) {
 	}
 
 	companion object {
-		private val getCurrentUserState: String =
-			if (Build.VERSION.SDK_INT > 25) Shell.su("am get-current-user").exec().out[0]
-			else Shell.su("dumpsys activity | grep -E \"mUserLru\"")
-				.exec().out[0].trim()
-				.removePrefix("mUserLru: [").removeSuffix("]")
+		private val getCurrentUserState: String = sdkAbove(
+			sdk = Build.VERSION_CODES.O,
+			onSuccessful = { Shell.su("am get-current-user").exec().out[0] },
+			orElse = {
+				Shell.su("dumpsys activity | grep -E \"mUserLru\"")
+					.exec().out[0].trim()
+					.removePrefix("mUserLru: [").removeSuffix("]")
+			}
+		)
 
 		private val String.quote
 			get() = "\"${this.replace(Regex("""[\\$"`]""")) { c -> "\\${c.value}" }}\""

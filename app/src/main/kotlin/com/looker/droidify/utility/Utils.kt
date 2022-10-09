@@ -5,7 +5,9 @@ import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
+import android.os.Build
 import com.looker.core_common.hex
+import com.looker.core_common.sdkAbove
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.Repository
@@ -131,11 +133,11 @@ object Utils {
 	}
 
 	private fun Context.getLocaleOfCode(localeCode: String): Locale = when {
-		localeCode.isEmpty() -> if (Android.sdk(24)) {
-			resources.configuration.locales[0]
-		} else {
-			resources.configuration.locale
-		}
+		localeCode.isEmpty() -> sdkAbove(
+			sdk = Build.VERSION_CODES.N,
+			onSuccessful = { resources.configuration.locales[0] },
+			orElse = { resources.configuration.locale }
+		)
 		localeCode.contains("-r") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(4)

@@ -20,7 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core_common.BuildConfig as LocaleConfig
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.UserPreferences
 import com.looker.core_datastore.extension.autoSyncName
 import com.looker.core_datastore.extension.installerName
@@ -37,6 +37,7 @@ import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
+import com.looker.core_common.BuildConfig as LocaleConfig
 import com.looker.core_common.R.dimen as dimenRes
 import com.looker.core_common.R.drawable as drawableRes
 import com.looker.core_common.R.plurals as pluralRes
@@ -362,11 +363,11 @@ class SettingsFragment : Fragment() {
 	}
 
 	private fun Context.getLocaleOfCode(localeCode: String): Locale? = when {
-		localeCode.isEmpty() -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			resources.configuration.locales[0]
-		} else {
-			resources.configuration.locale
-		}
+		localeCode.isEmpty() -> sdkAbove(
+			sdk = Build.VERSION_CODES.N,
+			onSuccessful = { resources.configuration.locales[0] },
+			orElse = { resources.configuration.locale }
+		)
 		localeCode.contains("-r") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(4)

@@ -8,6 +8,7 @@ import android.app.job.JobParameters
 import android.app.job.JobService
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.Log
@@ -18,6 +19,7 @@ import com.looker.core_common.Common
 import com.looker.core_common.formatSize
 import com.looker.core_common.notificationManager
 import com.looker.core_common.result.Result
+import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.UserPreferencesRepository
 import com.looker.core_datastore.model.SortOrder
 import com.looker.core_model.ProductItem
@@ -27,7 +29,6 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import dagger.hilt.android.AndroidEntryPoint
@@ -183,7 +184,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	override fun onCreate() {
 		super.onCreate()
 
-		if (Android.sdk(26)) {
+		sdkAbove(Build.VERSION_CODES.O) {
 			NotificationChannel(
 				Common.NOTIFICATION_CHANNEL_SYNCING,
 				getString(stringRes.syncing), NotificationManager.IMPORTANCE_LOW
@@ -534,11 +535,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					if (productItems.size > maxUpdates) {
 						val summary =
 							getString(stringRes.plus_more_FORMAT, productItems.size - maxUpdates)
-						if (Android.sdk(24)) {
-							addLine(summary)
-						} else {
-							setSummaryText(summary)
-						}
+						sdkAbove(
+							sdk = Build.VERSION_CODES.N,
+							onSuccessful = { addLine(summary) },
+							orElse = { setSummaryText(summary) }
+						)
 					}
 				})
 				.build()
