@@ -574,7 +574,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				productRepository.first
 			)
 
-			if (true) { // TODO add preference
+			val displayScreenshots = true
+			if (displayScreenshots) { // TODO add preference
 				val screenShotItem = mutableListOf<Item>()
 				screenShotItem += Item.ScreenshotItem(
 					productRepository.first.screenshots,
