@@ -583,22 +583,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 			if (productRepository.first.screenshots.isNotEmpty()) {
 				expanded += ExpandType.SCREENSHOTS
-				if (ExpandType.SCREENSHOTS in expanded) {
-					items += Item.SectionItem(
-						SectionType.SCREENSHOTS,
-						ExpandType.SCREENSHOTS,
-						emptyList(),
-						screenShotItem.size
-					)
-					items += screenShotItem
-				} else {
-					items += Item.SectionItem(
-						SectionType.SCREENSHOTS,
-						ExpandType.SCREENSHOTS,
-						screenShotItem,
-						0
-					)
-				}
+				items += screenShotItem
 			}
 
 			if (installedItem != null) {
