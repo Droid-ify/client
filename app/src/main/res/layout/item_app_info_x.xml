@@ -99,14 +99,16 @@
                 android:padding="16dp">
 
                 <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/version"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="14sp" />
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/version"
+                    android:id="@+id/version_recency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"

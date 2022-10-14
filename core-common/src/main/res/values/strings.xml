@@ -181,7 +181,6 @@
     <string name="username">Username</string>
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
-    <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download…</string>
