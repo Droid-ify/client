@@ -352,7 +352,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private suspend fun updateToolbarTitle() {
 		withContext(Dispatchers.Main) {
-			collapsingToolbar.title = products[0].first.name
+			toolbar.title = products[0].first.name
 		}
 	}
 

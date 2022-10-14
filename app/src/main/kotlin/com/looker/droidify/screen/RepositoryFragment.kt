@@ -55,7 +55,7 @@ class RepositoryFragment() : ScreenFragment() {
 		lifecycleScope.launch(Dispatchers.Main) { updateRepositoryView() }
 
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title = getString(stringRes.repository)
+		toolbar.title = getString(stringRes.repository)
 
 		toolbar.menu.apply {
 			add(stringRes.edit_repository)
@@ -109,7 +109,7 @@ class RepositoryFragment() : ScreenFragment() {
 			layout.addTitleText(stringRes.address, getString(stringRes.unknown))
 		} else {
 			layout.addTitleText(stringRes.address, repository.address)
-			collapsingToolbar.title = repository.name
+			toolbar.title = repository.name
 			layout.addTitleText(stringRes.name, repository.name)
 			layout.addTitleText(
 				stringRes.description,

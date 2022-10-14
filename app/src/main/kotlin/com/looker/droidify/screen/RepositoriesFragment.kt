@@ -45,7 +45,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 			)
 		}
 		this.toolbar = fragmentBinding.toolbar
-		this.collapsingToolbar = fragmentBinding.collapsingToolbar
 		return view
 	}
 
@@ -63,7 +62,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 				view.post { screenActivity.navigateAddRepository() }
 				true
 			}
-		collapsingToolbar.title = getString(stringRes.repositories)
+		toolbar.title = getString(stringRes.repositories)
 	}
 
 	override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.appbar.MaterialToolbar
 import com.looker.droidify.databinding.FragmentBinding
@@ -14,7 +15,6 @@ open class ScreenFragment : Fragment() {
 	val fragmentBinding get() = _fragmentBinding!!
 
 	lateinit var toolbar: MaterialToolbar
-	lateinit var collapsingToolbar: CollapsingToolbarLayout
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -27,7 +27,6 @@ open class ScreenFragment : Fragment() {
 		savedInstanceState: Bundle?,
 	): View? {
 		this.toolbar = fragmentBinding.toolbar
-		this.collapsingToolbar = fragmentBinding.collapsingToolbar
 		return fragmentBinding.root
 	}
 
