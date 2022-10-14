@@ -563,7 +563,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		context: Context, packageName: String,
 		products: List<Pair<Product, Repository>>,
 		installedItem: InstalledItem?,
-		incompatible: Boolean
+		showIncompatible: Boolean,
+		displayScreenshots: Boolean,
 	) {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
@@ -574,8 +575,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				productRepository.first
 			)
 
-			val displayScreenshots = true
-			if (displayScreenshots) { // TODO add preference
+			if (displayScreenshots) {
 				val screenShotItem = mutableListOf<Item>()
 				screenShotItem += Item.ScreenshotItem(
 					productRepository.first.screenshots,
@@ -823,7 +823,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val compatibleReleasePairs = products.asSequence()
 			.flatMap { (product, repository) ->
 				product.releases.asSequence()
-					.filter { incompatible || it.incompatibilities.isEmpty() }
+					.filter { showIncompatible || it.incompatibilities.isEmpty() }
 					.map { Pair(it, repository) }
 			}
 			.toList()

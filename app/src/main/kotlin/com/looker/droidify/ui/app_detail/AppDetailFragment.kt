@@ -243,7 +243,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 									packageName,
 									products,
 									installedItem.value,
-									initial.incompatibleVersions
+									initial.incompatibleVersions,
+									initial.displayScreenshots,
 								)
 								launch {
 									userPreferencesFlow.collectLatest {
@@ -252,7 +253,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 											packageName,
 											products,
 											installedItem.value,
-											it.incompatibleVersions
+											it.incompatibleVersions,
+											it.displayScreenshots,
 										)
 									}
 								}

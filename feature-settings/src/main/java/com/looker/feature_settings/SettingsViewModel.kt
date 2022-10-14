@@ -67,6 +67,12 @@ class SettingsViewModel
 		}
 	}
 
+	fun setDisplayScreenshots(enable: Boolean) {
+		viewModelScope.launch {
+			userPreferencesRepository.setDisplayScreenshots(enable)
+		}
+	}
+
 	fun setProxyType(proxyType: ProxyType) {
 		viewModelScope.launch {
 			userPreferencesRepository.setProxyType(proxyType)

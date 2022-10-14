@@ -73,6 +73,8 @@ class SettingsFragment : Fragment() {
 			unstableUpdates.content.text = getString(stringRes.unstable_updates_summary)
 			incompatibleUpdates.title.text = getString(stringRes.incompatible_versions)
 			incompatibleUpdates.content.text = getString(stringRes.incompatible_versions_summary)
+			displayScreenshots.title.text = getString(stringRes.display_screenshots)
+			displayScreenshots.content.text = getString(stringRes.display_screenshots_summary)
 			proxyType.title.text = getString(stringRes.proxy_type)
 			proxyHost.title.text = getString(stringRes.proxy_host)
 			proxyPort.title.text = getString(stringRes.proxy_port)
@@ -207,6 +209,9 @@ class SettingsFragment : Fragment() {
 				incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setIncompatibleUpdates(checked)
 				}
+				displayScreenshots.checked.setOnCheckedChangeListener { _, checked ->
+					setDisplayScreenshots(checked)
+				}
 			}
 		}
 	}
@@ -268,6 +273,7 @@ class SettingsFragment : Fragment() {
 			notifyUpdates.checked.isChecked = userPreferences.notifyUpdate
 			unstableUpdates.checked.isChecked = userPreferences.unstableUpdate
 			incompatibleUpdates.checked.isChecked = userPreferences.incompatibleVersions
+			displayScreenshots.checked.isChecked = userPreferences.displayScreenshots
 			proxyType.content.text = context.proxyName(userPreferences.proxyType)
 			proxyType.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(

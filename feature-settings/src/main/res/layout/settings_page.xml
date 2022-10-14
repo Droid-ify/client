@@ -66,6 +66,10 @@
                 android:id="@+id/clean_up"
                 layout="@layout/enum_type" />
 
+            <include
+                android:id="@+id/display_screenshots"
+                layout="@layout/switch_type" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

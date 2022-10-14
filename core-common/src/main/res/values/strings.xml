@@ -70,6 +70,8 @@
     <string name="incompatible_version">Incompatible version</string>
     <string name="incompatible_versions">Incompatible versions</string>
     <string name="incompatible_versions_summary">Show application versions incompatible with the device</string>
+    <string name="display_screenshots">Display Screenshots</string>
+    <string name="display_screenshots_summary">Load and render screenshots of apps, if available</string>
     <string name="incompatible_with_FORMAT">Incompatible with %s</string>
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>

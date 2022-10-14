@@ -36,7 +36,8 @@ data class UserPreferences(
 	val proxyType: ProxyType,
 	val proxyHost: String,
 	val proxyPort: Int,
-	val cleanUpDuration: Duration
+	val cleanUpDuration: Duration,
+	var displayScreenshots: Boolean,
 )
 
 /**
@@ -51,6 +52,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private object PreferencesKeys {
 		val LANGUAGE = stringPreferencesKey("key_language")
 		val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
+		val DISPLAY_SCREENSHOTS = booleanPreferencesKey("key_display_screenshots")
 		val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
 		val UNSTABLE_UPDATES = booleanPreferencesKey("key_unstable_updates")
 		val THEME = stringPreferencesKey("key_theme")
@@ -85,6 +87,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	suspend fun enableIncompatibleVersion(enable: Boolean) {
 		PreferencesKeys.INCOMPATIBLE_VERSIONS.update(enable)
+	}
+
+	suspend fun setDisplayScreenshots(enable: Boolean) {
+		PreferencesKeys.DISPLAY_SCREENSHOTS.update(enable)
 	}
 
 	/**
@@ -175,6 +181,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
 		val language = preferences[PreferencesKeys.LANGUAGE] ?: "system"
 		val incompatibleVersions = preferences[PreferencesKeys.INCOMPATIBLE_VERSIONS] ?: false
+		val displayScreenshots = preferences[PreferencesKeys.DISPLAY_SCREENSHOTS] ?: true
 		val notifyUpdate = preferences[PreferencesKeys.NOTIFY_UPDATES] ?: true
 		val unstableUpdate = preferences[PreferencesKeys.UNSTABLE_UPDATES] ?: false
 		val theme = Theme.valueOf(
@@ -200,6 +207,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		return UserPreferences(
 			language = language,
 			incompatibleVersions = incompatibleVersions,
+			displayScreenshots = displayScreenshots,
 			notifyUpdate = notifyUpdate,
 			unstableUpdate = unstableUpdate,
 			theme = theme,
