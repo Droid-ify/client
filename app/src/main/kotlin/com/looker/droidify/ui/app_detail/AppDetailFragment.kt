@@ -352,7 +352,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private suspend fun updateToolbarTitle() {
 		withContext(Dispatchers.Main) {
-			collapsingToolbar.title = products[0].first.name.trimAfter(' ', 2)
+			collapsingToolbar.title = products[0].first.name
 		}
 	}
 
