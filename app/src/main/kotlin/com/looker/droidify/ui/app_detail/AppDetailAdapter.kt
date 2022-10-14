@@ -1159,10 +1159,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 					holder.version.text = versionString
 				} else {
-					holder.version.text = "Unknown Version"
+					holder.version.text = context.getString(stringRes.version_error)
 				}
 
-				var versionTime = product?.displayRelease?.added
+				val versionTime = product?.displayRelease?.added
 				if (versionTime != null) {
 					try {
 						val releasedTime = LocalDateTime.ofInstant(
@@ -1171,10 +1171,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						)
 						val releasedDaysAgo = Duration.between(releasedTime, LocalDateTime.now()).toDays()
 						holder.version_recency.text = when (releasedDaysAgo) {
-							0L -> "Today"
-							1L -> "Yesterday"
-							in 2..100 -> "$releasedDaysAgo days ago"
-							else -> "${(releasedDaysAgo) / 30} months ago"
+							0L -> context.getString(stringRes.version_recency_today)
+							1L -> context.getString(stringRes.version_recency_yesterday)
+							in 2..100 -> context.getString(stringRes.version_recency_days_format, releasedDaysAgo)
+							else -> context.getString(stringRes.version_recency_months_format, releasedDaysAgo / 30)
 						}
 					} catch (e: Exception) {
 						Log.e(
@@ -1186,7 +1186,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						holder.version_recency.text = "$versionTime"
 					}
 				} else {
-					holder.version_recency.text = "Upload time unknown"
+					holder.version_recency.text = context.getString(stringRes.version_recency_error)
 				}
 
 				holder.size.text = product?.displayRelease?.size?.formatSize()

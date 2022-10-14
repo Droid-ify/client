@@ -181,6 +181,12 @@
     <string name="username">Username</string>
     <string name="username_missing">Username missing</string>
     <string name="validation_index_error_DESC">Index could not be validated.</string>
+    <string name="version_error">Unknown version</string>
+    <string name="version_recency_error">Unknown upload time</string>
+    <string name="version_recency_today">Today</string>
+    <string name="version_recency_yesterday">Yesterday</string>
+    <string name="version_recency_days_format">%s days ago</string>
+    <string name="version_recency_months_format">%s months ago</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download…</string>
