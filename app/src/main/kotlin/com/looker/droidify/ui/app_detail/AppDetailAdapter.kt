@@ -1153,8 +1153,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.version.text = product?.displayRelease?.version
 				holder.size.text = product?.displayRelease?.size?.formatSize()
 
-				if (product?.antiFeatures?.isNotEmpty() == true)
+				if (product?.antiFeatures?.isNotEmpty() == true) {
 					holder.hasAntiFeatures.text = context.getString(stringRes.anti_features)
+				} else {
+					holder.hasAntiFeatures.textSize = 0F
+				}
 
 				holder.dev.setOnClickListener {
 					product?.source?.let { link ->
