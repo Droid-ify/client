@@ -601,25 +601,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			if (installedItem != null) {
-				items.add(
-					Item.SwitchItem(
-						SwitchType.IGNORE_ALL_UPDATES,
-						packageName,
-						productRepository.first.versionCode
-					)
-				)
-				if (productRepository.first.canUpdate(installedItem)) {
-					items.add(
-						Item.SwitchItem(
-							SwitchType.IGNORE_THIS_UPDATE,
-							packageName,
-							productRepository.first.versionCode
-						)
-					)
-				}
-			}
-
 			val textViewHolder = TextViewHolder(context)
 			val textViewWidthSpec = context.resources.displayMetrics.widthPixels
 				.let { View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.EXACTLY) }
@@ -828,6 +809,25 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							0
 						)
 					}
+				}
+			}
+
+			if (installedItem != null) {
+				items.add(
+					Item.SwitchItem(
+						SwitchType.IGNORE_ALL_UPDATES,
+						packageName,
+						productRepository.first.versionCode
+					)
+				)
+				if (productRepository.first.canUpdate(installedItem)) {
+					items.add(
+						Item.SwitchItem(
+							SwitchType.IGNORE_THIS_UPDATE,
+							packageName,
+							productRepository.first.versionCode
+						)
+					)
 				}
 			}
 		}
