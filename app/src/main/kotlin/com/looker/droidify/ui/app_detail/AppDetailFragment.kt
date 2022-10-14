@@ -352,23 +352,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private suspend fun updateToolbarTitle() {
 		withContext(Dispatchers.Main) {
-			val showPackageName = recyclerView
-				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
-			collapsingToolbar.title =
-				if (showPackageName) products[0].first.name.trimAfter(' ', 2)
-				else getString(stringRes.application)
+			collapsingToolbar.title = products[0].first.name.trimAfter(' ', 2)
 		}
 	}
 
 	private suspend fun updateToolbarButtons() {
 		withContext(Dispatchers.Default) {
-			val (actions, primaryAction) = actions
-			val showPrimaryAction = recyclerView
-				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+			val (actions, _) = actions
 			val displayActions = actions.toMutableSet()
-			if (!showPrimaryAction && primaryAction != null) {
-				displayActions -= primaryAction
-			}
 			if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
 				displayActions -= Action.DETAILS
 			}
