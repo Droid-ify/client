@@ -119,7 +119,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		LINKS(stringRes.links, R.attr.colorPrimary),
 		DONATE(stringRes.donate, R.attr.colorPrimary),
 		PERMISSIONS(stringRes.permissions, R.attr.colorPrimary),
-		SCREENSHOTS(stringRes.screenshots, R.attr.colorPrimary),
 		VERSIONS(stringRes.versions, R.attr.colorPrimary)
 	}
 
