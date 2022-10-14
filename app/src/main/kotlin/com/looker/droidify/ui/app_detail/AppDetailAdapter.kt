@@ -134,6 +134,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val iconResId: Int, val titleResId: Int,
 		val format: ((Context, String) -> String)? = null,
 	) {
+		SOURCE(drawableRes.ic_code, stringRes.source_code),
 		AUTHOR(drawableRes.ic_person, stringRes.author_website),
 		EMAIL(drawableRes.ic_email, stringRes.author_email),
 		LICENSE(drawableRes.ic_copyright, stringRes.license,
@@ -725,6 +726,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 			val linkItems = mutableListOf<Item>()
 			productRepository.first.apply {
+				source.let { link ->
+					if (link.isNotEmpty()) {
+						linkItems += Item.LinkItem.Typed(
+							LinkType.SOURCE,
+							"",
+							link.toUri()
+						)
+					}
+				}
+
 				if (author.name.isNotEmpty() || author.web.isNotEmpty()) {
 					linkItems += Item.LinkItem.Typed(
 						LinkType.AUTHOR,
