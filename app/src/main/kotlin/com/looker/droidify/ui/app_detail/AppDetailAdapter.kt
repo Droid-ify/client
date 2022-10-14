@@ -574,16 +574,18 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				productRepository.first
 			)
 
-			val screenShotItem = mutableListOf<Item>()
-			screenShotItem += Item.ScreenshotItem(
-				productRepository.first.screenshots,
-				packageName,
-				productRepository.second
-			)
+			if (true) { // TODO add preference
+				val screenShotItem = mutableListOf<Item>()
+				screenShotItem += Item.ScreenshotItem(
+					productRepository.first.screenshots,
+					packageName,
+					productRepository.second
+				)
 
-			if (productRepository.first.screenshots.isNotEmpty()) {
-				expanded += ExpandType.SCREENSHOTS
-				items += screenShotItem
+				if (productRepository.first.screenshots.isNotEmpty()) {
+					expanded += ExpandType.SCREENSHOTS
+					items += screenShotItem
+				}
 			}
 
 			if (installedItem != null) {
