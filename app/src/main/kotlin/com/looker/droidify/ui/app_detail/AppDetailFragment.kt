@@ -352,7 +352,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private suspend fun updateToolbarTitle() {
 		withContext(Dispatchers.Main) {
-			toolbar.title = products[0].first.name
+			val showPackageName = recyclerView
+				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+			toolbar.title =
+				if (showPackageName) products[0].first.name
+				else ""
 		}
 	}
 
