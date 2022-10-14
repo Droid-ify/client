@@ -130,19 +130,22 @@
                 android:padding="16dp">
 
                 <com.google.android.material.textview.MaterialTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/size"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="14sp" />
-
-                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:singleLine="true"
-                    android:textSize="16sp" />
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="22sp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/has_anti_features"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:textColor="#F00"
+                    android:textSize="10sp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <com.google.android.material.divider.MaterialDivider

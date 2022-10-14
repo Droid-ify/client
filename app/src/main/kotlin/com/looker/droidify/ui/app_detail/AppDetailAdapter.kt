@@ -367,6 +367,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
 		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
 		val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
+		val hasAntiFeatures = itemView.findViewById<MaterialTextView>(R.id.has_anti_features)!!
 		val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
 	}
 
@@ -1151,6 +1152,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.targetSdk.text = sdk.toString()
 				holder.version.text = product?.displayRelease?.version
 				holder.size.text = product?.displayRelease?.size?.formatSize()
+
+				if (product?.antiFeatures?.isNotEmpty() == true)
+					holder.hasAntiFeatures.text = context.getString(stringRes.anti_features)
 
 				holder.dev.setOnClickListener {
 					product?.source?.let { link ->
