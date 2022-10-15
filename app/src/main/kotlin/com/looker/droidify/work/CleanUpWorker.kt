@@ -26,7 +26,6 @@ class CleanUpWorker @AssistedInject constructor(
 
 		private val constraints = Constraints.Builder()
 			.setRequiresBatteryNotLow(true)
-			.setRequiresDeviceIdle(true)
 			.build()
 
 		// TODO: Use variable time durations
