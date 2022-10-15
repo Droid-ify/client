@@ -254,6 +254,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 											installedItem.value,
 											it.incompatibleVersions
 										)
+										// TODO pass in comments here after getting them from a network request?
 									}
 								}
 							}
