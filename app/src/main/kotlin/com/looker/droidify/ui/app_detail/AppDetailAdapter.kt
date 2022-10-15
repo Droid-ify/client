@@ -106,7 +106,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		data class Downloading(val read: Long, val total: Long?) : Status()
 	}
 
-	enum class ViewType { APP_INFO, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
+	enum class ViewType { APP_INFO, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, COMMENT, PERMISSIONS, RELEASE, EMPTY }
 
 	private enum class SwitchType(val titleResId: Int) {
 		IGNORE_ALL_UPDATES(stringRes.ignore_all_updates),
@@ -116,6 +116,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private enum class SectionType(val titleResId: Int, val colorAttrResId: Int) {
 		ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
 		CHANGES(stringRes.changes, R.attr.colorPrimary),
+		COMMENTS(stringRes.comments, R.attr.colorPrimary),
 		LINKS(stringRes.links, R.attr.colorPrimary),
 		DONATE(stringRes.donate, R.attr.colorPrimary),
 		PERMISSIONS(stringRes.permissions, R.attr.colorPrimary),
@@ -275,6 +276,19 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					is Product.Donate.OpenCollective -> Uri.parse("https://opencollective.com/${donate.id}")
 				}
 			}
+		}
+
+		class CommentItem(
+			val author: String,
+			val content: String,
+		) : Item() {
+			override val viewType: ViewType
+				get() = ViewType.COMMENT
+			override val descriptor: String
+				get() = "comment"
+
+			// TODO use web resource
+			val iconResId: Int = drawableRes.ic_share
 		}
 
 		class PermissionsItem(
@@ -723,6 +737,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
+			// TODO fetch from the web
+			val comments = arrayOf("a", "b", "c")
+			if (comments.isNotEmpty()) {
+				items += Item.SectionItem(SectionType.COMMENTS)
+				comments.forEach {
+					items += Item.CommentItem("eldritchArt $it", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+				}
+			}
+
 			val linkItems = mutableListOf<Item>()
 			productRepository.first.apply {
 				if (author.name.isNotEmpty() || author.web.isNotEmpty()) {
@@ -1033,6 +1056,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					true
 				}
 			}
+			// TODO create custom comment layout, which expands when clicked on
+			ViewType.COMMENT -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
+			}
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
 					val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
@@ -1246,6 +1272,19 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.text.text = item.getTitle(context)
 				holder.link.visibility = if (item.uri != null) View.VISIBLE else View.GONE
 				holder.link.text = item.displayLink
+			}
+			// TODO use the custom layout instead of reusing links
+			ViewType.COMMENT -> {
+				holder as LinkViewHolder
+				item as Item.CommentItem
+				val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
+				layoutParams.topMargin = if (position > 0 && items[position - 1] !is Item.LinkItem)
+					-context.resources.sizeScaled(8) else 0
+				holder.itemView.isEnabled = true
+				holder.icon.setImageResource(item.iconResId)
+				holder.text.text = item.author
+				holder.link.visibility = View.VISIBLE
+				holder.link.text = item.content
 			}
 			ViewType.PERMISSIONS -> {
 				holder as PermissionsViewHolder

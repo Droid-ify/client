@@ -19,6 +19,7 @@
     <string name="cant_edit_sync_DESC">Cannot edit repository since it is syncing right now.</string>
     <string name="changelog">Changelog</string>
     <string name="changes">Changes</string>
+    <string name="comments">Comments</string>
     <string name="checking_repository">Checking repository…</string>
     <string name="cleanup_title">Clean up duration</string>
     <string name="cleanup_description">Time required for cleanup to recheck</string>
