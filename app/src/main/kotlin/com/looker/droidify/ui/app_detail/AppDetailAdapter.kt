@@ -12,7 +12,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Build
 import android.os.Parcel
+import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
@@ -596,8 +598,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	data class CommentData(val author: String, val content: String, val iconURL: String, val createdAt: String, val url: String)
 
 	private suspend fun fetchComments(appName: String, commentA: Item.CommentItem, commentB: Item.CommentItem, commentC: Item.CommentItem) {
+		val appHashtag = appName.replace('.','_')
 		val commentData = try {
-			val response = URL("https://mastodon.technology/api/v1/timelines/tag/${appName.replace('.','_')}?limit=3")
+			val response = URL("https://mastodon.technology/api/v1/timelines/tag/$appHashtag?limit=3")
 				.openStream()
 				.bufferedReader()
 				.use { response -> response.readText() }
@@ -608,7 +611,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				val jsonAccount = jsonComment.getJSONObject("account")
 				retval += CommentData(
 					if (jsonAccount.getString("display_name") != "") jsonAccount.getString("display_name") else jsonAccount.getString("username"),
-					jsonComment.getString("content"),
+					jsonComment.getString("content")
+						.replace("@<span>gdroid</span>","")
+						.replace("@<span>gdroid@mastodon.technology</span>","")
+						.replace("#<span>$appHashtag</span>","")
+						.replace("#<span>fdroid_app_comments</span>",""),
 					jsonAccount.getString("avatar"),
 					jsonComment.getString("created_at"),
 					jsonComment.getString("url"),
@@ -1354,7 +1361,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.author.text = item.comment.author
 				holder.time.text = item.comment.createdAt
 				holder.comment.visibility = View.VISIBLE
-				holder.comment.text = item.comment.content
+				val htmlString = item.comment.content
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+					holder.comment.text = (Html.fromHtml(htmlString, Html.TO_HTML_PARAGRAPH_LINES_INDIVIDUAL));
+				} else {
+					holder.comment.text = (Html.fromHtml(htmlString));
+				}
 			}
 			ViewType.PERMISSIONS -> {
 				holder as PermissionsViewHolder
