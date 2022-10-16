@@ -16,12 +16,7 @@ import android.os.Parcel
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
-import android.text.style.BulletSpan
-import android.text.style.ClickableSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.ReplacementSpan
-import android.text.style.TypefaceSpan
-import android.text.style.URLSpan
+import android.text.style.*
 import android.text.util.Linkify
 import android.util.Log
 import android.view.Gravity
@@ -61,14 +56,14 @@ import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.TypefaceExtra
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.getDrawableCompat
-import com.looker.droidify.utility.extension.resources.inflate
-import com.looker.droidify.utility.extension.resources.setTextSizeScaled
-import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.extension.resources.*
 import com.looker.droidify.widget.StableRecyclerAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
+import java.net.URL
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -280,7 +275,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 		class CommentItem(
 			val author: String,
-			val content: String,
+			var content: String,
 		) : Item() {
 			override val viewType: ViewType
 				get() = ViewType.COMMENT
@@ -573,6 +568,24 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private var product: Product? = null
 	private var installedItem: InstalledItem? = null
 
+	private suspend fun fetchComments(commentA: Item.CommentItem, commentB: Item.CommentItem, commentC: Item.CommentItem) {
+		val response = try {
+			System.out.println("a")
+			URL("https://mastodon.technology/api/v1/timelines/tag/org_gdroid_gdroid?limit=3")
+				.openStream()
+				.bufferedReader()
+				.use { response -> response.readText() }
+		} catch (e: Exception) {
+			e.printStackTrace()
+			"[]"
+		}
+		print(response)
+		commentB.content = ""
+		if (response != "[]") {
+			commentA.content = response
+		}
+	}
+
 	fun setProducts(
 		context: Context, packageName: String,
 		products: List<Pair<Product, Repository>>,
@@ -737,12 +750,23 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			// TODO fetch from the web
-			val comments = arrayOf("a", "b", "c")
+			val commentA = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+			val commentB = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+			val commentC = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+
+			val comments = arrayOf(commentA, commentB, commentC)
+
+			// TODO update comments A B C
+			runBlocking {
+				withContext(Dispatchers.IO) {
+					launch { fetchComments(commentA, commentB, commentC) }
+				}
+			}
+
 			if (comments.isNotEmpty()) {
 				items += Item.SectionItem(SectionType.COMMENTS)
 				comments.forEach {
-					items += Item.CommentItem("eldritchArt $it", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+					items += it
 				}
 			}
 
