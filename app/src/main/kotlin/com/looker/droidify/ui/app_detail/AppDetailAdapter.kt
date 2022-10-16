@@ -275,8 +275,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		class CommentItem(
-			var author: String,
-			var content: String,
+			var comment: CommentData,
 		) : Item() {
 			override val viewType: ViewType
 				get() = ViewType.COMMENT
@@ -481,6 +480,31 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 	}
 
+	private class CommentViewHolder(itemView: View) : OverlappingViewHolder(itemView) {
+		companion object {
+			private val measurement = Measurement<Int>()
+		}
+
+		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
+		val author = itemView.findViewById<MaterialTextView>(R.id.author)!!
+		val time = itemView.findViewById<MaterialTextView>(R.id.time)!!
+		val comment = itemView.findViewById<MaterialTextView>(R.id.comment)!!
+
+		init {
+			val margin = measurement.invalidate(itemView.resources) {
+				@SuppressLint("SetTextI18n")
+				author.text = "measure"
+				comment.visibility = View.GONE
+				measurement.measure(itemView)
+				((itemView.measuredHeight - icon.measuredHeight) / 2f).roundToInt()
+			}
+			(icon.layoutParams as ViewGroup.MarginLayoutParams).apply {
+				topMargin += margin
+				bottomMargin += margin
+			}
+		}
+	}
+
 	private class PermissionsViewHolder(itemView: View) : OverlappingViewHolder(itemView) {
 		companion object {
 			private val measurement = Measurement<Int>()
@@ -569,17 +593,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private var product: Product? = null
 	private var installedItem: InstalledItem? = null
 
-	data class CommentData(val author: String, val content: String, val iconURL: String, val createdAt: String)
+	data class CommentData(val author: String, val content: String, val iconURL: String, val createdAt: String, val url: String)
 
-	private suspend fun fetchComments(commentA: Item.CommentItem, commentB: Item.CommentItem, commentC: Item.CommentItem) {
+	private suspend fun fetchComments(appName: String, commentA: Item.CommentItem, commentB: Item.CommentItem, commentC: Item.CommentItem) {
 		val commentData = try {
-			val response = URL("https://mastodon.technology/api/v1/timelines/tag/org_gdroid_gdroid?limit=3")
+			val response = URL("https://mastodon.technology/api/v1/timelines/tag/${appName.replace('.','_')}?limit=3")
 				.openStream()
 				.bufferedReader()
 				.use { response -> response.readText() }
 			val retval = mutableListOf<CommentData>()
 			val json = JSONArray(response)
-			for (i in 0..(json.length() - 1)) {
+			for (i in 0 until json.length()) {
 				val jsonComment = json.getJSONObject(i)
 				val jsonAccount = jsonComment.getJSONObject("account")
 				retval += CommentData(
@@ -587,6 +611,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					jsonComment.getString("content"),
 					jsonAccount.getString("avatar"),
 					jsonComment.getString("created_at"),
+					jsonComment.getString("url"),
 				)
 			}
 			retval
@@ -595,27 +620,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			mutableListOf<CommentData>()
 		}
 		print(commentData)
-		commentB.content = ""
 		if (commentData.size > 0) {
-			commentA.author = commentData[0].author
-			commentA.content = commentData[0].content
-		} else {
-			commentA.author = ""
-			commentA.content = ""
+			commentA.comment = commentData[0]
 		}
 		if (commentData.size > 1) {
-			commentB.author = commentData[1].author
-			commentB.content = commentData[1].content
-		} else {
-			commentB.author = ""
-			commentB.content = ""
+			commentB.comment = commentData[1]
 		}
 		if (commentData.size > 2) {
-			commentC.author = commentData[2].author
-			commentC.content = commentData[2].content
-		} else {
-			commentC.author = ""
-			commentC.content = ""
+			commentC.comment = commentData[2]
 		}
 	}
 
@@ -783,16 +795,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			val commentA = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
-			val commentB = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
-			val commentC = Item.CommentItem("eldritchArt", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi")
+			val commentA = Item.CommentItem(CommentData("","","","",""))
+			val commentB = Item.CommentItem(CommentData("","","","",""))
+			val commentC = Item.CommentItem(CommentData("","","","",""))
 
 			val comments = arrayOf(commentA, commentB, commentC)
 
 			// TODO update comments A B C
 			runBlocking {
 				withContext(Dispatchers.IO) {
-					launch { fetchComments(commentA, commentB, commentC) }
+					launch { fetchComments(packageName, commentA, commentB, commentC) }
 				}
 			}
 
@@ -1114,7 +1126,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 			// TODO create custom comment layout, which expands when clicked on
-			ViewType.COMMENT -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
+			ViewType.COMMENT -> CommentViewHolder(parent.inflate(R.layout.comment_item)).apply {
 			}
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
@@ -1332,16 +1344,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			// TODO use the custom layout instead of reusing links
 			ViewType.COMMENT -> {
-				holder as LinkViewHolder
+				holder as CommentViewHolder
 				item as Item.CommentItem
 				val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
 				layoutParams.topMargin = if (position > 0 && items[position - 1] !is Item.LinkItem)
 					-context.resources.sizeScaled(8) else 0
 				holder.itemView.isEnabled = true
 				holder.icon.setImageResource(item.iconResId)
-				holder.text.text = item.author
-				holder.link.visibility = View.VISIBLE
-				holder.link.text = item.content
+				holder.author.text = item.comment.author
+				holder.time.text = item.comment.createdAt
+				holder.comment.visibility = View.VISIBLE
+				holder.comment.text = item.comment.content
 			}
 			ViewType.PERMISSIONS -> {
 				holder as PermissionsViewHolder
