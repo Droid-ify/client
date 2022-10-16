@@ -62,6 +62,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import org.json.JSONArray
 import java.lang.ref.WeakReference
 import java.net.URL
 import java.time.Instant
@@ -274,7 +275,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		class CommentItem(
-			val author: String,
+			var author: String,
 			var content: String,
 		) : Item() {
 			override val viewType: ViewType
@@ -568,21 +569,53 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private var product: Product? = null
 	private var installedItem: InstalledItem? = null
 
+	data class CommentData(val author: String, val content: String, val iconURL: String, val createdAt: String)
+
 	private suspend fun fetchComments(commentA: Item.CommentItem, commentB: Item.CommentItem, commentC: Item.CommentItem) {
-		val response = try {
-			System.out.println("a")
-			URL("https://mastodon.technology/api/v1/timelines/tag/org_gdroid_gdroid?limit=3")
+		val commentData = try {
+			val response = URL("https://mastodon.technology/api/v1/timelines/tag/org_gdroid_gdroid?limit=3")
 				.openStream()
 				.bufferedReader()
 				.use { response -> response.readText() }
+			val retval = mutableListOf<CommentData>()
+			val json = JSONArray(response)
+			for (i in 0..(json.length() - 1)) {
+				val jsonComment = json.getJSONObject(i)
+				val jsonAccount = jsonComment.getJSONObject("account")
+				retval += CommentData(
+					if (jsonAccount.getString("display_name") != "") jsonAccount.getString("display_name") else jsonAccount.getString("username"),
+					jsonComment.getString("content"),
+					jsonAccount.getString("avatar"),
+					jsonComment.getString("created_at"),
+				)
+			}
+			retval
 		} catch (e: Exception) {
 			e.printStackTrace()
-			"[]"
+			mutableListOf<CommentData>()
 		}
-		print(response)
+		print(commentData)
 		commentB.content = ""
-		if (response != "[]") {
-			commentA.content = response
+		if (commentData.size > 0) {
+			commentA.author = commentData[0].author
+			commentA.content = commentData[0].content
+		} else {
+			commentA.author = ""
+			commentA.content = ""
+		}
+		if (commentData.size > 1) {
+			commentB.author = commentData[1].author
+			commentB.content = commentData[1].content
+		} else {
+			commentB.author = ""
+			commentB.content = ""
+		}
+		if (commentData.size > 2) {
+			commentC.author = commentData[2].author
+			commentC.content = commentData[2].content
+		} else {
+			commentC.author = ""
+			commentC.content = ""
 		}
 	}
 
