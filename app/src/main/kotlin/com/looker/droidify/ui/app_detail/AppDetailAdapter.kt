@@ -1359,7 +1359,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.itemView.isEnabled = true
 				holder.icon.setImageResource(item.iconResId)
 				holder.author.text = item.comment.author
-				holder.time.text = item.comment.createdAt
+				holder.time.text = item.comment.createdAt.substringBefore('T')
 				holder.comment.visibility = View.VISIBLE
 				val htmlString = item.comment.content
 				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
