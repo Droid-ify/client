@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_failed">Veiksmas nepavyko</string>
+    <string name="address">Adresas</string>
+    <string name="all_applications">Visos programėlės</string>
+</resources>
