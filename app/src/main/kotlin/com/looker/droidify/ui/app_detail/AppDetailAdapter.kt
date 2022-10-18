@@ -341,7 +341,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private class AppInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 		val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
-		val packageName = itemView.findViewById<MaterialTextView>(R.id.package_name)!!
+		val authorName = itemView.findViewById<MaterialTextView>(R.id.author_name)!!
 		val action = itemView.findViewById<MaterialButton>(R.id.action)!!
 		val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
 		val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
@@ -1064,6 +1064,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 
+	var packageName = ""
 	override fun onBindViewHolder(
 		holder: RecyclerView.ViewHolder,
 		position: Int,
@@ -1090,9 +1091,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						error(holder.defaultIcon)
 					}
 					holder.name.text = item.product.name
-					holder.packageName.apply {
-						text = item.product.packageName
-					}
+					holder.authorName.text = item.product.author.name
+					packageName = item.product.packageName
 					val action = action
 					holder.action.apply {
 						visibility = if (action == null) View.GONE else View.VISIBLE
@@ -1214,7 +1214,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				val color = context.getColorFromAttr(item.sectionType.colorAttrResId)
 				holder.title.setTextColor(color)
-				holder.title.text = context.getString(item.sectionType.titleResId)
+				holder.title.text = when (item.sectionType) {
+					SectionType.VERSIONS -> context.getString(item.sectionType.titleResId) + " for " + packageName
+					else -> context.getString(item.sectionType.titleResId)
+				}
 				holder.icon.visibility = if (expandable) View.VISIBLE else View.GONE
 				holder.icon.scaleY = if (item.collapseCount > 0) -1f else 1f
 				holder.icon.imageTintList = color
