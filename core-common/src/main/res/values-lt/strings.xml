@@ -119,4 +119,10 @@
     <string name="incompatible_platforms_DESC_FORMAT">Jūsų %1$s platforma nepalaikoma. Palaikomos platformos: %2$s.</string>
     <string name="password_missing">Trūksta slaptažodžio</string>
     <string name="plus_more_FORMAT">+%d daugiau</string>
+    <string name="add_repository">Pridėti saugyklą</string>
+    <string name="available">Prieinamas</string>
+    <string name="cant_edit_sync_DESC">Negalima redaguoti saugyklos, nes ji dabar sinchronizuojama.</string>
+    <string name="cleanup_title">Išvalymo trukmė</string>
+    <string name="checking_repository">Tikrinama saugykla…</string>
+    <string name="delete_repository_DESC">Ištrinti saugyklą\?</string>
 </resources>
