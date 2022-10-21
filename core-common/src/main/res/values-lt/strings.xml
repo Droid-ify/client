@@ -125,4 +125,15 @@
     <string name="cleanup_title">Išvalymo trukmė</string>
     <string name="checking_repository">Tikrinama saugykla…</string>
     <string name="delete_repository_DESC">Ištrinti saugyklą\?</string>
+    <string name="integrity_check_error_DESC">Nepavyko patikrinti vientisumo.</string>
+    <string name="invalid_address">Neteisingas adresas</string>
+    <string name="invalid_fingerprint_format">Netinkamas pirštų atspaudų formatas</string>
+    <string name="invalid_metadata_error_DESC">Netinkami metaduomenys.</string>
+    <string name="invalid_permissions_error_DESC">Netinkami leidimai.</string>
+    <string name="invalid_signature_error_DESC">Netinkamas parašas.</string>
+    <string name="invalid_username_format">Netinkamas vartotojo vardo formatas</string>
+    <string name="launch">Paleisti</string>
+    <string name="license">Licencija</string>
+    <string name="license_FORMAT">%s licencija</string>
+    <string name="light">Šviesi</string>
 </resources>
