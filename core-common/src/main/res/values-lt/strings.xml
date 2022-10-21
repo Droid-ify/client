@@ -18,7 +18,7 @@
     <string name="description">Aprašymas</string>
     <string name="details">Išsami informacija</string>
     <string name="ignore_all_updates">Ignoruoti visas naujas versijas</string>
-    <string name="ignore_this_update">Ignoruokite šią versiją</string>
+    <string name="ignore_this_update">Ignoruoti šią versiją</string>
     <string name="incompatible_signature_DESC">Ši versija pasirašyta kitu sertifikatu nei jūsų įrenginyje įdiegtas sertifikatas. Pirmiausia jį pašalinkite.</string>
     <string name="notify_about_updates">Pranešti apie naujas programėlių versijas</string>
     <string name="save">Išsaugoti</string>
@@ -39,8 +39,8 @@
     <string name="unknown_error_DESC">Nežinoma klaida.</string>
     <string name="search">Ieškoti</string>
     <string name="signature_FORMAT">Parašas %s</string>
-    <string name="skip">Šokinėti</string>
-    <string name="system">Sistema</string>
+    <string name="skip">Praleisti</string>
+    <string name="system">Sistemos</string>
     <string name="themes">Temos</string>
     <string name="sorting_order">Rūšiavimo tvarka</string>
     <string name="source_code_no_longer_available">Šaltinio kodas nebepasiekiamas</string>
@@ -72,7 +72,7 @@
     <string name="notify_about_updates_summary">Rodyti pranešimą, kai bus pasiekiamos naujos versijos</string>
     <string name="number_of_applications">Programėlių skaičius</string>
     <string name="saving_details">Išsaugoma informacija…</string>
-    <string name="only_compatible_with_FORMAT">Suderinamas tik su %s</string>
+    <string name="only_compatible_with_FORMAT">Suderinama tik su %s</string>
     <string name="parsing_index_error_DESC">Nepavyko išanalizuoti indekso failo.</string>
     <string name="processing_FORMAT">Apdorojama %1$s…</string>
     <string name="project_website">Projekto svetainė</string>
@@ -136,4 +136,29 @@
     <string name="license">Licencija</string>
     <string name="license_FORMAT">%s licencija</string>
     <string name="light">Šviesi</string>
+    <string name="links">Nuorodos</string>
+    <string name="list_animation">Sąrašo animacijos</string>
+    <string name="list_animation_description">Rodyti sąrašo animaciją pagrindiniame puslapyje</string>
+    <string name="merging_FORMAT">Sujungiama %s</string>
+    <string name="name">Pavadinimas</string>
+    <string name="network_error_DESC">Tinklo klaida.</string>
+    <string name="never">Niekada</string>
+    <string name="new_updates_available">Yra naujų programėlių versijų</string>
+    <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d programėlė turi naują versiją.</item>
+        <item quantity="few">%d programėlės turi naujas versijas.</item>
+        <item quantity="other">%d programėlių turi naujas versijas.</item>
+    </plurals>
+    <string name="no_applications_available">Nėra pasiekiamų programėlių</string>
+    <string name="no_applications_installed">Nėra įdiegtų programėlių</string>
+    <string name="no_description_available_DESC">Aprašymo nėra.</string>
+    <string name="no_matching_applications_found">Nepavyko rasti tokių programėlių</string>
+    <string name="repository">Repozitorija</string>
+    <string name="repository_unsigned_DESC">Nepasirašyta. Nepavyko patikrinti programėlių sąrašo. Būkite atsargūs atsisiųsdami programėles iš nepasirašytų repozitorijų.</string>
+    <string name="sync_repositories">Sinchronizuoti repozitorijas</string>
+    <string name="sync_repositories_automatically">Automatiškai sinchronizuoti repozitorijas</string>
+    <string name="tap_to_install_DESC">Bakstelėkite, kad įdiegtumėte.</string>
+    <string name="repositories">Repozitorijos</string>
+    <string name="repository_not_used_DESC">Ši repozitorija dar nebuvo naudojama. Įjunkite ją, kad peržiūrėtumėte joje esančias programėles.</string>
+    <string name="requires_FORMAT">Reikalauja %s</string>
 </resources>
