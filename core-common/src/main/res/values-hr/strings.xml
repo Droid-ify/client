@@ -59,7 +59,7 @@
     <string name="anti_features">Anti-značajke</string>
     <string name="application">Aplikacija</string>
     <string name="application_not_found">Nije moguće pronaći traženu aplikaciju</string>
-    <string name="author_email">Kontaktirajte autora mailom</string>
+    <string name="author_email">E-mail adresa autora</string>
     <string name="author_website">Web stranica autora</string>
     <string name="bug_tracker">Alat za praćenje grešaka</string>
     <string name="cancel">Otkaži</string>
@@ -135,7 +135,7 @@
     <string name="proxy">Proxy</string>
     <string name="proxy_host">Proxy poslužitelj</string>
     <string name="proxy_port">Proxy priključak</string>
-    <string name="proxy_type">Tip Proxy-a</string>
+    <string name="proxy_type">Proxy vrsta</string>
     <string name="recently_updated">Nedavno ažurirano</string>
     <string name="repositories">Repozitoriji</string>
     <string name="repository">Repozitorij</string>
