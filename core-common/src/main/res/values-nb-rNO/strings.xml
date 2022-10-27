@@ -171,4 +171,26 @@
     <string name="prefs_language_title">Språk</string>
     <string name="prefs_personalization">Personalisering</string>
     <string name="show_less">Vis mindre</string>
+    <string name="sort_filter">Sorter og filtrer</string>
+    <string name="explore">Utforsk</string>
+    <string name="cleanup_title">Opprenskningsvarighet</string>
+    <string name="cleanup_description">Tids som kreves for at opprenskningen skal sjekkes igjen</string>
+    <plurals name="days">
+        <item quantity="one">Dag</item>
+        <item quantity="other">Dager</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Time</item>
+        <item quantity="other">Timer</item>
+    </plurals>
+    <string name="installer">Installasjonsprogram</string>
+    <string name="legacy_installer">Gammeldags</string>
+    <string name="session_installer">Økt</string>
+    <string name="root_installer">Rot-tilgang</string>
+    <string name="shizuku_installer">Shizuku</string>
+    <string name="only_on_wifi_with_charging">Kun på Wi-Fi og når innplugget</string>
+    <string name="latest">Nyeste</string>
+    <string name="update_all">Oppdater alle</string>
+    <string name="installed_applications">Installerte</string>
+    <string name="new_applications">Nye</string>
 </resources>
