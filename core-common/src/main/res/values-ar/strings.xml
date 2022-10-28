@@ -29,7 +29,7 @@
     <string name="application_not_found">لم يتم العثور على ذلك التطبيق</string>
     <string name="author_email">بريد المطور</string>
     <string name="author_website">موقع المنشئ الإلكتروني</string>
-    <string name="available">متوفر</string>
+    <string name="available">استكشف</string>
     <string name="cant_edit_sync_DESC">لا يمكن تحرير المستودع لأنه يتم مزامنته الآن.</string>
     <string name="changelog">سجل التغييرات</string>
     <string name="bug_tracker">متعقب العلل</string>
