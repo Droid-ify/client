@@ -13,7 +13,7 @@
     <string name="application_not_found">找不到应用</string>
     <string name="author_email">作者邮箱</string>
     <string name="author_website">作者网站</string>
-    <string name="available">可用</string>
+    <string name="available">探索</string>
     <string name="bug_tracker">错误追踪器</string>
     <string name="cancel">取消</string>
     <string name="cant_edit_sync_DESC">无法编辑存储库，因为它现在正在同步。</string>
