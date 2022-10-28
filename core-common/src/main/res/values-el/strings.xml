@@ -11,7 +11,7 @@
     <string name="application_not_found">Η εφαρμογή δε βρέθηκε</string>
     <string name="author_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου συντάκτη</string>
     <string name="author_website">Ιστοσελίδα συντάκτη</string>
-    <string name="available">Διαθέσιμα</string>
+    <string name="available">Εξερευνήστε</string>
     <string name="bug_tracker">Ινχηλάτης προβλημάτων</string>
     <string name="cancel">Ακύρωση</string>
     <string name="cant_edit_sync_DESC">Δεν μπορείτε να τροποποιήσετε το αποθετήριο καθώς συγχρονίζεται αυτή τη στιγμή.</string>
