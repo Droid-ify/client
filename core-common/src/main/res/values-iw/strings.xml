@@ -10,7 +10,7 @@
     <string name="application">יישום</string>
     <string name="application_not_found">לא ניתן היה למצוא את היישום הזה</string>
     <string name="author_email">דואר אלקטרוני של היוצר</string>
-    <string name="available">זמין</string>
+    <string name="available">עיין</string>
     <string name="bug_tracker">עוקב אחר באגים</string>
     <string name="cant_edit_sync_DESC">לא ניתן לערוך את המאגר מכיוון שהוא מסתנכרן כעת.</string>
     <string name="changelog">יומן שינויים</string>
