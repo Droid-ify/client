@@ -13,7 +13,7 @@
     <string name="application_not_found">Bu uygulama bulunamadı</string>
     <string name="author_email">Yazarın e-posta adresi</string>
     <string name="author_website">Yazarın web sitesi</string>
-    <string name="available">Mevcut</string>
+    <string name="available">Gözat</string>
     <string name="bug_tracker">Hata izleme</string>
     <string name="cancel">İptal et</string>
     <string name="cant_edit_sync_DESC">Depo şuan senkronize edildiği için düzenlenemiyor.</string>
