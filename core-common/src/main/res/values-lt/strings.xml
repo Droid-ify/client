@@ -120,7 +120,7 @@
     <string name="password_missing">Trūksta slaptažodžio</string>
     <string name="plus_more_FORMAT">+%d daugiau</string>
     <string name="add_repository">Pridėti repozitoriją</string>
-    <string name="available">Pasiekiamas</string>
+    <string name="available">Naršyti</string>
     <string name="cant_edit_sync_DESC">Negalima redaguoti repozitorijos, nes ji dabar sinchronizuojama.</string>
     <string name="cleanup_title">Išvalymo trukmė</string>
     <string name="checking_repository">Tikrinama repozitorija…</string>
