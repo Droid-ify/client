@@ -13,7 +13,7 @@
     <string name="application_not_found">Could not find that application</string>
     <string name="author_email">Author e-mail</string>
     <string name="author_website">Author website</string>
-    <string name="available">Available</string>
+    <string name="available">Explore</string>
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Cancel</string>
     <string name="cant_edit_sync_DESC">Cannot edit repository since it is syncing right now.</string>
