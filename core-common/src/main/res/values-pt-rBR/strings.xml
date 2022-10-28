@@ -13,7 +13,7 @@
     <string name="application_not_found">Não foi possível encontrar esse aplicativo</string>
     <string name="author_email">E-mail do autor</string>
     <string name="author_website">Página do autor</string>
-    <string name="available">Disponível</string>
+    <string name="available">Explorar</string>
     <string name="bug_tracker">Rastreador de erros</string>
     <string name="cancel">Cancelar</string>
     <string name="cant_edit_sync_DESC">Não é possível editar o repositório pois ele está sincronizando no momento.</string>
