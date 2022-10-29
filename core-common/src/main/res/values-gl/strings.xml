@@ -126,7 +126,7 @@
     <string name="author_email">Correo electrónico do autor</string>
     <string name="anti_features">Anti-características</string>
     <string name="application">Aplicacions</string>
-    <string name="available">Dispoñible</string>
+    <string name="available">Explorar</string>
     <string name="incompatible_version">Versión non valida</string>
     <string name="application_not_found">Non se puido atopar esa aplicación</string>
     <string name="could_not_validate_FORMAT">Non se puido validar %s</string>
