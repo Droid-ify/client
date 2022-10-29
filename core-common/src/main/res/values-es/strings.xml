@@ -13,7 +13,7 @@
     <string name="application_not_found">No se pudo encontrar esa aplicación</string>
     <string name="author_email">Correo electrónico del autor</string>
     <string name="author_website">Sitio web del autor</string>
-    <string name="available">Disponible</string>
+    <string name="available">Explorar</string>
     <string name="bug_tracker">Registro de incidencias</string>
     <string name="cancel">Cancelar</string>
     <string name="cant_edit_sync_DESC">No se puede editar el repositorio ya que se está sincronizando ahora mismo.</string>
@@ -165,9 +165,9 @@
     <string name="whats_new">Novedades</string>
     <string name="website">Página web</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d tiene una nueva versión de la aplicación.</item>
-        <item quantity="many">%d aplicaciones con nuevas versiones.</item>
-        <item quantity="other"/>
+        <item quantity="one">La aplicación %d tiene una nueva versión.</item>
+        <item quantity="many">Las aplicaciones %d tienen nuevas versiones.</item>
+        <item quantity="other">Las aplicaciones %d tienen nuevas versiones.</item>
     </plurals>
     <string name="prefs_language_title">Idioma</string>
     <string name="prefs_personalization">Personalización</string>
@@ -183,4 +183,17 @@
     <string name="session_installer">Instalador de sesión</string>
     <string name="legacy_installer">Instalador heredado</string>
     <string name="shizuku_installer">Instalador de Shizuku</string>
+    <string name="cleanup_title">Duración de la limpieza</string>
+    <string name="cleanup_description">Tiempo necesario para que la limpieza se vuelva a realizar</string>
+    <plurals name="days">
+        <item quantity="one">Día</item>
+        <item quantity="many">Días</item>
+        <item quantity="other">Días</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="one">Hora</item>
+        <item quantity="many">Horas</item>
+        <item quantity="other">Horas</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging"></string>
 </resources>
