@@ -13,7 +13,7 @@
     <string name="application_not_found">Impossibile trovare quell\'applicazione</string>
     <string name="author_email">E-mail dell\'autore</string>
     <string name="author_website">Sito web dell\'autore</string>
-    <string name="available">Disponibile</string>
+    <string name="available">Esplora</string>
     <string name="bug_tracker">Inseguitore di errore</string>
     <string name="cancel">Annulla</string>
     <string name="cant_edit_sync_DESC">Non puoi modificare la repository mentre è in aggiornamento.</string>
