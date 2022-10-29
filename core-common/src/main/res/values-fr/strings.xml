@@ -9,7 +9,7 @@
     <string name="application_not_found">Impossible de trouver cette application</string>
     <string name="author_email">Courriel de l\'auteur</string>
     <string name="author_website">Site web de l\'auteur</string>
-    <string name="available">Disponible</string>
+    <string name="available">Explorer</string>
     <string name="bug_tracker">Traqueur de bogues</string>
     <string name="cancel">Annuler</string>
     <string name="cant_edit_sync_DESC">Impossible de modifier le dépôt car il est en cours de synchronisation.</string>
