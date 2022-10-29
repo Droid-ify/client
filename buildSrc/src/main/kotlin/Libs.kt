@@ -4,7 +4,7 @@ object AndroidX {
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
-	const val material = "com.google.android.material:material:1.7.0-rc01"
+	const val material = "com.google.android.material:material:1.7.0"
 }
 
 object Core {
@@ -64,7 +64,7 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val ktorVersion = "2.1.1"
+	private const val ktorVersion = "2.1.2"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
 	const val json = "io.ktor:ktor-client-json:$ktorVersion"
 	const val serialization = "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
@@ -76,8 +76,8 @@ object Lifecycle {
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.3"
-	const val activity = "androidx.activity:activity-ktx:1.6.0"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.4"
+	const val activity = "androidx.activity:activity-ktx:1.6.1"
 }
 
 object OkHttp {
@@ -111,8 +111,8 @@ object Startup {
 }
 
 object Version {
-	const val kotlin = "1.7.10"
-	const val ksp = "1.7.10-1.0.6"
+	const val kotlin = "1.7.20"
+	const val ksp = "1.7.20-1.0.7"
 }
 
 object Work {
