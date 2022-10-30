@@ -92,8 +92,8 @@
     <string name="ok">Aceptar</string>
     <string name="only_compatible_with_FORMAT">Solo compatible con %s</string>
     <string name="only_on_wifi">Solo con Wi-Fi</string>
-    <string name="open_DESC_FORMAT">¿Abrir %s?</string>
-    <string name="other">Otro</string>
+    <string name="open_DESC_FORMAT">¿Quieres abrir %s\?</string>
+    <string name="other">Otros</string>
     <string name="parsing_index_error_DESC">No se ha podido analizar el archivo de índice.</string>
     <string name="password">Contraseña</string>
     <string name="password_missing">Falta la contraseña</string>
@@ -195,5 +195,5 @@
         <item quantity="many">Horas</item>
         <item quantity="other">Horas</item>
     </plurals>
-    <string name="only_on_wifi_with_charging"></string>
+    <string name="only_on_wifi_with_charging">Solo con Wi-Fi y cargando</string>
 </resources>
