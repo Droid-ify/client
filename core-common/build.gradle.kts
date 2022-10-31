@@ -38,6 +38,8 @@ dependencies {
 	implementation(Coroutines.android)
 
 	api(Jackson.core)
+
+	implementation(Kotlin.datetime)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

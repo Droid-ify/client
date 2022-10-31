@@ -11,8 +11,10 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
+import android.util.Log
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -37,6 +39,8 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
+import com.looker.droidify.work.DelegatingWorker
+import com.looker.droidify.work.delegatedData
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -50,7 +54,9 @@ import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
+import kotlin.time.toJavaDuration
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
@@ -74,7 +80,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 		updatePreference()
 
 		if (databaseUpdated) forceSyncAll()
-		cleanUp()
 	}
 
 	override fun onTerminate() {
@@ -82,14 +87,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 		appScope.cancel("Application Terminated")
 	}
 
-	private fun cleanUp() {
-		WorkManager.getInstance(this).apply {
-			enqueueUniquePeriodicWork(
-				CleanUpWorker.TAG,
-				ExistingPeriodicWorkPolicy.REPLACE,
-				CleanUpWorker.periodicWork
-			)
-		}
+	private fun scheduleCleanup(duration: Duration) {
+		val workManager = WorkManager.getInstance(this)
+		val cleanup = PeriodicWorkRequestBuilder<DelegatingWorker>(duration.toJavaDuration())
+			.setInputData(CleanUpWorker::class.delegatedData())
+			.build()
+
+		workManager.enqueueUniquePeriodicWork(
+			CleanUpWorker.TAG,
+			ExistingPeriodicWorkPolicy.REPLACE,
+			cleanup
+		)
+		Log.d(CleanUpWorker.TAG, "Periodic work enqueued with duration: $duration")
 	}
 
 	private fun listenApplications() {
@@ -133,8 +142,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			initialSetup.collect { initialPreference ->
-				updateSyncJob(false, initialPreference.autoSync)
-				updateProxy(initialPreference)
 				var lastProxy = initialPreference.proxyType
 				var lastProxyPort = initialPreference.proxyPort
 				var lastProxyHost = initialPreference.proxyHost
@@ -142,6 +149,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 				var lastUnstableUpdate = initialPreference.unstableUpdate
 				var lastLanguage = initialPreference.language
 				var lastTheme = initialPreference.theme
+				var lastCleanupDuration = initialPreference.cleanUpDuration
+				updateSyncJob(false, lastAutoSync)
+				updateProxy(initialPreference)
+				scheduleCleanup(lastCleanupDuration)
 				userPreferenceFlow.collect { newPreference ->
 					if (
 						newPreference.proxyType != lastProxy
@@ -176,6 +187,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 							)
 						)
 						applicationContext.startActivity(refresh)
+					} else if (newPreference.cleanUpDuration != lastCleanupDuration) {
+						lastCleanupDuration = newPreference.cleanUpDuration
+						scheduleCleanup(newPreference.cleanUpDuration)
 					}
 				}
 			}

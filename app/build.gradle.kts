@@ -92,6 +92,8 @@ dependencies {
 
 	implementation(Jackson.core)
 
+	implementation(Kotlin.datetime)
+
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.activity)
 	implementation(Lifecycle.runtime)

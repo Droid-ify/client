@@ -17,16 +17,15 @@ import java.util.*
 import kotlin.concurrent.thread
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.Duration.Companion.seconds
 
 object Cache {
 
-	const val RELEASE_DIR = "releases"
-	const val PARTIAL_DIR = "partial"
-	const val IMAGES_DIR = "images"
-	const val TEMP_DIR = "temporary"
+	private const val RELEASE_DIR = "releases"
+	private const val PARTIAL_DIR = "partial"
+	private const val IMAGES_DIR = "images"
+	private const val TEMP_DIR = "temporary"
 
-	fun ensureCacheDir(context: Context, name: String): File {
+	private fun ensureCacheDir(context: Context, name: String): File {
 		return File(
 			context.cacheDir,
 			name
@@ -89,7 +88,7 @@ object Cache {
 		thread {
 			cleanup(
 				context,
-				Pair(IMAGES_DIR, 0.seconds),
+				Pair(IMAGES_DIR, Duration.INFINITE),
 				Pair(PARTIAL_DIR, 24.hours),
 				Pair(RELEASE_DIR, 24.hours),
 				Pair(TEMP_DIR, 1.hours)
@@ -109,14 +108,12 @@ object Cache {
 			}
 		}
 		dirHours.forEach { (name, duration) ->
-			if (duration > Duration.ZERO) {
-				val file = File(context.cacheDir, name)
-				if (file.exists()) {
-					if (file.isDirectory) {
-						cleanupDir(file, duration)
-					} else {
-						file.delete()
-					}
+			val file = File(context.cacheDir, name)
+			if (file.exists()) {
+				if (file.isDirectory) {
+					cleanupDir(file, duration)
+				} else {
+					file.delete()
 				}
 			}
 		}

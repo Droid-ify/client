@@ -5,10 +5,13 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.looker.core_common.cache.Cache
+import com.looker.core_datastore.UserPreferencesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -24,21 +27,19 @@ class CleanUpWorker @AssistedInject constructor(
 	companion object {
 		const val TAG = "CleanUpWorker"
 
-		private val constraints = Constraints.Builder()
-			.setRequiresBatteryNotLow(true)
-			.build()
-
-		// TODO: Use variable time durations
-		val periodicWork =
-			PeriodicWorkRequestBuilder<DelegatingWorker>(12.hours.toJavaDuration())
-				.setConstraints(constraints)
+		fun force(context: Context) {
+			val cleanup = OneTimeWorkRequestBuilder<DelegatingWorker>()
 				.setInputData(CleanUpWorker::class.delegatedData())
 				.build()
 
-		val forceWork =
-			OneTimeWorkRequestBuilder<DelegatingWorker>()
-				.setInputData(CleanUpWorker::class.delegatedData())
-				.build()
+			val workManager = WorkManager.getInstance(context)
+			workManager.enqueueUniqueWork(
+				"$TAG.force",
+				ExistingWorkPolicy.KEEP,
+				cleanup
+			)
+			Log.d(TAG, "Forced cleanup enqueued")
+		}
 	}
 
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
@@ -53,4 +54,3 @@ class CleanUpWorker @AssistedInject constructor(
 		}
 	}
 }
-
