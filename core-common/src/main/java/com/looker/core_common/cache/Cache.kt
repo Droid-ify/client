@@ -73,9 +73,27 @@ object Cache {
 	fun getReleaseUri(context: Context, cacheFileName: String): Uri {
 		val file = getReleaseFile(context, cacheFileName)
 		val packageInfo =
-			context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PROVIDERS)
+			try {
+				sdkAbove(
+					sdk = Build.VERSION_CODES.TIRAMISU,
+					onSuccessful = {
+						context.packageManager.getPackageInfo(
+							context.packageName,
+							PackageManager.PackageInfoFlags.of(PackageManager.GET_PROVIDERS.toLong())
+						)
+					},
+					orElse = {
+						context.packageManager.getPackageInfo(
+							context.packageName,
+							PackageManager.GET_PROVIDERS
+						)
+					}
+				)
+			} catch (e: Exception) {
+				null
+			}
 		val authority =
-			packageInfo.providers.find { it.name == Provider::class.java.name }!!.authority
+			packageInfo?.providers?.find { it.name == Provider::class.java.name }!!.authority
 		return Uri.Builder().scheme("content").authority(authority)
 			.encodedPath(subPath(context.cacheDir, file)).build()
 	}

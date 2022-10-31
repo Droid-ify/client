@@ -146,19 +146,23 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addDataScheme("package")
 		})
 		val installedItems =
-			sdkAbove(
-				sdk = Build.VERSION_CODES.TIRAMISU,
-				onSuccessful = {
-					packageManager.getInstalledPackages(
-						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-					).map { it.toInstalledItem() }
-				},
-				orElse = {
-					packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
-						.map { it.toInstalledItem() }
-				}
-			)
-		Database.InstalledAdapter.putAll(installedItems)
+			try {
+				sdkAbove(
+					sdk = Build.VERSION_CODES.TIRAMISU,
+					onSuccessful = {
+						packageManager.getInstalledPackages(
+							PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+						).map { it.toInstalledItem() }
+					},
+					orElse = {
+						packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
+							.map { it.toInstalledItem() }
+					}
+				)
+			} catch (e: Exception) {
+				null
+			}
+		installedItems?.let { Database.InstalledAdapter.putAll(it) }
 	}
 
 	private fun updatePreference() {
