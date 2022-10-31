@@ -3,7 +3,7 @@ name: Build Release APK
 on:
   workflow_dispatch:
   push:
-    branches: [ stable ]
+    branches: [ main ]
 
 jobs:
   build:
