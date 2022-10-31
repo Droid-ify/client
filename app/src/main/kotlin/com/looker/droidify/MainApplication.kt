@@ -10,6 +10,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.os.Build
 import android.util.Log
 import androidx.work.ExistingPeriodicWorkPolicy
@@ -112,9 +113,20 @@ class MainApplication : Application(), ImageLoaderFactory {
 						Intent.ACTION_PACKAGE_REMOVED,
 						-> {
 							val packageInfo = try {
-								packageManager.getPackageInfo(
-									packageName,
-									Android.PackageManager.signaturesFlag
+								sdkAbove(
+									sdk = Build.VERSION_CODES.TIRAMISU,
+									onSuccessful = {
+										packageManager.getPackageInfo(
+											packageName,
+											PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+										)
+									},
+									orElse = {
+										packageManager.getPackageInfo(
+											packageName,
+											Android.PackageManager.signaturesFlag
+										)
+									}
 								)
 							} catch (e: Exception) {
 								null
@@ -134,8 +146,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addDataScheme("package")
 		})
 		val installedItems =
-			packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
-				.map { it.toInstalledItem() }
+			sdkAbove(
+				sdk = Build.VERSION_CODES.TIRAMISU,
+				onSuccessful = {
+					packageManager.getInstalledPackages(
+						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+					).map { it.toInstalledItem() }
+				},
+				orElse = {
+					packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
+						.map { it.toInstalledItem() }
+				}
+			)
 		Database.InstalledAdapter.putAll(installedItems)
 	}
 
