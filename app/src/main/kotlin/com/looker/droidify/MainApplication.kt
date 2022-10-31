@@ -52,6 +52,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
@@ -339,7 +340,7 @@ class ContextWrapperX(base: Context) : ContextWrapper(base) {
 		fun userPreferencesRepository(): UserPreferencesRepository
 	}
 
-	suspend fun wrap(context: Context): ContextWrapper {
+	fun wrap(context: Context): ContextWrapper = runBlocking {
 		val appContext = context.applicationContext
 		val hiltEntryPoint =
 			EntryPointAccessors.fromApplication(
@@ -348,6 +349,6 @@ class ContextWrapperX(base: Context) : ContextWrapper(base) {
 			)
 		val language = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences().language
 		val config = context.setLanguage(language)
-		return ContextWrapperX(context.createConfigurationContext(config))
+		ContextWrapperX(context.createConfigurationContext(config))
 	}
 }
