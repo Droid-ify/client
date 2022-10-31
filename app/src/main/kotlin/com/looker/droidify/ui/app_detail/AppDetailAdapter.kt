@@ -28,6 +28,7 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.LinearLayoutCompat
@@ -46,7 +47,6 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.google.android.material.textview.MaterialTextView
 import com.looker.core_common.file.KParcelable
 import com.looker.core_common.formatSize
 import com.looker.core_common.nullIfEmpty
@@ -341,11 +341,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private class AppInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-		val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
-		val packageName = itemView.findViewById<MaterialTextView>(R.id.package_name)!!
+		val name = itemView.findViewById<TextView>(R.id.name)!!
+		val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
 		val action = itemView.findViewById<MaterialButton>(R.id.action)!!
 		val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
-		val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
+		val status = itemView.findViewById<TextView>(R.id.status)!!
 		val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
 
 		val progressIcon: Drawable
@@ -365,9 +365,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 		val targetBlock = itemView.findViewById<LinearLayoutCompat>(R.id.sdk_block)!!
 		val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
-		val targetSdk = itemView.findViewById<MaterialTextView>(R.id.sdk)!!
-		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
-		val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
+		val targetSdk = itemView.findViewById<TextView>(R.id.sdk)!!
+		val version = itemView.findViewById<TextView>(R.id.version)!!
+		val size = itemView.findViewById<TextView>(R.id.size)!!
 		val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
 	}
 
@@ -386,17 +386,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val title = itemView.findViewById<MaterialTextView>(R.id.title)!!
+		val title = itemView.findViewById<TextView>(R.id.title)!!
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 	}
 
 	private class ExpandViewHolder(context: Context) :
-		RecyclerView.ViewHolder(MaterialTextView(context)) {
-		val text: MaterialTextView
-			get() = itemView as MaterialTextView
+		RecyclerView.ViewHolder(TextView(context)) {
+		val text: TextView
+			get() = itemView as TextView
 
 		init {
-			itemView as MaterialTextView
+			itemView as TextView
 			itemView.typeface = TypefaceExtra.medium
 			itemView.setTextSizeScaled(14)
 			itemView.background =
@@ -420,12 +420,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class TextViewHolder(context: Context) :
-		RecyclerView.ViewHolder(MaterialTextView(context)) {
-		val text: MaterialTextView
-			get() = itemView as MaterialTextView
+		RecyclerView.ViewHolder(TextView(context)) {
+		val text: TextView
+			get() = itemView as TextView
 
 		init {
-			itemView as MaterialTextView
+			itemView as TextView
 			itemView.setTextSizeScaled(15)
 			itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
 			itemView.movementMethod = LinkMovementMethod()
@@ -454,8 +454,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-		val text = itemView.findViewById<MaterialTextView>(R.id.text)!!
-		val link = itemView.findViewById<MaterialTextView>(R.id.link)!!
+		val text = itemView.findViewById<TextView>(R.id.text)!!
+		val link = itemView.findViewById<TextView>(R.id.link)!!
 
 		init {
 			val margin = measurement.invalidate(itemView.resources) {
@@ -478,7 +478,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-		val text = itemView.findViewById<MaterialTextView>(R.id.text)!!
+		val text = itemView.findViewById<TextView>(R.id.text)!!
 
 		init {
 			val margin = measurement.invalidate(itemView.resources) {
@@ -497,13 +497,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val dateFormat = DateFormat.getDateFormat(itemView.context)!!
 
-		val version = itemView.findViewById<MaterialTextView>(R.id.version)!!
-		val status = itemView.findViewById<MaterialTextView>(R.id.installation_status)!!
-		val source = itemView.findViewById<MaterialTextView>(R.id.source)!!
-		val added = itemView.findViewById<MaterialTextView>(R.id.added)!!
-		val size = itemView.findViewById<MaterialTextView>(R.id.size)!!
-		val signature = itemView.findViewById<MaterialTextView>(R.id.signature)!!
-		val compatibility = itemView.findViewById<MaterialTextView>(R.id.compatibility)!!
+		val version = itemView.findViewById<TextView>(R.id.version)!!
+		val status = itemView.findViewById<TextView>(R.id.installation_status)!!
+		val source = itemView.findViewById<TextView>(R.id.source)!!
+		val added = itemView.findViewById<TextView>(R.id.added)!!
+		val size = itemView.findViewById<TextView>(R.id.size)!!
+		val signature = itemView.findViewById<TextView>(R.id.signature)!!
+		val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
 
 		val statefulViews: Sequence<View>
 			get() = sequenceOf(
@@ -520,14 +520,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private class EmptyViewHolder(context: Context) :
 		RecyclerView.ViewHolder(LinearLayoutCompat(context)) {
-		val packageName: MaterialTextView
+		val packageName: TextView
 
 		init {
 			itemView as LinearLayoutCompat
 			itemView.orientation = LinearLayoutCompat.VERTICAL
 			itemView.gravity = Gravity.CENTER
 			itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
-			val title = MaterialTextView(itemView.context)
+			val title = TextView(itemView.context)
 			title.gravity = Gravity.CENTER
 			title.typeface = TypefaceExtra.light
 			title.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
@@ -538,7 +538,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				LinearLayoutCompat.LayoutParams.MATCH_PARENT,
 				LinearLayoutCompat.LayoutParams.WRAP_CONTENT
 			)
-			val packageName = MaterialTextView(itemView.context)
+			val packageName = TextView(itemView.context)
 			packageName.gravity = Gravity.CENTER
 			packageName.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
 			packageName.setTextSizeScaled(18)
@@ -1160,7 +1160,29 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 
 				holder.targetSdk.text = sdk.toString()
-				holder.version.text = product?.displayRelease?.version
+				holder.version.apply {
+					text = installedItem?.version ?: product?.version
+					if (product?.canUpdate(installedItem) == true) {
+						if (background == null) {
+							background =
+								ResourcesCompat.getDrawable(
+									holder.itemView.resources,
+									R.drawable.background_border,
+									context.theme
+								)
+							resources.sizeScaled(4).let { setPadding(it * 2, it, it * 2, it) }
+							backgroundTintList =
+								context.getColorFromAttr(R.attr.colorSecondaryContainer)
+							setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
+						}
+					} else {
+						if (background != null) {
+							setPadding(0, 0, 0, 0)
+							setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorControlNormal))
+							background = null
+						}
+					}
+				}
 				holder.size.text = product?.displayRelease?.size?.formatSize()
 
 				holder.dev.setOnClickListener {
