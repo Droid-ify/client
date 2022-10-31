@@ -33,7 +33,7 @@ jobs:
       run: ./gradlew assembleRelease
       
     - name: Rename APK
-      run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/droidify.apk
+      run: mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/droidify.apk
       
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
