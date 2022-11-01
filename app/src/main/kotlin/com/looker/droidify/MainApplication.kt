@@ -175,7 +175,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 				var lastAutoSync = initialPreference.autoSync
 				var lastUnstableUpdate = initialPreference.unstableUpdate
 				var lastLanguage = initialPreference.language
-				var lastTheme = initialPreference.theme
 				var lastCleanupDuration = initialPreference.cleanUpDuration
 				updateSyncJob(false, lastAutoSync)
 				updateProxy(initialPreference)
@@ -198,15 +197,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 						updateSyncJob(true, lastAutoSync)
 					} else if (lastLanguage != newPreference.language) {
 						lastLanguage = newPreference.language
-						val refresh = Intent.makeRestartActivityTask(
-							ComponentName(
-								baseContext,
-								MainActivity::class.java
-							)
-						)
-						applicationContext.startActivity(refresh)
-					} else if (lastTheme != newPreference.theme) {
-						lastTheme = newPreference.theme
 						val refresh = Intent.makeRestartActivityTask(
 							ComponentName(
 								baseContext,
