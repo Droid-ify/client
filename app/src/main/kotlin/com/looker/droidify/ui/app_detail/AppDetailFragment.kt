@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core_common.trimAfter
 import com.looker.core_datastore.UserPreferencesRepository
+import com.looker.core_datastore.model.InstallerType
 import com.looker.core_model.InstalledItem
 import com.looker.core_model.Product
 import com.looker.core_model.ProductPreference
@@ -399,7 +400,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
 				initialSetup.collect {
-					packageName.installApk(context, state.release.cacheFileName, it.installerType)
+					val installer = it.installerType
+					if (installer != InstallerType.ROOT && installer != InstallerType.SHIZUKU) {
+						packageName.installApk(context, state.release.cacheFileName, installer)
+					}
 				}
 			}
 		}
