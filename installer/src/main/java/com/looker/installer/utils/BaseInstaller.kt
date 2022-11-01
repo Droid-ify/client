@@ -2,10 +2,7 @@ package com.looker.installer.utils
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.net.toUri
-import com.topjohnwu.superuser.Shell
-import java.io.File
 
 abstract class BaseInstaller(val context: Context) : InstallationEvents {
 	companion object {

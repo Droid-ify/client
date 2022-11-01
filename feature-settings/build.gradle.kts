@@ -56,4 +56,8 @@ dependencies {
 
 	implementation(Hilt.android)
 	kapt(Hilt.compiler)
+
+	implementation(Others.libsu)
+	implementation(Others.shizukuApi)
+	implementation(Others.shizukuProvider)
 }

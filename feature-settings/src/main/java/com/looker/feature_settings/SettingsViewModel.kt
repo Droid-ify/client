@@ -1,5 +1,6 @@
 package com.looker.feature_settings
 
+import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core_datastore.UserPreferencesRepository
@@ -7,9 +8,11 @@ import com.looker.core_datastore.model.AutoSync
 import com.looker.core_datastore.model.InstallerType
 import com.looker.core_datastore.model.ProxyType
 import com.looker.core_datastore.model.Theme
+import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import rikka.shizuku.Shizuku
 import javax.inject.Inject
 import kotlin.time.Duration
 
@@ -87,7 +90,53 @@ class SettingsViewModel
 
 	fun setInstaller(installerType: InstallerType) {
 		viewModelScope.launch {
-			userPreferencesRepository.setInstallerType(installerType)
+			when (installerType) {
+				InstallerType.SHIZUKU -> {
+					val haveShizuku = checkShizukuPermission()
+					userPreferencesRepository.setInstallerType(
+						if (haveShizuku) InstallerType.SHIZUKU else InstallerType.SESSION
+					)
+				}
+				InstallerType.ROOT -> {
+					val isRooted = Shell.rootAccess()
+					userPreferencesRepository.setInstallerType(
+						if (isRooted) InstallerType.ROOT else InstallerType.SESSION
+					)
+				}
+				else -> {
+					userPreferencesRepository.setInstallerType(installerType)
+				}
+			}
 		}
 	}
+
+	private fun checkShizukuPermission(): Boolean {
+		if (Shizuku.isPreV11()) return false
+		return if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) true
+		else if (Shizuku.shouldShowRequestPermissionRationale()) false
+		else {
+			Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
+			false
+		}
+	}
+
+	private val permissionListener =
+		Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+			viewModelScope.launch {
+				val granted = grantResult == PackageManager.PERMISSION_GRANTED
+				if (!granted) userPreferencesRepository.setInstallerType(InstallerType.SESSION)
+			}
+		}
+
+	init {
+		Shizuku.addRequestPermissionResultListener(permissionListener)
+	}
+
+	override fun onCleared() {
+		super.onCleared()
+		Shizuku.removeRequestPermissionResultListener(permissionListener)
+	}
+
 }
+
+private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263
