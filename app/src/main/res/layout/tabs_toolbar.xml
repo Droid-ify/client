@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:id="@+id/section_change"
             android:layout_width="match_parent"
             android:layout_height="48dp"
@@ -26,7 +26,7 @@
             android:paddingEnd="12dp"
             tools:ignore="UselessParent">
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/section_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:src="@drawable/ic_arrow_down"
                 tools:ignore="ContentDescription" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
 
     </FrameLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

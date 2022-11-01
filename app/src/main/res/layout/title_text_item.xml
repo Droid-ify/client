@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     android:paddingVertical="8dp">
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceHeadlineSmall"
         android:textColor="?colorPrimary" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/text"
         style="?textAppearanceBodyLarge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

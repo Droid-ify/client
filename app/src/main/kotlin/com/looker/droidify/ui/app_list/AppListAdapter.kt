@@ -6,12 +6,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.google.android.material.textview.MaterialTextView
 import com.looker.core_common.nullIfEmpty
 import com.looker.core_model.ProductItem
 import com.looker.core_model.Repository
@@ -19,7 +19,11 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.*
+import com.looker.droidify.utility.extension.resources.TypefaceExtra
+import com.looker.droidify.utility.extension.resources.getColorFromAttr
+import com.looker.droidify.utility.extension.resources.inflate
+import com.looker.droidify.utility.extension.resources.setTextSizeScaled
+import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
@@ -28,9 +32,9 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	enum class ViewType { PRODUCT, LOADING, EMPTY }
 
 	private class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val name = itemView.findViewById<MaterialTextView>(R.id.name)!!
-		val status = itemView.findViewById<MaterialTextView>(R.id.status)!!
-		val summary = itemView.findViewById<MaterialTextView>(R.id.summary)!!
+		val name = itemView.findViewById<TextView>(R.id.name)!!
+		val status = itemView.findViewById<TextView>(R.id.status)!!
+		val summary = itemView.findViewById<TextView>(R.id.summary)!!
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 
 		val progressIcon: Drawable
@@ -57,12 +61,12 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	}
 
 	private class EmptyViewHolder(context: Context) :
-		RecyclerView.ViewHolder(MaterialTextView(context)) {
-		val text: MaterialTextView
-			get() = itemView as MaterialTextView
+		RecyclerView.ViewHolder(TextView(context)) {
+		val text: TextView
+			get() = itemView as TextView
 
 		init {
-			itemView as MaterialTextView
+			itemView as TextView
 			itemView.gravity = Gravity.CENTER
 			itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
 			itemView.typeface = TypefaceExtra.light

@@ -112,7 +112,7 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -121,7 +121,7 @@
             android:textColor="?android:attr/textColorPrimary"
             android:textSize="20sp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/skip"
             style="@android:style/Widget.Material.Button.Borderless.Colored"
             android:layout_width="wrap_content"

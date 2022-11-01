@@ -8,7 +8,7 @@ import android.text.style.TypefaceSpan
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.LinearLayoutCompat
+import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.lifecycleScope
 import com.looker.droidify.R
@@ -43,7 +43,7 @@ class RepositoryFragment() : ScreenFragment() {
 	private val repositoryId: Long
 		get() = requireArguments().getLong(EXTRA_REPOSITORY_ID)
 
-	private var layout: LinearLayoutCompat? = null
+	private var layout: LinearLayout? = null
 
 	private val syncConnection = Connection(SyncService::class.java)
 
@@ -82,8 +82,8 @@ class RepositoryFragment() : ScreenFragment() {
 		scroll.id = android.R.id.list
 		scroll.isFillViewport = true
 		content.addView(scroll)
-		val layout = LinearLayoutCompat(scroll.context)
-		layout.orientation = LinearLayoutCompat.VERTICAL
+		val layout = LinearLayout(scroll.context)
+		layout.orientation = LinearLayout.VERTICAL
 		resources.sizeScaled(8).let { layout.setPadding(0, it, 0, it) }
 		this.layout = layout
 		scroll.addView(
@@ -156,7 +156,7 @@ class RepositoryFragment() : ScreenFragment() {
 		}
 	}
 
-	private fun LinearLayoutCompat.addTitleText(titleResId: Int, text: CharSequence) {
+	private fun LinearLayout.addTitleText(titleResId: Int, text: CharSequence) {
 		if (text.isNotEmpty()) {
 			val binding = TitleTextItemBinding.inflate(layoutInflater)
 			val layout = binding.root

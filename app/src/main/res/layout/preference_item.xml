@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textSize="16sp" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/check"
@@ -35,4 +35,4 @@
         android:clickable="false"
         android:paddingHorizontal="12dp"
         android:visibility="gone" />
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

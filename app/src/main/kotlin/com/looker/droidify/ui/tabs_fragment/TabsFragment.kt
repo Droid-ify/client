@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,7 +24,6 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.textview.MaterialTextView
 import com.looker.core_common.sdkAbove
 import com.looker.core_datastore.extension.sortOrderName
 import com.looker.core_datastore.model.SortOrder
@@ -539,12 +539,12 @@ class TabsFragment : ScreenFragment() {
 		enum class ViewType { SECTION }
 
 		private class SectionViewHolder(context: Context) :
-			RecyclerView.ViewHolder(MaterialTextView(context)) {
-			val title: MaterialTextView
-				get() = itemView as MaterialTextView
+			RecyclerView.ViewHolder(TextView(context)) {
+			val title: TextView
+				get() = itemView as TextView
 
 			init {
-				itemView as MaterialTextView
+				itemView as TextView
 				itemView.gravity = Gravity.CENTER_VERTICAL
 				itemView.resources.sizeScaled(16).let { itemView.setPadding(it, 0, it, 0) }
 				itemView.background =

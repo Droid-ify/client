@@ -7,7 +7,7 @@
     android:paddingTop="12dp"
     android:paddingBottom="4dp">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/header_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
             app:shapeAppearanceOverlay="@style/Shape.Medium"
             tools:ignore="ContentDescription" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:textAppearance="?textAppearanceHeadlineMedium"
             android:textColor="?android:attr/textColorSecondary" />
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/package_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             android:layout_marginBottom="4dp"
             android:textColor="?android:attr/textColorSecondary" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:id="@+id/release_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header_info">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/sdk_block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -67,21 +67,21 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/target"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:id="@+id/sdk"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:textSize="16sp" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider1"
@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginVertical="12dp" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/version_block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -98,21 +98,21 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/version"
                     android:textColor="?android:attr/textColorPrimary"
                     android:textSize="14sp" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:id="@+id/version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:textSize="16sp" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider2"
@@ -120,7 +120,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginVertical="12dp" />
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/size_block"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -129,21 +129,21 @@
                 android:orientation="vertical"
                 android:padding="16dp">
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/size"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:id="@+id/size"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:textSize="16sp" />
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider3"
@@ -159,7 +159,7 @@
                 android:layout_margin="4dp"
                 android:layout_weight="1">
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -177,7 +177,7 @@
                         app:shapeAppearanceOverlay="@style/Shape.Small"
                         app:srcCompat="@drawable/ic_code" />
 
-                    <com.google.android.material.textview.MaterialTextView
+                    <TextView
                         android:id="@+id/dev"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -185,12 +185,12 @@
                         android:ellipsize="marquee"
                         android:singleLine="true"
                         android:textSize="12sp" />
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </LinearLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:id="@+id/status_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -202,7 +202,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header_info">
 
-        <com.google.android.material.textview.MaterialTextView
+        <TextView
             android:id="@+id/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+    </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/action"

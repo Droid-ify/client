@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,14 +18,12 @@
         android:tintMode="src_in"
         tools:ignore="ContentDescription" />
 
-    <com.google.android.material.textview.MaterialTextView
+    <TextView
         android:id="@+id/text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_weight="1"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
+        android:padding="16dp"
         android:textSize="16sp" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

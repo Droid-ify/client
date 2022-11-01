@@ -3,13 +3,13 @@ package com.looker.droidify.screen
 import android.content.res.ColorStateList
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.textview.MaterialTextView
+import com.looker.core_model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.core_model.Repository
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.widget.CursorRecyclerAdapter
@@ -24,8 +24,8 @@ class RepositoriesAdapter(
 	private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val item = itemView.findViewById<MaterialCardView>(R.id.repository_item)!!
 		val checkMark = itemView.findViewById<ShapeableImageView>(R.id.repository_state)!!
-		val repoName = itemView.findViewById<MaterialTextView>(R.id.repository_name)!!
-		val repoDesc = itemView.findViewById<MaterialTextView>(R.id.repository_description)!!
+		val repoName = itemView.findViewById<TextView>(R.id.repository_name)!!
+		val repoDesc = itemView.findViewById<TextView>(R.id.repository_description)!!
 
 		var isEnabled = true
 

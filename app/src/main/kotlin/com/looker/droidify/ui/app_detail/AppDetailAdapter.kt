@@ -28,10 +28,10 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
@@ -363,7 +363,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			this.defaultIcon = defaultIcon
 		}
 
-		val targetBlock = itemView.findViewById<LinearLayoutCompat>(R.id.sdk_block)!!
+		val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
 		val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
 		val targetSdk = itemView.findViewById<TextView>(R.id.sdk)!!
 		val version = itemView.findViewById<TextView>(R.id.version)!!
@@ -519,12 +519,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class EmptyViewHolder(context: Context) :
-		RecyclerView.ViewHolder(LinearLayoutCompat(context)) {
+		RecyclerView.ViewHolder(LinearLayout(context)) {
 		val packageName: TextView
 
 		init {
-			itemView as LinearLayoutCompat
-			itemView.orientation = LinearLayoutCompat.VERTICAL
+			itemView as LinearLayout
+			itemView.orientation = LinearLayout.VERTICAL
 			itemView.gravity = Gravity.CENTER
 			itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
 			val title = TextView(itemView.context)
@@ -535,8 +535,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			title.setText(stringRes.application_not_found)
 			itemView.addView(
 				title,
-				LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-				LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT
 			)
 			val packageName = TextView(itemView.context)
 			packageName.gravity = Gravity.CENTER
@@ -544,8 +544,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			packageName.setTextSizeScaled(18)
 			itemView.addView(
 				packageName,
-				LinearLayoutCompat.LayoutParams.MATCH_PARENT,
-				LinearLayoutCompat.LayoutParams.WRAP_CONTENT
+				LinearLayout.LayoutParams.MATCH_PARENT,
+				LinearLayout.LayoutParams.WRAP_CONTENT
 			)
 			itemView.layoutParams = RecyclerView.LayoutParams(
 				RecyclerView.LayoutParams.MATCH_PARENT,

@@ -6,7 +6,7 @@
     android:layout_height="72dp"
     android:layout_marginHorizontal="@dimen/shape_margin_medium">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center_vertical"
@@ -20,20 +20,20 @@
             app:shapeAppearanceOverlay="@style/Shape.Small"
             tools:ignore="ContentDescription" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="14dp"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:id="@+id/name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                     android:singleLine="true"
                     android:textAppearance="?textAppearanceBody1" />
 
-                <com.google.android.material.textview.MaterialTextView
+                <TextView
                     android:id="@+id/status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,15 +49,15 @@
                     android:singleLine="true"
                     android:textAppearance="?textAppearanceLabelMedium" />
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/summary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="?textAppearanceBody2"
                 android:textColor="?android:attr/textColorSecondary" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        </LinearLayout>
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
