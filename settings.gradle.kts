@@ -18,8 +18,6 @@ rootProject.name = "Droid-ify"
 include(
 	":app",
 	":core-common",
-	":core-data",
-	":core-database",
 	":core-datastore",
 	":core-model",
 	":feature-settings",
