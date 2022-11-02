@@ -110,6 +110,13 @@ object Startup {
 	const val lib = "androidx.startup:startup-runtime:$startupVersion"
 }
 
+object Test {
+	const val jUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
+	const val jUnit = "junit:junit:4.13.2"
+	const val androidJUnit = "androidx.test.ext:junit:1.1.3"
+	const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
+}
+
 object Version {
 	const val kotlin = "1.7.20"
 	const val ksp = "1.7.20-1.0.7"
