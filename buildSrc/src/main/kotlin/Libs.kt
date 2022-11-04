@@ -64,10 +64,12 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val ktorVersion = "2.1.2"
+	private const val ktorVersion = "2.1.3"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
-	const val json = "io.ktor:ktor-client-json:$ktorVersion"
-	const val serialization = "io.ktor:ktor-client-serialization-jvm:$ktorVersion"
+	const val encoding = "io.ktor:ktor-client-encoding:$ktorVersion"
+	const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
+	const val json = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
+	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
 }
 
