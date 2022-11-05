@@ -52,12 +52,12 @@ class RepositoriesAdapter(
 	): RecyclerView.ViewHolder {
 		return ViewHolder(parent.inflate(R.layout.repository_item)).apply {
 			itemView.setOnLongClickListener {
-				onClick(getRepository(adapterPosition))
+				onClick(getRepository(absoluteAdapterPosition))
 				true
 			}
 			itemView.setOnClickListener {
 				isEnabled = !isEnabled
-				onSwitch(getRepository(adapterPosition), isEnabled)
+				onSwitch(getRepository(absoluteAdapterPosition), isEnabled)
 			}
 		}
 	}

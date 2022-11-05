@@ -122,7 +122,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	): RecyclerView.ViewHolder {
 		return when (viewType) {
 			ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
-				itemView.setOnClickListener { onClick(getProductItem(adapterPosition)) }
+				itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
 			}
 			ViewType.LOADING -> LoadingViewHolder(parent.context)
 			ViewType.EMPTY -> EmptyViewHolder(parent.context)
@@ -154,6 +154,26 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 					error(holder.defaultIcon)
 				}
 				holder.status.apply {
+					if (productItem.installedVersion.nullIfEmpty() != null) {
+						text = productItem.version
+						if (background == null) {
+							background = ResourcesCompat.getDrawable(
+								holder.itemView.resources,
+								R.drawable.background_border,
+								context.theme
+							)
+							resources.sizeScaled(6).let { setPadding(it, it, it, it) }
+							if (productItem.canUpdate) {
+								backgroundTintList =
+									context.getColorFromAttr(R.attr.colorSecondaryContainer)
+								setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
+							} else {
+								backgroundTintList =
+									context.getColorFromAttr(R.attr.colorPrimaryContainer)
+								setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+							}
+						}
+					}
 					if (productItem.canUpdate) {
 						text = productItem.version
 						if (background == null) {

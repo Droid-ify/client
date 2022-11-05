@@ -308,24 +308,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		val canShare = product != null && products[0].second.name == "F-Droid"
 
 		val actions = mutableSetOf<Action>()
-		if (canInstall) {
-			actions += Action.INSTALL
-		}
-		if (canUpdate) {
-			actions += Action.UPDATE
-		}
-		if (canLaunch) {
-			actions += Action.LAUNCH
-		}
-		if (installed != null) {
-			actions += Action.DETAILS
-		}
-		if (canUninstall) {
-			actions += Action.UNINSTALL
-		}
-		if (canShare) {
-			actions += Action.SHARE
-		}
+
+		if (canInstall) actions += Action.INSTALL
+		if (canUpdate) actions += Action.UPDATE
+		if (canLaunch) actions += Action.LAUNCH
+		if (installed != null) actions += Action.DETAILS
+		if (canUninstall) actions += Action.UNINSTALL
+		if (canShare) actions += Action.SHARE
+
 		val primaryAction = when {
 			canUpdate -> Action.UPDATE
 			canLaunch -> Action.LAUNCH
@@ -389,9 +379,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				state.read,
 				state.total
 			)
-			else -> null
+			else -> AppDetailAdapter.Status.Idle
 		}
-		val downloading = status != null
+		val downloading = status != AppDetailAdapter.Status.Idle
 		if (this.downloading != downloading) {
 			this.downloading = downloading
 			updateButtons()

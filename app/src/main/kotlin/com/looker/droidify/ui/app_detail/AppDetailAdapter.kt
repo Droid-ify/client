@@ -103,6 +103,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	sealed class Status {
+		object Idle : Status()
 		object Pending : Status()
 		object Connecting : Status()
 		data class Downloading(val read: Long, val total: Long?) : Status()
@@ -906,43 +907,28 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private var action: Action? = null
 
-	fun setAction(action: Action?) {
-		if (this.action != action) {
-			val translate = this.action == null || action == null ||
-					this.action == Action.CANCEL || action == Action.CANCEL
-			this.action = action
-			val index = items.indexOfFirst { it is Item.AppInfoItem }
+	fun setAction(newAction: Action?) {
+		if (action != newAction) {
+			action = newAction
+			val index = items.indexOf(Item.InstallButtonItem)
 			if (index >= 0) {
-				if (translate) {
-					notifyItemInserted(index + 1)
-					notifyItemChanged(index + 2)
-				} else {
-					notifyItemInserted(index + 1)
-					notifyItemChanged(index + 2, Payload.REFRESH)
-				}
+				notifyItemChanged(index)
 			}
 		}
 	}
 
-	private var status: Status? = null
+	private var status: Status = Status.Idle
 
-	fun setStatus(status: Status?) {
-		val translate = (this.status == null) != (status == null)
-		if (this.status != status) {
-			this.status = status
-			val index = items.indexOfFirst { it is Item.AppInfoItem }
-			if (index >= 0) {
-				if (translate) {
-					notifyItemChanged(index + 1)
-					val from = items.indexOfFirst { it is Item.ReleaseItem }
-					val to = items.indexOfLast { it is Item.ReleaseItem }
-					if (from in 0..to) {
-						notifyItemRangeChanged(from, to - from)
-					}
-				} else {
-					notifyItemChanged(index + 1, Payload.STATUS)
-				}
+	fun setStatus(newStatus: Status) {
+		val statusIndex = items.indexOf(Item.DownloadStatusItem)
+		if (status != newStatus && statusIndex >= 0) {
+			when (newStatus) {
+				is Status.Downloading -> notifyItemChanged(statusIndex, Payload.STATUS)
+				Status.Connecting -> notifyItemChanged(statusIndex, Payload.STATUS)
+				Status.Pending -> notifyItemInserted(statusIndex)
+				Status.Idle -> notifyItemRemoved(statusIndex)
 			}
+			status = newStatus
 		}
 	}
 
@@ -966,7 +952,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
 				itemView.setOnClickListener {
-					val switchItem = items[adapterPosition] as Item.SwitchItem
+					val switchItem = items[absoluteAdapterPosition] as Item.SwitchItem
 					val productPreference = when (switchItem.switchType) {
 						SwitchType.IGNORE_ALL_UPDATES -> {
 							ProductPreferences[switchItem.packageName].let { it.copy(ignoreUpdates = !it.ignoreUpdates) }
@@ -991,7 +977,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.SECTION -> SectionViewHolder(parent.inflate(R.layout.section_item)).apply {
 				itemView.setOnClickListener {
-					val position = adapterPosition
+					val position = absoluteAdapterPosition
 					val sectionItem = items[position] as Item.SectionItem
 					if (sectionItem.items.isNotEmpty()) {
 						expanded += sectionItem.expandType
@@ -1017,7 +1003,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.EXPAND -> ExpandViewHolder(parent.context).apply {
 				itemView.setOnClickListener {
-					val position = adapterPosition
+					val position = absoluteAdapterPosition
 					val expandItem = items[position] as Item.ExpandItem
 					if (expandItem.expandType !in expanded) {
 						expanded += expandItem.expandType
@@ -1052,20 +1038,20 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.TEXT -> TextViewHolder(parent.context)
 			ViewType.LINK -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
 				itemView.setOnClickListener {
-					val linkItem = items[adapterPosition] as Item.LinkItem
+					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
 					if (linkItem.uri?.let { callbacks.onUriClick(it, false) } != true) {
 						linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					}
 				}
 				itemView.setOnLongClickListener {
-					val linkItem = items[adapterPosition] as Item.LinkItem
+					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
 					linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					true
 				}
 			}
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
-					val permissionsItem = items[adapterPosition] as Item.PermissionsItem
+					val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
 					callbacks.onPermissionsClick(
 						permissionsItem.group?.name,
 						permissionsItem.permissions.map { it.name })
@@ -1073,11 +1059,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
 				itemView.setOnClickListener {
-					val releaseItem = items[adapterPosition] as Item.ReleaseItem
+					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
 					callbacks.onReleaseClick(releaseItem.release)
 				}
 				itemView.setOnLongClickListener {
-					val releaseItem = items[adapterPosition] as Item.ReleaseItem
+					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
 					copyLinkToClipboard(
 						itemView,
 						releaseItem.release.getDownloadUrl(releaseItem.repository)
@@ -1183,10 +1169,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				item as Item.DownloadStatusItem
 				val status = status
 				holder.statusText.visibility =
-					if (status != null) View.VISIBLE else View.GONE
+					if (status != Status.Idle) View.VISIBLE else View.GONE
 				holder.progress.visibility =
-					if (status != null) View.VISIBLE else View.GONE
-				if (status != null) {
+					if (status != Status.Idle) View.VISIBLE else View.GONE
+				if (status != Status.Idle) {
 					when (status) {
 						is Status.Pending -> {
 							holder.statusText.setText(stringRes.waiting_to_start_download)
@@ -1207,6 +1193,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 									(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
 							} else Unit
 						}
+						Status.Idle -> {}
 					}::class
 				} else {
 				}
@@ -1496,7 +1483,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					holder.compatibility.text =
 						context.getString(stringRes.only_compatible_with_FORMAT, singlePlatform)
 				}
-				val enabled = status == null
+				val enabled = status == Status.Idle
 				holder.statefulViews.forEach { it.isEnabled = enabled }
 			}
 			ViewType.EMPTY -> {
