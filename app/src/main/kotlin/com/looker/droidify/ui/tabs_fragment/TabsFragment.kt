@@ -596,7 +596,7 @@ class TabsFragment : ScreenFragment() {
 			viewType: ViewType,
 		): RecyclerView.ViewHolder {
 			return SectionViewHolder(parent.context).apply {
-				itemView.setOnClickListener { onClick(sections()[absoluteAdapterPosition]) }
+				itemView.setOnClickListener { onClick(sections()[adapterPosition]) }
 			}
 		}
 

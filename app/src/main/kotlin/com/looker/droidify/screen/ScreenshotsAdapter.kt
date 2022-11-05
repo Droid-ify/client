@@ -88,7 +88,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		viewType: ViewType
 	): RecyclerView.ViewHolder {
 		return ViewHolder(parent.context).apply {
-			itemView.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot) }
+			itemView.setOnClickListener { onClick(items[adapterPosition].screenshot) }
 		}
 	}
 

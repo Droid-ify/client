@@ -122,7 +122,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 	): RecyclerView.ViewHolder {
 		return when (viewType) {
 			ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
-				itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
+				itemView.setOnClickListener { onClick(getProductItem(adapterPosition)) }
 			}
 			ViewType.LOADING -> LoadingViewHolder(parent.context)
 			ViewType.EMPTY -> EmptyViewHolder(parent.context)

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.looker.core_model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
+import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,9 @@ import com.looker.core_common.R.string as stringRes
 class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 	private val viewModel: AppListViewModel by viewModels()
+
+	private var _binding: RecyclerViewWithFabBinding? = null
+	private val binding get() = _binding!!
 
 	companion object {
 		private const val EXTRA_SOURCE = "source"
@@ -50,26 +54,51 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	val source: Source
 		get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
-	private var recyclerView: RecyclerView? = null
+
+	private lateinit var recyclerViewAdapter: AppListAdapter
 
 	private var repositoriesDisposable: Disposable? = null
+
+	private var shortAnimationDuration: Int = 0
 
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	): View {
-		return RecyclerView(requireContext()).apply {
+		_binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
+
+		shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
+
+		val recyclerView = binding.recyclerView.apply {
 			id = android.R.id.list
 			layoutManager = LinearLayoutManager(context)
 			isMotionEventSplittingEnabled = false
 			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
 			recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-			val adapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }
-			this.adapter = adapter
-			recyclerView = this
+			recyclerViewAdapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }
+			this.adapter = recyclerViewAdapter
 		}
+		val fab = binding.scrollUp
+		fab.setOnClickListener { recyclerView.scrollToPosition(0) }
+		fab.apply {
+			this.alpha = 0f
+			visibility = View.VISIBLE
+		}
+
+		val scrollListener = object : RecyclerView.OnScrollListener() {
+			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+				val position = (recyclerView.layoutManager as LinearLayoutManager)
+					.findFirstVisibleItemPosition()
+				fab.animate()
+					.alpha(if (position != 0) 1f else 0f)
+					.setDuration(shortAnimationDuration.toLong())
+					.setListener(null)
+			}
+		}
+		recyclerView.addOnScrollListener(scrollListener)
+		return binding.root
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,21 +111,20 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			.flatMapSingle { RxUtils.querySingle { Database.RepositoryAdapter.getAll(it) } }
 			.map { list -> list.asSequence().map { Pair(it.id, it) }.toMap() }
 			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe { (recyclerView?.adapter as? AppListAdapter)?.repositories = it }
+			.subscribe { recyclerViewAdapter.repositories = it }
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 
-		recyclerView = null
-
+		_binding = null
 		screenActivity.cursorOwner.detach(this)
 		repositoriesDisposable?.dispose()
 		repositoriesDisposable = null
 	}
 
 	override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-		(recyclerView?.adapter as? AppListAdapter)?.apply {
+		recyclerViewAdapter.apply {
 			this.cursor = cursor
 			lifecycleScope.launch {
 				repeatOnLifecycle(Lifecycle.State.RESUMED) {

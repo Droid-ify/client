@@ -966,7 +966,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
 				itemView.setOnClickListener {
-					val switchItem = items[absoluteAdapterPosition] as Item.SwitchItem
+					val switchItem = items[adapterPosition] as Item.SwitchItem
 					val productPreference = when (switchItem.switchType) {
 						SwitchType.IGNORE_ALL_UPDATES -> {
 							ProductPreferences[switchItem.packageName].let { it.copy(ignoreUpdates = !it.ignoreUpdates) }
@@ -991,7 +991,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.SECTION -> SectionViewHolder(parent.inflate(R.layout.section_item)).apply {
 				itemView.setOnClickListener {
-					val position = absoluteAdapterPosition
+					val position = adapterPosition
 					val sectionItem = items[position] as Item.SectionItem
 					if (sectionItem.items.isNotEmpty()) {
 						expanded += sectionItem.expandType
@@ -1017,7 +1017,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.EXPAND -> ExpandViewHolder(parent.context).apply {
 				itemView.setOnClickListener {
-					val position = absoluteAdapterPosition
+					val position = adapterPosition
 					val expandItem = items[position] as Item.ExpandItem
 					if (expandItem.expandType !in expanded) {
 						expanded += expandItem.expandType
@@ -1052,20 +1052,20 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.TEXT -> TextViewHolder(parent.context)
 			ViewType.LINK -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
 				itemView.setOnClickListener {
-					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
+					val linkItem = items[adapterPosition] as Item.LinkItem
 					if (linkItem.uri?.let { callbacks.onUriClick(it, false) } != true) {
 						linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					}
 				}
 				itemView.setOnLongClickListener {
-					val linkItem = items[absoluteAdapterPosition] as Item.LinkItem
+					val linkItem = items[adapterPosition] as Item.LinkItem
 					linkItem.displayLink?.let { copyLinkToClipboard(itemView, it) }
 					true
 				}
 			}
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
-					val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
+					val permissionsItem = items[adapterPosition] as Item.PermissionsItem
 					callbacks.onPermissionsClick(
 						permissionsItem.group?.name,
 						permissionsItem.permissions.map { it.name })
@@ -1073,11 +1073,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 			ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
 				itemView.setOnClickListener {
-					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
+					val releaseItem = items[adapterPosition] as Item.ReleaseItem
 					callbacks.onReleaseClick(releaseItem.release)
 				}
 				itemView.setOnLongClickListener {
-					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
+					val releaseItem = items[adapterPosition] as Item.ReleaseItem
 					copyLinkToClipboard(
 						itemView,
 						releaseItem.release.getDownloadUrl(releaseItem.repository)
