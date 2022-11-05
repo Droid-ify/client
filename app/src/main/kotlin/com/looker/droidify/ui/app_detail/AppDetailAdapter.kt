@@ -106,25 +106,27 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		data class Downloading(val read: Long, val total: Long?) : Status()
 	}
 
-	enum class ViewType { APP_INFO, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
+	enum class ViewType { APP_INFO, DOWNLOAD_STATUS, INSTALL_BUTTON, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
 
 	private enum class SwitchType(val titleResId: Int) {
 		IGNORE_ALL_UPDATES(stringRes.ignore_all_updates),
 		IGNORE_THIS_UPDATE(stringRes.ignore_this_update)
 	}
 
-	private enum class SectionType(val titleResId: Int, val colorAttrResId: Int) {
+	private enum class SectionType(
+		val titleResId: Int,
+		val colorAttrResId: Int = R.attr.colorPrimary
+	) {
 		ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
-		CHANGES(stringRes.changes, R.attr.colorPrimary),
-		LINKS(stringRes.links, R.attr.colorPrimary),
-		DONATE(stringRes.donate, R.attr.colorPrimary),
-		PERMISSIONS(stringRes.permissions, R.attr.colorPrimary),
-		SCREENSHOTS(stringRes.screenshots, R.attr.colorPrimary),
-		VERSIONS(stringRes.versions, R.attr.colorPrimary)
+		CHANGES(stringRes.changes),
+		LINKS(stringRes.links),
+		DONATE(stringRes.donate),
+		PERMISSIONS(stringRes.permissions),
+		VERSIONS(stringRes.versions)
 	}
 
 	internal enum class ExpandType {
-		NOTHING, SCREENSHOTS, DESCRIPTION, CHANGES,
+		NOTHING, DESCRIPTION, CHANGES,
 		LINKS, DONATES, PERMISSIONS, VERSIONS
 	}
 
@@ -157,6 +159,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 			override val viewType: ViewType
 				get() = ViewType.APP_INFO
+		}
+
+		object DownloadStatusItem : Item() {
+			override val descriptor: String
+				get() = "download_status"
+			override val viewType: ViewType
+				get() = ViewType.DOWNLOAD_STATUS
+		}
+
+		object InstallButtonItem : Item() {
+			override val descriptor: String
+				get() = "install_button"
+			override val viewType: ViewType
+				get() = ViewType.INSTALL_BUTTON
+
 		}
 
 		class ScreenshotItem(
@@ -347,13 +364,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val progressIcon: Drawable
 		val defaultIcon: Drawable
 
-		val actionTintNormal = action.context.getColorFromAttr(R.attr.colorPrimary)
-		val actionTintOnNormal = action.context.getColorFromAttr(R.attr.colorOnPrimary)
-		val actionTintCancel = action.context.getColorFromAttr(R.attr.colorError)
-		val actionTintOnCancel = action.context.getColorFromAttr(R.attr.colorOnError)
-
 		init {
-			action.height = itemView.resources.sizeScaled(48)
 			val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
 			this.progressIcon = progressIcon
 			this.defaultIcon = defaultIcon
@@ -365,6 +376,25 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val version = itemView.findViewById<TextView>(R.id.version)!!
 		val size = itemView.findViewById<TextView>(R.id.size)!!
 		val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
+	}
+
+	private class DownloadStatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+		val statusText = itemView.findViewById<TextView>(R.id.status)
+		val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)
+	}
+
+	private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+		val button = itemView.findViewById<MaterialButton>(R.id.action)
+
+		val actionTintNormal = button.context.getColorFromAttr(R.attr.colorPrimary)
+		val actionTintOnNormal = button.context.getColorFromAttr(R.attr.colorOnPrimary)
+		val actionTintCancel = button.context.getColorFromAttr(R.attr.colorError)
+		val actionTintOnCancel = button.context.getColorFromAttr(R.attr.colorOnError)
+
+		init {
+			button.height = itemView.resources.sizeScaled(48)
+		}
+
 	}
 
 	private class ScreenShotViewHolder(context: Context) :
@@ -571,31 +601,18 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				productRepository.first
 			)
 
-			val screenShotItem = mutableListOf<Item>()
-			screenShotItem += Item.ScreenshotItem(
-				productRepository.first.screenshots,
-				packageName,
-				productRepository.second
-			)
+			items += Item.DownloadStatusItem
+			items += Item.InstallButtonItem
+
 
 			if (productRepository.first.screenshots.isNotEmpty()) {
-				expanded += ExpandType.SCREENSHOTS
-				if (ExpandType.SCREENSHOTS in expanded) {
-					items += Item.SectionItem(
-						SectionType.SCREENSHOTS,
-						ExpandType.SCREENSHOTS,
-						emptyList(),
-						screenShotItem.size
-					)
-					items += screenShotItem
-				} else {
-					items += Item.SectionItem(
-						SectionType.SCREENSHOTS,
-						ExpandType.SCREENSHOTS,
-						screenShotItem,
-						0
-					)
-				}
+				val screenShotItem = mutableListOf<Item>()
+				screenShotItem += Item.ScreenshotItem(
+					productRepository.first.screenshots,
+					packageName,
+					productRepository.second
+				)
+				items += screenShotItem
 			}
 
 			if (installedItem != null) {
@@ -895,9 +912,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			val index = items.indexOfFirst { it is Item.AppInfoItem }
 			if (index >= 0) {
 				if (translate) {
-					notifyItemChanged(index)
+					notifyItemInserted(index + 1)
+					notifyItemChanged(index + 2)
 				} else {
-					notifyItemChanged(index, Payload.REFRESH)
+					notifyItemInserted(index + 1)
+					notifyItemChanged(index + 2, Payload.REFRESH)
 				}
 			}
 		}
@@ -912,14 +931,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			val index = items.indexOfFirst { it is Item.AppInfoItem }
 			if (index >= 0) {
 				if (translate) {
-					notifyItemChanged(index)
+					notifyItemChanged(index + 1)
 					val from = items.indexOfFirst { it is Item.ReleaseItem }
 					val to = items.indexOfLast { it is Item.ReleaseItem }
 					if (from in 0..to) {
 						notifyItemRangeChanged(from, to - from)
 					}
 				} else {
-					notifyItemChanged(index, Payload.STATUS)
+					notifyItemChanged(index + 1, Payload.STATUS)
 				}
 			}
 		}
@@ -937,8 +956,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		viewType: ViewType,
 	): RecyclerView.ViewHolder {
 		return when (viewType) {
-			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x)).apply {
-				action.setOnClickListener { this@AppDetailAdapter.action?.let(callbacks::onActionClick) }
+			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x))
+			ViewType.DOWNLOAD_STATUS -> DownloadStatusViewHolder(parent.inflate(R.layout.download_status))
+			ViewType.INSTALL_BUTTON -> InstallButtonViewHolder(parent.inflate(R.layout.install_button)).apply {
+				button.setOnClickListener { this@AppDetailAdapter.action?.let(callbacks::onActionClick) }
 			}
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
@@ -1099,35 +1120,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					holder.name.text = item.product.name
 					holder.authorName.text = item.product.author.name
 				}
-				if (updateAll || updateStatus) {
-					val status = status
-					holder.statusLayout.visibility =
-						if (status != null) View.VISIBLE else View.INVISIBLE
-					if (status != null) {
-						when (status) {
-							is Status.Pending -> {
-								holder.status.setText(stringRes.waiting_to_start_download)
-								holder.progress.isIndeterminate = true
-							}
-							is Status.Connecting -> {
-								holder.status.setText(stringRes.connecting)
-								holder.progress.isIndeterminate = true
-							}
-							is Status.Downloading -> {
-								holder.status.text = context.getString(
-									stringRes.downloading_FORMAT, if (status.total == null)
-										status.read.formatSize() else "${status.read.formatSize()} / ${status.total.formatSize()}"
-								)
-								holder.progress.isIndeterminate = status.total == null
-								if (status.total != null) {
-									holder.progress.progress =
-										(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
-								} else Unit
-							}
-						}::class
-					}
-				}
-
 				val sdk = product?.displayRelease?.targetSdkVersion
 
 				holder.version.doOnPreDraw {
@@ -1156,7 +1148,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					} else {
 						if (background != null) {
 							setPadding(0, 0, 0, 0)
-							setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorControlNormal))
+							setTextColor(context.getColorFromAttr(android.R.attr.colorControlNormal))
 							background = null
 						}
 					}
@@ -1179,11 +1171,69 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					true
 				}
 			}
+			ViewType.DOWNLOAD_STATUS -> {
+				holder as DownloadStatusViewHolder
+				item as Item.DownloadStatusItem
+				val status = status
+				holder.statusText.visibility =
+					if (status != null) View.VISIBLE else View.GONE
+				holder.progress.visibility =
+					if (status != null) View.VISIBLE else View.GONE
+				if (status != null) {
+					when (status) {
+						is Status.Pending -> {
+							holder.statusText.setText(stringRes.waiting_to_start_download)
+							holder.progress.isIndeterminate = true
+						}
+						is Status.Connecting -> {
+							holder.statusText.setText(stringRes.connecting)
+							holder.progress.isIndeterminate = true
+						}
+						is Status.Downloading -> {
+							holder.statusText.text = context.getString(
+								stringRes.downloading_FORMAT, if (status.total == null)
+									status.read.formatSize() else "${status.read.formatSize()} / ${status.total.formatSize()}"
+							)
+							holder.progress.isIndeterminate = status.total == null
+							if (status.total != null) {
+								holder.progress.progress =
+									(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
+							} else Unit
+						}
+					}::class
+				} else {
+				}
+				Unit
+			}
+			ViewType.INSTALL_BUTTON -> {
+				holder as InstallButtonViewHolder
+				item as Item.InstallButtonItem
+				val action = action
+				holder.button.apply {
+					visibility = if (action == null) View.GONE else View.VISIBLE
+					if (action != null) {
+						icon = context.getDrawable(action.iconResId)
+						setText(action.titleResId)
+						setTextColor(
+							if (action == Action.CANCEL) holder.actionTintOnCancel
+							else holder.actionTintOnNormal
+						)
+					}
+					backgroundTintList = if (action == Action.CANCEL)
+						holder.actionTintCancel else holder.actionTintNormal
+					iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
+					else holder.actionTintOnNormal
+				}
+				Unit
+			}
 			ViewType.SCREENSHOT -> {
 				holder as ScreenShotViewHolder
 				item as Item.ScreenshotItem
 				holder.screenshotsRecycler.run {
 					clipToPadding = false
+					context.resources.sizeScaled(8).let {
+						setPadding(it, it, it, it)
+					}
 					layoutManager =
 						LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 					adapter =
