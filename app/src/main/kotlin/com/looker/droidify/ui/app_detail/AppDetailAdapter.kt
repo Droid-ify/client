@@ -35,6 +35,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
+import androidx.core.text.bold
+import androidx.core.text.buildSpannedString
 import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -379,12 +381,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class DownloadStatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val statusText = itemView.findViewById<TextView>(R.id.status)
-		val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)
+		val statusText = itemView.findViewById<TextView>(R.id.status)!!
+		val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
 	}
 
 	private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val button = itemView.findViewById<MaterialButton>(R.id.action)
+		val button = itemView.findViewById<MaterialButton>(R.id.action)!!
 
 		val actionTintNormal = button.context.getColorFromAttr(R.attr.colorPrimary)
 		val actionTintOnNormal = button.context.getColorFromAttr(R.attr.colorOnPrimary)
@@ -1118,7 +1120,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						error(holder.defaultIcon)
 					}
 					holder.name.text = item.product.name
-					holder.authorName.text = item.product.author.name
+					val authorText = buildSpannedString {
+						append("by ")
+						bold { append(item.product.author.name) }
+
+					}
+					holder.authorName.text = authorText
 				}
 				val sdk = product?.displayRelease?.targetSdkVersion
 
