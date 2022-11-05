@@ -4,6 +4,7 @@ object AndroidX {
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
+	const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
 	const val material = "com.google.android.material:material:1.7.0"
 }
 
