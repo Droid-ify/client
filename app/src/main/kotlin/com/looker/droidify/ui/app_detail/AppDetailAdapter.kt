@@ -947,7 +947,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x))
 			ViewType.DOWNLOAD_STATUS -> DownloadStatusViewHolder(parent.inflate(R.layout.download_status))
 			ViewType.INSTALL_BUTTON -> InstallButtonViewHolder(parent.inflate(R.layout.install_button)).apply {
-				button.setOnClickListener { this@AppDetailAdapter.action?.let(callbacks::onActionClick) }
+				button.setOnClickListener { action?.let(callbacks::onActionClick) }
 			}
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
@@ -967,11 +967,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 					}
 					ProductPreferences[switchItem.packageName] = productPreference
-					items.asSequence().mapIndexedNotNull { index, item ->
-						if (item is Item.AppInfoItem ||
-							item is Item.SectionItem
-						) index else null
-					}.forEach { notifyItemChanged(it, Payload.REFRESH) }
+					val actionIndex = items.indexOf(Item.InstallButtonItem)
+					notifyItemChanged(actionIndex)
 					callbacks.onPreferenceChanged(productPreference)
 				}
 			}

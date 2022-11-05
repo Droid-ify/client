@@ -181,9 +181,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				val installedItemChanged = this.installed?.installedItem != installedItem.value
 				if (firstChanged || productChanged || installedItemChanged) {
 					layoutManagerState?.let {
-						recyclerView?.layoutManager!!.onRestoreInstanceState(
-							it
-						)
+						recyclerView?.layoutManager!!.onRestoreInstanceState(it)
 					}
 					layoutManagerState = null
 					if (firstChanged || productChanged) {
