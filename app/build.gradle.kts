@@ -100,8 +100,6 @@ dependencies {
 
 	implementation(OkHttp.okhttp)
 
-	implementation(Others.fastScroller)
-
 	implementation(RxJava.android)
 	implementation(RxJava.rxjava)
 
