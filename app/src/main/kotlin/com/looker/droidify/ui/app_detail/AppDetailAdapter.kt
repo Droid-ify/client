@@ -342,11 +342,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private class AppInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 		val name = itemView.findViewById<TextView>(R.id.name)!!
-		val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
-		val action = itemView.findViewById<MaterialButton>(R.id.action)!!
-		val statusLayout = itemView.findViewById<View>(R.id.status_layout)!!
-		val status = itemView.findViewById<TextView>(R.id.status)!!
-		val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
+		val authorName = itemView.findViewById<TextView>(R.id.author_name)!!
 
 		val progressIcon: Drawable
 		val defaultIcon: Drawable
@@ -1101,25 +1097,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						error(holder.defaultIcon)
 					}
 					holder.name.text = item.product.name
-					holder.packageName.apply {
-						text = item.product.packageName
-					}
-					val action = action
-					holder.action.apply {
-						visibility = if (action == null) View.GONE else View.VISIBLE
-						if (action != null) {
-							icon = context.getDrawable(action.iconResId)
-							setText(action.titleResId)
-							setTextColor(
-								if (action == Action.CANCEL) holder.actionTintOnCancel
-								else holder.actionTintOnNormal
-							)
-						}
-						backgroundTintList = if (action == Action.CANCEL)
-							holder.actionTintCancel else holder.actionTintNormal
-						iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
-						else holder.actionTintOnNormal
-					}
+					holder.authorName.text = item.product.author.name
 				}
 				if (updateAll || updateStatus) {
 					val status = status

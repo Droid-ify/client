@@ -39,7 +39,7 @@
             android:textColor="?android:attr/textColorSecondary" />
 
         <TextView
-            android:id="@+id/package_name"
+            android:id="@+id/author_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
