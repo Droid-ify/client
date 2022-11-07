@@ -3,7 +3,6 @@ package com.looker.droidify.network
 import com.looker.core_common.result.Result
 import com.looker.droidify.utility.ProgressInputStream
 import kotlinx.coroutines.suspendCancellableCoroutine
-import okhttp3.Cache
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -19,7 +18,8 @@ import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 
 object Downloader {
-	private data class ClientConfiguration(val cache: Cache?, val onion: Boolean)
+	@JvmInline
+	private value class ClientConfiguration(val onion: Boolean)
 
 	private val clients = mutableMapOf<ClientConfiguration, OkHttpClient>()
 	private val onionProxy = Proxy(Proxy.Type.SOCKS, InetSocketAddress("127.0.0.1", 9050))
@@ -34,13 +34,13 @@ object Downloader {
 			}
 		}
 
-	private fun createClient(proxy: Proxy?, cache: Cache?): OkHttpClient {
+	private fun createClient(proxy: Proxy?): OkHttpClient {
 		return OkHttpClient.Builder()
 			.fastFallback(true)
 			.connectTimeout(30L, TimeUnit.SECONDS)
 			.readTimeout(15L, TimeUnit.SECONDS)
 			.writeTimeout(15L, TimeUnit.SECONDS)
-			.proxy(proxy).cache(cache).build()
+			.proxy(proxy).build()
 	}
 
 	class RequestCode(val code: Int, val lastModified: String, val entityTag: String) {
@@ -51,7 +51,7 @@ object Downloader {
 			get() = code == HttpURLConnection.HTTP_NOT_MODIFIED
 	}
 
-	fun createCall(request: Request.Builder, authentication: String, cache: Cache?): Call {
+	fun createCall(request: Request.Builder, authentication: String): Call {
 		val oldRequest = request.build()
 		val newRequest = if (authentication.isNotEmpty()) {
 			request.addHeader("Authorization", authentication).build()
@@ -61,9 +61,9 @@ object Downloader {
 		val onion = oldRequest.url.host.endsWith(".onion")
 		val client = synchronized(clients) {
 			val proxy = if (onion) onionProxy else proxy
-			val clientConfiguration = ClientConfiguration(cache, onion)
+			val clientConfiguration = ClientConfiguration(onion)
 			clients[clientConfiguration] ?: run {
-				val client = createClient(proxy, cache)
+				val client = createClient(proxy)
 				clients[clientConfiguration] = client
 				client
 			}
@@ -87,7 +87,7 @@ object Downloader {
 			else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
 			if (start != null) addHeader("Range", "bytes=$start-")
 		}
-		val call = request?.let { createCall(it, authentication, null) }
+		val call = request?.let { createCall(it, authentication) }
 		call?.enqueue(
 			object : Callback {
 				override fun onFailure(call: Call, e: IOException) {

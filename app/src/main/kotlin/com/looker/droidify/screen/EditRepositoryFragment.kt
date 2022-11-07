@@ -399,8 +399,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 												.createCall(
 													Request.Builder().method("HEAD", null)
 														.url(indexAddress.toString().toHttpUrl()),
-													authentication,
-													null
+													authentication
 												)
 										}
 										.subscribeOn(Schedulers.io())

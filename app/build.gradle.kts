@@ -94,6 +94,8 @@ dependencies {
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
+	implementation(Ktor.okhttp)
+	implementation(Ktor.logging)
 
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.activity)
