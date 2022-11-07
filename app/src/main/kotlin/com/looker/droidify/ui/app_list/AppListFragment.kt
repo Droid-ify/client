@@ -81,7 +81,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			this.adapter = recyclerViewAdapter
 		}
 		val fab = binding.scrollUp
-		fab.setOnClickListener { recyclerView.scrollToPosition(0) }
+		fab.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 		fab.apply {
 			this.alpha = 0f
 			visibility = View.VISIBLE
