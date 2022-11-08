@@ -13,7 +13,7 @@
     <string name="application_not_found">Не удалось найти это приложение</string>
     <string name="author_email">Электронная почта автора</string>
     <string name="author_website">Сайт автора</string>
-    <string name="available">Доступно</string>
+    <string name="available">Обзор</string>
     <string name="bug_tracker">Баг трекер</string>
     <string name="cancel">Отмена</string>
     <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
