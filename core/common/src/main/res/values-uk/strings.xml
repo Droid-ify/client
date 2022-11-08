@@ -23,7 +23,7 @@
     <string name="anti_features">Анти-функції</string>
     <string name="author_email">E-mail автора</string>
     <string name="author_website">Веб-сайт автора</string>
-    <string name="available">Доступно</string>
+    <string name="available">Огляд</string>
     <string name="bug_tracker">Баг-трекер</string>
     <string name="cant_edit_sync_DESC">Не можу редагувати репозиторії, оскільки він зараз синхронізується.</string>
     <string name="changelog">Список змін</string>
@@ -140,7 +140,7 @@
     <string name="whats_new">Що нового</string>
     <string name="website">Веб-сайт</string>
     <string name="prefs_language_title">Мова</string>
-    <string name="application_not_found">Не можу знайти цей додаток</string>
+    <string name="application_not_found">Не вдалося знайти цей додаток</string>
     <string name="confirmation">Підтвердження</string>
     <string name="could_not_sync_FORMAT">Не вдалося синхронізувати %s</string>
     <string name="credits">Автори</string>
@@ -167,7 +167,7 @@
     <string name="repository_unsigned_DESC">Підпис відсутній. Не вдалося перевірити список додатків. Будьте обережні, завантажуючи додаток із непідписаних репозиторіїв.</string>
     <string name="share">Поділитися</string>
     <string name="source_code_no_longer_available">Вихідний код більше не доступний</string>
-    <string name="system">Система</string>
+    <string name="system">Системна</string>
     <string name="tap_to_install_DESC">Натисніть щоб встановити.</string>
     <string name="target">Цільовий</string>
     <string name="version">Версія</string>
@@ -197,4 +197,6 @@
         <item quantity="other">Днів</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Тільки при Wi-Fi та зарядці</string>
+    <string name="cleanup_title">Тривалість очищення</string>
+    <string name="cleanup_description">Час, необхідний для очищення, до повторної перевірки</string>
 </resources>
