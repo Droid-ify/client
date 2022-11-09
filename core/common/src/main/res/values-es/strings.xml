@@ -195,5 +195,5 @@
         <item quantity="many">Horas</item>
         <item quantity="other">Horas</item>
     </plurals>
-    <string name="only_on_wifi_with_charging">Solo con Wi-Fi y cargando</string>
+    <string name="only_on_wifi_with_charging">Solo en WiFi y cargando</string>
 </resources>
