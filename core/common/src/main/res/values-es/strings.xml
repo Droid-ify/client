@@ -12,7 +12,7 @@
     <string name="application">Aplicación</string>
     <string name="application_not_found">No se pudo encontrar esa aplicación</string>
     <string name="author_email">Correo electrónico del autor</string>
-    <string name="author_website">Sitio web del autor</string>
+    <string name="author_website">Página web</string>
     <string name="available">Explorar</string>
     <string name="bug_tracker">Registro de incidencias</string>
     <string name="cancel">Cancelar</string>
