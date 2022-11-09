@@ -2,23 +2,23 @@
 <resources>
     <string name="add_repository">Paketquelle hinzufügen</string>
     <string name="all_applications">Alle Anwendungen</string>
-    <string name="all_applications_up_to_date">Alle Ihre Anwendungen sind aktuell</string>
+    <string name="all_applications_up_to_date">All deine Anwendungen sind aktuell</string>
     <string name="already_exists">Bereits vorhanden</string>
     <string name="always">Immer</string>
     <string name="address">Adresse</string>
     <string name="action_failed">Vorgang fehlgeschlagen</string>
     <string name="amoled">Schwarz</string>
     <string name="application">Anwendung</string>
-    <string name="anti_features">Anti-Merkmale</string>
+    <string name="anti_features">Unerwünschte Merkmale</string>
     <string name="available">Entdecken</string>
     <string name="cancel">Abbrechen</string>
     <string name="application_not_found">Diese Anwendung konnte nicht gefunden werden</string>
     <string name="bug_tracker">Fehlerverwaltung</string>
-    <string name="changelog">Änderungsliste</string>
-    <string name="cant_edit_sync_DESC">Die Paketquelle kann nicht bearbeitet werden, da es gerade synchronisiert wird.</string>
-    <string name="checking_repository">Paketquelle wird abgefragt…</string>
+    <string name="changelog">Änderungsprotokoll</string>
+    <string name="cant_edit_sync_DESC">Die Paketquelle kann nicht bearbeitet werden, da sie gerade synchronisiert wird.</string>
+    <string name="checking_repository">Paketquelle wird abgefragt …</string>
     <string name="compiled_for_debugging">Kompiliert für die Fehlersuche</string>
-    <string name="connecting">Verbinden…</string>
+    <string name="connecting">Verbinde …</string>
     <string name="confirmation">Bestätigung</string>
     <string name="could_not_validate_FORMAT">Konnte %s nicht validieren</string>
     <string name="dark">Dunkel</string>
@@ -31,19 +31,19 @@
     <string name="fingerprint">Fingerabdruck</string>
     <string name="has_advertising">Enthält Werbung</string>
     <string name="has_security_vulnerabilities">Enthält Sicherheitslücken</string>
-    <string name="http_error_DESC">Ungültige Serverantwort.</string>
-    <string name="http_proxy">HTTP Proxy</string>
+    <string name="http_error_DESC">Ungültige Antwort des Servers.</string>
+    <string name="http_proxy">HTTP-Proxy</string>
     <string name="incompatible_api_max_DESC_FORMAT">Die maximale API-Version ist %d.</string>
-    <string name="incompatible_features_DESC">Fehlende Merkmale.</string>
+    <string name="incompatible_features_DESC">Fehlende Funktionen.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Deine %1$s-Plattform wird nicht unterstützt. Unterstützte Plattformen: %2$s.</string>
     <string name="installed">Installiert</string>
     <string name="incompatible_versions_summary">Mit dem Gerät inkompatible Anwendungsversionen anzeigen</string>
     <string name="install_types">Installationstypen</string>
     <string name="install">Installieren</string>
-    <string name="integrity_check_error_DESC">Die Vollständigkeit konnte nicht überprüft werden.</string>
+    <string name="integrity_check_error_DESC">Integrität konnte nicht überprüft werden.</string>
     <string name="invalid_metadata_error_DESC">Ungültige Metadaten.</string>
     <string name="invalid_signature_error_DESC">Ungültige Signatur.</string>
-    <string name="launch">Start</string>
+    <string name="launch">Öffnen</string>
     <string name="light">Hell</string>
     <string name="list_animation_description">Listenanimation auf der Hauptseite anzeigen</string>
     <string name="new_updates_available">Neue Anwendungsversionen verfügbar</string>
@@ -86,7 +86,7 @@
     <string name="validation_index_error_DESC">Der Index konnte nicht validiert werden.</string>
     <string name="website">Webseite</string>
     <string name="changes">Änderungen</string>
-    <string name="author_email">E-Mail des Autors</string>
+    <string name="author_email">Autor-E-Mail-Adresse</string>
     <string name="could_not_download_FORMAT">Konnte %s nicht herunterladen</string>
     <string name="author_website">Autor-Webseite</string>
     <string name="delete">Löschen</string>
@@ -104,7 +104,7 @@
     <string name="notify_about_updates_summary">Eine Benachrichtigung anzeigen, wenn neue Versionen verfügbar sind</string>
     <string name="provided_by_FORMAT">Bereitgestellt von %s</string>
     <string name="source_code_no_longer_available">Quellcode nicht mehr verfügbar</string>
-    <string name="invalid_username_format">Ungültiges Benutzername Format</string>
+    <string name="invalid_username_format">Ungültiges Benutzernamen-Format</string>
     <string name="no_proxy">Kein Proxy</string>
     <string name="password_missing">Passwort fehlt</string>
     <string name="source_code">Quellcode</string>
@@ -130,7 +130,7 @@
     <string name="username_missing">Benutzername fehlt</string>
     <string name="edit_repository">Paketquelle bearbeiten</string>
     <string name="file_format_error_DESC">Ungültiges Dateiformat.</string>
-    <string name="downloading_FORMAT">%s wird heruntergeladen…</string>
+    <string name="downloading_FORMAT">%s wird heruntergeladen …</string>
     <string name="incompatible_with_FORMAT">Inkompatibel mit %s</string>
     <string name="incompatible_versions">Inkompatible Versionen</string>
     <string name="invalid_address">Ungültige Adresse</string>
@@ -142,7 +142,7 @@
     <string name="syncing_FORMAT">Synchronisierung %s …</string>
     <string name="incompatible_signature_DESC">Diese Version ist mit einem anderen Zertifikat signiert, als die auf Ihrem Gerät installierte. Deinstalliere diese zuerst.</string>
     <string name="delete_repository_DESC">Die Paketquelle löschen\?</string>
-    <string name="incompatible_older_DESC">Diese Version ist älter als die auf Ihrem Gerät installierte. Deinstallieren Sie diese zuerst.</string>
+    <string name="incompatible_older_DESC">Diese Version ist älter als die auf deinem Gerät installierte. Deinstalliere diese zuerst.</string>
     <string name="incompatible_api_DESC_FORMAT">Deine %1$s (API-Version %2$d) wird nicht unterstützt. %3$s</string>
     <string name="incompatible_api_min_DESC_FORMAT">Die minimale API-Version ist %d.</string>
     <string name="repository_unsigned_DESC">Nicht signiert. Die Anwendungsliste konnte nicht verifiziert werden. Sei vorsichtig beim Herunterladen von Anwendungen aus nicht signierten Paketquellen.</string>
@@ -186,11 +186,11 @@
         <item quantity="other">Stunden</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Nur während des Ladevorgangs und aktiviertem WLAN</string>
-    <string name="installer">Errichter</string>
+    <string name="installer">Installationsmethode</string>
     <string name="cleanup_description">Erforderliche Zeit für die Bereinigung bis zur erneuten Prüfung</string>
     <string name="cleanup_title">Dauer der Säuberung</string>
-    <string name="root_installer">Wurzel-Installateur</string>
-    <string name="legacy_installer">Älteres Installationsprogramm</string>
-    <string name="session_installer">Sitzung Installateur</string>
-    <string name="shizuku_installer">Shizuku-Installer</string>
+    <string name="root_installer">Root-Installation</string>
+    <string name="legacy_installer">Alte Installationsmethode</string>
+    <string name="session_installer">Sitzungs-Installation</string>
+    <string name="shizuku_installer">Shizuku-Installation</string>
 </resources>
