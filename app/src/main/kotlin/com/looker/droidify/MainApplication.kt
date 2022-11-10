@@ -178,7 +178,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 				var lastCleanupDuration = initialPreference.cleanUpDuration
 				updateSyncJob(false, lastAutoSync)
 				updateProxy(initialPreference)
-				scheduleCleanup(lastCleanupDuration)
+				CleanUpWorker.scheduleCleanup(applicationContext, lastCleanupDuration)
 				userPreferenceFlow.collect { newPreference ->
 					if (
 						newPreference.proxyType != lastProxy
@@ -206,7 +206,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 						applicationContext.startActivity(refresh)
 					} else if (newPreference.cleanUpDuration != lastCleanupDuration) {
 						lastCleanupDuration = newPreference.cleanUpDuration
-						scheduleCleanup(newPreference.cleanUpDuration)
+						CleanUpWorker.scheduleCleanup(applicationContext, newPreference.cleanUpDuration)
 					}
 				}
 			}
