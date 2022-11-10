@@ -20,6 +20,7 @@ include(
 	":core-common",
 	":core-datastore",
 	":core-model",
+	":downloader",
 	":feature-settings",
 	":installer"
 )
