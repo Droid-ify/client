@@ -18,9 +18,9 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core_common.sdkAbove
-import com.looker.core_model.Product
-import com.looker.core_model.Repository
+import com.looker.core.common.sdkAbove
+import com.looker.core.model.Product
+import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
@@ -35,8 +35,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.core_common.R.style as styleRes
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.style as styleRes
 
 class ScreenshotsFragment() : DialogFragment() {
 	companion object {

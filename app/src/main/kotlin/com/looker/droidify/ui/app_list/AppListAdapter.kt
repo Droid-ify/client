@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_model.ProductItem
-import com.looker.core_model.Repository
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.ProductItem
+import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils

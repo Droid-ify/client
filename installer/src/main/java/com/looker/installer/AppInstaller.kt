@@ -1,7 +1,7 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core_datastore.model.InstallerType
+import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.installer.LegacyInstaller
 import com.looker.installer.installer.RootInstaller
 import com.looker.installer.installer.SessionInstaller

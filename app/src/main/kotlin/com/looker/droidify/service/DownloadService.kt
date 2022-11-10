@@ -9,17 +9,18 @@ import android.os.Build
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
-import com.looker.core_common.Common
-import com.looker.core_common.cache.Cache
-import com.looker.core_common.formatSize
-import com.looker.core_common.hex
-import com.looker.core_common.notificationManager
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_common.result.Result
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.InstallerType
-import com.looker.core_model.Release
+import com.looker.core.common.Constants
+import com.looker.core.common.cache.Cache
+import com.looker.core.common.formatSize
+import com.looker.core.common.hex
+import com.looker.core.common.notificationManager
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.result.Result
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.InstallerType
+import com.looker.core.model.Release
+import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
@@ -47,8 +48,8 @@ import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
 import kotlin.math.roundToInt
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.style as styleRes
+import com.looker.core.common.R.string as stringRes
+import com.looker.core.common.R.style as styleRes
 
 @AndroidEntryPoint
 class DownloadService : ConnectionService<DownloadService.Binder>() {
@@ -99,7 +100,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		fun enqueue(
 			packageName: String,
 			name: String,
-			repository: com.looker.core_model.Repository,
+			repository: Repository,
 			release: Release
 		) {
 			val task = Task(
@@ -114,7 +115,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(task.notificationTag, Common.NOTIFICATION_ID_DOWNLOADING)
+				notificationManager.cancel(task.notificationTag, Constants.NOTIFICATION_ID_DOWNLOADING)
 				tasks += task
 				if (currentTask == null) {
 					handleDownload()
@@ -139,7 +140,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 		sdkAbove(Build.VERSION_CODES.O) {
 			NotificationChannel(
-				Common.NOTIFICATION_CHANNEL_DOWNLOADING,
+				Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
 				getString(stringRes.downloading), NotificationManager.IMPORTANCE_LOW
 			)
 				.apply { setShowBadge(false) }
@@ -218,9 +219,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(task.notificationTag,
-			Common.NOTIFICATION_ID_DOWNLOADING,
+			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
-				.Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
+				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 				.setAutoCancel(true)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
 				.setColor(
@@ -286,8 +287,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
-			task.notificationTag, Common.NOTIFICATION_ID_DOWNLOADING, NotificationCompat
-				.Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
+			task.notificationTag, Constants.NOTIFICATION_ID_DOWNLOADING, NotificationCompat
+				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 				.setAutoCancel(true)
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
@@ -365,7 +366,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private val stateNotificationBuilder by lazy {
 		NotificationCompat
-			.Builder(this, Common.NOTIFICATION_CHANNEL_DOWNLOADING)
+			.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 			.setSmallIcon(android.R.drawable.stat_sys_download)
 			.setColor(
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
@@ -385,7 +386,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		withContext(Dispatchers.Default) {
 			if (force || currentTask != null) {
 				currentTask = currentTask?.copy(lastState = state)
-				startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
+				startForeground(Constants.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
 					when (state) {
 						is State.Connecting -> {
 							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))

@@ -2,12 +2,12 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
-import com.looker.core_common.cache.Cache
-import com.looker.core_common.result.Result
-import com.looker.core_common.unhex
-import com.looker.core_model.Product
-import com.looker.core_model.Release
-import com.looker.core_model.Repository
+import com.looker.core.common.cache.Cache
+import com.looker.core.common.result.Result
+import com.looker.core.common.unhex
+import com.looker.core.model.Product
+import com.looker.core.model.Release
+import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream

@@ -3,11 +3,11 @@ package com.looker.feature_settings
 import android.content.pm.PackageManager
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.AutoSync
-import com.looker.core_datastore.model.InstallerType
-import com.looker.core_datastore.model.ProxyType
-import com.looker.core_datastore.model.Theme
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.AutoSync
+import com.looker.core.datastore.model.InstallerType
+import com.looker.core.datastore.model.ProxyType
+import com.looker.core.datastore.model.Theme
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.flow

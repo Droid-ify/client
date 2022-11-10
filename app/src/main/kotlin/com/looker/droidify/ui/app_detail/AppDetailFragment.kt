@@ -15,13 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core_common.trimAfter
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.InstallerType
-import com.looker.core_model.InstalledItem
-import com.looker.core_model.Product
-import com.looker.core_model.ProductPreference
-import com.looker.core_model.Repository
+import com.looker.core.common.trimAfter
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.InstallerType
+import com.looker.core.model.InstalledItem
+import com.looker.core.model.Product
+import com.looker.core.model.ProductPreference
+import com.looker.core.model.Release
+import com.looker.core.model.Repository
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.screen.MessageDialog
@@ -47,7 +48,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
@@ -516,7 +517,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	override fun onReleaseClick(release: com.looker.core_model.Release) {
+	override fun onReleaseClick(release: Release) {
 		val installedItem = installed?.installedItem
 		when {
 			release.incompatibilities.isNotEmpty() -> {

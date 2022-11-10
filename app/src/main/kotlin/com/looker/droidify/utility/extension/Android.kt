@@ -7,7 +7,7 @@ import android.content.pm.Signature
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.Build
-import com.looker.core_common.sdkAbove
+import com.looker.core.common.sdkAbove
 
 fun Cursor.asSequence(): Sequence<Cursor> {
 	return generateSequence { if (moveToNext()) this else null }

@@ -15,12 +15,12 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.looker.core_common.file.KParcelable
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.UserPreferences
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.extension.getThemeRes
+import com.looker.core.common.file.KParcelable
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.extension.getThemeRes
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -36,7 +36,7 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.looker.core_common.R as styleR
+import com.looker.core.common.R as styleR
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {

@@ -15,15 +15,15 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
-import com.looker.core_common.Common
-import com.looker.core_common.formatSize
-import com.looker.core_common.notificationManager
-import com.looker.core_common.result.Result
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.SortOrder
-import com.looker.core_model.ProductItem
-import com.looker.core_model.Repository
+import com.looker.core.common.Constants
+import com.looker.core.common.formatSize
+import com.looker.core.common.notificationManager
+import com.looker.core.common.result.Result
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.SortOrder
+import com.looker.core.model.ProductItem
+import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
@@ -46,8 +46,8 @@ import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_common.R.style as styleRes
+import com.looker.core.common.R.string as stringRes
+import com.looker.core.common.R.style as styleRes
 
 @AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
@@ -138,7 +138,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		fun setUpdateNotificationBlocker(fragment: Fragment?) {
 			updateNotificationBlockerFragment = fragment?.let(::WeakReference)
 			if (fragment != null) {
-				notificationManager.cancel(Common.NOTIFICATION_ID_UPDATES)
+				notificationManager.cancel(Constants.NOTIFICATION_ID_UPDATES)
 			}
 		}
 
@@ -186,13 +186,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 		sdkAbove(Build.VERSION_CODES.O) {
 			NotificationChannel(
-				Common.NOTIFICATION_CHANNEL_SYNCING,
+				Constants.NOTIFICATION_CHANNEL_SYNCING,
 				getString(stringRes.syncing), NotificationManager.IMPORTANCE_LOW
 			)
 				.apply { setShowBadge(false) }
 				.let(notificationManager::createNotificationChannel)
 			NotificationChannel(
-				Common.NOTIFICATION_CHANNEL_UPDATES,
+				Constants.NOTIFICATION_CHANNEL_UPDATES,
 				getString(stringRes.updates), NotificationManager.IMPORTANCE_LOW
 			)
 				.let(notificationManager::createNotificationChannel)
@@ -236,8 +236,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private fun showNotificationError(repository: Repository, exception: Exception) {
 		notificationManager.notify(
-			"repository-${repository.id}", Common.NOTIFICATION_ID_SYNCING, NotificationCompat
-				.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
+			"repository-${repository.id}", Constants.NOTIFICATION_ID_SYNCING, NotificationCompat
+				.Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
@@ -263,7 +263,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private val stateNotificationBuilder by lazy {
 		NotificationCompat
-			.Builder(this, Common.NOTIFICATION_CHANNEL_SYNCING)
+			.Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
 			.setSmallIcon(R.drawable.ic_sync)
 			.setColor(
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
@@ -283,7 +283,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		if (force || currentTask?.lastState != state) {
 			currentTask = currentTask?.copy(lastState = state)
 			if (started == Started.MANUAL) {
-				startForeground(Common.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
+				startForeground(Constants.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
 					when (state) {
 						is State.Connecting -> {
 							setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
@@ -499,8 +499,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		val maxUpdates = 5
 		fun <T> T.applyHack(callback: T.() -> Unit): T = apply(callback)
 		notificationManager.notify(
-			Common.NOTIFICATION_ID_UPDATES, NotificationCompat
-				.Builder(this, Common.NOTIFICATION_CHANNEL_UPDATES)
+			Constants.NOTIFICATION_ID_UPDATES, NotificationCompat
+				.Builder(this, Constants.NOTIFICATION_CHANNEL_UPDATES)
 				.setSmallIcon(R.drawable.ic_new_releases)
 				.setContentTitle(getString(stringRes.new_updates_available))
 				.setContentText(

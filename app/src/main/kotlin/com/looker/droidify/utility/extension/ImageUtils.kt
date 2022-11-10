@@ -1,9 +1,9 @@
 package com.looker.droidify.utility.extension
 
 import android.view.View
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_model.Product
-import com.looker.core_model.Repository
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.Product
+import com.looker.core.model.Repository
 import kotlin.math.roundToInt
 
 private val supportedDpis = listOf(120, 160, 240, 320, 480, 640)

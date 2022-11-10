@@ -23,8 +23,8 @@ import com.looker.droidify.utility.extension.screenActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.string as stringRes
 
 class RepositoryFragment() : ScreenFragment() {
 

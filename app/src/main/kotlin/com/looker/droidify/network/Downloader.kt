@@ -1,6 +1,6 @@
 package com.looker.droidify.network
 
-import com.looker.core_common.result.Result
+import com.looker.core.common.result.Result
 import com.looker.droidify.utility.ProgressInputStream
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call

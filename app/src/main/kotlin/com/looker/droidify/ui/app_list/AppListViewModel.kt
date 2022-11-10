@@ -2,9 +2,9 @@ package com.looker.droidify.ui.app_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.SortOrder
-import com.looker.core_model.ProductItem
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.SortOrder
+import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

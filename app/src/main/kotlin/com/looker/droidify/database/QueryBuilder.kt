@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.os.CancellationSignal
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.utility.extension.android.asSequence
-import com.looker.core_common.debug
+import com.looker.core.common.debug
 
 class QueryBuilder {
 	companion object {

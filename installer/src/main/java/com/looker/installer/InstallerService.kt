@@ -6,9 +6,9 @@ import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.looker.core_common.Common.NOTIFICATION_CHANNEL_DOWNLOADING
-import com.looker.core_common.Common.NOTIFICATION_ID_DOWNLOADING
-import com.looker.core_common.notificationManager
+import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_DOWNLOADING
+import com.looker.core.common.Constants.NOTIFICATION_ID_DOWNLOADING
+import com.looker.core.common.notificationManager
 
 /**
  * Runs during or after a PackageInstaller session in order to handle completion, failure, or

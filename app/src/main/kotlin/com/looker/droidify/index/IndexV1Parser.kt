@@ -2,11 +2,16 @@ package com.looker.droidify.index
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core_model.Product
-import com.looker.core_model.Release
+import com.looker.core.model.Product
+import com.looker.core.model.Release
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.core_common.file.*
-import com.looker.core_common.nullIfEmpty
+import com.looker.core.common.file.Json
+import com.looker.core.common.file.collectDistinctNotEmptyStrings
+import com.looker.core.common.file.collectNotNull
+import com.looker.core.common.file.forEach
+import com.looker.core.common.file.forEachKey
+import com.looker.core.common.file.illegal
+import com.looker.core.common.nullIfEmpty
 import java.io.InputStream
 
 object IndexV1Parser {

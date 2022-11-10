@@ -20,16 +20,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.UserPreferences
-import com.looker.core_datastore.extension.autoSyncName
-import com.looker.core_datastore.extension.installerName
-import com.looker.core_datastore.extension.proxyName
-import com.looker.core_datastore.extension.themeName
-import com.looker.core_datastore.model.AutoSync
-import com.looker.core_datastore.model.InstallerType
-import com.looker.core_datastore.model.ProxyType
-import com.looker.core_datastore.model.Theme
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.extension.autoSyncName
+import com.looker.core.datastore.extension.installerName
+import com.looker.core.datastore.extension.proxyName
+import com.looker.core.datastore.extension.themeName
+import com.looker.core.datastore.model.AutoSync
+import com.looker.core.datastore.model.InstallerType
+import com.looker.core.datastore.model.ProxyType
+import com.looker.core.datastore.model.Theme
 import com.looker.feature_settings.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -37,11 +37,11 @@ import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
-import com.looker.core_common.BuildConfig as LocaleConfig
-import com.looker.core_common.R.dimen as dimenRes
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.core_common.R.plurals as pluralRes
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.BuildConfig as LocaleConfig
+import com.looker.core.common.R.dimen as dimenRes
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.plurals as pluralRes
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {

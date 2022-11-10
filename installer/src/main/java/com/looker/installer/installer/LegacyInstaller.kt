@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import com.looker.core_common.sdkAbove
+import com.looker.core.common.sdkAbove
 import com.looker.installer.utils.BaseInstaller
 import java.io.File
 

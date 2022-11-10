@@ -12,7 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core_model.ProductItem
+import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
@@ -25,7 +25,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {

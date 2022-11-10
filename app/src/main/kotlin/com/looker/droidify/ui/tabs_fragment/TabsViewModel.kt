@@ -2,8 +2,8 @@ package com.looker.droidify.ui.tabs_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.SortOrder
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flow

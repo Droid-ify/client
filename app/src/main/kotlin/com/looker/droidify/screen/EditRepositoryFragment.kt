@@ -16,10 +16,10 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_model.Repository
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.Repository
 import com.looker.droidify.R
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.string as stringRes
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.network.Downloader

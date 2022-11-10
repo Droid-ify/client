@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.looker.core_common.sdkAbove
+import com.looker.core.common.sdkAbove
 import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

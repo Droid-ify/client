@@ -21,13 +21,13 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import com.looker.core_common.Common
-import com.looker.core_common.cache.Cache
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.UserPreferences
-import com.looker.core_datastore.UserPreferencesRepository
-import com.looker.core_datastore.model.AutoSync
-import com.looker.core_datastore.model.ProxyType
+import com.looker.core.common.Constants
+import com.looker.core.common.cache.Cache
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.model.AutoSync
+import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -227,15 +227,15 @@ class MainApplication : Application(), ImageLoaderFactory {
 				canSync = false
 			)
 		}
-		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Common.JOB_ID_SYNC }
+		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Constants.JOB_ID_SYNC }
 		if (reschedule) {
 			when (autoSync) {
-				AutoSync.NEVER -> jobScheduler.cancel(Common.JOB_ID_SYNC)
+				AutoSync.NEVER -> jobScheduler.cancel(Constants.JOB_ID_SYNC)
 				else -> {
 					val period = 12.hours.inWholeMilliseconds
 					jobScheduler.schedule(JobInfo
 						.Builder(
-							Common.JOB_ID_SYNC,
+							Constants.JOB_ID_SYNC,
 							ComponentName(this, SyncService.Job::class.java)
 						)
 						.setRequiredNetworkType(syncConditions.toJobNetworkType())

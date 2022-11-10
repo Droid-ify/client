@@ -9,12 +9,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core_common.R.string as stringRes
-import com.looker.core_model.Release
-import com.looker.core_common.file.KParcelable
+import com.looker.core.common.R.string as stringRes
+import com.looker.core.model.Release
+import com.looker.core.common.file.KParcelable
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.core_common.nullIfEmpty
+import com.looker.core.common.nullIfEmpty
 
 class MessageDialog() : DialogFragment() {
 	companion object {

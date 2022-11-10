@@ -1,7 +1,7 @@
 package com.looker.droidify.index
 
-import com.looker.core_model.Product
-import com.looker.core_model.Release
+import com.looker.core.model.Product
+import com.looker.core.model.Release
 import com.looker.droidify.utility.extension.android.Android
 import org.xml.sax.Attributes
 import org.xml.sax.helpers.DefaultHandler

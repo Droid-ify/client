@@ -49,13 +49,14 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.looker.core_common.file.KParcelable
-import com.looker.core_common.formatSize
-import com.looker.core_common.nullIfEmpty
-import com.looker.core_model.InstalledItem
-import com.looker.core_model.Product
-import com.looker.core_model.Release
-import com.looker.core_model.Repository
+import com.looker.core.common.file.KParcelable
+import com.looker.core.common.formatSize
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.ProductPreference
+import com.looker.core.model.InstalledItem
+import com.looker.core.model.Product
+import com.looker.core.model.Release
+import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
@@ -77,15 +78,15 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
-import com.looker.core_common.R.drawable as drawableRes
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.string as stringRes
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
 	StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
 
 	interface Callbacks {
 		fun onActionClick(action: Action)
-		fun onPreferenceChanged(preference: com.looker.core_model.ProductPreference)
+		fun onPreferenceChanged(preference: ProductPreference)
 		fun onPermissionsClick(group: String?, permissions: List<String>)
 		fun onScreenshotClick(screenshot: Product.Screenshot)
 		fun onReleaseClick(release: Release)

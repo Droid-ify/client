@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
-import com.looker.core_common.sdkAbove
+import com.looker.core.common.sdkAbove
 import com.looker.installer.InstallerService
 import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers

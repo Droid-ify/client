@@ -10,9 +10,9 @@ import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.R
-import com.looker.core_common.R.dimen as dimenRes
-import com.looker.core_model.Product
-import com.looker.core_model.Repository
+import com.looker.core.common.R.dimen as dimenRes
+import com.looker.core.model.Product
+import com.looker.core.model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import com.looker.droidify.utility.extension.resources.getDrawableCompat

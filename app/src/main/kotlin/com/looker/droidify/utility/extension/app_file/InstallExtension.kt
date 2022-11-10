@@ -1,8 +1,8 @@
 package com.looker.droidify.utility.extension.app_file
 
 import android.content.Context
-import com.looker.core_common.cache.Cache
-import com.looker.core_datastore.model.InstallerType
+import com.looker.core.common.cache.Cache
+import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.AppInstaller
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

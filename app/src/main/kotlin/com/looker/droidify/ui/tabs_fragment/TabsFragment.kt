@@ -24,10 +24,10 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.looker.core_common.sdkAbove
-import com.looker.core_datastore.extension.sortOrderName
-import com.looker.core_datastore.model.SortOrder
-import com.looker.core_model.ProductItem
+import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.extension.sortOrderName
+import com.looker.core.datastore.model.SortOrder
+import com.looker.core.model.ProductItem
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
@@ -52,7 +52,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
-import com.looker.core_common.R.string as stringRes
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class TabsFragment : ScreenFragment() {
