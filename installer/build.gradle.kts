@@ -24,6 +24,13 @@ android {
 	kotlinOptions {
 		jvmTarget = "1.8"
 	}
+	buildFeatures {
+		buildConfig = false
+		aidl = false
+		renderScript = false
+		shaders = false
+		resValues = false
+	}
 }
 
 dependencies {

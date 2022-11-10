@@ -59,6 +59,11 @@ android {
 		}
 	}
 	buildFeatures {
+		aidl = false
+		renderScript = false
+		shaders = false
+	}
+	buildFeatures {
 		viewBinding = true
 	}
 }
