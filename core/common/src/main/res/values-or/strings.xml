@@ -47,7 +47,7 @@
     <string name="author_website">ଲେଖକ ଙ୍କ ୱେବସାଇଟ୍</string>
     <string name="available">ସନ୍ଧାନ</string>
     <string name="bug_tracker">ବଗ୍ ଟ୍ରାକର୍</string>
-    <string name="cant_edit_sync_DESC">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରିପାରିବ ନାହିଁ କାରଣ ଏହା ବର୍ତ୍ତମାନ ସିଙ୍କ କରୁଛି |</string>
+    <string name="cant_edit_sync_DESC">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରିପାରିବ ନାହିଁ କାରଣ ଏହା ବର୍ତ୍ତମାନ ସିଙ୍କ କରୁଛି ।</string>
     <string name="cancel">ବାତିଲ କରନ୍ତୁ</string>
     <string name="changelog">ବଦଳିଛି</string>
     <string name="cleanup_title">ଅବଧି ସଫା କରନ୍ତୁ</string>
@@ -70,7 +70,7 @@
     <string name="delete">ବିଲୋପ</string>
     <string name="delete_repository_DESC">ସଂଗ୍ରହାଳୟ ବିଲୋପ କରନ୍ତୁ \?</string>
     <string name="downloaded_FORMAT">%s ଡାଉନଲୋଡ ହୋଇସାରିଛି</string>
-    <string name="file_format_error_DESC">ଇଁବେଲିଡ ଫାଇଲ୍ ଫର୍ମାଟ୍ |</string>
+    <string name="file_format_error_DESC">ଇଁବେଲିଡ ଫାଇଲ୍ ଫର୍ମାଟ୍ ।</string>
     <string name="donate">ଦାନ କରନ୍ତୁ</string>
     <string name="edit_repository">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରନ୍ତୁ</string>
     <string name="downloading_FORMAT">%sସଞ୍ଚୟ ହେଉଛି…</string>
@@ -81,17 +81,17 @@
         <item quantity="one">ଘଣ୍ଟାଏ</item>
         <item quantity="other">ଘଣ୍ଟା</item>
     </plurals>
-    <string name="http_error_DESC">ଇନଭେଲିଡ ସର୍ଭର ପ୍ରତିକ୍ରିୟା |</string>
+    <string name="http_error_DESC">ଇନଭେଲିଡ ସର୍ଭର ପ୍ରତିକ୍ରିୟା ।</string>
     <string name="http_proxy">HTTP ପ୍ରକ୍ସି</string>
     <string name="ignore_all_updates">ସମସ୍ତ ନୂତନ ସଂସ୍କରଣକୁ ଉପେକ୍ଷା କରନ୍ତୁ</string>
     <string name="ignore_this_update">ଏହି ସଂସ୍କରଣକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ</string>
-    <string name="incompatible_older_DESC">ଏହି ଡିଭାଇସ୍ ଆପଣଙ୍କ ଡିଭାଇସରେ ସଂସ୍ଥାପିତ ହୋଇଥିବା ଠାରୁ ପୁରାତନ ଅଟେ | ପ୍ରଥମେ ଏହାକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ |</string>
+    <string name="incompatible_older_DESC">ଏହି ଡିଭାଇସ୍ ଆପଣଙ୍କ ଡିଭାଇସରେ ସଂସ୍ଥାପିତ ହୋଇଥିବା ଠାରୁ ପୁରାତନ ଅଟେ । ପ୍ରଥମେ ଏହାକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ ।</string>
     <string name="incompatible_api_DESC_FORMAT">ତୁମର %1$s (API ସଂସ୍କରଣ %2$d) ସମର୍ଥନ କରୁନାହିଁ । %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">ସର୍ବାଧିକ API ସଂସ୍କରଣ ହେଉଛି %d ।</string>
-    <string name="incompatible_api_min_DESC_FORMAT">ସର୍ବନିମ୍ନ API ସଂସ୍କରଣ ହେଉଛି %d |</string>
+    <string name="incompatible_api_min_DESC_FORMAT">ସର୍ବନିମ୍ନ API ସଂସ୍କରଣ ହେଉଛି %d ।</string>
     <string name="incompatible_features_DESC">ନଥିବା ବୈଶିଷ୍ଟ୍ୟଗୁଡିକ ।</string>
-    <string name="incompatible_platforms_DESC_FORMAT">ତୁମର %1$s ପ୍ଲାଟଫର୍ମ ସମର୍ଥିତ ନୁହେଁ | ସମର୍ଥିତ ପ୍ଲାଟଫର୍ମ:%2$s।</string>
-    <string name="incompatible_signature_DESC">ଏହି ଡିଭାଇସ୍ ଆପଣଙ୍କ ଡିଭାଇସରେ ସଂସ୍ଥାପିତ ହୋଇଥିବା ତୁଳନାରେ ଏକ ଭିନ୍ନ ସାର୍ଟିଫିକେଟ୍ ସହିତ ସାଇନ୍ ହୋଇଛି | ପ୍ରଥମେ ଏହାକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ |</string>
+    <string name="incompatible_platforms_DESC_FORMAT">ତୁମର %1$s ପ୍ଲାଟଫର୍ମ ସମର୍ଥିତ ନୁହେଁ । ସମର୍ଥିତ ପ୍ଲାଟଫର୍ମ:%2$s।</string>
+    <string name="incompatible_signature_DESC">ଏହି ଡିଭାଇସ୍ ଆପଣଙ୍କ ଡିଭାଇସରେ ସଂସ୍ଥାପିତ ହୋଇଥିବା ତୁଳନାରେ ଏକ ଭିନ୍ନ ସାର୍ଟିଫିକେଟ୍ ସହିତ ସାଇନ୍ ହୋଇଛି । ପ୍ରଥମେ ଏହାକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ ।</string>
     <string name="legacy_installer">ପୁରୁଣା ସଂସ୍ଥାପକ</string>
     <string name="link_copied_to_clipboard">ଲିଙ୍କ୍ କ୍ଲିପବୋର୍ଡରେ କପି ହୋଇଛି</string>
     <string name="recently_updated">ସମ୍ପ୍ରତି ଅଦ୍ୟତନ ହୋଇଛି</string>
@@ -100,7 +100,7 @@
     <string name="installer">ସଂସ୍ଥାପକ</string>
     <string name="session_installer">ଅଧିବେଶନ ସଂସ୍ଥାପକ</string>
     <string name="shizuku_installer">ସିଜୁକୁ ସଂସ୍ଥାପକ</string>
-    <string name="invalid_metadata_error_DESC">ଇନଭେଲିଡ ମେଟାଡାଟା |</string>
+    <string name="invalid_metadata_error_DESC">ଇନଭେଲିଡ ମେଟାଡାଟା ।</string>
     <string name="invalid_permissions_error_DESC">ଇନଭେଲିଡ ଅନୁମତି।</string>
     <string name="invalid_signature_error_DESC">ଇନଭେଲିଡ ଦସ୍ତଖତ ।</string>
     <string name="light">ଉଜ୍ଜଳ</string>
@@ -110,7 +110,7 @@
     <string name="install_types">ସଂସ୍ଥାପନ ପ୍ରକାର</string>
     <string name="root_installer">ମୂଳ ସଂସ୍ଥାପକ</string>
     <string name="installed">ସଂସ୍ଥାପିତ</string>
-    <string name="integrity_check_error_DESC">ଅଖଣ୍ଡତା ଯାଞ୍ଚ କରିପାରିଲା ନାହିଁ |</string>
+    <string name="integrity_check_error_DESC">ଅଖଣ୍ଡତା ଯାଞ୍ଚ କରିପାରିଲା ନାହିଁ ।</string>
     <string name="invalid_address">ଇନଭେଲିଡ ଠିକଣା</string>
     <string name="invalid_fingerprint_format">ଇନଭେଲିଡ ଆଙ୍ଗୁଠି ଛାପ</string>
     <string name="launch">ଆରମ୍ଭ</string>
@@ -125,19 +125,19 @@
     <string name="new_updates_available">ପ୍ରୟୋଗଗୁଡ଼ିକର ନୂତନ ସଂସ୍କରଣ ଉପଲବ୍ଧ</string>
     <string name="no_applications_installed">କୌଣସି ସଂସ୍ଥାପିତ ପ୍ରୟୋଗ ନାହିଁ</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%dପ୍ରୟୋଗର ଏକ ନୂତନ ସଂସ୍କରଣ ଅଛି |</item>
-        <item quantity="other">%dପ୍ରୟୋଗ ଗୁଡ଼ିକର ନୂତନ ସଂସ୍କରଣ ଅଛି |</item>
+        <item quantity="one">%dପ୍ରୟୋଗର ଏକ ନୂତନ ସଂସ୍କରଣ ଅଛି ।</item>
+        <item quantity="other">%dପ୍ରୟୋଗ ଗୁଡ଼ିକର ନୂତନ ସଂସ୍କରଣ ଅଛି ।</item>
     </plurals>
     <string name="no_applications_available">କୌଣସି ଉପଲବ୍ଧ ପ୍ରୟୋଗ ନାହିଁ</string>
     <string name="only_on_wifi_with_charging">କେବଳ ୱାଇ-ଫାଇ ଏବଂ ଚାର୍ଜିଂ ବେଳେ</string>
-    <string name="no_description_available_DESC">କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ |</string>
+    <string name="no_description_available_DESC">କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ ।</string>
     <string name="no_matching_applications_found">ଏହିପରି କୌଣସି ପ୍ରୟୋଗ ଖୋଜି ପାଇଲା ନାହିଁ</string>
     <string name="no_proxy">କୌଣସି ପ୍ରକ୍ସି ନାହିଁ</string>
     <string name="notify_about_updates_summary">ନୂତନ ସଂସ୍କରଣ ଉପଲବ୍ଧ ହେଲେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାନ୍ତୁ</string>
     <string name="number_of_applications">ପ୍ରୟୋଗ ସଂଖ୍ୟା</string>
     <string name="other">ଅନ୍ୟ</string>
     <string name="notify_about_updates">ପ୍ରୟୋଗଗୁଡ଼ିକର ନୂତନ ସଂସ୍କରଣ ବିଷୟରେ ସୂଚିତ କର</string>
-    <string name="parsing_index_error_DESC">ଇଣ୍ଡେକ୍ସ ଫାଇଲ୍ ପାର୍ସ କରିପାରିଲା ନାହିଁ |</string>
+    <string name="parsing_index_error_DESC">ଇଣ୍ଡେକ୍ସ ଫାଇଲ୍ ପାର୍ସ କରିପାରିଲା ନାହିଁ ।</string>
     <string name="open_DESC_FORMAT">%s କୁ ଖୋଲନ୍ତୁ \?</string>
     <string name="password">ପାସୱାର୍ଡ</string>
     <string name="password_missing">ପାସୱାର୍ଡ ନିଖୋଜ</string>
@@ -152,8 +152,8 @@
     <string name="provided_by_FORMAT">%s ଦ୍ଵାରା ପ୍ରଦାନ କରାଯାଇଛି</string>
     <string name="proxy">ପ୍ରକ୍ସି</string>
     <string name="proxy_type">ପ୍ରକ୍ସି ପ୍ରକାର</string>
-    <string name="repository_not_used_DESC">ଏହି ସଂଗ୍ରହାଳୟ ଏପର୍ଯ୍ୟନ୍ତ ବ୍ୟବହୃତ ହୋଇନାହିଁ | ଏଥିରେ ଥିବା ପ୍ରୟୋଗଗୁଡ଼ିକୁ ଦେଖିବା ପାଇଁ ଏହାକୁ ଟର୍ନ୍ ଅନ୍ କରନ୍ତୁ |</string>
-    <string name="repository_unsigned_DESC">ଦସ୍ତଖତ ନୁହେଁ | ଆବେଦନ ତାଲିକା ଯାଞ୍ଚ କରିପାରିଲା ନାହିଁ | ସାକ୍ଷରିତ ହୋଇନଥିବା ସଂଗ୍ରହାଳୟରୁ ପ୍ରୟୋଗଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍ କରିବାକୁ ସାବଧାନ |</string>
+    <string name="repository_not_used_DESC">ଏହି ସଂଗ୍ରହାଳୟ ଏପର୍ଯ୍ୟନ୍ତ ବ୍ୟବହୃତ ହୋଇନାହିଁ । ଏଥିରେ ଥିବା ପ୍ରୟୋଗଗୁଡ଼ିକୁ ଦେଖିବା ପାଇଁ ଏହାକୁ ଟର୍ନ୍ ଅନ୍ କରନ୍ତୁ ।</string>
+    <string name="repository_unsigned_DESC">ଦସ୍ତଖତ ନୁହେଁ । ଆବେଦନ ତାଲିକା ଯାଞ୍ଚ କରିପାରିଲା ନାହିଁ । ସାକ୍ଷରିତ ହୋଇନଥିବା ସଂଗ୍ରହାଳୟରୁ ପ୍ରୟୋଗଗୁଡ଼ିକୁ ଡାଉନଲୋଡ୍ କରିବାକୁ ସାବଧାନ ।</string>
     <string name="save">ସଞ୍ଚୟ କରନ୍ତୁ</string>
     <string name="repository">ସଂଗ୍ରହାଳୟ</string>
     <string name="requires_FORMAT">%s ଦରକାର କରେ</string>
@@ -173,11 +173,11 @@
     <string name="source_code_no_longer_available">ଉତ୍ସ କୋଡ୍ ଆଉ ଉପଲବ୍ଧ ନାହିଁ</string>
     <string name="sync_repositories">ସଂଗ୍ରହାଳୟଗୁଡିକ ସିଙ୍କ କରନ୍ତୁ</string>
     <string name="syncing">ସିଙ୍କ୍ହେ ହେଉଛି</string>
-    <string name="tap_to_install_DESC">ସଂସ୍ଥାପନ କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ |</string>
+    <string name="tap_to_install_DESC">ସଂସ୍ଥାପନ କରିବାକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ ।</string>
     <string name="target">ଲକ୍ଷ୍ୟ</string>
     <string name="sync_repositories_automatically">ସଂଗ୍ରହାଳୟଗୁଡ଼ିକ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ସିଙ୍କ କରନ୍ତୁ</string>
     <string name="system">ସିଷ୍ଟମ୍</string>
-    <string name="unknown_error_DESC">ଅଜ୍ଞାତ ତ୍ରୁଟି |</string>
+    <string name="unknown_error_DESC">ଅଜ୍ଞାତ ତ୍ରୁଟି ।</string>
     <string name="syncing_FORMAT">%s ସିଂଙ୍କ ହେଉଛି…</string>
     <string name="theme">ଥିମ୍</string>
     <string name="unknown_FORMAT">ଅଜଣା:%s</string>
@@ -187,7 +187,7 @@
     <string name="updates">ଅଦ୍ୟତନ ଗୁଡିକ</string>
     <string name="update">ଅଦ୍ୟତନ କରନ୍ତୁ</string>
     <string name="upstream_source_code_is_not_free">ଅପଷ୍ଟ୍ରିମ ଉତ୍ସ କୋଡ୍ ମାଗଣା ନୁହେଁ</string>
-    <string name="validation_index_error_DESC">ସୂଚକାଙ୍କ ବୈଧ ହୋଇପାରିଲା ନାହିଁ |</string>
+    <string name="validation_index_error_DESC">ସୂଚକାଙ୍କ ବୈଧ ହୋଇପାରିଲା ନାହିଁ ।</string>
     <string name="waiting_to_start_download">ଡାଉନଲୋଡ୍ ଆରମ୍ଭ କରିବାକୁ ଅପେକ୍ଷା କରିଛି…</string>
     <string name="whats_new">ନୁଆ କଣ</string>
     <string name="prefs_language_title">ଭାଷା</string>
