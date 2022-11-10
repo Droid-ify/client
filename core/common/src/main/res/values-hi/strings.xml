@@ -3,9 +3,9 @@
     <string name="action_failed">कार्य असफल</string>
     <string name="address">पता</string>
     <string name="add_repository">रिपोसिट्री जोड़ें</string>
-    <string name="cant_edit_sync_DESC">रिपोसिट्री एडिट नहीं कर सकते क्योंकि वह अभी सिंक हो रही है।</string>
+    <string name="cant_edit_sync_DESC">रिपोसिट्री एडिट नहीं कर सकते क्योंकि वह अभी सिंक्रनाइज़ हो रही है।</string>
     <string name="always">हमेशा</string>
-    <string name="could_not_sync_FORMAT">%s सिंक नहीं हो सका</string>
+    <string name="could_not_sync_FORMAT">%s सिंक्रनाइज़ नहीं हो सका</string>
     <string name="connecting">कनेक्ट हो रहा है…</string>
     <string name="could_not_validate_FORMAT">%s मान्य नहीं हो सका</string>
     <string name="all_applications">सभी एप्लीकेशन</string>
@@ -18,16 +18,16 @@
     <string name="available">उपलब्ध</string>
     <string name="bug_tracker">बग ट्रैकर</string>
     <string name="cancel">रद्द करें</string>
-    <string name="changelog">बदलाव</string>
-    <string name="changes">परिवर्तन</string>
+    <string name="changelog">बदलाव सूची</string>
+    <string name="changes">बदलाव</string>
     <string name="checking_repository">रिपोसिट्री की जाँच की जा रही है…</string>
-    <string name="compiled_for_debugging">डिबगिंग के लिए कम्पाइल्ड</string>
+    <string name="compiled_for_debugging">डीबॅग करने के लिए कम्पाईल किया</string>
     <string name="confirmation">पुष्टीकरण</string>
     <string name="contains_non_free_media">गैर-नि: शुल्क मीडिया शामिल है</string>
     <string name="could_not_download_FORMAT">%s डाउनलोड नहीं कर सका</string>
     <string name="application_not_found">वह एप्लीकेशन नहीं मिली</string>
     <string name="author_email">ऑथर ई-मेल</string>
-    <string name="credits">क्रेडिट्स</string>
+    <string name="credits">श्रेय</string>
     <string name="dark">डार्क</string>
     <string name="delete">हटाएं</string>
     <string name="delete_repository_DESC">रिपोसिट्री हटाएं\?</string>
@@ -36,15 +36,15 @@
     <string name="donate">डोनेट</string>
     <string name="downloaded_FORMAT">%s डाउनलोड किया</string>
     <string name="downloading">डाउनलोड हो रहा है</string>
-    <string name="downloading_FORMAT">Daunalod ho raha hai %s…</string>
+    <string name="downloading_FORMAT">डाउनलोड हो रहा है %s…</string>
     <string name="edit_repository">रिपोसिट्री एडिट करें</string>
     <string name="file_format_error_DESC">अमान्य फाइल प्रारूप।</string>
     <string name="fingerprint">फिंगरप्रिंट</string>
-    <string name="has_advertising">विज्ञापन है</string>
+    <string name="has_advertising">विज्ञापन हैं</string>
     <string name="incompatible_api_max_DESC_FORMAT">अधिकतम API वर्शन %d है।</string>
     <string name="incompatible_api_min_DESC_FORMAT">न्यूनतम API वर्शन %d है।</string>
     <string name="incompatible_features_DESC">नामौजूद विशेषताएं।</string>
-    <string name="has_security_vulnerabilities">सुरक्षा कमजोरियां हैं</string>
+    <string name="has_security_vulnerabilities">इसमें सुरक्षा कमजोरियां हैं</string>
     <string name="http_error_DESC">अमान्य सर्वर प्रतिक्रिया।</string>
     <string name="http_proxy">HTTP प्रॉक्सी</string>
     <string name="ignore_all_updates">सभी नए वर्शन पर ध्यान न दें</string>
@@ -62,7 +62,7 @@
     <string name="incompatible_versions">अनुचित संस्करण</string>
     <string name="only_on_wifi">केवल वाई-फ़ाई पर</string>
     <string name="open_DESC_FORMAT">%s को खोले\?</string>
-    <string name="repository_not_used_DESC">इस भंडार का अभी तक उपयोग नहीं किया गया है। इसमें एप्लिकेशन देखने के लिए इसे चालू करें।</string>
+    <string name="repository_not_used_DESC">इस रिपॉजिटरी का अभी तक उपयोग नहीं किया गया है। इसमें एप्लिकेशन देखने के लिए इसे चालू करें।</string>
     <string name="save">सहेजें</string>
     <string name="root_permission_description">साइलेंट इंस्टाल के लिए रूट अनुमति दें</string>
     <string name="screenshots">स्क्रीनशॉट</string>
@@ -82,7 +82,7 @@
     <string name="show_less">कम दिखाएं</string>
     <string name="new_applications">नए एप्लीकेशंस</string>
     <string name="installer">इंस्टालर</string>
-    <string name="legacy_installer">लिगेसी इंस्टालर</string>
+    <string name="legacy_installer">लीगेसी इंस्टालर</string>
     <string name="session_installer">सत्र इंस्टॉलर</string>
     <string name="root_installer">रूट इंस्टालर</string>
     <string name="shizuku_installer">शिज़ुकु इंस्टालर</string>
@@ -92,21 +92,21 @@
     <string name="invalid_permissions_error_DESC">अमान्य अनुमतियां।</string>
     <string name="invalid_signature_error_DESC">अमान्य हस्ताक्षर।</string>
     <string name="invalid_username_format">अमान्य उपयोगकर्ता नाम प्रारूप</string>
-    <string name="launch">प्रक्षेपण</string>
+    <string name="launch">लांच करें</string>
     <string name="license">लाइसेंस</string>
     <string name="license_FORMAT">%s लाइसेंस</string>
     <string name="light">हल्की</string>
     <string name="link_copied_to_clipboard">लिंक को क्लिपबोर्ड पर कॉपी किया गया</string>
-    <string name="list_animation">सूची एनिमेशन</string>
-    <string name="list_animation_description">मुख्य पृष्ठ पर सूची एनीमेशन दिखाएं</string>
+    <string name="list_animation">एनिमेशन की सूची दिखाए</string>
+    <string name="list_animation_description">मुख्य पृष्ठ पर एनीमेशन की सूची दिखाएं</string>
     <string name="merging_FORMAT">%s . को मर्ज कर रहा है</string>
     <string name="name">नाम</string>
     <string name="network_error_DESC">नेटवर्क त्रुटि।</string>
     <string name="never">कभी नहीँ</string>
     <string name="links">लिंक्स</string>
-    <string name="new_updates_available">उपलब्ध अनुप्रयोगों के नए संस्करण</string>
-    <string name="no_applications_available">कोई उपलब्ध आवेदन नहीं</string>
-    <string name="no_matching_applications_found">ऐसा कोई आवेदन नहीं मिला</string>
+    <string name="new_updates_available">एप्लिकेशनस के नए संस्करण उपलब्ध हैं</string>
+    <string name="no_applications_available">कोई उपलब्ध एप्लिकेशन नहीं</string>
+    <string name="no_matching_applications_found">ऐसा कोई एप्लिकेशन नहीं मिला</string>
     <string name="no_proxy">कोई प्रॉक्सी नहीं</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d एप्लिकेशन का एक नया संस्करण है।</item>
@@ -114,7 +114,7 @@
     </plurals>
     <string name="notify_about_updates">अनुप्रयोगों के नए संस्करणों के बारे में सूचित करें</string>
     <string name="notify_about_updates_summary">नए संस्करण उपलब्ध होने पर सूचना दिखाएं</string>
-    <string name="number_of_applications">आवेदनों की संख्या</string>
+    <string name="number_of_applications">अप्लिकेशन संख्या</string>
     <string name="ok">ठीक है</string>
     <string name="only_compatible_with_FORMAT">केवल %s . के साथ संगत</string>
     <string name="parsing_index_error_DESC">अनुक्रमणिका फ़ाइल को पार्स नहीं कर सका।</string>
@@ -122,7 +122,7 @@
     <string name="password_missing">पासवर्ड गायब</string>
     <string name="permissions">अनुमतियां</string>
     <string name="plus_more_FORMAT">+%d अधिक</string>
-    <string name="settings">समायोजन</string>
+    <string name="settings">सेटिंग</string>
     <string name="processing_FORMAT">%1$s संसाधित किया जा रहा है…</string>
     <string name="project_website">परियोजना वेबसाइट</string>
     <string name="promotes_non_free_network_services">गैर-मुक्त नेटवर्क सेवाओं को बढ़ावा देता है</string>
@@ -131,8 +131,8 @@
     <string name="proxy_port">प्रॉक्सी पोर्ट</string>
     <string name="proxy">प्रॉक्सी</string>
     <string name="proxy_type">प्रॉक्सी प्रकार</string>
-    <string name="recently_updated">हाल ही में अद्यतित</string>
-    <string name="repository">कोष</string>
+    <string name="recently_updated">हाल ही में अपडेट किया</string>
+    <string name="repository">रिपॉजिटरी</string>
     <string name="requires_FORMAT">%s . की आवश्यकता है</string>
     <string name="search">खोज</string>
     <string name="share">शेयर</string>
@@ -149,7 +149,7 @@
     <string name="sorting_order">सॉर्टिंग क्रम</string>
     <string name="suggested">सुझाव</string>
     <string name="sync_repositories">सिंक रिपॉजिटरी</string>
-    <string name="sync_repositories_automatically">सिंक रिपोजिटरी स्वचालित रूप से</string>
+    <string name="sync_repositories_automatically">रिपोजिटरी स्वचालित रूप से सिंक्रनाइज़ करें</string>
     <string name="target">लक्ष्य</string>
     <string name="theme">थीम</string>
     <string name="uninstall">स्थापना रद्द करें</string>
@@ -169,7 +169,7 @@
     <string name="installed_applications">इंस्टॉल किए गए एप्लिकेशन</string>
     <string name="update_all">सभी अपडेट करें</string>
     <string name="explore">अन्वेषण</string>
-    <string name="no_applications_installed">कोई इंस्टॉल किए गए एप्लिकेशन नहीं</string>
+    <string name="no_applications_installed">कोई इंस्टॉल किए गए एप्लिकेशंनस नहीं</string>
     <string name="invalid_address">गलत पता</string>
     <string name="invalid_fingerprint_format">अमान्य फ़िंगरप्रिंट प्रारूप</string>
     <string name="no_description_available_DESC">कोई वर्णन उपलब्ध नहीं।</string>
@@ -182,15 +182,15 @@
     <string name="validation_index_error_DESC">अनुक्रमणिका सत्यापित नहीं की जा सकी।</string>
     <string name="unverified">असत्यापित</string>
     <string name="sort_filter">छाँटें और फ़िल्टर करें</string>
-    <string name="cleanup_title">Nae anuprayog</string>
-    <string name="cleanup_description">Saphaee ke lie phir se jaanch karane ke lie aavashyak samay</string>
-    <string name="only_on_wifi_with_charging">Keval vaee-faee aur chaarjing par</string>
+    <string name="cleanup_title">साफ-सफाई अंतराल</string>
+    <string name="cleanup_description">साफ-सफाई के अंतराल की अवधी</string>
+    <string name="only_on_wifi_with_charging">केवल वाई-फ़ाई व च्राजिंग पर</string>
     <plurals name="days">
         <item quantity="one">दिन</item>
         <item quantity="other">दिन</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Ghanta</item>
-        <item quantity="other">Ghante</item>
+        <item quantity="one">घंटा</item>
+        <item quantity="other">घंटे</item>
     </plurals>
 </resources>
