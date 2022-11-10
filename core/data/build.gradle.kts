@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -28,10 +30,14 @@ android {
 
 dependencies {
 	implementation(kotlin("stdlib"))
+	implementation(project(Modules.coreCommon))
 
 	implementation(AndroidX.material)
 	implementation(Core.core)
 
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }
