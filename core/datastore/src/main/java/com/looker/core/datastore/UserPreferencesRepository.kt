@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -70,8 +71,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		.catch { exception ->
 			if (exception is IOException) Log.e(tag, "Error reading preferences.", exception)
 			else throw exception
-		}
-		.map(::mapUserPreferences)
+		}.map(::mapUserPreferences)
 
 	/**
 	 * Set [language]
@@ -168,6 +168,11 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	suspend fun fetchInitialPreferences() =
 		mapUserPreferences(dataStore.data.first().toPreferences())
+
+	/**
+	 * Synchronous method of getting initial preference
+	 */
+	fun getInitialPreference() = runBlocking { fetchInitialPreferences() }
 
 	/**
 	 * Maps [Preferences] to [UserPreferences]

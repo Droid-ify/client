@@ -22,10 +22,6 @@ class SettingsViewModel
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-	val initialSetup = flow {
-		emit(userPreferencesRepository.fetchInitialPreferences())
-	}
-
 	val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
 
 	fun setLanguage(language: String) {

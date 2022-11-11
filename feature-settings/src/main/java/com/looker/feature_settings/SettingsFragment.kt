@@ -18,7 +18,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.sdkAbove
@@ -83,11 +85,12 @@ class SettingsFragment : Fragment() {
 			droidify.title.text = "Droid-ify"
 			droidify.content.text = BuildConfig.VERSION_NAME
 		}
-		lifecycleScope.launch {
-			viewModel.initialSetup.collect {
-				updateUserPreference(it)
-				setChangeListener()
-				collectChanges()
+		viewLifecycleOwner.lifecycleScope.launch {
+			setChangeListener()
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				viewModel.userPreferencesFlow.collect {
+					updateUserPreference(it)
+				}
 			}
 		}
 		return binding.root
@@ -186,14 +189,6 @@ class SettingsFragment : Fragment() {
 			.apply {
 				window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 			}
-	}
-
-	private fun collectChanges() {
-		lifecycleScope.launch {
-			viewModel.userPreferencesFlow.collect {
-				updateUserPreference(it)
-			}
-		}
 	}
 
 	private fun setChangeListener() {
