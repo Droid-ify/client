@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -218,7 +219,13 @@ class SettingsFragment : Fragment() {
 			return list
 		}
 
+	private val languageListCompat = AppCompatDelegate.getApplicationLocales()
+
 	private fun updateUserPreference(userPreferences: UserPreferences) {
+		val systemSetLanguage = languageListCompat.toLanguageTags()
+		if (userPreferences.language != systemSetLanguage) {
+			viewModel.setLanguage(systemSetLanguage)
+		}
 		with(binding) {
 			language.content.text =
 				translateLocale(context?.getLocaleOfCode(userPreferences.language))

@@ -15,6 +15,47 @@ android {
 		versionCode = Android.versionCode
 		versionName = Android.versionName
 		vectorDrawables.useSupportLibrary = true
+
+		resourceConfigurations += mutableListOf(
+			"nn",
+			"zh-rCN",
+			"de",
+			"hi",
+			"fi",
+			"ru",
+			"pt",
+			"bg",
+			"ar-rSA",
+			"lt",
+			"hr",
+			"lv",
+			"fr",
+			"hu",
+			"si",
+			"uk",
+			"ca",
+			"kn",
+			"or",
+			"gl",
+			"in",
+			"el",
+			"zh-rTW",
+			"en",
+			"nb-rNO",
+			"it",
+			"es",
+			"iw",
+			"pt-rBR",
+			"cs",
+			"ar",
+			"vi",
+			"ja",
+			"tl",
+			"fa",
+			"pl",
+			"nl",
+			"tr"
+		)
 	}
 
 	sourceSets.forEach { source ->

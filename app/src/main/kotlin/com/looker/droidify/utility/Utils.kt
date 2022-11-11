@@ -3,11 +3,8 @@ package com.looker.droidify.utility
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
-import android.content.res.Configuration
 import android.graphics.drawable.Drawable
-import android.os.Build
 import com.looker.core.common.hex
-import com.looker.core.common.sdkAbove
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -58,34 +55,30 @@ object Utils {
 			.digest(toCharsString().toByteArray())
 			.hex()
 
-	inline val Certificate.fingerprint: String
-		get() {
-			val encoded = try {
-				encoded
-			} catch (e: CertificateEncodingException) {
-				null
-			}
-			return encoded?.fingerprint.orEmpty()
+	fun Certificate.fingerprint(): String {
+		val encoded = try {
+			encoded
+		} catch (e: CertificateEncodingException) {
+			null
 		}
+		return encoded?.fingerprint().orEmpty()
+	}
 
-	inline val ByteArray.fingerprint: String
-		get() {
-			return if (size >= 256) {
-				try {
-					val fingerprint = MessageDigest.getInstance("SHA-256").digest(this)
-					val builder = StringBuilder()
-					for (byte in fingerprint) {
-						builder.append("%02X".format(Locale.US, byte.toInt() and 0xff))
-					}
-					builder.toString()
-				} catch (e: Exception) {
-					e.printStackTrace()
-					""
-				}
-			} else {
-				""
+	fun ByteArray.fingerprint(): String = if (size >= 256) {
+		try {
+			val fingerprint = MessageDigest.getInstance("SHA-256").digest(this)
+			val builder = StringBuilder()
+			for (byte in fingerprint) {
+				builder.append("%02X".format(Locale.US, byte.toInt() and 0xff))
 			}
+			builder.toString()
+		} catch (e: Exception) {
+			e.printStackTrace()
+			""
 		}
+	} else {
+		""
+	}
 
 	suspend fun startUpdate(
 		packageName: String,
@@ -117,35 +110,5 @@ object Utils {
 				)
 			}
 		}
-	}
-
-	fun Context.setLanguage(language: String): Configuration {
-		val config = resources.configuration
-		if (language != "system") {
-			val newLocale = getLocaleOfCode(language)
-			Locale.setDefault(newLocale)
-			config.setLocale(newLocale)
-		} else {
-			val locale = Locale.getDefault()
-			config.setLocale(locale)
-		}
-		return config
-	}
-
-	private fun Context.getLocaleOfCode(localeCode: String): Locale = when {
-		localeCode.isEmpty() -> sdkAbove(
-			sdk = Build.VERSION_CODES.N,
-			onSuccessful = { resources.configuration.locales[0] },
-			orElse = { resources.configuration.locale }
-		)
-		localeCode.contains("-r") -> Locale(
-			localeCode.substring(0, 2),
-			localeCode.substring(4)
-		)
-		localeCode.contains("_") -> Locale(
-			localeCode.substring(0, 2),
-			localeCode.substring(3)
-		)
-		else -> Locale(localeCode)
 	}
 }

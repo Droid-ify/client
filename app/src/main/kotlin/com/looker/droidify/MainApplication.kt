@@ -7,16 +7,13 @@ import android.app.job.JobScheduler
 import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
-import android.content.ContextWrapper
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
@@ -34,31 +31,21 @@ import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.utility.Utils.setLanguage
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.droidify.work.DelegatingWorker
-import com.looker.droidify.work.delegatedData
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
-import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.android.HiltAndroidApp
-import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
-import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
-import kotlin.time.toJavaDuration
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
@@ -87,20 +74,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 	override fun onTerminate() {
 		super.onTerminate()
 		appScope.cancel("Application Terminated")
-	}
-
-	private fun scheduleCleanup(duration: Duration) {
-		val workManager = WorkManager.getInstance(this)
-		val cleanup = PeriodicWorkRequestBuilder<DelegatingWorker>(duration.toJavaDuration())
-			.setInputData(CleanUpWorker::class.delegatedData())
-			.build()
-
-		workManager.enqueueUniquePeriodicWork(
-			CleanUpWorker.TAG,
-			ExistingPeriodicWorkPolicy.REPLACE,
-			cleanup
-		)
-		Log.d(CleanUpWorker.TAG, "Periodic work enqueued with duration: $duration")
 	}
 
 	private fun listenApplications() {
@@ -169,13 +142,13 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			initialSetup.collect { initialPreference ->
-				var lastProxy = initialPreference.proxyType
-				var lastProxyPort = initialPreference.proxyPort
-				var lastProxyHost = initialPreference.proxyHost
 				var lastAutoSync = initialPreference.autoSync
-				var lastUnstableUpdate = initialPreference.unstableUpdate
-				var lastLanguage = initialPreference.language
 				var lastCleanupDuration = initialPreference.cleanUpDuration
+				var lastLanguage = initialPreference.language
+				var lastProxy = initialPreference.proxyType
+				var lastProxyHost = initialPreference.proxyHost
+				var lastProxyPort = initialPreference.proxyPort
+				var lastUnstableUpdate = initialPreference.unstableUpdate
 				updateSyncJob(false, lastAutoSync)
 				updateProxy(initialPreference)
 				CleanUpWorker.scheduleCleanup(applicationContext, lastCleanupDuration)
@@ -195,18 +168,17 @@ class MainApplication : Application(), ImageLoaderFactory {
 					} else if (lastAutoSync != newPreference.autoSync) {
 						lastAutoSync = newPreference.autoSync
 						updateSyncJob(true, lastAutoSync)
-					} else if (lastLanguage != newPreference.language) {
-						lastLanguage = newPreference.language
-						val refresh = Intent.makeRestartActivityTask(
-							ComponentName(
-								baseContext,
-								MainActivity::class.java
-							)
-						)
-						applicationContext.startActivity(refresh)
 					} else if (newPreference.cleanUpDuration != lastCleanupDuration) {
 						lastCleanupDuration = newPreference.cleanUpDuration
-						CleanUpWorker.scheduleCleanup(applicationContext, newPreference.cleanUpDuration)
+						CleanUpWorker.scheduleCleanup(
+							applicationContext,
+							newPreference.cleanUpDuration
+						)
+					} else if (newPreference.language != lastLanguage) {
+						lastLanguage = newPreference.language
+						val appLocale: LocaleListCompat =
+							LocaleListCompat.forLanguageTags(lastLanguage)
+						AppCompatDelegate.setApplicationLocales(appLocale)
 					}
 				}
 			}
@@ -227,7 +199,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 				canSync = false
 			)
 		}
-		val reschedule = force || !jobScheduler.allPendingJobs.any { it.id == Constants.JOB_ID_SYNC }
+		val reschedule =
+			force || !jobScheduler.allPendingJobs.any { it.id == Constants.JOB_ID_SYNC }
 		if (reschedule) {
 			when (autoSync) {
 				AutoSync.NEVER -> jobScheduler.cancel(Constants.JOB_ID_SYNC)
@@ -319,26 +292,5 @@ class MainApplication : Application(), ImageLoaderFactory {
 			}
 			.crossfade(true)
 			.build()
-	}
-}
-
-class ContextWrapperX(base: Context) : ContextWrapper(base) {
-
-	@EntryPoint
-	@InstallIn(SingletonComponent::class)
-	interface CustomUserRepositoryInjector {
-		fun userPreferencesRepository(): UserPreferencesRepository
-	}
-
-	fun wrap(context: Context): ContextWrapper = runBlocking {
-		val appContext = context.applicationContext
-		val hiltEntryPoint =
-			EntryPointAccessors.fromApplication(
-				appContext,
-				CustomUserRepositoryInjector::class.java
-			)
-		val language = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences().language
-		val config = context.setLanguage(language)
-		ContextWrapperX(context.createConfigurationContext(config))
 	}
 }

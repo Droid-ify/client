@@ -57,6 +57,10 @@ abstract class ScreenActivity : AppCompatActivity() {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
+	val intialTheme = flow {
+		emit(userPreferencesRepository.fetchInitialPreferences().theme)
+	}
+
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
 		val savedState: Fragment.SavedState?,
@@ -139,6 +143,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		collectChange()
 		super.onCreate(savedInstanceState)
+		collectChange()
 		addContentView(
 			FrameLayout(this).apply { id = R.id.main_content },
 			ViewGroup.LayoutParams(
