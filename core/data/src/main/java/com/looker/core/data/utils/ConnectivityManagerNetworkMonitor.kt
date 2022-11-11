@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.conflate
 import javax.inject.Inject
 
 class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : NetworkMonitor {
-	override val isOnline: Flow<Boolean> = callbackFlow<Boolean> {
+	override val isOnline: Flow<Boolean> = callbackFlow {
 		val callback = object : ConnectivityManager.NetworkCallback() {
 			override fun onAvailable(network: Network) {
 				channel.trySend(true)
@@ -42,6 +42,7 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : 
 		}
 	}.conflate()
 
+	@Suppress("DEPRECATION")
 	private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
 		null -> false
 		else -> sdkAbove(

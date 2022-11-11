@@ -10,7 +10,6 @@ import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
 import javax.inject.Inject
@@ -117,7 +116,7 @@ class SettingsViewModel
 	}
 
 	private val permissionListener =
-		Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+		Shizuku.OnRequestPermissionResultListener { _, grantResult ->
 			viewModelScope.launch {
 				val granted = grantResult == PackageManager.PERMISSION_GRANTED
 				if (!granted) userPreferencesRepository.setInstallerType(InstallerType.SESSION)
