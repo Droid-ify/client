@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.result.Result
-import com.looker.core.common.unhex
 import com.looker.core.model.Product
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
@@ -18,27 +17,23 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.xml.sax.InputSource
 import java.io.File
 import java.net.UnknownHostException
 import java.security.cert.X509Certificate
-import java.util.*
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
-import javax.xml.parsers.SAXParserFactory
 
 object RepositoryUpdater {
 	enum class Stage {
 		DOWNLOAD, PROCESS, MERGE, COMMIT
 	}
 
+	// TODO Add support for Index-V2 and also cleanup everything here
 	private enum class IndexType(
 		val jarName: String,
 		val contentName: String,
-		val certificateFromIndex: Boolean,
 	) {
-		INDEX("index.jar", "index.xml", true),
-		INDEX_V1("index-v1.jar", "index-v1.json", false)
+		INDEX_V1("index-v1.jar", "index-v1.json")
 	}
 
 	enum class ErrorType {
@@ -101,7 +96,7 @@ object RepositoryUpdater {
 		context = context,
 		repository = repository,
 		unstable = unstable,
-		indexTypes = listOf(IndexType.INDEX_V1, IndexType.INDEX),
+		indexTypes = listOf(IndexType.INDEX_V1),
 		callback = callback
 	)
 
@@ -235,149 +230,96 @@ object RepositoryUpdater {
 				val features = context.packageManager.systemAvailableFeatures
 					.asSequence().map { it.name }.toSet() + setOf("android.hardware.touchscreen")
 
-				val (changedRepository, certificateFromIndex) = when (indexType) {
-					IndexType.INDEX -> {
-						val factory = SAXParserFactory.newInstance()
-						factory.isNamespaceAware = true
-						val parser = factory.newSAXParser()
-						val reader = parser.xmlReader
-						var changedRepository: Repository? = null
-						var certificateFromIndex: String? = null
-						val products = mutableListOf<Product>()
 
-						reader.contentHandler =
-							IndexHandler(repository.id, object : IndexHandler.Callback {
-								override fun onRepository(
-									mirrors: List<String>, name: String, description: String,
-									certificate: String, version: Int, timestamp: Long,
-								) {
-									changedRepository = repository.update(
-										mirrors, name, description, version,
-										lastModified, entityTag, timestamp
-									)
-									certificateFromIndex = certificate.lowercase(Locale.US)
-								}
+				var changedRepositoryVar: Repository? = null
 
-								override fun onProduct(product: Product) {
-									if (Thread.interrupted()) {
-										throw InterruptedException()
-									}
-									products += transformProduct(product, features, unstable)
-									if (products.size >= 50) {
-										Database.UpdaterAdapter.putTemporary(products)
-										products.clear()
-									}
-								}
-							})
-
+				val mergerFile = Cache.getTemporaryFile(context)
+				try {
+					val unmergedProducts = mutableListOf<Product>()
+					val unmergedReleases = mutableListOf<Pair<String, List<Release>>>()
+					IndexMerger(mergerFile).use { indexMerger ->
 						ProgressInputStream(jarFile.getInputStream(indexEntry)) {
 							callback(
 								Stage.PROCESS,
 								it,
 								total
 							)
-						}
-							.use { reader.parse(InputSource(it)) }
-						if (Thread.interrupted()) {
-							throw InterruptedException()
-						}
-						if (products.isNotEmpty()) {
-							Database.UpdaterAdapter.putTemporary(products)
-							products.clear()
-						}
-						Pair(changedRepository, certificateFromIndex)
-					}
-					IndexType.INDEX_V1 -> {
-						var changedRepository: Repository? = null
-
-						val mergerFile = Cache.getTemporaryFile(context)
-						try {
-							val unmergedProducts = mutableListOf<Product>()
-							val unmergedReleases = mutableListOf<Pair<String, List<Release>>>()
-							IndexMerger(mergerFile).use { indexMerger ->
-								ProgressInputStream(jarFile.getInputStream(indexEntry)) {
-									callback(
-										Stage.PROCESS,
-										it,
-										total
-									)
-								}.use { it ->
-									IndexV1Parser.parse(
-										repository.id,
-										it,
-										object : IndexV1Parser.Callback {
-											override fun onRepository(
-												mirrors: List<String>,
-												name: String,
-												description: String,
-												version: Int,
-												timestamp: Long,
-											) {
-												changedRepository = repository.update(
-													mirrors, name, description, version,
-													lastModified, entityTag, timestamp
-												)
-											}
-
-											override fun onProduct(product: Product) {
-												if (Thread.interrupted()) {
-													throw InterruptedException()
-												}
-												unmergedProducts += product
-												if (unmergedProducts.size >= 50) {
-													indexMerger.addProducts(unmergedProducts)
-													unmergedProducts.clear()
-												}
-											}
-
-											override fun onReleases(
-												packageName: String,
-												releases: List<Release>,
-											) {
-												if (Thread.interrupted()) {
-													throw InterruptedException()
-												}
-												unmergedReleases += Pair(packageName, releases)
-												if (unmergedReleases.size >= 50) {
-													indexMerger.addReleases(unmergedReleases)
-													unmergedReleases.clear()
-												}
-											}
-										})
-
-									if (Thread.interrupted()) {
-										throw InterruptedException()
+						}.use { it ->
+							IndexV1Parser.parse(
+								repository.id,
+								it,
+								object : IndexV1Parser.Callback {
+									override fun onRepository(
+										mirrors: List<String>,
+										name: String,
+										description: String,
+										version: Int,
+										timestamp: Long,
+									) {
+										changedRepositoryVar = repository.update(
+											mirrors, name, description, version,
+											lastModified, entityTag, timestamp
+										)
 									}
-									if (unmergedProducts.isNotEmpty()) {
-										indexMerger.addProducts(unmergedProducts)
-										unmergedProducts.clear()
-									}
-									if (unmergedReleases.isNotEmpty()) {
-										indexMerger.addReleases(unmergedReleases)
-										unmergedReleases.clear()
-									}
-									var progress = 0
-									indexMerger.forEach(repository.id, 50) { products, totalCount ->
+
+									override fun onProduct(product: Product) {
 										if (Thread.interrupted()) {
 											throw InterruptedException()
 										}
-										progress += products.size
-										callback(
-											Stage.MERGE,
-											progress.toLong(),
-											totalCount.toLong()
-										)
-										Database.UpdaterAdapter.putTemporary(products
-											.map { transformProduct(it, features, unstable) })
+										unmergedProducts += product
+										if (unmergedProducts.size >= 50) {
+											indexMerger.addProducts(unmergedProducts)
+											unmergedProducts.clear()
+										}
 									}
-								}
+
+									override fun onReleases(
+										packageName: String,
+										releases: List<Release>,
+									) {
+										if (Thread.interrupted()) {
+											throw InterruptedException()
+										}
+										unmergedReleases += Pair(packageName, releases)
+										if (unmergedReleases.size >= 50) {
+											indexMerger.addReleases(unmergedReleases)
+											unmergedReleases.clear()
+										}
+									}
+								})
+
+							if (Thread.interrupted()) {
+								throw InterruptedException()
 							}
-						} finally {
-							mergerFile.delete()
+							if (unmergedProducts.isNotEmpty()) {
+								indexMerger.addProducts(unmergedProducts)
+								unmergedProducts.clear()
+							}
+							if (unmergedReleases.isNotEmpty()) {
+								indexMerger.addReleases(unmergedReleases)
+								unmergedReleases.clear()
+							}
+							var progress = 0
+							indexMerger.forEach(repository.id, 50) { products, totalCount ->
+								if (Thread.interrupted()) {
+									throw InterruptedException()
+								}
+								progress += products.size
+								callback(
+									Stage.MERGE,
+									progress.toLong(),
+									totalCount.toLong()
+								)
+								Database.UpdaterAdapter.putTemporary(products
+									.map { transformProduct(it, features, unstable) })
+							}
 						}
-						Pair(changedRepository, null)
 					}
+				} finally {
+					mergerFile.delete()
 				}
+
+				val changedRepository = changedRepositoryVar
 
 				val workRepository = changedRepository ?: repository
 				if (workRepository.timestamp < repository.timestamp) {
@@ -407,20 +349,8 @@ object RepositoryUpdater {
 								}
 							}
 						}
-						val fingerprintFromJar = certificateFromJar.fingerprint
-						if (indexType.certificateFromIndex) {
-							val fingerprintFromIndex =
-								certificateFromIndex?.unhex()?.fingerprint
-							if (fingerprintFromIndex == null || fingerprintFromJar != fingerprintFromIndex) {
-								throw UpdateException(
-									ErrorType.VALIDATION,
-									"index.xml contains invalid public key"
-								)
-							}
-							fingerprintFromIndex
-						} else {
-							fingerprintFromJar
-						}
+						val fingerprintFromJar = certificateFromJar.fingerprint()
+						fingerprintFromJar
 					}
 
 					val commitRepository = if (workRepository.fingerprint != fingerprint) {
