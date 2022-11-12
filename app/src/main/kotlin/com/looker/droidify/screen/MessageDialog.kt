@@ -9,32 +9,32 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.R.string as stringRes
-import com.looker.core.model.Release
 import com.looker.core.common.file.KParcelable
+import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.Release
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.R.string as stringRes
 
 class MessageDialog() : DialogFragment() {
 	companion object {
 		private const val EXTRA_MESSAGE = "message"
 	}
 
-	sealed class Message : KParcelable {
-		object DeleteRepositoryConfirm : Message() {
+	sealed interface Message : KParcelable {
+		object DeleteRepositoryConfirm : Message {
 			@Suppress("unused")
 			@JvmField
 			val CREATOR = KParcelable.creator { DeleteRepositoryConfirm }
 		}
 
-		object CantEditSyncing : Message() {
+		object CantEditSyncing : Message {
 			@Suppress("unused")
 			@JvmField
 			val CREATOR = KParcelable.creator { CantEditSyncing }
 		}
 
-		class Link(val uri: Uri) : Message() {
+		class Link(val uri: Uri) : Message {
 			override fun writeToParcel(dest: Parcel, flags: Int) {
 				dest.writeString(uri.toString())
 			}
@@ -49,7 +49,7 @@ class MessageDialog() : DialogFragment() {
 			}
 		}
 
-		class Permissions(val group: String?, val permissions: List<String>) : Message() {
+		class Permissions(val group: String?, val permissions: List<String>) : Message {
 			override fun writeToParcel(dest: Parcel, flags: Int) {
 				dest.writeString(group)
 				dest.writeStringList(permissions)
@@ -69,7 +69,7 @@ class MessageDialog() : DialogFragment() {
 		class ReleaseIncompatible(
 			val incompatibilities: List<Release.Incompatibility>,
 			val platforms: List<String>, val minSdkVersion: Int, val maxSdkVersion: Int,
-		) : Message() {
+		) : Message {
 			override fun writeToParcel(dest: Parcel, flags: Int) {
 				dest.writeInt(incompatibilities.size)
 				for (incompatibility in incompatibilities) {
@@ -116,13 +116,13 @@ class MessageDialog() : DialogFragment() {
 			}
 		}
 
-		object ReleaseOlder : Message() {
+		object ReleaseOlder : Message {
 			@Suppress("unused")
 			@JvmField
 			val CREATOR = KParcelable.creator { ReleaseOlder }
 		}
 
-		object ReleaseSignatureMismatch : Message() {
+		object ReleaseSignatureMismatch : Message {
 			@Suppress("unused")
 			@JvmField
 			val CREATOR = KParcelable.creator { ReleaseSignatureMismatch }
