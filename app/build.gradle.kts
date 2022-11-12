@@ -149,6 +149,8 @@ dependencies {
 
 	implementation(OkHttp.okhttp)
 
+	implementation(Others.zoomage)
+
 	implementation(RxJava.android)
 	implementation(RxJava.rxjava)
 

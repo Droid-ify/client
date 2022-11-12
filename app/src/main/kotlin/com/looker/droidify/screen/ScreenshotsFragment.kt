@@ -16,9 +16,10 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
+import coil.dispose
 import coil.load
-import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core.common.extension.clear
+import com.jsibbold.zoomage.AutoResetMode.UNDER
+import com.jsibbold.zoomage.ZoomageView
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.sdkAbove
@@ -45,7 +46,6 @@ class ScreenshotsFragment() : DialogFragment() {
 		private const val EXTRA_IDENTIFIER = "identifier"
 
 		private const val STATE_IDENTIFIER = "identifier"
-		private var isSystemBarVisible = true
 	}
 
 	constructor(packageName: String, repositoryId: Long, identifier: String) : this() {
@@ -103,26 +103,15 @@ class ScreenshotsFragment() : DialogFragment() {
 			}
 		}
 
-		fun toggleSystemUi() {
-			if (window != null && decorView != null) {
-				WindowInsetsControllerCompat(window, decorView).let { controller ->
-					isSystemBarVisible = if (isSystemBarVisible) {
-						controller.hide(WindowInsetsCompat.Type.systemBars())
-						false
-					} else {
-						controller.show(WindowInsetsCompat.Type.systemBars())
-						true
-					}
-					controller.systemBarsBehavior =
-						WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-				}
-			}
+		if (window != null && decorView != null) {
+			WindowInsetsControllerCompat(
+				window,
+				decorView
+			).hide(WindowInsetsCompat.Type.systemBars())
 		}
 
 		val viewPager = ViewPager2(dialog.context)
-		viewPager.adapter = Adapter(packageName) {
-			toggleSystemUi()
-		}
+		viewPager.adapter = Adapter(packageName)
 		viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(16)))
 		viewPager.viewTreeObserver.addOnGlobalLayoutListener {
 			(viewPager.adapter as Adapter).size = Pair(viewPager.width, viewPager.height)
@@ -186,14 +175,14 @@ class ScreenshotsFragment() : DialogFragment() {
 		}
 	}
 
-	private class Adapter(private val packageName: String, private val onClick: () -> Unit) :
+	private class Adapter(private val packageName: String) :
 		StableRecyclerAdapter<Adapter.ViewType, RecyclerView.ViewHolder>() {
 		enum class ViewType { SCREENSHOT }
 
 		private class ViewHolder(context: Context) :
-			RecyclerView.ViewHolder(ShapeableImageView(context)) {
-			val image: ShapeableImageView
-				get() = itemView as ShapeableImageView
+			RecyclerView.ViewHolder(ZoomageView(context)) {
+			val image: ZoomageView
+				get() = itemView as ZoomageView
 
 			val placeholder: Drawable
 
@@ -202,7 +191,15 @@ class ScreenshotsFragment() : DialogFragment() {
 					RecyclerView.LayoutParams.MATCH_PARENT,
 					RecyclerView.LayoutParams.MATCH_PARENT
 				)
-
+				image.apply {
+					isZoomable = true
+					isTranslatable = true
+					autoCenter = true
+					restrictBounds = false
+					setScaleRange(1f, 8f)
+					animateOnReset = true
+					autoResetMode = UNDER
+				}
 				val placeholder =
 					itemView.context.getDrawableCompat(drawableRes.ic_photo_camera).mutate()
 				placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor)
@@ -245,11 +242,7 @@ class ScreenshotsFragment() : DialogFragment() {
 		override fun onCreateViewHolder(
 			parent: ViewGroup,
 			viewType: ViewType,
-		): RecyclerView.ViewHolder {
-			return ViewHolder(parent.context).apply {
-				itemView.setOnClickListener { onClick() }
-			}
-		}
+		): RecyclerView.ViewHolder = ViewHolder(parent.context)
 
 		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 			holder as ViewHolder
@@ -265,7 +258,7 @@ class ScreenshotsFragment() : DialogFragment() {
 		override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
 			super.onViewDetachedFromWindow(holder)
 			holder as ViewHolder
-			holder.image.clear()
+			holder.image.dispose()
 		}
 	}
 }

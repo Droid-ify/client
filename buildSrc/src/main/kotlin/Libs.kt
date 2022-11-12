@@ -91,6 +91,7 @@ object OkHttp {
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
 	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
+	const val zoomage = "com.jsibbold:zoomage:1.3.1"
 	private const val shizukuVersion = "12.1.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
