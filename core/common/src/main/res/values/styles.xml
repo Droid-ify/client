@@ -31,6 +31,7 @@
         <item name="android:statusBarColor">@color/md_theme_light_surface</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
         <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
         <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
