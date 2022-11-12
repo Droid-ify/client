@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -453,8 +452,7 @@ class TabsFragment : ScreenFragment() {
 		if (value != target) {
 			sectionsAnimator = ValueAnimator.ofFloat(value, target).apply {
 				duration = (250 * abs(target - value)).toLong()
-				interpolator =
-					if (target >= 1f) AccelerateInterpolator(2f) else DecelerateInterpolator(2f)
+				interpolator = DecelerateInterpolator(2f)
 				addUpdateListener {
 					val newValue = animatedValue as Float
 					sectionsList.apply {
@@ -468,7 +466,7 @@ class TabsFragment : ScreenFragment() {
 							requestLayout()
 						}
 					}
-					if (target <= 0f && newValue <= 0f || target >= 1f && newValue >= 1f) {
+					if (target <= 0f && newValue <= 0f) {
 						sectionsAnimator = null
 					}
 				}
