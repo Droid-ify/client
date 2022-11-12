@@ -23,12 +23,15 @@ import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
 import android.text.style.URLSpan
 import android.text.util.Linkify
+import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.LinearLayout
+import android.widget.TextSwitcher
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -364,6 +367,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 		val name = itemView.findViewById<TextView>(R.id.name)!!
 		val authorName = itemView.findViewById<TextView>(R.id.author_name)!!
+		val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
+		val textSwitcher = itemView.findViewById<TextSwitcher>(R.id.author_package_name)!!
 
 		val progressIcon: Drawable
 		val defaultIcon: Drawable
@@ -372,6 +377,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
 			this.progressIcon = progressIcon
 			this.defaultIcon = defaultIcon
+			textSwitcher.setInAnimation(itemView.context!!, android.R.anim.slide_in_left)
+			textSwitcher.setOutAnimation(itemView.context!!, android.R.anim.slide_out_right)
 		}
 
 		val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
@@ -1091,6 +1098,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				item as Item.AppInfoItem
 				val updateStatus = Payload.STATUS in payloads
 				val updateAll = !updateStatus
+				var showAuthor = item.product.author.name.isNotEmpty()
 				if (updateAll) {
 					holder.icon.load(
 						item.product.packageName.icon(
@@ -1103,14 +1111,24 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						placeholder(holder.progressIcon)
 						error(holder.defaultIcon)
 					}
-					holder.name.text = item.product.name
 					val authorText =
-						if (item.product.author.name.isNotEmpty()) buildSpannedString {
+						if (showAuthor) buildSpannedString {
 							append("by ")
 							bold { append(item.product.author.name) }
 						} else buildSpannedString { bold { append(item.product.packageName) } }
-
 					holder.authorName.text = authorText
+					holder.packageName.text = authorText
+					if (item.product.author.name.isNotEmpty()) {
+						holder.icon.setOnClickListener {
+							showAuthor = !showAuthor
+							val newText = if (showAuthor) buildSpannedString {
+								append("by ")
+								bold { append(item.product.author.name) }
+							} else buildSpannedString { bold { append(item.product.packageName) } }
+							holder.textSwitcher.setText(newText)
+						}
+					}
+					holder.name.text = item.product.name
 				}
 				val sdk = product?.displayRelease?.targetSdkVersion
 
