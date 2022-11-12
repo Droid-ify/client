@@ -23,13 +23,11 @@ import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
 import android.text.style.URLSpan
 import android.text.util.Linkify
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
 import android.widget.LinearLayout
 import android.widget.TextSwitcher
 import android.widget.TextView
@@ -377,8 +375,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
 			this.progressIcon = progressIcon
 			this.defaultIcon = defaultIcon
-			textSwitcher.setInAnimation(itemView.context!!, android.R.anim.slide_in_left)
-			textSwitcher.setOutAnimation(itemView.context!!, android.R.anim.slide_out_right)
+			textSwitcher.setInAnimation(itemView.context!!, R.anim.slide_right_fade_in)
+			textSwitcher.setOutAnimation(itemView.context!!, R.anim.slide_right_fade_out)
 		}
 
 		val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
