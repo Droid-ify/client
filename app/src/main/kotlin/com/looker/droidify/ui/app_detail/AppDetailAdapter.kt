@@ -1104,11 +1104,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						error(holder.defaultIcon)
 					}
 					holder.name.text = item.product.name
-					val authorText = buildSpannedString {
-						append("by ")
-						bold { append(item.product.author.name) }
+					val authorText =
+						if (item.product.author.name.isNotEmpty()) buildSpannedString {
+							append("by ")
+							bold { append(item.product.author.name) }
+						} else buildSpannedString { bold { append(item.product.packageName) } }
 
-					}
 					holder.authorName.text = authorText
 				}
 				val sdk = product?.displayRelease?.targetSdkVersion
