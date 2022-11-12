@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.getDrawableCompat
 import com.looker.droidify.R
 import com.looker.core.common.R.dimen as dimenRes
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter

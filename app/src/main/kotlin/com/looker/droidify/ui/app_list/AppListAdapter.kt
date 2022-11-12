@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.inflate
+import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
@@ -20,9 +23,6 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.inflate
-import com.looker.droidify.utility.extension.resources.setTextSizeScaled
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
 

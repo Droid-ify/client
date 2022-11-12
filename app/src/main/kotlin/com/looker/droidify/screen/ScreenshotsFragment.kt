@@ -18,6 +18,9 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
+import com.looker.core.common.extension.clear
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -25,9 +28,6 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.RxUtils
-import com.looker.droidify.utility.extension.resources.clear
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter

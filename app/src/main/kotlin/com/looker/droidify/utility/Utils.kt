@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.Signature
 import android.graphics.drawable.Drawable
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.hex
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
@@ -14,8 +16,6 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.getDrawableCompat
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.security.MessageDigest
 import java.security.cert.Certificate

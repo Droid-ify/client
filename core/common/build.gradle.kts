@@ -43,6 +43,8 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
+	implementation(Coil.coil)
+
 	api(Jackson.core)
 
 	implementation(Kotlin.datetime)

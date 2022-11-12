@@ -16,8 +16,9 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
-import com.looker.core.common.notificationManager
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
@@ -30,7 +31,6 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.extension.android.asSequence
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

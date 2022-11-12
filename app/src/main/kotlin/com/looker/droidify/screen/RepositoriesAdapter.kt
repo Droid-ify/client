@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.inflate
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
-import com.looker.droidify.utility.extension.resources.inflate
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class RepositoriesAdapter(

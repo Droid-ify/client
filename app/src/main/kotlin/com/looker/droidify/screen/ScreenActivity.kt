@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
@@ -26,7 +27,6 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.droidify.utility.extension.app_file.installApk
-import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import com.looker.feature_settings.SettingsFragment
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn

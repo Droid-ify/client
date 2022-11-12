@@ -5,8 +5,8 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
+import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.droidify.R
-import com.looker.droidify.utility.extension.resources.getDrawableFromAttr
 import kotlin.math.roundToInt
 
 class DividerItemDecoration(

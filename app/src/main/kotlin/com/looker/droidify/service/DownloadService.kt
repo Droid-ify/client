@@ -11,9 +11,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.Constants
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
-import com.looker.core.common.notificationManager
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
@@ -30,7 +31,6 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
-import com.looker.droidify.utility.extension.resources.getColorFromAttr
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -115,7 +115,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(task.notificationTag, Constants.NOTIFICATION_ID_DOWNLOADING)
+				notificationManager.cancel(
+					task.notificationTag,
+					Constants.NOTIFICATION_ID_DOWNLOADING
+				)
 				tasks += task
 				if (currentTask == null) {
 					handleDownload()
@@ -305,8 +308,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private suspend fun publishSuccess(task: Task) {
 		mutableStateSubject.emit(State.Success(task.packageName, task.name, task.release))
 		val installerType = runBlocking {
-				userPreferencesRepository.fetchInitialPreferences().installerType
-			}
+			userPreferencesRepository.fetchInitialPreferences().installerType
+		}
 		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
 			task.packageName.installApk(
 				this@DownloadService,

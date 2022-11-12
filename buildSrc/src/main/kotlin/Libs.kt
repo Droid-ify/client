@@ -14,7 +14,7 @@ object Core {
 }
 
 object Coil {
-	private const val coilVersion = "2.2.1"
+	private const val coilVersion = "2.2.2"
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
