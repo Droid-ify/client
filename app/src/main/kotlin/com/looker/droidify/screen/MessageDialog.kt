@@ -3,6 +3,7 @@ package com.looker.droidify.screen
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import androidx.appcompat.app.AlertDialog
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.sdkAbove
 import com.looker.core.model.Release
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
@@ -141,7 +143,14 @@ class MessageDialog() : DialogFragment() {
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
 		val dialog = MaterialAlertDialogBuilder(requireContext())
-		when (val message = requireArguments().getParcelable<Message>(EXTRA_MESSAGE)!!) {
+		val message = sdkAbove(
+			sdk = Build.VERSION_CODES.TIRAMISU,
+			onSuccessful = {
+				requireArguments().getParcelable(EXTRA_MESSAGE, Message::class.java)!!
+			},
+			orElse = { requireArguments().getParcelable(EXTRA_MESSAGE)!! }
+		)
+		when (message) {
 			is Message.DeleteRepositoryConfirm -> {
 				dialog.setTitle(stringRes.confirmation)
 				dialog.setMessage(stringRes.delete_repository_DESC)
