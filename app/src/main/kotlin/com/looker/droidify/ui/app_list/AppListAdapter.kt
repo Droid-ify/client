@@ -154,48 +154,27 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 					error(holder.defaultIcon)
 				}
 				holder.status.apply {
-					if (productItem.installedVersion.nullIfEmpty() != null) {
-						text = productItem.version
-						if (background == null) {
-							background = ResourcesCompat.getDrawable(
-								holder.itemView.resources,
-								R.drawable.background_border,
-								context.theme
-							)
-							resources.sizeScaled(6).let { setPadding(it, it, it, it) }
-							if (productItem.canUpdate) {
-								backgroundTintList =
-									context.getColorFromAttr(R.attr.colorSecondaryContainer)
-								setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
-							} else {
-								backgroundTintList =
-									context.getColorFromAttr(R.attr.colorPrimaryContainer)
-								setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
-							}
-						}
-					}
-					if (productItem.canUpdate) {
-						text = productItem.version
-						if (background == null) {
-							background =
-								ResourcesCompat.getDrawable(
-									holder.itemView.resources,
-									R.drawable.background_border,
-									context.theme
-								)
-							resources.sizeScaled(6).let { setPadding(it, it, it, it) }
+					text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
+					val isInstalled = productItem.installedVersion.nullIfEmpty() != null
+					when {
+						productItem.canUpdate -> {
 							backgroundTintList =
 								context.getColorFromAttr(R.attr.colorSecondaryContainer)
 							setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
 						}
-					} else {
-						text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
-						if (background != null) {
-							setPadding(0, 0, 0, 0)
-							setTextColor(holder.status.context.getColorFromAttr(android.R.attr.colorControlNormal))
-							background = null
+						isInstalled -> {
+							backgroundTintList =
+								context.getColorFromAttr(R.attr.colorPrimaryContainer)
+							setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
 						}
+						else -> return@apply
 					}
+					background = ResourcesCompat.getDrawable(
+						holder.itemView.resources,
+						R.drawable.background_border,
+						context.theme
+					)
+					resources.sizeScaled(6).let { setPadding(it, it, it, it) }
 				}
 				val enabled = productItem.compatible || productItem.installedVersion.isNotEmpty()
 				sequenceOf(holder.name, holder.status, holder.summary).forEach {
