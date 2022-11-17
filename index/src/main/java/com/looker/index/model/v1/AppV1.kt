@@ -36,3 +36,9 @@ data class AppV1(
 	val localized: Map<String, Localized>? = null,
 	val allowedAPKSigningKeys: List<String>? = null
 )
+
+fun <T : Any> Map<String, Localized>.localizedData(
+	transform: (Map.Entry<String, Localized>) -> T
+): Map<String, T> = mapValues {
+	transform(it)
+}
