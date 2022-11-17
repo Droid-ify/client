@@ -57,7 +57,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 	}
 
-	val scope = CoroutineScope(Dispatchers.IO)
+	val scope = CoroutineScope(Dispatchers.Default)
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
