@@ -421,15 +421,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			AppDetailAdapter.Action.UPDATE,
 			-> {
 				val installedItem = installed?.installedItem
-				lifecycleScope.launch {
-					startUpdate(
-						packageName,
-						installedItem,
-						products,
-						downloadConnection
-					)
-				}
-				Unit
+				startUpdate(
+					packageName,
+					installedItem,
+					products,
+					downloadConnection
+				)
 			}
 			AppDetailAdapter.Action.LAUNCH -> {
 				val launcherActivities = installed?.launcherActivities.orEmpty()

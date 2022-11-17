@@ -16,7 +16,6 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
 import com.looker.droidify.utility.extension.android.versionCodeCompat
-import kotlinx.coroutines.flow.MutableStateFlow
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
@@ -80,7 +79,7 @@ object Utils {
 		""
 	}
 
-	suspend fun startUpdate(
+	fun startUpdate(
 		packageName: String,
 		installedItem: InstalledItem?,
 		products: List<Pair<Product, Repository>>,
@@ -89,26 +88,23 @@ object Utils {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		val compatibleReleases = productRepository?.first?.selectedReleases.orEmpty()
 			.filter { installedItem == null || installedItem.signature == it.signature }
-		val releaseFlow = MutableStateFlow(compatibleReleases.firstOrNull())
-		if (compatibleReleases.size > 1) {
-			releaseFlow.emit(
-				compatibleReleases
-					.filter { it.platforms.contains(Android.primaryPlatform) }
-					.minByOrNull { it.platforms.size }
-					?: compatibleReleases.minByOrNull { it.platforms.size }
-					?: compatibleReleases.firstOrNull()
-			)
+		val release = if (compatibleReleases.size >= 2) {
+			compatibleReleases
+				.filter { it.platforms.contains(Android.primaryPlatform) }
+				.minByOrNull { it.platforms.size }
+				?: compatibleReleases.minByOrNull { it.platforms.size }
+				?: compatibleReleases.firstOrNull()
+		} else {
+			compatibleReleases.firstOrNull()
 		}
 		val binder = downloadConnection.binder
-		releaseFlow.collect {
-			if (productRepository != null && it != null && binder != null) {
-				binder.enqueue(
-					packageName,
-					productRepository.first.name,
-					productRepository.second,
-					it
-				)
-			}
+		if (productRepository != null && release != null && binder != null) {
+			binder.enqueue(
+				packageName,
+				productRepository.first.name,
+				productRepository.second,
+				release
+			)
 		}
 	}
 }
