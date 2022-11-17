@@ -37,10 +37,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
@@ -77,7 +74,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		class Cancel(packageName: String, name: String) : State(packageName, name)
 	}
 
-	private val mutableDownloadState = MutableStateFlow<State>(State.EMPTY)
 	private val mutableStateSubject = MutableSharedFlow<State>()
 
 	private class Task(
@@ -149,8 +145,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.apply { setShowBadge(false) }
 				.let(notificationManager::createNotificationChannel)
 		}
-
-		mutableDownloadState.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
@@ -454,8 +448,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						task.authentication
 					) { read, total ->
 						launch {
-							mutableDownloadState.emit(
-								State.Downloading(
+							publishForegroundState(
+								true, State.Downloading(
 									task.packageName,
 									task.name,
 									read,

@@ -34,6 +34,7 @@ import com.looker.droidify.utility.extension.android.asSequence
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -42,7 +43,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -71,14 +71,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		emit(userPreferencesRepository.fetchInitialPreferences())
 	}
 
-	private sealed class State {
-		data class Connecting(val name: String) : State()
+	private sealed interface State {
+		data class Connecting(val name: String) : State
 		data class Syncing(
 			val name: String, val stage: RepositoryUpdater.Stage,
 			val read: Long, val total: Long?,
-		) : State()
+		) : State
 
-		object Finishing : State()
+		object Finishing : State
 	}
 
 	private class Task(val repositoryId: Long, val manual: Boolean)
@@ -89,7 +89,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private enum class Started { NO, AUTO, MANUAL }
 
-	private val scope = CoroutineScope(Dispatchers.IO)
+	private val scope = CoroutineScope(Dispatchers.Default)
 
 	private var started = Started.NO
 	private val tasks = mutableListOf<Task>()
@@ -461,7 +461,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	private suspend fun handleUpdates(hasUpdates: Boolean, notifyUpdates: Boolean) {
 		if (hasUpdates && notifyUpdates) {
 			val job = scope.launch {
-				val products = withContext(Dispatchers.IO) {
+				val products = async {
 					Database.ProductAdapter
 						.query(
 							installed = true,
@@ -472,15 +472,15 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 							signal = null
 						)
 						.use {
-							it.asSequence().map(Database.ProductAdapter::transformItem)
-								.toList()
+							it.asSequence().map(Database.ProductAdapter::transformItem).toList()
 						}
 				}
 				currentTask = null
 				handleNextTask(false)
 				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-				if (!blocked && products.isNotEmpty()) {
-					displayUpdatesNotification(products)
+				val availableUpdate = products.await()
+				if (!blocked && availableUpdate.isNotEmpty()) {
+					displayUpdatesNotification(availableUpdate)
 				}
 			}
 			currentTask = CurrentTask(null, job, true, State.Finishing)
