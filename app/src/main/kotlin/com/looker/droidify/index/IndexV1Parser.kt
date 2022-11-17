@@ -2,9 +2,6 @@ package com.looker.droidify.index
 
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core.model.Product
-import com.looker.core.model.Release
-import com.looker.droidify.utility.extension.android.Android
 import com.looker.core.common.file.Json
 import com.looker.core.common.file.collectDistinctNotEmptyStrings
 import com.looker.core.common.file.collectNotNull
@@ -12,6 +9,9 @@ import com.looker.core.common.file.forEach
 import com.looker.core.common.file.forEachKey
 import com.looker.core.common.file.illegal
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.model.Product
+import com.looker.core.model.Release
+import com.looker.droidify.utility.extension.android.Android
 import java.io.InputStream
 
 object IndexV1Parser {
@@ -58,6 +58,27 @@ object IndexV1Parser {
 		callback: (Localized) -> String,
 	): String {
 		return (find { _, localized -> callback(localized).nullIfEmpty() } ?: fallback).trim()
+	}
+
+	internal object DonateComparator : Comparator<Product.Donate> {
+		private val classes = listOf(
+			Product.Donate.Regular::class,
+			Product.Donate.Bitcoin::class,
+			Product.Donate.Litecoin::class,
+			Product.Donate.Flattr::class,
+			Product.Donate.Liberapay::class,
+			Product.Donate.OpenCollective::class
+		)
+
+		override fun compare(donate1: Product.Donate, donate2: Product.Donate): Int {
+			val index1 = classes.indexOf(donate1::class)
+			val index2 = classes.indexOf(donate2::class)
+			return when {
+				index1 >= 0 && index2 == -1 -> -1
+				index2 >= 0 && index1 == -1 -> 1
+				else -> index1.compareTo(index2)
+			}
+		}
 	}
 
 	fun parse(repositoryId: Long, inputStream: InputStream, callback: Callback) {
@@ -135,7 +156,7 @@ object IndexV1Parser {
 				it.string("name") -> nameFallback = valueAsString
 				it.string("summary") -> summaryFallback = valueAsString
 				it.string("description") -> descriptionFallback = valueAsString
-				it.string("icon") -> icon = IndexHandler.validateIcon(valueAsString)
+				it.string("icon") -> icon = validateIcon(valueAsString)
 				it.string("authorName") -> authorName = valueAsString
 				it.string("authorEmail") -> authorEmail = valueAsString
 				it.string("authorWebSite") -> authorWeb = valueAsString
@@ -249,7 +270,7 @@ object IndexV1Parser {
 			categories,
 			antiFeatures,
 			licenses,
-			donates.sortedWith(IndexHandler.DonateComparator),
+			donates.sortedWith(DonateComparator),
 			screenshots,
 			emptyList()
 		)
@@ -353,5 +374,9 @@ object IndexV1Parser {
 				}
 			}
 		}
+	}
+
+	private fun validateIcon(icon: String): String {
+		return if (icon.endsWith(".xml")) "" else icon
 	}
 }
