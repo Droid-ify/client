@@ -12,7 +12,7 @@ data class DownloadItem(
 
 fun List<DownloadItem>.indexOfItem(id: String): Int = indexOfFirst { it.id == id }
 
-fun Map<DownloadItem, DownloadState<Any>>.downloadState(id: String): DownloadState<Any> {
+fun Map<DownloadItem, DownloadState>.downloadState(id: String): DownloadState {
 	val key = keys.first { it.id == id }
-	return this[key] ?: DownloadState.Error.UnknownError()
+	return this[key] ?: DownloadState.Error.UnknownError
 }

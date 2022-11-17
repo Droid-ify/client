@@ -1,16 +1,16 @@
 package com.looker.downloader.model
 
-sealed interface DownloadState<out T> {
+sealed interface DownloadState {
 
-	class Pending<T> : DownloadState<T>
+	object Pending : DownloadState
 
-	class Success<T>(val data: T) : DownloadState<T>
+	class Success(val headerInfo: HeaderInfo) : DownloadState
 
-	data class Progress<T>(val total: Long, val percent: Int) : DownloadState<T>
+	data class Progress(val total: Long, val percent: Int) : DownloadState
 
-	sealed interface Error<T> : DownloadState<T> {
-		class UnknownError<T> : Error<T>
-		data class HttpError<T>(val code: Int, val exception: Exception) : Error<T>
-		data class IOError<T>(val exception: Exception) : Error<T>
+	sealed interface Error : DownloadState {
+		object UnknownError : Error
+		data class HttpError(val code: Int, val exception: Exception) : Error
+		data class IOError(val exception: Exception) : Error
 	}
 }
