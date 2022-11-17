@@ -160,12 +160,12 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 						productItem.canUpdate -> {
 							backgroundTintList =
 								context.getColorFromAttr(R.attr.colorSecondaryContainer)
-							setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
+							setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
 						}
 						isInstalled -> {
 							backgroundTintList =
 								context.getColorFromAttr(R.attr.colorPrimaryContainer)
-							setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+							setTextColor(context.getColorFromAttr(R.attr.colorOnPrimaryContainer))
 						}
 						else -> {
 							setPadding(0, 0, 0, 0)
