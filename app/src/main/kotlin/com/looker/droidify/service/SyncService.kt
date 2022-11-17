@@ -60,7 +60,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		private val mutableStateSubject = MutableSharedFlow<State>()
 		private val mutableFinishState = MutableSharedFlow<Unit>()
 
-		private val stateSubject = mutableStateSubject.asSharedFlow()
 		private val finishState = mutableFinishState.asSharedFlow()
 	}
 
@@ -198,7 +197,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		stateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
+		mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {

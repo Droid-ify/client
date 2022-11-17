@@ -11,7 +11,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -108,9 +110,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private var productDisposable: Disposable? = null
 	private val downloadConnection = Connection(DownloadService::class.java, onBind = { _, binder ->
-		lifecycleScope.launch {
-			binder.stateSubject.filter { it.packageName == packageName }.collect {
-				updateDownloadState(it)
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				binder.stateSubject.filter { it.packageName == packageName }.collect {
+					updateDownloadState(it)
+				}
 			}
 		}
 	})
