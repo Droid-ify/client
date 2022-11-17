@@ -167,7 +167,12 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 								context.getColorFromAttr(R.attr.colorPrimaryContainer)
 							setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
 						}
-						else -> return@apply
+						else -> {
+							setPadding(0, 0, 0, 0)
+							setTextColor(holder.status.context.getColorFromAttr(R.attr.colorOnBackground))
+							background = null
+							return@apply
+						}
 					}
 					background = ResourcesCompat.getDrawable(
 						holder.itemView.resources,
