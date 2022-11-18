@@ -19,9 +19,9 @@ import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.extension.getThemeRes
+import com.looker.core.datastore.model.Theme
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -33,7 +33,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R as styleR
@@ -44,22 +43,16 @@ abstract class ScreenActivity : AppCompatActivity() {
 		private const val STATE_FRAGMENT_STACK = "fragmentStack"
 	}
 
-	sealed class SpecialIntent {
-		object Updates : SpecialIntent()
-		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent()
+	sealed interface SpecialIntent {
+		object Updates : SpecialIntent
+		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent
 	}
 
 	private val notificationPermission =
-		registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-
-		}
+		registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ -> }
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	val intialTheme = flow {
-		emit(userPreferencesRepository.fetchInitialPreferences().theme)
-	}
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -114,30 +107,26 @@ abstract class ScreenActivity : AppCompatActivity() {
 					activityContext,
 					CustomUserRepositoryInjector::class.java
 				)
-			val initialPreferences = flow {
-				emit(hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences())
-			}
+			val initialTheme = hiltEntryPoint.userPreferencesRepository().getInitialPreference.theme
 			val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 
-			initialPreferences.collect { initialPref ->
-				var lastTheme = initialPref.theme
-				setConfig(initialPref)
-				launch {
-					newPreferences.collect {
-						if (lastTheme != it.theme) {
-							lastTheme = it.theme
-							setConfig(it)
-							this@ScreenActivity.recreate()
-						}
+			var lastTheme = initialTheme
+			setConfig(initialTheme)
+			launch {
+				newPreferences.collect {
+					if (lastTheme != it.theme) {
+						lastTheme = it.theme
+						setConfig(it.theme)
+						this@ScreenActivity.recreate()
 					}
 				}
 			}
 		}
 	}
 
-	private fun setConfig(userPreferences: UserPreferences) {
+	private fun setConfig(theme: Theme) {
 		val config = resources.configuration
-		setTheme(config.getThemeRes(userPreferences.theme))
+		setTheme(config.getThemeRes(theme))
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {
@@ -309,11 +298,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 			is SpecialIntent.Install -> {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {
+					val installerType =
+						userPreferencesRepository.getInitialPreference.installerType
 					lifecycleScope.launch {
-						specialIntent.cacheFileName?.let {
-							val installerType =
-								userPreferencesRepository.fetchInitialPreferences().installerType
-							packageName.installApk(this@ScreenActivity, it, installerType)
+						specialIntent.cacheFileName?.let { cacheFile ->
+							packageName.installApk(this@ScreenActivity, cacheFile, installerType)
 						}
 					}
 				}
