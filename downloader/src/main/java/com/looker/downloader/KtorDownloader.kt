@@ -22,11 +22,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 
 	companion object {
 		private const val TAG = "KtorDownloader"
+		private val HTTP_DATE_FORMAT: SimpleDateFormat
+			get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
+				timeZone = TimeZone.getTimeZone("GMT")
+			}
 	}
 
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
@@ -35,8 +41,8 @@ class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 			val httpResponse: HttpResponse? = try {
 				httpClient.get(item.url) {
 					headers {
-						if (item.authorization.isNotEmpty()) {
-							append(HttpHeaders.Authorization, item.authorization)
+						if (item.headerInfo.authorization?.isNotEmpty() == true) {
+							append(HttpHeaders.Authorization, item.headerInfo.authorization)
 						}
 					}
 					onDownload { bytesSent, contentLength ->
@@ -71,7 +77,7 @@ class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 			}
 			val headerInfo = HeaderInfo(
 				eTag = httpResponse?.etag(),
-				lastModified = httpResponse?.lastModified()
+				lastModified = httpResponse?.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
 			)
 			send(DownloadState.Success(headerInfo))
 			awaitClose { println("Cancelled") }

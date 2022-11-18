@@ -23,6 +23,7 @@ import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.downloader.model.DownloadItem
 import com.looker.downloader.model.DownloadState
+import com.looker.downloader.model.HeaderInfo
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.MainApplication
@@ -80,10 +81,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
 		val url: String, val authentication: String,
-	) {
-		val notificationTag: String
-			get() = "download-$packageName"
-	}
+	)
 
 	private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
 
@@ -380,37 +378,40 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 	}
 
-	private suspend fun publishForegroundState(force: Boolean, state: State, task: Task) =
+	private suspend fun publishForegroundState(force: Boolean, state: State) =
 		withContext(Dispatchers.Default) {
 			if (force || currentTask != null) {
 				currentTask = currentTask?.copy(lastState = state)
-				startForeground(Constants.NOTIFICATION_ID_DOWNLOADING, stateNotificationBuilder.apply {
-					when (state) {
-						is State.Connecting -> {
-							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
-							setContentText(getString(stringRes.connecting))
-							setProgress(1, 0, true)
-						}
-						is State.Downloading -> {
-							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
-							if (state.total != null) {
-								setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-								setProgress(
-									100,
-									(100f * state.read / state.total).roundToInt(),
-									false
-								)
-							} else {
-								setContentText(state.read.formatSize())
-								setProgress(0, 0, true)
+				startForeground(
+					Constants.NOTIFICATION_ID_DOWNLOADING,
+					stateNotificationBuilder.apply {
+						when (state) {
+							is State.Connecting -> {
+								setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
+								setContentText(getString(stringRes.connecting))
+								setProgress(1, 0, true)
 							}
-						}
-						is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
-							throw IllegalStateException()
-						}
-						State.EMPTY -> setProgress(1, 0, true)
-					}::class
-				}.build())
+							is State.Downloading -> {
+								setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
+								if (state.total != null) {
+									setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
+									setProgress(
+										100,
+										(100f * state.read / state.total).roundToInt(),
+										false
+									)
+								} else {
+									setContentText(state.read.formatSize())
+									setProgress(0, 0, true)
+								}
+							}
+							is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
+								throw IllegalStateException()
+							}
+							State.EMPTY -> setProgress(1, 0, true)
+						}::class
+					}.build()
+				)
 				mutableStateSubject.emit(state)
 			}
 		}
@@ -436,14 +437,15 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					)
 				}
 				stateNotificationBuilder.setContentIntent(resultPendingIntent)
-				scope.launch { publishForegroundState(true, initialState, task) }
+				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
+				val header = HeaderInfo(authorization = task.authentication)
 				val downloadItem = DownloadItem(
 					name = task.name,
 					url = task.url,
 					file = partialReleaseFile,
-					authorization = task.authentication
+					headerInfo = header
 				)
 				val job = scope.launch {
 					MainApplication.downloader.download(downloadItem).collect { state ->
@@ -498,8 +500,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task.name,
 										state.current,
 										state.total
-									),
-									task = task
+									)
 								)
 							}
 							is DownloadState.Success -> {
