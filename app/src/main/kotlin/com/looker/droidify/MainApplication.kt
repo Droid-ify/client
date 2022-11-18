@@ -19,6 +19,7 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core.common.Constants
+import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferences
@@ -40,7 +41,6 @@ import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.cache.HttpCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -91,16 +91,17 @@ class MainApplication : Application(), ImageLoaderFactory {
 						Intent.ACTION_PACKAGE_REMOVED,
 						-> {
 							val packageInfo = try {
-								sdkAbove(sdk = Build.VERSION_CODES.TIRAMISU, onSuccessful = {
+								if (Util.isTiramisu) {
 									packageManager.getPackageInfo(
 										packageName,
 										PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
 									)
-								}, orElse = {
+								} else {
+									@Suppress("DEPRECATION")
 									packageManager.getPackageInfo(
 										packageName, Android.PackageManager.signaturesFlag
 									)
-								})
+								}
 							} catch (e: Exception) {
 								null
 							}
@@ -119,14 +120,15 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addDataScheme("package")
 		})
 		val installedItems = try {
-			sdkAbove(sdk = Build.VERSION_CODES.TIRAMISU, onSuccessful = {
+			if (Util.isTiramisu) {
 				packageManager.getInstalledPackages(
 					PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
 				).map { it.toInstalledItem() }
-			}, orElse = {
+			} else {
+				@Suppress("DEPRECATION")
 				packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
 					.map { it.toInstalledItem() }
-			})
+			}
 		} catch (e: Exception) {
 			null
 		}
@@ -203,11 +205,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
-							sdkAbove(sdk = Build.VERSION_CODES.N, onSuccessful = {
-								setPeriodic(
-									period, JobInfo.getMinFlexMillis()
-								)
-							}, orElse = { setPeriodic(period) })
+							if (Util.isNougat) setPeriodic(period, JobInfo.getMinFlexMillis())
+							else setPeriodic(period)
 						}.build()
 					)
 					Unit

@@ -5,9 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import android.os.Build
 import androidx.core.content.getSystemService
-import com.looker.core.common.sdkAbove
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -45,15 +43,9 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : 
 	@Suppress("DEPRECATION")
 	private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
 		null -> false
-		else -> sdkAbove(
-			sdk = Build.VERSION_CODES.M,
-			onSuccessful = {
-				activeNetwork
-					?.let(::getNetworkCapabilities)
-					?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-					?: false
-			},
-			orElse = { activeNetworkInfo?.isConnected ?: false }
-		)
+		else -> activeNetwork
+			?.let(::getNetworkCapabilities)
+			?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+			?: false
 	}
 }

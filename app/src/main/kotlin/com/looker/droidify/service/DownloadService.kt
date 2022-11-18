@@ -10,6 +10,7 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.Constants
+import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
@@ -188,11 +189,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	private inline val pendingIntentFlag
-		get() = sdkAbove(
-			sdk = Build.VERSION_CODES.S,
-			onSuccessful = { PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE },
-			orElse = { PendingIntent.FLAG_UPDATE_CURRENT }
-		)
+		get() = if (Util.isSnowCake) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+		else PendingIntent.FLAG_UPDATE_CURRENT
 
 	private fun showNotificationError(task: Task, errorType: ErrorType) {
 		val intent = Intent(this, MainActivity::class.java)

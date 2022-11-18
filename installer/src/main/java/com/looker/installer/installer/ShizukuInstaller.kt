@@ -2,10 +2,9 @@ package com.looker.installer.installer
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.looker.core.common.sdkAbove
+import com.looker.core.common.Util
 import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,13 +27,9 @@ internal class ShizukuInstaller(context: Context) : BaseInstaller(context) {
 			val size =
 				uri.toFile().length().takeIf { it >= 0 } ?: throw IllegalStateException()
 			context.contentResolver.openInputStream(uri).use {
-				val createCommand = sdkAbove(
-					sdk = Build.VERSION_CODES.N,
-					onSuccessful = {
-						"pm install-create --user current -i $packageName -S $size"
-					},
-					orElse = { "pm install-create -i $packageName -S $size" }
-				)
+				val createCommand =
+					if (Util.isNougat) "pm install-create --user current -i $packageName -S $size"
+					else "pm install-create -i $packageName -S $size"
 				val createResult = exec(createCommand)
 				sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
 					?: throw RuntimeException("Failed to create install session")

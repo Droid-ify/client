@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core.common.sdkAbove
+import com.looker.core.common.Util
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.autoSyncName
 import com.looker.core.datastore.extension.installerName
@@ -364,12 +363,10 @@ class SettingsFragment : Fragment() {
 		}
 	}
 
+	@Suppress("DEPRECATION")
 	private fun Context.getLocaleOfCode(localeCode: String): Locale? = when {
-		localeCode.isEmpty() -> sdkAbove(
-			sdk = Build.VERSION_CODES.N,
-			onSuccessful = { resources.configuration.locales[0] },
-			orElse = { resources.configuration.locale }
-		)
+		localeCode.isEmpty() -> if (Util.isNougat) resources.configuration.locales[0]
+		else resources.configuration.locale
 		localeCode.contains("-r") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(4)

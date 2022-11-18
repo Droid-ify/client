@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.system.Os
+import com.looker.core.common.Util
 import com.looker.core.common.sdkAbove
 import java.io.File
 import java.util.*
@@ -74,21 +75,18 @@ object Cache {
 		val file = getReleaseFile(context, cacheFileName)
 		val packageInfo =
 			try {
-				sdkAbove(
-					sdk = Build.VERSION_CODES.TIRAMISU,
-					onSuccessful = {
-						context.packageManager.getPackageInfo(
-							context.packageName,
-							PackageManager.PackageInfoFlags.of(PackageManager.GET_PROVIDERS.toLong())
-						)
-					},
-					orElse = {
-						context.packageManager.getPackageInfo(
-							context.packageName,
-							PackageManager.GET_PROVIDERS
-						)
-					}
-				)
+				if (Util.isTiramisu) {
+					context.packageManager.getPackageInfo(
+						context.packageName,
+						PackageManager.PackageInfoFlags.of(PackageManager.GET_PROVIDERS.toLong())
+					)
+				} else {
+					@Suppress("DEPRECATION")
+					context.packageManager.getPackageInfo(
+						context.packageName,
+						PackageManager.GET_PROVIDERS
+					)
+				}
 			} catch (e: Exception) {
 				null
 			}
