@@ -193,4 +193,5 @@
     <string name="unstable_updates_summary">Suxire instalar versións inestables</string>
     <string name="validation_index_error_DESC">Non se puido validar o índice.</string>
     <string name="version">Versión</string>
+    <string name="io_error_DESC">Non se poden realizar determinadas accións.</string>
 </resources>
