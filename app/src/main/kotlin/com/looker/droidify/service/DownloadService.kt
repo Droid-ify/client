@@ -17,18 +17,16 @@ import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
-import com.looker.downloader.model.DownloadItem
-import com.looker.downloader.model.DownloadState
-import com.looker.downloader.model.HeaderInfo
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
-import com.looker.droidify.MainApplication
 import com.looker.droidify.R
+import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
@@ -442,65 +440,47 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				val header = HeaderInfo(authorization = task.authentication)
-				val downloadItem = DownloadItem(
-					name = task.name,
-					url = task.url,
-					file = partialReleaseFile,
-					headerInfo = header
-				)
 				val job = scope.launch {
-					MainApplication.downloader?.download(downloadItem)?.collect { state ->
-						when (state) {
-							is DownloadState.Error.HttpError -> {
-								showNotificationError(
-									task = task,
-									errorType = ErrorType.Http
-								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
-							}
-							is DownloadState.Error.IOError -> {
-								showNotificationError(
-									task = task,
-									errorType = ErrorType.IO
-								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
-							}
-							DownloadState.Error.UnknownError -> {
-								showNotificationError(
-									task = task,
-									errorType = ErrorType.Http
-								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
-							}
-							DownloadState.Pending -> mutableStateSubject.emit(
-								State.Connecting(
-									packageName = task.packageName
+					val result = Downloader.downloadFile(
+						task.url,
+						partialReleaseFile,
+						"",
+						"",
+						task.authentication
+					) { read, total ->
+						launch {
+							publishForegroundState(
+								true, State.Downloading(
+									task.packageName,
+									read,
+									total
 								)
 							)
-							is DownloadState.Progress -> {
-								publishForegroundState(
-									force = true,
-									state = State.Downloading(
-										task.packageName,
-										state.current,
-										state.total
+						}
+					}
+					currentTask = null
+					when (result) {
+						Result.Loading -> {
+							launch {
+								mutableStateSubject.emit(
+									State.Connecting(
+										packageName = task.packageName
 									)
 								)
 							}
-							is DownloadState.Success -> {
+						}
+						is Result.Error -> result.exception?.printStackTrace()
+						is Result.Success -> {
+							if (!result.data.success) {
+								showNotificationError(task, ErrorType.Http)
+								launch {
+									mutableStateSubject.emit(
+										State.Error(
+											task.packageName
+										)
+									)
+								}
+							} else {
 								val validationError = validatePackage(task, partialReleaseFile)
 								if (validationError == null) {
 									val releaseFile =
@@ -516,16 +496,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task,
 										ErrorType.Validation(validationError)
 									)
-									mutableStateSubject.emit(
-										State.Error(
-											task.packageName
+									launch {
+										mutableStateSubject.emit(
+											State.Error(
+												task.packageName
+											)
 										)
-									)
+									}
 								}
 							}
 						}
 					}
-					currentTask = null
 					handleDownload()
 				}
 				currentTask = CurrentTask(task, job, initialState)
