@@ -14,7 +14,6 @@ import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.client.request.url
-import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
 import io.ktor.http.etag
 import io.ktor.http.lastModified
@@ -27,7 +26,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class KtorDownloader(private val httpClient: HttpClient) : Downloader {
+class KtorDownloader(private val client: HttpClient) : Downloader {
 
 	companion object {
 		private const val TAG = "KtorDownloader"
@@ -40,9 +39,11 @@ class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
 			send(DownloadState.Pending)
-			val httpRequest = HttpRequestBuilder().apply {
+			val request = HttpRequestBuilder().apply {
 				url(item.url)
-				header(HttpHeaders.Authorization, item.headerInfo.authorization)
+				if (item.headerInfo.authorization != null) {
+					header(HttpHeaders.Authorization, item.headerInfo.authorization)
+				}
 				onDownload { bytesSent, contentLength ->
 					Log.i(TAG, "download: bytesSent: $bytesSent, contentLength: $contentLength")
 					send(
@@ -54,32 +55,32 @@ class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 					)
 				}
 			}
-			val httpResponse: HttpResponse? = try {
-				httpClient.get(httpRequest)
+			try {
+				val response = client.get(request)
+				val responseBody: ByteArray = response.body()
+				try {
+					item.file.writeBytes(responseBody)
+				} catch (e: IOException) {
+					send(DownloadState.Error.IOError(e))
+				}
+				val headerInfo = HeaderInfo(
+					eTag = response.etag(),
+					lastModified = response.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
+				)
+				send(DownloadState.Success(headerInfo))
 			} catch (e: RedirectResponseException) {
 				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				null
+				close(e.cause)
 			} catch (e: ClientRequestException) {
 				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				null
+				close(e.cause)
 			} catch (e: ServerResponseException) {
 				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				null
+				close(e.cause)
 			} catch (e: Exception) {
 				send(DownloadState.Error.UnknownError)
-				null
+				close(e.cause)
 			}
-			val responseBody: ByteArray? = httpResponse?.body()
-			try {
-				responseBody?.let { item.file.writeBytes(it) }
-			} catch (e: IOException) {
-				send(DownloadState.Error.IOError(e))
-			}
-			val headerInfo = HeaderInfo(
-				eTag = httpResponse?.etag(),
-				lastModified = httpResponse?.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
-			)
-			send(DownloadState.Success(headerInfo))
 			awaitClose { println("Cancelled") }
 		}.flowOn(Dispatchers.IO)
 
