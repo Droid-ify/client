@@ -86,6 +86,7 @@
     <string name="invalid_permissions_error_DESC">Invalid permissions.</string>
     <string name="invalid_signature_error_DESC">Invalid signature.</string>
     <string name="invalid_username_format">Invalid username format</string>
+    <string name="io_error_DESC">Unable to perform certain actions.</string>
     <string name="launch">Launch</string>
     <string name="license">License</string>
     <string name="license_FORMAT">%s license</string>

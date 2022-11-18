@@ -77,6 +77,6 @@ fun Any.debug(message: String) {
 	val tag = this::class.java.name.let {
 		val index = it.lastIndexOf('.')
 		if (index >= 0) it.substring(index + 1) else it
-	}.replace('$', '.')
+	}.replace('$', '.') + "DEBUG"
 	Log.d(tag, message)
 }
