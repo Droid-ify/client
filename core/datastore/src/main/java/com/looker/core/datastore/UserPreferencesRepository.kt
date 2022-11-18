@@ -172,7 +172,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	/**
 	 * Synchronous method of getting initial preference
 	 */
-	fun getInitialPreference() = runBlocking { fetchInitialPreferences() }
+	val getInitialPreference = runBlocking { fetchInitialPreferences() }
 
 	/**
 	 * Maps [Preferences] to [UserPreferences]
