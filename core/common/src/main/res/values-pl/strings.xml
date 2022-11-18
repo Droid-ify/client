@@ -199,4 +199,5 @@
         <item quantity="many">Godzin</item>
         <item quantity="other">Godzin</item>
     </plurals>
+    <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
 </resources>
