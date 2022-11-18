@@ -61,18 +61,15 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
-	sealed class State(val packageName: String, val name: String) {
-		class Pending(packageName: String, name: String) : State(packageName, name)
-		class Connecting(packageName: String, name: String) : State(packageName, name)
-		class Downloading(packageName: String, name: String, val read: Long, val total: Long?) :
-			State(packageName, name)
+	sealed class State(val packageName: String) {
+		class Pending(packageName: String) : State(packageName)
+		class Connecting(packageName: String) : State(packageName)
+		class Downloading(packageName: String, val read: Long, val total: Long?) :
+			State(packageName)
 
-		class Success(
-			packageName: String, name: String, val release: Release
-		) : State(packageName, name)
-
-		class Error(packageName: String, name: String) : State(packageName, name)
-		class Cancel(packageName: String, name: String) : State(packageName, name)
+		class Error(packageName: String) : State(packageName)
+		class Cancel(packageName: String) : State(packageName)
+		class Success(packageName: String, val release: Release) : State(packageName)
 	}
 
 	private val mutableStateSubject = MutableSharedFlow<State>()
@@ -114,7 +111,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				if (currentTask == null) {
 					handleDownload()
 				} else {
-					scope.launch { mutableStateSubject.emit(State.Pending(packageName, name)) }
+					scope.launch { mutableStateSubject.emit(State.Pending(packageName)) }
 				}
 			}
 		}
@@ -160,7 +157,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun cancelTasks(packageName: String?) {
 		tasks.removeAll {
 			(packageName == null || it.packageName == packageName) && run {
-				scope.launch { mutableStateSubject.emit(State.Cancel(it.packageName, it.name)) }
+				scope.launch { mutableStateSubject.emit(State.Cancel(it.packageName)) }
 				true
 			}
 		}
@@ -173,8 +170,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				scope.launch {
 					mutableStateSubject.emit(
 						State.Cancel(
-							it.task.packageName,
-							it.task.name
+							it.task.packageName
 						)
 					)
 				}
@@ -297,7 +293,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	private suspend fun publishSuccess(task: Task) {
-		mutableStateSubject.emit(State.Success(task.packageName, task.name, task.release))
+		mutableStateSubject.emit(State.Success(task.packageName, task.release))
 		val installerType = runBlocking {
 			userPreferencesRepository.fetchInitialPreferences().installerType
 		}
@@ -386,12 +382,22 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					stateNotificationBuilder.apply {
 						when (state) {
 							is State.Connecting -> {
-								setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
+								setContentTitle(
+									getString(
+										stringRes.downloading_FORMAT,
+										currentTask?.task?.name
+									)
+								)
 								setContentText(getString(stringRes.connecting))
 								setProgress(1, 0, true)
 							}
 							is State.Downloading -> {
-								setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
+								setContentTitle(
+									getString(
+										stringRes.downloading_FORMAT,
+										currentTask?.task?.name
+									)
+								)
 								if (state.total != null) {
 									setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
 									setProgress(
@@ -422,7 +428,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					started = true
 					startSelf()
 				}
-				val initialState = State.Connecting(task.packageName, task.name)
+				val initialState = State.Connecting(task.packageName)
 				val intent = Intent(this, MainActivity::class.java)
 					.setAction(Intent.ACTION_VIEW)
 					.setData(Uri.parse("package:${task.packageName}"))
@@ -455,8 +461,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 								)
 								mutableStateSubject.emit(
 									State.Error(
-										task.packageName,
-										task.name
+										task.packageName
 									)
 								)
 							}
@@ -467,8 +472,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 								)
 								mutableStateSubject.emit(
 									State.Error(
-										task.packageName,
-										task.name
+										task.packageName
 									)
 								)
 							}
@@ -479,15 +483,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 								)
 								mutableStateSubject.emit(
 									State.Error(
-										task.packageName,
-										task.name
+										task.packageName
 									)
 								)
 							}
 							DownloadState.Pending -> mutableStateSubject.emit(
 								State.Connecting(
-									packageName = task.packageName,
-									name = task.name
+									packageName = task.packageName
 								)
 							)
 							is DownloadState.Progress -> {
@@ -495,7 +497,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 									force = true,
 									state = State.Downloading(
 										task.packageName,
-										task.name,
 										state.current,
 										state.total
 									)
@@ -519,8 +520,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 									)
 									mutableStateSubject.emit(
 										State.Error(
-											task.packageName,
-											task.name
+											task.packageName
 										)
 									)
 								}
