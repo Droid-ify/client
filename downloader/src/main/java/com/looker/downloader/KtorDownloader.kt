@@ -10,8 +10,10 @@ import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.onDownload
+import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.get
-import io.ktor.client.request.headers
+import io.ktor.client.request.header
+import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.http.HttpHeaders
 import io.ktor.http.etag
@@ -38,24 +40,22 @@ class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
 			send(DownloadState.Pending)
-			val httpResponse: HttpResponse? = try {
-				httpClient.get(item.url) {
-					headers {
-						if (item.headerInfo.authorization?.isNotEmpty() == true) {
-							append(HttpHeaders.Authorization, item.headerInfo.authorization)
-						}
-					}
-					onDownload { bytesSent, contentLength ->
-						Log.i(TAG, "download: bytesSent: $bytesSent, contentLength: $contentLength")
-						send(
-							DownloadState.Progress(
-								total = contentLength,
-								current = bytesSent,
-								percent = bytesSent percentBy contentLength
-							)
+			val httpRequest = HttpRequestBuilder().apply {
+				url(item.url)
+				header(HttpHeaders.Authorization, item.headerInfo.authorization)
+				onDownload { bytesSent, contentLength ->
+					Log.i(TAG, "download: bytesSent: $bytesSent, contentLength: $contentLength")
+					send(
+						DownloadState.Progress(
+							total = contentLength,
+							current = bytesSent,
+							percent = bytesSent percentBy contentLength
 						)
-					}
+					)
 				}
+			}
+			val httpResponse: HttpResponse? = try {
+				httpClient.get(httpRequest)
 			} catch (e: RedirectResponseException) {
 				send(DownloadState.Error.HttpError(e.response.status.value, e))
 				null

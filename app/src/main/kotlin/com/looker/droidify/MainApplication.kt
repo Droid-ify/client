@@ -41,6 +41,7 @@ import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.cache.HttpCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -238,8 +239,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 		val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) }
 		Downloader.proxy = determinedProxy
 		val client = HttpClient(OkHttp) {
-			expectSuccess = true
 			engine { proxy = determinedProxy }
+			expectSuccess = true
 		}
 		downloader = KtorDownloader(client)
 	}
@@ -270,8 +271,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	companion object {
 
 		@Volatile
-		var downloader: com.looker.downloader.Downloader =
-			KtorDownloader(HttpClient(OkHttp) { expectSuccess = true })
+		var downloader: com.looker.downloader.Downloader? = null
 
 	}
 }

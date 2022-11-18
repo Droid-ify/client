@@ -450,7 +450,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					headerInfo = header
 				)
 				val job = scope.launch {
-					MainApplication.downloader.download(downloadItem).collect { state ->
+					MainApplication.downloader?.download(downloadItem)?.collect { state ->
 						when (state) {
 							is DownloadState.Error.HttpError -> {
 								showNotificationError(
