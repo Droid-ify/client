@@ -193,4 +193,5 @@
         <item quantity="other">Ώρες</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi και Φόρτιση</string>
+    <string name="io_error_DESC">Δεν είναι δυνατή η εκτέλεση ορισμένων ενεργειών.</string>
 </resources>
