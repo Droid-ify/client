@@ -62,7 +62,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	sealed class State(val packageName: String, val name: String) {
-		object EMPTY : State("", "")
 		class Pending(packageName: String, name: String) : State(packageName, name)
 		class Connecting(packageName: String, name: String) : State(packageName, name)
 		class Downloading(packageName: String, name: String, val read: Long, val total: Long?) :
@@ -408,7 +407,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 							is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
 								throw IllegalStateException()
 							}
-							State.EMPTY -> setProgress(1, 0, true)
 						}::class
 					}.build()
 				)
