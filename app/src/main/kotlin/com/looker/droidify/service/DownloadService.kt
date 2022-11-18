@@ -16,16 +16,17 @@ import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
+import com.looker.downloader.model.DownloadItem
+import com.looker.downloader.model.DownloadState
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
+import com.looker.droidify.MainApplication
 import com.looker.droidify.R
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.android.singleSignature
@@ -111,10 +112,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(
-					task.notificationTag,
-					Constants.NOTIFICATION_ID_DOWNLOADING
-				)
+				notificationManager.cancel(Constants.NOTIFICATION_ID_DOWNLOADING)
 				tasks += task
 				if (currentTask == null) {
 					handleDownload()
@@ -190,10 +188,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private enum class ValidationError { INTEGRITY, FORMAT, METADATA, SIGNATURE, PERMISSIONS }
 
-	private sealed class ErrorType {
-		object Network : ErrorType()
-		object Http : ErrorType()
-		class Validation(val validateError: ValidationError) : ErrorType()
+	private sealed interface ErrorType {
+		object IO : ErrorType
+		object Http : ErrorType
+		class Validation(val validateError: ValidationError) : ErrorType
 	}
 
 	private inline val pendingIntentFlag
@@ -215,7 +213,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				pendingIntentFlag
 			)
 		}
-		notificationManager.notify(task.notificationTag,
+		notificationManager.notify(
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -228,14 +226,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setContentIntent(resultPendingIntent)
 				.apply {
 					when (errorType) {
-						is ErrorType.Network -> {
+						is ErrorType.IO -> {
 							setContentTitle(
 								getString(
 									stringRes.could_not_download_FORMAT,
 									task.name
 								)
 							)
-							setContentText(getString(stringRes.network_error_DESC))
+							setContentText(getString(stringRes.io_error_DESC))
 						}
 						is ErrorType.Http -> {
 							setContentTitle(
@@ -284,9 +282,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
-			task.notificationTag, Constants.NOTIFICATION_ID_DOWNLOADING, NotificationCompat
+			Constants.NOTIFICATION_ID_DOWNLOADING,
+			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 				.setAutoCancel(true)
+				.setOngoing(true)
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
@@ -369,6 +369,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColorFromAttr(R.attr.colorPrimary).defaultColor
 			)
+			.setWhen(System.currentTimeMillis())
 			.addAction(
 				0, getString(stringRes.cancel), PendingIntent.getService(
 					this,
@@ -379,11 +380,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 	}
 
-	private suspend fun publishForegroundState(force: Boolean, state: State) =
+	private suspend fun publishForegroundState(force: Boolean, state: State, task: Task) =
 		withContext(Dispatchers.Default) {
 			if (force || currentTask != null) {
 				currentTask = currentTask?.copy(lastState = state)
-				startForeground(Constants.NOTIFICATION_ID_SYNCING, stateNotificationBuilder.apply {
+				startForeground(Constants.NOTIFICATION_ID_DOWNLOADING, stateNotificationBuilder.apply {
 					when (state) {
 						is State.Connecting -> {
 							setContentTitle(getString(stringRes.downloading_FORMAT, state.name))
@@ -434,55 +435,74 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						pendingIntentFlag
 					)
 				}
-				stateNotificationBuilder.setWhen(System.currentTimeMillis())
 				stateNotificationBuilder.setContentIntent(resultPendingIntent)
-				scope.launch { publishForegroundState(true, initialState) }
+				scope.launch { publishForegroundState(true, initialState, task) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
+				val downloadItem = DownloadItem(
+					name = task.name,
+					url = task.url,
+					file = partialReleaseFile,
+					authorization = task.authentication
+				)
 				val job = scope.launch {
-					val result = Downloader.downloadFile(
-						task.url,
-						partialReleaseFile,
-						"",
-						"",
-						task.authentication
-					) { read, total ->
-						launch {
-							publishForegroundState(
-								true, State.Downloading(
-									task.packageName,
-									task.name,
-									read,
-									total
+					MainApplication.downloader.download(downloadItem).collect { state ->
+						when (state) {
+							is DownloadState.Error.HttpError -> {
+								showNotificationError(
+									task = task,
+									errorType = ErrorType.Http
 								)
-							)
-						}
-					}
-					currentTask = null
-					when (result) {
-						Result.Loading -> {
-							launch {
 								mutableStateSubject.emit(
-									State.Connecting(
-										packageName = task.packageName,
-										name = task.name
+									State.Error(
+										task.packageName,
+										task.name
 									)
 								)
 							}
-						}
-						is Result.Error -> result.exception?.printStackTrace()
-						is Result.Success -> {
-							if (!result.data.success) {
-								showNotificationError(task, ErrorType.Http)
-								launch {
-									mutableStateSubject.emit(
-										State.Error(
-											task.packageName,
-											task.name
-										)
+							is DownloadState.Error.IOError -> {
+								showNotificationError(
+									task = task,
+									errorType = ErrorType.IO
+								)
+								mutableStateSubject.emit(
+									State.Error(
+										task.packageName,
+										task.name
 									)
-								}
-							} else {
+								)
+							}
+							DownloadState.Error.UnknownError -> {
+								showNotificationError(
+									task = task,
+									errorType = ErrorType.Http
+								)
+								mutableStateSubject.emit(
+									State.Error(
+										task.packageName,
+										task.name
+									)
+								)
+							}
+							DownloadState.Pending -> mutableStateSubject.emit(
+								State.Connecting(
+									packageName = task.packageName,
+									name = task.name
+								)
+							)
+							is DownloadState.Progress -> {
+								publishForegroundState(
+									force = true,
+									state = State.Downloading(
+										task.packageName,
+										task.name,
+										state.current,
+										state.total
+									),
+									task = task
+								)
+							}
+							is DownloadState.Success -> {
 								val validationError = validatePackage(task, partialReleaseFile)
 								if (validationError == null) {
 									val releaseFile =
@@ -498,18 +518,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task,
 										ErrorType.Validation(validationError)
 									)
-									launch {
-										mutableStateSubject.emit(
-											State.Error(
-												task.packageName,
-												task.name
-											)
+									mutableStateSubject.emit(
+										State.Error(
+											task.packageName,
+											task.name
 										)
-									}
+									)
 								}
 							}
 						}
 					}
+					currentTask = null
 					handleDownload()
 				}
 				currentTask = CurrentTask(task, job, initialState)

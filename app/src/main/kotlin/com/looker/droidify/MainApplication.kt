@@ -25,6 +25,7 @@ import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.ProxyType
+import com.looker.downloader.KtorDownloader
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -37,6 +38,9 @@ import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.plugins.cache.HttpCache
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -87,21 +91,16 @@ class MainApplication : Application(), ImageLoaderFactory {
 						Intent.ACTION_PACKAGE_REMOVED,
 						-> {
 							val packageInfo = try {
-								sdkAbove(
-									sdk = Build.VERSION_CODES.TIRAMISU,
-									onSuccessful = {
-										packageManager.getPackageInfo(
-											packageName,
-											PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-										)
-									},
-									orElse = {
-										packageManager.getPackageInfo(
-											packageName,
-											Android.PackageManager.signaturesFlag
-										)
-									}
-								)
+								sdkAbove(sdk = Build.VERSION_CODES.TIRAMISU, onSuccessful = {
+									packageManager.getPackageInfo(
+										packageName,
+										PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+									)
+								}, orElse = {
+									packageManager.getPackageInfo(
+										packageName, Android.PackageManager.signaturesFlag
+									)
+								})
 							} catch (e: Exception) {
 								null
 							}
@@ -119,23 +118,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addAction(Intent.ACTION_PACKAGE_REMOVED)
 			addDataScheme("package")
 		})
-		val installedItems =
-			try {
-				sdkAbove(
-					sdk = Build.VERSION_CODES.TIRAMISU,
-					onSuccessful = {
-						packageManager.getInstalledPackages(
-							PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-						).map { it.toInstalledItem() }
-					},
-					orElse = {
-						packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
-							.map { it.toInstalledItem() }
-					}
-				)
-			} catch (e: Exception) {
-				null
-			}
+		val installedItems = try {
+			sdkAbove(sdk = Build.VERSION_CODES.TIRAMISU, onSuccessful = {
+				packageManager.getInstalledPackages(
+					PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+				).map { it.toInstalledItem() }
+			}, orElse = {
+				packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
+					.map { it.toInstalledItem() }
+			})
+		} catch (e: Exception) {
+			null
+		}
 		installedItems?.let { Database.InstalledAdapter.putAll(it) }
 	}
 
@@ -153,11 +147,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 				updateProxy(initialPreference)
 				CleanUpWorker.scheduleCleanup(applicationContext, lastCleanupDuration)
 				userPreferenceFlow.collect { newPreference ->
-					if (
-						newPreference.proxyType != lastProxy
-						|| newPreference.proxyPort != lastProxyPort
-						|| newPreference.proxyHost != lastProxyHost
-					) {
+					if (newPreference.proxyType != lastProxy || newPreference.proxyPort != lastProxyPort || newPreference.proxyHost != lastProxyHost) {
 						lastProxy = newPreference.proxyType
 						lastProxyPort = newPreference.proxyPort
 						lastProxyHost = newPreference.proxyHost
@@ -171,8 +161,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 					} else if (newPreference.cleanUpDuration != lastCleanupDuration) {
 						lastCleanupDuration = newPreference.cleanUpDuration
 						CleanUpWorker.scheduleCleanup(
-							applicationContext,
-							newPreference.cleanUpDuration
+							applicationContext, newPreference.cleanUpDuration
 						)
 					} else if (newPreference.language != lastLanguage) {
 						lastLanguage = newPreference.language
@@ -191,12 +180,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
 			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
 			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
-				networkType = NetworkType.UNMETERED,
-				pluggedIn = true
+				networkType = NetworkType.UNMETERED, pluggedIn = true
 			)
 			AutoSync.NEVER -> SyncConditions(
-				networkType = NetworkType.NOT_REQUIRED,
-				canSync = false
+				networkType = NetworkType.NOT_REQUIRED, canSync = false
 			)
 		}
 		val reschedule =
@@ -206,30 +193,23 @@ class MainApplication : Application(), ImageLoaderFactory {
 				AutoSync.NEVER -> jobScheduler.cancel(Constants.JOB_ID_SYNC)
 				else -> {
 					val period = 12.hours.inWholeMilliseconds
-					jobScheduler.schedule(JobInfo
-						.Builder(
+					jobScheduler.schedule(
+						JobInfo.Builder(
 							Constants.JOB_ID_SYNC,
 							ComponentName(this, SyncService.Job::class.java)
-						)
-						.setRequiredNetworkType(syncConditions.toJobNetworkType())
-						.apply {
+						).setRequiredNetworkType(syncConditions.toJobNetworkType()).apply {
 							sdkAbove(sdk = Build.VERSION_CODES.O) {
 								setRequiresCharging(syncConditions.pluggedIn)
 								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
-							sdkAbove(
-								sdk = Build.VERSION_CODES.N,
-								onSuccessful = {
-									setPeriodic(
-										period,
-										JobInfo.getMinFlexMillis()
-									)
-								},
-								orElse = { setPeriodic(period) }
-							)
-						}
-						.build())
+							sdkAbove(sdk = Build.VERSION_CODES.N, onSuccessful = {
+								setPeriodic(
+									period, JobInfo.getMinFlexMillis()
+								)
+							}, orElse = { setPeriodic(period) })
+						}.build()
+					)
 					Unit
 				}
 			}::class.java
@@ -256,8 +236,13 @@ class MainApplication : Application(), ImageLoaderFactory {
 			ProxyType.HTTP -> Proxy.Type.HTTP
 			ProxyType.SOCKS -> Proxy.Type.SOCKS
 		}
-		val proxy = socketAddress?.let { Proxy(androidProxyType, socketAddress) }
-		Downloader.proxy = proxy
+		val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) }
+		Downloader.proxy = determinedProxy
+		val client = HttpClient(OkHttp) {
+			expectSuccess = true
+			engine { proxy = determinedProxy }
+		}
+		downloader = KtorDownloader(client)
 	}
 
 	private fun forceSyncAll() {
@@ -277,20 +262,17 @@ class MainApplication : Application(), ImageLoaderFactory {
 		override fun onReceive(context: Context, intent: Intent) = Unit
 	}
 
-	override fun newImageLoader(): ImageLoader {
-		return ImageLoader.Builder(this)
-			.memoryCache {
-				MemoryCache.Builder(this)
-					.maxSizePercent(0.25)
-					.build()
-			}
-			.diskCache {
-				DiskCache.Builder()
-					.directory(Cache.getImagesDir(this))
-					.maxSizePercent(0.05)
-					.build()
-			}
-			.crossfade(true)
-			.build()
+	override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this).memoryCache {
+		MemoryCache.Builder(this).maxSizePercent(0.25).build()
+	}.diskCache {
+		DiskCache.Builder().directory(Cache.getImagesDir(this)).maxSizePercent(0.05).build()
+	}.crossfade(350).build()
+
+	companion object {
+
+		@Volatile
+		var downloader: com.looker.downloader.Downloader =
+			KtorDownloader(HttpClient(OkHttp) { expectSuccess = true })
+
 	}
 }
