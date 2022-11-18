@@ -194,4 +194,5 @@
         <item quantity="one">Saat</item>
         <item quantity="other">Saatler</item>
     </plurals>
+    <string name="io_error_DESC">Belirli eylemler gerçekleştirilemiyor.</string>
 </resources>
