@@ -196,4 +196,5 @@
     <string name="upstream_source_code_is_not_free">Pradinis pirminis kodas nėra visiškai „libre“</string>
     <string name="explore">Naršyti</string>
     <string name="proxy_type">Įgaliotojo serverio tipas</string>
+    <string name="io_error_DESC">Nepavyko atlikti tam tikrų veiksmų.</string>
 </resources>
