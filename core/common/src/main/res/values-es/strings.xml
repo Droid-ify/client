@@ -196,4 +196,5 @@
         <item quantity="other">Horas</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Solo en WiFi y cargando</string>
+    <string name="io_error_DESC">No se pueden realizar ciertas acciones.</string>
 </resources>
