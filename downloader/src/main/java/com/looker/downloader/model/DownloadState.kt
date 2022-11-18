@@ -6,7 +6,7 @@ sealed interface DownloadState {
 
 	class Success(val headerInfo: HeaderInfo) : DownloadState
 
-	data class Progress(val total: Long, val percent: Int) : DownloadState
+	data class Progress(val total: Long, val current: Long, val percent: Int) : DownloadState
 
 	sealed interface Error : DownloadState {
 		object UnknownError : Error

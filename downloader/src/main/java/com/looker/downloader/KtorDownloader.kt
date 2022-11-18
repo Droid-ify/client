@@ -6,14 +6,14 @@ import com.looker.downloader.model.DownloadState
 import com.looker.downloader.model.HeaderInfo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.get
+import io.ktor.client.request.headers
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.contentLength
+import io.ktor.http.HttpHeaders
 import io.ktor.http.etag
 import io.ktor.http.lastModified
 import kotlinx.coroutines.Dispatchers
@@ -23,22 +23,28 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import java.io.IOException
 
-object KtorDownloader : Downloader {
+class KtorDownloader(private val httpClient: HttpClient) : Downloader {
 
-	private const val TAG = "KtorDownloader"
-
-	private val httpClient = HttpClient(OkHttp) { expectSuccess = true }
+	companion object {
+		private const val TAG = "KtorDownloader"
+	}
 
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
 			send(DownloadState.Pending)
 			val httpResponse: HttpResponse? = try {
 				httpClient.get(item.url) {
+					headers {
+						if (item.authorization.isNotEmpty()) {
+							append(HttpHeaders.Authorization, item.authorization)
+						}
+					}
 					onDownload { bytesSent, contentLength ->
 						Log.i(TAG, "download: bytesSent: $bytesSent, contentLength: $contentLength")
 						send(
 							DownloadState.Progress(
 								total = contentLength,
+								current = bytesSent,
 								percent = bytesSent percentBy contentLength
 							)
 						)
@@ -65,7 +71,6 @@ object KtorDownloader : Downloader {
 			}
 			val headerInfo = HeaderInfo(
 				eTag = httpResponse?.etag(),
-				contentLength = httpResponse?.contentLength(),
 				lastModified = httpResponse?.lastModified()
 			)
 			send(DownloadState.Success(headerInfo))

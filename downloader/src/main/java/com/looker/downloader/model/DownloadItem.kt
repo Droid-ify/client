@@ -1,12 +1,15 @@
 package com.looker.downloader.model
 
 import java.io.File
+import java.util.*
 
 data class DownloadItem(
-	val id: String,
+	val id: String = UUID.randomUUID().toString(),
 	val name: String,
 	val url: String,
 	val file: File,
+	val authorization: String,
+	val headerInfo: HeaderInfo = HeaderInfo(),
 	val priority: Priority = Priority.HIGH
 )
 
