@@ -17,6 +17,7 @@ android {
 		vectorDrawables.useSupportLibrary = true
 
 		resourceConfigurations += mutableListOf(
+			/* locale list begin */
 			"nn",
 			"zh-rCN",
 			"de",
@@ -55,6 +56,7 @@ android {
 			"pl",
 			"nl",
 			"tr"
+			/* locale list end */
 		)
 	}
 
