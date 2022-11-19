@@ -200,4 +200,5 @@
         <item quantity="other">Часов</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Только при Wi-Fi и зарядке</string>
+    <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
 </resources>
