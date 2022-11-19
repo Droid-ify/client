@@ -196,4 +196,5 @@
     <string name="cleanup_title">Doba trvání úklidu</string>
     <string name="cleanup_description">Čas vyžadovaný k opětovné kontrole úklidu</string>
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
+    <string name="io_error_DESC">Nepodařilo se vykonat některé akce.</string>
 </resources>
