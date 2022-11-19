@@ -205,4 +205,5 @@
         <item quantity="other">ساعة</item>
     </plurals>
     <string name="only_on_wifi_with_charging">فقط على شبكة Wi-Fi وعند الشحن</string>
+    <string name="io_error_DESC">غير قادر على أداء بعض الإجراءات.</string>
 </resources>
