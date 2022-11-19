@@ -193,4 +193,5 @@
     <string name="prefs_language_title">ଭାଷା</string>
     <string name="prefs_personalization">ବ୍ୟକ୍ତିଗତକରଣ</string>
     <string name="latest">ସର୍ବଶେଷ</string>
+    <string name="io_error_DESC">କିଛି କାର୍ଯ୍ୟ କରିବାକୁ ଅସମର୍ଥ ।</string>
 </resources>
