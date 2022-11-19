@@ -17,7 +17,7 @@ locales = {path.split("/")[-2] for path in locales}
 Extract just the language code from folder name:
     values-abc -> abc
 """
-locales = {name.removeprefix("values-") for name in locales}
+locales = {name[len("values-"):] for name in locales}
 
 """
 Function that updates a file with latest locales
