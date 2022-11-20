@@ -44,9 +44,7 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 			val partialFileLength = item.file.length()
 			val request = HttpRequestBuilder().apply {
 				url(item.url)
-				if (item.headerInfo.authorization != null) {
-					header(HttpHeaders.Authorization, item.headerInfo.authorization)
-				}
+				header(HttpHeaders.Authorization, item.headerInfo.authorization)
 				header(HttpHeaders.Range, "bytes=${partialFileLength}-")
 				onDownload { bytesSentTotal, contentLength ->
 					send(
