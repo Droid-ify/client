@@ -196,4 +196,5 @@
     <string name="http_error_DESC">Neispravan odgovor poslužitelja.</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="never">Nikad</string>
+    <string name="io_error_DESC">Nije moguće izvršiti određene radnje.</string>
 </resources>
