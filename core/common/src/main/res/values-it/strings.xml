@@ -199,4 +199,5 @@
     </plurals>
     <string name="cleanup_title">Durata della pulizia</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
+    <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
 </resources>
