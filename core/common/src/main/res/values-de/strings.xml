@@ -193,4 +193,5 @@
     <string name="legacy_installer">Alte Installationsmethode</string>
     <string name="session_installer">Sitzungs-Installation</string>
     <string name="shizuku_installer">Shizuku-Installation</string>
+    <string name="io_error_DESC">Bestimmte Aktionen können nicht durchgeführt werden.</string>
 </resources>
