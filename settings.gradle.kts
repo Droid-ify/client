@@ -23,6 +23,5 @@ include(
 	":core:model",
 	":downloader",
 	":feature-settings",
-	":index",
 	":installer"
 )
