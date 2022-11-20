@@ -26,6 +26,7 @@ import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.ProxyType
+import com.looker.downloader.KtorDownloader
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -38,6 +39,8 @@ import com.looker.droidify.utility.extension.toJobNetworkType
 import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -234,6 +237,11 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 		val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) }
 		Downloader.proxy = determinedProxy
+		val client = HttpClient(OkHttp) {
+			expectSuccess = true
+			engine { proxy = determinedProxy }
+		}
+		downloader = KtorDownloader(client)
 	}
 
 	private fun forceSyncAll() {
@@ -258,5 +266,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 	}.diskCache {
 		DiskCache.Builder().directory(Cache.getImagesDir(this)).maxSizePercent(0.05).build()
 	}.crossfade(350).build()
+
+	companion object {
+		var downloader: com.looker.downloader.Downloader? = null
+	}
 
 }
