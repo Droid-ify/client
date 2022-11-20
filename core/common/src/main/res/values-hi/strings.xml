@@ -193,4 +193,5 @@
         <item quantity="one">घंटा</item>
         <item quantity="other">घंटे</item>
     </plurals>
+    <string name="io_error_DESC">कुछ क्रियाएं करने में असमर्थ।</string>
 </resources>
