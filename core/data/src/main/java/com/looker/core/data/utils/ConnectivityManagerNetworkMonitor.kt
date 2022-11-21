@@ -40,7 +40,6 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : 
 		}
 	}.conflate()
 
-	@Suppress("DEPRECATION")
 	private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
 		null -> false
 		else -> activeNetwork
