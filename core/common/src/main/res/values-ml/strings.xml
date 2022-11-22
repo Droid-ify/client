@@ -1,2 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="cancel">റദ്ദാക്കുക</string>
+    <string name="address">വിലാസം</string>
+    <plurals name="days">
+        <item quantity="one">ദിവസം</item>
+        <item quantity="other">ദിവസങ്ങൾ</item>
+    </plurals>
+    <string name="details">വിശദാംശങ്ങൾ</string>
+    <string name="donate">സംഭാവനചെയ്യുക</string>
+    <string name="amoled">കറുപ്പ്</string>
+    <string name="available">പര്യവേക്ഷണം ചെയ്യുക</string>
+    <string name="always">എപ്പോഴും</string>
+    <string name="action_failed">പ്രവർത്തനം പരാജയപ്പെട്ടു</string>
+    <string name="delete">ഇല്ലാതാക്കുക</string>
+    <string name="dark">ഇരുട്ട്</string>
+    <string name="description">വിവരണം</string>
+    <string name="confirmation">സ്ഥിരീകരണം</string>
+    <string name="connecting">ബന്ധിപ്പിക്കുന്നു…</string>
+    <string name="changes">മാറ്റങ്ങൾ</string>
+</resources>
