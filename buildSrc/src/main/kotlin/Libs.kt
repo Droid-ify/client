@@ -99,9 +99,9 @@ object Others {
 
 object Room {
 	private const val roomVersion = "2.4.3"
-	const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
-	const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
-	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
+	const val runtime = "androidx.room:room-runtime:$roomVersion"
+	const val compiler = "androidx.room:room-compiler:$roomVersion"
+	const val ktx = "androidx.room:room-ktx:$roomVersion"
 }
 
 object RxJava {
@@ -122,8 +122,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.7.20"
-	const val ksp = "1.7.20-1.0.7"
+	const val kotlin = "1.7.21"
+	const val ksp = "1.7.21-1.0.8"
 }
 
 object Work {

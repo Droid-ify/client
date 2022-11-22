@@ -1,6 +1,7 @@
 package com.looker.core.model.new
 
 data class App(
+	val repoId: Long,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
 	val summary: String,
@@ -22,12 +23,14 @@ data class App(
 	val author: Author,
 	val donation: List<Donate>,
 	val localized: Map<String, Localized>,
-	val allowedAPKSigningKeys: List<String>
+	val allowedAPKSigningKeys: List<String>,
+	val packages: List<Package>
 )
 
 data class Author(val name: String, val email: String, val web: String, val phone: String)
 
 sealed interface Donate {
+
 	@JvmInline
 	value class Regular(val url: String) : Donate
 
@@ -41,10 +44,9 @@ sealed interface Donate {
 	value class Flattr(val id: String) : Donate
 
 	@JvmInline
-	value class Liberapay(val id: String) : Donate
-
-	@JvmInline
 	value class OpenCollective(val id: String) : Donate
+
+	data class Liberapay(val id: String, val address: String) : Donate
 }
 
 data class AppMinimal(

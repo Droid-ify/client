@@ -1,6 +1,7 @@
 package com.looker.core.model.new
 
 data class Repo(
+	val id: Long,
 	val enabled: Boolean = false,
 	val address: String,
 	val name: String,
@@ -10,7 +11,5 @@ data class Repo(
 	val timestamp: Long,
 	val fingerprint: String,
 	val entityTag: String,
-	// Remove
-	val maxAge: Int? = null,
 	val mirrors: List<String>
 )

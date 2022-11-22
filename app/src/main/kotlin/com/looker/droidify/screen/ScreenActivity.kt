@@ -49,7 +49,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	private val notificationPermission =
-		registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ -> }
+		registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository

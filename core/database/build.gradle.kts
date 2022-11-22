@@ -2,16 +2,26 @@ plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
 	kotlin("kapt")
+	id("com.google.devtools.ksp") version Version.ksp
 	kotlin("plugin.serialization") version Version.kotlin
 	id(Hilt.plugin)
 }
 
 android {
 	compileSdk = Android.compileSdk
-	namespace = "com.looker.core.data"
+	namespace = "com.looker.core.database"
 	defaultConfig {
 		minSdk = Android.minSdk
 		targetSdk = Android.compileSdk
+
+		javaCompileOptions {
+			annotationProcessorOptions {
+				ksp {
+					arg("room.schemaLocation", "$projectDir/schemas")
+					arg("room.incremental", "true")
+				}
+			}
+		}
 	}
 
 	buildTypes {
@@ -39,17 +49,19 @@ android {
 dependencies {
 	implementation(kotlin("stdlib"))
 	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatabase))
 	implementation(project(Modules.coreModel))
 
-	implementation(AndroidX.material)
 	implementation(Core.core)
 
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
-	implementation(Kotlin.serialization)
-
 	implementation(Hilt.android)
 	kapt(Hilt.compiler)
+
+	implementation(Kotlin.serialization)
+
+	implementation(Room.runtime)
+	implementation(Room.ktx)
+	ksp(Room.compiler)
 }
