@@ -507,7 +507,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				currentTask = CurrentTask(task, job, initialState)
 			} else if (started) {
 				started = false
-				stopForeground(true)
+				@Suppress("DEPRECATION")
+				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+				else stopForeground(true)
 				stopSelf()
 			}
 		}
