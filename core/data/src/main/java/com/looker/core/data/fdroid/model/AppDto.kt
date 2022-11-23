@@ -1,16 +1,12 @@
-package com.looker.core.database.model
+package com.looker.core.data.fdroid.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import com.looker.core.model.new.Localized
+import com.looker.core.database.model.AppEntity
+import com.looker.core.database.model.LocalizedEntity
 import kotlinx.serialization.Serializable
 
-@Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
-data class AppEntity(
-	@ColumnInfo(name = "packageName")
+@Serializable
+data class AppDto(
 	val packageName: String,
-	@ColumnInfo(name = "repoId")
-	val repoId: Long,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
 	val summary: String,
@@ -39,14 +35,12 @@ data class AppEntity(
 	val added: Long,
 	val icon: String,
 	val lastUpdated: Long,
-	@Serializable
-	val localized: Map<String, LocalizedEntity>,
-	val allowedAPKSigningKeys: List<String>,
-	val packages: List<PackageEntity>
+	val localized: Map<String, LocalizedDto>,
+	val allowedAPKSigningKeys: List<String>
 )
 
 @Serializable
-data class LocalizedEntity(
+data class LocalizedDto(
 	val description: String,
 	val name: String,
 	val icon: String,
@@ -63,7 +57,43 @@ data class LocalizedEntity(
 	val summary: String
 )
 
-fun LocalizedEntity.toExternalModel(): Localized = Localized(
+internal fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEntity(
+	packageName = packageName,
+	repoId = repoId,
+	categories = categories,
+	antiFeatures = antiFeatures,
+	summary = summary,
+	description = description,
+	changelog = changelog,
+	translation = translation,
+	issueTracker = issueTracker,
+	sourceCode = sourceCode,
+	binaries = binaries,
+	name = name,
+	authorName = authorName,
+	authorEmail = authorEmail,
+	authorWebSite = authorWebSite,
+	authorPhone = authorPhone,
+	donate = donate,
+	liberapayID = liberapayID,
+	liberapay = liberapay,
+	openCollective = openCollective,
+	bitcoin = bitcoin,
+	litecoin = litecoin,
+	flattrID = flattrID,
+	suggestedVersionName = suggestedVersionName,
+	suggestedVersionCode = suggestedVersionCode,
+	license = license,
+	webSite = webSite,
+	added = added,
+	icon = icon,
+	lastUpdated = lastUpdated,
+	localized = localized.mapValues { it.value.toEntity() },
+	allowedAPKSigningKeys = allowedAPKSigningKeys,
+	packages = packages.map(PackageDto::toEntity)
+)
+
+internal fun LocalizedDto.toEntity(): LocalizedEntity = LocalizedEntity(
 	description = description,
 	name = name,
 	icon = icon,

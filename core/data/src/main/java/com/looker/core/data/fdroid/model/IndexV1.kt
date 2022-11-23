@@ -1,6 +1,5 @@
-package com.looker.core.data.model
+package com.looker.core.data.fdroid.model
 
-import com.looker.core.database.model.PackageEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -8,7 +7,7 @@ data class IndexV1(
 	val repo: RepoDto,
 	val requests: Requests = Requests(emptyList(), emptyList()),
 	val apps: List<AppDto> = emptyList(),
-	val packages: Map<String, List<PackageEntity>> = emptyMap(),
+	val packages: Map<String, List<PackageDto>> = emptyMap(),
 )
 
 @Serializable
