@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
@@ -37,7 +38,8 @@ data class UserPreferences(
 	val proxyType: ProxyType,
 	val proxyHost: String,
 	val proxyPort: Int,
-	val cleanUpDuration: Duration
+	val cleanUpDuration: Duration,
+	val favouriteApps: Set<String>
 )
 
 /**
@@ -62,6 +64,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
 		val CLEAN_UP_DURATION = longPreferencesKey("clean_up_duration")
+		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
 	/**
@@ -154,6 +157,16 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		PreferencesKeys.CLEAN_UP_DURATION.update(duration.inWholeHours)
 	}
 
+	suspend fun addToFavourites(packageName: String, remove: Boolean) {
+		dataStore.edit { preference ->
+			val currentSet = preference[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
+			val newSet = currentSet.toMutableSet()
+			if (remove && newSet.contains(packageName)) newSet.remove(packageName)
+			else if (!remove) newSet.add(packageName)
+			preference[PreferencesKeys.FAVOURITE_APPS] = newSet
+		}
+	}
+
 	/**
 	 * Simple function to reduce boiler plate
 	 */
@@ -202,6 +215,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
 		val cleanUpDuration = preferences[PreferencesKeys.CLEAN_UP_DURATION]?.hours ?: 12L.hours
 
+		val favouriteApps = preferences[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
+
 		return UserPreferences(
 			language = language,
 			incompatibleVersions = incompatibleVersions,
@@ -214,7 +229,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			proxyType = proxyType,
 			proxyHost = proxyHost,
 			proxyPort = proxyPort,
-			cleanUpDuration = cleanUpDuration
+			cleanUpDuration = cleanUpDuration,
+			favouriteApps = favouriteApps
 		)
 	}
 }
