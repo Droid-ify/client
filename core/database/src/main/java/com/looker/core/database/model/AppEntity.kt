@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.looker.core.model.new.App
 import com.looker.core.model.new.Author
+import com.looker.core.model.new.Donate
 import com.looker.core.model.new.Localized
 import com.looker.core.model.new.Metadata
 import kotlinx.serialization.Serializable
@@ -93,7 +94,17 @@ fun AppEntity.toExternalModel(): App = App(
 		web = authorWebSite,
 		phone = authorPhone
 	),
-	donation = listOf(),
+	donation = buildSet {
+		when {
+			openCollective.isNotBlank() -> add(Donate.OpenCollective(openCollective))
+			flattrID.isNotBlank() -> add(Donate.Flattr(flattrID))
+			litecoin.isNotBlank() -> add(Donate.Litecoin(litecoin))
+			bitcoin.isNotBlank() -> add(Donate.Bitcoin(bitcoin))
+			liberapay.isNotBlank() && liberapayID.isNotBlank() ->
+				add(Donate.Liberapay(liberapayID, liberapay))
+			donate.isNotBlank() -> add(Donate.Regular(donate))
+		}
+	},
 	localized = localized.mapValues { it.value.toExternalModel() },
 	allowedAPKSigningKeys = allowedAPKSigningKeys,
 	packages = packages.map(PackageEntity::toExternalModel)

@@ -12,7 +12,7 @@ data class App(
 	val webSite: String,
 	val metadata: Metadata,
 	val author: Author,
-	val donation: List<Donate>,
+	val donation: Set<Donate>,
 	val localized: Map<String, Localized>,
 	val allowedAPKSigningKeys: List<String>,
 	val packages: List<Package>
