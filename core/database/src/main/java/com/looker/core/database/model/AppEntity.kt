@@ -2,7 +2,10 @@ package com.looker.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.looker.core.model.new.App
+import com.looker.core.model.new.Author
 import com.looker.core.model.new.Localized
+import com.looker.core.model.new.Metadata
 import kotlinx.serialization.Serializable
 
 @Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
@@ -39,7 +42,6 @@ data class AppEntity(
 	val added: Long,
 	val icon: String,
 	val lastUpdated: Long,
-	@Serializable
 	val localized: Map<String, LocalizedEntity>,
 	val allowedAPKSigningKeys: List<String>,
 	val packages: List<PackageEntity>
@@ -61,6 +63,40 @@ data class LocalizedEntity(
 	val promoGraphic: String,
 	val tvBanner: String,
 	val summary: String
+)
+
+fun AppEntity.toExternalModel(): App = App(
+	repoId = repoId,
+	categories = categories,
+	antiFeatures = antiFeatures,
+	translation = translation,
+	issueTracker = issueTracker,
+	sourceCode = sourceCode,
+	binaries = binaries,
+	license = license,
+	webSite = webSite,
+	metadata = Metadata(
+		name = name,
+		description = description,
+		summary = summary,
+		packageName = packageName,
+		icon = icon,
+		changelog = changelog,
+		added = added,
+		lastUpdated = lastUpdated,
+		suggestedVersionName = suggestedVersionName,
+		suggestedVersionCode = suggestedVersionCode
+	),
+	author = Author(
+		name = authorName,
+		email = authorEmail,
+		web = authorWebSite,
+		phone = authorPhone
+	),
+	donation = listOf(),
+	localized = localized.mapValues { it.value.toExternalModel() },
+	allowedAPKSigningKeys = allowedAPKSigningKeys,
+	packages = packages.map(PackageEntity::toExternalModel)
 )
 
 fun LocalizedEntity.toExternalModel(): Localized = Localized(

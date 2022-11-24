@@ -4,27 +4,31 @@ data class App(
 	val repoId: Long,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
-	val summary: String,
-	val description: String,
-	val changelog: String,
 	val translation: String,
 	val issueTracker: String,
 	val sourceCode: String,
 	val binaries: String,
-	val name: String,
-	val suggestedVersionName: String,
-	val suggestedVersionCode: String,
 	val license: String,
 	val webSite: String,
-	val added: Long,
-	val icon: String,
-	val packageName: String,
-	val lastUpdated: Long,
+	val metadata: Metadata,
 	val author: Author,
 	val donation: List<Donate>,
 	val localized: Map<String, Localized>,
 	val allowedAPKSigningKeys: List<String>,
 	val packages: List<Package>
+)
+
+data class Metadata(
+	val packageName: String,
+	val icon: String,
+	val name: String,
+	val description: String,
+	val summary: String,
+	val changelog: String,
+	val added: Long,
+	val lastUpdated: Long,
+	val suggestedVersionName: String,
+	val suggestedVersionCode: String
 )
 
 data class Author(val name: String, val email: String, val web: String, val phone: String)
@@ -57,15 +61,15 @@ data class AppMinimal(
 
 fun App.minimal(locale: String? = null): AppMinimal = if (locale == null) {
 	AppMinimal(
-		name = name,
-		summary = summary,
-		icon = icon
+		name = metadata.name,
+		summary = metadata.summary,
+		icon = metadata.icon
 	)
 } else {
 	val localized = localized[locale]
 	AppMinimal(
-		name = localized?.name ?: name,
-		summary = localized?.summary ?: summary,
-		icon = localized?.icon ?: icon
+		name = localized?.name ?: metadata.name,
+		summary = localized?.summary ?: metadata.summary,
+		icon = localized?.icon ?: metadata.icon
 	)
 }
