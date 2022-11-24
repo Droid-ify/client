@@ -43,7 +43,7 @@ object Excludes {
 }
 
 object Hilt {
-	private const val version = "2.44"
+	private const val version = "2.44.2"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
 	const val android = "com.google.dagger:hilt-android:$version"
 
@@ -60,7 +60,7 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
@@ -90,9 +90,8 @@ object OkHttp {
 
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
-	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
-	private const val shizukuVersion = "12.1.0"
+	private const val shizukuVersion = "12.2.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
