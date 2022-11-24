@@ -61,7 +61,7 @@ dependencies {
 
 	implementation(Kotlin.serialization)
 
-	implementation(Room.runtime)
-	implementation(Room.ktx)
+	api(Room.runtime)
+	api(Room.ktx)
 	ksp(Room.compiler)
 }

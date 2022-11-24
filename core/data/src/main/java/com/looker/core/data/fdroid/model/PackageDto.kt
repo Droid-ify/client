@@ -20,34 +20,34 @@ import kotlinx.serialization.json.jsonPrimitive
 
 @Serializable
 data class PackageDto(
-	val added: Long,
-	val apkName: String,
-	val hash: String,
-	val hashType: String,
-	val minSdkVersion: Int,
-	val maxSdkVersion: Int,
-	val targetSdkVersion: Int,
-	val packageName: String,
-	val sig: String,
-	val signer: String,
-	val size: Long,
+	val added: Long = 0L,
+	val apkName: String = "",
+	val hash: String = "",
+	val hashType: String = "",
+	val minSdkVersion: Int = -1,
+	val maxSdkVersion: Int = -1,
+	val targetSdkVersion: Int = -1,
+	val packageName: String = "",
+	val sig: String = "",
+	val signer: String = "",
+	val size: Long = 0L,
 	@SerialName("srcname")
-	val srcName: String,
+	val srcName: String = "",
 	@SerialName("uses-permission")
 	val usesPermission: List<PermissionDto> = emptyList(),
 	@SerialName("uses-permission-sdk-23")
 	val usesPermission23: List<PermissionDto> = emptyList(),
-	val versionCode: Long,
-	val versionName: String,
+	val versionCode: Long = 0L,
+	val versionName: String = "",
 	@SerialName("nativecode")
-	val nativeCode: List<String>,
-	val features: List<String>,
-	val antiFeatures: List<String>
+	val nativeCode: List<String> = emptyList(),
+	val features: List<String> = emptyList(),
+	val antiFeatures: List<String> = emptyList()
 )
 
 @Serializable(with = PermissionDtoSerializer::class)
 data class PermissionDto(
-	val name: String,
+	val name: String = "",
 	val maxSdk: Int? = null
 )
 

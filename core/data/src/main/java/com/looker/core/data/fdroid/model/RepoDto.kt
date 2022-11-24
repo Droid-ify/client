@@ -5,13 +5,13 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RepoDto(
-	val icon: String,
-	val address: String,
-	val name: String,
-	val description: String,
-	val timestamp: Long,
-	val version: Int,
-	val mirrors: List<String>
+	val icon: String = "",
+	val address: String = "",
+	val name: String = "",
+	val description: String = "",
+	val timestamp: Long = 0L,
+	val version: Int = -1,
+	val mirrors: List<String> = emptyList()
 )
 
 fun RepoDto.toEntity(
