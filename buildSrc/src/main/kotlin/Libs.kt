@@ -52,7 +52,6 @@ object Hilt {
 	private const val androidXHilt = "1.0.0"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
-	const val navigation = "androidx.hilt:hilt-navigation-compose:$androidXHilt"
 }
 
 object Jackson {
@@ -67,9 +66,6 @@ object Kotlin {
 object Ktor {
 	private const val ktorVersion = "2.1.3"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
-	const val encoding = "io.ktor:ktor-client-encoding:$ktorVersion"
-	const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
-	const val json = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
 	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
 }
@@ -81,6 +77,13 @@ object Lifecycle {
 
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.4"
 	const val activity = "androidx.activity:activity-ktx:1.6.1"
+}
+
+object Navigation {
+	private const val version = "2.5.3"
+	const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
+	const val ui = "androidx.navigation:navigation-ui:$version"
+	const val dynamicFeature = "androidx.navigation:navigation-dynamic-features-fragment:$version"
 }
 
 object OkHttp {
