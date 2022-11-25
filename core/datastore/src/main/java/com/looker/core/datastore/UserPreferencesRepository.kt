@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
+import com.looker.core.common.device.Miui
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
@@ -198,8 +199,11 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val theme = Theme.valueOf(
 			preferences[PreferencesKeys.THEME] ?: Theme.SYSTEM.name
 		)
+		val defaultInstallerType = if (Miui.isMiui) {
+			if (Miui.isMiuiOptimizationDisabled()) InstallerType.SESSION else InstallerType.LEGACY
+		} else InstallerType.SESSION
 		val installerType = InstallerType.valueOf(
-			preferences[PreferencesKeys.INSTALLER_TYPE] ?: InstallerType.SESSION.name
+			preferences[PreferencesKeys.INSTALLER_TYPE] ?: defaultInstallerType.name
 		)
 		val autoSync = AutoSync.valueOf(
 			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name
