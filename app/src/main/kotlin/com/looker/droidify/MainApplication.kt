@@ -166,10 +166,12 @@ class MainApplication : Application(), ImageLoaderFactory {
 							applicationContext, newPreference.cleanUpDuration
 						)
 					} else if (newPreference.language != lastLanguage) {
-						lastLanguage = newPreference.language
-						val appLocale: LocaleListCompat =
-							LocaleListCompat.forLanguageTags(lastLanguage)
-						AppCompatDelegate.setApplicationLocales(appLocale)
+						launch(Dispatchers.Main) {
+							lastLanguage = newPreference.language
+							val appLocale: LocaleListCompat =
+								LocaleListCompat.forLanguageTags(lastLanguage)
+							AppCompatDelegate.setApplicationLocales(appLocale)
+						}
 					}
 				}
 			}
