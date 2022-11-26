@@ -24,11 +24,11 @@
     <string name="compiled_for_debugging">डीबॅग करने के लिए कम्पाईल किया</string>
     <string name="confirmation">पुष्टीकरण</string>
     <string name="contains_non_free_media">गैर-नि: शुल्क मीडिया शामिल है</string>
-    <string name="could_not_download_FORMAT">%s डाउनलोड नहीं कर सके</string>
+    <string name="could_not_download_FORMAT">%s डाउनलोड नहीं कर सका</string>
     <string name="application_not_found">वह एप्लीकेशन नहीं मिली</string>
     <string name="author_email">ऑथर ई-मेल</string>
     <string name="credits">श्रेय</string>
-    <string name="dark">अंधेर</string>
+    <string name="dark">गहरा</string>
     <string name="delete">हटाएं</string>
     <string name="delete_repository_DESC">रिपोसिट्री हटाएं\?</string>
     <string name="details">विवरण</string>
@@ -186,8 +186,8 @@
     <string name="cleanup_description">साफ-सफाई के अंतराल की अवधी</string>
     <string name="only_on_wifi_with_charging">केवल वाई-फ़ाई व च्राजिंग पर</string>
     <plurals name="days">
-        <item quantity="one">दिवस</item>
-        <item quantity="other">दिवस</item>
+        <item quantity="one">दिन</item>
+        <item quantity="other">दिन</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">घंटा</item>
