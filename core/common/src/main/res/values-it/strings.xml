@@ -135,7 +135,7 @@
     <string name="show_older_versions">Mostra versioni vecchie</string>
     <string name="signature_FORMAT">Firma %s</string>
     <string name="signed_using_unsafe_algorithm">Firmato usando un algoritmo non sicuro</string>
-    <string name="size">Taglia</string>
+    <string name="size">Dimensione</string>
     <string name="skip">Salta</string>
     <string name="socks_proxy">Proxy SOCKS</string>
     <string name="sorting_order">Ordinamento</string>
