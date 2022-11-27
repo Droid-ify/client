@@ -54,7 +54,8 @@ android {
 			"fa",
 			"pl",
 			"nl",
-			"tr"
+			"tr",
+			"pa"
 		)
 	}
 

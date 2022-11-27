@@ -27,6 +27,7 @@
     <locale android:name="nl" />
     <locale android:name="nn" />
     <locale android:name="or" />
+    <locale android:name="pa" />
     <locale android:name="pl" />
     <locale android:name="pt" />
     <locale android:name="pt-rBR" />
