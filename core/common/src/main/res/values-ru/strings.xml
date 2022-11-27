@@ -4,7 +4,7 @@
     <string name="add_repository">Добавить репозиторий</string>
     <string name="address">Адрес</string>
     <string name="all_applications">Все приложения</string>
-    <string name="all_applications_up_to_date">Все ваши приложения в актуальном состоянии</string>
+    <string name="all_applications_up_to_date">Все ваши приложения обновлены</string>
     <string name="already_exists">Уже существует</string>
     <string name="always">Всегда</string>
     <string name="amoled">Черная</string>
@@ -14,7 +14,7 @@
     <string name="author_email">Электронная почта автора</string>
     <string name="author_website">Сайт автора</string>
     <string name="available">Обзор</string>
-    <string name="bug_tracker">Баг трекер</string>
+    <string name="bug_tracker">Баг-трекер</string>
     <string name="cancel">Отмена</string>
     <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
     <string name="changelog">Список изменений</string>
