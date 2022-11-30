@@ -23,6 +23,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.Util
+import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.autoSyncName
 import com.looker.core.datastore.extension.installerName
@@ -63,7 +64,10 @@ class SettingsFragment : Fragment() {
 		savedInstanceState: Bundle?
 	): View {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
-		binding.toolbar.title = getString(stringRes.settings)
+		val toolbar = binding.toolbar
+		toolbar.navigationIcon = toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+		toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+		toolbar.title = getString(stringRes.settings)
 		with(binding) {
 			language.title.text = getString(stringRes.prefs_language_title)
 			theme.title.text = getString(stringRes.theme)
