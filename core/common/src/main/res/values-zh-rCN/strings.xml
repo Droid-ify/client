@@ -89,7 +89,7 @@
     </plurals>
     <string name="no_applications_available">没有可用的应用</string>
     <string name="no_applications_installed">没有已安装的应用</string>
-    <string name="no_description_available_DESC">没有可用的描述。</string>
+    <string name="no_description_available_DESC">没有描述可用</string>
     <string name="no_matching_applications_found">找不到任何这样的应用</string>
     <string name="no_proxy">无代理</string>
     <string name="notify_about_updates">通知新应用版本</string>
