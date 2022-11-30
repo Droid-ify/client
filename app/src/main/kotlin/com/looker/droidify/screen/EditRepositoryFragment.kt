@@ -20,7 +20,6 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Repository
 import com.looker.droidify.R
-import com.looker.core.common.R.string as stringRes
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.network.Downloader
@@ -41,6 +40,7 @@ import java.net.URL
 import java.nio.charset.Charset
 import java.util.*
 import kotlin.math.min
+import com.looker.core.common.R.string as stringRes
 
 class EditRepositoryFragment() : ScreenFragment() {
 

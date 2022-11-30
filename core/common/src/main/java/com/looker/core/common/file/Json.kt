@@ -1,6 +1,10 @@
 package com.looker.core.common.file
 
-import com.fasterxml.jackson.core.*
+import com.fasterxml.jackson.core.JsonFactory
+import com.fasterxml.jackson.core.JsonGenerator
+import com.fasterxml.jackson.core.JsonParseException
+import com.fasterxml.jackson.core.JsonParser
+import com.fasterxml.jackson.core.JsonToken
 
 object Json {
 	val factory = JsonFactory()

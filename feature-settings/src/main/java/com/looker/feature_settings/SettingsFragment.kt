@@ -65,7 +65,8 @@ class SettingsFragment : Fragment() {
 	): View {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
 		val toolbar = binding.toolbar
-		toolbar.navigationIcon = toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+		toolbar.navigationIcon =
+			toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 		toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolbar.title = getString(stringRes.settings)
 		with(binding) {

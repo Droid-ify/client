@@ -35,7 +35,7 @@ fun Configuration.getThemeRes(theme: Theme) = when (theme) {
 }
 
 fun Context?.sortOrderName(sortOrder: SortOrder) = this?.let {
-	when(sortOrder) {
+	when (sortOrder) {
 		SortOrder.UPDATED -> getString(stringRes.recently_updated)
 		SortOrder.ADDED -> getString(stringRes.whats_new)
 		SortOrder.NAME -> getString(stringRes.name)

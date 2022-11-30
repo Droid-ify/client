@@ -4,7 +4,6 @@ import androidx.room.TypeConverter
 import com.looker.core.database.model.LocalizedEntity
 import com.looker.core.database.model.PackageEntity
 import com.looker.core.database.model.PermissionEntity
-import com.looker.core.model.new.Donate
 import kotlinx.serialization.json.Json
 
 private val json = Json {
@@ -17,7 +16,8 @@ internal const val STRING_DELIMITER = "!@#$%^&*"
 class CollectionConverter {
 
 	@TypeConverter
-	fun listToString(list: List<String>): ByteArray = list.joinToString(STRING_DELIMITER).toByteArray()
+	fun listToString(list: List<String>): ByteArray =
+		list.joinToString(STRING_DELIMITER).toByteArray()
 
 	@TypeConverter
 	fun stringToList(byteArray: ByteArray): List<String> = String(byteArray).split(STRING_DELIMITER)
