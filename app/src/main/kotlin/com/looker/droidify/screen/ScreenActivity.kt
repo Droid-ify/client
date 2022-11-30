@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.file.KParcelable
@@ -37,6 +38,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -153,11 +155,13 @@ abstract class ScreenActivity : AppCompatActivity() {
 		val noInternetSnackbar =
 			Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_SHORT)
 				.setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
-		networkMonitor.isOnline
-			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-			.onEach { isOnline ->
-				if (!isOnline) noInternetSnackbar.show()
-			}.launchIn(lifecycleScope)
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.CREATED) {
+				networkMonitor.isOnline.collect { isOnline ->
+					if (!isOnline) noInternetSnackbar.show()
+				}
+			}
+		}
 
 		when {
 			ContextCompat.checkSelfPermission(
