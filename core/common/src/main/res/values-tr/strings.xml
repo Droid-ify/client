@@ -88,7 +88,7 @@
     </plurals>
     <string name="no_applications_available">Kullanılabilir uygulama yok</string>
     <string name="no_applications_installed">Kurulu uygulama yok</string>
-    <string name="no_description_available_DESC">Açıklama yok.</string>
+    <string name="no_description_available_DESC">Açıklama yok</string>
     <string name="no_matching_applications_found">Böyle bir uygulama bulunamadı</string>
     <string name="no_proxy">Proxy yok</string>
     <string name="notify_about_updates">Uygulamaların yeni sürümleri hakkında bilgilendir</string>
@@ -195,4 +195,5 @@
         <item quantity="other">Saatler</item>
     </plurals>
     <string name="io_error_DESC">Belirli eylemler gerçekleştirilemiyor.</string>
+    <string name="no_internet">İnternet bağlantınız yok</string>
 </resources>
