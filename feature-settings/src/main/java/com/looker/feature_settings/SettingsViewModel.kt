@@ -1,6 +1,8 @@
 package com.looker.feature_settings
 
 import android.content.pm.PackageManager
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.datastore.UserPreferencesRepository
@@ -25,6 +27,9 @@ class SettingsViewModel
 
 	fun setLanguage(language: String) {
 		viewModelScope.launch {
+			val appLocale: LocaleListCompat =
+				LocaleListCompat.forLanguageTags(language)
+			AppCompatDelegate.setApplicationLocales(appLocale)
 			userPreferencesRepository.setLanguage(language)
 		}
 	}

@@ -11,8 +11,6 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.work.NetworkType
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -140,7 +138,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 			initialSetup.collect { initialPreference ->
 				var lastAutoSync = initialPreference.autoSync
 				var lastCleanupDuration = initialPreference.cleanUpDuration
-				var lastLanguage = initialPreference.language
 				var lastProxy = initialPreference.proxyType
 				var lastProxyHost = initialPreference.proxyHost
 				var lastProxyPort = initialPreference.proxyPort
@@ -165,13 +162,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 						CleanUpWorker.scheduleCleanup(
 							applicationContext, newPreference.cleanUpDuration
 						)
-					} else if (newPreference.language != lastLanguage) {
-						launch(Dispatchers.Main) {
-							lastLanguage = newPreference.language
-							val appLocale: LocaleListCompat =
-								LocaleListCompat.forLanguageTags(lastLanguage)
-							AppCompatDelegate.setApplicationLocales(appLocale)
-						}
 					}
 				}
 			}
