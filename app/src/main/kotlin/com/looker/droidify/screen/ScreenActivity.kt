@@ -14,11 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
+import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.datastore.model.Theme
@@ -33,6 +37,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R as styleR
@@ -53,6 +59,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	@Inject
+	lateinit var networkMonitor: NetworkMonitor
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -133,13 +142,22 @@ abstract class ScreenActivity : AppCompatActivity() {
 		collectChange()
 		super.onCreate(savedInstanceState)
 		collectChange()
+		val rootView = FrameLayout(this).apply { id = R.id.main_content }
 		addContentView(
-			FrameLayout(this).apply { id = R.id.main_content },
+			rootView,
 			ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT
 			)
 		)
+		val noInternetSnackbar =
+			Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_SHORT)
+				.setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+		networkMonitor.isOnline
+			.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+			.onEach { isOnline ->
+				if (!isOnline) noInternetSnackbar.show()
+			}.launchIn(lifecycleScope)
 
 		when {
 			ContextCompat.checkSelfPermission(
