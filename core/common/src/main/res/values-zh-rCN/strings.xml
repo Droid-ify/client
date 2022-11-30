@@ -193,4 +193,6 @@
     <plurals name="hours">
         <item quantity="other">小时</item>
     </plurals>
+    <string name="no_internet">您没有互联网连接</string>
+    <string name="io_error_DESC">无法执行某些操作。</string>
 </resources>
