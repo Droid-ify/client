@@ -118,17 +118,17 @@ abstract class ScreenActivity : AppCompatActivity() {
 					activityContext,
 					CustomUserRepositoryInjector::class.java
 				)
-			val initialTheme = hiltEntryPoint.userPreferencesRepository().getInitialPreference.theme
+			val initialTheme = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences()
 			val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 
-			var lastTheme = initialTheme
-			setConfig(initialTheme)
+			var lastTheme = initialTheme.theme
+			setConfig(lastTheme)
 			launch {
 				newPreferences.collect {
 					if (lastTheme != it.theme) {
 						lastTheme = it.theme
 						setConfig(it.theme)
-						this@ScreenActivity.recreate()
+						activityContext.recreate()
 					}
 				}
 			}
