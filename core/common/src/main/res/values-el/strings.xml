@@ -77,7 +77,7 @@
     </plurals>
     <string name="no_applications_available">Δεν υπάρχουν διαθέσιμες εφαρμογές</string>
     <string name="no_applications_installed">Δεν υπάρχουν εγκατεστημένες εφαρμογές</string>
-    <string name="no_description_available_DESC">Δεν υπάρχει διαθέσιμη περιγραφή.</string>
+    <string name="no_description_available_DESC">Δεν υπάρχει διαθέσιμη περιγραφή</string>
     <string name="no_matching_applications_found">Δε βρέθηκαν αντίστοιχες εφαρμογές</string>
     <string name="no_proxy">Κανένας διακομιστής μεσολάβησης</string>
     <string name="notify_about_updates">Ειδοποίηση για ενημερώσεις</string>
@@ -194,4 +194,5 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi και Φόρτιση</string>
     <string name="io_error_DESC">Δεν είναι δυνατή η εκτέλεση ορισμένων ενεργειών.</string>
+    <string name="no_internet">Δεν έχετε σύνδεση στο διαδίκτυο</string>
 </resources>
