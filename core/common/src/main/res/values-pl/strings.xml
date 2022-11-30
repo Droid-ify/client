@@ -125,7 +125,7 @@
     <string name="name">Według nazwy</string>
     <string name="network_error_DESC">Błąd sieci.</string>
     <string name="never">Nigdy</string>
-    <string name="no_description_available_DESC">Brak dostępnego opisu.</string>
+    <string name="no_description_available_DESC">Brak dostępnego opisu</string>
     <string name="size">Rozmiar</string>
     <string name="show_older_versions">Pokaż starsze wersje</string>
     <string name="select_mirror">Wybierz lustro</string>
@@ -200,4 +200,5 @@
         <item quantity="other">Godzin</item>
     </plurals>
     <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
+    <string name="no_internet">Nie masz połączenia z internetem</string>
 </resources>
