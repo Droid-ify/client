@@ -129,7 +129,7 @@
     <string name="prefs_personalization">Stell til</string>
     <string name="update_all">Brigd alle</string>
     <string name="explore">Sjå omkring</string>
-    <string name="action_failed">Handlinga mislukkast</string>
+    <string name="action_failed">Gjerda mislukkast</string>
     <string name="amoled">Svart</string>
     <string name="author_email">Utgjevar e-post</string>
     <string name="cancel">Avbryt</string>
@@ -193,4 +193,5 @@
     <string name="signed_using_unsafe_algorithm">Opphav stadfesta ved bruk av ein utrygg algoritme</string>
     <string name="all_applications_up_to_date">Alle appane dine er av nyaste versjon</string>
     <string name="validation_index_error_DESC">Kunne ikkje stadfeste indeksen.</string>
+    <string name="io_error_DESC">Kan ikkje gjere somme gjerder.</string>
 </resources>
