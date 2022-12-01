@@ -130,7 +130,7 @@
     </plurals>
     <string name="no_applications_available">କୌଣସି ଉପଲବ୍ଧ ପ୍ରୟୋଗ ନାହିଁ</string>
     <string name="only_on_wifi_with_charging">କେବଳ ୱାଇ-ଫାଇ ଏବଂ ଚାର୍ଜିଂ ବେଳେ</string>
-    <string name="no_description_available_DESC">କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ ।</string>
+    <string name="no_description_available_DESC">କୌଣସି ବର୍ଣ୍ଣନା ଉପଲବ୍ଧ ନାହିଁ</string>
     <string name="no_matching_applications_found">ଏହିପରି କୌଣସି ପ୍ରୟୋଗ ଖୋଜି ପାଇଲା ନାହିଁ</string>
     <string name="no_proxy">କୌଣସି ପ୍ରକ୍ସି ନାହିଁ</string>
     <string name="notify_about_updates_summary">ନୂତନ ସଂସ୍କରଣ ଉପଲବ୍ଧ ହେଲେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାନ୍ତୁ</string>
@@ -194,4 +194,5 @@
     <string name="prefs_personalization">ବ୍ୟକ୍ତିଗତକରଣ</string>
     <string name="latest">ସର୍ବଶେଷ</string>
     <string name="io_error_DESC">କିଛି କାର୍ଯ୍ୟ କରିବାକୁ ଅସମର୍ଥ ।</string>
+    <string name="no_internet">ଆପଣଙ୍କର କୌଣସି ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ନାହିଁ</string>
 </resources>
