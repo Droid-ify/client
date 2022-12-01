@@ -333,9 +333,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				if (Util.isTiramisu) {
 					packageManager.getPackageArchiveInfo(
 						file.path,
-						PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong())
+						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
 					)
 				} else {
+					@Suppress("DEPRECATION")
 					packageManager.getPackageArchiveInfo(
 						file.path,
 						Android.PackageManager.signaturesFlag
