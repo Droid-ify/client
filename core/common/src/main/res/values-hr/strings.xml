@@ -17,7 +17,7 @@
     <string name="license_FORMAT">%s licenca</string>
     <string name="light">Svijetlo</string>
     <string name="link_copied_to_clipboard">Poveznica kopirana u međuspremnik</string>
-    <string name="no_description_available_DESC">Opis nije dostupan.</string>
+    <string name="no_description_available_DESC">Opis nije dostupan</string>
     <string name="no_applications_installed">Nema instaliranih aplikacija</string>
     <string name="no_matching_applications_found">Nije moguće pronaći slične aplikacije</string>
     <string name="no_proxy">Bez proxy</string>
@@ -197,4 +197,5 @@
     <string name="http_proxy">HTTP proxy</string>
     <string name="never">Nikad</string>
     <string name="io_error_DESC">Nije moguće izvršiti određene radnje.</string>
+    <string name="no_internet">Nemate internetsku vezu</string>
 </resources>
