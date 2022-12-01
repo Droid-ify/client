@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.view.ContextThemeWrapper
@@ -78,7 +79,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
 		val url: String, val authentication: String,
-	)
+	) {
+		val notificationTag: String
+			get() = "download-$packageName"
+	}
 
 	private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
 
@@ -107,7 +111,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(Constants.NOTIFICATION_ID_DOWNLOADING)
+				notificationManager.cancel(
+					task.notificationTag,
+					Constants.NOTIFICATION_ID_DOWNLOADING
+				)
 				tasks += task
 				if (currentTask == null) {
 					handleDownload()
@@ -205,6 +212,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
+			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -273,6 +281,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
+			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -321,10 +330,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			ValidationError.INTEGRITY
 		} else {
 			val packageInfo = try {
-				packageManager.getPackageArchiveInfo(
-					file.path,
-					Android.PackageManager.signaturesFlag
-				)
+				if (Util.isTiramisu) {
+					packageManager.getPackageArchiveInfo(
+						file.path,
+						PackageManager.PackageInfoFlags.of(PackageManager.GET_SIGNING_CERTIFICATES.toLong())
+					)
+				} else {
+					packageManager.getPackageArchiveInfo(
+						file.path,
+						Android.PackageManager.signaturesFlag
+					)
+				}
 			} catch (e: Exception) {
 				e.printStackTrace()
 				null
@@ -466,7 +482,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 							DownloadState.Error.UnknownError -> {
 								showNotificationError(
 									task,
-									ErrorType.Validation(ValidationError.PERMISSIONS)
+									ErrorType.Validation(ValidationError.INTEGRITY)
 								)
 								mutableStateSubject.emit(State.Error(task.packageName))
 							}

@@ -29,7 +29,8 @@ val PackageInfo.singleSignature: Signature?
 	get() = if (Util.isPie) {
 		val signingInfo = signingInfo
 		if (signingInfo?.hasMultipleSigners() == false) signingInfo.apkContentsSigners
-			?.let { if (it.size == 1) it[0] else null } else null
+			?.let { if (it.size == 1) it[0] else null }
+		else null
 	} else {
 		@Suppress("DEPRECATION")
 		signatures?.let { if (it.size == 1) it[0] else null }
