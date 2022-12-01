@@ -91,7 +91,7 @@
     </plurals>
     <string name="no_applications_available">Nessuna applicazione disponibile</string>
     <string name="no_applications_installed">Nessuna applicazione installata</string>
-    <string name="no_description_available_DESC">Nessuna descrizione disponibile.</string>
+    <string name="no_description_available_DESC">Nessuna descrizione disponibile</string>
     <string name="no_matching_applications_found">Impossibile trovare tali applicazioni</string>
     <string name="no_proxy">Senza proxy</string>
     <string name="notify_about_updates">Notifica sulle nuove versioni delle applicazioni</string>
@@ -200,4 +200,5 @@
     <string name="cleanup_title">Durata della pulizia</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
+    <string name="no_internet">Non hai connessione internet</string>
 </resources>
