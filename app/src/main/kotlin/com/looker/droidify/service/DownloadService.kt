@@ -336,6 +336,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
 					)
 				} else {
+					@Suppress("DEPRECATION")
 					packageManager.getPackageArchiveInfo(
 						file.path,
 						Android.PackageManager.signaturesFlag
