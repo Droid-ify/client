@@ -154,10 +154,16 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		PreferencesKeys.PROXY_PORT.update(proxyPort)
 	}
 
+	/**
+	 * [duration] sets a cleanup duration
+	 */
 	suspend fun setCleanUpDuration(duration: Duration) {
 		PreferencesKeys.CLEAN_UP_DURATION.update(duration.inWholeHours)
 	}
 
+	/**
+	 * Adds a [packageName] to favourites
+	 */
 	suspend fun addToFavourites(packageName: String, remove: Boolean) {
 		dataStore.edit { preference ->
 			val currentSet = preference[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
