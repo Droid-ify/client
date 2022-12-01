@@ -131,7 +131,7 @@
     <string name="invalid_permissions_error_DESC">Permissions invalides.</string>
     <string name="invalid_signature_error_DESC">Signature invalide.</string>
     <string name="invalid_username_format">Format du nom d’utilisateur non valide</string>
-    <string name="no_description_available_DESC">Aucune description disponible.</string>
+    <string name="no_description_available_DESC">Aucune description disponible</string>
     <string name="no_matching_applications_found">Impossible de trouver de telles applications</string>
     <string name="no_proxy">Aucun proxy</string>
     <string name="notify_about_updates">Notifier les nouvelles versions des applications</string>
@@ -197,4 +197,5 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Uniquement sur Wi-Fi et charge</string>
     <string name="io_error_DESC">Impossible d’effectuer certaines actions.</string>
+    <string name="no_internet">Vous n’avez pas de connexion internet</string>
 </resources>
