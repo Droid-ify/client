@@ -53,3 +53,7 @@ dependencies {
 	implementation(Hilt.android)
 	kapt(Hilt.compiler)
 }
+
+kapt {
+	correctErrorTypes = true
+}

@@ -65,3 +65,7 @@ dependencies {
 	api(Room.ktx)
 	ksp(Room.compiler)
 }
+
+kapt {
+	correctErrorTypes = true
+}

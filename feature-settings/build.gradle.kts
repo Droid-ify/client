@@ -61,3 +61,7 @@ dependencies {
 	implementation(Others.shizukuApi)
 	implementation(Others.shizukuProvider)
 }
+
+kapt {
+	correctErrorTypes = true
+}

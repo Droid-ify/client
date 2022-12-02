@@ -159,3 +159,7 @@ dependencies {
 
 	implementation(Work.manager)
 }
+
+kapt {
+	correctErrorTypes = true
+}
