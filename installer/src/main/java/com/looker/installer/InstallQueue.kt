@@ -30,8 +30,12 @@ class InstallQueue @Inject constructor(
 		queue.consumeEach { processEvent(it) }
 	}
 
-	suspend fun enqueue(installEvent: InstallEvent, installerType: InstallerType) {
-		queue.send(InstallInput(installEvent, installerType))
+	suspend fun enqueue(installerType: InstallerType, vararg events: InstallEvent) {
+		events.forEach { queue.send(InstallInput(it, installerType)) }
+	}
+
+	suspend fun enqueue(installerType: InstallerType, events: List<InstallEvent>) {
+		enqueue(installerType, *events.toTypedArray())
 	}
 
 	private suspend fun processEvent(input: InstallInput) {
