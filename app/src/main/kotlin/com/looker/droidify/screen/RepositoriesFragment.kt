@@ -6,18 +6,33 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.looker.core.common.extension.setCollapsable
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
 
+@AndroidEntryPoint
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 	private var recyclerView: RecyclerView? = null
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	private val syncConnection = Connection(SyncService::class.java)
 
@@ -46,6 +61,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 		}
 		this.toolbar = fragmentBinding.toolbar
 		this.collapsingToolbar = fragmentBinding.collapsingToolbar
+		this.appBarLayout = fragmentBinding.appbarLayout
 		return view
 	}
 
@@ -54,7 +70,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
 		syncConnection.bind(requireContext())
 		screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
-
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.menu.add(stringRes.add_repository)
 			.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_add))
@@ -64,6 +79,13 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 				true
 			}
 		collapsingToolbar.title = getString(stringRes.repositories)
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				userPreferenceFlow.collect {
+					collectPreferences(it)
+				}
+			}
+		}
 	}
 
 	override fun onDestroyView() {
@@ -73,6 +95,10 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
 		syncConnection.unbind(requireContext())
 		screenActivity.cursorOwner.detach(this)
+	}
+
+	private fun collectPreferences(userPreferences: UserPreferences) {
+		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {

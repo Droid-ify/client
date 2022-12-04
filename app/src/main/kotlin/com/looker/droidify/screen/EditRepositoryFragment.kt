@@ -14,10 +14,15 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -28,10 +33,12 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
@@ -39,13 +46,20 @@ import java.net.URI
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.*
+import javax.inject.Inject
 import kotlin.math.min
 import com.looker.core.common.R.string as stringRes
 
+@AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
 
 	private var _editRepositoryBinding: EditRepositoryBinding? = null
 	private val editRepositoryBinding get() = _editRepositoryBinding!!
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -233,12 +247,19 @@ class EditRepositoryFragment() : ScreenFragment() {
 			}
 		}
 
-		lifecycleScope.launch {
+		viewLifecycleOwner.lifecycleScope.launch {
 			val list = Database.RepositoryAdapter.getAll(null)
 			takenAddresses = list.asSequence().filter { it.id != repositoryId }
 				.flatMap { (it.mirrors + it.address).asSequence() }
 				.map { it.withoutKnownPath }.toSet()
 			invalidateAddress()
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				launch {
+					userPreferenceFlow.collect {
+						collectPreferences(it)
+					}
+				}
+			}
 		}
 		invalidateAddress()
 		invalidateFingerprint()
@@ -255,6 +276,10 @@ class EditRepositoryFragment() : ScreenFragment() {
 		checkDisposable?.dispose()
 		checkDisposable = null
 		_editRepositoryBinding = null
+	}
+
+	private fun collectPreferences(userPreferences: UserPreferences) {
+		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private var addressError = false
