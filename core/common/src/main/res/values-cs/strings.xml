@@ -198,4 +198,6 @@
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
     <string name="io_error_DESC">Nepodařilo se vykonat některé akce.</string>
     <string name="no_internet">Nejste připojeni k internetu</string>
+    <string name="allow_collapsing_toolbar">Povolení rozšíření horního panelu aplikací</string>
+    <string name="allow_collapsing_toolbar_DESC">Povolení rozbalování a sbalování horního panelu aplikace</string>
 </resources>
