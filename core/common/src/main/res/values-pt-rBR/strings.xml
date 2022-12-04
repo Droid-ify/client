@@ -201,4 +201,6 @@
     <string name="only_on_wifi_with_charging">Apenas no Wi-Fi e Carregando</string>
     <string name="io_error_DESC">Incapaz de executar certas ações.</string>
     <string name="no_internet">Você não tem conexão com a internet</string>
+    <string name="allow_collapsing_toolbar_DESC">Permite que a barra de aplicativos superior seja expandida e recolhida</string>
+    <string name="allow_collapsing_toolbar">Permitir que a Barra Superior de Aplicativos se Expanda</string>
 </resources>
