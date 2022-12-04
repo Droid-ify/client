@@ -3,10 +3,8 @@ package com.looker.installer
 import android.content.Context
 import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.model.InstallEvent
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
-import javax.inject.Inject
 
 /**
  *
@@ -20,9 +18,7 @@ import javax.inject.Inject
  *
  * You can init the installers by doing [installQueue()]
  */
-class InstallQueue @Inject constructor(
-	@ApplicationContext context: Context
-) {
+class InstallQueue(context: Context) {
 
 	private val queue: Channel<InstallInput> = Channel(50)
 
