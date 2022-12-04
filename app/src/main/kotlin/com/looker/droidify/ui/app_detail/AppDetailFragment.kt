@@ -17,7 +17,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.trimAfter
+import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
@@ -268,6 +270,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 
 		downloadConnection.bind(requireContext())
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				userPreferencesFlow.collect {
+					collectPreferences(it)
+				}
+			}
+		}
 	}
 
 	override fun onDestroyView() {
@@ -287,6 +296,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		layoutManagerState?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
 		val adapterState = (recyclerView?.adapter as? AppDetailAdapter)?.saveState()
 		adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
+	}
+
+	private fun collectPreferences(userPreferences: UserPreferences) {
+		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private suspend fun updateButtons() {

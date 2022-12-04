@@ -5,6 +5,8 @@
     <string name="address">Address</string>
     <string name="all_applications">All applications</string>
     <string name="all_applications_up_to_date">All your applications are up to date</string>
+    <string name="allow_collapsing_toolbar">Allow Top App Bar to Expand</string>
+    <string name="allow_collapsing_toolbar_DESC">Allow top app bar to expand and collapse</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
     <string name="amoled">Black</string>

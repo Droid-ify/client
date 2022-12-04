@@ -40,6 +40,7 @@ data class UserPreferences(
 	val proxyHost: String,
 	val proxyPort: Int,
 	val cleanUpDuration: Duration,
+	val allowCollapsingToolbar: Boolean,
 	val favouriteApps: Set<String>
 )
 
@@ -65,6 +66,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
 		val CLEAN_UP_DURATION = longPreferencesKey("clean_up_duration")
+		val COLLAPSING_TOOLBAR = booleanPreferencesKey("collapsing_toolbar")
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
@@ -162,6 +164,13 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	}
 
 	/**
+	 * [collapsing] sets the top app bar to be collapsable or not
+	 */
+	suspend fun setCollapsingToolbar(collapsing: Boolean) {
+		PreferencesKeys.COLLAPSING_TOOLBAR.update(collapsing)
+	}
+
+	/**
 	 * Adds a [packageName] to favourites
 	 */
 	suspend fun addToFavourites(packageName: String, remove: Boolean) {
@@ -225,6 +234,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 
 		val cleanUpDuration = preferences[PreferencesKeys.CLEAN_UP_DURATION]?.hours ?: 12L.hours
 
+		val collapsingToolbar = preferences[PreferencesKeys.COLLAPSING_TOOLBAR] ?: true
+
 		val favouriteApps = preferences[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
 
 		return UserPreferences(
@@ -240,6 +251,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			proxyHost = proxyHost,
 			proxyPort = proxyPort,
 			cleanUpDuration = cleanUpDuration,
+			allowCollapsingToolbar = collapsingToolbar,
 			favouriteApps = favouriteApps
 		)
 	}

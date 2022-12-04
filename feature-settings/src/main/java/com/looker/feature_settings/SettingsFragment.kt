@@ -24,6 +24,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.Util
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.setCollapsable
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.autoSyncName
 import com.looker.core.datastore.extension.installerName
@@ -72,6 +73,8 @@ class SettingsFragment : Fragment() {
 		with(binding) {
 			language.title.text = getString(stringRes.prefs_language_title)
 			theme.title.text = getString(stringRes.theme)
+			allowCollapsingToolbar.title.text = getString(stringRes.allow_collapsing_toolbar)
+			allowCollapsingToolbar.content.text = getString(stringRes.allow_collapsing_toolbar_DESC)
 			cleanUp.title.text = getString(stringRes.cleanup_title)
 			autoSync.title.text = getString(stringRes.sync_repositories_automatically)
 			notifyUpdates.title.text = getString(stringRes.notify_about_updates)
@@ -198,6 +201,9 @@ class SettingsFragment : Fragment() {
 	private fun setChangeListener() {
 		with(binding) {
 			with(viewModel) {
+				allowCollapsingToolbar.checked.setOnCheckedChangeListener { _, checked ->
+					setToolbarState(checked)
+				}
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setNotifyUpdates(checked)
 				}
@@ -249,6 +255,8 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.themeName(it) }
 				).show()
 			}
+			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
+			appbarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
 			cleanUp.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(

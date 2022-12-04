@@ -10,8 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.setCollapsable
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TitleTextItemBinding
@@ -20,15 +25,23 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
+import javax.inject.Inject
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.string as stringRes
 
+@AndroidEntryPoint
 class RepositoryFragment() : ScreenFragment() {
 
 	private var titleBinding: TitleTextItemBinding? = null
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -91,6 +104,13 @@ class RepositoryFragment() : ScreenFragment() {
 			ViewGroup.LayoutParams.MATCH_PARENT,
 			ViewGroup.LayoutParams.WRAP_CONTENT
 		)
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				userPreferenceFlow.collect {
+					collectPreferences(it)
+				}
+			}
+		}
 	}
 
 	override fun onDestroyView() {
@@ -99,6 +119,10 @@ class RepositoryFragment() : ScreenFragment() {
 		layout = null
 		titleBinding = null
 		syncConnection.unbind(requireContext())
+	}
+
+	private fun collectPreferences(userPreferences: UserPreferences) {
+		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private fun updateRepositoryView() {

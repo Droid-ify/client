@@ -5,8 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import coil.util.CoilUtils
-import com.google.android.material.imageview.ShapeableImageView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.appbar.AppBarLayout
+import com.looker.core.common.view.CustomCollapsingBehaviour
 import kotlin.math.roundToInt
 
 fun TextView.setTextSizeScaled(size: Int) {
@@ -18,6 +19,8 @@ fun ViewGroup.inflate(layoutResId: Int): View {
 	return LayoutInflater.from(context).inflate(layoutResId, this, false)
 }
 
-fun ShapeableImageView.clear() {
-	CoilUtils.dispose(this)
+fun AppBarLayout.setCollapsable(collapsing: Boolean = false) {
+	setExpanded(collapsing, true)
+	((layoutParams as CoordinatorLayout.LayoutParams).behavior as CustomCollapsingBehaviour)
+		.isShouldScroll = collapsing
 }

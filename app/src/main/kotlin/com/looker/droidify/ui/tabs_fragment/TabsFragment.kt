@@ -14,7 +14,9 @@ import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -24,7 +26,10 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
@@ -48,7 +53,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import com.looker.core.common.R.string as stringRes
@@ -58,6 +65,11 @@ class TabsFragment : ScreenFragment() {
 
 	private var _tabsBinding: TabsToolbarBinding? = null
 	private val tabsBinding get() = _tabsBinding!!
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	private val viewModel: TabsViewModel by viewModels()
 
@@ -320,6 +332,13 @@ class TabsFragment : ScreenFragment() {
 				}
 			}
 		}
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				userPreferenceFlow.collect {
+					collectPreferences(it)
+				}
+			}
+		}
 	}
 
 	override fun onDestroyView() {
@@ -380,6 +399,10 @@ class TabsFragment : ScreenFragment() {
 	}
 
 	internal fun selectUpdates() = selectUpdatesInternal(true)
+
+	private fun collectPreferences(userPreferences: UserPreferences) {
+		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
+	}
 
 	private fun selectUpdatesInternal(allowSmooth: Boolean) {
 		if (view != null) {
