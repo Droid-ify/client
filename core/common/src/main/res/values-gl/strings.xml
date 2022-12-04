@@ -195,4 +195,6 @@
     <string name="version">Versión</string>
     <string name="io_error_DESC">Non se poden realizar determinadas accións.</string>
     <string name="no_internet">Non tes conexión a internet</string>
+    <string name="allow_collapsing_toolbar">Permitir ca barra das aplicacións superior se amplíe</string>
+    <string name="allow_collapsing_toolbar_DESC">Permitir cas barras das aplicacións superior se amplíe e contraiga</string>
 </resources>
