@@ -195,4 +195,6 @@
     <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi και Φόρτιση</string>
     <string name="io_error_DESC">Δεν είναι δυνατή η εκτέλεση ορισμένων ενεργειών.</string>
     <string name="no_internet">Δεν έχετε σύνδεση στο διαδίκτυο</string>
+    <string name="allow_collapsing_toolbar">Να επιτρέπεται η Επέκταση της Γραμμής Κορυφαίων Εφαρμογών</string>
+    <string name="allow_collapsing_toolbar_DESC">Να επιτρέπεται η επέκταση και σύμπτυξη της επάνω γραμμής εφαρμογών</string>
 </resources>
