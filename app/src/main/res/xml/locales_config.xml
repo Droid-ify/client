@@ -25,6 +25,7 @@
     <locale android:name="ko" />
     <locale android:name="lt" />
     <locale android:name="lv" />
+    <locale android:name="ml" />
     <locale android:name="nb-rNO" />
     <locale android:name="nl" />
     <locale android:name="nn" />
