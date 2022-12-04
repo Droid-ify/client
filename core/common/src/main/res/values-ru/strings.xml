@@ -90,7 +90,7 @@
     </plurals>
     <string name="no_applications_available">Нет доступных приложений</string>
     <string name="no_applications_installed">Нет установленных приложений</string>
-    <string name="no_description_available_DESC">Описание отсутствует.</string>
+    <string name="no_description_available_DESC">Описание отсутствует</string>
     <string name="no_matching_applications_found">Не удалось найти ни одного подобного приложения</string>
     <string name="no_proxy">Без прокси</string>
     <string name="notify_about_updates">Уведомлять о новых версиях приложений</string>
@@ -201,4 +201,5 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Только при Wi-Fi и зарядке</string>
     <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
+    <string name="no_internet">У вас нет подключения к Интернету</string>
 </resources>
