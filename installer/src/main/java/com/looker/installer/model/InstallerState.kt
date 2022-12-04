@@ -1,13 +1,19 @@
 package com.looker.installer.model
 
-sealed interface InstallerState {
+import androidx.annotation.IntRange
+import androidx.annotation.StringRes
 
-	object Error : InstallerState
+sealed interface InstallerState {
 
 	object Queued : InstallerState
 
-	object Installing : InstallerState
+	data class Installing(
+		@IntRange(from = 0L, to = 100L)
+		val percent: Int
+	) : InstallerState
 
 	object Installed : InstallerState
+
+	data class Error(@StringRes val message: Int) : InstallerState
 
 }

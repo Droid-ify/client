@@ -16,7 +16,7 @@ import kotlinx.coroutines.channels.consumeEach
  *
  * You can pass [InstallEvent] in [enqueue] with the subsequent [InstallerType]
  *
- * You can init the installers by doing [installQueue()]
+ * You can init the installers by doing `installQueue()`
  */
 class InstallQueue(context: Context) {
 
@@ -27,7 +27,7 @@ class InstallQueue(context: Context) {
 	}
 
 	suspend fun enqueue(installerType: InstallerType, vararg events: InstallEvent) {
-		events.forEach { queue.send(InstallInput(it, installerType)) }
+		events.forEach { queue.send(InstallInput(installerType, it)) }
 	}
 
 	suspend fun enqueue(installerType: InstallerType, events: List<InstallEvent>) {
@@ -39,4 +39,7 @@ class InstallQueue(context: Context) {
 	}
 }
 
-private data class InstallInput(val event: InstallEvent, val installerType: InstallerType)
+private data class InstallInput(
+	val installerType: InstallerType,
+	val event: InstallEvent
+)
