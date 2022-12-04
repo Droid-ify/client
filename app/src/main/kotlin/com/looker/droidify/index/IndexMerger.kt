@@ -3,13 +3,13 @@ package com.looker.droidify.index
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.fasterxml.jackson.core.JsonToken
+import com.looker.core.common.file.Json
+import com.looker.core.common.file.collectNotNull
+import com.looker.core.common.file.writeDictionary
 import com.looker.core.model.Product
 import com.looker.core.model.Release
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.execWithResult
-import com.looker.core.common.file.Json
-import com.looker.core.common.file.collectNotNull
-import com.looker.core.common.file.writeDictionary
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.io.File

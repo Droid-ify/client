@@ -43,7 +43,7 @@ object Excludes {
 }
 
 object Hilt {
-	private const val version = "2.44"
+	private const val version = "2.44.2"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
 	const val android = "com.google.dagger:hilt-android:$version"
 
@@ -52,7 +52,6 @@ object Hilt {
 	private const val androidXHilt = "1.0.0"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
-	const val navigation = "androidx.hilt:hilt-navigation-compose:$androidXHilt"
 }
 
 object Jackson {
@@ -60,16 +59,13 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
 object Ktor {
 	private const val ktorVersion = "2.1.3"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
-	const val encoding = "io.ktor:ktor-client-encoding:$ktorVersion"
-	const val contentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
-	const val json = "io.ktor:ktor-serialization-kotlinx-json:$ktorVersion"
 	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
 }
@@ -83,6 +79,13 @@ object Lifecycle {
 	const val activity = "androidx.activity:activity-ktx:1.6.1"
 }
 
+object Navigation {
+	private const val version = "2.5.3"
+	const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
+	const val ui = "androidx.navigation:navigation-ui:$version"
+	const val dynamicFeature = "androidx.navigation:navigation-dynamic-features-fragment:$version"
+}
+
 object OkHttp {
 	private const val version = "5.0.0-alpha.10"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
@@ -90,18 +93,17 @@ object OkHttp {
 
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
-	const val fastScroller = "me.zhanghai.android.fastscroll:library:1.1.8"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
-	private const val shizukuVersion = "12.1.0"
+	private const val shizukuVersion = "12.2.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
 
 object Room {
 	private const val roomVersion = "2.4.3"
-	const val roomRuntime = "androidx.room:room-runtime:$roomVersion"
-	const val roomCompiler = "androidx.room:room-compiler:$roomVersion"
-	const val roomKtx = "androidx.room:room-ktx:$roomVersion"
+	const val runtime = "androidx.room:room-runtime:$roomVersion"
+	const val compiler = "androidx.room:room-compiler:$roomVersion"
+	const val ktx = "androidx.room:room-ktx:$roomVersion"
 }
 
 object RxJava {
@@ -122,8 +124,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.7.20"
-	const val ksp = "1.7.20-1.0.7"
+	const val kotlin = "1.7.21"
+	const val ksp = "1.7.21-1.0.8"
 }
 
 object Work {

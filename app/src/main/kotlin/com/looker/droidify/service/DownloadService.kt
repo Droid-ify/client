@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.view.ContextThemeWrapper
@@ -17,6 +18,7 @@ import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.percentBy
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
@@ -47,7 +49,6 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
-import kotlin.math.roundToInt
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.R.style as styleRes
 
@@ -78,7 +79,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
 		val url: String, val authentication: String,
-	)
+	) {
+		val notificationTag: String
+			get() = "download-$packageName"
+	}
 
 	private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
 
@@ -107,7 +111,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(Constants.NOTIFICATION_ID_DOWNLOADING)
+				notificationManager.cancel(
+					task.notificationTag,
+					Constants.NOTIFICATION_ID_DOWNLOADING
+				)
 				tasks += task
 				if (currentTask == null) {
 					handleDownload()
@@ -205,6 +212,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
+			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -273,6 +281,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 		}
 		notificationManager.notify(
+			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -321,10 +330,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			ValidationError.INTEGRITY
 		} else {
 			val packageInfo = try {
-				packageManager.getPackageArchiveInfo(
-					file.path,
-					Android.PackageManager.signaturesFlag
-				)
+				if (Util.isTiramisu) {
+					packageManager.getPackageArchiveInfo(
+						file.path,
+						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
+					)
+				} else {
+					@Suppress("DEPRECATION")
+					packageManager.getPackageArchiveInfo(
+						file.path,
+						Android.PackageManager.signaturesFlag
+					)
+				}
 			} catch (e: Exception) {
 				e.printStackTrace()
 				null
@@ -400,7 +417,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 									setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
 									setProgress(
 										100,
-										(100f * state.read / state.total).roundToInt(),
+										state.read percentBy state.total,
 										false
 									)
 								} else {
@@ -433,73 +450,53 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 				val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
 					addNextIntentWithParentStack(intent)
-					getPendingIntent(
-						0,
-						pendingIntentFlag
-					)
+					getPendingIntent(0, pendingIntentFlag)
 				}
 				stateNotificationBuilder.setContentIntent(resultPendingIntent)
 				scope.launch { publishForegroundState(true, initialState) }
 				val partialReleaseFile =
 					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				val header = HeaderInfo(authorization = task.authentication)
-				val downloadItem = DownloadItem(
-					name = task.name,
-					url = task.url,
-					file = partialReleaseFile,
-					headerInfo = header
-				)
 				val job = scope.launch {
-					MainApplication.downloader?.download(downloadItem)?.collect { state ->
+					val header = HeaderInfo(
+						etag = "",
+						lastModified = "",
+						authorization = task.authentication
+					)
+					val item = DownloadItem(
+						name = task.name,
+						url = task.url,
+						file = partialReleaseFile,
+						headerInfo = header
+					)
+					MainApplication.downloader?.download(item)?.collect { state ->
 						when (state) {
-							is DownloadState.Error.HttpError -> {
-								showNotificationError(
-									task = task,
-									errorType = ErrorType.Http
-								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
+							is DownloadState.Error.ClientError,
+							is DownloadState.Error.RedirectError,
+							is DownloadState.Error.ServerError -> {
+								showNotificationError(task, ErrorType.Http)
+								mutableStateSubject.emit(State.Error(task.packageName))
 							}
 							is DownloadState.Error.IOError -> {
-								showNotificationError(
-									task = task,
-									errorType = ErrorType.IO
-								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
+								showNotificationError(task, ErrorType.IO)
+								mutableStateSubject.emit(State.Error(task.packageName))
 							}
 							DownloadState.Error.UnknownError -> {
 								showNotificationError(
-									task = task,
-									errorType = ErrorType.Http
+									task,
+									ErrorType.Validation(ValidationError.INTEGRITY)
 								)
-								mutableStateSubject.emit(
-									State.Error(
-										task.packageName
-									)
-								)
+								mutableStateSubject.emit(State.Error(task.packageName))
 							}
 							DownloadState.Pending -> mutableStateSubject.emit(
-								State.Connecting(
-									packageName = task.packageName
+								State.Connecting(task.packageName)
+							)
+							is DownloadState.Progress -> publishForegroundState(
+								true, State.Downloading(
+									task.packageName,
+									state.current,
+									state.total
 								)
 							)
-							is DownloadState.Progress -> {
-								publishForegroundState(
-									force = true,
-									state = State.Downloading(
-										task.packageName,
-										state.current,
-										state.total
-									)
-								)
-							}
 							is DownloadState.Success -> {
 								val validationError = validatePackage(task, partialReleaseFile)
 								if (validationError == null) {
@@ -516,11 +513,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task,
 										ErrorType.Validation(validationError)
 									)
-									mutableStateSubject.emit(
-										State.Error(
-											task.packageName
-										)
-									)
+									mutableStateSubject.emit(State.Error(task.packageName))
 								}
 							}
 						}
@@ -531,7 +524,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				currentTask = CurrentTask(task, job, initialState)
 			} else if (started) {
 				started = false
-				stopForeground(true)
+				@Suppress("DEPRECATION")
+				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+				else stopForeground(true)
 				stopSelf()
 			}
 		}

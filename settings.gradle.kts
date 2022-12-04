@@ -19,10 +19,10 @@ include(
 	":app",
 	":core:common",
 	":core:data",
+	":core:database",
 	":core:datastore",
 	":core:model",
 	":downloader",
 	":feature-settings",
-	":index",
 	":installer"
 )

@@ -50,7 +50,7 @@
     <string name="never">Nie</string>
     <string name="network_error_DESC">Netzwerk Fehler.</string>
     <string name="notify_about_updates">Über neue Versionen von Anwendungen benachrichtigen</string>
-    <string name="no_description_available_DESC">Keine Beschreibung vorhanden.</string>
+    <string name="no_description_available_DESC">Keine Beschreibung vorhanden</string>
     <string name="no_matching_applications_found">Keine derartigen Anwendungen konnten gefunden werden</string>
     <string name="no_applications_installed">Keine installierten Anwendungen</string>
     <string name="only_on_wifi">Nur bei Wi-Fi</string>
@@ -193,4 +193,6 @@
     <string name="legacy_installer">Alte Installationsmethode</string>
     <string name="session_installer">Sitzungs-Installation</string>
     <string name="shizuku_installer">Shizuku-Installation</string>
+    <string name="io_error_DESC">Bestimmte Aktionen können nicht durchgeführt werden.</string>
+    <string name="no_internet">Sie haben keine Internetverbindung</string>
 </resources>

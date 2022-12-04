@@ -29,7 +29,8 @@ val PackageInfo.singleSignature: Signature?
 	get() = if (Util.isPie) {
 		val signingInfo = signingInfo
 		if (signingInfo?.hasMultipleSigners() == false) signingInfo.apkContentsSigners
-			?.let { if (it.size == 1) it[0] else null } else null
+			?.let { if (it.size == 1) it[0] else null }
+		else null
 	} else {
 		@Suppress("DEPRECATION")
 		signatures?.let { if (it.size == 1) it[0] else null }
@@ -52,8 +53,8 @@ object Android {
 		// GET_SIGNATURES should always present for getPackageArchiveInfo
 		@Suppress("DEPRECATION")
 		val signaturesFlag: Int
-			get() = if (Util.isPie) android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES
-			else 0 or android.content.pm.PackageManager.GET_SIGNATURES
+			get() = (if (Util.isPie) android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES
+			else 0) or android.content.pm.PackageManager.GET_SIGNATURES
 	}
 
 	object Device {

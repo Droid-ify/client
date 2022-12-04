@@ -51,7 +51,7 @@
     </plurals>
     <string name="no_applications_available">Non hai aplicacións dispoñibles</string>
     <string name="no_applications_installed">Non hai aplicacións instaladas</string>
-    <string name="no_description_available_DESC">Non hai descrición dispoñible.</string>
+    <string name="no_description_available_DESC">Non ten descrición dispoñible</string>
     <string name="no_matching_applications_found">Non se puido atopar ningunha aplicación deste tipo</string>
     <string name="no_proxy">Sen proxy</string>
     <string name="notify_about_updates">Notificar sobre novas versións das aplicacións</string>
@@ -193,4 +193,6 @@
     <string name="unstable_updates_summary">Suxire instalar versións inestables</string>
     <string name="validation_index_error_DESC">Non se puido validar o índice.</string>
     <string name="version">Versión</string>
+    <string name="io_error_DESC">Non se poden realizar determinadas accións.</string>
+    <string name="no_internet">Non tes conexión a internet</string>
 </resources>

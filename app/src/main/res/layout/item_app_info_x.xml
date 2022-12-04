@@ -41,6 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/author_package_name">
+
             <TextView
                 android:id="@+id/author_name"
                 android:layout_width="match_parent"
@@ -50,6 +51,7 @@
                 android:textAppearance="?textAppearanceBodyMedium"
                 android:layout_marginBottom="4dp"
                 android:textColor="?android:attr/textColorSecondary" />
+
             <TextView
                 android:id="@+id/package_name"
                 android:layout_width="match_parent"

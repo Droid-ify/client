@@ -1,27 +1,31 @@
 package com.looker.downloader
 
-import android.util.Log
+import com.looker.core.common.percentBy
 import com.looker.downloader.model.DownloadItem
 import com.looker.downloader.model.DownloadState
 import com.looker.downloader.model.HeaderInfo
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.prepareGet
 import io.ktor.client.request.url
+import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpHeaders
 import io.ktor.http.etag
 import io.ktor.http.lastModified
+import io.ktor.utils.io.core.isEmpty
+import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -29,7 +33,6 @@ import java.util.*
 class KtorDownloader(private val client: HttpClient) : Downloader {
 
 	companion object {
-		private const val TAG = "KtorDownloader"
 		private val HTTP_DATE_FORMAT: SimpleDateFormat
 			get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
 				timeZone = TimeZone.getTimeZone("GMT")
@@ -38,52 +41,47 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
-			send(DownloadState.Pending)
+			val partialFileLength = item.file.length()
 			val request = HttpRequestBuilder().apply {
 				url(item.url)
-				if (item.headerInfo.authorization != null) {
-					header(HttpHeaders.Authorization, item.headerInfo.authorization)
-				}
-				onDownload { bytesSent, contentLength ->
-					Log.i(TAG, "download: bytesSent: $bytesSent, contentLength: $contentLength")
+				header(HttpHeaders.Authorization, item.headerInfo.authorization)
+				header(HttpHeaders.Range, "bytes=${partialFileLength}-")
+				onDownload { bytesSentTotal, contentLength ->
 					send(
 						DownloadState.Progress(
 							total = contentLength,
-							current = bytesSent,
-							percent = bytesSent percentBy contentLength
+							current = bytesSentTotal,
+							percent = bytesSentTotal percentBy contentLength
 						)
 					)
 				}
 			}
-			try {
-				val response = client.get(request)
-				val responseBody: ByteArray = response.body()
-				try {
-					item.file.writeBytes(responseBody)
-				} catch (e: IOException) {
-					send(DownloadState.Error.IOError(e))
+			client.prepareGet(request).execute { response ->
+				val channel = response.bodyAsChannel()
+				while (!channel.isClosedForRead) {
+					val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+					while (!packet.isEmpty) {
+						val bytes = packet.readBytes()
+						item.file.appendBytes(bytes)
+					}
 				}
-				val headerInfo = HeaderInfo(
-					eTag = response.etag(),
+				val header = HeaderInfo(
+					etag = response.etag(),
 					lastModified = response.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
 				)
-				send(DownloadState.Success(headerInfo))
-			} catch (e: RedirectResponseException) {
-				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				close(e.cause)
-			} catch (e: ClientRequestException) {
-				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				close(e.cause)
-			} catch (e: ServerResponseException) {
-				send(DownloadState.Error.HttpError(e.response.status.value, e))
-				close(e.cause)
-			} catch (e: Exception) {
-				send(DownloadState.Error.UnknownError)
-				close(e.cause)
+				send(DownloadState.Success(header))
 			}
 			awaitClose { println("Cancelled") }
+		}.onStart {
+			emit(DownloadState.Pending)
+		}.catch { error ->
+			when (error) {
+				is RedirectResponseException -> emit(DownloadState.Error.RedirectError(error))
+				is ClientRequestException -> emit(DownloadState.Error.ClientError(error))
+				is ServerResponseException -> emit(DownloadState.Error.ServerError(error))
+				is IOException -> emit(DownloadState.Error.IOError(error))
+				is Exception -> emit(DownloadState.Error.UnknownError)
+			}
 		}.flowOn(Dispatchers.IO)
 
 }
-
-infix fun Long.percentBy(denominator: Long): Int = this.toInt().times(100) / denominator.toInt()

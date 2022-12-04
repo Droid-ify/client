@@ -4,7 +4,7 @@
     <string name="add_repository">Добавить репозиторий</string>
     <string name="address">Адрес</string>
     <string name="all_applications">Все приложения</string>
-    <string name="all_applications_up_to_date">Все ваши приложения в актуальном состоянии</string>
+    <string name="all_applications_up_to_date">Все ваши приложения обновлены</string>
     <string name="already_exists">Уже существует</string>
     <string name="always">Всегда</string>
     <string name="amoled">Черная</string>
@@ -14,7 +14,7 @@
     <string name="author_email">Электронная почта автора</string>
     <string name="author_website">Сайт автора</string>
     <string name="available">Обзор</string>
-    <string name="bug_tracker">Баг трекер</string>
+    <string name="bug_tracker">Баг-трекер</string>
     <string name="cancel">Отмена</string>
     <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
     <string name="changelog">Список изменений</string>
@@ -90,7 +90,7 @@
     </plurals>
     <string name="no_applications_available">Нет доступных приложений</string>
     <string name="no_applications_installed">Нет установленных приложений</string>
-    <string name="no_description_available_DESC">Описание отсутствует.</string>
+    <string name="no_description_available_DESC">Описание отсутствует</string>
     <string name="no_matching_applications_found">Не удалось найти ни одного подобного приложения</string>
     <string name="no_proxy">Без прокси</string>
     <string name="notify_about_updates">Уведомлять о новых версиях приложений</string>
@@ -200,4 +200,6 @@
         <item quantity="other">Часов</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Только при Wi-Fi и зарядке</string>
+    <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
+    <string name="no_internet">У вас нет подключения к Интернету</string>
 </resources>

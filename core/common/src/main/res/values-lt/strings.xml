@@ -151,7 +151,7 @@
     </plurals>
     <string name="no_applications_available">Nėra pasiekiamų programėlių</string>
     <string name="no_applications_installed">Nėra įdiegtų programėlių</string>
-    <string name="no_description_available_DESC">Aprašymo nėra.</string>
+    <string name="no_description_available_DESC">Aprašymo nėra</string>
     <string name="no_matching_applications_found">Nepavyko rasti tokių programėlių</string>
     <string name="repository">Repozitorija</string>
     <string name="repository_unsigned_DESC">Nepasirašyta. Nepavyko patikrinti programėlių sąrašo. Būkite atsargūs atsisiųsdami programėles iš nepasirašytų repozitorijų.</string>
@@ -196,4 +196,6 @@
     <string name="upstream_source_code_is_not_free">Pradinis pirminis kodas nėra visiškai „libre“</string>
     <string name="explore">Naršyti</string>
     <string name="proxy_type">Įgaliotojo serverio tipas</string>
+    <string name="io_error_DESC">Nepavyko atlikti tam tikrų veiksmų.</string>
+    <string name="no_internet">Neturite interneto ryšio</string>
 </resources>

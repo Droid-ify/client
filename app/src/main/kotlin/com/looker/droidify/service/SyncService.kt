@@ -489,7 +489,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			val needStop = started == Started.MANUAL
 			started = Started.NO
 			if (needStop) {
-				stopForeground(true)
+				@Suppress("DEPRECATION")
+				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+				else stopForeground(true)
 				stopSelf()
 			}
 		}

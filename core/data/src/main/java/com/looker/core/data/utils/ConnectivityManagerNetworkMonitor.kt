@@ -6,13 +6,17 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.core.content.getSystemService
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 import javax.inject.Inject
 
-class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : NetworkMonitor {
+class ConnectivityManagerNetworkMonitor
+@Inject constructor(
+	@ApplicationContext context: Context
+) : NetworkMonitor {
 	override val isOnline: Flow<Boolean> = callbackFlow {
 		val callback = object : ConnectivityManager.NetworkCallback() {
 			override fun onAvailable(network: Network) {
@@ -40,7 +44,6 @@ class ConnectivityManagerNetworkMonitor @Inject constructor(context: Context) : 
 		}
 	}.conflate()
 
-	@Suppress("DEPRECATION")
 	private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
 		null -> false
 		else -> activeNetwork

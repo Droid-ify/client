@@ -21,12 +21,12 @@
     <string name="theme">Motyw</string>
     <string name="add_repository">Dodaj repozytorium</string>
     <string name="always">Zawsze</string>
-    <string name="anti_features">Anty-funkcje</string>
+    <string name="anti_features">Niepożądane funkcje</string>
     <string name="upstream_source_code_is_not_free">Upstreamowy kod źródłowy nie jest darmowy</string>
     <string name="update">Aktualizacja</string>
     <string name="unknown_FORMAT">Nieznany: %s</string>
     <string name="address">Adres</string>
-    <string name="all_applications_up_to_date">Wszystkie aplikacje są aktualne</string>
+    <string name="all_applications_up_to_date">Wszystkie twoje aplikacje są aktualne</string>
     <string name="already_exists">Już istnieje</string>
     <string name="unknown">Nieznany</string>
     <string name="themes">Motywy</string>
@@ -101,7 +101,7 @@
     <string name="no_applications_available">Brak dostępnych aplikacji</string>
     <string name="no_matching_applications_found">Nie znaleziono pasujących aplikacji</string>
     <string name="changes">Zmiany</string>
-    <string name="checking_repository">Kontrola repozytorium…</string>
+    <string name="checking_repository">Sprawdzanie repozytorium…</string>
     <string name="compiled_for_debugging">Skompilowane do debugowania</string>
     <string name="confirmation">Potwierdzenie</string>
     <string name="could_not_download_FORMAT">Nie można pobrać %s</string>
@@ -122,10 +122,10 @@
     <string name="license">Licencja</string>
     <string name="link_copied_to_clipboard">Link skopiowany do schowka</string>
     <string name="list_animation_description">Włącz animację listy na stronie głównej</string>
-    <string name="name">Sortuj wg. nazwy</string>
+    <string name="name">Według nazwy</string>
     <string name="network_error_DESC">Błąd sieci.</string>
     <string name="never">Nigdy</string>
-    <string name="no_description_available_DESC">Brak dostępnego opisu.</string>
+    <string name="no_description_available_DESC">Brak dostępnego opisu</string>
     <string name="size">Rozmiar</string>
     <string name="show_older_versions">Pokaż starsze wersje</string>
     <string name="select_mirror">Wybierz lustro</string>
@@ -199,4 +199,6 @@
         <item quantity="many">Godzin</item>
         <item quantity="other">Godzin</item>
     </plurals>
+    <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
+    <string name="no_internet">Nie masz połączenia z internetem</string>
 </resources>

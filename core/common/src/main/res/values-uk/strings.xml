@@ -199,4 +199,5 @@
     <string name="only_on_wifi_with_charging">Тільки при Wi-Fi та зарядці</string>
     <string name="cleanup_title">Тривалість очищення</string>
     <string name="cleanup_description">Час, необхідний для очищення, до повторної перевірки</string>
+    <string name="io_error_DESC">Неможливо виконати певні дії.</string>
 </resources>

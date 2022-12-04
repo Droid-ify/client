@@ -2,6 +2,7 @@ plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
 	kotlin("kapt")
+	kotlin("plugin.serialization") version Version.kotlin
 	id(Hilt.plugin)
 }
 
@@ -38,12 +39,16 @@ android {
 dependencies {
 	implementation(kotlin("stdlib"))
 	implementation(project(Modules.coreCommon))
+	implementation(project(Modules.coreDatabase))
+	implementation(project(Modules.coreModel))
 
 	implementation(AndroidX.material)
 	implementation(Core.core)
 
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
+
+	implementation(Kotlin.serialization)
 
 	implementation(Hilt.android)
 	kapt(Hilt.compiler)

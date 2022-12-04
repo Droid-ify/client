@@ -4,7 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import com.looker.core.common.Util
-import com.looker.droidify.utility.extension.android.Android
 
 abstract class ConnectionService<T : IBinder> : Service() {
 	abstract override fun onBind(intent: Intent): T

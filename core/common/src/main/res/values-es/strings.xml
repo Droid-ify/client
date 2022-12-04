@@ -83,7 +83,7 @@
     <string name="new_updates_available">Nuevas versiones de aplicaciones disponibles</string>
     <string name="no_applications_available">No hay aplicaciones disponibles</string>
     <string name="no_applications_installed">No hay aplicaciones instaladas</string>
-    <string name="no_description_available_DESC">No hay descripción disponible.</string>
+    <string name="no_description_available_DESC">Sin ninguna descripción</string>
     <string name="no_matching_applications_found">No se ha podido encontrar ninguna aplicación de este tipo</string>
     <string name="no_proxy">Sin proxy</string>
     <string name="notify_about_updates">Notificar sobre nuevas versiones de aplicaciones</string>
@@ -196,4 +196,6 @@
         <item quantity="other">Horas</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Solo en WiFi y cargando</string>
+    <string name="io_error_DESC">No se pueden realizar ciertas acciones.</string>
+    <string name="no_internet">No hay conexion a internet</string>
 </resources>

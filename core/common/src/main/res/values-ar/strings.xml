@@ -106,7 +106,7 @@
     </plurals>
     <string name="no_applications_available">لا توجد تطبيقات متاحة</string>
     <string name="no_applications_installed">لا توجد تطبيقات مثبتة</string>
-    <string name="no_description_available_DESC">لا يوجد وصف متاح.</string>
+    <string name="no_description_available_DESC">لا يوجد وصف متاح</string>
     <string name="no_matching_applications_found">لم يتم العثور على تطبيق مشابه</string>
     <string name="no_proxy">بدون بروكسي</string>
     <string name="notify_about_updates">تنبيه (إشعار) حول التحديثات</string>
@@ -205,4 +205,6 @@
         <item quantity="other">ساعة</item>
     </plurals>
     <string name="only_on_wifi_with_charging">فقط على شبكة Wi-Fi وعند الشحن</string>
+    <string name="io_error_DESC">غير قادر على أداء بعض الإجراءات.</string>
+    <string name="no_internet">ليس لديك اتصال بالإنترنت</string>
 </resources>

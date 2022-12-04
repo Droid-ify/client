@@ -14,11 +14,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
+import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.datastore.model.Theme
@@ -49,10 +53,13 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	private val notificationPermission =
-		registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ -> }
+		registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	@Inject
+	lateinit var networkMonitor: NetworkMonitor
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -107,17 +114,17 @@ abstract class ScreenActivity : AppCompatActivity() {
 					activityContext,
 					CustomUserRepositoryInjector::class.java
 				)
-			val initialTheme = hiltEntryPoint.userPreferencesRepository().getInitialPreference.theme
+			val initialTheme = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences()
 			val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 
-			var lastTheme = initialTheme
-			setConfig(initialTheme)
+			var lastTheme = initialTheme.theme
+			setConfig(lastTheme)
 			launch {
 				newPreferences.collect {
 					if (lastTheme != it.theme) {
 						lastTheme = it.theme
 						setConfig(it.theme)
-						this@ScreenActivity.recreate()
+						activityContext.recreate()
 					}
 				}
 			}
@@ -133,13 +140,24 @@ abstract class ScreenActivity : AppCompatActivity() {
 		collectChange()
 		super.onCreate(savedInstanceState)
 		collectChange()
+		val rootView = FrameLayout(this).apply { id = R.id.main_content }
 		addContentView(
-			FrameLayout(this).apply { id = R.id.main_content },
+			rootView,
 			ViewGroup.LayoutParams(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.MATCH_PARENT
 			)
 		)
+		val noInternetSnackbar =
+			Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_SHORT)
+				.setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
+		lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.CREATED) {
+				networkMonitor.isOnline.collect { isOnline ->
+					if (!isOnline) noInternetSnackbar.show()
+				}
+			}
+		}
 
 		when {
 			ContextCompat.checkSelfPermission(

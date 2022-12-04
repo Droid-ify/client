@@ -92,7 +92,7 @@
     </plurals>
     <string name="no_applications_available">Žádné dostupné aplikace</string>
     <string name="no_applications_installed">Žádné instalované aplikace</string>
-    <string name="no_description_available_DESC">Popis není dostupný.</string>
+    <string name="no_description_available_DESC">Žádný dostupný popis</string>
     <string name="no_matching_applications_found">Nepodařilo se najít žádné takové aplikace</string>
     <string name="no_proxy">Žádná proxy</string>
     <string name="notify_about_updates">Informovat o nových verzích aplikací</string>
@@ -196,4 +196,6 @@
     <string name="cleanup_title">Doba trvání úklidu</string>
     <string name="cleanup_description">Čas vyžadovaný k opětovné kontrole úklidu</string>
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
+    <string name="io_error_DESC">Nepodařilo se vykonat některé akce.</string>
+    <string name="no_internet">Nejste připojeni k internetu</string>
 </resources>

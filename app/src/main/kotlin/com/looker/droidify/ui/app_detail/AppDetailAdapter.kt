@@ -104,11 +104,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		SHARE(stringRes.share, drawableRes.ic_share)
 	}
 
-	sealed class Status {
-		object Idle : Status()
-		object Pending : Status()
-		object Connecting : Status()
-		data class Downloading(val read: Long, val total: Long?) : Status()
+	sealed interface Status {
+		object Idle : Status
+		object Pending : Status
+		object Connecting : Status
+		data class Downloading(val read: Long, val total: Long?) : Status
 	}
 
 	enum class ViewType { APP_INFO, DOWNLOAD_STATUS, INSTALL_BUTTON, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
@@ -1210,7 +1210,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 						Status.Idle -> {}
 					}::class
-				} else {
 				}
 				Unit
 			}

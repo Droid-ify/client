@@ -28,7 +28,7 @@
     <string name="application_not_found">वह एप्लीकेशन नहीं मिली</string>
     <string name="author_email">ऑथर ई-मेल</string>
     <string name="credits">श्रेय</string>
-    <string name="dark">डार्क</string>
+    <string name="dark">गहरा</string>
     <string name="delete">हटाएं</string>
     <string name="delete_repository_DESC">रिपोसिट्री हटाएं\?</string>
     <string name="details">विवरण</string>
@@ -172,7 +172,7 @@
     <string name="no_applications_installed">कोई इंस्टॉल किए गए एप्लिकेशंनस नहीं</string>
     <string name="invalid_address">गलत पता</string>
     <string name="invalid_fingerprint_format">अमान्य फ़िंगरप्रिंट प्रारूप</string>
-    <string name="no_description_available_DESC">कोई वर्णन उपलब्ध नहीं।</string>
+    <string name="no_description_available_DESC">कोई विवरण उपलब्ध नहीं</string>
     <string name="unstable_updates">अस्थिर अद्यतन</string>
     <string name="other">अन्य</string>
     <string name="repository_unsigned_DESC">अहस्ताक्षरित। आवेदन सूची का सत्यापन नहीं किया जा सका। अहस्ताक्षरित रिपॉजिटरी से एप्लिकेशन डाउनलोड करने में सावधानी बरतें।</string>
@@ -193,4 +193,6 @@
         <item quantity="one">घंटा</item>
         <item quantity="other">घंटे</item>
     </plurals>
+    <string name="io_error_DESC">कुछ क्रियाएं करने में असमर्थ।</string>
+    <string name="no_internet">आपका इंटरनैट कनेक्शन चालू नहीं है</string>
 </resources>

@@ -106,7 +106,8 @@
     </plurals>
     <string name="no_applications_available">No available applications</string>
     <string name="no_applications_installed">No installed applications</string>
-    <string name="no_description_available_DESC">No description available.</string>
+    <string name="no_description_available_DESC">No description available</string>
+    <string name="no_internet">You have no internet connection</string>
     <string name="no_matching_applications_found">Could not find any such applications</string>
     <string name="no_proxy">No proxy</string>
     <string name="notify_about_updates">Notify about new versions of applications</string>
