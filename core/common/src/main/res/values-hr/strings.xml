@@ -198,4 +198,6 @@
     <string name="never">Nikad</string>
     <string name="io_error_DESC">Nije moguće izvršiti određene radnje.</string>
     <string name="no_internet">Nemate internetsku vezu</string>
+    <string name="allow_collapsing_toolbar_DESC">Dozvoli rasklapanje i sklapanje gornje trake aplikacije</string>
+    <string name="allow_collapsing_toolbar">Dozvoli rasklapanje gornje trake aplikacije</string>
 </resources>
