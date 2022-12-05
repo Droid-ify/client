@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="address">العناوين</string>
+    <string name="address">العنوان</string>
     <string name="could_not_download_FORMAT">تعذر تنزيل %s</string>
     <string name="credits">شكر</string>
     <string name="description">الوصف</string>
@@ -17,10 +17,10 @@
     <string name="show_less">عرض أقل</string>
     <string name="latest">الاخيرة</string>
     <string name="explore">استكشف</string>
-    <string name="action_failed">فشلت العملية</string>
-    <string name="add_repository">إضافة مستودع</string>
+    <string name="action_failed">فشلت الإجراء</string>
+    <string name="add_repository">أضف مستودعًا</string>
     <string name="all_applications">كل التطبيقات</string>
-    <string name="all_applications_up_to_date">كل التطبيقات محدثة</string>
+    <string name="all_applications_up_to_date">كل التطبيقات مُحدثة</string>
     <string name="already_exists">متوفر مسبقا</string>
     <string name="always">دائما</string>
     <string name="amoled">أموليد (أسود)</string>
