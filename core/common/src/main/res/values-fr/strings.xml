@@ -198,4 +198,6 @@
     <string name="only_on_wifi_with_charging">Uniquement sur Wi-Fi et charge</string>
     <string name="io_error_DESC">Impossible d’effectuer certaines actions.</string>
     <string name="no_internet">Vous n’avez pas de connexion internet</string>
+    <string name="allow_collapsing_toolbar_DESC">Autoriser le développement et la réduction de la barre d\'appli supérieure</string>
+    <string name="allow_collapsing_toolbar">Autoriser le développement de la barre d\'appli supérieure</string>
 </resources>
