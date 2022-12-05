@@ -195,4 +195,6 @@
     <string name="latest">ସର୍ବଶେଷ</string>
     <string name="io_error_DESC">କିଛି କାର୍ଯ୍ୟ କରିବାକୁ ଅସମର୍ଥ ।</string>
     <string name="no_internet">ଆପଣଙ୍କର କୌଣସି ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ନାହିଁ</string>
+    <string name="allow_collapsing_toolbar">ଟପ୍ ଆପ୍ ବାର୍ କୁ ବିସ୍ତାର କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
+    <string name="allow_collapsing_toolbar_DESC">ଟପ୍ ଆପ୍ ବାର୍ କୁ ବିସ୍ତାର ଏବଂ ଭୁଶୁଡ଼ିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
 </resources>
