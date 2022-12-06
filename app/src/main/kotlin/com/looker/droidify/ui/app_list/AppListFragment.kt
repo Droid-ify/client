@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
@@ -85,6 +86,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		fab.apply {
 			this.alpha = 0f
 			visibility = View.VISIBLE
+			systemBarsMargin()
 		}
 
 		val scrollListener = object : RecyclerView.OnScrollListener() {

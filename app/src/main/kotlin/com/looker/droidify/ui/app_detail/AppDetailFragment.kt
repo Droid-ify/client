@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.setCollapsable
+import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.trimAfter
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
@@ -151,7 +152,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				?.let(adapter::restoreState)
 			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 			recyclerView = this
+			clipToPadding = false
 		})
+		recyclerView?.systemBarsPadding()
 		var first = true
 		productDisposable = Observable.just(Unit)
 			.concatWith(Database.observable(Database.Subject.Products))

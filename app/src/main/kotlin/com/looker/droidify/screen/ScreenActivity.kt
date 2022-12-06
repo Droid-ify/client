@@ -13,12 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.looker.core.common.Util
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
@@ -39,7 +42,6 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.looker.core.common.R as styleR
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
@@ -199,8 +201,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
-		sdkAbove(Build.VERSION_CODES.O) {
-			window.navigationBarColor = resources.getColor(styleR.color.pitch_black, theme)
+		noInternetSnackbar.view.systemBarsMargin()
+		if (Util.isR) {
+			window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
+			window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
+			WindowCompat.setDecorFitsSystemWindows(window, false)
 		}
 	}
 
