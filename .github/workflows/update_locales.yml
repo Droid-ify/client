@@ -2,6 +2,8 @@ name: Update locale lists
 
 on:
   push:
+    paths:
+      - '**.xml'
 
 concurrency: 
   group: "locale-list"
