@@ -201,4 +201,6 @@
     </plurals>
     <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
     <string name="no_internet">Nie masz połączenia z internetem</string>
+    <string name="allow_collapsing_toolbar">Rozwijalny górny pasek aplikacji</string>
+    <string name="allow_collapsing_toolbar_DESC">Zezwalaj na rozwijanie i zwijanie górnego paska aplikacji</string>
 </resources>
