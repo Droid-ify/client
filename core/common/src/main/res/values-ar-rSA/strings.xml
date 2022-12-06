@@ -78,7 +78,7 @@
     <string name="link_copied_to_clipboard">تم نسخ الرابط إلى الحافظة</string>
     <string name="links">الروابط</string>
     <string name="list_animation">تأثيرات القائمة</string>
-    <string name="list_animation_description">إظهار تأثيرات القائمة على الصفحة الرئيسية</string>
+    <string name="list_animation_description">إظهار تأثيرات القائمة على الصفحة الرئيسة</string>
     <string name="merging_FORMAT">دمج %s</string>
     <string name="name">الاسم</string>
     <string name="network_error_DESC">خطاء في الشبكة.</string>
