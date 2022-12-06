@@ -17,6 +17,7 @@ import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
+import com.looker.core.common.Util
 import com.looker.core.common.extension.InsetSides.*
 import com.looker.core.common.view.CustomCollapsingBehaviour
 import kotlin.math.roundToInt
@@ -39,47 +40,53 @@ fun AppBarLayout.setCollapsable(collapsing: Boolean = false) {
 fun View.systemBarsMargin(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-		val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-		view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
-			if (TOP in allowedSides) topMargin = insets.top + marginTop
-			if (LEFT in allowedSides) leftMargin = insets.left + marginLeft
-			if (BOTTOM in allowedSides) bottomMargin = insets.bottom + marginBottom
-			if (RIGHT in allowedSides) rightMargin = insets.right + marginRight
+	if (Util.isR) {
+		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+				if (TOP in allowedSides) topMargin = insets.top + marginTop
+				if (LEFT in allowedSides) leftMargin = insets.left + marginLeft
+				if (BOTTOM in allowedSides) bottomMargin = insets.bottom + marginBottom
+				if (RIGHT in allowedSides) rightMargin = insets.right + marginRight
+			}
+			WindowInsetsCompat.CONSUMED
 		}
-		WindowInsetsCompat.CONSUMED
 	}
 }
 
 fun RecyclerView.systemBarsPadding(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-		clipToPadding = false
-		val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-		view.updatePadding(
-			if (LEFT in allowedSides) insets.left else 0,
-			if (TOP in allowedSides) insets.top else 0,
-			if (RIGHT in allowedSides) insets.right else 0,
-			if (BOTTOM in allowedSides) insets.bottom else 0
-		)
-		WindowInsetsCompat.CONSUMED
+	if (Util.isR) {
+		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+			clipToPadding = false
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			view.updatePadding(
+				if (LEFT in allowedSides) insets.left else 0,
+				if (TOP in allowedSides) insets.top else 0,
+				if (RIGHT in allowedSides) insets.right else 0,
+				if (BOTTOM in allowedSides) insets.bottom else 0
+			)
+			WindowInsetsCompat.CONSUMED
+		}
 	}
 }
 
 fun NestedScrollView.systemBarsPadding(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
-		clipToPadding = false
-		val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
-		view.updatePadding(
-			if (LEFT in allowedSides) insets.left else 0,
-			if (TOP in allowedSides) insets.top else 0,
-			if (RIGHT in allowedSides) insets.right else 0,
-			if (BOTTOM in allowedSides) insets.bottom else 0
-		)
-		WindowInsetsCompat.CONSUMED
+	if (Util.isR) {
+		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+			clipToPadding = false
+			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+			view.updatePadding(
+				if (LEFT in allowedSides) insets.left else 0,
+				if (TOP in allowedSides) insets.top else 0,
+				if (RIGHT in allowedSides) insets.right else 0,
+				if (BOTTOM in allowedSides) insets.bottom else 0
+			)
+			WindowInsetsCompat.CONSUMED
+		}
 	}
 }
 

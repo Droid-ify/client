@@ -17,6 +17,10 @@ object Util {
 	val isTiramisu: Boolean
 		get() = sdk >= Build.VERSION_CODES.TIRAMISU
 
+	@get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.R)
+	val isR: Boolean
+		get() = sdk >= Build.VERSION_CODES.R
+
 	@get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.P)
 	val isPie: Boolean
 		get() = sdk >= Build.VERSION_CODES.P
