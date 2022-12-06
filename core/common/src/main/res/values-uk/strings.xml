@@ -69,7 +69,7 @@
     <string name="network_error_DESC">Помилка мережі.</string>
     <string name="new_updates_available">Доступні нові версії додатків</string>
     <string name="no_applications_installed">Немає встановлених додатків</string>
-    <string name="no_description_available_DESC">Опис відсутній.</string>
+    <string name="no_description_available_DESC">Опис відсутній</string>
     <string name="no_proxy">Без проксі</string>
     <string name="notify_about_updates">Повідомляти про нові версії додатків</string>
     <string name="notify_about_updates_summary">Відображати повідомлення про доступність нових версій</string>
@@ -200,4 +200,7 @@
     <string name="cleanup_title">Тривалість очищення</string>
     <string name="cleanup_description">Час, необхідний для очищення, до повторної перевірки</string>
     <string name="io_error_DESC">Неможливо виконати певні дії.</string>
+    <string name="allow_collapsing_toolbar">Дозволити розширення верхньої панелі додатку</string>
+    <string name="allow_collapsing_toolbar_DESC">Дозволити верхній панелі додатку розгортатися та згортатися</string>
+    <string name="no_internet">У вас немає підключення до Інтернету</string>
 </resources>
