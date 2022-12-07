@@ -470,23 +470,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					)
 					MainApplication.downloader?.download(item)?.collect { state ->
 						when (state) {
-							is DownloadState.Error.ClientError,
-							is DownloadState.Error.RedirectError,
-							is DownloadState.Error.ServerError -> {
-								showNotificationError(task, ErrorType.Http)
-								mutableStateSubject.emit(State.Error(task.packageName))
-							}
-							is DownloadState.Error.IOError -> {
-								showNotificationError(task, ErrorType.IO)
-								mutableStateSubject.emit(State.Error(task.packageName))
-							}
-							DownloadState.Error.UnknownError -> {
-								showNotificationError(
-									task,
-									ErrorType.Validation(ValidationError.INTEGRITY)
-								)
-								mutableStateSubject.emit(State.Error(task.packageName))
-							}
+							is DownloadState.Error -> handleErrorDownloadState(task, state)
 							DownloadState.Pending -> mutableStateSubject.emit(
 								State.Connecting(task.packageName)
 							)
@@ -497,25 +481,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 									state.total
 								)
 							)
-							is DownloadState.Success -> {
-								val validationError = validatePackage(task, partialReleaseFile)
-								if (validationError == null) {
-									val releaseFile =
-										Cache.getReleaseFile(
-											this@DownloadService,
-											task.release.cacheFileName
-										)
-									partialReleaseFile.renameTo(releaseFile)
-									publishSuccess(task)
-								} else {
-									partialReleaseFile.delete()
-									showNotificationError(
-										task,
-										ErrorType.Validation(validationError)
-									)
-									mutableStateSubject.emit(State.Error(task.packageName))
-								}
-							}
+							is DownloadState.Success -> handleSuccessDownloadState(
+								task,
+								partialReleaseFile
+							)
 						}
 					}
 					currentTask = null
@@ -529,6 +498,35 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				else stopForeground(true)
 				stopSelf()
 			}
+		}
+	}
+
+	private suspend fun handleErrorDownloadState(task: Task, state: DownloadState.Error) {
+		mutableStateSubject.emit(State.Error(task.packageName))
+		if (state is DownloadState.Error.IOError) showNotificationError(task, ErrorType.IO)
+		else showNotificationError(task, ErrorType.Http)
+	}
+
+	private suspend fun handleSuccessDownloadState(
+		task: Task,
+		file: File
+	) {
+		val validationError = validatePackage(task, file)
+		if (validationError == null) {
+			val releaseFile =
+				Cache.getReleaseFile(
+					this@DownloadService,
+					task.release.cacheFileName
+				)
+			file.renameTo(releaseFile)
+			publishSuccess(task)
+		} else {
+			file.delete()
+			showNotificationError(
+				task,
+				ErrorType.Validation(validationError)
+			)
+			mutableStateSubject.emit(State.Error(task.packageName))
 		}
 	}
 }
