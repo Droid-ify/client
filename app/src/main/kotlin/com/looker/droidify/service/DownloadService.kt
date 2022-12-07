@@ -436,68 +436,61 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 
 	private fun handleDownload() {
-		if (currentTask == null) {
-			if (tasks.isNotEmpty()) {
-				val task = tasks.removeAt(0)
-				if (!started) {
-					started = true
-					startSelf()
-				}
-				val initialState = State.Connecting(task.packageName)
-				val intent = Intent(this, MainActivity::class.java)
-					.setAction(Intent.ACTION_VIEW)
-					.setData(Uri.parse("package:${task.packageName}"))
-					.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-				val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-					addNextIntentWithParentStack(intent)
-					getPendingIntent(0, pendingIntentFlag)
-				}
-				stateNotificationBuilder.setContentIntent(resultPendingIntent)
-				scope.launch { publishForegroundState(true, initialState) }
-				val partialReleaseFile =
-					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				val job = scope.launch {
-					val header = HeaderInfo(
-						etag = "",
-						lastModified = "",
-						authorization = task.authentication
-					)
-					val item = DownloadItem(
-						name = task.name,
-						url = task.url,
-						file = partialReleaseFile,
-						headerInfo = header
-					)
-					MainApplication.downloader?.download(item)?.collect { state ->
-						when (state) {
-							is DownloadState.Error -> handleErrorDownloadState(task, state)
-							DownloadState.Pending -> mutableStateSubject.emit(
-								State.Connecting(task.packageName)
-							)
-							is DownloadState.Progress -> publishForegroundState(
-								true, State.Downloading(
-									task.packageName,
-									state.current,
-									state.total
-								)
-							)
-							is DownloadState.Success -> handleSuccessDownloadState(
-								task,
-								partialReleaseFile
-							)
-						}
-					}
-					currentTask = null
-					handleDownload()
-				}
-				currentTask = CurrentTask(task, job, initialState)
-			} else if (started) {
-				started = false
-				@Suppress("DEPRECATION")
-				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
-				else stopForeground(true)
-				stopSelf()
+		if (currentTask != null) return
+		if (tasks.isNotEmpty()) {
+			val task = tasks.removeAt(0)
+			if (!started) {
+				started = true
+				startSelf()
 			}
+			val initialState = State.Connecting(task.packageName)
+			val intent = Intent(this, MainActivity::class.java)
+				.setAction(Intent.ACTION_VIEW)
+				.setData(Uri.parse("package:${task.packageName}"))
+				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+				addNextIntentWithParentStack(intent)
+				getPendingIntent(0, pendingIntentFlag)
+			}
+			stateNotificationBuilder.setContentIntent(resultPendingIntent)
+			scope.launch { publishForegroundState(true, initialState) }
+			val partialReleaseFile =
+				Cache.getPartialReleaseFile(this, task.release.cacheFileName)
+			val job = scope.launch {
+				val header = HeaderInfo(
+					etag = "",
+					lastModified = "",
+					authorization = task.authentication
+				)
+				val item = DownloadItem(
+					name = task.name,
+					url = task.url,
+					file = partialReleaseFile,
+					headerInfo = header
+				)
+				MainApplication.downloader?.download(item)?.collect { state ->
+					when (state) {
+						is DownloadState.Error -> handleErrorDownloadState(task, state)
+						DownloadState.Pending ->
+							mutableStateSubject.emit(State.Connecting(task.packageName))
+						is DownloadState.Progress -> publishForegroundState(
+							true,
+							State.Downloading(task.packageName, state.current, state.total)
+						)
+						is DownloadState.Success ->
+							handleSuccessDownloadState(task, partialReleaseFile)
+					}
+				}
+				currentTask = null
+				handleDownload()
+			}
+			currentTask = CurrentTask(task, job, initialState)
+		} else if (started) {
+			started = false
+			@Suppress("DEPRECATION")
+			if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+			else stopForeground(true)
+			stopSelf()
 		}
 	}
 
