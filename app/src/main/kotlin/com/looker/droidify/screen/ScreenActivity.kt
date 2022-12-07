@@ -321,6 +321,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 			is SpecialIntent.Install -> {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {
+					navigateProduct(packageName)
 					val installerType =
 						userPreferencesRepository.getInitialPreference.installerType
 					lifecycleScope.launch {

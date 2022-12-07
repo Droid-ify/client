@@ -45,7 +45,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -203,7 +202,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(Intent.ACTION_VIEW)
 			.setData(Uri.parse("package:${task.packageName}"))
-			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
 			addNextIntentWithParentStack(intent)
 			getPendingIntent(
@@ -224,55 +223,62 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				)
 				.setContentIntent(resultPendingIntent)
 				.apply {
-					when (errorType) {
-						is ErrorType.IO -> {
-							setContentTitle(
-								getString(
-									stringRes.could_not_download_FORMAT,
-									task.name
-								)
-							)
-							setContentText(getString(stringRes.io_error_DESC))
-						}
-						is ErrorType.Http -> {
-							setContentTitle(
-								getString(
-									stringRes.could_not_download_FORMAT,
-									task.name
-								)
-							)
-							setContentText(getString(stringRes.http_error_DESC))
-						}
-						is ErrorType.Validation -> {
-							setContentTitle(
-								getString(
-									stringRes.could_not_validate_FORMAT,
-									task.name
-								)
-							)
-							setContentText(
-								getString(
-									when (errorType.validateError) {
-										ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
-										ValidationError.FORMAT -> stringRes.file_format_error_DESC
-										ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
-										ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
-										ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
-									}
-								)
-							)
-						}
-					}::class
+					errorNotificationContent(task, errorType)
 				}
 				.build())
+	}
+
+	private fun NotificationCompat.Builder.errorNotificationContent(
+		task: Task,
+		errorType: ErrorType
+	) {
+		when (errorType) {
+			is ErrorType.IO -> {
+				setContentTitle(
+					getString(
+						stringRes.could_not_download_FORMAT,
+						task.name
+					)
+				)
+				setContentText(getString(stringRes.io_error_DESC))
+			}
+			is ErrorType.Http -> {
+				setContentTitle(
+					getString(
+						stringRes.could_not_download_FORMAT,
+						task.name
+					)
+				)
+				setContentText(getString(stringRes.http_error_DESC))
+			}
+			is ErrorType.Validation -> {
+				setContentTitle(
+					getString(
+						stringRes.could_not_validate_FORMAT,
+						task.name
+					)
+				)
+				setContentText(
+					getString(
+						when (errorType.validateError) {
+							ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
+							ValidationError.FORMAT -> stringRes.file_format_error_DESC
+							ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
+							ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
+							ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
+						}
+					)
+				)
+			}
+		}::class
 	}
 
 	private fun showNotificationInstall(task: Task) {
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(MainActivity.ACTION_INSTALL)
-			.setData(Uri.parse("package:$task.packageName"))
+			.setData(Uri.parse("package:${task.packageName}"))
 			.putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
-			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
 			addNextIntentWithParentStack(intent)
 			getPendingIntent(
@@ -388,52 +394,51 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 	}
 
-	private suspend fun publishForegroundState(force: Boolean, state: State) =
-		withContext(Dispatchers.Default) {
-			if (force || currentTask != null) {
-				currentTask = currentTask?.copy(lastState = state)
-				startForeground(
-					Constants.NOTIFICATION_ID_DOWNLOADING,
-					stateNotificationBuilder.apply {
-						when (state) {
-							is State.Connecting -> {
-								setContentTitle(
-									getString(
-										stringRes.downloading_FORMAT,
-										currentTask?.task?.name
-									)
+	private suspend fun publishForegroundState(force: Boolean, state: State) {
+		if (force || currentTask != null) {
+			currentTask = currentTask?.copy(lastState = state)
+			startForeground(
+				Constants.NOTIFICATION_ID_DOWNLOADING,
+				stateNotificationBuilder.apply {
+					when (state) {
+						is State.Connecting -> {
+							setContentTitle(
+								getString(
+									stringRes.downloading_FORMAT,
+									currentTask?.task?.name
 								)
-								setContentText(getString(stringRes.connecting))
-								setProgress(1, 0, true)
-							}
-							is State.Downloading -> {
-								setContentTitle(
-									getString(
-										stringRes.downloading_FORMAT,
-										currentTask?.task?.name
-									)
+							)
+							setContentText(getString(stringRes.connecting))
+							setProgress(1, 0, true)
+						}
+						is State.Downloading -> {
+							setContentTitle(
+								getString(
+									stringRes.downloading_FORMAT,
+									currentTask?.task?.name
 								)
-								if (state.total != null) {
-									setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-									setProgress(
-										100,
-										state.read percentBy state.total,
-										false
-									)
-								} else {
-									setContentText(state.read.formatSize())
-									setProgress(0, 0, true)
-								}
+							)
+							if (state.total != null) {
+								setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
+								setProgress(
+									100,
+									state.read percentBy state.total,
+									false
+								)
+							} else {
+								setContentText(state.read.formatSize())
+								setProgress(0, 0, true)
 							}
-							is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
-								throw IllegalStateException()
-							}
-						}::class
-					}.build()
-				)
-				mutableStateSubject.emit(state)
-			}
+						}
+						is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
+							throw IllegalStateException()
+						}
+					}::class
+				}.build()
+			)
+			mutableStateSubject.emit(state)
 		}
+	}
 
 	private fun handleDownload() {
 		if (currentTask != null) return
@@ -447,7 +452,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			val intent = Intent(this, MainActivity::class.java)
 				.setAction(Intent.ACTION_VIEW)
 				.setData(Uri.parse("package:${task.packageName}"))
-				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 			val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
 				addNextIntentWithParentStack(intent)
 				getPendingIntent(0, pendingIntentFlag)
@@ -472,7 +477,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					when (state) {
 						is DownloadState.Error -> handleErrorDownloadState(task, state)
 						DownloadState.Pending ->
-							mutableStateSubject.emit(State.Connecting(task.packageName))
+							publishForegroundState(
+								true,
+								State.Connecting(task.packageName)
+							)
 						is DownloadState.Progress -> publishForegroundState(
 							true,
 							State.Downloading(task.packageName, state.current, state.total)
