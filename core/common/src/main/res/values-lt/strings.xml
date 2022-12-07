@@ -198,4 +198,6 @@
     <string name="proxy_type">Įgaliotojo serverio tipas</string>
     <string name="io_error_DESC">Nepavyko atlikti tam tikrų veiksmų.</string>
     <string name="no_internet">Neturite interneto ryšio</string>
+    <string name="allow_collapsing_toolbar">Leisti viršutinei programėlių juostai išsiskleisti</string>
+    <string name="allow_collapsing_toolbar_DESC">Leisti viršutinei programėlių juostai išsiskleisti ir susiskleisti</string>
 </resources>
