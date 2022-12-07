@@ -201,4 +201,6 @@
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
     <string name="no_internet">Non hai connessione internet</string>
+    <string name="allow_collapsing_toolbar">Consenti l\'espansione della barra superiore dell\'app</string>
+    <string name="allow_collapsing_toolbar_DESC">Consenti alla barra superiore dell\'app di espandersi e comprimersi</string>
 </resources>
