@@ -13,7 +13,6 @@ import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.Constants
 import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
@@ -216,10 +215,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 				.setAutoCancel(true)
-				.setSmallIcon(android.R.drawable.stat_sys_warning)
+				.setSmallIcon(android.R.drawable.stat_notify_error)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-						.getColorFromAttr(R.attr.colorPrimary).defaultColor
+						.getColor(R.color.md_theme_dark_errorContainer)
 				)
 				.setContentIntent(resultPendingIntent)
 				.apply {
@@ -296,7 +295,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-						.getColorFromAttr(R.attr.colorPrimary).defaultColor
+						.getColor(R.color.md_theme_dark_primaryContainer)
 				)
 				.setContentIntent(resultPendingIntent)
 				.setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
@@ -381,7 +380,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setSmallIcon(android.R.drawable.stat_sys_download)
 			.setColor(
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-					.getColorFromAttr(R.attr.colorPrimary).defaultColor
+					.getColor(R.color.md_theme_dark_primaryContainer)
 			)
 			.setWhen(System.currentTimeMillis())
 			.addAction(

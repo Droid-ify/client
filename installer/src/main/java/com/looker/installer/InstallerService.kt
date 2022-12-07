@@ -5,10 +5,13 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
 import android.os.IBinder
+import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_DOWNLOADING
 import com.looker.core.common.Constants.NOTIFICATION_ID_DOWNLOADING
 import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.style as styleRes
 
 /**
  * Runs during or after a PackageInstaller session in order to handle completion, failure, or
@@ -78,7 +81,11 @@ class InstallerService : Service() {
 					notificationManager.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
 				else {
 					val notification = builder
-						.setSmallIcon(android.R.drawable.stat_sys_download_done)
+						.setSmallIcon(drawableRes.ic_check)
+						.setColor(
+							ContextThemeWrapper(this, styleRes.Theme_Main_Light)
+								.getColor(R.color.md_theme_light_primaryContainer)
+						)
 						.setContentTitle("Installed")
 						.setContentText(appLabel)
 						.build()
@@ -96,6 +103,10 @@ class InstallerService : Service() {
 				// problem occurred when installing/uninstalling package
 				val notification = builder
 					.setSmallIcon(android.R.drawable.stat_notify_error)
+					.setColor(
+						ContextThemeWrapper(this, styleRes.Theme_Main_Light)
+							.getColor(R.color.md_theme_dark_errorContainer)
+					)
 					.setContentTitle("Unknown Error")
 					.setContentText(message)
 					.build()
