@@ -64,7 +64,7 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val ktorVersion = "2.1.3"
+	private const val ktorVersion = "2.2.1"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
 	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
@@ -75,7 +75,7 @@ object Lifecycle {
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.4"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
 	const val activity = "androidx.activity:activity-ktx:1.6.1"
 }
 
