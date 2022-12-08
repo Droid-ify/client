@@ -71,9 +71,9 @@ object Downloader {
 		return client.newCall(newRequest)
 	}
 
-	suspend inline fun downloadFile(
+	suspend fun downloadFile(
 		url: String, target: File, lastModified: String, entityTag: String, authentication: String,
-		crossinline callback: (read: Long, total: Long?) -> Unit
+		callback: (read: Long, total: Long?) -> Unit
 	): Result<RequestCode> = suspendCancellableCoroutine { cont ->
 		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
 		val request = try {
