@@ -473,32 +473,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						launch {
 							publishForegroundState(
 								false,
-								State.Downloading(
-									task.packageName,
-									read,
-									total
-								)
-
+								State.Downloading(task.packageName, read, total)
 							)
 						}
 					}
 					currentTask = null
 					when (result) {
-						Loading -> {
-							launch {
-								publishForegroundState(
-									false,
-									State.Connecting(packageName = task.packageName)
-								)
-							}
-						}
+						Loading -> publishForegroundState(false, State.Connecting(task.packageName))
 						is Error -> result.exception?.printStackTrace()
 						is Success -> {
 							if (!result.data.success) {
 								showNotificationError(task, ErrorType.Http)
-								launch {
-									publishForegroundState(false, State.Error(task.packageName))
-								}
+								publishForegroundState(false, State.Error(task.packageName))
 							} else {
 								val validationError = validatePackage(task, partialReleaseFile)
 								if (validationError == null) {
@@ -515,9 +501,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task,
 										ErrorType.Validation(validationError)
 									)
-									launch {
-										publishForegroundState(false, State.Error(task.packageName))
-									}
+									publishForegroundState(false, State.Error(task.packageName))
 								}
 							}
 						}
