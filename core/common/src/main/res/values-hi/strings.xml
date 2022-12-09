@@ -195,4 +195,6 @@
     </plurals>
     <string name="io_error_DESC">कुछ क्रियाएं करने में असमर्थ।</string>
     <string name="no_internet">आपका इंटरनैट कनेक्शन चालू नहीं है</string>
+    <string name="allow_collapsing_toolbar">टॉप ऐप बार को विस्तृत होने दें</string>
+    <string name="allow_collapsing_toolbar_DESC">टॉप ऐप बार को विस्तृत और संक्षिप्त होने दें</string>
 </resources>
