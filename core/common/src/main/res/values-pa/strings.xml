@@ -97,7 +97,7 @@
         <item quantity="other">%d ਐਪਲੀਕੇਸ਼ਨਾਂ ਦਾ ਨਵਾਂ ਸੰਸਕਰਣ ਹੈ।</item>
     </plurals>
     <string name="no_applications_available">ਕੋਈ ਉਪਲਬਧ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ</string>
-    <string name="no_description_available_DESC">ਕੋਈ ਵਿਵਰਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ।</string>
+    <string name="no_description_available_DESC">ਕੋਈ ਵਿਵਰਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
     <string name="no_matching_applications_found">ਅਜਿਹੀ ਕੋਈ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭ ਸਕੀ</string>
     <string name="no_proxy">ਕੋਈ ਪ੍ਰੌਕਸੀ ਨਹੀਂ</string>
     <string name="notify_about_updates">ਐਪਲੀਕੇਸ਼ਨਾਂ ਦੇ ਨਵੇਂ ਸੰਸਕਰਣਾਂ ਬਾਰੇ ਸੂਚਿਤ ਕਰੋ</string>
@@ -195,4 +195,6 @@
     <string name="installed_applications">ਇੰਸਟਾਲ ਕੀਤੀਆਂ ਐਪਲੀਕੇਸ਼ਨਾਂ</string>
     <string name="incompatible_signature_DESC">ਇਹ ਸੰਸਕਰਣ ਤੁਹਾਡੀ ਡਿਵਾਈਸ \'ਤੇ ਇੰਸਟਾਲ ਕੀਤੇ ਗਏ ਸਰਟੀਫਿਕੇਟ ਨਾਲੋਂ ਵੱਖਰੇ ਪ੍ਰਮਾਣ ਪੱਤਰ ਨਾਲ ਹਸਤਾਖਰਿਤ ਕੀਤਾ ਗਿਆ ਹੈ। ਪਹਿਲਾਂ ਇਸਨੂੰ ਅਣਇੰਸਟਾਲ ਕਰੋ।</string>
     <string name="no_internet">ਤੁਹਾਡਾ ਇੰਟਰਨੈੱਟ ਕੁਨੈਕਸ਼ਨ ਜੁੜਿਆ ਹੋਇਆ ਨਹੀਂ ਹੈ</string>
+    <string name="allow_collapsing_toolbar">ਸਿਖਰ ਐਪ ਬਾਰ ਦਾ ਵਿਸਤਾਰ ਕਰਨ ਦਿਓ</string>
+    <string name="allow_collapsing_toolbar_DESC">ਸਿਖਰ ਦੀ ਐਪ ਬਾਰ ਨੂੰ ਫੈਲਾਉਣ ਅਤੇ ਸਮੇਟਣ ਦਿਓ</string>
 </resources>
