@@ -196,4 +196,5 @@
         <item quantity="many">Horas</item>
         <item quantity="other">Horas</item>
     </plurals>
+    <string name="allow_collapsing_toolbar"></string>
 </resources>
