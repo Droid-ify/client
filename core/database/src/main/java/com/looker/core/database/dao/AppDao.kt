@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Upsert
 import com.looker.core.database.model.AppEntity
 import com.looker.core.database.model.PackageEntity
 import kotlinx.coroutines.flow.Flow
@@ -22,6 +23,9 @@ interface AppDao {
 	)
 	fun getAppsFromAuthor(authorName: String): Flow<List<AppEntity>>
 
+	@Query(value = "SELECT * FROM apps WHERE packageName = :packageName")
+	fun getApp(packageName: String): List<AppEntity>
+
 	@Query(
 		value = """
 			SELECT packages FROM apps
@@ -30,8 +34,11 @@ interface AppDao {
 	)
 	fun getPackages(packageName: String): Flow<List<PackageEntity>>
 
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertApp(apps: List<AppEntity>)
+	@Insert(onConflict = OnConflictStrategy.IGNORE)
+	suspend fun insertOrIgnore(apps: List<AppEntity>)
+
+	@Upsert
+	suspend fun upsertApps(apps: List<AppEntity>)
 
 	@Query(
 		value = """
