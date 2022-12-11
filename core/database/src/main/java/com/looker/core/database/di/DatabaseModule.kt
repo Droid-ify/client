@@ -21,7 +21,7 @@ object DatabaseModule {
 	): DroidifyDatabase = Room.databaseBuilder(
 		context,
 		DroidifyDatabase::class.java,
-		"droidify_database.db"
+		"droidify-database"
 	).createFromAsset("repo.db").build()
 
 }
