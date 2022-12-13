@@ -38,6 +38,6 @@ dependencies {
 	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
-	implementation(Ktor.okhttp)
+	api(Ktor.okhttp)
 	implementation(Ktor.logging)
 }

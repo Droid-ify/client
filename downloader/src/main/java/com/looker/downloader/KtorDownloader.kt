@@ -65,12 +65,8 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 						item.file.appendBytes(bytes)
 					}
 				}
-				val header = HeaderInfo(
-					etag = response.etag(),
-					lastModified = response.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
-				)
-				send(DownloadState.Success(header))
 			}
+			send(DownloadState.Success)
 			awaitClose { println("Cancelled") }
 		}.onStart {
 			emit(DownloadState.Pending)

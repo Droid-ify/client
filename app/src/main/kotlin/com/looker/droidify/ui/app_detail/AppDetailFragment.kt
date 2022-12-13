@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.common.trimAfter
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
