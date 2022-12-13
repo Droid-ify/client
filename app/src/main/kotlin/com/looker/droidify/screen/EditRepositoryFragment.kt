@@ -38,7 +38,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
@@ -74,8 +73,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 	}
 
 	private class Layout(view: EditRepositoryBinding) {
+		val addressContainer = view.addressContainer
 		val address = view.address
-		val addressMirror = view.addressMirror
 		val fingerprint = view.fingerprint
 		val username = view.username
 		val password = view.password
@@ -192,15 +191,9 @@ class EditRepositoryFragment() : ScreenFragment() {
 			} else {
 				layout.address.setText(repository.address)
 				val mirrors = repository.mirrors.map { it.withoutKnownPath }
-				if (mirrors.isNotEmpty()) {
-					layout.addressMirror.visibility = View.VISIBLE
-					layout.address.apply {
-						setPaddingRelative(
-							paddingStart, paddingTop,
-							paddingEnd + layout.addressMirror.layoutParams.width, paddingBottom
-						)
-					}
-					layout.addressMirror.setOnClickListener {
+				layout.addressContainer.apply {
+					isEndIconVisible = mirrors.isNotEmpty()
+					setEndIconOnClickListener {
 						SelectMirrorDialog(mirrors)
 							.show(childFragmentManager, SelectMirrorDialog::class.java.name)
 					}
@@ -311,6 +304,9 @@ class EditRepositoryFragment() : ScreenFragment() {
 		val layout = layout!!
 		val fingerprint = layout.fingerprint.text.toString().replace(" ", "")
 		val fingerprintInvalid = fingerprint.isNotEmpty() && fingerprint.length != 64
+		if (fingerprintInvalid) {
+			layout.fingerprint.error = getString(stringRes.invalid_fingerprint_format)
+		}
 		fingerprintError = fingerprintInvalid
 		invalidateState()
 	}
@@ -322,6 +318,13 @@ class EditRepositoryFragment() : ScreenFragment() {
 		val usernameInvalid = username.contains(':')
 		val usernameEmpty = username.isEmpty() && password.isNotEmpty()
 		val passwordEmpty = username.isNotEmpty() && password.isEmpty()
+		if (usernameEmpty) {
+			layout.username.error = getString(stringRes.username_missing)
+		} else if (passwordEmpty) {
+			layout.password.error = getString(stringRes.password_missing)
+		} else if (usernameInvalid) {
+			layout.username.error = getString(stringRes.invalid_username_format)
+		}
 		usernamePasswordError = usernameInvalid || usernameEmpty || passwordEmpty
 		invalidateState()
 	}
@@ -331,7 +334,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 		saveMenuItem!!.isEnabled = !addressError && !fingerprintError &&
 				!usernamePasswordError && checkDisposable == null
 		layout.apply {
-			sequenceOf(address, addressMirror, fingerprint, username, password)
+			sequenceOf(address, fingerprint, username, password)
 				.forEach { it.isEnabled = checkDisposable == null }
 		}
 		layout.overlay.visibility = if (checkDisposable != null) View.VISIBLE else View.GONE

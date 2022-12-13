@@ -25,7 +25,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.Util
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.autoSyncName
 import com.looker.core.datastore.extension.installerName

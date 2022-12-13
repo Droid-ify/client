@@ -27,7 +27,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository

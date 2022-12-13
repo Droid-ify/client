@@ -21,7 +21,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.Util
 import com.looker.core.common.extension.getDrawableFromAttr
-import com.looker.core.common.extension.systemBarsMargin
+import com.looker.core.common.view.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove

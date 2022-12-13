@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,8 +15,8 @@
             style="?materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:layout_marginHorizontal="12dp">
+            android:layout_marginHorizontal="12dp"
+            android:layout_marginTop="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,36 +26,19 @@
                 android:paddingTop="4dp"
                 android:paddingBottom="12dp">
 
-                <FrameLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/address_container"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:hint="@string/address"
+                    android:paddingVertical="12dp"
+                    app:endIconDrawable="@drawable/ic_arrow_down">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/address"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/address"
-                        android:paddingVertical="12dp">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/address"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/address_mirror"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="end"
-                        android:background="?android:attr/actionBarItemBackground"
-                        android:scaleType="center"
-                        android:src="@drawable/ic_arrow_down"
-                        android:tint="?android:attr/textColorSecondary"
-                        android:tintMode="src_in"
-                        android:visibility="gone"
-                        tools:ignore="ContentDescription" />
-
-                </FrameLayout>
+                        android:layout_height="match_parent" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
@@ -110,20 +94,19 @@
         <com.google.android.material.progressindicator.LinearProgressIndicator
             style="@style/Theme.Progress"
             android:layout_width="200dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif-light"
             android:text="@string/checking_repository"
-            android:textColor="?android:attr/textColorPrimary"
-            android:textSize="20sp" />
+            android:textAppearance="?textAppearanceHeadlineSmall" />
 
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/skip"
-            style="@android:style/Widget.Material.Button.Borderless.Colored"
+            style="?materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"

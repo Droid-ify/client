@@ -12,7 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.droidify.database.CursorOwner
