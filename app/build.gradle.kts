@@ -123,7 +123,6 @@ dependencies {
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreData))
 	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.downloader))
 	implementation(project(Modules.featureSettings))
 	implementation(project(Modules.installer))
 
@@ -148,8 +147,6 @@ dependencies {
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
-	implementation(Ktor.okhttp)
-	implementation(Ktor.logging)
 
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.activity)
