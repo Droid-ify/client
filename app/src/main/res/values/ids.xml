@@ -5,7 +5,6 @@
     <item name="divider_configuration" type="id" />
     <item name="fragment_pager" type="id" />
     <item name="main_content" type="id" />
-    <item name="preferences_list" type="id" />
     <item name="toolbar_search" type="id" />
 
 </resources>
