@@ -40,6 +40,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -131,9 +132,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			launch {
-				userPreferenceFlow.distinctMap { it.unstableUpdate }.collectIndexed { index, _ ->
-					// Don't force sync on first collect
-					if (index > 0) forceSyncAll()
+				userPreferenceFlow.distinctMap { it.unstableUpdate }.drop(1).collect {
+					forceSyncAll()
 				}
 			}
 			launch {
