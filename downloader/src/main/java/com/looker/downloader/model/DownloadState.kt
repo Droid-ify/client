@@ -9,7 +9,7 @@ sealed interface DownloadState {
 
 	object Pending : DownloadState
 
-	object Success : DownloadState
+	class Success(val headerInfo: HeaderInfo) : DownloadState
 
 	data class Progress(val total: Long, val current: Long, val percent: Int) : DownloadState
 
