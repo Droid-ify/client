@@ -45,7 +45,7 @@ data class UserPreferences(
 	val favouriteApps: Set<String>
 )
 
-fun <T> Flow<UserPreferences>.distinctMap(block: suspend (UserPreferences) -> T): Flow<T> =
+inline fun <T> Flow<UserPreferences>.distinctMap(crossinline block: suspend (UserPreferences) -> T): Flow<T> =
 	map(block).distinctUntilChanged()
 
 /**

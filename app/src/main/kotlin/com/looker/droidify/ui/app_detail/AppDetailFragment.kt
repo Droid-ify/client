@@ -20,8 +20,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.trimAfter
 import com.looker.core.common.view.systemBarsPadding
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
@@ -47,9 +47,7 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -71,11 +69,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val initialSetup
-		get() = flow {
-			emit(userPreferencesRepository.fetchInitialPreferences())
-		}
 
 	private val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
@@ -246,28 +239,17 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					val adapter = recyclerView.adapter as AppDetailAdapter
 					lifecycleScope.launch {
 						if (firstChanged || productChanged || installedItemChanged) {
-							initialSetup.collect { initial ->
+							launch { updateButtons() }
+							userPreferencesFlow.distinctMap { it.incompatibleVersions }.collect {
 								adapter.setProducts(
 									recyclerView.context,
 									packageName,
 									products,
 									installedItem.value,
-									initial.incompatibleVersions
+									it
 								)
-								launch {
-									userPreferencesFlow.collectLatest {
-										adapter.setProducts(
-											recyclerView.context,
-											packageName,
-											products,
-											installedItem.value,
-											it.incompatibleVersions
-										)
-									}
-								}
 							}
 						}
-						launch { updateButtons() }
 					}
 				}
 			}
@@ -275,8 +257,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		downloadConnection.bind(requireContext())
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				userPreferencesFlow.collect {
-					collectPreferences(it)
+				userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }.collect {
+					appBarLayout.setCollapsable(it)
 				}
 			}
 		}
@@ -299,10 +281,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		layoutManagerState?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
 		val adapterState = (recyclerView?.adapter as? AppDetailAdapter)?.saveState()
 		adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
-	}
-
-	private fun collectPreferences(userPreferences: UserPreferences) {
-		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private suspend fun updateButtons() {

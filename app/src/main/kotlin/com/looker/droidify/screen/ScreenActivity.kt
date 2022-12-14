@@ -21,14 +21,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.Util
 import com.looker.core.common.extension.getDrawableFromAttr
-import com.looker.core.common.view.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
+import com.looker.core.common.view.systemBarsMargin
 import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.getThemeRes
-import com.looker.core.datastore.model.Theme
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -40,6 +40,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -109,33 +110,18 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	private fun collectChange() {
+		val hiltEntryPoint =
+			EntryPointAccessors.fromApplication(
+				this,
+				CustomUserRepositoryInjector::class.java
+			)
+		val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 		lifecycleScope.launch {
-			val activityContext = this@ScreenActivity
-			val hiltEntryPoint =
-				EntryPointAccessors.fromApplication(
-					activityContext,
-					CustomUserRepositoryInjector::class.java
-				)
-			val initialTheme = hiltEntryPoint.userPreferencesRepository().fetchInitialPreferences()
-			val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
-
-			var lastTheme = initialTheme.theme
-			setConfig(lastTheme)
-			launch {
-				newPreferences.collect {
-					if (lastTheme != it.theme) {
-						lastTheme = it.theme
-						setConfig(it.theme)
-						activityContext.recreate()
-					}
-				}
+			newPreferences.distinctMap { it.theme }.collectIndexed { index, theme ->
+				setTheme(resources.configuration.getThemeRes(theme))
+				if (index > 0) recreate()
 			}
 		}
-	}
-
-	private fun setConfig(theme: Theme) {
-		val config = resources.configuration
-		setTheme(config.getThemeRes(theme))
 	}
 
 	override fun onCreate(savedInstanceState: Bundle?) {

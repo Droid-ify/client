@@ -20,8 +20,8 @@ import com.looker.core.common.Constants
 import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
@@ -39,7 +39,7 @@ import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
@@ -55,8 +55,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 	lateinit var userPreferenceRepository: UserPreferencesRepository
 
 	private val userPreferenceFlow get() = userPreferenceRepository.userPreferencesFlow
-	private val initialSetup
-		get() = flow { emit(userPreferenceRepository.fetchInitialPreferences()) }
 
 	override fun onCreate() {
 		super.onCreate()
@@ -132,34 +130,28 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	private fun updatePreference() {
 		appScope.launch {
-			initialSetup.collect { initialPreference ->
-				var lastAutoSync = initialPreference.autoSync
-				var lastCleanupDuration = initialPreference.cleanUpDuration
-				var lastProxy = initialPreference.proxyType
-				var lastProxyHost = initialPreference.proxyHost
-				var lastProxyPort = initialPreference.proxyPort
-				var lastUnstableUpdate = initialPreference.unstableUpdate
-				updateSyncJob(false, lastAutoSync)
-				updateProxy(initialPreference)
-				CleanUpWorker.scheduleCleanup(applicationContext, lastCleanupDuration)
-				userPreferenceFlow.collect { newPreference ->
-					if (newPreference.proxyType != lastProxy || newPreference.proxyPort != lastProxyPort || newPreference.proxyHost != lastProxyHost) {
-						lastProxy = newPreference.proxyType
-						lastProxyPort = newPreference.proxyPort
-						lastProxyHost = newPreference.proxyHost
-						updateProxy(newPreference)
-					} else if (lastUnstableUpdate != newPreference.unstableUpdate) {
-						lastUnstableUpdate = newPreference.unstableUpdate
-						forceSyncAll()
-					} else if (lastAutoSync != newPreference.autoSync) {
-						lastAutoSync = newPreference.autoSync
-						updateSyncJob(true, lastAutoSync)
-					} else if (newPreference.cleanUpDuration != lastCleanupDuration) {
-						lastCleanupDuration = newPreference.cleanUpDuration
-						CleanUpWorker.scheduleCleanup(
-							applicationContext, newPreference.cleanUpDuration
-						)
-					}
+			launch {
+				userPreferenceFlow.distinctMap { it.unstableUpdate }.collectIndexed { index, _ ->
+					// Don't force sync on first collect
+					if (index > 0) forceSyncAll()
+				}
+			}
+			launch {
+				userPreferenceFlow.distinctMap { it.autoSync }.collectIndexed { index, syncMode ->
+					// Don't update sync job on initial collect
+					updateSyncJob(index > 0, syncMode)
+				}
+			}
+			launch {
+				userPreferenceFlow.distinctMap { it.cleanUpDuration }.collect {
+					CleanUpWorker.scheduleCleanup(applicationContext, it)
+				}
+			}
+			launch {
+				userPreferenceFlow.distinctMap {
+					ProxyPreference(it.proxyType, it.proxyHost, it.proxyPort)
+				}.collect {
+					updateProxy(it)
 				}
 			}
 		}
@@ -204,10 +196,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 		}
 	}
 
-	private fun updateProxy(userPreferences: UserPreferences) {
-		val type = userPreferences.proxyType
-		val host = userPreferences.proxyHost
-		val port = userPreferences.proxyPort
+	private fun updateProxy(proxyPreference: ProxyPreference) {
+		val type = proxyPreference.type
+		val host = proxyPreference.host
+		val port = proxyPreference.port
 		val socketAddress = when (type) {
 			ProxyType.DIRECT -> null
 			ProxyType.HTTP, ProxyType.SOCKS -> {
@@ -250,5 +242,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 	}.diskCache {
 		DiskCache.Builder().directory(Cache.getImagesDir(this)).maxSizePercent(0.05).build()
 	}.crossfade(350).build()
-
 }
+
+private data class ProxyPreference(
+	val type: ProxyType,
+	val host: String,
+	val port: Int
+)
