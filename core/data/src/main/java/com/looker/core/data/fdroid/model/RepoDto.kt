@@ -15,7 +15,6 @@ data class RepoDto(
 )
 
 fun RepoDto.toEntity(
-	enabled: Boolean,
 	fingerPrint: String,
 	etag: String
 ): RepoEntity = RepoEntity(
@@ -25,8 +24,9 @@ fun RepoDto.toEntity(
 	description = description,
 	icon = icon,
 	address = address,
-	enabled = enabled,
+	// It is obviously enabled that's why we are syncing
+	enabled = true,
 	fingerprint = fingerPrint,
-	entityTag = etag,
+	etag = etag,
 	mirrors = mirrors
 )

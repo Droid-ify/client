@@ -44,7 +44,6 @@ data class AppEntity(
 	val icon: String,
 	val lastUpdated: Long,
 	val localized: Map<String, LocalizedEntity>,
-	val allowedAPKSigningKeys: List<String>,
 	val packages: List<PackageEntity>
 )
 
@@ -106,7 +105,6 @@ fun AppEntity.toExternalModel(): App = App(
 		}
 	},
 	localized = localized.mapValues { it.value.toExternalModel() },
-	allowedAPKSigningKeys = allowedAPKSigningKeys,
 	packages = packages.map(PackageEntity::toExternalModel)
 )
 

@@ -89,7 +89,6 @@ internal fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntit
 	icon = icon,
 	lastUpdated = lastUpdated,
 	localized = localized.mapValues { it.value.toEntity() },
-	allowedAPKSigningKeys = allowedAPKSigningKeys,
 	packages = packages.map(PackageDto::toEntity)
 )
 

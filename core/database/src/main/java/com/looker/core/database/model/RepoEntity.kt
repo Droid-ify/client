@@ -10,7 +10,7 @@ data class RepoEntity(
 	val id: Long = 0L,
 	val enabled: Boolean,
 	val fingerprint: String,
-	val entityTag: String,
+	val etag: String,
 	val address: String,
 	val mirrors: List<String>,
 	val name: String,
@@ -26,9 +26,5 @@ fun RepoEntity.toExternalModel(): Repo = Repo(
 	address = address,
 	name = name,
 	description = description,
-	version = version,
-	timestamp = timestamp,
-	fingerprint = fingerprint,
-	entityTag = entityTag,
 	mirrors = mirrors
 )

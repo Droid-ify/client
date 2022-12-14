@@ -14,7 +14,6 @@ data class App(
 	val author: Author,
 	val donation: Set<Donate>,
 	val localized: Map<String, Localized>,
-	val allowedAPKSigningKeys: List<String>,
 	val packages: List<Package>
 )
 
