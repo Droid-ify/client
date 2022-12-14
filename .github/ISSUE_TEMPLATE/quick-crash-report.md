@@ -1,7 +1,7 @@
 ---
-name: Bug report
+name: Quick crash report
 about: Create a report to help us improve
-title: "[BUG]"
+title: "[Crash]"
 labels: bug
 assignees: ''
 
@@ -17,16 +17,10 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
-
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
 **Smartphone (please complete the following information):**
  - Device: [e.g. Pixel 6]
  - OS: [e.g. Android 12L]
  - Version [e.g. v0.5.1]
 
 **Additional context**
-Add any other context about the problem here.
+Add any other context about the problem here. Like what are the changes in settings that you made.
