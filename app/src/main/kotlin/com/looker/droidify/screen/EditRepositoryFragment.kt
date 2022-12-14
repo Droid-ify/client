@@ -21,8 +21,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -58,7 +58,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
-	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
+	private val toolbarPreferenceFlow
+		get() = userPreferencesRepository.userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -248,8 +249,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 			invalidateAddress()
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				launch {
-					userPreferenceFlow.collect {
-						collectPreferences(it)
+					toolbarPreferenceFlow.collect {
+						appBarLayout.setCollapsable(it)
 					}
 				}
 			}
@@ -269,10 +270,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 		checkDisposable?.dispose()
 		checkDisposable = null
 		_editRepositoryBinding = null
-	}
-
-	private fun collectPreferences(userPreferences: UserPreferences) {
-		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private var addressError = false

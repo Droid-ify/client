@@ -304,9 +304,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private suspend fun publishSuccess(task: Task) {
 		mutableState.emit(State.Success(task.packageName, task.release))
-		val installerType = runBlocking {
-			userPreferencesRepository.fetchInitialPreferences().installerType
-		}
+		val installerType = userPreferencesRepository
+			.fetchInitialPreferences()
+			.installerType
+
 		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
 			task.packageName.installApk(
 				this@DownloadService,

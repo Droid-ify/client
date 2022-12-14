@@ -15,8 +15,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TitleTextItemBinding
@@ -41,7 +41,8 @@ class RepositoryFragment() : ScreenFragment() {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
-	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
+	private val toolbarPreferenceFlow
+		get() = userPreferencesRepository.userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -106,8 +107,8 @@ class RepositoryFragment() : ScreenFragment() {
 		)
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				userPreferenceFlow.collect {
-					collectPreferences(it)
+				toolbarPreferenceFlow.collect {
+					appBarLayout.setCollapsable(it)
 				}
 			}
 		}
@@ -119,10 +120,6 @@ class RepositoryFragment() : ScreenFragment() {
 		layout = null
 		titleBinding = null
 		syncConnection.unbind(requireContext())
-	}
-
-	private fun collectPreferences(userPreferences: UserPreferences) {
-		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	private fun updateRepositoryView() {

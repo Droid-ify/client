@@ -3,6 +3,7 @@ package com.looker.droidify.ui.app_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
@@ -11,9 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,25 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class AppListViewModel
 @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository
+	userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-	private val initialSetup = flow {
-		emit(userPreferencesRepository.fetchInitialPreferences().sortOrder)
-	}
-
-	private var lastSortOrder: SortOrder = SortOrder.UPDATED
-
-	private val userPreferences = userPreferencesRepository.userPreferencesFlow.filter {
-		it.sortOrder != lastSortOrder
-	}.map {
-		lastSortOrder = it.sortOrder
-		it.sortOrder
-	}
+	private val sortOrderFlow = userPreferencesRepository
+		.userPreferencesFlow
+		.distinctMap { it.sortOrder }
 
 	private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
 	private val _searchQuery = MutableStateFlow("")
-
 
 	private val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
 		initialValue = ProductItem.Section.All,
@@ -59,12 +47,7 @@ class AppListViewModel
 		viewModelScope.launch {
 			launch { searchQuery.collect { mSearchQuery = it } }
 			launch { sections.collect { if (source.sections) mSections = it } }
-			initialSetup.collect { initialOrder ->
-				mOrder = initialOrder
-				userPreferences.collect {
-					mOrder = it
-				}
-			}
+			sortOrderFlow.collect { mOrder = it }
 		}
 		return when (source) {
 			AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(

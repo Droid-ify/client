@@ -27,8 +27,8 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.common.sdkAbove
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.extension.sortOrderName
@@ -54,7 +54,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -232,11 +231,10 @@ class TabsFragment : ScreenFragment() {
 				.any { it !is ProductItem.Section.All } && !showSections
 		}
 
-		lifecycleScope.launch {
-			viewModel.initialSetup.collect { initialSortOrder ->
-				updateOrder(initialSortOrder)
-				viewModel.userPreferences.collect { newSortOrder ->
-					updateOrder(newSortOrder)
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.CREATED) {
+				viewModel.sortOrderFlow.collect {
+					updateOrder(it)
 				}
 			}
 		}

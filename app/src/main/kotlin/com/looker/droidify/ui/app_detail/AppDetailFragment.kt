@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.setCollapsable
-import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.common.trimAfter
+import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
@@ -408,11 +408,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
-				initialSetup.collect {
-					val installer = it.installerType
-					if (installer != InstallerType.ROOT && installer != InstallerType.SHIZUKU) {
-						packageName.installApk(context, state.release.cacheFileName, installer)
-					}
+				val installer = userPreferencesRepository.fetchInitialPreferences().installerType
+				if (installer != InstallerType.ROOT && installer != InstallerType.SHIZUKU) {
+					packageName.installApk(context, state.release.cacheFileName, installer)
 				}
 			}
 		}
@@ -468,9 +466,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 			AppDetailAdapter.Action.UNINSTALL -> {
 				lifecycleScope.launch {
-					initialSetup.collect {
-						packageName.uninstallApk(context, it.installerType)
-					}
+					val installerType =
+						userPreferencesRepository.fetchInitialPreferences().installerType
+					packageName.uninstallApk(context, installerType)
 				}
 				Unit
 			}

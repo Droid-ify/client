@@ -23,6 +23,7 @@ import com.looker.core.common.formatSize
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
@@ -40,7 +41,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -52,7 +52,6 @@ import com.looker.core.common.R.style as styleRes
 
 @AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
-	private var lastUnstableUpdates = false
 
 	companion object {
 		private const val TAG = "SyncService"
@@ -67,9 +66,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 	private val userPreferences get() = userPreferencesRepository.userPreferencesFlow
-	private val initialSetup = flow {
-		emit(userPreferencesRepository.fetchInitialPreferences())
-	}
 
 	private sealed interface State {
 		data class Connecting(val name: String) : State
@@ -366,28 +362,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
 					scope.launch {
-						initialSetup.collect { initialPreference ->
+						userPreferences.distinctMap { it.unstableUpdate }.collect {
 							handleFileDownload(
 								task = task,
 								initialState = initialState,
 								hasUpdates = hasUpdates,
-								unstableUpdates = initialPreference.unstableUpdate,
+								unstableUpdates = it,
 								repository = repository
 							)
-							launch {
-								userPreferences.collect { newPreference ->
-									if (newPreference.unstableUpdate != lastUnstableUpdates) {
-										lastUnstableUpdates = newPreference.unstableUpdate
-										handleFileDownload(
-											task = task,
-											initialState = initialState,
-											hasUpdates = hasUpdates,
-											unstableUpdates = lastUnstableUpdates,
-											repository = repository
-										)
-									}
-								}
-							}
 						}
 					}
 				} else {
@@ -395,19 +377,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				}
 			} else if (started != Started.NO) {
 				scope.launch {
-					initialSetup.collect { initialPreference ->
+					userPreferences.distinctMap { it.notifyUpdate }.collect {
 						handleUpdates(
 							hasUpdates = hasUpdates,
-							notifyUpdates = initialPreference.notifyUpdate
+							notifyUpdates = it
 						)
-						launch {
-							userPreferences.collect { newPreferences ->
-								handleUpdates(
-									hasUpdates = hasUpdates,
-									notifyUpdates = newPreferences.notifyUpdate
-								)
-							}
-						}
 					}
 				}
 			}

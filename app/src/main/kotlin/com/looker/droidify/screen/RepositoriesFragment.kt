@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.view.systemBarsPadding
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -33,7 +33,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
-	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
+	private val toolbarPreferenceFlow
+		get() = userPreferencesRepository.userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }
 
 	private val syncConnection = Connection(SyncService::class.java)
 
@@ -82,8 +83,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 		collapsingToolbar.title = getString(stringRes.repositories)
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				userPreferenceFlow.collect {
-					collectPreferences(it)
+				toolbarPreferenceFlow.collect {
+					appBarLayout.setCollapsable(it)
 				}
 			}
 		}
@@ -96,10 +97,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
 		syncConnection.unbind(requireContext())
 		screenActivity.cursorOwner.detach(this)
-	}
-
-	private fun collectPreferences(userPreferences: UserPreferences) {
-		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 	}
 
 	override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {

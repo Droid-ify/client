@@ -17,6 +17,7 @@ import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
@@ -43,6 +44,9 @@ data class UserPreferences(
 	val allowCollapsingToolbar: Boolean,
 	val favouriteApps: Set<String>
 )
+
+fun <T> Flow<UserPreferences>.distinctMap(block: suspend (UserPreferences) -> T): Flow<T> =
+	map(block).distinctUntilChanged()
 
 /**
  * This class handles the data storing and retrieval
@@ -201,7 +205,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	/**
 	 * Synchronous method of getting initial preference
 	 */
-	val getInitialPreference = runBlocking { fetchInitialPreferences() }
+	val getInitialPreference get() = runBlocking { fetchInitialPreferences() }
 
 	/**
 	 * Maps [Preferences] to [UserPreferences]
