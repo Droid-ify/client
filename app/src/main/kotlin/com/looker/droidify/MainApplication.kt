@@ -30,10 +30,10 @@ import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.sync.SyncPreference
+import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.toJobNetworkType
-import com.looker.droidify.work.AutoSyncWorker.SyncConditions
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -160,14 +160,10 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
 		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
 		val syncConditions = when (autoSync) {
-			AutoSync.ALWAYS -> SyncConditions(networkType = NetworkType.CONNECTED)
-			AutoSync.WIFI_ONLY -> SyncConditions(networkType = NetworkType.UNMETERED)
-			AutoSync.WIFI_PLUGGED_IN -> SyncConditions(
-				networkType = NetworkType.UNMETERED, pluggedIn = true
-			)
-			AutoSync.NEVER -> SyncConditions(
-				networkType = NetworkType.NOT_REQUIRED, canSync = false
-			)
+			AutoSync.ALWAYS -> SyncPreference(NetworkType.CONNECTED)
+			AutoSync.WIFI_ONLY -> SyncPreference(NetworkType.UNMETERED)
+			AutoSync.WIFI_PLUGGED_IN -> SyncPreference(NetworkType.UNMETERED, pluggedIn = true)
+			AutoSync.NEVER -> SyncPreference(NetworkType.NOT_REQUIRED, canSync = false)
 		}
 		val reschedule =
 			force || !jobScheduler.allPendingJobs.any { it.id == Constants.JOB_ID_SYNC }
