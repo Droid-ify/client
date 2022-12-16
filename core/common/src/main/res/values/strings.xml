@@ -99,7 +99,7 @@
     <string name="list_animation_description">Show list animation on the main page</string>
     <string name="merging_FORMAT">Merging %s</string>
     <string name="name">Name</string>
-    <string name="network_error_DESC">Network error.</string>
+    <string name="network_error_DESC">Network error</string>
     <string name="never">Never</string>
     <string name="new_updates_available">New versions of applications available</string>
     <plurals name="new_updates_DESC_FORMAT">
