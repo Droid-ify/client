@@ -1238,6 +1238,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder as ScreenShotViewHolder
 				item as Item.ScreenshotItem
 				holder.screenshotsRecycler.run {
+					isNestedScrollingEnabled = false
 					clipToPadding = false
 					context.resources.sizeScaled(8).let {
 						setPadding(it, it, it, it)
