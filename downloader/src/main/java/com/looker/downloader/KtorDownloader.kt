@@ -27,17 +27,8 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class KtorDownloader(private val client: HttpClient) : Downloader {
-
-	companion object {
-		private val HTTP_DATE_FORMAT: SimpleDateFormat
-			get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
-				timeZone = TimeZone.getTimeZone("GMT")
-			}
-	}
 
 	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
@@ -67,7 +58,8 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 				}
 				val header = HeaderInfo(
 					etag = response.etag(),
-					lastModified = response.lastModified()?.let { HTTP_DATE_FORMAT.format(it) }
+					lastModified = response.lastModified(),
+					authorization = item.headerInfo.authorization
 				)
 				send(DownloadState.Success(header))
 			}
