@@ -112,7 +112,7 @@ class ScreenshotsFragment() : DialogFragment() {
 
 		val viewPager = ViewPager2(dialog.context)
 		viewPager.adapter = Adapter(packageName)
-		viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(16)))
+		viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(8)))
 		viewPager.viewTreeObserver.addOnGlobalLayoutListener {
 			(viewPager.adapter as Adapter).size = Pair(viewPager.width, viewPager.height)
 		}
