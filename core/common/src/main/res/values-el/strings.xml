@@ -68,7 +68,7 @@
     <string name="list_animation_description">Εμφάνιση κινήσεων λίστας στην αρχική σελίδα</string>
     <string name="merging_FORMAT">Συγχώνευση %s</string>
     <string name="name">Όνομα</string>
-    <string name="network_error_DESC">Σφάλμα δικτύου.</string>
+    <string name="network_error_DESC">Σφάλμα δικτύου</string>
     <string name="never">Ποτέ</string>
     <string name="new_updates_available">Νέες διαθέσιμες ενημερώσεις</string>
     <plurals name="new_updates_DESC_FORMAT">
