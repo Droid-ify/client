@@ -101,7 +101,7 @@
     <string name="list_animation_description">मुख्य पृष्ठ पर एनीमेशन की सूची दिखाएं</string>
     <string name="merging_FORMAT">%s . को मर्ज कर रहा है</string>
     <string name="name">नाम</string>
-    <string name="network_error_DESC">नेटवर्क त्रुटि।</string>
+    <string name="network_error_DESC">नेटवर्क त्रुटि</string>
     <string name="never">कभी नहीँ</string>
     <string name="links">लिंक्स</string>
     <string name="new_updates_available">एप्लिकेशनस के नए संस्करण उपलब्ध हैं</string>
