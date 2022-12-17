@@ -79,7 +79,7 @@
     <string name="list_animation_description">Liste canlandırmasını ana sayfada göster</string>
     <string name="merging_FORMAT">%s birleştiriliyor</string>
     <string name="name">İsim</string>
-    <string name="network_error_DESC">Bağlantı hatası.</string>
+    <string name="network_error_DESC">Ağ hatası</string>
     <string name="never">Asla</string>
     <string name="new_updates_available">Uygulamaların yeni sürümleri var</string>
     <plurals name="new_updates_DESC_FORMAT">
