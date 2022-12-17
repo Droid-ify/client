@@ -63,7 +63,7 @@
     <string name="incompatible_api_max_DESC_FORMAT">الحد الأقصى لإصدار واجهة برمجة التطبيقات هو %d.</string>
     <string name="incompatible_features_DESC">مميزات مفقودة.</string>
     <string name="incompatible_older_DESC">هذا الإصدار أقدم من ذلك المثبت على جهازك، ألغِ تثبيته أولاً.</string>
-    <string name="http_proxy">وسيط إتش.تي.تي.بي.إس</string>
+    <string name="http_proxy">وكيل HTTP</string>
     <string name="incompatible_platforms_DESC_FORMAT">منصتك %1$s ليست مدعومة. المنصات المدعومة: %2$s.</string>
     <string name="incompatible_signature_DESC">هذا الإصدار مُوقّع بشهادة مختلفة عن تلك المثبتة على جهازك. ألغِ تثبيت تلك أولًا.</string>
     <string name="incompatible_version">إصدار غير متوافق</string>
@@ -93,7 +93,7 @@
     <string name="list_animation_description">أظهر تحريكات القائمة على الصفحة الرئيسة</string>
     <string name="merging_FORMAT">قيد دمج %s</string>
     <string name="name">الاسم</string>
-    <string name="network_error_DESC">خطأ شبكة.</string>
+    <string name="network_error_DESC">خطأ في الشبكة</string>
     <string name="never">أبدًا</string>
     <string name="new_updates_available">توجد إصدارات جديدة</string>
     <plurals name="new_updates_DESC_FORMAT">
