@@ -89,7 +89,7 @@
     <string name="list_animation_description">ਮੁੱਖ ਪੰਨੇ \'ਤੇ ਸੂਚੀ ਐਨੀਮੇਸ਼ਨ ਦਿਖਾਓ</string>
     <string name="merging_FORMAT">%s ਨੂੰ ਮਿਲਾਇਆ ਜਾ ਰਿਹਾ ਹੈ</string>
     <string name="name">ਨਾਮ</string>
-    <string name="network_error_DESC">ਨੈੱਟਵਰਕ ਤਰੁੱਟੀ।</string>
+    <string name="network_error_DESC">ਨੈੱਟਵਰਕ ਤਰੁੱਟੀ</string>
     <string name="never">ਕਦੇ ਨਹੀਂ</string>
     <string name="new_updates_available">ਐਪਲੀਕੇਸ਼ਨਾਂ ਦੇ ਨਵੇਂ ਸੰਸਕਰਣ ਉਪਲਬਧ ਹਨ</string>
     <plurals name="new_updates_DESC_FORMAT">
