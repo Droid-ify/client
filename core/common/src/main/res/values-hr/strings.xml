@@ -112,7 +112,7 @@
     <string name="list_animation_description">Prikaži animacije popisa na početnoj stranici</string>
     <string name="merging_FORMAT">Stapanje %s</string>
     <string name="name">Naziv</string>
-    <string name="network_error_DESC">Mrežna greška.</string>
+    <string name="network_error_DESC">Mrežna greška</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d aplikacija ima noviju inačicu.</item>
         <item quantity="few">%d aplikacije imaju novije inačice.</item>
