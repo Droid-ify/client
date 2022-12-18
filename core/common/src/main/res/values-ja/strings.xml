@@ -68,7 +68,7 @@
     <string name="incompatible_versions_summary">デバイスと互換性のないアプリのバージョンを表示します</string>
     <string name="incompatible_with_FORMAT">%s とは互換性がありません</string>
     <string name="install">インストール</string>
-    <string name="install_types">インストールの種類</string>
+    <string name="install_types">インストール方式</string>
     <string name="installer">インストーラー</string>
     <string name="installed">インストール済み</string>
     <string name="integrity_check_error_DESC">整合性を確認できませんでした。</string>
