@@ -35,21 +35,19 @@ import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.screen.ScreenshotsFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
-import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
 
@@ -104,7 +102,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private var recyclerView: RecyclerView? = null
 
-	private var productDisposable: Disposable? = null
 	private val downloadConnection = Connection(DownloadService::class.java, onBind = { _, binder ->
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
@@ -149,127 +146,120 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		})
 		recyclerView?.systemBarsPadding()
 		var first = true
-		productDisposable = Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Products))
-			.observeOn(Schedulers.io())
-			.flatMapSingle { RxUtils.querySingle { Database.ProductAdapter.get(packageName, it) } }
-			.flatMapSingle { products ->
-				RxUtils
-					.querySingle { Database.RepositoryAdapter.getAll(it) }
-					.map { it ->
-						it.asSequence().map { Pair(it.id, it) }.toMap()
-							.let {
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				launch {
+					flowOf(Unit)
+						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
+						.map { Database.ProductAdapter.get(packageName, null) }
+						.map { products ->
+							Database.RepositoryAdapter.getAll(null).associateBy { it.id }.let {
 								products.mapNotNull { product ->
 									it[product.repositoryId]?.let {
-										Pair(
-											product,
-											it
-										)
+										product to it
 									}
 								}
 							}
-					}
-			}
-			.flatMapSingle { products ->
-				RxUtils
-					.querySingle { Nullable(Database.InstalledAdapter.get(packageName, it)) }
-					.map { Pair(products, it) }
-			}
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe { it ->
-				val (products, installedItem) = it
-				val firstChanged = first
-				first = false
-				val productChanged = this.products != products
-				val installedItemChanged = this.installed?.installedItem != installedItem.value
-				if (firstChanged || productChanged || installedItemChanged) {
-					layoutManagerState?.let {
-						recyclerView?.layoutManager!!.onRestoreInstanceState(it)
-					}
-					layoutManagerState = null
-					if (firstChanged || productChanged) {
-						this.products = products
-					}
-					if (firstChanged || installedItemChanged) {
-						installed = installedItem.value?.let {
-							val isSystem = try {
-								((requireContext().packageManager.getApplicationInfo(
+						}.map { productRepo ->
+							productRepo to Nullable(
+								Database.InstalledAdapter.get(
 									packageName,
-									0
-								).flags)
-										and ApplicationInfo.FLAG_SYSTEM) != 0
-							} catch (e: Exception) {
-								false
-							}
-							val launcherActivities =
-								if (packageName == requireContext().packageName) {
-									// Don't allow to launch self
-									emptyList()
-								} else {
-									val packageManager = requireContext().packageManager
-									packageManager
-										.queryIntentActivities(
-											Intent(Intent.ACTION_MAIN).addCategory(
-												Intent.CATEGORY_LAUNCHER
-											), 0
-										)
-										.asSequence()
-										.mapNotNull { resolveInfo -> resolveInfo.activityInfo }
-										.filter { activityInfo -> activityInfo.packageName == packageName }
-										.mapNotNull { activityInfo ->
-											val label = try {
-												activityInfo.loadLabel(packageManager).toString()
-											} catch (e: Exception) {
-												e.printStackTrace()
-												null
-											}
-											label?.let { labelName ->
-												Pair(
-													activityInfo.name,
-													labelName
-												)
-											}
-										}
-										.toList()
-								}
-							Installed(it, isSystem, launcherActivities)
-						}
-					}
-					val recyclerView = recyclerView!!
-					val adapter = recyclerView.adapter as AppDetailAdapter
-					lifecycleScope.launch {
-						if (firstChanged || productChanged || installedItemChanged) {
-							launch { updateButtons() }
-							userPreferencesFlow.distinctMap { it.incompatibleVersions }.collect {
-								adapter.setProducts(
-									recyclerView.context,
-									packageName,
-									products,
-									installedItem.value,
-									it
+									null
 								)
+							)
+						}.collectLatest { (productRepo, installedItem) ->
+							val firstChanged = first
+							first = false
+							val productChanged = products != productRepo
+							val installedItemChanged =
+								installed?.installedItem != installedItem.value
+							if (firstChanged || productChanged || installedItemChanged) {
+								layoutManagerState?.let {
+									recyclerView?.layoutManager!!.onRestoreInstanceState(it)
+								}
+								layoutManagerState = null
+								if (firstChanged || productChanged) {
+									products = productRepo
+								}
+								if (firstChanged || installedItemChanged) {
+									installed = installedItem.value?.let {
+										// TODO: Make PackageName a value class
+										val isSystem = try {
+											((requireContext().packageManager.getApplicationInfo(
+												packageName,
+												0
+											).flags)
+													and ApplicationInfo.FLAG_SYSTEM) != 0
+										} catch (e: Exception) {
+											false
+										}
+										val launcherActivities =
+											if (packageName == requireContext().packageName) {
+												// Don't allow to launch self
+												emptyList()
+											} else {
+												val packageManager = requireContext().packageManager
+												packageManager
+													.queryIntentActivities(
+														Intent(Intent.ACTION_MAIN).addCategory(
+															Intent.CATEGORY_LAUNCHER
+														), 0
+													)
+													.asSequence()
+													.mapNotNull { resolveInfo -> resolveInfo.activityInfo }
+													.filter { activityInfo -> activityInfo.packageName == packageName }
+													.mapNotNull { activityInfo ->
+														val label = try {
+															activityInfo.loadLabel(packageManager)
+																.toString()
+														} catch (e: Exception) {
+															e.printStackTrace()
+															null
+														}
+														label?.let { labelName ->
+															Pair(
+																activityInfo.name,
+																labelName
+															)
+														}
+													}
+													.toList()
+											}
+										Installed(it, isSystem, launcherActivities)
+									}
+								}
+								val recyclerView = recyclerView!!
+								val adapter = recyclerView.adapter as AppDetailAdapter
+
+								updateButtons()
+								userPreferencesFlow.distinctMap { it.incompatibleVersions }
+									.collect {
+										adapter.setProducts(
+											recyclerView.context,
+											packageName,
+											productRepo,
+											installedItem.value,
+											it
+										)
+									}
 							}
 						}
-					}
 				}
-			}
-
-		downloadConnection.bind(requireContext())
-		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }.collect {
-					appBarLayout.setCollapsable(it)
+				launch {
+					userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }.collect {
+						appBarLayout.setCollapsable(it)
+					}
 				}
 			}
 		}
+
+		downloadConnection.bind(requireContext())
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 		recyclerView = null
 
-		productDisposable?.dispose()
-		productDisposable = null
 		downloadConnection.unbind(requireContext())
 	}
 
@@ -283,11 +273,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
 	}
 
-	private suspend fun updateButtons() {
-		updateButtons(ProductPreferences[packageName])
-	}
-
-	private suspend fun updateButtons(preference: ProductPreference) {
+	private fun updateButtons(preference: ProductPreference = ProductPreferences[packageName]) {
 		val installed = installed
 		val product = Product.findSuggested(
 			products,
@@ -335,36 +321,30 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			toolbar.menu.findItem(action.id).isEnabled = !downloading
 		}
 		this.actions = Pair(actions, primaryAction)
-		withContext(Dispatchers.Main) { updateToolbarButtons() }
+		updateToolbarButtons()
 	}
 
-	private suspend fun updateToolbarTitle() {
-		withContext(Dispatchers.Main) {
-			val showPackageName = recyclerView
-				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
-			collapsingToolbar.title =
-				if (showPackageName) products[0].first.name.trimAfter(' ', 2)
-				else getString(stringRes.application)
+	private fun updateToolbarTitle() {
+		val showPackageName = recyclerView
+			?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+		collapsingToolbar.title =
+			if (showPackageName) products[0].first.name.trimAfter(' ', 2)
+			else getString(stringRes.application)
+	}
+
+	private fun updateToolbarButtons() {
+		val (actions, primaryAction) = actions
+		val showPrimaryAction =
+			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
+		val displayActions = actions.toMutableSet()
+		if (!showPrimaryAction && primaryAction != null) {
+			displayActions -= primaryAction
 		}
-	}
-
-	private suspend fun updateToolbarButtons() {
-		withContext(Dispatchers.Default) {
-			val (actions, primaryAction) = actions
-			val showPrimaryAction = recyclerView
-				?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
-			val displayActions = actions.toMutableSet()
-			if (!showPrimaryAction && primaryAction != null) {
-				displayActions -= primaryAction
-			}
-			if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
-				displayActions -= Action.DETAILS
-			}
-
-			launch(Dispatchers.Main) {
-				for (action in Action.values())
-					toolbar.menu.findItem(action.id).isVisible = action in displayActions
-			}
+		if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
+			displayActions -= Action.DETAILS
+		}
+		Action.values().forEach { action ->
+			toolbar.menu.findItem(action.id).isVisible = action in displayActions
 		}
 	}
 
@@ -403,10 +383,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			val lastPosition = lastPosition
 			this.lastPosition = position
 			if ((lastPosition == 0) != (position == 0)) {
-				lifecycleScope.launch {
-					launch { updateToolbarTitle() }
-					launch { updateToolbarButtons() }
-				}
+				updateToolbarTitle()
+				updateToolbarButtons()
 			}
 		}
 	}

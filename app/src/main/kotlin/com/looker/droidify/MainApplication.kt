@@ -62,7 +62,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 		val databaseUpdated = Database.init(this)
 		ProductPreferences.init(this)
-		RepositoryUpdater.init()
+		RepositoryUpdater.init(appScope)
 		listenApplications()
 		updatePreference()
 

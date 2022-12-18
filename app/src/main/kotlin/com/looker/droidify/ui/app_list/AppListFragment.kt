@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,14 +18,14 @@ import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
-import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import com.looker.core.common.R.string as stringRes
 
@@ -57,8 +58,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 
 	private lateinit var recyclerViewAdapter: AppListAdapter
-
-	private var repositoriesDisposable: Disposable? = null
 
 	private var shortAnimationDuration: Int = 0
 
@@ -107,13 +106,13 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		super.onViewCreated(view, savedInstanceState)
 
 		screenActivity.cursorOwner.attach(this, viewModel.request(source))
-		repositoriesDisposable = Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Repositories))
-			.observeOn(Schedulers.io())
-			.flatMapSingle { RxUtils.querySingle { Database.RepositoryAdapter.getAll(it) } }
-			.map { list -> list.asSequence().map { Pair(it.id, it) }.toMap() }
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe { recyclerViewAdapter.repositories = it }
+		viewLifecycleOwner.lifecycleScope.launch {
+			flowOf(Unit)
+				.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
+				.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
+				.map { Database.RepositoryAdapter.getAll(null).associateBy { it.id } }
+				.collectLatest { recyclerViewAdapter.repositories = it }
+		}
 	}
 
 	override fun onDestroyView() {
@@ -121,8 +120,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		_binding = null
 		screenActivity.cursorOwner.detach(this)
-		repositoriesDisposable?.dispose()
-		repositoriesDisposable = null
 	}
 
 	override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {

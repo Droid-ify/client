@@ -29,8 +29,8 @@ import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.sdkAbove
 import com.looker.core.common.view.systemBarsPadding
-import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
@@ -41,7 +41,6 @@ import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.app_list.AppListFragment
-import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -50,10 +49,11 @@ import com.looker.droidify.widget.DividerItemDecoration
 import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.abs
@@ -123,8 +123,6 @@ class TabsFragment : ScreenFragment() {
 		}
 	})
 
-	private var categoriesDisposable: Disposable? = null
-	private var repositoriesDisposable: Disposable? = null
 	private var sectionsAnimator: ValueAnimator? = null
 
 	private var needSelectUpdates = false
@@ -261,26 +259,35 @@ class TabsFragment : ScreenFragment() {
 			}.attach()
 		}
 
-		categoriesDisposable = Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Products))
-			.observeOn(Schedulers.io())
-			.flatMapSingle { RxUtils.querySingle { Database.CategoryAdapter.getAll(it) } }
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe {
-				setSectionsAndUpdate(
-					it.asSequence().sorted()
-						.map(ProductItem.Section::Category).toList(), null
-				)
+		viewLifecycleOwner.lifecycleScope.launch {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				launch {
+					flowOf(Unit)
+						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
+						.map { Database.CategoryAdapter.getAll(null) }
+						.collectLatest {
+							setSectionsAndUpdate(
+								it.asSequence().sorted()
+									.map(ProductItem.Section::Category).toList(), null
+							)
+						}
+				}
+				launch {
+					flowOf(Unit)
+						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
+						.map { Database.RepositoryAdapter.getAll(null) }
+						.collectLatest { repos ->
+							setSectionsAndUpdate(null, repos.asSequence().filter { it.enabled }
+								.map { ProductItem.Section.Repository(it.id, it.name) }.toList())
+						}
+				}
+				launch {
+					userPreferenceFlow.distinctMap { it.allowCollapsingToolbar }.collect {
+						appBarLayout.setCollapsable(it)
+					}
+				}
 			}
-		repositoriesDisposable = Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Repositories))
-			.observeOn(Schedulers.io())
-			.flatMapSingle { RxUtils.querySingle { Database.RepositoryAdapter.getAll(it) } }
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe { it ->
-				setSectionsAndUpdate(null, it.asSequence().filter { it.enabled }
-					.map { ProductItem.Section.Repository(it.id, it.name) }.toList())
-			}
+		}
 		updateSection()
 
 		val backgroundPath = ShapeAppearanceModel.builder()
@@ -332,13 +339,6 @@ class TabsFragment : ScreenFragment() {
 				}
 			}
 		}
-		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				userPreferenceFlow.collect {
-					collectPreferences(it)
-				}
-			}
-		}
 	}
 
 	override fun onDestroyView() {
@@ -352,10 +352,6 @@ class TabsFragment : ScreenFragment() {
 		viewPager = null
 
 		syncConnection.unbind(requireContext())
-		categoriesDisposable?.dispose()
-		categoriesDisposable = null
-		repositoriesDisposable?.dispose()
-		repositoriesDisposable = null
 		sectionsAnimator?.cancel()
 		sectionsAnimator = null
 
@@ -399,10 +395,6 @@ class TabsFragment : ScreenFragment() {
 	}
 
 	internal fun selectUpdates() = selectUpdatesInternal(true)
-
-	private fun collectPreferences(userPreferences: UserPreferences) {
-		appBarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
-	}
 
 	private fun selectUpdatesInternal(allowSmooth: Boolean) {
 		if (view != null) {

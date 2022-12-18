@@ -13,6 +13,9 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
@@ -28,14 +31,15 @@ import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.launch
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.style as styleRes
 
@@ -61,8 +65,6 @@ class ScreenshotsFragment() : DialogFragment() {
 	}
 
 	private var viewPager: ViewPager2? = null
-
-	private var productDisposable: Disposable? = null
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 		val packageName = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
@@ -125,34 +127,31 @@ class ScreenshotsFragment() : DialogFragment() {
 		this.viewPager = viewPager
 
 		var restored = false
-		productDisposable = Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Products))
-			.observeOn(Schedulers.io())
-			.flatMapSingle { RxUtils.querySingle { Database.ProductAdapter.get(packageName, it) } }
-			.map { it ->
-				Pair(
-					it.find { it.repositoryId == repositoryId },
-					Database.RepositoryAdapter.get(repositoryId)
-				)
-			}
-			.observeOn(AndroidSchedulers.mainThread())
-			.subscribe { it ->
-				val (product, repository) = it
-				val screenshots = product?.screenshots.orEmpty()
-				(viewPager.adapter as Adapter).update(viewPager, repository, screenshots)
-				if (!restored) {
-					restored = true
-					val identifier = savedInstanceState?.getString(STATE_IDENTIFIER)
-						?: requireArguments().getString(STATE_IDENTIFIER)
-					if (identifier != null) {
-						val index = screenshots.indexOfFirst { it.identifier == identifier }
-						if (index >= 0) {
-							viewPager.setCurrentItem(index, false)
+		lifecycleScope.launch {
+			flowOf(Unit)
+				.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+				.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
+				.map {
+					Database.ProductAdapter.get(packageName, null).find {
+						it.repositoryId == repositoryId
+					} to Database.RepositoryAdapter.get(repositoryId)
+				}
+				.collectLatest { (product, repository) ->
+					val screenshots = product?.screenshots.orEmpty()
+					(viewPager.adapter as Adapter).update(viewPager, repository, screenshots)
+					if (!restored) {
+						restored = true
+						val identifier = savedInstanceState?.getString(STATE_IDENTIFIER)
+							?: requireArguments().getString(STATE_IDENTIFIER)
+						if (identifier != null) {
+							val index = screenshots.indexOfFirst { it.identifier == identifier }
+							if (index >= 0) {
+								viewPager.setCurrentItem(index, false)
+							}
 						}
 					}
 				}
-			}
-
+		}
 		return dialog
 	}
 
@@ -160,9 +159,6 @@ class ScreenshotsFragment() : DialogFragment() {
 		super.onDestroyView()
 
 		viewPager = null
-
-		productDisposable?.dispose()
-		productDisposable = null
 	}
 
 	override fun onSaveInstanceState(outState: Bundle) {

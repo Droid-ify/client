@@ -19,6 +19,11 @@ import com.looker.core.model.Repository
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.firstOrNull
 import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flowOn
 import java.io.ByteArrayOutputStream
 
 object Database {
@@ -291,14 +296,13 @@ object Database {
 			}
 		}
 
-	fun observable(subject: Subject): Observable<Unit> {
-		return Observable.create {
-			val callback: () -> Unit = { it.onNext(Unit) }
-			val dataObservable = dataObservable(subject)
-			dataObservable(true, callback)
-			it.setCancellable { dataObservable(false, callback) }
-		}
-	}
+	fun flowCollection(subject: Subject): Flow<Unit> = callbackFlow {
+		val callback: () -> Unit = { trySend(Unit) }
+		val dataObservable = dataObservable(subject)
+		dataObservable(true, callback)
+
+		awaitClose { dataObservable(false, callback) }
+	}.flowOn(Dispatchers.IO)
 
 	private fun notifyChanged(vararg subjects: Subject) {
 		synchronized(observers) {

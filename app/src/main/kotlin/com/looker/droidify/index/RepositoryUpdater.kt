@@ -10,12 +10,16 @@ import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.RxUtils
 import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.UnknownHostException
@@ -58,29 +62,25 @@ object RepositoryUpdater {
 	private val updaterLock = Any()
 	private val cleanupLock = Any()
 
-	fun init() {
+	fun init(scope: CoroutineScope) {
 		var lastDisabled = setOf<Long>()
-		Observable.just(Unit)
-			.concatWith(Database.observable(Database.Subject.Repositories))
-			.observeOn(Schedulers.io())
-			.flatMapSingle {
-				RxUtils.querySingle {
-					Database.RepositoryAdapter.getAllDisabledDeleted(
-						it
-					)
-				}
-			}
-			.forEach { it ->
-				val newDisabled = it.asSequence().filter { !it.second }.map { it.first }.toSet()
+		flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
+			.map { Database.RepositoryAdapter.getAllDisabledDeleted(null) }
+			.onEach { deletedRepos ->
+				val newDisabled =
+					deletedRepos.asSequence().filter { !it.second }.map { it.first }.toSet()
 				val disabled = newDisabled - lastDisabled
 				lastDisabled = newDisabled
-				val deleted = it.asSequence().filter { it.second }.map { it.first }.toSet()
+				val deleted =
+					deletedRepos.asSequence().filter { it.second }.map { it.first }.toSet()
 				if (disabled.isNotEmpty() || deleted.isNotEmpty()) {
 					val pairs = (disabled.asSequence().map { Pair(it, false) } +
 							deleted.asSequence().map { Pair(it, true) }).toSet()
 					synchronized(cleanupLock) { Database.RepositoryAdapter.cleanup(pairs) }
 				}
 			}
+			.launchIn(scope)
 	}
 
 	fun await() {
