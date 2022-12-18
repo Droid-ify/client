@@ -81,7 +81,7 @@
     <string name="list_animation_description">在主页上显示列表动画</string>
     <string name="merging_FORMAT">合并 %s</string>
     <string name="name">名称</string>
-    <string name="network_error_DESC">网络错误.</string>
+    <string name="network_error_DESC">网络错误</string>
     <string name="never">从不</string>
     <string name="new_updates_available">有应用的新版本可用</string>
     <plurals name="new_updates_DESC_FORMAT">
