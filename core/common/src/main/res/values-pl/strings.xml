@@ -123,7 +123,7 @@
     <string name="link_copied_to_clipboard">Link skopiowany do schowka</string>
     <string name="list_animation_description">Włącz animację listy na stronie głównej</string>
     <string name="name">Według nazwy</string>
-    <string name="network_error_DESC">Błąd sieci.</string>
+    <string name="network_error_DESC">Błąd sieci</string>
     <string name="never">Nigdy</string>
     <string name="no_description_available_DESC">Brak dostępnego opisu</string>
     <string name="size">Rozmiar</string>
