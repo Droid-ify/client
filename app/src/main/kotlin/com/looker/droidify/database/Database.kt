@@ -18,7 +18,6 @@ import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
 import com.looker.droidify.utility.extension.android.asSequence
 import com.looker.droidify.utility.extension.android.firstOrNull
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

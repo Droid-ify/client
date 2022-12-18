@@ -18,6 +18,7 @@ data class App(
 )
 
 data class Metadata(
+	// TODO: Make PackageName a value class
 	val packageName: String,
 	val icon: String,
 	val name: String,

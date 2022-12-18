@@ -106,11 +106,6 @@ object Room {
 	const val ktx = "androidx.room:room-ktx:$roomVersion"
 }
 
-object RxJava {
-	const val rxjava = "io.reactivex.rxjava3:rxjava:3.1.5"
-	const val android = "io.reactivex.rxjava3:rxandroid:3.0.0"
-}
-
 object Startup {
 	private const val startupVersion = "1.1.1"
 	const val lib = "androidx.startup:startup-runtime:$startupVersion"

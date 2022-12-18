@@ -156,8 +156,5 @@ dependencies {
 
 	implementation(Others.zoomage)
 
-	implementation(RxJava.android)
-	implementation(RxJava.rxjava)
-
 	implementation(Work.manager)
 }

@@ -183,7 +183,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 								}
 								if (firstChanged || installedItemChanged) {
 									installed = installedItem.value?.let {
-										// TODO: Make PackageName a value class
 										val isSystem = try {
 											((requireContext().packageManager.getApplicationInfo(
 												packageName,
@@ -217,10 +216,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 															null
 														}
 														label?.let { labelName ->
-															Pair(
-																activityInfo.name,
-																labelName
-															)
+															activityInfo.name to labelName
 														}
 													}
 													.toList()
