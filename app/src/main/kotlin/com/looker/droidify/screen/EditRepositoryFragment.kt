@@ -47,6 +47,7 @@ import java.nio.charset.Charset
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.min
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -190,6 +191,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 				val mirrors = repository.mirrors.map { it.withoutKnownPath }
 				layout.addressContainer.apply {
 					isEndIconVisible = mirrors.isNotEmpty()
+					setEndIconDrawable(CommonR.drawable.ic_arrow_down)
 					setEndIconOnClickListener {
 						SelectMirrorDialog(mirrors).show(
 							childFragmentManager,
