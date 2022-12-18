@@ -379,7 +379,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 			val fingerprint = layout.fingerprint.text.toString().replace(" ", "")
 			val username = layout.username.text.toString().nullIfEmpty()
 			val password = layout.password.text.toString().nullIfEmpty()
-			val paths = sequenceOf("", "fdroid/repo", "repo")
 			val authentication = username?.let { u ->
 				password?.let { p ->
 					Base64.encodeToString(
@@ -390,7 +389,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 			if (check) {
 				checkJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-					val resultAddress = checkAddress(address, authentication, paths)
+					val resultAddress = checkAddress(address, authentication)
 					val allow = resultAddress == address || run {
 						layout.address.setText(resultAddress)
 						invalidateAddress(resultAddress)
@@ -413,12 +412,11 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 	private suspend fun checkAddress(
 		address: String,
-		authentication: String,
-		paths: Sequence<String>
+		authentication: String
 	) = withContext(Dispatchers.IO) {
 		checkInProgress = true
 		launch(Dispatchers.Main) { invalidateState() }
-		paths.fold("") { oldAddress, checkPath ->
+		checkPaths.fold("") { oldAddress, checkPath ->
 			oldAddress.ifEmpty {
 				val builder = Uri.parse(address).buildUpon().let {
 					if (checkPath.isEmpty()) it else it.appendEncodedPath(checkPath)
