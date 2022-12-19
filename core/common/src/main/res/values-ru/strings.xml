@@ -79,7 +79,7 @@
     <string name="list_animation_description">Показывать анимацию списка на главной странице</string>
     <string name="merging_FORMAT">Слияние %s</string>
     <string name="name">Имя</string>
-    <string name="network_error_DESC">Ошибка сети.</string>
+    <string name="network_error_DESC">Ошибка сети</string>
     <string name="never">Никогда</string>
     <string name="new_updates_available">Доступны новые версии приложений</string>
     <plurals name="new_updates_DESC_FORMAT">
