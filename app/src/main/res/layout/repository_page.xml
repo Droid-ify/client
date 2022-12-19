@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/address"
+        layout="@layout/title_text_item" />
+
+    <include
+        android:id="@+id/repo_name"
+        layout="@layout/title_text_item" />
+
+    <include
+        android:id="@+id/repo_description"
+        layout="@layout/title_text_item" />
+
+    <include
+        android:id="@+id/recently_updated"
+        layout="@layout/title_text_item" />
+
+    <include
+        android:id="@+id/number_of_apps"
+        layout="@layout/title_text_item" />
+
+    <include
+        android:id="@+id/repo_fingerprint"
+        layout="@layout/title_text_item" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/shape_margin_medium"
+        android:layout_marginTop="@dimen/shape_margin_large"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/edit_repo_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/shape_margin_medium"
+            android:layout_weight="1"
+            android:text="@string/edit_repository" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete_repo_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/shape_margin_medium"
+            android:layout_weight="1"
+            android:backgroundTint="?colorError"
+            android:text="@string/delete"
+            android:textColor="?colorOnError" />
+    </LinearLayout>
+
+</LinearLayout>

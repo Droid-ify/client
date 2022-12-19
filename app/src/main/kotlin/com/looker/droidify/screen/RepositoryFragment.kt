@@ -5,7 +5,7 @@ import android.text.SpannableStringBuilder
 import android.text.format.DateUtils
 import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
-import android.view.MenuItem
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -19,24 +19,21 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.databinding.TitleTextItemBinding
+import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class RepositoryFragment() : ScreenFragment() {
 
-	private var titleBinding: TitleTextItemBinding? = null
+	private var _binding: RepositoryPageBinding? = null
+	private val binding get() = _binding!!
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
@@ -61,50 +58,17 @@ class RepositoryFragment() : ScreenFragment() {
 
 	private val syncConnection = Connection(SyncService::class.java)
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		titleBinding = TitleTextItemBinding.inflate(layoutInflater)
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View {
+		super.onCreateView(inflater, container, savedInstanceState)
+		_binding = RepositoryPageBinding.inflate(inflater, container, false)
 		syncConnection.bind(requireContext())
-
-		lifecycleScope.launch(Dispatchers.Main) { updateRepositoryView() }
-
 		screenActivity.onToolbarCreated(toolbar)
+		setupView()
 		collapsingToolbar.title = getString(stringRes.repository)
-
-		toolbar.menu.apply {
-			add(stringRes.edit_repository)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_edit))
-				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-				.setOnMenuItemClickListener {
-					view.post { screenActivity.navigateEditRepository(repositoryId) }
-					true
-				}
-
-			add(stringRes.delete)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, drawableRes.ic_delete))
-				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-				.setOnMenuItemClickListener {
-					MessageDialog(MessageDialog.Message.DeleteRepositoryConfirm).show(
-						childFragmentManager
-					)
-					true
-				}
-		}
-
-		val content = fragmentBinding.fragmentContent
-		val scroll = NestedScrollView(content.context)
-		scroll.id = android.R.id.list
-		scroll.isFillViewport = true
-		content.addView(scroll)
-		val layout = LinearLayout(scroll.context)
-		layout.orientation = LinearLayout.VERTICAL
-		resources.sizeScaled(8).let { layout.setPadding(0, it, 0, it) }
-		this.layout = layout
-		scroll.addView(
-			layout,
-			ViewGroup.LayoutParams.MATCH_PARENT,
-			ViewGroup.LayoutParams.WRAP_CONTENT
-		)
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				toolbarPreferenceFlow.collect {
@@ -112,80 +76,82 @@ class RepositoryFragment() : ScreenFragment() {
 				}
 			}
 		}
+		val scroll = NestedScrollView(binding.root.context)
+		scroll.addView(binding.root)
+		fragmentBinding.fragmentContent.addView(scroll)
+		return fragmentBinding.root
 	}
 
 	override fun onDestroyView() {
 		super.onDestroyView()
 
 		layout = null
-		titleBinding = null
 		syncConnection.unbind(requireContext())
 	}
 
-	private fun updateRepositoryView() {
+	private fun setupView() {
 		val repository = Database.RepositoryAdapter.get(repositoryId)
-		val layout = layout!!
-		layout.removeAllViews()
-		if (repository == null) {
-			layout.addTitleText(stringRes.address, getString(stringRes.unknown))
-		} else {
-			layout.addTitleText(stringRes.address, repository.address)
-			collapsingToolbar.title = repository.name
-			layout.addTitleText(stringRes.name, repository.name)
-			layout.addTitleText(
-				stringRes.description,
-				repository.description.replace('\n', ' ').trim()
-			)
-			layout.addTitleText(stringRes.recently_updated, run {
-				val lastUpdated = repository.updated
-				if (lastUpdated > 0L) {
-					val date = Date(repository.updated)
-					val format =
-						if (DateUtils.isToday(date.time)) DateUtils.FORMAT_SHOW_TIME else
-							DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE
-					DateUtils.formatDateTime(layout.context, date.time, format)
-				} else {
-					getString(stringRes.unknown)
-				}
-			})
-			if (repository.enabled && (repository.lastModified.isNotEmpty() || repository.entityTag.isNotEmpty())) {
-				layout.addTitleText(
-					stringRes.number_of_applications,
-					Database.ProductAdapter.getCount(repository.id).toString()
-				)
-			}
-			if (repository.fingerprint.isEmpty()) {
-				if (repository.updated > 0L) {
-					val builder =
-						SpannableStringBuilder(getString(stringRes.repository_unsigned_DESC))
-					builder.setSpan(
-						ForegroundColorSpan(layout.context.getColorFromAttr(R.attr.colorError).defaultColor),
-						0, builder.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-					)
-					layout.addTitleText(stringRes.fingerprint, builder)
-				}
-			} else {
-				val fingerprint =
-					SpannableStringBuilder(repository.fingerprint.windowed(2, 2, false)
-						.take(32).joinToString(separator = " ") { it.uppercase(Locale.US) })
-				fingerprint.setSpan(
-					TypefaceSpan("monospace"), 0, fingerprint.length,
-					SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-				)
-				layout.addTitleText(stringRes.fingerprint, fingerprint)
-			}
-		}
-	}
+		with(binding) {
 
-	private fun LinearLayout.addTitleText(titleResId: Int, text: CharSequence) {
-		if (text.isNotEmpty()) {
-			val binding = TitleTextItemBinding.inflate(layoutInflater)
-			val layout = binding.root
-			val titleView = binding.title
-			val textView = binding.text
-			titleView.setText(titleResId)
-			textView.text = text
-			addView(layout)
+			address.title.setText(stringRes.address)
+			if (repository == null) {
+				address.text.text = getString(stringRes.unknown)
+			} else {
+				address.text.text = repository.address
+				collapsingToolbar.title = repository.name
+				repoName.title.setText(stringRes.name)
+				repoName.text.text = repository.name
+
+				repoDescription.title.setText(stringRes.description)
+				repoDescription.text.text = repository.description.replace('\n', ' ').trim()
+
+				recentlyUpdated.title.setText(stringRes.recently_updated)
+				recentlyUpdated.text.text = run {
+					val lastUpdated = repository.updated
+					if (lastUpdated > 0L) {
+						val date = Date(repository.updated)
+						val format =
+							if (DateUtils.isToday(date.time)) DateUtils.FORMAT_SHOW_TIME else
+								DateUtils.FORMAT_SHOW_TIME or DateUtils.FORMAT_SHOW_DATE
+						DateUtils.formatDateTime(requireContext(), date.time, format)
+					} else getString(stringRes.unknown)
+				}
+
+				numberOfApps.title.setText(stringRes.number_of_applications)
+				numberOfApps.text.text = Database.ProductAdapter.getCount(repository.id).toString()
+
+				repoFingerprint.title.setText(stringRes.fingerprint)
+				if (repository.fingerprint.isEmpty()) {
+					if (repository.updated > 0L) {
+						val builder =
+							SpannableStringBuilder(getString(stringRes.repository_unsigned_DESC))
+						builder.setSpan(
+							ForegroundColorSpan(requireContext().getColorFromAttr(R.attr.colorError).defaultColor),
+							0, builder.length, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+						)
+						repoFingerprint.text.text = builder
+					}
+				} else {
+					val fingerprint =
+						SpannableStringBuilder(repository.fingerprint.windowed(2, 2, false)
+							.take(32).joinToString(separator = " ") { it.uppercase(Locale.US) })
+					fingerprint.setSpan(
+						TypefaceSpan("monospace"), 0, fingerprint.length,
+						SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+					)
+					repoFingerprint.text.text = fingerprint
+				}
+			}
+
+			editRepoButton.setOnClickListener {
+				screenActivity.navigateEditRepository(repositoryId)
+			}
+
+			deleteRepoButton.setOnClickListener {
+				MessageDialog(
+					MessageDialog.Message.DeleteRepositoryConfirm
+				).show(childFragmentManager)
+			}
 		}
 	}
 
