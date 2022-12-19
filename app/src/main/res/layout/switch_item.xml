@@ -6,4 +6,4 @@
     android:layout_marginHorizontal="@dimen/text_margin"
     android:clickable="false"
     android:singleLine="true"
-    android:textSize="15sp" />
+    android:textAppearance="?textAppearanceTitleSmall" />
