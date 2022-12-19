@@ -82,7 +82,7 @@
     <string name="list_animation_description">Zobrazit animaci listu na hlavní stránce</string>
     <string name="merging_FORMAT">Slučování %s</string>
     <string name="name">Název</string>
-    <string name="network_error_DESC">Chyba sítě.</string>
+    <string name="network_error_DESC">Chyba sítě</string>
     <string name="never">Nikdy</string>
     <string name="new_updates_available">Jsou dostupné nové verze aplikací</string>
     <plurals name="new_updates_DESC_FORMAT">
