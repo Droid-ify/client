@@ -2,6 +2,7 @@ package com.looker.core.database.model
 
 import com.looker.core.model.new.Package
 import com.looker.core.model.new.Permission
+import com.looker.core.model.new.toPackageName
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
@@ -55,7 +56,7 @@ fun PackageEntity.toExternalModel(): Package = Package(
 	minSdkVersion = minSdkVersion,
 	maxSdkVersion = maxSdkVersion,
 	targetSdkVersion = targetSdkVersion,
-	packageName = packageName,
+	packageName = packageName.toPackageName(),
 	sig = sig,
 	signer = signer,
 	size = size,

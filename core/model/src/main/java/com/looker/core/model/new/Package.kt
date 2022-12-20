@@ -9,7 +9,7 @@ data class Package(
 	val minSdkVersion: Int,
 	val maxSdkVersion: Int,
 	val targetSdkVersion: Int,
-	val packageName: String,
+	val packageName: PackageName,
 	val sig: String,
 	val signer: String,
 	val size: Long,
@@ -25,7 +25,7 @@ data class Package(
 data class InstalledPackage(
 	val added: Long,
 	val targetSdkVersion: Int,
-	val packageName: String,
+	val packageName: PackageName,
 	val versionCode: Long,
 	val versionName: String,
 	val size: Long

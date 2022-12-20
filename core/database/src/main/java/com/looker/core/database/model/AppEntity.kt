@@ -7,6 +7,7 @@ import com.looker.core.model.new.Author
 import com.looker.core.model.new.Donate
 import com.looker.core.model.new.Localized
 import com.looker.core.model.new.Metadata
+import com.looker.core.model.new.toPackageName
 import kotlinx.serialization.Serializable
 
 @Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
@@ -79,7 +80,7 @@ fun AppEntity.toExternalModel(): App = App(
 		name = name,
 		description = description,
 		summary = summary,
-		packageName = packageName,
+		packageName = packageName.toPackageName(),
 		icon = icon,
 		changelog = changelog,
 		added = added,
