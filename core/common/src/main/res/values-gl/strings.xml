@@ -42,7 +42,7 @@
     <string name="list_animation_description">Mostra a animación da lista na páxina principal</string>
     <string name="merging_FORMAT">Fusionando %s</string>
     <string name="name">Nome</string>
-    <string name="network_error_DESC">Erro na rede.</string>
+    <string name="network_error_DESC">Erro na rede</string>
     <string name="never">Xamáis</string>
     <string name="new_updates_available">Novas versións das aplicacións dispoñibles</string>
     <plurals name="new_updates_DESC_FORMAT">
