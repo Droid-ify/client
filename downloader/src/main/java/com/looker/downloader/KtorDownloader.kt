@@ -10,12 +10,15 @@ import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.HttpRequestBuilder
+import io.ktor.client.request.basicAuth
 import io.ktor.client.request.header
 import io.ktor.client.request.prepareGet
 import io.ktor.client.request.url
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpHeaders
 import io.ktor.http.etag
+import io.ktor.http.ifModifiedSince
+import io.ktor.http.ifNoneMatch
 import io.ktor.http.lastModified
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
@@ -35,8 +38,14 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 			val partialFileLength = item.file.length()
 			val request = HttpRequestBuilder().apply {
 				url(item.url)
-				header(HttpHeaders.Authorization, item.headerInfo.authorization)
+				if (item.headerInfo.username != null && item.headerInfo.password != null)
+					basicAuth(item.headerInfo.username, item.headerInfo.password)
 				header(HttpHeaders.Range, "bytes=${partialFileLength}-")
+				if (item.headerInfo.etag != null) {
+					ifNoneMatch(item.headerInfo.etag)
+				} else if (item.headerInfo.lastModified != null) {
+					ifModifiedSince(item.headerInfo.lastModified)
+				}
 				onDownload { bytesSentTotal, contentLength ->
 					send(
 						DownloadState.Progress(
@@ -59,7 +68,8 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 				val header = HeaderInfo(
 					etag = response.etag(),
 					lastModified = response.lastModified(),
-					authorization = item.headerInfo.authorization
+					username = item.headerInfo.username,
+					password = item.headerInfo.password
 				)
 				send(DownloadState.Success(header))
 			}

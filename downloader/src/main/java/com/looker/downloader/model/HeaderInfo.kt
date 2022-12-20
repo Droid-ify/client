@@ -4,6 +4,7 @@ import java.util.Date
 
 data class HeaderInfo(
 	val etag: String? = null,
-	val authorization: String? = null,
-	val lastModified: Date? = null
+	val lastModified: Date? = null,
+	val username: String? = null,
+	val password: String? = null
 )

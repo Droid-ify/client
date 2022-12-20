@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class RepoDto(
-	val icon: String = "",
 	val address: String = "",
 	val name: String = "",
 	val description: String = "",
@@ -16,17 +15,20 @@ data class RepoDto(
 
 fun RepoDto.toEntity(
 	fingerPrint: String,
-	etag: String
+	etag: String,
+	username: String,
+	password: String
 ): RepoEntity = RepoEntity(
 	timestamp = timestamp,
 	version = version,
 	name = name,
 	description = description,
-	icon = icon,
 	address = address,
 	// It is obviously enabled that's why we are syncing
 	enabled = true,
 	fingerprint = fingerPrint,
 	etag = etag,
+	username = username,
+	password = password,
 	mirrors = mirrors
 )
