@@ -1,4 +1,4 @@
-package com.looker.core.common.file
+package com.looker.core.common.extension
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator
@@ -8,10 +8,6 @@ import com.fasterxml.jackson.core.JsonToken
 
 object Json {
 	val factory = JsonFactory()
-}
-
-fun JsonParser.illegal(): Nothing {
-	throw JsonParseException(this, "Illegal state")
 }
 
 interface KeyToken {
@@ -25,7 +21,11 @@ interface KeyToken {
 	fun array(key: String): Boolean = this.key == key && this.token == JsonToken.START_ARRAY
 }
 
-inline fun JsonParser.forEachKey(callback: JsonParser.(KeyToken) -> Unit) {
+fun JsonParser.illegal(): Nothing {
+	throw JsonParseException(this, "Illegal state")
+}
+
+fun JsonParser.forEachKey(callback: JsonParser.(KeyToken) -> Unit) {
 	var passKey = ""
 	var passToken = JsonToken.NOT_AVAILABLE
 	val keyToken = object : KeyToken {
@@ -83,7 +83,7 @@ fun JsonParser.collectDistinctNotEmptyStrings(): List<String> {
 	return collectNotNullStrings().asSequence().filter { it.isNotEmpty() }.distinct().toList()
 }
 
-inline fun <T> JsonParser.parseDictionary(callback: JsonParser.() -> T): T {
+fun <T> JsonParser.parseDictionary(callback: JsonParser.() -> T): T {
 	if (nextToken() == JsonToken.START_OBJECT) {
 		val result = callback()
 		if (nextToken() != null) {

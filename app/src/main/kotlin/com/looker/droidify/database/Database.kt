@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.os.CancellationSignal
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.core.common.file.Json
-import com.looker.core.common.file.parseDictionary
-import com.looker.core.common.file.writeDictionary
+import com.looker.core.common.extension.Json
+import com.looker.core.common.extension.parseDictionary
+import com.looker.core.common.extension.writeDictionary
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product

@@ -2,9 +2,9 @@ package com.looker.droidify.content
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.looker.core.common.file.Json
-import com.looker.core.common.file.parseDictionary
-import com.looker.core.common.file.writeDictionary
+import com.looker.core.common.extension.Json
+import com.looker.core.common.extension.parseDictionary
+import com.looker.core.common.extension.writeDictionary
 import com.looker.core.model.ProductPreference
 import com.looker.droidify.database.Database
 import kotlinx.coroutines.CoroutineScope

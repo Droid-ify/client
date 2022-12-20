@@ -2,9 +2,9 @@ package com.looker.core.model
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.core.common.file.collectNotNullStrings
-import com.looker.core.common.file.forEachKey
-import com.looker.core.common.file.writeArray
+import com.looker.core.common.extension.collectNotNullStrings
+import com.looker.core.common.extension.forEachKey
+import com.looker.core.common.extension.writeArray
 import java.net.URL
 
 data class Repository(

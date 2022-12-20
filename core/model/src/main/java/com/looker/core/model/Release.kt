@@ -4,11 +4,11 @@ import android.net.Uri
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core.common.file.collectNotNull
-import com.looker.core.common.file.collectNotNullStrings
-import com.looker.core.common.file.forEachKey
-import com.looker.core.common.file.writeArray
-import com.looker.core.common.file.writeDictionary
+import com.looker.core.common.extension.collectNotNull
+import com.looker.core.common.extension.collectNotNullStrings
+import com.looker.core.common.extension.forEachKey
+import com.looker.core.common.extension.writeArray
+import com.looker.core.common.extension.writeDictionary
 
 data class Release(
 	val selected: Boolean,
