@@ -78,7 +78,7 @@
     <string name="list_animation_description">Mostrar la animación de la lista en la página principal</string>
     <string name="merging_FORMAT">Uniendo %s</string>
     <string name="name">Nombre</string>
-    <string name="network_error_DESC">Error de red.</string>
+    <string name="network_error_DESC">Error en la red</string>
     <string name="never">Nunca</string>
     <string name="new_updates_available">Nuevas versiones de aplicaciones disponibles</string>
     <string name="no_applications_available">No hay aplicaciones disponibles</string>
