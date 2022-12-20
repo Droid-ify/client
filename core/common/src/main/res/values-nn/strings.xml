@@ -27,9 +27,9 @@
     </plurals>
     <string name="http_error_DESC">Urett tenarsvar.</string>
     <string name="edit_repository">Brigde samling</string>
-    <string name="ignore_all_updates">Hopp over nye versjonar</string>
+    <string name="ignore_all_updates">Hopp over nye utgåver</string>
     <string name="has_non_free_dependencies">Har ufrie trongar</string>
-    <string name="ignore_this_update">Hopp over denne versjonen</string>
+    <string name="ignore_this_update">Hopp over denne utgåva</string>
     <string name="incompatible_api_max_DESC_FORMAT">Høgste API-versjon er %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">Lægst stødd API-versjon er %d.</string>
     <string name="incompatible_features_DESC">Saknande funksjonar.</string>
@@ -156,14 +156,14 @@
     <string name="cant_edit_sync_DESC">Kan ikkje brigde samlinga, då ho synkroniserer no.</string>
     <string name="changelog">Brigdelogg</string>
     <string name="changes">Brigde</string>
-    <string name="compiled_for_debugging">Kompilert for avlusing</string>
+    <string name="compiled_for_debugging">Kompilert for lysking</string>
     <string name="cleanup_description">Kravd tid for at oppreinskinga skal verte granska att</string>
     <string name="could_not_sync_FORMAT">Kunne ikkje synkronisera %s</string>
     <string name="could_not_download_FORMAT">Kunne ikkje laste ned %s</string>
     <string name="has_security_vulnerabilities">Har tryggleikshòl</string>
     <string name="http_proxy">HTTP-mellomtenar</string>
     <string name="recently_updated">Nyleg brigda</string>
-    <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-versjon %2$d) er ikkje stødd. %3$s</string>
+    <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-utgåve %2$d) er ikkje stødd. %3$s</string>
     <string name="incompatible_platforms_DESC_FORMAT">Din %1$s-bygnad er ikkje stødd. Stødde bygnadar: %2$s.</string>
     <string name="incompatible_versions">Versjonane høver ikkje</string>
     <string name="incompatible_older_DESC">Denne versjonen er eldre enn han som er innlagd på eininga di. Slett han fyrst.</string>
@@ -191,7 +191,7 @@
     <string name="proxy">Mellomtenar</string>
     <string name="repository_not_used_DESC">Denne samlinga har ikkje vorte nytta endå. Slå ho på for å visa hennar appar.</string>
     <string name="signed_using_unsafe_algorithm">Opphav stadfesta ved bruk av ein utrygg algoritme</string>
-    <string name="all_applications_up_to_date">Alle appane dine er av nyaste versjon</string>
+    <string name="all_applications_up_to_date">Alle appane dine er av nyaste utgåve</string>
     <string name="validation_index_error_DESC">Kunne ikkje stadfeste indeksen.</string>
     <string name="io_error_DESC">Kan ikkje gjere somme gjerder.</string>
 </resources>
