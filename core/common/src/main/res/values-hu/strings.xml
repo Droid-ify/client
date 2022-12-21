@@ -86,12 +86,12 @@
     <string name="links">Hivatkozások</string>
     <string name="merging_FORMAT">Egyesítés: %s</string>
     <string name="name">Név</string>
-    <string name="network_error_DESC">Hálózati hiba.</string>
+    <string name="network_error_DESC">Hálózati hiba</string>
     <string name="never">Soha</string>
     <string name="new_updates_available">Új alkalmazásverziók érhetők el</string>
     <string name="no_applications_available">Nem érhetők el alkalmazások</string>
     <string name="no_applications_installed">Nincsenek telepített alkalmazások</string>
-    <string name="no_description_available_DESC">Nem érhető el leírás.</string>
+    <string name="no_description_available_DESC">Nem érhető el leírás</string>
     <string name="no_matching_applications_found">Nem találhatók ilyen alkalmazások</string>
     <string name="no_proxy">Nincs proxy</string>
     <string name="notify_about_updates">Értesítés az alkalmazások új verzióiról</string>
@@ -193,4 +193,8 @@
         <item quantity="one">Nap</item>
         <item quantity="other">Napok</item>
     </plurals>
+    <string name="allow_collapsing_toolbar">Felső alkalmazássáv kibontása</string>
+    <string name="io_error_DESC">Bizonyos műveletek végrehajtása sikertelen.</string>
+    <string name="allow_collapsing_toolbar_DESC">Felső alkalmazássáv kibontása és összecsukása</string>
+    <string name="no_internet">Nincs internet-hozzáférés</string>
 </resources>
