@@ -45,7 +45,7 @@
     <string name="has_security_vulnerabilities">Contiene vulnerabilità</string>
     <string name="http_error_DESC">Risposta del server non valida.</string>
     <string name="http_proxy">Proxy HTTP</string>
-    <string name="ignore_all_updates">Ignora tuttie le nuove versioni</string>
+    <string name="ignore_all_updates">Ignora tutte le nuove versioni</string>
     <string name="ignore_this_update">Ignora questa versione</string>
     <string name="incompatible_api_DESC_FORMAT">Il tuo %1$s (API version %2$d) non è supportato. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">La versione massima API è %d.</string>
