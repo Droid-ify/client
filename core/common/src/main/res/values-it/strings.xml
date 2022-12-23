@@ -4,7 +4,7 @@
     <string name="add_repository">Aggiungi repository</string>
     <string name="address">Indirizzo</string>
     <string name="all_applications">Tutte le applicazioni</string>
-    <string name="all_applications_up_to_date">Tutte le tue applicazioni sono aggiornate</string>
+    <string name="all_applications_up_to_date">Tutte le applicazioni sono aggiornate</string>
     <string name="already_exists">Già esistente</string>
     <string name="always">Sempre</string>
     <string name="amoled">Nero</string>
@@ -14,15 +14,15 @@
     <string name="author_email">E-mail dell\'autore</string>
     <string name="author_website">Sito web dell\'autore</string>
     <string name="available">Esplora</string>
-    <string name="bug_tracker">Inseguitore di errore</string>
+    <string name="bug_tracker">Tracciamento dei bug</string>
     <string name="cancel">Annulla</string>
-    <string name="cant_edit_sync_DESC">Non puoi modificare la repository mentre è in aggiornamento.</string>
+    <string name="cant_edit_sync_DESC">Non è possibile modificare il repository perché è in corso la sincronizzazione.</string>
     <string name="changelog">Registro delle modifiche</string>
     <string name="changes">Cambiamenti</string>
     <string name="checking_repository">Controllo repository…</string>
     <string name="compiled_for_debugging">Compilato per debugging</string>
     <string name="confirmation">Convalida</string>
-    <string name="connecting">Connessione…</string>
+    <string name="connecting">Connessione in corso…</string>
     <string name="contains_non_free_media">Contiene media non liberi</string>
     <string name="could_not_download_FORMAT">Impossibile scaricare %s</string>
     <string name="could_not_sync_FORMAT">Impossibile sincronizzare %s</string>
@@ -36,9 +36,9 @@
     <string name="donate">Dona</string>
     <string name="downloaded_FORMAT">Scaricato %s</string>
     <string name="downloading">Scaricamento in corso</string>
-    <string name="downloading_FORMAT">Scaricamento %s…</string>
+    <string name="downloading_FORMAT">Scaricamento di %s in corso…</string>
     <string name="edit_repository">Modifica repository</string>
-    <string name="file_format_error_DESC">Il file è in un formato non valido.</string>
+    <string name="file_format_error_DESC">Formato file non valido.</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="has_advertising">Contiene annunci</string>
     <string name="has_non_free_dependencies">Contiene dipendenze non libere</string>
@@ -47,16 +47,14 @@
     <string name="http_proxy">Proxy HTTP</string>
     <string name="ignore_all_updates">Ignora tutte le nuove versioni</string>
     <string name="ignore_this_update">Ignora questa versione</string>
-    <string name="incompatible_api_DESC_FORMAT">Il tuo %1$s (API version %2$d) non è supportato. %3$s</string>
+    <string name="incompatible_api_DESC_FORMAT">Il proprio %1$s (versione API %2$d) non è supportato. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">La versione massima API è %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">La versione minima API è %d.</string>
     <string name="incompatible_features_DESC">Caratteristiche mancanti.</string>
     <string name="incompatible_older_DESC">Questa versione è più vecchia di quella installata su questo dispositivo.
     Elimina prima quella.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Il tuo %1$s non è supportato.
-    Piattaforme supportate: %2$s.</string>
-    <string name="incompatible_signature_DESC">Questa versione ha una firma diversa da quella installata sul tuo dispositivo.
-    Disinstalla prima quella.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">La piattaforma %1$s non è supportata. Piattaforme supportate: %2$s.</string>
+    <string name="incompatible_signature_DESC">Questa versione ha una firma diversa da quella installata sul proprio dispositivo. Disinstalla prima quella.</string>
     <string name="incompatible_version">Versione non compatibile</string>
     <string name="incompatible_versions">Versioni non compatibili</string>
     <string name="incompatible_versions_summary">Mostra le versioni delle applicazioni incompatibili con il dispositivo</string>
@@ -79,14 +77,14 @@
     <string name="links">Collegamenti</string>
     <string name="list_animation">Elenco animazioni</string>
     <string name="list_animation_description">Mostra l\'animazione della lista nella pagina principale</string>
-    <string name="merging_FORMAT">Unione %s</string>
+    <string name="merging_FORMAT">Unione di %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Errore di rete</string>
     <string name="never">Mai</string>
     <string name="new_updates_available">Nuove versioni di applicazioni disponibili</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d applicazione ha una nuova versione.</item>
-        <item quantity="many">%d applicazioni con nuove versioni.</item>
+        <item quantity="many">%d applicazioni hanno una nuova versione.</item>
         <item quantity="other">%d applicazioni hanno una nuova versione.</item>
     </plurals>
     <string name="no_applications_available">Nessuna applicazione disponibile</string>
@@ -102,7 +100,7 @@
     <string name="only_on_wifi">Solo con Wi-Fi</string>
     <string name="open_DESC_FORMAT">Aprire %s?</string>
     <string name="other">Altro</string>
-    <string name="parsing_index_error_DESC">Impossibile analizzare indice file.</string>
+    <string name="parsing_index_error_DESC">Impossibile analizzare il file di indice.</string>
     <string name="password">Password</string>
     <string name="password_missing">Password mancante</string>
     <string name="permissions">Permessi</string>
@@ -121,10 +119,10 @@
     <string name="repositories">Repository</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">Questo repository non è stato ancora utilizzato. Attivalo per vedere le applicazioni in esso contenute.</string>
-    <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. Stai attento quando scarichi applicazioni da repository senza firma.</string>
+    <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. È importante stare attenti quando si scaricano le applicazioni dai repository senza firma.</string>
     <string name="requires_FORMAT">Richiede %s</string>
     <string name="root_permission">Installazione silenziosa</string>
-    <string name="root_permission_description">Consenti il permesso di Root per abilitare installazioni silenziose</string>
+    <string name="root_permission_description">Consenti permesso di Root per abilitare installazioni silenziose</string>
     <string name="save">Salva</string>
     <string name="saving_details">Salvataggio dei dettagli…</string>
     <string name="screenshots">Schermate</string>
@@ -132,7 +130,7 @@
     <string name="select_mirror">Seleziona alternativa</string>
     <string name="share">Condividi</string>
     <string name="show_more">Mostra dettagli</string>
-    <string name="show_older_versions">Mostra versioni vecchie</string>
+    <string name="show_older_versions">Mostra versioni precedenti</string>
     <string name="signature_FORMAT">Firma %s</string>
     <string name="signed_using_unsafe_algorithm">Firmato usando un algoritmo non sicuro</string>
     <string name="size">Dimensione</string>
@@ -142,10 +140,10 @@
     <string name="source_code">Codice sorgente</string>
     <string name="source_code_no_longer_available">Codice sorgente non più disponibile</string>
     <string name="suggested">Suggerito</string>
-    <string name="sync_repositories">Sincronizza repositories</string>
-    <string name="sync_repositories_automatically">Sincronizza automaticamente le repositories</string>
-    <string name="syncing">Sincronizzando</string>
-    <string name="syncing_FORMAT">Sincronizzando %s…</string>
+    <string name="sync_repositories">Sincronizza repository</string>
+    <string name="sync_repositories_automatically">Sincronizza automaticamente i repository</string>
+    <string name="syncing">Sincronizzazione</string>
+    <string name="syncing_FORMAT">Sincronizzazione di %s in corso…</string>
     <string name="system">Sistema</string>
     <string name="tap_to_install_DESC">Tocca per installare.</string>
     <string name="target">Obiettivo</string>
@@ -157,8 +155,8 @@
     <string name="unknown_error_DESC">Errore sconosciuto.</string>
     <string name="unknown_FORMAT">Sconosciuto: %s</string>
     <string name="unsigned">Non firmato</string>
-    <string name="unstable_updates">Aggiornamento non stabile</string>
-    <string name="unstable_updates_summary">Suggerisci versioni non stabili</string>
+    <string name="unstable_updates">Aggiornamenti instabili</string>
+    <string name="unstable_updates_summary">Suggerisci l\'installazione di versioni instabili</string>
     <string name="unverified">Non verificato</string>
     <string name="update">Aggiorna</string>
     <string name="updates">Aggiornamenti</string>
@@ -170,7 +168,7 @@
     <string name="version_FORMAT">Versione %s</string>
     <string name="versions">Versioni</string>
     <string name="waiting_to_start_download">In attesa dell\'inizio dello scaricamento…</string>
-    <string name="whats_new">Cosa c\'è di nuovo</string>
+    <string name="whats_new">Novità</string>
     <string name="website">Sito web</string>
     <string name="prefs_language_title">Lingua</string>
     <string name="prefs_personalization">Personalizzazione</string>
@@ -179,7 +177,7 @@
     <string name="latest">Ultime novità</string>
     <string name="show_less">Mostra meno</string>
     <string name="new_applications">Nuove applicazioni</string>
-    <string name="explore">Esplorare</string>
+    <string name="explore">Esplora</string>
     <string name="installed_applications">Applicazioni installate</string>
     <string name="installer">Installatore</string>
     <string name="shizuku_installer">Installatore Shizuku</string>
