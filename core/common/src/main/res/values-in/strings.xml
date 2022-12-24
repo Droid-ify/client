@@ -69,7 +69,7 @@
     </plurals>
     <string name="no_applications_available">Tidak ada aplikasi yang tersedia</string>
     <string name="no_applications_installed">Tidak ada aplikasi yang terpasang</string>
-    <string name="no_description_available_DESC">Deskripsi tidak tersedia.</string>
+    <string name="no_description_available_DESC">Deskripsi tidak tersedia</string>
     <string name="no_matching_applications_found">Tidak bisa menemukan aplikasi tersebut</string>
     <string name="no_proxy">Tanpa proksi</string>
     <string name="notify_about_updates">Beri tahu tentang versi baru dari aplikasi</string>
@@ -147,7 +147,7 @@
     <string name="has_advertising">Berisi iklan</string>
     <string name="incompatible_with_FORMAT">Tidak kompatibel dengan %s</string>
     <string name="install">Pasang</string>
-    <string name="network_error_DESC">Galat jaringan.</string>
+    <string name="network_error_DESC">Galat jaringan</string>
     <string name="license_FORMAT">Lisensi %s</string>
     <string name="installer">Pemasang</string>
     <string name="link_copied_to_clipboard">Tautan disalin ke papan klip</string>
@@ -179,4 +179,16 @@
     <string name="versions">Versi</string>
     <string name="update_all">Perbarui semua</string>
     <string name="installed_applications">Aplikasi terpasang</string>
+    <plurals name="days">
+        <item quantity="other">Hari</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">Jam</item>
+    </plurals>
+    <string name="only_on_wifi_with_charging">Hanya pada Wi-Fi &amp; Mengisi Daya</string>
+    <string name="compiled_for_debugging">Dikompilasi untuk pengawakutuan</string>
+    <string name="io_error_DESC">Tidak bisa melaksanakan tindakan tertentu.</string>
+    <string name="no_internet">Anda tidak memiliki akses internet</string>
+    <string name="allow_collapsing_toolbar">Izinkan Bilah Atas Apl untuk Diperluas</string>
+    <string name="allow_collapsing_toolbar_DESC">Izinkan bilah atas aplikasi untuk diperluas dan dikecilkan</string>
 </resources>
