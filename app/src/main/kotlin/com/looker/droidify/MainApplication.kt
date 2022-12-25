@@ -19,8 +19,6 @@ import coil.memory.MemoryCache
 import com.looker.core.common.Constants
 import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.ERROR_APP_ICON
-import com.looker.core.common.extension.PLACEHOLDER_APP_ICON
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
@@ -48,6 +46,7 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.hours
+import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
@@ -235,12 +234,24 @@ class MainApplication : Application(), ImageLoaderFactory {
 		override fun onReceive(context: Context, intent: Intent) = Unit
 	}
 
-	override fun newImageLoader(): ImageLoader = ImageLoader.Builder(this).memoryCache {
-		MemoryCache.Builder(this).maxSizePercent(0.25).build()
-	}.diskCache {
-		DiskCache.Builder().directory(Cache.getImagesDir(this)).maxSizePercent(0.05).build()
-	}.crossfade(350)
-		.build()
+	override fun newImageLoader(): ImageLoader {
+
+		val memoryCache = MemoryCache.Builder(this)
+			.maxSizePercent(0.25)
+			.build()
+
+		val diskCache = DiskCache.Builder()
+			.directory(Cache.getImagesDir(this))
+			.maxSizePercent(0.05)
+			.build()
+
+		return ImageLoader.Builder(this)
+			.memoryCache(memoryCache)
+			.diskCache(diskCache)
+			.error(CommonR.drawable.ic_cannot_load)
+			.crossfade(350)
+			.build()
+	}
 }
 
 private data class ProxyPreference(
