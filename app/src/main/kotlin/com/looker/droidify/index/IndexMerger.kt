@@ -4,12 +4,12 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.fasterxml.jackson.core.JsonToken
 import com.looker.core.common.extension.Json
+import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.collectNotNull
+import com.looker.core.common.extension.execWithResult
 import com.looker.core.common.extension.writeDictionary
 import com.looker.core.model.Product
 import com.looker.core.model.Release
-import com.looker.droidify.utility.extension.android.asSequence
-import com.looker.droidify.utility.extension.android.execWithResult
 import java.io.ByteArrayOutputStream
 import java.io.Closeable
 import java.io.File
@@ -68,19 +68,18 @@ class IndexMerger(file: File) : Closeable {
 		db.rawQuery(
 			"""SELECT product.description, product.data AS pd, releases.data AS rd FROM product
       LEFT JOIN releases ON product.package_name = releases.package_name""", null
-		)
-			?.use { it ->
-				it.asSequence().map {
-					val description = it.getString(0)
-					val product = Json.factory.createParser(it.getBlob(1)).use {
+		)?.use { cursor ->
+				cursor.asSequence().map { currentCursor ->
+					val description = currentCursor.getString(0)
+					val product = Json.factory.createParser(currentCursor.getBlob(1)).use {
 						it.nextToken()
 						Product.deserialize(it).apply {
 							this.repositoryId = repositoryId
 							this.description = description
 						}
 					}
-					val releases = it.getBlob(2)?.let {
-						Json.factory.createParser(it).use {
+					val releases = currentCursor.getBlob(2)?.let { bytes ->
+						Json.factory.createParser(bytes).use {
 							it.nextToken()
 							it.collectNotNull(
 								JsonToken.START_OBJECT,
@@ -90,7 +89,7 @@ class IndexMerger(file: File) : Closeable {
 					}.orEmpty()
 					product.copy(releases = releases)
 				}.windowed(windowSize, windowSize, true)
-					.forEach { products -> callback(products, it.count) }
+					.forEach { products -> callback(products, cursor.count) }
 			}
 	}
 

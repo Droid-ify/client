@@ -19,6 +19,8 @@ import coil.memory.MemoryCache
 import com.looker.core.common.Constants
 import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.ERROR_APP_ICON
+import com.looker.core.common.extension.PLACEHOLDER_APP_ICON
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
@@ -237,7 +239,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 		MemoryCache.Builder(this).maxSizePercent(0.25).build()
 	}.diskCache {
 		DiskCache.Builder().directory(Cache.getImagesDir(this)).maxSizePercent(0.05).build()
-	}.crossfade(350).build()
+	}.crossfade(350)
+		.build()
 }
 
 private data class ProxyPreference(

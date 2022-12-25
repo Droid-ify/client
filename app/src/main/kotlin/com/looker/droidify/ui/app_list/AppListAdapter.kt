@@ -1,7 +1,6 @@
 package com.looker.droidify.ui.app_list
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -36,15 +34,6 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 		val status = itemView.findViewById<TextView>(R.id.status)!!
 		val summary = itemView.findViewById<TextView>(R.id.summary)!!
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-
-		val progressIcon: Drawable
-		val defaultIcon: Drawable
-
-		init {
-			val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
-			this.progressIcon = progressIcon
-			this.defaultIcon = defaultIcon
-		}
 	}
 
 	private class LoadingViewHolder(context: Context) :
@@ -149,10 +138,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 							repository = it
 						)
 					}
-				) {
-					placeholder(holder.progressIcon)
-					error(holder.defaultIcon)
-				}
+				)
 				holder.status.apply {
 					text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
 					val isInstalled = productItem.installedVersion.nullIfEmpty() != null

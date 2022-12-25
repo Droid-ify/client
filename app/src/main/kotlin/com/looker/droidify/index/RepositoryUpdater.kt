@@ -3,6 +3,7 @@ package com.looker.droidify.index
 import android.content.Context
 import android.net.Uri
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.result.Result
 import com.looker.core.model.Product
 import com.looker.core.model.Release
@@ -10,7 +11,6 @@ import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.ProgressInputStream
-import com.looker.droidify.utility.Utils.fingerprint
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

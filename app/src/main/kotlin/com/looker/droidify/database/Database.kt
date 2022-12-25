@@ -9,6 +9,8 @@ import android.os.CancellationSignal
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.Json
+import com.looker.core.common.extension.asSequence
+import com.looker.core.common.extension.firstOrNull
 import com.looker.core.common.extension.parseDictionary
 import com.looker.core.common.extension.writeDictionary
 import com.looker.core.datastore.model.SortOrder
@@ -16,8 +18,7 @@ import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
-import com.looker.droidify.utility.extension.android.asSequence
-import com.looker.droidify.utility.extension.android.firstOrNull
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow

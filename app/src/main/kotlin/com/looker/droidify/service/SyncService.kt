@@ -17,6 +17,7 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
 import com.looker.core.common.Util
+import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
@@ -32,7 +33,6 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.extension.android.asSequence
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

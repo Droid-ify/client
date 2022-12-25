@@ -8,6 +8,15 @@ import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import com.looker.core.common.R
+
+val Context.ERROR_APP_ICON: Drawable
+	get() = getDrawableCompat(R.drawable.ic_application_default).mutate()
+		.apply { setTintList(getColorFromAttr(R.attr.colorErrorContainer)) }
+
+val Context.PLACEHOLDER_APP_ICON: Drawable
+	get() = getDrawableCompat(R.drawable.ic_application_default).mutate()
+		.apply { setTintList(getColorFromAttr(R.attr.colorOutline)) }
 
 inline val Context.notificationManager: NotificationManager
 	get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

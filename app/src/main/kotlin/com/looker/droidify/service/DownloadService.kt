@@ -13,7 +13,10 @@ import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.Constants
 import com.looker.core.common.Util
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.calculateHash
 import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.extension.singleSignature
+import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
 import com.looker.core.common.nullIfEmpty
@@ -28,10 +31,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.utility.Utils.calculateHash
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.android.singleSignature
-import com.looker.droidify.utility.extension.android.versionCodeCompat
 import com.looker.droidify.utility.extension.app_file.installApk
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -357,7 +357,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			) {
 				ValidationError.METADATA
 			} else {
-				val signature = packageInfo.singleSignature?.calculateHash.orEmpty()
+				val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
 				if (signature.isEmpty() || signature != task.release.signature) {
 					ValidationError.SIGNATURE
 				} else {

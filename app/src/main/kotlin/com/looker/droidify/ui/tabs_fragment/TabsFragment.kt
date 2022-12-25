@@ -25,6 +25,7 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.looker.core.common.device.Huawei
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.sdkAbove
@@ -166,7 +167,7 @@ class TabsFragment : ScreenFragment() {
 		}
 
 		toolbar.menu.apply {
-			if (!Android.Device.isHuaweiEmui) {
+			if (!Huawei.isHuaweiEmui) {
 				sdkAbove(Build.VERSION_CODES.P) {
 					setGroupDividerEnabled(true)
 				}

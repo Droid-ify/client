@@ -10,7 +10,6 @@ import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
@@ -66,7 +65,6 @@ import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.screen.ScreenshotsAdapter
 import com.looker.droidify.utility.PackageItemResolver
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
@@ -368,13 +366,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
 		val textSwitcher = itemView.findViewById<TextSwitcher>(R.id.author_package_name)!!
 
-		val progressIcon: Drawable
-		val defaultIcon: Drawable
-
 		init {
-			val (progressIcon, defaultIcon) = Utils.getDefaultApplicationIcons(icon.context)
-			this.progressIcon = progressIcon
-			this.defaultIcon = defaultIcon
 			textSwitcher.setInAnimation(itemView.context!!, R.anim.slide_right_fade_in)
 			textSwitcher.setOutAnimation(itemView.context!!, R.anim.slide_right_fade_out)
 		}
@@ -1105,10 +1097,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							metadataIcon = item.product.metadataIcon,
 							repository = item.repository
 						)
-					) {
-						placeholder(holder.progressIcon)
-						error(holder.defaultIcon)
-					}
+					)
 					val authorText =
 						if (showAuthor) buildSpannedString {
 							append("by ")
