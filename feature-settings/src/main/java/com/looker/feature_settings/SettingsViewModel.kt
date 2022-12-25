@@ -1,6 +1,7 @@
 package com.looker.feature_settings
 
 import android.content.pm.PackageManager
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
@@ -98,6 +99,7 @@ class SettingsViewModel
 		viewModelScope.launch {
 			when (installerType) {
 				InstallerType.SHIZUKU -> {
+					Shizuku.addRequestPermissionResultListener(permissionListener)
 					val haveShizuku = checkShizukuPermission()
 					userPreferencesRepository.setInstallerType(
 						if (haveShizuku) InstallerType.SHIZUKU else InstallerType.SESSION
@@ -118,29 +120,44 @@ class SettingsViewModel
 
 	private fun checkShizukuPermission(): Boolean {
 		if (Shizuku.isPreV11()) return false
-		return if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) true
-		else if (Shizuku.shouldShowRequestPermissionRationale()) false
-		else {
-			Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
-			false
-		}
+		return if (Shizuku.pingBinder()) {
+			if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) true
+			else if (Shizuku.shouldShowRequestPermissionRationale()) false
+			else {
+				Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
+				false
+			}
+		} else false
+	}
+
+	private val shizukuDeadListener = Shizuku.OnBinderDeadListener {
+		Log.e("ShizukuInstaller", "Killed")
 	}
 
 	private val permissionListener =
-		Shizuku.OnRequestPermissionResultListener { _, grantResult ->
-			viewModelScope.launch {
-				val granted = grantResult == PackageManager.PERMISSION_GRANTED
-				if (!granted) userPreferencesRepository.setInstallerType(InstallerType.SESSION)
+		object : Shizuku.OnRequestPermissionResultListener {
+			override fun onRequestPermissionResult(requestCode: Int, grantResult: Int) {
+				if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
+					val granted = grantResult == PackageManager.PERMISSION_GRANTED
+					viewModelScope.launch {
+						userPreferencesRepository.setInstallerType(
+							if (granted) InstallerType.SHIZUKU
+							else InstallerType.SESSION
+						)
+					}
+					Shizuku.removeRequestPermissionResultListener(this)
+				}
 			}
 		}
 
 	init {
-		Shizuku.addRequestPermissionResultListener(permissionListener)
+		Shizuku.addBinderDeadListener(shizukuDeadListener)
 	}
 
 	override fun onCleared() {
 		super.onCleared()
 		Shizuku.removeRequestPermissionResultListener(permissionListener)
+		Shizuku.removeBinderDeadListener(shizukuDeadListener)
 	}
 
 }
