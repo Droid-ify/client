@@ -193,4 +193,8 @@
     <string name="update_all">Oppdater alle</string>
     <string name="installed_applications">Installerte</string>
     <string name="new_applications">Nye</string>
+    <string name="allow_collapsing_toolbar">Tillat utvidelse av toppfelt</string>
+    <string name="no_internet">Du mangler tilkobling til Internett.</string>
+    <string name="io_error_DESC">Noen av handlingene kunne ikke utføres.</string>
+    <string name="allow_collapsing_toolbar_DESC">Tillat toppfeltet å utvide og folde seg sammen</string>
 </resources>
