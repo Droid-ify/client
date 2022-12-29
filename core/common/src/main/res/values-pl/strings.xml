@@ -117,7 +117,7 @@
     <string name="new_updates_available">Dostępne są nowe aktualizacje</string>
     <string name="no_proxy">Brak proxy</string>
     <string name="notify_about_updates_summary">Pokaż powiadomienie, gdy dostępne są aktualizacje</string>
-    <string name="only_on_wifi">Tylko w Wi-Fi</string>
+    <string name="only_on_wifi">Tylko na Wi-Fi</string>
     <string name="launch">Uruchom</string>
     <string name="license">Licencja</string>
     <string name="link_copied_to_clipboard">Link skopiowany do schowka</string>
