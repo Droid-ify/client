@@ -13,7 +13,7 @@ import com.looker.core.common.R.style as styleRes
 fun Context?.themeName(theme: Theme) = this?.let {
 	when (theme) {
 		Theme.SYSTEM -> getString(stringRes.system)
-		Theme.SYSTEM_BLACK -> getString(stringRes.system) + " " + getString(stringRes.amoled)
+		Theme.SYSTEM_AMOLED -> getString(stringRes.system) + " " + getString(stringRes.amoled)
 		Theme.LIGHT -> getString(stringRes.light)
 		Theme.DARK -> getString(stringRes.dark)
 		Theme.AMOLED -> getString(stringRes.amoled)
@@ -25,7 +25,7 @@ fun Configuration.getThemeRes(theme: Theme) = when (theme) {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
 			styleRes.Theme_Main_Dark else styleRes.Theme_Main_Light
 	}
-	Theme.SYSTEM_BLACK -> {
+	Theme.SYSTEM_AMOLED -> {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
 			styleRes.Theme_Main_Amoled else styleRes.Theme_Main_Light
 	}
