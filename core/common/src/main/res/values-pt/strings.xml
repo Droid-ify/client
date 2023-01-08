@@ -128,13 +128,13 @@
     <string name="invalid_address">Endereço inválido</string>
     <string name="invalid_metadata_error_DESC">Meta-dados inválidos.</string>
     <string name="name">Nome</string>
-    <string name="no_description_available_DESC">Sem descrição.</string>
+    <string name="no_description_available_DESC">Sem descrição</string>
     <string name="open_DESC_FORMAT">Abrir %s\?</string>
     <string name="permissions">Permissões</string>
     <string name="invalid_fingerprint_format">Formato de impressão digital inválido</string>
     <string name="invalid_permissions_error_DESC">Permissões inválidas.</string>
     <string name="invalid_username_format">Formato de nome de utilizador inválido</string>
-    <string name="network_error_DESC">Erro de rede.</string>
+    <string name="network_error_DESC">Erro de rede</string>
     <string name="no_applications_installed">Sem aplicações instaladas</string>
     <string name="number_of_applications">Número de aplicações</string>
     <string name="ok">OK</string>
