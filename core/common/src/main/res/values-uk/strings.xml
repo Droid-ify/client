@@ -66,7 +66,7 @@
     <string name="list_animation_description">Показувати анімацію списку на головній сторінці</string>
     <string name="merging_FORMAT">Злиття %s</string>
     <string name="name">Ім\'я</string>
-    <string name="network_error_DESC">Помилка мережі.</string>
+    <string name="network_error_DESC">Помилка мережі</string>
     <string name="new_updates_available">Доступні нові версії додатків</string>
     <string name="no_applications_installed">Немає встановлених додатків</string>
     <string name="no_description_available_DESC">Опис відсутній</string>
