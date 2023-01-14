@@ -295,6 +295,18 @@ data class Repository(
 				"A companion repository to microG's installer.",
 				21, false, "862ED9F13A3981432BF86FE93D14596B381D75BE83A1D616E2D44A12654AD015", ""
 			)
+		}, run {
+			defaultRepository(
+				"https://fluffychat.im/repo/stable/repo", "FluffyChat",
+				"The official repository for FluffyChat.",
+				21, false, "8E2637AEF6697CC6DD486AF044A6EE45B1A742AE3EF56566E748CDE8BC65C1FB", ""
+			)
+		}, run {
+			defaultRepository(
+				"https://fluffychat.im/repo/nightly/repo", "FluffyChat Nightly",
+				"The official nightly repository for FluffyChat.",
+				21, false, "21A469657300576478B623DF99D8EB889A80BCD939ACA60A4074741BEAEC397D", ""
+			)
 		})
 	}
 }
