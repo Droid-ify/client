@@ -17,7 +17,7 @@
     <string name="show_less">اعرض أقل</string>
     <string name="latest">الأحدث</string>
     <string name="explore">استكشف</string>
-    <string name="action_failed">فشلت الإجراء</string>
+    <string name="action_failed">فشل الإجراء</string>
     <string name="add_repository">أضف مستودعًا</string>
     <string name="all_applications">كل التطبيقات</string>
     <string name="all_applications_up_to_date">كل التطبيقات مُحدثة</string>
@@ -97,12 +97,12 @@
     <string name="never">أبدًا</string>
     <string name="new_updates_available">توجد إصدارات جديدة</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="zero">%d تحديث جديد.</item>
-        <item quantity="one">%d تحديث جديد.</item>
-        <item quantity="two">%d تحديثان جديدان.</item>
-        <item quantity="few">%d بضعة تحديثات جديدة.</item>
-        <item quantity="many">%d الكثير من التحديثات الجديدة.</item>
-        <item quantity="other">%d تحديثات جديدة.</item>
+        <item quantity="zero">ليس لدى أيِّ تطبيق إصدار جديد.</item>
+        <item quantity="one">لدى تطبيق إصدار جديد.</item>
+        <item quantity="two">لدى تطبيقين إصداران جديدان.</item>
+        <item quantity="few">لدى %d تطبيقات إصدارات جديدة.</item>
+        <item quantity="many">لدى %d تطبيق إصدارات جديدة.</item>
+        <item quantity="other">لدى %d تطبيق إصدارات جديدة.</item>
     </plurals>
     <string name="no_applications_available">لا توجد تطبيقات متاحة</string>
     <string name="no_applications_installed">لا توجد تطبيقات مثبتة</string>
@@ -189,19 +189,19 @@
     <string name="cleanup_description">الوقت المطلوب للتنظيف لإعادة الفحص</string>
     <string name="cleanup_title">مدة التنظيف</string>
     <plurals name="days">
-        <item quantity="zero">يوم</item>
+        <item quantity="zero">أقل من يوم</item>
         <item quantity="one">يوم</item>
         <item quantity="two">يومان</item>
-        <item quantity="few">بضعة أيام</item>
-        <item quantity="many">الكثير من الأيام</item>
+        <item quantity="few">أيام</item>
+        <item quantity="many">يومًا</item>
         <item quantity="other">يوم</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="zero">ساعة</item>
+        <item quantity="zero">أقل من ساعة</item>
         <item quantity="one">ساعة</item>
         <item quantity="two">ساعتان</item>
-        <item quantity="few">بعضة ساعات</item>
-        <item quantity="many">الكثير من الساعات</item>
+        <item quantity="few">ساعات</item>
+        <item quantity="many">ساعةً</item>
         <item quantity="other">ساعة</item>
     </plurals>
     <string name="only_on_wifi_with_charging">فقط على شبكة واي-فاي وعند الشحن</string>
