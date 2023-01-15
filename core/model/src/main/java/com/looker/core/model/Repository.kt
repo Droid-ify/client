@@ -307,6 +307,12 @@ data class Repository(
 				"The official nightly repository for FluffyChat.",
 				21, false, "21A469657300576478B623DF99D8EB889A80BCD939ACA60A4074741BEAEC397D", ""
 			)
+		}, run {
+			defaultRepository(
+				"https://releases.threema.ch/fdroid/repo", "Threema Libre",
+				"The official repository for Threema Libre. Requires Threema Shop license.",
+				21, false, "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E", ""
+			)
 		})
 	}
 }
