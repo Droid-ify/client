@@ -196,8 +196,8 @@
         <item quantity="many">Horas</item>
         <item quantity="other">Horas</item>
     </plurals>
-    <string name="allow_collapsing_toolbar">Permitir que a Barra Superior de Apps se Expanda</string>
-    <string name="io_error_DESC">Incapaz de executar certas ações.</string>
-    <string name="allow_collapsing_toolbar_DESC">Permitir que a barra de apps superior se expanda e recolha</string>
-    <string name="no_internet">Não está conectado à Internet</string>
+    <string name="allow_collapsing_toolbar">Permitir expansão da barra de aplicações</string>
+    <string name="io_error_DESC">Não foi possível executar algumas ações.</string>
+    <string name="allow_collapsing_toolbar_DESC">Permitir recolha/expansão da barra superior de aplicações</string>
+    <string name="no_internet">Não existe qualquer ligação à Internet</string>
 </resources>
