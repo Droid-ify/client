@@ -195,4 +195,6 @@
     </plurals>
     <string name="no_internet">您没有互联网连接</string>
     <string name="io_error_DESC">无法执行某些操作。</string>
+    <string name="allow_collapsing_toolbar_DESC">允许顶部应用栏展开和折叠</string>
+    <string name="allow_collapsing_toolbar">允许顶部应用栏展开</string>
 </resources>
