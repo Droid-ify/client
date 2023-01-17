@@ -191,4 +191,7 @@
     <string name="no_internet">Anda tidak memiliki akses internet</string>
     <string name="allow_collapsing_toolbar">Izinkan Bilah Atas Apl untuk Diperluas</string>
     <string name="allow_collapsing_toolbar_DESC">Izinkan bilah atas aplikasi untuk diperluas dan dikecilkan</string>
+    <string name="cleanup_title">Durasi membersihkan</string>
+    <string name="cleanup_description">Waktu diperlukan untuk pembersihan mengecek ulang</string>
+    <string name="downloaded_FORMAT">%s Terdownload</string>
 </resources>
