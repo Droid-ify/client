@@ -1,4 +1,4 @@
-package com.looker.core.common
+package com.looker.core.common.extension
 
 infix fun Long.percentBy(denominator: Long?): Int =
 	try {

@@ -6,7 +6,7 @@ import android.content.pm.PackageItemInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.os.Build
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import java.util.*
 
 object PackageItemResolver {
@@ -27,7 +27,7 @@ object PackageItemResolver {
 				nonLocalized
 			}
 			resId != 0 -> {
-				val locales = if (Util.isNougat) {
+				val locales = if (SdkCheck.isNougat) {
 					val localesList = context.resources.configuration.locales
 					(0 until localesList.size()).map(localesList::get)
 				} else {

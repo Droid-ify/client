@@ -1,4 +1,4 @@
-package com.looker.core.common.view
+package com.looker.core.common.extension
 
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +12,13 @@ import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.Util
-import com.looker.core.common.view.InsetSides.*
+import com.looker.core.common.SdkCheck
+import com.looker.core.common.extension.InsetSides.*
 
 fun View.systemBarsMargin(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	if (Util.isR) {
+	if (SdkCheck.isR) {
 		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
 			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
 			view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
@@ -35,7 +35,7 @@ fun View.systemBarsMargin(
 fun RecyclerView.systemBarsPadding(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	if (Util.isR) {
+	if (SdkCheck.isR) {
 		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
 			clipToPadding = false
 			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -53,7 +53,7 @@ fun RecyclerView.systemBarsPadding(
 fun NestedScrollView.systemBarsPadding(
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
-	if (Util.isR) {
+	if (SdkCheck.isR) {
 		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
 			clipToPadding = false
 			val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())

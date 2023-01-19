@@ -28,8 +28,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.device.Huawei
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.setCollapsable
+import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
-import com.looker.core.common.view.systemBarsPadding
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.sortOrderName
@@ -43,7 +43,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.app_list.AppListFragment
 import com.looker.droidify.utility.Utils
-import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.DividerItemDecoration

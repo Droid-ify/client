@@ -1,6 +1,6 @@
 package com.looker.downloader
 
-import com.looker.core.common.percentBy
+import com.looker.core.common.extension.percentBy
 import com.looker.downloader.model.DownloadItem
 import com.looker.downloader.model.DownloadState
 import com.looker.downloader.model.HeaderInfo

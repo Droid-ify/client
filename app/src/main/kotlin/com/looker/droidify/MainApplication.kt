@@ -17,7 +17,7 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core.common.Constants
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
@@ -86,7 +86,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 						Intent.ACTION_PACKAGE_REMOVED,
 						-> {
 							val packageInfo = try {
-								if (Util.isTiramisu) {
+								if (SdkCheck.isTiramisu) {
 									packageManager.getPackageInfo(
 										packageName,
 										PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
@@ -115,7 +115,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addDataScheme("package")
 		})
 		val installedItems = try {
-			if (Util.isTiramisu) {
+			if (SdkCheck.isTiramisu) {
 				packageManager.getInstalledPackages(
 					PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
 				).map { it.toInstalledItem() }
@@ -183,7 +183,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
 								setRequiresStorageNotLow(true)
 							}
-							if (Util.isNougat) setPeriodic(period, JobInfo.getMinFlexMillis())
+							if (SdkCheck.isNougat) setPeriodic(period, JobInfo.getMinFlexMillis())
 							else setPeriodic(period)
 						}.build()
 					)

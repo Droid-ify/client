@@ -3,7 +3,7 @@
 package com.looker.droidify.utility.extension.android
 
 import android.os.Build
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 
 object Android {
 	val sdk: Int
@@ -22,7 +22,7 @@ object Android {
 		// GET_SIGNATURES should always present for getPackageArchiveInfo
 		@Suppress("DEPRECATION")
 		val signaturesFlag: Int
-			get() = (if (Util.isPie) android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES
+			get() = (if (SdkCheck.isPie) android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES
 			else 0) or android.content.pm.PackageManager.GET_SIGNATURES
 	}
 }

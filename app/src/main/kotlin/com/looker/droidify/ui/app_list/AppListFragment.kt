@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.view.systemBarsMargin
+import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database

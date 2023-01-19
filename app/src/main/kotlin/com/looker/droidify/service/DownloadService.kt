@@ -11,16 +11,16 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.Constants
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.calculateHash
 import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.extension.percentBy
 import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.common.percentBy
 import com.looker.core.common.result.Result.*
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
@@ -192,7 +192,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	private inline val pendingIntentFlag
-		get() = if (Util.isSnowCake) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+		get() = if (SdkCheck.isSnowCake) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
 		else PendingIntent.FLAG_UPDATE_CURRENT
 
 	private fun showNotificationError(task: Task, errorType: ErrorType) {
@@ -334,7 +334,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			ValidationError.INTEGRITY
 		} else {
 			val packageInfo = try {
-				if (Util.isTiramisu) {
+				if (SdkCheck.isTiramisu) {
 					packageManager.getPackageArchiveInfo(
 						file.path,
 						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
@@ -513,7 +513,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else if (started) {
 				started = false
 				@Suppress("DEPRECATION")
-				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+				if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
 				else stopForeground(true)
 				stopSelf()
 			}

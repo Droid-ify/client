@@ -8,7 +8,7 @@ inline fun sdkAbove(sdk: Int, onSuccessful: () -> Unit) {
 	if (Build.VERSION.SDK_INT >= sdk) onSuccessful()
 }
 
-object Util {
+object SdkCheck {
 
 	private val sdk: Int
 		get() = Build.VERSION.SDK_INT

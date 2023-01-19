@@ -19,12 +19,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
-import com.looker.core.common.view.systemBarsMargin
 import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
@@ -188,7 +188,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 			}
 		}
 		noInternetSnackbar.view.systemBarsMargin()
-		if (Util.isR) {
+		if (SdkCheck.isR) {
 			window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
 			window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
 			WindowCompat.setDecorFitsSystemWindows(window, false)

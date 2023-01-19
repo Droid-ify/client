@@ -9,7 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Release
@@ -142,7 +142,7 @@ class MessageDialog() : DialogFragment() {
 
 	override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
 		val dialog = MaterialAlertDialogBuilder(requireContext())
-		val message = if (Util.isTiramisu)
+		val message = if (SdkCheck.isTiramisu)
 			requireArguments().getParcelable(EXTRA_MESSAGE, Message::class.java)!!
 		else requireArguments().getParcelable(EXTRA_MESSAGE)!!
 		when (message) {

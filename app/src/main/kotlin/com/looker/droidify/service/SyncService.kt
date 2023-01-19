@@ -16,7 +16,7 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
@@ -464,7 +464,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			started = Started.NO
 			if (needStop) {
 				@Suppress("DEPRECATION")
-				if (Util.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+				if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
 				else stopForeground(true)
 				stopSelf()
 			}
@@ -511,7 +511,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					if (productItems.size > maxUpdates) {
 						val summary =
 							getString(stringRes.plus_more_FORMAT, productItems.size - maxUpdates)
-						if (Util.isNougat) addLine(summary) else setSummaryText(summary)
+						if (SdkCheck.isNougat) addLine(summary) else setSummaryText(summary)
 					}
 				})
 				.build()
