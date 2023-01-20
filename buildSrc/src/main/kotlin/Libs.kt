@@ -1,11 +1,11 @@
 object AndroidX {
-	const val appCompat = "androidx.appcompat:appcompat:1.6.0-rc01"
+	const val appCompat = "androidx.appcompat:appcompat:1.6.0"
 
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
-	const val material = "com.google.android.material:material:1.7.0"
+	const val material = "com.google.android.material:material:1.8.0-rc01"
 }
 
 object Core {
@@ -64,7 +64,7 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val ktorVersion = "2.2.1"
+	private const val ktorVersion = "2.2.2"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
 	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
 	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
@@ -100,10 +100,15 @@ object Others {
 }
 
 object Room {
-	private const val roomVersion = "2.5.0-rc01"
+	private const val roomVersion = "2.5.0"
 	const val runtime = "androidx.room:room-runtime:$roomVersion"
 	const val compiler = "androidx.room:room-compiler:$roomVersion"
 	const val ktx = "androidx.room:room-ktx:$roomVersion"
+}
+
+object SQLite {
+	private const val version = "2.3.0"
+	const val ktx = "androidx.sqlite:sqlite-ktx:$version"
 }
 
 object Startup {
@@ -119,8 +124,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.7.21"
-	const val ksp = "1.7.21-1.0.8"
+	const val kotlin = "1.8.0"
+	const val ksp = "1.8.0-1.0.8"
 }
 
 object Work {

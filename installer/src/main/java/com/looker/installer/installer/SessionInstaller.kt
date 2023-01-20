@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.sdkAbove
 import com.looker.installer.InstallerService
 import com.looker.installer.utils.BaseInstaller
@@ -20,7 +20,7 @@ internal class SessionInstaller(context: Context) : BaseInstaller(context) {
 	private val intent = Intent(context, InstallerService::class.java)
 
 	companion object {
-		val flags = if (Util.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
+		val flags = if (SdkCheck.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
 	}
 
 	override suspend fun install(packageName: String, uri: Uri, file: File) {

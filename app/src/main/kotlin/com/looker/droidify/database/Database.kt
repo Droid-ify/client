@@ -6,6 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.os.CancellationSignal
+import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.Json
@@ -18,7 +19,6 @@ import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
-
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -674,18 +674,12 @@ object Database {
 			}
 		}
 
-		// Done in insert
 		fun put(installedItem: InstalledItem) = put(installedItem, true)
 
-		// Done in insert
 		fun putAll(installedItems: List<InstalledItem>) {
-			db.beginTransaction()
-			try {
+			db.transaction {
 				db.delete(Schema.Installed.name, null, null)
 				installedItems.forEach { put(it, false) }
-				db.setTransactionSuccessful()
-			} finally {
-				db.endTransaction()
 			}
 		}
 
@@ -729,13 +723,9 @@ object Database {
 
 		// Done in insert (Lock object instead of pair)
 		fun putAll(locks: List<Pair<String, Long>>) {
-			db.beginTransaction()
-			try {
+			db.transaction {
 				db.delete(Schema.Lock.name, null, null)
 				locks.forEach { put(it, false) }
-				db.setTransactionSuccessful()
-			} finally {
-				db.endTransaction()
 			}
 		}
 
@@ -759,8 +749,7 @@ object Database {
 		}
 
 		fun putTemporary(products: List<Product>) {
-			db.beginTransaction()
-			try {
+			db.transaction {
 				for (product in products) {
 					// Format signatures like ".signature1.signature2." for easier select
 					val signatures = product.signatures.joinToString { ".$it" }
@@ -790,16 +779,12 @@ object Database {
 							})
 					}
 				}
-				db.setTransactionSuccessful()
-			} finally {
-				db.endTransaction()
 			}
 		}
 
 		fun finishTemporary(repository: Repository, success: Boolean) {
 			if (success) {
-				db.beginTransaction()
-				try {
+				db.transaction {
 					db.delete(
 						Schema.Product.name, "${Schema.Product.ROW_REPOSITORY_ID} = ?",
 						arrayOf(repository.id.toString())
@@ -813,9 +798,6 @@ object Database {
 					RepositoryAdapter.putWithoutNotification(repository, true)
 					db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
 					db.execSQL("DROP TABLE IF EXISTS ${Schema.Category.temporaryName}")
-					db.setTransactionSuccessful()
-				} finally {
-					db.endTransaction()
 				}
 				if (success) {
 					notifyChanged(

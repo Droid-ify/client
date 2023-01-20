@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.installer.utils.BaseInstaller
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ internal class RootInstaller(context: Context) : BaseInstaller(context) {
 
 	companion object {
 		private val getCurrentUserState: String =
-			if (Util.isOreo) Shell.su("am get-current-user").exec().out[0]
+			if (SdkCheck.isOreo) Shell.su("am get-current-user").exec().out[0]
 			else Shell.su("dumpsys activity | grep -E \"mUserLru\"")
 				.exec().out[0].trim()
 				.removePrefix("mUserLru: [").removeSuffix("]")

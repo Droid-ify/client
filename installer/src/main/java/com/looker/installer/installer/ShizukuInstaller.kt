@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 import com.looker.installer.utils.BaseInstaller
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,7 +28,7 @@ internal class ShizukuInstaller(context: Context) : BaseInstaller(context) {
 				uri.toFile().length().takeIf { it >= 0 } ?: throw IllegalStateException()
 			context.contentResolver.openInputStream(uri).use {
 				val createCommand =
-					if (Util.isNougat) "pm install-create --user current -i $packageName -S $size"
+					if (SdkCheck.isNougat) "pm install-create --user current -i $packageName -S $size"
 					else "pm install-create -i $packageName -S $size"
 				val createResult = exec(createCommand)
 				sessionId = SESSION_ID_REGEX.find(createResult.out)?.value

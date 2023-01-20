@@ -156,5 +156,7 @@ dependencies {
 
 	implementation(Others.zoomage)
 
+	implementation(SQLite.ktx)
+
 	implementation(Work.manager)
 }
