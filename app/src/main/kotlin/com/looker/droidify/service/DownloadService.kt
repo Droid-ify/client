@@ -309,7 +309,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.installerType
 
 		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
-			task.packageName.installApk(
+			installApk(
+				task.packageName,
 				this@DownloadService,
 				task.release.cacheFileName,
 				installerType

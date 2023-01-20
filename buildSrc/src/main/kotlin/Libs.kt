@@ -63,13 +63,6 @@ object Kotlin {
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
-object Ktor {
-	private const val ktorVersion = "2.2.2"
-	const val okhttp = "io.ktor:ktor-client-okhttp:$ktorVersion"
-	const val xml = "io.ktor:ktor-serialization-kotlinx-xml:$ktorVersion"
-	const val logging = "io.ktor:ktor-client-logging-jvm:$ktorVersion"
-}
-
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
@@ -92,7 +85,7 @@ object OkHttp {
 }
 
 object Others {
-	const val libsu = "com.github.topjohnwu.libsu:core:3.2.1"
+	const val libsu = "com.github.topjohnwu.libsu:core:5.0.4"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
 	private const val shizukuVersion = "12.2.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
@@ -109,11 +102,6 @@ object Room {
 object SQLite {
 	private const val version = "2.3.0"
 	const val ktx = "androidx.sqlite:sqlite-ktx:$version"
-}
-
-object Startup {
-	private const val startupVersion = "1.1.1"
-	const val lib = "androidx.startup:startup-runtime:$startupVersion"
 }
 
 object Test {

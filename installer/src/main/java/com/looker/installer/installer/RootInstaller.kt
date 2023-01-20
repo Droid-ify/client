@@ -20,15 +20,15 @@ internal class RootInstaller(context: Context) : BaseInstaller(context) {
 	private suspend fun mRootInstaller(cacheFile: Uri) {
 		withContext(Dispatchers.IO) {
 			val file = cacheFile.toFile()
-			Shell.su(file.install)
-				.submit { if (it.isSuccess) Shell.su(file.deletePackage).submit() }
+			Shell.cmd(file.install)
+				.submit { if (it.isSuccess) Shell.cmd(file.deletePackage).submit() }
 		}
 	}
 
 	companion object {
 		private val getCurrentUserState: String =
-			if (SdkCheck.isOreo) Shell.su("am get-current-user").exec().out[0]
-			else Shell.su("dumpsys activity | grep -E \"mUserLru\"")
+			if (SdkCheck.isOreo) Shell.cmd("am get-current-user").exec().out[0]
+			else Shell.cmd("dumpsys activity | grep -E \"mUserLru\"")
 				.exec().out[0].trim()
 				.removePrefix("mUserLru: [").removeSuffix("]")
 
@@ -38,7 +38,7 @@ internal class RootInstaller(context: Context) : BaseInstaller(context) {
 		private val getUtilBoxPath: String
 			get() {
 				listOf("toybox", "busybox").forEach {
-					val shellResult = Shell.su("which $it").exec()
+					val shellResult = Shell.cmd("which $it").exec()
 					if (shellResult.out.isNotEmpty()) {
 						val utilBoxPath = shellResult.out.joinToString("")
 						if (utilBoxPath.isNotEmpty()) return utilBoxPath.quote

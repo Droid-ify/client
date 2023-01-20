@@ -4,20 +4,33 @@ import android.content.Context
 import com.looker.core.common.cache.Cache
 import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.AppInstaller
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
-suspend fun String.installApk(context: Context?, fileName: String, installerType: InstallerType) =
-	withContext(Dispatchers.IO) {
-		val fileUri = context?.let { Cache.getReleaseUri(it, fileName) }
-			?: throw IllegalStateException()
-		val file = Cache.getReleaseFile(context, fileName)
+suspend fun installApk(
+	packageName: String,
+	context: Context?,
+	fileName: String,
+	installerType: InstallerType
+): Job = coroutineScope {
+	val fileUri = context?.let { Cache.getReleaseUri(it, fileName) }
+		?: throw IllegalStateException()
+	val file = Cache.getReleaseFile(context, fileName)
+	launch {
 		AppInstaller.getInstance(context, installerType)?.defaultInstaller
-			?.install(this@installApk, fileUri, file)
+			?.install(packageName, fileUri, file)
 	}
+}
 
-suspend fun String.uninstallApk(context: Context?, installerType: InstallerType) =
-	withContext(Dispatchers.IO) {
-		AppInstaller.getInstance(context, installerType)?.defaultInstaller
-			?.uninstall(this@uninstallApk)
+suspend fun uninstallApk(
+	packageName: String,
+	context: Context?,
+	installerType: InstallerType
+): Job =
+	coroutineScope {
+		launch {
+			AppInstaller.getInstance(context, installerType)?.defaultInstaller
+				?.uninstall(packageName)
+		}
 	}

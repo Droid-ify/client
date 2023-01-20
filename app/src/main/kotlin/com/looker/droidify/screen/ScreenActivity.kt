@@ -312,7 +312,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 						userPreferencesRepository.getInitialPreference.installerType
 					lifecycleScope.launch {
 						specialIntent.cacheFileName?.let { cacheFile ->
-							packageName.installApk(this@ScreenActivity, cacheFile, installerType)
+							installApk(packageName, this@ScreenActivity, cacheFile, installerType)
 						}
 					}
 				}

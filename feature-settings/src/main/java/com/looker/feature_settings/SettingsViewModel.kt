@@ -106,9 +106,10 @@ class SettingsViewModel
 					)
 				}
 				InstallerType.ROOT -> {
-					val isRooted = Shell.rootAccess()
+					val isRooted = Shell.isAppGrantedRoot()
 					userPreferencesRepository.setInstallerType(
-						if (isRooted) InstallerType.ROOT else InstallerType.SESSION
+						if (isRooted == true) InstallerType.ROOT
+						else InstallerType.SESSION
 					)
 				}
 				else -> {

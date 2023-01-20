@@ -184,8 +184,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 								if (firstChanged || installedItemChanged) {
 									installed = installedItem.value?.let {
 										val isSystem = try {
-											((requireContext().packageManager.getApplicationInfo(packageName, 0).flags)
-															and ApplicationInfo.FLAG_SYSTEM) != 0
+											((requireContext().packageManager.getApplicationInfo(
+												packageName,
+												0
+											).flags)
+													and ApplicationInfo.FLAG_SYSTEM) != 0
 										} catch (e: Exception) {
 											false
 										}
@@ -361,7 +364,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			if (state is DownloadService.State.Success && isResumed) {
 				val installer = userPreferencesRepository.fetchInitialPreferences().installerType
 				if (installer != InstallerType.ROOT && installer != InstallerType.SHIZUKU) {
-					packageName.installApk(context, state.release.cacheFileName, installer)
+					installApk(packageName, context, state.release.cacheFileName, installer)
 				}
 			}
 		}
@@ -417,7 +420,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				lifecycleScope.launch {
 					val installerType =
 						userPreferencesRepository.fetchInitialPreferences().installerType
-					packageName.uninstallApk(context, installerType)
+					uninstallApk(packageName, context, installerType)
 				}
 				Unit
 			}
