@@ -51,11 +51,12 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 					layoutManager = LinearLayoutManager(context)
 					isMotionEventSplittingEnabled = false
 					setHasFixedSize(true)
-					adapter = RepositoriesAdapter({ screenActivity.navigateRepository(it.id) },
-						{ repository, isEnabled ->
-							repository.enabled != isEnabled &&
-									syncConnection.binder?.setEnabled(repository, isEnabled) == true
-						})
+					adapter = RepositoriesAdapter(
+						navigate = { screenActivity.navigateRepository(it.id) }
+					) { repository, isEnabled ->
+						repository.enabled != isEnabled &&
+								syncConnection.binder?.setEnabled(repository, isEnabled) == true
+					}
 					recyclerView = this
 				}
 			)

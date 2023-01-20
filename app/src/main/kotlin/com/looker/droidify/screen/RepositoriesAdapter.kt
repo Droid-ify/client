@@ -15,7 +15,7 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class RepositoriesAdapter(
-	private val onClick: (Repository) -> Unit,
+	private val navigate: (Repository) -> Unit,
 	private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean,
 ) :
 	CursorRecyclerAdapter<RepositoriesAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -52,7 +52,7 @@ class RepositoriesAdapter(
 	): RecyclerView.ViewHolder {
 		return ViewHolder(parent.inflate(R.layout.repository_item)).apply {
 			itemView.setOnLongClickListener {
-				onClick(getRepository(absoluteAdapterPosition))
+				navigate(getRepository(absoluteAdapterPosition))
 				true
 			}
 			itemView.setOnClickListener {
