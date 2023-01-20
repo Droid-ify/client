@@ -101,7 +101,7 @@
     <string name="list_animation_description">在主頁上顯示列表動畫</string>
     <string name="merging_FORMAT">合併 %s</string>
     <string name="name">名稱</string>
-    <string name="network_error_DESC">網路錯誤。</string>
+    <string name="network_error_DESC">網路錯誤</string>
     <string name="never">從不</string>
     <string name="new_updates_available">有應用程式的新版本可用</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -109,7 +109,7 @@
     </plurals>
     <string name="no_applications_available">沒有可用的應用程式</string>
     <string name="no_applications_installed">沒有已安裝的應用程式</string>
-    <string name="no_description_available_DESC">沒有可用的描述。</string>
+    <string name="no_description_available_DESC">沒有可用的描述</string>
     <string name="notify_about_updates_summary">有新版本可用時顯示通知</string>
     <string name="no_matching_applications_found">找不到應用程式</string>
     <string name="no_proxy">無代理</string>
@@ -190,4 +190,8 @@
         <item quantity="other">天数</item>
     </plurals>
     <string name="only_on_wifi_with_charging">仅在Wi-Fi和充电方面</string>
+    <string name="io_error_DESC">無法執行某些特定操作。</string>
+    <string name="allow_collapsing_toolbar">允許頂部工具列展開</string>
+    <string name="allow_collapsing_toolbar_DESC">允許頂部工具列展開和折疊</string>
+    <string name="no_internet">您沒有網路連線</string>
 </resources>
