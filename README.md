@@ -45,7 +45,7 @@ Navigate to `Build > APK > Create New Keystore > Enter the password` and wait fo
 
 ## Contribution
 
-### `dev` branch will be live soon till then please continue submitting PR's to `main` branch\
+### `dev` branch will be live soon till then please continue submitting PR's to `main` branch
 
 You can fork the [`dev`](https://github.com/Iamlooker/Droid-ify/tree/dev) branch and Open a Pull Request in the same branch.\
 Your PR will be reviewed and merged.\
