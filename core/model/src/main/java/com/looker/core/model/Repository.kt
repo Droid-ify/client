@@ -178,31 +178,31 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://microg.org/fdroid/repo", "MicroG Project",
-				"Official repository of the open-source implementation of Google Play Services.",
+				"The official repository for MicroG. MicroG is a lightweight open-source implementation of Google Play Services.",
 				21, false, "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://repo.netsyms.com/fdroid/repo", "Netsyms Technologies",
-				"Open-source apps created by Netsyms Technologies.",
+				"Official collection of open-source apps created by Netsyms Technologies.",
 				21, false, "2581BA7B32D3AB443180C4087CAB6A7E8FB258D3A6E98870ECB3C675E4D64489", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://fdroid.bromite.org/fdroid/repo", "Bromite",
-				"Bromite is a Chromium plus ad blocking and enhanced privacy; take back your browser.",
+				"The official repository for Bromite. Bromite is a Chromium with ad blocking and enhanced privacy.",
 				21, false, "E1EE5CD076D7B0DC84CB2B45FB78B86DF2EB39A3B6C56BA3DC292A5E0C3B9504", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://molly.im/fdroid/foss/fdroid/repo", "Molly",
-				"Molly is a fork of Signal focused on security.",
+				"The official repository for Molly. Molly is a fork of Signal focused on security.",
 				21, false, "5198DAEF37FC23C14D5EE32305B2AF45787BD7DF2034DE33AD302BDB3446DF74", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://archive.newpipe.net/fdroid/repo", "NewPipe",
-				"NewPipe's official independent repository.",
+				"The official repository for NewPipe. NewPipe is a lightweight client for Youtube, PeerTube, Soundcloud, etc.",
 				21, false, "E2402C78F9B97C6C89E97DB914A2751FDA1D02FE2039CC0897A462BDB57E7501", ""
 			)
 		}, run {
@@ -214,7 +214,7 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://www.droidware.info/fdroid/repo", "Ungoogled Chromium",
-				"Chromium sans dependency on Google web services. It also features some enhancments to privacy, control & transparency",
+				"Repository for Ungoogled Chromium. Ungoogled chromium is a chromium with removed google services. It also features some enhancments to privacy, control & transparency",
 				21, false, "2144449AB1DD270EC31B6087409B5D0EA39A75A9F290DA62AC1B238A0EAAF851", ""
 			)
 		}, run {
@@ -250,7 +250,7 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://fdroid.fedilab.app/repo", "Fedilab",
-				"Fedilab's official F-Droid repository.",
+				"The official repository for Fedilab. Fedilab is a multi-accounts client for Mastodon, Peertube, and other free software social networks.",
 				21, false, "11F0A69910A4280E2CD3CCC3146337D006BE539B18E1A9FEACE15FF757A94FEB", ""
 			)
 		}, run {
@@ -262,7 +262,7 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://secfirst.org/fdroid/repo", "Umbrella",
-				"Security advices, tutorials, tools etc..",
+				"The official repository for Umbrella. Umbrella is a collection of security advices, tutorials, tools etc..",
 				21, false, "39EB57052F8D684514176819D1645F6A0A7BD943DBC31AB101949006AC0BC228", ""
 			)
 		}, run {
@@ -274,13 +274,13 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://mobileapp.bitwarden.com/fdroid/repo", "Bitwarden",
-				"The official repository for Bitwarden.",
+				"The official repository for Bitwarden. Bitwarden is a password manager.",
 				21, false, "BC54EA6FD1CD5175BCCCC47C561C5726E1C3ED7E686B6DB4B18BAC843A3EFE6C", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://briarproject.org/fdroid/repo", "Briar",
-				"An serverless/offline messenger that hides your metadata.",
+				"The official repository for Briar. Briar is a serverless/offline messenger that focused on privacy, security, and decentralization.",
 				21, false, "1FB874BEE7276D28ECB2C9B06E8A122EC4BCB4008161436CE474C257CBF49BD6", ""
 			)
 		}, run {
@@ -298,7 +298,7 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://fluffychat.im/repo/stable/repo", "FluffyChat",
-				"The official repository for FluffyChat.",
+				"The official repository for FluffyChat. Fluffychat is a Matrix client.",
 				21, false, "8E2637AEF6697CC6DD486AF044A6EE45B1A742AE3EF56566E748CDE8BC65C1FB", ""
 			)
 		}, run {
@@ -310,13 +310,13 @@ data class Repository(
 		}, run {
 			defaultRepository(
 				"https://releases.threema.ch/fdroid/repo", "Threema Libre",
-				"The official repository for Threema Libre. Requires Threema Shop license.",
+				"The official repository for Threema Libre. Requires Threema Shop license. Threema Libre is an open-source messanger focused on security and privacy.",
 				21, false, "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E", ""
 			)
 		}, run {
 			defaultRepository(
 				"https://fdroid.getsession.org/fdroid/repo", "Session",
-				"The official repository for Session.",
+				"The official repository for Session. Session is an open-source messanger focused on security and privacy.",
 				21, false, "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6", ""
 			)
 		})
