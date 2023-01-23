@@ -313,6 +313,12 @@ data class Repository(
 				"The official repository for Threema Libre. Requires Threema Shop license.",
 				21, false, "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E", ""
 			)
+		}, run {
+			defaultRepository(
+				"https://fdroid.getsession.org/fdroid/repo", "Session",
+				"The official repository for Session.",
+				21, false, "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6", ""
+			)
 		})
 	}
 }
