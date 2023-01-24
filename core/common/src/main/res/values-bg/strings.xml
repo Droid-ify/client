@@ -58,10 +58,10 @@
     <string name="list_animation_description">Анимирай списъка на главната страница</string>
     <string name="merging_FORMAT">Сливане на %s</string>
     <string name="name">Име</string>
-    <string name="network_error_DESC">Мрежова грешка.</string>
+    <string name="network_error_DESC">Мрежова грешка</string>
     <string name="never">Никога</string>
     <string name="no_applications_installed">Няма инсталирани приложения</string>
-    <string name="no_description_available_DESC">Няма налично описание.</string>
+    <string name="no_description_available_DESC">Няма налично описание</string>
     <string name="no_proxy">Без прокси</string>
     <string name="notify_about_updates">Уведомления за нови версии на приложенията</string>
     <string name="number_of_applications">Брой приложения</string>
@@ -193,4 +193,8 @@
         <item quantity="one">Час</item>
         <item quantity="other">Часове</item>
     </plurals>
+    <string name="no_internet">Нямате интернет връзка</string>
+    <string name="allow_collapsing_toolbar">Разрешете горната лента на приложението да се разшири</string>
+    <string name="io_error_DESC">Невъзможност за извършване на определени действия.</string>
+    <string name="allow_collapsing_toolbar_DESC">Разрешете горната лента на приложението да се разшири</string>
 </resources>
