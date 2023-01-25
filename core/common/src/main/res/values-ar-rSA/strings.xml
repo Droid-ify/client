@@ -81,7 +81,7 @@
     <string name="list_animation_description">إظهار تأثيرات القائمة على الصفحة الرئيسة</string>
     <string name="merging_FORMAT">دمج %s</string>
     <string name="name">الاسم</string>
-    <string name="network_error_DESC">خطاء في الشبكة.</string>
+    <string name="network_error_DESC">خطاء في الشبكة</string>
     <string name="never">أبدا</string>
     <string name="new_updates_available">يوجد تحديثات جديدة</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -94,7 +94,7 @@
     </plurals>
     <string name="no_applications_available">لا توجد تطبيقات متاحة</string>
     <string name="no_applications_installed">لا توجد تطبيقات مثبتة</string>
-    <string name="no_description_available_DESC">لا يوجد وصف متاح.</string>
+    <string name="no_description_available_DESC">لا يوجد وصف متاح</string>
     <string name="no_matching_applications_found">لم يتم العثور على تطبيق مشابه</string>
     <string name="no_proxy">بدون بروكسي</string>
     <string name="notify_about_updates">تنبيه (إشعار) حول التحديثات</string>
@@ -189,4 +189,27 @@
     <string name="session_installer">مثبت الجلسة</string>
     <string name="legacy_installer">المثبت القديم</string>
     <string name="shizuku_installer">مثبت شيزوكو</string>
+    <string name="cleanup_title">مدة التنظيف</string>
+    <string name="cleanup_description">الوقت المطلوب للتنظيف لإعادة الفحص</string>
+    <string name="only_on_wifi_with_charging">فقط على شبكة Wifi والشحن</string>
+    <string name="allow_collapsing_toolbar">السماح لتوسيع شريط التطبيقات العلوي</string>
+    <plurals name="days">
+        <item quantity="zero">أيام</item>
+        <item quantity="one">يوم</item>
+        <item quantity="two">أيام</item>
+        <item quantity="few">أيام</item>
+        <item quantity="many">أيام</item>
+        <item quantity="other">أيام</item>
+    </plurals>
+    <string name="allow_collapsing_toolbar_DESC">السماح لشريط التطبيق العلوي بالتوسع والانهيار</string>
+    <string name="no_internet">ليس لديك اتصال بالإنترنت</string>
+    <plurals name="hours">
+        <item quantity="zero">ساعات</item>
+        <item quantity="one">ساعة</item>
+        <item quantity="two">ساعات</item>
+        <item quantity="few">ساعات</item>
+        <item quantity="many">ساعات</item>
+        <item quantity="other">ساعات</item>
+    </plurals>
+    <string name="io_error_DESC">غير قادر على أداء بعض الإجراءات.</string>
 </resources>
