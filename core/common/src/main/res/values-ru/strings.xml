@@ -201,7 +201,7 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Только при Wi-Fi и зарядке</string>
     <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
-    <string name="no_internet">У вас нет подключения к Интернету</string>
+    <string name="no_internet">Отсутствует подключение к интернету</string>
     <string name="allow_collapsing_toolbar">Разрешить расширение верхней панели приложения</string>
     <string name="allow_collapsing_toolbar_DESC">Разрешить верхней панели приложения разворачиваться и сворачиваться</string>
 </resources>
