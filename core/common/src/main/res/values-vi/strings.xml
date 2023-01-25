@@ -122,7 +122,7 @@
     <string name="invalid_fingerprint_format">Sai định dạng fingerprint</string>
     <string name="link_copied_to_clipboard">Liên kết được chép vào bộ nhớ tạm</string>
     <string name="list_animation_description">Hiện hiệu ứng danh sách trên trang chính</string>
-    <string name="network_error_DESC">Lỗi mạng.</string>
+    <string name="network_error_DESC">Lỗi mạng</string>
     <string name="invalid_address">Sai địa chỉ</string>
     <string name="invalid_metadata_error_DESC">Dữ liệu không hợp lệ.</string>
     <string name="invalid_permissions_error_DESC">Quyền không hợp lệ.</string>
@@ -132,7 +132,7 @@
     <string name="license">Giấy phép</string>
     <string name="links">Liên kết</string>
     <string name="list_animation">Hiệu ứng danh sách</string>
-    <string name="no_description_available_DESC">Không có mô tả.</string>
+    <string name="no_description_available_DESC">Không có mô tả</string>
     <string name="repositories">Các kho</string>
     <string name="search">Tìm kiếm</string>
     <string name="share">Chia sẻ</string>
@@ -176,4 +176,22 @@
     <string name="waiting_to_start_download">Chờ để tải về…</string>
     <string name="show_less">Ẩn bớt</string>
     <string name="all_applications">Tất cả ứng dụng</string>
+    <string name="cleanup_title">Dọn dẹp thời gian</string>
+    <string name="cleanup_description">Thời gian cần thiết để dọn dẹp để kiểm tra lại</string>
+    <plurals name="days">
+        <item quantity="other">Ngày</item>
+    </plurals>
+    <plurals name="hours">
+        <item quantity="other">Giờ</item>
+    </plurals>
+    <string name="installer">Người cài đặt</string>
+    <string name="legacy_installer">Trình cài đặt kế thừa</string>
+    <string name="session_installer">Trình cài đặt phiên</string>
+    <string name="root_installer">Trình cài đặt gốc</string>
+    <string name="allow_collapsing_toolbar">Cho phép mở rộng thanh công cụ</string>
+    <string name="allow_collapsing_toolbar_DESC">Cho phép mở rộng thanh công cụ và sụp đổ</string>
+    <string name="io_error_DESC">Không thể thực hiện một số hành động nhất định.</string>
+    <string name="shizuku_installer">Trình cài đặt Shizuku</string>
+    <string name="no_internet">Bạn không có kết nối internet</string>
+    <string name="only_on_wifi_with_charging">Chỉ trên wifi và sạc</string>
 </resources>
