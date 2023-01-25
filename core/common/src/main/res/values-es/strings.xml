@@ -12,7 +12,7 @@
     <string name="application">Aplicación</string>
     <string name="application_not_found">No se pudo encontrar esa aplicación</string>
     <string name="author_email">Correo electrónico del autor</string>
-    <string name="author_website">Página web</string>
+    <string name="author_website">Sitio web</string>
     <string name="available">Explorar</string>
     <string name="bug_tracker">Registro de incidencias</string>
     <string name="cancel">Cancelar</string>
@@ -195,7 +195,7 @@
         <item quantity="many">Horas</item>
         <item quantity="other">Horas</item>
     </plurals>
-    <string name="only_on_wifi_with_charging">Solo en WiFi y cargando</string>
+    <string name="only_on_wifi_with_charging">Solo en Wi-Fi y cargando</string>
     <string name="io_error_DESC">No se pueden realizar ciertas acciones.</string>
     <string name="no_internet">No hay conexion a internet</string>
     <string name="allow_collapsing_toolbar">Permitir a la barra superior de la aplicación se agrande</string>
