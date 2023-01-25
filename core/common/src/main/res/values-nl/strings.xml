@@ -88,7 +88,7 @@
     <string name="new_updates_available">Nieuwe versies van toepassingen beschikbaar</string>
     <string name="no_applications_available">Geen toepassingen beschikbaar</string>
     <string name="no_applications_installed">Geen toepassingen geïnstalleerd</string>
-    <string name="no_description_available_DESC">Geen beschrijving beschikbaar.</string>
+    <string name="no_description_available_DESC">Geen beschrijving beschikbaar</string>
     <string name="no_proxy">Geen proxy</string>
     <string name="notify_about_updates">Waarschuw bij nieuwe versies van applicaties</string>
     <string name="notify_about_updates_summary">Verzend een vermelding wanneer nieuwe versies beschikbaar zijn</string>
@@ -153,7 +153,7 @@
     <string name="show_older_versions">Toon oudere versies</string>
     <string name="name">Naam</string>
     <string name="size">Grootte</string>
-    <string name="network_error_DESC">Netwerk fout.</string>
+    <string name="network_error_DESC">Netwerk fout</string>
     <string name="open_DESC_FORMAT">%s openen\?</string>
     <string name="proxy_port">Proxy poort</string>
     <string name="root_permission">Stille installatie</string>
@@ -182,4 +182,19 @@
     <string name="installer">Installatie</string>
     <string name="legacy_installer">Verouderde Installatie</string>
     <string name="session_installer">Sessie Installatie</string>
+    <string name="cleanup_title">Duur opruimen</string>
+    <string name="cleanup_description">De tijd die nodig is om het opruimen opnieuw te controleren</string>
+    <plurals name="hours">
+        <item quantity="one">Uur</item>
+        <item quantity="other">Uren</item>
+    </plurals>
+    <plurals name="days">
+        <item quantity="one">Dag</item>
+        <item quantity="other">Dagen</item>
+    </plurals>
+    <string name="no_internet">Je hebt geen internetverbinding</string>
+    <string name="only_on_wifi_with_charging">Alleen bij Wi-Fi &amp; Opladen</string>
+    <string name="io_error_DESC">Niet in staat om bepaalde acties uit te voeren.</string>
+    <string name="allow_collapsing_toolbar">Laat de topbalk uitbreiden</string>
+    <string name="allow_collapsing_toolbar_DESC">Laat de topbalk uitbreiden en instorten</string>
 </resources>
