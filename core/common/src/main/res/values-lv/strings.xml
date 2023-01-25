@@ -5,10 +5,10 @@
     <string name="notify_about_updates_summary">Rādīt paziņojumu, kad ir pieejamas jaunas versijas</string>
     <string name="invalid_address">Nederīga adrese</string>
     <string name="invalid_fingerprint_format">Nederīgs pirkstu nospiedumu formāts</string>
-    <string name="network_error_DESC">Tīkla kļūda.</string>
+    <string name="network_error_DESC">Tīkla kļūda</string>
     <string name="open_DESC_FORMAT">Vai atvērt %s\?</string>
     <string name="merging_FORMAT">Apvieno %s</string>
-    <string name="no_description_available_DESC">Apraksts nav pieejams.</string>
+    <string name="no_description_available_DESC">Apraksts nav pieejams</string>
     <string name="recently_updated">Nesen atjaunināts</string>
     <string name="search">Meklēt</string>
     <string name="requires_FORMAT">Nepieciešams %s</string>
@@ -196,4 +196,8 @@
     <string name="has_advertising">Ir reklāmas</string>
     <string name="http_proxy">HTTP starpniekserveris</string>
     <string name="ignore_all_updates">Ignorēt visas jaunās versijas</string>
+    <string name="allow_collapsing_toolbar">Ļaujiet paplašināties augšējā lietotņu joslā</string>
+    <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
+    <string name="allow_collapsing_toolbar_DESC">Ļaujiet augšējā lietotņu joslā paplašināties un sabrukt</string>
+    <string name="no_internet">Jums nav interneta savienojuma</string>
 </resources>
