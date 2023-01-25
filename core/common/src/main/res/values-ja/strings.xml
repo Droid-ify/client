@@ -190,4 +190,8 @@
     <string name="repository_not_used_DESC">このリポジトリはまだ使用されていません。オンにすると、リポジトリ内のアプリを確認できます。</string>
     <string name="root_permission_description">サイレントインストール時のroot権限を許可する</string>
     <string name="sort_filter">並べ替えとフィルター</string>
+    <string name="allow_collapsing_toolbar">トップアプリバーを拡張できるようにします</string>
+    <string name="allow_collapsing_toolbar_DESC">トップアプリバーが拡張して崩壊するようにします</string>
+    <string name="io_error_DESC">特定のアクションを実行できません。</string>
+    <string name="no_internet">インターネット接続がありません</string>
 </resources>
