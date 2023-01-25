@@ -53,7 +53,7 @@
     <string name="links">Lenkjer</string>
     <string name="list_animation">Listerørsler</string>
     <string name="merging_FORMAT">Flettar %s</string>
-    <string name="network_error_DESC">Sambandsmistak.</string>
+    <string name="network_error_DESC">Sambandsmistak</string>
     <string name="never">Aldri</string>
     <string name="new_updates_available">Nye versjonar av appar tilgjengelege</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -177,7 +177,7 @@
     <string name="list_animation_description">Vis listerørsler på hovudsida</string>
     <string name="name">Namn</string>
     <string name="no_applications_available">Ingen appar er tilgjengelege</string>
-    <string name="no_description_available_DESC">Inga utgreiing tilgjengeleg.</string>
+    <string name="no_description_available_DESC">Inga utgreiing tilgjengeleg</string>
     <string name="no_proxy">Ingen mellomtenar</string>
     <string name="no_applications_installed">Ingen innlagde appar</string>
     <string name="notify_about_updates">Gje merknad om nye versjonar av appar</string>
@@ -194,4 +194,7 @@
     <string name="all_applications_up_to_date">Alle appane dine er av nyaste utgåve</string>
     <string name="validation_index_error_DESC">Kunne ikkje stadfeste indeksen.</string>
     <string name="io_error_DESC">Kan ikkje gjere somme gjerder.</string>
+    <string name="no_internet">Du har ingen internettforbindelse</string>
+    <string name="allow_collapsing_toolbar">La den øverste applinjen utvide</string>
+    <string name="allow_collapsing_toolbar_DESC">La den øverste applinjen utvide og kollapse</string>
 </resources>
