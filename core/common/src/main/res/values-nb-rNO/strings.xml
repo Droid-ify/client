@@ -40,7 +40,7 @@
     <string name="new_updates_available">Nye versjoner av programmer tilgjengelig</string>
     <string name="no_applications_available">Ingen programmer tilgjengelig</string>
     <string name="no_applications_installed">Ingen programmer installert</string>
-    <string name="no_description_available_DESC">Ingen beskrivelse tilgjengelig.</string>
+    <string name="no_description_available_DESC">Ingen beskrivelse tilgjengelig</string>
     <string name="open_DESC_FORMAT">Åpne %s\?</string>
     <string name="no_matching_applications_found">Fant ingen slike programmer</string>
     <string name="notify_about_updates">Gi merknad om nye versjoner av programmer</string>
@@ -100,7 +100,7 @@
     <string name="add_repository">Legg til pakkebrønn</string>
     <string name="credits">Bidragsytere</string>
     <string name="downloading_FORMAT">Nedlasting %s…</string>
-    <string name="network_error_DESC">Nettverksfeil.</string>
+    <string name="network_error_DESC">Nettverksfeil</string>
     <string name="no_proxy">Ingen mellomtjener</string>
     <string name="only_on_wifi">Kun på Wi-Fi</string>
     <string name="proxy">Mellomtjener</string>
@@ -194,7 +194,7 @@
     <string name="installed_applications">Installerte</string>
     <string name="new_applications">Nye</string>
     <string name="allow_collapsing_toolbar">Tillat utvidelse av toppfelt</string>
-    <string name="no_internet">Du mangler tilkobling til Internett.</string>
+    <string name="no_internet">Du mangler tilkobling til Internett</string>
     <string name="io_error_DESC">Noen av handlingene kunne ikke utføres.</string>
     <string name="allow_collapsing_toolbar_DESC">Tillat toppfeltet å utvide og folde seg sammen</string>
 </resources>
