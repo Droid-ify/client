@@ -76,7 +76,7 @@
     <string name="list_animation_description">Näytä listan animaatio pääsivulla</string>
     <string name="merging_FORMAT">Yhdistäminen %s</string>
     <string name="name">Nimi</string>
-    <string name="network_error_DESC">Verkko virhe.</string>
+    <string name="network_error_DESC">Verkko virhe</string>
     <string name="never">Koskaan</string>
     <string name="new_updates_available">Sovellusten uudet versiot saatavilla</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -85,7 +85,7 @@
     </plurals>
     <string name="no_applications_available">Ei käytettävissä olevia sovelluksia</string>
     <string name="no_applications_installed">Ei asennettuja sovelluksia</string>
-    <string name="no_description_available_DESC">Kuvausta ei ole saatavilla.</string>
+    <string name="no_description_available_DESC">Kuvausta ei ole saatavilla</string>
     <string name="no_matching_applications_found">Ei löytynyt tällaisia sovelluksia</string>
     <string name="provided_by_FORMAT">Toimittanut %s</string>
     <string name="proxy_host">Proxy-isäntä</string>
@@ -193,4 +193,8 @@
         <item quantity="other">Tunnit</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Ainoastaan Wi-Fi ja lataus</string>
+    <string name="io_error_DESC">Tiettyjä toimia ei voida suorittaa.</string>
+    <string name="allow_collapsing_toolbar">Anna App Barin laajentua</string>
+    <string name="allow_collapsing_toolbar_DESC">Anna App Barin laajentua ja romahtaa</string>
+    <string name="no_internet">Sinulla ei ole Internet -yhteyttä</string>
 </resources>
