@@ -141,7 +141,7 @@
     <string name="list_animation_description">Rodyti sąrašo animaciją pagrindiniame puslapyje</string>
     <string name="merging_FORMAT">Sujungiama %s</string>
     <string name="name">Pavadinimas</string>
-    <string name="network_error_DESC">Tinklo klaida.</string>
+    <string name="network_error_DESC">Tinklo klaida</string>
     <string name="never">Niekada</string>
     <string name="new_updates_available">Yra naujų programėlių versijų</string>
     <plurals name="new_updates_DESC_FORMAT">
