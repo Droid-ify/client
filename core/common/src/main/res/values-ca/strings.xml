@@ -176,7 +176,7 @@
     <string name="no_applications_installed">Aplicacions instal·lades no</string>
     <string name="list_animation_description">L\'espectacle llista animació en la pàgina major</string>
     <string name="merging_FORMAT">Fusionant %s</string>
-    <string name="network_error_DESC">Error de xarxa.</string>
+    <string name="network_error_DESC">Error de xarxa</string>
     <string name="new_updates_available">Versions noves de les aplicacions disponibles</string>
     <string name="never">Mai</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -184,7 +184,7 @@
         <item quantity="other">%d aplicacions amb versions noves.</item>
     </plurals>
     <string name="no_applications_available">Cap aplicació disponible</string>
-    <string name="no_description_available_DESC">Cap descripció disponible.</string>
+    <string name="no_description_available_DESC">Cap descripció disponible</string>
     <string name="notify_about_updates_summary">Mostra una notificació quan les versions noves són disponibles</string>
     <string name="saving_details">Salvant detalls…</string>
     <string name="screenshots">Captures de pantalla</string>
@@ -193,4 +193,8 @@
     <string name="show_older_versions">Mostrar versions més velles</string>
     <string name="suggested">Suggerit</string>
     <string name="syncing">Sincronitzant</string>
+    <string name="no_internet">No teniu cap connexió a Internet</string>
+    <string name="allow_collapsing_toolbar_DESC">Permet que la barra d\'aplicacions superior s\'expandeixi i es col·lapsi</string>
+    <string name="allow_collapsing_toolbar">Permet que la barra d\'aplicacions superior s\'expandeixi</string>
+    <string name="io_error_DESC">No es pot realitzar determinades accions.</string>
 </resources>
