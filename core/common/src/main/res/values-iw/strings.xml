@@ -67,7 +67,7 @@
     </plurals>
     <string name="no_applications_available">אין אפליקציות זמינות</string>
     <string name="no_applications_installed">אין יישומים מותקנים</string>
-    <string name="no_description_available_DESC">אין תיאור זמין.</string>
+    <string name="no_description_available_DESC">אין תיאור זמין</string>
     <string name="no_matching_applications_found">לא הצלחתי למצוא אפליקציות כאלה</string>
     <string name="no_proxy">אין פרוקסי</string>
     <string name="notify_about_updates">הודע על גרסאות חדשות של יישומים</string>
@@ -164,7 +164,7 @@
     <string name="invalid_fingerprint_format">פורמט טביעת אצבע לא חוקי</string>
     <string name="show_older_versions">הצג גירסאות ישנות</string>
     <string name="version">גירסא</string>
-    <string name="network_error_DESC">שגיאת רשת.</string>
+    <string name="network_error_DESC">שגיאת רשת</string>
     <string name="never">לעולם לא</string>
     <string name="settings">הגדרות</string>
     <string name="proxy">‌פרוקסי</string>
@@ -199,4 +199,8 @@
     <string name="prefs_personalization">התאמה אישית</string>
     <string name="show_less">הצג פחות</string>
     <string name="latest">הכי מאוחר</string>
+    <string name="allow_collapsing_toolbar">אפשר לסרגל האפליקציות העליון להתרחב</string>
+    <string name="allow_collapsing_toolbar_DESC">אפשר לסרגל האפליקציות העליון להתרחב ולהתמוטט</string>
+    <string name="no_internet">אין לך חיבור לאינטרנט</string>
+    <string name="io_error_DESC">לא ניתן לבצע פעולות מסוימות.</string>
 </resources>
