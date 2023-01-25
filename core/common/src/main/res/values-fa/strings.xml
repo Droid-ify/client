@@ -53,7 +53,7 @@
     <string name="list_animation_description">نمایش لیست انیمیشن در صفحه‌اصلی</string>
     <string name="merging_FORMAT">ادغام %s</string>
     <string name="name">نام</string>
-    <string name="network_error_DESC">خطای شبکه.</string>
+    <string name="network_error_DESC">خطای شبکه</string>
     <string name="never">هرگز</string>
     <string name="new_updates_available">نسخه‌های جدیدی از اپلیکیشن‌ها موجوده</string>
     <string name="notify_about_updates">خبرم کن درمورد نسخه جدید برنامه‌ها</string>
@@ -175,7 +175,7 @@
     <string name="invalid_address">آدرس ناردست</string>
     <string name="link_copied_to_clipboard">لینک کپی شد</string>
     <string name="no_proxy">بدون پروکسی</string>
-    <string name="no_description_available_DESC">هیچ توضیحاتی موجود نیست.</string>
+    <string name="no_description_available_DESC">هیچ توضیحاتی موجود نیست</string>
     <string name="no_matching_applications_found">چنین اپلیکیشنی یافت نشد</string>
     <string name="notify_about_updates_summary">وقتی نسخه جدیدی منتشر شد، اطلاع بده</string>
     <string name="permissions">دسترسی‌ها</string>
@@ -193,4 +193,8 @@
     <string name="new_applications">برنامه‌های جدید</string>
     <string name="version">نسخه</string>
     <string name="version_FORMAT">نسخه %s</string>
+    <string name="no_internet">شما هیچ اتصال اینترنتی ندارید</string>
+    <string name="io_error_DESC">قادر به انجام برخی اقدامات خاص نیست.</string>
+    <string name="allow_collapsing_toolbar">به نوار برنامه بالا اجازه دهید تا گسترش یابد</string>
+    <string name="allow_collapsing_toolbar_DESC">به نوار برنامه بالا اجازه دهید تا گسترش و سقوط کند</string>
 </resources>
