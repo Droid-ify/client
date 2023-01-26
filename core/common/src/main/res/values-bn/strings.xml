@@ -1,2 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="cleanup_title">মুছে ফেলার মধ্যবর্তী সময়কাল</string>
+    <string name="confirmation">নিশ্চিতকরণ</string>
+    <string name="connecting">সংযোগ দেওয়া হচ্ছে…</string>
+    <string name="contains_non_free_media">বিনামূল্য নয় এমন ছবি/অডিও/ভিডিও রয়েছে</string>
+    <string name="could_not_download_FORMAT">%s ডাউনলোড করা সম্ভব হয়নি</string>
+    <string name="credits">ক্রেডিট</string>
+    <string name="details">বিস্তারিত</string>
+    <string name="file_format_error_DESC">অকার্যকর ফাইলের ধরণ।</string>
+    <string name="fingerprint">ফিঙ্গারপ্রিন্ট</string>
+    <plurals name="days">
+        <item quantity="one">দিন</item>
+        <item quantity="other">দিন</item>
+    </plurals>
+    <string name="action_failed">প্রক্রিয়াটি ব্যর্থ হয়েছে</string>
+    <string name="add_repository">রিপোজিটরি যোগ করুন</string>
+    <string name="address">ঠিকানা</string>
+    <string name="all_applications">সকল এপ্লিকেশন</string>
+    <string name="all_applications_up_to_date">আপনার সকল এপ্লিকেশন হালনাগাদ আছে</string>
+    <string name="already_exists">আগে থেকেই আছে</string>
+    <string name="always">সবসময়</string>
+    <string name="amoled">কালো</string>
+    <string name="allow_collapsing_toolbar">অ্যাপের টপ বার সম্প্রসারিত হতে দিন</string>
+    <string name="could_not_validate_FORMAT">%s সত্যায়িত করা সম্ভব হয়নি</string>
+    <string name="donate">ডোনেট</string>
+    <string name="description">বর্ণনা</string>
+    <plurals name="hours">
+        <item quantity="one">ঘণ্টা</item>
+        <item quantity="other">ঘণ্টা</item>
+    </plurals>
+    <string name="incompatible_api_max_DESC_FORMAT">সর্বোচ্চ এপিআই সংস্করণ %d।</string>
+    <string name="allow_collapsing_toolbar_DESC">অ্যাপের টপ বার সম্প্রসারিত ও সংকুচিত হতে দিন</string>
+    <string name="anti_features">বিরোধী-বৈশিষ্ট্য</string>
+    <string name="has_advertising">বিজ্ঞাপন আছে</string>
+    <string name="http_proxy">HTTP প্রক্সি</string>
+    <string name="delete">ডিলিট করুন</string>
+    <string name="has_non_free_dependencies">বিনামূল্য নয় এমন ডিপেন্ডেন্সি আছে</string>
+    <string name="has_security_vulnerabilities">নিরাপত্তার ঝুঁকি রয়েছে</string>
+    <string name="application">অ্যাপ্লিকেশন</string>
+    <string name="application_not_found">অ্যাপ্লিকেশনটি খুঁজে পাওয়া যায়নি</string>
+    <string name="author_email">লেখকের ইমেইল</string>
+    <string name="author_website">লেখকের ওয়েবসাইট</string>
+    <string name="downloaded_FORMAT">%s ডাউনলোড সম্পন্ন হয়েছে</string>
+    <string name="http_error_DESC">সার্ভারের অকার্যকর প্রতিক্রিয়া।</string>
+    <string name="ignore_all_updates">সকল নতুন সংস্করণ অগ্রাহ্য করুন</string>
+    <string name="available">অন্বেষণ</string>
+    <string name="cancel">বাতিল</string>
+    <string name="incompatible_api_DESC_FORMAT">আপনার %1$s (এপিআই সংস্করণ %2$d) সাপোর্টেড না। %3$s</string>
+    <string name="incompatible_api_min_DESC_FORMAT">সর্বনিম্ন এপিআই সংস্করণ %d।</string>
+    <string name="incompatible_features_DESC">অনুপস্থিত বৈশিষ্ট্যসমূহ।</string>
+    <string name="cant_edit_sync_DESC">এখন রিপোজিটরি সম্পাদনা করা সম্ভব নয় কারণ এটি সিনক্রোনাইজ করা হচ্ছে।</string>
+    <string name="changelog">পরিবর্তনসমূহের তালিকা</string>
+    <string name="changes">পরিবর্তনসমূহ</string>
+    <string name="checking_repository">রিপোজিটরি যাচাই করা হচ্ছে…</string>
+    <string name="could_not_sync_FORMAT">%s সিনক্রোনাইজ করা সম্ভব হয়নি</string>
+    <string name="dark">গাঢ়</string>
+    <string name="downloading">ডাউনলোড করা হচ্ছে</string>
+    <string name="downloading_FORMAT">%s ডাউনলোড করা হচ্ছে…</string>
+    <string name="delete_repository_DESC">রিপোজিটরি ডিলিট করতে চান\?</string>
+    <string name="edit_repository">রিপোজিটরি সম্পাদনা করুন</string>
+    <string name="ignore_this_update">এই সংস্করণটি অগ্রাহ্য করুন</string>
+    <string name="cleanup_description">মুছে ফেলা পুন:যাচাই করার জন্য প্রয়োজনীয় সময়</string>
+    <string name="compiled_for_debugging">ডিবাগিংয়ের জন্য কম্পাইল করা হয়েছে</string>
+    <string name="bug_tracker">বাগ ট্র্যাকার</string>
+</resources>
