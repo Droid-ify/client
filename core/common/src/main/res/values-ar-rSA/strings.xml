@@ -212,4 +212,6 @@
         <item quantity="other">ساعات</item>
     </plurals>
     <string name="io_error_DESC">غير قادر على أداء بعض الإجراءات.</string>
+    <string name="material_you_desc">استخدم material you سمة اللون</string>
+    <string name="material_you">Material You</string>
 </resources>
