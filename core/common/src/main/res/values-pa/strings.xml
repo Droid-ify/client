@@ -197,4 +197,6 @@
     <string name="no_internet">ਤੁਹਾਡਾ ਇੰਟਰਨੈੱਟ ਕੁਨੈਕਸ਼ਨ ਜੁੜਿਆ ਹੋਇਆ ਨਹੀਂ ਹੈ</string>
     <string name="allow_collapsing_toolbar">ਸਿਖਰ ਐਪ ਬਾਰ ਦਾ ਵਿਸਤਾਰ ਕਰਨ ਦਿਓ</string>
     <string name="allow_collapsing_toolbar_DESC">ਸਿਖਰ ਦੀ ਐਪ ਬਾਰ ਨੂੰ ਫੈਲਾਉਣ ਅਤੇ ਸਮੇਟਣ ਦਿਓ</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Material you ਰੰਗ ਥੀਮ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
 </resources>
