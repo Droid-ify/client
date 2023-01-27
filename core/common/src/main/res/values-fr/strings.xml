@@ -200,4 +200,6 @@
     <string name="no_internet">Vous n’avez pas de connexion internet</string>
     <string name="allow_collapsing_toolbar_DESC">Autoriser le développement et la réduction de la barre d\'appli supérieure</string>
     <string name="allow_collapsing_toolbar">Autoriser le développement de la barre d\'appli supérieure</string>
+    <string name="material_you_desc">Utiliser le thème couleur Material You</string>
+    <string name="material_you">Material You</string>
 </resources>
