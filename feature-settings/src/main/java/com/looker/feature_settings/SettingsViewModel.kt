@@ -41,6 +41,12 @@ class SettingsViewModel
 		}
 	}
 
+	fun setDynamicTheme(enable: Boolean) {
+		viewModelScope.launch {
+			userPreferencesRepository.setDynamicTheme(enable)
+		}
+	}
+
 	fun setToolbarState(collapsing: Boolean) {
 		viewModelScope.launch {
 			userPreferencesRepository.setCollapsingToolbar(collapsing)

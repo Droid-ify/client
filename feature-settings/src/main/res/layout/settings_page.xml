@@ -65,6 +65,10 @@
                 layout="@layout/enum_type" />
 
             <include
+                android:id="@+id/dynamic_theme"
+                layout="@layout/switch_type" />
+
+            <include
                 android:id="@+id/allow_collapsing_toolbar"
                 layout="@layout/switch_type" />
 

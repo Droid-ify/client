@@ -34,6 +34,7 @@ data class UserPreferences(
 	val notifyUpdate: Boolean,
 	val unstableUpdate: Boolean,
 	val theme: Theme,
+	val dynamicTheme: Boolean,
 	val installerType: InstallerType,
 	val autoSync: AutoSync,
 	val sortOrder: SortOrder,
@@ -63,6 +64,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
 		val UNSTABLE_UPDATES = booleanPreferencesKey("key_unstable_updates")
 		val THEME = stringPreferencesKey("key_theme")
+		val DYNAMIC_THEME = booleanPreferencesKey("key_dynamic_theme")
 		val INSTALLER_TYPE = stringPreferencesKey("key_installer_type")
 		val AUTO_SYNC = stringPreferencesKey("key_auto_sync")
 		val SORT_ORDER = stringPreferencesKey("key_sort_order")
@@ -116,6 +118,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	suspend fun setTheme(theme: Theme) {
 		PreferencesKeys.THEME.update(theme.name)
+	}
+
+	suspend fun setDynamicTheme(enable: Boolean) {
+		PreferencesKeys.DYNAMIC_THEME.update(enable)
 	}
 
 	/**
@@ -218,6 +224,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val theme = Theme.valueOf(
 			preferences[PreferencesKeys.THEME] ?: Theme.SYSTEM.name
 		)
+		val dynamicTheme = preferences[PreferencesKeys.DYNAMIC_THEME] ?: false
 		val defaultInstallerType = if (Miui.isMiui) {
 			if (Miui.isMiuiOptimizationDisabled()) InstallerType.SESSION else InstallerType.LEGACY
 		} else InstallerType.SESSION
@@ -248,6 +255,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			notifyUpdate = notifyUpdate,
 			unstableUpdate = unstableUpdate,
 			theme = theme,
+			dynamicTheme = dynamicTheme,
 			installerType = installerType,
 			autoSync = autoSync,
 			sortOrder = sortOrder,

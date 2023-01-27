@@ -6,7 +6,7 @@
     <color name="seed">#006D3E</color>
     <color name="md_theme_light_primary">#006D3E</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>
-    <color name="md_theme_light_primaryContainer">#96F7B8</color>
+    <color name="md_theme_light_primaryContainer">#5EFF97</color>
     <color name="md_theme_light_onPrimaryContainer">#00210F</color>
     <color name="md_theme_light_secondary">#924C00</color>
     <color name="md_theme_light_onSecondary">#FFFFFF</color>
@@ -37,7 +37,7 @@
     <color name="md_theme_dark_primary">#7ADA9D</color>
     <color name="md_theme_dark_onPrimary">#00391E</color>
     <color name="md_theme_dark_primaryContainer">#00522D</color>
-    <color name="md_theme_dark_onPrimaryContainer">#96F7B8</color>
+    <color name="md_theme_dark_onPrimaryContainer">#DAFFE7</color>
     <color name="md_theme_dark_secondary">#FFB780</color>
     <color name="md_theme_dark_onSecondary">#4E2600</color>
     <color name="md_theme_dark_secondaryContainer">#6F3800</color>

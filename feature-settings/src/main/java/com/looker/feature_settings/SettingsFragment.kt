@@ -75,6 +75,8 @@ class SettingsFragment : Fragment() {
 		with(binding) {
 			language.title.text = getString(stringRes.prefs_language_title)
 			theme.title.text = getString(stringRes.theme)
+			dynamicTheme.title.text = getString(stringRes.material_you)
+			dynamicTheme.content.text = getString(stringRes.material_you_desc)
 			allowCollapsingToolbar.title.text = getString(stringRes.allow_collapsing_toolbar)
 			allowCollapsingToolbar.content.text = getString(stringRes.allow_collapsing_toolbar_DESC)
 			cleanUp.title.text = getString(stringRes.cleanup_title)
@@ -203,6 +205,9 @@ class SettingsFragment : Fragment() {
 	private fun setChangeListener() {
 		with(binding) {
 			with(viewModel) {
+				dynamicTheme.checked.setOnCheckedChangeListener { _, checked ->
+					setDynamicTheme(checked)
+				}
 				allowCollapsingToolbar.checked.setOnCheckedChangeListener { _, checked ->
 					setToolbarState(checked)
 				}
@@ -257,6 +262,7 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.themeName(it) }
 				).show()
 			}
+			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
 			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
 			appbarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
