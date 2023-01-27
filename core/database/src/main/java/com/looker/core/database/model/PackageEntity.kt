@@ -1,8 +1,8 @@
 package com.looker.core.database.model
 
-import com.looker.core.model.new.Package
-import com.looker.core.model.new.Permission
-import com.looker.core.model.new.toPackageName
+import com.looker.core.model.newer.Package
+import com.looker.core.model.newer.Permission
+import com.looker.core.model.newer.toPackageName
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable

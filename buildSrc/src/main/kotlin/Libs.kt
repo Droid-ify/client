@@ -66,6 +66,7 @@ object Kotlin {
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.5"

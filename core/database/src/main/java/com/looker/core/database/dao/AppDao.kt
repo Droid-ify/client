@@ -24,7 +24,7 @@ interface AppDao {
 	fun getAppsFromAuthor(authorName: String): Flow<List<AppEntity>>
 
 	@Query(value = "SELECT * FROM apps WHERE packageName = :packageName")
-	fun getApp(packageName: String): List<AppEntity>
+	fun getApp(packageName: String): Flow<List<AppEntity>>
 
 	@Query(
 		value = """

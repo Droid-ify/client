@@ -2,7 +2,7 @@ package com.looker.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.looker.core.model.new.Repo
+import com.looker.core.model.newer.Repo
 
 @Entity(tableName = "repos")
 data class RepoEntity(
