@@ -4,8 +4,8 @@
     <string name="add_repository">اضافه‌کردن مخزن</string>
     <string name="address">آدرس</string>
     <string name="all_applications">همه برنامه‌ها</string>
-    <string name="all_applications_up_to_date">همه برنامه‌های شما آپدیت هستند</string>
-    <string name="already_exists">از قبل وجود داشته</string>
+    <string name="all_applications_up_to_date">همه برنامه‌های شما بروزرسانی شده هستند</string>
+    <string name="already_exists">از قبل وجود دارد</string>
     <string name="amoled">سیاه</string>
     <string name="application">برنامه</string>
     <string name="application_not_found">آن برنامه پیدا نشد</string>
@@ -18,7 +18,7 @@
     <string name="changes">تغییرات</string>
     <string name="description">توضیحات</string>
     <string name="changelog">لیست تغییرات</string>
-    <string name="anti_features">ضد قابلیت‌ها</string>
+    <string name="anti_features">ضد ویژگی ها</string>
     <string name="checking_repository">بررسی مخزن …</string>
     <string name="confirmation">تاییدیه</string>
     <string name="connecting">درحال‌اتصال…</string>
@@ -150,8 +150,8 @@
     <string name="website">وبسایت</string>
     <string name="username_missing">نام‌کاربری نیست</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">آپدیت برای %d اپ موجوده.</item>
-        <item quantity="other">آپدیت برای %d اپ موجوده.</item>
+        <item quantity="one">بروزرسانی برای %d برنامه موجود می باشد.</item>
+        <item quantity="other">بروزرسانی برای %d برنامه موجود می باشد.</item>
     </plurals>
     <plurals name="days">
         <item quantity="one">روز</item>
@@ -197,4 +197,6 @@
     <string name="io_error_DESC">قادر به انجام برخی اقدامات خاص نیست.</string>
     <string name="allow_collapsing_toolbar">به نوار برنامه بالا اجازه دهید تا گسترش یابد</string>
     <string name="allow_collapsing_toolbar_DESC">به نوار برنامه بالا اجازه دهید تا گسترش و سقوط کند</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">از تم رنگی material you استفاده کنید</string>
 </resources>
