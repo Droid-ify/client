@@ -203,4 +203,6 @@
     <string name="allow_collapsing_toolbar">Дозволити розширення верхньої панелі додатку</string>
     <string name="allow_collapsing_toolbar_DESC">Дозволити верхній панелі додатку розгортатися та згортатися</string>
     <string name="no_internet">У вас немає підключення до Інтернету</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Використовуйте кольорову тему material you</string>
 </resources>
