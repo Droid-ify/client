@@ -200,4 +200,6 @@
     <string name="io_error_DESC">Não foi possível executar algumas ações.</string>
     <string name="allow_collapsing_toolbar_DESC">Permitir recolha/expansão da barra superior de aplicações</string>
     <string name="no_internet">Não existe qualquer ligação à Internet</string>
+    <string name="material_you_desc">Use o tema de material you cores</string>
+    <string name="material_you">Material You</string>
 </resources>
