@@ -197,4 +197,6 @@
     <string name="no_internet">Δεν έχετε σύνδεση στο διαδίκτυο</string>
     <string name="allow_collapsing_toolbar">Να επιτρέπεται η Επέκταση της Γραμμής Κορυφαίων Εφαρμογών</string>
     <string name="allow_collapsing_toolbar_DESC">Να επιτρέπεται η επέκταση και σύμπτυξη της επάνω γραμμής εφαρμογών</string>
+    <string name="material_you_desc">Χρησιμοποιήστε material you με θέμα το χρώμα σας</string>
+    <string name="material_you">Material You</string>
 </resources>
