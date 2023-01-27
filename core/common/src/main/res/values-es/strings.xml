@@ -200,4 +200,6 @@
     <string name="no_internet">No hay conexion a internet</string>
     <string name="allow_collapsing_toolbar">Permitir a la barra superior de la aplicación se agrande</string>
     <string name="allow_collapsing_toolbar_DESC">Permitir que la barra superior de la aplicación se expanda y se contraiga</string>
+    <string name="material_you_desc">Utilice el tema de color material you</string>
+    <string name="material_you">Material You</string>
 </resources>
