@@ -203,4 +203,6 @@
     <string name="no_internet">Nie masz połączenia z internetem</string>
     <string name="allow_collapsing_toolbar">Rozwijalny górny pasek aplikacji</string>
     <string name="allow_collapsing_toolbar_DESC">Zezwalaj na rozwijanie i zwijanie górnego paska aplikacji</string>
+    <string name="material_you_desc">Użyj motywu kolorów material you</string>
+    <string name="material_you">Material You</string>
 </resources>
