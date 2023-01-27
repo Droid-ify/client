@@ -204,4 +204,6 @@
     <string name="no_internet">Отсутствует подключение к интернету</string>
     <string name="allow_collapsing_toolbar">Разрешить расширение верхней панели приложения</string>
     <string name="allow_collapsing_toolbar_DESC">Разрешить верхней панели приложения разворачиваться и сворачиваться</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Используйте цветовую тему material you</string>
 </resources>
