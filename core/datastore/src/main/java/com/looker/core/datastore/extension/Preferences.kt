@@ -9,7 +9,7 @@ import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.R.style as styleRes
-import com.looker.core.common.Util
+import com.looker.core.common.SdkCheck
 
 fun Context?.themeName(theme: Theme) = this?.let {
 	when (theme) {
@@ -24,15 +24,15 @@ fun Context?.themeName(theme: Theme) = this?.let {
 fun Configuration.getThemeRes(theme: Theme) = when (theme) {
 	Theme.SYSTEM -> {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-			if (Util.isSnowCake) styleRes.Theme_Main_DynamicDark else styleRes.Theme_Main_Dark
+			if (SdkCheck.isSnowCake) styleRes.Theme_Main_DynamicDark else styleRes.Theme_Main_Dark
 		else
-			if (Util.isSnowCake) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
+			if (SdkCheck.isSnowCake) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
 	}
 	Theme.SYSTEM_AMOLED -> {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
-			if (Util.isSnowCake) styleRes.Theme_Main_DynamicAmoled else styleRes.Theme_Main_Amoled
+			if (SdkCheck.isSnowCake) styleRes.Theme_Main_DynamicAmoled else styleRes.Theme_Main_Amoled
 		else
-			if (Util.isSnowCake) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
+			if (SdkCheck.isSnowCake) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
 	}
 	Theme.LIGHT -> styleRes.Theme_Main_Light
 	Theme.DARK -> styleRes.Theme_Main_Dark
