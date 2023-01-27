@@ -194,4 +194,6 @@
     <string name="shizuku_installer">Trình cài đặt Shizuku</string>
     <string name="no_internet">Bạn không có kết nối internet</string>
     <string name="only_on_wifi_with_charging">Chỉ trên wifi và sạc</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Sử dụng chủ đề màu material you</string>
 </resources>
