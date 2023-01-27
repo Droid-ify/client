@@ -1,4 +1,4 @@
-package com.looker.core.model.new
+package com.looker.core.model.newer
 
 data class App(
 	val repoId: Long,

@@ -1,4 +1,4 @@
-package com.looker.core.model.new
+package com.looker.core.model.newer
 
 @JvmInline
 value class PackageName(val name: String)
