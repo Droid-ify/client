@@ -263,6 +263,10 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
+			dynamicTheme.root.isEnabled = SdkCheck.isSnowCake
+			dynamicTheme.title.isEnabled = SdkCheck.isSnowCake
+			dynamicTheme.content.isEnabled = SdkCheck.isSnowCake
+			dynamicTheme.checked.isEnabled = SdkCheck.isSnowCake
 			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
 			appbarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
