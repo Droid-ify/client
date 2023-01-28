@@ -21,6 +21,21 @@ data class RepoEntity(
 	val timestamp: Long
 )
 
+fun Repo.toEntity(): RepoEntity = RepoEntity(
+	id = id,
+	enabled = enabled,
+	address = address,
+	name = name,
+	description = description,
+	fingerprint = fingerprint,
+	username = username,
+	password = password,
+	etag = etag,
+	version = version,
+	timestamp = timestamp,
+	mirrors = mirrors
+)
+
 fun RepoEntity.toExternalModel(): Repo = Repo(
 	id = id,
 	enabled = enabled,
@@ -30,5 +45,8 @@ fun RepoEntity.toExternalModel(): Repo = Repo(
 	fingerprint = fingerprint,
 	username = username,
 	password = password,
+	etag = etag,
+	version = version,
+	timestamp = timestamp,
 	mirrors = mirrors
 )

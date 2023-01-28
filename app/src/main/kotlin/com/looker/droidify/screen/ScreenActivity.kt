@@ -117,10 +117,16 @@ abstract class ScreenActivity : AppCompatActivity() {
 			)
 		val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 		lifecycleScope.launch {
-			newPreferences.distinctMap { it.theme to it.dynamicTheme }.collectIndexed { index, themeAndDynamic ->
-				setTheme(resources.configuration.getThemeRes(themeAndDynamic.first, themeAndDynamic.second))
-				if (index > 0) recreate()
-			}
+			newPreferences.distinctMap { it.theme to it.dynamicTheme }
+				.collectIndexed { index, themeAndDynamic ->
+					setTheme(
+						resources.configuration.getThemeRes(
+							themeAndDynamic.first,
+							themeAndDynamic.second
+						)
+					)
+					if (index > 0) recreate()
+				}
 		}
 	}
 

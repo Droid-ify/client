@@ -16,4 +16,10 @@ interface AppRepository {
 
 	fun getPackages(packageName: PackageName): Flow<List<Package>>
 
+	/**
+	 * returns true is the app is added successfully
+	 * returns false if the app was already in the favourites and so it is removed
+ 	 */
+	suspend fun addToFavourite(packageName: PackageName): Boolean
+
 }

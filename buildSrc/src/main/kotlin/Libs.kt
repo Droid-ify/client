@@ -63,6 +63,12 @@ object Kotlin {
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
+object Ktor {
+	private const val version = "2.2.2"
+	const val core = "io.ktor:ktor-client-core:$version"
+	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
+}
+
 object Lifecycle {
 	private const val lifecycleVersion = "2.5.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"

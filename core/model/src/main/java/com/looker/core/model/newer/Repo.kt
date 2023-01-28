@@ -9,5 +9,8 @@ data class Repo(
 	val fingerprint: String,
 	val username: String,
 	val password: String,
+	val etag: String,
+	val version: Int,
+	val timestamp: Long,
 	val mirrors: List<String>
 )

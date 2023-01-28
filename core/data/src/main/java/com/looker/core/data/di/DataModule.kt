@@ -1,5 +1,8 @@
 package com.looker.core.data.di
 
+import com.looker.core.data.fdroid.repository.AppRepository
+import com.looker.core.data.fdroid.repository.RepoRepository
+import com.looker.core.data.fdroid.repository.offline.OfflineFirstAppRepository
 import com.looker.core.data.utils.ConnectivityManagerNetworkMonitor
 import com.looker.core.data.utils.NetworkMonitor
 import dagger.Binds
@@ -14,4 +17,14 @@ interface DataModule {
 	fun bindNetworkMonitor(
 		networkMonitor: ConnectivityManagerNetworkMonitor
 	): NetworkMonitor
+
+	@Binds
+	fun bindsAppRepository(
+		appRepository: OfflineFirstAppRepository
+	): AppRepository
+
+	@Binds
+	fun bindsRepoRepository(
+		repoRepository: OfflineFirstAppRepository
+	): RepoRepository
 }

@@ -40,6 +40,7 @@ dependencies {
 	implementation(kotlin("stdlib"))
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatabase))
+	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.coreModel))
 
 	implementation(AndroidX.material)
