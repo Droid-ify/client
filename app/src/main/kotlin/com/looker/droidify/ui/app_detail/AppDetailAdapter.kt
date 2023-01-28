@@ -453,6 +453,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 		init {
 			itemView as TextView
+			itemView.setTextIsSelectable(true)
 			itemView.setTextSizeScaled(15)
 			itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
 			itemView.movementMethod = LinkMovementMethod()
@@ -1291,7 +1292,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.TEXT -> {
 				holder as TextViewHolder
 				item as Item.TextItem
-				holder.text.setTextIsSelectable(true)
 				holder.text.text = item.text
 			}
 			ViewType.LINK -> {
