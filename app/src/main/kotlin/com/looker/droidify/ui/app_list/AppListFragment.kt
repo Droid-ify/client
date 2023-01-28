@@ -57,8 +57,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
 
+	private lateinit var recyclerView: RecyclerView
 	private lateinit var recyclerViewAdapter: AppListAdapter
-
 	private var shortAnimationDuration: Int = 0
 
 	override fun onCreateView(
@@ -70,7 +70,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
-		val recyclerView = binding.recyclerView.apply {
+		recyclerView = binding.recyclerView.apply {
 			id = android.R.id.list
 			layoutManager = LinearLayoutManager(context)
 			isMotionEventSplittingEnabled = false
@@ -145,6 +145,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	internal fun setSearchQuery(searchQuery: String) {
 		viewModel.setSearchQuery(searchQuery) {
 			if (view != null) {
+				recyclerView.smoothScrollToPosition(0)
 				screenActivity.cursorOwner.attach(this, viewModel.request(source))
 			}
 		}
