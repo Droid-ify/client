@@ -197,4 +197,6 @@
     <string name="no_internet">ଆପଣଙ୍କର କୌଣସି ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ନାହିଁ</string>
     <string name="allow_collapsing_toolbar">ଟପ୍ ଆପ୍ ବାର୍ କୁ ବିସ୍ତାର କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
     <string name="allow_collapsing_toolbar_DESC">ଟପ୍ ଆପ୍ ବାର୍ କୁ ବିସ୍ତାର ଏବଂ ଭୁଶୁଡ଼ିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
+    <string name="material_you_desc">ତୁମେ ଥିମ୍ ରଙ୍ଗ କରୁଥିବା ପଦାର୍ଥ ବ୍ୟବହାର କର</string>
+    <string name="material_you">ତୁମର ରଙ୍ଗ ସାମଗ୍ରୀ</string>
 </resources>
