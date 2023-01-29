@@ -1,9 +1,6 @@
 package com.looker.core.common.extension
 
-infix fun Long.percentBy(denominator: Long?): Int =
-	try {
-		(toInt() * 100) / (denominator ?: -1L).toInt()
-	} catch (e: ArithmeticException) {
-		e.printStackTrace()
-		-1
-	}
+infix fun Long.percentBy(denominator: Long?): Int {
+	if (denominator == null || denominator < 1) return -1
+	return (this * 100 / denominator).toInt()
+}
