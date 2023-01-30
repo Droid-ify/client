@@ -10,13 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.setCollapsable
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
@@ -24,9 +18,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.*
-import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -34,12 +26,6 @@ class RepositoryFragment() : ScreenFragment() {
 
 	private var _binding: RepositoryPageBinding? = null
 	private val binding get() = _binding!!
-
-	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val toolbarPreferenceFlow
-		get() = userPreferencesRepository.userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -69,13 +55,6 @@ class RepositoryFragment() : ScreenFragment() {
 		screenActivity.onToolbarCreated(toolbar)
 		setupView()
 		collapsingToolbar.title = getString(stringRes.repository)
-		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				toolbarPreferenceFlow.collect {
-					appBarLayout.setCollapsable(it)
-				}
-			}
-		}
 		val scroll = NestedScrollView(binding.root.context)
 		scroll.addView(binding.root)
 		fragmentBinding.fragmentContent.addView(scroll)

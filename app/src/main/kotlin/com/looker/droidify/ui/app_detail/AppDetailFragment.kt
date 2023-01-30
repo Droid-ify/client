@@ -17,10 +17,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.trimAfter
-import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
@@ -48,7 +46,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -65,16 +62,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
-
 	private class Nullable<T>(val value: T?)
 
 	private enum class Action(
 		val id: Int,
-		val adapterAction: AppDetailAdapter.Action,
+		val adapterAction: AppDetailAdapter.Action
 	) {
 		INSTALL(1, AppDetailAdapter.Action.INSTALL),
 		UPDATE(2, AppDetailAdapter.Action.UPDATE),
@@ -86,7 +78,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private class Installed(
 		val installedItem: InstalledItem, val isSystem: Boolean,
-		val launcherActivities: List<Pair<String, String>>,
+		val launcherActivities: List<Pair<String, String>>
 	)
 
 	val packageName: String
@@ -240,11 +232,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 									}
 							}
 						}
-				}
-				launch {
-					userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }.collect {
-						appBarLayout.setCollapsable(it)
-					}
 				}
 			}
 		}

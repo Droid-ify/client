@@ -14,16 +14,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.await
 import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
@@ -45,7 +40,6 @@ import java.net.URI
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.*
-import javax.inject.Inject
 import kotlin.math.min
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -55,12 +49,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 	private var _editRepositoryBinding: EditRepositoryBinding? = null
 	private val editRepositoryBinding get() = _editRepositoryBinding!!
-
-	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val toolbarPreferenceFlow
-		get() = userPreferencesRepository.userPreferencesFlow.distinctMap { it.allowCollapsingToolbar }
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
@@ -243,11 +231,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 				.flatMap { (it.mirrors + it.address).asSequence() }.map { it.withoutKnownPath }
 				.toSet()
 			invalidateAddress()
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				toolbarPreferenceFlow.collect {
-					appBarLayout.setCollapsable(it)
-				}
-			}
 		}
 		invalidateAddress()
 		invalidateFingerprint()

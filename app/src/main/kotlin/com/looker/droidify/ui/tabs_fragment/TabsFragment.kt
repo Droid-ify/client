@@ -27,11 +27,8 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.device.Huawei
 import com.looker.core.common.extension.getDrawableFromAttr
-import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
@@ -55,7 +52,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import com.looker.core.common.R.string as stringRes
@@ -65,11 +61,6 @@ class TabsFragment : ScreenFragment() {
 
 	private var _tabsBinding: TabsToolbarBinding? = null
 	private val tabsBinding get() = _tabsBinding!!
-
-	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	private val viewModel: TabsViewModel by viewModels()
 
@@ -280,11 +271,6 @@ class TabsFragment : ScreenFragment() {
 							setSectionsAndUpdate(null, repos.asSequence().filter { it.enabled }
 								.map { ProductItem.Section.Repository(it.id, it.name) }.toList())
 						}
-				}
-				launch {
-					userPreferenceFlow.distinctMap { it.allowCollapsingToolbar }.collect {
-						appBarLayout.setCollapsable(it)
-					}
 				}
 			}
 		}
