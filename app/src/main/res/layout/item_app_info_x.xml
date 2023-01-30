@@ -1,207 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="12dp"
-    android:paddingBottom="4dp">
+    android:layout_marginHorizontal="12dp"
+    android:layout_marginTop="12dp"
+    android:background="@drawable/background_border"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/header_info"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/icon"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="16dp"
+        app:shapeAppearanceOverlay="@style/Shape.Medium"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginVertical="4dp"
-        android:gravity="center_horizontal"
-        android:background="@drawable/background_border"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:singleLine="true"
+        android:textAlignment="center"
+        android:textAppearance="?textAppearanceHeadlineMedium" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/icon"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="16dp"
-            app:shapeAppearanceOverlay="@style/Shape.Medium"
-            tools:ignore="ContentDescription" />
+    <TextSwitcher
+        android:id="@+id/author_package_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/author_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:singleLine="true"
             android:textAlignment="center"
-            android:textAppearance="?textAppearanceHeadlineMedium"
+            android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorSecondary" />
 
-        <TextSwitcher
+        <TextView
+            android:id="@+id/package_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/author_package_name">
+            android:layout_marginBottom="4dp"
+            android:singleLine="true"
+            android:textAlignment="center"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="?android:attr/textColorSecondary" />
+    </TextSwitcher>
 
-            <TextView
-                android:id="@+id/author_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textAppearance="?textAppearanceBodyMedium"
-                android:layout_marginBottom="4dp"
-                android:textColor="?android:attr/textColorSecondary" />
-
-            <TextView
-                android:id="@+id/package_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:textAlignment="center"
-                android:textAppearance="?textAppearanceBodyMedium"
-                android:layout_marginBottom="4dp"
-                android:textColor="?android:attr/textColorSecondary" />
-        </TextSwitcher>
+    <LinearLayout
+        android:id="@+id/release_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/release_info"
-            android:layout_width="match_parent"
+            android:id="@+id/sdk_block"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/header_info">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:id="@+id/sdk_block"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
+                android:text="@string/target"
+                android:textAppearance="?textAppearanceTitleSmall" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/target"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/sdk"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider1"
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="12dp" />
-
-            <LinearLayout
-                android:id="@+id/version_block"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/sdk"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/version"
-                    android:textColor="?android:attr/textColorPrimary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider2"
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="12dp" />
-
-            <LinearLayout
-                android:id="@+id/size_block"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/size"
-                    android:textColor="?android:textColorPrimary"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/size"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider3"
-                android:layout_width="2dp"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="12dp" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/dev_block"
-                style="?attr/materialCardViewElevatedStyle"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_margin="4dp"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/divider3"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/dev_icon"
-                        android:layout_width="35dp"
-                        android:layout_height="35dp"
-                        android:src="@drawable/ic_code"
-                        app:shapeAppearanceOverlay="@style/Shape.Small"
-                        app:srcCompat="@drawable/ic_code" />
-
-                    <TextView
-                        android:id="@+id/dev"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/source_code"
-                        android:ellipsize="marquee"
-                        android:singleLine="true"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAppearance="?textAppearanceLabelLarge" />
         </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider1"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="12dp" />
+
+        <LinearLayout
+            android:id="@+id/version_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/version"
+                android:textAppearance="?textAppearanceTitleSmall" />
+
+            <TextView
+                android:id="@+id/version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAppearance="?textAppearanceBodyMedium"/>
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider2"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="12dp" />
+
+        <LinearLayout
+            android:id="@+id/size_block"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/size"
+                android:textAppearance="?textAppearanceTitleSmall" />
+
+            <TextView
+                android:id="@+id/size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAppearance="?textAppearanceBodyMedium"/>
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider3"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="12dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/dev_block"
+            style="?attr/materialCardViewStyle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:src="@drawable/ic_code"
+                    app:shapeAppearanceOverlay="@style/Shape.Small"
+                    app:srcCompat="@drawable/ic_code" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:text="@string/source_code"
+                    android:textAppearance="?textAppearanceLabelMedium"/>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

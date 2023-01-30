@@ -17,28 +17,6 @@ fun Long.formatSize(): String {
 	return sizeFormats[index].format(Locale.US, size)
 }
 
-fun String?.trimAfter(char: Char, repeated: Int): String? {
-	var count = 0
-	this?.let {
-		for (i in it.indices) {
-			if (it[i] == char) count++
-			if (repeated == count) return it.substring(0, i)
-		}
-	}
-	return this
-}
-
-fun String?.trimBefore(char: Char, repeated: Int): String? {
-	var count = 0
-	this?.let {
-		for (i in it.indices) {
-			if (it[i] == char) count++
-			if (repeated == count) return it.substring(i + 1)
-		}
-	}
-	return null
-}
-
 fun Char.halfByte(): Int {
 	return when (this) {
 		in '0'..'9' -> this - '0'

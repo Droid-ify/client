@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.common.trimAfter
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
@@ -134,7 +133,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				?.let(adapter::restoreState)
 			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 			recyclerView = this
-			clipToPadding = false
 		})
 		recyclerView?.systemBarsPadding()
 		var first = true
@@ -310,10 +308,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private fun updateToolbarTitle() {
-		val showPackageName = recyclerView
-			?.let { (it.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0 } == true
+		val showPackageName =
+			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
 		collapsingToolbar.title =
-			if (showPackageName) products[0].first.name.trimAfter(' ', 2)
+			if (showPackageName) products[0].first.name
 			else getString(stringRes.application)
 	}
 
