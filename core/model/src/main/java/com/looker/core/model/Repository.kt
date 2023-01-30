@@ -213,12 +213,6 @@ data class Repository(
 			)
 		}, run {
 			defaultRepository(
-				"https://www.droidware.info/fdroid/repo", "Ungoogled Chromium",
-				"Repository for Ungoogled Chromium. Ungoogled chromium is a chromium with removed google services. It also features some enhancments to privacy, control & transparency",
-				21, false, "2144449AB1DD270EC31B6087409B5D0EA39A75A9F290DA62AC1B238A0EAAF851", ""
-			)
-		}, run {
-			defaultRepository(
 				"https://fdroid.libretro.com/repo", "LibRetro",
 				"The official canary repository for this great retro emulators hub.",
 				21, false, "3F05B24D497515F31FEAB421297C79B19552C5C81186B3750B7C131EF41D733D", ""
