@@ -25,7 +25,7 @@
         <item name="colorOnPrimary">@android:color/system_accent1_800</item>
         <item name="colorPrimaryContainer">@android:color/system_accent1_600</item>
         <item name="colorOnPrimaryContainer">@android:color/system_accent1_50</item>
-        <item name="colorSecondary">@android:color/system_accent3_500</item>
+        <item name="colorSecondary">@android:color/system_accent3_100</item>
         <item name="colorOnSecondary">@android:color/system_accent3_800</item>
         <item name="colorSecondaryContainer">@android:color/system_accent3_700</item>
         <item name="colorOnSecondaryContainer">@android:color/system_accent3_50</item>
