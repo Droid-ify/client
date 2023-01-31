@@ -16,6 +16,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.extension.await
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
@@ -31,9 +32,11 @@ import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Request
 import java.net.HttpURLConnection
 import java.net.URI
@@ -372,15 +375,23 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 			if (check) {
 				checkJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
-					val resultAddress = checkAddress(address, authentication)
+					val resultAddress = try {
+						checkAddress(address, authentication)
+					} catch (e: Exception) {
+						failedAddressCheck()
+						null
+					}
 					val allow = resultAddress == address || run {
+						if (resultAddress == null) return@run false
 						layout.address.setText(resultAddress)
 						invalidateAddress(resultAddress)
 						!addressError
 					}
-					if (allow) {
+					if (allow && resultAddress != null) {
 						onSaveRepositoryProceedInvalidate(
-							resultAddress, fingerprint, authentication
+							resultAddress,
+							fingerprint,
+							authentication
 						)
 					} else {
 						invalidateState()
@@ -396,24 +407,27 @@ class EditRepositoryFragment() : ScreenFragment() {
 	private suspend fun checkAddress(
 		address: String,
 		authentication: String
-	) = withContext(Dispatchers.IO) {
+	) = coroutineScope {
 		checkInProgress = true
-		launch(Dispatchers.Main) { invalidateState() }
-		checkPaths.fold("") { oldAddress, checkPath ->
-			oldAddress.ifEmpty {
-				val builder = Uri.parse(address).buildUpon().let {
-					if (checkPath.isEmpty()) it else it.appendEncodedPath(checkPath)
-				}
-				val newAddress = builder.build()
-				val indexAddress = builder.appendPath("index.jar").build()
-				val result = Downloader.createCall(
-					Request.Builder().method("HEAD", null).url(indexAddress.toString().toHttpUrl()),
-					authentication
-				).await()
-				if (result.code == HttpURLConnection.HTTP_OK) newAddress.toString() else ""
-			}
+		invalidateState()
+		val allAddresses = checkPaths.map { path ->
+			address + if (path.isEmpty()) "" else "/$path"
 		}
+		val pathCheck = allAddresses.map {
+			async { addressValid("$it/index.jar", authentication) }
+		}
+		val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)
+		allAddresses[indexOfValidAddress].nullIfEmpty()
 	}
+
+	private suspend fun addressValid(address: String, authentication: String) =
+		withContext(Dispatchers.IO) {
+			val result = Downloader.createCall(
+				Request.Builder().method("HEAD", null).url(address),
+				authentication
+			).await()
+			result.code == HttpURLConnection.HTTP_OK
+		}
 
 	private fun onSaveRepositoryProceedInvalidate(
 		address: String,
@@ -434,11 +448,19 @@ class EditRepositoryFragment() : ScreenFragment() {
 				if (repositoryId == null && changedRepository.enabled) {
 					binder.sync(changedRepository)
 				}
-				requireActivity().onBackPressed()
+				screenActivity.onBackPressed()
 			}
 		} else {
 			invalidateState()
 		}
+	}
+
+	private fun failedAddressCheck() {
+		checkInProgress = false
+		invalidateState()
+		Snackbar.make(
+			requireView(), CommonR.string.repository_unreachable, Snackbar.LENGTH_SHORT
+		).show()
 	}
 
 	class SelectMirrorDialog() : DialogFragment() {

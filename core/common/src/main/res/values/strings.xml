@@ -144,6 +144,7 @@
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">This repository has not been used yet. Turn it on to view the applications in it.</string>
     <string name="repository_unsigned_DESC">Unsigned. Could not verify the application list. Be careful downloading applications from unsigned repositories.</string>
+    <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>
     <string name="root_permission">Silent Install</string>
     <string name="root_permission_description">Allow root permission for silent installs</string>
