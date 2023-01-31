@@ -202,4 +202,6 @@
     <string name="allow_collapsing_toolbar">Consenti l\'espansione della barra superiore dell\'app</string>
     <string name="allow_collapsing_toolbar_DESC">Consenti alla barra superiore dell\'app di espandersi e comprimersi</string>
     <string name="material_you">Material You</string>
+    <string name="favourites">Preferiti</string>
+    <string name="material_you_desc">Usa il tema material you</string>
 </resources>
