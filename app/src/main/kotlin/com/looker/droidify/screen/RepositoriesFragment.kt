@@ -13,7 +13,9 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
@@ -44,6 +46,15 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 						repository.enabled != isEnabled &&
 								syncConnection.binder?.setEnabled(repository, isEnabled) == true
 					}
+					addItemDecoration(DividerItemDecoration(context) { context, _, configuration ->
+						val padding = context.resources.sizeScaled(16)
+						configuration.set(
+							needDivider = true,
+							toTop = false,
+							paddingStart = padding,
+							paddingEnd = padding
+						)
+					})
 					recyclerView = this
 				}
 			)

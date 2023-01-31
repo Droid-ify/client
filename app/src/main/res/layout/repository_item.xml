@@ -1,38 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/repository_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/text_margin"
-    android:layout_marginVertical="8dp">
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingHorizontal="@dimen/shape_margin_large"
+    android:paddingVertical="12dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/text_margin"
-        android:orientation="vertical"
-        android:paddingEnd="48dp">
+    <TextView
+        android:id="@+id/repository_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:layout_constraintBottom_toTopOf="@id/repository_description"
+        app:layout_constraintEnd_toStartOf="@id/repository_state"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/repository_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-        <TextView
-            android:id="@+id/repository_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/repository_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/repository_state"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repository_name" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/repository_state"
-        android:layout_width="24dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="end"
-        android:layout_marginEnd="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/shape_margin_large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check" />
-</com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

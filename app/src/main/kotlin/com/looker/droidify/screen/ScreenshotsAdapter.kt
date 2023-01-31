@@ -3,11 +3,11 @@ package com.looker.droidify.screen
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.getDrawableCompat
@@ -27,12 +27,12 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 	private val items = mutableListOf<Item.ScreenshotItem>()
 
 	private class ViewHolder(context: Context) :
-		RecyclerView.ViewHolder(MaterialCardView(context)) {
+		RecyclerView.ViewHolder(FrameLayout(context)) {
 		val image: ShapeableImageView
 		val placeholder: Drawable
 
 		init {
-			itemView as MaterialCardView
+			itemView as FrameLayout
 			val surfaceColor =
 				itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
@@ -48,7 +48,6 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				.setAllCornerSizes(radius)
 				.build()
 			image.shapeAppearanceModel = shapeAppearanceModel
-			itemView.shapeAppearanceModel = shapeAppearanceModel
 			itemView.addView(image)
 			itemView.layoutParams = RecyclerView.LayoutParams(
 				RecyclerView.LayoutParams.WRAP_CONTENT,

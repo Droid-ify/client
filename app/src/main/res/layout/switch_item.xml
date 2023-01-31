@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/text_margin"
-    android:clickable="false"
+    android:clickable="true"
     android:singleLine="true"
-    android:textAppearance="?textAppearanceTitleSmall" />
+    android:focusable="true" />
