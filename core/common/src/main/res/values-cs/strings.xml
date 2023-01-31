@@ -202,4 +202,5 @@
     <string name="allow_collapsing_toolbar_DESC">Povolení rozbalování a sbalování horního panelu aplikace</string>
     <string name="material_you_desc">Použít barevný motiv Material You</string>
     <string name="material_you">Material You</string>
+    <string name="favourites">Oblíbené</string>
 </resources>
