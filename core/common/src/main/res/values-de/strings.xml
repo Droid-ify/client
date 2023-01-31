@@ -197,4 +197,8 @@
     <string name="no_internet">Sie haben keine Internetverbindung</string>
     <string name="allow_collapsing_toolbar">Erweiterung der oberen Anwendungsleiste zulassen</string>
     <string name="allow_collapsing_toolbar_DESC">Das Erweitern und Reduzieren der oberen Anwendungsleiste erlauben</string>
+    <string name="favourites">Favoriten</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Material You-Farbschema verwenden</string>
+    <string name="repository_unreachable">Repository unerreichbar</string>
 </resources>
