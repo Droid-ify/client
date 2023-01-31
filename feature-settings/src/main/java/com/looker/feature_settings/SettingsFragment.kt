@@ -328,10 +328,14 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			installer.content.text = context.installerName(userPreferences.installerType)
+			val installerList = InstallerType.values()
+				.toMutableList()
+				.apply { removeAll { it == InstallerType.SHIZUKU && !SdkCheck.isR } }
+				.toList()
 			installer.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.installerType,
-					values = InstallerType.values().toList(),
+					values = installerList,
 					title = stringRes.installer,
 					iconRes = drawableRes.ic_download,
 					onClick = { viewModel.setInstaller(it) },
