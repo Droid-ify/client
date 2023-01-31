@@ -200,4 +200,5 @@
     <string name="allow_collapsing_toolbar_DESC">Üst uygulama çubuğunun genişletilmesine ve daraltılmasına izin verin</string>
     <string name="material_you_desc">Material you renk temasını kullan</string>
     <string name="material_you">Material You</string>
+    <string name="favourites">Favoriler</string>
 </resources>
