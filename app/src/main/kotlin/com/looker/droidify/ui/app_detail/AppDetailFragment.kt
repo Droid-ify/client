@@ -7,19 +7,18 @@ import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
@@ -138,103 +137,90 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		recyclerView?.systemBarsPadding()
 		var first = true
 		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				launch {
-					flowOf(Unit)
-						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
-						.map { Database.ProductAdapter.get(packageName, null) }
-						.map { products ->
-							Database.RepositoryAdapter.getAll(null).associateBy { it.id }.let {
-								products.mapNotNull { product ->
-									it[product.repositoryId]?.let {
-										product to it
-									}
-								}
-							}
-						}.map { productRepo ->
-							productRepo to Nullable(
-								Database.InstalledAdapter.get(
-									packageName,
-									null
-								)
-							)
-						}.collectLatest { (productRepo, installedItem) ->
-							val firstChanged = first
-							first = false
-							val productChanged = products != productRepo
-							val installedItemChanged =
-								installed?.installedItem != installedItem.value
-							if (firstChanged || productChanged || installedItemChanged) {
-								layoutManagerState?.let {
-									recyclerView?.layoutManager!!.onRestoreInstanceState(it)
-								}
-								layoutManagerState = null
-								if (firstChanged || productChanged) {
-									products = productRepo
-								}
-								if (firstChanged || installedItemChanged) {
-									installed = installedItem.value?.let {
-										val isSystem = try {
-											((requireContext().packageManager.getApplicationInfo(
-												packageName,
-												0
-											).flags)
-													and ApplicationInfo.FLAG_SYSTEM) != 0
-										} catch (e: Exception) {
-											false
-										}
-										val launcherActivities =
-											if (packageName == requireContext().packageName) {
-												// Don't allow to launch self
-												emptyList()
-											} else {
-												val packageManager = requireContext().packageManager
-												packageManager
-													.queryIntentActivities(
-														Intent(Intent.ACTION_MAIN).addCategory(
-															Intent.CATEGORY_LAUNCHER
-														), 0
-													)
-													.asSequence()
-													.mapNotNull { resolveInfo -> resolveInfo.activityInfo }
-													.filter { activityInfo -> activityInfo.packageName == packageName }
-													.mapNotNull { activityInfo ->
-														val label = try {
-															activityInfo.loadLabel(packageManager)
-																.toString()
-														} catch (e: Exception) {
-															e.printStackTrace()
-															null
-														}
-														label?.let { labelName ->
-															activityInfo.name to labelName
-														}
-													}
-													.toList()
-											}
-										Installed(it, isSystem, launcherActivities)
-									}
-								}
-								val recyclerView = recyclerView!!
-								val adapter = recyclerView.adapter as AppDetailAdapter
-
-								updateButtons()
-								adapter.setProducts(
-									recyclerView.context,
-									packageName,
-									productRepo,
-									installedItem.value,
-									userPreferencesRepository.fetchInitialPreferences()
-								)
+			flowOf(Unit)
+				.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
+				.map { Database.ProductAdapter.get(packageName, null) }
+				.map { products ->
+					Database.RepositoryAdapter.getAll(null).associateBy { it.id }.let {
+						products.mapNotNull { product ->
+							it[product.repositoryId]?.let {
+								product to it
 							}
 						}
-				}
-				launch {
-					userPreferencesFlow.distinctMap { it.favouriteApps }.collect {
-						Log.e("tag", it.joinToString())
 					}
 				}
-			}
+				.map { it to Nullable(Database.InstalledAdapter.get(packageName, null)) }
+				.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
+				.collectLatest { (productRepo, installedItem) ->
+					val firstChanged = first
+					first = false
+					val productChanged = products != productRepo
+					val installedItemChanged =
+						installed?.installedItem != installedItem.value
+					if (firstChanged || productChanged || installedItemChanged) {
+						layoutManagerState?.let {
+							recyclerView?.layoutManager!!.onRestoreInstanceState(it)
+						}
+						layoutManagerState = null
+						if (firstChanged || productChanged) {
+							products = productRepo
+						}
+						if (firstChanged || installedItemChanged) {
+							installed = installedItem.value?.let {
+								val isSystem = try {
+									((requireContext().packageManager.getApplicationInfo(
+										packageName,
+										0
+									).flags)
+											and ApplicationInfo.FLAG_SYSTEM) != 0
+								} catch (e: Exception) {
+									false
+								}
+								val launcherActivities =
+									if (packageName == requireContext().packageName) {
+										// Don't allow to launch self
+										emptyList()
+									} else {
+										val packageManager = requireContext().packageManager
+										packageManager
+											.queryIntentActivities(
+												Intent(Intent.ACTION_MAIN).addCategory(
+													Intent.CATEGORY_LAUNCHER
+												), 0
+											)
+											.asSequence()
+											.mapNotNull { resolveInfo -> resolveInfo.activityInfo }
+											.filter { activityInfo -> activityInfo.packageName == packageName }
+											.mapNotNull { activityInfo ->
+												val label = try {
+													activityInfo.loadLabel(packageManager)
+														.toString()
+												} catch (e: Exception) {
+													e.printStackTrace()
+													null
+												}
+												label?.let { labelName ->
+													activityInfo.name to labelName
+												}
+											}
+											.toList()
+									}
+								Installed(it, isSystem, launcherActivities)
+							}
+						}
+						val recyclerView = recyclerView!!
+						val adapter = recyclerView.adapter as AppDetailAdapter
+
+						updateButtons()
+						adapter.setProducts(
+							recyclerView.context,
+							packageName,
+							productRepo,
+							installedItem.value,
+							userPreferencesRepository.fetchInitialPreferences()
+						)
+					}
+				}
 		}
 
 		downloadConnection.bind(requireContext())
