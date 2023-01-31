@@ -209,6 +209,7 @@
     <string name="no_internet">ليس لديك اتصال بالإنترنت</string>
     <string name="allow_collapsing_toolbar">اسمح بتوسيع شريط التطبيقات العلوي</string>
     <string name="allow_collapsing_toolbar_DESC">اسمح لشريط التطبيقات العلوي بالتوسع والطي</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">المواد الخاصة بك</string>
     <string name="material_you_desc">استخدم material you سمة اللون</string>
+    <string name="favourites">المفضلة</string>
 </resources>
