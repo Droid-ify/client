@@ -29,6 +29,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	): View {
+		super.onCreateView(inflater, container, savedInstanceState)
 		val view = fragmentBinding.root.apply {
 			val content = fragmentBinding.fragmentContent
 			content.addView(
@@ -48,9 +49,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 			)
 		}
 		recyclerView?.systemBarsPadding()
-		this.toolbar = fragmentBinding.toolbar
-		this.collapsingToolbar = fragmentBinding.collapsingToolbar
-		this.appBarLayout = fragmentBinding.appbarLayout
 		return view
 	}
 

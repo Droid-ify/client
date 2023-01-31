@@ -71,10 +71,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
 		recyclerView = binding.recyclerView.apply {
-			id = android.R.id.list
 			layoutManager = LinearLayoutManager(context)
 			isMotionEventSplittingEnabled = false
-			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
 			recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
 			recyclerViewAdapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }

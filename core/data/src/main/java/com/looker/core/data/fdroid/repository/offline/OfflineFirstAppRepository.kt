@@ -35,7 +35,7 @@ class OfflineFirstAppRepository(
 				.fetchInitialPreferences()
 				.favouriteApps
 				.any { it == packageName.name }
-		userPreferencesRepository.addToFavourites(packageName.name, !isFavourite)
+		userPreferencesRepository.toggleFavourites(packageName.name)
 		return !isFavourite
 	}
 }

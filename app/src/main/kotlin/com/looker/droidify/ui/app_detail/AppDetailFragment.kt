@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -218,18 +219,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 								val adapter = recyclerView.adapter as AppDetailAdapter
 
 								updateButtons()
-								userPreferencesFlow.distinctMap { it.incompatibleVersions }
-									.collect {
-										adapter.setProducts(
-											recyclerView.context,
-											packageName,
-											productRepo,
-											installedItem.value,
-											it
-										)
-									}
+								adapter.setProducts(
+									recyclerView.context,
+									packageName,
+									productRepo,
+									installedItem.value,
+									userPreferencesRepository.fetchInitialPreferences()
+								)
 							}
 						}
+				}
+				launch {
+					userPreferencesFlow.distinctMap { it.favouriteApps }.collect {
+						Log.e("tag", it.joinToString())
+					}
 				}
 			}
 		}
@@ -431,6 +434,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				startActivity(Intent.createChooser(sendIntent, null))
 			}
 		}::class
+	}
+
+	override fun onFavouriteClicked() {
+		lifecycleScope.launch {
+			userPreferencesRepository.toggleFavourites(packageName)
+		}
 	}
 
 	private fun startLauncherActivity(name: String) {

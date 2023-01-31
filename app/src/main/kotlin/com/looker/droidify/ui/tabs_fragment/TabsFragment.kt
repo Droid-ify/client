@@ -80,6 +80,7 @@ class TabsFragment : ScreenFragment() {
 		val sectionIcon = view.sectionIcon
 	}
 
+	private var favouritesItem: MenuItem? = null
 	private var searchMenuItem: MenuItem? = null
 	private var sortOrderMenu: Pair<MenuItem, List<MenuItem>>? = null
 	private var syncRepositoriesMenuItem: MenuItem? = null
@@ -187,6 +188,13 @@ class TabsFragment : ScreenFragment() {
 				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sync))
 				.setOnMenuItemClickListener {
 					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+					true
+				}
+
+			favouritesItem = add(1, 0, 0, stringRes.favourites)
+				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_favourite_checked))
+				.setOnMenuItemClickListener {
+					view.post { screenActivity.navigateFavourites() }
 					true
 				}
 
@@ -330,6 +338,7 @@ class TabsFragment : ScreenFragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 
+		favouritesItem = null
 		searchMenuItem = null
 		sortOrderMenu = null
 		syncRepositoriesMenuItem = null

@@ -1,41 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
     android:layout_marginTop="12dp"
-    android:background="@drawable/background_border"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/background_border">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/icon"
+        android:id="@+id/app_icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_margin="16dp"
-        app:shapeAppearanceOverlay="@style/Shape.Medium"
-        tools:ignore="ContentDescription" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/Shape.Medium" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/app_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
+        android:maxLines="2"
+        android:paddingHorizontal="12dp"
         android:textAlignment="center"
-        android:textAppearance="?textAppearanceHeadlineMedium" />
+        android:textAppearance="?textAppearanceHeadlineMedium"
+        app:layout_constraintTop_toBottomOf="@id/app_icon" />
 
     <TextSwitcher
         android:id="@+id/author_package_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/app_name">
 
         <TextView
             android:id="@+id/author_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
@@ -45,49 +47,22 @@
             android:id="@+id/package_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
             android:textColor="?android:attr/textColorSecondary" />
     </TextSwitcher>
 
+
     <LinearLayout
         android:id="@+id/release_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/sdk_block"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/target"
-                android:textAppearance="?textAppearanceTitleSmall" />
-
-            <TextView
-                android:id="@+id/sdk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="marquee"
-                android:singleLine="true"
-                android:textAppearance="?textAppearanceLabelLarge" />
-        </LinearLayout>
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider1"
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="12dp" />
+        android:orientation="horizontal"
+        android:paddingTop="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/author_package_name">
 
         <LinearLayout
             android:id="@+id/version_block"
@@ -110,11 +85,11 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textAppearance="?textAppearanceBodyMedium"/>
+                android:textAppearance="?textAppearanceBodyMedium" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider2"
+            android:id="@+id/divider1"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="12dp" />
@@ -140,18 +115,18 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="marquee"
                 android:singleLine="true"
-                android:textAppearance="?textAppearanceBodyMedium"/>
+                android:textAppearance="?textAppearanceBodyMedium" />
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider3"
+            android:id="@+id/divider2"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="12dp" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/dev_block"
-            style="?attr/materialCardViewStyle"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
@@ -164,8 +139,8 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:src="@drawable/ic_code"
                     app:shapeAppearanceOverlay="@style/Shape.Small"
                     app:srcCompat="@drawable/ic_code" />
@@ -176,8 +151,21 @@
                     android:ellipsize="marquee"
                     android:singleLine="true"
                     android:text="@string/source_code"
-                    android:textAppearance="?textAppearanceLabelMedium"/>
+                    android:textAppearance="?textAppearanceLabelMedium" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
-</LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/favourite"
+        style="@style/FavouriteTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:padding="16dp"
+        app:icon="@drawable/favourite_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

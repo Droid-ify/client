@@ -38,13 +38,11 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.util.LinkifyCompat
-import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
-import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
@@ -56,6 +54,7 @@ import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.datastore.UserPreferences
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductPreference
@@ -85,6 +84,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	interface Callbacks {
 		fun onActionClick(action: Action)
+		fun onFavouriteClicked()
 		fun onPreferenceChanged(preference: ProductPreference)
 		fun onPermissionsClick(group: String?, permissions: List<String>)
 		fun onScreenshotClick(screenshot: Product.Screenshot)
@@ -359,9 +359,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private enum class Payload { REFRESH, STATUS }
 
+	@Volatile
+	private var isFavourite: Boolean = false
+
 	private class AppInfoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
-		val name = itemView.findViewById<TextView>(R.id.name)!!
+		val icon = itemView.findViewById<ShapeableImageView>(R.id.app_icon)!!
+		val name = itemView.findViewById<TextView>(R.id.app_name)!!
 		val authorName = itemView.findViewById<TextView>(R.id.author_name)!!
 		val packageName = itemView.findViewById<TextView>(R.id.package_name)!!
 		val textSwitcher = itemView.findViewById<TextSwitcher>(R.id.author_package_name)!!
@@ -371,12 +374,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			textSwitcher.setOutAnimation(itemView.context!!, R.anim.slide_right_fade_out)
 		}
 
-		val targetBlock = itemView.findViewById<LinearLayout>(R.id.sdk_block)!!
-		val divider1 = itemView.findViewById<MaterialDivider>(R.id.divider1)!!
-		val targetSdk = itemView.findViewById<TextView>(R.id.sdk)!!
 		val version = itemView.findViewById<TextView>(R.id.version)!!
 		val size = itemView.findViewById<TextView>(R.id.size)!!
 		val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
+
+		val favouriteButton = itemView.findViewById<MaterialButton>(R.id.favourite)!!
 	}
 
 	private class DownloadStatusViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -592,7 +594,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		context: Context, packageName: String,
 		products: List<Pair<Product, Repository>>,
 		installedItem: InstalledItem?,
-		incompatible: Boolean
+		userPreferences: UserPreferences
 	) {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
@@ -858,6 +860,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 		}
 
+		val incompatible = userPreferences.incompatibleVersions
 		val compatibleReleasePairs = products.asSequence()
 			.flatMap { (product, repository) ->
 				product.releases.asSequence()
@@ -895,10 +898,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				items += releaseItems
 			}
 		}
+		isFavourite = packageName in userPreferences.favouriteApps
 
-		if (items.isEmpty()) {
-			items += Item.EmptyItem(packageName)
-		}
+		if (items.isEmpty()) items += Item.EmptyItem(packageName)
+
 		this.product = productRepository?.first
 		this.installedItem = installedItem
 		notifyDataSetChanged()
@@ -943,7 +946,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		viewType: ViewType,
 	): RecyclerView.ViewHolder {
 		return when (viewType) {
-			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.item_app_info_x))
+			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.app_detail_header)).apply {
+				favouriteButton.setOnClickListener { callbacks.onFavouriteClicked() }
+			}
 			ViewType.DOWNLOAD_STATUS -> DownloadStatusViewHolder(parent.inflate(R.layout.download_status))
 			ViewType.INSTALL_BUTTON -> InstallButtonViewHolder(parent.inflate(R.layout.install_button)).apply {
 				button.setOnClickListener { action?.let(callbacks::onActionClick) }
@@ -1118,16 +1123,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 					holder.name.text = item.product.name
 				}
-				val sdk = product?.displayRelease?.targetSdkVersion
 
-				holder.version.doOnPreDraw {
-					if (it.measuredWidth > 70 || sdk == 0) {
-						holder.targetBlock.visibility = View.GONE
-						holder.divider1.visibility = View.GONE
-					}
-				}
-
-				holder.targetSdk.text = sdk.toString()
 				holder.version.apply {
 					text = installedItem?.version ?: product?.version
 					if (product?.canUpdate(installedItem) == true) {
@@ -1162,12 +1158,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.dev.setOnLongClickListener {
 					product?.source?.let { link ->
-						if (link.isNotEmpty()) {
-							copyLinkToClipboard(holder.dev, link)
-						}
+						if (link.isNotEmpty()) copyLinkToClipboard(holder.dev, link)
 					}
 					true
 				}
+				holder.favouriteButton.isChecked = isFavourite
 			}
 			ViewType.DOWNLOAD_STATUS -> {
 				holder as DownloadStatusViewHolder

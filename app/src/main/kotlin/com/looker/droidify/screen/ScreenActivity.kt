@@ -32,6 +32,7 @@ import com.looker.core.datastore.extension.getThemeRes
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
+import com.looker.droidify.ui.favourites.FavouritesFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.feature_settings.SettingsFragment
@@ -343,6 +344,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 		}
 	}
 
+	internal fun navigateFavourites() = pushFragment(FavouritesFragment())
 	internal fun navigateProduct(packageName: String) = pushFragment(AppDetailFragment(packageName))
 	internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
 	internal fun navigatePreferences() = pushFragment(SettingsFragment.newInstance())

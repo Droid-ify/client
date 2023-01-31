@@ -183,13 +183,12 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	/**
 	 * Adds a [packageName] to favourites
 	 */
-	suspend fun addToFavourites(packageName: String, remove: Boolean) {
+	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
 			val currentSet = preference[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
 			val newSet = currentSet.toMutableSet()
-			if (remove && newSet.contains(packageName)) newSet.remove(packageName)
-			else if (!remove) newSet.add(packageName)
-			preference[PreferencesKeys.FAVOURITE_APPS] = newSet
+			if (!newSet.add(packageName)) newSet.remove(packageName)
+			preference[PreferencesKeys.FAVOURITE_APPS] = newSet.toSet()
 		}
 	}
 

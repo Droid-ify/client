@@ -190,6 +190,13 @@
         <item name="thumbTint">@color/switch_thumb_tint</item>
     </style>
 
+    <style name="FavouriteTheme" parent="Widget.Material3.Button.IconButton">
+        <item name="backgroundTint">?colorSurface</item>
+        <item name="android:backgroundTint">?colorSurface</item>
+        <item name="iconTint">?colorError</item>
+        <item name="android:iconTint" tools:targetApi="o">?colorError</item>
+    </style>
+
     <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
         <item name="cardBackgroundColor">@android:color/transparent</item>
         <item name="cardCornerRadius">@dimen/shape_large_corner</item>
