@@ -199,4 +199,5 @@
     <string name="allow_collapsing_toolbar_DESC">Permitir cas barras das aplicacións superior se amplíe e contraiga</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Usalo material que coloree o tema</string>
+    <string name="favourites">Favoritas</string>
 </resources>
