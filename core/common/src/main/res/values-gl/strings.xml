@@ -200,4 +200,5 @@
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Usalo material que coloree o tema</string>
     <string name="favourites">Favoritas</string>
+    <string name="repository_unreachable">Repositorio inalcanzable</string>
 </resources>
