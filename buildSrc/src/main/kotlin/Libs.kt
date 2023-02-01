@@ -5,7 +5,7 @@ object AndroidX {
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
-	const val material = "com.google.android.material:material:1.8.0-rc01"
+	const val material = "com.google.android.material:material:1.8.0"
 }
 
 object Core {
