@@ -68,7 +68,7 @@
     <string name="incompatible_signature_DESC">هذا الإصدار مُوقّع بشهادة مختلفة عن تلك المثبتة على جهازك. ألغِ تثبيت تلك أولًا.</string>
     <string name="incompatible_version">إصدار غير متوافق</string>
     <string name="incompatible_versions">إصدارات غير متوافقة</string>
-    <string name="incompatible_versions_summary">إظهر إصدارات التطبيقات الغير متوافقة مع الجهاز</string>
+    <string name="incompatible_versions_summary">أظهر إصدارات التطبيقات الغير متوافقة مع الجهاز</string>
     <string name="incompatible_with_FORMAT">غير متوافق مع %s</string>
     <string name="install">ثبت</string>
     <string name="install_types">طرق التثبيت</string>
@@ -209,8 +209,10 @@
     <string name="no_internet">ليس لديك اتصال بالإنترنت</string>
     <string name="allow_collapsing_toolbar">اسمح بتوسيع شريط التطبيقات العلوي</string>
     <string name="allow_collapsing_toolbar_DESC">اسمح لشريط التطبيقات العلوي بالتوسع والطي</string>
-    <string name="material_you">المواد الخاصة بك</string>
-    <string name="material_you_desc">استخدم material you سمة اللون</string>
-    <string name="favourites">المفضلة</string>
-    <string name="repository_unreachable">مستودع لا يمكن الوصول إليه</string>
+    <string name="material_you">مَتيريَل يو</string>
+    <string name="material_you_desc">استخدم سمة ألوان مَتيريَل يو</string>
+    <string name="favourites">المفضَّلات</string>
+    <string name="repository_unreachable">تعذَّر الوصول للمستودع</string>
+    <string name="force_clean_up">افرض التنظيف</string>
+    <string name="force_clean_up_DESC">ينظِّف الملفَّات المتكرِّرة</string>
 </resources>
