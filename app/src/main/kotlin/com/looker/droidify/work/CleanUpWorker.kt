@@ -26,6 +26,11 @@ class CleanUpWorker @AssistedInject constructor(
 	companion object {
 		const val TAG = "CleanUpWorker"
 
+		fun removeAllSchedules(context: Context) {
+			val workManager = WorkManager.getInstance(context)
+			workManager.cancelUniqueWork(TAG)
+		}
+
 		fun scheduleCleanup(context: Context, duration: Duration) {
 			val workManager = WorkManager.getInstance(context)
 			val cleanup = PeriodicWorkRequestBuilder<DelegatingWorker>(duration.toJavaDuration())

@@ -47,6 +47,8 @@ import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.INFINITE
+import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.hours
 import com.looker.core.common.R as CommonR
 
@@ -153,7 +155,11 @@ class MainApplication : Application(), ImageLoaderFactory {
 			}
 			launch {
 				userPreferenceFlow.distinctMap { it.cleanUpDuration }.collect {
-					CleanUpWorker.scheduleCleanup(applicationContext, it)
+					when(it) {
+						INFINITE -> CleanUpWorker.removeAllSchedules(applicationContext)
+						ZERO -> CleanUpWorker.force(applicationContext)
+						else -> CleanUpWorker.scheduleCleanup(applicationContext, it)
+					}
 				}
 			}
 			launch {

@@ -76,6 +76,11 @@
                 android:id="@+id/clean_up"
                 layout="@layout/enum_type" />
 
+            <include
+                android:id="@+id/force_clean_up"
+                layout="@layout/enum_type"
+                android:visibility="gone"/>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -80,6 +80,8 @@ class SettingsFragment : Fragment() {
 			allowCollapsingToolbar.title.text = getString(stringRes.allow_collapsing_toolbar)
 			allowCollapsingToolbar.content.text = getString(stringRes.allow_collapsing_toolbar_DESC)
 			cleanUp.title.text = getString(stringRes.cleanup_title)
+			forceCleanUp.title.text = getString(stringRes.force_clean_up)
+			forceCleanUp.content.text = getString(stringRes.force_clean_up_DESC)
 			autoSync.title.text = getString(stringRes.sync_repositories_automatically)
 			notifyUpdates.title.text = getString(stringRes.notify_about_updates)
 			notifyUpdates.content.text = getString(stringRes.notify_about_updates_summary)
@@ -280,6 +282,10 @@ class SettingsFragment : Fragment() {
 					onClick = { viewModel.setCleanUpDuration(it) }
 				).show()
 			}
+			forceCleanUp.root.visibility = if (userPreferences.cleanUpDuration == Duration.INFINITE
+				|| userPreferences.cleanUpDuration == Duration.ZERO
+			) View.VISIBLE else View.GONE
+			forceCleanUp.root.setOnClickListener { viewModel.setCleanUpDuration(Duration.ZERO) }
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
@@ -356,12 +362,14 @@ class SettingsFragment : Fragment() {
 		12.hours,
 		18.hours,
 		1.days,
-		2.days
+		2.days,
+		Duration.INFINITE
 	)
 
 	private fun Duration.toTime(context: Context?): String {
 		val time = inWholeHours.toInt()
 		val days = inWholeDays.toInt()
+		if (this == Duration.INFINITE || this == Duration.ZERO) return getString(stringRes.never)
 		return if (time >= 24) "$days " + context?.resources?.getQuantityString(
 			pluralRes.days,
 			days
