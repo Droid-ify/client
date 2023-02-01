@@ -1,0 +1,34 @@
+## UI Changes
+- Add: Material You support
+- Add: Edge-to-Edge support (Android 11+)
+- Add: Snackbar if the address is not valid
+- Add: Snackbar to represent Internet Connectivity
+- Add: Indicator for installed apps
+- Add: Favourites list [In menu]
+- Add: App bar controls
+- Add: New Error icon
+- Improve: `Repository Details` page
+- Improve: `Repository List` page
+- Fix: Theme Changing
+- Fix: App bar not scrolling
+- Fix: Navigation bar color
+
+## Core
+- Add: Favourites list in menu
+- Add: `Never` cleanup option
+- Add: Session and FluffyChat Repository
+- Remove: Some dead repositories
+- Remove: Support for legacy `index.xml` (For security purposes)
+- Fix: Many installer bug
+- Fix: App not visible in Android TV
+- Fix: A very annoying random crash
+- Fix: Shizuku and Root Installer
+
+## Misc
+- Better Install notification icon
+- Click App Icon to switch Author and Package name
+- Use legacy installer on first time MiUi users
+- Shizuku dropped support for pre-Android 11
+- Fix: Install dialog not visible when notification is clicked
+- Fix: Crash on bad repository address
+- Fix: No back button in settings page
