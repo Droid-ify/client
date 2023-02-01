@@ -204,4 +204,6 @@
     <string name="material_you">Material You</string>
     <string name="favourites">Favoritas</string>
     <string name="repository_unreachable">Repositorio inaccesible</string>
+    <string name="force_clean_up">Forzar la limpieza</string>
+    <string name="force_clean_up_DESC">Limpia archivos redundantes</string>
 </resources>
