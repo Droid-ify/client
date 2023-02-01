@@ -201,4 +201,6 @@
     <string name="material_you">Material You</string>
     <string name="favourites">Αγαπημένα</string>
     <string name="repository_unreachable">Αποθετήριο μη προσβάσιμο</string>
+    <string name="force_clean_up">Αναγκαστική εκκαθάριση</string>
+    <string name="force_clean_up_DESC">Καθαρίζει τα περιττά αρχεία</string>
 </resources>
