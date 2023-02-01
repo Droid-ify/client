@@ -203,4 +203,7 @@
     <string name="material_you_desc">Použít barevný motiv Material You</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Oblíbené</string>
+    <string name="force_clean_up_DESC">Vyčistí přebytečné soubory</string>
+    <string name="force_clean_up">Vynutit vyčištění</string>
+    <string name="repository_unreachable">Repozitář nedostupný</string>
 </resources>
