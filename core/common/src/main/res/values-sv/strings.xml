@@ -199,4 +199,8 @@
     <string name="system">Systemet</string>
     <string name="target">Mål</string>
     <string name="unknown">Okänd</string>
+    <string name="favourites">Favoriter</string>
+    <string name="force_clean_up_DESC">Rensar upp överflödiga filer</string>
+    <string name="repository_unreachable">Förvaret kan inte nås</string>
+    <string name="force_clean_up">Tvinga städning</string>
 </resources>
