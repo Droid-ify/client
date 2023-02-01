@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.plus
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.UnknownHostException
@@ -80,7 +81,7 @@ object RepositoryUpdater {
 					synchronized(cleanupLock) { Database.RepositoryAdapter.cleanup(pairs) }
 				}
 			}
-			.launchIn(scope)
+			.launchIn(scope + Dispatchers.IO)
 	}
 
 	fun await() {

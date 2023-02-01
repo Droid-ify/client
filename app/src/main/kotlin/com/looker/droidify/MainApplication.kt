@@ -51,7 +51,7 @@ import com.looker.core.common.R as CommonR
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory {
 
-	private val appScope = CoroutineScope(Dispatchers.IO)
+	private val appScope = CoroutineScope(Dispatchers.Default)
 
 	@Inject
 	lateinit var userPreferenceRepository: UserPreferencesRepository
