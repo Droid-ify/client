@@ -112,6 +112,7 @@ class SettingsViewModel
 					)
 				}
 				InstallerType.ROOT -> {
+					Shell.getShell()
 					val isRooted = Shell.isAppGrantedRoot()
 					userPreferencesRepository.setInstallerType(
 						if (isRooted == true) InstallerType.ROOT

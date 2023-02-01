@@ -23,6 +23,7 @@ import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.AutoSync
+import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -35,6 +36,7 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.CleanUpWorker
+import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -60,6 +62,12 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	override fun onCreate() {
 		super.onCreate()
+
+		appScope.launch {
+			if (userPreferenceRepository.fetchInitialPreferences().installerType == InstallerType.ROOT) {
+				Shell.getShell()
+			}
+		}
 
 		val databaseUpdated = Database.init(this)
 		ProductPreferences.init(this)
