@@ -206,4 +206,7 @@
     <string name="material_you_desc">Use o tema de material you cores</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Favoritos</string>
+    <string name="force_clean_up">Forçar limpeza</string>
+    <string name="force_clean_up_DESC">Limpa arquivos redundantes</string>
+    <string name="repository_unreachable">Repositório inacessível</string>
 </resources>
