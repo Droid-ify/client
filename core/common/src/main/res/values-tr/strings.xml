@@ -202,4 +202,6 @@
     <string name="material_you">Material You</string>
     <string name="favourites">Favoriler</string>
     <string name="repository_unreachable">Depoya ulaşılamıyor</string>
+    <string name="force_clean_up">Temizlemeye zorla</string>
+    <string name="force_clean_up_DESC">Gereksiz dosyaları temizler</string>
 </resources>
