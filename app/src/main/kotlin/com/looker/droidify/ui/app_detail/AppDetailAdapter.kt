@@ -38,6 +38,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
 import androidx.core.text.util.LinkifyCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -1168,10 +1169,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder as DownloadStatusViewHolder
 				item as Item.DownloadStatusItem
 				val status = status
-				holder.statusText.visibility =
-					if (status != Status.Idle) View.VISIBLE else View.GONE
-				holder.progress.visibility =
-					if (status != Status.Idle) View.VISIBLE else View.GONE
+				holder.statusText.isVisible = status != Status.Idle
+				holder.progress.isVisible = status != Status.Idle
 				if (status != Status.Idle) {
 					when (status) {
 						is Status.Pending -> {
@@ -1203,7 +1202,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				item as Item.InstallButtonItem
 				val action = action
 				holder.button.apply {
-					visibility = if (action == null) View.GONE else View.VISIBLE
+					isVisible = action != null
 					if (action != null) {
 						icon = context.getDrawable(action.iconResId)
 						setText(action.titleResId)
@@ -1270,7 +1269,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				val color = context.getColorFromAttr(item.sectionType.colorAttrResId)
 				holder.title.setTextColor(color)
 				holder.title.text = context.getString(item.sectionType.titleResId)
-				holder.icon.visibility = if (expandable) View.VISIBLE else View.GONE
+				holder.icon.isVisible = expandable
 				holder.icon.scaleY = if (item.collapseCount > 0) -1f else 1f
 				holder.icon.imageTintList = color
 			}
@@ -1298,7 +1297,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.itemView.isEnabled = item.uri != null
 				holder.icon.setImageResource(item.iconResId)
 				holder.text.text = item.getTitle(context)
-				holder.link.visibility = if (item.uri != null) View.VISIBLE else View.GONE
+				holder.link.isVisible = item.uri != null
 				holder.link.text = item.displayLink
 			}
 			ViewType.PERMISSIONS -> {
@@ -1393,7 +1392,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					context.getString(stringRes.version_FORMAT, item.release.version)
 
 				holder.status.apply {
-					visibility = if (installed || suggested) View.VISIBLE else View.GONE
+					isVisible = installed || suggested
 					setText(
 						when {
 							installed -> stringRes.installed
@@ -1430,9 +1429,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.added.text = dateFormat
 				holder.size.text = item.release.size.formatSize()
-				holder.signature.visibility =
-					if (item.showSignature && item.release.signature.isNotEmpty())
-						View.VISIBLE else View.GONE
+				holder.signature.isVisible =
+					item.showSignature && item.release.signature.isNotEmpty()
 				if (item.showSignature && item.release.signature.isNotEmpty()) {
 					val bytes =
 						item.release.signature.uppercase(Locale.US).windowed(2, 2, false).take(8)
@@ -1456,9 +1454,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 					holder.signature.text = builder
 				}
-				holder.compatibility.visibility =
-					if (incompatibility != null || singlePlatform != null)
-						View.VISIBLE else View.GONE
+				holder.compatibility.isVisible = incompatibility != null || singlePlatform != null
 				if (incompatibility != null) {
 					holder.compatibility.setTextColor(context.getColorFromAttr(R.attr.colorError))
 					holder.compatibility.text = when (incompatibility) {

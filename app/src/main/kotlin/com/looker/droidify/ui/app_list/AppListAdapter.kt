@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
@@ -126,8 +127,7 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 				holder.name.text = productItem.name
 				holder.summary.text =
 					if (productItem.name == productItem.summary) "" else productItem.summary
-				holder.summary.visibility =
-					if (holder.summary.text.isNotEmpty()) View.VISIBLE else View.GONE
+				holder.summary.isVisible = holder.summary.text.isNotEmpty()
 				val repository: Repository? = repositories[productItem.repositoryId]
 				holder.icon.load(
 					repository?.let {

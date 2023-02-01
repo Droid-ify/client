@@ -14,6 +14,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -282,9 +283,8 @@ class SettingsFragment : Fragment() {
 					onClick = { viewModel.setCleanUpDuration(it) }
 				).show()
 			}
-			forceCleanUp.root.visibility = if (userPreferences.cleanUpDuration == Duration.INFINITE
-				|| userPreferences.cleanUpDuration == Duration.ZERO
-			) View.VISIBLE else View.GONE
+			forceCleanUp.root.isVisible = userPreferences.cleanUpDuration == Duration.INFINITE
+					|| userPreferences.cleanUpDuration == Duration.ZERO
 			forceCleanUp.root.setOnClickListener { viewModel.setCleanUpDuration(Duration.ZERO) }
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->

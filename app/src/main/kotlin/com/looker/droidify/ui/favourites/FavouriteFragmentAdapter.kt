@@ -1,9 +1,9 @@
 package com.looker.droidify.ui.favourites
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.looker.core.common.extension.getColorFromAttr
@@ -57,8 +57,7 @@ class FavouriteFragmentAdapter(
 		val item = apps[position].first().item()
 		val repository: Repository? = repositories[item.repositoryId]
 		holder.name.text = item.name
-		holder.summary.visibility =
-			if (holder.summary.text.isNotEmpty()) View.VISIBLE else View.GONE
+		holder.summary.isVisible = holder.summary.text.isNotEmpty()
 		holder.summary.text = item.summary
 		repository?.let { repo ->
 			holder.icon.load(

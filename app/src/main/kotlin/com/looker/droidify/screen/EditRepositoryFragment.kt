@@ -12,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
@@ -313,7 +314,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 				it.isEnabled = !checkInProgress
 			}
 		}
-		layout.overlay.visibility = if (checkInProgress) View.VISIBLE else View.GONE
+		layout.overlay.isVisible = checkInProgress
 	}
 
 	private val String.pathCropped: String

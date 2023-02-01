@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -325,7 +326,7 @@ class TabsFragment : ScreenFragment() {
 					lastContentHeight = contentHeight
 					if (initial) {
 						sectionsList.layoutParams.height = if (showSections) contentHeight else 0
-						sectionsList.visibility = if (showSections) View.VISIBLE else View.GONE
+						sectionsList.isVisible = showSections
 						sectionsList.requestLayout()
 					} else {
 						animateSectionsList()
@@ -445,8 +446,7 @@ class TabsFragment : ScreenFragment() {
 			is ProductItem.Section.Category -> section.name
 			is ProductItem.Section.Repository -> section.name
 		}
-		layout?.sectionIcon?.visibility =
-			if (sections.any { it !is ProductItem.Section.All }) View.VISIBLE else View.GONE
+		layout?.sectionIcon?.isVisible = sections.any { it !is ProductItem.Section.All }
 		productFragments.forEach { it.setSection(section) }
 		sectionsList?.adapter?.notifyDataSetChanged()
 	}
@@ -468,9 +468,7 @@ class TabsFragment : ScreenFragment() {
 					sectionsList.apply {
 						val height = ((parent as View).height * newValue).toInt()
 						val visible = height > 0
-						if ((visibility == View.VISIBLE) != visible) {
-							visibility = if (visible) View.VISIBLE else View.GONE
-						}
+						if ((visibility == View.VISIBLE) != visible) isVisible = visible
 						if (layoutParams.height != height) {
 							layoutParams.height = height
 							requestLayout()
