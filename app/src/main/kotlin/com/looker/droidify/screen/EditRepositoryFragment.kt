@@ -415,7 +415,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 			address + if (path.isEmpty()) "" else "/$path"
 		}
 		val pathCheck = allAddresses.map {
-			async { addressValid("$it/index.jar", authentication) }
+			async { addressValid("$it/index-v1.jar", authentication) }
 		}
 		val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)
 		allAddresses[indexOfValidAddress].nullIfEmpty()
