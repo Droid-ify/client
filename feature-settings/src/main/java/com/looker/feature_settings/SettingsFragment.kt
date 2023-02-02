@@ -224,6 +224,12 @@ class SettingsFragment : Fragment() {
 					setIncompatibleUpdates(checked)
 				}
 			}
+			creditFoxy.root.setOnClickListener {
+				"https://github.com/kitsunyan/foxy-droid".openLink(context)
+			}
+			droidify.root.setOnClickListener {
+				"https://github.com/Iamlooker/Droid-ify".openLink(context)
+			}
 		}
 	}
 
@@ -266,10 +272,7 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
-			dynamicTheme.root.isEnabled = SdkCheck.isSnowCake
-			dynamicTheme.title.isEnabled = SdkCheck.isSnowCake
-			dynamicTheme.content.isEnabled = SdkCheck.isSnowCake
-			dynamicTheme.checked.isEnabled = SdkCheck.isSnowCake
+			dynamicTheme.root.isVisible = SdkCheck.isSnowCake
 			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
 			appbarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
@@ -311,9 +314,8 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.proxyName(it) }
 				).show()
 			}
-			proxyHost.root.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
-			proxyHost.title.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
-			proxyHost.content.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
+			val allowProxies = userPreferences.proxyType != ProxyType.DIRECT
+			proxyHost.root.isVisible = allowProxies
 			proxyHost.content.text = userPreferences.proxyHost
 			proxyHost.root.setOnClickListener { view ->
 				view.addStringEditText(
@@ -322,9 +324,7 @@ class SettingsFragment : Fragment() {
 					onFinish = { viewModel.setProxyHost(it) }
 				).show()
 			}
-			proxyPort.root.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
-			proxyPort.title.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
-			proxyPort.content.isEnabled = userPreferences.proxyType != ProxyType.DIRECT
+			proxyPort.root.isVisible = allowProxies
 			proxyPort.content.text = userPreferences.proxyPort.toString()
 			proxyPort.root.setOnClickListener { view ->
 				view.addIntEditText(
@@ -334,25 +334,15 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			installer.content.text = context.installerName(userPreferences.installerType)
-			val installerList = InstallerType.values()
-				.toMutableList()
-				.apply { removeAll { it == InstallerType.SHIZUKU && !SdkCheck.isR } }
-				.toList()
 			installer.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.installerType,
-					values = installerList,
+					values = InstallerType.values().toList(),
 					title = stringRes.installer,
 					iconRes = drawableRes.ic_download,
 					onClick = { viewModel.setInstaller(it) },
 					valueToString = { view.context.installerName(it) }
 				).show()
-			}
-			creditFoxy.root.setOnClickListener {
-				"https://github.com/kitsunyan/foxy-droid".openLink(context)
-			}
-			droidify.root.setOnClickListener {
-				"https://github.com/Iamlooker/Droid-ify".openLink(context)
 			}
 		}
 	}
