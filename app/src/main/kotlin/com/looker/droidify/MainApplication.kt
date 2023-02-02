@@ -58,15 +58,14 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private val appScope = CoroutineScope(Dispatchers.Default)
 
 	@Inject
-	lateinit var userPreferenceRepository: UserPreferencesRepository
-
-	private val userPreferenceFlow get() = userPreferenceRepository.userPreferencesFlow
+	lateinit var userPreferencesRepository: UserPreferencesRepository
+	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	override fun onCreate() {
 		super.onCreate()
 
 		appScope.launch {
-			if (userPreferenceRepository.fetchInitialPreferences().installerType == InstallerType.ROOT) {
+			if (userPreferencesRepository.fetchInitialPreferences().installerType == InstallerType.ROOT) {
 				Shell.getShell()
 			}
 		}

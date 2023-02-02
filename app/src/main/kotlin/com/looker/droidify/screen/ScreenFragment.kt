@@ -28,7 +28,7 @@ open class ScreenFragment : Fragment() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
-	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
+	private val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	lateinit var appBarLayout: AppBarLayout
 	lateinit var toolbar: MaterialToolbar

@@ -24,7 +24,7 @@ class SettingsViewModel
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
-	val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
+	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	fun setLanguage(language: String) {
 		viewModelScope.launch {

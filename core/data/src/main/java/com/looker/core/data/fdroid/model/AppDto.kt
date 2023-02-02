@@ -57,7 +57,7 @@ data class LocalizedDto(
 	val summary: String = "",
 )
 
-internal fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEntity(
+fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEntity(
 	packageName = packageName,
 	repoId = repoId,
 	categories = categories,
