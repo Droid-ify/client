@@ -225,7 +225,9 @@ object IndexV1Parser {
 		val description =
 			localizedMap.findString(descriptionFallback) { it.description }.replace("\n", "<br/>")
 		val whatsNew = localizedMap.findString("") { it.whatsNew }.replace("\n", "<br/>")
-		val metadataIcon = localizedMap.findString("") { it.metadataIcon }
+		val metadataIcon = localizedMap.findString("") { it.metadataIcon }.ifEmpty {
+			localizedMap.firstNotNullOfOrNull { it.value.metadataIcon }.orEmpty()
+		}
 		val screenshotPairs =
 			localizedMap.find { key, localized -> localized.screenshots?.let { Pair(key, it) } }
 		val screenshots = screenshotPairs
