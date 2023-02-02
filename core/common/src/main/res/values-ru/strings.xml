@@ -205,5 +205,9 @@
     <string name="allow_collapsing_toolbar">Разрешить расширение верхней панели приложения</string>
     <string name="allow_collapsing_toolbar_DESC">Разрешить верхней панели приложения разворачиваться и сворачиваться</string>
     <string name="material_you">Material You</string>
-    <string name="material_you_desc">Используйте цветовую тему material you</string>
+    <string name="material_you_desc">Используйте цветовую тему Material You</string>
+    <string name="favourites">Избранное</string>
+    <string name="repository_unreachable">Репозиторий недоступен</string>
+    <string name="force_clean_up">Произвести очистку</string>
+    <string name="force_clean_up_DESC">Удаление лишних файлов</string>
 </resources>
