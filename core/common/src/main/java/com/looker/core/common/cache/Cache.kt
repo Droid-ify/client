@@ -92,8 +92,11 @@ object Cache {
 			}
 		val authority =
 			packageInfo?.providers?.find { it.name == Provider::class.java.name }!!.authority
-		return Uri.Builder().scheme("content").authority(authority)
-			.encodedPath(subPath(context.cacheDir, file)).build()
+		return Uri.Builder()
+			.scheme("content")
+			.authority(authority)
+			.encodedPath(file.path.drop(context.cacheDir.path.length))
+			.build()
 	}
 
 	fun getTemporaryFile(context: Context): File {

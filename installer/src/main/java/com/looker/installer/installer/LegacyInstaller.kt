@@ -15,8 +15,9 @@ internal class LegacyInstaller(context: Context) : BaseInstaller(context) {
 
 	override suspend fun install(packageName: String, uri: Uri, file: File) {
 		val flags = if (SdkCheck.isNougat) Intent.FLAG_GRANT_READ_URI_PERMISSION else 0
+		val newUri = if (SdkCheck.isNougat) uri else Uri.fromFile(file)
 		context.startActivity(
-			Intent(Intent.ACTION_INSTALL_PACKAGE).setDataAndType(uri, APK_MIME).setFlags(flags)
+			Intent(Intent.ACTION_INSTALL_PACKAGE).setDataAndType(newUri, APK_MIME).setFlags(flags)
 		)
 	}
 }
