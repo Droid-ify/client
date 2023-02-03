@@ -2,6 +2,7 @@ package com.looker.droidify.ui.tabs_fragment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.core.common.extension.stateIn
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
@@ -17,6 +18,10 @@ class TabsViewModel @Inject constructor(
 	val sortOrderFlow = userPreferencesRepository
 		.userPreferencesFlow
 		.distinctMap { it.sortOrder }
+		.stateIn(
+			scope = viewModelScope,
+			initial = SortOrder.ADDED
+		)
 
 	fun setSortOrder(sortOrder: SortOrder) {
 		viewModelScope.launch {
