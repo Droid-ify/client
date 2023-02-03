@@ -4,6 +4,11 @@ import androidx.room.TypeConverter
 import com.looker.core.database.model.LocalizedEntity
 import com.looker.core.database.model.PackageEntity
 import com.looker.core.database.model.PermissionEntity
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.MapSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 private val json = Json {
@@ -12,6 +17,8 @@ private val json = Json {
 }
 
 internal const val STRING_DELIMITER = "!@#$%^&*"
+private val localizedSerializer = MapSerializer(String.serializer(), LocalizedEntity.serializer())
+private val packageListSerializer = ListSerializer(PackageEntity.serializer())
 
 class CollectionConverter {
 
@@ -28,16 +35,11 @@ class LocalizedConverter {
 
 	@TypeConverter
 	fun localizedToJson(localizedEntity: Map<String, LocalizedEntity>): String =
-		localizedEntity.map {
-			it.key + STRING_DELIMITER + json.encodeToString(LocalizedEntity.serializer(), it.value)
-		}.joinToString(STRING_DELIMITER)
+		json.encodeToString(localizedSerializer, localizedEntity)
 
 	@TypeConverter
 	fun jsonToLocalized(jsonObject: String): Map<String, LocalizedEntity> =
-		jsonObject.split(STRING_DELIMITER).associate { mapString ->
-			val mapValues = mapString.split(STRING_DELIMITER)
-			mapValues[0] to json.decodeFromString(LocalizedEntity.serializer(), mapValues[1])
-		}
+		json.decodeFromString(localizedSerializer, jsonObject)
 
 }
 
@@ -45,24 +47,20 @@ class PackageEntityConverter {
 
 	@TypeConverter
 	fun entityToString(packageEntity: PackageEntity): String =
-		json.encodeToString(PackageEntity.serializer(), packageEntity)
+		json.encodeToString(packageEntity)
 
 
 	@TypeConverter
 	fun stringToPackage(jsonString: String): PackageEntity =
-		json.decodeFromString(PackageEntity.serializer(), jsonString)
+		json.decodeFromString(jsonString)
 
 	@TypeConverter
 	fun entityListToString(packageEntity: List<PackageEntity>): String =
-		packageEntity.joinToString(STRING_DELIMITER) {
-			json.encodeToString(PackageEntity.serializer(), it)
-		}
+		json.encodeToString(packageListSerializer, packageEntity)
 
 	@TypeConverter
 	fun stringToPackageList(jsonString: String): List<PackageEntity> =
-		jsonString.split(STRING_DELIMITER).map {
-			json.decodeFromString(PackageEntity.serializer(), it)
-		}
+		json.decodeFromString(packageListSerializer, jsonString)
 
 }
 

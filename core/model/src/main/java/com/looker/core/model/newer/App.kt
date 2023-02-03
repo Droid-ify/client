@@ -27,7 +27,7 @@ data class Metadata(
 	val added: Long,
 	val lastUpdated: Long,
 	val suggestedVersionName: String,
-	val suggestedVersionCode: String
+	val suggestedVersionCode: Int
 )
 
 data class Author(val name: String, val email: String, val web: String, val phone: String)

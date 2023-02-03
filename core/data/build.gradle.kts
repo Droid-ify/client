@@ -51,6 +51,13 @@ dependencies {
 
 	implementation(Kotlin.serialization)
 
+	implementation(Ktor.core)
+	implementation(Ktor.okhttp)
+
+	implementation(Work.manager)
+
 	implementation(Hilt.android)
+	implementation(Hilt.work)
+	kapt(Hilt.androidX)
 	kapt(Hilt.compiler)
 }

@@ -4,7 +4,7 @@ import android.util.Log
 import java.util.*
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
-	return if (isNullOrEmpty()) null else this
+	return if (isNullOrBlank()) null else this
 }
 
 private val sizeFormats = listOf("%.0f B", "%.0f kB", "%.1f MB", "%.2f GB")

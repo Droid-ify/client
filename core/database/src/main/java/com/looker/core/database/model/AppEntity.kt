@@ -38,7 +38,7 @@ data class AppEntity(
 	val litecoin: String,
 	val flattrID: String,
 	val suggestedVersionName: String,
-	val suggestedVersionCode: String,
+	val suggestedVersionCode: Int,
 	val license: String,
 	val webSite: String,
 	val added: Long,

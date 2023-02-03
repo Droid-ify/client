@@ -12,8 +12,9 @@ import com.looker.core.model.newer.Package
 import com.looker.core.model.newer.PackageName
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class OfflineFirstAppRepository(
+class OfflineFirstAppRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : AppRepository {

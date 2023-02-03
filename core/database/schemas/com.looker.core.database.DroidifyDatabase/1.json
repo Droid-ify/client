@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "6a281e3bbf026efd3a036d1b16202290",
+    "identityHash": "5b8188effdf656f5c94a6bddd13f4733",
     "entities": [
       {
         "tableName": "apps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `repoId` INTEGER NOT NULL, `categories` BLOB NOT NULL, `antiFeatures` BLOB NOT NULL, `summary` TEXT NOT NULL, `description` TEXT NOT NULL, `changelog` TEXT NOT NULL, `translation` TEXT NOT NULL, `issueTracker` TEXT NOT NULL, `sourceCode` TEXT NOT NULL, `binaries` TEXT NOT NULL, `name` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorEmail` TEXT NOT NULL, `authorWebSite` TEXT NOT NULL, `authorPhone` TEXT NOT NULL, `donate` TEXT NOT NULL, `liberapayID` TEXT NOT NULL, `liberapay` TEXT NOT NULL, `openCollective` TEXT NOT NULL, `bitcoin` TEXT NOT NULL, `litecoin` TEXT NOT NULL, `flattrID` TEXT NOT NULL, `suggestedVersionName` TEXT NOT NULL, `suggestedVersionCode` TEXT NOT NULL, `license` TEXT NOT NULL, `webSite` TEXT NOT NULL, `added` INTEGER NOT NULL, `icon` TEXT NOT NULL, `lastUpdated` INTEGER NOT NULL, `localized` TEXT NOT NULL, `packages` TEXT NOT NULL, PRIMARY KEY(`repoId`, `packageName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `repoId` INTEGER NOT NULL, `categories` BLOB NOT NULL, `antiFeatures` BLOB NOT NULL, `summary` TEXT NOT NULL, `description` TEXT NOT NULL, `changelog` TEXT NOT NULL, `translation` TEXT NOT NULL, `issueTracker` TEXT NOT NULL, `sourceCode` TEXT NOT NULL, `binaries` TEXT NOT NULL, `name` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorEmail` TEXT NOT NULL, `authorWebSite` TEXT NOT NULL, `authorPhone` TEXT NOT NULL, `donate` TEXT NOT NULL, `liberapayID` TEXT NOT NULL, `liberapay` TEXT NOT NULL, `openCollective` TEXT NOT NULL, `bitcoin` TEXT NOT NULL, `litecoin` TEXT NOT NULL, `flattrID` TEXT NOT NULL, `suggestedVersionName` TEXT NOT NULL, `suggestedVersionCode` INTEGER NOT NULL, `license` TEXT NOT NULL, `webSite` TEXT NOT NULL, `added` INTEGER NOT NULL, `icon` TEXT NOT NULL, `lastUpdated` INTEGER NOT NULL, `localized` TEXT NOT NULL, `packages` TEXT NOT NULL, PRIMARY KEY(`repoId`, `packageName`))",
         "fields": [
           {
             "fieldPath": "packageName",
@@ -155,7 +155,7 @@
           {
             "fieldPath": "suggestedVersionCode",
             "columnName": "suggestedVersionCode",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -301,7 +301,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '6a281e3bbf026efd3a036d1b16202290')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b8188effdf656f5c94a6bddd13f4733')"
     ]
   }
 }

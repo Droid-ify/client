@@ -73,6 +73,14 @@ internal fun PackageDto.toEntity(installed: Boolean = false): PackageEntity = Pa
 	antiFeatures = antiFeatures
 )
 
+fun List<PackageDto>.allowUnstable(
+	app: AppDto,
+	unstable: Boolean = false
+): List<PackageDto> = filter {
+	unstable || app.suggestedVersionCode.toInt() <= 0L || it.versionCode <= app.suggestedVersionCode.toInt()
+}
+
+
 internal fun PermissionDto.toEntity(): PermissionEntity = PermissionEntity(name, maxSdk)
 
 internal class PermissionDtoSerializer : KSerializer<PermissionDto> {
