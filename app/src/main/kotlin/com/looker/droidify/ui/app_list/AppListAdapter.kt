@@ -128,12 +128,12 @@ class AppListAdapter(
 				holder as ProductViewHolder
 				val productItem = getProductItem(if (position > -1) position else 0)
 				holder.name.text = productItem.name
-				holder.summary.text =
-					if (productItem.name == productItem.summary) "" else productItem.summary
-				holder.summary.isVisible = holder.summary.text.isNotEmpty()
+				holder.summary.text = productItem.summary
+				holder.summary.isVisible =
+					productItem.summary.isNotEmpty() && productItem.name != productItem.summary
 				val repository: Repository? = repositories[productItem.repositoryId]
-				holder.icon.load(
-					repository?.let {
+				repository?.let {
+					holder.icon.load(
 						productItem.packageName.icon(
 							view = holder.icon,
 							icon = productItem.icon,
