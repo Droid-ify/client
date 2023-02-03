@@ -25,7 +25,10 @@ import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
-class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
+class AppListAdapter(
+	private val source: AppListFragment.Source,
+	private val onClick: (ProductItem) -> Unit
+) :
 	CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
 
 	enum class ViewType { PRODUCT, LOADING, EMPTY }
@@ -137,10 +140,13 @@ class AppListAdapter(private val onClick: (ProductItem) -> Unit) :
 							metadataIcon = productItem.metadataIcon,
 							repository = it
 						)
-					}
-				)
+					)
+				}
 				holder.status.apply {
-					text = productItem.installedVersion.nullIfEmpty() ?: productItem.version
+					val versionText = if (source == AppListFragment.Source.UPDATES) {
+						productItem.version
+					} else productItem.installedVersion.nullIfEmpty() ?: productItem.version
+					text = versionText
 					val isInstalled = productItem.installedVersion.nullIfEmpty() != null
 					when {
 						productItem.canUpdate -> {

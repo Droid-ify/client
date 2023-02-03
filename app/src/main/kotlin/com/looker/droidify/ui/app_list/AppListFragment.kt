@@ -75,7 +75,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			isMotionEventSplittingEnabled = false
 			setHasFixedSize(true)
 			recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-			recyclerViewAdapter = AppListAdapter { screenActivity.navigateProduct(it.packageName) }
+			recyclerViewAdapter = AppListAdapter(source) { screenActivity.navigateProduct(it.packageName) }
 			this.adapter = recyclerViewAdapter
 		}
 		val fab = binding.scrollUp
