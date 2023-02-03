@@ -29,6 +29,7 @@ import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.receivers.InstalledAppReceiver
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
@@ -85,40 +86,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	}
 
 	private fun listenApplications() {
-		registerReceiver(object : BroadcastReceiver() {
-			override fun onReceive(context: Context, intent: Intent) {
-				val packageName =
-					intent.data?.let { if (it.scheme == "package") it.schemeSpecificPart else null }
-				if (packageName != null) {
-					when (intent.action.orEmpty()) {
-						Intent.ACTION_PACKAGE_ADDED,
-						Intent.ACTION_PACKAGE_REMOVED,
-						-> {
-							val packageInfo = try {
-								if (SdkCheck.isTiramisu) {
-									packageManager.getPackageInfo(
-										packageName,
-										PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-									)
-								} else {
-									@Suppress("DEPRECATION")
-									packageManager.getPackageInfo(
-										packageName, Android.PackageManager.signaturesFlag
-									)
-								}
-							} catch (e: Exception) {
-								null
-							}
-							if (packageInfo != null) {
-								Database.InstalledAdapter.put(packageInfo.toInstalledItem())
-							} else {
-								Database.InstalledAdapter.delete(packageName)
-							}
-						}
-					}
-				}
-			}
-		}, IntentFilter().apply {
+		registerReceiver(InstalledAppReceiver(packageManager), IntentFilter().apply {
 			addAction(Intent.ACTION_PACKAGE_ADDED)
 			addAction(Intent.ACTION_PACKAGE_REMOVED)
 			addDataScheme("package")
