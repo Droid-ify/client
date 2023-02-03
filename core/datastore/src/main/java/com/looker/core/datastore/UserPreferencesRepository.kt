@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -206,11 +205,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	 */
 	suspend fun fetchInitialPreferences() =
 		mapUserPreferences(dataStore.data.first().toPreferences())
-
-	/**
-	 * Synchronous method of getting initial preference
-	 */
-	val getInitialPreference get() = runBlocking { fetchInitialPreferences() }
 
 	/**
 	 * Maps [Preferences] to [UserPreferences]

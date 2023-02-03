@@ -317,9 +317,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {
 					navigateProduct(packageName)
-					val installerType =
-						userPreferencesRepository.getInitialPreference.installerType
 					lifecycleScope.launch {
+						val installerType =
+							userPreferencesRepository.fetchInitialPreferences().installerType
 						specialIntent.cacheFileName?.let { cacheFile ->
 							installApk(packageName, this@ScreenActivity, cacheFile, installerType)
 						}
