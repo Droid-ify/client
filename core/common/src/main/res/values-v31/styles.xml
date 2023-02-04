@@ -46,7 +46,7 @@
         <item name="colorOnSurface">@android:color/system_neutral1_50</item>
         <item name="colorSurfaceVariant">@android:color/system_neutral2_600</item>
         <item name="colorOnSurfaceVariant">@android:color/system_neutral2_300</item>
-        <item name="colorOutline">@android:color/system_neutral2_500</item>
+        <item name="colorOutline">@android:color/system_neutral1_400</item>
         <item name="colorOnSurfaceInverse">@android:color/system_neutral1_900</item>
         <item name="colorSurfaceInverse">@android:color/system_neutral1_100</item>
         <item name="colorPrimaryInverse">@android:color/system_accent1_600</item>
