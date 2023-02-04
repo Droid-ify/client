@@ -100,8 +100,8 @@ class SettingsFragment : Fragment() {
 			droidify.content.text = BuildConfig.VERSION_NAME
 		}
 		viewLifecycleOwner.lifecycleScope.launch {
-			setChangeListener()
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				setChangeListener()
 				viewModel.userPreferencesFlow.collect {
 					updateUserPreference(it)
 				}
