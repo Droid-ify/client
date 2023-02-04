@@ -37,13 +37,13 @@ jobs:
       run: ./gradlew assembleRelease
       
     - name: Rename APK
-      run: mv app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/droidify.apk
+      run: mv app/release/app-release.apk app/release/droidify.apk
       
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       id: sign_app
       with:
-        releaseDirectory: app/build/outputs/apk/release
+        releaseDirectory: app/release
         signingKeyBase64: ${{ secrets.KEY_BASE64 }}
         alias: ${{ secrets.ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASS }}

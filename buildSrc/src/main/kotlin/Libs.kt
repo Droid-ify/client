@@ -94,7 +94,7 @@ object OkHttp {
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:5.0.4"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
-	private const val shizukuVersion = "12.2.0"
+	private const val shizukuVersion = "13.1.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
@@ -119,8 +119,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.8.0"
-	const val ksp = "1.8.0-1.0.8"
+	const val kotlin = "1.8.10"
+	const val ksp = "1.8.10-1.0.9"
 }
 
 object Work {
