@@ -1,0 +1,4 @@
+- Shizuku is not deprecated on pre-Android 11
+- Fix icons for many apps
+- Some UI changes to repository page
+- Fix a weird behaviour caused by Material You switch
