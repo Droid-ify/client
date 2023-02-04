@@ -210,4 +210,5 @@
     <string name="repository_unreachable">Репозиторий недоступен</string>
     <string name="force_clean_up">Произвести очистку</string>
     <string name="force_clean_up_DESC">Удаление лишних файлов</string>
+    <string name="enable_repo">Включить репозиторий</string>
 </resources>
