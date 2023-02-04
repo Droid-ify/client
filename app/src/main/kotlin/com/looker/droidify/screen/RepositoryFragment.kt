@@ -76,6 +76,11 @@ class RepositoryFragment() : ScreenFragment() {
 			if (repository == null) {
 				address.text.text = getString(stringRes.unknown)
 			} else {
+				repoSwitch.isChecked = repository.enabled
+				repoSwitch.setOnCheckedChangeListener { _, isChecked ->
+					syncConnection.binder?.setEnabled(repository, isChecked)
+				}
+
 				address.text.text = repository.address
 				collapsingToolbar.title = repository.name
 				repoName.title.setText(stringRes.name)

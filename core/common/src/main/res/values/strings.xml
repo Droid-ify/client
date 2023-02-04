@@ -46,6 +46,7 @@
     <string name="downloading">Downloading</string>
     <string name="downloading_FORMAT">Downloading %s…</string>
     <string name="edit_repository">Edit repository</string>
+    <string name="enable_repo">Enable the repository</string>
     <string name="favourites">Favourites</string>
     <string name="file_format_error_DESC">Invalid file format.</string>
     <string name="fingerprint">Fingerprint</string>
