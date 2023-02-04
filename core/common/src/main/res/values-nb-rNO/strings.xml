@@ -199,4 +199,9 @@
     <string name="allow_collapsing_toolbar_DESC">Tillat toppfeltet å utvide og folde seg sammen</string>
     <string name="material_you_desc">Bruk «materiell deig»-fargedrakt</string>
     <string name="material_you">Materiell deig</string>
+    <string name="favourites">Favoritter</string>
+    <string name="repository_unreachable">Pakkebrønn kan ikke nås</string>
+    <string name="enable_repo">Skru på pakkebrønnen</string>
+    <string name="force_clean_up">Påtving opprenskning</string>
+    <string name="force_clean_up_DESC">Fjerner overflødige filer</string>
 </resources>
