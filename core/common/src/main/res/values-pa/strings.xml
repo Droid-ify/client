@@ -199,4 +199,8 @@
     <string name="allow_collapsing_toolbar_DESC">ਸਿਖਰ ਦੀ ਐਪ ਬਾਰ ਨੂੰ ਫੈਲਾਉਣ ਅਤੇ ਸਮੇਟਣ ਦਿਓ</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Material you ਰੰਗ ਥੀਮ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
+    <string name="favourites">ਮਨਪਸੰਦ</string>
+    <string name="force_clean_up">ਜਬਰੀ ਸਾਫ਼ ਕਰੋ</string>
+    <string name="repository_unreachable">ਰਿਪੋਜ਼ਟਰੀ ਪਹੁੰਚਯੋਗ ਨਹੀਂ ਹੈ</string>
+    <string name="force_clean_up_DESC">ਬੇਲੋੜੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਸਾਫ਼ ਕਰਦਾ ਹੈ</string>
 </resources>
