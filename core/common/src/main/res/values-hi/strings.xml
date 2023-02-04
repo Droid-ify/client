@@ -197,4 +197,10 @@
     <string name="no_internet">आपका इंटरनैट कनेक्शन चालू नहीं है</string>
     <string name="allow_collapsing_toolbar">टॉप ऐप बार को विस्तृत होने दें</string>
     <string name="allow_collapsing_toolbar_DESC">टॉप ऐप बार को विस्तृत और संक्षिप्त होने दें</string>
+    <string name="favourites">पसंदीदा</string>
+    <string name="force_clean_up">जबरी साफ करो</string>
+    <string name="force_clean_up_DESC">अनावश्यक फाइलों को साफ करता है</string>
+    <string name="repository_unreachable">रिपॉजिटरी तक पहुंच नहीं</string>
+    <string name="material_you">मटीरियल यू</string>
+    <string name="material_you_desc">मटीरियल यू रंग थीम का प्रयोग करें</string>
 </resources>
