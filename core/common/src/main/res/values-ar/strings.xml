@@ -215,4 +215,5 @@
     <string name="repository_unreachable">تعذَّر الوصول للمستودع</string>
     <string name="force_clean_up">افرض التنظيف</string>
     <string name="force_clean_up_DESC">ينظِّف الملفَّات المتكرِّرة</string>
+    <string name="enable_repo">تمكين المستودع</string>
 </resources>
