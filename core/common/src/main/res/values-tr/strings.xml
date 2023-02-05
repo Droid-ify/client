@@ -204,4 +204,5 @@
     <string name="repository_unreachable">Depoya ulaşılamıyor</string>
     <string name="force_clean_up">Temizlemeye zorla</string>
     <string name="force_clean_up_DESC">Gereksiz dosyaları temizler</string>
+    <string name="enable_repo">Depoyu etkinleştir</string>
 </resources>
