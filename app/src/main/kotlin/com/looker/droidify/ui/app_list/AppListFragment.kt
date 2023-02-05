@@ -148,7 +148,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	internal fun setSearchQuery(searchQuery: String) {
 		viewModel.setSearchQuery(searchQuery) {
 			if (view != null) {
-				recyclerView.smoothScrollToPosition(0)
 				screenActivity.cursorOwner.attach(this, viewModel.request(source))
 			}
 		}
