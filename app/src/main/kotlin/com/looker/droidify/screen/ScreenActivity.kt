@@ -20,6 +20,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.SdkCheck
+import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
@@ -194,7 +195,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
-		noInternetSnackbar.view.systemBarsMargin()
+		noInternetSnackbar.view.systemBarsMargin(16.dp)
 		if (SdkCheck.isR) {
 			window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
 			window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)

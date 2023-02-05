@@ -4,9 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginBottom
 import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
 import androidx.core.view.marginTop
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -16,6 +14,7 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.InsetSides.*
 
 fun View.systemBarsMargin(
+	persistentPadding: Int,
 	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
 ) {
 	if (SdkCheck.isR) {
@@ -24,8 +23,8 @@ fun View.systemBarsMargin(
 			view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
 				if (TOP in allowedSides) topMargin = insets.top + marginTop
 				if (LEFT in allowedSides) leftMargin = insets.left + marginLeft
-				if (BOTTOM in allowedSides) bottomMargin = insets.bottom + marginBottom
-				if (RIGHT in allowedSides) rightMargin = insets.right + marginRight
+				if (BOTTOM in allowedSides) bottomMargin = insets.bottom + persistentPadding
+				if (RIGHT in allowedSides) rightMargin = insets.right + persistentPadding
 			}
 			WindowInsetsCompat.CONSUMED
 		}

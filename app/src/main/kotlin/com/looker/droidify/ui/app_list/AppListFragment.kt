@@ -13,7 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.systemBarsMargin
+import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
@@ -75,15 +77,18 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			isMotionEventSplittingEnabled = false
 			setHasFixedSize(true)
 			recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-			recyclerViewAdapter = AppListAdapter(source) { screenActivity.navigateProduct(it.packageName) }
-			this.adapter = recyclerViewAdapter
+			recyclerViewAdapter = AppListAdapter(source) {
+				screenActivity.navigateProduct(it.packageName)
+			}
+			adapter = recyclerViewAdapter
+			systemBarsPadding()
 		}
 		val fab = binding.scrollUp
 		fab.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 		fab.apply {
 			this.alpha = 0f
 			visibility = View.VISIBLE
-			systemBarsMargin()
+			systemBarsMargin(16.dp)
 		}
 
 		val scrollListener = object : RecyclerView.OnScrollListener() {
