@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:maxLines="2"
         android:ellipsize="end"
+        android:textAppearance="?textAppearanceBodyMedium"
+        android:textColor="?colorOutline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/repository_state"
         app:layout_constraintStart_toStartOf="parent"
