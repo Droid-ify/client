@@ -1,7 +1,7 @@
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.0"
 
-	const val desugar = "com.android.tools:desugar_jdk_libs:1.1.5"
+	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
@@ -94,7 +94,7 @@ object OkHttp {
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:5.0.4"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
-	private const val shizukuVersion = "13.1.0"
+	private const val shizukuVersion = "13.0.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
