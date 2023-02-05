@@ -206,4 +206,5 @@
     <string name="repository_unreachable">Repositorio inaccesible</string>
     <string name="force_clean_up">Forzar la limpieza</string>
     <string name="force_clean_up_DESC">Limpia archivos redundantes</string>
+    <string name="enable_repo">Habilitar el repositorio</string>
 </resources>
