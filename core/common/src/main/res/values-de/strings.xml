@@ -201,4 +201,7 @@
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Material You-Farbschema verwenden</string>
     <string name="repository_unreachable">Repository unerreichbar</string>
+    <string name="force_clean_up">Aufräumen erzwingen</string>
+    <string name="enable_repo">Repository aktivieren</string>
+    <string name="force_clean_up_DESC">Entfernt doppelte Dateien</string>
 </resources>
