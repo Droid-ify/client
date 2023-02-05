@@ -51,6 +51,7 @@ android {
 			"pl",
 			"pt",
 			"pt-rBR",
+			"ro",
 			"ru",
 			"si",
 			"sv",
