@@ -206,4 +206,5 @@
     <string name="repository_unreachable">Dépôt inaccessible</string>
     <string name="force_clean_up">Nettoyage forcer</string>
     <string name="force_clean_up_DESC">Nettoyer les fichiers redondants</string>
+    <string name="enable_repo">Activer le dépôt</string>
 </resources>
