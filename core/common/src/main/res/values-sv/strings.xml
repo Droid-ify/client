@@ -180,7 +180,7 @@
     <string name="fingerprint">Fingeravtryck</string>
     <string name="has_advertising">Har reklam</string>
     <string name="incompatible_api_min_DESC_FORMAT">Min API-version är %d.</string>
-    <string name="incompatible_signature_DESC">Den här versionen är signerad med ett annat certifikat än det som är installerat på din enhet. Avinstallera det först.</string>
+    <string name="incompatible_signature_DESC">Den här versionen är signerad med ett annat certifikat än det som är installerat på din enhet. Avinstallera den först.</string>
     <string name="incompatible_version">Inkompatibel version</string>
     <string name="incompatible_versions">Inkompatibla versioner</string>
     <string name="incompatible_versions_summary">Visa programversioner som är inkompatibla med enheten</string>
@@ -195,7 +195,7 @@
     <string name="launch">Starta</string>
     <string name="material_you_desc">Använd Material You-färgtema</string>
     <string name="network_error_DESC">Nätverksfel</string>
-    <string name="installed">Installerad</string>
+    <string name="installed">Installerade</string>
     <string name="system">System</string>
     <string name="target">Mål</string>
     <string name="unknown">Okänd</string>
