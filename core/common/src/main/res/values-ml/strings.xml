@@ -18,4 +18,8 @@
     <string name="confirmation">സ്ഥിരീകരണം</string>
     <string name="connecting">ബന്ധിപ്പിക്കുന്നു…</string>
     <string name="changes">മാറ്റങ്ങൾ</string>
+    <string name="add_repository">റെപ്പോസിറ്റോറി ചേർക്കുക</string>
+    <string name="all_applications">എല്ലാ ആപ്പ്ലിക്കേഷനുകളും</string>
+    <string name="all_applications_up_to_date">നിങ്ങളുടെ എല്ലാ അപ്പ്ലിക്കേഷനുകളും പുതിയവ ആണ്</string>
+    <string name="new_applications">പുതിയ അപ്പ്ലിക്കേഷനുകൾ</string>
 </resources>
