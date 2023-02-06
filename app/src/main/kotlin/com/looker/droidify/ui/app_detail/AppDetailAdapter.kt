@@ -1015,8 +1015,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						} else {
 							items.addAll(position, expandItem.items)
 							if (position > 0) {
-								notifyItemInserted(position)
-								notifyItemChanged(position)
+								notifyItemRangeInserted(position, expandItem.items.size)
+								notifyItemChanged(position + expandItem.items.size)
 							}
 						}
 					} else {
@@ -1031,7 +1031,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 									position - expandItem.items.size,
 									expandItem.items.size
 								)
-								notifyItemChanged(position)
+								notifyItemChanged(position - expandItem.items.size)
 							}
 						}
 					}
