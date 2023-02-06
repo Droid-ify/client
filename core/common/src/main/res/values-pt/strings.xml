@@ -206,4 +206,5 @@
     <string name="repository_unreachable">Não foi possível contactar com o repositório</string>
     <string name="force_clean_up">Impor limpeza</string>
     <string name="force_clean_up_DESC">Limpar ficheiros redundantes</string>
+    <string name="enable_repo">Activar o repositório</string>
 </resources>
