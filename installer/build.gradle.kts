@@ -42,7 +42,7 @@ dependencies {
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
-	api(Others.libsu)
+	implementation(Others.libsu)
 
 	api(Others.shizukuApi)
 	api(Others.shizukuProvider)
