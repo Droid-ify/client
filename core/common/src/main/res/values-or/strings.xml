@@ -203,4 +203,5 @@
     <string name="favourites">ପସନ୍ଦ ଗୁଡିକ</string>
     <string name="force_clean_up">ବଳ ପୂର୍ବକ ସଫା କରନ୍ତୁ</string>
     <string name="repository_unreachable">ସଂଗ୍ରହାଳୟ ଅପହଞ୍ଚ ଅଟେ</string>
+    <string name="enable_repo">ସଂଗ୍ରହାଳୟ ସକ୍ଷମ କରନ୍ତୁ</string>
 </resources>
