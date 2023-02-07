@@ -37,6 +37,7 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.CleanUpWorker
+import com.looker.installer.Installer
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -62,10 +63,14 @@ class MainApplication : Application(), ImageLoaderFactory {
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
+	@Inject
+	lateinit var installer: Installer
+
 	override fun onCreate() {
 		super.onCreate()
 
 		appScope.launch {
+			installer()
 			if (userPreferencesRepository.fetchInitialPreferences().installerType == InstallerType.ROOT) {
 				Shell.getShell()
 			}

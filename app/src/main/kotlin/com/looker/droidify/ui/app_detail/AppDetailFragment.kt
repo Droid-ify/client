@@ -19,12 +19,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductPreference
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
+import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.screen.MessageDialog
@@ -34,9 +34,9 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
-import com.looker.droidify.utility.extension.app_file.installApk
-import com.looker.droidify.utility.extension.app_file.uninstallApk
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.installer.Installer
+import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emitAll
@@ -45,6 +45,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -82,6 +83,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	val packageName: String
 		get() = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
+
+	@Inject
+	lateinit var installer: Installer
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -338,10 +342,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
-				val installer = userPreferencesRepository.fetchInitialPreferences().installerType
-				if (installer != InstallerType.ROOT && installer != InstallerType.SHIZUKU) {
-					installApk(packageName, context, state.release.cacheFileName, installer)
-				}
+				val installItem = packageName.installItem(state.release.cacheFileName)
+				installer + installItem
 			}
 		}
 	}
@@ -394,9 +396,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 			AppDetailAdapter.Action.UNINSTALL -> {
 				lifecycleScope.launch {
-					val installerType =
-						userPreferencesRepository.fetchInitialPreferences().installerType
-					uninstallApk(packageName, context, installerType)
+					installer - packageName.toPackageName()
 				}
 				Unit
 			}
