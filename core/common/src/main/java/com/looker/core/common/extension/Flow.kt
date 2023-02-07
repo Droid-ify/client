@@ -1,6 +1,10 @@
 package com.looker.core.common.extension
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.channels.produce
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,3 +19,13 @@ fun <T> Flow<T>.stateIn(
 	initialValue = initial,
 	started = started
 )
+
+@OptIn(ExperimentalCoroutinesApi::class)
+fun <T, R> CoroutineScope.mapChannel(
+	channel: ReceiveChannel<T>,
+	block: suspend (T) -> R
+): ReceiveChannel<R> = produce(capacity = Channel.UNLIMITED) {
+	for (item in channel) {
+		send(block(item))
+	}
+}
