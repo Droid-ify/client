@@ -194,4 +194,11 @@
     <string name="cleanup_title">Durasi membersihkan</string>
     <string name="cleanup_description">Waktu diperlukan untuk pembersihan mengecek ulang</string>
     <string name="downloaded_FORMAT">%s Terdownload</string>
+    <string name="favourites">Favorit</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Gunakan tema warna Material You</string>
+    <string name="enable_repo">Aktifkan repositori</string>
+    <string name="force_clean_up">Paksa bersihkan</string>
+    <string name="force_clean_up_DESC">Bersihkan berkas tidak penting</string>
+    <string name="repository_unreachable">Repositori tidak terjangkau</string>
 </resources>
