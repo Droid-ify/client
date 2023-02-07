@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class Installer(
-	private val userPreferencesRepository: UserPreferencesRepository,
-	private val installerScope: CoroutineScope
+	private val context: Context,
+	private val userPreferencesRepository: UserPreferencesRepository
 ) {
 
 	private val userPreferenceFlow
