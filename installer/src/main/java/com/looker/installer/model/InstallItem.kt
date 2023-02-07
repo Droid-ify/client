@@ -5,7 +5,7 @@ import com.looker.core.model.newer.toPackageName
 
 data class InstallItem(
 	val packageName: PackageName,
-	val installFilePath: String
+	val installFileName: String
 )
 
 data class InstallItemState(
@@ -16,3 +16,5 @@ data class InstallItemState(
 		val EMPTY = InstallItemState(InstallItem("".toPackageName(), ""), InstallState.Queued)
 	}
 }
+
+fun String.installItem(fileName: String) = InstallItem(this.toPackageName(), fileName)
