@@ -13,6 +13,7 @@ import com.looker.installer.model.InstallState
 import com.looker.installer.model.statesTo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
 internal class LegacyInstaller(private val context: Context) : BaseInstaller {
@@ -59,9 +60,10 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 }
 
 internal suspend fun Context.uninstallPackage(packageName: PackageName) =
-	suspendCancellableCoroutine<Unit> {
+	suspendCancellableCoroutine {
 		startActivity(
 			Intent(Intent.ACTION_UNINSTALL_PACKAGE, "package:${packageName.name}".toUri())
 				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 		)
+		it.resume(Unit)
 	}

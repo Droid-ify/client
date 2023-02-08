@@ -40,19 +40,16 @@ class Installer(
 				InstallerType.SHIZUKU -> ShizukuInstaller(context)
 				InstallerType.ROOT -> RootInstaller(context)
 			}
-		launch {
-			installer(
-				baseInstaller = baseInstaller,
-				installItems = installItems,
-				installState = installState
-			)
-		}
-		launch {
-			uninstaller(
-				baseInstaller = baseInstaller,
-				uninstallItems = uninstallItems
-			)
-		}
+		installer(
+			baseInstaller = baseInstaller,
+			installItems = installItems,
+			installState = installState
+		)
+		uninstaller(
+			baseInstaller = baseInstaller,
+			uninstallItems = uninstallItems
+		)
+
 	}
 
 	fun close() {

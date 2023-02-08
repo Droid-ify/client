@@ -16,6 +16,7 @@ import com.looker.installer.model.InstallState
 import com.looker.installer.model.statesTo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
@@ -57,7 +58,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 	@SuppressLint("MissingPermission")
 	override suspend fun performUninstall(packageName: PackageName) =
-		suspendCancellableCoroutine<Unit> {
+		suspendCancellableCoroutine {
 			intent.putExtra(
 				SessionInstallerService.KEY_ACTION,
 				SessionInstallerService.ACTION_UNINSTALL
@@ -65,5 +66,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
 			sessionInstaller.uninstall(packageName.name, pendingIntent.intentSender)
+			it.resume(Unit)
 		}
 }
