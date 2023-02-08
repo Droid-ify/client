@@ -17,4 +17,6 @@ data class InstallItemState(
 	}
 }
 
+infix fun InstallItem.statesTo(state: InstallState) = InstallItemState(this, state)
+
 fun String.installItem(fileName: String) = InstallItem(this.toPackageName(), fileName)

@@ -1,13 +1,11 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.common.extension.mapChannel
+import com.looker.core.common.extension.onEach
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.newer.PackageName
-import com.looker.installer.installers.installItemLegacy
-import com.looker.installer.installers.uninstallItemLegacy
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
@@ -37,17 +35,21 @@ class Installer(
 	suspend operator fun invoke() = coroutineScope {
 		launch {
 			userPreferenceFlow.distinctMap { it.installerType }.collectLatest { installerType ->
-				installer(
-					context = context,
-					installerType = installerType,
-					installItems = installItems,
-					installState = installState
-				)
-				uninstaller(
-					context = context,
-					installerType = installerType,
-					uninstallItems = uninstallItems
-				)
+				launch {
+					installer(
+						context = context,
+						installerType = installerType,
+						installItems = installItems,
+						installState = installState
+					)
+				}
+				launch {
+					uninstaller(
+						context = context,
+						installerType = installerType,
+						uninstallItems = uninstallItems
+					)
+				}
 			}
 		}
 	}
@@ -75,17 +77,14 @@ class Installer(
 		installItems: ReceiveChannel<InstallItem>,
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
-		mapChannel(installItems) { item ->
+		onEach(installItems) { item ->
 			installState.emit(InstallItemState(item, InstallState.Queued))
-			item
 		}.consumeEach {
-			with(context) {
-				when (installerType) {
-					InstallerType.LEGACY -> installItemLegacy(it, installState)
-					InstallerType.SESSION -> TODO()
-					InstallerType.SHIZUKU -> TODO()
-					InstallerType.ROOT -> TODO()
-				}
+			when (installerType) {
+				InstallerType.LEGACY -> TODO()
+				InstallerType.SHIZUKU -> TODO()
+				InstallerType.SESSION -> TODO()
+				InstallerType.ROOT -> TODO()
 			}
 		}
 	}
@@ -96,13 +95,9 @@ class Installer(
 		uninstallItems: ReceiveChannel<PackageName>
 	) = launch {
 		uninstallItems.consumeEach {
-			with(context) {
-				when (installerType) {
-					InstallerType.LEGACY -> uninstallItemLegacy(it)
-					InstallerType.SESSION -> TODO()
-					InstallerType.SHIZUKU -> TODO()
-					InstallerType.ROOT -> TODO()
-				}
+			when (installerType) {
+				InstallerType.SESSION -> TODO()
+				else -> TODO()
 			}
 		}
 	}

@@ -21,11 +21,12 @@ fun <T> Flow<T>.stateIn(
 )
 
 @OptIn(ExperimentalCoroutinesApi::class)
-fun <T, R> CoroutineScope.mapChannel(
+fun <T> CoroutineScope.onEach(
 	channel: ReceiveChannel<T>,
-	block: suspend (T) -> R
-): ReceiveChannel<R> = produce(capacity = Channel.UNLIMITED) {
+	block: suspend (T) -> Unit
+): ReceiveChannel<T> = produce(capacity = Channel.UNLIMITED) {
 	for (item in channel) {
-		send(block(item))
+		block(item)
+		send(item)
 	}
 }
