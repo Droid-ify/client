@@ -1,6 +1,7 @@
 package com.looker.installer.installers
 
 import android.content.Context
+import android.util.Log
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.PackageName
@@ -25,7 +26,8 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 	override suspend fun performInstall(
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
-	) = withContext(Dispatchers.IO) {
+	) = withContext(Dispatchers.Default) {
+		Log.e("Installer", "installing: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installing)
 		var sessionId: String? = null
 		val uri = Cache.getReleaseUri(context, installItem.installFileName)
@@ -51,12 +53,12 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 				if (commitResult.resultCode != 0) {
 					throw RuntimeException("Failed to commit install session $sessionId")
 				}
+				state.emit(installItem statesTo InstallState.Installed)
 			}
 		} catch (e: Exception) {
 			state.emit(installItem statesTo InstallState.Failed)
 			if (sessionId != null) exec("pm install-abandon $sessionId")
 		}
-		state.emit(installItem statesTo InstallState.Installed)
 	}
 
 	override suspend fun performUninstall(packageName: PackageName) =
