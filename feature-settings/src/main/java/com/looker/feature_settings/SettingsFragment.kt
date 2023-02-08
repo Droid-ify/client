@@ -222,6 +222,7 @@ class SettingsFragment : Fragment() {
 					setDynamicTheme(checked)
 				}
 				allowCollapsingToolbar.checked.setOnCheckedChangeListener { _, checked ->
+					appbarLayout.setCollapsable(checked)
 					setToolbarState(checked)
 				}
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
@@ -284,7 +285,6 @@ class SettingsFragment : Fragment() {
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
 			dynamicTheme.root.isVisible = SdkCheck.isSnowCake
 			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
-			appbarLayout.setCollapsable(userPreferences.allowCollapsingToolbar)
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
 			cleanUp.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
