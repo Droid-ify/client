@@ -207,4 +207,7 @@
     <string name="force_clean_up">Nettoyage forcer</string>
     <string name="force_clean_up_DESC">Nettoyer les fichiers redondants</string>
     <string name="enable_repo">Activer le dépôt</string>
+    <string name="installing">Installation</string>
+    <string name="restart_app">Redémarrez Droid-ify pour voir les changements</string>
+    <string name="waiting_to_start_installation">En attente du démarrage de l\'installation…</string>
 </resources>
