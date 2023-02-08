@@ -197,4 +197,14 @@
     <string name="allow_collapsing_toolbar">Anna App Barin laajentua</string>
     <string name="allow_collapsing_toolbar_DESC">Anna App Barin laajentua ja romahtaa</string>
     <string name="no_internet">Sinulla ei ole Internet -yhteyttä</string>
+    <string name="favourites">Suosikit</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Käytä Material You -väriteema</string>
+    <string name="enable_repo">Ota arkisto käyttöön</string>
+    <string name="force_clean_up">Pakota puhdistus</string>
+    <string name="force_clean_up_DESC">Puhdistaa tarpeettomat tiedostot</string>
+    <string name="repository_unreachable">Arkisto ei ole tavoitettavissa</string>
+    <string name="installing">Asennus</string>
+    <string name="restart_app">Käynnistä Droid-ify uudelleen nähdäksesi muutokset</string>
+    <string name="waiting_to_start_installation">Odotan asennuksen aloittamista…</string>
 </resources>
