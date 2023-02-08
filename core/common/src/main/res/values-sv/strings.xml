@@ -23,7 +23,7 @@
     <string name="show_less">Visa mindre</string>
     <string name="latest">Senast</string>
     <string name="unstable_updates">Instabila uppdateringar</string>
-    <string name="update">Uppdatering</string>
+    <string name="update">Uppdatera</string>
     <string name="versions">Versioner</string>
     <string name="username_missing">Användarnamn saknas</string>
     <string name="validation_index_error_DESC">Index kunde inte valideras.</string>
@@ -204,4 +204,7 @@
     <string name="repository_unreachable">Arkivet kan inte nås</string>
     <string name="force_clean_up">Tvinga städning</string>
     <string name="enable_repo">Aktivera arkivet</string>
+    <string name="installing">Installerar</string>
+    <string name="restart_app">Starta om Droid-ify för att se ändringarna</string>
+    <string name="waiting_to_start_installation">Väntar på att starta installationen…</string>
 </resources>
