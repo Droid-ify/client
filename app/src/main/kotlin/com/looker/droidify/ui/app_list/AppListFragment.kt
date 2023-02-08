@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -29,6 +30,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -77,6 +79,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
+		viewModel.syncConnection.bind(requireContext())
+
 		recyclerView = binding.recyclerView.apply {
 			layoutManager = LinearLayoutManager(context)
 			isMotionEventSplittingEnabled = false
@@ -89,21 +93,34 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			systemBarsPadding()
 		}
 		val fab = binding.scrollUp
-		fab.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
-		fab.apply {
-			this.alpha = 0f
-			visibility = View.VISIBLE
-			systemBarsMargin(16.dp)
+		with(fab) {
+			if (source.updateAll) {
+				text = getString(CommonR.string.update_all)
+				setOnClickListener { viewModel.updateAll() }
+				setIconResource(CommonR.drawable.ic_download)
+				alpha = 1f
+				isVisible = true
+				systemBarsMargin(16.dp)
+			} else {
+				text = ""
+				setIconResource(CommonR.drawable.arrow_up)
+				setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+				alpha = 0f
+				isVisible = true
+				systemBarsMargin(16.dp)
+			}
 		}
 
 		val scrollListener = object : RecyclerView.OnScrollListener() {
 			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
 				val position = (recyclerView.layoutManager as LinearLayoutManager)
 					.findFirstVisibleItemPosition()
-				fab.animate()
-					.alpha(if (position != 0) 1f else 0f)
-					.setDuration(shortAnimationDuration.toLong())
-					.setListener(null)
+				if (!source.updateAll) {
+					fab.animate()
+						.alpha(if (position != 0) 1f else 0f)
+						.setDuration(shortAnimationDuration.toLong())
+						.setListener(null)
+				}
 			}
 		}
 		recyclerView.addOnScrollListener(scrollListener)
@@ -125,7 +142,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 	override fun onDestroyView() {
 		super.onDestroyView()
-
+		viewModel.syncConnection.unbind(requireContext())
 		_binding = null
 		screenActivity.cursorOwner.detach(this)
 	}
