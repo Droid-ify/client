@@ -204,4 +204,7 @@
     <string name="force_clean_up">Aufräumen erzwingen</string>
     <string name="enable_repo">Repository aktivieren</string>
     <string name="force_clean_up_DESC">Entfernt doppelte Dateien</string>
+    <string name="installing">Installation</string>
+    <string name="restart_app">Starten Sie Droid-ify neu, um die Änderungen zu sehen</string>
+    <string name="waiting_to_start_installation">Warten auf den Beginn der Installation …</string>
 </resources>
