@@ -85,6 +85,7 @@
     <string name="root_installer">Root Installer</string>
     <string name="shizuku_installer">Shizuku Installer</string>
     <string name="installed">Installed</string>
+    <string name="installing">Installing</string>
     <string name="integrity_check_error_DESC">Could not check integrity.</string>
     <string name="invalid_address">Invalid address</string>
     <string name="invalid_fingerprint_format">Invalid fingerprint format</string>
@@ -197,6 +198,7 @@
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">Waiting to start download…</string>
+    <string name="waiting_to_start_installation">Waiting to start installation…</string>
     <string name="whats_new">What\'s New</string>
     <string name="website">Website</string>
     <string name="prefs_language_title">Language</string>

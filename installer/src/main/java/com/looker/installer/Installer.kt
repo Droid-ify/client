@@ -68,8 +68,8 @@ class Installer(
 		uninstallItems.send(packageName)
 	}
 
-	infix fun stateOf(installItem: InstallItem): Flow<InstallState> = installState
-		.filter { it.installedItem == installItem }
+	infix fun stateOf(packageName: PackageName): Flow<InstallState> = installState
+		.filter { it.installedItem.packageName == packageName }
 		.map { it.state }
 
 	private fun CoroutineScope.installer(
