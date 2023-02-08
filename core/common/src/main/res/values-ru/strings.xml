@@ -211,4 +211,7 @@
     <string name="force_clean_up">Произвести очистку</string>
     <string name="force_clean_up_DESC">Удаление лишних файлов</string>
     <string name="enable_repo">Включить репозиторий</string>
+    <string name="restart_app">Перезапустите Droid-ify чтобы увидеть изменения</string>
+    <string name="installing">Установка</string>
+    <string name="waiting_to_start_installation">Ожидание начала установки…</string>
 </resources>
