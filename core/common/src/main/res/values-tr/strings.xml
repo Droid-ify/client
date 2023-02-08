@@ -205,4 +205,7 @@
     <string name="force_clean_up">Temizlemeye zorla</string>
     <string name="force_clean_up_DESC">Gereksiz dosyaları temizler</string>
     <string name="enable_repo">Depoyu etkinleştir</string>
+    <string name="installing">Kuruluyor</string>
+    <string name="restart_app">Değişiklikleri görmek için Droid-ify\'ı yeniden başlatın</string>
+    <string name="waiting_to_start_installation">Kurulumun başlatılması bekleniyor…</string>
 </resources>
