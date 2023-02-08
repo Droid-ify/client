@@ -207,4 +207,7 @@
     <string name="force_clean_up">Vynutit vyčištění</string>
     <string name="repository_unreachable">Repozitář nedostupný</string>
     <string name="enable_repo">Povolit repozitář</string>
+    <string name="restart_app">Pro zobrazení změn restartujte Droid-ify</string>
+    <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
+    <string name="installing">Instalace</string>
 </resources>
