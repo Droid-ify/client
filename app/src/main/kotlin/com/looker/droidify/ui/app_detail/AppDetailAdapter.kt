@@ -108,6 +108,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		object Pending : Status
 		object Connecting : Status
 		data class Downloading(val read: Long, val total: Long?) : Status
+		object PendingInstall : Status
+		object Installing : Status
 	}
 
 	enum class ViewType { APP_INFO, DOWNLOAD_STATUS, INSTALL_BUTTON, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
@@ -928,6 +930,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			when (newStatus) {
 				is Status.Downloading -> notifyItemChanged(statusIndex, Payload.STATUS)
 				Status.Connecting -> notifyItemChanged(statusIndex, Payload.STATUS)
+				Status.Installing -> notifyItemChanged(statusIndex, Payload.STATUS)
+				Status.PendingInstall -> notifyItemChanged(statusIndex)
 				Status.Pending -> notifyItemInserted(statusIndex)
 				Status.Idle -> notifyItemRemoved(statusIndex)
 			}
@@ -1192,6 +1196,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 									(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
 							} else Unit
 						}
+						Status.Installing -> {
+							holder.statusText.setText(stringRes.installing)
+							holder.progress.isIndeterminate = true
+						}
+						Status.PendingInstall -> {
+							holder.statusText.setText(stringRes.waiting_to_start_installation)
+							holder.progress.isIndeterminate = true
+						}
 						Status.Idle -> {}
 					}::class
 				}
@@ -1202,7 +1214,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				item as Item.InstallButtonItem
 				val action = action
 				holder.button.apply {
-					isVisible = action != null
+					isEnabled = action != null
 					if (action != null) {
 						icon = context.getDrawable(action.iconResId)
 						setText(action.titleResId)

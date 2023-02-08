@@ -1,4 +1,4 @@
-package com.looker.installer
+package com.looker.installer.installers
 
 import android.app.Service
 import android.content.Intent
@@ -10,14 +10,9 @@ import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_DOWNLOADING
 import com.looker.core.common.Constants.NOTIFICATION_ID_DOWNLOADING
 import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.R.drawable as drawableRes
-import com.looker.core.common.R.style as styleRes
+import com.looker.core.common.R as CommonR
 
-/**
- * Runs during or after a PackageInstaller session in order to handle completion, failure, or
- * interruptions requiring user intervention (e.g. "Install Unknown Apps" permission requests).
- */
-class InstallerService : Service() {
+class SessionInstallerService : Service() {
 	companion object {
 		const val KEY_ACTION = "installerAction"
 		const val ACTION_UNINSTALL = "uninstall"
@@ -44,6 +39,8 @@ class InstallerService : Service() {
 		stopSelf()
 		return START_NOT_STICKY
 	}
+
+	override fun onBind(intent: Intent?): IBinder? = null
 
 	/**
 	 * Notifies user of installer outcome.
@@ -77,14 +74,14 @@ class InstallerService : Service() {
 		when (status) {
 			PackageInstaller.STATUS_SUCCESS -> {
 				if (installerAction == ACTION_UNINSTALL)
-				// remove any notification for this app
+					// remove any notification for this app
 					notificationManager.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
 				else {
 					val notification = builder
-						.setSmallIcon(drawableRes.ic_check)
+						.setSmallIcon(CommonR.drawable.ic_check)
 						.setColor(
-							ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-								.getColor(R.color.md_theme_light_primaryContainer)
+							ContextThemeWrapper(this, CommonR.style.Theme_Main_Light)
+								.getColor(CommonR.color.md_theme_light_primaryContainer)
 						)
 						.setContentTitle("Installed")
 						.setContentText(appLabel)
@@ -104,8 +101,8 @@ class InstallerService : Service() {
 				val notification = builder
 					.setSmallIcon(android.R.drawable.stat_notify_error)
 					.setColor(
-						ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-							.getColor(R.color.md_theme_dark_errorContainer)
+						ContextThemeWrapper(this, CommonR.style.Theme_Main_Light)
+							.getColor(CommonR.color.md_theme_dark_errorContainer)
 					)
 					.setContentTitle("Unknown Error")
 					.setContentText(message)
@@ -118,10 +115,4 @@ class InstallerService : Service() {
 			}
 		}
 	}
-
-	override fun onBind(intent: Intent?): IBinder? {
-		return null
-	}
-
-
 }

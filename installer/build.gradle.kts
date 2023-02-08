@@ -1,6 +1,8 @@
 plugins {
 	id("com.android.library")
 	id("org.jetbrains.kotlin.android")
+	kotlin("kapt")
+	id(Hilt.plugin)
 }
 
 android {
@@ -36,14 +38,18 @@ android {
 dependencies {
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatastore))
+	implementation(project(Modules.coreModel))
 
 	implementation(Core.core)
 	implementation(kotlin("stdlib"))
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
-	api(Others.libsu)
+	implementation(Others.libsu)
 
 	api(Others.shizukuApi)
 	api(Others.shizukuProvider)
+
+	implementation(Hilt.android)
+	kapt(Hilt.compiler)
 }

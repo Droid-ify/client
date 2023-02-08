@@ -40,7 +40,7 @@ dependencies {
 	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
-	api(Datastore.datastore)
+	implementation(Datastore.datastore)
 
 	implementation(Hilt.android)
 	kapt(Hilt.compiler)

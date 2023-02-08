@@ -30,13 +30,15 @@ import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.getThemeRes
+import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.app_detail.AppDetailFragment
 import com.looker.droidify.ui.favourites.FavouritesFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
-import com.looker.droidify.utility.extension.app_file.installApk
 import com.looker.feature_settings.SettingsFragment
+import com.looker.installer.Installer
+import com.looker.installer.model.InstallItem
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,10 +63,10 @@ abstract class ScreenActivity : AppCompatActivity() {
 		registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
 	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
+	lateinit var networkMonitor: NetworkMonitor
 
 	@Inject
-	lateinit var networkMonitor: NetworkMonitor
+	lateinit var installer: Installer
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
@@ -318,11 +320,10 @@ abstract class ScreenActivity : AppCompatActivity() {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {
 					navigateProduct(packageName)
-					lifecycleScope.launch {
-						val installerType =
-							userPreferencesRepository.fetchInitialPreferences().installerType
-						specialIntent.cacheFileName?.let { cacheFile ->
-							installApk(packageName, this@ScreenActivity, cacheFile, installerType)
+					specialIntent.cacheFileName?.let { cacheFile ->
+						lifecycleScope.launch {
+							val installItem = InstallItem(packageName.toPackageName(), cacheFile)
+							installer + installItem
 						}
 					}
 				}

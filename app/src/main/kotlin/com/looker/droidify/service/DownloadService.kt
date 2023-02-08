@@ -32,7 +32,8 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.app_file.installApk
+import com.looker.installer.Installer
+import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -58,6 +59,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	@Inject
+	lateinit var installer: Installer
 
 	sealed class State(val packageName: String) {
 		class Pending(packageName: String) : State(packageName)
@@ -295,6 +299,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColor(R.color.md_theme_dark_primaryContainer)
 				)
+				.setOnlyAlertOnce(true)
 				.setContentIntent(resultPendingIntent)
 				.setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
 				.setContentText(getString(stringRes.tap_to_install_DESC))
@@ -309,12 +314,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.installerType
 
 		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
-			installApk(
-				task.packageName,
-				this@DownloadService,
-				task.release.cacheFileName,
-				installerType
-			)
+			val installItem = task.packageName.installItem(task.release.cacheFileName)
+			installer + installItem
 		} else showNotificationInstall(task)
 	}
 

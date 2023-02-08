@@ -7,6 +7,8 @@ import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
+import com.looker.droidify.service.Connection
+import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,6 +41,14 @@ class AppListViewModel
 		scope = viewModelScope,
 		started = SharingStarted.WhileSubscribed(5000)
 	)
+
+	val syncConnection = Connection(SyncService::class.java)
+
+	fun updateAll() {
+		viewModelScope.launch {
+			syncConnection.binder?.updateAllApps()
+		}
+	}
 
 	fun request(source: AppListFragment.Source): CursorOwner.Request {
 		var mSearchQuery = ""

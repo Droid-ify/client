@@ -33,6 +33,7 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
+import com.looker.droidify.utility.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,6 +45,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -93,6 +95,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private var updateNotificationBlockerFragment: WeakReference<Fragment>? = null
 
+	private val downloadConnection = Connection(DownloadService::class.java)
+
 	enum class SyncRequest { AUTO, MANUAL, FORCE }
 
 	inner class Binder : android.os.Binder() {
@@ -129,6 +133,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			if (repository.enabled) {
 				sync(listOf(repository.id), SyncRequest.FORCE)
 			}
+		}
+
+		suspend fun updateAllApps() {
+			updateAppList()
 		}
 
 		fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -193,13 +201,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			)
 				.let(notificationManager::createNotificationChannel)
 		}
-
+		downloadConnection.bind(this)
 		mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
 	}
 
 	override fun onDestroy() {
 		super.onDestroy()
 		scope.cancel()
+		downloadConnection.unbind(this)
 		cancelTasks { true }
 		cancelCurrentTask { true }
 	}
@@ -469,6 +478,39 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				stopSelf()
 			}
 		}
+	}
+
+	private suspend fun updateAppList() = withContext(Dispatchers.IO) {
+		val products = async {
+			Database.ProductAdapter
+				.query(
+					installed = true,
+					updates = true,
+					searchQuery = "",
+					section = ProductItem.Section.All,
+					order = SortOrder.NAME,
+					signal = null
+				)
+				.use {
+					it.asSequence().map(Database.ProductAdapter::transformItem).toList()
+				}
+		}
+		products.await().map {
+			Database.InstalledAdapter.get(it.packageName, null) to
+					Database.RepositoryAdapter.get(it.repositoryId)
+		}
+			.filter { it.first != null && it.second != null }
+			.forEach { (installItem, repo) ->
+				val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
+					.filter { it.repositoryId == repo!!.id }
+					.map { it to repo!! }
+				Utils.startUpdate(
+					installItem.packageName,
+					installItem,
+					productRepo,
+					downloadConnection
+				)
+			}
 	}
 
 	private fun displayUpdatesNotification(productItems: List<ProductItem>) {

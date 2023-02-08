@@ -113,7 +113,7 @@
         <service android:name=".service.DownloadService" />
 
         <service
-            android:name="com.looker.installer.InstallerService"
+            android:name="com.looker.installer.installers.SessionInstallerService"
             android:exported="false" />
 
         <service

@@ -37,6 +37,7 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.work.CleanUpWorker
+import com.looker.installer.Installer
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +46,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import rikka.shizuku.Shizuku
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
@@ -62,13 +64,19 @@ class MainApplication : Application(), ImageLoaderFactory {
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
 
+	@Inject
+	lateinit var installer: Installer
+
 	override fun onCreate() {
 		super.onCreate()
 
 		appScope.launch {
-			if (userPreferencesRepository.fetchInitialPreferences().installerType == InstallerType.ROOT) {
-				Shell.getShell()
+			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
+				InstallerType.SHIZUKU -> Shell.getShell()
+				InstallerType.ROOT -> Shizuku.pingBinder()
+				else -> {}
 			}
+			installer()
 		}
 
 		val databaseUpdated = Database.init(this)
@@ -83,6 +91,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	override fun onTerminate() {
 		super.onTerminate()
 		appScope.cancel("Application Terminated")
+		installer.close()
 	}
 
 	private fun listenApplications() {
@@ -122,7 +131,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 			}
 			launch {
 				userPreferenceFlow.distinctMap { it.cleanUpDuration }.collect {
-					when(it) {
+					when (it) {
 						INFINITE -> CleanUpWorker.removeAllSchedules(applicationContext)
 						ZERO -> CleanUpWorker.force(applicationContext)
 						else -> CleanUpWorker.scheduleCleanup(applicationContext, it)
