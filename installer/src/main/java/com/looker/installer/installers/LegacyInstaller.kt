@@ -3,7 +3,6 @@ package com.looker.installer.installers
 import android.content.Context
 import android.content.Intent
 import android.util.AndroidRuntimeException
-import android.util.Log
 import androidx.core.net.toUri
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
@@ -19,7 +18,6 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 
 	companion object {
-		private const val TAG = "LegacyInstaller"
 		private const val APK_MIME = "application/vnd.android.package-archive"
 	}
 
@@ -27,7 +25,6 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) {
-		Log.e(TAG, "installing: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installing)
 		val (uri, flags) = if (SdkCheck.isNougat) {
 			Cache.getReleaseUri(
@@ -45,7 +42,6 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 					.setFlags(flags)
 			)
 			state.emit(installItem statesTo InstallState.Installed)
-			Log.e(TAG, "installed1: ${installItem.packageName.name}")
 		} catch (e: AndroidRuntimeException) {
 			context.startActivity(
 				Intent(Intent.ACTION_INSTALL_PACKAGE)
@@ -53,10 +49,8 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 					.setFlags(flags or Intent.FLAG_ACTIVITY_NEW_TASK)
 			)
 			state.emit(installItem statesTo InstallState.Installed)
-			Log.e(TAG, "installed2: ${installItem.packageName.name}")
 		} catch (e: Exception) {
 			state.emit(installItem statesTo InstallState.Failed)
-			Log.e(TAG, "failed: ${installItem.packageName.name}")
 		}
 	}
 
@@ -66,7 +60,6 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 
 internal suspend fun Context.uninstallPackage(packageName: PackageName) =
 	suspendCancellableCoroutine<Unit> {
-		Log.e("Installer", "uninstalling: ${packageName.name}")
 		startActivity(
 			Intent(Intent.ACTION_UNINSTALL_PACKAGE, "package:${packageName.name}".toUri())
 				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

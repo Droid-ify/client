@@ -132,7 +132,6 @@
     <string name="password_missing">Password missing</string>
     <string name="permissions">Permissions</string>
     <string name="plus_more_FORMAT">+%d more</string>
-    <string name="settings">Settings</string>
     <string name="processing_FORMAT">Processing %1$s…</string>
     <string name="project_website">Project website</string>
     <string name="promotes_non_free_network_services">Promotes non-free network services</string>
@@ -149,6 +148,7 @@
     <string name="repository_unsigned_DESC">Unsigned. Could not verify the application list. Be careful downloading applications from unsigned repositories.</string>
     <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>
+    <string name="restart_app">Restart Droid-ify to see changes</string>
     <string name="root_permission">Silent Install</string>
     <string name="root_permission_description">Allow root permission for silent installs</string>
     <string name="save">Save</string>
@@ -156,6 +156,7 @@
     <string name="screenshots">Screenshots</string>
     <string name="search">Search</string>
     <string name="select_mirror">Select a mirror</string>
+    <string name="settings">Settings</string>
     <string name="share">Share</string>
     <string name="show_more">Show more</string>
     <string name="show_older_versions">Show older versions</string>

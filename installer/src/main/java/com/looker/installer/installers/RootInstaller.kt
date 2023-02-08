@@ -1,7 +1,6 @@
 package com.looker.installer.installers
 
 import android.content.Context
-import android.util.Log
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.PackageName
@@ -19,7 +18,6 @@ import java.io.File
 internal class RootInstaller(private val context: Context) : BaseInstaller {
 
 	companion object {
-		private const val TAG = "RootInstaller"
 		private const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -S %s"
 		private const val DELETE_PACKAGE = "%s rm %s"
 
@@ -64,18 +62,16 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) = withContext(Dispatchers.IO) {
-		Log.e(TAG, "installing: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installing)
 		val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
 		val shellResult = async { Shell.cmd(releaseFile.install).exec() }
 
 		if (shellResult.await().isSuccess) {
-			Log.e(TAG, "installed: ${installItem.packageName.name}")
 			state.emit(installItem statesTo InstallState.Installed)
 			Shell.cmd(releaseFile.deletePackage).submit()
 		}
 	}
 
 	override suspend fun performUninstall(packageName: PackageName) =
-		context.uninstallItemLegacy(packageName)
+		context.uninstallPackage(packageName)
 }

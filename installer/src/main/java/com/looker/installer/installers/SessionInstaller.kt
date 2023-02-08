@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.os.Build
-import android.util.Log
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
@@ -24,7 +23,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 	private val intent = Intent(context, SessionInstallerService::class.java)
 
 	companion object {
-		private const val TAG = "SessionInstaller"
 		private val flags = if (SdkCheck.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
 	}
 
@@ -32,7 +30,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) {
-		Log.e(TAG, "installing: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installing)
 		val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
 		val sessionParams =
@@ -55,7 +52,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 			session.commit(pendingIntent.intentSender)
 		}
-		Log.e(TAG, "installed: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installed)
 	}
 

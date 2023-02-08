@@ -1,7 +1,6 @@
 package com.looker.installer.installers
 
 import android.content.Context
-import android.util.Log
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.PackageName
@@ -16,10 +15,10 @@ import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStream
 
+@Suppress("DEPRECATION")
 internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 
 	companion object {
-		private const val TAG = "ShizukuInstaller"
 		private val SESSION_ID_REGEX = Regex("(?<=\\[).+?(?=])")
 	}
 
@@ -27,7 +26,6 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) = withContext(Dispatchers.IO) {
-		Log.e(TAG, "installing: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installing)
 		var sessionId: String? = null
 		val uri = Cache.getReleaseUri(context, installItem.installFileName)
@@ -55,11 +53,9 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 				}
 			}
 		} catch (e: Exception) {
-			Log.e(TAG, "failed: ${installItem.packageName.name}")
 			state.emit(installItem statesTo InstallState.Failed)
 			if (sessionId != null) exec("pm install-abandon $sessionId")
 		}
-		Log.e(TAG, "installed: ${installItem.packageName.name}")
 		state.emit(installItem statesTo InstallState.Installed)
 	}
 

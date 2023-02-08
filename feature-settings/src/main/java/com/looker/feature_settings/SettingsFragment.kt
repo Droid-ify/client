@@ -22,6 +22,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getDrawableFromAttr
@@ -60,6 +61,8 @@ class SettingsFragment : Fragment() {
 	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
+	private var restartSnackbar: Snackbar? = null
+
 	@SuppressLint("SetTextI18n")
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -68,6 +71,7 @@ class SettingsFragment : Fragment() {
 	): View {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
 		binding.nestedScrollView.systemBarsPadding()
+		restartSnackbar = Snackbar.make(binding.root, stringRes.restart_app, Snackbar.LENGTH_LONG)
 		val toolbar = binding.toolbar
 		toolbar.navigationIcon =
 			toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
@@ -108,6 +112,12 @@ class SettingsFragment : Fragment() {
 			}
 		}
 		return binding.root
+	}
+
+	override fun onDestroyView() {
+		super.onDestroyView()
+		_binding = null
+		restartSnackbar = null
 	}
 
 	private fun <T> View.addSingleCorrectDialog(
@@ -340,7 +350,10 @@ class SettingsFragment : Fragment() {
 					values = InstallerType.values().toList(),
 					title = stringRes.installer,
 					iconRes = drawableRes.ic_download,
-					onClick = { viewModel.setInstaller(it) },
+					onClick = {
+						viewModel.setInstaller(it)
+						restartSnackbar?.show()
+					},
 					valueToString = { view.context.installerName(it) }
 				).show()
 			}
