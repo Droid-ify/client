@@ -43,10 +43,15 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		private const val EXTRA_SOURCE = "source"
 	}
 
-	enum class Source(val titleResId: Int, val sections: Boolean, val order: Boolean) {
-		AVAILABLE(stringRes.available, true, true),
-		INSTALLED(stringRes.installed, false, true),
-		UPDATES(stringRes.updates, false, false)
+	enum class Source(
+		val titleResId: Int,
+		val sections: Boolean,
+		val order: Boolean,
+		val updateAll: Boolean
+	) {
+		AVAILABLE(stringRes.available, true, true, false),
+		INSTALLED(stringRes.installed, false, true, false),
+		UPDATES(stringRes.updates, false, false, true)
 	}
 
 	constructor(source: Source) : this() {
