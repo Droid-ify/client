@@ -207,4 +207,7 @@
     <string name="force_clean_up">Forzar la limpieza</string>
     <string name="force_clean_up_DESC">Limpia archivos redundantes</string>
     <string name="enable_repo">Habilitar el repositorio</string>
+    <string name="installing">Instalando</string>
+    <string name="restart_app">Reinicia Droid-ify para ver los cambios</string>
+    <string name="waiting_to_start_installation">Esperando para iniciar la instalación…</string>
 </resources>
