@@ -18,6 +18,10 @@ android {
 			isMinifyEnabled = true
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
+		create("alpha") {
+			initWith(getByName("debug"))
+			isMinifyEnabled = true
+		}
 	}
 	compileOptions {
 		sourceCompatibility = JavaVersion.VERSION_1_8

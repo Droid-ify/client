@@ -18,6 +18,10 @@ android {
 			isMinifyEnabled = true
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
+		create("alpha") {
+			initWith(getByName("debug"))
+			isMinifyEnabled = true
+		}
 		all {
 			buildConfigField(
 				type = "String",

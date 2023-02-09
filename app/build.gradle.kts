@@ -84,11 +84,11 @@ android {
 	}
 
 	buildTypes {
-		debug {
+		getByName("debug") {
 			applicationIdSuffix = ".debug"
 			resValue("string", "application_name", "Droid-ify-Debug")
 		}
-		release {
+		getByName("release") {
 			isMinifyEnabled = true
 			isShrinkResources = true
 			resValue("string", "application_name", "Droid-ify")
@@ -96,6 +96,13 @@ android {
 				getDefaultProguardFile("proguard-android-optimize.txt"),
 				"proguard.pro"
 			)
+		}
+		create("alpha") {
+			initWith(getByName("debug"))
+			applicationIdSuffix = ".alpha"
+			resValue("string", "application_name", "Droid-ify Alpha")
+			isDebuggable = true
+			isMinifyEnabled = true
 		}
 	}
 	packagingOptions {

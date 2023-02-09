@@ -18,3 +18,4 @@ local.properties
 /buildSrc/build/
 /core-datastore/build/
 /app/release/
+/app/alpha/
