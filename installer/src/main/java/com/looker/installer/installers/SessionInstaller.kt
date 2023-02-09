@@ -43,15 +43,17 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 		val session = sessionInstaller.openSession(id)
 
 		session.use { activeSession ->
-			activeSession.openWrite("package", 0, cacheFile.length()).use { packageStream ->
-				cacheFile.inputStream().use { fileStream ->
-					fileStream.copyTo(packageStream)
+			val sizeBytes = cacheFile.length()
+			cacheFile.inputStream().use { fileStream ->
+				activeSession.openWrite(cacheFile.name, 0, sizeBytes).use { outputStream ->
+					fileStream.copyTo(outputStream)
+					activeSession.fsync(outputStream)
 				}
 			}
 
 			val pendingIntent = PendingIntent.getService(context, id, intent, flags)
 
-			session.commit(pendingIntent.intentSender)
+			activeSession.commit(pendingIntent.intentSender)
 		}
 		state.emit(installItem statesTo InstallState.Installed)
 	}
