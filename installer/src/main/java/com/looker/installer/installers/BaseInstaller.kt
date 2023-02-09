@@ -11,4 +11,6 @@ interface BaseInstaller {
 
 	suspend fun performUninstall(packageName: PackageName)
 
+	fun cleanup()
+
 }

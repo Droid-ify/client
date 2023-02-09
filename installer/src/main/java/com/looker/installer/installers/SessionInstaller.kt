@@ -70,4 +70,8 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			sessionInstaller.uninstall(packageName.name, pendingIntent.intentSender)
 			it.resume(Unit)
 		}
+
+	override fun cleanup() {
+		sessionInstaller.allSessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
+	}
 }

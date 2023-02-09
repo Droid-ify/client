@@ -74,4 +74,6 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 
 	override suspend fun performUninstall(packageName: PackageName) =
 		context.uninstallPackage(packageName)
+
+	override fun cleanup() {}
 }

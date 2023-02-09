@@ -31,9 +31,10 @@ class Installer(
 	private val installItems = Channel<InstallItem>()
 	private val uninstallItems = Channel<PackageName>()
 	private val installState = MutableStateFlow(InstallItemState.EMPTY)
+	private var baseInstaller: BaseInstaller? = null
 
 	suspend operator fun invoke() = coroutineScope {
-		val baseInstaller =
+		baseInstaller =
 			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
 				InstallerType.LEGACY -> LegacyInstaller(context)
 				InstallerType.SESSION -> SessionInstaller(context)
@@ -53,6 +54,8 @@ class Installer(
 	}
 
 	fun close() {
+		baseInstaller?.cleanup()
+		baseInstaller = null
 		uninstallItems.close()
 		installItems.close()
 	}
@@ -70,23 +73,23 @@ class Installer(
 		.map { it.state }
 
 	private fun CoroutineScope.installer(
-		baseInstaller: BaseInstaller,
+		baseInstaller: BaseInstaller?,
 		installItems: ReceiveChannel<InstallItem>,
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
 		onEach(installItems) { item ->
 			installState.emit(InstallItemState(item, InstallState.Queued))
 		}.consumeEach {
-			baseInstaller.performInstall(it, installState)
+			baseInstaller?.performInstall(it, installState)
 		}
 	}
 
 	private fun CoroutineScope.uninstaller(
-		baseInstaller: BaseInstaller,
+		baseInstaller: BaseInstaller?,
 		uninstallItems: ReceiveChannel<PackageName>
 	) = launch {
 		uninstallItems.consumeEach {
-			baseInstaller.performUninstall(it)
+			baseInstaller?.performUninstall(it)
 		}
 	}
 }
