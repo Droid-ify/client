@@ -396,6 +396,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val actionTintOnNormal = button.context.getColorFromAttr(R.attr.colorOnPrimary)
 		val actionTintCancel = button.context.getColorFromAttr(R.attr.colorError)
 		val actionTintOnCancel = button.context.getColorFromAttr(R.attr.colorOnError)
+		val actionTintDisabled = button.context.getColorFromAttr(R.attr.colorOutline)
+		val actionTintOnDisabled = button.context.getColorFromAttr(android.R.attr.colorBackground)
 
 		init {
 			button.height = itemView.resources.sizeScaled(48)
@@ -1222,11 +1224,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							if (action == Action.CANCEL) holder.actionTintOnCancel
 							else holder.actionTintOnNormal
 						)
+						backgroundTintList = if (action == Action.CANCEL)
+							holder.actionTintCancel else holder.actionTintNormal
+						iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
+						else holder.actionTintOnNormal
+					} else {
+						icon = context.getDrawable(drawableRes.ic_cancel)
+						setText(stringRes.cancel)
+						setTextColor(holder.actionTintOnDisabled)
+						backgroundTintList = holder.actionTintDisabled
+						iconTint = holder.actionTintOnDisabled
 					}
-					backgroundTintList = if (action == Action.CANCEL)
-						holder.actionTintCancel else holder.actionTintNormal
-					iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
-					else holder.actionTintOnNormal
 				}
 				Unit
 			}
