@@ -11,7 +11,6 @@ android {
 	namespace = "com.looker.core.data"
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
 	}
 
 	buildTypes {

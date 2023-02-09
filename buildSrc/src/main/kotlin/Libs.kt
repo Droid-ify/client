@@ -1,5 +1,5 @@
 object AndroidX {
-	const val appCompat = "androidx.appcompat:appcompat:1.6.0"
+	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 
@@ -55,7 +55,7 @@ object Hilt {
 }
 
 object Jackson {
-	const val core = "com.fasterxml.jackson.core:jackson-core:2.13.4"
+	const val core = "com.fasterxml.jackson.core:jackson-core:2.14.2"
 }
 
 object Kotlin {

@@ -10,7 +10,6 @@ android {
 	namespace = "com.looker.core.datastore"
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
 	}
 
 	buildTypes {
@@ -41,7 +40,6 @@ android {
 
 dependencies {
 	implementation(project(Modules.coreCommon))
-	implementation(Core.core)
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 	implementation(Datastore.datastore)

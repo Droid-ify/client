@@ -10,7 +10,6 @@ android {
 	namespace = "com.looker.installer"
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
 	}
 
 	buildTypes {
@@ -44,12 +43,11 @@ dependencies {
 	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.coreModel))
 
-	implementation(Core.core)
 	implementation(kotlin("stdlib"))
 	implementation(Coroutines.core)
 	implementation(Coroutines.android)
 
-	implementation(Others.libsu)
+	api(Others.libsu)
 
 	api(Others.shizukuApi)
 	api(Others.shizukuProvider)

@@ -8,7 +8,6 @@ android {
 	namespace = "com.looker.core.model"
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
 	}
 
 	buildTypes {
@@ -39,5 +38,5 @@ android {
 
 dependencies {
 	implementation(project(Modules.coreCommon))
-	implementation(Core.core)
+	implementation(Jackson.core)
 }

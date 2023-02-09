@@ -12,7 +12,6 @@ android {
 	namespace = "com.looker.core.database"
 	defaultConfig {
 		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
 
 		javaCompileOptions {
 			annotationProcessorOptions {
@@ -65,7 +64,7 @@ dependencies {
 
 	implementation(Kotlin.serialization)
 
-	api(Room.runtime)
-	api(Room.ktx)
+	implementation(Room.runtime)
+	implementation(Room.ktx)
 	ksp(Room.compiler)
 }
