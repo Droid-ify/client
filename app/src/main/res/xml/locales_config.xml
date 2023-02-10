@@ -2,7 +2,6 @@
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
     <!--locale list begin-->
     <locale android:name="ar" />
-    <locale android:name="ar-rSA" />
     <locale android:name="bg" />
     <locale android:name="bn" />
     <locale android:name="ca" />
