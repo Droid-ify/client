@@ -15,6 +15,8 @@
     <string name="application_not_found">Could not find that application</string>
     <string name="author_email">Author e-mail</string>
     <string name="author_website">Author website</string>
+    <string name="auto_update">Auto update apps</string>
+    <string name="auto_update_apps">Try to install updates automatically</string>
     <string name="available">Explore</string>
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Cancel</string>

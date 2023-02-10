@@ -10,6 +10,22 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.core.common.device.Miui
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.CLEAN_UP_DURATION
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.COLLAPSING_TOOLBAR
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.DYNAMIC_THEME
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.FAVOURITE_APPS
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INCOMPATIBLE_VERSIONS
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INSTALLER_TYPE
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.LANGUAGE
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.NOTIFY_UPDATES
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_HOST
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_PORT
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_TYPE
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.SORT_ORDER
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.THEME
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.UNSTABLE_UPDATES
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
@@ -24,9 +40,6 @@ import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
-/**
- * Settings data class
- */
 data class UserPreferences(
 	val language: String,
 	val incompatibleVersions: Boolean,
@@ -35,6 +48,7 @@ data class UserPreferences(
 	val theme: Theme,
 	val dynamicTheme: Boolean,
 	val installerType: InstallerType,
+	val autoUpdate: Boolean,
 	val autoSync: AutoSync,
 	val sortOrder: SortOrder,
 	val proxyType: ProxyType,
@@ -48,15 +62,9 @@ data class UserPreferences(
 inline fun <T> Flow<UserPreferences>.distinctMap(crossinline block: suspend (UserPreferences) -> T): Flow<T> =
 	map(block).distinctUntilChanged()
 
-/**
- * This class handles the data storing and retrieval
- */
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	private val tag: String = "UserPreferenceRepo"
 
-	/**
-	 * Keys for the data store
-	 */
 	private object PreferencesKeys {
 		val LANGUAGE = stringPreferencesKey("key_language")
 		val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
@@ -65,6 +73,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val THEME = stringPreferencesKey("key_theme")
 		val DYNAMIC_THEME = booleanPreferencesKey("key_dynamic_theme")
 		val INSTALLER_TYPE = stringPreferencesKey("key_installer_type")
+		val AUTO_UPDATE = booleanPreferencesKey("key_auto_update")
 		val AUTO_SYNC = stringPreferencesKey("key_auto_sync")
 		val SORT_ORDER = stringPreferencesKey("key_sort_order")
 		val PROXY_TYPE = stringPreferencesKey("key_proxy_type")
@@ -75,172 +84,96 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
-	/**
-	 * Provides a flow for the [UserPreferences]
-	 */
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
 			if (exception is IOException) Log.e(tag, "Error reading preferences.", exception)
 			else throw exception
 		}.map(::mapUserPreferences)
 
-	/**
-	 * Set [language]
-	 */
-	suspend fun setLanguage(language: String) {
-		PreferencesKeys.LANGUAGE.update(language)
-	}
+	suspend fun setLanguage(language: String) =
+		LANGUAGE.update(language)
 
-	/**
-	 * Incompatible Version
-	 */
-	suspend fun enableIncompatibleVersion(enable: Boolean) {
-		PreferencesKeys.INCOMPATIBLE_VERSIONS.update(enable)
-	}
+	suspend fun enableIncompatibleVersion(enable: Boolean) =
+		INCOMPATIBLE_VERSIONS.update(enable)
 
-	/**
-	 * Get Notification about updates
-	 */
-	suspend fun enableNotifyUpdates(enable: Boolean) {
-		PreferencesKeys.NOTIFY_UPDATES.update(enable)
-	}
+	suspend fun enableNotifyUpdates(enable: Boolean) =
+		NOTIFY_UPDATES.update(enable)
 
-	/**
-	 * Allow unstable updates for installed apps
-	 */
-	suspend fun enableUnstableUpdates(enable: Boolean) {
-		PreferencesKeys.UNSTABLE_UPDATES.update(enable)
-	}
+	suspend fun enableUnstableUpdates(enable: Boolean) =
+		UNSTABLE_UPDATES.update(enable)
 
-	/**
-	 * Set new [Theme]
-	 */
-	suspend fun setTheme(theme: Theme) {
-		PreferencesKeys.THEME.update(theme.name)
-	}
+	suspend fun setTheme(theme: Theme) =
+		THEME.update(theme.name)
 
-	suspend fun setDynamicTheme(enable: Boolean) {
-		PreferencesKeys.DYNAMIC_THEME.update(enable)
-	}
+	suspend fun setDynamicTheme(enable: Boolean) =
+		DYNAMIC_THEME.update(enable)
 
-	/**
-	 * Set a new [InstallerType]
-	 */
-	suspend fun setInstallerType(installerType: InstallerType) {
-		PreferencesKeys.INSTALLER_TYPE.update(installerType.name)
-	}
+	suspend fun setInstallerType(installerType: InstallerType) =
+		INSTALLER_TYPE.update(installerType.name)
 
-	/**
-	 * Set [AutoSync] mode
-	 */
-	suspend fun setAutoSync(autoSync: AutoSync) {
-		PreferencesKeys.AUTO_SYNC.update(autoSync.name)
-	}
+	suspend fun setAutoUpdate(allow: Boolean) =
+		AUTO_UPDATE.update(allow)
 
-	/**
-	 * Set a new [SortOrder] for list in home page
-	 */
-	suspend fun setSortOrder(sortOrder: SortOrder) {
-		PreferencesKeys.SORT_ORDER.update(sortOrder.name)
-	}
+	suspend fun setAutoSync(autoSync: AutoSync) =
+		AUTO_SYNC.update(autoSync.name)
 
-	/**
-	 * Set a [ProxyType] for network connection
-	 */
-	suspend fun setProxyType(proxyType: ProxyType) {
-		PreferencesKeys.PROXY_TYPE.update(proxyType.name)
-	}
+	suspend fun setSortOrder(sortOrder: SortOrder) =
+		SORT_ORDER.update(sortOrder.name)
 
-	/**
-	 * [proxyHost] sets a host for Proxy
-	 */
-	suspend fun setProxyHost(proxyHost: String) {
-		PreferencesKeys.PROXY_HOST.update(proxyHost)
-	}
+	suspend fun setProxyType(proxyType: ProxyType) =
+		PROXY_TYPE.update(proxyType.name)
 
-	/**
-	 * [proxyPort] sets a port for Proxy
-	 */
-	suspend fun setProxyPort(proxyPort: Int) {
-		PreferencesKeys.PROXY_PORT.update(proxyPort)
-	}
+	suspend fun setProxyHost(proxyHost: String) =
+		PROXY_HOST.update(proxyHost)
 
-	/**
-	 * [duration] sets a cleanup duration
-	 */
-	suspend fun setCleanUpDuration(duration: Duration) {
-		PreferencesKeys.CLEAN_UP_DURATION.update(duration.inWholeHours)
-	}
+	suspend fun setProxyPort(proxyPort: Int) =
+		PROXY_PORT.update(proxyPort)
 
-	/**
-	 * [collapsing] sets the top app bar to be collapsable or not
-	 */
-	suspend fun setCollapsingToolbar(collapsing: Boolean) {
-		PreferencesKeys.COLLAPSING_TOOLBAR.update(collapsing)
-	}
+	suspend fun setCleanUpDuration(duration: Duration) =
+		CLEAN_UP_DURATION.update(duration.inWholeHours)
 
-	/**
-	 * Adds a [packageName] to favourites
-	 */
+	suspend fun setCollapsingToolbar(collapsing: Boolean) =
+		COLLAPSING_TOOLBAR.update(collapsing)
+
 	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
-			val currentSet = preference[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
+			val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
 			val newSet = currentSet.toMutableSet()
 			if (!newSet.add(packageName)) newSet.remove(packageName)
-			preference[PreferencesKeys.FAVOURITE_APPS] = newSet.toSet()
+			preference[FAVOURITE_APPS] = newSet.toSet()
 		}
 	}
 
-	/**
-	 * Simple function to reduce boiler plate
-	 */
 	private suspend inline fun <T> Preferences.Key<T>.update(newValue: T) {
 		dataStore.edit { preferences ->
 			preferences[this] = newValue
 		}
 	}
 
-	/**
-	 * Fetches the initial value of [UserPreferences]
-	 */
 	suspend fun fetchInitialPreferences() =
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
-	/**
-	 * Maps [Preferences] to [UserPreferences]
-	 */
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		val language = preferences[PreferencesKeys.LANGUAGE] ?: "system"
-		val incompatibleVersions = preferences[PreferencesKeys.INCOMPATIBLE_VERSIONS] ?: false
-		val notifyUpdate = preferences[PreferencesKeys.NOTIFY_UPDATES] ?: true
-		val unstableUpdate = preferences[PreferencesKeys.UNSTABLE_UPDATES] ?: false
-		val theme = Theme.valueOf(
-			preferences[PreferencesKeys.THEME] ?: Theme.SYSTEM.name
-		)
-		val dynamicTheme = preferences[PreferencesKeys.DYNAMIC_THEME] ?: false
-		val defaultInstallerType = if (Miui.isMiui) {
+		val installerName = (if (Miui.isMiui) {
 			if (Miui.isMiuiOptimizationDisabled()) InstallerType.SESSION else InstallerType.LEGACY
-		} else InstallerType.SESSION
-		val installerType = InstallerType.valueOf(
-			preferences[PreferencesKeys.INSTALLER_TYPE] ?: defaultInstallerType.name
-		)
-		val autoSync = AutoSync.valueOf(
-			preferences[PreferencesKeys.AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name
-		)
-		val sortOrder = SortOrder.valueOf(
-			preferences[PreferencesKeys.SORT_ORDER] ?: SortOrder.UPDATED.name
-		)
-		val proxyType = ProxyType.valueOf(
-			preferences[PreferencesKeys.PROXY_TYPE] ?: ProxyType.DIRECT.name
-		)
-		val proxyHost = preferences[PreferencesKeys.PROXY_HOST] ?: "localhost"
-		val proxyPort = preferences[PreferencesKeys.PROXY_PORT] ?: 9050
+		} else InstallerType.SESSION).name
 
-		val cleanUpDuration = preferences[PreferencesKeys.CLEAN_UP_DURATION]?.hours ?: 12L.hours
-
-		val collapsingToolbar = preferences[PreferencesKeys.COLLAPSING_TOOLBAR] ?: true
-
-		val favouriteApps = preferences[PreferencesKeys.FAVOURITE_APPS] ?: emptySet()
+		val language = preferences[LANGUAGE] ?: "system"
+		val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
+		val notifyUpdate = preferences[NOTIFY_UPDATES] ?: true
+		val unstableUpdate = preferences[UNSTABLE_UPDATES] ?: false
+		val theme = Theme.valueOf(preferences[THEME] ?: Theme.SYSTEM.name)
+		val dynamicTheme = preferences[DYNAMIC_THEME] ?: false
+		val installerType = InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: installerName)
+		val autoUpdate = preferences[AUTO_UPDATE] ?: true
+		val autoSync = AutoSync.valueOf(preferences[AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name)
+		val sortOrder = SortOrder.valueOf(preferences[SORT_ORDER] ?: SortOrder.UPDATED.name)
+		val proxyType = ProxyType.valueOf(preferences[PROXY_TYPE] ?: ProxyType.DIRECT.name)
+		val proxyHost = preferences[PROXY_HOST] ?: "localhost"
+		val proxyPort = preferences[PROXY_PORT] ?: 9050
+		val cleanUpDuration = preferences[CLEAN_UP_DURATION]?.hours ?: 12L.hours
+		val collapsingToolbar = preferences[COLLAPSING_TOOLBAR] ?: true
+		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 
 		return UserPreferences(
 			language = language,
@@ -250,6 +183,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			theme = theme,
 			dynamicTheme = dynamicTheme,
 			installerType = installerType,
+			autoUpdate = autoUpdate,
 			autoSync = autoSync,
 			sortOrder = sortOrder,
 			proxyType = proxyType,

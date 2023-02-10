@@ -14,7 +14,6 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
-import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.asSequence
@@ -24,7 +23,6 @@ import com.looker.core.common.formatSize
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
@@ -46,7 +44,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import com.looker.core.common.R.string as stringRes
@@ -67,7 +64,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
-	private val userPreferences get() = userPreferencesRepository.userPreferencesFlow
 
 	private sealed interface State {
 		data class Connecting(val name: String) : State
@@ -92,8 +88,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	private var started = Started.NO
 	private val tasks = mutableListOf<Task>()
 	private var currentTask: CurrentTask? = null
-
-	private var updateNotificationBlockerFragment: WeakReference<Fragment>? = null
 
 	private val downloadConnection = Connection(DownloadService::class.java)
 
@@ -137,13 +131,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 		suspend fun updateAllApps() {
 			updateAppList()
-		}
-
-		fun setUpdateNotificationBlocker(fragment: Fragment?) {
-			updateNotificationBlockerFragment = fragment?.let(::WeakReference)
-			if (fragment != null) {
-				notificationManager.cancel(Constants.NOTIFICATION_ID_UPDATES)
-			}
 		}
 
 		fun setEnabled(repository: Repository, enabled: Boolean): Boolean {
@@ -371,27 +358,27 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
 					scope.launch {
-						userPreferences.distinctMap { it.unstableUpdate }.collect {
-							handleFileDownload(
-								task = task,
-								initialState = initialState,
-								hasUpdates = hasUpdates,
-								unstableUpdates = it,
-								repository = repository
-							)
-						}
+						val unstableUpdates =
+							userPreferencesRepository.fetchInitialPreferences().unstableUpdate
+						handleFileDownload(
+							task = task,
+							initialState = initialState,
+							hasUpdates = hasUpdates,
+							unstableUpdates = unstableUpdates,
+							repository = repository
+						)
 					}
 				} else {
 					handleNextTask(hasUpdates)
 				}
 			} else if (started != Started.NO) {
 				scope.launch {
-					userPreferences.distinctMap { it.notifyUpdate }.collect {
-						handleUpdates(
-							hasUpdates = hasUpdates,
-							notifyUpdates = it
-						)
-					}
+					val preference = userPreferencesRepository.fetchInitialPreferences()
+					handleUpdates(
+						hasUpdates = hasUpdates,
+						notifyUpdates = preference.notifyUpdate,
+						autoUpdate = preference.autoUpdate
+					)
 				}
 			}
 		}
@@ -441,7 +428,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		currentTask = CurrentTask(task, job, hasUpdates, initialState)
 	}
 
-	private suspend fun handleUpdates(hasUpdates: Boolean, notifyUpdates: Boolean) {
+	private suspend fun handleUpdates(
+		hasUpdates: Boolean,
+		notifyUpdates: Boolean,
+		autoUpdate: Boolean
+	) {
 		if (hasUpdates && notifyUpdates) {
 			val job = scope.launch {
 				val products = async {
@@ -460,9 +451,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				}
 				currentTask = null
 				handleNextTask(false)
-				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-				val availableUpdate = products.await()
-				if (!blocked && availableUpdate.isNotEmpty()) {
+				if (autoUpdate) {
+					products.cancel()
+					updateAppList()
+				} else {
+					val availableUpdate = products.await()
 					displayUpdatesNotification(availableUpdate)
 				}
 			}

@@ -71,6 +71,12 @@ class SettingsViewModel
 		}
 	}
 
+	fun setAutoUpdate(enable: Boolean) {
+		viewModelScope.launch {
+			userPreferencesRepository.setAutoUpdate(enable)
+		}
+	}
+
 	fun setUnstableUpdates(enable: Boolean) {
 		viewModelScope.launch {
 			userPreferencesRepository.enableUnstableUpdates(enable)

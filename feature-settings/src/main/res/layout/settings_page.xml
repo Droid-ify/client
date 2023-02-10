@@ -95,6 +95,10 @@
                 layout="@layout/enum_type" />
 
             <include
+                android:id="@+id/auto_update"
+                layout="@layout/switch_type" />
+
+            <include
                 android:id="@+id/notify_updates"
                 layout="@layout/switch_type" />
 

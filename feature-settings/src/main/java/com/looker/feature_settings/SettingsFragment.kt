@@ -89,6 +89,8 @@ class SettingsFragment : Fragment() {
 			autoSync.title.text = getString(stringRes.sync_repositories_automatically)
 			notifyUpdates.title.text = getString(stringRes.notify_about_updates)
 			notifyUpdates.content.text = getString(stringRes.notify_about_updates_summary)
+			autoUpdate.title.text = getString(stringRes.auto_update)
+			autoUpdate.content.text = getString(stringRes.auto_update_apps)
 			unstableUpdates.title.text = getString(stringRes.unstable_updates)
 			unstableUpdates.content.text = getString(stringRes.unstable_updates_summary)
 			incompatibleUpdates.title.text = getString(stringRes.incompatible_versions)
@@ -227,6 +229,9 @@ class SettingsFragment : Fragment() {
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setNotifyUpdates(checked)
 				}
+				autoUpdate.checked.setOnCheckedChangeListener { _, checked ->
+					setAutoUpdate(checked)
+				}
 				unstableUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setUnstableUpdates(checked)
 				}
@@ -310,6 +315,7 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			notifyUpdates.checked.isChecked = userPreferences.notifyUpdate
+			autoUpdate.checked.isChecked = userPreferences.autoUpdate
 			unstableUpdates.checked.isChecked = userPreferences.unstableUpdate
 			incompatibleUpdates.checked.isChecked = userPreferences.incompatibleVersions
 			proxyType.content.text = context.proxyName(userPreferences.proxyType)

@@ -109,12 +109,7 @@ class TabsFragment : ScreenFragment() {
 	private var sections = listOf<ProductItem.Section>(ProductItem.Section.All)
 	private var section: ProductItem.Section = ProductItem.Section.All
 
-	private val syncConnection = Connection(SyncService::class.java, onBind = { _, _ ->
-		viewPager?.let {
-			val source = AppListFragment.Source.values()[it.currentItem]
-			updateUpdateNotificationBlocker(source)
-		}
-	})
+	private val syncConnection = Connection(SyncService::class.java)
 
 	private var sectionsAnimator: ValueAnimator? = null
 
@@ -404,15 +399,6 @@ class TabsFragment : ScreenFragment() {
 		}
 	}
 
-	private fun updateUpdateNotificationBlocker(activeSource: AppListFragment.Source) {
-		val blockerFragment = if (activeSource == AppListFragment.Source.UPDATES) {
-			productFragments.find { it.source == activeSource }
-		} else {
-			null
-		}
-		syncConnection.binder?.setUpdateNotificationBlocker(blockerFragment)
-	}
-
 	private fun updateOrder(sortOrder: SortOrder) {
 		sortOrderMenu!!.second[sortOrder.ordinal].isChecked = true
 		productFragments.forEach { it.setOrder() }
@@ -511,7 +497,6 @@ class TabsFragment : ScreenFragment() {
 
 		override fun onPageSelected(position: Int) {
 			val source = AppListFragment.Source.values()[position]
-			updateUpdateNotificationBlocker(source)
 			sortOrderMenu!!.first.apply {
 				isVisible = source.order
 				setShowAsActionFlags(
@@ -530,10 +515,6 @@ class TabsFragment : ScreenFragment() {
 			val source = AppListFragment.Source.values()[viewPager!!.currentItem]
 			layout!!.sectionChange.isEnabled =
 				state != ViewPager2.SCROLL_STATE_DRAGGING && source.sections
-			if (state == ViewPager2.SCROLL_STATE_IDLE) {
-				// onPageSelected can be called earlier than fragments created
-				updateUpdateNotificationBlocker(source)
-			}
 		}
 	}
 
