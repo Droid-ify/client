@@ -6,6 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
@@ -22,6 +24,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 	private val sessionInstaller = context.packageManager.packageInstaller
 	private val intent = Intent(context, SessionInstallerService::class.java)
+	private var installerCallbacks = mutableListOf<PackageInstaller.SessionCallback>()
 
 	companion object {
 		private val flags = if (SdkCheck.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
@@ -39,6 +42,22 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			sessionParams.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
 		}
 		val id = sessionInstaller.createSession(sessionParams)
+		val installerCallback = object : PackageInstaller.SessionCallback() {
+			override fun onCreated(sessionId: Int) {}
+			override fun onBadgingChanged(sessionId: Int) {}
+			override fun onActiveChanged(sessionId: Int, active: Boolean) {}
+			override fun onProgressChanged(sessionId: Int, progress: Float) {}
+
+			override fun onFinished(sessionId: Int, success: Boolean) {
+				if (sessionId == id && success) state.tryEmit(installItem statesTo InstallState.Installed)
+			}
+		}
+		installerCallbacks.add(installerCallback)
+
+		sessionInstaller.registerSessionCallback(
+			installerCallbacks.last(),
+			Handler(Looper.getMainLooper())
+		)
 
 		val session = sessionInstaller.openSession(id)
 
@@ -55,7 +74,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 			activeSession.commit(pendingIntent.intentSender)
 		}
-		state.emit(installItem statesTo InstallState.Installed)
 	}
 
 	@SuppressLint("MissingPermission")
@@ -72,6 +90,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 		}
 
 	override fun cleanup() {
+		installerCallbacks.forEach { sessionInstaller.unregisterSessionCallback(it) }
 		sessionInstaller.allSessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
 	}
 }
