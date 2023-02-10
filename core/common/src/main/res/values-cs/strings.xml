@@ -210,4 +210,6 @@
     <string name="restart_app">Pro zobrazení změn restartujte Droid-ify</string>
     <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
     <string name="installing">Instalace</string>
+    <string name="auto_update">Automatická aktualizace aplikací</string>
+    <string name="auto_update_apps">Pokusit se automaticky nainstalovat aktualizace</string>
 </resources>
