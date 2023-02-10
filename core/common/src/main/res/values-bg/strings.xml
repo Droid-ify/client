@@ -198,5 +198,15 @@
     <string name="io_error_DESC">Невъзможност за извършване на определени действия.</string>
     <string name="allow_collapsing_toolbar_DESC">Разрешете горната лента на приложението да се разшири</string>
     <string name="material_you_desc">Използвайте material you цветова тема</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Материални Вие</string>
+    <string name="auto_update">Автоматично актуализиране на приложения</string>
+    <string name="installing">Инсталиране</string>
+    <string name="auto_update_apps">Опитайте се да инсталирате актуализации автоматично</string>
+    <string name="restart_app">Рестартирайте Droid-ify, за да видите промените</string>
+    <string name="waiting_to_start_installation">Изчакване за стартиране на инсталацията…</string>
+    <string name="favourites">Любими</string>
+    <string name="enable_repo">Активирайте хранилището</string>
+    <string name="force_clean_up">Принудително почистване</string>
+    <string name="force_clean_up_DESC">Почиства излишните файлове</string>
+    <string name="repository_unreachable">Хранилището е недостъпно</string>
 </resources>
