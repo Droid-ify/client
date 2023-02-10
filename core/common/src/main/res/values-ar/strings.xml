@@ -219,4 +219,6 @@
     <string name="restart_app">أعد تشغيل Droid-ify لرؤية التغييرات</string>
     <string name="installing">جارٍ التثبيت</string>
     <string name="waiting_to_start_installation">في انتظار بدء التثبيت …</string>
+    <string name="auto_update">حدِّث التطبيقات تلقائيًّا</string>
+    <string name="auto_update_apps">حاول تثبيت التحديثات تلقائيًّا</string>
 </resources>
