@@ -208,4 +208,6 @@
     <string name="installing">Kuruluyor</string>
     <string name="restart_app">Değişiklikleri görmek için Droid-ify\'ı yeniden başlatın</string>
     <string name="waiting_to_start_installation">Kurulumun başlatılması bekleniyor…</string>
+    <string name="auto_update">Uygulamaları otomatik güncelle</string>
+    <string name="auto_update_apps">Güncellemeleri otomatik olarak kurmaya çalış</string>
 </resources>
