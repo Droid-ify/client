@@ -49,7 +49,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			override fun onProgressChanged(sessionId: Int, progress: Float) {}
 
 			override fun onFinished(sessionId: Int, success: Boolean) {
-				if (sessionId == id && success) state.tryEmit(installItem statesTo InstallState.Installed)
+				if (sessionId == id) state.tryEmit(installItem statesTo InstallState.Installed)
 			}
 		}
 		installerCallbacks.add(installerCallback)
