@@ -26,7 +26,6 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) {
-		state.emit(installItem statesTo InstallState.Installing)
 		val (uri, flags) = if (SdkCheck.isNougat) {
 			Cache.getReleaseUri(
 				context,

@@ -40,7 +40,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) {
-		state.emit(installItem statesTo InstallState.Installing)
 		val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
 		val id = sessionInstaller.createSession(sessionParams)
 		val installerCallback = object : PackageInstaller.SessionCallback() {

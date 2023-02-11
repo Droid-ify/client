@@ -62,7 +62,6 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 		installItem: InstallItem,
 		state: MutableStateFlow<InstallItemState>
 	) = withContext(Dispatchers.IO) {
-		state.emit(installItem statesTo InstallState.Installing)
 		val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
 		val shellResult = async { Shell.cmd(releaseFile.install).exec() }
 

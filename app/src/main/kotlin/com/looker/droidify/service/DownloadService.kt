@@ -314,10 +314,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.fetchInitialPreferences()
 			.installerType
 
-		if (installerType == InstallerType.ROOT
-			|| installerType == InstallerType.SHIZUKU
-			|| SdkCheck.canAutoInstall(task.release.targetSdkVersion)
-		) {
+		if (installerType == InstallerType.ROOT || installerType == InstallerType.SHIZUKU) {
 			val installItem = task.packageName.installItem(task.release.cacheFileName)
 			installer + installItem
 		} else showNotificationInstall(task)

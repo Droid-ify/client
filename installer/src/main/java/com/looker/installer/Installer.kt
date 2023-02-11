@@ -13,6 +13,7 @@ import com.looker.installer.installers.ShizukuInstaller
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
+import com.looker.installer.model.statesTo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
@@ -80,6 +81,7 @@ class Installer(
 		onEach(installItems) { item ->
 			installState.emit(InstallItemState(item, InstallState.Queued))
 		}.consumeEach {
+			installState.emit(it statesTo InstallState.Installing)
 			baseInstaller?.performInstall(it, installState)
 		}
 	}
