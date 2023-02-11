@@ -929,15 +929,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	fun setStatus(newStatus: Status) {
 		val statusIndex = items.indexOf(Item.DownloadStatusItem)
 		if (status != newStatus && statusIndex >= 0) {
+			status = newStatus
 			when (newStatus) {
 				is Status.Downloading -> notifyItemChanged(statusIndex, Payload.STATUS)
 				Status.Connecting -> notifyItemChanged(statusIndex, Payload.STATUS)
 				Status.Installing -> notifyItemChanged(statusIndex, Payload.STATUS)
-				Status.PendingInstall -> notifyItemChanged(statusIndex)
+				Status.PendingInstall -> notifyItemInserted(statusIndex)
 				Status.Pending -> notifyItemInserted(statusIndex)
 				Status.Idle -> notifyItemRemoved(statusIndex)
 			}
-			status = newStatus
 		}
 	}
 
@@ -978,8 +978,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 					}
 					ProductPreferences[switchItem.packageName] = productPreference
-					val actionIndex = items.indexOf(Item.InstallButtonItem)
-					notifyItemChanged(actionIndex)
 					callbacks.onPreferenceChanged(productPreference)
 				}
 			}
@@ -1175,6 +1173,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder as DownloadStatusViewHolder
 				item as Item.DownloadStatusItem
 				val status = status
+				holder.itemView.isVisible = status != Status.Idle
 				holder.statusText.isVisible = status != Status.Idle
 				holder.progress.isVisible = status != Status.Idle
 				if (status != Status.Idle) {

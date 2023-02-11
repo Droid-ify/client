@@ -63,8 +63,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	private class Nullable<T>(val value: T?)
-
 	private enum class Action(
 		val id: Int,
 		val adapterAction: AppDetailAdapter.Action
@@ -156,13 +154,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 								}
 							}
 						}
-						.map { it to Nullable(Database.InstalledAdapter.get(packageName, null)) }
+						.map { it to Database.InstalledAdapter.get(packageName, null) }
 						.collectLatest { (productRepo, installedItem) ->
 							val firstChanged = first
 							first = false
 							val productChanged = products != productRepo
 							val installedItemChanged =
-								installed?.installedItem != installedItem.value
+								installed?.installedItem != installedItem
 							if (firstChanged || productChanged || installedItemChanged) {
 								layoutManagerState?.let {
 									recyclerView?.layoutManager!!.onRestoreInstanceState(it)
@@ -172,7 +170,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 									products = productRepo
 								}
 								if (firstChanged || installedItemChanged) {
-									installed = installedItem.value?.let {
+									installed = installedItem?.let {
 										val isSystem = try {
 											((requireContext().packageManager.getApplicationInfo(
 												packageName,
@@ -222,7 +220,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 									recyclerView.context,
 									packageName,
 									productRepo,
-									installedItem.value,
+									installedItem,
 									userPreferencesRepository.fetchInitialPreferences()
 								)
 							}
