@@ -222,6 +222,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 						.getColor(R.color.md_theme_dark_errorContainer)
 				)
+				.setOnlyAlertOnce(true)
 				.setContentIntent(resultPendingIntent)
 				.apply {
 					errorNotificationContent(task, errorType)
@@ -293,7 +294,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
 				.setAutoCancel(true)
-				.setOngoing(true)
+				.setOngoing(false)
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
@@ -386,7 +387,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColor(R.color.md_theme_dark_primaryContainer)
 			)
-			.setWhen(System.currentTimeMillis())
 			.addAction(
 				0, getString(stringRes.cancel), PendingIntent.getService(
 					this,
