@@ -24,10 +24,16 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 	private val sessionInstaller = context.packageManager.packageInstaller
 	private val intent = Intent(context, SessionInstallerService::class.java)
-	private var installerCallbacks = mutableListOf<PackageInstaller.SessionCallback>()
 
 	companion object {
+		private var installerCallbacks = mutableListOf<PackageInstaller.SessionCallback>()
 		private val flags = if (SdkCheck.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
+		private val sessionParams =
+			PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL).apply {
+				sdkAbove(sdk = Build.VERSION_CODES.S) {
+					setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
+				}
+			}
 	}
 
 	override suspend fun performInstall(
@@ -36,18 +42,12 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 	) {
 		state.emit(installItem statesTo InstallState.Installing)
 		val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
-		val sessionParams =
-			PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL)
-		sdkAbove(sdk = Build.VERSION_CODES.S) {
-			sessionParams.setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
-		}
 		val id = sessionInstaller.createSession(sessionParams)
 		val installerCallback = object : PackageInstaller.SessionCallback() {
 			override fun onCreated(sessionId: Int) {}
 			override fun onBadgingChanged(sessionId: Int) {}
 			override fun onActiveChanged(sessionId: Int, active: Boolean) {}
 			override fun onProgressChanged(sessionId: Int, progress: Float) {}
-
 			override fun onFinished(sessionId: Int, success: Boolean) {
 				if (sessionId == id) state.tryEmit(installItem statesTo InstallState.Installed)
 			}
