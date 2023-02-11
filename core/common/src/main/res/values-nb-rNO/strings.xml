@@ -204,4 +204,9 @@
     <string name="enable_repo">Skru på pakkebrønnen</string>
     <string name="force_clean_up">Påtving opprenskning</string>
     <string name="force_clean_up_DESC">Fjerner overflødige filer</string>
+    <string name="auto_update_apps">Prøv å installere nye versjoner automatisk</string>
+    <string name="auto_update">Installer nye versjoner av programmer automatisk</string>
+    <string name="waiting_to_start_installation">Venter på å starte installasjon …</string>
+    <string name="installing">Installerer</string>
+    <string name="restart_app">Start Droid-ify på ny for å ta i bruk endringene</string>
 </resources>
