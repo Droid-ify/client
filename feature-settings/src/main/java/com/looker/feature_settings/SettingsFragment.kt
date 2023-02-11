@@ -44,6 +44,7 @@ import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
+import com.looker.core.common.BuildConfig as LocaleConfig
 import com.looker.core.common.R.dimen as dimenRes
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.plurals as pluralRes
@@ -250,7 +251,7 @@ class SettingsFragment : Fragment() {
 
 	private val languageList: List<String>
 		get() {
-			val list = BuildConfig.DETECTED_LOCALES.toMutableList()
+			val list = LocaleConfig.DETECTED_LOCALES.toMutableList()
 			list.add(0, "system")
 			return list
 		}
