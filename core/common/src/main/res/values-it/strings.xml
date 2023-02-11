@@ -211,4 +211,5 @@
     <string name="installing">Installazione</string>
     <string name="waiting_to_start_installation">In attesa di avviare l\'installazione…</string>
     <string name="restart_app">Riavvia Droid-ify per vedere le modifiche</string>
+    <string name="auto_update">Aggiornamento automatico delle app</string>
 </resources>
