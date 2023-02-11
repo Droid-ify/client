@@ -109,6 +109,7 @@ class SettingsFragment : Fragment() {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				setChangeListener()
 				viewModel.userPreferencesFlow.collect {
+					binding.appbarLayout.setCollapsable(it.allowCollapsingToolbar)
 					updateUserPreference(it)
 				}
 			}
@@ -224,7 +225,6 @@ class SettingsFragment : Fragment() {
 					setDynamicTheme(checked)
 				}
 				allowCollapsingToolbar.checked.setOnCheckedChangeListener { _, checked ->
-					appbarLayout.setCollapsable(checked)
 					setToolbarState(checked)
 				}
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
