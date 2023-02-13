@@ -1,7 +1,7 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.common.extension.onEach
+import com.looker.core.common.extension.filter
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.newer.PackageName
@@ -43,12 +43,12 @@ class Installer(
 				InstallerType.ROOT -> RootInstaller(context)
 			}
 		installer(
-			baseInstaller = baseInstaller,
+			baseInstaller = baseInstaller!!,
 			installItems = installItems,
 			installState = installState
 		)
 		uninstaller(
-			baseInstaller = baseInstaller,
+			baseInstaller = baseInstaller!!,
 			uninstallItems = uninstallItems
 		)
 
@@ -74,7 +74,7 @@ class Installer(
 		.map { it.state }
 
 	private fun CoroutineScope.installer(
-		baseInstaller: BaseInstaller?,
+		baseInstaller: BaseInstaller,
 		installItems: ReceiveChannel<InstallItem>,
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
@@ -82,16 +82,18 @@ class Installer(
 			installState.emit(InstallItemState(item, InstallState.Queued))
 		}.consumeEach {
 			installState.emit(it statesTo InstallState.Installing)
-			baseInstaller?.performInstall(it, installState)
+			val success = baseInstaller.performInstall(it)
+			installState.emit(it statesTo success)
+			requested.remove(it.packageName.name)
 		}
 	}
 
 	private fun CoroutineScope.uninstaller(
-		baseInstaller: BaseInstaller?,
+		baseInstaller: BaseInstaller,
 		uninstallItems: ReceiveChannel<PackageName>
 	) = launch {
 		uninstallItems.consumeEach {
-			baseInstaller?.performUninstall(it)
+			baseInstaller.performUninstall(it)
 		}
 	}
 }

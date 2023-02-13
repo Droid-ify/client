@@ -5,15 +5,11 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.PackageName
 import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
-import com.looker.installer.model.statesTo
 import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
+import kotlin.coroutines.resume
 
 internal class RootInstaller(private val context: Context) : BaseInstaller {
 
@@ -59,14 +55,13 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 	}
 
 	override suspend fun performInstall(
-		installItem: InstallItem,
-		state: MutableStateFlow<InstallItemState>
-	) = withContext(Dispatchers.IO) {
+		installItem: InstallItem
+	): InstallState = suspendCancellableCoroutine { cont ->
 		val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
-		val shellResult = async { Shell.cmd(releaseFile.install).exec() }
+		val shellResult = Shell.cmd(releaseFile.install).exec()
 
-		if (shellResult.await().isSuccess) {
-			state.emit(installItem statesTo InstallState.Installed)
+		if (shellResult.isSuccess) {
+			cont.resume(InstallState.Installed)
 			Shell.cmd(releaseFile.deletePackage).submit()
 		}
 	}

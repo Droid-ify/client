@@ -5,16 +5,12 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.PackageName
 import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
-import com.looker.installer.model.statesTo
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.suspendCancellableCoroutine
 import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStream
+import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
 internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
@@ -24,18 +20,16 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 	}
 
 	override suspend fun performInstall(
-		installItem: InstallItem,
-		state: MutableStateFlow<InstallItemState>
-	) = withContext(Dispatchers.Default) {
+		installItem: InstallItem
+	): InstallState = suspendCancellableCoroutine { cont ->
 		var sessionId: String? = null
 		val uri = Cache.getReleaseUri(context, installItem.installFileName)
-		val releaseFileLength = async(Dispatchers.IO) {
+		val releaseFileLength =
 			Cache.getReleaseFile(context, installItem.installFileName).length()
-		}
 		val packageName = installItem.packageName.name
 		try {
 			val size =
-				releaseFileLength.await().takeIf { it >= 0 } ?: throw IllegalStateException()
+				releaseFileLength.takeIf { it >= 0 } ?: throw IllegalStateException()
 			context.contentResolver.openInputStream(uri).use {
 				val createCommand =
 					if (SdkCheck.isNougat) "pm install-create --user current -i $packageName -S $size"
@@ -53,11 +47,11 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 				if (commitResult.resultCode != 0) {
 					throw RuntimeException("Failed to commit install session $sessionId")
 				}
-				state.emit(installItem statesTo InstallState.Installed)
+				cont.resume(InstallState.Installed)
 			}
 		} catch (e: Exception) {
-			state.emit(installItem statesTo InstallState.Failed)
 			if (sessionId != null) exec("pm install-abandon $sessionId")
+			cont.resume(InstallState.Failed)
 		}
 	}
 

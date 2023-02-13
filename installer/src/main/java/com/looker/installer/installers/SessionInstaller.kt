@@ -13,10 +13,7 @@ import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.newer.PackageName
 import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
-import com.looker.installer.model.statesTo
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
@@ -37,9 +34,8 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 	}
 
 	override suspend fun performInstall(
-		installItem: InstallItem,
-		state: MutableStateFlow<InstallItemState>
-	) {
+		installItem: InstallItem
+	): InstallState = suspendCancellableCoroutine { cont ->
 		val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
 		val id = sessionInstaller.createSession(sessionParams)
 		val installerCallback = object : PackageInstaller.SessionCallback() {
@@ -48,7 +44,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			override fun onActiveChanged(sessionId: Int, active: Boolean) {}
 			override fun onProgressChanged(sessionId: Int, progress: Float) {}
 			override fun onFinished(sessionId: Int, success: Boolean) {
-				if (sessionId == id) state.tryEmit(installItem statesTo InstallState.Installed)
+				if (sessionId == id) cont.resume(InstallState.Installed)
 			}
 		}
 		installerCallbacks.add(installerCallback)
@@ -77,7 +73,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 	@SuppressLint("MissingPermission")
 	override suspend fun performUninstall(packageName: PackageName) =
-		suspendCancellableCoroutine {
+		suspendCancellableCoroutine { cont ->
 			intent.putExtra(
 				SessionInstallerService.KEY_ACTION,
 				SessionInstallerService.ACTION_UNINSTALL
@@ -85,7 +81,7 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 			val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
 			sessionInstaller.uninstall(packageName.name, pendingIntent.intentSender)
-			it.resume(Unit)
+			cont.resume(Unit)
 		}
 
 	override fun cleanup() {
