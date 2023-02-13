@@ -14,7 +14,7 @@ object SdkCheck {
 		get() = Build.VERSION.SDK_INT
 
 	// Allows auto install if target sdk of apk is one less then current sdk
-	fun canAutoInstall(targetSdk: Int) = targetSdk >= sdk - 1
+	fun canAutoInstall(targetSdk: Int) = targetSdk >= sdk - 1 && isSnowCake
 
 	@get:ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
 	val isTiramisu: Boolean
