@@ -57,7 +57,7 @@ class FavouriteFragmentAdapter(
 		val item = apps[position].first().item()
 		val repository: Repository? = repositories[item.repositoryId]
 		holder.name.text = item.name
-		holder.summary.isVisible = holder.summary.text.isNotEmpty()
+		holder.summary.isVisible = item.summary.isNotEmpty()
 		holder.summary.text = item.summary
 		repository?.let { repo ->
 			holder.icon.load(
