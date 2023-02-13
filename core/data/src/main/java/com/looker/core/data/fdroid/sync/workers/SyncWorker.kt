@@ -33,12 +33,12 @@ class SyncWorker @AssistedInject constructor(
 
 	override suspend fun doWork(): Result {
 		return try {
-			Log.e(SYNC_WORK, "Start Sync")
+			Log.i(SYNC_WORK, "Start Sync")
 			val unstable = userPreferencesRepository.fetchInitialPreferences().unstableUpdate
 			repoRepository.syncAll(appContext, unstable)
 			Result.success()
 		} catch (e: Exception) {
-			Log.e(SYNC_WORK, e.message.toString(), e)
+			Log.i(SYNC_WORK, e.message.toString(), e)
 			Result.failure()
 		}
 	}

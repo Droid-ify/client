@@ -42,7 +42,7 @@ class CleanUpWorker @AssistedInject constructor(
 				ExistingPeriodicWorkPolicy.REPLACE,
 				cleanup
 			)
-			Log.d(TAG, "Periodic work enqueued with duration: $duration")
+			Log.i(TAG, "Periodic work enqueued with duration: $duration")
 		}
 
 		fun force(context: Context) {
@@ -56,7 +56,7 @@ class CleanUpWorker @AssistedInject constructor(
 				ExistingWorkPolicy.KEEP,
 				cleanup
 			)
-			Log.d(TAG, "Forced cleanup enqueued")
+			Log.i(TAG, "Forced cleanup enqueued")
 		}
 	}
 
@@ -67,7 +67,7 @@ class CleanUpWorker @AssistedInject constructor(
 			Cache.cleanup(context)
 			Result.success()
 		} catch (e: Exception) {
-			Log.e(TAG, "doWork: Failed to clean up", e)
+			Log.i(TAG, "doWork: Failed to clean up", e)
 			Result.failure()
 		}
 	}

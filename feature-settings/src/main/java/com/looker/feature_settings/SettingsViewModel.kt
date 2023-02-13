@@ -145,7 +145,7 @@ class SettingsViewModel
 	}
 
 	private val shizukuDeadListener = Shizuku.OnBinderDeadListener {
-		Log.e("ShizukuInstaller", "Killed")
+		Log.i("ShizukuInstaller", "Killed")
 	}
 
 	private val permissionListener =
