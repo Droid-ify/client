@@ -184,8 +184,8 @@
     <style name="FavouriteTheme" parent="Widget.Material3.Button.IconButton">
         <item name="backgroundTint">?colorSurface</item>
         <item name="android:backgroundTint">?colorSurface</item>
-        <item name="iconTint">?colorError</item>
-        <item name="android:iconTint" tools:targetApi="o">?colorError</item>
+        <item name="iconTint">@color/favourite_icon_color</item>
+        <item name="android:iconTint" tools:targetApi="o">@color/favourite_icon_color</item>
     </style>
 
     <style name="Theme.Card" parent="Widget.Material3.CardView.Filled">
