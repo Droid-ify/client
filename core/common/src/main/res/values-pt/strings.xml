@@ -206,8 +206,10 @@
     <string name="repository_unreachable">Não foi possível contactar com o repositório</string>
     <string name="force_clean_up">Impor limpeza</string>
     <string name="force_clean_up_DESC">Limpar ficheiros redundantes</string>
-    <string name="enable_repo">Activar o repositório</string>
+    <string name="enable_repo">Ativar repositório</string>
     <string name="waiting_to_start_installation">À espera para começar a instalação…</string>
-    <string name="installing">Instalando</string>
-    <string name="restart_app">Reiniciar Droid-ify para ver mudanças</string>
+    <string name="installing">A instalar</string>
+    <string name="restart_app">Reiniciar Droid-ify para ver as alterações</string>
+    <string name="auto_update">Atualizações automáticas</string>
+    <string name="auto_update_apps">Tentar atualizar aplicações automaticamente</string>
 </resources>
