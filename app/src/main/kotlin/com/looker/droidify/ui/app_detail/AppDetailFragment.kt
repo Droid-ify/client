@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductPreference
@@ -362,12 +361,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
-				val installerType =
-					userPreferencesRepository.fetchInitialPreferences().installerType
-				if (installerType != InstallerType.ROOT && installerType != InstallerType.SHIZUKU) {
-					val installItem = packageName.installItem(state.release.cacheFileName)
-					installer + installItem
-				}
+				val installItem = packageName.installItem(state.release.cacheFileName)
+				installer + installItem
 			}
 		}
 	}

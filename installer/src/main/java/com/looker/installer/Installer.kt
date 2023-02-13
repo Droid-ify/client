@@ -78,8 +78,10 @@ class Installer(
 		installItems: ReceiveChannel<InstallItem>,
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
-		onEach(installItems) { item ->
-			installState.emit(InstallItemState(item, InstallState.Queued))
+		val requested = mutableSetOf<String>()
+		filter(installItems) {
+			installState.emit(it statesTo InstallState.Queued)
+			requested.add(it.packageName.name)
 		}.consumeEach {
 			installState.emit(it statesTo InstallState.Installing)
 			val success = baseInstaller.performInstall(it)
