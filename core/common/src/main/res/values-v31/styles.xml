@@ -28,6 +28,7 @@
         <item name="colorSecondary">@android:color/system_accent3_100</item>
         <item name="colorOnSecondary">@android:color/system_accent3_800</item>
         <item name="colorSecondaryContainer">@android:color/system_accent3_700</item>
+        <item name="colorOutline">@android:color/system_neutral1_400</item>
         <item name="colorOnSecondaryContainer">@android:color/system_accent3_50</item>
         <item name="colorPrimaryInverse">@android:color/system_accent1_600</item>
         <item name="android:statusBarColor">@android:color/system_neutral1_900</item>
