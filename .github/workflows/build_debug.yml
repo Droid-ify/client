@@ -41,9 +41,24 @@ jobs:
       
     - name: Build Debug APK
       run: ./gradlew assembleDebug
+
+    - name: Sign Apk
+      continue-on-error: true
+      id: sign_apk
+      uses: ilharp/sign-android-release@v1
+      with:
+        releaseDir: app/build/outputs/apk/debug
+        signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
+        keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
+        keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+    - name: Remove file that aren't signed
+      continue-on-error: true
+      run: |
+        ls | grep 'signed\.apk$' && find . -type f -name '*.apk' ! -name '*-signed.apk' -delete
       
     - name: Upload the APK
       uses: actions/upload-artifact@v3
       with:
         name: Droid-ify-Debug
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/app-debug*.apk
