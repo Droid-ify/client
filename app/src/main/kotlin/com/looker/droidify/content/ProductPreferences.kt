@@ -8,7 +8,6 @@ import com.looker.core.common.extension.writeDictionary
 import com.looker.core.model.ProductPreference
 import com.looker.droidify.database.Database
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -21,13 +20,12 @@ object ProductPreferences {
 	private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>()
 	private val subject = mutableSubject.asSharedFlow()
 
-	fun init(context: Context) {
+	fun init(context: Context, scope: CoroutineScope) {
 		preferences = context.getSharedPreferences("product_preferences", Context.MODE_PRIVATE)
-		Database.LockAdapter.putAll(preferences.all.keys
-			.mapNotNull { packageName ->
-				this[packageName].databaseVersionCode?.let { Pair(packageName, it) }
-			})
-		CoroutineScope(Dispatchers.Default).launch {
+		Database.LockAdapter.putAll(preferences.all.keys.mapNotNull { packageName ->
+			this[packageName].databaseVersionCode?.let { Pair(packageName, it) }
+		})
+		scope.launch {
 			subject.collect { (packageName, versionCode) ->
 				if (versionCode != null) Database.LockAdapter.put(Pair(packageName, versionCode))
 				else Database.LockAdapter.delete(packageName)
@@ -58,18 +56,12 @@ object ProductPreferences {
 
 	operator fun set(packageName: String, productPreference: ProductPreference) {
 		val oldProductPreference = this[packageName]
-		preferences.edit().putString(packageName, ByteArrayOutputStream()
-			.apply {
-				Json.factory.createGenerator(this)
-					.use { it.writeDictionary(productPreference::serialize) }
-			}
-			.toByteArray().toString(Charset.defaultCharset())).apply()
-		if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates ||
-			oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode
-		) {
-			CoroutineScope(Dispatchers.Default).launch {
-				mutableSubject.emit(Pair(packageName, productPreference.databaseVersionCode))
-			}
+		preferences.edit().putString(packageName, ByteArrayOutputStream().apply {
+			Json.factory.createGenerator(this)
+				.use { it.writeDictionary(productPreference::serialize) }
+		}.toByteArray().toString(Charset.defaultCharset())).apply()
+		if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates || oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode) {
+			mutableSubject.tryEmit(Pair(packageName, productPreference.databaseVersionCode))
 		}
 	}
 }
