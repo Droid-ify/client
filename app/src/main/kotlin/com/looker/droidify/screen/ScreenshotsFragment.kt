@@ -3,7 +3,6 @@ package com.looker.droidify.screen
 import android.app.Dialog
 import android.content.Context
 import android.graphics.PixelFormat
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
@@ -24,13 +23,11 @@ import coil.load
 import com.jsibbold.zoomage.AutoResetMode.UNDER
 import com.jsibbold.zoomage.ZoomageView
 import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
@@ -40,7 +37,6 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
-import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.style as styleRes
 
 class ScreenshotsFragment() : DialogFragment() {
@@ -180,8 +176,6 @@ class ScreenshotsFragment() : DialogFragment() {
 			val image: ZoomageView
 				get() = itemView as ZoomageView
 
-			val placeholder: Drawable
-
 			init {
 				itemView.layoutParams = RecyclerView.LayoutParams(
 					RecyclerView.LayoutParams.MATCH_PARENT,
@@ -196,10 +190,6 @@ class ScreenshotsFragment() : DialogFragment() {
 					animateOnReset = true
 					autoResetMode = UNDER
 				}
-				val placeholder =
-					itemView.context.getDrawableCompat(drawableRes.ic_photo_camera).mutate()
-				placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor)
-				this.placeholder = PaddingDrawable(placeholder, 4f)
 			}
 		}
 
@@ -244,10 +234,7 @@ class ScreenshotsFragment() : DialogFragment() {
 			holder as ViewHolder
 			val screenshot = screenshots[position]
 			repository?.let {
-				holder.image.load(screenshot.url(it, packageName)) {
-					placeholder(holder.placeholder)
-					error(holder.placeholder)
-				}
+				holder.image.load(screenshot.url(it, packageName))
 			}
 		}
 

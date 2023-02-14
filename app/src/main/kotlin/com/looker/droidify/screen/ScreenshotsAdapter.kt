@@ -1,20 +1,13 @@
 package com.looker.droidify.screen
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
-import com.looker.droidify.R
-import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
@@ -29,12 +22,9 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 	private class ViewHolder(context: Context) :
 		RecyclerView.ViewHolder(FrameLayout(context)) {
 		val image: ShapeableImageView
-		val placeholder: Drawable
 
 		init {
 			itemView as FrameLayout
-			val surfaceColor =
-				itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
 
 			image = object : ShapeableImageView(context) {
 				override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -58,11 +48,6 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				marginEnd =
 					image.context.resources.getDimension(dimenRes.shape_small_corner).toInt()
 			}
-
-			val placeholder =
-				image.context.getDrawableCompat(R.drawable.ic_screenshot_placeholder).mutate()
-			placeholder.setTint(surfaceColor)
-			this.placeholder = PaddingDrawable(placeholder, 2f)
 		}
 	}
 
@@ -106,14 +91,6 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		holder.image.load(
 			item.screenshot.url(item.repository, item.packageName)
 		) {
-			placeholder(
-				PaddingDrawable(
-					holder.placeholder.mutate()
-						.toBitmap(height = cellSize.toInt(), width = cellSize.toInt() / 4)
-						.toDrawable(context.resources), 1f
-				)
-			)
-			error(holder.placeholder)
 			size(cellSize.toInt())
 		}
 	}
