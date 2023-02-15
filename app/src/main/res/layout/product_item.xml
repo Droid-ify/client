@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="?textAppearanceBody2"
-                android:textColor="?android:attr/textColorSecondary" />
+                android:textColor="?attr/colorOutline" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

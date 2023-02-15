@@ -41,7 +41,7 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?attr/colorOutline" />
 
         <TextView
             android:id="@+id/package_name"
@@ -50,7 +50,7 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="?android:attr/textColorSecondary" />
+            android:textColor="?attr/colorOutline" />
     </TextSwitcher>
 
 
