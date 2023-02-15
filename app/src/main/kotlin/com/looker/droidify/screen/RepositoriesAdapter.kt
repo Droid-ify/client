@@ -46,14 +46,13 @@ class RepositoriesAdapter(
 				false
 			)
 		).apply {
-			val currentRepo = getRepository(absoluteAdapterPosition)
 			itemView.setOnLongClickListener {
-				navigate(currentRepo)
+				navigate(getRepository(absoluteAdapterPosition))
 				true
 			}
 			itemView.setOnClickListener {
 				isEnabled = !isEnabled
-				onSwitch(currentRepo, isEnabled)
+				onSwitch(getRepository(absoluteAdapterPosition), isEnabled)
 			}
 		}
 	}
