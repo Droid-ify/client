@@ -19,6 +19,7 @@ android {
 		resourceConfigurations += mutableListOf(
 			/* locale list begin */
 			"ar",
+			"az",
 			"bg",
 			"bn",
 			"ca",
