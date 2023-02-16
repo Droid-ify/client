@@ -209,4 +209,10 @@
     <string name="force_clean_up">Провести очищення</string>
     <string name="force_clean_up_DESC">Видалення зайвих файлів</string>
     <string name="repository_unreachable">Репозиторій недоступний</string>
+    <string name="auto_update">Автоматичне оновлення програм</string>
+    <string name="auto_update_apps">Спробуйте встановлювати оновлення автоматично</string>
+    <string name="installing">Встановлення</string>
+    <string name="restart_app">Перезапустіть Droid-ify, щоб побачити зміни</string>
+    <string name="enable_repo">Увімкніть репозиторій</string>
+    <string name="waiting_to_start_installation">Очікування початку встановлення…</string>
 </resources>
