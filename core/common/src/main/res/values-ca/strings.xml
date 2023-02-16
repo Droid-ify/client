@@ -197,4 +197,16 @@
     <string name="allow_collapsing_toolbar_DESC">Permet que la barra d\'aplicacions superior s\'expandeixi i es col·lapsi</string>
     <string name="allow_collapsing_toolbar">Permet que la barra d\'aplicacions superior s\'expandeixi</string>
     <string name="io_error_DESC">No es pot realitzar determinades accions.</string>
+    <string name="auto_update">Actualització automàtica d\'aplicacions</string>
+    <string name="auto_update_apps">Intenta instal·lar les actualitzacions automàticament</string>
+    <string name="material_you">Material tu</string>
+    <string name="material_you_desc">Utilitzeu el material del vostre tema</string>
+    <string name="favourites">Preferits</string>
+    <string name="repository_unreachable">Repositori inaccessible</string>
+    <string name="force_clean_up">Neteja forçada</string>
+    <string name="force_clean_up_DESC">Neteja els fitxers redundants</string>
+    <string name="enable_repo">Habiliteu el repositori</string>
+    <string name="waiting_to_start_installation">S\'està esperant per iniciar la instal·lació…</string>
+    <string name="restart_app">Reinicieu Droid-ify per veure els canvis</string>
+    <string name="installing">Instal·lació</string>
 </resources>
