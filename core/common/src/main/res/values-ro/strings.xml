@@ -34,7 +34,7 @@
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">Aplicația %d are o nouă versiune.</item>
         <item quantity="few">%d aplicații cu versiuni noi.</item>
-        <item quantity="other"></item>
+        <item quantity="other">%d aplicații cu versiuni noi.</item>
     </plurals>
     <string name="socks_proxy">Proxy SOCKS</string>
     <string name="tracks_or_reports_your_activity">Urmărește sau raportează activitatea ta</string>
@@ -68,7 +68,7 @@
     <plurals name="days">
         <item quantity="one">Zi</item>
         <item quantity="few">Zile</item>
-        <item quantity="other"></item>
+        <item quantity="other">Zile</item>
     </plurals>
     <string name="edit_repository">Editează depozitul</string>
     <string name="enable_repo">Activează depozitul</string>
@@ -83,7 +83,7 @@
     <plurals name="hours">
         <item quantity="one">Oră</item>
         <item quantity="few">Ore</item>
-        <item quantity="other"></item>
+        <item quantity="other">Ore</item>
     </plurals>
     <string name="downloading_FORMAT">Se descarcă %s…</string>
     <string name="http_error_DESC">Răspuns server invalid.</string>
@@ -114,7 +114,7 @@
     <string name="links">Link-uri</string>
     <string name="list_animation">Listă de Animații</string>
     <string name="list_animation_description">Afișează lista de animații pe pagina principală</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Material tu</string>
     <string name="material_you_desc">Folosește tema de culoare Material You</string>
     <string name="name">Nume</string>
     <string name="network_error_DESC">Eroare de Rețea</string>
@@ -207,4 +207,9 @@
     <string name="confirmation">Confirmație</string>
     <string name="connecting">Se conectează…</string>
     <string name="could_not_download_FORMAT">Nu se poate descărca %s</string>
+    <string name="auto_update">Actualizare automată a aplicațiilor</string>
+    <string name="waiting_to_start_installation">Se așteaptă începerea instalării…</string>
+    <string name="auto_update_apps">Încercați să instalați actualizările automat</string>
+    <string name="restart_app">Reporniți Droid-ify pentru a vedea modificările</string>
+    <string name="installing">Instalarea</string>
 </resources>
