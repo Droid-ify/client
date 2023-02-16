@@ -196,4 +196,14 @@
     <string name="only_on_wifi_with_charging">Chỉ trên wifi và sạc</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Sử dụng chủ đề màu material you</string>
+    <string name="auto_update">Tự động cập nhật ứng dụng</string>
+    <string name="auto_update_apps">Cố gắng cài đặt các bản cập nhật tự động</string>
+    <string name="installing">Cài đặt</string>
+    <string name="waiting_to_start_installation">Đang đợi để bắt đầu cài đặt…</string>
+    <string name="favourites">Yêu thích</string>
+    <string name="force_clean_up">Buộc dọn dẹp</string>
+    <string name="force_clean_up_DESC">Dọn dẹp các tập tin dư thừa</string>
+    <string name="repository_unreachable">Kho lưu trữ không thể truy cập</string>
+    <string name="enable_repo">Kích hoạt kho lưu trữ</string>
+    <string name="restart_app">Khởi động lại Droid-ify để xem thay đổi</string>
 </resources>
