@@ -203,4 +203,10 @@
     <string name="repository_unreachable">रिपॉजिटरी तक पहुंच नहीं</string>
     <string name="material_you">मटीरियल यू</string>
     <string name="material_you_desc">मटीरियल यू रंग थीम का प्रयोग करें</string>
+    <string name="waiting_to_start_installation">स्थापना प्रारंभ करने की प्रतीक्षा की जा रही है…</string>
+    <string name="auto_update">ऐप्स को ऑटो अपडेट करें</string>
+    <string name="auto_update_apps">अपडेटस को स्वचालित रूप से इंस्टॉल करने का प्रयास करें</string>
+    <string name="enable_repo">रिपॉजिटरी को सक्षम करें</string>
+    <string name="restart_app">बदलाव देखने के लिए Droid-ify को रीस्टार्ट करें</string>
+    <string name="installing">इंस्टॉल कर रहा है</string>
 </resources>
