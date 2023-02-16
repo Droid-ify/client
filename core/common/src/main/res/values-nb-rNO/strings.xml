@@ -22,7 +22,7 @@
     <string name="has_security_vulnerabilities">Har sikkerhetssårbarheter</string>
     <string name="http_error_DESC">Ugyldig tjenersvar.</string>
     <string name="ignore_all_updates">Ignorer alle nye versjoner</string>
-    <string name="ignore_this_update">Ignorer denne versjon</string>
+    <string name="ignore_this_update">Ignorer denne versjonen</string>
     <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-versjon %2$d) støttes ikke. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">Maksimal API-versjon er %d.</string>
     <string name="incompatible_older_DESC">Denne versjonen er eldre enn den som er installert på enheten din. Avinstaller den først.</string>
@@ -94,7 +94,7 @@
     <string name="version_FORMAT">Versjon %s</string>
     <string name="waiting_to_start_download">Venter på å laste ned…</string>
     <string name="action_failed">Handlingen mislyktes</string>
-    <string name="all_applications_up_to_date">Alle programmene dine er av nyeste dato</string>
+    <string name="all_applications_up_to_date">Alle appene dine er oppdatert</string>
     <string name="launch">Kjør</string>
     <string name="notify_about_updates_summary">Vis en merknad når nye versjoner er tilgjengelig</string>
     <string name="add_repository">Legg til pakkebrønn</string>
