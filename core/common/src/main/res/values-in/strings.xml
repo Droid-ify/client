@@ -205,5 +205,5 @@
     <string name="waiting_to_start_installation">Menunggu untuk memulai pemasangan…</string>
     <string name="auto_update">Perbarui aplikasi secara otomatis</string>
     <string name="auto_update_apps">Cobalah untuk menginstal pembaruan secara otomatis</string>
-    <string name="restart_app">Restart Droid-ify untuk melihat perubahan</string>
+    <string name="restart_app">Ulang Droid-ify untuk melihat perubahan</string>
 </resources>
