@@ -203,4 +203,10 @@
     <string name="force_clean_up">ਜਬਰੀ ਸਾਫ਼ ਕਰੋ</string>
     <string name="repository_unreachable">ਰਿਪੋਜ਼ਟਰੀ ਪਹੁੰਚਯੋਗ ਨਹੀਂ ਹੈ</string>
     <string name="force_clean_up_DESC">ਬੇਲੋੜੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਸਾਫ਼ ਕਰਦਾ ਹੈ</string>
+    <string name="auto_update">ਐਪਸ ਨੂੰ ਆਟੋ ਅੱਪਡੇਟ ਕਰੋ</string>
+    <string name="installing">ਇੰਸਟਾਲ ਕਰ ਰਿਹਾ ਹੈ</string>
+    <string name="restart_app">ਤਬਦੀਲੀਆਂ ਦੇਖਣ ਲਈ Droid-ify ਨੂੰ ਰੀਸਟਾਰਟ ਕਰੋ</string>
+    <string name="enable_repo">ਰਿਪੋਜ਼ਟਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
+    <string name="auto_update_apps">ਅੱਪਡੇਟਾਂ ਨੂੰ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਇੰਸਟਾਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="waiting_to_start_installation">ਇੰਸਟਾਲੇਸ਼ਨ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
 </resources>
