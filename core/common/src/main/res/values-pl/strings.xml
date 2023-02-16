@@ -214,4 +214,5 @@
     <string name="repository_unreachable">Repozytorium nieosiągalne</string>
     <string name="auto_update">Aktualizuj aplikacje automatycznie</string>
     <string name="auto_update_apps">Spróbuj zainstalować aktualizacje automatycznie</string>
+    <string name="force_clean_up_DESC">Czyści zbędne pliki</string>
 </resources>
