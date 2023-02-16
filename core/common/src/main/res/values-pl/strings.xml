@@ -205,4 +205,13 @@
     <string name="allow_collapsing_toolbar_DESC">Zezwalaj na rozwijanie i zwijanie górnego paska aplikacji</string>
     <string name="material_you_desc">Użyj motywu kolorów material you</string>
     <string name="material_you">Material You</string>
+    <string name="enable_repo">Włącz repozytorium</string>
+    <string name="installing">Instalowanie</string>
+    <string name="restart_app">Uruchom Droid-ify ponownie, aby zastosować zmiany</string>
+    <string name="waiting_to_start_installation">Oczekiwanie na rozpoczęcie instalacji…</string>
+    <string name="favourites">Ulubione</string>
+    <string name="force_clean_up">Wymuś oczyszczenie</string>
+    <string name="repository_unreachable">Repozytorium nieosiągalne</string>
+    <string name="auto_update">Aktualizuj aplikacje automatycznie</string>
+    <string name="auto_update_apps">Spróbuj zainstalować aktualizacje automatycznie</string>
 </resources>
