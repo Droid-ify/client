@@ -160,4 +160,8 @@
     <string name="show_more">আরো দেখুন</string>
     <string name="settings">সেটিংস</string>
     <string name="repository_unsigned_DESC">স্বাক্ষরবিহীন। আবেদন তালিকা যাচাই করা যায়নি. স্বাক্ষরবিহীন সংগ্রহস্থল থেকে অ্যাপ্লিকেশন ডাউনলোড করার বিষয়ে সতর্ক থাকুন।</string>
+    <string name="signature_FORMAT">স্বাক্ষর %s</string>
+    <string name="size">যায়গা</string>
+    <string name="socks_proxy">SOCKS প্রক্সি</string>
+    <string name="signed_using_unsafe_algorithm">অনিরাপদ উপায়ে স্বাক্ষর করা হয়েছে</string>
 </resources>
