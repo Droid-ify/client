@@ -207,4 +207,6 @@
     <string name="installing">Asennus</string>
     <string name="restart_app">Käynnistä Droid-ify uudelleen nähdäksesi muutokset</string>
     <string name="waiting_to_start_installation">Odotan asennuksen aloittamista…</string>
+    <string name="auto_update">Päivitä sovelluksia automaattisesti</string>
+    <string name="auto_update_apps">Yritä asentaa päivitykset automaattisesti</string>
 </resources>
