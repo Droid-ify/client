@@ -199,4 +199,14 @@
     <string name="allow_collapsing_toolbar_DESC">به نوار برنامه بالا اجازه دهید تا گسترش و سقوط کند</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">از تم رنگی material you استفاده کنید</string>
+    <string name="enable_repo">مخزن را فعال کنید</string>
+    <string name="force_clean_up">پاکسازی اجباری</string>
+    <string name="restart_app">برای مشاهده تغییرات، Droid-ify را مجددا راه اندازی کنید</string>
+    <string name="favourites">موارد دلخواه</string>
+    <string name="repository_unreachable">مخزن قابل دسترسی نیست</string>
+    <string name="auto_update">به روز رسانی خودکار برنامه ها</string>
+    <string name="force_clean_up_DESC">فایل های اضافی را پاک می کند</string>
+    <string name="auto_update_apps">سعی کنید به روز رسانی ها را به صورت خودکار نصب کنید</string>
+    <string name="installing">در حال نصب</string>
+    <string name="waiting_to_start_installation">در انتظار شروع نصب…</string>
 </resources>
