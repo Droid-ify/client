@@ -207,4 +207,6 @@
     <string name="restart_app">Byrje om Droid-ify for å sjå brigde</string>
     <string name="installing">Legg inn</string>
     <string name="waiting_to_start_installation">Ventar på å leggja inn …</string>
+    <string name="auto_update">Oppdater apper automatisk</string>
+    <string name="auto_update_apps">Prøv å installere oppdateringer automatisk</string>
 </resources>
