@@ -204,4 +204,9 @@
     <string name="force_clean_up">ବଳ ପୂର୍ବକ ସଫା କରନ୍ତୁ</string>
     <string name="repository_unreachable">ସଂଗ୍ରହାଳୟ ଅପହଞ୍ଚ ଅଟେ</string>
     <string name="enable_repo">ସଂଗ୍ରହାଳୟ ସକ୍ଷମ କରନ୍ତୁ</string>
+    <string name="auto_update">ଅଟୋ ଅପଡେଟ୍ ଆପ୍ସ</string>
+    <string name="auto_update_apps">ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଅଦ୍ୟତନଗୁଡିକ ସଂସ୍ଥାପନ କରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ</string>
+    <string name="installing">ସଂସ୍ଥାପନ</string>
+    <string name="restart_app">ପରିବର୍ତ୍ତନଗୁଡିକ ଦେଖିବାକୁ Droid-ify ପୁନ Rest ଆରମ୍ଭ କରନ୍ତୁ</string>
+    <string name="waiting_to_start_installation">ସ୍ଥାପନ ଆରମ୍ଭ କରିବାକୁ ଅପେକ୍ଷା କରିଛି…</string>
 </resources>
