@@ -197,4 +197,16 @@
     <string name="io_error_DESC">Niet in staat om bepaalde acties uit te voeren.</string>
     <string name="allow_collapsing_toolbar">Laat de topbalk uitbreiden</string>
     <string name="allow_collapsing_toolbar_DESC">Laat de topbalk uitbreiden en instorten</string>
+    <string name="auto_update">Apps automatisch bijwerken</string>
+    <string name="installing">Installeren</string>
+    <string name="restart_app">Start Droid-ify opnieuw om de wijzigingen te zien</string>
+    <string name="favourites">Favorieten</string>
+    <string name="material_you">Materiaal jij</string>
+    <string name="material_you_desc">Gebruik materiaal jij kleurthema</string>
+    <string name="enable_repo">Schakel de opslagplaats in</string>
+    <string name="force_clean_up">Forceer opruimen</string>
+    <string name="auto_update_apps">Probeer updates automatisch te installeren</string>
+    <string name="force_clean_up_DESC">Ruimt overbodige bestanden op</string>
+    <string name="repository_unreachable">Opslagplaats onbereikbaar</string>
+    <string name="waiting_to_start_installation">Wachten om installatie te starten…</string>
 </resources>
