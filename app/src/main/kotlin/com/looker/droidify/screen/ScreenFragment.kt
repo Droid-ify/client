@@ -34,16 +34,12 @@ open class ScreenFragment : Fragment() {
 	lateinit var toolbar: MaterialToolbar
 	lateinit var collapsingToolbar: CollapsingToolbarLayout
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		_fragmentBinding = FragmentBinding.inflate(layoutInflater)
-	}
-
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
 		savedInstanceState: Bundle?,
 	): View? {
+		_fragmentBinding = FragmentBinding.inflate(inflater, container, false)
 		this.appBarLayout = fragmentBinding.appbarLayout
 		this.toolbar = fragmentBinding.toolbar
 		this.collapsingToolbar = fragmentBinding.collapsingToolbar

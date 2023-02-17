@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcel
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -15,6 +14,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,9 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.systemBarsMargin
-import com.looker.core.common.file.KParcelable
-import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
 import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
@@ -50,9 +49,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
-	companion object {
-		private const val STATE_FRAGMENT_STACK = "fragmentStack"
-	}
 
 	sealed interface SpecialIntent {
 		object Updates : SpecialIntent
@@ -68,44 +64,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 	@Inject
 	lateinit var installer: Installer
 
-	private class FragmentStackItem(
-		val className: String, val arguments: Bundle?,
-		val savedState: Fragment.SavedState?,
-	) : KParcelable {
-		override fun writeToParcel(dest: Parcel, flags: Int) {
-			dest.writeString(className)
-			dest.writeByte(if (arguments != null) 1 else 0)
-			arguments?.writeToParcel(dest, flags)
-			dest.writeByte(if (savedState != null) 1 else 0)
-			savedState?.writeToParcel(dest, flags)
-		}
-
-		companion object {
-			@Suppress("unused")
-			@JvmField
-			val CREATOR = KParcelable.creator {
-				val className = it.readString()!!
-				val arguments =
-					if (it.readByte().toInt() == 0) null else Bundle.CREATOR.createFromParcel(it)
-				arguments?.classLoader = ScreenActivity::class.java.classLoader
-				val savedState = if (it.readByte()
-						.toInt() == 0
-				) null else Fragment.SavedState.CREATOR.createFromParcel(it)
-				FragmentStackItem(className, arguments, savedState)
-			}
-		}
-	}
-
 	lateinit var cursorOwner: CursorOwner
 		private set
 
-	private val fragmentStack = mutableListOf<FragmentStackItem>()
-
 	private val currentFragment: Fragment?
-		get() {
-			supportFragmentManager.executePendingTransactions()
-			return supportFragmentManager.findFragmentById(R.id.main_content)
-		}
+		get() = supportFragmentManager.findFragmentById(R.id.main_content)
 
 	@EntryPoint
 	@InstallIn(SingletonComponent::class)
@@ -181,16 +144,13 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 		if (savedInstanceState == null) {
 			cursorOwner = CursorOwner()
-			supportFragmentManager.beginTransaction()
-				.add(cursorOwner, CursorOwner::class.java.name)
-				.commit()
+			supportFragmentManager.commit {
+				add(cursorOwner, CursorOwner::class.java.name)
+			}
 		} else {
 			cursorOwner = supportFragmentManager
 				.findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
 		}
-
-		savedInstanceState?.getParcelableArrayList<FragmentStackItem>(STATE_FRAGMENT_STACK)
-			?.let { fragmentStack += it }
 		if (savedInstanceState == null) {
 			replaceFragment(TabsFragment(), null)
 			if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
@@ -205,16 +165,13 @@ abstract class ScreenActivity : AppCompatActivity() {
 		}
 	}
 
-	override fun onSaveInstanceState(outState: Bundle) {
-		super.onSaveInstanceState(outState)
-		outState.putParcelableArrayList(STATE_FRAGMENT_STACK, ArrayList(fragmentStack))
-	}
-
 	override fun onBackPressed() {
 		val currentFragment = currentFragment
 		if (!(currentFragment is ScreenFragment && currentFragment.onBackPressed())) {
 			hideKeyboard()
-			if (!popFragment()) {
+			if (supportFragmentManager.backStackEntryCount > 0) {
+				supportFragmentManager.popBackStack()
+			} else {
 				super.onBackPressed()
 			}
 		}
@@ -225,40 +182,28 @@ abstract class ScreenActivity : AppCompatActivity() {
 			currentFragment?.view?.translationZ =
 				(if (open) Int.MIN_VALUE else Int.MAX_VALUE).toFloat()
 		}
-		supportFragmentManager
-			.beginTransaction()
-			.apply {
-				if (open != null) {
-					setCustomAnimations(
-						if (open) R.animator.slide_in else 0,
-						if (open) R.animator.slide_in_keep else R.animator.slide_out
-					)
-				}
+		supportFragmentManager.commit {
+			setReorderingAllowed(true)
+			if (open != null) {
+				setCustomAnimations(
+					if (open) R.animator.slide_in else 0,
+					if (open) R.animator.slide_in_keep else R.animator.slide_out
+				)
 			}
-			.replace(R.id.main_content, fragment)
-			.commit()
+			replace(R.id.main_content, fragment)
+		}
 	}
 
 	private fun pushFragment(fragment: Fragment) {
-		currentFragment?.let {
-			fragmentStack.add(
-				FragmentStackItem(
-					it::class.java.name, it.arguments,
-					supportFragmentManager.saveFragmentInstanceState(it)
-				)
+		currentFragment?.view?.translationZ = (Int.MIN_VALUE).toFloat()
+		supportFragmentManager.commit {
+			addToBackStack(fragment.tag)
+			setReorderingAllowed(true)
+			setCustomAnimations(
+				R.animator.slide_in,
+				R.animator.slide_in_keep
 			)
-		}
-		replaceFragment(fragment, true)
-	}
-
-	private fun popFragment(): Boolean {
-		return fragmentStack.isNotEmpty() && run {
-			val stackItem = fragmentStack.removeAt(fragmentStack.size - 1)
-			val fragment = Class.forName(stackItem.className).newInstance() as Fragment
-			stackItem.arguments?.let(fragment::setArguments)
-			stackItem.savedState?.let(fragment::setInitialSavedState)
-			replaceFragment(fragment, false)
-			true
+			replace(R.id.main_content, fragment)
 		}
 	}
 
@@ -268,7 +213,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	internal fun onToolbarCreated(toolbar: Toolbar) {
-		if (fragmentStack.isNotEmpty()) {
+		if (supportFragmentManager.backStackEntryCount > 0) {
 			toolbar.navigationIcon =
 				toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 			toolbar.setNavigationOnClickListener { onBackPressed() }
@@ -280,37 +225,10 @@ abstract class ScreenActivity : AppCompatActivity() {
 		handleIntent(intent)
 	}
 
-	protected val Intent.packageName: String?
-		get() {
-			val uri = data
-			return when {
-				uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
-					uri.schemeSpecificPart?.nullIfEmpty()
-				}
-				uri?.scheme == "market" && uri.host == "details" -> {
-					uri.getQueryParameter("id")?.nullIfEmpty()
-				}
-				uri != null && uri.scheme in setOf("http", "https") -> {
-					val host = uri.host.orEmpty()
-					if (host == "f-droid.org" || host.endsWith(".f-droid.org")) {
-						uri.lastPathSegment?.nullIfEmpty()
-					} else if (host == "apt.izzysoft.de") {
-						uri.lastPathSegment?.nullIfEmpty()
-					} else {
-						null
-					}
-				}
-				else -> {
-					null
-				}
-			}
-		}
-
 	protected fun handleSpecialIntent(specialIntent: SpecialIntent) {
 		when (specialIntent) {
 			is SpecialIntent.Updates -> {
 				if (currentFragment !is TabsFragment) {
-					fragmentStack.clear()
 					replaceFragment(TabsFragment(), true)
 				}
 				val tabsFragment = currentFragment as TabsFragment
@@ -335,7 +253,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	open fun handleIntent(intent: Intent?) {
 		when (intent?.action) {
 			Intent.ACTION_VIEW -> {
-				val packageName = intent.packageName
+				val packageName = intent.getPackageName()
 				if (!packageName.isNullOrEmpty()) {
 					val fragment = currentFragment
 					if (fragment !is AppDetailFragment || fragment.packageName != packageName) {

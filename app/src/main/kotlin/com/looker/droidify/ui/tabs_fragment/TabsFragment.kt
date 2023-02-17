@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -119,9 +120,13 @@ class TabsFragment : ScreenFragment() {
 		get() = if (host == null) emptySequence() else
 			childFragmentManager.fragments.asSequence().mapNotNull { it as? AppListFragment }
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		super.onCreate(savedInstanceState)
-		_tabsBinding = TabsToolbarBinding.inflate(layoutInflater)
+	override fun onCreateView(
+		inflater: LayoutInflater,
+		container: ViewGroup?,
+		savedInstanceState: Bundle?
+	): View? {
+		_tabsBinding = TabsToolbarBinding.inflate(inflater, container, false)
+		return super.onCreateView(inflater, container, savedInstanceState)
 	}
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
