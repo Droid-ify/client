@@ -16,9 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.dp
@@ -27,7 +25,6 @@ import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
-import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.getThemeRes
@@ -62,9 +59,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	private val notificationPermission =
 		registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
-
-	@Inject
-	lateinit var networkMonitor: NetworkMonitor
 
 	@Inject
 	lateinit var installer: Installer
@@ -150,13 +144,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 		val noInternetSnackbar =
 			Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_SHORT)
 				.setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
-		lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.CREATED) {
-				networkMonitor.isOnline.collect { isOnline ->
-					if (!isOnline) noInternetSnackbar.show()
-				}
-			}
-		}
 
 		when {
 			ContextCompat.checkSelfPermission(
