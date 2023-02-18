@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.dp
@@ -151,16 +150,14 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		recyclerViewAdapter.apply {
 			this.cursor = cursor
 			lifecycleScope.launch {
-				repeatOnLifecycle(Lifecycle.State.RESUMED) {
-					emptyText = when {
-						cursor == null -> ""
-						viewModel.searchQuery.first()
-							.isNotEmpty() -> getString(stringRes.no_matching_applications_found)
-						else -> when (source) {
-							Source.AVAILABLE -> getString(stringRes.no_applications_available)
-							Source.INSTALLED -> getString(stringRes.no_applications_installed)
-							Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
-						}
+				emptyText = when {
+					cursor == null -> ""
+					viewModel.searchQuery.first()
+						.isNotEmpty() -> getString(stringRes.no_matching_applications_found)
+					else -> when (source) {
+						Source.AVAILABLE -> getString(stringRes.no_applications_available)
+						Source.INSTALLED -> getString(stringRes.no_applications_installed)
+						Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
 					}
 				}
 			}
