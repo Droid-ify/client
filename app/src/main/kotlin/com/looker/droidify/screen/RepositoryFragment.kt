@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.widget.NestedScrollView
 import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.systemBarsPadding
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
@@ -57,6 +58,7 @@ class RepositoryFragment() : ScreenFragment() {
 		collapsingToolbar.title = getString(stringRes.repository)
 		val scroll = NestedScrollView(binding.root.context)
 		scroll.addView(binding.root)
+		scroll.systemBarsPadding()
 		fragmentBinding.fragmentContent.addView(scroll)
 		return fragmentBinding.root
 	}
