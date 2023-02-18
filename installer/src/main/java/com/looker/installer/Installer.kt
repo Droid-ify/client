@@ -26,8 +26,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class Installer(
-	private val context: Context,
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val context: Context, private val userPreferencesRepository: UserPreferencesRepository
 ) {
 	private val installItems = Channel<InstallItem>()
 	private val uninstallItems = Channel<PackageName>()
@@ -35,21 +34,19 @@ class Installer(
 	private var baseInstaller: BaseInstaller? = null
 
 	suspend operator fun invoke() = coroutineScope {
-		baseInstaller =
-			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
-				InstallerType.LEGACY -> LegacyInstaller(context)
-				InstallerType.SESSION -> SessionInstaller(context)
-				InstallerType.SHIZUKU -> ShizukuInstaller(context)
-				InstallerType.ROOT -> RootInstaller(context)
-			}
+		baseInstaller = when (userPreferencesRepository.fetchInitialPreferences().installerType) {
+			InstallerType.LEGACY -> LegacyInstaller(context)
+			InstallerType.SESSION -> SessionInstaller(context)
+			InstallerType.SHIZUKU -> ShizukuInstaller(context)
+			InstallerType.ROOT -> RootInstaller(context)
+		}
 		installer(
 			baseInstaller = baseInstaller!!,
 			installItems = installItems,
 			installState = installState
 		)
 		uninstaller(
-			baseInstaller = baseInstaller!!,
-			uninstallItems = uninstallItems
+			baseInstaller = baseInstaller!!, uninstallItems = uninstallItems
 		)
 
 	}
@@ -69,9 +66,8 @@ class Installer(
 		uninstallItems.send(packageName)
 	}
 
-	infix fun stateOf(packageName: PackageName): Flow<InstallState> = installState
-		.filter { it.installedItem.packageName == packageName }
-		.map { it.state }
+	infix fun stateOf(packageName: PackageName): Flow<InstallState> =
+		installState.filter { it.installedItem.packageName == packageName }.map { it.state }
 
 	private fun CoroutineScope.installer(
 		baseInstaller: BaseInstaller,
@@ -80,8 +76,9 @@ class Installer(
 	) = launch {
 		val requested = mutableSetOf<String>()
 		filter(installItems) {
-			installState.emit(it statesTo InstallState.Queued)
-			requested.add(it.packageName.name)
+			val shouldProcess = requested.add(it.packageName.name)
+			if (shouldProcess) installState.emit(it statesTo InstallState.Queued)
+			shouldProcess
 		}.consumeEach {
 			installState.emit(it statesTo InstallState.Installing)
 			val success = baseInstaller.performInstall(it)
@@ -91,8 +88,7 @@ class Installer(
 	}
 
 	private fun CoroutineScope.uninstaller(
-		baseInstaller: BaseInstaller,
-		uninstallItems: ReceiveChannel<PackageName>
+		baseInstaller: BaseInstaller, uninstallItems: ReceiveChannel<PackageName>
 	) = launch {
 		uninstallItems.consumeEach {
 			baseInstaller.performUninstall(it)
