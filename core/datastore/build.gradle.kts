@@ -6,11 +6,9 @@ plugins {
 }
 
 android {
-	compileSdk = Android.compileSdk
 	namespace = "com.looker.core.datastore"
-	defaultConfig {
-		minSdk = Android.minSdk
-	}
+	compileSdk = Android.compileSdk
+	defaultConfig.minSdk = Android.minSdk
 
 	buildTypes {
 		release {

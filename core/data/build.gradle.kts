@@ -7,11 +7,9 @@ plugins {
 }
 
 android {
-	compileSdk = Android.compileSdk
 	namespace = "com.looker.core.data"
-	defaultConfig {
-		minSdk = Android.minSdk
-	}
+	compileSdk = Android.compileSdk
+	defaultConfig.minSdk = Android.minSdk
 
 	buildTypes {
 		release {
