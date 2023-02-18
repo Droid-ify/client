@@ -86,6 +86,6 @@ internal class SessionInstaller(private val context: Context) : BaseInstaller {
 
 	override fun cleanup() {
 		installerCallbacks.forEach { sessionInstaller.unregisterSessionCallback(it) }
-		sessionInstaller.allSessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
+		sessionInstaller.mySessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
 	}
 }
