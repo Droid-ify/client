@@ -17,38 +17,10 @@ fun Long.formatSize(): String {
 	return sizeFormats[index].format(Locale.US, size)
 }
 
-fun Char.halfByte(): Int {
-	return when (this) {
-		in '0'..'9' -> this - '0'
-		in 'a'..'f' -> this - 'a' + 10
-		in 'A'..'F' -> this - 'A' + 10
-		else -> -1
+fun ByteArray.hex(): String = buildString {
+	this@hex.forEach { byte ->
+		append("%02x".format(Locale.US, byte.toInt() and 0xff))
 	}
-}
-
-fun CharSequence.unhex(): ByteArray? {
-	return if (length % 2 == 0) {
-		val ints = windowed(2, 2, false).map {
-			val high = it[0].halfByte()
-			val low = it[1].halfByte()
-			if (high >= 0 && low >= 0) {
-				(high shl 4) or low
-			} else {
-				-1
-			}
-		}
-		if (ints.any { it < 0 }) null else ints.map { it.toByte() }.toByteArray()
-	} else {
-		null
-	}
-}
-
-fun ByteArray.hex(): String {
-	val builder = StringBuilder()
-	for (byte in this) {
-		builder.append("%02x".format(Locale.US, byte.toInt() and 0xff))
-	}
-	return builder.toString()
 }
 
 fun Any.debug(message: String) {
