@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,9 +23,9 @@ import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
-import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.sdkAbove
 import com.looker.core.data.utils.NetworkMonitor
 import com.looker.core.datastore.UserPreferencesRepository
@@ -181,9 +182,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 		if (savedInstanceState == null) {
 			cursorOwner = CursorOwner()
-			supportFragmentManager.beginTransaction()
-				.add(cursorOwner, CursorOwner::class.java.name)
-				.commit()
+			supportFragmentManager.commit {
+				add(cursorOwner, CursorOwner::class.java.name)
+			}
 		} else {
 			cursorOwner = supportFragmentManager
 				.findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
@@ -225,18 +226,16 @@ abstract class ScreenActivity : AppCompatActivity() {
 			currentFragment?.view?.translationZ =
 				(if (open) Int.MIN_VALUE else Int.MAX_VALUE).toFloat()
 		}
-		supportFragmentManager
-			.beginTransaction()
-			.apply {
-				if (open != null) {
-					setCustomAnimations(
-						if (open) R.animator.slide_in else 0,
-						if (open) R.animator.slide_in_keep else R.animator.slide_out
-					)
-				}
+		supportFragmentManager.commit {
+			if (open != null) {
+				setCustomAnimations(
+					if (open) R.animator.slide_in else 0,
+					if (open) R.animator.slide_in_keep else R.animator.slide_out
+				)
 			}
-			.replace(R.id.main_content, fragment)
-			.commit()
+			setReorderingAllowed(true)
+			replace(R.id.main_content, fragment)
+		}
 	}
 
 	private fun pushFragment(fragment: Fragment) {
@@ -280,32 +279,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 		handleIntent(intent)
 	}
 
-	protected val Intent.packageName: String?
-		get() {
-			val uri = data
-			return when {
-				uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
-					uri.schemeSpecificPart?.nullIfEmpty()
-				}
-				uri?.scheme == "market" && uri.host == "details" -> {
-					uri.getQueryParameter("id")?.nullIfEmpty()
-				}
-				uri != null && uri.scheme in setOf("http", "https") -> {
-					val host = uri.host.orEmpty()
-					if (host == "f-droid.org" || host.endsWith(".f-droid.org")) {
-						uri.lastPathSegment?.nullIfEmpty()
-					} else if (host == "apt.izzysoft.de") {
-						uri.lastPathSegment?.nullIfEmpty()
-					} else {
-						null
-					}
-				}
-				else -> {
-					null
-				}
-			}
-		}
-
 	protected fun handleSpecialIntent(specialIntent: SpecialIntent) {
 		when (specialIntent) {
 			is SpecialIntent.Updates -> {
@@ -335,7 +308,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	open fun handleIntent(intent: Intent?) {
 		when (intent?.action) {
 			Intent.ACTION_VIEW -> {
-				val packageName = intent.packageName
+				val packageName = intent.getPackageName()
 				if (!packageName.isNullOrEmpty()) {
 					val fragment = currentFragment
 					if (fragment !is AppDetailFragment || fragment.packageName != packageName) {

@@ -1,6 +1,7 @@
 package com.looker.droidify
 
 import android.content.Intent
+import com.looker.core.common.extension.getPackageName
 import com.looker.droidify.screen.ScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,7 +19,7 @@ class MainActivity : ScreenActivity() {
 			ACTION_UPDATES -> handleSpecialIntent(SpecialIntent.Updates)
 			ACTION_INSTALL -> handleSpecialIntent(
 				SpecialIntent.Install(
-					intent.packageName,
+					intent.getPackageName(),
 					intent.getStringExtra(EXTRA_CACHE_FILE_NAME)
 				)
 			)
