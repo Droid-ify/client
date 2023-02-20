@@ -197,4 +197,16 @@
     <string name="io_error_DESC">Bizonyos műveletek végrehajtása sikertelen.</string>
     <string name="allow_collapsing_toolbar_DESC">Felső alkalmazássáv kibontása és összecsukása</string>
     <string name="no_internet">Nincs internet-hozzáférés</string>
+    <string name="auto_update_apps">Próbáljon automatikusan telepíteni a frissítéseket</string>
+    <string name="installing">Telepítés</string>
+    <string name="restart_app">Indítsa újra a Droid -ify-t a változások megtekintéséhez</string>
+    <string name="waiting_to_start_installation">Várakozás a telepítés megkezdésére …</string>
+    <string name="favourites">Kedvencek</string>
+    <string name="force_clean_up_DESC">Megtisztítja a redundáns fájlokat</string>
+    <string name="force_clean_up">Erőt takarít</string>
+    <string name="material_you">Anyagi anyag</string>
+    <string name="repository_unreachable">A tároló elérhetetlen</string>
+    <string name="auto_update">Automatikus frissítés alkalmazások</string>
+    <string name="enable_repo">Engedélyezze a lerakat</string>
+    <string name="material_you_desc">Használjon anyagi színes témát</string>
 </resources>
