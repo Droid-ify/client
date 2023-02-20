@@ -200,4 +200,16 @@
     <string name="no_internet">Nemate internetsku vezu</string>
     <string name="allow_collapsing_toolbar_DESC">Dozvoli rasklapanje i sklapanje gornje trake aplikacije</string>
     <string name="allow_collapsing_toolbar">Dozvoli rasklapanje gornje trake aplikacije</string>
+    <string name="installing">Instaliranje</string>
+    <string name="material_you">Materijal koji ste</string>
+    <string name="material_you_desc">Upotrijebite materijal temu u boji</string>
+    <string name="favourites">Favoriti</string>
+    <string name="enable_repo">Omogućite spremište</string>
+    <string name="force_clean_up">Prisiliti</string>
+    <string name="force_clean_up_DESC">Čisti suvišne datoteke</string>
+    <string name="repository_unreachable">Spremište nedostupno</string>
+    <string name="auto_update">Automatsko ažuriranje aplikacija</string>
+    <string name="auto_update_apps">Pokušajte automatski instalirati ažuriranja</string>
+    <string name="restart_app">Ponovo pokrenite droid-ify da biste vidjeli promjene</string>
+    <string name="waiting_to_start_installation">Čekajući da započnete instalaciju …</string>
 </resources>
