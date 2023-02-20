@@ -51,7 +51,7 @@
     <string name="available">可使用的</string>
     <string name="bug_tracker">Bug 追蹤器</string>
     <string name="cancel">取消</string>
-    <string name="cant_edit_sync_DESC">無法編輯儲存庫，因為它現在正在同步。</string>
+    <string name="cant_edit_sync_DESC">無法編輯在正在同步的儲存庫。</string>
     <string name="changelog">更新日誌</string>
     <string name="changes">更新內容</string>
     <string name="checking_repository">檢查儲存庫……</string>
@@ -194,4 +194,16 @@
     <string name="allow_collapsing_toolbar">允許頂部工具列展開</string>
     <string name="allow_collapsing_toolbar_DESC">允許頂部工具列展開和折疊</string>
     <string name="no_internet">您沒有網路連線</string>
+    <string name="material_you">物質你</string>
+    <string name="material_you_desc">使用顏色主題的材料</string>
+    <string name="favourites">我的最愛</string>
+    <string name="force_clean_up_DESC">移除不必要檔案</string>
+    <string name="repository_unreachable">存儲庫無法到達</string>
+    <string name="enable_repo">啟用存儲庫</string>
+    <string name="force_clean_up">強迫清理</string>
+    <string name="auto_update">自動更新程式</string>
+    <string name="auto_update_apps">嘗試自動安裝更新</string>
+    <string name="installing">安裝</string>
+    <string name="restart_app">重新啟動droid-ifie查看更改</string>
+    <string name="waiting_to_start_installation">等待開始安裝…</string>
 </resources>
