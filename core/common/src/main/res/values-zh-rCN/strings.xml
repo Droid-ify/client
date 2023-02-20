@@ -197,4 +197,16 @@
     <string name="io_error_DESC">无法执行某些操作。</string>
     <string name="allow_collapsing_toolbar_DESC">允许顶部应用栏展开和折叠</string>
     <string name="allow_collapsing_toolbar">允许顶部应用栏展开</string>
+    <string name="auto_update">自动更新应用程序</string>
+    <string name="auto_update_apps">尝试自动安装更新</string>
+    <string name="installing">安装</string>
+    <string name="favourites">最爱</string>
+    <string name="material_you_desc">使用颜色主题的材料</string>
+    <string name="repository_unreachable">存储库无法到达</string>
+    <string name="force_clean_up">强迫清理</string>
+    <string name="force_clean_up_DESC">清理冗余文件</string>
+    <string name="enable_repo">启用存储库</string>
+    <string name="material_you">物质你</string>
+    <string name="waiting_to_start_installation">等待开始安装…</string>
+    <string name="restart_app">重新启动droid-ifie查看更改</string>
 </resources>
