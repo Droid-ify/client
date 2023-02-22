@@ -226,9 +226,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 						}
 				}
 				launch {
-					(installer stateOf packageName.toPackageName()).collectLatest {
-						updateInstallState(it)
-					}
+					installer[packageName].collectLatest { updateInstallState(it) }
 				}
 			}
 		}

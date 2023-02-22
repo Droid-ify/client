@@ -69,7 +69,11 @@ class Installer(
 		uninstallItems.send(packageName)
 	}
 
-	infix fun stateOf(packageName: PackageName): Flow<InstallState> = installState
+	operator fun get(packageName: String): Flow<InstallState> = installState
+		.filter { it.installedItem.packageName.name == packageName }
+		.map { it.state }
+
+	operator fun get(packageName: PackageName): Flow<InstallState> = installState
 		.filter { it.installedItem.packageName == packageName }
 		.map { it.state }
 
