@@ -13,6 +13,7 @@ import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
 import javax.inject.Inject
@@ -24,6 +25,7 @@ class SettingsViewModel
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : ViewModel() {
 
+	val initialPreference get() = flow { emit(userPreferencesRepository.fetchInitialPreferences()) }
 	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	fun setLanguage(language: String) {

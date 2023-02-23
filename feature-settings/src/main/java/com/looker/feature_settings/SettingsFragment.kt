@@ -39,6 +39,7 @@ import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
 import com.looker.feature_settings.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.time.Duration
@@ -107,6 +108,11 @@ class SettingsFragment : Fragment() {
 		}
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				val defaultLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+				val initialValue = viewModel.initialPreference.first().language
+				if (initialValue != defaultLanguage) {
+					viewModel.setLanguage(defaultLanguage)
+				}
 				setChangeListener()
 				viewModel.userPreferencesFlow.collect {
 					binding.appbarLayout.setCollapsable(it.allowCollapsingToolbar)
@@ -256,13 +262,7 @@ class SettingsFragment : Fragment() {
 			return list
 		}
 
-	private val languageListCompat = AppCompatDelegate.getApplicationLocales()
-
 	private fun updateUserPreference(userPreferences: UserPreferences) {
-		val systemSetLanguage = languageListCompat.toLanguageTags()
-		if (userPreferences.language != systemSetLanguage) {
-			viewModel.setLanguage(systemSetLanguage)
-		}
 		with(binding) {
 			language.content.text =
 				translateLocale(context?.getLocaleOfCode(userPreferences.language))
