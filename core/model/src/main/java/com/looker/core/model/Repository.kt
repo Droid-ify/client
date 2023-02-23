@@ -225,12 +225,6 @@ data class Repository(
 			)
 		}, run {
 			defaultRepository(
-				"https://rfc2822.gitlab.io/fdroid-firefox/fdroid/repo", "Unofficial Firefox",
-				"An unofficial repository with some of the most well known FOSS apps not on F-Droid.",
-				21, false, "8F992BBBA0340EFE6299C7A410B36D9C8889114CA6C58013C3587CDA411B4AED", ""
-			)
-		}, run {
-			defaultRepository(
 				"https://calyxos.gitlab.io/calyx-fdroid-repo/fdroid/repo", "Calyx OS Repo",
 				"The official Calyx Labs F-Droid repository.",
 				21, false, "C44D58B4547DE5096138CB0B34A1CC99DAB3B4274412ED753FCCBFC11DC1B7B6", ""
