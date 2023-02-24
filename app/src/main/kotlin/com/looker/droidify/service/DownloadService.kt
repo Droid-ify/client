@@ -335,31 +335,16 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		} catch (e: Exception) {
 			""
 		}
-		return if (hash.isEmpty() || hash != task.release.hash) {
-			ValidationError.INTEGRITY
-		} else {
-			val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
-			if (packageInfo == null) {
-				ValidationError.FORMAT
-			} else if (packageInfo.packageName != task.packageName ||
-				packageInfo.versionCodeCompat != task.release.versionCode
-			) {
-				ValidationError.METADATA
-			} else {
-				val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
-				if (signature.isEmpty() || signature != task.release.signature) {
-					ValidationError.SIGNATURE
-				} else {
-					val permissions =
-						packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
-					if (!task.release.permissions.containsAll(permissions)) {
-						ValidationError.PERMISSIONS
-					} else {
-						null
-					}
-				}
-			}
-		}
+		if (hash.isEmpty() || hash != task.release.hash) return ValidationError.INTEGRITY
+		val packageInfo =
+			packageManager.getPackageArchiveInfoCompat(file.path) ?: return ValidationError.FORMAT
+		if (packageInfo.packageName != task.packageName
+			|| packageInfo.versionCodeCompat != task.release.versionCode) return ValidationError.METADATA
+		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
+		if (signature.isEmpty() || signature != task.release.signature) return ValidationError.SIGNATURE
+		val permissions = packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
+		if (!task.release.permissions.containsAll(permissions)) return ValidationError.PERMISSIONS
+		return null
 	}
 
 	private val stateNotificationBuilder by lazy {
