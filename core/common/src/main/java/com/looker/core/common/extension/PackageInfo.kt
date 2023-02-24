@@ -22,5 +22,5 @@ val PackageInfo.versionCodeCompat: Long
 	get() = if (SdkCheck.isPie) longVersionCode else versionCode.toLong()
 
 fun Signature.calculateHash() = MessageDigest.getInstance("MD5")
-		.digest(toCharsString().toByteArray())
-		.hex()
+	.digest(toCharsString().toByteArray())
+	.hex()

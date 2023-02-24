@@ -2,6 +2,8 @@
 
 package com.looker.droidify.utility.extension.android
 
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.os.Build
 import com.looker.core.common.SdkCheck
 
@@ -17,12 +19,42 @@ object Android {
 	val primaryPlatform: String?
 		get() = Build.SUPPORTED_64_BIT_ABIS?.firstOrNull()
 			?: Build.SUPPORTED_32_BIT_ABIS?.firstOrNull()
+}
 
-	object PackageManager {
-		// GET_SIGNATURES should always present for getPackageArchiveInfo
+// GET_SIGNATURES should always present for getPackageArchiveInfo
+@Suppress("DEPRECATION")
+private val signaturesFlag: Int
+	get() = (if (SdkCheck.isPie) PackageManager.GET_SIGNING_CERTIFICATES
+	else 0) or PackageManager.GET_SIGNATURES
+
+fun PackageManager.getPackageArchiveInfoCompat(
+	filePath: String,
+	signatureFlag: Int = signaturesFlag
+): PackageInfo? = try {
+	if (SdkCheck.isTiramisu) {
+		getPackageArchiveInfo(
+			filePath,
+			PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
+		)
+	} else {
 		@Suppress("DEPRECATION")
-		val signaturesFlag: Int
-			get() = (if (SdkCheck.isPie) android.content.pm.PackageManager.GET_SIGNING_CERTIFICATES
-			else 0) or android.content.pm.PackageManager.GET_SIGNATURES
+		getPackageArchiveInfo(filePath, signatureFlag)
 	}
+} catch (e: Exception) {
+	e.printStackTrace()
+	null
+}
+
+fun PackageManager.getInstalledPackagesCompat(
+	signatureFlag: Int = signaturesFlag
+): List<PackageInfo>? = try {
+	if (SdkCheck.isTiramisu) {
+		getInstalledPackages(PackageManager.PackageInfoFlags.of(signatureFlag.toLong()))
+	} else {
+		@Suppress("DEPRECATION")
+		getInstalledPackages(signatureFlag)
+	}
+} catch (e: Exception) {
+	e.printStackTrace()
+	null
 }

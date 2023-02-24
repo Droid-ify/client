@@ -9,7 +9,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.PackageManager
+import android.content.pm.PackageInfo
 import android.os.Build
 import androidx.work.NetworkType
 import coil.ImageLoader
@@ -34,8 +34,8 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
-import com.looker.droidify.utility.Utils.toInstalledItem
-import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.android.getInstalledPackagesCompat
+import com.looker.droidify.utility.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.Installer
 import com.topjohnwu.superuser.Shell
@@ -100,19 +100,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 			addAction(Intent.ACTION_PACKAGE_REMOVED)
 			addDataScheme("package")
 		})
-		val installedItems = try {
-			if (SdkCheck.isTiramisu) {
-				packageManager.getInstalledPackages(
-					PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-				).map { it.toInstalledItem() }
-			} else {
-				@Suppress("DEPRECATION")
-				packageManager.getInstalledPackages(Android.PackageManager.signaturesFlag)
-					.map { it.toInstalledItem() }
-			}
-		} catch (e: Exception) {
-			null
-		}
+		val installedItems =
+			packageManager.getInstalledPackagesCompat()?.map(PackageInfo::toInstalledItem)
 		installedItems?.let { Database.InstalledAdapter.putAll(it) }
 	}
 

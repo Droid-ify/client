@@ -14,17 +14,17 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android
 
-object Utils {
+fun PackageInfo.toInstalledItem(): InstalledItem {
+	val signatureString = singleSignature?.calculateHash().orEmpty()
+	return InstalledItem(
+		packageName,
+		versionName.orEmpty(),
+		versionCodeCompat,
+		signatureString
+	)
+}
 
-	fun PackageInfo.toInstalledItem(): InstalledItem {
-		val signatureString = singleSignature?.calculateHash().orEmpty()
-		return InstalledItem(
-			packageName,
-			versionName.orEmpty(),
-			versionCodeCompat,
-			signatureString
-		)
-	}
+object Utils {
 
 	fun getToolbarIcon(context: Context, resId: Int): Drawable {
 		return context.getDrawableCompat(resId).mutate()

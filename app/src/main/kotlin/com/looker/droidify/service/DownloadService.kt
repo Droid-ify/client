@@ -4,7 +4,6 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.view.ContextThemeWrapper
@@ -31,7 +30,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
 import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -339,23 +338,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		return if (hash.isEmpty() || hash != task.release.hash) {
 			ValidationError.INTEGRITY
 		} else {
-			val packageInfo = try {
-				if (SdkCheck.isTiramisu) {
-					packageManager.getPackageArchiveInfo(
-						file.path,
-						PackageManager.PackageInfoFlags.of(Android.PackageManager.signaturesFlag.toLong())
-					)
-				} else {
-					@Suppress("DEPRECATION")
-					packageManager.getPackageArchiveInfo(
-						file.path,
-						Android.PackageManager.signaturesFlag
-					)
-				}
-			} catch (e: Exception) {
-				e.printStackTrace()
-				null
-			}
+			val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
 			if (packageInfo == null) {
 				ValidationError.FORMAT
 			} else if (packageInfo.packageName != task.packageName ||
