@@ -71,8 +71,8 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 		appScope.launch {
 			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
-				InstallerType.SHIZUKU -> Shell.getShell()
-				InstallerType.ROOT -> Shizuku.pingBinder()
+				InstallerType.SHIZUKU -> Shizuku.pingBinder()
+				InstallerType.ROOT -> Shell.getShell()
 				else -> {}
 			}
 			installer()
