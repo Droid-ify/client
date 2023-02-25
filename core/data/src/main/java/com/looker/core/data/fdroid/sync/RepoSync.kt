@@ -52,13 +52,7 @@ private fun CoroutineScope.downloader(
 				repoMutableList.forEach { onDownload(it, jar) }
 			}
 			repos.onReceive { repo ->
-				val repoLocation = RepoLocation(
-					context = context,
-					url = repo.address + "/index-v1.jar",
-					timestamp = repo.timestamp,
-					username = repo.username,
-					password = repo.password
-				)
+				val repoLocation = repo.toLocation(context)
 				val repoList = requested[repoLocation]
 				if (repoList == null) {
 					requested[repoLocation] = mutableListOf(repo)
@@ -106,6 +100,14 @@ data class RepoLocation(
 	val timestamp: Long,
 	val username: String,
 	val password: String
+)
+
+fun Repo.toLocation(context: Context) = RepoLocation(
+	url = "$address/index-v1.jar",
+	context = context,
+	timestamp = timestamp,
+	username = username,
+	password = password
 )
 
 data class RepoLocJar(
