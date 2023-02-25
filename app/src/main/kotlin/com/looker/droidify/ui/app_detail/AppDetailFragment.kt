@@ -337,7 +337,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			InstallState.Queued -> AppDetailAdapter.Status.PendingInstall
 			else -> AppDetailAdapter.Status.Idle
 		}
-		updateButtons(installing = state == InstallState.Installing)
+		updateButtons(installing = state == InstallState.Installing || state == InstallState.Queued)
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 	}
 
