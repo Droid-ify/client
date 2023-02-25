@@ -313,13 +313,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.fetchInitialPreferences()
 			.installerType
 
+		val autoInstallWithSessionInstaller =
+			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
+					&& installerType == InstallerType.SESSION
+
 		if (installerType == InstallerType.ROOT
 			|| installerType == InstallerType.SHIZUKU
-			|| SdkCheck.canAutoInstall(task.release.targetSdkVersion)
+			|| autoInstallWithSessionInstaller
 		) {
 			val installItem = task.packageName.installItem(task.release.cacheFileName)
 			installer + installItem
-		} else showNotificationInstall(task)
+		}
+		showNotificationInstall(task)
 	}
 
 	private fun validatePackage(task: Task, file: File): ValidationError? {

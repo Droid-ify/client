@@ -36,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -130,7 +131,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		}
 
 		suspend fun updateAllApps() {
-			updateAppList()
+			updateAllAppsInternal()
 		}
 
 		fun setEnabled(repository: Repository, enabled: Boolean): Boolean {
@@ -453,7 +454,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				handleNextTask(false)
 				if (autoUpdate) {
 					products.cancel()
-					updateAppList()
+					updateAllAppsInternal()
 				} else {
 					val availableUpdate = products.await()
 					displayUpdatesNotification(availableUpdate)
@@ -473,7 +474,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		}
 	}
 
-	private suspend fun updateAppList() = withContext(Dispatchers.IO) {
+	private suspend fun updateAllAppsInternal() = withContext(Dispatchers.IO) {
 		val products = async {
 			Database.ProductAdapter
 				.query(
@@ -496,11 +497,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			.forEach { (installItem, repo) ->
 				val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
 					.filter { it.repositoryId == repo!!.id }
-					.map { it to repo!! }
+					.map { async { it to repo!! } }
 				Utils.startUpdate(
 					installItem.packageName,
 					installItem,
-					productRepo,
+					productRepo.awaitAll(),
 					downloadConnection
 				)
 			}
