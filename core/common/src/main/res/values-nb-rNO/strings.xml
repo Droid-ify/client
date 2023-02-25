@@ -3,7 +3,7 @@
     <string name="already_exists">Finnes allerede</string>
     <string name="always">Alltid</string>
     <string name="amoled">Svart</string>
-    <string name="author_email">Forfatter e-post</string>
+    <string name="author_email">Utviklerens e-postadresse</string>
     <string name="author_website">Utviklerens nettside</string>
     <string name="changelog">Endringslogg</string>
     <string name="cant_edit_sync_DESC">Kan ikke redigere pakkebrønnen siden den synkroniseres akkurat nå.</string>
@@ -51,7 +51,7 @@
     <string name="permissions">Tilganger</string>
     <string name="plus_more_FORMAT">+%d til</string>
     <string name="settings">Innstillinger</string>
-    <string name="processing_FORMAT">Behandler %1$s…</string>
+    <string name="processing_FORMAT">Behandler %1$s …</string>
     <string name="promotes_non_free_network_services">Promoterer ufrie nettverkstjenester</string>
     <string name="provided_by_FORMAT">Tilbudt av %s</string>
     <string name="proxy_host">Mellomtjenervert</string>
@@ -61,7 +61,7 @@
     <string name="repository">Pakkebrønn</string>
     <string name="requires_FORMAT">Krever %s</string>
     <string name="repository_unsigned_DESC">Usignert. Kunne ikke bekrefte programlisten. Vær forsiktig med å laste ned programmer fra usignerte pakkebrønner.</string>
-    <string name="root_permission">Stille Installasjon</string>
+    <string name="root_permission">Stille installasjon</string>
     <string name="root_permission_description">Tillat rot-tilganger for stille installasjoner</string>
     <string name="screenshots">Skjermavbildninger</string>
     <string name="search">Søk</string>
@@ -99,7 +99,7 @@
     <string name="notify_about_updates_summary">Vis en merknad når nye versjoner er tilgjengelig</string>
     <string name="add_repository">Legg til pakkebrønn</string>
     <string name="credits">Bidragsytere</string>
-    <string name="downloading_FORMAT">Nedlasting %s…</string>
+    <string name="downloading_FORMAT">Laster ned %s …</string>
     <string name="network_error_DESC">Nettverksfeil</string>
     <string name="no_proxy">Ingen mellomtjener</string>
     <string name="only_on_wifi">Kun på Wi-Fi</string>
@@ -152,7 +152,7 @@
     <string name="sorting_order">Sorteringsrekkefølge</string>
     <string name="sync_repositories">Synkroniser kodelagre</string>
     <string name="repositories">Pakkebrønner</string>
-    <string name="saving_details">Lagrer detaljer…</string>
+    <string name="saving_details">Lagrer detaljer …</string>
     <string name="size">Størrelse</string>
     <string name="tap_to_install_DESC">Trykk for å installere.</string>
     <string name="theme">Drakt</string>
