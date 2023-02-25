@@ -84,8 +84,9 @@ class Installer(
 	) = launch {
 		val requested = mutableSetOf<String>()
 		filter(installItems) {
-			installState.emit(it statesTo InstallState.Queued)
-			requested.add(it.packageName.name)
+			val isAdded = requested.add(it.packageName.name)
+			if (isAdded) installState.emit(it statesTo InstallState.Queued)
+			isAdded
 		}.consumeEach {
 			installState.emit(it statesTo InstallState.Installing)
 			val success = baseInstaller.performInstall(it)
