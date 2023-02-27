@@ -22,6 +22,7 @@ import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.formatSize
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
+import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
@@ -35,16 +36,16 @@ import com.looker.droidify.utility.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import com.looker.core.common.R.string as stringRes
@@ -65,6 +66,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val initialPreference: Flow<UserPreferences>
+		get() = flow {
+			emit(userPreferencesRepository.fetchInitialPreferences())
+		}
 
 	private sealed interface State {
 		data class Connecting(val name: String) : State
@@ -130,7 +136,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			}
 		}
 
-		suspend fun updateAllApps() {
+		fun updateAllApps() {
 			updateAllAppsInternal()
 		}
 
@@ -359,8 +365,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
 					scope.launch {
-						val unstableUpdates =
-							userPreferencesRepository.fetchInitialPreferences().unstableUpdate
+						val unstableUpdates = initialPreference.first().unstableUpdate
 						handleFileDownload(
 							task = task,
 							initialState = initialState,
@@ -374,7 +379,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				}
 			} else if (started != Started.NO) {
 				scope.launch {
-					val preference = userPreferencesRepository.fetchInitialPreferences()
+					val preference = initialPreference.first()
 					handleUpdates(
 						hasUpdates = hasUpdates,
 						notifyUpdates = preference.notifyUpdate,
@@ -393,23 +398,22 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		repository: Repository
 	) {
 		val job = scope.launch {
-			val request = RepositoryUpdater
-				.update(
-					this@SyncService,
-					repository,
-					unstableUpdates
-				) { stage, progress, total ->
-					launch {
-						mutableStateSubject.emit(
-							State.Syncing(
-								repository.name,
-								stage,
-								progress,
-								total
-							)
+			val request = RepositoryUpdater.update(
+				this@SyncService,
+				repository,
+				unstableUpdates
+			) { stage, progress, total ->
+				launch {
+					mutableStateSubject.emit(
+						State.Syncing(
+							repository.name,
+							stage,
+							progress,
+							total
 						)
-					}
+					)
 				}
+			}
 			currentTask = null
 			when (request) {
 				Result.Loading -> {
@@ -436,29 +440,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	) {
 		if (hasUpdates && notifyUpdates) {
 			val job = scope.launch {
-				val products = async {
-					Database.ProductAdapter
-						.query(
-							installed = true,
-							updates = true,
-							searchQuery = "",
-							section = ProductItem.Section.All,
-							order = SortOrder.NAME,
-							signal = null
-						)
-						.use {
-							it.asSequence().map(Database.ProductAdapter::transformItem).toList()
-						}
-				}
+				val availableUpdate = Database.ProductAdapter.query(
+					installed = true,
+					updates = true,
+					searchQuery = "",
+					section = ProductItem.Section.All,
+					order = SortOrder.NAME,
+					signal = null
+				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
 				currentTask = null
 				handleNextTask(false)
-				if (autoUpdate) {
-					products.cancel()
-					updateAllAppsInternal()
-				} else {
-					val availableUpdate = products.await()
-					displayUpdatesNotification(availableUpdate)
-				}
+				displayUpdatesNotification(availableUpdate)
+				if (autoUpdate) updateAllAppsInternal()
 			}
 			currentTask = CurrentTask(null, job, true, State.Finishing)
 		} else {
@@ -474,34 +467,29 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		}
 	}
 
-	private suspend fun updateAllAppsInternal() = withContext(Dispatchers.IO) {
-		val products = async {
-			Database.ProductAdapter
-				.query(
-					installed = true,
-					updates = true,
-					searchQuery = "",
-					section = ProductItem.Section.All,
-					order = SortOrder.NAME,
-					signal = null
-				)
-				.use {
-					it.asSequence().map(Database.ProductAdapter::transformItem).toList()
-				}
-		}
-		products.await().map {
-			Database.InstalledAdapter.get(it.packageName, null) to
-					Database.RepositoryAdapter.get(it.repositoryId)
-		}
+	private fun updateAllAppsInternal() {
+		val products = Database.ProductAdapter.query(
+			installed = true,
+			updates = true,
+			searchQuery = "",
+			section = ProductItem.Section.All,
+			order = SortOrder.NAME,
+			signal = null
+		).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
+		products
+			.map {
+				Database.InstalledAdapter.get(it.packageName, null) to
+						Database.RepositoryAdapter.get(it.repositoryId)
+			}
 			.filter { it.first != null && it.second != null }
 			.forEach { (installItem, repo) ->
 				val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
 					.filter { it.repositoryId == repo!!.id }
-					.map { async { it to repo!! } }
+					.map { it to repo!! }
 				Utils.startUpdate(
 					installItem.packageName,
 					installItem,
-					productRepo.awaitAll(),
+					productRepo,
 					downloadConnection
 				)
 			}
