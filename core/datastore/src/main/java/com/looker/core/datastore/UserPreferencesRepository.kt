@@ -73,7 +73,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val THEME = stringPreferencesKey("key_theme")
 		val DYNAMIC_THEME = booleanPreferencesKey("key_dynamic_theme")
 		val INSTALLER_TYPE = stringPreferencesKey("key_installer_type")
-		val AUTO_UPDATE = booleanPreferencesKey("key_auto_update")
+		val AUTO_UPDATE = booleanPreferencesKey("key_auto_updates")
 		val AUTO_SYNC = stringPreferencesKey("key_auto_sync")
 		val SORT_ORDER = stringPreferencesKey("key_sort_order")
 		val PROXY_TYPE = stringPreferencesKey("key_proxy_type")
@@ -165,7 +165,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val theme = Theme.valueOf(preferences[THEME] ?: Theme.SYSTEM.name)
 		val dynamicTheme = preferences[DYNAMIC_THEME] ?: false
 		val installerType = InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: installerName)
-		val autoUpdate = preferences[AUTO_UPDATE] ?: true
+		val autoUpdate = preferences[AUTO_UPDATE] ?: false
 		val autoSync = AutoSync.valueOf(preferences[AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name)
 		val sortOrder = SortOrder.valueOf(preferences[SORT_ORDER] ?: SortOrder.UPDATED.name)
 		val proxyType = ProxyType.valueOf(preferences[PROXY_TYPE] ?: ProxyType.DIRECT.name)
