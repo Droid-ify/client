@@ -116,12 +116,10 @@ object Downloader {
 							val inputStream = ProgressInputStream(body.byteStream()) {
 								callback(progressStart + it, progressTotal)
 							}
-							inputStream.use { input ->
-								val outputStream = if (append) FileOutputStream(
-									target,
-									true
-								) else FileOutputStream(target)
+							val outputStream = FileOutputStream(target, append)
+							inputStream.use outerUse@{ input ->
 								outputStream.use { output ->
+									if (cont.isCancelled) return@outerUse
 									input.copyTo(output)
 									output.fd.sync()
 								}
