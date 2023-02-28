@@ -83,11 +83,7 @@ internal suspend fun downloadIndexJar(repoLocation: RepoLocation): RepoLocJar = 
 		ifModifiedSince(Date(repoLocation.timestamp))
 		if (shouldAuthenticate) basicAuth(repoLocation.username, repoLocation.password)
 	}
-	val response = try {
-		client.get(request)
-	} catch (e: Exception) {
-		throw RepoSyncFailedException(e.message.toString())
-	}
+	val response = client.get(request)
 	val tempFile = Cache.getTemporaryFile(repoLocation.context)
 	val result = response.body<ByteArray>()
 	tempFile.writeBytes(result)
