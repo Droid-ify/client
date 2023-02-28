@@ -59,7 +59,7 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
