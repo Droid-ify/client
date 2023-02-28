@@ -200,4 +200,16 @@
     <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
     <string name="allow_collapsing_toolbar_DESC">Ļaujiet augšējā lietotņu joslā paplašināties un sabrukt</string>
     <string name="no_internet">Jums nav interneta savienojuma</string>
+    <string name="auto_update">Automātiski atjaunināt lietotnes</string>
+    <string name="auto_update_apps">Mēģiniet automātiski instalēt atjauninājumus</string>
+    <string name="installing">Instalēšana</string>
+    <string name="restart_app">Restartējiet Droid-ify, lai redzētu izmaiņas</string>
+    <string name="waiting_to_start_installation">Gaida instalēšanas sākšanu…</string>
+    <string name="favourites">Izlase</string>
+    <string name="enable_repo">Iespējot repozitoriju</string>
+    <string name="force_clean_up">Piespiedu tīrīšana</string>
+    <string name="material_you">Materiāls Tu</string>
+    <string name="force_clean_up_DESC">Notīra liekos failus</string>
+    <string name="material_you_desc">Izmantojiet materiāls tu krāsu motīvu</string>
+    <string name="repository_unreachable">Repozitorijs nav sasniedzams</string>
 </resources>
