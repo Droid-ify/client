@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-	namespace = "com.looker.feature_settings"
+	namespace = "com.looker.feature.repo"
 	compileSdk = Android.compileSdk
 	defaultConfig.minSdk = Android.minSdk
 
@@ -18,18 +18,6 @@ android {
 		create("alpha") {
 			initWith(getByName("debug"))
 			isMinifyEnabled = true
-		}
-		all {
-			buildConfigField(
-				type = "String",
-				name = "VERSION_NAME",
-				value = "\"v${Android.versionName}\""
-			)
-			buildConfigField(
-				type = "int",
-				name = "VERSION_CODE",
-				value = "${Android.versionCode}"
-			)
 		}
 	}
 	compileOptions {
@@ -44,12 +32,10 @@ android {
 
 dependencies {
 	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.installer))
+	implementation(project(Modules.coreData))
+	implementation(project(Modules.coreModel))
 
-	kotlin("stdlib")
 	implementation(Core.core)
-	implementation(AndroidX.appCompat)
 	implementation(AndroidX.material)
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.viewmodel)
