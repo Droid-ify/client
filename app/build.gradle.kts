@@ -127,7 +127,6 @@ dependencies {
 
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreData))
 	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.featureSettings))
 	implementation(project(Modules.installer))
