@@ -200,4 +200,16 @@
     <string name="no_internet">Neturite interneto ryšio</string>
     <string name="allow_collapsing_toolbar">Leisti viršutinei programėlių juostai išsiskleisti</string>
     <string name="allow_collapsing_toolbar_DESC">Leisti viršutinei programėlių juostai išsiskleisti ir susiskleisti</string>
+    <string name="auto_update">Automatinis programų atnaujinimas</string>
+    <string name="auto_update_apps">Pabandykite automatiškai įdiegti naujinimus</string>
+    <string name="installing">Diegimas</string>
+    <string name="restart_app">Iš naujo paleiskite Droid-ify, kad pamatytumėte pakeitimus</string>
+    <string name="waiting_to_start_installation">Laukiama, kol bus pradėtas diegimas…</string>
+    <string name="favourites">Mėgstamiausi</string>
+    <string name="repository_unreachable">Saugykla nepasiekiama</string>
+    <string name="force_clean_up">Priversti valyti</string>
+    <string name="force_clean_up_DESC">Išvalo perteklinius failus</string>
+    <string name="enable_repo">Įgalinti saugyklą</string>
+    <string name="material_you">Medžiaga Tu</string>
+    <string name="material_you_desc">Naudokite medžiaga tu spalvų temą</string>
 </resources>
