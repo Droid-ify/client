@@ -2,7 +2,10 @@ package com.looker.droidify.utility
 
 import java.io.InputStream
 
-class ProgressInputStream(
+fun InputStream.getProgress(callback: (Long) -> Unit): InputStream =
+	ProgressInputStream(this, callback)
+
+private class ProgressInputStream(
 	private val inputStream: InputStream,
 	private val callback: (Long) -> Unit,
 ) : InputStream() {

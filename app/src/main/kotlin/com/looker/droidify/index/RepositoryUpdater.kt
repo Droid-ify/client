@@ -10,8 +10,8 @@ import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.utility.ProgressInputStream
 import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.getProgress
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.emitAll
@@ -239,16 +239,12 @@ object RepositoryUpdater {
 					val unmergedProducts = mutableListOf<Product>()
 					val unmergedReleases = mutableListOf<Pair<String, List<Release>>>()
 					IndexMerger(mergerFile).use { indexMerger ->
-						ProgressInputStream(jarFile.getInputStream(indexEntry)) {
-							callback(
-								Stage.PROCESS,
-								it,
-								total
-							)
-						}.use { it ->
+						jarFile.getInputStream(indexEntry).getProgress {
+							callback(Stage.PROCESS, it, total)
+						}.use { entryStream ->
 							IndexV1Parser.parse(
 								repository.id,
-								it,
+								entryStream,
 								object : IndexV1Parser.Callback {
 									override fun onRepository(
 										mirrors: List<String>,

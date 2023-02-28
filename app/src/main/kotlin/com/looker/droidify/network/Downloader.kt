@@ -1,7 +1,7 @@
 package com.looker.droidify.network
 
 import com.looker.core.common.result.Result
-import com.looker.droidify.utility.ProgressInputStream
+import com.looker.droidify.utility.getProgress
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.Call
 import okhttp3.Callback
@@ -113,7 +113,7 @@ object Downloader {
 							val progressTotal =
 								body.contentLength().let { if (it >= 0L) it else null }
 									?.let { progressStart + it }
-							val inputStream = ProgressInputStream(body.byteStream()) {
+							val inputStream = body.byteStream().getProgress {
 								callback(progressStart + it, progressTotal)
 							}
 							val outputStream = FileOutputStream(target, append)
