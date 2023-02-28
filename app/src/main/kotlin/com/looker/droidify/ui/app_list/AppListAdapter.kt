@@ -6,13 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.extension.inflate
 import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.nullIfEmpty
@@ -25,7 +25,6 @@ import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R as CommonR
 
 class AppListAdapter(
 	private val source: AppListFragment.Source,
@@ -168,11 +167,7 @@ class AppListAdapter(
 							return@apply
 						}
 					}
-					background = ResourcesCompat.getDrawable(
-						holder.itemView.resources,
-						CommonR.drawable.background_border,
-						context.theme
-					)
+					background = context.getDrawableCompat()
 					resources.sizeScaled(6).let { setPadding(it, it, it, it) }
 				}
 				val enabled = productItem.compatible || productItem.installedVersion.isNotEmpty()

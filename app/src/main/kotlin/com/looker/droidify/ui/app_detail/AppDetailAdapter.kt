@@ -32,7 +32,6 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
@@ -78,7 +77,6 @@ import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.string as stringRes
 
@@ -435,12 +433,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			itemView as TextView
 			itemView.typeface = TypefaceExtra.medium
 			itemView.setTextSizeScaled(14)
-			itemView.background =
-				ResourcesCompat.getDrawable(
-					itemView.resources,
-					drawableRes.background_border,
-					context.theme
-				)
+			itemView.background = context.getDrawableCompat()
 			itemView.backgroundTintList =
 				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 			itemView.gravity = Gravity.CENTER
@@ -1136,12 +1129,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					text = installedItem?.version ?: product?.version
 					if (product?.canUpdate(installedItem) == true) {
 						if (background == null) {
-							background =
-								ResourcesCompat.getDrawable(
-									holder.itemView.resources,
-									CommonR.drawable.background_border,
-									context.theme
-								)
+							background = context.getDrawableCompat()
 							resources.sizeScaled(4).let { setPadding(it * 2, it, it * 2, it) }
 							backgroundTintList =
 								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
@@ -1399,11 +1387,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 				if (suggested) {
 					holder.itemView.apply {
-						background = ResourcesCompat.getDrawable(
-							holder.itemView.resources,
-							drawableRes.background_border,
-							holder.itemView.context.theme
-						)
+						background = context.getDrawableCompat()
 						backgroundTintList =
 							holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 					}
@@ -1422,12 +1406,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							else -> stringRes.unknown
 						}
 					)
-					background =
-						ResourcesCompat.getDrawable(
-							holder.itemView.resources,
-							drawableRes.background_border,
-							context.theme
-						)
+					background = context.getDrawableCompat()
 					setPadding(15, 15, 15, 15)
 					backgroundTintList =
 						context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
