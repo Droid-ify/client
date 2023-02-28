@@ -450,8 +450,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
 				currentTask = null
 				handleNextTask(false)
-				displayUpdatesNotification(availableUpdate)
-				if (autoUpdate) updateAllAppsInternal()
+				if (availableUpdate.isNotEmpty()) {
+					displayUpdatesNotification(availableUpdate)
+					if (autoUpdate) updateAllAppsInternal()
+				}
 			}
 			currentTask = CurrentTask(null, job, true, State.Finishing)
 		} else {
