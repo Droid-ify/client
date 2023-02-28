@@ -10,10 +10,11 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
-import com.looker.droidify.R
 import com.looker.droidify.databinding.ProductItemBinding
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R as CommonR
 
 class FavouriteFragmentAdapter(
 	private val onProductClick: (String) -> Unit
@@ -75,24 +76,24 @@ class FavouriteFragmentAdapter(
 			when {
 				item.canUpdate -> {
 					backgroundTintList =
-						context.getColorFromAttr(R.attr.colorSecondaryContainer)
-					setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
+						context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
 				}
 				isInstalled -> {
 					backgroundTintList =
-						context.getColorFromAttr(R.attr.colorPrimaryContainer)
-					setTextColor(context.getColorFromAttr(R.attr.colorOnPrimaryContainer))
+						context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
 				}
 				else -> {
 					setPadding(0, 0, 0, 0)
-					setTextColor(context.getColorFromAttr(R.attr.colorOnBackground))
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnBackground))
 					background = null
 					return@apply
 				}
 			}
 			background = ResourcesCompat.getDrawable(
 				holder.itemView.resources,
-				R.drawable.background_border,
+				CommonR.drawable.background_border,
 				context.theme
 			)
 			resources.sizeScaled(6).let { setPadding(it, it, it, it) }

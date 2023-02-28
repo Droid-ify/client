@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -161,12 +162,12 @@ class TabsFragment : ScreenFragment() {
 			}
 
 			searchMenuItem = add(0, R.id.toolbar_search, 0, stringRes.search)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_search))
+				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_search))
 				.setActionView(searchView)
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
 
 			sortOrderMenu = addSubMenu(0, 0, 0, stringRes.sorting_order)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sort))
+				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_sort))
 				.let { menu ->
 					menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 					val menuItems = SortOrder.values().map { sortOrder ->
@@ -181,14 +182,19 @@ class TabsFragment : ScreenFragment() {
 				}
 
 			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_sync))
+				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_sync))
 				.setOnMenuItemClickListener {
 					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
 					true
 				}
 
 			favouritesItem = add(1, 0, 0, stringRes.favourites)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_favourite_checked))
+				.setIcon(
+					Utils.getToolbarIcon(
+						toolbar.context,
+						CommonR.drawable.ic_favourite_checked
+					)
+				)
 				.setOnMenuItemClickListener {
 					view.post { screenActivity.navigateFavourites() }
 					true
@@ -281,7 +287,9 @@ class TabsFragment : ScreenFragment() {
 		updateSection()
 
 		val backgroundPath = ShapeAppearanceModel.builder()
-			.setAllCornerSizes(context?.resources?.getDimension(R.dimen.shape_medium_corner) ?: 0F)
+			.setAllCornerSizes(
+				context?.resources?.getDimension(CommonR.dimen.shape_medium_corner) ?: 0F
+			)
 			.build()
 		val background = MaterialShapeDrawable(backgroundPath)
 		val color = SurfaceColors.SURFACE_3.getColor(requireContext())

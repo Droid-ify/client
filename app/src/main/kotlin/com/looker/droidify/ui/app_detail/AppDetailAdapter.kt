@@ -77,6 +77,8 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.roundToInt
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.string as stringRes
 
@@ -121,9 +123,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private enum class SectionType(
 		val titleResId: Int,
-		val colorAttrResId: Int = R.attr.colorPrimary
+		val colorAttrResId: Int = MaterialR.attr.colorPrimary
 	) {
-		ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
+		ANTI_FEATURES(stringRes.anti_features, MaterialR.attr.colorError),
 		CHANGES(stringRes.changes),
 		LINKS(stringRes.links),
 		DONATE(stringRes.donate),
@@ -392,11 +394,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		val button = itemView.findViewById<MaterialButton>(R.id.action)!!
 
-		val actionTintNormal = button.context.getColorFromAttr(R.attr.colorPrimary)
-		val actionTintOnNormal = button.context.getColorFromAttr(R.attr.colorOnPrimary)
-		val actionTintCancel = button.context.getColorFromAttr(R.attr.colorError)
-		val actionTintOnCancel = button.context.getColorFromAttr(R.attr.colorOnError)
-		val actionTintDisabled = button.context.getColorFromAttr(R.attr.colorOutline)
+		val actionTintNormal = button.context.getColorFromAttr(MaterialR.attr.colorPrimary)
+		val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimary)
+		val actionTintCancel = button.context.getColorFromAttr(MaterialR.attr.colorError)
+		val actionTintOnCancel = button.context.getColorFromAttr(MaterialR.attr.colorOnError)
+		val actionTintDisabled = button.context.getColorFromAttr(MaterialR.attr.colorOutline)
 		val actionTintOnDisabled = button.context.getColorFromAttr(android.R.attr.colorBackground)
 
 		init {
@@ -439,7 +441,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					drawableRes.background_border,
 					context.theme
 				)
-			itemView.backgroundTintList = itemView.context.getColorFromAttr(R.attr.colorSurface)
+			itemView.backgroundTintList =
+				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 			itemView.gravity = Gravity.CENTER
 			itemView.isAllCaps = true
 			itemView.layoutParams = RecyclerView.LayoutParams(
@@ -565,7 +568,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			val title = TextView(itemView.context)
 			title.gravity = Gravity.CENTER
 			title.typeface = TypefaceExtra.light
-			title.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+			title.setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
 			title.setTextSizeScaled(24)
 			title.setText(stringRes.application_not_found)
 			itemView.addView(
@@ -575,7 +578,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			)
 			val packageName = TextView(itemView.context)
 			packageName.gravity = Gravity.CENTER
-			packageName.setTextColor(context.getColorFromAttr(R.attr.colorPrimary))
+			packageName.setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
 			packageName.setTextSizeScaled(18)
 			itemView.addView(
 				packageName,
@@ -1136,13 +1139,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							background =
 								ResourcesCompat.getDrawable(
 									holder.itemView.resources,
-									R.drawable.background_border,
+									CommonR.drawable.background_border,
 									context.theme
 								)
 							resources.sizeScaled(4).let { setPadding(it * 2, it, it * 2, it) }
 							backgroundTintList =
-								context.getColorFromAttr(R.attr.colorSecondaryContainer)
-							setTextColor(context.getColorFromAttr(R.attr.colorSecondary))
+								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+							setTextColor(context.getColorFromAttr(MaterialR.attr.colorSecondary))
 						}
 					} else {
 						if (background != null) {
@@ -1402,7 +1405,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							holder.itemView.context.theme
 						)
 						backgroundTintList =
-							holder.itemView.context.getColorFromAttr(R.attr.colorSurface)
+							holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 					}
 				} else {
 					holder.itemView.background = null
@@ -1427,8 +1430,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						)
 					setPadding(15, 15, 15, 15)
 					backgroundTintList =
-						context.getColorFromAttr(R.attr.colorSecondaryContainer)
-					setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
+						context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
 				}
 				holder.source.text =
 					context.getString(stringRes.provided_by_FORMAT, item.repository.name)
@@ -1475,7 +1478,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.compatibility.isVisible = incompatibility != null || singlePlatform != null
 				if (incompatibility != null) {
-					holder.compatibility.setTextColor(context.getColorFromAttr(R.attr.colorError))
+					holder.compatibility.setTextColor(context.getColorFromAttr(MaterialR.attr.colorError))
 					holder.compatibility.text = when (incompatibility) {
 						is Release.Incompatibility.MinSdk,
 						is Release.Incompatibility.MaxSdk,

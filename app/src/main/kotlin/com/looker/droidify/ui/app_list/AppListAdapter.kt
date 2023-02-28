@@ -24,6 +24,8 @@ import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R as CommonR
 
 class AppListAdapter(
 	private val source: AppListFragment.Source,
@@ -151,24 +153,24 @@ class AppListAdapter(
 					when {
 						productItem.canUpdate -> {
 							backgroundTintList =
-								context.getColorFromAttr(R.attr.colorSecondaryContainer)
-							setTextColor(context.getColorFromAttr(R.attr.colorOnSecondaryContainer))
+								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+							setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
 						}
 						isInstalled -> {
 							backgroundTintList =
-								context.getColorFromAttr(R.attr.colorPrimaryContainer)
-							setTextColor(context.getColorFromAttr(R.attr.colorOnPrimaryContainer))
+								context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+							setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
 						}
 						else -> {
 							setPadding(0, 0, 0, 0)
-							setTextColor(holder.status.context.getColorFromAttr(R.attr.colorOnBackground))
+							setTextColor(holder.status.context.getColorFromAttr(MaterialR.attr.colorOnBackground))
 							background = null
 							return@apply
 						}
 					}
 					background = ResourcesCompat.getDrawable(
 						holder.itemView.resources,
-						R.drawable.background_border,
+						CommonR.drawable.background_border,
 						context.theme
 					)
 					resources.sizeScaled(6).let { setPadding(it, it, it, it) }

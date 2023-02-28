@@ -2,8 +2,6 @@ package com.looker.droidify.screen
 
 import android.content.ClipboardManager
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.net.Uri
 import android.os.Bundle
 import android.text.Selection
@@ -19,10 +17,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.extension.await
-import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Repository
-import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.network.Downloader
@@ -81,8 +77,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 			if (it.containsKey(EXTRA_REPOSITORY_ID)) it.getLong(EXTRA_REPOSITORY_ID) else null
 		}
 
-	private lateinit var errorColorFilter: PorterDuffColorFilter
-
 	private var saveMenuItem: MenuItem? = null
 	private var layout: Layout? = null
 
@@ -104,16 +98,13 @@ class EditRepositoryFragment() : ScreenFragment() {
 			getString(if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository)
 
 		saveMenuItem = toolbar.menu.add(stringRes.save)
-			.setIcon(Utils.getToolbarIcon(toolbar.context, R.drawable.ic_save)).setEnabled(false)
+			.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_save)).setEnabled(false)
 			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener {
 				onSaveRepositoryClick(true)
 				true
 			}
 
 		val content = fragmentBinding.fragmentContent
-		errorColorFilter = PorterDuffColorFilter(
-			content.context.getColorFromAttr(R.attr.colorError).defaultColor, PorterDuff.Mode.SRC_IN
-		)
 
 		content.addView(editRepositoryBinding.root)
 		val layout = Layout(editRepositoryBinding)

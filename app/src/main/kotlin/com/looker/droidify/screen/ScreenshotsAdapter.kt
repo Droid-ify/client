@@ -13,11 +13,12 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
-import com.looker.droidify.R
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.dimen as dimenRes
 
 class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
@@ -34,7 +35,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		init {
 			itemView as FrameLayout
 			val surfaceColor =
-				itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor
+				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor
 
 			image = object : ShapeableImageView(context) {
 				override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -60,7 +61,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 			}
 
 			val placeholder =
-				image.context.getDrawableCompat(R.drawable.ic_screenshot_placeholder).mutate()
+				image.context.getDrawableCompat(CommonR.drawable.ic_screenshot_placeholder).mutate()
 			placeholder.setTint(surfaceColor)
 			this.placeholder = PaddingDrawable(placeholder, 2f)
 		}

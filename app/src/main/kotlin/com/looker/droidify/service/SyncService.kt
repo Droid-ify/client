@@ -29,7 +29,6 @@ import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
-import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.Utils
@@ -48,6 +47,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.math.roundToInt
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.R.style as styleRes
 
@@ -263,7 +263,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	private val stateNotificationBuilder by lazy {
 		NotificationCompat
 			.Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
-			.setSmallIcon(R.drawable.ic_sync)
+			.setSmallIcon(CommonR.drawable.ic_sync)
 			.setColor(
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
 					.getColorFromAttr(android.R.attr.colorPrimary).defaultColor
@@ -503,11 +503,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		notificationManager.notify(
 			Constants.NOTIFICATION_ID_UPDATES, NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_UPDATES)
-				.setSmallIcon(R.drawable.ic_new_releases)
+				.setSmallIcon(CommonR.drawable.ic_new_releases)
 				.setContentTitle(getString(stringRes.new_updates_available))
 				.setContentText(
 					resources.getQuantityString(
-						R.plurals.new_updates_DESC_FORMAT,
+						CommonR.plurals.new_updates_DESC_FORMAT,
 						productItems.size, productItems.size
 					)
 				)

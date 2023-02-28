@@ -28,7 +28,6 @@ import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
-import com.looker.droidify.R
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
@@ -45,6 +44,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.R.style as styleRes
 
@@ -219,7 +219,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setSmallIcon(android.R.drawable.stat_notify_error)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-						.getColor(R.color.md_theme_dark_errorContainer)
+						.getColor(CommonR.color.md_theme_dark_errorContainer)
 				)
 				.setOnlyAlertOnce(true)
 				.setContentIntent(resultPendingIntent)
@@ -297,7 +297,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.setSmallIcon(android.R.drawable.stat_sys_download_done)
 				.setColor(
 					ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-						.getColor(R.color.md_theme_dark_primaryContainer)
+						.getColor(CommonR.color.md_theme_dark_primaryContainer)
 				)
 				.setOnlyAlertOnce(true)
 				.setContentIntent(resultPendingIntent)
@@ -358,7 +358,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setSmallIcon(android.R.drawable.stat_sys_download)
 			.setColor(
 				ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-					.getColor(R.color.md_theme_dark_primaryContainer)
+					.getColor(CommonR.color.md_theme_dark_primaryContainer)
 			)
 			.addAction(
 				0, getString(stringRes.cancel), PendingIntent.getService(

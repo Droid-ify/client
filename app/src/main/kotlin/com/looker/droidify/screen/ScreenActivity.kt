@@ -17,12 +17,9 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.getPackageName
-import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
@@ -141,9 +138,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 				ViewGroup.LayoutParams.MATCH_PARENT
 			)
 		)
-		val noInternetSnackbar =
-			Snackbar.make(rootView, R.string.no_internet, Snackbar.LENGTH_SHORT)
-				.setAnimationMode(Snackbar.ANIMATION_MODE_FADE)
 
 		when {
 			ContextCompat.checkSelfPermission(
@@ -185,7 +179,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 				handleIntent(intent)
 			}
 		}
-		noInternetSnackbar.view.systemBarsMargin(16.dp)
 		if (SdkCheck.isR) {
 			window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
 			window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)

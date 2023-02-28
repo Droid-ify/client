@@ -28,7 +28,6 @@ import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
-import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -40,6 +39,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.style as styleRes
 
@@ -74,7 +74,7 @@ class ScreenshotsFragment() : DialogFragment() {
 		val window = dialog.window
 		val decorView = window?.decorView
 
-		val background = dialog.context.getColorFromAttr(R.attr.colorSurface).defaultColor
+		val background = dialog.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor
 		decorView?.setBackgroundColor(
 			ColorUtils.blendARGB(
 				0x00FFFFFF and background,
@@ -198,7 +198,7 @@ class ScreenshotsFragment() : DialogFragment() {
 				}
 				val placeholder =
 					itemView.context.getDrawableCompat(drawableRes.ic_photo_camera).mutate()
-				placeholder.setTint(itemView.context.getColorFromAttr(R.attr.colorSurface).defaultColor)
+				placeholder.setTint(itemView.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor)
 				this.placeholder = PaddingDrawable(placeholder, 4f)
 			}
 		}
