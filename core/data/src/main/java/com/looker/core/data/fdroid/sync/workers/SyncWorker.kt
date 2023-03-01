@@ -43,6 +43,10 @@ class SyncWorker @AssistedInject constructor(
 	companion object {
 		private const val SYNC_WORK = "sync_work"
 
+		fun cancelSyncWork(context: Context) {
+			WorkManager.getInstance(context).cancelUniqueWork(SYNC_WORK)
+		}
+
 		fun scheduleSyncWork(context: Context, constraints: Constraints) {
 			WorkManager.getInstance(context).apply {
 				val work = PeriodicWorkRequestBuilder<DelegatingWorker>(12L, TimeUnit.HOURS)

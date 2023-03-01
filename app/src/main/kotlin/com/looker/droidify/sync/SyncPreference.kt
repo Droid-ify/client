@@ -1,6 +1,7 @@
 package com.looker.droidify.sync
 
 import android.app.job.JobInfo
+import androidx.work.Constraints
 import androidx.work.NetworkType
 
 data class SyncPreference(
@@ -15,3 +16,12 @@ fun SyncPreference.toJobNetworkType() = when (networkType) {
 	NetworkType.UNMETERED -> JobInfo.NETWORK_TYPE_UNMETERED
 	else -> JobInfo.NETWORK_TYPE_ANY
 }
+
+fun SyncPreference.toWorkConstraints(): Constraints = workConstraints {
+	setRequiredNetworkType(networkType)
+	setRequiresCharging(pluggedIn)
+	setRequiresBatteryNotLow(batteryNotLow)
+}
+
+private fun workConstraints(block: Constraints.Builder.() -> Unit) =
+	Constraints.Builder().apply(block).build()

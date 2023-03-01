@@ -12,13 +12,14 @@ import io.ktor.client.request.get
 import io.ktor.client.request.url
 import io.ktor.http.ifModifiedSince
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
+import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.jar.JarFile
 
@@ -75,7 +76,7 @@ private fun CoroutineScope.worker(
 	}
 }
 
-internal suspend fun downloadIndexJar(repoLocation: RepoLocation): RepoLocJar = coroutineScope {
+internal suspend fun downloadIndexJar(repoLocation: RepoLocation): RepoLocJar = withContext(Dispatchers.IO) {
 	val shouldAuthenticate =
 		repoLocation.username.isNotEmpty() && repoLocation.password.isNotEmpty()
 	val request = HttpRequestBuilder().apply {
