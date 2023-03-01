@@ -42,7 +42,6 @@ class SyncWorker @AssistedInject constructor(
 
 	companion object {
 		private const val SYNC_WORK = "sync_work"
-		private const val SYNC_WORK_PERIODIC = "sync_work"
 
 		fun scheduleSyncWork(context: Context, constraints: Constraints) {
 			WorkManager.getInstance(context).apply {
@@ -50,11 +49,7 @@ class SyncWorker @AssistedInject constructor(
 					.setConstraints(constraints)
 					.setInputData(SyncWorker::class.delegatedData())
 					.build()
-				enqueueUniquePeriodicWork(
-					SYNC_WORK_PERIODIC,
-					ExistingPeriodicWorkPolicy.REPLACE,
-					work
-				)
+				enqueueUniquePeriodicWork(SYNC_WORK, ExistingPeriodicWorkPolicy.REPLACE, work)
 			}
 		}
 
