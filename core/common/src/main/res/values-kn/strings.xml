@@ -197,4 +197,16 @@
     <string name="installed_applications">ಸ್ಥಾಪಿಸಲಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು</string>
     <string name="sort_filter">ವಿಂಗಡಿಸಿ ಮತ್ತು ಫಿಲ್ಟರ್ ಮಾಡಿ</string>
     <string name="new_applications">ಹೊಸ ಅಪ್ಲಿಕೇಶನ್‌ಗಳು</string>
+    <string name="auto_update">ಅಪ್ಲಿಕೇಶನ್‌ಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ನವೀಕರಿಸಿ</string>
+    <string name="auto_update_apps">ನವೀಕರಣಗಳನ್ನು ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಸ್ಥಾಪಿಸಲು ಪ್ರಯತ್ನಿಸಿ</string>
+    <string name="installing">ಸ್ಥಾಪಿಸಲಾಗುತ್ತಿದೆ</string>
+    <string name="waiting_to_start_installation">ಅನುಸ್ಥಾಪನೆಯನ್ನು ಪ್ರಾರಂಭಿಸಲು ನಿರೀಕ್ಷಿಸಲಾಗುತ್ತಿದೆ…</string>
+    <string name="favourites">ಮೆಚ್ಚಿನವುಗಳು</string>
+    <string name="enable_repo">ರೆಪೊಸಿಟರಿಯನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
+    <string name="force_clean_up">ಬಲವಂತವಾಗಿ ಸ್ವಚ್ಛಗೊಳಿಸಿ</string>
+    <string name="force_clean_up_DESC">ಅನಗತ್ಯ ಫೈಲ್‌ಗಳನ್ನು ಸ್ವಚ್ಛಗೊಳಿಸುತ್ತದೆ</string>
+    <string name="material_you">ವಸ್ತು ನೀವು</string>
+    <string name="material_you_desc">ವಸ್ತು ನೀವು ಬಣ್ಣದ ಥೀಮ್ ಬಳಸಿ</string>
+    <string name="repository_unreachable">ರೆಪೊಸಿಟರಿಯನ್ನು ತಲುಪಲಾಗುವುದಿಲ್ಲ</string>
+    <string name="restart_app">ಬದಲಾವಣೆಗಳನ್ನು ನೋಡಲು Droid-ify ಅನ್ನು ಮರುಪ್ರಾರಂಭಿಸಿ</string>
 </resources>
