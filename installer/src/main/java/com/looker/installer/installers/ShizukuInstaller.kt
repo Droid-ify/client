@@ -29,24 +29,36 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 		val packageName = installItem.packageName.name
 		try {
 			val size =
-				releaseFileLength.takeIf { it >= 0 } ?: throw IllegalStateException()
+				releaseFileLength.takeIf { it >= 0 } ?: run {
+					cont.cancel()
+					throw IllegalStateException()
+				}
+			if (cont.isCompleted) return@suspendCancellableCoroutine
 			context.contentResolver.openInputStream(uri).use {
 				val createCommand =
 					if (SdkCheck.isNougat) "pm install-create --user current -i $packageName -S $size"
 					else "pm install-create -i $packageName -S $size"
 				val createResult = exec(createCommand)
 				sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
-					?: throw RuntimeException("Failed to create install session")
+					?: run {
+						cont.cancel()
+						throw RuntimeException("Failed to create install session")
+					}
+				if (cont.isCompleted) return@suspendCancellableCoroutine
 
 				val writeResult = exec("pm install-write -S $size $sessionId base -", it)
 				if (writeResult.resultCode != 0) {
+					cont.cancel()
 					throw RuntimeException("Failed to write APK to session $sessionId")
 				}
+				if (cont.isCompleted) return@suspendCancellableCoroutine
 
 				val commitResult = exec("pm install-commit $sessionId")
 				if (commitResult.resultCode != 0) {
+					cont.cancel()
 					throw RuntimeException("Failed to commit install session $sessionId")
 				}
+				if (cont.isCompleted) return@suspendCancellableCoroutine
 				cont.resume(InstallState.Installed)
 			}
 		} catch (e: Exception) {
