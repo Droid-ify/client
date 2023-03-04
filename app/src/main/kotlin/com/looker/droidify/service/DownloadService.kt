@@ -317,7 +317,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
 					&& installerType == InstallerType.SESSION
 
-		if (installerType == InstallerType.ROOT
+		if (
+			installerType == InstallerType.ROOT
 			|| installerType == InstallerType.SHIZUKU
 			|| autoInstallWithSessionInstaller
 		) {
