@@ -14,6 +14,7 @@ import android.text.style.ForegroundColorSpan
 import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
+import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.asSequence
@@ -45,6 +46,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
 import com.looker.core.common.R as CommonR
@@ -96,6 +98,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	private val tasks = mutableListOf<Task>()
 	private var currentTask: CurrentTask? = null
 
+	private var updateNotificationBlockerFragment: WeakReference<Fragment>? = null
+
 	private val downloadConnection = Connection(DownloadService::class.java)
 
 	enum class SyncRequest { AUTO, MANUAL, FORCE }
@@ -138,6 +142,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 		fun updateAllApps() {
 			updateAllAppsInternal()
+		}
+
+		fun setUpdateNotificationBlocker(fragment: Fragment?) {
+			updateNotificationBlockerFragment = fragment?.let(::WeakReference)
+			if (fragment != null) {
+				notificationManager.cancel(Constants.NOTIFICATION_ID_UPDATES)
+			}
 		}
 
 		fun setEnabled(repository: Repository, enabled: Boolean): Boolean {
@@ -450,7 +461,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
 				currentTask = null
 				handleNextTask(false)
-				if (availableUpdate.isNotEmpty()) {
+				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
+				if (!blocked && availableUpdate.isNotEmpty()) {
 					displayUpdatesNotification(availableUpdate)
 					if (autoUpdate) updateAllAppsInternal()
 				}
