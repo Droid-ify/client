@@ -34,7 +34,6 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.Request
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URL
@@ -98,7 +97,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 			getString(if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository)
 
 		saveMenuItem = toolbar.menu.add(stringRes.save)
-			.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_save)).setEnabled(false)
+			.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_save))
+			.setEnabled(false)
 			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener {
 				onSaveRepositoryClick(true)
 				true
@@ -413,11 +413,16 @@ class EditRepositoryFragment() : ScreenFragment() {
 	}
 
 	private suspend fun addressValid(address: String, authentication: String) =
-		withContext(Dispatchers.IO) {
-			val result = Downloader.createCall(
-				Request.Builder().method("HEAD", null).url(address),
-				authentication
-			).await()
+		withContext(Dispatchers.IO) scope@ {
+			val result = Downloader.createCall {
+				method("HEAD", null)
+				try {
+					url(address)
+				} catch (e: IllegalArgumentException) {
+					return@createCall
+				}
+				if (authentication.isNotEmpty()) addHeader("Authorization", authentication)
+			}.await()
 			result.code == HttpURLConnection.HTTP_OK
 		}
 
