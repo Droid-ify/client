@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:background="?colorSurface"
         app:elevation="0dp"
-        app:liftOnScroll="false"
-        app:layout_behavior="com.looker.core.common.view.CustomCollapsingBehaviour">
+        app:layout_behavior="com.looker.core.common.view.CustomCollapsingBehaviour"
+        app:liftOnScroll="false">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             style="?attr/collapsingToolbarLayoutLargeStyle"
             android:layout_width="match_parent"
             android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
