@@ -1,7 +1,9 @@
 package com.looker.installer
 
 import android.content.Context
+import com.looker.core.common.Constants
 import com.looker.core.common.extension.filter
+import com.looker.core.common.extension.notificationManager
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.newer.PackageName
@@ -43,6 +45,7 @@ class Installer(
 				InstallerType.ROOT -> RootInstaller(context)
 			}
 		installer(
+			context = context,
 			baseInstaller = baseInstaller!!,
 			installItems = installItems,
 			installState = installState
@@ -78,6 +81,7 @@ class Installer(
 		.map { it.state }
 
 	private fun CoroutineScope.installer(
+		context: Context,
 		baseInstaller: BaseInstaller,
 		installItems: ReceiveChannel<InstallItem>,
 		installState: MutableStateFlow<InstallItemState>
@@ -91,6 +95,10 @@ class Installer(
 			installState.emit(it statesTo InstallState.Installing)
 			val success = baseInstaller.performInstall(it)
 			installState.emit(it statesTo success)
+			context.notificationManager.cancel(
+				"download-${it.packageName.name}",
+				Constants.NOTIFICATION_ID_DOWNLOADING
+			)
 			requested.remove(it.packageName.name)
 		}
 	}
