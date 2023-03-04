@@ -39,17 +39,26 @@ fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_bo
 	ResourcesCompat.getDrawable(resources, resId, theme) ?: ContextCompat.getDrawable(this, resId)!!
 
 fun Intent.getPackageName(): String? {
-	val uri = data ?: return null
-	val scheme = uri.scheme ?: return null
-	val host = uri.host ?: return null
+	val uri = data
 	return when {
-		scheme == "package" || scheme == "fdroid.app" -> uri.schemeSpecificPart?.nullIfEmpty()
-		scheme == "market" && uri.host == "details" -> uri.getQueryParameter("id")?.nullIfEmpty()
-		uri.scheme in setOf("http", "https") -> {
-			if (host == "f-droid.org" || host.endsWith(".f-droid.org") || host == "apt.izzysoft.de") {
-				uri.lastPathSegment?.nullIfEmpty()
-			} else null
+		uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
+			uri.schemeSpecificPart?.nullIfEmpty()
 		}
-		else -> null
+		uri?.scheme == "market" && uri.host == "details" -> {
+			uri.getQueryParameter("id")?.nullIfEmpty()
+		}
+		uri != null && uri.scheme in setOf("http", "https") -> {
+			val host = uri.host.orEmpty()
+			if (host == "f-droid.org" || host.endsWith(".f-droid.org")) {
+				uri.lastPathSegment?.nullIfEmpty()
+			} else if (host == "apt.izzysoft.de") {
+				uri.lastPathSegment?.nullIfEmpty()
+			} else {
+				null
+			}
+		}
+		else -> {
+			null
+		}
 	}
 }
