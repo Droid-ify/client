@@ -18,7 +18,7 @@
     <string name="parsing_index_error_DESC">Nezdařilo se zpracovat soubor indexu.</string>
     <string name="password">Heslo</string>
     <string name="password_missing">Chybí heslo</string>
-    <string name="project_website">Webová stránka projektu</string>
+    <string name="project_website">Web projektu</string>
     <string name="proxy_host">Hostitel proxy</string>
     <string name="recently_updated">Nedávno aktualizované</string>
     <string name="repository">Zdroj</string>
@@ -43,7 +43,7 @@
     <string name="delete_repository_DESC">Smazat zdroj\?</string>
     <string name="description">Popis</string>
     <string name="details">Detaily</string>
-    <string name="donate">Darovat</string>
+    <string name="donate">Přispět</string>
     <string name="downloaded_FORMAT">Staženo %s</string>
     <string name="downloading">Stahuji</string>
     <string name="downloading_FORMAT">Stahuji %s…</string>
@@ -106,7 +106,7 @@
     <string name="permissions">Oprávnění</string>
     <string name="plus_more_FORMAT">+%d více</string>
     <string name="settings">Nastavení</string>
-    <string name="promotes_non_free_network_services">Propaguje ne-svobodné internetové služby</string>
+    <string name="promotes_non_free_network_services">Propaguje nesvobodné internetové služby</string>
     <string name="promotes_non_free_software">Propaguje ne-svobodný software</string>
     <string name="provided_by_FORMAT">Poskytuje %s</string>
     <string name="proxy">Proxy</string>
@@ -148,7 +148,7 @@
     <string name="unsigned">Nepodepsáno</string>
     <string name="unstable_updates">Nestabilní aktualizace</string>
     <string name="unverified">Neověřeno</string>
-    <string name="update">Aktualizace</string>
+    <string name="update">Aktualizovat</string>
     <string name="updates">Aktualizace</string>
     <string name="upstream_source_code_is_not_free">Originální zdrojový kód není svobodný</string>
     <string name="username">Uživatelské jméno</string>
@@ -159,7 +159,7 @@
     <string name="versions">Verze</string>
     <string name="waiting_to_start_download">Čekám na zahájení stahování…</string>
     <string name="whats_new">Co je nového</string>
-    <string name="website">Webová stránka</string>
+    <string name="website">Web</string>
     <string name="prefs_language_title">Jazyk</string>
     <string name="prefs_personalization">Personalizace</string>
     <string name="show_less">Zobrazit méně</string>
@@ -174,7 +174,7 @@
     <string name="amoled">Černá</string>
     <string name="application">Aplikace</string>
     <string name="author_email">E-mail autora</string>
-    <string name="author_website">Webová stránka autora</string>
+    <string name="author_website">Web autora</string>
     <string name="compiled_for_debugging">Zkompilováno pro ladění</string>
     <string name="installer">Instalátor</string>
     <string name="legacy_installer">Původní instalátor</string>
@@ -184,14 +184,14 @@
     <string name="unstable_updates_summary">Navrhnout instalaci nestabilních verzí</string>
     <string name="select_mirror">Vybrat mirror</string>
     <plurals name="days">
-        <item quantity="one">Den</item>
-        <item quantity="few">Dny</item>
-        <item quantity="other">Dní</item>
+        <item quantity="one">den</item>
+        <item quantity="few">dny</item>
+        <item quantity="other">dní</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Hodina</item>
-        <item quantity="few">Hodiny</item>
-        <item quantity="other">Hodin</item>
+        <item quantity="one">hodina</item>
+        <item quantity="few">hodiny</item>
+        <item quantity="other">hodin</item>
     </plurals>
     <string name="cleanup_title">Doba trvání úklidu</string>
     <string name="cleanup_description">Čas vyžadovaný k opětovné kontrole úklidu</string>
