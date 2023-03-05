@@ -915,7 +915,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			action = newAction
 			val index = items.indexOf(Item.InstallButtonItem)
 			if (index >= 0) {
-				notifyItemChanged(index)
+				notifyItemChanged(index, Payload.REFRESH)
 			}
 		}
 	}
@@ -925,7 +925,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	fun setStatus(newStatus: Status) {
 		val statusIndex = items.indexOf(Item.DownloadStatusItem)
 		if (status != newStatus && statusIndex >= 0) {
-			status = newStatus
 			when (newStatus) {
 				is Status.Downloading -> notifyItemChanged(statusIndex, Payload.STATUS)
 				Status.Connecting -> notifyItemChanged(statusIndex, Payload.STATUS)
@@ -934,6 +933,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				Status.Pending -> notifyItemInserted(statusIndex)
 				Status.Idle -> notifyItemRemoved(statusIndex)
 			}
+			status = newStatus
 		}
 	}
 
@@ -1093,37 +1093,33 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.APP_INFO -> {
 				holder as AppInfoViewHolder
 				item as Item.AppInfoItem
-				val updateStatus = Payload.STATUS in payloads
-				val updateAll = !updateStatus
 				var showAuthor = item.product.author.name.isNotEmpty()
-				if (updateAll) {
-					holder.icon.load(
-						item.product.packageName.icon(
-							view = holder.icon,
-							icon = item.product.icon,
-							metadataIcon = item.product.metadataIcon,
-							repository = item.repository
-						)
+				holder.icon.load(
+					item.product.packageName.icon(
+						view = holder.icon,
+						icon = item.product.icon,
+						metadataIcon = item.product.metadataIcon,
+						repository = item.repository
 					)
-					val authorText =
-						if (showAuthor) buildSpannedString {
+				)
+				val authorText =
+					if (showAuthor) buildSpannedString {
+						append("by ")
+						bold { append(item.product.author.name) }
+					} else buildSpannedString { bold { append(item.product.packageName) } }
+				holder.authorName.text = authorText
+				holder.packageName.text = authorText
+				if (item.product.author.name.isNotEmpty()) {
+					holder.icon.setOnClickListener {
+						showAuthor = !showAuthor
+						val newText = if (showAuthor) buildSpannedString {
 							append("by ")
 							bold { append(item.product.author.name) }
 						} else buildSpannedString { bold { append(item.product.packageName) } }
-					holder.authorName.text = authorText
-					holder.packageName.text = authorText
-					if (item.product.author.name.isNotEmpty()) {
-						holder.icon.setOnClickListener {
-							showAuthor = !showAuthor
-							val newText = if (showAuthor) buildSpannedString {
-								append("by ")
-								bold { append(item.product.author.name) }
-							} else buildSpannedString { bold { append(item.product.packageName) } }
-							holder.textSwitcher.setText(newText)
-						}
+						holder.textSwitcher.setText(newText)
 					}
-					holder.name.text = item.product.name
 				}
+				holder.name.text = item.product.name
 
 				holder.version.apply {
 					text = installedItem?.version ?: product?.version

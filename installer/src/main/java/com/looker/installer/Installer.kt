@@ -21,10 +21,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class Installer(
@@ -34,6 +32,7 @@ class Installer(
 	private val installItems = Channel<InstallItem>()
 	private val uninstallItems = Channel<PackageName>()
 	private val installState = MutableStateFlow(InstallItemState.EMPTY)
+	private val installQueue = MutableStateFlow<Set<String>>(setOf())
 	private var baseInstaller: BaseInstaller? = null
 
 	suspend operator fun invoke() = coroutineScope {
@@ -48,13 +47,13 @@ class Installer(
 			context = context,
 			baseInstaller = baseInstaller!!,
 			installItems = installItems,
+			installQueue = installQueue,
 			installState = installState
 		)
 		uninstaller(
 			baseInstaller = baseInstaller!!,
 			uninstallItems = uninstallItems
 		)
-
 	}
 
 	fun close() {
@@ -72,24 +71,24 @@ class Installer(
 		uninstallItems.send(packageName)
 	}
 
-	operator fun get(packageName: String): Flow<InstallState> = installState
-		.filter { it.installedItem.packageName.name == packageName }
-		.map { it.state }
-
-	operator fun get(packageName: PackageName): Flow<InstallState> = installState
-		.filter { it.installedItem.packageName == packageName }
-		.map { it.state }
+	fun getStatus() = combine(installState, installQueue) { current, queue ->
+		InstallerQueueState(
+			currentItem = current,
+			queued = queue
+		)
+	}
 
 	private fun CoroutineScope.installer(
 		context: Context,
 		baseInstaller: BaseInstaller,
 		installItems: ReceiveChannel<InstallItem>,
+		installQueue: MutableStateFlow<Set<String>>,
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
 		val requested = mutableSetOf<String>()
 		filter(installItems) { item ->
 			val isAdded = requested.add(item.packageName.name)
-			if (isAdded) installState.emit(item statesTo InstallState.Queued)
+			if (isAdded) installQueue.emit(requested)
 			isAdded
 		}.consumeEach { item ->
 			installState.emit(item statesTo InstallState.Installing)
@@ -110,5 +109,14 @@ class Installer(
 		uninstallItems.consumeEach {
 			baseInstaller.performUninstall(it)
 		}
+	}
+}
+
+data class InstallerQueueState(
+	val currentItem: InstallItemState,
+	val queued: Set<String>
+) {
+	companion object {
+		val EMPTY = InstallerQueueState(InstallItemState.EMPTY, emptySet())
 	}
 }

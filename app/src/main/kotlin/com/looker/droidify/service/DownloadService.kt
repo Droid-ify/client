@@ -39,8 +39,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -58,6 +59,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	private val installerType = flow {
+		emit(userPreferencesRepository.fetchInitialPreferences().installerType)
+	}
 
 	@Inject
 	lateinit var installer: Installer
@@ -106,7 +111,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				repository.authentication
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-				runBlocking { publishSuccess(task) }
+				scope.launch(Dispatchers.Main) { publishSuccess(task) }
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
@@ -308,18 +313,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	private suspend fun publishSuccess(task: Task) {
+		val currentInstaller = installerType.first()
 		mutableState.emit(State.Success(task.packageName, task.release))
-		val installerType = userPreferencesRepository
-			.fetchInitialPreferences()
-			.installerType
-
 		val autoInstallWithSessionInstaller =
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
-					&& installerType == InstallerType.SESSION
+					&& currentInstaller == InstallerType.SESSION
 
-		if (
-			installerType == InstallerType.ROOT
-			|| installerType == InstallerType.SHIZUKU
+		if (currentInstaller == InstallerType.ROOT
+			|| currentInstaller == InstallerType.SHIZUKU
 			|| autoInstallWithSessionInstaller
 		) {
 			val installItem = task.packageName.installItem(task.release.cacheFileName)

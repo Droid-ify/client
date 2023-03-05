@@ -11,6 +11,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -35,6 +36,7 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.Installer
+import com.looker.installer.InstallerQueueState
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,6 +86,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	@Inject
 	lateinit var installer: Installer
+
+	private val viewModel: AppDetailViewModel by viewModels()
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -226,7 +230,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 						}
 				}
 				launch {
-					installer[packageName].collectLatest { updateInstallState(it) }
+					viewModel.installerState.collectLatest { updateInstallState(it) }
 				}
 			}
 		}
@@ -331,13 +335,18 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	private fun updateInstallState(state: InstallState) {
-		val status = when (state) {
-			InstallState.Installing -> AppDetailAdapter.Status.Installing
-			InstallState.Queued -> AppDetailAdapter.Status.PendingInstall
-			else -> AppDetailAdapter.Status.Idle
-		}
-		updateButtons(installing = state == InstallState.Installing || state == InstallState.Queued)
+	private fun updateInstallState(installerState: InstallerQueueState) {
+		val status = if (
+			packageName == installerState.currentItem.installedItem.packageName.name
+			&& installerState.currentItem.state == InstallState.Installing
+		) {
+			AppDetailAdapter.Status.Installing
+		} else if (packageName in installerState.queued) {
+			AppDetailAdapter.Status.PendingInstall
+		} else AppDetailAdapter.Status.Idle
+		val shouldDisableAction =
+			packageName == installerState.currentItem.installedItem.packageName.name || packageName in installerState.queued
+		updateButtons(installing = shouldDisableAction)
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 	}
 
@@ -384,15 +393,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		when (action) {
 			AppDetailAdapter.Action.INSTALL,
 			AppDetailAdapter.Action.UPDATE,
-			-> {
-				val installedItem = installed?.installedItem
-				startUpdate(
-					packageName,
-					installedItem,
-					products,
-					downloadConnection
-				)
-			}
+			-> startUpdate(
+				packageName,
+				installed?.installedItem,
+				products,
+				downloadConnection
+			)
 			AppDetailAdapter.Action.LAUNCH -> {
 				val launcherActivities = installed?.launcherActivities.orEmpty()
 				if (launcherActivities.size >= 2) {
