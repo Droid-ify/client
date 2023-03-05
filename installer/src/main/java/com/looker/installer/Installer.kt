@@ -87,19 +87,19 @@ class Installer(
 		installState: MutableStateFlow<InstallItemState>
 	) = launch {
 		val requested = mutableSetOf<String>()
-		filter(installItems) {
-			val isAdded = requested.add(it.packageName.name)
-			if (isAdded) installState.emit(it statesTo InstallState.Queued)
+		filter(installItems) { item ->
+			val isAdded = requested.add(item.packageName.name)
+			if (isAdded) installState.emit(item statesTo InstallState.Queued)
 			isAdded
-		}.consumeEach {
-			installState.emit(it statesTo InstallState.Installing)
-			val success = baseInstaller.performInstall(it)
-			installState.emit(it statesTo success)
+		}.consumeEach { item ->
+			installState.emit(item statesTo InstallState.Installing)
+			val success = baseInstaller.performInstall(item)
+			installState.emit(item statesTo success)
 			context.notificationManager.cancel(
-				"download-${it.packageName.name}",
+				"download-${item.packageName.name}",
 				Constants.NOTIFICATION_ID_DOWNLOADING
 			)
-			requested.remove(it.packageName.name)
+			requested.remove(item.packageName.name)
 		}
 	}
 
