@@ -16,11 +16,11 @@
     <string name="available">探索</string>
     <string name="bug_tracker">错误追踪器</string>
     <string name="cancel">取消</string>
-    <string name="cant_edit_sync_DESC">无法编辑存储库，因为它现在正在同步。</string>
+    <string name="cant_edit_sync_DESC">存储库正在同步时无法编辑。</string>
     <string name="changelog">更新日志</string>
     <string name="changes">更新内容</string>
     <string name="checking_repository">检查存储库…</string>
-    <string name="compiled_for_debugging">调试目的的编译构建</string>
+    <string name="compiled_for_debugging">用于调试的版本</string>
     <string name="confirmation">确认</string>
     <string name="connecting">连接中…</string>
     <string name="contains_non_free_media">包含非自由媒体</string>
@@ -47,16 +47,13 @@
     <string name="http_proxy">HTTP 代理</string>
     <string name="ignore_all_updates">忽略所有新版本</string>
     <string name="ignore_this_update">忽略此版本</string>
-    <string name="incompatible_api_DESC_FORMAT">您的 %1$s（API 版本 %2$d）不受支持。 %3$s</string>
+    <string name="incompatible_api_DESC_FORMAT">您的 %1$s（API 版本 %2$d）不受支持。%3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">最高 API 版本为 %d。</string>
     <string name="incompatible_api_min_DESC_FORMAT">最低 API 版本为 %d。</string>
     <string name="incompatible_features_DESC">缺少的功能。</string>
-    <string name="incompatible_older_DESC">此版本比您设备上安装的版本旧。
-     请先卸载您已有的版本。</string>
-    <string name="incompatible_platforms_DESC_FORMAT">您的 %1$s 平台不受支持。
-     支持的平台：%2$s。</string>
-    <string name="incompatible_signature_DESC">此版本和您设备上安装的版本使用了不同的证书来签名。
-        请先卸载您已有的版本。</string>
+    <string name="incompatible_older_DESC">此版本比您设备上安装的版本旧。请先卸载现有的版本。</string>
+    <string name="incompatible_platforms_DESC_FORMAT">您的 %1$s 平台不受支持。支持的平台：%2$s。</string>
+    <string name="incompatible_signature_DESC">此版本和您设备上安装的版本使用了不同的证书来签名。请先卸载现有的版本。</string>
     <string name="incompatible_version">版本不兼容</string>
     <string name="incompatible_versions">版本不兼容</string>
     <string name="incompatible_versions_summary">显示与设备不兼容的应用版本</string>
@@ -92,12 +89,12 @@
     <string name="no_description_available_DESC">没有描述可用</string>
     <string name="no_matching_applications_found">找不到任何这样的应用</string>
     <string name="no_proxy">无代理</string>
-    <string name="notify_about_updates">通知新应用版本</string>
+    <string name="notify_about_updates">应用新版本通知</string>
     <string name="notify_about_updates_summary">有新版本可用时显示通知</string>
     <string name="number_of_applications">应用数量</string>
     <string name="ok">好的</string>
     <string name="only_compatible_with_FORMAT">仅与 %s 兼容</string>
-    <string name="only_on_wifi">仅连到 Wi-Fi 时</string>
+    <string name="only_on_wifi">仅在连接 Wi-Fi 时</string>
     <string name="open_DESC_FORMAT">打开 %s？</string>
     <string name="other">其他</string>
     <string name="parsing_index_error_DESC">无法解析索引文件。</string>
@@ -119,10 +116,10 @@
     <string name="repositories">存储库</string>
     <string name="repository">存储库</string>
     <string name="repository_not_used_DESC">您还未启用此存储库。您需要启用它以查看其中的应用。</string>
-    <string name="repository_unsigned_DESC">未签名。无法验证应用列表。从未签名的存储库下载应用时要小心。</string>
+    <string name="repository_unsigned_DESC">未签名，无法验证应用列表。从未签名的存储库下载应用时需谨慎。</string>
     <string name="requires_FORMAT">需要 %s</string>
     <string name="root_permission">后台安装</string>
-    <string name="root_permission_description">允许 Root 权限以启用后台安装</string>
+    <string name="root_permission_description">授予 Root 权限以启用后台安装</string>
     <string name="save">保存</string>
     <string name="saving_details">保存详情中…</string>
     <string name="screenshots">截图</string>
@@ -136,7 +133,7 @@
     <string name="size">大小</string>
     <string name="skip">跳过</string>
     <string name="socks_proxy">SOCKS 代理</string>
-    <string name="sorting_order">排序顺序</string>
+    <string name="sorting_order">排序依据</string>
     <string name="source_code">源代码</string>
     <string name="source_code_no_longer_available">源代码不再可用</string>
     <string name="suggested">建议</string>
@@ -153,7 +150,7 @@
     <string name="uninstall">卸载</string>
     <string name="unknown">未知</string>
     <string name="unknown_error_DESC">未知错误。</string>
-    <string name="unknown_FORMAT">未知： %s</string>
+    <string name="unknown_FORMAT">未知：%s</string>
     <string name="unsigned">未签名</string>
     <string name="unstable_updates">不稳定的更新</string>
     <string name="unstable_updates_summary">建议安装不稳定的版本</string>
@@ -172,7 +169,7 @@
     <string name="website">网站</string>
     <string name="prefs_language_title">语言</string>
     <string name="prefs_personalization">个性化</string>
-    <string name="show_less">显示较少程序</string>
+    <string name="show_less">收起</string>
     <string name="installed_applications">已安装应用</string>
     <string name="sort_filter">排序 &amp; 过滤</string>
     <string name="latest">最新</string>
@@ -188,25 +185,25 @@
         <item quantity="other">天</item>
     </plurals>
     <string name="only_on_wifi_with_charging">仅在连接 Wi-Fi 和充电时</string>
-    <string name="cleanup_title">清理持续时间</string>
-    <string name="cleanup_description">清理重新检查所需的时间</string>
+    <string name="cleanup_title">缓存持续时间</string>
+    <string name="cleanup_description">重新检查存储库更新的时间间隔</string>
     <plurals name="hours">
         <item quantity="other">小时</item>
     </plurals>
-    <string name="no_internet">您没有互联网连接</string>
+    <string name="no_internet">您没有连接互联网</string>
     <string name="io_error_DESC">无法执行某些操作。</string>
     <string name="allow_collapsing_toolbar_DESC">允许顶部应用栏展开和折叠</string>
     <string name="allow_collapsing_toolbar">允许顶部应用栏展开</string>
-    <string name="auto_update">自动更新应用程序</string>
+    <string name="auto_update">自动更新应用</string>
     <string name="auto_update_apps">尝试自动安装更新</string>
     <string name="installing">安装</string>
-    <string name="favourites">最爱</string>
-    <string name="material_you_desc">使用颜色主题的材料</string>
-    <string name="repository_unreachable">存储库无法到达</string>
-    <string name="force_clean_up">强迫清理</string>
+    <string name="favourites">收藏夹</string>
+    <string name="material_you_desc">使用 Material You 配色</string>
+    <string name="repository_unreachable">存储库无法访问</string>
+    <string name="force_clean_up">强制清除缓存</string>
     <string name="force_clean_up_DESC">清理冗余文件</string>
-    <string name="enable_repo">启用存储库</string>
-    <string name="material_you">物质你</string>
+    <string name="enable_repo">启用此存储库</string>
+    <string name="material_you">Material You 设计</string>
     <string name="waiting_to_start_installation">等待开始安装…</string>
-    <string name="restart_app">重新启动droid-ifie查看更改</string>
+    <string name="restart_app">重新启动 Droid-ify 使更改生效</string>
 </resources>
