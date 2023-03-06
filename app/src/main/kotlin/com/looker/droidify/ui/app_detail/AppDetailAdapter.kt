@@ -22,7 +22,6 @@ import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
 import android.text.style.URLSpan
 import android.text.util.Linkify
-import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -1416,11 +1415,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						TimeZone.getDefault().toZoneId()
 					).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 				} catch (e: Exception) {
-					Log.e(
-						"AppDetailAdapter",
-						"onBindViewHolder: Date cannot be formatted locally",
-						e
-					)
 					e.printStackTrace()
 					holder.dateFormat.format(item.release.added)
 				}

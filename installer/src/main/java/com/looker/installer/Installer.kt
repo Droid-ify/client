@@ -17,12 +17,14 @@ import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.statesTo
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class Installer(
@@ -32,7 +34,7 @@ class Installer(
 	private val installItems = Channel<InstallItem>()
 	private val uninstallItems = Channel<PackageName>()
 	private val installState = MutableStateFlow(InstallItemState.EMPTY)
-	private val installQueue = MutableStateFlow<Set<String>>(setOf())
+	private val installQueue = MutableStateFlow(emptySet<String>())
 	private var baseInstaller: BaseInstaller? = null
 
 	suspend operator fun invoke() = coroutineScope {
@@ -88,17 +90,23 @@ class Installer(
 		val requested = mutableSetOf<String>()
 		filter(installItems) { item ->
 			val isAdded = requested.add(item.packageName.name)
-			if (isAdded) installQueue.emit(requested)
+			if (isAdded) {
+				installQueue.update {
+					val newSet = it.toMutableSet()
+					newSet.add(item.packageName.name)
+					newSet
+				}
+			}
 			isAdded
 		}.consumeEach { item ->
 			installState.emit(item statesTo InstallState.Installing)
-			val success = baseInstaller.performInstall(item)
-			installState.emit(item statesTo success)
+			val success = async { baseInstaller.performInstall(item) }
+			installState.emit(item statesTo success.await())
+			requested.remove(item.packageName.name)
 			context.notificationManager.cancel(
 				"download-${item.packageName.name}",
 				Constants.NOTIFICATION_ID_DOWNLOADING
 			)
-			requested.remove(item.packageName.name)
 		}
 	}
 
