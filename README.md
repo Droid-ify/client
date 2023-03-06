@@ -6,38 +6,28 @@
 
 ### A quick material F-Droid client.
 
-[![Github repo stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?style=flat)](https://github.com/Iamlooker/Droid-ify/stargazers)
-[![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify)](https://github.com/Iamlooker/Droid-ify/blob/master/COPYING)
-[![Github All Releases](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg)](https://github.com/Iamlooker/Droid-ify/releases/)
-[![Github release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag)](https://github.com/Iamlooker/Droid-ify/releases/latest)
-[![Telegram Channel](https://raw.githubusercontent.com/Patrolavia/telegram-badge/master/follow.svg)](https://t.me/droidify)
-[![Telegram Channel](https://raw.githubusercontent.com/Patrolavia/telegram-badge/master/chat.svg)](https://t.me/droidifyc)
+[![Github Stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
+[![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/blob/master/COPYING)
+[![Github Downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
+[![Github Latest](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[![FDroid Latest](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23f5ad64&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
 
-[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
-alt="Get it on IzzyDroid"
-width="30%">](https://android.izzysoft.de/repo/apk/com.looker.droidify)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png"
-alt="Get it on F-Droid"
-width="30%">](https://f-droid.org/packages/com.looker.droidify)
 &nbsp;&nbsp;
-[<img src = "https://hosted.weblate.org/widgets/droidify/-/open-graph.png"
-alt= "Translation State"
-width="60%">](https://hosted.weblate.org/projects/droidify/localization/)
 
 <div align="left">
 
-## :book: Features
+## Features
 
-* Material F-Droid style
-* No cards or inappropriate animations
+* Material & Clean design
 * Fast repository syncing
-* Standard Android components and minimal dependencies
+* Smooth user experience
+* Feature-rich
 
-### :camera: Screenshots
+## Screenshots
 
 <img src="metadata/en-US/images/phoneScreenshots/2.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/1.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="48%" />
 
-## :hammer: Building and Installing
+## Building and Installing
 
 You need [Android Studio](https://developer.android.com/studio) to build this App.\
 After Installing Android Studio, select `Project from Version Control` and paste the link of this repository.\
@@ -45,21 +35,31 @@ Navigate to `Build > APK > Create New Keystore > Enter the password` and wait fo
 
 ## Contribution
 
-### `dev` branch will be live soon till then please continue submitting PR's to `main` branch
+- Pick any issue you would like to resolve
+- Fork the project
+- Open a Pull Request
+- Your PR will undergo review
 
-You can fork the [`dev`](https://github.com/Iamlooker/Droid-ify/tree/dev) branch and Open a Pull Request in the same branch.\
-Your PR will be reviewed and merged.\
-Your contributions are very important for this community.
+## Translations
+[![Translation status](https://hosted.weblate.org/widgets/droidify/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/droidify/?utm_source=widget)
 
-## 👁️‍🗨️ Translations
-[Translate Droid-ify on Hosted Weblate](https://hosted.weblate.org/engage/droidify/). \
-[![Translation status](https://hosted.weblate.org/widgets/droidify/-/multi-auto.svg)](https://hosted.weblate.org/engage/droidify/?utm_source=widget)
+## License
 
-You can always add other lanuages.
-  
+```
+Droid-ify
 
-## :scroll: License
+Copyright (C) 2023 LooKeR
 
-Licensed GPLv3+. \
-Direct Adaptation/Modification of [Foxy-Droid](https://github.com/kitsunyan/foxy-droid/) \
-Copyright © 2022 Iamlooker and contributors.
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+```
