@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_failed">ناموفق بود</string>
-    <string name="add_repository">اضافه‌کردن مخزن</string>
+    <string name="add_repository">افزودن مخزن</string>
     <string name="address">آدرس</string>
-    <string name="all_applications">همه برنامه‌ها</string>
-    <string name="all_applications_up_to_date">همه برنامه‌های شما بروزرسانی شده هستند</string>
+    <string name="all_applications">همهٔ برنامه‌ها</string>
+    <string name="all_applications_up_to_date">همهٔ برنامه‌های شما به‌روز هستند</string>
     <string name="already_exists">از قبل وجود دارد</string>
     <string name="amoled">سیاه</string>
     <string name="application">برنامه</string>
@@ -12,18 +12,18 @@
     <string name="always">همیشه</string>
     <string name="author_email">ایمیل سازنده</string>
     <string name="author_website">وبسایت سازنده</string>
-    <string name="available">اکتشاف</string>
+    <string name="available">کاوش</string>
     <string name="bug_tracker">ردیاب باگ</string>
-    <string name="cancel">انصراف</string>
+    <string name="cancel">لغو</string>
     <string name="changes">تغییرات</string>
     <string name="description">توضیحات</string>
-    <string name="changelog">لیست تغییرات</string>
-    <string name="anti_features">ضد ویژگی ها</string>
+    <string name="changelog">تغییرات</string>
+    <string name="anti_features">پادویژگی‌ها</string>
     <string name="checking_repository">بررسی مخزن …</string>
     <string name="confirmation">تاییدیه</string>
     <string name="connecting">درحال‌اتصال…</string>
     <string name="could_not_download_FORMAT">دانلود ناموفق %s</string>
-    <string name="compiled_for_debugging">کامپایل شده جهت خطایابی</string>
+    <string name="compiled_for_debugging">کامپایل‌شده جهت خطایابی</string>
     <string name="could_not_validate_FORMAT">اعتبارسنجی ناموفق %s</string>
     <string name="credits">دست‌اندرکاران</string>
     <string name="dark">تاریک</string>
@@ -163,7 +163,7 @@
     </plurals>
     <string name="donate">حمایت‌مالی</string>
     <string name="delete_repository_DESC">این مخزن حذف شود؟</string>
-    <string name="cant_edit_sync_DESC">وقتی مخزن در حال تبادل، که نمیشه ویرایشش کرد.</string>
+    <string name="cant_edit_sync_DESC">هنگام یکپارچه‌سازی مخزن نمی‌توان آن را ویرایش کرد.</string>
     <string name="contains_non_free_media">حاوی محتوای پولی</string>
     <string name="has_non_free_dependencies">دارای وابستگی‌های پولی</string>
     <string name="ignore_all_updates">بیخیال همه نسخه‌های جدید</string>
@@ -195,8 +195,8 @@
     <string name="version_FORMAT">نسخه %s</string>
     <string name="no_internet">شما هیچ اتصال اینترنتی ندارید</string>
     <string name="io_error_DESC">قادر به انجام برخی اقدامات خاص نیست.</string>
-    <string name="allow_collapsing_toolbar">به نوار برنامه بالا اجازه دهید تا گسترش یابد</string>
-    <string name="allow_collapsing_toolbar_DESC">به نوار برنامه بالا اجازه دهید تا گسترش و سقوط کند</string>
+    <string name="allow_collapsing_toolbar">به نوار بالای برنامه اجازه دهید تا گسترش یابد</string>
+    <string name="allow_collapsing_toolbar_DESC">به نوار بالای برنامه اجازه دهید تا گسترده و فشرده شود</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">از تم رنگی material you استفاده کنید</string>
     <string name="enable_repo">مخزن را فعال کنید</string>
@@ -204,9 +204,9 @@
     <string name="restart_app">برای مشاهده تغییرات، Droid-ify را مجددا راه اندازی کنید</string>
     <string name="favourites">موارد دلخواه</string>
     <string name="repository_unreachable">مخزن قابل دسترسی نیست</string>
-    <string name="auto_update">به روز رسانی خودکار برنامه ها</string>
+    <string name="auto_update">به‌روز رسانی خودکار برنامه‌ها</string>
     <string name="force_clean_up_DESC">فایل های اضافی را پاک می کند</string>
-    <string name="auto_update_apps">سعی کنید به روز رسانی ها را به صورت خودکار نصب کنید</string>
+    <string name="auto_update_apps">سعی می‌کند به‌روزرسانی‌ها را به صورت خودکار نصب کند</string>
     <string name="installing">در حال نصب</string>
     <string name="waiting_to_start_installation">در انتظار شروع نصب…</string>
 </resources>
