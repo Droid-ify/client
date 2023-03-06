@@ -339,14 +339,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		val status = if (
 			packageName == installerState.currentItem.installedItem.packageName.name
 			&& installerState.currentItem.state == InstallState.Installing
-		) {
-			AppDetailAdapter.Status.Installing
-		} else if (packageName in installerState.queued) {
-			AppDetailAdapter.Status.PendingInstall
-		} else AppDetailAdapter.Status.Idle
-		val shouldDisableAction =
-			packageName == installerState.currentItem.installedItem.packageName.name || packageName in installerState.queued
-		updateButtons(installing = shouldDisableAction)
+		) AppDetailAdapter.Status.Installing
+		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
+		else AppDetailAdapter.Status.Idle
+		updateButtons(installing = status != AppDetailAdapter.Status.Idle)
 		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
 	}
 

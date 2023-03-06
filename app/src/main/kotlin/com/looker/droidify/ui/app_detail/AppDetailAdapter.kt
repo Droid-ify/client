@@ -359,8 +359,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 	}
 
-	private enum class Payload { REFRESH, STATUS }
-
 	@Volatile
 	private var isFavourite: Boolean = false
 
@@ -913,9 +911,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		if (action != newAction) {
 			action = newAction
 			val index = items.indexOf(Item.InstallButtonItem)
-			if (index >= 0) {
-				notifyItemChanged(index, Payload.REFRESH)
-			}
+			if (index >= 0) notifyItemChanged(index)
 		}
 	}
 
@@ -925,9 +921,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val statusIndex = items.indexOf(Item.DownloadStatusItem)
 		if (status != newStatus && statusIndex >= 0) {
 			when (newStatus) {
-				is Status.Downloading -> notifyItemChanged(statusIndex, Payload.STATUS)
-				Status.Connecting -> notifyItemChanged(statusIndex, Payload.STATUS)
-				Status.Installing -> notifyItemChanged(statusIndex, Payload.STATUS)
+				is Status.Downloading -> notifyItemChanged(statusIndex)
+				Status.Connecting -> notifyItemChanged(statusIndex)
+				Status.Installing -> notifyItemChanged(statusIndex)
 				Status.PendingInstall -> notifyItemInserted(statusIndex)
 				Status.Pending -> notifyItemInserted(statusIndex)
 				Status.Idle -> notifyItemRemoved(statusIndex)
@@ -986,7 +982,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							sectionItem.sectionType, sectionItem.expandType, emptyList(),
 							sectionItem.items.size + sectionItem.collapseCount
 						)
-						notifyItemChanged(position, Payload.REFRESH)
+						notifyItemChanged(position)
 						items.addAll(position + 1, sectionItem.items)
 						notifyItemRangeInserted(position + 1, sectionItem.items.size)
 					} else if (sectionItem.collapseCount > 0) {
@@ -996,7 +992,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							items.subList(position + 1, position + 1 + sectionItem.collapseCount)
 								.toList(), 0
 						)
-						notifyItemChanged(position, Payload.REFRESH)
+						notifyItemChanged(position)
 						repeat(sectionItem.collapseCount) { items.removeAt(position + 1) }
 						notifyItemRangeRemoved(position + 1, sectionItem.collapseCount)
 					}

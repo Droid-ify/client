@@ -99,6 +99,11 @@ class Installer(
 			}
 			isAdded
 		}.consumeEach { item ->
+			installQueue.update {
+				val newSet = it.toMutableSet()
+				newSet.remove(item.packageName.name)
+				newSet
+			}
 			installState.emit(item statesTo InstallState.Installing)
 			val success = async { baseInstaller.performInstall(item) }
 			installState.emit(item statesTo success.await())
