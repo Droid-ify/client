@@ -35,7 +35,7 @@ width="60%">](https://hosted.weblate.org/projects/droidify/localization/)
 
 ### :camera: Screenshots
 
-<img src="metadata/en-US/images/phoneScreenshots/1.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="48%" />
+<img src="metadata/en-US/images/phoneScreenshots/2.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/1.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="48%" />
 
 ## :hammer: Building and Installing
 
