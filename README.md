@@ -12,8 +12,6 @@
 [![Github Latest](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
 [![FDroid Latest](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23f5ad64&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
 
-&nbsp;&nbsp;
-
 <div align="left">
 
 ## Features
