@@ -297,7 +297,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 		val adapterAction =
 			if (downloading) AppDetailAdapter.Action.CANCEL else primaryAction?.adapterAction
-		(recyclerView?.adapter as? AppDetailAdapter)?.setAction(if (installing) null else adapterAction)
+		(recyclerView?.adapter as? AppDetailAdapter)?.action = if (installing) null else adapterAction
 
 		for (action in sequenceOf(
 			Action.INSTALL,
@@ -343,7 +343,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
 		else AppDetailAdapter.Status.Idle
 		updateButtons(installing = status != AppDetailAdapter.Status.Idle)
-		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
+		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 	}
 
 	private fun updateDownloadState(state: DownloadService.State?) {
@@ -361,7 +361,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			this.downloading = downloading
 			updateButtons()
 		}
-		(recyclerView?.adapter as? AppDetailAdapter)?.setStatus(status)
+		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
 				val installItem = packageName.installItem(state.release.cacheFileName)

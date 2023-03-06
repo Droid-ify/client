@@ -905,32 +905,30 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		notifyDataSetChanged()
 	}
 
-	private var action: Action? = null
-
-	fun setAction(newAction: Action?) {
-		if (action != newAction) {
-			action = newAction
-			val index = items.indexOf(Item.InstallButtonItem)
-			if (index >= 0) notifyItemChanged(index)
-		}
-	}
-
-	private var status: Status = Status.Idle
-
-	fun setStatus(newStatus: Status) {
-		val statusIndex = items.indexOf(Item.DownloadStatusItem)
-		if (status != newStatus && statusIndex >= 0) {
-			when (newStatus) {
-				is Status.Downloading -> notifyItemChanged(statusIndex)
-				Status.Connecting -> notifyItemChanged(statusIndex)
-				Status.Installing -> notifyItemChanged(statusIndex)
-				Status.PendingInstall -> notifyItemInserted(statusIndex)
-				Status.Pending -> notifyItemInserted(statusIndex)
-				Status.Idle -> notifyItemRemoved(statusIndex)
+	var action: Action? = null
+		set(value) {
+			if (field != value) {
+				val index = items.indexOf(Item.InstallButtonItem)
+				if (index >= 0) notifyItemChanged(index)
 			}
-			status = newStatus
+			field = value
 		}
-	}
+
+	var status: Status = Status.Idle
+		set(value) {
+			val statusIndex = items.indexOf(Item.DownloadStatusItem)
+			if (field != value && statusIndex > 0) {
+				when (field) {
+					is Status.Downloading -> notifyItemChanged(statusIndex)
+					Status.Connecting -> notifyItemChanged(statusIndex)
+					Status.Installing -> notifyItemChanged(statusIndex)
+					Status.PendingInstall -> notifyItemInserted(statusIndex)
+					Status.Pending -> notifyItemInserted(statusIndex)
+					Status.Idle -> notifyItemRemoved(statusIndex)
+				}
+			}
+			field = value
+		}
 
 	override val viewTypeClass: Class<ViewType>
 		get() = ViewType::class.java
