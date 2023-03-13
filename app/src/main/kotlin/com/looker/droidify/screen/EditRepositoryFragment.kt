@@ -26,7 +26,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -43,7 +42,6 @@ import kotlin.math.min
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
-@AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
 
 	private var _editRepositoryBinding: EditRepositoryBinding? = null
@@ -413,7 +411,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 	}
 
 	private suspend fun addressValid(address: String, authentication: String) =
-		withContext(Dispatchers.IO) scope@ {
+		withContext(Dispatchers.IO) scope@{
 			val result = Downloader.createCall {
 				method("HEAD", null)
 				try {

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductPreference
@@ -86,6 +87,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	@Inject
 	lateinit var installer: Installer
+
+	@Inject
+	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	private val viewModel: AppDetailViewModel by viewModels()
 
@@ -297,7 +301,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 		val adapterAction =
 			if (downloading) AppDetailAdapter.Action.CANCEL else primaryAction?.adapterAction
-		(recyclerView?.adapter as? AppDetailAdapter)?.action = if (installing) null else adapterAction
+		(recyclerView?.adapter as? AppDetailAdapter)?.action =
+			if (installing) null else adapterAction
 
 		for (action in sequenceOf(
 			Action.INSTALL,

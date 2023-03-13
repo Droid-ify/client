@@ -17,12 +17,10 @@ import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.extension.screenActivity
-import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.string as stringRes
 
-@AndroidEntryPoint
 class RepositoryFragment() : ScreenFragment() {
 
 	private var _binding: RepositoryPageBinding? = null

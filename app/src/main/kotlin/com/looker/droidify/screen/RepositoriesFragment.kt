@@ -16,10 +16,8 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.DividerItemDecoration
-import dagger.hilt.android.AndroidEntryPoint
 import com.looker.core.common.R as CommonR
 
-@AndroidEntryPoint
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
 	private var _binding: RecyclerViewWithFabBinding? = null

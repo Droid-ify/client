@@ -14,24 +14,15 @@
         android:layout_height="wrap_content"
         android:background="?colorSurface"
         app:elevation="0dp"
-        app:layout_behavior="com.looker.core.common.view.CustomCollapsingBehaviour"
         app:liftOnScroll="false">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            style="?attr/collapsingToolbarLayoutLargeStyle"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            style="?attr/toolbarStyle"
             android:layout_width="match_parent"
-            android:layout_height="?attr/collapsingToolbarLayoutLargeSize"
-            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/toolbar"
-                style="?attr/toolbarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
-                android:background="?colorSurface"
-                android:elevation="0dp" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            android:layout_height="?actionBarSize"
+            android:background="?colorSurface"
+            android:elevation="0dp" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -75,7 +66,7 @@
             <include
                 android:id="@+id/force_clean_up"
                 layout="@layout/enum_type"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"

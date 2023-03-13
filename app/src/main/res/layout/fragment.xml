@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:background="?colorSurface"
         app:elevation="0dp"
-        app:layout_behavior="com.looker.core.common.view.CustomCollapsingBehaviour"
         app:liftOnScroll="false">
 
         <com.google.android.material.appbar.MaterialToolbar
