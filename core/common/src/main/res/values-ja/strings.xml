@@ -194,16 +194,16 @@
     <string name="allow_collapsing_toolbar_DESC">トップアプリバーの拡大・縮小を可能にします</string>
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
     <string name="no_internet">インターネット接続がありません</string>
-    <string name="auto_update">自動更新アプリ</string>
-    <string name="auto_update_apps">更新を自動的にインストールしてみてください</string>
+    <string name="auto_update">アプリを自動でアップデートする</string>
+    <string name="auto_update_apps">アップデートを自動的にインストールするようにします</string>
     <string name="installing">インストール</string>
     <string name="waiting_to_start_installation">インストールを開始するのを待っています…</string>
     <string name="favourites">お気に入り</string>
-    <string name="material_you">あなたの素材</string>
-    <string name="repository_unreachable">リポジトリが到達できません</string>
+    <string name="material_you">Material You</string>
+    <string name="repository_unreachable">リポジトリに到達できません</string>
     <string name="enable_repo">リポジトリを有効にします</string>
     <string name="force_clean_up">強制的にクリーンアップします</string>
     <string name="force_clean_up_DESC">冗長ファイルをクリーンアップします</string>
-    <string name="material_you_desc">テーマを色付けする素材を使用します</string>
-    <string name="restart_app">ドロイドを再起動して、変更を確認します</string>
+    <string name="material_you_desc">Material Youのカラーテーマを使用します</string>
+    <string name="restart_app">Droid-ifyを再起動して変更を確認する</string>
 </resources>
