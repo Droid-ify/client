@@ -36,9 +36,9 @@ import com.looker.core.model.ProductItem
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
-import com.looker.droidify.screen.ScreenFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_list.AppListFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.sizeScaled

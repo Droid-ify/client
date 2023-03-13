@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

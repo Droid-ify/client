@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify
 
 import android.Manifest
 import android.content.Intent
@@ -26,10 +26,13 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.model.newer.toPackageName
-import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_detail.AppDetailFragment
 import com.looker.droidify.ui.favourites.FavouritesFragment
+import com.looker.droidify.ui.repository.EditRepositoryFragment
+import com.looker.droidify.ui.repository.RepositoriesFragment
+import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.feature_settings.SettingsFragment
 import com.looker.installer.Installer

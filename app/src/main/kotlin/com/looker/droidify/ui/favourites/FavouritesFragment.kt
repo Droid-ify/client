@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.droidify.database.Database
-import com.looker.droidify.screen.ScreenFragment
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.emitAll

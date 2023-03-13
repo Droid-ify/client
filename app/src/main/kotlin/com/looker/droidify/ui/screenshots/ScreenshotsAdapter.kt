@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.screenshots
 
 import android.content.Context
 import android.graphics.drawable.Drawable

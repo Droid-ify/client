@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.repository
 
 import android.os.Bundle
 import android.text.SpannableStringBuilder
@@ -16,6 +16,8 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.MessageDialog
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
 import java.util.*
 import com.google.android.material.R as MaterialR

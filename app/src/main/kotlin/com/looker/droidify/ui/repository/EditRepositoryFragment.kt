@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.repository
 
 import android.content.ClipboardManager
 import android.content.Context
@@ -24,6 +24,8 @@ import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.MessageDialog
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
 import kotlinx.coroutines.Dispatchers

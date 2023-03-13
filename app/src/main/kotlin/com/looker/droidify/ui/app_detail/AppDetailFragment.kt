@@ -28,11 +28,11 @@ import com.looker.core.model.Repository
 import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
-import com.looker.droidify.screen.MessageDialog
-import com.looker.droidify.screen.ScreenFragment
-import com.looker.droidify.screen.ScreenshotsFragment
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
+import com.looker.droidify.ui.MessageDialog
+import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity

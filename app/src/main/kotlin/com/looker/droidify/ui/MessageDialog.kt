@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -13,6 +13,7 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Release
+import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.core.common.R.string as stringRes

@@ -2,7 +2,6 @@ package com.looker.droidify
 
 import android.content.Intent
 import com.looker.core.common.extension.getPackageName
-import com.looker.droidify.screen.ScreenActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

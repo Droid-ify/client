@@ -1,4 +1,4 @@
-package com.looker.droidify.screen
+package com.looker.droidify.ui.repository
 
 import android.database.Cursor
 import android.os.Bundle
@@ -13,6 +13,7 @@ import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.DividerItemDecoration
