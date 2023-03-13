@@ -98,7 +98,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 				setOnClickListener { viewModel.updateAll() }
 				setIconResource(CommonR.drawable.ic_download)
 				alpha = 1f
-				isVisible = true
+				viewLifecycleOwner.lifecycleScope.launch {
+					isVisible = viewModel.showUpdateAllButton.first()
+				}
 				systemBarsMargin(16.dp)
 			} else {
 				text = ""
