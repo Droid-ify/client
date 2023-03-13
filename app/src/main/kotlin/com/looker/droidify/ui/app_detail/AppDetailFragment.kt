@@ -314,7 +314,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private fun updateToolbarTitle() {
 		val showPackageName =
 			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
-		collapsingToolbar.title =
+		toolbar.title =
 			if (showPackageName) products[0].first.name
 			else getString(stringRes.application)
 	}

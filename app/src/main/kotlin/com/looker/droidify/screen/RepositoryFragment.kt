@@ -55,7 +55,7 @@ class RepositoryFragment() : ScreenFragment() {
 		syncConnection.bind(requireContext())
 		screenActivity.onToolbarCreated(toolbar)
 		setupView()
-		collapsingToolbar.title = getString(stringRes.repository)
+		toolbar.title = getString(stringRes.repository)
 		val scroll = NestedScrollView(binding.root.context)
 		scroll.addView(binding.root)
 		scroll.systemBarsPadding()
@@ -84,7 +84,7 @@ class RepositoryFragment() : ScreenFragment() {
 				}
 
 				address.text.text = repository.address
-				collapsingToolbar.title = repository.name
+				toolbar.title = repository.name
 				repoName.title.setText(stringRes.name)
 				repoName.text.text = repository.name
 

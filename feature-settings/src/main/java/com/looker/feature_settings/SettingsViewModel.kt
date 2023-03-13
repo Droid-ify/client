@@ -49,12 +49,6 @@ class SettingsViewModel
 		}
 	}
 
-	fun setToolbarState(collapsing: Boolean) {
-		viewModelScope.launch {
-			userPreferencesRepository.setCollapsingToolbar(collapsing)
-		}
-	}
-
 	fun setCleanUpDuration(duration: Duration) {
 		viewModelScope.launch {
 			userPreferencesRepository.setCleanUpDuration(duration)

@@ -69,10 +69,6 @@
                 layout="@layout/switch_type" />
 
             <include
-                android:id="@+id/allow_collapsing_toolbar"
-                layout="@layout/switch_type" />
-
-            <include
                 android:id="@+id/clean_up"
                 layout="@layout/enum_type" />
 

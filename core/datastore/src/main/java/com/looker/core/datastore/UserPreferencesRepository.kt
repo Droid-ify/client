@@ -13,7 +13,6 @@ import com.looker.core.common.device.Miui
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.CLEAN_UP_DURATION
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.COLLAPSING_TOOLBAR
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.DYNAMIC_THEME
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.FAVOURITE_APPS
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INCOMPATIBLE_VERSIONS
@@ -55,7 +54,6 @@ data class UserPreferences(
 	val proxyHost: String,
 	val proxyPort: Int,
 	val cleanUpDuration: Duration,
-	val allowCollapsingToolbar: Boolean,
 	val favouriteApps: Set<String>
 )
 
@@ -80,7 +78,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
 		val CLEAN_UP_DURATION = longPreferencesKey("clean_up_duration")
-		val COLLAPSING_TOOLBAR = booleanPreferencesKey("collapsing_toolbar")
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
@@ -132,9 +129,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun setCleanUpDuration(duration: Duration) =
 		CLEAN_UP_DURATION.update(duration.inWholeHours)
 
-	suspend fun setCollapsingToolbar(collapsing: Boolean) =
-		COLLAPSING_TOOLBAR.update(collapsing)
-
 	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
 			val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
@@ -172,7 +166,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val proxyHost = preferences[PROXY_HOST] ?: "localhost"
 		val proxyPort = preferences[PROXY_PORT] ?: 9050
 		val cleanUpDuration = preferences[CLEAN_UP_DURATION]?.hours ?: 12L.hours
-		val collapsingToolbar = preferences[COLLAPSING_TOOLBAR] ?: true
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 
 		return UserPreferences(
@@ -190,7 +183,6 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			proxyHost = proxyHost,
 			proxyPort = proxyPort,
 			cleanUpDuration = cleanUpDuration,
-			allowCollapsingToolbar = collapsingToolbar,
 			favouriteApps = favouriteApps
 		)
 	}

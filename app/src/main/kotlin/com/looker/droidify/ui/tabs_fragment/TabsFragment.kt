@@ -138,7 +138,7 @@ class TabsFragment : ScreenFragment() {
 		syncConnection.bind(requireContext())
 
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title = getString(R.string.application_name)
+		toolbar.title = getString(R.string.application_name)
 		// Move focus from SearchView to Toolbar
 		toolbar.isFocusableInTouchMode = true
 
@@ -159,7 +159,6 @@ class TabsFragment : ScreenFragment() {
 					return true
 				}
 			})
-			setOnSearchClickListener { fragmentBinding.appbarLayout.setExpanded(false, true) }
 		}
 
 		toolbar.menu.apply {

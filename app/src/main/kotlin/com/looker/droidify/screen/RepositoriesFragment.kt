@@ -83,7 +83,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 		syncConnection.bind(requireContext())
 		screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title = getString(CommonR.string.repositories)
+		toolbar.title = getString(CommonR.string.repositories)
 	}
 
 	override fun onDestroyView() {

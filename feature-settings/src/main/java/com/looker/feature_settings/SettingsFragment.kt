@@ -26,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getDrawableFromAttr
-import com.looker.core.common.extension.setCollapsable
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.autoSyncName
@@ -83,8 +82,6 @@ class SettingsFragment : Fragment() {
 			theme.title.text = getString(stringRes.theme)
 			dynamicTheme.title.text = getString(stringRes.material_you)
 			dynamicTheme.content.text = getString(stringRes.material_you_desc)
-			allowCollapsingToolbar.title.text = getString(stringRes.allow_collapsing_toolbar)
-			allowCollapsingToolbar.content.text = getString(stringRes.allow_collapsing_toolbar_DESC)
 			cleanUp.title.text = getString(stringRes.cleanup_title)
 			forceCleanUp.title.text = getString(stringRes.force_clean_up)
 			forceCleanUp.content.text = getString(stringRes.force_clean_up_DESC)
@@ -115,7 +112,6 @@ class SettingsFragment : Fragment() {
 				}
 				setChangeListener()
 				viewModel.userPreferencesFlow.collect {
-					binding.appbarLayout.setCollapsable(it.allowCollapsingToolbar)
 					updateUserPreference(it)
 				}
 			}
@@ -230,9 +226,6 @@ class SettingsFragment : Fragment() {
 				dynamicTheme.checked.setOnCheckedChangeListener { _, checked ->
 					setDynamicTheme(checked)
 				}
-				allowCollapsingToolbar.checked.setOnCheckedChangeListener { _, checked ->
-					setToolbarState(checked)
-				}
 				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
 					setNotifyUpdates(checked)
 				}
@@ -289,7 +282,6 @@ class SettingsFragment : Fragment() {
 			}
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
 			dynamicTheme.root.isVisible = SdkCheck.isSnowCake
-			allowCollapsingToolbar.checked.isChecked = userPreferences.allowCollapsingToolbar
 			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
 			cleanUp.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(

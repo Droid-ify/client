@@ -93,7 +93,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 		syncConnection.bind(requireContext())
 
 		screenActivity.onToolbarCreated(toolbar)
-		collapsingToolbar.title =
+		toolbar.title =
 			getString(if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository)
 
 		saveMenuItem = toolbar.menu.add(stringRes.save)

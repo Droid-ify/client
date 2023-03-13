@@ -68,7 +68,7 @@ class FavouritesFragment : ScreenFragment() {
 			}
 		}
 
-		collapsingToolbar.title = getString(CommonR.string.favourites)
+		toolbar.title = getString(CommonR.string.favourites)
 		return view
 	}
 
