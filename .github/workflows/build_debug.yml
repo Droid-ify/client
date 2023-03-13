@@ -45,13 +45,13 @@ jobs:
     - name: Sign Apk
       continue-on-error: true
       id: sign_apk
-      uses: ilharp/sign-android-release@v1
+      uses: r0adkll/sign-android-release@v1
       with:
         releaseDir: app/build/outputs/apk/debug
-        signingKey: ${{ secrets.ANDROID_SIGNING_KEY }}
-        keyAlias: ${{ secrets.ANDROID_KEY_ALIAS }}
-        keyStorePassword: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-        keyPassword: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        signingKeyBase64: ${{ secrets.KEY_BASE64 }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
+        keyPassword: ${{ secrets.KEYSTORE_PASS }}
     - name: Remove file that aren't signed
       continue-on-error: true
       run: |
