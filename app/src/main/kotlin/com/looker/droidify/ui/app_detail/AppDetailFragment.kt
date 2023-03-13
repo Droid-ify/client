@@ -100,6 +100,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		emptyList<Pair<Product, Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
+	private var installing = false
 
 	private var recyclerView: RecyclerView? = null
 
@@ -259,10 +260,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
 	}
 
-	private fun updateButtons(
-		preference: ProductPreference = ProductPreferences[packageName],
-		installing: Boolean = false
-	) {
+	private fun updateButtons(preference: ProductPreference = ProductPreferences[packageName]) {
 		val installed = installed
 		val product = Product.findSuggested(
 			products,
@@ -299,10 +297,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			else -> null
 		}
 
-		val adapterAction =
-			if (downloading) AppDetailAdapter.Action.CANCEL else primaryAction?.adapterAction
-		(recyclerView?.adapter as? AppDetailAdapter)?.action =
-			if (installing) null else adapterAction
+		val adapterAction = if (downloading) AppDetailAdapter.Action.CANCEL
+		else if (installing) null
+		else primaryAction?.adapterAction
+
+		(recyclerView?.adapter as? AppDetailAdapter)?.action = adapterAction
 
 		for (action in sequenceOf(
 			Action.INSTALL,
@@ -347,7 +346,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		) AppDetailAdapter.Status.Installing
 		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
 		else AppDetailAdapter.Status.Idle
-		updateButtons(installing = status != AppDetailAdapter.Status.Idle)
+		val installing = status != AppDetailAdapter.Status.Idle
+		if (this.installing != installing) {
+			this.installing = installing
+			updateButtons()
+		}
 		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 	}
 

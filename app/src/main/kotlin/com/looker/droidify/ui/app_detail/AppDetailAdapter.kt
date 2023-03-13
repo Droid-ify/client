@@ -909,23 +909,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		set(value) {
 			if (field != value) {
 				val index = items.indexOf(Item.InstallButtonItem)
-				if (index >= 0) notifyItemChanged(index)
+				if (index > 0) notifyItemChanged(index)
 			}
 			field = value
 		}
 
 	var status: Status = Status.Idle
 		set(value) {
-			val statusIndex = items.indexOf(Item.DownloadStatusItem)
-			if (field != value && statusIndex > 0) {
-				when (field) {
-					is Status.Downloading -> notifyItemChanged(statusIndex)
-					Status.Connecting -> notifyItemChanged(statusIndex)
-					Status.Installing -> notifyItemChanged(statusIndex)
-					Status.PendingInstall -> notifyItemInserted(statusIndex)
-					Status.Pending -> notifyItemInserted(statusIndex)
-					Status.Idle -> notifyItemRemoved(statusIndex)
-				}
+			if (field != value) {
+				val index = items.indexOf(Item.DownloadStatusItem)
+				if (index > 0) notifyItemChanged(index)
 			}
 			field = value
 		}
