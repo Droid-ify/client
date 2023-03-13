@@ -76,16 +76,17 @@ object Downloader {
 	): Result<RequestCode> = suspendCancellableCoroutine { cont ->
 		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
 		if (cont.isCompleted) return@suspendCancellableCoroutine
-		val call = createCall {
-			try {
+		val call = try {
+			createCall {
 				url(url)
 				if (authentication.isNotEmpty()) addHeader("Authorization", authentication)
 				if (entityTag.isNotEmpty()) addHeader("If-None-Match", entityTag)
 				else if (lastModified.isNotEmpty()) addHeader("If-Modified-Since", lastModified)
 				if (start != null) addHeader("Range", "bytes=$start-")
-			} catch (e: IllegalArgumentException) {
-				cont.resume(Result.Error(e))
 			}
+		} catch (e: IllegalArgumentException) {
+			cont.resume(Result.Error(e))
+			return@suspendCancellableCoroutine
 		}
 		if (cont.isCompleted) return@suspendCancellableCoroutine
 		call.enqueue(
