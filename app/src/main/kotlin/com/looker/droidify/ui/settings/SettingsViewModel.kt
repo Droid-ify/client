@@ -1,4 +1,4 @@
-package com.looker.feature_settings
+package com.looker.droidify.ui.settings
 
 import android.content.pm.PackageManager
 import android.util.Log

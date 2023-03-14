@@ -33,8 +33,8 @@ import com.looker.droidify.ui.favourites.FavouritesFragment
 import com.looker.droidify.ui.repository.EditRepositoryFragment
 import com.looker.droidify.ui.repository.RepositoriesFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
+import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
-import com.looker.feature_settings.SettingsFragment
 import com.looker.installer.Installer
 import com.looker.installer.model.InstallItem
 import dagger.hilt.EntryPoint

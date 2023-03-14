@@ -1,4 +1,4 @@
-package com.looker.feature_settings
+package com.looker.droidify.ui.settings
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -24,6 +24,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.looker.core.common.R
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.systemBarsPadding
@@ -36,7 +37,8 @@ import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
-import com.looker.feature_settings.databinding.SettingsPageBinding
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -44,11 +46,6 @@ import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
-import com.looker.core.common.BuildConfig as LocaleConfig
-import com.looker.core.common.R.dimen as dimenRes
-import com.looker.core.common.R.drawable as drawableRes
-import com.looker.core.common.R.plurals as pluralRes
-import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -71,33 +68,33 @@ class SettingsFragment : Fragment() {
 	): View {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
 		binding.nestedScrollView.systemBarsPadding()
-		restartSnackbar = Snackbar.make(binding.root, stringRes.restart_app, Snackbar.LENGTH_LONG)
+		restartSnackbar = Snackbar.make(binding.root, R.string.restart_app, Snackbar.LENGTH_LONG)
 		val toolbar = binding.toolbar
 		toolbar.navigationIcon =
 			toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 		toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
-		toolbar.title = getString(stringRes.settings)
+		toolbar.title = getString(R.string.settings)
 		with(binding) {
-			language.title.text = getString(stringRes.prefs_language_title)
-			theme.title.text = getString(stringRes.theme)
-			dynamicTheme.title.text = getString(stringRes.material_you)
-			dynamicTheme.content.text = getString(stringRes.material_you_desc)
-			cleanUp.title.text = getString(stringRes.cleanup_title)
-			forceCleanUp.title.text = getString(stringRes.force_clean_up)
-			forceCleanUp.content.text = getString(stringRes.force_clean_up_DESC)
-			autoSync.title.text = getString(stringRes.sync_repositories_automatically)
-			notifyUpdates.title.text = getString(stringRes.notify_about_updates)
-			notifyUpdates.content.text = getString(stringRes.notify_about_updates_summary)
-			autoUpdate.title.text = getString(stringRes.auto_update)
-			autoUpdate.content.text = getString(stringRes.auto_update_apps)
-			unstableUpdates.title.text = getString(stringRes.unstable_updates)
-			unstableUpdates.content.text = getString(stringRes.unstable_updates_summary)
-			incompatibleUpdates.title.text = getString(stringRes.incompatible_versions)
-			incompatibleUpdates.content.text = getString(stringRes.incompatible_versions_summary)
-			proxyType.title.text = getString(stringRes.proxy_type)
-			proxyHost.title.text = getString(stringRes.proxy_host)
-			proxyPort.title.text = getString(stringRes.proxy_port)
-			installer.title.text = getString(stringRes.installer)
+			language.title.text = getString(R.string.prefs_language_title)
+			theme.title.text = getString(R.string.theme)
+			dynamicTheme.title.text = getString(R.string.material_you)
+			dynamicTheme.content.text = getString(R.string.material_you_desc)
+			cleanUp.title.text = getString(R.string.cleanup_title)
+			forceCleanUp.title.text = getString(R.string.force_clean_up)
+			forceCleanUp.content.text = getString(R.string.force_clean_up_DESC)
+			autoSync.title.text = getString(R.string.sync_repositories_automatically)
+			notifyUpdates.title.text = getString(R.string.notify_about_updates)
+			notifyUpdates.content.text = getString(R.string.notify_about_updates_summary)
+			autoUpdate.title.text = getString(R.string.auto_update)
+			autoUpdate.content.text = getString(R.string.auto_update_apps)
+			unstableUpdates.title.text = getString(R.string.unstable_updates)
+			unstableUpdates.content.text = getString(R.string.unstable_updates_summary)
+			incompatibleUpdates.title.text = getString(R.string.incompatible_versions)
+			incompatibleUpdates.content.text = getString(R.string.incompatible_versions_summary)
+			proxyType.title.text = getString(R.string.proxy_type)
+			proxyHost.title.text = getString(R.string.proxy_host)
+			proxyPort.title.text = getString(R.string.proxy_port)
+			installer.title.text = getString(R.string.installer)
 			creditFoxy.title.text = "Based on Foxy Droid"
 			creditFoxy.content.text = "FoxyDroid"
 			droidify.title.text = "Droid-ify"
@@ -144,7 +141,7 @@ class SettingsFragment : Fragment() {
 				onClick(values.elementAt(newValue))
 			}
 		}
-		.setNegativeButton(stringRes.cancel, null)
+		.setNegativeButton(R.string.cancel, null)
 		.create()
 
 	private fun View.addIntEditText(
@@ -155,7 +152,7 @@ class SettingsFragment : Fragment() {
 		val scroll = NestedScrollView(context)
 		val customEditText = TextInputEditText(context)
 		customEditText.id = android.R.id.edit
-		val paddingValue = context.resources.getDimension(dimenRes.shape_margin_large).toInt()
+		val paddingValue = context.resources.getDimension(R.dimen.shape_margin_large).toInt()
 		scroll.setPadding(paddingValue, 0, paddingValue, 0)
 		customEditText.setText(initialValue.toString())
 		customEditText.hint = customEditText.text.toString()
@@ -169,7 +166,7 @@ class SettingsFragment : Fragment() {
 		return MaterialAlertDialogBuilder(context)
 			.setTitle(title)
 			.setView(scroll)
-			.setPositiveButton(stringRes.ok) { _, _ ->
+			.setPositiveButton(R.string.ok) { _, _ ->
 				post {
 					val output = try {
 						customEditText.text.toString().toInt()
@@ -181,7 +178,7 @@ class SettingsFragment : Fragment() {
 					onFinish(output)
 				}
 			}
-			.setNegativeButton(stringRes.cancel, null)
+			.setNegativeButton(R.string.cancel, null)
 			.create()
 			.apply {
 				window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -196,7 +193,7 @@ class SettingsFragment : Fragment() {
 		val scroll = NestedScrollView(context)
 		val customEditText = TextInputEditText(context)
 		customEditText.id = android.R.id.edit
-		val paddingValue = context.resources.getDimension(dimenRes.shape_margin_large).toInt()
+		val paddingValue = context.resources.getDimension(R.dimen.shape_margin_large).toInt()
 		scroll.setPadding(paddingValue, 0, paddingValue, 0)
 		customEditText.setText(initialValue)
 		customEditText.hint = customEditText.text.toString()
@@ -210,10 +207,10 @@ class SettingsFragment : Fragment() {
 		return MaterialAlertDialogBuilder(context)
 			.setTitle(title)
 			.setView(scroll)
-			.setPositiveButton(stringRes.ok) { _, _ ->
+			.setPositiveButton(R.string.ok) { _, _ ->
 				post { onFinish(customEditText.text.toString()) }
 			}
-			.setNegativeButton(stringRes.cancel, null)
+			.setNegativeButton(R.string.cancel, null)
 			.create()
 			.apply {
 				window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -250,7 +247,7 @@ class SettingsFragment : Fragment() {
 
 	private val languageList: List<String>
 		get() {
-			val list = LocaleConfig.DETECTED_LOCALES.toMutableList()
+			val list = com.looker.core.common.BuildConfig.DETECTED_LOCALES.toMutableList()
 			list.add(0, "system")
 			return list
 		}
@@ -263,8 +260,8 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.language,
 					values = languageList,
-					title = stringRes.prefs_language_title,
-					iconRes = drawableRes.ic_language,
+					title = R.string.prefs_language_title,
+					iconRes = R.drawable.ic_language,
 					onClick = { viewModel.setLanguage(it) },
 					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
 				).show()
@@ -274,8 +271,8 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.theme,
 					values = Theme.values().toList(),
-					title = stringRes.theme,
-					iconRes = drawableRes.ic_themes,
+					title = R.string.theme,
+					iconRes = R.drawable.ic_themes,
 					onClick = { viewModel.setTheme(it) },
 					valueToString = { view.context.themeName(it) }
 				).show()
@@ -288,8 +285,8 @@ class SettingsFragment : Fragment() {
 					initialValue = userPreferences.cleanUpDuration,
 					values = cleanUpIntervals,
 					valueToString = { it.toTime(context) },
-					title = stringRes.cleanup_title,
-					iconRes = drawableRes.ic_time,
+					title = R.string.cleanup_title,
+					iconRes = R.drawable.ic_time,
 					onClick = { viewModel.setCleanUpDuration(it) }
 				).show()
 			}
@@ -301,8 +298,8 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.autoSync,
 					values = AutoSync.values().toList(),
-					title = stringRes.sync_repositories_automatically,
-					iconRes = drawableRes.ic_sync,
+					title = R.string.sync_repositories_automatically,
+					iconRes = R.drawable.ic_sync,
 					onClick = { viewModel.setAutoSync(it) },
 					valueToString = { view.context.autoSyncName(it) }
 				).show()
@@ -316,8 +313,8 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.proxyType,
 					values = ProxyType.values().toList(),
-					title = stringRes.proxy_type,
-					iconRes = drawableRes.ic_proxy,
+					title = R.string.proxy_type,
+					iconRes = R.drawable.ic_proxy,
 					onClick = { viewModel.setProxyType(it) },
 					valueToString = { view.context.proxyName(it) }
 				).show()
@@ -328,7 +325,7 @@ class SettingsFragment : Fragment() {
 			proxyHost.root.setOnClickListener { view ->
 				view.addStringEditText(
 					initialValue = userPreferences.proxyHost,
-					title = stringRes.proxy_host,
+					title = R.string.proxy_host,
 					onFinish = { viewModel.setProxyHost(it) }
 				).show()
 			}
@@ -337,7 +334,7 @@ class SettingsFragment : Fragment() {
 			proxyPort.root.setOnClickListener { view ->
 				view.addIntEditText(
 					initialValue = userPreferences.proxyPort,
-					title = stringRes.proxy_host,
+					title = R.string.proxy_host,
 					onFinish = { viewModel.setProxyPort(it) }
 				).show()
 			}
@@ -346,8 +343,8 @@ class SettingsFragment : Fragment() {
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.installerType,
 					values = InstallerType.values().toList(),
-					title = stringRes.installer,
-					iconRes = drawableRes.ic_download,
+					title = R.string.installer,
+					iconRes = R.drawable.ic_download,
 					onClick = {
 						viewModel.setInstaller(it)
 						restartSnackbar?.show()
@@ -370,12 +367,12 @@ class SettingsFragment : Fragment() {
 	private fun Duration.toTime(context: Context?): String {
 		val time = inWholeHours.toInt()
 		val days = inWholeDays.toInt()
-		if (this == Duration.INFINITE || this == Duration.ZERO) return getString(stringRes.never)
+		if (this == Duration.INFINITE || this == Duration.ZERO) return getString(R.string.never)
 		return if (time >= 24) "$days " + context?.resources?.getQuantityString(
-			pluralRes.days,
+			R.plurals.days,
 			days
 		)
-		else "$time " + context?.resources?.getQuantityString(pluralRes.hours, time)
+		else "$time " + context?.resources?.getQuantityString(R.plurals.hours, time)
 	}
 
 	private fun translateLocale(locale: Locale?): String {
@@ -389,7 +386,7 @@ class SettingsFragment : Fragment() {
 				) != 0
 			)
 				"($country)" else ""))
-		} else getString(stringRes.system)
+		} else getString(R.string.system)
 		return languageDisplay
 	}
 

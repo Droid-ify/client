@@ -102,6 +102,13 @@ android {
 			isDebuggable = true
 			isMinifyEnabled = true
 		}
+		all {
+			buildConfigField(
+				type = "String",
+				name = "VERSION_NAME",
+				value = "\"v${Android.versionName}\""
+			)
+		}
 	}
 	packagingOptions {
 		jniLibs {
@@ -128,7 +135,6 @@ dependencies {
 	implementation(project(Modules.coreModel))
 	implementation(project(Modules.coreCommon))
 	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.featureSettings))
 	implementation(project(Modules.installer))
 
 	implementation(kotlin("stdlib"))
