@@ -19,7 +19,6 @@ import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.common.formatSize
 import com.looker.core.common.hex
-import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.result.Result.*
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
@@ -342,7 +341,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private fun validatePackage(task: Task, file: File): ValidationError? {
 		val hash = try {
-			val hashType = task.release.hashType.nullIfEmpty() ?: "SHA256"
+			val hashType = task.release.hashType.ifEmpty { "SHA256" }
 			val digest = MessageDigest.getInstance(hashType)
 			file.inputStream().use {
 				val bytes = ByteArray(8 * 1024)
@@ -354,9 +353,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			""
 		}
 		if (hash.isEmpty() || hash != task.release.hash) return ValidationError.INTEGRITY
-		val packageInfo =
-			packageManager.getPackageArchiveInfoCompat(file.path) ?: return ValidationError.FORMAT
-
+		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
+			?: return ValidationError.FORMAT
 		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) return ValidationError.METADATA
 		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
 		if (signature.isEmpty() || signature != task.release.signature) return ValidationError.SIGNATURE
@@ -476,7 +474,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						is Success -> {
 							if (!result.data.success) {
 								showNotificationError(task, ErrorType.Http)
-								publishForegroundState(false, State.Error(task.packageName))
+								mutableState.emit(State.Error(task.packageName))
 							} else {
 								val validationError = validatePackage(task, partialReleaseFile)
 								if (validationError == null) {
@@ -493,7 +491,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 										task,
 										ErrorType.Validation(validationError)
 									)
-									publishForegroundState(false, State.Error(task.packageName))
+									mutableState.tryEmit(State.Error(task.packageName))
 								}
 							}
 						}
