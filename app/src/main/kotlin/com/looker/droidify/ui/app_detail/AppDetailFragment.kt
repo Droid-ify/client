@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferencesRepository
@@ -45,8 +46,10 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
@@ -104,15 +107,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private var recyclerView: RecyclerView? = null
 
-	private val downloadConnection = Connection(DownloadService::class.java, onBind = { _, binder ->
-		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				binder.stateFlow.filter { it.packageName == packageName }.collect {
-					updateDownloadState(it)
-				}
-			}
+	private val downloadConnection = Connection(
+		serviceClass = DownloadService::class.java,
+		onBind = { _, binder ->
+			binder.stateFlow
+				.filter { it.packageName == packageName }
+				.onEach { updateDownloadState(it) }
+				.launchIn(lifecycleScope)
 		}
-	})
+	)
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -139,6 +142,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			isVerticalScrollBarEnabled = false
 			val adapter = AppDetailAdapter(this@AppDetailFragment)
 			this.adapter = adapter
+			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false;
 			addOnScrollListener(scrollListener)
 			savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
 				?.let(adapter::restoreState)
@@ -354,7 +358,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 	}
 
-	private fun updateDownloadState(state: DownloadService.State?) {
+	private fun updateDownloadState(state: DownloadService.State) {
 		val status = when (state) {
 			is DownloadService.State.Pending -> AppDetailAdapter.Status.Pending
 			is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting

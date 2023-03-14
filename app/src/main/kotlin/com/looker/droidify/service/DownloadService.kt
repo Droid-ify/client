@@ -35,12 +35,15 @@ import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.File
 import java.security.MessageDigest
@@ -68,6 +71,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	lateinit var installer: Installer
 
 	sealed class State(val packageName: String) {
+		object Idle : State("")
 		class Pending(packageName: String) : State(packageName)
 		class Connecting(packageName: String) : State(packageName)
 		class Downloading(packageName: String, val read: Long, val total: Long?) :
@@ -78,7 +82,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		class Success(packageName: String, val release: Release) : State(packageName)
 	}
 
-	private val mutableState = MutableSharedFlow<State>()
+	private val mutableState = MutableStateFlow<State>(State.Idle)
 
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
@@ -95,7 +99,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private var currentTask: CurrentTask? = null
 
 	inner class Binder : android.os.Binder() {
-		val stateFlow = mutableState.asSharedFlow()
+		@OptIn(FlowPreview::class)
+		val stateFlow = mutableState
+			.debounce(100L)
+			.stateIn(
+				scope = scope,
+				started = SharingStarted.WhileSubscribed(5_000),
+				initialValue = State.Idle
+			)
 
 		fun enqueue(
 			packageName: String,
@@ -408,7 +419,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 								setProgress(0, 0, true)
 							}
 						}
-						is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
+						State.Idle, is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
 							throw IllegalStateException()
 						}
 					}::class
