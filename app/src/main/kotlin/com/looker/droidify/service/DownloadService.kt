@@ -467,6 +467,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 							)
 						}
 					}
+					// TODO: move this to `onSuccess` state and you can use flow
 					currentTask = null
 					when (result) {
 						Loading -> publishForegroundState(false, State.Connecting(task.packageName))
