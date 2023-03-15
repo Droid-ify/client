@@ -10,7 +10,6 @@ import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.HttpRequestBuilder
-import io.ktor.client.request.basicAuth
 import io.ktor.client.request.header
 import io.ktor.client.request.prepareGet
 import io.ktor.client.request.url
@@ -38,8 +37,7 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 			val partialFileLength = item.file.length()
 			val request = HttpRequestBuilder().apply {
 				url(item.url)
-				if (item.headerInfo.username != null && item.headerInfo.password != null)
-					basicAuth(item.headerInfo.username, item.headerInfo.password)
+				header(HttpHeaders.Range, item.headerInfo.authentication)
 				header(HttpHeaders.Range, "bytes=${partialFileLength}-")
 				if (item.headerInfo.etag != null) {
 					ifNoneMatch(item.headerInfo.etag)
@@ -68,10 +66,10 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 				val header = HeaderInfo(
 					etag = response.etag(),
 					lastModified = response.lastModified(),
-					username = item.headerInfo.username,
-					password = item.headerInfo.password
+					authentication = item.headerInfo.authentication
 				)
 				send(DownloadState.Success(header))
+				close()
 			}
 			awaitClose { println("Cancelled") }
 		}.onStart {

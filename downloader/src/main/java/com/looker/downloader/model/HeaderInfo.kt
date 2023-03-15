@@ -1,10 +1,9 @@
 package com.looker.downloader.model
 
-import java.util.Date
+import java.util.*
 
 data class HeaderInfo(
 	val etag: String? = null,
 	val lastModified: Date? = null,
-	val username: String? = null,
-	val password: String? = null
+	val authentication: String? = null
 )
