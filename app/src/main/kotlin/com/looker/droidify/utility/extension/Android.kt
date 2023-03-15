@@ -2,6 +2,7 @@
 
 package com.looker.droidify.utility.extension.android
 
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -42,6 +43,18 @@ fun PackageManager.getPackageInfoCompat(
 	}
 } catch (e: Exception) {
 	null
+}
+
+fun PackageManager.getApplicationInfoCompat(
+	filePath: String
+): ApplicationInfo = if (SdkCheck.isTiramisu) {
+	getApplicationInfo(
+		filePath,
+		PackageManager.ApplicationInfoFlags.of(0L)
+	)
+} else {
+	@Suppress("DEPRECATION")
+	getApplicationInfo(filePath, 0)
 }
 
 fun PackageManager.getPackageArchiveInfoCompat(

@@ -464,6 +464,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		}
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	private open class OverlappingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 		init {
 			// Block touch events if touched above negative margin

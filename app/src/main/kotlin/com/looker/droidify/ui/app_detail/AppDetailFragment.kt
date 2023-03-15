@@ -36,6 +36,7 @@ import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
+import com.looker.droidify.utility.extension.android.getApplicationInfoCompat
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.Installer
 import com.looker.installer.InstallerQueueState
@@ -142,7 +143,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			isVerticalScrollBarEnabled = false
 			val adapter = AppDetailAdapter(this@AppDetailFragment)
 			this.adapter = adapter
-			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false;
+			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 			addOnScrollListener(scrollListener)
 			savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
 				?.let(adapter::restoreState)
@@ -183,12 +184,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 								}
 								if (firstChanged || installedItemChanged) {
 									installed = installedItem?.let {
+										val packageManager = requireContext().packageManager
 										val isSystem = try {
-											((requireContext().packageManager.getApplicationInfo(
-												packageName,
-												0
-											).flags)
-													and ApplicationInfo.FLAG_SYSTEM) != 0
+											((packageManager.getApplicationInfoCompat(packageName)
+												.flags) and ApplicationInfo.FLAG_SYSTEM) != 0
 										} catch (e: Exception) {
 											false
 										}
@@ -197,7 +196,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 												// Don't allow to launch self
 												emptyList()
 											} else {
-												val packageManager = requireContext().packageManager
 												packageManager
 													.queryIntentActivities(
 														Intent(Intent.ACTION_MAIN).addCategory(
@@ -239,7 +237,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 						}
 				}
 				launch {
-					viewModel.installerState.collectLatest { updateInstallState(it) }
+					viewModel.installerState.collect { updateInstallState(it) }
 				}
 			}
 		}
@@ -301,9 +299,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			else -> null
 		}
 
-		val adapterAction = if (downloading) AppDetailAdapter.Action.CANCEL
-		else if (installing) null
-		else primaryAction?.adapterAction
+		val adapterAction = when {
+			installing -> null
+			downloading -> AppDetailAdapter.Action.CANCEL
+			else -> primaryAction?.adapterAction
+		}
 
 		(recyclerView?.adapter as? AppDetailAdapter)?.action = adapterAction
 
@@ -473,7 +473,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	override fun onPreferenceChanged(preference: ProductPreference) {
-		lifecycleScope.launch { updateButtons(preference) }
+		updateButtons(preference)
 	}
 
 	override fun onPermissionsClick(group: String?, permissions: List<String>) {
