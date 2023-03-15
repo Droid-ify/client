@@ -34,12 +34,10 @@ import com.looker.installer.model.installItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
@@ -98,14 +96,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private var currentTask: CurrentTask? = null
 
 	inner class Binder : android.os.Binder() {
-		@OptIn(FlowPreview::class)
-		val stateFlow = mutableState
-			.debounce(100L)
-			.stateIn(
-				scope = scope,
-				started = SharingStarted.WhileSubscribed(5_000),
-				initialValue = State.Idle
-			)
+		val stateFlow = mutableState.stateIn(
+			scope = scope,
+			started = SharingStarted.WhileSubscribed(5_000),
+			initialValue = State.Idle
+		)
 
 		fun enqueue(
 			packageName: String,
