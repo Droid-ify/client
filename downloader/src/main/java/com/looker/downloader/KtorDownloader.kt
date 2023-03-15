@@ -5,6 +5,7 @@ import com.looker.downloader.model.DownloadItem
 import com.looker.downloader.model.DownloadState
 import com.looker.downloader.model.HeaderInfo
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
@@ -29,10 +30,20 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import java.io.IOException
+import java.net.Proxy
 
-class KtorDownloader(private val client: HttpClient) : Downloader {
+class KtorDownloader {
 
-	override suspend fun download(item: DownloadItem): Flow<DownloadState> =
+	private lateinit var client: HttpClient
+
+	suspend operator fun invoke(proxy: Proxy?) {
+		client = HttpClient(OkHttp) {
+			engine { this.proxy = proxy }
+			expectSuccess = true
+		}
+	}
+
+	suspend fun download(item: DownloadItem): Flow<DownloadState> =
 		callbackFlow {
 			val partialFileLength = item.file.length()
 			val request = HttpRequestBuilder().apply {
