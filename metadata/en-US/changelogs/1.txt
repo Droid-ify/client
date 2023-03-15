@@ -1,2 +1,0 @@
-* Changed Primary color to Google Green
-* Added Credits to kitsunyan

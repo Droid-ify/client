@@ -1,6 +1,0 @@
-- Update: New app icon
-- Update: The UI in app page
-- Update: Make list animation optional
-- Fix: Show real size of apk
-- Fix: Project link in preferences
-- Fix: Splash screen depending on system's theme

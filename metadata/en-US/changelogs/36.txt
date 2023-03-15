@@ -1,7 +1,0 @@
-- Added Icon for opening Details
-- Top App Bar Differences made more prominent
-- Root Permission will only be asked when used
-- Switch Visibility fixes
-- Added Arabic Translation
-- Long press on source Icon to copy link
-- Replace Toast with Snackbar
