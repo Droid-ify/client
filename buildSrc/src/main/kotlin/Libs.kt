@@ -4,12 +4,12 @@ object AndroidX {
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
-	const val recyclerView = "androidx.recyclerview:recyclerview:1.2.1"
+	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
 	const val material = "com.google.android.material:material:1.8.0"
 }
 
 object Core {
-	private const val coreVersion = "1.9.0"
+	private const val coreVersion = "1.10.0-rc01"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
@@ -19,7 +19,7 @@ object Coil {
 }
 
 object Coroutines {
-	private const val coroutinesVersion = "1.6.4"
+	private const val coroutinesVersion = "1.7.0-Beta"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
@@ -38,6 +38,7 @@ object Excludes {
 		"/META-INF/**.kotlin_module",
 		"/META-INF/**.pro",
 		"/META-INF/**.version",
+		"/META-INF/versions/9/previous-**.bin",
 		"/okhttp3/internal/publicsuffix/*"
 	)
 }
@@ -64,19 +65,20 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val version = "2.2.3"
+	private const val version = "2.2.4"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
+	const val logging = "io.ktor:ktor-client-logging:$version"
 }
 
 object Lifecycle {
-	private const val lifecycleVersion = "2.5.1"
+	private const val lifecycleVersion = "2.6.0"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
-	const val activity = "androidx.activity:activity-ktx:1.6.1"
+	const val activity = "androidx.activity:activity-ktx:1.7.0-rc01"
 }
 
 object Navigation {
