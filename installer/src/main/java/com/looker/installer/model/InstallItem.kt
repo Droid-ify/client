@@ -13,7 +13,7 @@ data class InstallItemState(
 	val state: InstallState
 ) {
 	companion object {
-		val EMPTY = InstallItemState(InstallItem("".toPackageName(), ""), InstallState.Queued)
+		val EMPTY = InstallItemState(InstallItem("".toPackageName(), ""), InstallState.Installed)
 	}
 }
 
