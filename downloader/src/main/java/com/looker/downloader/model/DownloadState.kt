@@ -1,5 +1,6 @@
 package com.looker.downloader.model
 
+import com.looker.core.common.extension.percentBy
 import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.plugins.RedirectResponseException
 import io.ktor.client.plugins.ServerResponseException
@@ -7,11 +8,15 @@ import java.io.IOException
 
 sealed interface DownloadState {
 
-	object Pending : DownloadState
+	object Connecting : DownloadState
 
 	class Success(val headerInfo: HeaderInfo) : DownloadState
 
-	data class Progress(val total: Long, val current: Long, val percent: Int) : DownloadState
+	data class Progress(
+		val current: Long,
+		val total: Long,
+		val percent: Int = current percentBy total
+	) : DownloadState
 
 	sealed interface Error : DownloadState {
 		object UnknownError : Error

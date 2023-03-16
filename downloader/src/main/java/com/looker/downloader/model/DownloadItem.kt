@@ -1,13 +1,16 @@
 package com.looker.downloader.model
 
-import java.io.File
-import java.util.*
+import android.content.Context
+import com.looker.core.common.cache.Cache
 
 data class DownloadItem(
-	val name: String,
 	val url: String,
-	val file: File,
-	val id: String = UUID.randomUUID().toString(),
-	val headerInfo: HeaderInfo = HeaderInfo(),
-	val priority: Priority = Priority.HIGH
+	val fileName: String,
+	val headerInfo: HeaderInfo = HeaderInfo()
+)
+
+fun DownloadItem.toLocation(context: Context) = DownloadLocation(
+	file = Cache.getPartialReleaseFile(context, fileName),
+	url = url,
+	headerInfo = headerInfo
 )
