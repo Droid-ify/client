@@ -74,7 +74,7 @@ object Downloader {
 		authentication: String,
 		callback: (read: Long, total: Long?) -> Unit
 	): Result<RequestCode> = suspendCancellableCoroutine { cont ->
-		val start = if (target.exists()) target.length().let { if (it > 0L) it else null } else null
+		val start = target.length().takeIf { target.exists() && it > 0L }
 		if (cont.isCompleted) return@suspendCancellableCoroutine
 		val call = try {
 			createCall {
@@ -89,59 +89,50 @@ object Downloader {
 			return@suspendCancellableCoroutine
 		}
 		if (cont.isCompleted) return@suspendCancellableCoroutine
-		call.enqueue(
-			object : Callback {
-				override fun onFailure(call: Call, e: IOException) {
-					cont.resume(Result.Error(e))
-				}
 
-				override fun onResponse(call: Call, response: Response) {
-					response.use { result ->
-						if (response.code == HttpURLConnection.HTTP_NOT_MODIFIED) {
-							if (cont.isCompleted) return
-							cont.resume(
-								Result.Success(
-									RequestCode(
-										result.code,
-										lastModified,
-										entityTag
-									)
-								)
-							)
-						} else {
-							if (cont.isCompleted) return
-							val body = result.body
-							val append = start != null && result.header("Content-Range") != null
-							val progressStart = if (append && start != null) start else 0L
-							val progressTotal =
-								body.contentLength().let { if (it >= 0L) it else null }
-									?.let { progressStart + it }
-							val inputStream = body.byteStream().getProgress {
-								callback(progressStart + it, progressTotal)
-							}
-							val outputStream = FileOutputStream(target, append)
-							inputStream.use outerUse@{ input ->
-								outputStream.use { output ->
-									if (cont.isActive) {
-										input.copyTo(output)
-										output.fd.sync()
-									}
-								}
-							}
-							cont.resume(
-								Result.Success(
-									RequestCode(
-										result.code,
-										result.header("Last-Modified").orEmpty(),
-										result.header("ETag").orEmpty()
-									)
-								)
-							)
+		val enqueueCallback = object : Callback {
+			override fun onFailure(call: Call, e: IOException) {
+				cont.resume(Result.Error(e))
+			}
+
+			override fun onResponse(call: Call, response: Response) {
+				if (response.code == HttpURLConnection.HTTP_NOT_MODIFIED) {
+					if (cont.isCompleted) return
+					val resultCode = RequestCode(response.code, lastModified, entityTag)
+					cont.resume(Result.Success(resultCode))
+					return
+				}
+				if (cont.isCompleted) return
+				val body = response.body
+				val append = start != null && response.header("Content-Range") != null
+				val progressStart = if (append && start != null) start else 0L
+				val progressTotal = body.contentLength().takeIf { it >= 0L }
+					?.let { progressStart + it }
+				val inputStream = body.byteStream().getProgress {
+					callback(progressStart + it, progressTotal)
+				}
+				val outputStream = FileOutputStream(target, append)
+				inputStream.use { input ->
+					outputStream.use { output ->
+						if (cont.isActive) {
+							input.copyTo(output)
+							output.fd.sync()
 						}
 					}
 				}
+				val requestCode = RequestCode(
+					response.code,
+					response.header("Last-Modified").orEmpty(),
+					response.header("ETag").orEmpty()
+				)
+				cont.resume(
+					if (requestCode.success) Result.Success(requestCode)
+					else Result.Error(data = requestCode)
+				)
 			}
-		)
+		}
+
+		call.enqueue(enqueueCallback)
 		cont.invokeOnCancellation { call.cancel() }
 	}
 }
