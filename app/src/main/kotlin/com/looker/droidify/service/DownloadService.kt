@@ -412,9 +412,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 								setProgress(0, 0, true)
 							}
 						}
-						State.Idle, is State.Pending, is State.Success, is State.Error, is State.Cancel -> {
-							throw IllegalStateException()
-						}
+						else -> throw IllegalStateException()
 					}::class
 				}.build()
 			)
