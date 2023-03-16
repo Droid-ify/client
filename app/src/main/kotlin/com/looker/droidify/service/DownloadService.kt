@@ -376,130 +376,103 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			)
 	}
 
-	private suspend fun publishForegroundState(force: Boolean, state: State) {
-		if (force || currentTask != null) {
-			currentTask = currentTask?.copy(lastState = state)
-			startForeground(
-				Constants.NOTIFICATION_ID_DOWNLOADING,
-				stateNotificationBuilder.apply {
-					when (state) {
-						is State.Connecting -> {
-							setContentTitle(
-								getString(
-									stringRes.downloading_FORMAT,
-									currentTask?.task?.name
-								)
-							)
-							setContentText(getString(stringRes.connecting))
-							setProgress(1, 0, true)
+	private fun publishForegroundState(force: Boolean, state: State) {
+		if (!force && currentTask == null) return
+		currentTask = currentTask?.copy(lastState = state)
+		startForeground(
+			Constants.NOTIFICATION_ID_DOWNLOADING,
+			stateNotificationBuilder.apply {
+				when (state) {
+					is State.Connecting -> {
+						setContentTitle(
+							getString(stringRes.downloading_FORMAT, currentTask?.task?.name)
+						)
+						setContentText(getString(stringRes.connecting))
+						setProgress(1, 0, true)
+					}
+					is State.Downloading -> {
+						setContentTitle(
+							getString(stringRes.downloading_FORMAT, currentTask?.task?.name)
+						)
+						if (state.total != null) {
+							setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
+							setProgress(100, state.read percentBy state.total, false)
+						} else {
+							setContentText(state.read.formatSize())
+							setProgress(0, 0, true)
 						}
-						is State.Downloading -> {
-							setContentTitle(
-								getString(
-									stringRes.downloading_FORMAT,
-									currentTask?.task?.name
-								)
-							)
-							if (state.total != null) {
-								setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-								setProgress(
-									100,
-									state.read percentBy state.total,
-									false
-								)
-							} else {
-								setContentText(state.read.formatSize())
-								setProgress(0, 0, true)
-							}
-						}
-						else -> throw IllegalStateException()
-					}::class
-				}.build()
-			)
-			mutableState.emit(state)
-		}
+					}
+					else -> throw IllegalStateException()
+				}::class
+			}.build()
+		)
+		mutableState.tryEmit(state)
 	}
 
 	private fun handleDownload() {
-		if (currentTask == null) {
-			if (tasks.isNotEmpty()) {
-				val task = tasks.removeAt(0)
-				if (!started) {
-					started = true
-					startSelf()
-				}
-				val initialState = State.Connecting(task.packageName)
-				val intent = Intent(this, MainActivity::class.java)
-					.setAction(Intent.ACTION_VIEW)
-					.setData(Uri.parse("package:${task.packageName}"))
-					.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-				val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-					addNextIntentWithParentStack(intent)
-					getPendingIntent(
-						0,
-						pendingIntentFlag
-					)
-				}
-				stateNotificationBuilder.setWhen(System.currentTimeMillis())
-				stateNotificationBuilder.setContentIntent(resultPendingIntent)
-				scope.launch { publishForegroundState(true, initialState) }
-				val partialReleaseFile =
-					Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-				val job = scope.launch {
-					val result = Downloader.downloadFile(
-						task.url,
-						partialReleaseFile,
-						"",
-						"",
-						task.authentication
-					) { read, total ->
-						launch {
-							publishForegroundState(
-								false,
-								State.Downloading(task.packageName, read, total)
-							)
-						}
-					}
-					// TODO: move this to `onSuccess` state and you can use flow
-					currentTask = null
-					when (result) {
-						Loading -> publishForegroundState(false, State.Connecting(task.packageName))
-						is Error -> result.exception?.printStackTrace()
-						is Success -> {
-							if (!result.data.success) {
-								showNotificationError(task, ErrorType.Http)
-								mutableState.emit(State.Error(task.packageName))
-							} else {
-								val validationError = validatePackage(task, partialReleaseFile)
-								if (validationError == null) {
-									val releaseFile =
-										Cache.getReleaseFile(
-											this@DownloadService,
-											task.release.cacheFileName
-										)
-									partialReleaseFile.renameTo(releaseFile)
-									publishSuccess(task)
-								} else {
-									partialReleaseFile.delete()
-									showNotificationError(
-										task,
-										ErrorType.Validation(validationError)
-									)
-									mutableState.tryEmit(State.Error(task.packageName))
-								}
-							}
-						}
-					}
-					handleDownload()
-				}
-				currentTask = CurrentTask(task, job, initialState)
-			} else if (started) {
-				started = false
-				@Suppress("DEPRECATION")
-				if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
-				else stopForeground(true)
-				stopSelf()
-			}
+		if (currentTask != null) return
+		if (tasks.isEmpty() && started) {
+			started = false
+			@Suppress("DEPRECATION")
+			if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
+			else stopForeground(true)
+			stopSelf()
+			return
 		}
+		if (!started) {
+			started = true
+			startSelf()
+		}
+		val task = tasks.removeAt(0)
+		val intent = Intent(this, MainActivity::class.java)
+			.setAction(Intent.ACTION_VIEW)
+			.setData(Uri.parse("package:${task.packageName}"))
+			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
+			addNextIntentWithParentStack(intent)
+			getPendingIntent(0, pendingIntentFlag)
+		}
+		stateNotificationBuilder.setWhen(System.currentTimeMillis())
+		stateNotificationBuilder.setContentIntent(resultPendingIntent)
+		publishForegroundState(true, State.Connecting(task.packageName))
+		val partialReleaseFile =
+			Cache.getPartialReleaseFile(this, task.release.cacheFileName)
+		val job = scope.launch {
+			val result = Downloader.downloadFile(
+				task.url,
+				partialReleaseFile,
+				"",
+				"",
+				task.authentication
+			) { read, total ->
+				publishForegroundState(false, State.Downloading(task.packageName, read, total))
+			}
+			currentTask = null
+			when (result) {
+				is Error -> result.exception?.printStackTrace()
+				is Success -> {
+					if (!result.data.success) {
+						showNotificationError(task, ErrorType.Http)
+						mutableState.emit(State.Error(task.packageName))
+					} else {
+						val validationError = validatePackage(task, partialReleaseFile)
+						if (validationError == null) {
+							val releaseFile = Cache.getReleaseFile(
+									this@DownloadService,
+									task.release.cacheFileName
+								)
+							partialReleaseFile.renameTo(releaseFile)
+							publishSuccess(task)
+						} else {
+							partialReleaseFile.delete()
+							showNotificationError(task, ErrorType.Validation(validationError))
+							mutableState.tryEmit(State.Error(task.packageName))
+						}
+					}
+				}
+			}
+			handleDownload()
+		}
+		currentTask = CurrentTask(task, job, State.Connecting(task.packageName))
 	}
 }

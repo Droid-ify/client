@@ -427,9 +427,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			}
 			currentTask = null
 			when (request) {
-				Result.Loading -> {
-					mutableStateSubject.emit(State.Connecting(repository.name))
-				}
 				is Result.Error -> {
 					request.exception?.printStackTrace()
 					if (task.manual) showNotificationError(

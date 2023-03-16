@@ -110,7 +110,6 @@ object RepositoryUpdater {
 	): Result<Boolean> = withContext(Dispatchers.IO) {
 		val indexType = indexTypes[0]
 		when (val request = downloadIndex(context, repository, indexType, callback)) {
-			Result.Loading -> Result.Loading
 			is Result.Error -> Result.Error(request.exception, false)
 			is Result.Success -> {
 				val result = request.data.requestCode
@@ -211,7 +210,6 @@ object RepositoryUpdater {
 					else -> Result.Error(downloadResult.exception)
 				}
 			}
-			Result.Loading -> Result.Loading
 			is Result.Success -> Result.Success(IndexFile(downloadResult.data, file))
 		}
 	}
