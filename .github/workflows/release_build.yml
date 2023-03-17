@@ -1,6 +1,7 @@
 name: Build Release APK
 
 on:  
+  workflow_call:
   push:
     tags:
       - '*'
@@ -35,9 +36,6 @@ jobs:
       
     - name: Build Release APK
       run: ./gradlew assembleRelease
-      
-    - name: Rename APK
-      run: mv app/release/app-release.apk app/release/droidify.apk
       
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
