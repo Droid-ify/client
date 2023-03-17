@@ -1,7 +1,7 @@
 name: Build Release APK
 
 on:  
-  workflow_call:
+  workflow_dispatch:
   push:
     tags:
       - '*'
