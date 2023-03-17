@@ -38,7 +38,7 @@ jobs:
       run: ./gradlew assembleRelease
       
     - name: Checks
-      run: ls -R
+      run: ls *
       
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
