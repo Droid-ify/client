@@ -17,7 +17,6 @@ import com.looker.installer.model.InstallItemState
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.statesTo
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
@@ -26,6 +25,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class Installer(
 	private val context: Context,
@@ -105,8 +105,14 @@ class Installer(
 				newSet
 			}
 			installState.emit(item statesTo InstallState.Installing)
-			val success = async { baseInstaller.performInstall(item) }
-			installState.emit(item statesTo success.await())
+			val success = withTimeoutOrNull(20_000) {
+				baseInstaller.performInstall(item)
+			}
+			if (success == null) {
+				installState.emit(item statesTo InstallState.Failed)
+			} else {
+				installState.emit(item statesTo success)
+			}
 			requested.remove(item.packageName.name)
 			context.notificationManager.cancel(
 				"download-${item.packageName.name}",
