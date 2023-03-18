@@ -1,4 +1,4 @@
-package com.looker.core.data.fdroid.model
+package com.looker.core.data.fdroid.model.v1
 
 import com.looker.core.database.model.RepoEntity
 import kotlinx.serialization.Serializable

@@ -1,7 +1,7 @@
 package com.looker.core.data.fdroid.sync
 
 import com.looker.core.common.extension.fingerprint
-import com.looker.core.data.fdroid.model.IndexV1
+import com.looker.core.data.fdroid.model.v1.IndexV1
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.security.cert.X509Certificate
 import java.util.jar.JarEntry
@@ -41,7 +41,8 @@ enum class IndexType(
 	val jarName: String,
 	val contentName: String
 ) {
-	INDEX_V1("index-v1.jar", "index-v1.json")
+	INDEX_V1("index-v1.jar", "index-v1.json"),
+	INDEX_V2("index-v2.jar", "index-v2.json")
 }
 
 class ProcessJarException(override val message: String) : Exception(message)

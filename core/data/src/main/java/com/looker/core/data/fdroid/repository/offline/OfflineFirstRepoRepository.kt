@@ -1,9 +1,10 @@
 package com.looker.core.data.fdroid.repository.offline
 
 import android.content.Context
-import com.looker.core.data.fdroid.model.allowUnstable
-import com.looker.core.data.fdroid.model.toEntity
+import com.looker.core.data.fdroid.model.v1.allowUnstable
+import com.looker.core.data.fdroid.model.v1.toEntity
 import com.looker.core.data.fdroid.repository.RepoRepository
+import com.looker.core.data.fdroid.sync.IndexType
 import com.looker.core.data.fdroid.sync.downloadIndexJar
 import com.looker.core.data.fdroid.sync.getFingerprint
 import com.looker.core.data.fdroid.sync.getIndexV1
@@ -43,7 +44,8 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(context: Context, repo: Repo, allowUnstable: Boolean): Boolean =
 		coroutineScope {
-			val repoLoc = downloadIndexJar(repo.toLocation(context))
+			val indexType = IndexType.INDEX_V1
+			val repoLoc = downloadIndexJar(repo.toLocation(context), indexType)
 			val index = repoLoc.jar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
 				fingerPrint = repo.fingerprint,

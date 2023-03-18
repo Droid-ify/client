@@ -9,7 +9,9 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.client.request.basicAuth
 import io.ktor.client.request.get
+import io.ktor.client.request.head
 import io.ktor.client.request.url
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.ifModifiedSince
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,16 +73,29 @@ private fun CoroutineScope.worker(
 	contents: SendChannel<RepoLocJar>
 ) = launch {
 	items.consumeEach {
-		val content = downloadIndexJar(it)
+		val indexType = determineIndexType(it)
+		val content = downloadIndexJar(it, indexType)
 		contents.send(content)
 	}
 }
 
-internal suspend fun downloadIndexJar(repoLocation: RepoLocation): RepoLocJar = withContext(Dispatchers.IO) {
+internal suspend fun determineIndexType(
+	repoLocation: RepoLocation
+): IndexType = withContext(Dispatchers.IO) {
+	val isIndexV1 = client.head(
+		repoLocation.indexUrl(IndexType.INDEX_V2)
+	).status == HttpStatusCode.NotFound
+	if (isIndexV1) IndexType.INDEX_V1 else IndexType.INDEX_V2
+}
+
+internal suspend fun downloadIndexJar(
+	repoLocation: RepoLocation,
+	indexType: IndexType
+): RepoLocJar = withContext(Dispatchers.IO) {
 	val shouldAuthenticate =
 		repoLocation.username.isNotEmpty() && repoLocation.password.isNotEmpty()
 	val request = HttpRequestBuilder().apply {
-		url(repoLocation.url)
+		url(repoLocation.indexUrl(indexType))
 		ifModifiedSince(Date(repoLocation.timestamp))
 		if (shouldAuthenticate) basicAuth(repoLocation.username, repoLocation.password)
 	}
@@ -100,12 +115,16 @@ data class RepoLocation(
 )
 
 fun Repo.toLocation(context: Context) = RepoLocation(
-	url = "$address/index-v1.jar",
+	url = address,
 	context = context,
 	timestamp = timestamp,
 	username = username,
 	password = password
 )
+
+fun RepoLocation.indexUrl(indexType: IndexType): String =
+	if (url.endsWith('/')) url + indexType.jarName
+	else "$url/${indexType.jarName}"
 
 data class RepoLocJar(
 	val repo: RepoLocation,
