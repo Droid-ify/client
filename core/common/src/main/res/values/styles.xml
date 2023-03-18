@@ -36,7 +36,6 @@
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
@@ -74,7 +73,6 @@
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
@@ -112,7 +110,6 @@
         <item name="switchStyle">@style/Theme.Switch</item>
         <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
-        <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
         <item name="materialCardViewStyle">@style/Theme.Card</item>
         <item name="materialCardViewElevatedStyle">@style/Theme.Card.Elevated</item>
@@ -149,13 +146,6 @@
 
     <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
         <item name="layout_collapseMode">pin</item>
-    </style>
-
-    <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
-        <item name="colorPrimary">?attr/colorOnSurface</item>
-        <item name="android:dialogCornerRadius" tools:targetApi="p">@dimen/shape_large_corner</item>
-        <item name="android:backgroundTint">?attr/colorSurface</item>
-        <item name="colorOnSurfaceVariant">?attr/colorOnSurface</item>
     </style>
 
     <style name="Theme.EditText" parent="Widget.Material3.TextInputLayout.FilledBox">
