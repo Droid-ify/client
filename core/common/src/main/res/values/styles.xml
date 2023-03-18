@@ -60,7 +60,7 @@
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
         <item name="android:colorBackground">@color/md_theme_dark_background</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
-        <item name="colorSurface">@color/grey_dark</item>
+        <item name="colorSurface">@color/md_theme_dark_surface</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
@@ -68,7 +68,7 @@
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
-        <item name="android:statusBarColor">@color/grey_dark</item>
+        <item name="android:statusBarColor">@color/md_theme_dark_surface</item>
         <item name="android:navigationBarColor">@color/md_theme_dark_background</item>
 
         <item name="switchStyle">@style/Theme.Switch</item>
@@ -96,7 +96,7 @@
         <item name="colorErrorContainer">@color/md_theme_dark_errorContainer</item>
         <item name="colorOnError">@color/md_theme_dark_onError</item>
         <item name="colorOnErrorContainer">@color/md_theme_dark_onErrorContainer</item>
-        <item name="colorSurface">@color/md_theme_dark_surface</item>
+        <item name="colorSurface">@color/md_theme_dark_surface_amoled</item>
         <item name="colorOnSurface">@color/md_theme_dark_onSurface</item>
         <item name="colorSurfaceVariant">@color/md_theme_dark_surfaceVariant</item>
         <item name="colorOnSurfaceVariant">@color/md_theme_dark_onSurfaceVariant</item>
@@ -106,7 +106,7 @@
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
         <item name="android:colorBackground">@color/pitch_black</item>
         <item name="colorOnBackground">@color/md_theme_dark_onBackground</item>
-        <item name="android:statusBarColor">@color/md_theme_dark_surface</item>
+        <item name="android:statusBarColor">@color/md_theme_dark_surface_amoled</item>
         <item name="android:navigationBarColor">@color/pitch_black</item>
 
         <item name="switchStyle">@style/Theme.Switch</item>

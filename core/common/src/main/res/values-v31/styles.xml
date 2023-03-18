@@ -6,18 +6,23 @@
         <item name="colorOnPrimary">@android:color/system_accent1_0</item>
         <item name="colorPrimaryContainer">@android:color/system_accent1_200</item>
         <item name="colorOnPrimaryContainer">@android:color/system_accent1_900</item>
+        <item name="colorPrimaryInverse">@android:color/system_accent1_300</item>
         <item name="colorSecondary">@android:color/system_accent3_600</item>
         <item name="colorOnSecondary">@android:color/system_accent3_0</item>
         <item name="colorSecondaryContainer">@android:color/system_accent3_200</item>
         <item name="colorOnSecondaryContainer">@android:color/system_accent3_800</item>
+
+        <item name="android:colorBackground">@android:color/system_neutral1_10</item>
+        <item name="colorOnBackground">@android:color/system_neutral1_900</item>
+
         <item name="colorSurface">@android:color/system_neutral1_100</item>
         <item name="colorOnSurface">@android:color/system_neutral1_900</item>
         <item name="colorSurfaceVariant">@android:color/system_neutral2_100</item>
         <item name="colorOnSurfaceVariant">@android:color/system_neutral2_700</item>
         <item name="colorOutline">@android:color/system_neutral2_500</item>
-        <item name="colorOnSurfaceInverse">@android:color/system_neutral1_100</item>
         <item name="colorSurfaceInverse">@android:color/system_neutral1_900</item>
-        <item name="colorPrimaryInverse">@android:color/system_accent1_300</item>
+        <item name="colorOnSurfaceInverse">@android:color/system_neutral1_100</item>
+
     </style>
 
     <style name="Theme.Main.DynamicDark" parent="Theme.Main.Dark">
@@ -32,6 +37,16 @@
         <item name="colorOnSecondaryContainer">@android:color/system_accent3_50</item>
         <item name="colorPrimaryInverse">@android:color/system_accent1_600</item>
         <item name="android:statusBarColor">@android:color/system_neutral1_900</item>
+
+        <item name="android:colorBackground">@android:color/system_neutral1_900</item>
+        <item name="colorOnBackground">@android:color/system_neutral1_50</item>
+
+        <item name="colorSurface">@android:color/system_neutral1_800</item>
+        <item name="colorOnSurface">@android:color/system_neutral1_100</item>
+        <item name="colorSurfaceVariant">@android:color/system_neutral2_600</item>
+        <item name="colorOnSurfaceVariant">@android:color/system_neutral2_100</item>
+        <item name="colorSurfaceInverse">@android:color/system_neutral1_50</item>
+        <item name="colorOnSurfaceInverse">@android:color/system_neutral1_900</item>
     </style>
 
     <style name="Theme.Main.DynamicAmoled" parent="Theme.Main.Amoled">
