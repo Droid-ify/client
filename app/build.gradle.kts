@@ -7,6 +7,7 @@ plugins {
 
 android {
 	compileSdk = Android.compileSdk
+	buildToolsVersion = "33.0.2"
 	namespace = "com.looker.droidify"
 	defaultConfig {
 		applicationId = Android.appId
