@@ -22,7 +22,7 @@ private fun Context.syncWorkNotification(): Notification {
 		val channel = NotificationChannel(
 			SyncNotificationChannelID,
 			getString(CommonR.string.sync_repositories),
-			NotificationManager.IMPORTANCE_DEFAULT,
+			NotificationManager.IMPORTANCE_LOW,
 		).apply {
 			description = getString(CommonR.string.sync_repositories)
 		}
@@ -39,6 +39,6 @@ private fun Context.syncWorkNotification(): Notification {
 	)
 		.setSmallIcon(CommonR.drawable.ic_sync)
 		.setContentTitle(getString(CommonR.string.syncing))
-		.setPriority(NotificationCompat.PRIORITY_DEFAULT)
+		.setPriority(NotificationCompat.PRIORITY_LOW)
 		.build()
 }
