@@ -49,9 +49,10 @@ fun Intent.getPackageName(): String? {
 		}
 		uri != null && uri.scheme in setOf("http", "https") -> {
 			val host = uri.host.orEmpty()
-			if (host == "f-droid.org" || host.endsWith(".f-droid.org")) {
-				uri.lastPathSegment?.nullIfEmpty()
-			} else if (host == "apt.izzysoft.de") {
+			if (host == "f-droid.org"
+				|| host.endsWith(".f-droid.org")
+				|| host == "apt.izzysoft.de"
+			) {
 				uri.lastPathSegment?.nullIfEmpty()
 			} else {
 				null
