@@ -453,25 +453,23 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			}
 			currentTask = null
 			when (result) {
-				is Error -> result.exception?.printStackTrace()
+				is Error -> {
+					showNotificationError(task, ErrorType.Http)
+					mutableState.emit(State.Error(task.packageName))
+				}
 				is Success -> {
-					if (!result.data.success) {
-						showNotificationError(task, ErrorType.Http)
-						mutableState.emit(State.Error(task.packageName))
+					val validationError = validatePackage(task, partialReleaseFile)
+					if (validationError == null) {
+						val releaseFile = Cache.getReleaseFile(
+							this@DownloadService,
+							task.release.cacheFileName
+						)
+						partialReleaseFile.renameTo(releaseFile)
+						publishSuccess(task)
 					} else {
-						val validationError = validatePackage(task, partialReleaseFile)
-						if (validationError == null) {
-							val releaseFile = Cache.getReleaseFile(
-								this@DownloadService,
-								task.release.cacheFileName
-							)
-							partialReleaseFile.renameTo(releaseFile)
-							publishSuccess(task)
-						} else {
-							partialReleaseFile.delete()
-							showNotificationError(task, ErrorType.Validation(validationError))
-							mutableState.tryEmit(State.Error(task.packageName))
-						}
+						partialReleaseFile.delete()
+						showNotificationError(task, ErrorType.Validation(validationError))
+						mutableState.tryEmit(State.Error(task.packageName))
 					}
 				}
 			}

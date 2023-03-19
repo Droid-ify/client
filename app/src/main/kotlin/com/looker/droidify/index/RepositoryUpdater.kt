@@ -110,7 +110,30 @@ object RepositoryUpdater {
 	): Result<Boolean> = withContext(Dispatchers.IO) {
 		val indexType = indexTypes[0]
 		when (val request = downloadIndex(context, repository, indexType, callback)) {
-			is Result.Error -> Result.Error(request.exception, false)
+			is Result.Error -> {
+				val result = request.data?.requestCode
+					?: return@withContext Result.Error(request.exception, false)
+
+				val file = request.data?.file
+					?: return@withContext Result.Error(request.exception, false)
+				file.delete()
+				if (result.code == 404 && indexTypes.isNotEmpty()) {
+					update(
+						context = context,
+						repository = repository,
+						indexTypes = indexTypes.subList(1, indexTypes.size),
+						unstable = unstable,
+						callback = callback
+					)
+				} else {
+					Result.Error(
+						UpdateException(
+							ErrorType.HTTP,
+							"Invalid response: HTTP ${result.code}"
+						)
+					)
+				}
+			}
 			is Result.Success -> {
 				val result = request.data.requestCode
 				val file = request.data.file
@@ -118,25 +141,6 @@ object RepositoryUpdater {
 					result.isNotChanged -> {
 						file.delete()
 						Result.Success(false)
-					}
-					!result.success -> {
-						file.delete()
-						if (result.code == 404 && indexTypes.isNotEmpty()) {
-							update(
-								context = context,
-								repository = repository,
-								indexTypes = indexTypes.subList(1, indexTypes.size),
-								unstable = unstable,
-								callback = callback
-							)
-						} else {
-							Result.Error(
-								UpdateException(
-									ErrorType.HTTP,
-									"Invalid response: HTTP ${result.code}"
-								)
-							)
-						}
 					}
 					else -> {
 						try {
