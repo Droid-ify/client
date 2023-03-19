@@ -30,7 +30,7 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
-import com.looker.installer.model.installItem
+import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -333,7 +333,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			|| currentInstaller == InstallerType.SHIZUKU
 			|| autoInstallWithSessionInstaller
 		) {
-			val installItem = task.packageName.installItem(task.release.cacheFileName)
+			val installItem = task.packageName installFrom task.release.cacheFileName
 			installer + installItem
 		}
 	}
@@ -462,9 +462,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						val validationError = validatePackage(task, partialReleaseFile)
 						if (validationError == null) {
 							val releaseFile = Cache.getReleaseFile(
-									this@DownloadService,
-									task.release.cacheFileName
-								)
+								this@DownloadService,
+								task.release.cacheFileName
+							)
 							partialReleaseFile.renameTo(releaseFile)
 							publishSuccess(task)
 						} else {

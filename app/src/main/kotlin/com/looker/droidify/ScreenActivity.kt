@@ -25,7 +25,6 @@ import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.extension.getThemeRes
-import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -36,7 +35,7 @@ import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
 import com.looker.installer.Installer
-import com.looker.installer.model.InstallItem
+import com.looker.installer.model.installFrom
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -276,11 +275,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {
 					navigateProduct(packageName)
-					specialIntent.cacheFileName?.let { cacheFile ->
-						lifecycleScope.launch {
-							val installItem = InstallItem(packageName.toPackageName(), cacheFile)
-							installer + installItem
-						}
+					specialIntent.cacheFileName?.also { cacheFile ->
+						val installItem = packageName installFrom cacheFile
+						lifecycleScope.launch { installer + installItem }
 					}
 				}
 				Unit

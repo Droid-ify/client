@@ -41,7 +41,7 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.Installer
 import com.looker.installer.InstallerQueueState
 import com.looker.installer.model.InstallState
-import com.looker.installer.model.installItem
+import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.emitAll
@@ -376,7 +376,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 		lifecycleScope.launch {
 			if (state is DownloadService.State.Success && isResumed) {
-				val installItem = packageName.installItem(state.release.cacheFileName)
+				val installItem = packageName installFrom state.release.cacheFileName
 				installer + installItem
 			}
 		}
