@@ -43,9 +43,9 @@ import coil.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.switchmaterial.SwitchMaterial
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.extension.inflate
@@ -410,7 +410,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val enabled = itemView.findViewById<SwitchMaterial>(R.id.update_state_switch)!!
+		val enabled = itemView.findViewById<MaterialSwitch>(R.id.update_state_switch)!!
 
 		val statefulViews: Sequence<View>
 			get() = sequenceOf(itemView, enabled)

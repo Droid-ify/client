@@ -152,10 +152,7 @@
     </style>
 
     <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
-        <item name="colorPrimary">?attr/colorOnSurface</item>
         <item name="android:dialogCornerRadius" tools:targetApi="p">@dimen/shape_large_corner</item>
-        <item name="android:backgroundTint">?attr/colorSurface</item>
-        <item name="colorOnSurfaceVariant">?attr/colorOnSurface</item>
     </style>
 
     <style name="Theme.EditText" parent="Widget.Material3.TextInputLayout.FilledBox">
