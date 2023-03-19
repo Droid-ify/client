@@ -84,6 +84,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
 		val url: String, val authentication: String,
+		val updating: Boolean = false
 	) {
 		val notificationTag: String
 			get() = "download-$packageName"
@@ -106,14 +107,16 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			packageName: String,
 			name: String,
 			repository: Repository,
-			release: Release
+			release: Release,
+			updating: Boolean = false
 		) {
 			val task = Task(
-				packageName,
-				name,
-				release,
-				release.getDownloadUrl(repository),
-				repository.authentication
+				packageName = packageName,
+				name = name,
+				release = release,
+				url = release.getDownloadUrl(repository),
+				authentication = repository.authentication,
+				updating = updating
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
 				scope.launch(Dispatchers.Main) { publishSuccess(task) }
@@ -323,7 +326,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val autoInstallWithSessionInstaller =
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
 					&& currentInstaller == InstallerType.SESSION
+					&& task.updating
 
+		showNotificationInstall(task)
 		if (currentInstaller == InstallerType.ROOT
 			|| currentInstaller == InstallerType.SHIZUKU
 			|| autoInstallWithSessionInstaller
@@ -331,7 +336,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			val installItem = task.packageName.installItem(task.release.cacheFileName)
 			installer + installItem
 		}
-		showNotificationInstall(task)
 	}
 
 	private fun validatePackage(task: Task, file: File): ValidationError? {

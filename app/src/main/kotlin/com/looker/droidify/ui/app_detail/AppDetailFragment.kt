@@ -525,7 +525,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				if (productRepository != null) {
 					downloadConnection.binder?.enqueue(
 						packageName, productRepository.first.name,
-						productRepository.second, release
+						productRepository.second, release, installedItem != null
 					)
 				}
 			}

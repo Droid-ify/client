@@ -51,10 +51,11 @@ object Utils {
 		val binder = downloadConnection.binder
 		if (productRepository != null && release != null && binder != null) {
 			binder.enqueue(
-				packageName,
-				productRepository.first.name,
-				productRepository.second,
-				release
+				packageName = packageName,
+				name = productRepository.first.name,
+				repository = productRepository.second,
+				release = release,
+				updating = installedItem != null
 			)
 		}
 	}
