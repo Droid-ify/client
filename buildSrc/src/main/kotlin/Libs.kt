@@ -3,8 +3,6 @@ object AndroidX {
 
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 
-	const val preference = "androidx.preference:preference-ktx:1.2.0"
-	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
 	const val material = "com.google.android.material:material:1.8.0"
 }
 
@@ -14,7 +12,7 @@ object Core {
 }
 
 object Coil {
-	private const val coilVersion = "2.2.2"
+	private const val coilVersion = "2.3.0"
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
@@ -72,7 +70,7 @@ object Ktor {
 }
 
 object Lifecycle {
-	private const val lifecycleVersion = "2.6.0"
+	private const val lifecycleVersion = "2.6.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
@@ -102,7 +100,7 @@ object Others {
 }
 
 object Room {
-	private const val roomVersion = "2.5.0"
+	private const val roomVersion = "2.5.1"
 	const val runtime = "androidx.room:room-runtime:$roomVersion"
 	const val compiler = "androidx.room:room-compiler:$roomVersion"
 	const val ktx = "androidx.room:room-ktx:$roomVersion"
@@ -126,6 +124,6 @@ object Version {
 }
 
 object Work {
-	private const val version = "2.7.1"
+	private const val version = "2.8.1"
 	const val manager = "androidx.work:work-runtime-ktx:$version"
 }

@@ -142,8 +142,6 @@ dependencies {
 	implementation(Core.core)
 
 	implementation(AndroidX.appCompat)
-	implementation(AndroidX.preference)
-	implementation(AndroidX.recyclerView)
 	implementation(AndroidX.material)
 
 	implementation(Coil.coil)
