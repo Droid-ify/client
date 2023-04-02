@@ -132,7 +132,13 @@ android {
 }
 
 dependencies {
-	modules(Modules.coreModel, Modules.coreCommon, Modules.coreDatastore, Modules.installer)
+	modules(
+		Modules.coreModel,
+		Modules.coreCommon,
+		Modules.coreData,
+		Modules.coreDatastore,
+		Modules.installer
+	)
 
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
@@ -150,6 +156,7 @@ dependencies {
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.activity)
 	implementation(Lifecycle.runtime)
+	implementation(Lifecycle.viewmodel)
 
 	implementation(OkHttp.okhttp)
 
