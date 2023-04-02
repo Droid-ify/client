@@ -36,7 +36,6 @@
     <locale android:name="pt-rBR" />
     <locale android:name="ro" />
     <locale android:name="ru" />
-    <locale android:name="si" />
     <locale android:name="sv" />
     <locale android:name="tl" />
     <locale android:name="tr" />
