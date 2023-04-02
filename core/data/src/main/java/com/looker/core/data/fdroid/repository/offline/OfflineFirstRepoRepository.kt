@@ -28,6 +28,8 @@ class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val repoDao: RepoDao
 ) : RepoRepository {
+	override suspend fun getRepo(id: Long): Repo = repoDao.getRepoById(id).toExternalModel()
+
 	override fun getRepos(): Flow<List<Repo>> =
 		repoDao.getRepoStream().map { it.map(RepoEntity::toExternalModel) }
 

@@ -14,6 +14,9 @@ interface RepoDao {
 	@Query(value = "SELECT * FROM repos")
 	fun getRepoStream(): Flow<List<RepoEntity>>
 
+	@Query(value = "SELECT * FROM repos WHERE id = :id")
+	suspend fun getRepoById(id: Long): RepoEntity
+
 	@Update
 	suspend fun updateRepo(repoEntity: RepoEntity)
 

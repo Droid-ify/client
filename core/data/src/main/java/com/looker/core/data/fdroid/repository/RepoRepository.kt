@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {
 
+	suspend fun getRepo(id: Long): Repo
+
 	fun getRepos(): Flow<List<Repo>>
 
 	suspend fun updateRepo(repo: Repo): Boolean
