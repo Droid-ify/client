@@ -86,17 +86,10 @@ object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
 
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.6"
 	const val activity = "androidx.activity:activity-compose:1.7.0"
-}
-
-object Navigation {
-	private const val version = "2.5.3"
-	const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
-	const val ui = "androidx.navigation:navigation-ui:$version"
-	const val dynamicFeature = "androidx.navigation:navigation-dynamic-features-fragment:$version"
 }
 
 object OkHttp {
