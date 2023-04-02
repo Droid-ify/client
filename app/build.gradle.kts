@@ -120,13 +120,15 @@ android {
 		}
 	}
 	buildFeatures {
+		viewBinding = true
 		aidl = false
 		renderScript = false
 		shaders = false
 	}
-	buildFeatures {
-		viewBinding = true
+	composeOptions {
+		kotlinCompilerExtensionVersion = "1.4.4"
 	}
+
 }
 
 dependencies {
@@ -138,11 +140,16 @@ dependencies {
 	implementation(project(Modules.coreDatastore))
 	implementation(project(Modules.installer))
 
+	implementation(composeBom())
+
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
 	implementation(AndroidX.appCompat)
 	implementation(AndroidX.material)
+	implementation(AndroidX.recyclerView)
+
+	compose()
 
 	implementation(Coil.coil)
 

@@ -1,9 +1,12 @@
+import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
+
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
-
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
-
 	const val material = "com.google.android.material:material:1.8.0"
+	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
 }
 
 object Core {
@@ -14,6 +17,30 @@ object Core {
 object Coil {
 	private const val coilVersion = "2.3.0"
 	const val coil = "io.coil-kt:coil:$coilVersion"
+}
+
+object Compose {
+	internal const val bom = "androidx.compose:compose-bom:2023.03.00"
+
+	const val animation = "androidx.compose.animation:animation"
+	const val ui = "androidx.compose.ui:ui"
+	const val tooling = "androidx.compose.ui:ui-tooling"
+	const val preview = "androidx.compose.ui:ui-tooling-preview"
+	const val foundation = "androidx.compose.foundation:foundation"
+	const val runtime = "androidx.compose.runtime:runtime"
+	const val material3 = "androidx.compose.material3:material3"
+}
+
+fun DependencyHandlerScope.composeBom() = platform(Compose.bom)
+
+fun DependencyHandler.compose() {
+	add("implementation", Compose.animation)
+	add("implementation", Compose.ui)
+	add("implementation", Compose.foundation)
+	add("implementation", Compose.runtime)
+	add("implementation", Compose.material3)
+	add("implementation", Compose.preview)
+	add("debugImplementation", Compose.tooling)
 }
 
 object Coroutines {
@@ -75,8 +102,8 @@ object Lifecycle {
 	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
-	const val activity = "androidx.activity:activity-ktx:1.7.0-rc01"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.6"
+	const val activity = "androidx.activity:activity-compose:1.7.0"
 }
 
 object Navigation {
