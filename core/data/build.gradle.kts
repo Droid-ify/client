@@ -1,9 +1,8 @@
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
+	id("looker.android.library")
 	kotlin("kapt")
 	kotlin("plugin.serialization") version Version.kotlin
-	id(Hilt.plugin)
+	id("looker.hilt.work")
 }
 
 android {
@@ -36,17 +35,11 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatabase))
-	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.coreModel))
+	modules(Modules.coreCommon, Modules.coreDatabase, Modules.coreDatastore, Modules.coreModel)
 
-	implementation(AndroidX.material)
+	coroutines()
+
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
 
 	implementation(Kotlin.serialization)
 
@@ -54,9 +47,4 @@ dependencies {
 	implementation(Ktor.okhttp)
 
 	implementation(Work.manager)
-
-	implementation(Hilt.android)
-	implementation(Hilt.work)
-	kapt(Hilt.androidX)
-	kapt(Hilt.compiler)
 }

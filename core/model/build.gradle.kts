@@ -1,6 +1,5 @@
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
+	id("looker.android.library")
 }
 
 android {
@@ -33,6 +32,6 @@ android {
 }
 
 dependencies {
-	implementation(project(Modules.coreCommon))
+	modules(Modules.coreCommon)
 	implementation(Jackson.core)
 }

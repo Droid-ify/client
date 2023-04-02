@@ -1,10 +1,8 @@
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
-	kotlin("kapt")
+	id("looker.android.library")
 	id("com.google.devtools.ksp") version Version.ksp
 	kotlin("plugin.serialization") version Version.kotlin
-	id(Hilt.plugin)
+	id("looker.hilt.work")
 }
 
 android {
@@ -48,17 +46,11 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreModel))
+	modules(Modules.coreCommon, Modules.coreModel)
+
+	coroutines()
 
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
-
-	implementation(Hilt.android)
-	kapt(Hilt.compiler)
 
 	implementation(Kotlin.serialization)
 

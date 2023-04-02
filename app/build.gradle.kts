@@ -1,8 +1,7 @@
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
-	kotlin("kapt")
-	id(Hilt.plugin)
+	id("looker.hilt.work")
 }
 
 android {
@@ -120,6 +119,7 @@ android {
 		}
 	}
 	buildFeatures {
+		compose = true
 		viewBinding = true
 		aidl = false
 		renderScript = false
@@ -132,34 +132,16 @@ android {
 }
 
 dependencies {
-
-	coreLibraryDesugaring(AndroidX.desugar)
-
-	implementation(project(Modules.coreModel))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.installer))
-
-	implementation(composeBom())
+	modules(Modules.coreModel, Modules.coreCommon, Modules.coreDatastore, Modules.installer)
 
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
-	implementation(AndroidX.appCompat)
-	implementation(AndroidX.material)
-	implementation(AndroidX.recyclerView)
-
+	fullAndroidX()
 	compose()
+	coroutines()
 
 	implementation(Coil.coil)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
-
-	implementation(Hilt.android)
-	implementation(Hilt.work)
-	kapt(Hilt.compiler)
-	kapt(Hilt.androidX)
 
 	implementation(Jackson.core)
 

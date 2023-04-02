@@ -1,12 +1,21 @@
-import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.gradle.kotlin.dsl.DependencyHandlerScope
-import org.gradle.kotlin.dsl.accessors.runtime.addDependencyTo
 
-object AndroidX {
+internal object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 	const val material = "com.google.android.material:material:1.8.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
+}
+
+fun DependencyHandlerScope.fullAndroidX() {
+	add("coreLibraryDesugaring", AndroidX.desugar)
+	add("implementation", AndroidX.appCompat)
+	add("implementation", AndroidX.material)
+	add("implementation", AndroidX.recyclerView)
+}
+
+fun DependencyHandlerScope.recyclerView() {
+	add("implementation", AndroidX.recyclerView)
 }
 
 object Core {
@@ -19,8 +28,8 @@ object Coil {
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
-object Compose {
-	internal const val bom = "androidx.compose:compose-bom:2023.03.00"
+private object Compose {
+	const val bom = "androidx.compose:compose-bom:2023.03.00"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -31,9 +40,8 @@ object Compose {
 	const val material3 = "androidx.compose.material3:material3"
 }
 
-fun DependencyHandlerScope.composeBom() = platform(Compose.bom)
-
-fun DependencyHandler.compose() {
+fun DependencyHandlerScope.compose() {
+	add("implementation", platform(Compose.bom))
 	add("implementation", Compose.animation)
 	add("implementation", Compose.ui)
 	add("implementation", Compose.foundation)
@@ -43,10 +51,15 @@ fun DependencyHandler.compose() {
 	add("debugImplementation", Compose.tooling)
 }
 
-object Coroutines {
+private object Coroutines {
 	private const val coroutinesVersion = "1.7.0-Beta"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+}
+
+fun DependencyHandlerScope.coroutines() {
+	add("implementation", Coroutines.core)
+	add("implementation", Coroutines.android)
 }
 
 object Datastore {

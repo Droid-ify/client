@@ -1,8 +1,7 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
+	id("looker.android.library")
 }
 
 android {
@@ -37,13 +36,10 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
+	recyclerView()
+	coroutines()
 
-	implementation(AndroidX.material)
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
 
 	implementation(Jackson.core)
 
