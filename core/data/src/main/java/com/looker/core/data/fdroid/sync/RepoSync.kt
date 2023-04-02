@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
 import java.util.*
 import java.util.jar.JarFile
 
-private val client = HttpClient(OkHttp) { expectSuccess = true }
+private val client = HttpClient(OkHttp)
 
 private const val WORKERS = 3
 
