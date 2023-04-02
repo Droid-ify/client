@@ -1,21 +1,10 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
-internal object AndroidX {
+private object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 	const val material = "com.google.android.material:material:1.8.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
-}
-
-fun DependencyHandlerScope.fullAndroidX() {
-	add("coreLibraryDesugaring", AndroidX.desugar)
-	add("implementation", AndroidX.appCompat)
-	add("implementation", AndroidX.material)
-	add("implementation", AndroidX.recyclerView)
-}
-
-fun DependencyHandlerScope.recyclerView() {
-	add("implementation", AndroidX.recyclerView)
 }
 
 object Core {
@@ -40,26 +29,10 @@ private object Compose {
 	const val material3 = "androidx.compose.material3:material3"
 }
 
-fun DependencyHandlerScope.compose() {
-	add("implementation", platform(Compose.bom))
-	add("implementation", Compose.animation)
-	add("implementation", Compose.ui)
-	add("implementation", Compose.foundation)
-	add("implementation", Compose.runtime)
-	add("implementation", Compose.material3)
-	add("implementation", Compose.preview)
-	add("debugImplementation", Compose.tooling)
-}
-
 private object Coroutines {
 	private const val coroutinesVersion = "1.7.0-Beta"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-}
-
-fun DependencyHandlerScope.coroutines() {
-	add("implementation", Coroutines.core)
-	add("implementation", Coroutines.android)
 }
 
 object Datastore {
@@ -166,4 +139,32 @@ object Version {
 object Work {
 	private const val version = "2.8.1"
 	const val manager = "androidx.work:work-runtime-ktx:$version"
+}
+
+
+fun DependencyHandlerScope.fullAndroidX() {
+	add("coreLibraryDesugaring", AndroidX.desugar)
+	add("implementation", AndroidX.appCompat)
+	add("implementation", AndroidX.material)
+	add("implementation", AndroidX.recyclerView)
+}
+
+fun DependencyHandlerScope.recyclerView() {
+	add("implementation", AndroidX.recyclerView)
+}
+
+fun DependencyHandlerScope.compose() {
+	add("implementation", platform(Compose.bom))
+	add("implementation", Compose.animation)
+	add("implementation", Compose.ui)
+	add("implementation", Compose.foundation)
+	add("implementation", Compose.runtime)
+	add("implementation", Compose.material3)
+	add("implementation", Compose.preview)
+	add("debugImplementation", Compose.tooling)
+}
+
+fun DependencyHandlerScope.coroutines() {
+	add("implementation", Coroutines.core)
+	add("implementation", Coroutines.android)
 }
