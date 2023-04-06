@@ -146,6 +146,7 @@ dependencies {
 	fullAndroidX()
 	compose()
 	coroutines()
+	ktor()
 
 	implementation(Coil.coil)
 

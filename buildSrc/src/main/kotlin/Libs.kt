@@ -75,7 +75,7 @@ object Kotlin {
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
-object Ktor {
+private object Ktor {
 	private const val version = "2.2.4"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
@@ -160,4 +160,10 @@ fun DependencyHandlerScope.compose() {
 fun DependencyHandlerScope.coroutines() {
 	add("implementation", Coroutines.core)
 	add("implementation", Coroutines.android)
+}
+
+fun DependencyHandlerScope.ktor() {
+	add("implementation", Ktor.core)
+	add("implementation", Ktor.okhttp)
+	add("implementation", Ktor.logging)
 }

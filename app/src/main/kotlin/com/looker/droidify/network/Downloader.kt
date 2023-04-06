@@ -3,11 +3,7 @@ package com.looker.droidify.network
 import com.looker.core.common.result.Result
 import com.looker.droidify.utility.getProgress
 import kotlinx.coroutines.suspendCancellableCoroutine
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okio.IOException
 import java.io.File
 import java.io.FileOutputStream

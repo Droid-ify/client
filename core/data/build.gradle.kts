@@ -38,13 +38,11 @@ dependencies {
 	modules(Modules.coreCommon, Modules.coreDatabase, Modules.coreDatastore, Modules.coreModel)
 
 	coroutines()
+	ktor()
 
 	implementation(Core.core)
 
 	implementation(Kotlin.serialization)
-
-	implementation(Ktor.core)
-	implementation(Ktor.okhttp)
 
 	implementation(Work.manager)
 }
