@@ -23,6 +23,7 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
+import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -127,11 +128,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 				}
 			}
 			launch {
-				userPreferenceFlow.distinctMap {
-					ProxyPreference(it.proxyType, it.proxyHost, it.proxyPort)
-				}.collect {
-					updateProxy(it)
-				}
+				userPreferenceFlow
+					.distinctMap { it.proxy }
+					.collect(::updateProxy)
 			}
 		}
 	}
@@ -231,9 +230,3 @@ class MainApplication : Application(), ImageLoaderFactory {
 			.build()
 	}
 }
-
-private data class ProxyPreference(
-	val type: ProxyType,
-	val host: String,
-	val port: Int
-)

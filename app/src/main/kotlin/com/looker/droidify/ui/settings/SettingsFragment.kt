@@ -308,10 +308,10 @@ class SettingsFragment : Fragment() {
 			autoUpdate.checked.isChecked = userPreferences.autoUpdate
 			unstableUpdates.checked.isChecked = userPreferences.unstableUpdate
 			incompatibleUpdates.checked.isChecked = userPreferences.incompatibleVersions
-			proxyType.content.text = context.proxyName(userPreferences.proxyType)
+			proxyType.content.text = context.proxyName(userPreferences.proxy.type)
 			proxyType.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.proxyType,
+					initialValue = userPreferences.proxy.type,
 					values = ProxyType.values().toList(),
 					title = R.string.proxy_type,
 					iconRes = R.drawable.ic_proxy,
@@ -319,21 +319,21 @@ class SettingsFragment : Fragment() {
 					valueToString = { view.context.proxyName(it) }
 				).show()
 			}
-			val allowProxies = userPreferences.proxyType != ProxyType.DIRECT
+			val allowProxies = userPreferences.proxy.type != ProxyType.DIRECT
 			proxyHost.root.isVisible = allowProxies
-			proxyHost.content.text = userPreferences.proxyHost
+			proxyHost.content.text = userPreferences.proxy.host
 			proxyHost.root.setOnClickListener { view ->
 				view.addStringEditText(
-					initialValue = userPreferences.proxyHost,
+					initialValue = userPreferences.proxy.host,
 					title = R.string.proxy_host,
 					onFinish = { viewModel.setProxyHost(it) }
 				).show()
 			}
 			proxyPort.root.isVisible = allowProxies
-			proxyPort.content.text = userPreferences.proxyPort.toString()
+			proxyPort.content.text = userPreferences.proxy.port.toString()
 			proxyPort.root.setOnClickListener { view ->
 				view.addIntEditText(
-					initialValue = userPreferences.proxyPort,
+					initialValue = userPreferences.proxy.port,
 					title = R.string.proxy_host,
 					onFinish = { viewModel.setProxyPort(it) }
 				).show()

@@ -25,11 +25,7 @@ import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.SORT_ORDER
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.THEME
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.UNSTABLE_UPDATES
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.SortOrder
-import com.looker.core.datastore.model.Theme
+import com.looker.core.datastore.model.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -50,9 +46,7 @@ data class UserPreferences(
 	val autoUpdate: Boolean,
 	val autoSync: AutoSync,
 	val sortOrder: SortOrder,
-	val proxyType: ProxyType,
-	val proxyHost: String,
-	val proxyPort: Int,
+	val proxy: ProxyPreference,
 	val cleanUpDuration: Duration,
 	val favouriteApps: Set<String>
 )
@@ -165,6 +159,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val proxyType = ProxyType.valueOf(preferences[PROXY_TYPE] ?: ProxyType.DIRECT.name)
 		val proxyHost = preferences[PROXY_HOST] ?: "localhost"
 		val proxyPort = preferences[PROXY_PORT] ?: 9050
+		val proxy = ProxyPreference(proxyType, proxyHost, proxyPort)
 		val cleanUpDuration = preferences[CLEAN_UP_DURATION]?.hours ?: 12L.hours
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 
@@ -179,9 +174,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			autoUpdate = autoUpdate,
 			autoSync = autoSync,
 			sortOrder = sortOrder,
-			proxyType = proxyType,
-			proxyHost = proxyHost,
-			proxyPort = proxyPort,
+			proxy = proxy,
 			cleanUpDuration = cleanUpDuration,
 			favouriteApps = favouriteApps
 		)

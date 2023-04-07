@@ -1,4 +1,4 @@
-package com.looker.droidify.download
+package com.looker.core.data.downloader
 
 import io.ktor.client.*
 import io.ktor.client.plugins.*
@@ -6,6 +6,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
 import io.ktor.utils.io.core.*
+import kotlinx.coroutines.yield
 import java.io.File
 
 class KtorDownloader(private val client: HttpClient) : Downloader {
@@ -35,6 +36,7 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 				while (!channel.isClosedForRead) {
 					val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
 					while (!packet.isEmpty) {
+						yield()
 						val bytes = packet.readBytes()
 						target.appendBytes(bytes)
 					}

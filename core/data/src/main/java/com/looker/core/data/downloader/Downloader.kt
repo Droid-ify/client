@@ -1,4 +1,4 @@
-package com.looker.droidify.download
+package com.looker.core.data.downloader
 
 import java.io.File
 
