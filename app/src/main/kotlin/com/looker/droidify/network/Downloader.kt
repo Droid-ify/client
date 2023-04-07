@@ -47,7 +47,7 @@ object Downloader {
 			get() = code == HttpURLConnection.HTTP_NOT_MODIFIED
 	}
 
-	fun createCall(block: Request.Builder.() -> Unit): Call {
+	private fun createCall(block: Request.Builder.() -> Unit): Call {
 		val request = Request.Builder().apply(block).build()
 		val onion = request.url.host.endsWith(".onion")
 		val client = synchronized(clients) {

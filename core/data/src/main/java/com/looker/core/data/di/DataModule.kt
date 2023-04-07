@@ -1,7 +1,5 @@
 package com.looker.core.data.di
 
-import com.looker.core.data.downloader.Downloader
-import com.looker.core.data.downloader.KtorDownloader
 import com.looker.core.data.fdroid.repository.AppRepository
 import com.looker.core.data.fdroid.repository.RepoRepository
 import com.looker.core.data.fdroid.repository.offline.OfflineFirstAppRepository
@@ -24,9 +22,4 @@ interface DataModule {
 	fun bindsRepoRepository(
 		repoRepository: OfflineFirstRepoRepository
 	): RepoRepository
-
-	@Binds
-	fun bindsDownloader(
-		downloader: KtorDownloader
-	): Downloader
 }

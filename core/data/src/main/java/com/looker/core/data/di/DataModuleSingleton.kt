@@ -1,5 +1,7 @@
 package com.looker.core.data.di
 
+import com.looker.core.data.downloader.Downloader
+import com.looker.core.data.downloader.KtorDownloader
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.ProxyType
 import dagger.Module
@@ -33,4 +35,10 @@ object DataModuleSingleton {
 			engine { proxy = config }
 		}
 	}
+
+	@Provides
+	fun provideDownloader(
+		client: HttpClient
+	): Downloader = KtorDownloader(client)
+
 }

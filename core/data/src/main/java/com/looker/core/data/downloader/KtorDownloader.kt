@@ -10,8 +10,16 @@ import kotlinx.coroutines.yield
 import java.io.File
 
 class KtorDownloader(private val client: HttpClient) : Downloader {
-	override suspend fun headCall(url: String): Boolean =
-		client.head(url).status == HttpStatusCode.OK
+	override suspend fun headCall(
+		url: String,
+		headers: Map<String, Any?>
+	): Boolean = client.head(url){
+		headers {
+			headers.forEach { entry ->
+				entry.value?.let { append(entry.key, it.toString()) }
+			}
+		}
+	}.status == HttpStatusCode.OK
 
 	override suspend fun downloadToFile(
 		url: String,
@@ -41,7 +49,7 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 						target.appendBytes(bytes)
 					}
 				}
-				true
+				response.status == HttpStatusCode.OK || response.status == HttpStatusCode.PartialContent
 			}
 		} catch (e: Exception) {
 			false

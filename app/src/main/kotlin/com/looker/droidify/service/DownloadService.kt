@@ -6,42 +6,27 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
-import com.looker.core.common.Constants
-import com.looker.core.common.SdkCheck
+import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.calculateHash
-import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.extension.percentBy
-import com.looker.core.common.extension.singleSignature
-import com.looker.core.common.extension.versionCodeCompat
-import com.looker.core.common.formatSize
-import com.looker.core.common.hex
+import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
-import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import io.ktor.http.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.io.File
 import java.security.MessageDigest
 import javax.inject.Inject
@@ -59,6 +44,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
+
+	@Inject
+	lateinit var downloader: com.looker.core.data.downloader.Downloader
 
 	private val installerType = flow {
 		emit(userPreferencesRepository.fetchInitialPreferences().installerType)
@@ -338,7 +326,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 	}
 
-	private fun validatePackage(task: Task, file: File): ValidationError? {
+	private suspend fun validatePackage(
+		task: Task,
+		file: File
+	): ValidationError? = withContext(Dispatchers.IO) {
 		val hash = try {
 			val hashType = task.release.hashType.ifEmpty { "SHA256" }
 			val digest = MessageDigest.getInstance(hashType)
@@ -351,15 +342,19 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		} catch (e: Exception) {
 			""
 		}
-		if (hash.isEmpty() || hash != task.release.hash) return ValidationError.INTEGRITY
-		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
-			?: return ValidationError.FORMAT
-		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) return ValidationError.METADATA
+		var validationError: ValidationError? = null
+		if (hash.isEmpty() || hash != task.release.hash) validationError = ValidationError.INTEGRITY
+		yield()
+		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path) ?: return@withContext ValidationError.FORMAT
+		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) validationError = ValidationError.METADATA
+		yield()
 		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
-		if (signature.isEmpty() || signature != task.release.signature) return ValidationError.SIGNATURE
+		if (signature.isEmpty() || signature != task.release.signature) validationError = ValidationError.SIGNATURE
+		yield()
 		val permissions = packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
-		if (!task.release.permissions.containsAll(permissions)) return ValidationError.PERMISSIONS
-		return null
+		if (!task.release.permissions.containsAll(permissions)) validationError = ValidationError.PERMISSIONS
+		yield()
+		validationError
 	}
 
 	private val stateNotificationBuilder by lazy {
@@ -427,6 +422,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			started = true
 			startSelf()
 		}
+		Log.e("tag", tasks.toString())
 		val task = tasks.removeAt(0)
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(Intent.ACTION_VIEW)
@@ -442,37 +438,34 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val partialReleaseFile =
 			Cache.getPartialReleaseFile(this, task.release.cacheFileName)
 		val job = scope.launch {
-			val result = Downloader.downloadFile(
-				task.url,
-				partialReleaseFile,
-				"",
-				"",
-				task.authentication
+			val isSuccessful = downloader.downloadToFile(
+				url = task.url,
+				target = partialReleaseFile,
+				headers = mapOf(HttpHeaders.Authorization to task.authentication)
 			) { read, total ->
 				publishForegroundState(false, State.Downloading(task.packageName, read, total))
 			}
 			currentTask = null
-			when (result) {
-				is Error -> {
-					showNotificationError(task, ErrorType.Http)
+			yield()
+			if (isSuccessful) {
+				val validationError = validatePackage(task, partialReleaseFile)
+				if (validationError == null) {
+					val releaseFile = Cache.getReleaseFile(
+						this@DownloadService,
+						task.release.cacheFileName
+					)
+					partialReleaseFile.renameTo(releaseFile)
+					publishSuccess(task)
+				} else {
+					partialReleaseFile.delete()
+					showNotificationError(task, ErrorType.Validation(validationError))
 					mutableState.emit(State.Error(task.packageName))
 				}
-				is Success -> {
-					val validationError = validatePackage(task, partialReleaseFile)
-					if (validationError == null) {
-						val releaseFile = Cache.getReleaseFile(
-							this@DownloadService,
-							task.release.cacheFileName
-						)
-						partialReleaseFile.renameTo(releaseFile)
-						publishSuccess(task)
-					} else {
-						partialReleaseFile.delete()
-						showNotificationError(task, ErrorType.Validation(validationError))
-						mutableState.tryEmit(State.Error(task.packageName))
-					}
-				}
+			} else {
+				showNotificationError(task, ErrorType.Http)
+				mutableState.emit(State.Error(task.packageName))
 			}
+			yield()
 			handleDownload()
 		}
 		currentTask = CurrentTask(task, job, State.Connecting(task.packageName))
