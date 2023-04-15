@@ -75,11 +75,13 @@ android {
 	compileOptions {
 		isCoreLibraryDesugaringEnabled = true
 
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
 	}
 
-	kotlinOptions.jvmTarget = "11"
+	kotlin {
+		jvmToolchain(17)
+	}
 
 	buildTypes {
 		getByName("debug") {
@@ -110,7 +112,7 @@ android {
 			)
 		}
 	}
-	packagingOptions {
+	packaging {
 		jniLibs {
 			excludes += Excludes.jniExclude
 		}
@@ -150,7 +152,6 @@ dependencies {
 
 	implementation(Lifecycle.fragment)
 	implementation(Lifecycle.activity)
-	implementation(Lifecycle.runtime)
 	implementation(Lifecycle.viewmodel)
 
 	implementation(OkHttp.okhttp)

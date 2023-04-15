@@ -8,7 +8,7 @@ private object AndroidX {
 }
 
 object Core {
-	private const val coreVersion = "1.10.0-rc01"
+	private const val coreVersion = "1.10.0"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
@@ -84,12 +84,9 @@ private object Ktor {
 
 object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
-	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
-	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion"
-
+	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.6"
-	const val activity = "androidx.activity:activity-compose:1.7.0"
+	const val activity = "androidx.activity:activity-ktx:1.7.0"
 }
 
 object OkHttp {
@@ -125,8 +122,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.8.10"
-	const val ksp = "1.8.10-1.0.9"
+	const val kotlin = "1.8.20"
+	const val ksp = "1.8.20-1.0.10"
 }
 
 object Work {
