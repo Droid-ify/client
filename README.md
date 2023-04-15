@@ -1,3 +1,5 @@
+## Repo will be inactive for a week or two
+
 <div align="center">
 
 <img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Droid-ify" align="center">
