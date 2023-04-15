@@ -119,16 +119,11 @@ android {
 		}
 	}
 	buildFeatures {
-		compose = true
 		viewBinding = true
 		aidl = false
 		renderScript = false
 		shaders = false
 	}
-	composeOptions {
-		kotlinCompilerExtensionVersion = "1.4.4"
-	}
-
 }
 
 dependencies {
@@ -144,7 +139,6 @@ dependencies {
 	implementation(Core.core)
 
 	fullAndroidX()
-	compose()
 	coroutines()
 	ktor()
 
