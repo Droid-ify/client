@@ -102,7 +102,7 @@ object Others {
 	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
 
-object Room {
+private object Room {
 	private const val roomVersion = "2.5.1"
 	const val runtime = "androidx.room:room-runtime:$roomVersion"
 	const val compiler = "androidx.room:room-compiler:$roomVersion"
@@ -163,4 +163,10 @@ fun DependencyHandlerScope.ktor() {
 	add("implementation", Ktor.core)
 	add("implementation", Ktor.okhttp)
 	add("implementation", Ktor.logging)
+}
+
+fun DependencyHandlerScope.room() {
+	add("implementation", Room.ktx)
+	add("implementation", Room.runtime)
+	add("ksp", Room.compiler)
 }

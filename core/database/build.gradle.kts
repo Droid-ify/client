@@ -49,12 +49,8 @@ dependencies {
 	modules(Modules.coreCommon, Modules.coreModel)
 
 	coroutines()
+	room()
 
 	implementation(Core.core)
-
 	implementation(Kotlin.serialization)
-
-	implementation(Room.runtime)
-	implementation(Room.ktx)
-	ksp(Room.compiler)
 }
