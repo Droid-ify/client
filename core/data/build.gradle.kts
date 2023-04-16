@@ -1,6 +1,5 @@
 plugins {
 	id("looker.android.library")
-	kotlin("kapt")
 	kotlin("plugin.serialization") version Version.kotlin
 	id("looker.hilt.work")
 }
