@@ -24,8 +24,8 @@
     <string name="changelog">Changelog</string>
     <string name="changes">Changes</string>
     <string name="checking_repository">Checking repository…</string>
-    <string name="cleanup_title">Clean up duration</string>
-    <string name="cleanup_description">Time required for cleanup to recheck</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Compiled for debugging</string>
     <string name="confirmation">Confirmation</string>
     <string name="connecting">Connecting…</string>

@@ -102,8 +102,8 @@
     <string name="cancel">Avbryt</string>
     <string name="changelog">Ändringslogg</string>
     <string name="checking_repository">Kontrollerar arkivet …</string>
-    <string name="cleanup_title">Rengöringstid</string>
-    <string name="cleanup_description">Tid som krävs för att städa upp igen</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">Bekräftelse</string>
     <string name="contains_non_free_media">Innehåller icke-fria media</string>
     <string name="could_not_download_FORMAT">Kunde inte ladda ner %s</string>

@@ -185,8 +185,8 @@
     <string name="sort_filter">Сортировать и фильтровать</string>
     <string name="new_applications">Новые приложения</string>
     <string name="session_installer">Сессионный установщик</string>
-    <string name="cleanup_description">Время, необходимое для очистки до повторной проверки</string>
-    <string name="cleanup_title">Продолжительность очистки</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <plurals name="days">
         <item quantity="one">День</item>
         <item quantity="few">Дня</item>

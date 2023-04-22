@@ -122,7 +122,7 @@
     <string name="add_repository">Pridėti repozitoriją</string>
     <string name="available">Naršyti</string>
     <string name="cant_edit_sync_DESC">Negalima redaguoti repozitorijos, nes ji dabar sinchronizuojama.</string>
-    <string name="cleanup_title">Išvalymo trukmė</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="checking_repository">Tikrinama repozitorija…</string>
     <string name="delete_repository_DESC">Ištrinti repozitoriją\?</string>
     <string name="integrity_check_error_DESC">Nepavyko patikrinti vientisumo.</string>
@@ -164,7 +164,7 @@
     <string name="compiled_for_debugging">Parengta derinimui</string>
     <string name="credits">Padėkos</string>
     <string name="contains_non_free_media">Turi ne „libre“ medijos</string>
-    <string name="cleanup_description">Laikas, reikalingas valymui iš naujo patikrinti</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="edit_repository">Redaguoti repozitoriją</string>
     <string name="fingerprint">Pirštų atspaudai</string>
     <string name="has_non_free_dependencies">Turi ne „libre“ priklausomybių</string>

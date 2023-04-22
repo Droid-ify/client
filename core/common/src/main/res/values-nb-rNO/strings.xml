@@ -173,8 +173,8 @@
     <string name="show_less">Vis mindre</string>
     <string name="sort_filter">Sorter og filtrer</string>
     <string name="explore">Utforsk</string>
-    <string name="cleanup_title">Opprenskningsvarighet</string>
-    <string name="cleanup_description">Tids som kreves for at opprenskningen skal sjekkes igjen</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="one">Dag</item>
         <item quantity="other">Dager</item>

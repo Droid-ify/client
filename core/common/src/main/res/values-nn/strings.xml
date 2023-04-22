@@ -133,7 +133,7 @@
     <string name="amoled">Svart</string>
     <string name="author_email">Utgjevar e-post</string>
     <string name="cancel">Avbryt</string>
-    <string name="cleanup_title">Oppreinskingsvarigskap</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="confirmation">Stadfesting</string>
     <string name="contains_non_free_media">Inneheld ufri media</string>
     <string name="invalid_username_format">Urett brukarnamnsformat</string>
@@ -157,7 +157,7 @@
     <string name="changelog">Brigdelogg</string>
     <string name="changes">Brigde</string>
     <string name="compiled_for_debugging">Kompilert for lysking</string>
-    <string name="cleanup_description">Kravd tid for at oppreinskinga skal verte granska att</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="could_not_sync_FORMAT">Kunne ikkje synkronisera %s</string>
     <string name="could_not_download_FORMAT">Kunne ikkje hente %s</string>
     <string name="has_security_vulnerabilities">Har tryggleikshòl</string>

@@ -183,8 +183,8 @@
     <string name="root_installer">Gyökér telepítő</string>
     <string name="shizuku_installer">Shizuku telepítő</string>
     <string name="latest">Legújabb</string>
-    <string name="cleanup_title">A tisztítás időtartama</string>
-    <string name="cleanup_description">A tisztításhoz szükséges idő az újraellenőrzéshez</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="hours">
         <item quantity="one">Óra</item>
         <item quantity="other">Órák</item>

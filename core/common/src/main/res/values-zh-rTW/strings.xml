@@ -181,8 +181,8 @@
     <string name="prefs_personalization">個性化</string>
     <string name="show_less">顯示較少程式</string>
     <string name="installer">安裝程式</string>
-    <string name="cleanup_title">清理时间</string>
-    <string name="cleanup_description">清理到复查所需时间</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="hours">
         <item quantity="other">小时</item>
     </plurals>

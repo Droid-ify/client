@@ -118,7 +118,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 				}
 			}
 			launch {
-				userPreferenceFlow.distinctMap { it.cleanUpDuration }.collect {
+				userPreferenceFlow.distinctMap { it.cleanUpInterval }.collect {
 					when (it) {
 						INFINITE -> CleanUpWorker.removeAllSchedules(applicationContext)
 						ZERO -> CleanUpWorker.force(applicationContext)

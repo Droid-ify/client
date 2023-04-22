@@ -16,8 +16,8 @@
     <string name="cancel">ರದ್ದುಮಾಡು</string>
     <string name="changelog">ಬದಲಾವಣೆಗಳ ಟಿಪ್ಪಣಿ</string>
     <string name="changes">ಬದಲಾವಣೆಗಳು</string>
-    <string name="cleanup_title">ಸ್ವಚ್ಛಗೊಳಿಸುವ ಅವಧಿ</string>
-    <string name="cleanup_description">ಸ್ವಚ್ಛಗೊಳಿಸುವುದನ್ನು ಮರುಪರಿಶೀಲಿಸಲು‌ ಬೇಕಾದ ಸಮಯ</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">ಡೀಬಗ್ ಮಾಡಲು ಸಂಕಲಿಸಲಾಗಿದೆ</string>
     <string name="confirmation">ದೃಢೀಕರಣ</string>
     <string name="contains_non_free_media">ಮುಕ್ತವಲ್ಲದ ಮಾಧ್ಯಮವನ್ನು ಒಳಗೊಂಡಿದೆ</string>

@@ -182,8 +182,8 @@
     <string name="installer">Installatie</string>
     <string name="legacy_installer">Verouderde Installatie</string>
     <string name="session_installer">Sessie Installatie</string>
-    <string name="cleanup_title">Duur opruimen</string>
-    <string name="cleanup_description">De tijd die nodig is om het opruimen opnieuw te controleren</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="hours">
         <item quantity="one">Uur</item>
         <item quantity="other">Uren</item>
