@@ -35,5 +35,5 @@ jobs:
       with:
         arguments: test
 
-    - name: Execute Gradle build
-      run: ./gradlew build
+    - name: Grant execution permission to Gradle Wrapper
+      run: chmod +x gradlew
