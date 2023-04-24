@@ -72,7 +72,7 @@
     <string name="downloaded_FORMAT">다운로드됨 %s</string>
     <string name="allow_collapsing_toolbar">상단 앱 바 확장 허용</string>
     <string name="allow_collapsing_toolbar_DESC">상단 앱바 확장 및 축소 허용</string>
-    <string name="cleanup_description">정리를 다시 확인하는 데 필요한 시간</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">디버깅을 위해 컴파일됨</string>
     <string name="connecting">연결 중…</string>
     <string name="contains_non_free_media">비자유 미디어 포함</string>
@@ -104,7 +104,7 @@
     <string name="changelog">변경 로그</string>
     <string name="changes">변경 사항</string>
     <string name="checking_repository">저장소 확인 중…</string>
-    <string name="cleanup_title">정리 기간</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="edit_repository">저장소 편집</string>
     <string name="file_format_error_DESC">잘못된 파일 형식입니다.</string>
     <string name="fingerprint">지문</string>

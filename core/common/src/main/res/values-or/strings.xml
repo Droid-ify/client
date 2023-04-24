@@ -50,9 +50,9 @@
     <string name="cant_edit_sync_DESC">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରିପାରିବ ନାହିଁ କାରଣ ଏହା ବର୍ତ୍ତମାନ ସିଙ୍କ କରୁଛି ।</string>
     <string name="cancel">ବାତିଲ କରନ୍ତୁ</string>
     <string name="changelog">ବଦଳିଛି</string>
-    <string name="cleanup_title">ଅବଧି ସଫା କରନ୍ତୁ</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="checking_repository">ସଂଗ୍ରହାଳୟ ଯାଞ୍ଚ୍ ହେଉଛି…</string>
-    <string name="cleanup_description">ପୁନଃଯାଞ୍ଚ ପାଇଁ ସଫେଇ ପାଇଁ ସମୟ ଆବଶ୍ୟକ</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="contains_non_free_media">ଅଣ-ମୁକ୍ତ ମିଡିଆ ଧାରଣ କରେ</string>
     <string name="description">ବର୍ଣ୍ଣନା</string>
     <string name="compiled_for_debugging">ତ୍ରୁଟି ନିବାରଣ ପାଇଁ ସଂକଳିତ</string>

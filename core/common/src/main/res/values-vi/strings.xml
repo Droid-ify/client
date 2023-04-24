@@ -176,8 +176,8 @@
     <string name="waiting_to_start_download">Chờ để tải về…</string>
     <string name="show_less">Ẩn bớt</string>
     <string name="all_applications">Tất cả ứng dụng</string>
-    <string name="cleanup_title">Dọn dẹp thời gian</string>
-    <string name="cleanup_description">Thời gian cần thiết để dọn dẹp để kiểm tra lại</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="other">Ngày</item>
     </plurals>

@@ -58,7 +58,7 @@
     <string name="changelog">Jurnal de schimbări</string>
     <string name="changes">Schimbări</string>
     <string name="checking_repository">Se verifică depozitul…</string>
-    <string name="cleanup_title">Durata de curățare</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="compiled_for_debugging">Compilat pentru depanare</string>
     <string name="contains_non_free_media">Conține media care nu sunt libere</string>
     <string name="could_not_sync_FORMAT">Nu se poate sincroniza %s</string>
@@ -203,7 +203,7 @@
     <string name="always">Întotdeauna</string>
     <string name="available">Explorează</string>
     <string name="cant_edit_sync_DESC">Nu se poate edita depozitul când se sincronizează acum.</string>
-    <string name="cleanup_description">Timpul necesar pentru curățare până la reverificare</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">Confirmație</string>
     <string name="connecting">Se conectează…</string>
     <string name="could_not_download_FORMAT">Nu se poate descărca %s</string>

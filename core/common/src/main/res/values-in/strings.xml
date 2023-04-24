@@ -191,8 +191,8 @@
     <string name="no_internet">Kamu tidak memiliki akses internet</string>
     <string name="allow_collapsing_toolbar">Izinkan Bilah Atas Apl untuk Diperluas</string>
     <string name="allow_collapsing_toolbar_DESC">Izinkan bilah atas aplikasi untuk diperluas dan dikecilkan</string>
-    <string name="cleanup_title">Durasi pembersihan</string>
-    <string name="cleanup_description">Waktu yang diperlukan untuk pembersihan untuk memeriksa ulang</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="downloaded_FORMAT">%s Terdownload</string>
     <string name="favourites">Favorit</string>
     <string name="material_you">Material You</string>

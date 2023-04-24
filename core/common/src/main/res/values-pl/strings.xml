@@ -184,8 +184,8 @@
     <string name="latest">Najnowsza</string>
     <string name="explore">Poznaj</string>
     <string name="update_all">Aktualizuj wszystkie</string>
-    <string name="cleanup_title">Czas trwania czyszczenia</string>
-    <string name="cleanup_description">Czas potrzebny na oczyszczenie do ponownego sprawdzenia</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="one">Dzień</item>
         <item quantity="few">Dni</item>

@@ -49,9 +49,9 @@ class SettingsViewModel
 		}
 	}
 
-	fun setCleanUpDuration(duration: Duration) {
+	fun setCleanUpInterval(interval: Duration) {
 		viewModelScope.launch {
-			userPreferencesRepository.setCleanUpDuration(duration)
+			userPreferencesRepository.setCleanUpInterval(interval)
 		}
 	}
 

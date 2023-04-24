@@ -182,8 +182,8 @@
     <string name="validation_index_error_DESC">अनुक्रमणिका सत्यापित नहीं की जा सकी।</string>
     <string name="unverified">असत्यापित</string>
     <string name="sort_filter">छाँटें और फ़िल्टर करें</string>
-    <string name="cleanup_title">साफ-सफाई अंतराल</string>
-    <string name="cleanup_description">साफ-सफाई के अंतराल की अवधी</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="only_on_wifi_with_charging">केवल वाई-फ़ाई व च्राजिंग पर</string>
     <plurals name="days">
         <item quantity="one">दिन</item>

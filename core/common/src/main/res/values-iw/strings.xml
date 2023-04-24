@@ -16,8 +16,8 @@
     <string name="changelog">יומן שינויים</string>
     <string name="changes">שינויים</string>
     <string name="checking_repository">בודק מאגר…</string>
-    <string name="cleanup_title">משך הניקוי</string>
-    <string name="cleanup_description">הזמן הנדרש לניקוי כדי לבדוק מחדש</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">אישורים</string>
     <string name="could_not_download_FORMAT">לא ניתן היה להוריד את %s</string>
     <string name="could_not_sync_FORMAT">לא ניתן היה לסנכרן את %s</string>

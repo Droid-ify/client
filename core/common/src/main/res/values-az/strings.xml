@@ -19,8 +19,8 @@
     <string name="cant_edit_sync_DESC">Qaynaq hal-hazırda sinxronizasiya edildiyi üçün düzənlənmir.</string>
     <string name="changelog">Dəyişim günlüyü</string>
     <string name="changes">Dəyişikliklər</string>
-    <string name="cleanup_title">Təmizlənmə vaxtı</string>
-    <string name="cleanup_description">Təmizlənmə prosesinin yenidən yoxlanışı üçün lazım olan zaman</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Xəta tapmaq üçün kompayl edildi</string>
     <string name="confirmation">Təsdiq</string>
     <string name="connecting">Bağlanılır…</string>

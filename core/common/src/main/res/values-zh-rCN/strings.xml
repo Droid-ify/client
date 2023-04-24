@@ -185,8 +185,8 @@
         <item quantity="other">天</item>
     </plurals>
     <string name="only_on_wifi_with_charging">仅在连接 Wi-Fi 和充电时</string>
-    <string name="cleanup_title">缓存持续时间</string>
-    <string name="cleanup_description">重新检查存储库更新的时间间隔</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="hours">
         <item quantity="other">小时</item>
     </plurals>

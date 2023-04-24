@@ -26,7 +26,7 @@
     <string name="bug_tracker">ബഗ് ട്രാക്കർ</string>
     <string name="changelog">ചേഞ്ച്ലോഗ്</string>
     <string name="checking_repository">ശേഖരം പരിശോധിക്കുന്നു…</string>
-    <string name="cleanup_title">വൃത്തിയാക്കൽ കാലയളവ്</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="could_not_validate_FORMAT">%s സാധൂകരിക്കാൻ കഴിഞ്ഞില്ല</string>
     <plurals name="hours">
         <item quantity="one">മണിക്കൂർ</item>
@@ -90,7 +90,7 @@
     <string name="allow_collapsing_toolbar_DESC">മുകളിലെ ആപ്പ് ബാർ വികസിപ്പിക്കാനും ചുരുക്കാനും അനുവദിക്കുക</string>
     <string name="author_email">രചയിതാവിന്റെ ഇമെയിൽ</string>
     <string name="author_website">രചയിതാവിന്റെ വെബ്സൈറ്റ്</string>
-    <string name="cleanup_description">ശുചീകരണത്തിന് വീണ്ടും പരിശോധിക്കാൻ ആവശ്യമായ സമയം</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="could_not_download_FORMAT">%s ഡൗൺലോഡ് ചെയ്യാനായില്ല</string>
     <string name="auto_update_apps">അപ്ഡേറ്റുകൾ സ്വയമേവ ഇൻസ്റ്റാൾ ചെയ്യാൻ ശ്രമിക്കുക</string>
     <string name="downloading_FORMAT">%s ഡൗൺലോഡ് ചെയ്യുന്നു…</string>
