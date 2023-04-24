@@ -1,4 +1,4 @@
-name: Java CI with Gradle
+name: Test Droid-ify Code
 
 on:
   push:
