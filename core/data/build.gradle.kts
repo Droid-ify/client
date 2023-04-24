@@ -7,7 +7,10 @@ plugins {
 android {
 	namespace = "com.looker.core.data"
 	compileSdk = Android.compileSdk
-	defaultConfig.minSdk = Android.minSdk
+	defaultConfig {
+		minSdk = Android.minSdk
+		testInstrumentationRunner = Test.jUnitRunner
+	}
 
 	buildTypes {
 		release {
@@ -40,8 +43,9 @@ dependencies {
 	ktor()
 
 	implementation(Core.core)
-
 	implementation(Kotlin.serialization)
-
 	implementation(Work.manager)
+
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }

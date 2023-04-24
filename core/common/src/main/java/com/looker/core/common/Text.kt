@@ -7,6 +7,16 @@ fun <T : CharSequence> T.nullIfEmpty(): T? {
 	return if (isNullOrBlank()) null else this
 }
 
+fun String.stripBetween(prefix: String, suffix: String = prefix): String {
+	val firstHyphenIndex = this.indexOf(prefix)
+	val lastHyphenIndex = this.lastIndexOf(suffix)
+	return if (firstHyphenIndex != -1 && lastHyphenIndex != -1 && firstHyphenIndex != lastHyphenIndex) {
+		this.substring(0, firstHyphenIndex + 1) + this.substring(lastHyphenIndex + 1)
+	} else {
+		this
+	}
+}
+
 private val sizeFormats = listOf("%.0f B", "%.0f kB", "%.1f MB", "%.2f GB")
 
 fun Long.formatSize(): String {
