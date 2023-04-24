@@ -2,13 +2,7 @@ package com.looker.core.datastore
 
 import android.util.Log
 import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.booleanPreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.intPreferencesKey
-import androidx.datastore.preferences.core.longPreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.core.stringSetPreferencesKey
+import androidx.datastore.preferences.core.*
 import com.looker.core.common.device.Miui
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
@@ -26,11 +20,7 @@ import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.SORT_
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.THEME
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.UNSTABLE_UPDATES
 import com.looker.core.datastore.model.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -156,9 +146,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val autoUpdate = preferences[AUTO_UPDATE] ?: false
 		val autoSync = AutoSync.valueOf(preferences[AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name)
 		val sortOrder = SortOrder.valueOf(preferences[SORT_ORDER] ?: SortOrder.UPDATED.name)
-		val proxyType = ProxyType.valueOf(preferences[PROXY_TYPE] ?: ProxyType.DIRECT.name)
-		val proxyHost = preferences[PROXY_HOST] ?: "localhost"
-		val proxyPort = preferences[PROXY_PORT] ?: 9050
+		val type = ProxyType.valueOf(preferences[PROXY_TYPE] ?: ProxyType.DIRECT.name)
+		val host = preferences[PROXY_HOST] ?: "localhost"
+		val port = preferences[PROXY_PORT] ?: 9050
+		val proxy = ProxyPreference(type = type, host = host, port = port)
 		val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 
