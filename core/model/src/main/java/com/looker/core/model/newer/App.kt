@@ -22,18 +22,18 @@ data class Author(
 )
 
 data class Graphics(
-	val featureGraphic: String,
-	val promoGraphic: String,
-	val tvBanner: String,
-	val video: String
+	val featureGraphic: String = "",
+	val promoGraphic: String = "",
+	val tvBanner: String = "",
+	val video: String = ""
 )
 
 data class Links(
-	val changelog: String,
-	val issueTracker: String,
-	val sourceCode: String,
-	val translation: String,
-	val webSite: String
+	val changelog: String = "",
+	val issueTracker: String = "",
+	val sourceCode: String = "",
+	val translation: String = "",
+	val webSite: String = ""
 )
 
 data class Metadata(
@@ -50,11 +50,11 @@ data class Metadata(
 )
 
 data class Screenshots(
-	val phone: List<String>,
-	val sevenInch: List<String>,
-	val tenInch: List<String>,
-	val tv: List<String>,
-	val wear: List<String>
+	val phone: List<String> = emptyList(),
+	val sevenInch: List<String> = emptyList(),
+	val tenInch: List<String> = emptyList(),
+	val tv: List<String> = emptyList(),
+	val wear: List<String> = emptyList()
 )
 
 sealed interface Donate {

@@ -73,6 +73,20 @@ fun AppEntity.toExternalModel(): App = App(
 		webSite = webSite
 	),
 	license = license,
+	metadata = Metadata(
+		name = name,
+		description = description,
+		summary = summary,
+		packageName = packageName.toPackageName(),
+		icon = icon,
+		added = added,
+		lastUpdated = lastUpdated,
+		suggestedVersionName = suggestedVersionName,
+		suggestedVersionCode = suggestedVersionCode,
+		whatsNew = localized["en"]?.whatsNew ?: ""
+	),
+	screenshots = Screenshots(),
+	graphics = Graphics(),
 	author = Author(
 		name = authorName,
 		email = authorEmail,
