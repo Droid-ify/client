@@ -4,12 +4,7 @@ data class App(
 	val repoId: Long,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
-	val translation: String,
-	val issueTracker: String,
-	val sourceCode: String,
-	val binaries: String,
-	val license: String,
-	val webSite: String,
+	val links: Links,
 	val metadata: Metadata,
 	val author: Author,
 	val donation: Set<Donate>,
@@ -28,6 +23,14 @@ data class Metadata(
 	val lastUpdated: Long,
 	val suggestedVersionName: String,
 	val suggestedVersionCode: Int
+)
+
+data class Links(
+	val issueTracker: String,
+	val license: String,
+	val sourceCode: String,
+	val translation: String,
+	val webSite: String
 )
 
 data class Author(val name: String, val email: String, val web: String, val phone: String)

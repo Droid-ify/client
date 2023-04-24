@@ -2,12 +2,7 @@ package com.looker.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import com.looker.core.model.newer.App
-import com.looker.core.model.newer.Author
-import com.looker.core.model.newer.Donate
-import com.looker.core.model.newer.Localized
-import com.looker.core.model.newer.Metadata
-import com.looker.core.model.newer.toPackageName
+import com.looker.core.model.newer.*
 import kotlinx.serialization.Serializable
 
 @Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
@@ -70,12 +65,13 @@ fun AppEntity.toExternalModel(): App = App(
 	repoId = repoId,
 	categories = categories,
 	antiFeatures = antiFeatures,
-	translation = translation,
-	issueTracker = issueTracker,
-	sourceCode = sourceCode,
-	binaries = binaries,
-	license = license,
-	webSite = webSite,
+	links = Links(
+		issueTracker = issueTracker,
+		license = license,
+		sourceCode = sourceCode,
+		translation = translation,
+		webSite = webSite
+	),
 	metadata = Metadata(
 		name = name,
 		description = description,
