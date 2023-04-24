@@ -31,6 +31,9 @@ jobs:
         distribution: 'adopt'
       
     - name: Test Droid-ify
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: test
+
+    - name: Execute Gradle build
+      run: ./gradlew build
