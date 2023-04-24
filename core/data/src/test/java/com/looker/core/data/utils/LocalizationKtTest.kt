@@ -7,6 +7,7 @@ import java.util.Locale
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
+// https://developer.android.com/guide/topics/resources/multilingual-support#resource-resolution-examples
 class LocalizationKtTest {
 
 	@Test
@@ -19,19 +20,19 @@ class LocalizationKtTest {
 
 	@Test
 	fun `Return empty locale on none match`() {
-		assertNull(emptyMap<String, String>().getBestLocale(localeListCompat("en-US,de-DE")))
-		assertNull(getMap("en-US", "de-DE").getBestLocale(getEmptyLocaleList()))
+		assertNull(emptyMap<String, String>().localizedValue(localeListCompat("en-US,de-DE")))
+		assertNull(getMap("en-US", "de-DE").localizedValue(getEmptyLocaleList()))
 	}
 
 	@Test
 	fun `Fallback to english`() {
 		assertEquals(
 			"en",
-			getMap("de-AT", "de-DE", "en").getBestLocale(localeListCompat("fr-FR")),
+			getMap("de-AT", "de-DE", "en").localizedValue(localeListCompat("fr-FR")),
 		)
 		assertEquals(
 			"en-US",
-			getMap("en", "en-US").getBestLocale(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
+			getMap("en", "en-US").localizedValue(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
 		)
 	}
 
@@ -39,7 +40,7 @@ class LocalizationKtTest {
 	fun `Use the first selected locale, en_US`() {
 		assertEquals(
 			"en-US",
-			getMap("de-AT", "de-DE", "en-US").getBestLocale(localeListCompat("en-US,de-DE")),
+			getMap("de-AT", "de-DE", "en-US").localizedValue(localeListCompat("en-US,de-DE")),
 		)
 	}
 
@@ -47,7 +48,7 @@ class LocalizationKtTest {
 	fun `Use the first en translation`() {
 		assertEquals(
 			"en-US",
-			getMap("de-AT", "de-DE", "en-US").getBestLocale(localeListCompat("en-SE,de-DE")),
+			getMap("de-AT", "de-DE", "en-US").localizedValue(localeListCompat("en-SE,de-DE")),
 		)
 	}
 
@@ -60,11 +61,11 @@ class LocalizationKtTest {
 				"de-DE",
 				"en-GB",
 				"en-US"
-			).getBestLocale(localeListCompat("de-AT,de-DE")),
+			).localizedValue(localeListCompat("de-AT,de-DE")),
 		)
 		assertEquals(
 			"de",
-			getMap("de-AT", "de", "en-GB", "en-US").getBestLocale(localeListCompat("de-CH,en-US")),
+			getMap("de-AT", "de", "en-GB", "en-US").localizedValue(localeListCompat("de-CH,en-US")),
 		)
 	}
 
@@ -77,29 +78,108 @@ class LocalizationKtTest {
 				"zh-CN",
 				"zh-HK",
 				"zh-TW"
-			).getBestLocale(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
+			).localizedValue(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
 		)
 	}
 
 	@Test
 	fun `Google specified test`() {
-		// https://developer.android.com/guide/topics/resources/multilingual-support#resource-resolution-examples
 		assertEquals(
 			"fr-FR",
 			getMap("en-US", "de-DE", "es-ES", "fr-FR", "it-IT")
-				.getBestLocale(localeListCompat("fr-CH")),
+				.localizedValue(localeListCompat("fr-CH")),
 		)
 
-		// https://developer.android.com/guide/topics/resources/multilingual-support#t-2d-choice
 		assertEquals(
 			"it-IT",
 			getMap("en-US", "de-DE", "es-ES", "it-IT")
-				.getBestLocale(localeListCompat("fr-CH,it-CH")),
+				.localizedValue(localeListCompat("fr-CH,it-CH")),
 		)
 	}
 
-
-	private fun getMap(vararg locales: String): Map<String, String> {
-		return locales.associateWith { it }
+	@Test
+	fun `Check null for suitable locale from list`() {
+		assertNull(localeListCompat("en-US").suitableLocale(keys("de-DE", "es-ES")))
+		assertNull(localeListCompat("en-US").suitableLocale(keys()))
+		assertNull(getEmptyLocaleList().suitableLocale(keys("de-DE", "es-ES")))
 	}
+
+	@Test
+	fun `Find suitable locale from wrong list`() {
+		assertNull(localeListCompat("en-US").suitableLocale(keys("de-DE", "es-ES")))
+	}
+
+	@Test
+	fun `Find suitable locale from list without modification`() {
+		assertEquals(
+			"en-US",
+			localeListCompat("en-US").suitableLocale(keys("en", "en-US", "en-UK"))
+		)
+	}
+
+	@Test
+	fun `Find suitable locale from list only with language`() {
+		assertEquals(
+			"en",
+			localeListCompat("en-US").suitableLocale(keys("de-DE", "fr-FR", "en-UK", "en"))
+		)
+	}
+
+	@Test
+	fun `Find stripped locale from the list`() {
+		assertEquals(
+			"zh-TW",
+			localeListCompat("zh-Hant-TW").suitableLocale(
+				keys(
+					"en",
+					"de-DE",
+					"fr-FR",
+					"zh-TW",
+					"zh"
+				)
+			)
+		)
+	}
+
+	@Test
+	fun `Check null for suitable locale`() {
+		val locale: Locale? = null
+		assertNull(locale.suitableTag(keys("en-US", "de-DE", "es-ES", "it-IT")))
+		assertNull(Locale.ENGLISH.suitableTag(keys()))
+	}
+
+	@Test
+	fun `Find suitable locale from wrong keys`() {
+		assertNull(Locale.ENGLISH.suitableTag(keys("de-DE", "es-ES")))
+	}
+
+	@Test
+	fun `Get suitable locale without modification`() {
+		assertEquals("en-US", Locale("en", "US").suitableTag(keys("en", "en-US", "en-UK")))
+	}
+
+	@Test
+	fun `Get suitable locale with only language`() {
+		assertEquals("en", Locale("en", "US").suitableTag(keys("en", "de-DE", "fr-FR")))
+	}
+
+	@Test
+	fun `Get suitable locale with stripped parts`() {
+		assertEquals(
+			"zh-TW",
+			localeListCompat("zh-Hant-TW")[0].suitableTag(
+				keys(
+					"en",
+					"de-DE",
+					"fr-FR",
+					"zh-TW",
+					"zh"
+				)
+			)
+		)
+	}
+
+	private fun keys(vararg tag: String): Set<String> = tag.toSet()
+
+	private fun getMap(vararg locales: String): Map<String, String> = locales.associateWith { it }
 }
