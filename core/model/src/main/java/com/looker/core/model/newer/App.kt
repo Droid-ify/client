@@ -5,11 +5,35 @@ data class App(
 	val categories: List<String>,
 	val antiFeatures: List<String>,
 	val links: Links,
+	val license: String,
 	val metadata: Metadata,
 	val author: Author,
+	val screenshots: Screenshots,
+	val graphics: Graphics,
 	val donation: Set<Donate>,
-	val localized: Map<String, Localized>,
 	val packages: List<Package>
+)
+
+data class Author(
+	val name: String,
+	val email: String,
+	val web: String,
+	val phone: String
+)
+
+data class Graphics(
+	val featureGraphic: String,
+	val promoGraphic: String,
+	val tvBanner: String,
+	val video: String
+)
+
+data class Links(
+	val changelog: String,
+	val issueTracker: String,
+	val sourceCode: String,
+	val translation: String,
+	val webSite: String
 )
 
 data class Metadata(
@@ -18,22 +42,20 @@ data class Metadata(
 	val name: String,
 	val description: String,
 	val summary: String,
-	val changelog: String,
 	val added: Long,
 	val lastUpdated: Long,
+	val whatsNew: String,
 	val suggestedVersionName: String,
 	val suggestedVersionCode: Int
 )
 
-data class Links(
-	val issueTracker: String,
-	val license: String,
-	val sourceCode: String,
-	val translation: String,
-	val webSite: String
+data class Screenshots(
+	val phone: List<String>,
+	val sevenInch: List<String>,
+	val tenInch: List<String>,
+	val tv: List<String>,
+	val wear: List<String>
 )
-
-data class Author(val name: String, val email: String, val web: String, val phone: String)
 
 sealed interface Donate {
 
@@ -61,17 +83,4 @@ data class AppMinimal(
 	val icon: String
 )
 
-fun App.minimal(locale: String? = null): AppMinimal = if (locale == null) {
-	AppMinimal(
-		name = metadata.name,
-		summary = metadata.summary,
-		icon = metadata.icon
-	)
-} else {
-	val localized = localized[locale]
-	AppMinimal(
-		name = localized?.name ?: metadata.name,
-		summary = localized?.summary ?: metadata.summary,
-		icon = localized?.icon ?: metadata.icon
-	)
-}
+fun App.minimal(): AppMinimal = AppMinimal(metadata.name, metadata.summary, metadata.icon)

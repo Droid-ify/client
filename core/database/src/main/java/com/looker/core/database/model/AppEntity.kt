@@ -66,24 +66,13 @@ fun AppEntity.toExternalModel(): App = App(
 	categories = categories,
 	antiFeatures = antiFeatures,
 	links = Links(
+		changelog = changelog,
 		issueTracker = issueTracker,
-		license = license,
 		sourceCode = sourceCode,
 		translation = translation,
 		webSite = webSite
 	),
-	metadata = Metadata(
-		name = name,
-		description = description,
-		summary = summary,
-		packageName = packageName.toPackageName(),
-		icon = icon,
-		changelog = changelog,
-		added = added,
-		lastUpdated = lastUpdated,
-		suggestedVersionName = suggestedVersionName,
-		suggestedVersionCode = suggestedVersionCode
-	),
+	license = license,
 	author = Author(
 		name = authorName,
 		email = authorEmail,
@@ -98,26 +87,9 @@ fun AppEntity.toExternalModel(): App = App(
 			bitcoin.isNotBlank() -> add(Donate.Bitcoin(bitcoin))
 			liberapay.isNotBlank() && liberapayID.isNotBlank() ->
 				add(Donate.Liberapay(liberapayID, liberapay))
+
 			donate.isNotBlank() -> add(Donate.Regular(donate))
 		}
 	},
-	localized = localized.mapValues { it.value.toExternalModel() },
 	packages = packages.map(PackageEntity::toExternalModel)
-)
-
-fun LocalizedEntity.toExternalModel(): Localized = Localized(
-	description = description,
-	name = name,
-	icon = icon,
-	whatsNew = whatsNew,
-	video = video,
-	phoneScreenshots = phoneScreenshots,
-	sevenInchScreenshots = sevenInchScreenshots,
-	tenInchScreenshots = tenInchScreenshots,
-	wearScreenshots = wearScreenshots,
-	tvScreenshots = tvScreenshots,
-	featureGraphic = featureGraphic,
-	promoGraphic = promoGraphic,
-	tvBanner = tvBanner,
-	summary = summary
 )
