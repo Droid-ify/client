@@ -67,8 +67,8 @@
     <string name="changelog">Popis promjena</string>
     <string name="changes">Promjene</string>
     <string name="checking_repository">Provjeravam repozitorij…</string>
-    <string name="cleanup_title">Trajanje čišćenja</string>
-    <string name="cleanup_description">Vrijeme potrebno kako bi čistač izvršio ponovne provjere</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Stvoreno za ispravljanje pogrešaka</string>
     <string name="connecting">Povezujem…</string>
     <string name="contains_non_free_media">Sadrži medije koji nisu besplatni</string>

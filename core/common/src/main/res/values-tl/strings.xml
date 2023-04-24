@@ -13,7 +13,7 @@
     <string name="auto_update_apps">Subukang awtomatikong mag-install ng mga update</string>
     <string name="could_not_download_FORMAT">Hindi ma-download ang %s</string>
     <string name="could_not_validate_FORMAT">Hindi ma-validate ang %s</string>
-    <string name="cleanup_description">Kinakailangan ng oras para muling suriin ang paglilinis</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="ignore_this_update">Huwag pansinin ang bersyon na ito</string>
     <string name="incompatible_features_DESC">Mga nawawalang feature.</string>
     <string name="incompatible_api_DESC_FORMAT">Ang iyong %1$s (bersyon ng API %2$d) ay hindi suportado. %3$s</string>
@@ -90,7 +90,7 @@
     <string name="incompatible_signature_DESC">Ang bersyon na ito ay nilagdaan gamit ang isang certificate na iba kaysa sa naka-install sa iyong device. I-uninstall muna yan.</string>
     <string name="incompatible_versions">Mga hindi tugmang bersyon</string>
     <string name="incompatible_versions_summary">Ipakita ang mga bersyon ng application na hindi tugma sa device</string>
-    <string name="cleanup_title">Ang tagal ng paglilinis</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="credits">Mga kredito</string>
     <string name="delete_repository_DESC">Tanggalin ang repositoryo\?</string>
     <string name="dark">Madilim</string>

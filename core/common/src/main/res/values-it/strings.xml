@@ -184,7 +184,7 @@
     <string name="session_installer">Installatore di sessione</string>
     <string name="legacy_installer">Installatore legacy</string>
     <string name="root_installer">Installatore root</string>
-    <string name="cleanup_description">Tempo necessario per la pulizia e il ricontrollo</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="one">Giorno</item>
         <item quantity="many">Giorni</item>
@@ -195,7 +195,7 @@
         <item quantity="many">Ore</item>
         <item quantity="other">Ore</item>
     </plurals>
-    <string name="cleanup_title">Durata della pulizia</string>
+    <string name="cleanup_title">APK cleanup interval</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
     <string name="no_internet">Non hai connessione internet</string>

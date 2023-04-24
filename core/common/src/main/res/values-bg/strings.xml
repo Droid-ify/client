@@ -187,8 +187,8 @@
         <item quantity="other">Дни</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Само при Wi-Fi и зареждане</string>
-    <string name="cleanup_title">Продължителност на почистването</string>
-    <string name="cleanup_description">Време, необходимо за повторна проверка на почистването</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="hours">
         <item quantity="one">Час</item>
         <item quantity="other">Часове</item>

@@ -12,8 +12,8 @@
     <string name="changelog">Rexistro de cambios</string>
     <string name="changes">Cambios</string>
     <string name="checking_repository">Comprobando o repositorio…</string>
-    <string name="cleanup_title">Duración dá limpeza</string>
-    <string name="cleanup_description">Tempo necesario para que a limpeza se volva comprobar</string>
+    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Compilado para a depuración</string>
     <string name="confirmation">Confirmación</string>
     <string name="connecting">Conectando…</string>

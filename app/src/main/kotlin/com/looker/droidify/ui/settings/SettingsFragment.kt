@@ -279,20 +279,20 @@ class SettingsFragment : Fragment() {
 			}
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
 			dynamicTheme.root.isVisible = SdkCheck.isSnowCake
-			cleanUp.content.text = userPreferences.cleanUpDuration.toTime(context)
+			cleanUp.content.text = userPreferences.cleanUpInterval.toTime(context)
 			cleanUp.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.cleanUpDuration,
+					initialValue = userPreferences.cleanUpInterval,
 					values = cleanUpIntervals,
 					valueToString = { it.toTime(context) },
 					title = R.string.cleanup_title,
 					iconRes = R.drawable.ic_time,
-					onClick = { viewModel.setCleanUpDuration(it) }
+					onClick = { viewModel.setCleanUpInterval(it) }
 				).show()
 			}
-			forceCleanUp.root.isVisible = userPreferences.cleanUpDuration == Duration.INFINITE
-					|| userPreferences.cleanUpDuration == Duration.ZERO
-			forceCleanUp.root.setOnClickListener { viewModel.setCleanUpDuration(Duration.ZERO) }
+			forceCleanUp.root.isVisible = userPreferences.cleanUpInterval == Duration.INFINITE
+					|| userPreferences.cleanUpInterval == Duration.ZERO
+			forceCleanUp.root.setOnClickListener { viewModel.setCleanUpInterval(Duration.ZERO) }
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
