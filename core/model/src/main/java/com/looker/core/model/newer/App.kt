@@ -5,12 +5,11 @@ data class App(
 	val categories: List<String>,
 	val antiFeatures: List<String>,
 	val links: Links,
-	val license: String,
 	val metadata: Metadata,
 	val author: Author,
 	val screenshots: Screenshots,
 	val graphics: Graphics,
-	val donation: Set<Donate>,
+	val donation: Donation,
 	val packages: List<Package>
 )
 
@@ -19,6 +18,16 @@ data class Author(
 	val email: String,
 	val web: String,
 	val phone: String
+)
+
+data class Donation(
+	val regularUrl: String? = null,
+	val bitcoinAddress: String? = null,
+	val flattrId: String? = null,
+	val liteCoinAddress: String? = null,
+	val openCollectiveId: String? = null,
+	val librePayId: String? = null,
+	val librePayAddress: String? = null
 )
 
 data class Graphics(
@@ -37,16 +46,17 @@ data class Links(
 )
 
 data class Metadata(
-	val packageName: PackageName,
-	val icon: String,
 	val name: String,
-	val description: String,
-	val summary: String,
+	val packageName: PackageName,
 	val added: Long,
+	val description: String,
+	val icon: String,
 	val lastUpdated: Long,
-	val whatsNew: String,
+	val license: String,
+	val suggestedVersionCode: Int,
 	val suggestedVersionName: String,
-	val suggestedVersionCode: Int
+	val summary: String,
+	val whatsNew: String
 )
 
 data class Screenshots(
@@ -56,26 +66,6 @@ data class Screenshots(
 	val tv: List<String> = emptyList(),
 	val wear: List<String> = emptyList()
 )
-
-sealed interface Donate {
-
-	@JvmInline
-	value class Regular(val url: String) : Donate
-
-	@JvmInline
-	value class Bitcoin(val address: String) : Donate
-
-	@JvmInline
-	value class Litecoin(val address: String) : Donate
-
-	@JvmInline
-	value class Flattr(val id: String) : Donate
-
-	@JvmInline
-	value class OpenCollective(val id: String) : Donate
-
-	data class Liberapay(val id: String, val address: String) : Donate
-}
 
 data class AppMinimal(
 	val name: String,

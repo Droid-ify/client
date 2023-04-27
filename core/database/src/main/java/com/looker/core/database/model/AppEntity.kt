@@ -2,6 +2,7 @@ package com.looker.core.database.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.newer.*
 import kotlinx.serialization.Serializable
 
@@ -72,17 +73,17 @@ fun AppEntity.toExternalModel(): App = App(
 		translation = translation,
 		webSite = webSite
 	),
-	license = license,
 	metadata = Metadata(
 		name = name,
-		description = description,
-		summary = summary,
 		packageName = packageName.toPackageName(),
-		icon = icon,
 		added = added,
+		description = description,
+		icon = icon,
 		lastUpdated = lastUpdated,
-		suggestedVersionName = suggestedVersionName,
+		license = license,
 		suggestedVersionCode = suggestedVersionCode,
+		suggestedVersionName = suggestedVersionName,
+		summary = summary,
 		whatsNew = localized["en"]?.whatsNew ?: ""
 	),
 	screenshots = Screenshots(),
@@ -93,17 +94,14 @@ fun AppEntity.toExternalModel(): App = App(
 		web = authorWebSite,
 		phone = authorPhone
 	),
-	donation = buildSet {
-		when {
-			openCollective.isNotBlank() -> add(Donate.OpenCollective(openCollective))
-			flattrID.isNotBlank() -> add(Donate.Flattr(flattrID))
-			litecoin.isNotBlank() -> add(Donate.Litecoin(litecoin))
-			bitcoin.isNotBlank() -> add(Donate.Bitcoin(bitcoin))
-			liberapay.isNotBlank() && liberapayID.isNotBlank() ->
-				add(Donate.Liberapay(liberapayID, liberapay))
-
-			donate.isNotBlank() -> add(Donate.Regular(donate))
-		}
-	},
+	donation = Donation(
+		regularUrl = donate.nullIfEmpty(),
+		bitcoinAddress = bitcoin.nullIfEmpty(),
+		flattrId = flattrID.nullIfEmpty(),
+		liteCoinAddress = litecoin.nullIfEmpty(),
+		openCollectiveId = openCollective.nullIfEmpty(),
+		librePayId = liberapayID.nullIfEmpty(),
+		librePayAddress = liberapay.nullIfEmpty(),
+	),
 	packages = packages.map(PackageEntity::toExternalModel)
 )
