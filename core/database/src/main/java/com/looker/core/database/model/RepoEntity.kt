@@ -2,7 +2,9 @@ package com.looker.core.database.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.looker.core.model.newer.Authentication
 import com.looker.core.model.newer.Repo
+import com.looker.core.model.newer.VersionInfo
 
 @Entity(tableName = "repos")
 data class RepoEntity(
@@ -28,11 +30,11 @@ fun Repo.toEntity(): RepoEntity = RepoEntity(
 	name = name,
 	description = description,
 	fingerprint = fingerprint,
-	username = username,
-	password = password,
-	etag = etag,
-	version = version,
-	timestamp = timestamp,
+	username = authentication.username,
+	password = authentication.password,
+	etag = versionInfo.etag,
+	version = versionInfo.version,
+	timestamp = versionInfo.timestamp,
 	mirrors = mirrors
 )
 
@@ -43,10 +45,7 @@ fun RepoEntity.toExternalModel(): Repo = Repo(
 	name = name,
 	description = description,
 	fingerprint = fingerprint,
-	username = username,
-	password = password,
-	etag = etag,
-	version = version,
-	timestamp = timestamp,
+	authentication = Authentication(username, password),
+	versionInfo = VersionInfo(etag = etag, version = version, timestamp = timestamp),
 	mirrors = mirrors
 )

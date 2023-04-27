@@ -51,9 +51,9 @@ class OfflineFirstRepoRepository @Inject constructor(
 			val index = repoLoc.jar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
 				fingerPrint = repo.fingerprint,
-				etag = repo.etag,
-				username = repo.username,
-				password = repo.password
+				etag = repo.versionInfo.etag,
+				username = repo.authentication.username,
+				password = repo.authentication.password
 			)
 			val packages = index.packages
 			val apps = index.apps.map {
@@ -79,9 +79,9 @@ class OfflineFirstRepoRepository @Inject constructor(
 				val newFingerprint = async { jar.getFingerprint() }
 				val updatedRepo = index.repo.toEntity(
 					fingerPrint = repo.fingerprint.ifEmpty { newFingerprint.await() },
-					etag = repo.etag,
-					username = repo.username,
-					password = repo.password
+					etag = repo.versionInfo.etag,
+					username = repo.authentication.username,
+					password = repo.authentication.password
 				)
 				val packages = index.packages
 				val apps = index.apps.map {
