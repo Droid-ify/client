@@ -1,5 +1,3 @@
-## Repo will be inactive for a week or two
-
 <div align="center">
 
 <img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Droid-ify" align="center">
@@ -32,6 +30,12 @@
 You need [Android Studio](https://developer.android.com/studio) to build this App.\
 After Installing Android Studio, select `Project from Version Control` and paste the link of this repository.\
 Navigate to `Build > APK > Create New Keystore > Enter the password` and wait for the build to finish.
+
+## TODO
+
+- [ ] Add support for `index-v2`
+- [ ] Add detekt code-analysis
+- [ ] Add GitHub Repo feature
 
 ## Contribution
 
