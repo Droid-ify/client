@@ -70,7 +70,8 @@ internal fun PackageDto.toEntity(installed: Boolean = false): PackageEntity = Pa
 	versionName = versionName,
 	nativeCode = nativeCode,
 	features = features,
-	antiFeatures = antiFeatures
+	antiFeatures = antiFeatures,
+	whatsNew = ""
 )
 
 fun List<PackageDto>.allowUnstable(

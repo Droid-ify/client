@@ -65,7 +65,7 @@ data class LocalizedEntity(
 fun AppEntity.toExternalModel(): App = App(
 	repoId = repoId,
 	categories = categories,
-	antiFeatures = antiFeatures,
+	antiFeatures = antiFeatures(antiFeatures),
 	links = Links(
 		changelog = changelog,
 		issueTracker = issueTracker,
@@ -105,3 +105,20 @@ fun AppEntity.toExternalModel(): App = App(
 	),
 	packages = packages.map(PackageEntity::toExternalModel)
 )
+
+private fun antiFeatures(list: List<String>): Set<AntiFeatures> = list.map {
+	when (it) {
+		"Ads" -> AntiFeatures.Ads
+		"ApplicationDebuggable" -> AntiFeatures.Debug
+		"DisabledAlgorithm" -> AntiFeatures.UnsafeSigning
+		"KnownVuln" -> AntiFeatures.Vulnerable
+		"NoSourceSince" -> AntiFeatures.SourceUnavailable
+		"NonFreeAdd" -> AntiFeatures.Promotion
+		"NonFreeAssets" -> AntiFeatures.CopyrightedAssets
+		"NonFreeDep" -> AntiFeatures.NonFreeLibraries
+		"NonFreeNet" -> AntiFeatures.NonFreeNetwork
+		"Tracking" -> AntiFeatures.Tracking
+		"UpstreamNonFree" -> AntiFeatures.InAppPurchase
+		else -> AntiFeatures.Unknown(it)
+	}
+}.toSet()
