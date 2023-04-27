@@ -65,14 +65,8 @@ data class LocalizedEntity(
 fun AppEntity.toExternalModel(): App = App(
 	repoId = repoId,
 	categories = categories,
-	antiFeatures = antiFeatures(antiFeatures),
-	links = Links(
-		changelog = changelog,
-		issueTracker = issueTracker,
-		sourceCode = sourceCode,
-		translation = translation,
-		webSite = webSite
-	),
+	antiFeatures = antiFeatures(),
+	links = links(),
 	metadata = Metadata(
 		name = name,
 		packageName = packageName.toPackageName(),
@@ -83,30 +77,16 @@ fun AppEntity.toExternalModel(): App = App(
 		license = license,
 		suggestedVersionCode = suggestedVersionCode,
 		suggestedVersionName = suggestedVersionName,
-		summary = summary,
-		whatsNew = localized["en"]?.whatsNew ?: ""
+		summary = summary
 	),
 	screenshots = Screenshots(),
 	graphics = Graphics(),
-	author = Author(
-		name = authorName,
-		email = authorEmail,
-		web = authorWebSite,
-		phone = authorPhone
-	),
-	donation = Donation(
-		regularUrl = donate.nullIfEmpty(),
-		bitcoinAddress = bitcoin.nullIfEmpty(),
-		flattrId = flattrID.nullIfEmpty(),
-		liteCoinAddress = litecoin.nullIfEmpty(),
-		openCollectiveId = openCollective.nullIfEmpty(),
-		librePayId = liberapayID.nullIfEmpty(),
-		librePayAddress = liberapay.nullIfEmpty(),
-	),
+	author = author(),
+	donation = donations(),
 	packages = packages.map(PackageEntity::toExternalModel)
 )
 
-private fun antiFeatures(list: List<String>): Set<AntiFeatures> = list.map {
+private fun AppEntity.antiFeatures(): Set<AntiFeatures> = antiFeatures.map {
 	when (it) {
 		"Ads" -> AntiFeatures.Ads
 		"ApplicationDebuggable" -> AntiFeatures.Debug
@@ -122,3 +102,28 @@ private fun antiFeatures(list: List<String>): Set<AntiFeatures> = list.map {
 		else -> AntiFeatures.Unknown(it)
 	}
 }.toSet()
+
+private fun AppEntity.author(): Author = Author(
+	name = authorName,
+	email = authorEmail,
+	web = authorWebSite,
+	phone = authorPhone
+)
+
+private fun AppEntity.donations(): Donation = Donation(
+	regularUrl = donate.nullIfEmpty(),
+	bitcoinAddress = bitcoin.nullIfEmpty(),
+	flattrId = flattrID.nullIfEmpty(),
+	liteCoinAddress = litecoin.nullIfEmpty(),
+	openCollectiveId = openCollective.nullIfEmpty(),
+	librePayId = liberapayID.nullIfEmpty(),
+	librePayAddress = liberapay.nullIfEmpty(),
+)
+
+private fun AppEntity.links(): Links = Links(
+	changelog = changelog,
+	issueTracker = issueTracker,
+	sourceCode = sourceCode,
+	translation = translation,
+	webSite = webSite
+)

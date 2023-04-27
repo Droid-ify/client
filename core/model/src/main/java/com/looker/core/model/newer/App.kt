@@ -71,8 +71,7 @@ data class Metadata(
 	val license: String,
 	val suggestedVersionCode: Int,
 	val suggestedVersionName: String,
-	val summary: String,
-	val whatsNew: String
+	val summary: String
 )
 
 data class Screenshots(
