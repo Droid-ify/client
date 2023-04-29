@@ -1,7 +1,5 @@
 package com.looker.core.data.fdroid.sync
 
-import android.content.Context
-import com.looker.core.common.cache.Cache
 import com.looker.core.model.newer.Repo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -22,6 +20,7 @@ import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.util.*
 import java.util.jar.JarFile
 
@@ -30,18 +29,16 @@ private val client = HttpClient(OkHttp)
 private const val WORKERS = 3
 
 internal fun CoroutineScope.processRepos(
-	context: Context,
 	repos: ReceiveChannel<Repo>,
 	onDownload: suspend (Repo, JarFile) -> Unit
 ) = launch {
 	val locations = Channel<RepoLocation>()
 	val contents = Channel<RepoLocJar>(1)
 	repeat(WORKERS) { worker(locations, contents) }
-	downloader(context, repos, locations, contents, onDownload)
+	downloader(repos, locations, contents, onDownload)
 }
 
 private fun CoroutineScope.downloader(
-	context: Context,
 	repos: ReceiveChannel<Repo>,
 	locations: SendChannel<RepoLocation>,
 	contents: ReceiveChannel<RepoLocJar>,
@@ -55,7 +52,7 @@ private fun CoroutineScope.downloader(
 				repoMutableList.forEach { onDownload(it, jar) }
 			}
 			repos.onReceive { repo ->
-				val repoLocation = repo.toLocation(context)
+				val repoLocation = repo.toLocation()
 				val repoList = requested[repoLocation]
 				if (repoList == null) {
 					requested[repoLocation] = mutableListOf(repo)
@@ -100,7 +97,7 @@ internal suspend fun downloadIndexJar(
 		if (shouldAuthenticate) basicAuth(repoLocation.username, repoLocation.password)
 	}
 	val response = client.get(request)
-	val tempFile = Cache.getTemporaryFile(repoLocation.context)
+	val tempFile = File.createTempFile(repoLocation.name, UUID.randomUUID().toString())
 	val result = response.body<ByteArray>()
 	tempFile.writeBytes(result)
 	RepoLocJar(repoLocation, JarFile(tempFile, true))
@@ -108,15 +105,15 @@ internal suspend fun downloadIndexJar(
 
 data class RepoLocation(
 	val url: String,
-	val context: Context,
+	val name: String,
 	val timestamp: Long,
 	val username: String,
 	val password: String
 )
 
-fun Repo.toLocation(context: Context) = RepoLocation(
+fun Repo.toLocation() = RepoLocation(
 	url = address,
-	context = context,
+	name = name,
 	timestamp = versionInfo.timestamp,
 	username = authentication.username,
 	password = authentication.password

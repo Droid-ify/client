@@ -1,15 +1,9 @@
 package com.looker.core.data.fdroid.repository.offline
 
-import android.content.Context
 import com.looker.core.data.fdroid.model.v1.allowUnstable
 import com.looker.core.data.fdroid.model.v1.toEntity
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.sync.IndexType
-import com.looker.core.data.fdroid.sync.downloadIndexJar
-import com.looker.core.data.fdroid.sync.getFingerprint
-import com.looker.core.data.fdroid.sync.getIndexV1
-import com.looker.core.data.fdroid.sync.processRepos
-import com.looker.core.data.fdroid.sync.toLocation
+import com.looker.core.data.fdroid.sync.*
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.RepoEntity
@@ -42,12 +36,13 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun enableRepository(repo: Repo, enable: Boolean) {
 		repoDao.updateRepo(repo.copy(enabled = enable).toEntity())
+		if (enable) sync(repo, false)
 	}
 
-	override suspend fun sync(context: Context, repo: Repo, allowUnstable: Boolean): Boolean =
+	override suspend fun sync(repo: Repo, allowUnstable: Boolean): Boolean =
 		coroutineScope {
 			val indexType = IndexType.INDEX_V1
-			val repoLoc = downloadIndexJar(repo.toLocation(context), indexType)
+			val repoLoc = downloadIndexJar(repo.toLocation(), indexType)
 			val index = repoLoc.jar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
 				fingerPrint = repo.fingerprint,
@@ -69,12 +64,12 @@ class OfflineFirstRepoRepository @Inject constructor(
 			true
 		}
 
-	override suspend fun syncAll(context: Context, allowUnstable: Boolean): Boolean =
+	override suspend fun syncAll(allowUnstable: Boolean): Boolean =
 		coroutineScope {
 			val repos = repoDao.getRepoStream().first().map(RepoEntity::toExternalModel)
 				.filter { it.enabled }
 			val repoChannel = Channel<Repo>()
-			processRepos(context, repoChannel) { repo, jar ->
+			processRepos(repoChannel) { repo, jar ->
 				val index = jar.getIndexV1()
 				val newFingerprint = async { jar.getFingerprint() }
 				val updatedRepo = index.repo.toEntity(

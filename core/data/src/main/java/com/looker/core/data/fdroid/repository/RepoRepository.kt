@@ -14,8 +14,8 @@ interface RepoRepository {
 
 	suspend fun enableRepository(repo: Repo, enable: Boolean)
 
-	suspend fun sync(context: Context, repo: Repo, allowUnstable: Boolean): Boolean
+	suspend fun sync(repo: Repo, allowUnstable: Boolean): Boolean
 
-	suspend fun syncAll(context: Context, allowUnstable: Boolean): Boolean
+	suspend fun syncAll(allowUnstable: Boolean): Boolean
 
 }
