@@ -1,11 +1,13 @@
 package com.looker.core.data.downloader
 
-import io.ktor.client.*
-import io.ktor.client.plugins.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
-import io.ktor.http.*
-import io.ktor.utils.io.core.*
+import io.ktor.client.statement.bodyAsChannel
+import io.ktor.http.HttpHeaders
+import io.ktor.http.isSuccess
+import io.ktor.utils.io.core.isEmpty
+import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
 import java.io.File
 
@@ -13,20 +15,24 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 	override suspend fun headCall(
 		url: String,
 		headers: Map<String, Any?>
-	): Boolean = client.head(url){
-		headers {
-			headers.forEach { entry ->
-				entry.value?.let { append(entry.key, it.toString()) }
+	): NetworkResponse {
+		val status = client.head(url) {
+			headers {
+				headers.forEach { entry ->
+					entry.value?.let { append(entry.key, it.toString()) }
+				}
 			}
-		}
-	}.status == HttpStatusCode.OK
+		}.status
+		return if (status.isSuccess()) NetworkResponse.Success
+		else NetworkResponse.Error(status.value)
+	}
 
 	override suspend fun downloadToFile(
 		url: String,
 		target: File,
 		headers: Map<String, Any?>,
 		block: ProgressListener
-	): Boolean {
+	): NetworkResponse {
 		val cacheFileLength = if (target.exists()) target.length().takeIf { it >= 0 } else 0
 		val request = request {
 			url(url)
@@ -49,10 +55,12 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 						target.appendBytes(bytes)
 					}
 				}
-				response.status == HttpStatusCode.OK || response.status == HttpStatusCode.PartialContent
+				response.status.isSuccess()
+				if (response.status.isSuccess()) NetworkResponse.Success
+				else NetworkResponse.Error(response.status.value)
 			}
 		} catch (e: Exception) {
-			false
+			NetworkResponse.Error(-1, e)
 		}
 	}
 }

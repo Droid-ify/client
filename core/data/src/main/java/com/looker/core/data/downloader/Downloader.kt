@@ -7,15 +7,15 @@ interface Downloader {
 	suspend fun headCall(
 		url: String,
 		headers: Map<String, Any?> = emptyMap()
-	): Boolean
+	): NetworkResponse
 
 	suspend fun downloadToFile(
 		url: String,
 		target: File,
 		headers: Map<String, Any?> = emptyMap(),
 		block: ProgressListener
-	): Boolean
+	): NetworkResponse
 
 }
 
-typealias ProgressListener = suspend (bytesSentTotal: Long, contentLength: Long) -> Unit
+typealias ProgressListener = suspend (bytesReceived: Long, contentLength: Long) -> Unit

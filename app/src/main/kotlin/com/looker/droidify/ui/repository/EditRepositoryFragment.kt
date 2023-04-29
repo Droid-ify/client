@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
@@ -26,12 +27,12 @@ import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
-import io.ktor.http.*
+import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.*
 import java.net.URI
 import java.net.URL
 import java.nio.charset.Charset
-import java.util.*
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.min
 import com.looker.core.common.R as CommonR
@@ -405,10 +406,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 			async {
 				downloader.headCall(
 					url = "$it/index-v1.jar",
-					headers = mapOf(
-						HttpHeaders.Authorization to authentication
-					)
-				)
+					headers = mapOf(HttpHeaders.Authorization to authentication)
+				) == NetworkResponse.Success
 			}
 		}
 		val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)

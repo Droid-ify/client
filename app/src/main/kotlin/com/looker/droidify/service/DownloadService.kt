@@ -6,7 +6,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.core.app.TaskStackBuilder
@@ -14,6 +13,7 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
+import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
@@ -244,6 +244,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				)
 				setContentText(getString(stringRes.io_error_DESC))
 			}
+
 			is ErrorType.Http -> {
 				setContentTitle(
 					getString(
@@ -253,6 +254,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				)
 				setContentText(getString(stringRes.http_error_DESC))
 			}
+
 			is ErrorType.Validation -> {
 				setContentTitle(
 					getString(
@@ -345,14 +347,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		var validationError: ValidationError? = null
 		if (hash.isEmpty() || hash != task.release.hash) validationError = ValidationError.INTEGRITY
 		yield()
-		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path) ?: return@withContext ValidationError.FORMAT
-		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) validationError = ValidationError.METADATA
+		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
+			?: return@withContext ValidationError.FORMAT
+		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) validationError =
+			ValidationError.METADATA
 		yield()
 		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
-		if (signature.isEmpty() || signature != task.release.signature) validationError = ValidationError.SIGNATURE
+		if (signature.isEmpty() || signature != task.release.signature) validationError =
+			ValidationError.SIGNATURE
 		yield()
 		val permissions = packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
-		if (!task.release.permissions.containsAll(permissions)) validationError = ValidationError.PERMISSIONS
+		if (!task.release.permissions.containsAll(permissions)) validationError =
+			ValidationError.PERMISSIONS
 		yield()
 		validationError
 	}
@@ -389,6 +395,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						setContentText(getString(stringRes.connecting))
 						setProgress(1, 0, true)
 					}
+
 					is State.Downloading -> {
 						setContentTitle(
 							getString(stringRes.downloading_FORMAT, currentTask?.task?.name)
@@ -401,6 +408,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 							setProgress(0, 0, true)
 						}
 					}
+
 					else -> throw IllegalStateException()
 				}::class
 			}.build()
@@ -422,7 +430,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			started = true
 			startSelf()
 		}
-		Log.e("tag", tasks.toString())
 		val task = tasks.removeAt(0)
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(Intent.ACTION_VIEW)
@@ -438,7 +445,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val partialReleaseFile =
 			Cache.getPartialReleaseFile(this, task.release.cacheFileName)
 		val job = scope.launch {
-			val isSuccessful = downloader.downloadToFile(
+			val response = downloader.downloadToFile(
 				url = task.url,
 				target = partialReleaseFile,
 				headers = mapOf(HttpHeaders.Authorization to task.authentication)
@@ -447,23 +454,27 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			}
 			currentTask = null
 			yield()
-			if (isSuccessful) {
-				val validationError = validatePackage(task, partialReleaseFile)
-				if (validationError == null) {
-					val releaseFile = Cache.getReleaseFile(
-						this@DownloadService,
-						task.release.cacheFileName
-					)
-					partialReleaseFile.renameTo(releaseFile)
-					publishSuccess(task)
-				} else {
-					partialReleaseFile.delete()
-					showNotificationError(task, ErrorType.Validation(validationError))
+			when (response) {
+				NetworkResponse.Success -> {
+					val validationError = validatePackage(task, partialReleaseFile)
+					if (validationError == null) {
+						val releaseFile = Cache.getReleaseFile(
+							this@DownloadService,
+							task.release.cacheFileName
+						)
+						partialReleaseFile.renameTo(releaseFile)
+						publishSuccess(task)
+					} else {
+						partialReleaseFile.delete()
+						showNotificationError(task, ErrorType.Validation(validationError))
+						mutableState.emit(State.Error(task.packageName))
+					}
+				}
+
+				is NetworkResponse.Error -> {
+					showNotificationError(task, ErrorType.Http)
 					mutableState.emit(State.Error(task.packageName))
 				}
-			} else {
-				showNotificationError(task, ErrorType.Http)
-				mutableState.emit(State.Error(task.packageName))
 			}
 			yield()
 			handleDownload()
