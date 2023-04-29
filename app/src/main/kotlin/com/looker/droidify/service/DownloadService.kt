@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
-import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
@@ -195,22 +194,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		class Validation(val validateError: ValidationError) : ErrorType
 	}
 
-	private inline val pendingIntentFlag
-		get() = if (SdkCheck.isSnowCake) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-		else PendingIntent.FLAG_UPDATE_CURRENT
-
 	private fun showNotificationError(task: Task, errorType: ErrorType) {
 		val intent = Intent(this, MainActivity::class.java)
 			.setAction(Intent.ACTION_VIEW)
 			.setData(Uri.parse("package:${task.packageName}"))
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-			addNextIntentWithParentStack(intent)
-			getPendingIntent(
-				0,
-				pendingIntentFlag
-			)
-		}
+			.getPendingIntent(this)
 		notificationManager.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
@@ -223,7 +212,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						.getColor(CommonR.color.md_theme_dark_errorContainer)
 				)
 				.setOnlyAlertOnce(true)
-				.setContentIntent(resultPendingIntent)
+				.setContentIntent(intent)
 				.apply {
 					errorNotificationContent(task, errorType)
 				}
@@ -283,13 +272,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setData(Uri.parse("package:${task.packageName}"))
 			.putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-			addNextIntentWithParentStack(intent)
-			getPendingIntent(
-				0,
-				pendingIntentFlag
-			)
-		}
+			.getPendingIntent(this)
 		notificationManager.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
@@ -303,7 +286,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						.getColor(CommonR.color.md_theme_dark_primaryContainer)
 				)
 				.setOnlyAlertOnce(true)
-				.setContentIntent(resultPendingIntent)
+				.setContentIntent(intent)
 				.setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
 				.setContentText(getString(stringRes.tap_to_install_DESC))
 				.build()
@@ -435,12 +418,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setAction(Intent.ACTION_VIEW)
 			.setData(Uri.parse("package:${task.packageName}"))
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-		val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this).run {
-			addNextIntentWithParentStack(intent)
-			getPendingIntent(0, pendingIntentFlag)
-		}
+			.getPendingIntent(this)
 		stateNotificationBuilder.setWhen(System.currentTimeMillis())
-		stateNotificationBuilder.setContentIntent(resultPendingIntent)
+		stateNotificationBuilder.setContentIntent(intent)
 		publishForegroundState(true, State.Connecting(task.packageName))
 		val partialReleaseFile =
 			Cache.getPartialReleaseFile(this, task.release.cacheFileName)

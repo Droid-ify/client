@@ -37,29 +37,3 @@ fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 
 fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
 	ResourcesCompat.getDrawable(resources, resId, theme) ?: ContextCompat.getDrawable(this, resId)!!
-
-fun Intent.getPackageName(): String? {
-	val uri = data
-	return when {
-		uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
-			uri.schemeSpecificPart?.nullIfEmpty()
-		}
-		uri?.scheme == "market" && uri.host == "details" -> {
-			uri.getQueryParameter("id")?.nullIfEmpty()
-		}
-		uri != null && uri.scheme in setOf("http", "https") -> {
-			val host = uri.host.orEmpty()
-			if (host == "f-droid.org"
-				|| host.endsWith(".f-droid.org")
-				|| host == "apt.izzysoft.de"
-			) {
-				uri.lastPathSegment?.nullIfEmpty()
-			} else {
-				null
-			}
-		}
-		else -> {
-			null
-		}
-	}
-}
