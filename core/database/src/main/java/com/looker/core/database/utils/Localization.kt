@@ -1,4 +1,4 @@
-package com.looker.core.data.utils
+package com.looker.core.database.utils
 
 import androidx.core.os.LocaleListCompat
 import com.looker.core.common.stripBetween

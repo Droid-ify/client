@@ -1,11 +1,11 @@
-package com.looker.core.data.utils
+package com.looker.core.database.utils
 
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.LocaleListCompat.getEmptyLocaleList
+import org.junit.Assert.*
+
 import org.junit.Test
 import java.util.Locale
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 // https://developer.android.com/guide/topics/resources/multilingual-support#resource-resolution-examples
 class LocalizationKtTest {

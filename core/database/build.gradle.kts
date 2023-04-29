@@ -10,6 +10,7 @@ android {
 	namespace = "com.looker.core.database"
 	defaultConfig {
 		minSdk = Android.minSdk
+		testInstrumentationRunner = Test.jUnitRunner
 
 		javaCompileOptions {
 			annotationProcessorOptions {
@@ -53,4 +54,7 @@ dependencies {
 
 	implementation(Core.core)
 	implementation(Kotlin.serialization)
+
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }
