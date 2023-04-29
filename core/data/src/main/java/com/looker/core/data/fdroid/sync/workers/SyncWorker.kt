@@ -36,7 +36,7 @@ class SyncWorker @AssistedInject constructor(
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 		Log.i(SYNC_WORK, "Start Sync")
 		val unstable = userPreferencesRepository.fetchInitialPreferences().unstableUpdate
-		val isSuccess = repoRepository.syncAll(appContext, unstable)
+		val isSuccess = repoRepository.syncAll(unstable)
 		if (isSuccess) Result.success() else Result.failure()
 	}
 

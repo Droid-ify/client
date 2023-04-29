@@ -1,10 +1,14 @@
 package com.looker.core.database.model
 
+import androidx.core.os.LocaleListCompat
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.database.utils.localizedValue
 import com.looker.core.model.newer.*
-import kotlinx.serialization.Serializable
+
+typealias LocalizedString = Map<String, String>
+typealias LocalizedList = Map<String, List<String>>
 
 @Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
 data class AppEntity(
@@ -14,14 +18,14 @@ data class AppEntity(
 	val repoId: Long,
 	val categories: List<String>,
 	val antiFeatures: List<String>,
-	val summary: String,
-	val description: String,
+	val summary: LocalizedString,
+	val description: LocalizedString,
 	val changelog: String,
 	val translation: String,
 	val issueTracker: String,
 	val sourceCode: String,
 	val binaries: String,
-	val name: String,
+	val name: LocalizedString,
 	val authorName: String,
 	val authorEmail: String,
 	val authorWebSite: String,
@@ -37,52 +41,53 @@ data class AppEntity(
 	val license: String,
 	val webSite: String,
 	val added: Long,
-	val icon: String,
+	val icon: LocalizedString,
+	val phoneScreenshots: LocalizedList,
+	val sevenInchScreenshots: LocalizedList,
+	val tenInchScreenshots: LocalizedList,
+	val wearScreenshots: LocalizedList,
+	val tvScreenshots: LocalizedList,
+	val featureGraphic: LocalizedString,
+	val promoGraphic: LocalizedString,
+	val tvBanner: LocalizedString,
+	val video: LocalizedString,
 	val lastUpdated: Long,
-	val localized: Map<String, LocalizedEntity>,
 	val packages: List<PackageEntity>
 )
 
-@Serializable
-data class LocalizedEntity(
-	val description: String,
-	val name: String,
-	val icon: String,
-	val whatsNew: String,
-	val video: String,
-	val phoneScreenshots: List<String>,
-	val sevenInchScreenshots: List<String>,
-	val tenInchScreenshots: List<String>,
-	val wearScreenshots: List<String>,
-	val tvScreenshots: List<String>,
-	val featureGraphic: String,
-	val promoGraphic: String,
-	val tvBanner: String,
-	val summary: String
-)
-
-fun AppEntity.toExternalModel(): App = App(
+fun AppEntity.toExternalModel(locale: LocaleListCompat): App = App(
 	repoId = repoId,
 	categories = categories,
 	antiFeatures = antiFeatures(),
 	links = links(),
 	metadata = Metadata(
-		name = name,
+		name = name.localizedValue(locale) ?: "",
 		packageName = packageName.toPackageName(),
 		added = added,
-		description = description,
-		icon = icon,
+		description = description.localizedValue(locale) ?: "",
+		icon = icon.localizedValue(locale) ?: "",
 		lastUpdated = lastUpdated,
 		license = license,
 		suggestedVersionCode = suggestedVersionCode,
 		suggestedVersionName = suggestedVersionName,
-		summary = summary
+		summary = summary.localizedValue(locale) ?: ""
 	),
-	screenshots = Screenshots(),
-	graphics = Graphics(),
+	screenshots = Screenshots(
+		phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
+		sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
+		tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
+		tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
+		wear = wearScreenshots.localizedValue(locale) ?: emptyList()
+	),
+	graphics = Graphics(
+		featureGraphic = featureGraphic.localizedValue(locale) ?: "",
+		promoGraphic = promoGraphic.localizedValue(locale) ?: "",
+		tvBanner = tvBanner.localizedValue(locale) ?: "",
+		video = video.localizedValue(locale) ?: ""
+	),
 	author = author(),
 	donation = donations(),
-	packages = packages.map(PackageEntity::toExternalModel)
+	packages = packages.map { it.toExternalModel(locale) }
 )
 
 private fun AppEntity.antiFeatures(): Set<AntiFeatures> = antiFeatures.map {

@@ -1,7 +1,6 @@
 package com.looker.core.data.fdroid.model.v1
 
 import com.looker.core.database.model.AppEntity
-import com.looker.core.database.model.LocalizedEntity
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -61,14 +60,14 @@ fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEn
 	repoId = repoId,
 	categories = categories,
 	antiFeatures = antiFeatures,
-	summary = summary,
-	description = description,
+	summary = getLocalizedMap { summary },
+	description = getLocalizedMap { description },
 	changelog = changelog,
 	translation = translation,
 	issueTracker = issueTracker,
 	sourceCode = sourceCode,
 	binaries = binaries,
-	name = name,
+	name = getLocalizedMap { name },
 	authorName = authorName,
 	authorEmail = authorEmail,
 	authorWebSite = authorWebSite,
@@ -84,25 +83,29 @@ fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEn
 	license = license,
 	webSite = webSite,
 	added = added,
-	icon = icon,
+	icon = getLocalizedMap { icon },
 	lastUpdated = lastUpdated,
-	localized = localized.mapValues { it.value.toEntity() },
+	phoneScreenshots = getLocalizedMap { phoneScreenshots },
+	sevenInchScreenshots = getLocalizedMap { sevenInchScreenshots },
+	tenInchScreenshots = getLocalizedMap { tenInchScreenshots },
+	wearScreenshots = getLocalizedMap { wearScreenshots },
+	tvScreenshots = getLocalizedMap { tvScreenshots },
+	featureGraphic = getLocalizedMap { featureGraphic },
+	promoGraphic = getLocalizedMap { promoGraphic },
+	tvBanner = getLocalizedMap { tvBanner },
+	video = getLocalizedMap { video },
 	packages = packages.map(PackageDto::toEntity)
 )
 
-internal fun LocalizedDto.toEntity(): LocalizedEntity = LocalizedEntity(
-	description = description,
-	name = name,
-	icon = icon,
-	whatsNew = whatsNew,
-	video = video,
-	phoneScreenshots = phoneScreenshots,
-	sevenInchScreenshots = sevenInchScreenshots,
-	tenInchScreenshots = tenInchScreenshots,
-	wearScreenshots = wearScreenshots,
-	tvScreenshots = tvScreenshots,
-	featureGraphic = featureGraphic,
-	promoGraphic = promoGraphic,
-	tvBanner = tvBanner,
-	summary = summary
-)
+private fun <T> AppDto.getLocalizedMap(block: LocalizedDto.() -> T): Map<String, T> {
+	if (localized.isEmpty()) return emptyMap()
+	val mutableMap = this.localized.toMutableMap()
+	val defaultValues = LocalizedDto(
+		description = description,
+		name = name,
+		icon = icon,
+		summary = summary
+	)
+	mutableMap["en"] = defaultValues
+	return mutableMap.mapValues { it.value.block() }
+}

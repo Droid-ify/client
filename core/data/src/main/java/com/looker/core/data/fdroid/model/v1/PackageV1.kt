@@ -71,7 +71,7 @@ internal fun PackageDto.toEntity(installed: Boolean = false): PackageEntity = Pa
 	nativeCode = nativeCode,
 	features = features,
 	antiFeatures = antiFeatures,
-	whatsNew = ""
+	whatsNew = emptyMap()
 )
 
 fun List<PackageDto>.allowUnstable(

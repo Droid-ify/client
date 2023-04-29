@@ -1,9 +1,7 @@
 package com.looker.core.database
 
 import androidx.room.TypeConverter
-import com.looker.core.database.model.LocalizedEntity
-import com.looker.core.database.model.PackageEntity
-import com.looker.core.database.model.PermissionEntity
+import com.looker.core.database.model.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
@@ -17,7 +15,9 @@ private val json = Json {
 }
 
 internal const val STRING_DELIMITER = "!@#$%^&*"
-private val localizedSerializer = MapSerializer(String.serializer(), LocalizedEntity.serializer())
+private val stringListSerializer = ListSerializer(String.serializer())
+private val localizedStringSerializer = MapSerializer(String.serializer(), String.serializer())
+private val localizedListSerializer = MapSerializer(String.serializer(), stringListSerializer)
 private val packageListSerializer = ListSerializer(PackageEntity.serializer())
 
 class CollectionConverter {
@@ -34,12 +34,20 @@ class CollectionConverter {
 class LocalizedConverter {
 
 	@TypeConverter
-	fun localizedToJson(localizedEntity: Map<String, LocalizedEntity>): String =
-		json.encodeToString(localizedSerializer, localizedEntity)
+	fun localizedStringToJson(localizedEntity: LocalizedString): String =
+		json.encodeToString(localizedStringSerializer, localizedEntity)
 
 	@TypeConverter
-	fun jsonToLocalized(jsonObject: String): Map<String, LocalizedEntity> =
-		json.decodeFromString(localizedSerializer, jsonObject)
+	fun jsonToLocalizedString(jsonObject: String): LocalizedString =
+		json.decodeFromString(localizedStringSerializer, jsonObject)
+
+	@TypeConverter
+	fun localizedListToJson(localizedEntity: LocalizedList): String =
+		json.encodeToString(localizedListSerializer, localizedEntity)
+
+	@TypeConverter
+	fun jsonToLocalizedList(jsonObject: String): LocalizedList =
+		json.decodeFromString(localizedListSerializer, jsonObject)
 
 }
 

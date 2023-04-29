@@ -5,30 +5,34 @@ import com.looker.core.database.dao.AppDao
 import com.looker.core.database.model.AppEntity
 import com.looker.core.database.model.PackageEntity
 import com.looker.core.database.model.toExternalModel
+import com.looker.core.database.utils.localeListCompat
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.model.newer.App
-import com.looker.core.model.newer.Author
-import com.looker.core.model.newer.Package
-import com.looker.core.model.newer.PackageName
+import com.looker.core.datastore.distinctMap
+import com.looker.core.model.newer.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class OfflineFirstAppRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : AppRepository {
+
+	private val localePreference = userPreferencesRepository
+		.userPreferencesFlow
+		.distinctMap { it.language }
+
 	override fun getApps(): Flow<List<App>> =
-		appDao.getAppStream().map { it.map(AppEntity::toExternalModel) }
+		appDao.getAppStream().localizedAppList(localePreference)
 
 	override fun getApp(packageName: PackageName): Flow<List<App>> =
-		appDao.getApp(packageName.name).map { it.map(AppEntity::toExternalModel) }
+		appDao.getApp(packageName.name).localizedAppList(localePreference)
 
 	override fun getAppFromAuthor(author: Author): Flow<List<App>> =
-		appDao.getAppsFromAuthor(author.name).map { it.map(AppEntity::toExternalModel) }
+		appDao.getAppsFromAuthor(author.name).localizedAppList(localePreference)
 
 	override fun getPackages(packageName: PackageName): Flow<List<Package>> =
-		appDao.getPackages(packageName.name).map { it.map(PackageEntity::toExternalModel) }
+		appDao.getPackages(packageName.name).localizedPackages(localePreference)
 
 	override suspend fun addToFavourite(packageName: PackageName): Boolean {
 		val isFavourite =
@@ -40,3 +44,13 @@ class OfflineFirstAppRepository @Inject constructor(
 		return !isFavourite
 	}
 }
+
+private fun Flow<List<AppEntity>>.localizedAppList(preference: Flow<String>): Flow<List<App>> =
+	combine(this, preference) { appsList, locale ->
+		appsList.map { it.toExternalModel(localeListCompat(locale)) }
+	}
+
+private fun Flow<List<PackageEntity>>.localizedPackages(preference: Flow<String>): Flow<List<Package>> =
+	combine(this, preference) { appsList, locale ->
+		appsList.map { it.toExternalModel(localeListCompat(locale)) }
+	}

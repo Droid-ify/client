@@ -9,7 +9,7 @@ import com.looker.core.model.newer.VersionInfo
 @Entity(tableName = "repos")
 data class RepoEntity(
 	@PrimaryKey(autoGenerate = true)
-	val id: Long = 0L,
+	val id: Long? = null,
 	val enabled: Boolean,
 	val fingerprint: String,
 	val etag: String,
@@ -39,7 +39,7 @@ fun Repo.toEntity(): RepoEntity = RepoEntity(
 )
 
 fun RepoEntity.toExternalModel(): Repo = Repo(
-	id = id,
+	id = id!!,
 	enabled = enabled,
 	address = address,
 	name = name,
