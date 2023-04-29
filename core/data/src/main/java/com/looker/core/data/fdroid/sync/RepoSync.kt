@@ -117,9 +117,9 @@ data class RepoLocation(
 fun Repo.toLocation(context: Context) = RepoLocation(
 	url = address,
 	context = context,
-	timestamp = timestamp,
-	username = username,
-	password = password
+	timestamp = versionInfo.timestamp,
+	username = authentication.username,
+	password = authentication.password
 )
 
 fun RepoLocation.indexUrl(indexType: IndexType): String =
