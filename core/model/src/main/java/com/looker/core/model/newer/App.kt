@@ -33,7 +33,6 @@ data class Author(
 	val name: String,
 	val email: String,
 	val web: String,
-	val phone: String
 )
 
 data class Donation(

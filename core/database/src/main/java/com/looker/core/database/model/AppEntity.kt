@@ -25,7 +25,6 @@ data class AppEntity(
 	val authorName: String,
 	val authorEmail: String,
 	val authorWebSite: String,
-	val authorPhone: String,
 	val donate: String,
 	val liberapayID: String,
 	val liberapay: String,
@@ -107,7 +106,6 @@ private fun AppEntity.author(): Author = Author(
 	name = authorName,
 	email = authorEmail,
 	web = authorWebSite,
-	phone = authorPhone
 )
 
 private fun AppEntity.donations(): Donation = Donation(
