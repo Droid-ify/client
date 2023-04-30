@@ -78,6 +78,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 					username = repo.authentication.username,
 					password = repo.authentication.password
 				)
+				repoDao.updateRepo(updatedRepo)
 				val packages = index.packages
 				val apps = index.apps.map {
 					it.toEntity(
@@ -87,7 +88,6 @@ class OfflineFirstRepoRepository @Inject constructor(
 							?: emptyList()
 					)
 				}
-				repoDao.updateRepo(updatedRepo)
 				appDao.upsertApps(apps)
 			}
 			repos.forEach { repoChannel.send(it) }
