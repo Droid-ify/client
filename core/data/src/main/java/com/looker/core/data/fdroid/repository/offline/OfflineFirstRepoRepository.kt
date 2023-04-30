@@ -41,15 +41,17 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(repo: Repo, allowUnstable: Boolean): Boolean =
 		coroutineScope {
-			val indexType = IndexType.INDEX_V1
-			val repoLoc = downloadIndexJar(repo.toLocation(), indexType)
-			val index = repoLoc.jar.getIndexV1()
+			val indexType = determineIndexType(repo.toLocation())
+			val (_, indexJar) = downloadIndexJar(repo.toLocation(), indexType)
+			val newFingerprint = async { indexJar.getFingerprint() }
+			val index = indexJar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
-				fingerPrint = repo.fingerprint,
+				fingerPrint = repo.fingerprint.ifEmpty { newFingerprint.await() },
 				etag = repo.versionInfo.etag,
 				username = repo.authentication.username,
 				password = repo.authentication.password
 			)
+			repoDao.updateRepo(updatedRepo)
 			val packages = index.packages
 			val apps = index.apps.map {
 				it.toEntity(
@@ -59,7 +61,6 @@ class OfflineFirstRepoRepository @Inject constructor(
 						?: emptyList()
 				)
 			}
-			repoDao.updateRepo(updatedRepo)
 			appDao.upsertApps(apps)
 			true
 		}
