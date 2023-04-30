@@ -33,8 +33,8 @@ fun ByteArray.hex(): String = buildString {
 	}
 }
 
-fun Any.log(message: String) {
+fun Any.log(message: Any) {
 	this::class.java.simpleName
 	val tag = this::class.java.simpleName + ".DEBUG"
-	Log.d(tag, message)
+	Log.d(tag, message.toString())
 }
