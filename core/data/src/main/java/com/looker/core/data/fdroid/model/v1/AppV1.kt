@@ -94,7 +94,9 @@ fun AppDto.toEntity(repoId: Long, packages: List<PackageDto>): AppEntity = AppEn
 	promoGraphic = getLocalizedMap { promoGraphic },
 	tvBanner = getLocalizedMap { tvBanner },
 	video = getLocalizedMap { video },
-	packages = packages.map(PackageDto::toEntity)
+	packages = packages.map {
+		it.toEntity(whatsNew = getLocalizedMap { whatsNew })
+	}
 )
 
 private fun <T> AppDto.getLocalizedMap(block: LocalizedDto.() -> T): Map<String, T> {

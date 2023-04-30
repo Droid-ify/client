@@ -1,5 +1,6 @@
 package com.looker.core.data.fdroid.model.v1
 
+import com.looker.core.database.model.LocalizedString
 import com.looker.core.database.model.PackageEntity
 import com.looker.core.database.model.PermissionEntity
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -51,7 +52,7 @@ data class PermissionDto(
 	val maxSdk: Int? = null
 )
 
-internal fun PackageDto.toEntity(installed: Boolean = false): PackageEntity = PackageEntity(
+internal fun PackageDto.toEntity(installed: Boolean = false, whatsNew: LocalizedString): PackageEntity = PackageEntity(
 	installed = installed,
 	added = added,
 	apkName = apkName,
@@ -71,7 +72,7 @@ internal fun PackageDto.toEntity(installed: Boolean = false): PackageEntity = Pa
 	nativeCode = nativeCode,
 	features = features,
 	antiFeatures = antiFeatures,
-	whatsNew = emptyMap()
+	whatsNew = whatsNew
 )
 
 fun List<PackageDto>.allowUnstable(
