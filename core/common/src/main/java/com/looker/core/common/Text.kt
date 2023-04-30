@@ -33,10 +33,8 @@ fun ByteArray.hex(): String = buildString {
 	}
 }
 
-fun Any.debug(message: String) {
-	val tag = this::class.java.name.let {
-		val index = it.lastIndexOf('.')
-		if (index >= 0) it.substring(index + 1) else it
-	}.replace('$', '.') + "DEBUG"
+fun Any.log(message: String) {
+	this::class.java.simpleName
+	val tag = this::class.java.simpleName + ".DEBUG"
 	Log.d(tag, message)
 }

@@ -3,7 +3,7 @@ package com.looker.droidify.database
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.CancellationSignal
-import com.looker.core.common.debug
+import com.looker.core.common.log
 import com.looker.core.common.extension.asSequence
 import com.looker.droidify.BuildConfig
 
@@ -38,10 +38,10 @@ class QueryBuilder {
 		val arguments = arguments.toTypedArray()
 		if (BuildConfig.DEBUG) {
 			synchronized(QueryBuilder::class.java) {
-				debug(query)
+				log(query)
 				db.rawQuery("EXPLAIN QUERY PLAN $query", arguments).use {
 					it.asSequence()
-						.forEach { debug(":: ${it.getString(it.getColumnIndex("detail"))}") }
+						.forEach { log(":: ${it.getString(it.getColumnIndex("detail"))}") }
 				}
 			}
 		}
