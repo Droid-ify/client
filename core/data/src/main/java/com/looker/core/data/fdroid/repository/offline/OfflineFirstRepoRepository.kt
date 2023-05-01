@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
-	private val repoDao: RepoDao
+	private val repoDao: RepoDao,
+	private val syncProcessor: SyncProcessor
 ) : RepoRepository {
 	override suspend fun getRepo(id: Long): Repo = repoDao.getRepoById(id).toExternalModel()
 
@@ -41,8 +42,8 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(repo: Repo, allowUnstable: Boolean): Boolean =
 		coroutineScope {
-			val indexType = determineIndexType(repo.toLocation())
-			val (_, indexJar) = downloadIndexJar(repo.toLocation(), indexType)
+			val indexType = syncProcessor.determineIndexType(repo)
+			val (_, indexJar) = syncProcessor.downloadIndexJar(repo, indexType)
 			val newFingerprint = async { indexJar.getFingerprint() }
 			val index = indexJar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
@@ -70,28 +71,30 @@ class OfflineFirstRepoRepository @Inject constructor(
 			val repos = repoDao.getRepoStream().first().map(RepoEntity::toExternalModel)
 				.filter { it.enabled }
 			val repoChannel = Channel<Repo>()
-			processRepos(repoChannel) { repo, jar ->
-				val index = jar.getIndexV1()
-				val newFingerprint = async { jar.getFingerprint() }
-				val updatedRepo = index.repo.toEntity(
-					fingerPrint = repo.fingerprint.ifEmpty { newFingerprint.await() },
-					etag = repo.versionInfo.etag,
-					username = repo.authentication.username,
-					password = repo.authentication.password
-				)
-				repoDao.updateRepo(updatedRepo)
-				val packages = index.packages
-				val apps = index.apps.map {
-					it.toEntity(
-						repoId = repo.id,
-						packages = packages[it.packageName]
-							?.allowUnstable(it, allowUnstable)
-							?: emptyList()
+			with(syncProcessor) {
+				processRepos(repoChannel) { repo, jar ->
+					val newFingerprint = async { jar.getFingerprint() }
+					val index = jar.getIndexV1()
+					val updatedRepo = index.repo.toEntity(
+						fingerPrint = repo.fingerprint.ifEmpty { newFingerprint.await() },
+						etag = repo.versionInfo.etag,
+						username = repo.authentication.username,
+						password = repo.authentication.password
 					)
+					repoDao.updateRepo(updatedRepo)
+					val packages = index.packages
+					val apps = index.apps.map {
+						it.toEntity(
+							repoId = repo.id,
+							packages = packages[it.packageName]
+								?.allowUnstable(it, allowUnstable)
+								?: emptyList()
+						)
+					}
+					appDao.upsertApps(apps)
 				}
-				appDao.upsertApps(apps)
 			}
 			repos.forEach { repoChannel.send(it) }
-			false
+			true
 		}
 }

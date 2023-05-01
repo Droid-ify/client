@@ -12,6 +12,7 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
+import com.looker.core.data.downloader.Downloader
 import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
@@ -23,7 +24,6 @@ import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
-import io.ktor.http.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
@@ -45,7 +45,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
 	@Inject
-	lateinit var downloader: com.looker.core.data.downloader.Downloader
+	lateinit var downloader: Downloader
 
 	private val installerType = flow {
 		emit(userPreferencesRepository.fetchInitialPreferences().installerType)
@@ -428,7 +428,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			val response = downloader.downloadToFile(
 				url = task.url,
 				target = partialReleaseFile,
-				headers = mapOf(HttpHeaders.Authorization to task.authentication)
+				headers = { authentication(task.authentication) }
 			) { read, total ->
 				publishForegroundState(false, State.Downloading(task.packageName, read, total))
 			}

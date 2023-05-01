@@ -27,7 +27,6 @@ import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
-import io.ktor.http.HttpHeaders
 import kotlinx.coroutines.*
 import java.net.URI
 import java.net.URL
@@ -406,7 +405,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 			async {
 				downloader.headCall(
 					url = "$it/index-v1.jar",
-					headers = mapOf(HttpHeaders.Authorization to authentication)
+					headers = { authentication(authentication) }
 				) == NetworkResponse.Success
 			}
 		}

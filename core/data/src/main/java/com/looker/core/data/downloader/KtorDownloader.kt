@@ -1,5 +1,7 @@
 package com.looker.core.data.downloader
 
+import com.looker.core.data.downloader.header.HeadersBuilder
+import com.looker.core.data.downloader.header.KtorHeaderBuilder
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
@@ -14,13 +16,11 @@ import java.io.File
 class KtorDownloader(private val client: HttpClient) : Downloader {
 	override suspend fun headCall(
 		url: String,
-		headers: Map<String, Any?>
+		headers: HeadersBuilder.() -> Unit
 	): NetworkResponse {
 		val status = client.head(url) {
 			headers {
-				headers.forEach { entry ->
-					entry.value?.let { append(entry.key, it.toString()) }
-				}
+				KtorHeaderBuilder(this).headers()
 			}
 		}.status
 		return if (status.isSuccess()) NetworkResponse.Success
@@ -30,17 +30,15 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 	override suspend fun downloadToFile(
 		url: String,
 		target: File,
-		headers: Map<String, Any?>,
-		block: ProgressListener
+		headers: HeadersBuilder.() -> Unit,
+		block: ProgressListener?
 	): NetworkResponse {
 		val cacheFileLength = if (target.exists()) target.length().takeIf { it >= 0 } else 0
 		val request = request {
 			url(url)
 			headers {
-				headers.forEach { entry ->
-					entry.value?.let { append(entry.key, it.toString()) }
-					cacheFileLength?.let { append(HttpHeaders.Range, "bytes=${it}-") }
-				}
+				KtorHeaderBuilder(this).headers()
+				cacheFileLength?.let { append(HttpHeaders.Range, "bytes=${it}-") }
 			}
 			onDownload(block)
 		}
