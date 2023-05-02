@@ -10,11 +10,6 @@ import java.io.File
 import java.util.Date
 import java.util.UUID
 import java.util.jar.JarFile
-import javax.inject.Singleton
-import kotlin.collections.MutableList
-import kotlin.collections.forEach
-import kotlin.collections.mutableListOf
-import kotlin.collections.mutableMapOf
 import kotlin.collections.set
 
 class SyncProcessorImpl(private val downloader: Downloader) : SyncProcessor {

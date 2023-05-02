@@ -3,7 +3,9 @@ package com.looker.core.data.fdroid.repository.offline
 import com.looker.core.data.fdroid.model.v1.allowUnstable
 import com.looker.core.data.fdroid.model.v1.toEntity
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.sync.*
+import com.looker.core.data.fdroid.sync.SyncProcessor
+import com.looker.core.data.fdroid.sync.getFingerprint
+import com.looker.core.data.fdroid.sync.getIndexV1
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.RepoEntity
