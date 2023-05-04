@@ -3,7 +3,7 @@ package com.looker.core.data.fdroid.repository.offline
 import com.looker.core.data.fdroid.model.v1.allowUnstable
 import com.looker.core.data.fdroid.model.v1.toEntity
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.sync.SyncProcessor
+import com.looker.core.data.fdroid.sync.IndexDownloader
 import com.looker.core.data.fdroid.sync.getFingerprint
 import com.looker.core.data.fdroid.sync.getIndexV1
 import com.looker.core.database.dao.AppDao
@@ -23,7 +23,7 @@ import javax.inject.Inject
 class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val repoDao: RepoDao,
-	private val syncProcessor: SyncProcessor
+	private val indexDownloader: IndexDownloader
 ) : RepoRepository {
 	override suspend fun getRepo(id: Long): Repo = repoDao.getRepoById(id).toExternalModel()
 
@@ -44,8 +44,8 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(repo: Repo, allowUnstable: Boolean): Boolean =
 		coroutineScope {
-			val indexType = syncProcessor.determineIndexType(repo)
-			val (_, indexJar) = syncProcessor.downloadIndexJar(repo, indexType)
+			val indexType = indexDownloader.determineIndexType(repo)
+			val (_, indexJar) = indexDownloader.downloadIndexJar(repo, indexType)
 			val newFingerprint = async { indexJar.getFingerprint() }
 			val index = indexJar.getIndexV1()
 			val updatedRepo = index.repo.toEntity(
@@ -73,7 +73,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 			val repos = repoDao.getRepoStream().first().map(RepoEntity::toExternalModel)
 				.filter { it.enabled }
 			val repoChannel = Channel<Repo>()
-			with(syncProcessor) {
+			with(indexDownloader) {
 				processRepos(repoChannel) { repo, jar ->
 					val newFingerprint = async { jar.getFingerprint() }
 					val index = jar.getIndexV1()

@@ -6,7 +6,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ReceiveChannel
 import java.util.jar.JarFile
 
-interface SyncProcessor {
+interface IndexDownloader {
 
 	fun CoroutineScope.processRepos(repos: ReceiveChannel<Repo>, onDownload: onDownloadListener): Job
 
