@@ -10,7 +10,8 @@ import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
 suspend fun JarFile.getIndexV1(): IndexV1 = withContext(Dispatchers.IO) {
-	val indexEntry = getEntry(IndexType.INDEX_V1.contentName) as JarEntry
+	val indexEntry = getJarEntry(IndexType.INDEX_V1.contentName)
+		?: throw ProcessJarException("Cannot find the content: ${IndexType.INDEX_V1.contentName}")
 	IndexV1.decodeFromInputStream(getInputStream(indexEntry))
 }
 
