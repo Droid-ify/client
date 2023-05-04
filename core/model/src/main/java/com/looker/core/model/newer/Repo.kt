@@ -9,7 +9,21 @@ data class Repo(
 	val fingerprint: String,
 	val authentication: Authentication,
 	val versionInfo: VersionInfo,
-	val mirrors: List<String>
+	val mirrors: List<String>,
+	val antiFeatures: List<AntiFeature>,
+	val categories: List<Category>
+)
+
+data class AntiFeature(
+	val name: String,
+	val icon: String = "",
+	val description: String = ""
+)
+
+data class Category(
+	val name: String,
+	val icon: String = "",
+	val description: String = ""
 )
 
 data class Authentication(
@@ -19,6 +33,5 @@ data class Authentication(
 
 data class VersionInfo(
 	val etag: String,
-	val version: Int,
 	val timestamp: Long
 )

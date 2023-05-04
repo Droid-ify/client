@@ -10,9 +10,7 @@ interface IndexDownloader {
 
 	fun CoroutineScope.processRepos(repos: ReceiveChannel<Repo>, onDownload: onDownloadListener): Job
 
-	suspend fun determineIndexType(repo: Repo): IndexType
-
-	suspend fun downloadIndexJar(repo: Repo, indexType: IndexType): RepoLocJar
+	suspend fun downloadIndexJar(repo: Repo): RepoLocJar
 }
 
 typealias onDownloadListener = suspend (Repo, JarFile) -> Unit
@@ -25,6 +23,7 @@ data class RepoLocation(
 	val password: String,
 	val repo: Repo
 )
+
 fun Repo.toLocation() = RepoLocation(
 	url = address,
 	name = name,

@@ -15,7 +15,6 @@ data class PackageEntity(
 	val minSdkVersion: Int,
 	val maxSdkVersion: Int,
 	val targetSdkVersion: Int,
-	val packageName: String,
 	val sig: String,
 	val signer: String,
 	val size: Long,

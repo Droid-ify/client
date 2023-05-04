@@ -60,31 +60,19 @@ class IndexDownloaderImpl(private val downloader: Downloader) : IndexDownloader 
 		contents: SendChannel<RepoLocJar>
 	) = launch {
 		items.consumeEach {
-			val indexType = determineIndexType(it.repo)
-			val content = downloadIndexJar(it.repo, indexType)
+			val content = downloadIndexJar(it.repo)
 			contents.send(content)
 		}
 	}
 
-	override suspend fun determineIndexType(
-		repo: Repo
-	): IndexType = withContext(Dispatchers.IO) {
-		val isIndexV1 =
-			downloader.headCall(repo.toLocation().indexUrl(IndexType.INDEX_V2)) ==
-					NetworkResponse.Error(404)
-		if (isIndexV1) IndexType.INDEX_V1 else IndexType.INDEX_V2
-	}
-
-	override suspend fun downloadIndexJar(
-		repo: Repo,
-		indexType: IndexType
-	): RepoLocJar = withContext(Dispatchers.IO) {
+	override suspend fun downloadIndexJar(repo: Repo): RepoLocJar = withContext(Dispatchers.IO) {
+		val indexType = async { determineIndexType(repo) }
 		val repoLocation = repo.toLocation()
 		val shouldAuthenticate =
 			repoLocation.username.isNotEmpty() && repoLocation.password.isNotEmpty()
 		val tempFile = File.createTempFile(repoLocation.name, UUID.randomUUID().toString())
 		downloader.downloadToFile(
-			url = repoLocation.indexUrl(indexType),
+			url = repoLocation.indexUrl(indexType.await()),
 			target = tempFile,
 			headers = {
 				if (shouldAuthenticate) authentication(repoLocation.username, repoLocation.password)
@@ -92,5 +80,14 @@ class IndexDownloaderImpl(private val downloader: Downloader) : IndexDownloader 
 			}
 		)
 		RepoLocJar(repoLocation, JarFile(tempFile, true))
+	}
+
+	private suspend fun determineIndexType(
+		repo: Repo
+	): IndexType = withContext(Dispatchers.IO) {
+		val isIndexV1 =
+			downloader.headCall(repo.toLocation().indexUrl(IndexType.ENTRY)) ==
+					NetworkResponse.Error(404)
+		if (isIndexV1) IndexType.INDEX_V1 else IndexType.ENTRY
 	}
 }

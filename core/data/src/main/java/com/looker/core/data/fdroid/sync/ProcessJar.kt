@@ -1,18 +1,32 @@
 package com.looker.core.data.fdroid.sync
 
 import com.looker.core.common.extension.fingerprint
-import com.looker.core.data.fdroid.model.v1.IndexV1
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
+import org.fdroid.index.IndexParser
+import org.fdroid.index.parseEntry
+import org.fdroid.index.parseV1
+import org.fdroid.index.v1.IndexV1
+import org.fdroid.index.v2.Entry
 import java.security.cert.X509Certificate
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
+suspend fun JarFile.getIndexType(): IndexType = withContext(Dispatchers.IO) {
+	IndexType.values().first { getJarEntry(it.contentName) != null }
+}
+
 suspend fun JarFile.getIndexV1(): IndexV1 = withContext(Dispatchers.IO) {
 	val indexEntry = getJarEntry(IndexType.INDEX_V1.contentName)
 		?: throw ProcessJarException("Cannot find the content: ${IndexType.INDEX_V1.contentName}")
-	IndexV1.decodeFromInputStream(getInputStream(indexEntry))
+	IndexParser.parseV1(getInputStream(indexEntry))
+}
+
+suspend fun JarFile.getEntry(): Entry = withContext(Dispatchers.IO) {
+	val indexEntry = getJarEntry(IndexType.ENTRY.contentName)
+		?: throw ProcessJarException("Cannot find the content: ${IndexType.INDEX_V1.contentName}")
+	IndexParser.parseEntry(getInputStream(indexEntry))
 }
 
 suspend fun JarFile.getFingerprint(
@@ -37,7 +51,7 @@ enum class IndexType(
 	val contentName: String
 ) {
 	INDEX_V1("index-v1.jar", "index-v1.json"),
-	INDEX_V2("index-v2.jar", "index-v2.json")
+	ENTRY("entry.jar", "entry.json")
 }
 
 class ProcessJarException(override val message: String) : Exception(message)

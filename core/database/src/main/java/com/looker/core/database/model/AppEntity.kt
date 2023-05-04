@@ -17,7 +17,6 @@ data class AppEntity(
 	@ColumnInfo(name = "repoId")
 	val repoId: Long,
 	val categories: List<String>,
-	val antiFeatures: List<String>,
 	val summary: LocalizedString,
 	val description: LocalizedString,
 	val changelog: String,
@@ -37,7 +36,7 @@ data class AppEntity(
 	val litecoin: String,
 	val flattrID: String,
 	val suggestedVersionName: String,
-	val suggestedVersionCode: Int,
+	val suggestedVersionCode: Long,
 	val license: String,
 	val webSite: String,
 	val added: Long,
@@ -58,7 +57,6 @@ data class AppEntity(
 fun AppEntity.toExternalModel(locale: LocaleListCompat): App = App(
 	repoId = repoId,
 	categories = categories,
-	antiFeatures = antiFeatures(),
 	links = links(),
 	metadata = Metadata(
 		name = name.localizedValue(locale) ?: "",
@@ -89,23 +87,6 @@ fun AppEntity.toExternalModel(locale: LocaleListCompat): App = App(
 	donation = donations(),
 	packages = packages.map { it.toExternalModel(locale) }
 )
-
-private fun AppEntity.antiFeatures(): Set<AntiFeatures> = antiFeatures.map {
-	when (it) {
-		"Ads" -> AntiFeatures.Ads
-		"ApplicationDebuggable" -> AntiFeatures.Debug
-		"DisabledAlgorithm" -> AntiFeatures.UnsafeSigning
-		"KnownVuln" -> AntiFeatures.Vulnerable
-		"NoSourceSince" -> AntiFeatures.SourceUnavailable
-		"NonFreeAdd" -> AntiFeatures.Promotion
-		"NonFreeAssets" -> AntiFeatures.CopyrightedAssets
-		"NonFreeDep" -> AntiFeatures.NonFreeLibraries
-		"NonFreeNet" -> AntiFeatures.NonFreeNetwork
-		"Tracking" -> AntiFeatures.Tracking
-		"UpstreamNonFree" -> AntiFeatures.InAppPurchase
-		else -> AntiFeatures.Unknown(it)
-	}
-}.toSet()
 
 private fun AppEntity.author(): Author = Author(
 	name = authorName,

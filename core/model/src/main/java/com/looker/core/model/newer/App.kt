@@ -3,7 +3,6 @@ package com.looker.core.model.newer
 data class App(
 	val repoId: Long,
 	val categories: List<String>,
-	val antiFeatures: Set<AntiFeatures>,
 	val links: Links,
 	val metadata: Metadata,
 	val author: Author,
@@ -13,21 +12,6 @@ data class App(
 	val preferredSigner: String = "",
 	val packages: List<Package>
 )
-
-sealed interface AntiFeatures {
-	object Ads : AntiFeatures
-	object Debug : AntiFeatures
-	object UnsafeSigning : AntiFeatures
-	object Vulnerable : AntiFeatures
-	object SourceUnavailable : AntiFeatures
-	object Promotion : AntiFeatures
-	object CopyrightedAssets : AntiFeatures
-	object NonFreeLibraries : AntiFeatures
-	object NonFreeNetwork : AntiFeatures
-	object Tracking : AntiFeatures
-	object InAppPurchase : AntiFeatures
-	data class Unknown(val id: String) : AntiFeatures
-}
 
 data class Author(
 	val name: String,
@@ -68,7 +52,7 @@ data class Metadata(
 	val icon: String,
 	val lastUpdated: Long,
 	val license: String,
-	val suggestedVersionCode: Int,
+	val suggestedVersionCode: Long,
 	val suggestedVersionName: String,
 	val summary: String
 )
