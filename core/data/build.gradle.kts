@@ -40,6 +40,7 @@ dependencies {
 	modules(Modules.coreCommon, Modules.coreDatabase, Modules.coreDatastore, Modules.coreModel)
 
 	coroutines()
+	fdroid()
 	ktor()
 
 	implementation(Core.core)

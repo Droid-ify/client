@@ -54,6 +54,12 @@ object Excludes {
 	)
 }
 
+private object FDroid {
+	private const val indexVersion = "0.1.1"
+	const val download = "org.fdroid:download:$indexVersion"
+	const val index = "org.fdroid:index:$indexVersion"
+}
+
 object Hilt {
 	private const val version = "2.45"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
@@ -157,6 +163,11 @@ fun DependencyHandlerScope.compose() {
 fun DependencyHandlerScope.coroutines() {
 	add("implementation", Coroutines.core)
 	add("implementation", Coroutines.android)
+}
+
+fun DependencyHandlerScope.fdroid() {
+	add("implementation", FDroid.index)
+	add("implementation", FDroid.download)
 }
 
 fun DependencyHandlerScope.ktor() {
