@@ -1,6 +1,6 @@
 plugins {
 	id("looker.android.library")
-	kotlin("plugin.serialization") version Version.kotlin
+	kotlin("plugin.serialization")
 	id("looker.hilt.work")
 }
 
@@ -21,10 +21,6 @@ android {
 			initWith(getByName("debug"))
 			isMinifyEnabled = true
 		}
-	}
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlin.jvmToolchain(17)
 	buildFeatures {

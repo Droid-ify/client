@@ -18,7 +18,7 @@ object Coil {
 }
 
 private object Compose {
-	const val bom = "androidx.compose:compose-bom:2023.03.00"
+	const val bom = "androidx.compose:compose-bom:2023.05.00"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -30,7 +30,7 @@ private object Compose {
 }
 
 private object Coroutines {
-	private const val coroutinesVersion = "1.7.0-Beta"
+	private const val coroutinesVersion = "1.7.0"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
@@ -61,7 +61,7 @@ private object FDroid {
 }
 
 object Hilt {
-	private const val version = "2.45"
+	const val version = "2.45"
 	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
 	const val android = "com.google.dagger:hilt-android:$version"
 
@@ -82,17 +82,17 @@ object Kotlin {
 }
 
 private object Ktor {
-	private const val version = "2.2.4"
+	private const val version = "2.3.0"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 	const val logging = "io.ktor:ktor-client-logging:$version"
 }
 
-object Lifecycle {
+private object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.6"
-	const val activity = "androidx.activity:activity-ktx:1.7.0"
+	const val fragment = "androidx.fragment:fragment-ktx:1.5.7"
+	const val activity = "androidx.activity:activity-ktx:1.7.1"
 }
 
 object OkHttp {
@@ -101,7 +101,7 @@ object OkHttp {
 }
 
 object Others {
-	const val libsu = "com.github.topjohnwu.libsu:core:5.0.4"
+	const val libsu = "com.github.topjohnwu.libsu:core:5.0.5"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
 	private const val shizukuVersion = "13.0.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
@@ -128,8 +128,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.8.20"
-	const val ksp = "1.8.20-1.0.10"
+	const val kotlin = "1.8.21"
+	const val ksp = "1.8.21-1.0.11"
 }
 
 object Work {
@@ -137,15 +137,10 @@ object Work {
 	const val manager = "androidx.work:work-runtime-ktx:$version"
 }
 
-
-fun DependencyHandlerScope.fullAndroidX() {
+fun DependencyHandlerScope.androidX() {
 	add("coreLibraryDesugaring", AndroidX.desugar)
 	add("implementation", AndroidX.appCompat)
 	add("implementation", AndroidX.material)
-	add("implementation", AndroidX.recyclerView)
-}
-
-fun DependencyHandlerScope.recyclerView() {
 	add("implementation", AndroidX.recyclerView)
 }
 
@@ -174,6 +169,16 @@ fun DependencyHandlerScope.ktor() {
 	add("implementation", Ktor.core)
 	add("implementation", Ktor.okhttp)
 	add("implementation", Ktor.logging)
+}
+
+fun DependencyHandlerScope.lifecycle() {
+	add("implementation", Lifecycle.activity)
+	add("implementation", Lifecycle.fragment)
+	add("implementation", Lifecycle.viewmodel)
+}
+
+fun DependencyHandlerScope.recyclerView() {
+	add("implementation", AndroidX.recyclerView)
 }
 
 fun DependencyHandlerScope.room() {

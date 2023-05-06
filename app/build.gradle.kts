@@ -1,5 +1,3 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
@@ -139,19 +137,16 @@ dependencies {
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
-	fullAndroidX()
+	androidX()
 	coroutines()
 	ktor()
+	lifecycle()
 
 	implementation(Coil.coil)
 
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
-
-	implementation(Lifecycle.fragment)
-	implementation(Lifecycle.activity)
-	implementation(Lifecycle.viewmodel)
 
 	implementation(OkHttp.okhttp)
 
