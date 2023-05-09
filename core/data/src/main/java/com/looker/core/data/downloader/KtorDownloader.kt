@@ -6,8 +6,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
 import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
+import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
@@ -33,32 +34,48 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 		headers: HeadersBuilder.() -> Unit,
 		block: ProgressListener?
 	): NetworkResponse {
-		val cacheFileLength = if (target.exists()) target.length().takeIf { it >= 0 } else 0
-		val request = request {
-			url(url)
-			headers {
-				KtorHeaderBuilder(this).headers()
-				cacheFileLength?.let { append(HttpHeaders.Range, "bytes=${it}-") }
-			}
-			onDownload(block)
-		}
+		val request = createRequest(url, target, headers, block)
 		return try {
 			client.prepareGet(request).execute { response ->
 				val channel = response.bodyAsChannel()
-				while (!channel.isClosedForRead) {
-					val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-					while (!packet.isEmpty) {
-						yield()
-						val bytes = packet.readBytes()
-						target.appendBytes(bytes)
-					}
-				}
-				response.status.isSuccess()
-				if (response.status.isSuccess()) NetworkResponse.Success
-				else NetworkResponse.Error(response.status.value)
+				saveDownloadFile(channel, target)
+				response.status.networkResponse()
 			}
 		} catch (e: Exception) {
 			NetworkResponse.Error(-1, e)
 		}
 	}
+
+	private fun createRequest(
+		url: String,
+		target: File,
+		headers: HeadersBuilder.() -> Unit,
+		block: ProgressListener?
+	) = request {
+		val cacheFileLength = if (target.exists()) target.length().takeIf { it >= 0 } else 0
+		url(url)
+		headers {
+			val headerBuilder = KtorHeaderBuilder(this)
+			with(headerBuilder) {
+				headers()
+				if (cacheFileLength != null) inRange(cacheFileLength)
+			}
+		}
+		onDownload(block)
+	}
+
+	private suspend fun saveDownloadFile(channel: ByteReadChannel, target: File) {
+		while (!channel.isClosedForRead) {
+			val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+			while (!packet.isEmpty) {
+				yield()
+				val bytes = packet.readBytes()
+				target.appendBytes(bytes)
+			}
+		}
+	}
+
+	private fun HttpStatusCode.networkResponse(): NetworkResponse =
+		if (isSuccess()) NetworkResponse.Success
+		else NetworkResponse.Error(value)
 }

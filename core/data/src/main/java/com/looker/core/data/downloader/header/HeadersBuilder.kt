@@ -12,4 +12,6 @@ interface HeadersBuilder {
 
 	fun authentication(base64: String)
 
+	fun inRange(start: Number, end: Number? = null)
+
 }
