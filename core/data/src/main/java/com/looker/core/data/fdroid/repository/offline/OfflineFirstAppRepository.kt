@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-internal class OfflineFirstAppRepository @Inject constructor(
+class OfflineFirstAppRepository @Inject constructor(
 	installedDao: InstalledDao,
 	private val appDao: AppDao,
 	private val userPreferencesRepository: UserPreferencesRepository

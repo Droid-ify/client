@@ -21,7 +21,7 @@ import kotlinx.coroutines.runBlocking
 import org.fdroid.index.IndexConverter
 import javax.inject.Inject
 
-internal class OfflineFirstRepoRepository @Inject constructor(
+class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val repoDao: RepoDao,
 	private val indexDownloader: IndexDownloader,

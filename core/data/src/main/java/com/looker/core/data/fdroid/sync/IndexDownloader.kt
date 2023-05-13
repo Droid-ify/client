@@ -1,7 +1,6 @@
 package com.looker.core.data.fdroid.sync
 
 import com.looker.core.database.model.RepoEntity
-import com.looker.core.model.newer.Repo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.ReceiveChannel
