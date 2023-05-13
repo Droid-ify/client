@@ -2,9 +2,8 @@ package com.looker.core.data.fdroid.repository.offline
 
 import com.looker.core.data.fdroid.repository.AppRepository
 import com.looker.core.database.dao.AppDao
-import com.looker.core.database.model.AppEntity
-import com.looker.core.database.model.PackageEntity
-import com.looker.core.database.model.toExternalModel
+import com.looker.core.database.dao.InstalledDao
+import com.looker.core.database.model.*
 import com.looker.core.database.utils.localeListCompat
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
@@ -14,6 +13,7 @@ import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class OfflineFirstAppRepository @Inject constructor(
+	installedDao: InstalledDao,
 	private val appDao: AppDao,
 	private val userPreferencesRepository: UserPreferencesRepository
 ) : AppRepository {
@@ -22,17 +22,20 @@ class OfflineFirstAppRepository @Inject constructor(
 		.userPreferencesFlow
 		.distinctMap { it.language }
 
+	private val installedFlow = installedDao.getInstalledStream()
+
 	override fun getApps(): Flow<List<App>> =
-		appDao.getAppStream().localizedAppList(localePreference)
+		appDao.getAppStream().localizedAppList(localePreference, installedFlow)
 
 	override fun getApp(packageName: PackageName): Flow<List<App>> =
-		appDao.getApp(packageName.name).localizedAppList(localePreference)
+		appDao.getApp(packageName.name).localizedAppList(localePreference, installedFlow)
 
 	override fun getAppFromAuthor(author: Author): Flow<List<App>> =
-		appDao.getAppsFromAuthor(author.name).localizedAppList(localePreference)
+		appDao.getAppsFromAuthor(author.name).localizedAppList(localePreference, installedFlow)
 
 	override fun getPackages(packageName: PackageName): Flow<List<Package>> =
-		appDao.getPackages(packageName.name).localizedPackages(localePreference)
+		appDao.getPackages(packageName.name)
+			.localizedPackages(packageName, localePreference, installedFlow)
 
 	override suspend fun addToFavourite(packageName: PackageName): Boolean {
 		val isFavourite =
@@ -45,12 +48,31 @@ class OfflineFirstAppRepository @Inject constructor(
 	}
 }
 
-private fun Flow<List<AppEntity>>.localizedAppList(preference: Flow<String>): Flow<List<App>> =
-	combine(this, preference) { appsList, locale ->
-		appsList.map { it.toExternalModel(localeListCompat(locale)) }
+private fun Flow<List<AppEntity>>.localizedAppList(
+	preference: Flow<String>,
+	installedFlow: Flow<List<InstalledEntity>>
+): Flow<List<App>> =
+	combine(this, preference, installedFlow) { appsList, locale, installedList ->
+		appsList.map {
+			val installedItem = it.findInstalled(installedList)
+			it.toExternalModel(localeListCompat(locale), installedItem)
+		}
 	}
 
-private fun Flow<List<PackageEntity>>.localizedPackages(preference: Flow<String>): Flow<List<Package>> =
-	combine(this, preference) { appsList, locale ->
-		appsList.map { it.toExternalModel(localeListCompat(locale)) }
+private fun Flow<List<PackageEntity>>.localizedPackages(
+	packageName: PackageName,
+	preference: Flow<String>,
+	installedFlow: Flow<List<InstalledEntity>>
+): Flow<List<Package>> =
+	combine(this, preference, installedFlow) { packagesList, locale, installedList ->
+		packagesList.map {
+			val isInstalled =
+				InstalledEntity(packageName.name, it.versionCode, it.sig) in installedList
+			it.toExternalModel(localeListCompat(locale), isInstalled)
+		}
+	}
+
+private fun AppEntity.findInstalled(list: List<InstalledEntity>): PackageEntity? =
+	packages.find {
+		InstalledEntity(packageName, it.versionCode, it.sig) in list
 	}

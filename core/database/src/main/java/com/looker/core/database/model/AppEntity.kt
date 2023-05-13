@@ -54,39 +54,42 @@ data class AppEntity(
 	val packages: List<PackageEntity>
 )
 
-fun AppEntity.toExternalModel(locale: LocaleListCompat): App = App(
-	repoId = repoId,
-	categories = categories,
-	links = links(),
-	metadata = Metadata(
-		name = name.localizedValue(locale) ?: "",
-		packageName = packageName.toPackageName(),
-		added = added,
-		description = description.localizedValue(locale) ?: "",
-		icon = icon.localizedValue(locale) ?: "",
-		lastUpdated = lastUpdated,
-		license = license,
-		suggestedVersionCode = suggestedVersionCode,
-		suggestedVersionName = suggestedVersionName,
-		summary = summary.localizedValue(locale) ?: ""
-	),
-	screenshots = Screenshots(
-		phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
-		sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
-		tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
-		tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
-		wear = wearScreenshots.localizedValue(locale) ?: emptyList()
-	),
-	graphics = Graphics(
-		featureGraphic = featureGraphic.localizedValue(locale) ?: "",
-		promoGraphic = promoGraphic.localizedValue(locale) ?: "",
-		tvBanner = tvBanner.localizedValue(locale) ?: "",
-		video = video.localizedValue(locale) ?: ""
-	),
-	author = author(),
-	donation = donations(),
-	packages = packages.map { it.toExternalModel(locale) }
-)
+fun AppEntity.toExternalModel(locale: LocaleListCompat, installed: PackageEntity? = null): App =
+	App(
+		repoId = repoId,
+		categories = categories,
+		links = links(),
+		metadata = Metadata(
+			name = name.localizedValue(locale) ?: "",
+			packageName = packageName.toPackageName(),
+			added = added,
+			description = description.localizedValue(locale) ?: "",
+			icon = icon.localizedValue(locale) ?: "",
+			lastUpdated = lastUpdated,
+			license = license,
+			suggestedVersionCode = suggestedVersionCode,
+			suggestedVersionName = suggestedVersionName,
+			summary = summary.localizedValue(locale) ?: ""
+		),
+		screenshots = Screenshots(
+			phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
+			sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
+			tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
+			tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
+			wear = wearScreenshots.localizedValue(locale) ?: emptyList()
+		),
+		graphics = Graphics(
+			featureGraphic = featureGraphic.localizedValue(locale) ?: "",
+			promoGraphic = promoGraphic.localizedValue(locale) ?: "",
+			tvBanner = tvBanner.localizedValue(locale) ?: "",
+			video = video.localizedValue(locale) ?: ""
+		),
+		author = author(),
+		donation = donations(),
+		packages = packages.map {
+			it.toExternalModel(locale, it == installed)
+		}
+	)
 
 private fun AppEntity.author(): Author = Author(
 	name = authorName,

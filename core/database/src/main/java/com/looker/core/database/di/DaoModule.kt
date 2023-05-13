@@ -2,6 +2,7 @@ package com.looker.core.database.di
 
 import com.looker.core.database.DroidifyDatabase
 import com.looker.core.database.dao.AppDao
+import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.dao.RepoDao
 import dagger.Module
 import dagger.Provides
@@ -24,5 +25,11 @@ object DaoModule {
 	fun provideAppDao(
 		database: DroidifyDatabase
 	): AppDao = database.appDao()
+
+	@Provides
+	@Singleton
+	fun provideInstalledDao(
+		database: DroidifyDatabase
+	): InstalledDao = database.installedDao()
 
 }

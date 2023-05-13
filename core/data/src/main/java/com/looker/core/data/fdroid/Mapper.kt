@@ -5,7 +5,7 @@ import org.fdroid.index.v2.PackageV2
 import org.fdroid.index.v2.PackageVersionV2
 import org.fdroid.index.v2.RepoV2
 
-fun PackageV2.toEntity(packageName: String, repoId: Long, installed: Boolean): AppEntity =
+fun PackageV2.toEntity(packageName: String, repoId: Long): AppEntity =
 	AppEntity(
 		repoId = repoId,
 		packageName = packageName,
@@ -49,13 +49,10 @@ fun PackageV2.toEntity(packageName: String, repoId: Long, installed: Boolean): A
 		promoGraphic = metadata.promoGraphic?.mapValues { it.value.name } ?: emptyMap(),
 		tvBanner = metadata.tvBanner?.mapValues { it.value.name } ?: emptyMap(),
 		video = metadata.video ?: emptyMap(),
-		packages = versions.values.map { it.toPackage(installed) }
+		packages = versions.values.map(PackageVersionV2::toPackage)
 	)
 
-fun PackageVersionV2.toPackage(
-	installed: Boolean,
-): PackageEntity = PackageEntity(
-	installed = installed,
+fun PackageVersionV2.toPackage(): PackageEntity = PackageEntity(
 	added = added,
 	hash = file.sha256,
 	features = manifest.features.map { it.name },

@@ -72,7 +72,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 			)
 			repoDao.updateRepo(updatedRepo)
 			val apps = convertedV2.packages.map {
-				it.value.toEntity(it.key, repo.id, false)
+				it.value.toEntity(it.key, repo.id)
 			}
 			appDao.upsertApps(apps)
 			true
@@ -98,7 +98,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 					)
 					repoDao.updateRepo(updatedRepo)
 					val apps = convertedIndex.packages.map {
-						it.value.toEntity(it.key, repo.id, false)
+						it.value.toEntity(it.key, repo.id)
 					}
 					appDao.upsertApps(apps)
 				}

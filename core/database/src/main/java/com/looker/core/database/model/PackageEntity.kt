@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PackageEntity(
-	val installed: Boolean,
 	val added: Long,
 	val apkName: String,
 	val hash: String,
@@ -35,7 +34,7 @@ data class PermissionEntity(
 	val maxSdk: Int? = null
 )
 
-fun PackageEntity.toExternalModel(locale: LocaleListCompat): Package = Package(
+fun PackageEntity.toExternalModel(locale: LocaleListCompat, installed: Boolean): Package = Package(
 	installed = installed,
 	added = added,
 	apk = ApkFile(
