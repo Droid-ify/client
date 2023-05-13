@@ -14,6 +14,6 @@ interface InstalledDao {
 	suspend fun upsertInstalled(installedEntity: InstalledEntity)
 
 	@Delete
-	suspend fun deleteInstalled(packageName: String)
+	suspend fun deleteInstalled(installedEntity: InstalledEntity)
 
 }

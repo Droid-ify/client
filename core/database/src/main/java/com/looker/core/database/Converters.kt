@@ -18,6 +18,9 @@ internal const val STRING_DELIMITER = "!@#$%^&*"
 private val stringListSerializer = ListSerializer(String.serializer())
 private val localizedStringSerializer = MapSerializer(String.serializer(), String.serializer())
 private val localizedListSerializer = MapSerializer(String.serializer(), stringListSerializer)
+private val antiFeatureSerializer =
+	MapSerializer(String.serializer(), AntiFeatureEntity.serializer())
+private val categorySerializer = MapSerializer(String.serializer(), CategoryEntity.serializer())
 private val packageListSerializer = ListSerializer(PackageEntity.serializer())
 
 class CollectionConverter {
@@ -85,5 +88,25 @@ class PermissionConverter {
 		permissionEntity.joinToString(STRING_DELIMITER) {
 			json.encodeToString(PermissionEntity.serializer(), it)
 		}
+
+}
+
+class RepoConverter {
+
+	@TypeConverter
+	fun antiFeaturesToString(map: Map<String, AntiFeatureEntity>): String =
+		json.encodeToString(antiFeatureSerializer, map)
+
+	@TypeConverter
+	fun stringToAntiFeatures(string: String): Map<String, AntiFeatureEntity> =
+		json.decodeFromString(antiFeatureSerializer, string)
+
+	@TypeConverter
+	fun categoryToString(map: Map<String, CategoryEntity>): String =
+		json.encodeToString(categorySerializer, map)
+
+	@TypeConverter
+	fun stringToCategory(string: String): Map<String, CategoryEntity> =
+		json.decodeFromString(categorySerializer, string)
 
 }
