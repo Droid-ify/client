@@ -54,20 +54,24 @@ data class AppEntity(
 	val packages: List<PackageEntity>
 )
 
-fun AppEntity.toExternalModel(locale: LocaleListCompat, installed: PackageEntity? = null): App =
-	App(
-		repoId = repoId,
-		categories = categories,
-		links = links(),
-		metadata = metadata(locale),
-		screenshots = screenshots(locale),
-		graphics = graphics(locale),
-		author = author(),
-		donation = donations(),
-		packages = packages.map {
-			it.toExternalModel(locale, it == installed)
-		}
-	)
+fun AppEntity.toExternal(locale: LocaleListCompat, installed: PackageEntity? = null): App = App(
+	repoId = repoId,
+	categories = categories,
+	links = links(),
+	metadata = metadata(locale),
+	screenshots = screenshots(locale),
+	graphics = graphics(locale),
+	author = author(),
+	donation = donations(),
+	packages = packages.toExternal(locale) { it == installed }
+)
+
+fun List<AppEntity>.toExternal(
+	locale: LocaleListCompat,
+	isInstalled: (AppEntity) -> PackageEntity?
+): List<App> = map {
+	it.toExternal(locale, isInstalled(it))
+}
 
 private fun AppEntity.author(): Author = Author(
 	name = authorName,

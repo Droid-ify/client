@@ -34,7 +34,7 @@ data class PermissionEntity(
 	val maxSdk: Int? = null
 )
 
-fun PackageEntity.toExternalModel(locale: LocaleListCompat, installed: Boolean): Package = Package(
+fun PackageEntity.toExternal(locale: LocaleListCompat, installed: Boolean): Package = Package(
 	installed = installed,
 	added = added,
 	apk = ApkFile(
@@ -54,6 +54,11 @@ fun PackageEntity.toExternalModel(locale: LocaleListCompat, installed: Boolean):
 	antiFeatures = antiFeatures,
 	whatsNew = whatsNew.localizedValue(locale) ?: ""
 )
+
+fun List<PackageEntity>.toExternal(
+	locale: LocaleListCompat,
+	installed: (PackageEntity) -> Boolean
+): List<Package> = map { it.toExternal(locale, installed(it)) }
 
 fun PermissionEntity.toExternalModel(): Permission = Permission(
 	name = name,

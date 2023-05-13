@@ -1,23 +1,25 @@
 package com.looker.core.data.fdroid.repository.offline
 
+import com.looker.core.data.di.ApplicationScope
+import com.looker.core.data.di.DefaultDispatcher
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.sync.*
+import com.looker.core.data.fdroid.sync.IndexDownloader
+import com.looker.core.data.fdroid.sync.getFingerprint
+import com.looker.core.data.fdroid.sync.getIndexV1
 import com.looker.core.data.fdroid.toEntity
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.RepoEntity
-import com.looker.core.database.model.toExternalModel
+import com.looker.core.database.model.toExternal
 import com.looker.core.database.model.update
 import com.looker.core.database.utils.localeListCompat
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.newer.Repo
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.runBlocking
 import org.fdroid.index.IndexConverter
 import javax.inject.Inject
 
@@ -25,7 +27,9 @@ class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val repoDao: RepoDao,
 	private val indexDownloader: IndexDownloader,
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val userPreferencesRepository: UserPreferencesRepository,
+	@DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+	@ApplicationScope private val scope: CoroutineScope
 ) : RepoRepository {
 
 	private val preference = runBlocking {
@@ -37,26 +41,26 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	private val indexConverter = IndexConverter()
 
-	override suspend fun getRepo(id: Long): Repo = repoDao.getRepoById(id).toExternalModel(
-		localeListCompat(language)
-	)
+	override suspend fun getRepo(id: Long): Repo = withContext(dispatcher) {
+		repoDao.getRepoById(id).toExternal(localeListCompat(language))
+	}
 
 	override fun getRepos(): Flow<List<Repo>> =
-		repoDao.getRepoStream()
-			.map { it.map { repo -> repo.toExternalModel(localeListCompat(language)) } }
+		repoDao.getRepoStream().map { it.toExternal(localeListCompat(language)) }
 
-	override suspend fun updateRepo(repo: Repo): Boolean = try {
-		val entity = repoDao.getRepoById(repo.id)
-		repoDao.updateRepo(entity.update(repo))
-		true
-	} catch (e: Exception) {
-		false
+	override suspend fun updateRepo(repo: Repo) {
+		scope.launch {
+			val entity = repoDao.getRepoById(repo.id)
+			repoDao.updateRepo(entity.update(repo))
+		}
 	}
 
 	override suspend fun enableRepository(repo: Repo, enable: Boolean) {
-		val entity = repoDao.getRepoById(repo.id)
-		repoDao.updateRepo(entity.copy(enabled = enable))
-		if (enable) sync(repo)
+		scope.launch {
+			val entity = repoDao.getRepoById(repo.id)
+			repoDao.updateRepo(entity.copy(enabled = enable))
+			if (enable) sync(repo)
+		}
 	}
 
 	override suspend fun sync(repo: Repo): Boolean =
@@ -84,7 +88,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun syncAll(): Boolean =
 		coroutineScope {
-			val repos = repoDao.getRepoStream().first().filter { it.enabled }
+			val repos = repoDao.getRepoStream().first()
 			val repoChannel = Channel<RepoEntity>()
 			with(indexDownloader) {
 				processRepos(repoChannel) { repo, jar ->

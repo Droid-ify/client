@@ -53,9 +53,8 @@ private fun Flow<List<AppEntity>>.localizedAppList(
 	installedFlow: Flow<List<InstalledEntity>>
 ): Flow<List<App>> =
 	combine(this, preference, installedFlow) { appsList, locale, installedList ->
-		appsList.map {
-			val installedItem = it.findInstalled(installedList)
-			it.toExternalModel(localeListCompat(locale), installedItem)
+		appsList.toExternal(localeListCompat(locale)) {
+			it.findInstalled(installedList)
 		}
 	}
 
@@ -65,10 +64,8 @@ private fun Flow<List<PackageEntity>>.localizedPackages(
 	installedFlow: Flow<List<InstalledEntity>>
 ): Flow<List<Package>> =
 	combine(this, preference, installedFlow) { packagesList, locale, installedList ->
-		packagesList.map {
-			val isInstalled =
-				InstalledEntity(packageName.name, it.versionCode, it.sig) in installedList
-			it.toExternalModel(localeListCompat(locale), isInstalled)
+		packagesList.toExternal(localeListCompat(locale)) {
+			InstalledEntity(packageName.name, it.versionCode, it.sig) in installedList
 		}
 	}
 

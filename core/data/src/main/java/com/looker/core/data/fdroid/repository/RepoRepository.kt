@@ -9,7 +9,7 @@ interface RepoRepository {
 
 	fun getRepos(): Flow<List<Repo>>
 
-	suspend fun updateRepo(repo: Repo): Boolean
+	suspend fun updateRepo(repo: Repo)
 
 	suspend fun enableRepository(repo: Repo, enable: Boolean)
 
