@@ -4,8 +4,9 @@ import com.looker.core.database.model.*
 import org.fdroid.index.v2.PackageV2
 import org.fdroid.index.v2.PackageVersionV2
 import org.fdroid.index.v2.RepoV2
+import java.util.Locale.filter
 
-fun PackageV2.toEntity(packageName: String, repoId: Long): AppEntity =
+fun PackageV2.toEntity(packageName: String, repoId: Long, allowUnstable: Boolean = false): AppEntity =
 	AppEntity(
 		repoId = repoId,
 		packageName = packageName,
@@ -50,7 +51,13 @@ fun PackageV2.toEntity(packageName: String, repoId: Long): AppEntity =
 		tvBanner = metadata.tvBanner?.mapValues { it.value.name } ?: emptyMap(),
 		video = metadata.video ?: emptyMap(),
 		packages = versions.values.map(PackageVersionV2::toPackage)
-	)
+	).checkUnstable(allowUnstable)
+
+private fun AppEntity.checkUnstable(allowUnstable: Boolean = false): AppEntity = copy(
+	packages = packages.filter {
+		allowUnstable || suggestedVersionCode <= 0 || it.versionCode <= suggestedVersionCode
+	}
+)
 
 fun PackageVersionV2.toPackage(): PackageEntity = PackageEntity(
 	added = added,

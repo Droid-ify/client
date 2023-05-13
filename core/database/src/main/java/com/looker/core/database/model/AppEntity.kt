@@ -7,8 +7,8 @@ import com.looker.core.common.nullIfEmpty
 import com.looker.core.database.utils.localizedValue
 import com.looker.core.model.newer.*
 
-typealias LocalizedString = Map<String, String>
-typealias LocalizedList = Map<String, List<String>>
+internal typealias LocalizedString = Map<String, String>
+internal typealias LocalizedList = Map<String, List<String>>
 
 @Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
 data class AppEntity(
@@ -59,31 +59,9 @@ fun AppEntity.toExternalModel(locale: LocaleListCompat, installed: PackageEntity
 		repoId = repoId,
 		categories = categories,
 		links = links(),
-		metadata = Metadata(
-			name = name.localizedValue(locale) ?: "",
-			packageName = packageName.toPackageName(),
-			added = added,
-			description = description.localizedValue(locale) ?: "",
-			icon = icon.localizedValue(locale) ?: "",
-			lastUpdated = lastUpdated,
-			license = license,
-			suggestedVersionCode = suggestedVersionCode,
-			suggestedVersionName = suggestedVersionName,
-			summary = summary.localizedValue(locale) ?: ""
-		),
-		screenshots = Screenshots(
-			phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
-			sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
-			tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
-			tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
-			wear = wearScreenshots.localizedValue(locale) ?: emptyList()
-		),
-		graphics = Graphics(
-			featureGraphic = featureGraphic.localizedValue(locale) ?: "",
-			promoGraphic = promoGraphic.localizedValue(locale) ?: "",
-			tvBanner = tvBanner.localizedValue(locale) ?: "",
-			video = video.localizedValue(locale) ?: ""
-		),
+		metadata = metadata(locale),
+		screenshots = screenshots(locale),
+		graphics = graphics(locale),
 		author = author(),
 		donation = donations(),
 		packages = packages.map {
@@ -107,10 +85,38 @@ private fun AppEntity.donations(): Donation = Donation(
 	librePayAddress = liberapay.nullIfEmpty(),
 )
 
+private fun AppEntity.graphics(locale: LocaleListCompat): Graphics = Graphics(
+	featureGraphic = featureGraphic.localizedValue(locale) ?: "",
+	promoGraphic = promoGraphic.localizedValue(locale) ?: "",
+	tvBanner = tvBanner.localizedValue(locale) ?: "",
+	video = video.localizedValue(locale) ?: ""
+)
+
 private fun AppEntity.links(): Links = Links(
 	changelog = changelog,
 	issueTracker = issueTracker,
 	sourceCode = sourceCode,
 	translation = translation,
 	webSite = webSite
+)
+
+private fun AppEntity.metadata(locale: LocaleListCompat): Metadata = Metadata(
+	name = name.localizedValue(locale) ?: "",
+	packageName = packageName.toPackageName(),
+	added = added,
+	description = description.localizedValue(locale) ?: "",
+	icon = icon.localizedValue(locale) ?: "",
+	lastUpdated = lastUpdated,
+	license = license,
+	suggestedVersionCode = suggestedVersionCode,
+	suggestedVersionName = suggestedVersionName,
+	summary = summary.localizedValue(locale) ?: ""
+)
+
+private fun AppEntity.screenshots(locale: LocaleListCompat): Screenshots = Screenshots(
+	phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
+	sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
+	tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
+	tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
+	wear = wearScreenshots.localizedValue(locale) ?: emptyList()
 )
