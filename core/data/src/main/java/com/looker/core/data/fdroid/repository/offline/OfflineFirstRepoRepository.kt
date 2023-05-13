@@ -5,6 +5,7 @@ import com.looker.core.data.fdroid.sync.*
 import com.looker.core.data.fdroid.toEntity
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
+import com.looker.core.database.model.RepoEntity
 import com.looker.core.database.model.toExternalModel
 import com.looker.core.database.model.update
 import com.looker.core.database.utils.localeListCompat
@@ -60,7 +61,8 @@ internal class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(repo: Repo): Boolean =
 		coroutineScope {
-			val (_, indexJar) = indexDownloader.downloadIndexJar(repo)
+			val entity = repoDao.getRepoById(repo.id)
+			val (_, indexJar) = indexDownloader.downloadIndexJar(entity)
 			val newFingerprint = async { indexJar.getFingerprint() }
 			val index = indexJar.getIndexV1()
 			val convertedV2 = indexConverter.toIndexV2(index)
@@ -82,25 +84,24 @@ internal class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun syncAll(): Boolean =
 		coroutineScope {
-			val repos = repoDao.getRepoStream().first().map { it.toExternalModel(localeListCompat(language)) }
-				.filter { it.enabled }
-			val repoChannel = Channel<Repo>()
+			val repos = repoDao.getRepoStream().first().filter { it.enabled }
+			val repoChannel = Channel<RepoEntity>()
 			with(indexDownloader) {
 				processRepos(repoChannel) { repo, jar ->
 					val newFingerprint = async { jar.getFingerprint() }
 					val index = jar.getIndexV1()
 					val convertedIndex = indexConverter.toIndexV2(index)
 					val updatedRepo = convertedIndex.repo.toEntity(
-						id = repo.id,
+						id = repo.id!!,
 						fingerprint = repo.fingerprint.ifEmpty { newFingerprint.await() },
-						etag = repo.versionInfo.etag,
-						username = repo.authentication.username,
-						password = repo.authentication.password,
+						etag = repo.etag,
+						username = repo.username,
+						password = repo.password,
 						enabled = true
 					)
 					repoDao.updateRepo(updatedRepo)
 					val apps = convertedIndex.packages.map {
-						it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
+						it.value.toEntity(it.key, repo.id!!, preference.unstableUpdate)
 					}
 					appDao.upsertApps(apps)
 				}

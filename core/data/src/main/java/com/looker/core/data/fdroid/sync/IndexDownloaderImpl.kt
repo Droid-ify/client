@@ -2,7 +2,7 @@ package com.looker.core.data.fdroid.sync
 
 import com.looker.core.data.downloader.Downloader
 import com.looker.core.data.downloader.NetworkResponse
-import com.looker.core.model.newer.Repo
+import com.looker.core.database.model.RepoEntity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.selects.select
@@ -19,8 +19,8 @@ internal class IndexDownloaderImpl(private val downloader: Downloader) : IndexDo
 	}
 
 	override fun CoroutineScope.processRepos(
-		repos: ReceiveChannel<Repo>,
-		onDownload: suspend (Repo, JarFile) -> Unit
+		repos: ReceiveChannel<RepoEntity>,
+		onDownload: onDownloadListener
 	) = launch {
 		val locations = Channel<RepoLocation>()
 		val contents = Channel<RepoLocJar>(1)
@@ -29,12 +29,12 @@ internal class IndexDownloaderImpl(private val downloader: Downloader) : IndexDo
 	}
 
 	private fun CoroutineScope.downloader(
-		repos: ReceiveChannel<Repo>,
+		repos: ReceiveChannel<RepoEntity>,
 		locations: SendChannel<RepoLocation>,
 		contents: ReceiveChannel<RepoLocJar>,
-		onDownload: suspend (Repo, JarFile) -> Unit
+		onDownload: onDownloadListener
 	) = launch {
-		val requested = mutableMapOf<RepoLocation, MutableList<Repo>>()
+		val requested = mutableMapOf<RepoLocation, MutableList<RepoEntity>>()
 		while (true) {
 			select<Unit> {
 				contents.onReceive { (location, jar) ->
@@ -65,25 +65,29 @@ internal class IndexDownloaderImpl(private val downloader: Downloader) : IndexDo
 		}
 	}
 
-	override suspend fun downloadIndexJar(repo: Repo): RepoLocJar = withContext(Dispatchers.IO) {
-		val indexType = async { determineIndexType(repo) }
-		val repoLocation = repo.toLocation()
-		val shouldAuthenticate =
-			repoLocation.username.isNotEmpty() && repoLocation.password.isNotEmpty()
-		val tempFile = File.createTempFile(repoLocation.name, UUID.randomUUID().toString())
-		downloader.downloadToFile(
-			url = repoLocation.indexUrl(indexType.await()),
-			target = tempFile,
-			headers = {
-				if (shouldAuthenticate) authentication(repoLocation.username, repoLocation.password)
-				ifModifiedSince(Date(repoLocation.timestamp))
-			}
-		)
-		RepoLocJar(repoLocation, JarFile(tempFile, true))
-	}
+	override suspend fun downloadIndexJar(repo: RepoEntity): RepoLocJar =
+		withContext(Dispatchers.IO) {
+			val indexType = async { determineIndexType(repo) }
+			val repoLocation = repo.toLocation()
+			val shouldAuthenticate =
+				repoLocation.username.isNotEmpty() && repoLocation.password.isNotEmpty()
+			val tempFile = File.createTempFile(repoLocation.name, UUID.randomUUID().toString())
+			downloader.downloadToFile(
+				url = repoLocation.indexUrl(indexType.await()),
+				target = tempFile,
+				headers = {
+					if (shouldAuthenticate) authentication(
+						repoLocation.username,
+						repoLocation.password
+					)
+					ifModifiedSince(Date(repoLocation.timestamp))
+				}
+			)
+			RepoLocJar(repoLocation, JarFile(tempFile, true))
+		}
 
 	private suspend fun determineIndexType(
-		repo: Repo
+		repo: RepoEntity
 	): IndexType = withContext(Dispatchers.IO) {
 		val isIndexV1 =
 			downloader.headCall(repo.toLocation().indexUrl(IndexType.ENTRY)) ==

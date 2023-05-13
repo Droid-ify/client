@@ -1,5 +1,6 @@
 package com.looker.core.data.fdroid.sync
 
+import com.looker.core.database.model.RepoEntity
 import com.looker.core.model.newer.Repo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -8,12 +9,13 @@ import java.util.jar.JarFile
 
 interface IndexDownloader {
 
-	fun CoroutineScope.processRepos(repos: ReceiveChannel<Repo>, onDownload: onDownloadListener): Job
+	fun CoroutineScope.processRepos(repos: ReceiveChannel<RepoEntity>, onDownload: onDownloadListener): Job
 
-	suspend fun downloadIndexJar(repo: Repo): RepoLocJar
+	suspend fun downloadIndexJar(repo: RepoEntity): RepoLocJar
+
 }
 
-typealias onDownloadListener = suspend (Repo, JarFile) -> Unit
+internal typealias onDownloadListener = suspend (RepoEntity, JarFile) -> Unit
 
 data class RepoLocation(
 	val url: String,
@@ -21,15 +23,15 @@ data class RepoLocation(
 	val timestamp: Long,
 	val username: String,
 	val password: String,
-	val repo: Repo
+	val repo: RepoEntity
 )
 
-fun Repo.toLocation() = RepoLocation(
+fun RepoEntity.toLocation() = RepoLocation(
 	url = address,
-	name = name,
-	timestamp = versionInfo.timestamp,
-	username = authentication.username,
-	password = authentication.password,
+	name = name["en-US"]!!,
+	timestamp = timestamp,
+	username = username,
+	password = password,
 	repo = this
 )
 
