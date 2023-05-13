@@ -24,8 +24,7 @@ import com.looker.core.database.model.RepoEntity
 	LocalizedConverter::class,
 	PackageEntityConverter::class,
 	PermissionConverter::class,
-	RepoConverter::class,
-	builtInTypeConverters = BuiltInTypeConverters(enums = BuiltInTypeConverters.State.ENABLED)
+	RepoConverter::class
 )
 abstract class DroidifyDatabase : RoomDatabase() {
 

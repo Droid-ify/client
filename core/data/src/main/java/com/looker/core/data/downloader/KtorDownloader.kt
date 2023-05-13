@@ -14,7 +14,7 @@ import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
 import java.io.File
 
-class KtorDownloader(private val client: HttpClient) : Downloader {
+internal class KtorDownloader(private val client: HttpClient) : Downloader {
 	override suspend fun headCall(
 		url: String,
 		headers: HeadersBuilder.() -> Unit
@@ -38,7 +38,7 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 		return try {
 			client.prepareGet(request).execute { response ->
 				val channel = response.bodyAsChannel()
-				saveDownloadFile(channel, target)
+				channel.saveToFile(target)
 				response.status.networkResponse()
 			}
 		} catch (e: Exception) {
@@ -64,9 +64,9 @@ class KtorDownloader(private val client: HttpClient) : Downloader {
 		onDownload(block)
 	}
 
-	private suspend fun saveDownloadFile(channel: ByteReadChannel, target: File) {
-		while (!channel.isClosedForRead) {
-			val packet = channel.readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+	private suspend fun ByteReadChannel.saveToFile(target: File) {
+		while (!isClosedForRead) {
+			val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
 			while (!packet.isEmpty) {
 				yield()
 				val bytes = packet.readBytes()

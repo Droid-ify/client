@@ -12,7 +12,7 @@ import java.util.UUID
 import java.util.jar.JarFile
 import kotlin.collections.set
 
-class IndexDownloaderImpl(private val downloader: Downloader) : IndexDownloader {
+internal class IndexDownloaderImpl(private val downloader: Downloader) : IndexDownloader {
 
 	companion object {
 		private const val WORKERS = 3

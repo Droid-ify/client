@@ -13,10 +13,10 @@ import dagger.hilt.components.SingletonComponent
 import io.ktor.client.*
 import io.ktor.client.engine.*
 import io.ktor.client.engine.okhttp.*
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logging
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import kotlin.time.Duration.Companion.seconds
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,8 +36,10 @@ object DataModuleSingleton {
 			}
 		}
 		return HttpClient(OkHttp) {
-			install(Logging) {
-				level = LogLevel.ALL
+			install(HttpTimeout) {
+				connectTimeoutMillis = 30.seconds.inWholeSeconds
+				requestTimeoutMillis = 15.seconds.inWholeSeconds
+				socketTimeoutMillis = 15.seconds.inWholeSeconds
 			}
 			engine { proxy = config }
 		}
