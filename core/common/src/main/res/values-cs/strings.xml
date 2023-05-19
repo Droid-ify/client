@@ -193,8 +193,8 @@
         <item quantity="few">hodiny</item>
         <item quantity="other">hodin</item>
     </plurals>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Interval čištění APK</string>
+    <string name="cleanup_description">Období pro kontrolu a odstranění stažených souborů</string>
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
     <string name="io_error_DESC">Nepodařilo se vykonat některé akce.</string>
     <string name="no_internet">Nejste připojeni k internetu</string>
