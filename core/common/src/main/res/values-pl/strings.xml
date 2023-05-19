@@ -184,8 +184,8 @@
     <string name="latest">Najnowsza</string>
     <string name="explore">Poznaj</string>
     <string name="update_all">Aktualizuj wszystkie</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Interwał oczyszczania plików apk</string>
+    <string name="cleanup_description">Okres sprawdzania i usuwania pobranych plików</string>
     <plurals name="days">
         <item quantity="one">Dzień</item>
         <item quantity="few">Dni</item>
@@ -203,8 +203,8 @@
     <string name="no_internet">Nie masz połączenia z internetem</string>
     <string name="allow_collapsing_toolbar">Rozwijalny górny pasek aplikacji</string>
     <string name="allow_collapsing_toolbar_DESC">Zezwalaj na rozwijanie i zwijanie górnego paska aplikacji</string>
-    <string name="material_you_desc">Użyj motywu kolorów material you</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Motyw kolorystyczny Material You</string>
+    <string name="material_you">Silnik motywu Monet</string>
     <string name="enable_repo">Włącz repozytorium</string>
     <string name="installing">Instalowanie</string>
     <string name="restart_app">Uruchom Droid-ify ponownie, aby zastosować zmiany</string>
