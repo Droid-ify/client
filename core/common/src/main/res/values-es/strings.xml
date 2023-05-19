@@ -183,8 +183,8 @@
     <string name="session_installer">Instalador de sesión</string>
     <string name="legacy_installer">Instalador heredado</string>
     <string name="shizuku_installer">Instalador de Shizuku</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Intervalo de limpieza del APK</string>
+    <string name="cleanup_description">Periodo para comprobar y eliminar los archivos descargados</string>
     <plurals name="days">
         <item quantity="one">Día</item>
         <item quantity="many">Días</item>
