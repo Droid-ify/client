@@ -187,17 +187,17 @@
     <string name="cleanup_title">Interwał oczyszczania plików apk</string>
     <string name="cleanup_description">Okres sprawdzania i usuwania pobranych plików</string>
     <plurals name="days">
-        <item quantity="one">Dzień</item>
-        <item quantity="few">Dni</item>
-        <item quantity="many">Dni</item>
-        <item quantity="other">Dni</item>
+        <item quantity="one">dzień</item>
+        <item quantity="few">dni</item>
+        <item quantity="many">dni</item>
+        <item quantity="other">dni</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Tylko na Wi-Fi i podczas ładowania</string>
     <plurals name="hours">
-        <item quantity="one">Godzina</item>
-        <item quantity="few">Godziny</item>
-        <item quantity="many">Godzin</item>
-        <item quantity="other">Godzin</item>
+        <item quantity="one">godzina</item>
+        <item quantity="few">godziny</item>
+        <item quantity="many">godzin</item>
+        <item quantity="other">godzin</item>
     </plurals>
     <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
     <string name="no_internet">Nie masz połączenia z internetem</string>
