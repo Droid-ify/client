@@ -186,8 +186,8 @@
     <string name="installed_applications">التطبيقات المثبَّتة</string>
     <string name="sort_filter">افرز وصفِّ</string>
     <string name="new_applications">التطبيقات جديدة</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">الزمن المار قبل فحص وإزالة الملفات المنزَّلة</string>
+    <string name="cleanup_title">مدة تنظيف ملفات APK</string>
     <plurals name="days">
         <item quantity="zero">أقل من يوم</item>
         <item quantity="one">يوم</item>
