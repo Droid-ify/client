@@ -197,8 +197,8 @@
         <item quantity="other">Днів</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Тільки при Wi-Fi та зарядці</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Інтервал очищення APK</string>
+    <string name="cleanup_description">Період для перевірки та видалення завантажених файлів</string>
     <string name="io_error_DESC">Неможливо виконати певні дії.</string>
     <string name="allow_collapsing_toolbar">Дозволити розширення верхньої панелі додатку</string>
     <string name="allow_collapsing_toolbar_DESC">Дозволити верхній панелі додатку розгортатися та згортатися</string>
