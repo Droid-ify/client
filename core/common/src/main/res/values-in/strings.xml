@@ -16,7 +16,7 @@
     <string name="bug_tracker">Pelacak bug</string>
     <string name="cancel">Batal</string>
     <string name="cant_edit_sync_DESC">Tidak dapat mengedit repositori karena sedang disinkronkan sekarang.</string>
-    <string name="changelog">Changelog</string>
+    <string name="changelog">Log Perubahan</string>
     <string name="action_failed">Tindakan gagal</string>
     <string name="all_applications_up_to_date">Semua aplikasimu sudah yang terbaru</string>
     <string name="contains_non_free_media">Berisi media tidak-bebas</string>
@@ -191,8 +191,8 @@
     <string name="no_internet">Kamu tidak memiliki akses internet</string>
     <string name="allow_collapsing_toolbar">Izinkan Bilah Atas Apl untuk Diperluas</string>
     <string name="allow_collapsing_toolbar_DESC">Izinkan bilah atas aplikasi untuk diperluas dan dikecilkan</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Interval pembersihan APK</string>
+    <string name="cleanup_description">Interval pengecekan dan penghapusan berkas terunduh</string>
     <string name="downloaded_FORMAT">%s Terdownload</string>
     <string name="favourites">Favorit</string>
     <string name="material_you">Material You</string>
