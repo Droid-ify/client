@@ -7,7 +7,13 @@ import org.junit.Assert.*
 import org.junit.Test
 import java.util.Locale
 
-// https://developer.android.com/guide/topics/resources/multilingual-support#resource-resolution-examples
+/**
+ *
+ * This code is copyrighted to (F-Droid.org), I merely rewrote it.
+ * Tests based on F-Droid's BestLocaleTest [https://gitlab.com/fdroid/fdroidclient/-/blob/680a1154cf3806390c2e4a9e95a7c6d6107b470f/libs/index/src/androidAndroidTest/kotlin/org/fdroid/BestLocaleTest.kt]
+ *
+ * https://developer.android.com/guide/topics/resources/multilingual-support#resource-resolution-examples
+ */
 class LocalizationKtTest {
 
 	@Test
