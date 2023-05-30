@@ -12,7 +12,6 @@ import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.RepoEntity
 import com.looker.core.database.model.toExternal
 import com.looker.core.database.model.update
-import com.looker.core.database.utils.localeListCompat
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.newer.Repo
 import kotlinx.coroutines.*
@@ -37,16 +36,16 @@ class OfflineFirstRepoRepository @Inject constructor(
 			.fetchInitialPreferences()
 	}
 
-	private val language = preference.language
+	private val locale = preference.language
 
 	private val indexConverter = IndexConverter()
 
 	override suspend fun getRepo(id: Long): Repo = withContext(dispatcher) {
-		repoDao.getRepoById(id).toExternal(localeListCompat(language))
+		repoDao.getRepoById(id).toExternal(locale)
 	}
 
 	override fun getRepos(): Flow<List<Repo>> =
-		repoDao.getRepoStream().map { it.toExternal(localeListCompat(language)) }
+		repoDao.getRepoStream().map { it.toExternal(locale) }
 
 	override suspend fun updateRepo(repo: Repo) {
 		scope.launch {

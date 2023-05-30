@@ -1,6 +1,5 @@
 package com.looker.core.database.model
 
-import androidx.core.os.LocaleListCompat
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.looker.core.database.utils.localizedValue
@@ -35,7 +34,7 @@ fun RepoEntity.update(repo: Repo) = copy(
 	fingerprint = repo.fingerprint
 )
 
-fun RepoEntity.toExternal(locale: LocaleListCompat): Repo = Repo(
+fun RepoEntity.toExternal(locale: String): Repo = Repo(
 	id = id!!,
 	enabled = enabled,
 	address = address,
@@ -49,7 +48,7 @@ fun RepoEntity.toExternal(locale: LocaleListCompat): Repo = Repo(
 	antiFeatures = antiFeatures.values.toAntiFeatureList(locale)
 )
 
-fun List<RepoEntity>.toExternal(locale: LocaleListCompat): List<Repo> =
+fun List<RepoEntity>.toExternal(locale: String): List<Repo> =
 	map { it.toExternal(locale) }
 
 @Serializable
@@ -59,14 +58,14 @@ data class CategoryEntity(
 	val description: LocalizedString
 )
 
-private fun CategoryEntity.toCategory(locale: LocaleListCompat) =
+private fun CategoryEntity.toCategory(locale: String) =
 	Category(
 		name = name.localizedValue(locale) ?: "",
 		icon = icon.localizedValue(locale) ?: "",
 		description = description.localizedValue(locale) ?: ""
 	)
 
-fun Collection<CategoryEntity>.toCategoryList(locale: LocaleListCompat): List<Category> =
+fun Collection<CategoryEntity>.toCategoryList(locale: String): List<Category> =
 	map { it.toCategory(locale) }
 
 @Serializable
@@ -76,12 +75,12 @@ data class AntiFeatureEntity(
 	val description: LocalizedString
 )
 
-private fun AntiFeatureEntity.toAntiFeature(locale: LocaleListCompat) =
+private fun AntiFeatureEntity.toAntiFeature(locale: String) =
 	AntiFeature(
 		name = name.localizedValue(locale) ?: "",
 		icon = icon.localizedValue(locale) ?: "",
 		description = description.localizedValue(locale) ?: ""
 	)
 
-fun Collection<AntiFeatureEntity>.toAntiFeatureList(locale: LocaleListCompat): List<AntiFeature> =
+fun Collection<AntiFeatureEntity>.toAntiFeatureList(locale: String): List<AntiFeature> =
 	map { it.toAntiFeature(locale) }

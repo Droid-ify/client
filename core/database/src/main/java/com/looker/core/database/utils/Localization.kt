@@ -4,14 +4,15 @@ import androidx.core.os.LocaleListCompat
 import com.looker.core.common.stripBetween
 import java.util.Locale
 
-fun localeListCompat(tag: String): LocaleListCompat = LocaleListCompat.forLanguageTags(tag)
+internal fun localeListCompat(tag: String): LocaleListCompat = LocaleListCompat.forLanguageTags(tag)
 
 /**
- * Find the Localized value from [Map<String,T>] using [localeList]
+ * Find the Localized value from [Map<String,T>] using [locale]
  *
- * Returns null if none matches or map or [localeList] is empty
+ * Returns null if none matches or map or [locale] is empty
  */
-fun <T> Map<String, T>?.localizedValue(localeList: LocaleListCompat): T? {
+fun <T> Map<String, T>?.localizedValue(locale: String): T? {
+	val localeList = localeListCompat(locale)
 	if (isNullOrEmpty() || localeList.isEmpty) return null
 	val suitableLocale = localeList.suitableLocale(keys)
 	return get(suitableLocale)
@@ -27,7 +28,7 @@ fun <T> Map<String, T>?.localizedValue(localeList: LocaleListCompat): T? {
  * Returns null if none found
  */
 @OptIn(ExperimentalStdlibApi::class)
-fun LocaleListCompat.suitableLocale(keys: Set<String>): String? = (0..<size())
+internal fun LocaleListCompat.suitableLocale(keys: Set<String>): String? = (0..<size())
 	.asSequence()
 	.mapNotNull { get(it).suitableTag(keys) }
 	.firstOrNull()
@@ -37,7 +38,7 @@ fun LocaleListCompat.suitableLocale(keys: Set<String>): String? = (0..<size())
  *
  * Returns null if [keys] are empty or [Locale] in null
  */
-fun Locale?.suitableTag(keys: Set<String>): String? {
+internal fun Locale?.suitableTag(keys: Set<String>): String? {
 	if (keys.isEmpty()) return null
 	val currentLocale = this ?: return null
 	val tag = currentLocale.toLanguageTag()

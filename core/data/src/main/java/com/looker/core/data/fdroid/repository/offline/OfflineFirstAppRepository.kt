@@ -4,7 +4,6 @@ import com.looker.core.data.fdroid.repository.AppRepository
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.model.*
-import com.looker.core.database.utils.localeListCompat
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.model.newer.*
@@ -53,7 +52,7 @@ private fun Flow<List<AppEntity>>.localizedAppList(
 	installedFlow: Flow<List<InstalledEntity>>
 ): Flow<List<App>> =
 	combine(this, preference, installedFlow) { appsList, locale, installedList ->
-		appsList.toExternal(localeListCompat(locale)) {
+		appsList.toExternal(locale) {
 			it.findInstalled(installedList)
 		}
 	}
@@ -64,7 +63,7 @@ private fun Flow<List<PackageEntity>>.localizedPackages(
 	installedFlow: Flow<List<InstalledEntity>>
 ): Flow<List<Package>> =
 	combine(this, preference, installedFlow) { packagesList, locale, installedList ->
-		packagesList.toExternal(localeListCompat(locale)) {
+		packagesList.toExternal(locale) {
 			InstalledEntity(packageName.name, it.versionCode, it.sig) in installedList
 		}
 	}

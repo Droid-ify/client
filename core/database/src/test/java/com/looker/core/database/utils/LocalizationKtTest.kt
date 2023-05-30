@@ -2,8 +2,8 @@ package com.looker.core.database.utils
 
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.LocaleListCompat.getEmptyLocaleList
-import org.junit.Assert.*
-
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 import java.util.Locale
 
@@ -26,19 +26,19 @@ class LocalizationKtTest {
 
 	@Test
 	fun `Return empty locale on none match`() {
-		assertNull(emptyMap<String, String>().localizedValue(localeListCompat("en-US,de-DE")))
-		assertNull(getMap("en-US", "de-DE").localizedValue(getEmptyLocaleList()))
+		assertNull(emptyMap<String, String>().localizedValue("en-US,de-DE"))
+		assertNull(getMap("en-US", "de-DE").localizedValue(""))
 	}
 
 	@Test
 	fun `Fallback to english`() {
 		assertEquals(
 			"en",
-			getMap("de-AT", "de-DE", "en").localizedValue(localeListCompat("fr-FR")),
+			getMap("de-AT", "de-DE", "en").localizedValue("fr-FR"),
 		)
 		assertEquals(
 			"en-US",
-			getMap("en", "en-US").localizedValue(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
+			getMap("en", "en-US").localizedValue("zh-Hant-TW,zh-Hans-CN"),
 		)
 	}
 
@@ -46,7 +46,7 @@ class LocalizationKtTest {
 	fun `Use the first selected locale, en_US`() {
 		assertEquals(
 			"en-US",
-			getMap("de-AT", "de-DE", "en-US").localizedValue(localeListCompat("en-US,de-DE")),
+			getMap("de-AT", "de-DE", "en-US").localizedValue("en-US,de-DE"),
 		)
 	}
 
@@ -54,7 +54,7 @@ class LocalizationKtTest {
 	fun `Use the first en translation`() {
 		assertEquals(
 			"en-US",
-			getMap("de-AT", "de-DE", "en-US").localizedValue(localeListCompat("en-SE,de-DE")),
+			getMap("de-AT", "de-DE", "en-US").localizedValue("en-SE,de-DE"),
 		)
 	}
 
@@ -67,11 +67,11 @@ class LocalizationKtTest {
 				"de-DE",
 				"en-GB",
 				"en-US"
-			).localizedValue(localeListCompat("de-AT,de-DE")),
+			).localizedValue("de-AT,de-DE"),
 		)
 		assertEquals(
 			"de",
-			getMap("de-AT", "de", "en-GB", "en-US").localizedValue(localeListCompat("de-CH,en-US")),
+			getMap("de-AT", "de", "en-GB", "en-US").localizedValue("de-CH,en-US"),
 		)
 	}
 
@@ -84,7 +84,7 @@ class LocalizationKtTest {
 				"zh-CN",
 				"zh-HK",
 				"zh-TW"
-			).localizedValue(localeListCompat("zh-Hant-TW,zh-Hans-CN")),
+			).localizedValue("zh-Hant-TW,zh-Hans-CN"),
 		)
 	}
 
@@ -93,13 +93,13 @@ class LocalizationKtTest {
 		assertEquals(
 			"fr-FR",
 			getMap("en-US", "de-DE", "es-ES", "fr-FR", "it-IT")
-				.localizedValue(localeListCompat("fr-CH")),
+				.localizedValue("fr-CH"),
 		)
 
 		assertEquals(
 			"it-IT",
 			getMap("en-US", "de-DE", "es-ES", "it-IT")
-				.localizedValue(localeListCompat("fr-CH,it-CH")),
+				.localizedValue("fr-CH,it-CH"),
 		)
 	}
 

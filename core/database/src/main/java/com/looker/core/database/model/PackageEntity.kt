@@ -1,6 +1,5 @@
 package com.looker.core.database.model
 
-import androidx.core.os.LocaleListCompat
 import com.looker.core.database.utils.localizedValue
 import com.looker.core.model.newer.*
 import kotlinx.serialization.Serializable
@@ -34,7 +33,7 @@ data class PermissionEntity(
 	val maxSdk: Int? = null
 )
 
-fun PackageEntity.toExternal(locale: LocaleListCompat, installed: Boolean): Package = Package(
+fun PackageEntity.toExternal(locale: String, installed: Boolean): Package = Package(
 	installed = installed,
 	added = added,
 	apk = ApkFile(
@@ -56,7 +55,7 @@ fun PackageEntity.toExternal(locale: LocaleListCompat, installed: Boolean): Pack
 )
 
 fun List<PackageEntity>.toExternal(
-	locale: LocaleListCompat,
+	locale: String,
 	installed: (PackageEntity) -> Boolean
 ): List<Package> = map { it.toExternal(locale, installed(it)) }
 

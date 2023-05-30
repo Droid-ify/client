@@ -1,6 +1,5 @@
 package com.looker.core.database.model
 
-import androidx.core.os.LocaleListCompat
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.looker.core.common.nullIfEmpty
@@ -54,7 +53,7 @@ data class AppEntity(
 	val packages: List<PackageEntity>
 )
 
-fun AppEntity.toExternal(locale: LocaleListCompat, installed: PackageEntity? = null): App = App(
+fun AppEntity.toExternal(locale: String, installed: PackageEntity? = null): App = App(
 	repoId = repoId,
 	categories = categories,
 	links = links(),
@@ -67,7 +66,7 @@ fun AppEntity.toExternal(locale: LocaleListCompat, installed: PackageEntity? = n
 )
 
 fun List<AppEntity>.toExternal(
-	locale: LocaleListCompat,
+	locale: String,
 	isInstalled: (AppEntity) -> PackageEntity?
 ): List<App> = map {
 	it.toExternal(locale, isInstalled(it))
@@ -89,7 +88,7 @@ private fun AppEntity.donations(): Donation = Donation(
 	librePayAddress = liberapay.nullIfEmpty(),
 )
 
-private fun AppEntity.graphics(locale: LocaleListCompat): Graphics = Graphics(
+private fun AppEntity.graphics(locale: String): Graphics = Graphics(
 	featureGraphic = featureGraphic.localizedValue(locale) ?: "",
 	promoGraphic = promoGraphic.localizedValue(locale) ?: "",
 	tvBanner = tvBanner.localizedValue(locale) ?: "",
@@ -104,7 +103,7 @@ private fun AppEntity.links(): Links = Links(
 	webSite = webSite
 )
 
-private fun AppEntity.metadata(locale: LocaleListCompat): Metadata = Metadata(
+private fun AppEntity.metadata(locale: String): Metadata = Metadata(
 	name = name.localizedValue(locale) ?: "",
 	packageName = packageName.toPackageName(),
 	added = added,
@@ -117,7 +116,7 @@ private fun AppEntity.metadata(locale: LocaleListCompat): Metadata = Metadata(
 	summary = summary.localizedValue(locale) ?: ""
 )
 
-private fun AppEntity.screenshots(locale: LocaleListCompat): Screenshots = Screenshots(
+private fun AppEntity.screenshots(locale: String): Screenshots = Screenshots(
 	phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
 	sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
 	tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
