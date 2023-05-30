@@ -45,8 +45,8 @@ fun RepoEntity.toExternal(locale: LocaleListCompat): Repo = Repo(
 	authentication = Authentication(username, password),
 	versionInfo = VersionInfo(etag = etag, timestamp = timestamp),
 	mirrors = mirrors,
-	categories = categories.values.toExternal(locale),
-	antiFeatures = antiFeatures.values.toExternal(locale)
+	categories = categories.values.toCategoryList(locale),
+	antiFeatures = antiFeatures.values.toAntiFeatureList(locale)
 )
 
 fun List<RepoEntity>.toExternal(locale: LocaleListCompat): List<Repo> =
@@ -59,15 +59,15 @@ data class CategoryEntity(
 	val description: LocalizedString
 )
 
-private fun CategoryEntity.toExternal(locale: LocaleListCompat) =
+private fun CategoryEntity.toCategory(locale: LocaleListCompat) =
 	Category(
 		name = name.localizedValue(locale) ?: "",
 		icon = icon.localizedValue(locale) ?: "",
 		description = description.localizedValue(locale) ?: ""
 	)
 
-fun Collection<CategoryEntity>.toExternal(locale: LocaleListCompat): List<Category> =
-	map { it.toExternal(locale) }
+fun Collection<CategoryEntity>.toCategoryList(locale: LocaleListCompat): List<Category> =
+	map { it.toCategory(locale) }
 
 @Serializable
 data class AntiFeatureEntity(
@@ -83,5 +83,5 @@ private fun AntiFeatureEntity.toAntiFeature(locale: LocaleListCompat) =
 		description = description.localizedValue(locale) ?: ""
 	)
 
-fun Collection<AntiFeatureEntity>.toExternal(locale: LocaleListCompat): List<AntiFeature> =
+fun Collection<AntiFeatureEntity>.toAntiFeatureList(locale: LocaleListCompat): List<AntiFeature> =
 	map { it.toAntiFeature(locale) }
