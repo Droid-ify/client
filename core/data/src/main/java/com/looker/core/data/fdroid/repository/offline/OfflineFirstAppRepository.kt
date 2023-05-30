@@ -7,8 +7,11 @@ import com.looker.core.database.model.*
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.model.newer.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class OfflineFirstAppRepository @Inject constructor(
@@ -36,14 +39,18 @@ class OfflineFirstAppRepository @Inject constructor(
 		appDao.getPackages(packageName.name)
 			.localizedPackages(packageName, localePreference, installedFlow)
 
-	override suspend fun addToFavourite(packageName: PackageName): Boolean {
+	override suspend fun addToFavourite(packageName: PackageName): Boolean = coroutineScope {
 		val isFavourite =
-			userPreferencesRepository
-				.fetchInitialPreferences()
-				.favouriteApps
-				.any { it == packageName.name }
-		userPreferencesRepository.toggleFavourites(packageName.name)
-		return !isFavourite
+			async {
+				userPreferencesRepository
+					.fetchInitialPreferences()
+					.favouriteApps
+					.any { it == packageName.name }
+			}
+		launch {
+			userPreferencesRepository.toggleFavourites(packageName.name)
+		}
+		!isFavourite.await()
 	}
 }
 
