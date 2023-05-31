@@ -37,9 +37,9 @@ object DataModuleSingleton {
 		}
 		return HttpClient(OkHttp) {
 			install(HttpTimeout) {
-				connectTimeoutMillis = 30.seconds.inWholeSeconds
-				requestTimeoutMillis = 15.seconds.inWholeSeconds
-				socketTimeoutMillis = 15.seconds.inWholeSeconds
+				connectTimeoutMillis = 30_000
+				requestTimeoutMillis = 15_000
+				socketTimeoutMillis = 15_000
 			}
 			engine { proxy = config }
 		}
