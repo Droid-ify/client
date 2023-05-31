@@ -1,5 +1,6 @@
 package com.looker.core.data.downloader
 
+import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.common.extension.size
 import com.looker.core.data.downloader.header.HeadersBuilder
 import com.looker.core.data.downloader.header.KtorHeaderBuilder
@@ -12,7 +13,6 @@ import io.ktor.http.isSuccess
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.yield
 import java.io.File
 
@@ -44,7 +44,7 @@ internal class KtorDownloader(private val client: HttpClient) : Downloader {
 				response.status.toNetworkResponse()
 			}
 		} catch (e: Exception) {
-			if (e is CancellationException) throw e
+			e.exceptCancellation()
 			NetworkResponse.Error(-1, e)
 		}
 	}
