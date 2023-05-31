@@ -8,6 +8,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
 
+val File.size: Long?
+	get() = if (exists()) length().takeIf { it >= 0L } else 0L
+
 suspend fun File.readFrom(input: InputStream) = withContext(Dispatchers.IO) {
 	val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
 	var bytesRead = input.read(buffer)
