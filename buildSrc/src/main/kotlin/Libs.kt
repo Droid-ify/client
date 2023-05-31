@@ -13,12 +13,12 @@ object Core {
 }
 
 object Coil {
-	private const val coilVersion = "2.3.0"
+	private const val coilVersion = "2.4.0"
 	const val coil = "io.coil-kt:coil:$coilVersion"
 }
 
 private object Compose {
-	const val bom = "androidx.compose:compose-bom:2023.05.00"
+	const val bom = "androidx.compose:compose-bom:2023.05.01"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -30,7 +30,7 @@ private object Compose {
 }
 
 private object Coroutines {
-	private const val coroutinesVersion = "1.7.0"
+	private const val coroutinesVersion = "1.7.1"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
@@ -92,7 +92,7 @@ private object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.7"
-	const val activity = "androidx.activity:activity-ktx:1.7.1"
+	const val activity = "androidx.activity:activity-ktx:1.7.2"
 }
 
 object OkHttp {
