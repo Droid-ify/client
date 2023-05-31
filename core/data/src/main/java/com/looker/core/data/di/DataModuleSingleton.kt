@@ -16,7 +16,6 @@ import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
-import kotlin.time.Duration.Companion.seconds
 
 @Module
 @InstallIn(SingletonComponent::class)
