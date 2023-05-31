@@ -61,8 +61,7 @@ private object FDroid {
 }
 
 object Hilt {
-	const val version = "2.45"
-	const val classpath = "com.google.dagger:hilt-android-gradle-plugin:$version"
+	const val version = "2.46.1"
 	const val android = "com.google.dagger:hilt-android:$version"
 
 	const val compiler = "com.google.dagger:hilt-compiler:$version"
@@ -85,7 +84,6 @@ private object Ktor {
 	private const val version = "2.3.0"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
-	const val logging = "io.ktor:ktor-client-logging:$version"
 }
 
 private object Lifecycle {
@@ -168,7 +166,6 @@ fun DependencyHandlerScope.fdroid() {
 fun DependencyHandlerScope.ktor() {
 	add("implementation", Ktor.core)
 	add("implementation", Ktor.okhttp)
-	add("implementation", Ktor.logging)
 }
 
 fun DependencyHandlerScope.lifecycle() {
