@@ -1,5 +1,6 @@
 package com.looker.core.data.downloader
 
+import com.looker.core.common.extension.size
 import com.looker.core.data.downloader.header.HeadersBuilder
 import com.looker.core.data.downloader.header.KtorHeaderBuilder
 import io.ktor.client.HttpClient
@@ -11,6 +12,7 @@ import io.ktor.http.isSuccess
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.yield
 import java.io.File
 
@@ -34,31 +36,31 @@ internal class KtorDownloader(private val client: HttpClient) : Downloader {
 		headers: HeadersBuilder.() -> Unit,
 		block: ProgressListener?
 	): NetworkResponse {
-		val request = createRequest(url, target, headers, block)
 		return try {
+			val request = createRequest(url, target.size, headers, block)
 			client.prepareGet(request).execute { response ->
 				val channel = response.bodyAsChannel()
 				channel.saveToFile(target)
-				response.status.networkResponse()
+				response.status.toNetworkResponse()
 			}
 		} catch (e: Exception) {
+			if (e is CancellationException) throw e
 			NetworkResponse.Error(-1, e)
 		}
 	}
 
 	private fun createRequest(
 		url: String,
-		target: File,
+		fileLength: Long?,
 		headers: HeadersBuilder.() -> Unit,
 		block: ProgressListener?
 	) = request {
-		val cacheFileLength = if (target.exists()) target.length().takeIf { it >= 0 } else 0
 		url(url)
 		headers {
 			val headerBuilder = KtorHeaderBuilder(this)
 			with(headerBuilder) {
+				if (fileLength != null) inRange(fileLength)
 				headers()
-				if (cacheFileLength != null) inRange(cacheFileLength)
 			}
 		}
 		onDownload(block)
@@ -75,7 +77,7 @@ internal class KtorDownloader(private val client: HttpClient) : Downloader {
 		}
 	}
 
-	private fun HttpStatusCode.networkResponse(): NetworkResponse =
+	private fun HttpStatusCode.toNetworkResponse(): NetworkResponse =
 		if (isSuccess()) NetworkResponse.Success
 		else NetworkResponse.Error(value)
 }
