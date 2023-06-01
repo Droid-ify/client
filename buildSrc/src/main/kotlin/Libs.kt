@@ -8,7 +8,7 @@ private object AndroidX {
 }
 
 object Core {
-	private const val coreVersion = "1.10.0"
+	private const val coreVersion = "1.10.1"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
@@ -76,7 +76,7 @@ object Jackson {
 }
 
 object Kotlin {
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
@@ -84,6 +84,7 @@ private object Ktor {
 	private const val version = "2.3.0"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
+	const val logging = "io.ktor:ktor-client-logging:$version"
 }
 
 private object Lifecycle {
@@ -121,8 +122,8 @@ object SQLite {
 object Test {
 	const val jUnitRunner = "androidx.test.runner.AndroidJUnitRunner"
 	const val jUnit = "junit:junit:4.13.2"
-	const val androidJUnit = "androidx.test.ext:junit:1.1.3"
-	const val espresso = "androidx.test.espresso:espresso-core:3.4.0"
+	const val androidJUnit = "androidx.test.ext:junit:1.1.5"
+	const val espresso = "androidx.test.espresso:espresso-core:3.5.1"
 }
 
 object Version {
@@ -165,6 +166,7 @@ fun DependencyHandlerScope.fdroid() {
 fun DependencyHandlerScope.ktor() {
 	add("implementation", Ktor.core)
 	add("implementation", Ktor.okhttp)
+	add("implementation", Ktor.logging)
 }
 
 fun DependencyHandlerScope.lifecycle() {
