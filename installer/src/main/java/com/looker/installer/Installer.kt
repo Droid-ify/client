@@ -5,62 +5,47 @@ import com.looker.core.common.Constants
 import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.newer.PackageName
-import com.looker.installer.installers.BaseInstaller
-import com.looker.installer.installers.LegacyInstaller
-import com.looker.installer.installers.RootInstaller
-import com.looker.installer.installers.SessionInstaller
-import com.looker.installer.installers.ShizukuInstaller
-import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallItemState
-import com.looker.installer.model.InstallState
-import com.looker.installer.model.statesTo
-import kotlinx.coroutines.CoroutineScope
+import com.looker.installer.installers.*
+import com.looker.installer.model.*
+import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.channels.consumeEach
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withTimeoutOrNull
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 class Installer(
 	private val context: Context,
-	private val userPreferencesRepository: UserPreferencesRepository
+	userPreferencesRepository: UserPreferencesRepository
 ) {
+
 	private val installItems = Channel<InstallItem>()
 	private val uninstallItems = Channel<PackageName>()
+
 	private val installState = MutableStateFlow(InstallItemState.EMPTY)
 	private val installQueue = MutableStateFlow(emptySet<String>())
-	private var baseInstaller: BaseInstaller? = null
+
+	private var _baseInstaller: BaseInstaller? = null
+	private val baseInstaller: BaseInstaller get() = _baseInstaller!!
+
+	private val lock = Mutex()
+	private val installerPreference =
+		userPreferencesRepository.userPreferencesFlow.distinctMap { it.installerType }
 
 	suspend operator fun invoke() = coroutineScope {
-		baseInstaller =
-			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
-				InstallerType.LEGACY -> LegacyInstaller(context)
-				InstallerType.SESSION -> SessionInstaller(context)
-				InstallerType.SHIZUKU -> ShizukuInstaller(context)
-				InstallerType.ROOT -> RootInstaller(context)
-			}
-		installer(
-			context = context,
-			baseInstaller = baseInstaller!!,
-			installItems = installItems,
-			installQueue = installQueue,
-			installState = installState
-		)
-		uninstaller(
-			baseInstaller = baseInstaller!!,
-			uninstallItems = uninstallItems
-		)
+		launch {
+			installerPreference.collectLatest(::setInstaller)
+		}
+		installer()
+		uninstaller()
 	}
 
 	fun close() {
-		baseInstaller?.cleanup()
-		baseInstaller = null
+		baseInstaller.cleanup()
+		_baseInstaller = null
 		uninstallItems.close()
 		installItems.close()
 	}
@@ -80,13 +65,7 @@ class Installer(
 		)
 	}
 
-	private fun CoroutineScope.installer(
-		context: Context,
-		baseInstaller: BaseInstaller,
-		installItems: ReceiveChannel<InstallItem>,
-		installQueue: MutableStateFlow<Set<String>>,
-		installState: MutableStateFlow<InstallItemState>
-	) = launch {
+	private fun CoroutineScope.installer() = launch {
 		val requested = mutableSetOf<String>()
 		filter(installItems) { item ->
 			val isAdded = requested.add(item.packageName.name)
@@ -121,12 +100,20 @@ class Installer(
 		}
 	}
 
-	private fun CoroutineScope.uninstaller(
-		baseInstaller: BaseInstaller,
-		uninstallItems: ReceiveChannel<PackageName>
-	) = launch {
+	private fun CoroutineScope.uninstaller() = launch {
 		uninstallItems.consumeEach {
 			baseInstaller.performUninstall(it)
+		}
+	}
+
+	private suspend fun setInstaller(installerType: InstallerType) {
+		lock.withLock {
+			_baseInstaller = when (installerType) {
+				InstallerType.LEGACY -> LegacyInstaller(context)
+				InstallerType.SESSION -> SessionInstaller(context)
+				InstallerType.SHIZUKU -> ShizukuInstaller(context)
+				InstallerType.ROOT -> RootInstaller(context)
+			}
 		}
 	}
 }
