@@ -11,6 +11,7 @@ import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.isSuccess
 import io.ktor.utils.io.ByteReadChannel
+import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
@@ -72,11 +73,15 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 	private suspend fun ByteReadChannel.saveToFile(target: File) {
 		while (!isClosedForRead) {
 			val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-			while (!packet.isEmpty) {
-				yield()
-				val bytes = packet.readBytes()
-				target.appendBytes(bytes)
-			}
+			packet.appendTo(target)
+		}
+	}
+
+	private suspend fun ByteReadPacket.appendTo(file: File) {
+		while (!isEmpty) {
+			yield()
+			val bytes = readBytes()
+			file.appendBytes(bytes)
 		}
 	}
 
