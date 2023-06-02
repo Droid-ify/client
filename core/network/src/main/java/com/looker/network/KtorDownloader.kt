@@ -22,13 +22,14 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 		url: String,
 		headers: HeadersBuilder.() -> Unit
 	): NetworkResponse {
-		val status = client.head(url) {
+		val headRequest = request {
+			url(url)
 			headers {
 				KtorHeadersBuilder(this).headers()
 			}
-		}.status
-		return if (status.isSuccess()) NetworkResponse.Success
-		else NetworkResponse.Error(status.value)
+		}
+		val status = client.head(headRequest).status
+		return status.toNetworkResponse()
 	}
 
 	override suspend fun downloadToFile(
