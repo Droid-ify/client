@@ -1,8 +1,8 @@
-package com.looker.core.data.downloader
+package com.looker.network
 
 import com.looker.core.common.extension.size
-import com.looker.core.data.downloader.header.HeadersBuilder
-import com.looker.core.data.downloader.header.KtorHeaderBuilder
+import com.looker.network.header.HeadersBuilder
+import com.looker.network.header.KtorHeadersBuilder
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
@@ -14,15 +14,17 @@ import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
 import java.io.File
+import javax.inject.Inject
 
-internal class KtorDownloader(private val client: HttpClient) : Downloader {
+class KtorDownloader @Inject constructor(private val client: HttpClient) : Downloader {
+
 	override suspend fun headCall(
 		url: String,
 		headers: HeadersBuilder.() -> Unit
 	): NetworkResponse {
 		val status = client.head(url) {
 			headers {
-				KtorHeaderBuilder(this).headers()
+				KtorHeadersBuilder(this).headers()
 			}
 		}.status
 		return if (status.isSuccess()) NetworkResponse.Success
@@ -55,7 +57,7 @@ internal class KtorDownloader(private val client: HttpClient) : Downloader {
 	) = request {
 		url(url)
 		headers {
-			val headerBuilder = KtorHeaderBuilder(this)
+			val headerBuilder = KtorHeadersBuilder(this)
 			with(headerBuilder) {
 				if (fileLength != null) inRange(fileLength)
 				headers()
@@ -78,4 +80,5 @@ internal class KtorDownloader(private val client: HttpClient) : Downloader {
 	private fun HttpStatusCode.toNetworkResponse(): NetworkResponse =
 		if (isSuccess()) NetworkResponse.Success
 		else NetworkResponse.Error(value)
+
 }

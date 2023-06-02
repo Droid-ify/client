@@ -1,4 +1,4 @@
-package com.looker.core.data.downloader.header
+package com.looker.network.header
 
 import java.util.Date
 

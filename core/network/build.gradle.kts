@@ -1,11 +1,10 @@
 plugins {
 	id("looker.android.library")
-	kotlin("plugin.serialization")
 	id("looker.hilt.work")
 }
 
 android {
-	namespace = "com.looker.core.data"
+	namespace = "com.looker.network"
 	compileSdk = Android.compileSdk
 	defaultConfig {
 		minSdk = Android.minSdk
@@ -27,31 +26,14 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlin.jvmToolchain(17)
-	buildFeatures {
-		buildConfig = false
-		aidl = false
-		renderScript = false
-		shaders = false
-		resValues = false
-	}
 }
 
 dependencies {
-	modules(
-		Modules.coreCommon,
-		Modules.coreDatabase,
-		Modules.coreDatastore,
-		Modules.coreModel,
-		Modules.coreNetwork
-	)
+	modules(Modules.coreCommon, Modules.coreDatastore, Modules.coreModel)
 
 	coroutines()
-	fdroid()
 	ktor()
-
-	implementation(Core.core)
-	implementation(Kotlin.serialization)
-	implementation(Work.manager)
+	implementation(Kotlin.datetime)
 
 	testImplementation(kotlin("test"))
 	testImplementation(Test.jUnit)

@@ -17,7 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
@@ -27,6 +26,9 @@ import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.network.Downloader
+import com.looker.network.NetworkResponse
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import java.net.URI
 import java.net.URL
@@ -37,6 +39,7 @@ import kotlin.math.min
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
+@AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
 
 	private var _editRepositoryBinding: EditRepositoryBinding? = null
@@ -79,7 +82,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 	private var takenAddresses = emptySet<String>()
 
 	@Inject
-	lateinit var downloader: com.looker.core.data.downloader.Downloader
+	lateinit var downloader: Downloader
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -366,6 +369,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 					val resultAddress = try {
 						checkAddress(address, authentication)
 					} catch (e: Exception) {
+						e.printStackTrace()
 						failedAddressCheck()
 						null
 					}

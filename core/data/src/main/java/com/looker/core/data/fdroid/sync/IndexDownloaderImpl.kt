@@ -1,8 +1,8 @@
 package com.looker.core.data.fdroid.sync
 
-import com.looker.core.data.downloader.Downloader
-import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.database.model.RepoEntity
+import com.looker.network.Downloader
+import com.looker.network.NetworkResponse
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.*
 import kotlinx.coroutines.selects.select

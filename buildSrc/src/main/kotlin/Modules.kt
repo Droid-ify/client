@@ -8,6 +8,7 @@ object Modules {
 	const val coreDatabase = ":core:database"
 	const val coreDatastore = ":core:datastore"
 	const val coreModel = ":core:model"
+	const val coreNetwork = ":core:network"
 	const val installer = ":installer"
 }
 

@@ -12,8 +12,6 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
-import com.looker.core.data.downloader.Downloader
-import com.looker.core.data.downloader.NetworkResponse
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
@@ -23,6 +21,8 @@ import com.looker.droidify.MainActivity
 import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.Installer
 import com.looker.installer.model.installFrom
+import com.looker.network.Downloader
+import com.looker.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*

@@ -1,4 +1,4 @@
-package com.looker.core.data.downloader
+package com.looker.network
 
 sealed interface NetworkResponse {
 	data class Error(

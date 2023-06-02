@@ -1,6 +1,6 @@
-package com.looker.core.data.downloader
+package com.looker.network
 
-import com.looker.core.data.downloader.header.HeadersBuilder
+import com.looker.network.header.HeadersBuilder
 import java.io.File
 
 interface Downloader {

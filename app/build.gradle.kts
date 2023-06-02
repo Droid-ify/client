@@ -127,7 +127,7 @@ dependencies {
 	modules(
 		Modules.coreModel,
 		Modules.coreCommon,
-		Modules.coreData,
+		Modules.coreNetwork,
 		Modules.coreDatastore,
 		Modules.installer
 	)

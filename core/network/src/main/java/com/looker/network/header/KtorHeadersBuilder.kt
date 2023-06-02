@@ -1,4 +1,4 @@
-package com.looker.core.data.downloader.header
+package com.looker.network.header
 
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
@@ -7,7 +7,7 @@ import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-internal class KtorHeaderBuilder(
+internal class KtorHeadersBuilder(
 	private val builder: io.ktor.http.HeadersBuilder
 ) : HeadersBuilder {
 
