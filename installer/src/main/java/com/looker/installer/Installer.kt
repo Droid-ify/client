@@ -29,22 +29,24 @@ class Installer(
 	private val installQueue = MutableStateFlow(emptySet<String>())
 
 	private var _baseInstaller: BaseInstaller? = null
+		set(value) {
+			field?.cleanup()
+			field = value
+		}
 	private val baseInstaller: BaseInstaller get() = _baseInstaller!!
 
 	private val lock = Mutex()
-	private val installerPreference =
-		userPreferencesRepository.userPreferencesFlow.distinctMap { it.installerType }
+	private val installerPreference = userPreferencesRepository
+		.userPreferencesFlow
+		.distinctMap { it.installerType }
 
 	suspend operator fun invoke() = coroutineScope {
-		launch {
-			installerPreference.collectLatest(::setInstaller)
-		}
+		setupInstaller()
 		installer()
 		uninstaller()
 	}
 
 	fun close() {
-		baseInstaller.cleanup()
 		_baseInstaller = null
 		uninstallItems.close()
 		installItems.close()
@@ -63,6 +65,10 @@ class Installer(
 			currentItem = current,
 			queued = queue
 		)
+	}
+
+	private fun CoroutineScope.setupInstaller() = launch {
+		installerPreference.collectLatest(::setInstaller)
 	}
 
 	private fun CoroutineScope.installer() = launch {
