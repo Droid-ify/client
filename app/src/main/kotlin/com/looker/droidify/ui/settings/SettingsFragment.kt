@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -29,14 +26,8 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
-import com.looker.core.datastore.extension.autoSyncName
-import com.looker.core.datastore.extension.installerName
-import com.looker.core.datastore.extension.proxyName
-import com.looker.core.datastore.extension.themeName
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.Theme
+import com.looker.core.datastore.extension.*
+import com.looker.core.datastore.model.*
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -108,9 +99,7 @@ class SettingsFragment : Fragment() {
 					viewModel.setLanguage(defaultLanguage)
 				}
 				setChangeListener()
-				viewModel.userPreferencesFlow.collect {
-					updateUserPreference(it)
-				}
+				viewModel.userPreferencesFlow.collect(::updateUserPreference)
 			}
 		}
 		return binding.root
@@ -237,10 +226,10 @@ class SettingsFragment : Fragment() {
 				}
 			}
 			creditFoxy.root.setOnClickListener {
-				"https://github.com/kitsunyan/foxy-droid".openLink(context)
+				openLink("https://github.com/kitsunyan/foxy-droid")
 			}
 			droidify.root.setOnClickListener {
-				"https://github.com/Iamlooker/Droid-ify".openLink(context)
+				openLink("https://github.com/Iamlooker/Droid-ify")
 			}
 		}
 	}
@@ -262,7 +251,7 @@ class SettingsFragment : Fragment() {
 					values = languageList,
 					title = R.string.prefs_language_title,
 					iconRes = R.drawable.ic_language,
-					onClick = { viewModel.setLanguage(it) },
+					onClick = viewModel::setLanguage,
 					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
 				).show()
 			}
@@ -273,8 +262,8 @@ class SettingsFragment : Fragment() {
 					values = Theme.values().toList(),
 					title = R.string.theme,
 					iconRes = R.drawable.ic_themes,
-					onClick = { viewModel.setTheme(it) },
-					valueToString = { view.context.themeName(it) }
+					onClick = viewModel::setTheme,
+					valueToString = view.context::themeName
 				).show()
 			}
 			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
@@ -287,7 +276,7 @@ class SettingsFragment : Fragment() {
 					valueToString = { it.toTime(context) },
 					title = R.string.cleanup_title,
 					iconRes = R.drawable.ic_time,
-					onClick = { viewModel.setCleanUpInterval(it) }
+					onClick = viewModel::setCleanUpInterval
 				).show()
 			}
 			forceCleanUp.root.isVisible = userPreferences.cleanUpInterval == Duration.INFINITE
@@ -300,8 +289,8 @@ class SettingsFragment : Fragment() {
 					values = AutoSync.values().toList(),
 					title = R.string.sync_repositories_automatically,
 					iconRes = R.drawable.ic_sync,
-					onClick = { viewModel.setAutoSync(it) },
-					valueToString = { view.context.autoSyncName(it) }
+					onClick = viewModel::setAutoSync,
+					valueToString = view.context::autoSyncName
 				).show()
 			}
 			notifyUpdates.checked.isChecked = userPreferences.notifyUpdate
@@ -315,8 +304,11 @@ class SettingsFragment : Fragment() {
 					values = ProxyType.values().toList(),
 					title = R.string.proxy_type,
 					iconRes = R.drawable.ic_proxy,
-					onClick = { viewModel.setProxyType(it) },
-					valueToString = { view.context.proxyName(it) }
+					onClick = {
+						viewModel.setProxyType(it)
+						restartSnackbar?.show()
+					},
+					valueToString = view.context::proxyName
 				).show()
 			}
 			val allowProxies = userPreferences.proxy.type != ProxyType.DIRECT
@@ -326,7 +318,7 @@ class SettingsFragment : Fragment() {
 				view.addStringEditText(
 					initialValue = userPreferences.proxy.host,
 					title = R.string.proxy_host,
-					onFinish = { viewModel.setProxyHost(it) }
+					onFinish = viewModel::setProxyHost
 				).show()
 			}
 			proxyPort.root.isVisible = allowProxies
@@ -335,7 +327,7 @@ class SettingsFragment : Fragment() {
 				view.addIntEditText(
 					initialValue = userPreferences.proxy.port,
 					title = R.string.proxy_host,
-					onFinish = { viewModel.setProxyPort(it) }
+					onFinish = viewModel::setProxyPort
 				).show()
 			}
 			installer.content.text = context.installerName(userPreferences.installerType)
@@ -345,11 +337,8 @@ class SettingsFragment : Fragment() {
 					values = InstallerType.values().toList(),
 					title = R.string.installer,
 					iconRes = R.drawable.ic_download,
-					onClick = {
-						viewModel.setInstaller(it)
-						restartSnackbar?.show()
-					},
-					valueToString = { view.context.installerName(it) }
+					onClick = viewModel::setInstaller,
+					valueToString = view.context::installerName
 				).show()
 			}
 		}
@@ -390,9 +379,9 @@ class SettingsFragment : Fragment() {
 		return languageDisplay
 	}
 
-	private fun String.openLink(context: Context?) {
+	private fun openLink(link: String) {
 		try {
-			context?.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(this)))
+			startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
 		} catch (e: Exception) {
 			e.printStackTrace()
 		}
