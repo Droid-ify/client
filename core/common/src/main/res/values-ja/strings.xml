@@ -174,8 +174,8 @@
     <string name="installed_applications">インストールされているアプリ</string>
     <string name="new_applications">新しいアプリ</string>
     <string name="available">探索</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">apkの自動クリーンアップ間隔</string>
+    <string name="cleanup_description">ダウンロード済みファイルの確認と削除を行う間隔</string>
     <string name="incompatible_features_DESC">機能が欠落しています。</string>
     <string name="cant_edit_sync_DESC">同期中なのでリポジトリを編集できません。</string>
     <string name="credits">クレジット</string>
