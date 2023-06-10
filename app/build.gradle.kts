@@ -60,6 +60,7 @@ android {
 			"tl",
 			"tr",
 			"uk",
+			"ur",
 			"vi",
 			"zh-rCN",
 			"zh-rTW"
