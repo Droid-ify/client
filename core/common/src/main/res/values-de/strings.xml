@@ -158,8 +158,8 @@
     <string name="socks_proxy">SOCKS Proxy</string>
     <string name="no_applications_available">Keine Anwendungen verfügbar</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">Die Anwendung %d hat eine neue Version.</item>
-        <item quantity="other">Die Anwendungen %d haben eine neue Version.</item>
+        <item quantity="one">%d Anwendung hat eine neue Version.</item>
+        <item quantity="other">%d Anwendungen haben eine neue Version.</item>
     </plurals>
     <string name="signed_using_unsafe_algorithm">Signiert mit einem unsicheren Algorithmus</string>
     <string name="select_mirror">Wähle einen Spiegel</string>
