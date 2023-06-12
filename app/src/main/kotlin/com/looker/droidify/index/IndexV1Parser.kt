@@ -1,5 +1,8 @@
 package com.looker.droidify.index
 
+import android.content.res.Resources
+import androidx.core.os.ConfigurationCompat.getLocales
+import androidx.core.os.LocaleListCompat
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
 import com.looker.core.common.extension.Json
@@ -46,6 +49,42 @@ object IndexV1Parser {
 		return this[key]?.let { callback(key, it) }
 	}
 
+	/**
+	 * Gets the best localization for the given [localeList]
+	 * from collections.
+	 */
+	private fun <T> Map<String, T>?.getBestLocale(localeList: LocaleListCompat): T? {
+		if (isNullOrEmpty()) return null
+		val firstMatch = localeList.getFirstMatch(keys.toTypedArray()) ?: return null
+		val tag = firstMatch.toLanguageTag()
+		// try first matched tag first (usually has region tag, e.g. de-DE)
+		return get(tag) ?: run {
+			// split away stuff like script and try language and region only
+			val langCountryTag = "${firstMatch.language}-${firstMatch.country}"
+			getOrStartsWith(langCountryTag) ?: run {
+				// split away region tag and try language only
+				val langTag = firstMatch.language
+				// try language, then English and then just take the first of the list
+				getOrStartsWith(langTag) ?: get("en-US") ?: get("en") ?: values.first()
+			}
+		}
+	}
+
+	/**
+	 * Returns the value from the map with the given key or if that key is not contained in the map,
+	 * tries the first map key that starts with the given key.
+	 * If nothing matches, null is returned.
+	 *
+	 * This is useful when looking for a language tag like `fr_CH` and falling back to `fr`
+	 * in a map that has `fr_FR` as a key.
+	 */
+	private fun <T> Map<String, T>.getOrStartsWith(s: String): T? = get(s) ?: run {
+		entries.forEach { (key, value) ->
+			if (key.startsWith(s)) return value
+		}
+		return null
+	}
+
 	private fun <T> Map<String, Localized>.find(callback: (String, Localized) -> T?): T? {
 		return getAndCall("en-US", callback) ?: getAndCall("en_US", callback) ?: getAndCall(
 			"en",
@@ -53,11 +92,23 @@ object IndexV1Parser {
 		)
 	}
 
+	private fun <T> Map<String, Localized>.findLocalized(callback: (Localized) -> T?): T? {
+		return getBestLocale(getLocales(Resources.getSystem().configuration))?.let { callback(it) }
+	}
+
 	private fun Map<String, Localized>.findString(
 		fallback: String,
 		callback: (Localized) -> String,
 	): String {
 		return (find { _, localized -> callback(localized).nullIfEmpty() } ?: fallback).trim()
+	}
+
+	private fun Map<String, Localized>.findLocalizedString(
+		fallback: String,
+		callback: (Localized) -> String,
+	): String {
+		// @BLumia: it's possible a key of a certain Localized object is empty, so we still need a fallback
+		return (findLocalized { localized -> callback(localized).trim().nullIfEmpty() } ?: findString(fallback, callback)).trim()
 	}
 
 	internal object DonateComparator : Comparator<Product.Donate> {
@@ -220,12 +271,12 @@ object IndexV1Parser {
 				else -> skipChildren()
 			}
 		}
-		val name = localizedMap.findString(nameFallback) { it.name }
-		val summary = localizedMap.findString(summaryFallback) { it.summary }
+		val name = localizedMap.findLocalizedString(nameFallback) { it.name }
+		val summary = localizedMap.findLocalizedString(summaryFallback) { it.summary }
 		val description =
-			localizedMap.findString(descriptionFallback) { it.description }.replace("\n", "<br/>")
-		val whatsNew = localizedMap.findString("") { it.whatsNew }.replace("\n", "<br/>")
-		val metadataIcon = localizedMap.findString("") { it.metadataIcon }.ifEmpty {
+			localizedMap.findLocalizedString(descriptionFallback) { it.description }.replace("\n", "<br/>")
+		val whatsNew = localizedMap.findLocalizedString("") { it.whatsNew }.replace("\n", "<br/>")
+		val metadataIcon = localizedMap.findLocalizedString("") { it.metadataIcon }.ifEmpty {
 			localizedMap.firstNotNullOfOrNull { it.value.metadataIcon }.orEmpty()
 		}
 		val screenshotPairs =
