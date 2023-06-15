@@ -187,8 +187,8 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Nur während des Ladevorgangs und aktiviertem WLAN</string>
     <string name="installer">Installationsmethode</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_description">Zeitraum zum Prüfen und Entfernen heruntergeladener Dateien</string>
+    <string name="cleanup_title">APK-Bereinigungsintervall</string>
     <string name="root_installer">Root-Installation</string>
     <string name="legacy_installer">Alte Installationsmethode</string>
     <string name="session_installer">Sitzungs-Installation</string>
