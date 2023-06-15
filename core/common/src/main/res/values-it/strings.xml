@@ -20,7 +20,7 @@
     <string name="changelog">Registro delle modifiche</string>
     <string name="changes">Cambiamenti</string>
     <string name="checking_repository">Controllo repository…</string>
-    <string name="compiled_for_debugging">Compilato per debugging</string>
+    <string name="compiled_for_debugging">Compilato per il debug</string>
     <string name="confirmation">Convalida</string>
     <string name="connecting">Connessione in corso…</string>
     <string name="contains_non_free_media">Contiene media non liberi</string>
@@ -184,7 +184,7 @@
     <string name="session_installer">Installatore di sessione</string>
     <string name="legacy_installer">Installatore legacy</string>
     <string name="root_installer">Installatore root</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_description">Periodo per controllare e rimuovere i file scaricati</string>
     <plurals name="days">
         <item quantity="one">Giorno</item>
         <item quantity="many">Giorni</item>
@@ -195,7 +195,7 @@
         <item quantity="many">Ore</item>
         <item quantity="other">Ore</item>
     </plurals>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">Intervallo di pulizia APK</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
     <string name="no_internet">Non hai connessione internet</string>
