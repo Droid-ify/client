@@ -183,8 +183,8 @@
     <string name="installer">Installateur</string>
     <string name="root_installer">Installateur racine</string>
     <string name="shizuku_installer">Installateur Shizuku</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Intervalle de nettoyage APK</string>
+    <string name="cleanup_description">Période de vérification et de suppression des fichiers téléchargés</string>
     <plurals name="days">
         <item quantity="one">Jour</item>
         <item quantity="many">Journées</item>
