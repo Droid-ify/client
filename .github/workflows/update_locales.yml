@@ -12,6 +12,8 @@ concurrency:
 jobs:
   create:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
     steps:
     - uses: actions/checkout@v2
     - name: Edit files
