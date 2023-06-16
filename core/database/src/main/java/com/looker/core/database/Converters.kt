@@ -5,7 +5,6 @@ import com.looker.core.database.model.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -60,7 +59,6 @@ class PackageEntityConverter {
 	fun entityToString(packageEntity: PackageEntity): String =
 		json.encodeToString(packageEntity)
 
-
 	@TypeConverter
 	fun stringToPackage(jsonString: String): PackageEntity =
 		json.decodeFromString(jsonString)
@@ -72,22 +70,6 @@ class PackageEntityConverter {
 	@TypeConverter
 	fun stringToPackageList(jsonString: String): List<PackageEntity> =
 		json.decodeFromString(packageListSerializer, jsonString)
-
-}
-
-class PermissionConverter {
-
-	@TypeConverter
-	fun stringToPermission(string: String): List<PermissionEntity> =
-		string.split(STRING_DELIMITER).map {
-			json.decodeFromString(PermissionEntity.serializer(), it)
-		}
-
-	@TypeConverter
-	fun permissionToString(permissionEntity: List<PermissionEntity>): String =
-		permissionEntity.joinToString(STRING_DELIMITER) {
-			json.encodeToString(PermissionEntity.serializer(), it)
-		}
 
 }
 

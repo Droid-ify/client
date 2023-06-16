@@ -1,6 +1,5 @@
 package com.looker.core.database
 
-import androidx.room.BuiltInTypeConverters
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -23,7 +22,6 @@ import com.looker.core.database.model.RepoEntity
 	CollectionConverter::class,
 	LocalizedConverter::class,
 	PackageEntityConverter::class,
-	PermissionConverter::class,
 	RepoConverter::class
 )
 abstract class DroidifyDatabase : RoomDatabase() {
