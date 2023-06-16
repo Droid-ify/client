@@ -1,44 +1,27 @@
 package com.looker.core.data.fdroid.sync
 
-import com.looker.core.database.model.RepoEntity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.channels.ReceiveChannel
-import java.util.jar.JarFile
+import com.looker.core.model.newer.Repo
+import org.fdroid.index.v1.IndexV1
+import org.fdroid.index.v2.Entry
+import org.fdroid.index.v2.IndexV2
 
 interface IndexDownloader {
 
-	fun CoroutineScope.processRepos(repos: ReceiveChannel<RepoEntity>, onDownload: onDownloadListener): Job
+	suspend fun downloadIndexV1(repo: Repo): IndexV1
 
-	suspend fun downloadIndexJar(repo: RepoEntity): RepoLocJar
+	suspend fun downloadIndexV2(repo: Repo): IndexV2
+
+	suspend fun downloadIndexDiff(repo: Repo, name: String): IndexV2
+
+	suspend fun downloadEntry(repo: Repo): Entry
+
+	suspend fun determineIndexType(repo: Repo): IndexType
 
 }
 
-internal typealias onDownloadListener = suspend (RepoEntity, JarFile) -> Unit
-
-data class RepoLocation(
-	val url: String,
-	val name: String,
-	val timestamp: Long,
-	val username: String,
-	val password: String,
-	val repo: RepoEntity
-)
-
-fun RepoEntity.toLocation() = RepoLocation(
-	url = address,
-	name = name["en-US"]!!,
-	timestamp = timestamp,
-	username = username,
-	password = password,
-	repo = this
-)
-
-fun RepoLocation.indexUrl(indexType: IndexType): String =
-	if (url.endsWith('/')) url + indexType.jarName
-	else "$url/${indexType.jarName}"
-
-data class RepoLocJar(
-	val repo: RepoLocation,
-	val jar: JarFile
-)
+fun Repo.indexUrl(parameter: String): String =
+	buildString {
+		append(address.removeSuffix("/"))
+		append("/")
+		append(parameter.removePrefix("/"))
+	}
