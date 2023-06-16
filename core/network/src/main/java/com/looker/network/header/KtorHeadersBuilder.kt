@@ -2,6 +2,8 @@ package com.looker.network.header
 
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.toJavaLocalDate
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

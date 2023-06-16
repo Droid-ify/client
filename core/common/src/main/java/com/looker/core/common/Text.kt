@@ -1,7 +1,7 @@
 package com.looker.core.common
 
 import android.util.Log
-import java.util.*
+import java.util.Locale
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
 	return if (isNullOrBlank()) null else this

@@ -3,7 +3,7 @@ package com.looker.core.common.extension
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
-import java.util.*
+import java.util.Locale
 
 fun Certificate.fingerprint(): String {
 	val encoded = try {

@@ -7,7 +7,7 @@ import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.os.Build
 import com.looker.core.common.SdkCheck
-import java.util.*
+import java.util.Locale
 
 object PackageItemResolver {
 	class LocalCache {
