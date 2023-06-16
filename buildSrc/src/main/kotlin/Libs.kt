@@ -18,7 +18,7 @@ object Coil {
 }
 
 private object Compose {
-	const val bom = "androidx.compose:compose-bom:2023.05.01"
+	const val bom = "androidx.compose:compose-bom:2023.06.00"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -81,7 +81,7 @@ object Kotlin {
 }
 
 private object Ktor {
-	private const val version = "2.3.0"
+	private const val version = "2.3.1"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 	const val logging = "io.ktor:ktor-client-logging:$version"
@@ -90,17 +90,17 @@ private object Ktor {
 private object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-	const val fragment = "androidx.fragment:fragment-ktx:1.5.7"
+	const val fragment = "androidx.fragment:fragment-ktx:1.6.0"
 	const val activity = "androidx.activity:activity-ktx:1.7.2"
 }
 
 object OkHttp {
-	private const val version = "5.0.0-alpha.10"
+	private const val version = "5.0.0-alpha.11"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
 }
 
 object Others {
-	const val libsu = "com.github.topjohnwu.libsu:core:5.0.5"
+	const val libsu = "com.github.topjohnwu.libsu:core:5.1.0"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
 	private const val shizukuVersion = "13.0.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
@@ -115,7 +115,7 @@ private object Room {
 }
 
 object SQLite {
-	private const val version = "2.3.0"
+	private const val version = "2.3.1"
 	const val ktx = "androidx.sqlite:sqlite-ktx:$version"
 }
 
@@ -127,8 +127,8 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.8.21"
-	const val ksp = "1.8.21-1.0.11"
+	const val kotlin = "1.8.22"
+	const val ksp = "1.8.22-1.0.11"
 }
 
 object Work {
