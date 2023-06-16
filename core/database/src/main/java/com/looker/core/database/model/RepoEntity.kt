@@ -27,7 +27,6 @@ data class RepoEntity(
 fun RepoEntity.update(repo: Repo) = copy(
 	username = repo.authentication.username,
 	password = repo.authentication.password,
-	etag = repo.versionInfo.etag,
 	timestamp = repo.versionInfo.timestamp,
 	enabled = repo.enabled,
 	mirrors = repo.mirrors,
@@ -42,7 +41,7 @@ fun RepoEntity.toExternal(locale: String): Repo = Repo(
 	description = description.localizedValue(locale) ?: "",
 	fingerprint = fingerprint,
 	authentication = Authentication(username, password),
-	versionInfo = VersionInfo(etag = etag, timestamp = timestamp),
+	versionInfo = VersionInfo(timestamp = timestamp),
 	mirrors = mirrors,
 	categories = categories.values.toCategoryList(locale),
 	antiFeatures = antiFeatures.values.toAntiFeatureList(locale)

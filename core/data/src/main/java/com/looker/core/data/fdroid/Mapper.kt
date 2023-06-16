@@ -4,7 +4,6 @@ import com.looker.core.database.model.*
 import org.fdroid.index.v2.PackageV2
 import org.fdroid.index.v2.PackageVersionV2
 import org.fdroid.index.v2.RepoV2
-import java.util.Locale.filter
 
 fun PackageV2.toEntity(packageName: String, repoId: Long, allowUnstable: Boolean = false): AppEntity =
 	AppEntity(
@@ -87,7 +86,6 @@ fun PackageVersionV2.toPackage(): PackageEntity = PackageEntity(
 fun RepoV2.toEntity(
 	id: Long,
 	fingerprint: String,
-	etag: String,
 	username: String,
 	password: String,
 	enabled: Boolean = true
@@ -100,7 +98,7 @@ fun RepoV2.toEntity(
 	name = name,
 	description = description,
 	timestamp = timestamp,
-	etag = etag,
+	etag = "",
 	username = username,
 	password = password,
 	antiFeatures = antiFeatures.mapValues {
