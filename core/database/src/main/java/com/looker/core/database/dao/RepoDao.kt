@@ -1,10 +1,8 @@
 package com.looker.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
+import androidx.room.Upsert
 import com.looker.core.database.model.RepoEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -17,11 +15,8 @@ interface RepoDao {
 	@Query(value = "SELECT * FROM repos WHERE id = :id")
 	suspend fun getRepoById(id: Long): RepoEntity
 
-	@Update
-	suspend fun updateRepo(repoEntity: RepoEntity)
-
-	@Insert(onConflict = OnConflictStrategy.REPLACE)
-	suspend fun insertRepo(repoEntity: RepoEntity)
+	@Upsert
+	suspend fun upsertRepo(repoEntity: RepoEntity)
 
 	@Query(
 		value = """

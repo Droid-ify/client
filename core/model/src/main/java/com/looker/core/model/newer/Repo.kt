@@ -12,7 +12,10 @@ data class Repo(
 	val mirrors: List<String>,
 	val antiFeatures: List<AntiFeature>,
 	val categories: List<Category>
-)
+) {
+	val shouldAuthenticate =
+		authentication.username.isNotEmpty() && authentication.password.isNotEmpty()
+}
 
 data class AntiFeature(
 	val name: String,
@@ -32,6 +35,5 @@ data class Authentication(
 )
 
 data class VersionInfo(
-	val etag: String,
 	val timestamp: Long
 )
