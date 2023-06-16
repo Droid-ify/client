@@ -30,7 +30,10 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
       
+    - name: Grant execution permission to Gradle Wrapper
+      run: chmod +x gradlew
+      
     - name: Test Droid-ify
-      uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
+      uses: gradle/gradle-build-action@v2
       with:
         arguments: test
