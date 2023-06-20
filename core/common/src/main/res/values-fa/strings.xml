@@ -68,8 +68,8 @@
     <string name="uninstall">لغونصب</string>
     <string name="waiting_to_start_download">منتظر شروع دانلود…</string>
     <string name="versions">نسخه‌ها</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">وقفه پاکسازی APK</string>
+    <string name="cleanup_description">دوره بررسی و حذف فایل های دانلود شده</string>
     <string name="has_security_vulnerabilities">دارای حفره‌های امنیتی</string>
     <string name="http_error_DESC">پاسخ نادرست از مرکز.</string>
     <string name="incompatible_versions">نسخه‌های ناسازگار</string>
