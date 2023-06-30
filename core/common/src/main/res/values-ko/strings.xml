@@ -10,7 +10,7 @@
     <string name="integrity_check_error_DESC">무결성을 확인할 수 없습니다.</string>
     <string name="favourites">즐겨찾기</string>
     <string name="io_error_DESC">특정 작업을 수행할 수 없습니다.</string>
-    <string name="launch">시작하다</string>
+    <string name="launch">열기</string>
     <string name="material_you">재료 당신</string>
     <string name="merging_FORMAT">%s 병합</string>
     <string name="never">절대</string>
@@ -24,7 +24,7 @@
     <string name="ignore_all_updates">모든 새 버전 무시</string>
     <string name="incompatible_platforms_DESC_FORMAT">%1$s 플랫폼이 지원되지 않습니다. 지원되는 플랫폼: %2$s.</string>
     <string name="incompatible_with_FORMAT">%s와 호환되지 않음</string>
-    <string name="install">설치하다</string>
+    <string name="install">설치</string>
     <string name="shizuku_installer">Shizuku 설치 프로그램</string>
     <string name="installed">설치됨</string>
     <string name="invalid_metadata_error_DESC">잘못된 메타데이터입니다.</string>
@@ -60,7 +60,7 @@
     <string name="no_internet">인터넷에 연결되어 있지 않습니다</string>
     <string name="new_updates_available">새로운 버전의 애플리케이션 사용 가능</string>
     <string name="no_description_available_DESC">가능한 설명이 없습니다</string>
-    <string name="no_matching_applications_found">해당 응용 프로그램을 찾을 수 없습니다</string>
+    <string name="no_matching_applications_found">지원하는 애플리케이션을 찾을 수 없습니다</string>
     <plurals name="days">
         <item quantity="other">날</item>
     </plurals>
@@ -68,11 +68,11 @@
     <string name="delete_repository_DESC">저장소를 삭제하시겠습니까\?</string>
     <string name="description">설명</string>
     <string name="details">세부</string>
-    <string name="donate">기부하다</string>
+    <string name="donate">기부</string>
     <string name="downloaded_FORMAT">다운로드됨 %s</string>
     <string name="allow_collapsing_toolbar">상단 앱 바 확장 허용</string>
     <string name="allow_collapsing_toolbar_DESC">상단 앱바 확장 및 축소 허용</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_description">다운로드한 파일을 확인하고 제거할 시간 간격</string>
     <string name="compiled_for_debugging">디버깅을 위해 컴파일됨</string>
     <string name="connecting">연결 중…</string>
     <string name="contains_non_free_media">비자유 미디어 포함</string>
@@ -85,7 +85,7 @@
     <string name="downloading_FORMAT">%s 다운로드 중…</string>
     <string name="author_email">작성자 이메일</string>
     <string name="author_website">작가 웹사이트</string>
-    <string name="available">탐구하다</string>
+    <string name="available">탐색</string>
     <string name="confirmation">확인</string>
     <string name="bug_tracker">버그 추적기</string>
     <string name="cancel">취소</string>
@@ -99,12 +99,12 @@
     <string name="amoled">검은색</string>
     <string name="anti_features">안티 기능</string>
     <string name="application">애플리케이션</string>
-    <string name="application_not_found">해당 응용 프로그램을 찾을 수 없습니다</string>
+    <string name="application_not_found">해당 애플리케이션을 찾을 수 없습니다</string>
     <string name="cant_edit_sync_DESC">지금 동기화 중이므로 저장소를 수정할 수 없습니다.</string>
     <string name="changelog">변경 로그</string>
     <string name="changes">변경 사항</string>
     <string name="checking_repository">저장소 확인 중…</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">APK 정리 간격</string>
     <string name="edit_repository">저장소 편집</string>
     <string name="file_format_error_DESC">잘못된 파일 형식입니다.</string>
     <string name="fingerprint">지문</string>
@@ -123,10 +123,10 @@
     <string name="source_code">소스 코드</string>
     <string name="source_code_no_longer_available">더 이상 사용할 수 없는 소스 코드</string>
     <string name="suggested">제안</string>
-    <string name="sync_repositories_automatically">자동으로 리포지토리 동기화</string>
+    <string name="sync_repositories_automatically">자동으로 저장소 동기화</string>
     <string name="syncing">동기화 중</string>
     <string name="tap_to_install_DESC">설치하려면 탭하세요.</string>
-    <string name="theme">주제</string>
+    <string name="theme">테마</string>
     <string name="themes">테마</string>
     <string name="tracks_or_reports_your_activity">활동을 추적하거나 보고합니다</string>
     <string name="unknown_error_DESC">알수없는 오류.</string>
@@ -137,7 +137,7 @@
     <string name="prefs_personalization">개인화</string>
     <string name="update_all">모두 업데이트</string>
     <string name="installed_applications">설치된 애플리케이션</string>
-    <string name="share">공유하다</string>
+    <string name="share">공유</string>
     <string name="show_older_versions">이전 버전 표시</string>
     <string name="sorting_order">정렬 순서</string>
     <string name="unknown">알려지지 않은</string>
@@ -148,7 +148,7 @@
     <string name="new_applications">새로운 애플리케이션</string>
     <string name="ok">좋아요</string>
     <string name="only_on_wifi_with_charging">Wi-Fi 및 충전 중일 때만</string>
-    <string name="save">구하다</string>
+    <string name="save">저장</string>
     <string name="screenshots">스크린샷</string>
     <string name="search">찾다</string>
     <string name="select_mirror">미러 선택</string>
@@ -194,10 +194,10 @@
     <string name="password_missing">비밀번호 누락</string>
     <string name="proxy">대리</string>
     <string name="syncing_FORMAT">%s 동기화 중…</string>
-    <string name="repository_unsigned_DESC">서명되지 않았습니다. 애플리케이션 목록을 확인할 수 없습니다. 서명되지 않은 리포지토리에서 애플리케이션을 다운로드할 때는 주의하십시오.</string>
-    <string name="sync_repositories">리포지토리 동기화</string>
-    <string name="system">체계</string>
-    <string name="explore">탐구하다</string>
+    <string name="repository_unsigned_DESC">서명되지 않았습니다. 애플리케이션 목록을 확인할 수 없습니다. 서명되지 않은 저장소에서 애플리케이션을 다운로드할 때는 주의하십시오.</string>
+    <string name="sync_repositories">저장소 동기화</string>
+    <string name="system">시스템</string>
+    <string name="explore">탐색</string>
     <string name="parsing_index_error_DESC">색인 파일을 구문 분석할 수 없습니다.</string>
     <string name="password">비밀번호</string>
     <string name="permissions">권한</string>
