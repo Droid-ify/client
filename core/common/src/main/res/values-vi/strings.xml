@@ -82,7 +82,7 @@
     <string name="username_missing">Tên người dùng bị thiếu</string>
     <string name="version_FORMAT">Phiên bản %s</string>
     <string name="versions">Phiên bản</string>
-    <string name="action_failed">Thất bại</string>
+    <string name="action_failed">Hành động thất bại</string>
     <string name="cancel">Hủy</string>
     <string name="has_non_free_dependencies">Phụ thuộc cái không tự do</string>
     <string name="website">Trang web</string>
@@ -93,7 +93,7 @@
     <string name="sort_filter">Sắp xếp &amp; Lọc</string>
     <string name="new_applications">Ứng dụng mới</string>
     <string name="cant_edit_sync_DESC">Không thể chỉnh sửa kho khi đang đồng bộ.</string>
-    <string name="add_repository">Thêm repository</string>
+    <string name="add_repository">Thêm kho lưu trữ</string>
     <string name="application_not_found">Không tìm thấy ứng dụng</string>
     <string name="details">Chi tiết</string>
     <string name="always">Luôn luôn</string>
@@ -176,8 +176,8 @@
     <string name="waiting_to_start_download">Chờ để tải về…</string>
     <string name="show_less">Ẩn bớt</string>
     <string name="all_applications">Tất cả ứng dụng</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Khoảng thời gian dọn dẹp APK</string>
+    <string name="cleanup_description">Khoảng thời gian kiểm tra và xóa các tệp đã tải xuống</string>
     <plurals name="days">
         <item quantity="other">Ngày</item>
     </plurals>
@@ -194,7 +194,7 @@
     <string name="shizuku_installer">Trình cài đặt Shizuku</string>
     <string name="no_internet">Bạn không có kết nối internet</string>
     <string name="only_on_wifi_with_charging">Chỉ trên wifi và sạc</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Vật liệu bạn</string>
     <string name="material_you_desc">Sử dụng chủ đề màu material you</string>
     <string name="auto_update">Tự động cập nhật ứng dụng</string>
     <string name="auto_update_apps">Cố gắng cài đặt các bản cập nhật tự động</string>
