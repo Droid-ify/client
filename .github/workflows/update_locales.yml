@@ -17,6 +17,8 @@ jobs:
       issues: write
     steps:
     - uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.GH_TOKEN }}
     - name: Edit files
       run: |
         python3 .github/locales.py
