@@ -13,21 +13,14 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.systemBarsMargin
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.extension.*
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -112,19 +105,17 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 			}
 		}
 
-		val scrollListener = object : RecyclerView.OnScrollListener() {
-			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-				val position = (recyclerView.layoutManager as LinearLayoutManager)
-					.findFirstVisibleItemPosition()
-				if (!source.updateAll) {
+		viewLifecycleOwner.lifecycleScope.launch {
+			recyclerView.firstItemVisible
+				// Don't observe on `Updates` Page
+				.filterNot { source.updateAll }
+				.collectLatest { showFab ->
 					fab.animate()
-						.alpha(if (position != 0) 1f else 0f)
+						.alpha(if (!showFab) 1f else 0f)
 						.setDuration(shortAnimationDuration.toLong())
 						.setListener(null)
 				}
-			}
 		}
-		recyclerView.addOnScrollListener(scrollListener)
 		return binding.root
 	}
 
@@ -156,6 +147,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 					cursor == null -> ""
 					viewModel.searchQuery.first()
 						.isNotEmpty() -> getString(stringRes.no_matching_applications_found)
+
 					else -> when (source) {
 						Source.AVAILABLE -> getString(stringRes.no_applications_available)
 						Source.INSTALLED -> getString(stringRes.no_applications_installed)
