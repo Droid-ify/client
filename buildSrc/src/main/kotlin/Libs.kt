@@ -89,7 +89,7 @@ object Navigation {
 }
 
 object OkHttp {
-	private const val version = "5.0.0-alpha.10"
+	private const val version = "5.0.0-alpha.11"
 	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
 }
 
