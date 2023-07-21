@@ -78,7 +78,7 @@ object Lifecycle {
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 
 	const val fragment = "androidx.fragment:fragment-ktx:1.5.5"
-	const val activity = "androidx.activity:activity-ktx:1.7.0-rc01"
+	const val activity = "androidx.activity:activity-ktx:1.7.2"
 }
 
 object Navigation {
