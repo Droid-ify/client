@@ -9,7 +9,7 @@ object AndroidX {
 }
 
 object Core {
-	private const val coreVersion = "1.10.0-rc01"
+	private const val coreVersion = "1.10.1"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
