@@ -1,7 +1,7 @@
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 
-	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
+	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.3"
 
 	const val preference = "androidx.preference:preference-ktx:1.2.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
