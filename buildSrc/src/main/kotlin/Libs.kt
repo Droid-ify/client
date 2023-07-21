@@ -109,7 +109,7 @@ object Room {
 }
 
 object SQLite {
-	private const val version = "2.3.0"
+	private const val version = "2.3.1"
 	const val ktx = "androidx.sqlite:sqlite-ktx:$version"
 }
 
