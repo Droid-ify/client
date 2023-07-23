@@ -21,11 +21,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.model.InstalledItem
-import com.looker.core.model.Product
-import com.looker.core.model.ProductPreference
-import com.looker.core.model.Release
-import com.looker.core.model.Repository
+import com.looker.core.model.*
 import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -39,18 +35,9 @@ import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.android.getApplicationInfoCompat
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.Installer
-import com.looker.installer.InstallerQueueState
-import com.looker.installer.model.InstallState
-import com.looker.installer.model.installFrom
+import com.looker.installer.model.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
@@ -344,11 +331,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private fun updateInstallState(installerState: InstallerQueueState) {
-		val status = if (
-			packageName == installerState.currentItem.installedItem.packageName.name
-			&& installerState.currentItem.state == InstallState.Installing
-		) AppDetailAdapter.Status.Installing
-		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
+		val status = if (packageName isInstalling installerState) AppDetailAdapter.Status.Installing
+		else if (packageName isQueuedIn installerState) AppDetailAdapter.Status.PendingInstall
 		else AppDetailAdapter.Status.Idle
 		val installing = status != AppDetailAdapter.Status.Idle
 		if (this.installing != installing) {
