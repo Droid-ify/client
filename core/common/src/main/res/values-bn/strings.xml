@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">এপিকে পরিষ্কারকরণ বিরতি</string>
     <string name="confirmation">নিশ্চিতকরণ</string>
     <string name="connecting">সংযোগ দেওয়া হচ্ছে…</string>
     <string name="contains_non_free_media">বিনামূল্য নয় এমন ছবি/অডিও/ভিডিও রয়েছে</string>
@@ -60,7 +60,7 @@
     <string name="delete_repository_DESC">রিপোজিটরি ডিলিট করতে চান\?</string>
     <string name="edit_repository">রিপোজিটরি সম্পাদনা করুন</string>
     <string name="ignore_this_update">এই সংস্করণটি অগ্রাহ্য করো</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_description">ডাউনলোড করা নথিগুলো পরীক্ষা এবং অপসারণের সময়কাল</string>
     <string name="compiled_for_debugging">ডিবাগিংয়ের জন্য কম্পাইল করা হয়েছে</string>
     <string name="bug_tracker">বাগ ট্র্যাকার</string>
     <string name="incompatible_signature_DESC">এই সংস্করণটি আপনার ডিভাইসে ইনস্টল করা একটি থেকে একটি ভিন্ন শংসাপত্রের সাথে স্বাক্ষরিত৷ প্রথমে এটি আনইনস্টল করুন।</string>
@@ -192,8 +192,8 @@
     <string name="explore">অন্বেষণ</string>
     <string name="syncing_FORMAT">%s সিঙ্ক হচ্ছে…</string>
     <string name="whats_new">নতুন কি</string>
-    <string name="themes">থিম</string>
-    <string name="theme">থিম</string>
+    <string name="themes">রঙ</string>
+    <string name="theme">রঙ</string>
     <string name="version">সংস্করণ</string>
     <string name="update_all">সব আপডেট</string>
     <string name="updates">আপডেট</string>
