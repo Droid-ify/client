@@ -4,6 +4,7 @@ import android.content.Context
 import com.looker.core.common.Constants
 import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.InstallerType
@@ -72,33 +73,25 @@ class Installer(
 	}
 
 	private fun CoroutineScope.installer() = launch {
-		val requested = mutableSetOf<String>()
+		val currentQueue = mutableSetOf<String>()
 		filter(installItems) { item ->
-			val isAdded = requested.add(item.packageName.name)
+			val isAdded = lock.withLock { currentQueue.add(item.packageName.name) }
 			if (isAdded) {
 				installQueue.update {
-					val newSet = it.toMutableSet()
-					newSet.add(item.packageName.name)
-					newSet
+					it.updateAsMutable { add(item.packageName.name) }
 				}
 			}
 			isAdded
 		}.consumeEach { item ->
 			installQueue.update {
-				val newSet = it.toMutableSet()
-				newSet.remove(item.packageName.name)
-				newSet
+				it.updateAsMutable { remove(item.packageName.name) }
 			}
 			installState.emit(item statesTo InstallState.Installing)
 			val success = withTimeoutOrNull(20_000) {
 				baseInstaller.performInstall(item)
-			}
-			if (success == null) {
-				installState.emit(item statesTo InstallState.Failed)
-			} else {
-				installState.emit(item statesTo success)
-			}
-			requested.remove(item.packageName.name)
+			} ?: InstallState.Failed
+			installState.emit(item statesTo success)
+			lock.withLock { currentQueue.remove(item.packageName.name) }
 			context.notificationManager.cancel(
 				"download-${item.packageName.name}",
 				Constants.NOTIFICATION_ID_DOWNLOADING
@@ -121,14 +114,5 @@ class Installer(
 				InstallerType.ROOT -> RootInstaller(context)
 			}
 		}
-	}
-}
-
-data class InstallerQueueState(
-	val currentItem: InstallItemState,
-	val queued: Set<String>
-) {
-	companion object {
-		val EMPTY = InstallerQueueState(InstallItemState.EMPTY, emptySet())
 	}
 }

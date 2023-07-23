@@ -3,7 +3,7 @@ package com.looker.droidify.ui.app_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.installer.Installer
-import com.looker.installer.InstallerQueueState
+import com.looker.installer.model.InstallerQueueState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
