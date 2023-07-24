@@ -51,7 +51,7 @@
     <string name="available">探索</string>
     <string name="bug_tracker">Bug 追蹤器</string>
     <string name="cancel">取消</string>
-    <string name="cant_edit_sync_DESC">無法編輯在正在同步的儲存庫。</string>
+    <string name="cant_edit_sync_DESC">無法編輯正在同步的儲存庫。</string>
     <string name="changelog">更新日誌</string>
     <string name="changes">更新內容</string>
     <string name="checking_repository">檢查儲存庫……</string>
@@ -92,8 +92,8 @@
     <string name="invalid_permissions_error_DESC">權限無效。</string>
     <string name="invalid_username_format">使用者名稱格式無效</string>
     <string name="launch">啟動</string>
-    <string name="license">許可證</string>
-    <string name="license_FORMAT">許可證 %s</string>
+    <string name="license">授權</string>
+    <string name="license_FORMAT">%s 授權</string>
     <string name="light">亮色</string>
     <string name="link_copied_to_clipboard">連結已複製到剪貼簿</string>
     <string name="links">連結</string>
