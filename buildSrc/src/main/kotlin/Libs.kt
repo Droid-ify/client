@@ -19,7 +19,7 @@ object Coil {
 }
 
 object Coroutines {
-	private const val coroutinesVersion = "1.7.0-Beta"
+	private const val coroutinesVersion = "1.7.3"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
