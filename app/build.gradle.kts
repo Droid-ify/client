@@ -22,6 +22,7 @@ android {
 			/* locale list begin */
 			"ar",
 			"az",
+			"be",
 			"bg",
 			"bn",
 			"ca",
