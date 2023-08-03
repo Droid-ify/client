@@ -1,2 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_failed">Не атрымалася выканаць дзеянне</string>
+    <string name="allow_collapsing_toolbar">Дазволіць верхняй панэлі праграм пашырацца</string>
+    <string name="application_not_found">Не ўдалося знайсці гэтую праграму</string>
+    <string name="author_website">Сайт аўтара</string>
+    <string name="auto_update">Аўтаматычнае абнаўленне праграм</string>
+    <string name="add_repository">Дадаць рэпазітар</string>
+    <string name="address">Адрас</string>
+    <string name="all_applications">Усе праграмы</string>
+    <string name="allow_collapsing_toolbar_DESC">Дазволіць верхнюю панэль праграмы пашыраць і згортваць</string>
+    <string name="already_exists">Ужо існуе</string>
+    <string name="always">Заўсёды</string>
+    <string name="amoled">Чорная</string>
+    <string name="anti_features">Антыфункцыі</string>
+    <string name="application">Праграма</string>
+    <string name="author_email">Электронная пошта аўтара</string>
+    <string name="auto_update_apps">Аўтаматычна ўсталёўваць абнаўленні</string>
+    <string name="available">Агляд</string>
+    <string name="bug_tracker">Адсочванне памылак</string>
+    <string name="cancel">Адмяніць</string>
+    <string name="all_applications_up_to_date">Усе вашыя праграмы абноўлены</string>
+</resources>
