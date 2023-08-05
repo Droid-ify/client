@@ -126,6 +126,6 @@ object Version {
 }
 
 object Work {
-	private const val version = "2.7.1"
+	private const val version = "2.8.1"
 	const val manager = "androidx.work:work-runtime-ktx:$version"
 }
