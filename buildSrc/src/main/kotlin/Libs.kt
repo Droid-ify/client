@@ -72,7 +72,7 @@ object Ktor {
 }
 
 object Lifecycle {
-	private const val lifecycleVersion = "2.6.0"
+	private const val lifecycleVersion = "2.6.1"
 	const val runtime = "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
 	const val livedata = "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
