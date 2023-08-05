@@ -116,3 +116,12 @@ class InstallManager(
 		}
 	}
 }
+
+data class InstallerQueueState(
+	val currentItem: InstallItemState,
+	val queued: Set<String>
+) {
+	companion object {
+		val EMPTY = InstallerQueueState(InstallItemState.EMPTY, emptySet())
+	}
+}

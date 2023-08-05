@@ -313,6 +313,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		updateToolbarButtons()
 	}
 
+	private fun updateToolbarTitle() {
+		val showPackageName =
+			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
+		toolbar.title =
+			if (showPackageName) products[0].first.name
+			else getString(stringRes.application)
+	}
+
 	private fun updateToolbarButtons() {
 		val (actions, primaryAction) = actions
 		val showPrimaryAction =
