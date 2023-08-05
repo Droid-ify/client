@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-class Installer(
+class InstallManager(
 	private val context: Context,
 	userPreferencesRepository: UserPreferencesRepository
 ) {
@@ -29,12 +29,12 @@ class Installer(
 	private val installState = MutableStateFlow(InstallItemState.EMPTY)
 	private val installQueue = MutableStateFlow(emptySet<String>())
 
-	private var _baseInstaller: BaseInstaller? = null
+	private var _installer: Installer? = null
 		set(value) {
 			field?.cleanup()
 			field = value
 		}
-	private val baseInstaller: BaseInstaller get() = _baseInstaller!!
+	private val installer: Installer get() = _installer!!
 
 	private val lock = Mutex()
 	private val installerPreference = userPreferencesRepository
@@ -48,7 +48,7 @@ class Installer(
 	}
 
 	fun close() {
-		_baseInstaller = null
+		_installer = null
 		uninstallItems.close()
 		installItems.close()
 	}
@@ -88,7 +88,7 @@ class Installer(
 			}
 			installState.emit(item statesTo InstallState.Installing)
 			val success = withTimeoutOrNull(20_000) {
-				baseInstaller.performInstall(item)
+				installer.install(item)
 			} ?: InstallState.Failed
 			installState.emit(item statesTo success)
 			lock.withLock { currentQueue.remove(item.packageName.name) }
@@ -101,18 +101,27 @@ class Installer(
 
 	private fun CoroutineScope.uninstaller() = launch {
 		uninstallItems.consumeEach {
-			baseInstaller.performUninstall(it)
+			installer.uninstall(it)
 		}
 	}
 
 	private suspend fun setInstaller(installerType: InstallerType) {
 		lock.withLock {
-			_baseInstaller = when (installerType) {
+			_installer = when (installerType) {
 				InstallerType.LEGACY -> LegacyInstaller(context)
 				InstallerType.SESSION -> SessionInstaller(context)
 				InstallerType.SHIZUKU -> ShizukuInstaller(context)
 				InstallerType.ROOT -> RootInstaller(context)
 			}
 		}
+	}
+}
+
+data class InstallerQueueState(
+	val currentItem: InstallItemState,
+	val queued: Set<String>
+) {
+	companion object {
+		val EMPTY = InstallerQueueState(InstallItemState.EMPTY, emptySet())
 	}
 }

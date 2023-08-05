@@ -2,7 +2,7 @@ package com.looker.droidify.ui.app_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.installer.Installer
+import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallerQueueState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
-	installer: Installer
-) : ViewModel(){
+	installer: InstallManager
+) : ViewModel() {
 
 	val installerState = installer.getStatus().stateIn(
 		scope = viewModelScope,

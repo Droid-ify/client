@@ -13,13 +13,13 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
-internal class LegacyInstaller(private val context: Context) : BaseInstaller {
+internal class LegacyInstaller(private val context: Context) : Installer {
 
 	companion object {
 		private const val APK_MIME = "application/vnd.android.package-archive"
 	}
 
-	override suspend fun performInstall(
+	override suspend fun install(
 		installItem: InstallItem
 	): InstallState = suspendCancellableCoroutine { cont ->
 		val (uri, flags) = if (SdkCheck.isNougat) {
@@ -46,7 +46,7 @@ internal class LegacyInstaller(private val context: Context) : BaseInstaller {
 		}
 	}
 
-	override suspend fun performUninstall(packageName: PackageName) =
+	override suspend fun uninstall(packageName: PackageName) =
 		context.uninstallPackage(packageName)
 
 	override fun cleanup() {}

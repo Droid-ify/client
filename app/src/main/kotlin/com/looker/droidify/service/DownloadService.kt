@@ -19,7 +19,7 @@ import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
-import com.looker.installer.Installer
+import com.looker.installer.InstallManager
 import com.looker.installer.model.installFrom
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
@@ -53,7 +53,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	@Inject
-	lateinit var installer: Installer
+	lateinit var installer: InstallManager
 
 	sealed class State(val packageName: String) {
 		object Idle : State("")

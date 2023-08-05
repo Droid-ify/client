@@ -61,11 +61,11 @@ private object FDroid {
 }
 
 object Hilt {
-	const val version = "2.46.1"
+	const val version = "2.47"
 	const val android = "com.google.dagger:hilt-android:$version"
 
 	const val compiler = "com.google.dagger:hilt-compiler:$version"
-	const val plugin = "dagger.hilt.android.plugin"
+	const val plugin = "com.google.dagger.hilt.android"
 	private const val androidXHilt = "1.0.0"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
@@ -76,6 +76,7 @@ object Jackson {
 }
 
 object Kotlin {
+	const val version = "1.9.0"
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
@@ -126,9 +127,9 @@ object Test {
 	const val espresso = "androidx.test.espresso:espresso-core:3.5.1"
 }
 
-object Version {
-	const val kotlin = "1.8.22"
-	const val ksp = "1.8.22-1.0.11"
+object Ksp {
+	const val version = "${Kotlin.version}-1.0.12"
+	const val plugin = "com.google.devtools.ksp"
 }
 
 object Work {

@@ -13,4 +13,4 @@ infix fun String.isQueuedIn(state: InstallerQueueState): Boolean = this in state
 
 infix fun String.isInstalling(state: InstallerQueueState): Boolean =
 	this == state.currentItem.installedItem.packageName.name
-			&& state.currentItem.state is InstallState.Installing
+			&& state.currentItem.state == InstallState.Installing

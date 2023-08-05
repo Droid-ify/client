@@ -34,7 +34,7 @@ import com.looker.droidify.ui.repository.RepositoriesFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabs_fragment.TabsFragment
-import com.looker.installer.Installer
+import com.looker.installer.InstallManager
 import com.looker.installer.model.installFrom
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -60,7 +60,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 		registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
 	@Inject
-	lateinit var installer: Installer
+	lateinit var installer: InstallManager
 
 	private class FragmentStackItem(
 		val className: String, val arguments: Bundle?,
