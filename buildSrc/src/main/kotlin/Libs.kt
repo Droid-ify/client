@@ -121,7 +121,7 @@ object Test {
 }
 
 object Version {
-	const val kotlin = "1.8.20"
+	const val kotlin = "1.9.0"
 	const val ksp = "1.8.20-1.0.10"
 }
 
