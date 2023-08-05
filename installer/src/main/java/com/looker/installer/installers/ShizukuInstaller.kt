@@ -13,13 +13,13 @@ import java.io.InputStream
 import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
-internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
+internal class ShizukuInstaller(private val context: Context) : Installer {
 
 	companion object {
 		private val SESSION_ID_REGEX = Regex("(?<=\\[).+?(?=])")
 	}
 
-	override suspend fun performInstall(
+	override suspend fun install(
 		installItem: InstallItem
 	): InstallState = suspendCancellableCoroutine { cont ->
 		var sessionId: String? = null
@@ -67,7 +67,7 @@ internal class ShizukuInstaller(private val context: Context) : BaseInstaller {
 		}
 	}
 
-	override suspend fun performUninstall(packageName: PackageName) =
+	override suspend fun uninstall(packageName: PackageName) =
 		context.uninstallPackage(packageName)
 
 	override fun cleanup() {}

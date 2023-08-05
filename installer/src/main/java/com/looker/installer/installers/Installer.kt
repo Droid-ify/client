@@ -4,11 +4,11 @@ import com.looker.core.model.newer.PackageName
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 
-interface BaseInstaller {
+interface Installer {
 
-	suspend fun performInstall(installItem: InstallItem): InstallState
+	suspend fun install(installItem: InstallItem): InstallState
 
-	suspend fun performUninstall(packageName: PackageName)
+	suspend fun uninstall(packageName: PackageName)
 
 	fun cleanup()
 

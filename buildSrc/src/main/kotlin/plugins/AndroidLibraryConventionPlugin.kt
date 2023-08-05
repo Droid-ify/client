@@ -12,7 +12,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 			}
 
 			dependencies {
-				add("implementation", kotlin("stdlib"))
+				add("implementation", platform("org.jetbrains.kotlin:kotlin-bom:${Kotlin.version}"))
 			}
 		}
 	}

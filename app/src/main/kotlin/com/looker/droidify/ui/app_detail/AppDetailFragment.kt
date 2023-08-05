@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.looker.core.common.extension.firstItemVisible
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.*
@@ -34,7 +35,7 @@ import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.android.getApplicationInfoCompat
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.installer.Installer
+import com.looker.installer.InstallManager
 import com.looker.installer.model.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
@@ -77,7 +78,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		get() = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
 
 	@Inject
-	lateinit var installer: Installer
+	lateinit var installer: InstallManager
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
@@ -131,7 +132,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			val adapter = AppDetailAdapter(this@AppDetailFragment)
 			this.adapter = adapter
 			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-			addOnScrollListener(scrollListener)
 			savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
 				?.let(adapter::restoreState)
 			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
@@ -226,6 +226,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				launch {
 					viewModel.installerState.collect { updateInstallState(it) }
 				}
+				launch {
+					recyclerView?.firstItemVisible?.collect { isFirstItemVisible ->
+						updateToolbarButtons()
+						toolbar.title = if (!isFirstItemVisible) products[0].first.name
+						else getString(stringRes.application)
+					}
+				}
 			}
 		}
 
@@ -306,14 +313,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		updateToolbarButtons()
 	}
 
-	private fun updateToolbarTitle() {
-		val showPackageName =
-			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
-		toolbar.title =
-			if (showPackageName) products[0].first.name
-			else getString(stringRes.application)
-	}
-
 	private fun updateToolbarButtons() {
 		val (actions, primaryAction) = actions
 		val showPrimaryAction =
@@ -362,21 +361,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			if (state is DownloadService.State.Success && isResumed) {
 				val installItem = packageName installFrom state.release.cacheFileName
 				installer + installItem
-			}
-		}
-	}
-
-	private val scrollListener = object : RecyclerView.OnScrollListener() {
-		private var lastPosition = -1
-
-		override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-			val position =
-				(recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-			val lastPosition = lastPosition
-			this.lastPosition = position
-			if ((lastPosition == 0) != (position == 0)) {
-				updateToolbarTitle()
-				updateToolbarButtons()
 			}
 		}
 	}
