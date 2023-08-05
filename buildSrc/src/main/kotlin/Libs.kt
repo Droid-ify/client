@@ -122,7 +122,7 @@ object Test {
 
 object Version {
 	const val kotlin = "1.8.20"
-	const val ksp = "1.8.20-1.0.10"
+	const val ksp = "1.9.0-1.0.13"
 }
 
 object Work {
