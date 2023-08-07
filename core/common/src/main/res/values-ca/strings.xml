@@ -15,8 +15,8 @@
     <string name="cant_edit_sync_DESC">No pot editar el repositori des d\'ell perquè està sincronitzant ara mateix.</string>
     <string name="changes">Canvis</string>
     <string name="checking_repository">Comprovant repositori…</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Interval de neteja de l\'APK</string>
+    <string name="cleanup_description">Període per comprovar i eliminar els fitxers descarregats</string>
     <string name="compiled_for_debugging">Compilat per a depuració</string>
     <string name="confirmation">Confirmació</string>
     <string name="connecting">Connectant…</string>
