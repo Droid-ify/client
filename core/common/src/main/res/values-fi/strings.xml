@@ -182,7 +182,7 @@
     <string name="session_installer">Sessioasentaja</string>
     <string name="root_installer">Root-asentaja</string>
     <string name="shizuku_installer">Shizuku-asentaja</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">APK:n puhdistusväli</string>
     <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="one">Päivä</item>
