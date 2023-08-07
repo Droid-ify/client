@@ -69,7 +69,7 @@
     <string name="incompatible_versions">Nem kompatibilis verziók</string>
     <string name="incompatible_versions_summary">Az eszközzel nem kompatibilis alkalmazásverziók megjelenítése</string>
     <string name="incompatible_with_FORMAT">Nem kompatibilis ezzel: %s</string>
-    <string name="install">Telepítés</string>
+    <string name="install">Telepítse</string>
     <string name="installed">Telepített</string>
     <string name="integrity_check_error_DESC">Az épségének ellenőrzése sikertelen.</string>
     <string name="invalid_address">Érvénytelen cím</string>
@@ -183,8 +183,8 @@
     <string name="root_installer">Gyökér telepítő</string>
     <string name="shizuku_installer">Shizuku telepítő</string>
     <string name="latest">Legújabb</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">APK tisztító törlés időköze</string>
+    <string name="cleanup_description">Letöltött fájlok ellenőrzésének és törlésének időköze</string>
     <plurals name="hours">
         <item quantity="one">Óra</item>
         <item quantity="other">Órák</item>
@@ -198,7 +198,7 @@
     <string name="allow_collapsing_toolbar_DESC">Felső alkalmazássáv kibontása és összecsukása</string>
     <string name="no_internet">Nincs internet-hozzáférés</string>
     <string name="auto_update_apps">Próbáljon automatikusan telepíteni a frissítéseket</string>
-    <string name="installing">Telepítés</string>
+    <string name="installing">Telepítés folyamatba</string>
     <string name="restart_app">Indítsa újra a Droid -ify-t a változások megtekintéséhez</string>
     <string name="waiting_to_start_installation">Várakozás a telepítés megkezdésére …</string>
     <string name="favourites">Kedvencek</string>
