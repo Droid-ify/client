@@ -130,7 +130,7 @@
     <string name="username_missing">Manjka uporabniško ime</string>
     <string name="edit_repository">Uredi skladišče</string>
     <string name="file_format_error_DESC">Neveljavna oblika datoteke.</string>
-    <string name="downloading_FORMAT">Prenašanje %s ...</string>
+    <string name="downloading_FORMAT">Prenašanje %s …</string>
     <string name="incompatible_with_FORMAT">Nezdružljivo z %s</string>
     <string name="incompatible_versions">Nezdružljive verzije</string>
     <string name="invalid_address">Neveljaven naslov</string>
@@ -159,6 +159,8 @@
     <string name="no_applications_available">Na voljo ni nobenih aplikacij</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">Aplikacija %d ima nove posodobitev.</item>
+        <item quantity="two">Aplikaciji %d imata nove posodobitev.</item>
+        <item quantity="few">Aplikacije %d imajo nove posodobitve.</item>
         <item quantity="other">Aplikacije %d imajo nove posodobitve.</item>
     </plurals>
     <string name="signed_using_unsafe_algorithm">Podpisano z nevarnim algoritmom</string>
@@ -179,10 +181,14 @@
     <string name="new_applications">Nove aplikacije</string>
     <plurals name="days">
         <item quantity="one">Dan</item>
+        <item quantity="two">Dneva</item>
+        <item quantity="few">Dni</item>
         <item quantity="other">Dni</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Ura</item>
+        <item quantity="two">Uri</item>
+        <item quantity="few">Ure</item>
         <item quantity="other">Ur</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Samo med polnjenjem in aktiviranim Wi-Fi-jem</string>
