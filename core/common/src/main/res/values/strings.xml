@@ -56,6 +56,7 @@
     <string name="force_clean_up_DESC">Cleans up redundant files</string>
     <string name="has_advertising">Has advertising</string>
     <string name="has_non_free_dependencies">Has non-free dependencies</string>
+    <string name="has_non_free_components">Has non-free components</string>
     <string name="has_security_vulnerabilities">Has security vulnerabilities</string>
     <plurals name="hours">
         <item quantity="one">Hour</item>
