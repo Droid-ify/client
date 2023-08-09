@@ -212,4 +212,5 @@
     <string name="installing">Instalace</string>
     <string name="auto_update">Automatická aktualizace aplikací</string>
     <string name="auto_update_apps">Pokusit se automaticky nainstalovat aktualizace</string>
+    <string name="has_non_free_components">Obsahuje nesvobodné součásti</string>
 </resources>
