@@ -221,4 +221,5 @@
     <string name="waiting_to_start_installation">في انتظار بدء التثبيت…</string>
     <string name="auto_update">حدِّث التطبيقات تلقائيًّا</string>
     <string name="auto_update_apps">حاول تثبيت التحديثات تلقائيًّا</string>
+    <string name="has_non_free_components">يحتوي على مكونات غير حرة</string>
 </resources>
