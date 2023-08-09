@@ -24,12 +24,11 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 		url: String,
 		headers: HeadersBuilder.() -> Unit
 	): NetworkResponse {
-		val headRequest = request {
-			url(url)
-			headers {
-				KtorHeadersBuilder(this).headers()
-			}
-		}
+		val headRequest = createRequest(
+			url = url,
+			headers = headers,
+			block = null
+		)
 		val status = client.head(headRequest).status
 		return status.toNetworkResponse()
 	}
@@ -41,10 +40,16 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 		block: ProgressListener?
 	): NetworkResponse {
 		return try {
-			val request = createRequest(url, target.size, headers, block)
+			val request = createRequest(
+				url = url,
+				headers = {
+					target.size?.let { inRange(it) }
+					headers()
+				},
+				block = block
+			)
 			client.prepareGet(request).execute { response ->
-				val channel = response.bodyAsChannel()
-				channel.saveToFile(target)
+				response.bodyAsChannel() saveTo target
 				response.status.toNetworkResponse()
 			}
 		} catch (e: Exception) {
@@ -55,23 +60,19 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 
 	private fun createRequest(
 		url: String,
-		fileLength: Long?,
 		headers: HeadersBuilder.() -> Unit,
 		block: ProgressListener?
 	) = request {
 		url(url)
 		headers {
-			val headerBuilder = KtorHeadersBuilder(this)
-			with(headerBuilder) {
-				if (fileLength != null) inRange(fileLength)
-				headers()
-			}
+			KtorHeadersBuilder(this).headers()
 		}
 		onDownload(block)
 	}
 
-	private suspend fun ByteReadChannel.saveToFile(target: File) {
+	private suspend infix fun ByteReadChannel.saveTo(target: File) {
 		while (!isClosedForRead) {
+			yield()
 			val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
 			packet.appendTo(target)
 		}

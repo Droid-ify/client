@@ -27,10 +27,8 @@ fun Long.formatSize(): String {
 	return sizeFormats[index].format(Locale.US, size)
 }
 
-fun ByteArray.hex(): String = buildString {
-	this@hex.forEach { byte ->
-		append("%02x".format(Locale.US, byte.toInt() and 0xff))
-	}
+fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
+	"%02x".format(Locale.US, byte.toInt() and 0xff)
 }
 
 fun Any.log(message: Any) {

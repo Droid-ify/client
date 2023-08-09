@@ -349,7 +349,7 @@ object RepositoryUpdater {
 							}
 						}
 						val fingerprintFromJar = certificateFromJar.fingerprint()
-						fingerprintFromJar
+						fingerprintFromJar.uppercase()
 					}
 
 					val commitRepository = if (workRepository.fingerprint != fingerprint) {

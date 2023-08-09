@@ -12,6 +12,8 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
+import com.looker.core.common.signature.SHA256
+import com.looker.core.common.signature.verifyHash
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
@@ -316,33 +318,21 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		task: Task,
 		file: File
 	): ValidationError? = withContext(Dispatchers.IO) {
-		val hash = try {
-			val hashType = task.release.hashType.ifEmpty { "SHA256" }
-			val digest = MessageDigest.getInstance(hashType)
-			file.inputStream().use {
-				val bytes = ByteArray(8 * 1024)
-				generateSequence { it.read(bytes) }.takeWhile { it >= 0 }
-					.forEach { digest.update(bytes, 0, it) }
-				digest.digest().hex()
-			}
-		} catch (e: Exception) {
-			""
-		}
 		var validationError: ValidationError? = null
-		if (hash.isEmpty() || hash != task.release.hash) validationError = ValidationError.INTEGRITY
+		if (!file.verifyHash(SHA256(task.release.hash))) validationError = ValidationError.INTEGRITY
 		yield()
 		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
 			?: return@withContext ValidationError.FORMAT
-		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode) validationError =
-			ValidationError.METADATA
+		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode)
+			validationError = ValidationError.METADATA
 		yield()
 		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
-		if (signature.isEmpty() || signature != task.release.signature) validationError =
-			ValidationError.SIGNATURE
+		if (signature.isEmpty() || signature != task.release.signature)
+			validationError = ValidationError.SIGNATURE
 		yield()
 		val permissions = packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
-		if (!task.release.permissions.containsAll(permissions)) validationError =
-			ValidationError.PERMISSIONS
+		if (!task.release.permissions.containsAll(permissions))
+			validationError = ValidationError.PERMISSIONS
 		yield()
 		validationError
 	}
