@@ -82,7 +82,7 @@ object Lifecycle {
 }
 
 object Navigation {
-	private const val version = "2.5.3"
+	private const val version = "2.6.0"
 	const val fragment = "androidx.navigation:navigation-fragment-ktx:$version"
 	const val ui = "androidx.navigation:navigation-ui:$version"
 	const val dynamicFeature = "androidx.navigation:navigation-dynamic-features-fragment:$version"
