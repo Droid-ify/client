@@ -65,7 +65,7 @@ object Kotlin {
 }
 
 object Ktor {
-	private const val version = "2.2.4"
+	private const val version = "2.3.3"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 	const val logging = "io.ktor:ktor-client-logging:$version"
