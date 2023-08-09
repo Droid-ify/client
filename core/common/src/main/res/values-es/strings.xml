@@ -212,4 +212,5 @@
     <string name="waiting_to_start_installation">Esperando para iniciar la instalación…</string>
     <string name="auto_update">Actualización automática de aplicaciones</string>
     <string name="auto_update_apps">Intenta instalar actualizaciones automáticamente</string>
+    <string name="has_non_free_components">Contiene componentes no libres</string>
 </resources>
