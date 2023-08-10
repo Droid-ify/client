@@ -210,4 +210,5 @@
     <string name="waiting_to_start_installation">Kurulumun başlatılması bekleniyor…</string>
     <string name="auto_update">Uygulamaları otomatik güncelle</string>
     <string name="auto_update_apps">Güncellemeleri otomatik olarak kurmaya çalış</string>
+    <string name="has_non_free_components">Özgür olmayan bileşenlere sahip</string>
 </resources>
