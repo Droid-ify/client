@@ -67,8 +67,8 @@
     <string name="changelog">Popis promjena</string>
     <string name="changes">Promjene</string>
     <string name="checking_repository">Provjeravam repozitorij…</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">APK interval čišćenja</string>
+    <string name="cleanup_description">Razdoblje za provjeru i uklanjanje preuzetih datoteka</string>
     <string name="compiled_for_debugging">Stvoreno za ispravljanje pogrešaka</string>
     <string name="connecting">Povezujem…</string>
     <string name="contains_non_free_media">Sadrži medije koji nisu besplatni</string>
@@ -87,7 +87,7 @@
     <string name="file_format_error_DESC">Neispravan oblik datoteke.</string>
     <string name="fingerprint">Otisak</string>
     <string name="has_advertising">Sadrži reklame</string>
-    <string name="has_non_free_dependencies">Sadrži dijelove programa koji nisu besplatni</string>
+    <string name="has_non_free_dependencies">Sadrži ovisnosti koje nisu besplatne</string>
     <plurals name="hours">
         <item quantity="one">Sat</item>
         <item quantity="few">Sati</item>
@@ -192,7 +192,7 @@
     <string name="downloaded_FORMAT">Preuzeto %s</string>
     <string name="incompatible_features_DESC">Značajke koje nedostaju.</string>
     <string name="no_applications_available">Nema dostupnih aplikacija</string>
-    <string name="has_security_vulnerabilities">Ima sigurnosnu ranjivost</string>
+    <string name="has_security_vulnerabilities">Sadrži sigurnosne probleme</string>
     <string name="http_error_DESC">Neispravan odgovor poslužitelja.</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="never">Nikad</string>
@@ -212,4 +212,5 @@
     <string name="auto_update_apps">Pokušajte automatski instalirati ažuriranja</string>
     <string name="restart_app">Ponovo pokrenite droid-ify da biste vidjeli promjene</string>
     <string name="waiting_to_start_installation">Čekajući da započnete instalaciju …</string>
+    <string name="has_non_free_components">Sadrži komponente koje nisu besplatne</string>
 </resources>
