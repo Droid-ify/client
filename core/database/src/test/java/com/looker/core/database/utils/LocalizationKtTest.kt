@@ -2,10 +2,10 @@ package com.looker.core.database.utils
 
 import androidx.core.os.LocaleListCompat
 import androidx.core.os.LocaleListCompat.getEmptyLocaleList
-import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Test
 import java.util.Locale
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 /**
  *

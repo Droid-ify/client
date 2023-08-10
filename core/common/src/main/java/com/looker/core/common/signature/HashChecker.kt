@@ -2,51 +2,69 @@ package com.looker.core.common.signature
 
 import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.common.hex
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ensureActive
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.io.File
 import java.security.MessageDigest
 
-suspend fun File.verifyHash(hash: Hash): Boolean = withContext(Dispatchers.IO) {
-	try {
-		val digest = MessageDigest
-			.getInstance(hash.name)
-		if (length() < Int.MAX_VALUE) {
-			return@withContext digest
-				.digest(readBytes())
-				.hex()
-				.equals(hash.hash, ignoreCase = true)
-		}
-		val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-		inputStream().use { input ->
-			var bytesRead = input.read(buffer)
-			while (bytesRead >= 0) {
-				ensureActive()
-				digest.update(buffer, 0, bytesRead)
-				bytesRead = input.read(buffer)
-			}
-			digest
-				.digest()
-				.hex()
-				.equals(hash.hash, ignoreCase = true)
-		}
+suspend fun File.verifyHash(hash: Hash): Boolean {
+	return try {
+		if (!hash.isValid() || !exists()) return false
+		calculateHash(hash.type)
+			?.equals(hash.hash, true)
+			?: false
 	} catch (e: Exception) {
 		e.exceptCancellation()
 		false
 	}
 }
 
-sealed class Hash(val name: String, val hash: String)
-
-data class SHA256(val value: String) : Hash(name = "sha256", hash = value) {
-	init {
-		require(value.length == 64)
+suspend fun File.calculateHash(hashType: String): String? {
+	return try {
+		if (hashType.isBlank() || !exists()) return null
+		MessageDigest
+			.getInstance(hashType)
+			.readBytesFrom(this)
+			?.hex()
+	} catch (e: Exception) {
+		e.exceptCancellation()
+		null
 	}
 }
 
-data class MD5(val value: String) : Hash(name = "md5", hash = value) {
-	init {
-		require(value.length == 32)
+private suspend fun MessageDigest.readBytesFrom(
+	file: File
+): ByteArray? = withContext(Dispatchers.IO) {
+	try {
+		if (file.length() < Int.MAX_VALUE) digest(file.readBytes())
+		else {
+			val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+			file.inputStream().use { input ->
+				var bytesRead = input.read(buffer)
+				while (bytesRead >= 0) {
+					ensureActive()
+					update(buffer, 0, bytesRead)
+					bytesRead = input.read(buffer)
+				}
+				digest()
+			}
+		}
+	} catch (e: Exception) {
+		e.exceptCancellation()
+		null
 	}
+}
+
+@Suppress("FunctionName")
+data class Hash(
+	val type: String,
+	val hash: String
+) {
+
+	companion object {
+		fun SHA256(hash: String) = Hash(type = "sha256", hash)
+		fun MD5(hash: String) = Hash(type = "md5", hash)
+	}
+
+	fun isValid(): Boolean = type.isNotBlank() && hash.isNotBlank()
+
 }

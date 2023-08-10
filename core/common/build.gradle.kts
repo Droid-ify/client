@@ -10,6 +10,7 @@ android {
 	defaultConfig {
 		minSdk = Android.minSdk
 		vectorDrawables.useSupportLibrary = true
+		testInstrumentationRunner = Test.jUnitRunner
 	}
 
 	buildTypes {
@@ -46,6 +47,9 @@ dependencies {
 	implementation(Kotlin.datetime)
 
 	implementation(OkHttp.okhttp)
+
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

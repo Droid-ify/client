@@ -12,7 +12,7 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
-import com.looker.core.common.signature.SHA256
+import com.looker.core.common.signature.Hash
 import com.looker.core.common.signature.verifyHash
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
@@ -29,7 +29,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.File
-import java.security.MessageDigest
 import javax.inject.Inject
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -319,7 +318,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		file: File
 	): ValidationError? = withContext(Dispatchers.IO) {
 		var validationError: ValidationError? = null
-		if (!file.verifyHash(SHA256(task.release.hash))) validationError = ValidationError.INTEGRITY
+		if (!file.verifyHash(Hash(task.release.hashType, task.release.hash))) validationError = ValidationError.INTEGRITY
 		yield()
 		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
 			?: return@withContext ValidationError.FORMAT
