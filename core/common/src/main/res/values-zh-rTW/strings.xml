@@ -206,4 +206,5 @@
     <string name="installing">安裝</string>
     <string name="restart_app">重新啟動 Droid-ify 查看更變</string>
     <string name="waiting_to_start_installation">等待開始安裝…</string>
+    <string name="has_non_free_components">具有非自由元件</string>
 </resources>
