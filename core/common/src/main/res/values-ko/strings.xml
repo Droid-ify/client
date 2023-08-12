@@ -71,7 +71,7 @@
     <string name="donate">기부</string>
     <string name="downloaded_FORMAT">다운로드됨 %s</string>
     <string name="allow_collapsing_toolbar">상단 앱 바 확장 허용</string>
-    <string name="allow_collapsing_toolbar_DESC">상단 앱바 확장 및 축소 허용</string>
+    <string name="allow_collapsing_toolbar_DESC">상단 앱 바 확장 및 축소 허용</string>
     <string name="cleanup_description">다운로드한 파일을 확인하고 제거할 시간 간격</string>
     <string name="compiled_for_debugging">디버깅용으로 컴파일됨</string>
     <string name="connecting">연결 중…</string>
@@ -206,4 +206,5 @@
     <string name="root_permission">자동 설치</string>
     <string name="settings">설정</string>
     <string name="signed_using_unsafe_algorithm">안전하지 않은 알고리즘을 사용하여 서명됨</string>
+    <string name="has_non_free_components">자유롭지 않은 구성 요소를 포함하고 있습니다</string>
 </resources>
