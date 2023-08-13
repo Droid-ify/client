@@ -32,8 +32,8 @@
     <string name="changelog">ਬਦਲਾਅ-ਲੇਖਾ</string>
     <string name="changes">ਬਦਲਾਅ</string>
     <string name="checking_repository">ਰਿਪੋਜ਼ਟਰੀ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">APK ਕਲੀਨਅੱਪ ਅੰਤਰਾਲ</string>
+    <string name="cleanup_description">ਡਾਊਨਲੋਡ ਕੀਤੀਆਂ ਫਾਈਲਾਂ ਦੀ ਜਾਂਚ ਕਰਨ ਅਤੇ ਹਟਾਉਣ ਦੀ ਮਿਆਦ</string>
     <string name="compiled_for_debugging">ਡੀਬੱਗਿੰਗ ਲਈ ਕੰਪਾਇਲ ਕੀਤਾ</string>
     <string name="connecting">ਜੁੜ ਰਿਹਾ ਹੈ…</string>
     <string name="contains_non_free_media">ਗੈਰ-ਮੁਕਤ ਮੀਡੀਆ ਸ਼ਾਮਲ</string>
@@ -209,4 +209,5 @@
     <string name="enable_repo">ਰਿਪੋਜ਼ਟਰੀ ਨੂੰ ਸਮਰੱਥ ਬਣਾਓ</string>
     <string name="auto_update_apps">ਅੱਪਡੇਟਾਂ ਨੂੰ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਇੰਸਟਾਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="waiting_to_start_installation">ਇੰਸਟਾਲੇਸ਼ਨ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
+    <string name="has_non_free_components">ਗੈਰ-ਮੁਫ਼ਤ ਭਾਗ ਹਨ</string>
 </resources>
