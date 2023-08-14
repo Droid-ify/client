@@ -212,4 +212,5 @@
     <string name="restart_app">Reiniciar Droid-ify para ver as alterações</string>
     <string name="auto_update">Atualizações automáticas</string>
     <string name="auto_update_apps">Tentar atualizar aplicações automaticamente</string>
+    <string name="has_non_free_components">Tem componentes não livres</string>
 </resources>
