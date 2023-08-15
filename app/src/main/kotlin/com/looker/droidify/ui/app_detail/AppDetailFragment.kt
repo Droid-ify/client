@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.extension.firstItemVisible
+import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.*
@@ -227,7 +227,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					viewModel.installerState.collect { updateInstallState(it) }
 				}
 				launch {
-					recyclerView?.firstItemVisible?.collect { isFirstItemVisible ->
+					recyclerView?.isFirstItemVisible?.collect { isFirstItemVisible ->
 						updateToolbarButtons()
 						toolbar.title = if (!isFirstItemVisible) products[0].first.name
 						else getString(stringRes.application)

@@ -106,15 +106,15 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 		}
 
 		viewLifecycleOwner.lifecycleScope.launch {
-			recyclerView.firstItemVisible
-				// Don't observe on `Updates` Page
-				.filterNot { source.updateAll }
-				.collectLatest { showFab ->
-					fab.animate()
-						.alpha(if (!showFab) 1f else 0f)
-						.setDuration(shortAnimationDuration.toLong())
-						.setListener(null)
-				}
+			if (!source.updateAll) {
+				recyclerView.isFirstItemVisible
+					.collectLatest { showFab ->
+						fab.animate()
+							.alpha(if (!showFab) 1f else 0f)
+							.setDuration(shortAnimationDuration.toLong())
+							.setListener(null)
+					}
+			}
 		}
 		return binding.root
 	}
