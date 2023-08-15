@@ -28,6 +28,9 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 	buildFeatures {
 		aidl = false
 		renderScript = false
@@ -39,6 +42,7 @@ android {
 dependencies {
 	recyclerView()
 	coroutines()
+	lifecycle()
 
 	implementation(Core.core)
 

@@ -77,6 +77,9 @@ android {
 		targetCompatibility = JavaVersion.VERSION_17
 	}
 	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 
 	buildTypes {
 		getByName("debug") {
@@ -128,6 +131,7 @@ dependencies {
 		Modules.coreModel,
 		Modules.coreCommon,
 		Modules.coreNetwork,
+		Modules.coreData,
 		Modules.coreDatastore,
 		Modules.installer
 	)

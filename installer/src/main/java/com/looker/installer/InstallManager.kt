@@ -74,7 +74,7 @@ class InstallManager(
 
 	private fun CoroutineScope.installer() = launch {
 		val currentQueue = mutableSetOf<String>()
-		filter(installItems) { item ->
+		installItems.filter { item ->
 			val isAdded = lock.withLock { currentQueue.add(item.packageName.name) }
 			if (isAdded) {
 				installQueue.update {
