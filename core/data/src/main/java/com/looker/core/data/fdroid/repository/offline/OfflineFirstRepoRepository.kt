@@ -73,8 +73,8 @@ class OfflineFirstRepoRepository @Inject constructor(
 		}
 
 	override suspend fun syncAll(): Boolean =
-		coroutineScope {
-			val repos = repoDao.getRepoStream().first()
+		supervisorScope {
+			val repos = repoDao.getRepoStream().first().filter { it.enabled }
 			val indices = indexManager.getIndex(repos.toExternal(locale))
 			indices.forEach { (repo, index) ->
 				val updatedRepo = index.repo.toEntity(

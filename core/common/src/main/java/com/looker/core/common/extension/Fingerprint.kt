@@ -16,7 +16,7 @@ fun Certificate.fingerprint(): String {
 
 fun ByteArray.fingerprint(): String = if (size >= 256) {
 	try {
-		val fingerprint = MessageDigest.getInstance("SHA-256").digest(this)
+		val fingerprint = MessageDigest.getInstance("sha256").digest(this)
 		fingerprint.hex()
 	} catch (e: Exception) {
 		e.printStackTrace()

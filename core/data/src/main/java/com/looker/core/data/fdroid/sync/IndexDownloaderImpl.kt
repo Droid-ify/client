@@ -24,21 +24,25 @@ class IndexDownloaderImpl @Inject constructor(
 		private val parser = IndexParser
 
 		private fun File.parseIndexV2(): IndexV2 = parser.parseV2(inputStream())
+
+		private const val INDEX_V1_FILE_NAME = "index-v1.jar"
+		private const val INDEX_V2_FILE_NAME = "index-v2.json"
+		private const val ENTRY_JSON_FILE_NAME = "entry.jar"
+		private const val ENTRY_FILE_NAME = "entry.jar"
 	}
 
 	override suspend fun downloadIndexV1(
 		repo: Repo
 	): IndexV1 = withContext(Dispatchers.Default) {
-		val jarFile = downloadIndexFile(repo, "index-v1.jar")
+		val jarFile = downloadIndexFile(repo, INDEX_V1_FILE_NAME)
 		val verifier = IndexV1Verifier(jarFile, null, repo.fingerprint)
-		val index = verifier.getStreamAndVerify(parser::parseV1).second
-		index
+		verifier.getStreamAndVerify(parser::parseV1).second
 	}
 
 	override suspend fun downloadIndexV2(
 		repo: Repo
 	): IndexV2 = withContext(Dispatchers.Default) {
-		val file = downloadIndexFile(repo, "index-v2.json")
+		val file = downloadIndexFile(repo, INDEX_V2_FILE_NAME)
 		file.parseIndexV2()
 	}
 
@@ -47,20 +51,19 @@ class IndexDownloaderImpl @Inject constructor(
 		name: String
 	): IndexV2 = withContext(Dispatchers.Default) {
 		val file = downloadIndexFile(repo, name)
-		(file).parseIndexV2()
+		file.parseIndexV2()
 	}
 
 	override suspend fun downloadEntry(
 		repo: Repo
 	): Entry = withContext(Dispatchers.Default) {
-		val jarFile = downloadIndexFile(repo, "entry.jar")
+		val jarFile = downloadIndexFile(repo, ENTRY_FILE_NAME)
 		val verifier = EntryVerifier(jarFile, null, repo.fingerprint)
-		val entry = verifier.getStreamAndVerify(parser::parseEntry).second
-		entry
+		verifier.getStreamAndVerify(parser::parseEntry).second
 	}
 
 	override suspend fun determineIndexType(repo: Repo): IndexType {
-		val indexV2Exist = downloader.headCall(repo.indexUrl("entry.json"))
+		val indexV2Exist = downloader.headCall(repo.indexUrl(ENTRY_JSON_FILE_NAME))
 		return if (indexV2Exist == NetworkResponse.Success) IndexType.ENTRY
 		else IndexType.INDEX_V1
 	}
@@ -69,18 +72,18 @@ class IndexDownloaderImpl @Inject constructor(
 		repo: Repo,
 		indexParameter: String
 	): File = withContext(Dispatchers.IO) {
-			val tempFile = File.createTempFile(repo.name, UUID.randomUUID().toString())
-			downloader.downloadToFile(
-				url = repo.indexUrl(indexParameter),
-				target = tempFile,
-				headers = {
-					if (repo.shouldAuthenticate) authentication(
-						repo.authentication.username,
-						repo.authentication.password
-					)
-					ifModifiedSince(Date(repo.versionInfo.timestamp))
-				}
-			)
-			tempFile
-		}
+		val tempFile = File.createTempFile(repo.name, UUID.randomUUID().toString())
+		downloader.downloadToFile(
+			url = repo.indexUrl(indexParameter),
+			target = tempFile,
+			headers = {
+				if (repo.shouldAuthenticate) authentication(
+					repo.authentication.username,
+					repo.authentication.password
+				)
+				ifModifiedSince(Date(repo.versionInfo.timestamp))
+			}
+		)
+		tempFile
+	}
 }

@@ -49,14 +49,15 @@ fun PackageV2.toEntity(packageName: String, repoId: Long, allowUnstable: Boolean
 		promoGraphic = metadata.promoGraphic?.mapValues { it.value.name } ?: emptyMap(),
 		tvBanner = metadata.tvBanner?.mapValues { it.value.name } ?: emptyMap(),
 		video = metadata.video ?: emptyMap(),
-		packages = versions.values.map(PackageVersionV2::toPackage)
-	).checkUnstable(allowUnstable)
+		packages = versions.values.map(PackageVersionV2::toPackage).checkUnstable(allowUnstable, versions.values.firstOrNull()?.manifest?.versionCode ?: -1)
+	)
 
-private fun AppEntity.checkUnstable(allowUnstable: Boolean = false): AppEntity = copy(
-	packages = packages.filter {
-		allowUnstable || suggestedVersionCode <= 0 || it.versionCode <= suggestedVersionCode
-	}
-)
+private fun List<PackageEntity>.checkUnstable(
+	allowUnstable: Boolean,
+	suggestedVersionCode: Long
+): List<PackageEntity> = filter {
+	allowUnstable || (suggestedVersionCode > 0L && it.versionCode >= suggestedVersionCode)
+}
 
 fun PackageVersionV2.toPackage(): PackageEntity = PackageEntity(
 	added = added,

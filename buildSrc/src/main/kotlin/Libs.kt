@@ -18,7 +18,7 @@ object Coil {
 }
 
 private object Compose {
-	const val bom = "androidx.compose:compose-bom:2023.06.00"
+	const val bom = "androidx.compose:compose-bom:2023.08.00"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -30,7 +30,7 @@ private object Compose {
 }
 
 private object Coroutines {
-	private const val coroutinesVersion = "1.7.1"
+	private const val coroutinesVersion = "1.7.3"
 	const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 	const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 }
@@ -77,12 +77,12 @@ object Jackson {
 
 object Kotlin {
 	const val version = "1.9.0"
-	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0-RC"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 }
 
 private object Ktor {
-	private const val version = "2.3.1"
+	private const val version = "2.3.3"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 	const val logging = "io.ktor:ktor-client-logging:$version"
@@ -128,7 +128,7 @@ object Test {
 }
 
 object Ksp {
-	const val version = "${Kotlin.version}-1.0.12"
+	const val version = "${Kotlin.version}-1.0.13"
 	const val plugin = "com.google.devtools.ksp"
 }
 
