@@ -61,9 +61,8 @@ object RepositoryUpdater {
 	fun init(scope: CoroutineScope, downloader: Downloader) {
 		this.downloader = downloader
 		var lastDisabled = setOf<Long>()
-		flowOf(Unit)
-			.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
-			.map { Database.RepositoryAdapter.getAllDisabledDeleted(null) }
+		Database.RepositoryAdapter
+			.getAllRemovedStream()
 			.onEach { deletedRepos ->
 				val newDisabled =
 					deletedRepos.asSequence().filter { !it.second }.map { it.first }.toSet()

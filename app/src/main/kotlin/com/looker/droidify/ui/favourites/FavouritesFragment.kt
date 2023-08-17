@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.systemBarsPadding
@@ -15,10 +13,7 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.looker.core.common.R as CommonR
 
@@ -60,10 +55,12 @@ class FavouritesFragment : ScreenFragment() {
 					}
 				}
 				launch {
-					flowOf(Unit)
-						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
-						.map { Database.RepositoryAdapter.getAll(null).associateBy { it.id } }
-						.collect { recyclerViewAdapter.repositories = it }
+					Database.RepositoryAdapter
+						.getAllStream()
+						.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
+						.collectLatest { repositories ->
+							recyclerViewAdapter.repositories = repositories.associateBy { it.id }
+						}
 				}
 			}
 		}

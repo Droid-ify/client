@@ -142,9 +142,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				launch {
-					flowOf(Unit)
-						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
-						.map { Database.ProductAdapter.get(packageName, null) }
+					Database.ProductAdapter
+						.getStream(packageName)
 						.map { products ->
 							Database.RepositoryAdapter.getAll(null).associateBy { it.id }.let {
 								products.mapNotNull { product ->

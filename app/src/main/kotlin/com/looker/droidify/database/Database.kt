@@ -9,21 +9,12 @@ import android.os.CancellationSignal
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.core.common.extension.Json
-import com.looker.core.common.extension.asSequence
-import com.looker.core.common.extension.firstOrNull
-import com.looker.core.common.extension.parseDictionary
-import com.looker.core.common.extension.writeDictionary
+import com.looker.core.common.extension.*
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.model.InstalledItem
-import com.looker.core.model.Product
-import com.looker.core.model.ProductItem
-import com.looker.core.model.Repository
+import com.looker.core.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.*
 import java.io.ByteArrayOutputStream
 
 object Database {
@@ -389,8 +380,10 @@ object Database {
 				.use { it.firstOrNull()?.let(::transform) }
 		}
 
-		// Done
-		// MAYBE signal has to be considered
+		fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+			.map { getAll(null) }
+
 		fun getAll(signal: CancellationSignal?): List<Repository> {
 			return db.query(
 				Schema.Repository.name,
@@ -399,9 +392,11 @@ object Database {
 			).use { it.asSequence().map(::transform).toList() }
 		}
 
-		// Done Pair<Long,Int> instead
-		// MAYBE signal has to be considered
-		fun getAllDisabledDeleted(signal: CancellationSignal?): Set<Pair<Long, Boolean>> {
+		fun getAllRemovedStream(): Flow<Set<Pair<Long, Boolean>>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+			.map { getAllDisabledDeleted() }
+
+		private fun getAllDisabledDeleted(): Set<Pair<Long, Boolean>> {
 			return db.query(
 				Schema.Repository.name,
 				columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
@@ -409,7 +404,7 @@ object Database {
 					"${Schema.Repository.ROW_ENABLED} == 0 OR ${Schema.Repository.ROW_DELETED} != 0",
 					emptyArray()
 				),
-				signal = signal
+				signal = null
 			).use {
 				it.asSequence().map {
 					Pair(
@@ -477,6 +472,11 @@ object Database {
 	}
 
 	object ProductAdapter {
+
+		fun getStream(packageName: String): Flow<List<Product>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+			.map { get(packageName, null) }
+
 		// Done
 		fun get(packageName: String, signal: CancellationSignal?): List<Product> {
 			return db.query(
@@ -629,8 +629,12 @@ object Database {
 	}
 
 	object CategoryAdapter {
-		// Done
-		fun getAll(signal: CancellationSignal?): Set<String> {
+
+		fun getAllStream(): Flow<Set<String>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+			.map { getAll() }
+
+		private fun getAll(): Set<String> {
 			val builder = QueryBuilder()
 
 			builder += """SELECT DISTINCT category.${Schema.Category.ROW_NAME}
@@ -640,7 +644,7 @@ object Database {
         WHERE repository.${Schema.Repository.ROW_ENABLED} != 0 AND
         repository.${Schema.Repository.ROW_DELETED} == 0"""
 
-			return builder.query(db, signal).use {
+			return builder.query(db, null).use {
 				it.asSequence()
 					.map { it.getString(it.getColumnIndex(Schema.Category.ROW_NAME)) }.toSet()
 			}

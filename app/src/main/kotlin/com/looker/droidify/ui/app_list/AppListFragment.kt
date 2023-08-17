@@ -20,7 +20,8 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -124,11 +125,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		screenActivity.cursorOwner.attach(this, viewModel.request(source))
 		viewLifecycleOwner.lifecycleScope.launch {
-			flowOf(Unit)
+			Database.RepositoryAdapter
+				.getAllStream()
 				.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
-				.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
-				.map { Database.RepositoryAdapter.getAll(null).associateBy { it.id } }
-				.collectLatest { recyclerViewAdapter.repositories = it }
+				.collectLatest { repositories ->
+					recyclerViewAdapter.repositories = repositories.associateBy { it.id }
+				}
 		}
 	}
 

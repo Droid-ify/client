@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
@@ -48,10 +45,6 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -270,9 +263,8 @@ class TabsFragment : ScreenFragment() {
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
 				launch {
-					flowOf(Unit)
-						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
-						.map { Database.CategoryAdapter.getAll(null) }
+					Database.CategoryAdapter
+						.getAllStream()
 						.collectLatest {
 							setSectionsAndUpdate(
 								it.asSequence().sorted()
@@ -281,9 +273,8 @@ class TabsFragment : ScreenFragment() {
 						}
 				}
 				launch {
-					flowOf(Unit)
-						.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
-						.map { Database.RepositoryAdapter.getAll(null) }
+					Database.RepositoryAdapter
+						.getAllStream()
 						.collectLatest { repos ->
 							setSectionsAndUpdate(null, repos.asSequence().filter { it.enabled }
 								.map { ProductItem.Section.Repository(it.id, it.name) }.toList())
@@ -390,10 +381,12 @@ class TabsFragment : ScreenFragment() {
 				searchMenuItem?.collapseActionView()
 				true
 			}
+
 			showSections -> {
 				showSections = false
 				true
 			}
+
 			else -> {
 				super.onBackPressed()
 			}
@@ -590,6 +583,7 @@ class TabsFragment : ScreenFragment() {
 						paddingEnd = padding
 					)
 				}
+
 				else -> {
 					configuration.set(
 						needDivider = false,

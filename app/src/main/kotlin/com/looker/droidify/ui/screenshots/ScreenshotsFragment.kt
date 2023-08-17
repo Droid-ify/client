@@ -34,10 +34,7 @@ import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.drawable as drawableRes
@@ -128,14 +125,13 @@ class ScreenshotsFragment() : DialogFragment() {
 
 		var restored = false
 		lifecycleScope.launch {
-			flowOf(Unit)
-				.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-				.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Products)) }
-				.map {
-					Database.ProductAdapter.get(packageName, null).find {
-						it.repositoryId == repositoryId
-					} to Database.RepositoryAdapter.get(repositoryId)
+			Database.ProductAdapter
+				.getStream(packageName)
+				.map { products ->
+					val primaryProduct = products.find { it.repositoryId == repositoryId }
+					primaryProduct to Database.RepositoryAdapter.get(repositoryId)
 				}
+				.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 				.collectLatest { (product, repository) ->
 					val screenshots = product?.screenshots.orEmpty()
 					(viewPager.adapter as Adapter).update(viewPager, repository, screenshots)
