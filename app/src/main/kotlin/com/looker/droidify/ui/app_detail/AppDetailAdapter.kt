@@ -1,10 +1,7 @@
 package com.looker.droidify.ui.app_detail
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
@@ -15,17 +12,9 @@ import android.os.Parcel
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
-import android.text.style.BulletSpan
-import android.text.style.ClickableSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.ReplacementSpan
-import android.text.style.TypefaceSpan
-import android.text.style.URLSpan
+import android.text.style.*
 import android.text.util.Linkify
-import android.view.Gravity
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextSwitcher
 import android.widget.TextView
@@ -46,10 +35,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
-import com.looker.core.common.extension.inflate
-import com.looker.core.common.extension.setTextSizeScaled
+import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
@@ -68,12 +54,13 @@ import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import java.lang.ref.WeakReference
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
+import java.util.Locale
 import kotlin.math.roundToInt
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.drawable as drawableRes
@@ -1400,11 +1387,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.source.text =
 					context.getString(stringRes.provided_by_FORMAT, item.repository.name)
+				val instant = kotlinx.datetime.Instant.fromEpochMilliseconds(item.release.added)
+				// FDroid uses UTC time
+				val date = instant.toLocalDateTime(TimeZone.UTC)
 				val dateFormat = try {
-					LocalDateTime.ofInstant(
-						Instant.ofEpochMilli(item.release.added),
-						TimeZone.getDefault().toZoneId()
-					).format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+					date.toJavaLocalDateTime()
+						.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
 				} catch (e: Exception) {
 					e.printStackTrace()
 					holder.dateFormat.format(item.release.added)

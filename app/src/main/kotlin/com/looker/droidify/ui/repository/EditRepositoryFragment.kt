@@ -16,34 +16,30 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.extension.await
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.HttpURLConnection
+import com.looker.network.Downloader
+import com.looker.network.NetworkResponse
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.*
 import java.net.URI
 import java.net.URL
 import java.nio.charset.Charset
-import java.util.*
+import java.util.Locale
+import javax.inject.Inject
 import kotlin.math.min
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 
+@AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
 
 	private var _editRepositoryBinding: EditRepositoryBinding? = null
@@ -84,6 +80,9 @@ class EditRepositoryFragment() : ScreenFragment() {
 	private var checkJob: Job? = null
 
 	private var takenAddresses = emptySet<String>()
+
+	@Inject
+	lateinit var downloader: Downloader
 
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
@@ -370,6 +369,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 					val resultAddress = try {
 						checkAddress(address, authentication)
 					} catch (e: Exception) {
+						e.printStackTrace()
 						failedAddressCheck()
 						null
 					}
@@ -406,25 +406,16 @@ class EditRepositoryFragment() : ScreenFragment() {
 			address + if (path.isEmpty()) "" else "/$path"
 		}
 		val pathCheck = allAddresses.map {
-			async { addressValid("$it/index-v1.jar", authentication) }
+			async {
+				downloader.headCall(
+					url = "$it/index-v1.jar",
+					headers = { authentication(authentication) }
+				) == NetworkResponse.Success
+			}
 		}
 		val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)
 		allAddresses[indexOfValidAddress].nullIfEmpty()
 	}
-
-	private suspend fun addressValid(address: String, authentication: String) =
-		withContext(Dispatchers.IO) scope@{
-			val result = Downloader.createCall {
-				method("HEAD", null)
-				try {
-					url(address)
-				} catch (e: IllegalArgumentException) {
-					return@createCall
-				}
-				if (authentication.isNotEmpty()) addHeader("Authorization", authentication)
-			}.await()
-			result.code == HttpURLConnection.HTTP_OK
-		}
 
 	private fun onSaveRepositoryProceedInvalidate(
 		address: String,

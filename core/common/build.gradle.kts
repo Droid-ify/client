@@ -1,8 +1,7 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
+	id("looker.android.library")
 }
 
 android {
@@ -11,6 +10,7 @@ android {
 	defaultConfig {
 		minSdk = Android.minSdk
 		vectorDrawables.useSupportLibrary = true
+		testInstrumentationRunner = Test.jUnitRunner
 	}
 
 	buildTypes {
@@ -27,7 +27,10 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
-	kotlinOptions.jvmTarget = "17"
+	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 	buildFeatures {
 		aidl = false
 		renderScript = false
@@ -37,19 +40,20 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
+	recyclerView()
+	coroutines()
+	lifecycle()
 
-	implementation(AndroidX.material)
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
 
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
 
 	implementation(OkHttp.okhttp)
+
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

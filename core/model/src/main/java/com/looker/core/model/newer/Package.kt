@@ -3,44 +3,39 @@ package com.looker.core.model.newer
 data class Package(
 	val installed: Boolean,
 	val added: Long,
-	val apkName: String,
-	val hash: String,
-	val hashType: String,
-	val minSdkVersion: Int,
-	val maxSdkVersion: Int,
-	val targetSdkVersion: Int,
-	val packageName: PackageName,
-	val sig: String,
-	val signer: String,
-	val size: Long,
-	val srcName: String,
-	val usesPermission: List<Permission>,
-	val versionCode: Long,
-	val versionName: String,
-	val nativeCode: List<String>,
+	val apk: ApkFile,
+	val platforms: Platforms,
 	val features: List<String>,
-	val antiFeatures: List<String>
+	val antiFeatures: List<String>,
+	val manifest: Manifest,
+	val whatsNew: String
 )
 
-data class InstalledPackage(
-	val added: Long,
-	val targetSdkVersion: Int,
-	val packageName: PackageName,
+data class ApkFile(
+	override val name: String,
+	override val hash: String,
+	override val size: Long
+): DataFile
+
+data class Manifest(
 	val versionCode: Long,
 	val versionName: String,
-	val size: Long
+	val usesSDKs: SDKs,
+	val signer: Set<String>,
+	val permissions: List<Permission>
 )
 
-fun Package.toInstalled(): InstalledPackage? = if (installed) InstalledPackage(
-	added = added,
-	targetSdkVersion = targetSdkVersion,
-	packageName = packageName,
-	versionCode = versionCode,
-	versionName = versionName,
-	size = size
-) else null
+@JvmInline
+value class Platforms(val value: List<String>)
 
+data class SDKs(
+	val min: Int = -1,
+	val max: Int = -1,
+	val target: Int = -1
+)
+
+// means the max sdk here and any sdk value as -1 means not valid
 data class Permission(
 	val name: String,
-	val maxSdk: Int? = null
+	val sdKs: SDKs
 )

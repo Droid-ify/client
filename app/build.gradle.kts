@@ -1,14 +1,12 @@
-import com.android.build.api.dsl.Packaging
-
 plugins {
 	id("com.android.application")
 	id("org.jetbrains.kotlin.android")
-	kotlin("kapt")
-	id(Hilt.plugin)
+	id("looker.hilt.work")
 }
 
 android {
 	compileSdk = Android.compileSdk
+	buildToolsVersion = "33.0.2"
 	namespace = "com.looker.droidify"
 	defaultConfig {
 		applicationId = Android.appId
@@ -79,13 +77,13 @@ android {
 	}
 
 	compileOptions {
-		isCoreLibraryDesugaringEnabled = true
-
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
-
-	kotlinOptions.jvmTarget = "17"
+	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 
 	buildTypes {
 		getByName("debug") {
@@ -125,49 +123,36 @@ android {
 		}
 	}
 	buildFeatures {
+		viewBinding = true
 		aidl = false
 		renderScript = false
 		shaders = false
 	}
-	buildFeatures {
-		viewBinding = true
-	}
 }
 
 dependencies {
-
-	coreLibraryDesugaring(AndroidX.desugar)
-
-	implementation(project(Modules.coreModel))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.installer))
+	modules(
+		Modules.coreModel,
+		Modules.coreCommon,
+		Modules.coreNetwork,
+		Modules.coreData,
+		Modules.coreDatastore,
+		Modules.installer
+	)
 
 	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
-	implementation(AndroidX.appCompat)
-	implementation(AndroidX.preference)
-	implementation(AndroidX.recyclerView)
-	implementation(AndroidX.material)
+	androidX()
+	coroutines()
+	ktor()
+	lifecycle()
 
 	implementation(Coil.coil)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
-
-	implementation(Hilt.android)
-	implementation(Hilt.work)
-	kapt(Hilt.compiler)
-	kapt(Hilt.androidX)
 
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
-
-	implementation(Lifecycle.fragment)
-	implementation(Lifecycle.activity)
-	implementation(Lifecycle.runtime)
 
 	implementation(OkHttp.okhttp)
 

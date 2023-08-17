@@ -1,24 +1,17 @@
 package com.looker.core.data.fdroid.repository.offline
 
-import android.content.Context
-import com.looker.core.data.fdroid.model.v1.allowUnstable
-import com.looker.core.data.fdroid.model.v1.toEntity
+import com.looker.core.data.di.ApplicationScope
+import com.looker.core.data.di.DefaultDispatcher
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.sync.IndexType
-import com.looker.core.data.fdroid.sync.downloadIndexJar
-import com.looker.core.data.fdroid.sync.getFingerprint
-import com.looker.core.data.fdroid.sync.getIndexV1
-import com.looker.core.data.fdroid.sync.processRepos
-import com.looker.core.data.fdroid.sync.toLocation
+import com.looker.core.data.fdroid.sync.IndexManager
+import com.looker.core.data.fdroid.toEntity
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
-import com.looker.core.database.model.RepoEntity
-import com.looker.core.database.model.toEntity
-import com.looker.core.database.model.toExternalModel
+import com.looker.core.database.model.toExternal
+import com.looker.core.database.model.update
+import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.newer.Repo
-import kotlinx.coroutines.async
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -26,74 +19,77 @@ import javax.inject.Inject
 
 class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
-	private val repoDao: RepoDao
+	private val repoDao: RepoDao,
+	private val userPreferencesRepository: UserPreferencesRepository,
+	private val indexManager: IndexManager,
+	@DefaultDispatcher private val dispatcher: CoroutineDispatcher,
+	@ApplicationScope private val scope: CoroutineScope
 ) : RepoRepository {
-	override fun getRepos(): Flow<List<Repo>> =
-		repoDao.getRepoStream().map { it.map(RepoEntity::toExternalModel) }
 
-	override suspend fun updateRepo(repo: Repo): Boolean = try {
-		repoDao.updateRepo(repo.toEntity())
-		true
-	} catch (e: Exception) {
-		false
+	private val preference = runBlocking {
+		userPreferencesRepository.fetchInitialPreferences()
+	}
+
+	private val locale = preference.language
+
+	override suspend fun getRepo(id: Long): Repo = withContext(dispatcher) {
+		repoDao.getRepoById(id).toExternal(locale)
+	}
+
+	override fun getRepos(): Flow<List<Repo>> =
+		repoDao.getRepoStream().map { it.toExternal(locale) }
+
+	override suspend fun updateRepo(repo: Repo) {
+		scope.launch {
+			val entity = repoDao.getRepoById(repo.id)
+			repoDao.upsertRepo(entity.update(repo))
+		}
 	}
 
 	override suspend fun enableRepository(repo: Repo, enable: Boolean) {
-		repoDao.updateRepo(repo.copy(enabled = enable).toEntity())
+		scope.launch {
+			val entity = repoDao.getRepoById(repo.id)
+			repoDao.upsertRepo(entity.copy(enabled = enable))
+			if (enable) sync(repo)
+		}
 	}
 
-	override suspend fun sync(context: Context, repo: Repo, allowUnstable: Boolean): Boolean =
+	override suspend fun sync(repo: Repo): Boolean =
 		coroutineScope {
-			val indexType = IndexType.INDEX_V1
-			val repoLoc = downloadIndexJar(repo.toLocation(context), indexType)
-			val index = repoLoc.jar.getIndexV1()
+			val index = indexManager.getIndex(listOf(repo))[repo]!!
 			val updatedRepo = index.repo.toEntity(
-				fingerPrint = repo.fingerprint,
-				etag = repo.etag,
-				username = repo.username,
-				password = repo.password
+				id = repo.id,
+				fingerprint = repo.fingerprint,
+				username = repo.authentication.username,
+				password = repo.authentication.password,
+				enabled = true
 			)
-			val packages = index.packages
-			val apps = index.apps.map {
-				it.toEntity(
-					repoId = repo.id,
-					packages = packages[it.packageName]
-						?.allowUnstable(it, allowUnstable)
-						?: emptyList()
-				)
+			repoDao.upsertRepo(updatedRepo)
+			val apps = index.packages.map {
+				it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
 			}
-			repoDao.updateRepo(updatedRepo)
 			appDao.upsertApps(apps)
 			true
 		}
 
-	override suspend fun syncAll(context: Context, allowUnstable: Boolean): Boolean =
-		coroutineScope {
-			val repos = repoDao.getRepoStream().first().map(RepoEntity::toExternalModel)
-				.filter { it.enabled }
-			val repoChannel = Channel<Repo>()
-			processRepos(context, repoChannel) { repo, jar ->
-				val index = jar.getIndexV1()
-				val newFingerprint = async { jar.getFingerprint() }
+	override suspend fun syncAll(): Boolean =
+		supervisorScope {
+			val repos = repoDao.getRepoStream().first().filter { it.enabled }
+			val indices = indexManager.getIndex(repos.toExternal(locale))
+			indices.forEach { (repo, index) ->
 				val updatedRepo = index.repo.toEntity(
-					fingerPrint = repo.fingerprint.ifEmpty { newFingerprint.await() },
-					etag = repo.etag,
-					username = repo.username,
-					password = repo.password
+					id = repo.id,
+					fingerprint = repo.fingerprint,
+					username = repo.authentication.username,
+					password = repo.authentication.password,
+					enabled = true
 				)
-				val packages = index.packages
-				val apps = index.apps.map {
-					it.toEntity(
-						repoId = repo.id,
-						packages = packages[it.packageName]
-							?.allowUnstable(it, allowUnstable)
-							?: emptyList()
-					)
+				repoDao.upsertRepo(updatedRepo)
+				val apps = index.packages.map {
+					it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
 				}
-				repoDao.updateRepo(updatedRepo)
 				appDao.upsertApps(apps)
 			}
-			repos.forEach { repoChannel.send(it) }
-			false
+			true
 		}
 }

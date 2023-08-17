@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "5b8188effdf656f5c94a6bddd13f4733",
+    "identityHash": "b01a8fae755b8b96d36459e885dea04b",
     "entities": [
       {
         "tableName": "apps",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `repoId` INTEGER NOT NULL, `categories` BLOB NOT NULL, `antiFeatures` BLOB NOT NULL, `summary` TEXT NOT NULL, `description` TEXT NOT NULL, `changelog` TEXT NOT NULL, `translation` TEXT NOT NULL, `issueTracker` TEXT NOT NULL, `sourceCode` TEXT NOT NULL, `binaries` TEXT NOT NULL, `name` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorEmail` TEXT NOT NULL, `authorWebSite` TEXT NOT NULL, `authorPhone` TEXT NOT NULL, `donate` TEXT NOT NULL, `liberapayID` TEXT NOT NULL, `liberapay` TEXT NOT NULL, `openCollective` TEXT NOT NULL, `bitcoin` TEXT NOT NULL, `litecoin` TEXT NOT NULL, `flattrID` TEXT NOT NULL, `suggestedVersionName` TEXT NOT NULL, `suggestedVersionCode` INTEGER NOT NULL, `license` TEXT NOT NULL, `webSite` TEXT NOT NULL, `added` INTEGER NOT NULL, `icon` TEXT NOT NULL, `lastUpdated` INTEGER NOT NULL, `localized` TEXT NOT NULL, `packages` TEXT NOT NULL, PRIMARY KEY(`repoId`, `packageName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `repoId` INTEGER NOT NULL, `categories` BLOB NOT NULL, `summary` TEXT NOT NULL, `description` TEXT NOT NULL, `changelog` TEXT NOT NULL, `translation` TEXT NOT NULL, `issueTracker` TEXT NOT NULL, `sourceCode` TEXT NOT NULL, `binaries` TEXT NOT NULL, `name` TEXT NOT NULL, `authorName` TEXT NOT NULL, `authorEmail` TEXT NOT NULL, `authorWebSite` TEXT NOT NULL, `donate` TEXT NOT NULL, `liberapayID` TEXT NOT NULL, `liberapay` TEXT NOT NULL, `openCollective` TEXT NOT NULL, `bitcoin` TEXT NOT NULL, `litecoin` TEXT NOT NULL, `flattrID` TEXT NOT NULL, `suggestedVersionName` TEXT NOT NULL, `suggestedVersionCode` INTEGER NOT NULL, `license` TEXT NOT NULL, `webSite` TEXT NOT NULL, `added` INTEGER NOT NULL, `icon` TEXT NOT NULL, `phoneScreenshots` TEXT NOT NULL, `sevenInchScreenshots` TEXT NOT NULL, `tenInchScreenshots` TEXT NOT NULL, `wearScreenshots` TEXT NOT NULL, `tvScreenshots` TEXT NOT NULL, `featureGraphic` TEXT NOT NULL, `promoGraphic` TEXT NOT NULL, `tvBanner` TEXT NOT NULL, `video` TEXT NOT NULL, `lastUpdated` INTEGER NOT NULL, `packages` TEXT NOT NULL, PRIMARY KEY(`repoId`, `packageName`))",
         "fields": [
           {
             "fieldPath": "packageName",
@@ -23,12 +23,6 @@
           {
             "fieldPath": "categories",
             "columnName": "categories",
-            "affinity": "BLOB",
-            "notNull": true
-          },
-          {
-            "fieldPath": "antiFeatures",
-            "columnName": "antiFeatures",
             "affinity": "BLOB",
             "notNull": true
           },
@@ -95,12 +89,6 @@
           {
             "fieldPath": "authorWebSite",
             "columnName": "authorWebSite",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "authorPhone",
-            "columnName": "authorPhone",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -183,15 +171,63 @@
             "notNull": true
           },
           {
-            "fieldPath": "lastUpdated",
-            "columnName": "lastUpdated",
-            "affinity": "INTEGER",
+            "fieldPath": "phoneScreenshots",
+            "columnName": "phoneScreenshots",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "localized",
-            "columnName": "localized",
+            "fieldPath": "sevenInchScreenshots",
+            "columnName": "sevenInchScreenshots",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tenInchScreenshots",
+            "columnName": "tenInchScreenshots",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wearScreenshots",
+            "columnName": "wearScreenshots",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tvScreenshots",
+            "columnName": "tvScreenshots",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "featureGraphic",
+            "columnName": "featureGraphic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "promoGraphic",
+            "columnName": "promoGraphic",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tvBanner",
+            "columnName": "tvBanner",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "video",
+            "columnName": "video",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -213,13 +249,13 @@
       },
       {
         "tableName": "repos",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `enabled` INTEGER NOT NULL, `fingerprint` TEXT NOT NULL, `etag` TEXT NOT NULL, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `address` TEXT NOT NULL, `mirrors` BLOB NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `version` INTEGER NOT NULL, `timestamp` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `enabled` INTEGER NOT NULL, `fingerprint` TEXT NOT NULL, `etag` TEXT NOT NULL, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `address` TEXT NOT NULL, `mirrors` BLOB NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `antiFeatures` TEXT NOT NULL, `categories` TEXT NOT NULL, `timestamp` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "enabled",
@@ -276,9 +312,15 @@
             "notNull": true
           },
           {
-            "fieldPath": "version",
-            "columnName": "version",
-            "affinity": "INTEGER",
+            "fieldPath": "antiFeatures",
+            "columnName": "antiFeatures",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "categories",
+            "columnName": "categories",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -296,12 +338,44 @@
         },
         "indices": [],
         "foreignKeys": []
+      },
+      {
+        "tableName": "InstalledEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `signature` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "signature",
+            "columnName": "signature",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5b8188effdf656f5c94a6bddd13f4733')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b01a8fae755b8b96d36459e885dea04b')"
     ]
   }
 }

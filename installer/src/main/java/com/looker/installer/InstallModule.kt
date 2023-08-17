@@ -18,5 +18,5 @@ object InstallModule {
 	fun providesInstaller(
 		@ApplicationContext context: Context,
 		userPreferencesRepository: UserPreferencesRepository
-	): Installer = Installer(context, userPreferencesRepository)
+	): InstallManager = InstallManager(context, userPreferencesRepository)
 }

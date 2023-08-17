@@ -7,10 +7,33 @@ data class Repo(
 	val name: String,
 	val description: String,
 	val fingerprint: String,
+	val authentication: Authentication,
+	val versionInfo: VersionInfo,
+	val mirrors: List<String>,
+	val antiFeatures: List<AntiFeature>,
+	val categories: List<Category>
+) {
+	val shouldAuthenticate =
+		authentication.username.isNotEmpty() && authentication.password.isNotEmpty()
+}
+
+data class AntiFeature(
+	val name: String,
+	val icon: String = "",
+	val description: String = ""
+)
+
+data class Category(
+	val name: String,
+	val icon: String = "",
+	val description: String = ""
+)
+
+data class Authentication(
 	val username: String,
-	val password: String,
-	val etag: String,
-	val version: Int,
-	val timestamp: Long,
-	val mirrors: List<String>
+	val password: String
+)
+
+data class VersionInfo(
+	val timestamp: Long
 )

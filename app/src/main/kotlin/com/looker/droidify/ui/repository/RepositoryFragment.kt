@@ -19,7 +19,8 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.string as stringRes
 

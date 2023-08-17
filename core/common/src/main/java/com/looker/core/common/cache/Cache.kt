@@ -14,7 +14,7 @@ import android.system.Os
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.sdkAbove
 import java.io.File
-import java.util.*
+import java.util.UUID
 import kotlin.concurrent.thread
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours

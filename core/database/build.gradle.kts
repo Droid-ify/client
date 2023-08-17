@@ -1,10 +1,8 @@
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
-	kotlin("kapt")
-	id("com.google.devtools.ksp") version Version.ksp
-	kotlin("plugin.serialization") version Version.kotlin
-	id(Hilt.plugin)
+	id("looker.android.library")
+	id("com.google.devtools.ksp")
+	kotlin("plugin.serialization")
+	id("looker.hilt.work")
 }
 
 android {
@@ -12,6 +10,7 @@ android {
 	namespace = "com.looker.core.database"
 	defaultConfig {
 		minSdk = Android.minSdk
+		testInstrumentationRunner = Test.jUnitRunner
 
 		javaCompileOptions {
 			annotationProcessorOptions {
@@ -37,7 +36,10 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
-	kotlinOptions.jvmTarget = "17"
+	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 	buildFeatures {
 		buildConfig = false
 		aidl = false
@@ -48,21 +50,14 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreModel))
+	modules(Modules.coreCommon, Modules.coreModel)
+
+	coroutines()
+	room()
 
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
-
-	implementation(Hilt.android)
-	kapt(Hilt.compiler)
-
 	implementation(Kotlin.serialization)
 
-	implementation(Room.runtime)
-	implementation(Room.ktx)
-	ksp(Room.compiler)
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }

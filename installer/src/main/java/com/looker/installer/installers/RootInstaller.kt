@@ -11,7 +11,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
-internal class RootInstaller(private val context: Context) : BaseInstaller {
+internal class RootInstaller(private val context: Context) : Installer {
 
 	companion object {
 		private const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -S %s"
@@ -54,7 +54,7 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 			)
 	}
 
-	override suspend fun performInstall(
+	override suspend fun install(
 		installItem: InstallItem
 	): InstallState = suspendCancellableCoroutine { cont ->
 		val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
@@ -66,7 +66,7 @@ internal class RootInstaller(private val context: Context) : BaseInstaller {
 		}
 	}
 
-	override suspend fun performUninstall(packageName: PackageName) =
+	override suspend fun uninstall(packageName: PackageName) =
 		context.uninstallPackage(packageName)
 
 	override fun cleanup() {}

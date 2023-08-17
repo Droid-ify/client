@@ -17,11 +17,8 @@ fun SyncPreference.toJobNetworkType() = when (networkType) {
 	else -> JobInfo.NETWORK_TYPE_ANY
 }
 
-fun SyncPreference.toWorkConstraints(): Constraints = workConstraints {
-	setRequiredNetworkType(networkType)
-	setRequiresCharging(pluggedIn)
-	setRequiresBatteryNotLow(batteryNotLow)
-}
-
-private fun workConstraints(block: Constraints.Builder.() -> Unit) =
-	Constraints.Builder().apply(block).build()
+fun SyncPreference.toWorkConstraints(): Constraints = Constraints(
+	requiredNetworkType = networkType,
+	requiresCharging = pluggedIn,
+	requiresBatteryNotLow = batteryNotLow
+)

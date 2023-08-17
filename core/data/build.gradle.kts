@@ -1,15 +1,16 @@
 plugins {
-	id("com.android.library")
-	id("org.jetbrains.kotlin.android")
-	kotlin("kapt")
-	kotlin("plugin.serialization") version Version.kotlin
-	id(Hilt.plugin)
+	id("looker.android.library")
+	kotlin("plugin.serialization")
+	id("looker.hilt.work")
 }
 
 android {
 	namespace = "com.looker.core.data"
 	compileSdk = Android.compileSdk
-	defaultConfig.minSdk = Android.minSdk
+	defaultConfig {
+		minSdk = Android.minSdk
+		testInstrumentationRunner = Test.jUnitRunner
+	}
 
 	buildTypes {
 		release {
@@ -25,7 +26,10 @@ android {
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
-	kotlinOptions.jvmTarget = "17"
+	kotlin.jvmToolchain(17)
+	kotlinOptions {
+		freeCompilerArgs += "-Xcontext-receivers"
+	}
 	buildFeatures {
 		buildConfig = false
 		aidl = false
@@ -36,27 +40,22 @@ android {
 }
 
 dependencies {
-	implementation(kotlin("stdlib"))
-	implementation(project(Modules.coreCommon))
-	implementation(project(Modules.coreDatabase))
-	implementation(project(Modules.coreDatastore))
-	implementation(project(Modules.coreModel))
+	modules(
+		Modules.coreCommon,
+		Modules.coreDatabase,
+		Modules.coreDatastore,
+		Modules.coreModel,
+		Modules.coreNetwork
+	)
 
-	implementation(AndroidX.material)
+	coroutines()
+	fdroid()
+	ktor()
+
 	implementation(Core.core)
-
-	implementation(Coroutines.core)
-	implementation(Coroutines.android)
-
 	implementation(Kotlin.serialization)
-
-	implementation(Ktor.core)
-	implementation(Ktor.okhttp)
-
 	implementation(Work.manager)
 
-	implementation(Hilt.android)
-	implementation(Hilt.work)
-	kapt(Hilt.androidX)
-	kapt(Hilt.compiler)
+	testImplementation(kotlin("test"))
+	testImplementation(Test.jUnit)
 }

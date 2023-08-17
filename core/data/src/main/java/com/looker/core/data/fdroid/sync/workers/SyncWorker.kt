@@ -3,19 +3,8 @@ package com.looker.core.data.fdroid.sync.workers
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
-import androidx.work.Constraints
-import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.ForegroundInfo
-import androidx.work.NetworkType
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.OutOfQuotaPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.datastore.UserPreferencesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +15,6 @@ import java.util.concurrent.TimeUnit
 class SyncWorker @AssistedInject constructor(
 	@Assisted private val appContext: Context,
 	@Assisted workParams: WorkerParameters,
-	private val userPreferencesRepository: UserPreferencesRepository,
 	private val repoRepository: RepoRepository
 ) : CoroutineWorker(appContext, workParams) {
 
@@ -35,8 +23,7 @@ class SyncWorker @AssistedInject constructor(
 
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 		Log.i(SYNC_WORK, "Start Sync")
-		val unstable = userPreferencesRepository.fetchInitialPreferences().unstableUpdate
-		val isSuccess = repoRepository.syncAll(appContext, unstable)
+		val isSuccess = repoRepository.syncAll()
 		if (isSuccess) Result.success() else Result.failure()
 	}
 
@@ -59,9 +46,9 @@ class SyncWorker @AssistedInject constructor(
 
 		fun startSyncWork(context: Context) {
 			WorkManager.getInstance(context).apply {
-				val netRequired = Constraints.Builder()
-					.setRequiredNetworkType(NetworkType.CONNECTED)
-					.build()
+				val netRequired = Constraints(
+					requiredNetworkType = NetworkType.CONNECTED
+				)
 				val work = OneTimeWorkRequestBuilder<DelegatingWorker>()
 					.setExpedited(OutOfQuotaPolicy.RUN_AS_NON_EXPEDITED_WORK_REQUEST)
 					.setConstraints(netRequired)

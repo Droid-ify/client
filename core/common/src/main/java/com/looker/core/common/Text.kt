@@ -1,10 +1,20 @@
 package com.looker.core.common
 
 import android.util.Log
-import java.util.*
+import java.util.Locale
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
 	return if (isNullOrBlank()) null else this
+}
+
+fun String.stripBetween(prefix: String, suffix: String = prefix): String {
+	val firstHyphenIndex = this.indexOf(prefix)
+	val lastHyphenIndex = this.lastIndexOf(suffix)
+	return if (firstHyphenIndex != -1 && lastHyphenIndex != -1 && firstHyphenIndex != lastHyphenIndex) {
+		this.substring(0, firstHyphenIndex + 1) + this.substring(lastHyphenIndex + 1)
+	} else {
+		this
+	}
 }
 
 private val sizeFormats = listOf("%.0f B", "%.0f kB", "%.1f MB", "%.2f GB")
@@ -17,16 +27,12 @@ fun Long.formatSize(): String {
 	return sizeFormats[index].format(Locale.US, size)
 }
 
-fun ByteArray.hex(): String = buildString {
-	this@hex.forEach { byte ->
-		append("%02x".format(Locale.US, byte.toInt() and 0xff))
-	}
+fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
+	"%02x".format(Locale.US, byte.toInt() and 0xff)
 }
 
-fun Any.debug(message: String) {
-	val tag = this::class.java.name.let {
-		val index = it.lastIndexOf('.')
-		if (index >= 0) it.substring(index + 1) else it
-	}.replace('$', '.') + "DEBUG"
-	Log.d(tag, message)
+fun Any.log(message: Any) {
+	this::class.java.simpleName
+	val tag = this::class.java.simpleName + ".DEBUG"
+	Log.d(tag, message.toString())
 }

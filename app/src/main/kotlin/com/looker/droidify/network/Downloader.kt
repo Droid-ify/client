@@ -3,11 +3,7 @@ package com.looker.droidify.network
 import com.looker.core.common.result.Result
 import com.looker.droidify.utility.getProgress
 import kotlinx.coroutines.suspendCancellableCoroutine
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
+import okhttp3.*
 import okio.IOException
 import java.io.File
 import java.io.FileOutputStream
@@ -51,7 +47,7 @@ object Downloader {
 			get() = code == HttpURLConnection.HTTP_NOT_MODIFIED
 	}
 
-	fun createCall(block: Request.Builder.() -> Unit): Call {
+	private fun createCall(block: Request.Builder.() -> Unit): Call {
 		val request = Request.Builder().apply(block).build()
 		val onion = request.url.host.endsWith(".onion")
 		val client = synchronized(clients) {

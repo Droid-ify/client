@@ -1,13 +1,10 @@
 package com.looker.core.database
 
 import androidx.room.TypeConverter
-import com.looker.core.database.model.LocalizedEntity
-import com.looker.core.database.model.PackageEntity
-import com.looker.core.database.model.PermissionEntity
+import com.looker.core.database.model.*
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.builtins.serializer
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -17,7 +14,12 @@ private val json = Json {
 }
 
 internal const val STRING_DELIMITER = "!@#$%^&*"
-private val localizedSerializer = MapSerializer(String.serializer(), LocalizedEntity.serializer())
+private val stringListSerializer = ListSerializer(String.serializer())
+private val localizedStringSerializer = MapSerializer(String.serializer(), String.serializer())
+private val localizedListSerializer = MapSerializer(String.serializer(), stringListSerializer)
+private val antiFeatureSerializer =
+	MapSerializer(String.serializer(), AntiFeatureEntity.serializer())
+private val categorySerializer = MapSerializer(String.serializer(), CategoryEntity.serializer())
 private val packageListSerializer = ListSerializer(PackageEntity.serializer())
 
 class CollectionConverter {
@@ -34,12 +36,20 @@ class CollectionConverter {
 class LocalizedConverter {
 
 	@TypeConverter
-	fun localizedToJson(localizedEntity: Map<String, LocalizedEntity>): String =
-		json.encodeToString(localizedSerializer, localizedEntity)
+	fun localizedStringToJson(localizedEntity: LocalizedString): String =
+		json.encodeToString(localizedStringSerializer, localizedEntity)
 
 	@TypeConverter
-	fun jsonToLocalized(jsonObject: String): Map<String, LocalizedEntity> =
-		json.decodeFromString(localizedSerializer, jsonObject)
+	fun jsonToLocalizedString(jsonObject: String): LocalizedString =
+		json.decodeFromString(localizedStringSerializer, jsonObject)
+
+	@TypeConverter
+	fun localizedListToJson(localizedEntity: LocalizedList): String =
+		json.encodeToString(localizedListSerializer, localizedEntity)
+
+	@TypeConverter
+	fun jsonToLocalizedList(jsonObject: String): LocalizedList =
+		json.decodeFromString(localizedListSerializer, jsonObject)
 
 }
 
@@ -48,7 +58,6 @@ class PackageEntityConverter {
 	@TypeConverter
 	fun entityToString(packageEntity: PackageEntity): String =
 		json.encodeToString(packageEntity)
-
 
 	@TypeConverter
 	fun stringToPackage(jsonString: String): PackageEntity =
@@ -64,18 +73,22 @@ class PackageEntityConverter {
 
 }
 
-class PermissionConverter {
+class RepoConverter {
 
 	@TypeConverter
-	fun stringToPermission(string: String): List<PermissionEntity> =
-		string.split(STRING_DELIMITER).map {
-			json.decodeFromString(PermissionEntity.serializer(), it)
-		}
+	fun antiFeaturesToString(map: Map<String, AntiFeatureEntity>): String =
+		json.encodeToString(antiFeatureSerializer, map)
 
 	@TypeConverter
-	fun permissionToString(permissionEntity: List<PermissionEntity>): String =
-		permissionEntity.joinToString(STRING_DELIMITER) {
-			json.encodeToString(PermissionEntity.serializer(), it)
-		}
+	fun stringToAntiFeatures(string: String): Map<String, AntiFeatureEntity> =
+		json.decodeFromString(antiFeatureSerializer, string)
+
+	@TypeConverter
+	fun categoryToString(map: Map<String, CategoryEntity>): String =
+		json.encodeToString(categorySerializer, map)
+
+	@TypeConverter
+	fun stringToCategory(string: String): Map<String, CategoryEntity> =
+		json.decodeFromString(categorySerializer, string)
 
 }

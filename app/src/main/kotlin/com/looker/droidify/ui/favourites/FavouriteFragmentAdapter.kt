@@ -47,7 +47,9 @@ class FavouriteFragmentAdapter(
 			)
 		).apply {
 			itemView.setOnClickListener {
-				onProductClick(apps[absoluteAdapterPosition].first().packageName)
+				if (apps.isNotEmpty() && apps[absoluteAdapterPosition].firstOrNull() != null) {
+					onProductClick(apps[absoluteAdapterPosition].first().packageName)
+				}
 			}
 		}
 
