@@ -91,7 +91,7 @@ private object Ktor {
 private object Lifecycle {
 	private const val lifecycleVersion = "2.6.1"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
-	const val fragment = "androidx.fragment:fragment-ktx:1.6.0"
+	const val fragment = "androidx.fragment:fragment-ktx:1.6.1"
 	const val activity = "androidx.activity:activity-ktx:1.7.2"
 }
 
