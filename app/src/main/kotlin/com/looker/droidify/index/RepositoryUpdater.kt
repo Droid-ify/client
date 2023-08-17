@@ -9,21 +9,14 @@ import com.looker.core.model.Product
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.plus
-import kotlinx.coroutines.withContext
+import com.looker.network.Downloader
+import com.looker.network.NetworkResponse
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
+import okhttp3.internal.http.toHttpDateString
 import java.io.File
-import java.net.UnknownHostException
 import java.security.cert.X509Certificate
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
@@ -63,7 +56,10 @@ object RepositoryUpdater {
 	private val updaterLock = Any()
 	private val cleanupLock = Any()
 
-	fun init(scope: CoroutineScope) {
+	private lateinit var downloader: Downloader
+
+	fun init(scope: CoroutineScope, downloader: Downloader) {
+		this.downloader = downloader
 		var lastDisabled = setOf<Long>()
 		flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(Database.flowCollection(Database.Subject.Repositories)) }
@@ -111,13 +107,13 @@ object RepositoryUpdater {
 		val indexType = indexTypes[0]
 		when (val request = downloadIndex(context, repository, indexType, callback)) {
 			is Result.Error -> {
-				val result = request.data?.requestCode
+				val result = request.data
 					?: return@withContext Result.Error(request.exception, false)
 
 				val file = request.data?.file
 					?: return@withContext Result.Error(request.exception, false)
 				file.delete()
-				if (result.code == 404 && indexTypes.isNotEmpty()) {
+				if (result.statusCode == 404 && indexTypes.isNotEmpty()) {
 					update(
 						context = context,
 						repository = repository,
@@ -129,35 +125,31 @@ object RepositoryUpdater {
 					Result.Error(
 						UpdateException(
 							ErrorType.HTTP,
-							"Invalid response: HTTP ${result.code}"
+							"Invalid response: HTTP ${result.statusCode}"
 						)
 					)
 				}
 			}
+
 			is Result.Success -> {
-				val result = request.data.requestCode
-				val file = request.data.file
-				when {
-					result.isNotChanged -> {
-						file.delete()
-						Result.Success(false)
-					}
-					else -> {
-						try {
-							val data = processFile(
-								context = context,
-								repository = repository,
-								indexType = indexType,
-								unstable = unstable,
-								file = file,
-								lastModified = result.lastModified,
-								entityTag = result.entityTag,
-								callback = callback
-							)
-							Result.Success(data)
-						} catch (e: UpdateException) {
-							Result.Error(e)
-						}
+				if (request.data.isUnmodified) {
+					request.data.file.delete()
+					Result.Success(false)
+				} else {
+					try {
+						val isFileParsedSuccessfully = processFile(
+							context = context,
+							repository = repository,
+							indexType = indexType,
+							unstable = unstable,
+							file = request.data.file,
+							lastModified = request.data.lastModified,
+							entityTag = request.data.entityTag,
+							callback = callback
+						)
+						Result.Success(isFileParsedSuccessfully)
+					} catch (e: UpdateException) {
+						Result.Error(e)
 					}
 				}
 			}
@@ -171,50 +163,43 @@ object RepositoryUpdater {
 		callback: (Stage, Long, Long?) -> Unit
 	): Result<IndexFile> = withContext(Dispatchers.IO) {
 		val file = Cache.getTemporaryFile(context)
-		val downloadResult = Downloader.downloadFile(
-			Uri.parse(repository.address).buildUpon()
+		val result = downloader.downloadToFile(
+			url = Uri.parse(repository.address).buildUpon()
 				.appendPath(indexType.jarName).build().toString(),
-			file,
-			repository.lastModified,
-			repository.entityTag,
-			repository.authentication
-		) { read, total -> callback(Stage.DOWNLOAD, read, total) }
-
-		when (downloadResult) {
-			is Result.Error -> {
-				file.delete()
-				when (downloadResult.exception) {
-					is UnknownHostException -> {
-						Result.Error(
-							UpdateException(
-								ErrorType.VALIDATION,
-								"Url is invalid",
-								downloadResult.exception as UnknownHostException
-							)
-						)
-					}
-					is IllegalArgumentException -> {
-						Result.Error(
-							UpdateException(
-								ErrorType.HTTP,
-								"Url is invalid",
-								downloadResult.exception as IllegalArgumentException
-							)
-						)
-					}
-					is Exception -> {
-						Result.Error(
-							UpdateException(
-								ErrorType.NETWORK,
-								"Network error",
-								downloadResult.exception as Exception
-							)
-						)
-					}
-					else -> Result.Error(downloadResult.exception)
-				}
+			target = file,
+			headers = {
+				ifModifiedSince(repository.lastModified)
+				etag(repository.entityTag)
+				authentication(repository.authentication)
 			}
-			is Result.Success -> Result.Success(IndexFile(downloadResult.data, file))
+		) { read, total ->
+			callback(Stage.DOWNLOAD, read, total)
+		}
+
+		when (result) {
+			is NetworkResponse.Success -> {
+				Result.Success(
+					IndexFile(
+						isUnmodified = result.statusCode == 304,
+						lastModified = result.lastModified?.toHttpDateString() ?: "",
+						entityTag = result.etag ?: "",
+						statusCode = result.statusCode,
+						file = file
+					)
+				)
+			}
+
+			is NetworkResponse.Error -> {
+				file.delete()
+				val errorType = if (result.statusCode in 400..499) ErrorType.HTTP
+				else ErrorType.NETWORK
+				val exception = if (result.exception != null) result.exception
+				else UpdateException(
+					errorType = errorType,
+					message = "Failed with Status: ${result.statusCode}"
+				)
+				Result.Error(exception)
+			}
 		}
 	}
 
@@ -437,6 +422,9 @@ object RepositoryUpdater {
 }
 
 data class IndexFile(
-	val requestCode: Downloader.RequestCode,
+	val isUnmodified: Boolean,
+	val lastModified: String,
+	val entityTag: String,
+	val statusCode: Int,
 	val file: File
 )

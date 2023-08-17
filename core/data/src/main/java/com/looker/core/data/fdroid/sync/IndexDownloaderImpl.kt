@@ -64,7 +64,7 @@ class IndexDownloaderImpl @Inject constructor(
 
 	override suspend fun determineIndexType(repo: Repo): IndexType {
 		val indexV2Exist = downloader.headCall(repo.indexUrl(ENTRY_JSON_FILE_NAME))
-		return if (indexV2Exist == NetworkResponse.Success) IndexType.ENTRY
+		return if (indexV2Exist is NetworkResponse.Success) IndexType.ENTRY
 		else IndexType.INDEX_V1
 	}
 

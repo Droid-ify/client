@@ -8,14 +8,14 @@ import io.ktor.client.HttpClient
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
 import io.ktor.client.statement.bodyAsChannel
-import io.ktor.http.HttpStatusCode
-import io.ktor.http.isSuccess
+import io.ktor.http.*
 import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
 import java.io.File
+import java.util.Date
 import javax.inject.Inject
 
 class KtorDownloader @Inject constructor(private val client: HttpClient) : Downloader {
@@ -50,7 +50,10 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 			)
 			client.prepareGet(request).execute { response ->
 				response.bodyAsChannel() saveTo target
-				response.status.toNetworkResponse()
+				response.status.toNetworkResponse(
+					lastModified = response.lastModified(),
+					etag = response.etag()
+				)
 			}
 		} catch (e: Exception) {
 			e.exceptCancellation()
@@ -86,8 +89,11 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 		}
 	}
 
-	private fun HttpStatusCode.toNetworkResponse(): NetworkResponse =
-		if (isSuccess()) NetworkResponse.Success
+	private fun HttpStatusCode.toNetworkResponse(
+		lastModified: Date? = null,
+		etag: String? = null
+	): NetworkResponse =
+		if (isSuccess() || this == HttpStatusCode.NotModified) NetworkResponse.Success(value, lastModified, etag)
 		else NetworkResponse.Error(value)
 
 }

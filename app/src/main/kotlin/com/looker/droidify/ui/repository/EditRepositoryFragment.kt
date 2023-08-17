@@ -410,7 +410,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 				downloader.headCall(
 					url = "$it/index-v1.jar",
 					headers = { authentication(authentication) }
-				) == NetworkResponse.Success
+				) is NetworkResponse.Success
 			}
 		}
 		val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)

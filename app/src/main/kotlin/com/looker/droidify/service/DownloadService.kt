@@ -425,7 +425,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			currentTask = null
 			yield()
 			when (response) {
-				NetworkResponse.Success -> {
+				is NetworkResponse.Success -> {
 					val validationError = validatePackage(task, partialReleaseFile)
 					if (validationError == null) {
 						val releaseFile = Cache.getReleaseFile(

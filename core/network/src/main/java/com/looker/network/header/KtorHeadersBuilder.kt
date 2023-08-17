@@ -2,8 +2,6 @@ package com.looker.network.header
 
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.toJavaLocalDate
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -29,8 +27,16 @@ internal class KtorHeadersBuilder(
 		}
 	}
 
+	override fun etag(etagString: String) {
+		HttpHeaders.ETag headsWith etagString
+	}
+
 	override fun ifModifiedSince(date: Date) {
 		HttpHeaders.IfModifiedSince headsWith formatHttpDate(date)
+	}
+
+	override fun ifModifiedSince(date: String) {
+		HttpHeaders.IfModifiedSince headsWith date
 	}
 
 	override fun authentication(username: String, password: String) {

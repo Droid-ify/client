@@ -144,7 +144,6 @@ dependencies {
 
 	androidX()
 	coroutines()
-	ktor()
 	lifecycle()
 
 	implementation(Coil.coil)
@@ -152,8 +151,6 @@ dependencies {
 	implementation(Jackson.core)
 
 	implementation(Kotlin.datetime)
-
-	implementation(OkHttp.okhttp)
 
 	implementation(Others.zoomage)
 

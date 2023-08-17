@@ -428,11 +428,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			currentTask = null
 			when (request) {
 				is Result.Error -> {
-					request.exception?.printStackTrace()
-					if (task.manual) showNotificationError(
-						repository,
-						request.exception as Exception
-					)
+					request.exception?.let {
+						it.printStackTrace()
+						if (task.manual) showNotificationError(repository, it as Exception)
+					}
 					handleNextTask(request.data == true || hasUpdates)
 				}
 				is Result.Success -> handleNextTask(request.data || hasUpdates)

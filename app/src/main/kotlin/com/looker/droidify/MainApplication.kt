@@ -4,11 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.app.job.JobInfo
 import android.app.job.JobScheduler
-import android.content.BroadcastReceiver
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Build
 import androidx.work.NetworkType
 import coil.ImageLoader
@@ -23,12 +19,9 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyPreference
-import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.receivers.InstalledAppReceiver
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -38,17 +31,13 @@ import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.droidify.utility.extension.android.getInstalledPackagesCompat
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.InstallManager
+import com.looker.network.Downloader
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
-import java.net.InetSocketAddress
-import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.ZERO
@@ -67,6 +56,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 	@Inject
 	lateinit var installer: InstallManager
 
+	@Inject
+	lateinit var downloader: Downloader
+
 	override fun onCreate() {
 		super.onCreate()
 
@@ -81,7 +73,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 		val databaseUpdated = Database.init(this)
 		ProductPreferences.init(this, appScope)
-		RepositoryUpdater.init(appScope)
+		RepositoryUpdater.init(appScope, downloader)
 		listenApplications()
 		updatePreference()
 
@@ -127,11 +119,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 					}
 				}
 			}
-			launch {
-				userPreferenceFlow
-					.distinctMap { it.proxy }
-					.collect(::updateProxy)
-			}
 		}
 	}
 
@@ -168,30 +155,6 @@ class MainApplication : Application(), ImageLoaderFactory {
 				}
 			}::class.java
 		}
-	}
-
-	private fun updateProxy(proxyPreference: ProxyPreference) {
-		val type = proxyPreference.type
-		val host = proxyPreference.host
-		val port = proxyPreference.port
-		val socketAddress = when (type) {
-			ProxyType.DIRECT -> null
-			ProxyType.HTTP, ProxyType.SOCKS -> {
-				try {
-					InetSocketAddress.createUnresolved(host, port)
-				} catch (e: Exception) {
-					e.printStackTrace()
-					null
-				}
-			}
-		}
-		val androidProxyType = when (type) {
-			ProxyType.DIRECT -> Proxy.Type.DIRECT
-			ProxyType.HTTP -> Proxy.Type.HTTP
-			ProxyType.SOCKS -> Proxy.Type.SOCKS
-		}
-		val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) }
-		Downloader.proxy = determinedProxy
 	}
 
 	private fun forceSyncAll() {
