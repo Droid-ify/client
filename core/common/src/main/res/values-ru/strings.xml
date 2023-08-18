@@ -217,4 +217,6 @@
     <string name="auto_update">Автообновление приложений</string>
     <string name="auto_update_apps">Попробовать устанавливать обновления автоматически</string>
     <string name="has_non_free_components">Содержит несвободные компоненты</string>
+    <string name="socket_error_DESC">Сервер не смог предоставить новый пакет</string>
+    <string name="connection_error_DESC">Не удалось соединиться с сервером</string>
 </resources>
