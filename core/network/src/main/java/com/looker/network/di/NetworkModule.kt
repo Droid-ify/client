@@ -39,7 +39,6 @@ object NetworkModule {
 		return HttpClient(OkHttp) {
 			install(HttpTimeout) {
 				connectTimeoutMillis = 30_000
-				requestTimeoutMillis = 15_000
 				socketTimeoutMillis = 15_000
 			}
 			engine { proxy = config }
