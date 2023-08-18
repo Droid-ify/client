@@ -63,6 +63,8 @@
         <item quantity="other">Hours</item>
     </plurals>
     <string name="http_error_DESC">Invalid server response.</string>
+    <string name="socket_error_DESC">Server failed to provide new packet.</string>
+    <string name="connection_error_DESC">Could not connect to server</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Ignore all new versions</string>
     <string name="ignore_this_update">Ignore this version</string>

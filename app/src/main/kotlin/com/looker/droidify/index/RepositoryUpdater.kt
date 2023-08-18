@@ -190,14 +190,20 @@ object RepositoryUpdater {
 
 			is NetworkResponse.Error -> {
 				file.delete()
-				val errorType = if (result.statusCode in 400..499) ErrorType.HTTP
-				else ErrorType.NETWORK
-				val exception = if (result.exception != null) result.exception
-				else UpdateException(
-					errorType = errorType,
-					message = "Failed with Status: ${result.statusCode}"
-				)
-				Result.Error(exception)
+				when(result) {
+					is NetworkResponse.Error.Http -> {
+						val errorType = if (result.statusCode in 400..499) ErrorType.HTTP
+						else ErrorType.NETWORK
+						Result.Error(UpdateException(
+							errorType = errorType,
+							message = "Failed with Status: ${result.statusCode}"
+						))
+					}
+					is NetworkResponse.Error.ConnectionTimeout -> Result.Error(result.exception)
+					is NetworkResponse.Error.IO -> Result.Error(result.exception)
+					is NetworkResponse.Error.SocketTimeout -> Result.Error(result.exception)
+					is NetworkResponse.Error.Unknown -> Result.Error(result.exception)
+				}
 			}
 		}
 	}

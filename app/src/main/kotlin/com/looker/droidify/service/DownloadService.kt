@@ -186,8 +186,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private enum class ValidationError { INTEGRITY, FORMAT, METADATA, SIGNATURE, PERMISSIONS }
 
 	private sealed interface ErrorType {
-		object IO : ErrorType
-		object Http : ErrorType
+		data object IO : ErrorType
+		data object Http : ErrorType
+		data object SocketTimeout : ErrorType
+		data object ConnectionTimeout : ErrorType
 		class Validation(val validateError: ValidationError) : ErrorType
 	}
 
@@ -220,47 +222,23 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		task: Task,
 		errorType: ErrorType
 	) {
-		when (errorType) {
-			is ErrorType.IO -> {
-				setContentTitle(
-					getString(
-						stringRes.could_not_download_FORMAT,
-						task.name
-					)
-				)
-				setContentText(getString(stringRes.io_error_DESC))
+		val title = if (errorType is ErrorType.Validation) stringRes.could_not_validate_FORMAT
+		else stringRes.could_not_download_FORMAT
+		val description = when(errorType) {
+			ErrorType.ConnectionTimeout -> stringRes.connection_error_DESC
+			ErrorType.Http -> stringRes.http_error_DESC
+			ErrorType.IO -> stringRes.io_error_DESC
+			ErrorType.SocketTimeout -> stringRes.socket_error_DESC
+			is ErrorType.Validation -> when (errorType.validateError) {
+				ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
+				ValidationError.FORMAT -> stringRes.file_format_error_DESC
+				ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
+				ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
+				ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
 			}
-
-			is ErrorType.Http -> {
-				setContentTitle(
-					getString(
-						stringRes.could_not_download_FORMAT,
-						task.name
-					)
-				)
-				setContentText(getString(stringRes.http_error_DESC))
-			}
-
-			is ErrorType.Validation -> {
-				setContentTitle(
-					getString(
-						stringRes.could_not_validate_FORMAT,
-						task.name
-					)
-				)
-				setContentText(
-					getString(
-						when (errorType.validateError) {
-							ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
-							ValidationError.FORMAT -> stringRes.file_format_error_DESC
-							ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
-							ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
-							ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
-						}
-					)
-				)
-			}
-		}::class
+		}
+		setContentTitle(getString(title, task.name))
+		setContentText(getString(description))
 	}
 
 	private fun showNotificationInstall(task: Task) {
@@ -313,7 +291,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		file: File
 	): ValidationError? = withContext(Dispatchers.IO) {
 		var validationError: ValidationError? = null
-		if (!file.verifyHash(Hash(task.release.hashType, task.release.hash))) validationError = ValidationError.INTEGRITY
+		val hash = Hash(task.release.hashType, task.release.hash)
+		if (!file.verifyHash(hash)) validationError = ValidationError.INTEGRITY
 		yield()
 		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
 			?: return@withContext ValidationError.FORMAT
@@ -437,8 +416,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				}
 
 				is NetworkResponse.Error -> {
-					showNotificationError(task, ErrorType.Http)
 					mutableState.emit(State.Error(task.packageName))
+					val errorType = when (response) {
+						is NetworkResponse.Error.ConnectionTimeout -> ErrorType.ConnectionTimeout
+						is NetworkResponse.Error.IO -> ErrorType.IO
+						is NetworkResponse.Error.SocketTimeout -> ErrorType.SocketTimeout
+						else -> ErrorType.Http
+					}
+					showNotificationError(task, errorType)
 				}
 			}
 			yield()

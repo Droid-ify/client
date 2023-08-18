@@ -5,8 +5,11 @@ import com.looker.core.common.extension.size
 import com.looker.network.header.HeadersBuilder
 import com.looker.network.header.KtorHeadersBuilder
 import io.ktor.client.HttpClient
+import io.ktor.client.network.sockets.ConnectTimeoutException
+import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
+import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.*
 import io.ktor.utils.io.ByteReadChannel
@@ -15,7 +18,7 @@ import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
 import kotlinx.coroutines.yield
 import java.io.File
-import java.util.Date
+import java.io.IOException
 import javax.inject.Inject
 
 class KtorDownloader @Inject constructor(private val client: HttpClient) : Downloader {
@@ -29,8 +32,7 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 			headers = headers,
 			block = null
 		)
-		val status = client.head(headRequest).status
-		return status.toNetworkResponse()
+		return client.head(headRequest).asNetworkResponse()
 	}
 
 	override suspend fun downloadToFile(
@@ -50,14 +52,20 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 			)
 			client.prepareGet(request).execute { response ->
 				response.bodyAsChannel() saveTo target
-				response.status.toNetworkResponse(
-					lastModified = response.lastModified(),
-					etag = response.etag()
-				)
+				response.asNetworkResponse()
 			}
+		} catch (e: SocketTimeoutException) {
+			e.exceptCancellation()
+			NetworkResponse.Error.SocketTimeout(e)
+		} catch (e: ConnectTimeoutException) {
+			e.exceptCancellation()
+			NetworkResponse.Error.ConnectionTimeout(e)
+		} catch (e: IOException) {
+			e.exceptCancellation()
+			NetworkResponse.Error.IO(e)
 		} catch (e: Exception) {
 			e.exceptCancellation()
-			NetworkResponse.Error(-1, e)
+			NetworkResponse.Error.Unknown(e)
 		}
 	}
 
@@ -89,11 +97,10 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 		}
 	}
 
-	private fun HttpStatusCode.toNetworkResponse(
-		lastModified: Date? = null,
-		etag: String? = null
-	): NetworkResponse =
-		if (isSuccess() || this == HttpStatusCode.NotModified) NetworkResponse.Success(value, lastModified, etag)
-		else NetworkResponse.Error(value)
-
+	private fun HttpResponse.asNetworkResponse(): NetworkResponse =
+		if (status.isSuccess() || status == HttpStatusCode.NotModified) {
+			NetworkResponse.Success(status.value, lastModified(), etag())
+		} else {
+			NetworkResponse.Error.Http(status.value)
+		}
 }
