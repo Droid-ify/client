@@ -213,4 +213,6 @@
     <string name="auto_update">Automatická aktualizace aplikací</string>
     <string name="auto_update_apps">Pokusit se automaticky nainstalovat aktualizace</string>
     <string name="has_non_free_components">Obsahuje nesvobodné součásti</string>
+    <string name="socket_error_DESC">Server neodeslal nový paket.</string>
+    <string name="connection_error_DESC">Nepodařilo se připojit k serveru</string>
 </resources>
