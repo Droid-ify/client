@@ -36,7 +36,6 @@ dependencies {
 
 	coroutines()
 	ktor()
-	implementation(Kotlin.datetime)
 
 	testImplementation(kotlin("test"))
 	testImplementation(Test.jUnit)

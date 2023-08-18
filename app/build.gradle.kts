@@ -103,6 +103,10 @@ android {
 			initWith(getByName("debug"))
 			applicationIdSuffix = ".alpha"
 			resValue("string", "application_name", "Droid-ify Alpha")
+			proguardFiles(
+				getDefaultProguardFile("proguard-android-optimize.txt"),
+				"proguard.pro"
+			)
 			isDebuggable = true
 			isMinifyEnabled = true
 		}

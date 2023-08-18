@@ -48,8 +48,6 @@ dependencies {
 
 	implementation(Jackson.core)
 
-	implementation(Kotlin.datetime)
-
 	implementation(OkHttp.okhttp)
 
 	testImplementation(kotlin("test"))
