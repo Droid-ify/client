@@ -14,6 +14,7 @@ import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.io.ByteArrayOutputStream
 
@@ -476,6 +477,21 @@ object Database {
 		fun getStream(packageName: String): Flow<List<Product>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
 			.map { get(packageName, null) }
+
+		fun getUpdatesStream(): Flow<List<ProductItem>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+			// Crashes due to immediate retrieval of data?
+			.onEach { delay(50) }
+			.map {
+				query(
+					installed = true,
+					updates = true,
+					searchQuery = "",
+					section = ProductItem.Section.All,
+					order = SortOrder.NAME,
+					signal = null
+				).use { it.asSequence().map(ProductAdapter::transformItem).toList() }
+			}
 
 		// Done
 		fun get(packageName: String, signal: CancellationSignal?): List<Product> {

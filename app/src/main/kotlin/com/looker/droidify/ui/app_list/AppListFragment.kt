@@ -93,7 +93,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 				setIconResource(CommonR.drawable.ic_download)
 				alpha = 1f
 				viewLifecycleOwner.lifecycleScope.launch {
-					viewModel.showUpdateAllButton.collectLatest {
+					viewModel.showUpdateAllButton.collect {
 						isVisible = it
 					}
 				}
@@ -110,13 +110,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			if (!source.updateAll) {
-				recyclerView.isFirstItemVisible
-					.collectLatest { showFab ->
-						fab.animate()
-							.alpha(if (!showFab) 1f else 0f)
-							.setDuration(shortAnimationDuration.toLong())
-							.setListener(null)
-					}
+				recyclerView.isFirstItemVisible.collect { showFab ->
+					fab.animate()
+						.alpha(if (!showFab) 1f else 0f)
+						.setDuration(shortAnimationDuration.toLong())
+						.setListener(null)
+				}
 			}
 		}
 		return binding.root
@@ -127,11 +126,10 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
 		screenActivity.cursorOwner.attach(this, viewModel.request(source))
 		viewLifecycleOwner.lifecycleScope.launch {
-			Database.RepositoryAdapter
-				.getAllStream()
-				.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.RESUMED)
-				.collectLatest { repositories ->
-					recyclerViewAdapter.repositories = repositories.associateBy { it.id }
+			viewModel.reposStream
+				.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
+				.collect { repos ->
+					recyclerViewAdapter.repositories = repos.associateBy { it.id }
 				}
 		}
 	}

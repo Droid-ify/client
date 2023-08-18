@@ -3,6 +3,7 @@ package com.looker.droidify.ui.app_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asSequence
+import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.datastore.model.SortOrder
@@ -13,11 +14,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +27,15 @@ class AppListViewModel
 	private val sortOrderFlow = userPreferencesRepository
 		.userPreferencesFlow
 		.distinctMap { it.sortOrder }
+
+	val reposStream = Database.RepositoryAdapter
+		.getAllStream()
+		.asStateFlow(emptyList())
+
+	val showUpdateAllButton = Database.ProductAdapter
+		.getUpdatesStream()
+		.map { it.isNotEmpty() }
+		.asStateFlow(false)
 
 	private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
 	private val _searchQuery = MutableStateFlow("")
@@ -46,18 +52,6 @@ class AppListViewModel
 	)
 
 	val syncConnection = Connection(SyncService::class.java)
-
-	val showUpdateAllButton = flow {
-		val products = Database.ProductAdapter.query(
-			installed = true,
-			updates = true,
-			searchQuery = "",
-			section = ProductItem.Section.All,
-			order = SortOrder.NAME,
-			signal = null
-		).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
-		emit(products.isNotEmpty())
-	}
 
 	fun updateAll() {
 		syncConnection.binder?.updateAllApps()
