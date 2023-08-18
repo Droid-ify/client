@@ -86,12 +86,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private var currentTask: CurrentTask? = null
 
 	inner class Binder : android.os.Binder() {
-		val stateFlow = mutableState.stateIn(
-			scope = scope,
-			started = SharingStarted.WhileSubscribed(5_000),
-			initialValue = State.Idle
-		)
-
+		val stateFlow = mutableState.asStateFlow()
 		fun enqueue(
 			packageName: String,
 			name: String,

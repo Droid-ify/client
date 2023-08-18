@@ -93,7 +93,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 				setIconResource(CommonR.drawable.ic_download)
 				alpha = 1f
 				viewLifecycleOwner.lifecycleScope.launch {
-					isVisible = viewModel.showUpdateAllButton.first()
+					viewModel.showUpdateAllButton.collectLatest {
+						isVisible = it
+					}
 				}
 				systemBarsMargin(16.dp)
 			} else {

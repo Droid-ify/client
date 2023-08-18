@@ -652,6 +652,11 @@ object Database {
 	}
 
 	object InstalledAdapter {
+
+		fun getStream(packageName: String): Flow<InstalledItem?> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+			.map { get(packageName, null) }
+
 		// Done
 		fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
 			return db.query(

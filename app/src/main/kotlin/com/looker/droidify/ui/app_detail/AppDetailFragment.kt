@@ -3,7 +3,6 @@ package com.looker.droidify.ui.app_detail
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
@@ -19,13 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.extension.isFirstItemVisible
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.extension.*
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.*
 import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.MessageDialog
@@ -33,12 +30,13 @@ import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
-import com.looker.droidify.utility.extension.android.getApplicationInfoCompat
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
 import com.looker.installer.model.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
@@ -74,16 +72,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		val launcherActivities: List<Pair<String, String>>
 	)
 
+	private val viewModel: AppDetailViewModel by viewModels()
+
 	val packageName: String
-		get() = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
+		get() {
+			val name = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
+			viewModel.setPackageName(name)
+			return name
+		}
 
 	@Inject
 	lateinit var installer: InstallManager
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
-
-	private val viewModel: AppDetailViewModel by viewModels()
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -109,6 +111,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
+		viewModel.setPackageName(packageName)
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.menu.apply {
 			for (action in Action.values()) {
@@ -138,98 +141,44 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			recyclerView = this
 		})
 		recyclerView?.systemBarsPadding()
-		var first = true
 		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+			repeatOnLifecycle(Lifecycle.State.CREATED) {
 				launch {
-					Database.ProductAdapter
-						.getStream(packageName)
-						.map { products ->
-							Database.RepositoryAdapter.getAll(null).associateBy { it.id }.let {
-								products.mapNotNull { product ->
-									it[product.repositoryId]?.let {
-										product to it
-									}
-								}
+					viewModel.state.collect { state ->
+						products = state.products.mapNotNull { product ->
+							val requiredRepo = state.repos.find { it.id == product.repositoryId }
+							requiredRepo?.let { product to it }
+						}
+						layoutManagerState?.let {
+							recyclerView?.layoutManager!!.onRestoreInstanceState(it)
+						}
+						layoutManagerState = null
+						installed = state.installedItem?.let {
+							with(requireContext().packageManager) {
+								val isSystem = isSystemApplication(packageName)
+								val launcherActivities = if (state.isSelf) emptyList()
+								else getLauncherActivities(packageName)
+								Installed(it, isSystem, launcherActivities)
 							}
 						}
-						.map { it to Database.InstalledAdapter.get(packageName, null) }
-						.collectLatest { (productRepo, installedItem) ->
-							val firstChanged = first
-							first = false
-							val productChanged = products != productRepo
-							val installedItemChanged =
-								installed?.installedItem != installedItem
-							if (firstChanged || productChanged || installedItemChanged) {
-								layoutManagerState?.let {
-									recyclerView?.layoutManager!!.onRestoreInstanceState(it)
-								}
-								layoutManagerState = null
-								if (firstChanged || productChanged) {
-									products = productRepo
-								}
-								if (firstChanged || installedItemChanged) {
-									installed = installedItem?.let {
-										val packageManager = requireContext().packageManager
-										val isSystem = try {
-											((packageManager.getApplicationInfoCompat(packageName)
-												.flags) and ApplicationInfo.FLAG_SYSTEM) != 0
-										} catch (e: Exception) {
-											false
-										}
-										val launcherActivities =
-											if (packageName == requireContext().packageName) {
-												// Don't allow to launch self
-												emptyList()
-											} else {
-												packageManager
-													.queryIntentActivities(
-														Intent(Intent.ACTION_MAIN).addCategory(
-															Intent.CATEGORY_LAUNCHER
-														), 0
-													)
-													.asSequence()
-													.mapNotNull { resolveInfo -> resolveInfo.activityInfo }
-													.filter { activityInfo -> activityInfo.packageName == packageName }
-													.mapNotNull { activityInfo ->
-														val label = try {
-															activityInfo.loadLabel(packageManager)
-																.toString()
-														} catch (e: Exception) {
-															e.printStackTrace()
-															null
-														}
-														label?.let { labelName ->
-															activityInfo.name to labelName
-														}
-													}
-													.toList()
-											}
-										Installed(it, isSystem, launcherActivities)
-									}
-								}
-								val recyclerView = recyclerView!!
-								val adapter = recyclerView.adapter as AppDetailAdapter
+						val adapter = recyclerView?.adapter as? AppDetailAdapter
 
-								updateButtons()
-								adapter.setProducts(
-									recyclerView.context,
-									packageName,
-									productRepo,
-									installedItem,
-									userPreferencesRepository.fetchInitialPreferences()
-								)
-							}
-						}
+						adapter?.setProducts(
+							requireContext(),
+							packageName,
+							products,
+							state.installedItem,
+							userPreferencesRepository.fetchInitialPreferences()
+						)
+						updateButtons()
+					}
 				}
 				launch {
 					viewModel.installerState.collect { updateInstallState(it) }
 				}
 				launch {
 					recyclerView?.isFirstItemVisible?.collect { isFirstItemVisible ->
-						updateToolbarButtons()
-						toolbar.title = if (!isFirstItemVisible) products[0].first.name
-						else getString(stringRes.application)
+						updateToolbarButtons(isFirstItemVisible)
 					}
 				}
 			}
@@ -312,18 +261,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		updateToolbarButtons()
 	}
 
-	private fun updateToolbarTitle() {
-		val showPackageName =
-			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
-		toolbar.title =
-			if (showPackageName) products[0].first.name
-			else getString(stringRes.application)
-	}
-
-	private fun updateToolbarButtons() {
+	private fun updateToolbarButtons(
+		showPrimaryAction: Boolean = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
+	) {
+		toolbar.title = if (showPrimaryAction) getString(stringRes.application)
+		else products[0].first.name
 		val (actions, primaryAction) = actions
-		val showPrimaryAction =
-			(recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
 		val displayActions = actions.toMutableSet()
 		if (!showPrimaryAction && primaryAction != null) {
 			displayActions -= primaryAction
@@ -356,6 +299,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				state.read,
 				state.total
 			)
+
 			else -> AppDetailAdapter.Status.Idle
 		}
 		val downloading = status != AppDetailAdapter.Status.Idle
@@ -382,6 +326,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				products,
 				downloadConnection
 			)
+
 			AppDetailAdapter.Action.LAUNCH -> {
 				val launcherActivities = installed?.launcherActivities.orEmpty()
 				if (launcherActivities.size >= 2) {
@@ -394,24 +339,28 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				}
 				Unit
 			}
+
 			AppDetailAdapter.Action.DETAILS -> {
 				startActivity(
 					Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
 						.setData(Uri.parse("package:$packageName"))
 				)
 			}
+
 			AppDetailAdapter.Action.UNINSTALL -> {
 				lifecycleScope.launch {
 					installer - packageName.toPackageName()
 				}
 				Unit
 			}
+
 			AppDetailAdapter.Action.CANCEL -> {
 				val binder = downloadConnection.binder
 				if (downloading && binder != null) {
 					binder.cancel(packageName)
 				} else Unit
 			}
+
 			AppDetailAdapter.Action.SHARE -> {
 				val address = if (products[0].second.name == "F-Droid") {
 					"https://www.f-droid.org/packages/${products[0].first.packageName}/"
@@ -485,14 +434,17 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					)
 				).show(childFragmentManager)
 			}
+
 			installedItem != null && installedItem.versionCode > release.versionCode -> {
 				MessageDialog(MessageDialog.Message.ReleaseOlder).show(childFragmentManager)
 			}
+
 			installedItem != null && installedItem.signature != release.signature -> {
 				MessageDialog(MessageDialog.Message.ReleaseSignatureMismatch).show(
 					childFragmentManager
 				)
 			}
+
 			else -> {
 				val productRepository =
 					products.asSequence().filter { it -> it.first.releases.any { it === release } }

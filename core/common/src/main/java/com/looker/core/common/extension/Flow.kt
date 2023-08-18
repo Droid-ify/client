@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.*
 
 context(ViewModel)
 fun <T> Flow<T>.asStateFlow(
+	initialValue: T,
 	scope: CoroutineScope = viewModelScope,
-	started: SharingStarted = SharingStarted.WhileSubscribed(5_000),
-	initialValue: T
+	started: SharingStarted = SharingStarted.WhileSubscribed(5_000)
 ): StateFlow<T> = stateIn(
 	scope = scope,
 	started = started,

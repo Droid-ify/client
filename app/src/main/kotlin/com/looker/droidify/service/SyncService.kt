@@ -58,6 +58,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	companion object {
 		private const val TAG = "SyncService"
+
+		private const val MAX_UPDATE_NOTIFICATION = 5
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
 		private val mutableStateSubject = MutableSharedFlow<State>()
@@ -506,7 +508,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	}
 
 	private fun displayUpdatesNotification(productItems: List<ProductItem>) {
-		val maxUpdates = 5
 		fun <T> T.applyHack(callback: T.() -> Unit): T = apply(callback)
 		notificationManager.notify(
 			Constants.NOTIFICATION_ID_UPDATES, NotificationCompat
@@ -533,7 +534,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					)
 				)
 				.setStyle(NotificationCompat.InboxStyle().applyHack {
-					for (productItem in productItems.take(maxUpdates)) {
+					for (productItem in productItems.take(MAX_UPDATE_NOTIFICATION)) {
 						val builder = SpannableStringBuilder(productItem.name)
 						builder.setSpan(
 							ForegroundColorSpan(Color.BLACK), 0, builder.length,
@@ -542,9 +543,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 						builder.append(' ').append(productItem.version)
 						addLine(builder)
 					}
-					if (productItems.size > maxUpdates) {
+					if (productItems.size > MAX_UPDATE_NOTIFICATION) {
 						val summary =
-							getString(stringRes.plus_more_FORMAT, productItems.size - maxUpdates)
+							getString(stringRes.plus_more_FORMAT, productItems.size - MAX_UPDATE_NOTIFICATION)
 						if (SdkCheck.isNougat) addLine(summary) else setSummaryText(summary)
 					}
 				})
