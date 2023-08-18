@@ -139,8 +139,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				?.let(adapter::restoreState)
 			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 			recyclerView = this
+			systemBarsPadding(includeFab = false)
 		})
-		recyclerView?.systemBarsPadding()
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.CREATED) {
 				launch {

@@ -32,7 +32,8 @@ fun View.systemBarsMargin(
 }
 
 fun RecyclerView.systemBarsPadding(
-	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM)
+	allowedSides: List<InsetSides> = listOf(LEFT, RIGHT, BOTTOM),
+	includeFab: Boolean = true
 ) {
 	if (SdkCheck.isR) {
 		ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
@@ -42,7 +43,9 @@ fun RecyclerView.systemBarsPadding(
 				if (LEFT in allowedSides) insets.left else 0,
 				if (TOP in allowedSides) insets.top else 0,
 				if (RIGHT in allowedSides) insets.right else 0,
-				if (BOTTOM in allowedSides) insets.bottom else 0
+				if (BOTTOM in allowedSides) {
+					insets.bottom + if (includeFab) 88.dp else 0
+				} else 0
 			)
 			WindowInsetsCompat.CONSUMED
 		}

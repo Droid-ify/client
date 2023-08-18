@@ -29,8 +29,7 @@ import com.google.android.material.R as MaterialR
 class AppListAdapter(
 	private val source: AppListFragment.Source,
 	private val onClick: (ProductItem) -> Unit
-) :
-	CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
+) : CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
 
 	enum class ViewType { PRODUCT, LOADING, EMPTY }
 

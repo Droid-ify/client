@@ -34,14 +34,4 @@ val RecyclerView.firstItemPosition: Flow<Int>
 	}.distinctUntilChanged().conflate()
 
 val RecyclerView.isFirstItemVisible: Flow<Boolean>
-	get() = callbackFlow {
-		val listener = object : RecyclerView.OnScrollListener() {
-			override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-				val position =
-					(recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
-				trySend(position == 0)
-			}
-		}
-		addOnScrollListener(listener)
-		awaitClose { removeOnScrollListener(listener) }
-	}.distinctUntilChanged().conflate()
+	get() = firstItemPosition.map { it == 0 }.distinctUntilChanged()

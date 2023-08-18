@@ -14,7 +14,6 @@ import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.DividerItemDecoration
 import com.looker.core.common.R as CommonR
@@ -52,12 +51,11 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 				}
 				addItemDecoration(
 					DividerItemDecoration(context) { _, _, configuration ->
-						val padding = context.resources.sizeScaled(16)
 						configuration.set(
 							needDivider = true,
 							toTop = false,
-							paddingStart = padding,
-							paddingEnd = padding
+							paddingStart = 16.dp,
+							paddingEnd = 16.dp
 						)
 					}
 				)
