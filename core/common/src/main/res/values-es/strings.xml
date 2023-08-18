@@ -213,4 +213,6 @@
     <string name="auto_update">Actualización automática de aplicaciones</string>
     <string name="auto_update_apps">Intenta instalar actualizaciones automáticamente</string>
     <string name="has_non_free_components">Contiene componentes no libres</string>
+    <string name="socket_error_DESC">El servidor no ha podido proporcionar un nuevo paquete.</string>
+    <string name="connection_error_DESC">No se ha podido conectar con el servidor</string>
 </resources>
