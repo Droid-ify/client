@@ -209,4 +209,7 @@
     <string name="waiting_to_start_installation">Αναμονή για έναρξη εγκατάστασης…</string>
     <string name="auto_update">Αυτόματη ενημέρωση εφαρμογών</string>
     <string name="auto_update_apps">Προσπαθήστε να εγκαταστήσετε αυτόματα ενημερώσεις</string>
+    <string name="has_non_free_components">Διαθέτει μη-ελεύθερα στοιχεία</string>
+    <string name="socket_error_DESC">Ο διακομιστής απέτυχε να παράσχει νέο πακέτο.</string>
+    <string name="connection_error_DESC">Δε μπόρεσε να συνδεθεί με τον διακομιστή</string>
 </resources>
