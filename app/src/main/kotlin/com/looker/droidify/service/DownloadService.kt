@@ -57,7 +57,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	lateinit var installer: InstallManager
 
 	sealed class State(val packageName: String) {
-		object Idle : State("")
+		data object Idle : State("")
 		class Pending(packageName: String) : State(packageName)
 		class Connecting(packageName: String) : State(packageName)
 		class Downloading(packageName: String, val read: Long, val total: Long?) :
@@ -161,7 +161,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun cancelTasks(packageName: String?) {
 		tasks.removeAll {
 			(packageName == null || it.packageName == packageName) && run {
-				scope.launch { mutableState.emit(State.Cancel(it.packageName)) }
+				runBlocking {
+					mutableState.emit(State.Cancel(it.packageName))
+				}
 				true
 			}
 		}
@@ -170,15 +172,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun cancelCurrentTask(packageName: String?) {
 		currentTask?.let {
 			if (packageName == null || it.task.packageName == packageName) {
-				currentTask = null
-				scope.launch {
-					mutableState.emit(
-						State.Cancel(
-							it.task.packageName
-						)
-					)
-				}
 				it.job.cancel()
+				currentTask = null
+				runBlocking {
+					mutableState.emit(State.Cancel(it.task.packageName))
+				}
 			}
 		}
 	}
@@ -224,7 +222,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	) {
 		val title = if (errorType is ErrorType.Validation) stringRes.could_not_validate_FORMAT
 		else stringRes.could_not_download_FORMAT
-		val description = when(errorType) {
+		val description = when (errorType) {
 			ErrorType.ConnectionTimeout -> stringRes.connection_error_DESC
 			ErrorType.Http -> stringRes.http_error_DESC
 			ErrorType.IO -> stringRes.io_error_DESC
@@ -360,7 +358,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				}::class
 			}.build()
 		)
-		mutableState.tryEmit(state)
 	}
 
 	private fun handleDownload() {
@@ -386,6 +383,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		stateNotificationBuilder.setWhen(System.currentTimeMillis())
 		stateNotificationBuilder.setContentIntent(intent)
 		publishForegroundState(true, State.Connecting(task.packageName))
+		scope.launch {
+			mutableState.emit(State.Connecting(task.packageName))
+		}
 		val partialReleaseFile =
 			Cache.getPartialReleaseFile(this, task.release.cacheFileName)
 		val job = scope.launch {
@@ -394,10 +394,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				target = partialReleaseFile,
 				headers = { authentication(task.authentication) }
 			) { read, total ->
-				publishForegroundState(false, State.Downloading(task.packageName, read, total))
+				if (isActive) {
+					val state = State.Downloading(task.packageName, read, total)
+					publishForegroundState(false, state)
+					mutableState.emit(state)
+				}
 			}
 			currentTask = null
-			yield()
 			when (response) {
 				is NetworkResponse.Success -> {
 					val validationError = validatePackage(task, partialReleaseFile)
@@ -426,7 +429,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					showNotificationError(task, errorType)
 				}
 			}
-			yield()
 			handleDownload()
 		}
 		currentTask = CurrentTask(task, job, State.Connecting(task.packageName))

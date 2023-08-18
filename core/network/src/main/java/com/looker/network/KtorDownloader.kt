@@ -16,7 +16,7 @@ import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
-import kotlinx.coroutines.yield
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.IOException
 import javax.inject.Inject
@@ -29,8 +29,7 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 	): NetworkResponse {
 		val headRequest = createRequest(
 			url = url,
-			headers = headers,
-			block = null
+			headers = headers
 		)
 		return client.head(headRequest).asNetworkResponse()
 	}
@@ -48,6 +47,7 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 					target.size?.let { inRange(it) }
 					headers()
 				},
+				fileSize = target.size,
 				block = block
 			)
 			client.prepareGet(request).execute { response ->
@@ -55,13 +55,10 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 				response.asNetworkResponse()
 			}
 		} catch (e: SocketTimeoutException) {
-			e.exceptCancellation()
 			NetworkResponse.Error.SocketTimeout(e)
 		} catch (e: ConnectTimeoutException) {
-			e.exceptCancellation()
 			NetworkResponse.Error.ConnectionTimeout(e)
 		} catch (e: IOException) {
-			e.exceptCancellation()
 			NetworkResponse.Error.IO(e)
 		} catch (e: Exception) {
 			e.exceptCancellation()
@@ -72,26 +69,29 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 	private fun createRequest(
 		url: String,
 		headers: HeadersBuilder.() -> Unit,
-		block: ProgressListener?
+		fileSize: Long? = null,
+		block: ProgressListener? = null
 	) = request {
 		url(url)
 		headers {
 			KtorHeadersBuilder(this).headers()
 		}
-		onDownload(block)
+		onDownload { read, total ->
+			if (block != null && fileSize != null) {
+				block(read + fileSize, total + fileSize)
+			}
+		}
 	}
 
-	private suspend infix fun ByteReadChannel.saveTo(target: File) {
-		while (!isClosedForRead) {
-			yield()
+	private suspend infix fun ByteReadChannel.saveTo(target: File) = withContext(Dispatchers.IO) {
+		while (!isClosedForRead && isActive) {
 			val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
 			packet.appendTo(target)
 		}
 	}
 
-	private suspend fun ByteReadPacket.appendTo(file: File) {
-		while (!isEmpty) {
-			yield()
+	private suspend fun ByteReadPacket.appendTo(file: File) = withContext(Dispatchers.IO) {
+		while (!isEmpty && isActive) {
 			val bytes = readBytes()
 			file.appendBytes(bytes)
 		}

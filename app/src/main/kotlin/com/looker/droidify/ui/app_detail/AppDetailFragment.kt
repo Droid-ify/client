@@ -34,9 +34,8 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
 import com.looker.installer.model.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
@@ -101,10 +100,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private val downloadConnection = Connection(
 		serviceClass = DownloadService::class.java,
 		onBind = { _, binder ->
-			binder.stateFlow
-				.filter { it.packageName == packageName }
-				.onEach { updateDownloadState(it) }
-				.launchIn(lifecycleScope)
+			lifecycleScope.launch {
+				binder.stateFlow
+					.filter { it.packageName == packageName }
+					.collectLatest { updateDownloadState(it) }
+			}
 		}
 	)
 
