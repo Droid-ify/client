@@ -47,7 +47,7 @@ class KtorDownloader @Inject constructor(private val client: HttpClient) : Downl
 					target.size?.let { inRange(it) }
 					headers()
 				},
-				fileSize = target.size,
+				fileSize = target.size ?: 0L,
 				block = block
 			)
 			client.prepareGet(request).execute { response ->

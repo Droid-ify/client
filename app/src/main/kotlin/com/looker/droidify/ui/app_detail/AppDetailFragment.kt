@@ -101,7 +101,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		serviceClass = DownloadService::class.java,
 		onBind = { _, binder ->
 			lifecycleScope.launch {
-				binder.stateFlow
+				binder.downloadState
 					.filter { it.packageName == packageName }
 					.collectLatest { updateDownloadState(it) }
 			}
@@ -262,13 +262,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private fun updateToolbarButtons(
-		showPrimaryAction: Boolean = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() != 0
+		isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0
 	) {
-		toolbar.title = if (showPrimaryAction) getString(stringRes.application)
-		else products[0].first.name
+		toolbar.title = if (isActionVisible) getString(stringRes.application)
+		else products.firstOrNull()?.first?.name ?: getString(stringRes.application)
 		val (actions, primaryAction) = actions
 		val displayActions = actions.toMutableSet()
-		if (!showPrimaryAction && primaryAction != null) {
+		if (isActionVisible && primaryAction != null) {
 			displayActions -= primaryAction
 		}
 		if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
