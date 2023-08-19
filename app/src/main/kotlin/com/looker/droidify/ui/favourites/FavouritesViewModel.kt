@@ -2,6 +2,7 @@ package com.looker.droidify.ui.favourites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
 import com.looker.core.model.Product
@@ -27,11 +28,7 @@ class FavouritesViewModel @Inject constructor(
 				favourites.map { app ->
 					Database.ProductAdapter.get(app, null)
 				}
-			}.stateIn(
-				scope = viewModelScope,
-				started = SharingStarted.WhileSubscribed(5_000),
-				initialValue = emptyList()
-			)
+			}.asStateFlow(emptyList())
 
 	fun updateFavourites(packageName: String) {
 		viewModelScope.launch {
