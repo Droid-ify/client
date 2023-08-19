@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
 	private val userPreferencesRepository: UserPreferencesRepository
@@ -25,8 +24,8 @@ class FavouritesViewModel @Inject constructor(
 		userPreferencesRepository.userPreferencesFlow
 			.distinctMap { it.favouriteApps }
 			.map { favourites ->
-				favourites.map { app ->
-					Database.ProductAdapter.get(app, null)
+				favourites.mapNotNull { app ->
+					Database.ProductAdapter.get(app, null).ifEmpty { null }
 				}
 			}.asStateFlow(emptyList())
 

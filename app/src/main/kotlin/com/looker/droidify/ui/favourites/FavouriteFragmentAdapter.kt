@@ -56,7 +56,7 @@ class FavouriteFragmentAdapter(
 	override fun getItemCount(): Int = apps.size
 
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-		val item = apps[position].firstOrNull()?.item() ?: return
+		val item = apps[position].first().item()
 		val repository: Repository? = repositories[item.repositoryId]
 		holder.name.text = item.name
 		holder.summary.isVisible = item.summary.isNotEmpty()
