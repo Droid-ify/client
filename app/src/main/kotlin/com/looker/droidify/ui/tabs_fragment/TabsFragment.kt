@@ -31,7 +31,6 @@ import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.droidify.R
-import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -262,27 +261,11 @@ class TabsFragment : ScreenFragment() {
 
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				launch {
-					Database.CategoryAdapter
-						.getAllStream()
-						.collectLatest {
-							setSectionsAndUpdate(
-								it.asSequence().sorted()
-									.map(ProductItem.Section::Category).toList(), null
-							)
-						}
-				}
-				launch {
-					Database.RepositoryAdapter
-						.getAllStream()
-						.collectLatest { repos ->
-							setSectionsAndUpdate(null, repos.asSequence().filter { it.enabled }
-								.map { ProductItem.Section.Repository(it.id, it.name) }.toList())
-						}
+				viewModel.categories.collectLatest { (categories, repos) ->
+					setSectionsAndUpdate(categories = categories, repositories = repos)
 				}
 			}
 		}
-		updateSection()
 
 		val backgroundPath = ShapeAppearanceModel.builder()
 			.setAllCornerSizes(
