@@ -25,7 +25,7 @@
     <string name="add_repository">リポジトリを追加</string>
     <string name="address">アドレス</string>
     <string name="all_applications">すべてのアプリ</string>
-    <string name="all_applications_up_to_date">すべてのアプリが最新です</string>
+    <string name="all_applications_up_to_date">すべてのアプリは最新です</string>
     <string name="already_exists">すでに存在します</string>
     <string name="always">常に</string>
     <string name="amoled">ブラック</string>
@@ -37,7 +37,7 @@
     <string name="bug_tracker">バグトラッカー</string>
     <string name="cancel">キャンセル</string>
     <string name="changes">変更内容</string>
-    <string name="compiled_for_debugging">デバッグ用にコンパイルされました</string>
+    <string name="compiled_for_debugging">デバッグ用にコンパイルされています</string>
     <string name="confirmation">確認</string>
     <string name="connecting">接続中…</string>
     <string name="contains_non_free_media">不自由なメディアを含みます</string>
@@ -174,7 +174,7 @@
     <string name="installed_applications">インストールされているアプリ</string>
     <string name="new_applications">新しいアプリ</string>
     <string name="available">探索</string>
-    <string name="cleanup_title">apkの自動クリーンアップ間隔</string>
+    <string name="cleanup_title">APK の自動クリーンアップ間隔</string>
     <string name="cleanup_description">ダウンロード済みファイルの確認と削除を行う間隔</string>
     <string name="incompatible_features_DESC">機能が欠落しています。</string>
     <string name="cant_edit_sync_DESC">同期中なのでリポジトリを編集できません。</string>
@@ -206,4 +206,5 @@
     <string name="force_clean_up_DESC">冗長ファイルをクリーンアップします</string>
     <string name="material_you_desc">Material Youのカラーテーマを使用します</string>
     <string name="restart_app">Droid-ifyを再起動して変更を確認する</string>
+    <string name="has_non_free_components">不自由なコンポーネントを含みます</string>
 </resources>
