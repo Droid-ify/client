@@ -457,6 +457,7 @@ object Database {
 			return db.query(
 				Schema.Repository.name,
 				selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
+				orderBy = "${Schema.Repository.ROW_ENABLED} DESC",
 				signal = signal
 			).observable(Subject.Repositories)
 		}
