@@ -2,7 +2,6 @@ package com.looker.droidify.ui.app_detail
 
 import androidx.lifecycle.ViewModel
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
-	installer: InstallManager,
-	userPreferencesRepository: UserPreferencesRepository
+	installer: InstallManager
 ) : ViewModel() {
 
 	private var _packageName: String? = null

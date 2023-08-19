@@ -52,7 +52,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	sealed interface SpecialIntent {
-		object Updates : SpecialIntent
+		data object Updates : SpecialIntent
 		class Install(val packageName: String?, val cacheFileName: String?) : SpecialIntent
 	}
 

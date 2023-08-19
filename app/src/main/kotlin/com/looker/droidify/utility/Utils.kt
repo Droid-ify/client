@@ -55,7 +55,7 @@ object Utils {
 				name = productRepository.first.name,
 				repository = productRepository.second,
 				release = release,
-				updating = installedItem != null
+				isUpdate = installedItem != null
 			)
 		}
 	}

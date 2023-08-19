@@ -73,7 +73,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
 		val url: String, val authentication: String,
-		val updating: Boolean = false
+		val isUpdate: Boolean = false
 	) {
 		val notificationTag: String
 			get() = "download-$packageName"
@@ -94,7 +94,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			name: String,
 			repository: Repository,
 			release: Release,
-			updating: Boolean = false
+			isUpdate: Boolean = false
 		) {
 			val task = Task(
 				packageName = packageName,
@@ -102,10 +102,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				release = release,
 				url = release.getDownloadUrl(repository),
 				authentication = repository.authentication,
-				updating = updating
+				isUpdate = isUpdate
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-				scope.launch(Dispatchers.Main) { publishSuccess(task) }
+				scope.launch { publishSuccess(task) }
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
@@ -279,11 +279,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private suspend fun publishSuccess(task: Task) {
 		val currentInstaller = installerType.first()
+		_downloadState.emit(State.Pending(task.packageName))
 		_downloadState.emit(State.Success(task.packageName, task.release))
 		val autoInstallWithSessionInstaller =
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
 					&& currentInstaller == InstallerType.SESSION
-					&& task.updating
+					&& task.isUpdate
 
 		showNotificationInstall(task)
 		if (currentInstaller == InstallerType.ROOT
