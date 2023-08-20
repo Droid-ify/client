@@ -383,13 +383,25 @@ object Database {
 
 		fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
-			.map { getAll(null) }
+			.map { getAll() }
 
-		fun getAll(signal: CancellationSignal?): List<Repository> {
+		fun getEnabledStream(): Flow<List<Repository>> = flowOf(Unit)
+			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+			.map { getEnabled() }
+
+		fun getEnabled(): List<Repository> {
+			return db.query(
+				Schema.Repository.name,
+				selection = Pair("${Schema.Repository.ROW_ENABLED} != 0 AND ${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
+				signal = null
+			).use { it.asSequence().map(::transform).toList() }
+		}
+
+		fun getAll(): List<Repository> {
 			return db.query(
 				Schema.Repository.name,
 				selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
-				signal = signal
+				signal = null
 			).use { it.asSequence().map(::transform).toList() }
 		}
 

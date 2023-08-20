@@ -17,8 +17,7 @@ import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.distinctMap
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
+import com.looker.core.datastore.model.*
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -38,6 +37,8 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import rikka.shizuku.Shizuku
+import java.net.InetSocketAddress
+import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.ZERO
@@ -119,7 +120,36 @@ class MainApplication : Application(), ImageLoaderFactory {
 					}
 				}
 			}
+			launch {
+				userPreferenceFlow
+					.distinctMap { it.proxy }
+					.collect(::updateProxy)
+			}
 		}
+	}
+
+	private fun updateProxy(proxyPreference: ProxyPreference) {
+		val type = proxyPreference.type
+		val host = proxyPreference.host
+		val port = proxyPreference.port
+		val socketAddress = when (type) {
+			ProxyType.DIRECT -> null
+			ProxyType.HTTP, ProxyType.SOCKS -> {
+				try {
+					InetSocketAddress.createUnresolved(host, port)
+				} catch (e: Exception) {
+					e.printStackTrace()
+					null
+				}
+			}
+		}
+		val androidProxyType = when (type) {
+			ProxyType.DIRECT -> Proxy.Type.DIRECT
+			ProxyType.HTTP -> Proxy.Type.HTTP
+			ProxyType.SOCKS -> Proxy.Type.SOCKS
+		}
+		val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) } ?: Proxy.NO_PROXY
+		downloader.setProxy(determinedProxy)
 	}
 
 	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
@@ -158,7 +188,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 	}
 
 	private fun forceSyncAll() {
-		Database.RepositoryAdapter.getAll(null).forEach {
+		Database.RepositoryAdapter.getAll().forEach {
 			if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
 				Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
 			}

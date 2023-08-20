@@ -26,7 +26,7 @@ class TabsViewModel @Inject constructor(
 	val categories =
 		combine(
 			Database.CategoryAdapter.getAllStream(),
-			Database.RepositoryAdapter.getAllStream()
+			Database.RepositoryAdapter.getEnabledStream()
 		) { categories, repos ->
 			val productCategories = categories
 				.asSequence()
@@ -35,10 +35,7 @@ class TabsViewModel @Inject constructor(
 				.toList()
 
 			val enabledRepositories = repos
-				.asSequence()
-				.filter { it.enabled }
 				.map { ProductItem.Section.Repository(it.id, it.name) }
-				.toList()
 			productCategories to enabledRepositories
 		}
 			.catch { it.printStackTrace() }

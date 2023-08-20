@@ -220,7 +220,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 		}
 
 		viewLifecycleOwner.lifecycleScope.launch {
-			val list = Database.RepositoryAdapter.getAll(null)
+			val list = Database.RepositoryAdapter.getAll()
 			takenAddresses = list.asSequence().filter { it.id != repositoryId }
 				.flatMap { (it.mirrors + it.address).asSequence() }.map { it.withoutKnownPath }
 				.toSet()

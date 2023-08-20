@@ -131,7 +131,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		}
 
 		fun sync(request: SyncRequest) {
-			val ids = Database.RepositoryAdapter.getAll(null)
+			val ids = Database.RepositoryAdapter.getAll()
 				.asSequence().filter { it.enabled }.map { it.id }.toList()
 			sync(ids, request)
 		}

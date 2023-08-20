@@ -2,8 +2,11 @@ package com.looker.network
 
 import com.looker.network.header.HeadersBuilder
 import java.io.File
+import java.net.Proxy
 
 interface Downloader {
+
+	fun setProxy(proxy: Proxy)
 
 	suspend fun headCall(
 		url: String,

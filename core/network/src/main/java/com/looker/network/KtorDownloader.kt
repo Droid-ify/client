@@ -5,8 +5,10 @@ import com.looker.core.common.extension.size
 import com.looker.network.header.HeadersBuilder
 import com.looker.network.header.KtorHeadersBuilder
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
+import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.*
 import io.ktor.client.statement.HttpResponse
@@ -16,12 +18,32 @@ import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
+import java.net.Proxy
 import javax.inject.Inject
 
-class KtorDownloader @Inject constructor(private val client: HttpClient) : Downloader {
+class KtorDownloader @Inject constructor() : Downloader {
+
+	private var client = HttpClient(OkHttp) {
+		install(HttpTimeout) {
+			connectTimeoutMillis = 30_000
+			socketTimeoutMillis = 15_000
+		}
+	}
+
+	override fun setProxy(proxy: Proxy) {
+		client = HttpClient(OkHttp) {
+			install(HttpTimeout) {
+				connectTimeoutMillis = 30_000
+				socketTimeoutMillis = 15_000
+			}
+			engine { this.proxy = proxy }
+		}
+	}
 
 	override suspend fun headCall(
 		url: String,
