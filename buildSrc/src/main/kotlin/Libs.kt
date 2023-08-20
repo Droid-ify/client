@@ -101,7 +101,7 @@ object OkHttp {
 }
 
 object Others {
-	const val libsu = "com.github.topjohnwu.libsu:core:5.1.0"
+	const val libsu = "com.github.topjohnwu.libsu:core:5.2.0"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
 	private const val shizukuVersion = "13.0.0"
 	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
