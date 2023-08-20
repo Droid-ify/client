@@ -72,7 +72,7 @@ object Hilt {
 }
 
 object Jackson {
-	const val core = "com.fasterxml.jackson.core:jackson-core:2.14.2"
+	const val core = "com.fasterxml.jackson.core:jackson-core:2.15.2"
 }
 
 object Kotlin {
