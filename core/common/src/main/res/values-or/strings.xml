@@ -29,7 +29,7 @@
     <string name="version">ସଂସ୍କରଣ</string>
     <string name="website">ୱେବସାଇଟ୍</string>
     <string name="show_less">କମ୍ ଦେଖନ୍ତୁ</string>
-    <string name="explore">ସନ୍ଧାନ</string>
+    <string name="explore">ଅନୁସନ୍ଧାନ କରନ୍ତୁ</string>
     <string name="update_all">ସମସ୍ତ ଅଦ୍ୟତନ କରନ୍ତୁ</string>
     <string name="installed_applications">ସଂସ୍ଥାପିତ ପ୍ରୟୋଗଗୁଡ଼ିକ</string>
     <string name="sort_filter">ଫିଲ୍ଟର୍ ଏବଂ ସର୍ଟ କରନ୍ତୁ</string>
@@ -50,9 +50,9 @@
     <string name="cant_edit_sync_DESC">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରିପାରିବ ନାହିଁ କାରଣ ଏହା ବର୍ତ୍ତମାନ ସିଙ୍କ କରୁଛି ।</string>
     <string name="cancel">ବାତିଲ କରନ୍ତୁ</string>
     <string name="changelog">ବଦଳିଛି</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">APK କ୍ଲିନଅପ ଅନ୍ତରାଳ</string>
     <string name="checking_repository">ସଂଗ୍ରହାଳୟ ଯାଞ୍ଚ୍ ହେଉଛି…</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_description">ଆହରଣ ହୋଇଥିବା ଫାଇଲଗୁଡ଼ିକୁ ଯାଞ୍ଚ ଏବଂ ଅପସାରଣ କରିବା ପାଇଁ ଅବଧି</string>
     <string name="contains_non_free_media">ଅଣ-ମୁକ୍ତ ମିଡିଆ ଧାରଣ କରେ</string>
     <string name="description">ବର୍ଣ୍ଣନା</string>
     <string name="compiled_for_debugging">ତ୍ରୁଟି ନିବାରଣ ପାଇଁ ସଂକଳିତ</string>
@@ -106,7 +106,7 @@
     <string name="light">ଉଜ୍ଜଳ</string>
     <string name="incompatible_versions">ଅସଙ୍ଗତ ସଂସ୍କରଣ ଗୁଡ଼ିକ</string>
     <string name="incompatible_with_FORMAT">%s ସହ ଅସଙ୍ଗତ</string>
-    <string name="install">ସଂସ୍ଥାପନ</string>
+    <string name="install">ସଂସ୍ଥାପନ କରନ୍ତୁ</string>
     <string name="install_types">ସଂସ୍ଥାପନ ପ୍ରକାର</string>
     <string name="root_installer">ମୂଳ ସଂସ୍ଥାପକ</string>
     <string name="installed">ସଂସ୍ଥାପିତ</string>
@@ -159,7 +159,7 @@
     <string name="requires_FORMAT">%s ଦରକାର କରେ</string>
     <string name="root_permission">ନୀରବ ସଂସ୍ଥାପନ</string>
     <string name="saving_details">ବିବରଣୀ ଗୁଡ଼ିକ ସଞ୍ଚିତ ହେଉଛି…</string>
-    <string name="search">ସନ୍ଧାନ</string>
+    <string name="search">ସନ୍ଧାନ କରନ୍ତୁ</string>
     <string name="select_mirror">ଏକ ଦର୍ପଣ ଚୟନ କରନ୍ତୁ</string>
     <string name="unstable_updates_summary">ଅସ୍ଥିର ସଂସ୍କରଣ ସଂସ୍ଥାପନ କରିବାକୁ ପରାମର୍ଶ ଦିଅନ୍ତୁ</string>
     <string name="show_more">ଅଧିକ ଦେଖାନ୍ତୁ</string>
@@ -206,7 +206,10 @@
     <string name="enable_repo">ସଂଗ୍ରହାଳୟ ସକ୍ଷମ କରନ୍ତୁ</string>
     <string name="auto_update">ଅଟୋ ଅପଡେଟ୍ ଆପ୍ସ</string>
     <string name="auto_update_apps">ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଅଦ୍ୟତନଗୁଡିକ ସଂସ୍ଥାପନ କରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ</string>
-    <string name="installing">ସଂସ୍ଥାପନ</string>
+    <string name="installing">ସଂସ୍ଥାପନ କରୁଅଛି</string>
     <string name="restart_app">ପରିବର୍ତ୍ତନଗୁଡିକ ଦେଖିବାକୁ Droid-ify ପୁନ Rest ଆରମ୍ଭ କରନ୍ତୁ</string>
     <string name="waiting_to_start_installation">ସ୍ଥାପନ ଆରମ୍ଭ କରିବାକୁ ଅପେକ୍ଷା କରିଛି…</string>
+    <string name="has_non_free_components">ଅନାବଶ୍ୟକ ଉପାଦାନଗୁଡ଼ିକ ଅଛି</string>
+    <string name="socket_error_DESC">ସର୍ଭର ନୂତନ ପ୍ୟାକେଟ ପ୍ରଦାନ କରିବାରେ ବିଫଳ ହୋଇଛି ।</string>
+    <string name="connection_error_DESC">ସର୍ଭର ସହିତ ସଂଯୋଗ କରିପାରିଲା ନାହିଁ</string>
 </resources>
