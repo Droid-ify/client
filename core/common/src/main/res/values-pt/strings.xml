@@ -213,4 +213,6 @@
     <string name="auto_update">Atualizações automáticas</string>
     <string name="auto_update_apps">Tentar atualizar aplicações automaticamente</string>
     <string name="has_non_free_components">Tem componentes não livres</string>
+    <string name="socket_error_DESC">O servidor não conseguiu fornecer um novo pacote.</string>
+    <string name="connection_error_DESC">Não foi possível ligar ao servidor</string>
 </resources>
