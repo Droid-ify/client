@@ -209,4 +209,7 @@
     <string name="waiting_to_start_installation">Väntar på att starta installationen…</string>
     <string name="auto_update">Uppdatera appar automatiskt</string>
     <string name="auto_update_apps">Försök att installera uppdateringar automatiskt</string>
+    <string name="has_non_free_components">Har icke-fria komponenter</string>
+    <string name="connection_error_DESC">Kunde inte ansluta till server</string>
+    <string name="socket_error_DESC">Servern misslyckades att tillhandahålla nytt paket.</string>
 </resources>
