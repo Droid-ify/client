@@ -210,4 +210,6 @@
     <string name="auto_update_apps">ਅੱਪਡੇਟਾਂ ਨੂੰ ਸਵੈਚਲਿਤ ਤੌਰ \'ਤੇ ਇੰਸਟਾਲ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
     <string name="waiting_to_start_installation">ਇੰਸਟਾਲੇਸ਼ਨ ਸ਼ੁਰੂ ਕਰਨ ਦੀ ਉਡੀਕ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ…</string>
     <string name="has_non_free_components">ਗੈਰ-ਮੁਫ਼ਤ ਭਾਗ ਹਨ</string>
+    <string name="connection_error_DESC">ਸਰਵਰ ਨਾਲ ਕਨੈਕਟ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ</string>
+    <string name="socket_error_DESC">ਸਰਵਰ ਨਵਾਂ ਪੈਕੇਟ ਪ੍ਰਦਾਨ ਕਰਨ ਵਿੱਚ ਅਸਫਲ।</string>
 </resources>
