@@ -13,6 +13,7 @@ class AndroidLibraryConventionPlugin : Plugin<Project> {
 
 			dependencies {
 				add("implementation", platform("org.jetbrains.kotlin:kotlin-bom:${Kotlin.version}"))
+				add("coreLibraryDesugaring", AndroidX.desugar)
 			}
 		}
 	}

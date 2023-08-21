@@ -77,6 +77,7 @@ android {
 	}
 
 	compileOptions {
+		isCoreLibraryDesugaringEnabled = true
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
 	}
@@ -127,6 +128,7 @@ android {
 		}
 	}
 	buildFeatures {
+
 		viewBinding = true
 		aidl = false
 		renderScript = false
@@ -135,6 +137,7 @@ android {
 }
 
 dependencies {
+
 	modules(
 		Modules.coreModel,
 		Modules.coreCommon,

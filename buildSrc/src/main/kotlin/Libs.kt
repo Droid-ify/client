@@ -1,8 +1,9 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 // TODO: Remember to use kotlinx-datetime to fix desugaring
-private object AndroidX {
+object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
+	const val desugar = "com.android.tools:desugar_jdk_libs:1.2.2"
 	const val material = "com.google.android.material:material:1.8.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.0"
 }
@@ -139,6 +140,7 @@ object Work {
 
 fun DependencyHandlerScope.androidX() {
 	add("implementation", AndroidX.appCompat)
+	add("coreLibraryDesugaring", AndroidX.desugar)
 	add("implementation", AndroidX.material)
 	add("implementation", AndroidX.recyclerView)
 }
