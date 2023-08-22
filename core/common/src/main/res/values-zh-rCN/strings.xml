@@ -185,8 +185,8 @@
         <item quantity="other">天</item>
     </plurals>
     <string name="only_on_wifi_with_charging">仅在连接 Wi-Fi 和充电时</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">APK 清理间隔</string>
+    <string name="cleanup_description">检查并删除已下载文件的周期</string>
     <plurals name="hours">
         <item quantity="other">小时</item>
     </plurals>
@@ -206,4 +206,7 @@
     <string name="material_you">Material You 设计</string>
     <string name="waiting_to_start_installation">等待开始安装…</string>
     <string name="restart_app">重新启动 Droid-ify 使更改生效</string>
+    <string name="has_non_free_components">包含非自由组件</string>
+    <string name="socket_error_DESC">服务器未能提供新数据包。</string>
+    <string name="connection_error_DESC">无法连接到服务器</string>
 </resources>
