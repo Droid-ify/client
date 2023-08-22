@@ -209,4 +209,7 @@
     <string name="force_clean_up_DESC">Ruimt overbodige bestanden op</string>
     <string name="repository_unreachable">Opslagplaats onbereikbaar</string>
     <string name="waiting_to_start_installation">Wachten om installatie te starten…</string>
+    <string name="socket_error_DESC">Server heeft nieuw pakket niet geleverd.</string>
+    <string name="connection_error_DESC">Kan geen verbinding maken met server</string>
+    <string name="has_non_free_components">Heeft niet-vrije afhankelijkheden</string>
 </resources>
