@@ -207,4 +207,6 @@
     <string name="auto_update_apps">Cobalah untuk menginstal pembaruan secara otomatis</string>
     <string name="restart_app">Ulang Droid-ify untuk melihat perubahan</string>
     <string name="has_non_free_components">Memiliki komponen tidak terbuka</string>
+    <string name="socket_error_DESC">Server gagal menyediakan paket baru.</string>
+    <string name="connection_error_DESC">Tidak dapat terhubung ke server</string>
 </resources>
