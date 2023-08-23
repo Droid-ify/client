@@ -248,15 +248,13 @@ class TabsFragment : ScreenFragment() {
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.CREATED) {
 				launch {
-					viewModel.sections.collect(::setSectionsAndUpdate)
+					viewModel.sections.collect(::updateSections)
 				}
 				launch {
 					viewModel.sortOrder.collect(::updateOrder)
 				}
 				launch {
-					viewModel.currentSection.collect {
-						updateSection(it)
-					}
+					viewModel.currentSection.collect(::updateSection)
 				}
 			}
 		}
@@ -387,16 +385,16 @@ class TabsFragment : ScreenFragment() {
 
 	private fun updateOrder(sortOrder: SortOrder) {
 		sortOrderMenu!!.second[sortOrder.ordinal].isChecked = true
-		productFragments.forEach { it.setOrder() }
+		productFragments.filter { it.source.order }.forEach { it.setOrder() }
 	}
 
-	private fun setSectionsAndUpdate(
+	private fun updateSections(
 		sectionsList: List<ProductItem.Section>
 	) {
 		sectionsAdapter?.setNewSections(sectionsList)
-		layout?.sectionIcon?.run {
-			isVisible = sectionsList.any { it !is ProductItem.Section.All }
-			setOnClickListener { showSections = isVisible && !showSections }
+		layout?.run {
+			sectionIcon.isVisible = sectionsList.any { it !is ProductItem.Section.All }
+			sectionLayout.setOnClickListener { showSections = isVisible && !showSections }
 		}
 	}
 
