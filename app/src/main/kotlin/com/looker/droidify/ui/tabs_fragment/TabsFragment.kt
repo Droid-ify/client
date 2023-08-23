@@ -59,7 +59,6 @@ class TabsFragment : ScreenFragment() {
 		private const val STATE_SEARCH_FOCUSED = "searchFocused"
 		private const val STATE_SEARCH_QUERY = "searchQuery"
 		private const val STATE_SHOW_SECTIONS = "showSections"
-		private const val STATE_SECTIONS = "sections"
 	}
 
 	private class Layout(view: TabsToolbarBinding) {
@@ -76,6 +75,7 @@ class TabsFragment : ScreenFragment() {
 	private var syncRepositoriesMenuItem: MenuItem? = null
 	private var layout: Layout? = null
 	private var sectionsList: RecyclerView? = null
+	private var sectionsAdapter: SectionsAdapter? = null
 	private var viewPager: ViewPager2? = null
 
 	private var showSections = false
@@ -95,7 +95,6 @@ class TabsFragment : ScreenFragment() {
 		}
 
 	private var searchQuery = ""
-	private var sections = listOf<ProductItem.Section>(ProductItem.Section.All)
 
 	private val syncConnection = Connection(
 		serviceClass = SyncService::class.java,
@@ -123,6 +122,14 @@ class TabsFragment : ScreenFragment() {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 		syncConnection.bind(requireContext())
+
+		sectionsAdapter = SectionsAdapter {
+			if (showSections) {
+				viewModel.setSection(it)
+				sectionsList?.scrollToPosition(0)
+				showSections = false
+			}
+		}
 
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.title = getString(R.string.application_name)
@@ -216,12 +223,6 @@ class TabsFragment : ScreenFragment() {
 		this.layout = layout
 
 		showSections = (savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0) != 0
-		sections = savedInstanceState?.getParcelableArrayList<ProductItem.Section>(STATE_SECTIONS)
-			.orEmpty()
-		layout.sectionChange.setOnClickListener {
-			showSections = sections
-				.any { it !is ProductItem.Section.All } && !showSections
-		}
 
 		val content = fragmentBinding.fragmentContent
 
@@ -274,15 +275,8 @@ class TabsFragment : ScreenFragment() {
 			isMotionEventSplittingEnabled = false
 			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
-			val sectionsAdapter = SectionsAdapter({ sections }) {
-				if (showSections) {
-					viewModel.setSection(it)
-					scrollToPosition(0)
-					showSections = false
-				}
-			}
 			adapter = sectionsAdapter
-			addDivider(sectionsAdapter::configureDivider)
+			sectionsAdapter?.let { addDivider(it::configureDivider) }
 			background = sectionBackground
 			elevation = resources.sizeScaled(4).toFloat()
 			content.addView(this)
@@ -321,6 +315,7 @@ class TabsFragment : ScreenFragment() {
 		syncRepositoriesMenuItem = null
 		layout = null
 		sectionsList = null
+		sectionsAdapter = null
 		viewPager = null
 
 		syncConnection.unbind(requireContext())
@@ -336,7 +331,6 @@ class TabsFragment : ScreenFragment() {
 		outState.putBoolean(STATE_SEARCH_FOCUSED, searchMenuItem?.actionView?.hasFocus() == true)
 		outState.putString(STATE_SEARCH_QUERY, searchQuery)
 		outState.putByte(STATE_SHOW_SECTIONS, if (showSections) 1 else 0)
-		outState.putParcelableArrayList(STATE_SECTIONS, ArrayList(sections))
 	}
 
 	override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -399,9 +393,11 @@ class TabsFragment : ScreenFragment() {
 	private fun setSectionsAndUpdate(
 		sectionsList: List<ProductItem.Section>
 	) {
-		sections = sectionsList
-		layout?.sectionIcon?.isVisible = sectionsList.any { it !is ProductItem.Section.All }
-		this.sectionsList?.adapter?.notifyDataSetChanged()
+		sectionsAdapter?.setNewSections(sectionsList)
+		layout?.sectionIcon?.run {
+			isVisible = sectionsList.any { it !is ProductItem.Section.All }
+			setOnClickListener { showSections = isVisible && !showSections }
+		}
 	}
 
 	private fun updateSection(section: ProductItem.Section) {
@@ -500,8 +496,7 @@ class TabsFragment : ScreenFragment() {
 	}
 
 	private class SectionsAdapter(
-		private val sections: () -> List<ProductItem.Section>,
-		private val onClick: (ProductItem.Section) -> Unit,
+		private val onClick: (ProductItem.Section) -> Unit
 	) : StableRecyclerAdapter<SectionsAdapter.ViewType, RecyclerView.ViewHolder>() {
 		enum class ViewType { SECTION }
 
@@ -523,13 +518,20 @@ class TabsFragment : ScreenFragment() {
 			}
 		}
 
+		private var sections: List<ProductItem.Section> = emptyList()
+
+		fun setNewSections(list: List<ProductItem.Section>) {
+			sections = list
+			notifyDataSetChanged()
+		}
+
 		fun configureDivider(
 			context: Context,
 			position: Int,
 			configuration: DividerItemDecoration.Configuration,
 		) {
-			val currentSection = sections()[position]
-			val nextSection = sections().getOrNull(position + 1)
+			val currentSection = sections[position]
+			val nextSection = sections.getOrNull(position + 1)
 			when {
 				nextSection != null && currentSection.javaClass != nextSection.javaClass -> {
 					val padding = context.resources.sizeScaled(16)
@@ -555,8 +557,8 @@ class TabsFragment : ScreenFragment() {
 		override val viewTypeClass: Class<ViewType>
 			get() = ViewType::class.java
 
-		override fun getItemCount(): Int = sections().size
-		override fun getItemDescriptor(position: Int): String = sections()[position].toString()
+		override fun getItemCount(): Int = sections.size
+		override fun getItemDescriptor(position: Int): String = sections[position].toString()
 		override fun getItemEnumViewType(position: Int): ViewType = ViewType.SECTION
 
 		override fun onCreateViewHolder(
@@ -564,15 +566,15 @@ class TabsFragment : ScreenFragment() {
 			viewType: ViewType,
 		): RecyclerView.ViewHolder {
 			return SectionViewHolder(parent.context).apply {
-				itemView.setOnClickListener { onClick(sections()[absoluteAdapterPosition]) }
+				itemView.setOnClickListener { onClick(sections[absoluteAdapterPosition]) }
 			}
 		}
 
 		override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 			holder as SectionViewHolder
-			val section = sections()[position]
-			val previousSection = sections().getOrNull(position - 1)
-			val nextSection = sections().getOrNull(position + 1)
+			val section = sections[position]
+			val previousSection = sections.getOrNull(position - 1)
+			val nextSection = sections.getOrNull(position + 1)
 			val margin = holder.itemView.resources.sizeScaled(8)
 			val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
 			layoutParams.topMargin = if (previousSection == null ||

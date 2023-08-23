@@ -22,6 +22,7 @@ class TabsViewModel @Inject constructor(
 ) : ViewModel() {
 
 	val currentSection = savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
+	val currentSections = savedStateHandle.getStateFlow<List<ProductItem.Section>>(STATE_SECTION, emptyList())
 
 	val sortOrder = userPreferencesRepository
 		.userPreferencesFlow
@@ -41,7 +42,9 @@ class TabsViewModel @Inject constructor(
 			val enabledRepositories = repos
 				.map { ProductItem.Section.Repository(it.id, it.name) }
 			enabledRepositories.ifEmpty { setSection(ProductItem.Section.All) }
-			listOf(ProductItem.Section.All) + productCategories + enabledRepositories
+			val sections = listOf(ProductItem.Section.All) + productCategories + enabledRepositories
+			savedStateHandle[STATE_SECTIONS_LIST] = sections.toTypedArray()
+			sections
 		}
 			.catch { it.printStackTrace() }
 			.asStateFlow(emptyList())
@@ -58,5 +61,6 @@ class TabsViewModel @Inject constructor(
 
 	companion object {
 		private const val STATE_SECTION = "section"
+		private const val STATE_SECTIONS_LIST = "sections_list"
 	}
 }
