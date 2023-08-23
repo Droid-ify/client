@@ -367,7 +367,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					}
 
 					else -> throw IllegalStateException()
-				}
+				}::class // This prevents the error to be propagated
 			}.build()
 		)
 	}

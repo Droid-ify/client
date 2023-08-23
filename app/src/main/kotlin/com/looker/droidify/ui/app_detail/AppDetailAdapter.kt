@@ -90,12 +90,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	sealed interface Status {
-		object Idle : Status
-		object Pending : Status
-		object Connecting : Status
+		data object Idle : Status
+		data object Pending : Status
+		data object Connecting : Status
 		data class Downloading(val read: Long, val total: Long?) : Status
-		object PendingInstall : Status
-		object Installing : Status
+		data object PendingInstall : Status
+		data object Installing : Status
 	}
 
 	enum class ViewType { APP_INFO, DOWNLOAD_STATUS, INSTALL_BUTTON, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY }
