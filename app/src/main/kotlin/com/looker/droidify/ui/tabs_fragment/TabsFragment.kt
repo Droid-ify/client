@@ -39,11 +39,8 @@ import com.looker.droidify.ui.app_list.AppListFragment
 import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.droidify.widget.DividerItemDecoration
-import com.looker.droidify.widget.FocusSearchView
-import com.looker.droidify.widget.StableRecyclerAdapter
+import com.looker.droidify.widget.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -63,7 +60,6 @@ class TabsFragment : ScreenFragment() {
 		private const val STATE_SEARCH_QUERY = "searchQuery"
 		private const val STATE_SHOW_SECTIONS = "showSections"
 		private const val STATE_SECTIONS = "sections"
-		private const val STATE_SECTION = "section"
 	}
 
 	private class Layout(view: TabsToolbarBinding) {
@@ -100,13 +96,12 @@ class TabsFragment : ScreenFragment() {
 
 	private var searchQuery = ""
 	private var sections = listOf<ProductItem.Section>(ProductItem.Section.All)
-	private var section: ProductItem.Section = ProductItem.Section.All
 
 	private val syncConnection = Connection(
 		serviceClass = SyncService::class.java,
 		onBind = { _, _ ->
 			viewPager?.let {
-				val source = AppListFragment.Source.values()[it.currentItem]
+				val source = AppListFragment.Source.entries[it.currentItem]
 				updateUpdateNotificationBlocker(source)
 			}
 		}
@@ -169,7 +164,7 @@ class TabsFragment : ScreenFragment() {
 				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_sort))
 				.let { menu ->
 					menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-					val menuItems = SortOrder.values().map { sortOrder ->
+					val menuItems = SortOrder.entries.map { sortOrder ->
 						menu.add(context.sortOrderName(sortOrder))
 							.setOnMenuItemClickListener {
 								viewModel.setSortOrder(sortOrder)
@@ -223,18 +218,9 @@ class TabsFragment : ScreenFragment() {
 		showSections = (savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0) != 0
 		sections = savedInstanceState?.getParcelableArrayList<ProductItem.Section>(STATE_SECTIONS)
 			.orEmpty()
-		section = savedInstanceState?.getParcelable(STATE_SECTION) ?: ProductItem.Section.All
 		layout.sectionChange.setOnClickListener {
 			showSections = sections
 				.any { it !is ProductItem.Section.All } && !showSections
-		}
-
-		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.CREATED) {
-				viewModel.sortOrderFlow.collect {
-					updateOrder(it)
-				}
-			}
 		}
 
 		val content = fragmentBinding.fragmentContent
@@ -242,10 +228,9 @@ class TabsFragment : ScreenFragment() {
 		viewPager = ViewPager2(content.context).apply {
 			id = R.id.fragment_pager
 			adapter = object : FragmentStateAdapter(this@TabsFragment) {
-				override fun getItemCount(): Int = AppListFragment.Source.values().size
+				override fun getItemCount(): Int = AppListFragment.Source.entries.size
 				override fun createFragment(position: Int): Fragment = AppListFragment(
-					AppListFragment
-						.Source.values()[position]
+					AppListFragment.Source.entries[position]
 				)
 			}
 			content.addView(this)
@@ -255,14 +240,22 @@ class TabsFragment : ScreenFragment() {
 
 		viewPager?.let {
 			TabLayoutMediator(layout.tabs, it) { tab, position ->
-				tab.text = getString(AppListFragment.Source.values()[position].titleResId)
+				tab.text = getString(AppListFragment.Source.entries[position].titleResId)
 			}.attach()
 		}
 
 		viewLifecycleOwner.lifecycleScope.launch {
-			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				viewModel.categories.collectLatest { (categories, repos) ->
-					setSectionsAndUpdate(categories = categories, repositories = repos)
+			repeatOnLifecycle(Lifecycle.State.CREATED) {
+				launch {
+					viewModel.sections.collect(::setSectionsAndUpdate)
+				}
+				launch {
+					viewModel.sortOrder.collect(::updateOrder)
+				}
+				launch {
+					viewModel.currentSection.collect {
+						updateSection(it)
+					}
 				}
 			}
 		}
@@ -272,32 +265,31 @@ class TabsFragment : ScreenFragment() {
 				context?.resources?.getDimension(CommonR.dimen.shape_medium_corner) ?: 0F
 			)
 			.build()
-		val background = MaterialShapeDrawable(backgroundPath)
+		val sectionBackground = MaterialShapeDrawable(backgroundPath)
 		val color = SurfaceColors.SURFACE_3.getColor(requireContext())
-		background.fillColor = ColorStateList.valueOf(color)
+		sectionBackground.fillColor = ColorStateList.valueOf(color)
 		val sectionsList = RecyclerView(toolbar.context).apply {
 			id = R.id.sections_list
 			layoutManager = LinearLayoutManager(context)
 			isMotionEventSplittingEnabled = false
 			isVerticalScrollBarEnabled = false
 			setHasFixedSize(true)
-			val adapter = SectionsAdapter({ sections }) {
+			val sectionsAdapter = SectionsAdapter({ sections }) {
 				if (showSections) {
+					viewModel.setSection(it)
 					scrollToPosition(0)
 					showSections = false
-					section = it
-					updateSection()
 				}
 			}
-			this.adapter = adapter
-			addItemDecoration(DividerItemDecoration(context, adapter::configureDivider))
-			this.background = background
+			adapter = sectionsAdapter
+			addDivider(sectionsAdapter::configureDivider)
+			background = sectionBackground
 			elevation = resources.sizeScaled(4).toFloat()
 			content.addView(this)
 			val margins = resources.sizeScaled(8)
 			(layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
 			visibility = View.GONE
-			systemBarsPadding()
+			systemBarsPadding(includeFab = false)
 		}
 		this.sectionsList = sectionsList
 
@@ -345,7 +337,6 @@ class TabsFragment : ScreenFragment() {
 		outState.putString(STATE_SEARCH_QUERY, searchQuery)
 		outState.putByte(STATE_SHOW_SECTIONS, if (showSections) 1 else 0)
 		outState.putParcelableArrayList(STATE_SECTIONS, ArrayList(sections))
-		outState.putParcelable(STATE_SECTION, section)
 	}
 
 	override fun onViewStateRestored(savedInstanceState: Bundle?) {
@@ -405,37 +396,21 @@ class TabsFragment : ScreenFragment() {
 		productFragments.forEach { it.setOrder() }
 	}
 
-	private inline fun <reified T : ProductItem.Section> collectOldSections(list: List<T>?): List<T>? {
-		val oldList = sections.mapNotNull { it as? T }
-		return if (list == null || oldList == list) oldList else null
-	}
-
 	private fun setSectionsAndUpdate(
-		categories: List<ProductItem.Section.Category>?,
-		repositories: List<ProductItem.Section.Repository>?,
+		sectionsList: List<ProductItem.Section>
 	) {
-		val oldCategories = collectOldSections(categories)
-		val oldRepositories = collectOldSections(repositories)
-		if (oldCategories == null || oldRepositories == null) {
-			sections = listOf(ProductItem.Section.All) +
-					(categories ?: oldCategories).orEmpty() +
-					(repositories ?: oldRepositories).orEmpty()
-			updateSection()
-		}
+		sections = sectionsList
+		layout?.sectionIcon?.isVisible = sectionsList.any { it !is ProductItem.Section.All }
+		this.sectionsList?.adapter?.notifyDataSetChanged()
 	}
 
-	private fun updateSection() {
-		if (section !in sections) {
-			section = ProductItem.Section.All
-		}
-		layout?.sectionName?.text = when (val section = section) {
+	private fun updateSection(section: ProductItem.Section) {
+		layout?.sectionName?.text = when (section) {
 			is ProductItem.Section.All -> getString(stringRes.all_applications)
 			is ProductItem.Section.Category -> section.name
 			is ProductItem.Section.Repository -> section.name
 		}
-		layout?.sectionIcon?.isVisible = sections.any { it !is ProductItem.Section.All }
-		productFragments.forEach { it.setSection(section) }
-		sectionsList?.adapter?.notifyDataSetChanged()
+		productFragments.filter { it.source.sections }.forEach { it.setSection(section) }
 	}
 
 	private fun animateSectionsList() {
@@ -477,9 +452,9 @@ class TabsFragment : ScreenFragment() {
 			positionOffsetPixels: Int,
 		) {
 			val layout = layout!!
-			val fromSections = AppListFragment.Source.values()[position].sections
+			val fromSections = AppListFragment.Source.entries[position].sections
 			val toSections = if (positionOffset <= 0f) fromSections else
-				AppListFragment.Source.values()[position + 1].sections
+				AppListFragment.Source.entries[position + 1].sections
 			val offset = if (fromSections != toSections) {
 				if (fromSections) 1f - positionOffset else positionOffset
 			} else {
@@ -497,7 +472,7 @@ class TabsFragment : ScreenFragment() {
 		}
 
 		override fun onPageSelected(position: Int) {
-			val source = AppListFragment.Source.values()[position]
+			val source = AppListFragment.Source.entries[position]
 			updateUpdateNotificationBlocker(source)
 			sortOrderMenu!!.first.apply {
 				isVisible = source.order
@@ -514,7 +489,7 @@ class TabsFragment : ScreenFragment() {
 		}
 
 		override fun onPageScrollStateChanged(state: Int) {
-			val source = AppListFragment.Source.values()[viewPager!!.currentItem]
+			val source = AppListFragment.Source.entries[viewPager!!.currentItem]
 			layout!!.sectionChange.isEnabled =
 				state != ViewPager2.SCROLL_STATE_DRAGGING && source.sections
 			if (state == ViewPager2.SCROLL_STATE_IDLE) {
@@ -527,8 +502,7 @@ class TabsFragment : ScreenFragment() {
 	private class SectionsAdapter(
 		private val sections: () -> List<ProductItem.Section>,
 		private val onClick: (ProductItem.Section) -> Unit,
-	) : StableRecyclerAdapter<SectionsAdapter.ViewType,
-			RecyclerView.ViewHolder>() {
+	) : StableRecyclerAdapter<SectionsAdapter.ViewType, RecyclerView.ViewHolder>() {
 		enum class ViewType { SECTION }
 
 		private class SectionViewHolder(context: Context) :

@@ -15,7 +15,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.droidify.widget.DividerItemDecoration
+import com.looker.droidify.widget.addDivider
 import com.looker.core.common.R as CommonR
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
@@ -49,16 +49,14 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 					repository.enabled != isEnabled &&
 							syncConnection.binder?.setEnabled(repository, isEnabled) == true
 				}
-				addItemDecoration(
-					DividerItemDecoration(context) { _, _, configuration ->
-						configuration.set(
-							needDivider = true,
-							toTop = false,
-							paddingStart = 16.dp,
-							paddingEnd = 16.dp
-						)
-					}
-				)
+				addDivider { _, _, configuration ->
+					configuration.set(
+						needDivider = true,
+						toTop = false,
+						paddingStart = 16.dp,
+						paddingEnd = 16.dp
+					)
+				}
 				systemBarsPadding()
 			}
 			fragmentBinding.fragmentContent.addView(binding.root)

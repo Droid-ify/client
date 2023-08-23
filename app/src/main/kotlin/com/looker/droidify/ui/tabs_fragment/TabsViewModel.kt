@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.tabs_fragment
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
@@ -16,14 +17,17 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TabsViewModel @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val userPreferencesRepository: UserPreferencesRepository,
+	private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-	val sortOrderFlow = userPreferencesRepository
+	val currentSection = savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
+
+	val sortOrder = userPreferencesRepository
 		.userPreferencesFlow
 		.distinctMap { it.sortOrder }
 
-	val categories =
+	val sections =
 		combine(
 			Database.CategoryAdapter.getAllStream(),
 			Database.RepositoryAdapter.getEnabledStream()
@@ -36,14 +40,23 @@ class TabsViewModel @Inject constructor(
 
 			val enabledRepositories = repos
 				.map { ProductItem.Section.Repository(it.id, it.name) }
-			productCategories to enabledRepositories
+			enabledRepositories.ifEmpty { setSection(ProductItem.Section.All) }
+			listOf(ProductItem.Section.All) + productCategories + enabledRepositories
 		}
 			.catch { it.printStackTrace() }
-			.asStateFlow(emptyList<ProductItem.Section.Category>() to emptyList())
+			.asStateFlow(emptyList())
+
+	fun setSection(section: ProductItem.Section) {
+		savedStateHandle[STATE_SECTION] = section
+	}
 
 	fun setSortOrder(sortOrder: SortOrder) {
 		viewModelScope.launch {
 			userPreferencesRepository.setSortOrder(sortOrder)
 		}
+	}
+
+	companion object {
+		private const val STATE_SECTION = "section"
 	}
 }

@@ -9,6 +9,21 @@ import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.droidify.R
 import kotlin.math.roundToInt
 
+fun RecyclerView.addDivider(
+	configure: (
+		context: Context,
+		position: Int,
+		configuration: DividerItemDecoration.Configuration
+	) -> Unit
+) {
+	addItemDecoration(
+		DividerItemDecoration(
+			context = context,
+			configure = configure
+		)
+	)
+}
+
 class DividerItemDecoration(
 	context: Context,
 	private val configure: (
