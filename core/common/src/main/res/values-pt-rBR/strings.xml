@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">Todos os seus aplicativos estão atualizados</string>
     <string name="already_exists">Já existe</string>
     <string name="always">Sempre</string>
-    <string name="amoled">Escuro</string>
+    <string name="amoled">Preto</string>
     <string name="anti_features">Características indesejadas</string>
     <string name="application">Aplicativo</string>
     <string name="application_not_found">Não foi possível encontrar esse aplicativo</string>
@@ -186,8 +186,8 @@
     <string name="shizuku_installer">Instalador Shizuku</string>
     <string name="root_installer">Instalador root</string>
     <string name="session_installer">Instalador de sessão</string>
-    <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_title">Intervalo de limpeza do APK</string>
+    <string name="cleanup_description">Período para verificar e remover arquivos baixados</string>
     <plurals name="days">
         <item quantity="one">Dia</item>
         <item quantity="many">Dias</item>
@@ -215,4 +215,7 @@
     <string name="waiting_to_start_installation">Aguardando para iniciar a instalação…</string>
     <string name="auto_update">Atualizar aplicativos automaticamente</string>
     <string name="auto_update_apps">Tente instalar atualizações automaticamente</string>
+    <string name="has_non_free_components">Possui componentes não livres</string>
+    <string name="socket_error_DESC">O servidor não conseguiu fornecer o novo pacote.</string>
+    <string name="connection_error_DESC">Não foi possível conectar ao servidor</string>
 </resources>
