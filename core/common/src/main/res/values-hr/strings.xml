@@ -55,10 +55,10 @@
     <string name="address">Web adresa</string>
     <string name="already_exists">Već postoji</string>
     <string name="always">Uvijek</string>
-    <string name="amoled">Potpuno tamna (AMOLED)</string>
+    <string name="amoled">Crna</string>
     <string name="anti_features">Anti-značajke</string>
     <string name="application">Aplikacija</string>
-    <string name="application_not_found">Nije moguće pronaći traženu aplikaciju</string>
+    <string name="application_not_found">Nije bilo moguće pronaći tu aplikaciju</string>
     <string name="author_email">E-mail adresa autora</string>
     <string name="author_website">Web stranica autora</string>
     <string name="bug_tracker">Alat za praćenje grešaka</string>
@@ -213,4 +213,6 @@
     <string name="restart_app">Ponovo pokrenite droid-ify da biste vidjeli promjene</string>
     <string name="waiting_to_start_installation">Čekajući da započnete instalaciju …</string>
     <string name="has_non_free_components">Sadrži komponente koje nisu besplatne</string>
+    <string name="connection_error_DESC">Nije bilo moguće spojiti se s poslužiteljem</string>
+    <string name="socket_error_DESC">Poslužitelj nije uspio dostaviti novi paket.</string>
 </resources>
