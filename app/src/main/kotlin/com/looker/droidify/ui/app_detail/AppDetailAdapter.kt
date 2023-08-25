@@ -700,6 +700,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					"NonFreeAssets" -> context.getString(stringRes.contains_non_free_media)
 					"NonFreeDep" -> context.getString(stringRes.has_non_free_dependencies)
 					"NonFreeNet" -> context.getString(stringRes.promotes_non_free_network_services)
+					"NSFW" -> context.getString(stringRes.contains_nsfw)
 					"Tracking" -> context.getString(stringRes.tracks_or_reports_your_activity)
 					"UpstreamNonFree" -> context.getString(stringRes.upstream_source_code_is_not_free)
 					// special tag for IzzyOnDroid (https://floss.social/@IzzyOnDroid/110815951568369581):
