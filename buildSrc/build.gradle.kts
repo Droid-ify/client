@@ -13,7 +13,7 @@ java {
 }
 
 dependencies {
-	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
+	compileOnly("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
 	compileOnly("com.android.tools.build:gradle-api:8.1.0")
 }
 
