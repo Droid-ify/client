@@ -67,7 +67,7 @@
     <string name="delete">삭제</string>
     <string name="delete_repository_DESC">저장소를 삭제하시겠습니까\?</string>
     <string name="description">설명</string>
-    <string name="details">세부</string>
+    <string name="details">애플리케이션 정보</string>
     <string name="donate">기부</string>
     <string name="downloaded_FORMAT">다운로드됨 %s</string>
     <string name="allow_collapsing_toolbar">상단 앱 바 확장 허용</string>
@@ -146,7 +146,7 @@
     <string name="show_less">간단히 보기</string>
     <string name="sort_filter">정렬 및 필터</string>
     <string name="new_applications">새로운 애플리케이션</string>
-    <string name="ok">좋아요</string>
+    <string name="ok">확인</string>
     <string name="only_on_wifi_with_charging">Wi-Fi 및 충전 중일 때만</string>
     <string name="save">저장</string>
     <string name="screenshots">스크린샷</string>
@@ -154,7 +154,7 @@
     <string name="select_mirror">미러 선택</string>
     <string name="signature_FORMAT">서명 %s</string>
     <string name="root_permission_description">자동 설치를 위한 루트 권한 허용</string>
-    <string name="saving_details">세부정보 저장 중…</string>
+    <string name="saving_details">세부 정보 저장 중…</string>
     <string name="size">크기</string>
     <string name="target">표적</string>
     <string name="unstable_updates_summary">불안정한 버전의 업데이트 설치 제안</string>
