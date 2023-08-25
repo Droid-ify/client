@@ -14,7 +14,8 @@ import com.looker.droidify.utility.getProgress
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import okhttp3.internal.http.toHttpDateString
 import java.io.File
 import java.security.cert.X509Certificate
@@ -190,19 +191,25 @@ object RepositoryUpdater {
 
 			is NetworkResponse.Error -> {
 				file.delete()
-				when(result) {
+				when (result) {
 					is NetworkResponse.Error.Http -> {
 						val errorType = if (result.statusCode in 400..499) ErrorType.HTTP
 						else ErrorType.NETWORK
-						Result.Error(UpdateException(
-							errorType = errorType,
-							message = "Failed with Status: ${result.statusCode}"
-						))
+
+						Result.Error(
+							UpdateException(
+								errorType = errorType,
+								message = "Failed with Status: ${result.statusCode}"
+							)
+						)
 					}
+
 					is NetworkResponse.Error.ConnectionTimeout -> Result.Error(result.exception)
 					is NetworkResponse.Error.IO -> Result.Error(result.exception)
 					is NetworkResponse.Error.SocketTimeout -> Result.Error(result.exception)
 					is NetworkResponse.Error.Unknown -> Result.Error(result.exception)
+					// TODO: Add Validator
+					is NetworkResponse.Error.Validation -> Result.Error()
 				}
 			}
 		}

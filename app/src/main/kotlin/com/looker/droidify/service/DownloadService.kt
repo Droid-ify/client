@@ -6,21 +6,20 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
-import com.looker.core.common.signature.Hash
-import com.looker.core.common.signature.verifyHash
+import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
-import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
 import com.looker.installer.InstallManager
 import com.looker.installer.model.installFrom
 import com.looker.network.Downloader
@@ -192,14 +191,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 	}
 
-	private enum class ValidationError { INTEGRITY, FORMAT, METADATA, SIGNATURE, PERMISSIONS }
-
 	private sealed interface ErrorType {
 		data object IO : ErrorType
 		data object Http : ErrorType
 		data object SocketTimeout : ErrorType
 		data object ConnectionTimeout : ErrorType
-		class Validation(val validateError: ValidationError) : ErrorType
+		class Validation(val exception: ValidationException) : ErrorType
 	}
 
 	private fun showNotificationError(task: Task, errorType: ErrorType) {
@@ -221,33 +218,26 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				)
 				.setOnlyAlertOnce(true)
 				.setContentIntent(intent)
-				.apply {
-					errorNotificationContent(task, errorType)
-				}
-				.build())
+				.errorNotificationContent(task, errorType)
+				.build()
+		)
 	}
 
 	private fun NotificationCompat.Builder.errorNotificationContent(
 		task: Task,
 		errorType: ErrorType
-	) {
+	): NotificationCompat.Builder {
 		val title = if (errorType is ErrorType.Validation) stringRes.could_not_validate_FORMAT
 		else stringRes.could_not_download_FORMAT
 		val description = when (errorType) {
-			ErrorType.ConnectionTimeout -> stringRes.connection_error_DESC
-			ErrorType.Http -> stringRes.http_error_DESC
-			ErrorType.IO -> stringRes.io_error_DESC
-			ErrorType.SocketTimeout -> stringRes.socket_error_DESC
-			is ErrorType.Validation -> when (errorType.validateError) {
-				ValidationError.INTEGRITY -> stringRes.integrity_check_error_DESC
-				ValidationError.FORMAT -> stringRes.file_format_error_DESC
-				ValidationError.METADATA -> stringRes.invalid_metadata_error_DESC
-				ValidationError.SIGNATURE -> stringRes.invalid_signature_error_DESC
-				ValidationError.PERMISSIONS -> stringRes.invalid_permissions_error_DESC
-			}
+			ErrorType.ConnectionTimeout -> getString(stringRes.connection_error_DESC)
+			ErrorType.Http -> getString(stringRes.http_error_DESC)
+			ErrorType.IO -> getString(stringRes.io_error_DESC)
+			ErrorType.SocketTimeout -> getString(stringRes.socket_error_DESC)
+			is ErrorType.Validation -> errorType.exception.message
 		}
 		setContentTitle(getString(title, task.name))
-		setContentText(getString(description))
+		return setContentText(description)
 	}
 
 	private fun showNotificationInstall(task: Task) {
@@ -296,30 +286,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		}
 	}
 
-	private suspend fun validatePackage(
-		task: Task,
-		file: File
-	): ValidationError? = withContext(Dispatchers.IO) {
-		var validationError: ValidationError? = null
-		val hash = Hash(task.release.hashType, task.release.hash)
-		if (!file.verifyHash(hash)) validationError = ValidationError.INTEGRITY
-		yield()
-		val packageInfo = packageManager.getPackageArchiveInfoCompat(file.path)
-			?: return@withContext ValidationError.FORMAT
-		if (packageInfo.packageName != task.packageName || packageInfo.versionCodeCompat != task.release.versionCode)
-			validationError = ValidationError.METADATA
-		yield()
-		val signature = packageInfo.singleSignature?.calculateHash().orEmpty()
-		if (signature.isEmpty() || signature != task.release.signature)
-			validationError = ValidationError.SIGNATURE
-		yield()
-		val permissions = packageInfo.permissions?.asSequence().orEmpty().map { it.name }.toSet()
-		if (!task.release.permissions.containsAll(permissions))
-			validationError = ValidationError.PERMISSIONS
-		yield()
-		validationError
-	}
-
 	private val stateNotificationBuilder by lazy {
 		NotificationCompat
 			.Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
@@ -341,35 +307,40 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun publishForegroundState(force: Boolean, state: State) {
 		if (!force && currentTask == null) return
 		currentTask = currentTask!!.copy(lastState = state)
-		startForeground(
-			Constants.NOTIFICATION_ID_DOWNLOADING,
-			stateNotificationBuilder.apply {
-				when (state) {
-					is State.Connecting -> {
-						setContentTitle(
-							getString(stringRes.downloading_FORMAT, currentTask!!.task.name)
-						)
-						setContentText(getString(stringRes.connecting))
-						setProgress(1, 0, true)
-					}
+		stateNotificationBuilder.downloadingNotificationContent(state)
+			?.let { notification ->
+				startForeground(
+					Constants.NOTIFICATION_ID_DOWNLOADING,
+					notification.build()
+				)
+			} ?: run {
+			Log.e("DownloadService", "Invalid Download State: $state")
+		}
+	}
 
-					is State.Downloading -> {
-						setContentTitle(
-							getString(stringRes.downloading_FORMAT, currentTask!!.task.name)
-						)
-						if (state.total != null) {
-							setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-							setProgress(100, state.read percentBy state.total, false)
-						} else {
-							setContentText(state.read.formatSize())
-							setProgress(0, 0, true)
-						}
-					}
+	private fun NotificationCompat.Builder.downloadingNotificationContent(
+		state: State
+	): NotificationCompat.Builder? {
+		return when (state) {
+			is State.Connecting -> {
+				setContentTitle(getString(stringRes.downloading_FORMAT, currentTask!!.task.name))
+				setContentText(getString(stringRes.connecting))
+				setProgress(1, 0, true)
+			}
 
-					else -> throw IllegalStateException()
-				}::class // This prevents the error to be propagated
-			}.build()
-		)
+			is State.Downloading -> {
+				setContentTitle(getString(stringRes.downloading_FORMAT, currentTask!!.task.name))
+				if (state.total != null) {
+					setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
+					setProgress(100, state.read percentBy state.total, false)
+				} else {
+					setContentText(state.read.formatSize())
+					setProgress(0, 0, true)
+				}
+			}
+
+			else -> null
+		}
 	}
 
 	private fun handleDownload() {
@@ -414,39 +385,30 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		target: File
 	) = launch {
 		try {
+			val releaseValidator = ReleaseFileValidator(
+				context = this@DownloadService,
+				packageName = task.packageName,
+				release = task.release
+			)
 			val response = downloader.downloadToFile(
 				url = task.url,
 				target = target,
+				validator = releaseValidator,
 				headers = { authentication(task.authentication) }
 			) { read, total ->
 				ensureActive()
-				val state = State.Downloading(task.packageName, read, total)
-				_downloadState.emit(state)
-//				_downloadState.update { lastState ->
-//					if (lastState.isStopped() && lastState same state) {
-//						lastState
-//					} else {
-//						publishForegroundState(false, state)
-//						state
-//					}
-//				}
+				yield()
+				_downloadState.emit(State.Downloading(task.packageName, read, total))
 			}
 
 			when (response) {
 				is NetworkResponse.Success -> {
-					val validationError = validatePackage(task, target)
-					if (validationError == null) {
-						val releaseFile = Cache.getReleaseFile(
-							this@DownloadService,
-							task.release.cacheFileName
-						)
-						target.renameTo(releaseFile)
-						publishSuccess(task)
-					} else {
-						_downloadState.emit(State.Error(task.packageName))
-						target.delete()
-						showNotificationError(task, ErrorType.Validation(validationError))
-					}
+					val releaseFile = Cache.getReleaseFile(
+						this@DownloadService,
+						task.release.cacheFileName
+					)
+					target.renameTo(releaseFile)
+					publishSuccess(task)
 				}
 
 				is NetworkResponse.Error -> {
@@ -455,6 +417,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 						is NetworkResponse.Error.ConnectionTimeout -> ErrorType.ConnectionTimeout
 						is NetworkResponse.Error.IO -> ErrorType.IO
 						is NetworkResponse.Error.SocketTimeout -> ErrorType.SocketTimeout
+						is NetworkResponse.Error.Validation -> ErrorType.Validation(response.exception)
 						else -> ErrorType.Http
 					}
 					showNotificationError(task, errorType)

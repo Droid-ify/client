@@ -2,6 +2,8 @@ package com.looker.network
 
 import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.common.extension.size
+import com.looker.core.common.signature.FileValidator
+import com.looker.core.common.signature.ValidationException
 import com.looker.network.header.HeadersBuilder
 import com.looker.network.header.KtorHeadersBuilder
 import io.ktor.client.HttpClient
@@ -59,6 +61,7 @@ class KtorDownloader @Inject constructor() : Downloader {
 	override suspend fun downloadToFile(
 		url: String,
 		target: File,
+		validator: FileValidator?,
 		headers: HeadersBuilder.() -> Unit,
 		block: ProgressListener?
 	): NetworkResponse {
@@ -74,6 +77,7 @@ class KtorDownloader @Inject constructor() : Downloader {
 			)
 			client.prepareGet(request).execute { response ->
 				response.bodyAsChannel() saveTo target
+				validator?.validate(target)
 				response.asNetworkResponse()
 			}
 		} catch (e: SocketTimeoutException) {
@@ -82,6 +86,9 @@ class KtorDownloader @Inject constructor() : Downloader {
 			NetworkResponse.Error.ConnectionTimeout(e)
 		} catch (e: IOException) {
 			NetworkResponse.Error.IO(e)
+		} catch (e: ValidationException) {
+			target.delete()
+			NetworkResponse.Error.Validation(e)
 		} catch (e: Exception) {
 			e.exceptCancellation()
 			NetworkResponse.Error.Unknown(e)
