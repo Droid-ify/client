@@ -224,4 +224,5 @@
     <string name="has_non_free_components">يحتوي على مكونات غير حرة</string>
     <string name="socket_error_DESC">فشل الخادم في توفير حزمة جديدة.</string>
     <string name="connection_error_DESC">لا يمكن الاتصال بالخادم</string>
+    <string name="contains_nsfw">يحتوي على محتوى غير آمن للعمل</string>
 </resources>
