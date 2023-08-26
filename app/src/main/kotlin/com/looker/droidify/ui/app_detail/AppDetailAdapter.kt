@@ -397,10 +397,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private class SwitchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-		val enabled = itemView.findViewById<MaterialSwitch>(R.id.update_state_switch)!!
+		val switch = itemView.findViewById<MaterialSwitch>(R.id.update_state_switch)!!
 
 		val statefulViews: Sequence<View>
-			get() = sequenceOf(itemView, enabled)
+			get() = sequenceOf(itemView, switch)
 	}
 
 	private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -1235,9 +1235,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						)
 					}
 				}
-				holder.enabled.setText(item.switchType.titleResId)
-				holder.enabled.isChecked = checked
-				holder.statefulViews.forEach { it.isEnabled = enabled }
+				with(holder) {
+					switch.setText(item.switchType.titleResId)
+					switch.isChecked = checked
+					statefulViews.forEach { it.isEnabled = enabled }
+				}
 			}
 			ViewType.SECTION -> {
 				holder as SectionViewHolder

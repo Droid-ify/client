@@ -33,13 +33,18 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/name"
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:textAppearance="?textAppearanceBody1" />
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textAppearance="?textAppearanceBody1" />
+                </FrameLayout>
 
                 <TextView
                     android:id="@+id/status"
@@ -53,7 +58,7 @@
 
             <TextView
                 android:id="@+id/summary"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:textAppearance="?textAppearanceBody2"

@@ -5,5 +5,4 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/text_margin"
     android:clickable="true"
-    android:singleLine="true"
     android:focusable="true" />

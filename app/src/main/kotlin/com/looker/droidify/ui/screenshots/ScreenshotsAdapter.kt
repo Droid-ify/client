@@ -54,10 +54,8 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				RecyclerView.LayoutParams.WRAP_CONTENT,
 				RecyclerView.LayoutParams.MATCH_PARENT
 			).apply {
-				marginStart =
-					image.context.resources.getDimension(dimenRes.shape_small_corner).toInt()
-				marginEnd =
-					image.context.resources.getDimension(dimenRes.shape_small_corner).toInt()
+				marginStart = radius.toInt()
+				marginEnd = radius.toInt()
 			}
 
 			val placeholder =
