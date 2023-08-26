@@ -214,4 +214,7 @@
     <string name="auto_update">Aggiornamento automatico delle app</string>
     <string name="auto_update_apps">Prova a installare gli aggiornamenti automaticamente</string>
     <string name="has_non_free_components">Ha componenti non liberi</string>
+    <string name="connection_error_DESC">Impossibile connettersi al server</string>
+    <string name="contains_nsfw">Contiene contenuti non sicuri per il lavoro</string>
+    <string name="socket_error_DESC">Il server non è riuscito a fornire un nuovo pacchetto.</string>
 </resources>
