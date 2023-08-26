@@ -114,7 +114,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		viewModel.setPackageName(packageName)
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.menu.apply {
-			for (action in Action.values()) {
+			Action.entries.forEach { action ->
 				add(0, action.id, 0, action.adapterAction.titleResId)
 					.setIcon(Utils.getToolbarIcon(toolbar.context, action.adapterAction.iconResId))
 					.setVisible(false)
@@ -267,14 +267,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		toolbar.title = if (isActionVisible) getString(stringRes.application)
 		else products.firstOrNull()?.first?.name ?: getString(stringRes.application)
 		val (actions, primaryAction) = actions
-		val displayActions = actions.toMutableSet()
-		if (isActionVisible && primaryAction != null) {
-			displayActions -= primaryAction
+		val displayActions = actions.updateAsMutable {
+			if (isActionVisible && primaryAction != null) {
+				remove(primaryAction)
+			}
+			if (size >= 4 && resources.configuration.screenWidthDp < 400) {
+				remove(Action.DETAILS)
+			}
 		}
-		if (displayActions.size >= 4 && resources.configuration.screenWidthDp < 400) {
-			displayActions -= Action.DETAILS
-		}
-		Action.values().forEach { action ->
+		Action.entries.forEach { action ->
 			toolbar.menu.findItem(action.id).isVisible = action in displayActions
 		}
 	}

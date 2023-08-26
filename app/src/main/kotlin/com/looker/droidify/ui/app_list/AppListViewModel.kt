@@ -7,6 +7,7 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
+import com.looker.core.model.ProductItem.Section.All
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
@@ -36,19 +37,11 @@ class AppListViewModel
 		.map { it.isNotEmpty() }
 		.asStateFlow(false)
 
-	private val _sections = MutableStateFlow<ProductItem.Section>(ProductItem.Section.All)
-	private val _searchQuery = MutableStateFlow("")
+	private val _sections = MutableStateFlow<ProductItem.Section>(All)
+	private val sections: StateFlow<ProductItem.Section> = _sections
 
-	private val sections: StateFlow<ProductItem.Section> = _sections.stateIn(
-		initialValue = ProductItem.Section.All,
-		scope = viewModelScope,
-		started = SharingStarted.WhileSubscribed(5000)
-	)
-	val searchQuery: StateFlow<String> = _searchQuery.stateIn(
-		initialValue = "",
-		scope = viewModelScope,
-		started = SharingStarted.WhileSubscribed(5000)
-	)
+	private val _searchQuery = MutableStateFlow("")
+	val searchQuery: StateFlow<String> = _searchQuery
 
 	val syncConnection = Connection(SyncService::class.java)
 
@@ -58,7 +51,7 @@ class AppListViewModel
 
 	fun request(source: AppListFragment.Source): CursorOwner.Request {
 		var mSearchQuery = ""
-		var mSections: ProductItem.Section = ProductItem.Section.All
+		var mSections: ProductItem.Section = All
 		var mOrder: SortOrder = SortOrder.NAME
 		viewModelScope.launch {
 			launch { searchQuery.collect { mSearchQuery = it } }

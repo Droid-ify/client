@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.looker.core.common.device.Miui
+import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.CLEAN_UP_INTERVAL
@@ -116,9 +117,10 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
 			val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
-			val newSet = currentSet.toMutableSet()
-			if (!newSet.add(packageName)) newSet.remove(packageName)
-			preference[FAVOURITE_APPS] = newSet.toSet()
+			val newSet = currentSet.updateAsMutable {
+				if (!add(packageName)) remove(packageName)
+			}
+			preference[FAVOURITE_APPS] = newSet
 		}
 	}
 

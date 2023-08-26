@@ -88,9 +88,7 @@ class InstallManager(
 				it.updateAsMutable { remove(item.packageName.name) }
 			}
 			installState.emit(item statesTo InstallState.Installing)
-			val success = withTimeoutOrNull(20_000) {
-				installer.install(item)
-			} ?: InstallState.Failed
+			val success = installer.install(item)
 			installState.emit(item statesTo success)
 			lock.withLock { currentQueue.remove(item.packageName.name) }
 			context.notificationManager.cancel(

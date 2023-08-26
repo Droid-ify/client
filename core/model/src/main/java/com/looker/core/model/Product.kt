@@ -260,7 +260,7 @@ data class Product(
 									else -> skipChildren()
 								}
 							}
-							Screenshot.Type.values().find { it.jsonName == type }
+							Screenshot.Type.entries.find { it.jsonName == type }
 								?.let { Screenshot(locale, it, path) }
 						}
 					it.array("releases") -> releases =
