@@ -2,6 +2,7 @@ package com.looker.installer
 
 import android.content.Context
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +20,10 @@ object InstallModule {
 		@ApplicationContext context: Context,
 		userPreferencesRepository: UserPreferencesRepository
 	): InstallManager = InstallManager(context, userPreferencesRepository)
+
+	@Singleton
+	@Provides
+	fun provideShizukuPermissionHandler(
+		@ApplicationContext context: Context
+	): ShizukuPermissionHandler = ShizukuPermissionHandler(context)
 }

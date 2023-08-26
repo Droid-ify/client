@@ -14,9 +14,10 @@ import coil.memory.MemoryCache
 import com.looker.core.common.Constants
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.getInstalledPackagesCompat
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.model.*
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -27,16 +28,14 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.Utils.toInstalledItem
-import com.looker.droidify.utility.extension.android.getInstalledPackagesCompat
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.InstallManager
+import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.looker.network.Downloader
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectIndexed
-import kotlinx.coroutines.flow.drop
-import rikka.shizuku.Shizuku
+import kotlinx.coroutines.flow.*
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
@@ -60,23 +59,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 	@Inject
 	lateinit var downloader: Downloader
 
+	@Inject
+	lateinit var shizukuPermissionHandler: ShizukuPermissionHandler
+
 	override fun onCreate() {
 		super.onCreate()
-
-		appScope.launch {
-			when (userPreferencesRepository.fetchInitialPreferences().installerType) {
-				InstallerType.SHIZUKU -> Shizuku.pingBinder()
-				InstallerType.ROOT -> Shell.getShell()
-				else -> {}
-			}
-			installer()
-		}
 
 		val databaseUpdated = Database.init(this)
 		ProductPreferences.init(this, appScope)
 		RepositoryUpdater.init(appScope, downloader)
 		listenApplications()
 		updatePreference()
+		setupInstaller()
 
 		if (databaseUpdated) forceSyncAll()
 	}
@@ -85,6 +79,28 @@ class MainApplication : Application(), ImageLoaderFactory {
 		super.onTerminate()
 		appScope.cancel("Application Terminated")
 		installer.close()
+	}
+
+	private fun setupInstaller() {
+		appScope.launch {
+			launch {
+				combine(
+					userPreferenceFlow.getProperty { installerType },
+					flowOf(shizukuPermissionHandler.isInstalled()),
+					shizukuPermissionHandler.isGranted,
+					shizukuPermissionHandler.isBinderAlive
+				) { installerType, isInstalled, isGranted, isAlive ->
+					if (installerType == InstallerType.SHIZUKU) {
+						if (!isAlive || !isInstalled) {
+							userPreferencesRepository.setInstallerType(InstallerType.SESSION)
+						}
+						if (isAlive && !isGranted) shizukuPermissionHandler.requestPermission()
+					}
+					if (installerType == InstallerType.ROOT) Shell.getShell()
+				}.collect()
+			}
+			installer()
+		}
 	}
 
 	private fun listenApplications() {
@@ -101,18 +117,18 @@ class MainApplication : Application(), ImageLoaderFactory {
 	private fun updatePreference() {
 		appScope.launch {
 			launch {
-				userPreferenceFlow.distinctMap { it.unstableUpdate }.drop(1).collect {
+				userPreferenceFlow.getProperty { unstableUpdate }.drop(1).collect {
 					forceSyncAll()
 				}
 			}
 			launch {
-				userPreferenceFlow.distinctMap { it.autoSync }.collectIndexed { index, syncMode ->
+				userPreferenceFlow.getProperty { autoSync }.collectIndexed { index, syncMode ->
 					// Don't update sync job on initial collect
 					updateSyncJob(index > 0, syncMode)
 				}
 			}
 			launch {
-				userPreferenceFlow.distinctMap { it.cleanUpInterval }.collect {
+				userPreferenceFlow.getProperty { cleanUpInterval }.collect {
 					when (it) {
 						INFINITE -> CleanUpWorker.removeAllSchedules(applicationContext)
 						ZERO -> CleanUpWorker.force(applicationContext)
@@ -122,7 +138,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 			}
 			launch {
 				userPreferenceFlow
-					.distinctMap { it.proxy }
+					.getProperty { proxy }
 					.collect(::updateProxy)
 			}
 		}

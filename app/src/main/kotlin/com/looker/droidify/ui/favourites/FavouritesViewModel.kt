@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.model.Product
 import com.looker.droidify.database.Database
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +20,7 @@ class FavouritesViewModel @Inject constructor(
 
 	val favouriteApps: StateFlow<List<List<Product>>> =
 		userPreferencesRepository.userPreferencesFlow
-			.distinctMap { it.favouriteApps }
+			.getProperty { favouriteApps }
 			.map { favourites ->
 				favourites.mapNotNull { app ->
 					Database.ProductAdapter.get(app, null).ifEmpty { null }

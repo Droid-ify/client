@@ -7,7 +7,7 @@ import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.common.signature.*
 import com.looker.core.model.Release
-import com.looker.droidify.utility.extension.android.getPackageArchiveInfoCompat
+import com.looker.core.common.extension.getPackageArchiveInfoCompat
 import java.io.File
 import com.looker.core.common.R.string as strings
 

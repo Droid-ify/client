@@ -49,8 +49,6 @@ class SettingsFragment : Fragment() {
 	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
-	private var restartSnackbar: Snackbar? = null
-
 	@SuppressLint("SetTextI18n")
 	override fun onCreateView(
 		inflater: LayoutInflater,
@@ -59,7 +57,6 @@ class SettingsFragment : Fragment() {
 	): View {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
 		binding.nestedScrollView.systemBarsPadding()
-		restartSnackbar = Snackbar.make(binding.root, R.string.restart_app, Snackbar.LENGTH_LONG)
 		val toolbar = binding.toolbar
 		toolbar.navigationIcon =
 			toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
@@ -99,7 +96,14 @@ class SettingsFragment : Fragment() {
 					viewModel.setLanguage(defaultLanguage)
 				}
 				setChangeListener()
-				viewModel.userPreferencesFlow.collect(::updateUserPreference)
+				launch {
+					viewModel.snackbarStringId.collect {
+						Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
+					}
+				}
+				launch {
+					viewModel.userPreferencesFlow.collect(::updateUserPreference)
+				}
 			}
 		}
 		return binding.root
@@ -108,7 +112,6 @@ class SettingsFragment : Fragment() {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		_binding = null
-		restartSnackbar = null
 	}
 
 	private fun <T> View.addSingleCorrectDialog(
@@ -259,7 +262,7 @@ class SettingsFragment : Fragment() {
 			theme.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.theme,
-					values = Theme.values().toList(),
+					values = Theme.entries,
 					title = R.string.theme,
 					iconRes = R.drawable.ic_themes,
 					onClick = viewModel::setTheme,
@@ -286,7 +289,7 @@ class SettingsFragment : Fragment() {
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.autoSync,
-					values = AutoSync.values().toList(),
+					values = AutoSync.entries,
 					title = R.string.sync_repositories_automatically,
 					iconRes = R.drawable.ic_sync,
 					onClick = viewModel::setAutoSync,
@@ -301,13 +304,10 @@ class SettingsFragment : Fragment() {
 			proxyType.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.proxy.type,
-					values = ProxyType.values().toList(),
+					values = ProxyType.entries,
 					title = R.string.proxy_type,
 					iconRes = R.drawable.ic_proxy,
-					onClick = {
-						viewModel.setProxyType(it)
-						restartSnackbar?.show()
-					},
+					onClick = viewModel::setProxyType,
 					valueToString = view.context::proxyName
 				).show()
 			}
@@ -334,7 +334,7 @@ class SettingsFragment : Fragment() {
 			installer.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
 					initialValue = userPreferences.installerType,
-					values = InstallerType.values().toList(),
+					values = InstallerType.entries,
 					title = R.string.installer,
 					iconRes = R.drawable.ic_download,
 					onClick = viewModel::setInstaller,
@@ -391,14 +391,17 @@ class SettingsFragment : Fragment() {
 	private fun Context.getLocaleOfCode(localeCode: String): Locale? = when {
 		localeCode.isEmpty() -> if (SdkCheck.isNougat) resources.configuration.locales[0]
 		else resources.configuration.locale
+
 		localeCode.contains("-r") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(4)
 		)
+
 		localeCode.contains("_") -> Locale(
 			localeCode.substring(0, 2),
 			localeCode.substring(3)
 		)
+
 		localeCode == "system" -> null
 		else -> Locale(localeCode)
 	}

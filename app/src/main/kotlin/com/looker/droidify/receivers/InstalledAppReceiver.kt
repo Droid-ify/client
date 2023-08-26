@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.Utils.toInstalledItem
-import com.looker.droidify.utility.extension.android.getPackageInfoCompat
+import com.looker.core.common.extension.getPackageInfoCompat
 
 class InstalledAppReceiver(private val packageManager: PackageManager) : BroadcastReceiver() {
 	override fun onReceive(context: Context, intent: Intent) {

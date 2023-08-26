@@ -66,3 +66,55 @@ fun PackageManager.getApplicationInfoCompat(
 	@Suppress("DEPRECATION")
 	getApplicationInfo(filePath, 0)
 }
+
+@Suppress("DEPRECATION")
+private val signaturesFlagCompat: Int
+	get() = (if (SdkCheck.isPie) PackageManager.GET_SIGNING_CERTIFICATES
+	else 0) or PackageManager.GET_SIGNATURES
+
+fun PackageManager.getPackageInfoCompat(
+	packageName: String,
+	signatureFlag: Int = signaturesFlagCompat
+): PackageInfo? = try {
+	if (SdkCheck.isTiramisu) {
+		getPackageInfo(
+			packageName,
+			PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
+		)
+	} else {
+		@Suppress("DEPRECATION")
+		getPackageInfo(packageName, signatureFlag)
+	}
+} catch (e: Exception) {
+	null
+}
+
+fun PackageManager.getPackageArchiveInfoCompat(
+	filePath: String,
+	signatureFlag: Int = signaturesFlagCompat
+): PackageInfo? = try {
+	if (SdkCheck.isTiramisu) {
+		getPackageArchiveInfo(
+			filePath,
+			PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
+		)
+	} else {
+		@Suppress("DEPRECATION")
+		getPackageArchiveInfo(filePath, signatureFlag)
+	}
+} catch (e: Exception) {
+	null
+}
+
+fun PackageManager.getInstalledPackagesCompat(
+	signatureFlag: Int = signaturesFlagCompat
+): List<PackageInfo>? = try {
+	if (SdkCheck.isTiramisu) {
+		getInstalledPackages(PackageManager.PackageInfoFlags.of(signatureFlag.toLong()))
+	} else {
+		@Suppress("DEPRECATION")
+		getInstalledPackages(signatureFlag)
+	}
+} catch (e: Exception) {
+	null
+}

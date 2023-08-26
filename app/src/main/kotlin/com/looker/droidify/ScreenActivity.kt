@@ -23,7 +23,7 @@ import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.ScreenFragment
@@ -115,7 +115,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 			)
 		val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
 		lifecycleScope.launch {
-			newPreferences.distinctMap { it.theme to it.dynamicTheme }
+			newPreferences.getProperty { theme to dynamicTheme }
 				.collectIndexed { index, themeAndDynamic ->
 					setTheme(
 						resources.configuration.getThemeRes(
