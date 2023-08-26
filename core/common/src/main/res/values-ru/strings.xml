@@ -220,4 +220,6 @@
     <string name="socket_error_DESC">Сервер не смог предоставить новый пакет.</string>
     <string name="connection_error_DESC">Не удалось соединиться с сервером</string>
     <string name="contains_nsfw">Содержит небезопасный для работы контент</string>
+    <string name="shizuku_not_alive">Shizuku не запущен</string>
+    <string name="shizuku_not_installed">Shizuku не установлен</string>
 </resources>
