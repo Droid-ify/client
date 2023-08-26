@@ -5,7 +5,7 @@ import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.model.*
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.model.newer.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -22,7 +22,7 @@ class OfflineFirstAppRepository @Inject constructor(
 
 	private val localePreference = userPreferencesRepository
 		.userPreferencesFlow
-		.distinctMap { it.language }
+		.getProperty { language }
 
 	private val installedFlow = installedDao.getInstalledStream()
 

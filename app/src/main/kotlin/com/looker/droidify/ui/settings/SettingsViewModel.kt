@@ -1,32 +1,32 @@
 package com.looker.droidify.ui.settings
 
-import android.content.pm.PackageManager
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.Theme
+import com.looker.core.datastore.model.*
+import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import rikka.shizuku.Shizuku
 import javax.inject.Inject
 import kotlin.time.Duration
+import com.looker.core.common.R as CommonR
 
 @HiltViewModel
 class SettingsViewModel
 @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val userPreferencesRepository: UserPreferencesRepository,
+	private val shizukuPermissionHandler: ShizukuPermissionHandler
 ) : ViewModel() {
 
 	val initialPreference get() = flow { emit(userPreferencesRepository.fetchInitialPreferences()) }
 	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
+
+	private val _snackbarStringId = MutableSharedFlow<Int>()
+	val snackbarStringId = _snackbarStringId.asSharedFlow()
 
 	fun setLanguage(language: String) {
 		viewModelScope.launch {
@@ -107,12 +107,15 @@ class SettingsViewModel
 		viewModelScope.launch {
 			when (installerType) {
 				InstallerType.SHIZUKU -> {
-					Shizuku.addRequestPermissionResultListener(permissionListener)
-					val haveShizuku = checkShizukuPermission()
-					userPreferencesRepository.setInstallerType(
-						if (haveShizuku) InstallerType.SHIZUKU else InstallerType.SESSION
-					)
+					val isInstalled = shizukuPermissionHandler.isInstalled()
+					val isAlive = shizukuPermissionHandler.isBinderAlive.first()
+					when {
+						!isInstalled -> _snackbarStringId.emit(CommonR.string.shizuku_not_installed)
+						!isAlive -> _snackbarStringId.emit(CommonR.string.shizuku_not_alive)
+						else -> userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
+					}
 				}
+
 				InstallerType.ROOT -> {
 					Shell.getShell()
 					val isRooted = Shell.isAppGrantedRoot()
@@ -121,55 +124,9 @@ class SettingsViewModel
 						else InstallerType.SESSION
 					)
 				}
-				else -> {
-					userPreferencesRepository.setInstallerType(installerType)
-				}
+
+				else -> userPreferencesRepository.setInstallerType(installerType)
 			}
 		}
 	}
-
-	private fun checkShizukuPermission(): Boolean {
-		if (Shizuku.isPreV11()) return false
-		return if (Shizuku.pingBinder()) {
-			if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) true
-			else if (Shizuku.shouldShowRequestPermissionRationale()) false
-			else {
-				Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
-				false
-			}
-		} else false
-	}
-
-	private val shizukuDeadListener = Shizuku.OnBinderDeadListener {
-		Log.i("ShizukuInstaller", "Killed")
-	}
-
-	private val permissionListener =
-		object : Shizuku.OnRequestPermissionResultListener {
-			override fun onRequestPermissionResult(requestCode: Int, grantResult: Int) {
-				if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
-					val granted = grantResult == PackageManager.PERMISSION_GRANTED
-					viewModelScope.launch {
-						userPreferencesRepository.setInstallerType(
-							if (granted) InstallerType.SHIZUKU
-							else InstallerType.SESSION
-						)
-					}
-					Shizuku.removeRequestPermissionResultListener(this)
-				}
-			}
-		}
-
-	init {
-		Shizuku.addBinderDeadListener(shizukuDeadListener)
-	}
-
-	override fun onCleared() {
-		super.onCleared()
-		Shizuku.removeRequestPermissionResultListener(permissionListener)
-		Shizuku.removeBinderDeadListener(shizukuDeadListener)
-	}
-
 }
-
-private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263

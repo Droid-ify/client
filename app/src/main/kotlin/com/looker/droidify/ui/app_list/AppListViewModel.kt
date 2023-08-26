@@ -2,10 +2,9 @@ package com.looker.droidify.ui.app_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
@@ -26,7 +25,7 @@ class AppListViewModel
 
 	private val sortOrderFlow = userPreferencesRepository
 		.userPreferencesFlow
-		.distinctMap { it.sortOrder }
+		.getProperty { sortOrder }
 
 	val reposStream = Database.RepositoryAdapter
 		.getAllStream()

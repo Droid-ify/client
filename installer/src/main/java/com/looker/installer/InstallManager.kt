@@ -6,10 +6,11 @@ import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.distinctMap
+import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.newer.PackageName
 import com.looker.installer.installers.*
+import com.looker.installer.installers.shizuku.ShizukuInstaller
 import com.looker.installer.model.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +40,7 @@ class InstallManager(
 	private val lock = Mutex()
 	private val installerPreference = userPreferencesRepository
 		.userPreferencesFlow
-		.distinctMap { it.installerType }
+		.getProperty { installerType }
 
 	suspend operator fun invoke() = coroutineScope {
 		setupInstaller()
