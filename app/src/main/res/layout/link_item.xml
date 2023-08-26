@@ -26,14 +26,14 @@
 
         <TextView
             android:id="@+id/text"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/link"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textSize="14sp" />

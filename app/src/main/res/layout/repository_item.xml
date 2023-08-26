@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:paddingHorizontal="@dimen/shape_margin_large"
+    android:orientation="horizontal"
     android:paddingVertical="12dp">
-
-    <TextView
-        android:id="@+id/repository_name"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:textAppearance="?attr/textAppearanceTitleMedium"
-        app:layout_constraintBottom_toTopOf="@id/repository_description"
-        app:layout_constraintEnd_toStartOf="@id/repository_state"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/repository_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:ellipsize="end"
-        android:textAppearance="?textAppearanceBodyMedium"
-        android:textColor="?colorOutline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/repository_state"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/repository_name" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/repository_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/shape_margin_large"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_check" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/repository_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+        <TextView
+            android:id="@+id/repository_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textAppearance="?textAppearanceBodyMedium"
+            android:textColor="?colorOutline" />
+    </LinearLayout>
+</LinearLayout>

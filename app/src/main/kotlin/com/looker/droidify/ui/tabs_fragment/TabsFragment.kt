@@ -504,15 +504,16 @@ class TabsFragment : ScreenFragment() {
 				get() = itemView as TextView
 
 			init {
-				itemView as TextView
-				itemView.gravity = Gravity.CENTER_VERTICAL
-				itemView.resources.sizeScaled(16).let { itemView.setPadding(it, 0, it, 0) }
-				itemView.background =
-					context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
-				itemView.layoutParams = RecyclerView.LayoutParams(
-					RecyclerView.LayoutParams.MATCH_PARENT,
-					itemView.resources.sizeScaled(48)
-				)
+				with(itemView as TextView) {
+					gravity = Gravity.CENTER_VERTICAL
+					resources.sizeScaled(16).let { setPadding(it, 0, it, 0) }
+					background =
+						context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
+					layoutParams = RecyclerView.LayoutParams(
+						RecyclerView.LayoutParams.WRAP_CONTENT,
+						resources.sizeScaled(48)
+					)
+				}
 			}
 		}
 
