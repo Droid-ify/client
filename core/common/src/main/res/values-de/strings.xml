@@ -140,7 +140,7 @@
     <string name="unknown_FORMAT">Unbekannt: %s</string>
     <string name="unknown_error_DESC">Unbekannter Fehler.</string>
     <string name="syncing_FORMAT">Synchronisierung %s …</string>
-    <string name="incompatible_signature_DESC">Diese Version ist mit einem anderen Zertifikat signiert, als die auf Ihrem Gerät installierte. Deinstalliere diese zuerst.</string>
+    <string name="incompatible_signature_DESC">Diese Version ist mit einem anderen Zertifikat signiert, als die auf Deinem Gerät installierte. Deinstalliere diese zuerst.</string>
     <string name="delete_repository_DESC">Die Paketquelle löschen\?</string>
     <string name="incompatible_older_DESC">Diese Version ist älter als die auf deinem Gerät installierte. Deinstalliere diese zuerst.</string>
     <string name="incompatible_api_DESC_FORMAT">Deine %1$s (API-Version %2$d) wird nicht unterstützt. %3$s</string>
@@ -161,7 +161,7 @@
         <item quantity="one">%d Anwendung hat eine neue Version.</item>
         <item quantity="other">%d Anwendungen haben eine neue Version.</item>
     </plurals>
-    <string name="signed_using_unsafe_algorithm">Signiert mit einem unsicheren Algorithmus</string>
+    <string name="signed_using_unsafe_algorithm">Mit einem unsicheren Algorithmus signiert</string>
     <string name="select_mirror">Wähle einen Spiegel</string>
     <string name="list_animation">Animationen anzeigen</string>
     <string name="links">Links</string>
@@ -208,6 +208,11 @@
     <string name="restart_app">Starten Sie Droid-ify neu, um die Änderungen zu sehen</string>
     <string name="waiting_to_start_installation">Warten auf den Beginn der Installation …</string>
     <string name="auto_update">Apps automatisch aktualisieren</string>
-    <string name="auto_update_apps">Versuchen Sie, Updates automatisch zu installieren</string>
+    <string name="auto_update_apps">Versuche, Updates automatisch zu installieren</string>
     <string name="has_non_free_components">Hat nicht-freie Komponenten</string>
+    <string name="socket_error_DESC">Server konnte kein neues Datenpaket liefern.</string>
+    <string name="shizuku_not_alive">Shizuku läuft nicht</string>
+    <string name="contains_nsfw">Enthält für den Arbeitsplatz unangemessene Inhalte</string>
+    <string name="connection_error_DESC">Verbindung zum Server nicht möglich</string>
+    <string name="shizuku_not_installed">Shizuku ist nicht installiert</string>
 </resources>
