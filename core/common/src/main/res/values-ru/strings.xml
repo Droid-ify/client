@@ -44,7 +44,7 @@
     <string name="has_non_free_dependencies">Имеет несвободные зависимости</string>
     <string name="has_security_vulnerabilities">Имеет уязвимости безопасности</string>
     <string name="http_error_DESC">Некорректный ответ сервера.</string>
-    <string name="http_proxy">HTTP прокси</string>
+    <string name="http_proxy">HTTP-прокси</string>
     <string name="ignore_all_updates">Игнорировать все новые версии</string>
     <string name="ignore_this_update">Игнорировать эту версию</string>
     <string name="incompatible_api_DESC_FORMAT">Ваш %1$s (версия API %2$d) не поддерживается. %3$s</string>
@@ -96,7 +96,7 @@
     <string name="notify_about_updates">Уведомлять о новых версиях приложений</string>
     <string name="notify_about_updates_summary">Отображать уведомление о доступности новых версий</string>
     <string name="number_of_applications">Количество приложений</string>
-    <string name="ok">Ок</string>
+    <string name="ok">ОК</string>
     <string name="only_compatible_with_FORMAT">Совместимо только с %s</string>
     <string name="only_on_wifi">Только по Wi-Fi</string>
     <string name="open_DESC_FORMAT">Открыть %s?</string>
@@ -136,7 +136,7 @@
     <string name="signed_using_unsafe_algorithm">Подписано с небезопасным алгоритмом</string>
     <string name="size">Размер</string>
     <string name="skip">Пропустить</string>
-    <string name="socks_proxy">Прокси SOCKS</string>
+    <string name="socks_proxy">SOCKS-прокси</string>
     <string name="sorting_order">Сортировка</string>
     <string name="source_code">Исходный код</string>
     <string name="source_code_no_longer_available">Исходный код более не доступен</string>
@@ -150,7 +150,7 @@
     <string name="target">Целевой</string>
     <string name="theme">Тема</string>
     <string name="themes">Темы</string>
-    <string name="tracks_or_reports_your_activity">Отслеживает и передаёт информацию о Вашей активности</string>
+    <string name="tracks_or_reports_your_activity">Отслеживает и передаёт информацию о вашей активности</string>
     <string name="uninstall">Удалить</string>
     <string name="unknown">Неизвестно</string>
     <string name="unknown_error_DESC">Неизвестная ошибка.</string>
@@ -188,16 +188,16 @@
     <string name="cleanup_description">Период удаления скачанных файлов</string>
     <string name="cleanup_title">Интервал удаления APK</string>
     <plurals name="days">
-        <item quantity="one">День</item>
-        <item quantity="few">Дня</item>
-        <item quantity="many">Дней</item>
-        <item quantity="other">Дней</item>
+        <item quantity="one">день</item>
+        <item quantity="few">дня</item>
+        <item quantity="many">дней</item>
+        <item quantity="other">дней</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Час</item>
-        <item quantity="few">Часа</item>
-        <item quantity="many">Часов</item>
-        <item quantity="other">Часов</item>
+        <item quantity="one">час</item>
+        <item quantity="few">часа</item>
+        <item quantity="many">часов</item>
+        <item quantity="other">часов</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Только по Wi-Fi и на зарядке</string>
     <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
