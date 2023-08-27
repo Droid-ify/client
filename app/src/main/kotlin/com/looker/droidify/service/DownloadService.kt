@@ -15,6 +15,7 @@ import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result.*
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
@@ -50,16 +51,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	@Inject
 	lateinit var downloader: Downloader
 
-	private val installerType = flow {
-		emit(userPreferencesRepository.fetchInitialPreferences().installerType)
-	}
+	private val installerType
+		get() = userPreferencesRepository.userPreferencesFlow.getProperty { installerType }
 
 	@Inject
 	lateinit var installer: InstallManager
 
 	sealed class State(val packageName: String) {
 		data object Idle : State("")
-		data class Pending(val name: String) : State(name)
 		data class Connecting(val name: String) : State(name)
 		data class Downloading(val name: String, val read: Long, val total: Long?) : State(name)
 		data class Error(val name: String) : State(name)
@@ -67,7 +66,25 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		data class Success(val name: String, val release: Release) : State(name)
 	}
 
-	private val _downloadState = MutableStateFlow<State>(State.Idle)
+	data class DownloadState(
+		val currentItem: State = State.Idle,
+		val queue: List<String> = emptyList()
+	) {
+		infix fun isDownloading(packageName: String): Boolean =
+			currentItem.packageName == packageName && (
+					currentItem is State.Connecting || currentItem is State.Downloading
+					)
+
+		infix fun isComplete(packageName: String): Boolean =
+			currentItem.packageName == packageName && (
+					currentItem is State.Error
+							|| currentItem is State.Cancel
+							|| currentItem is State.Success
+							|| currentItem is State.Idle
+					)
+	}
+
+	private val _downloadState = MutableStateFlow(DownloadState())
 
 	private class Task(
 		val packageName: String, val name: String, val release: Release,
@@ -116,7 +133,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				if (currentTask == null) {
 					handleDownload()
 				} else {
-					scope.launch { _downloadState.emit(State.Pending(packageName)) }
+					updateCurrentQueue { add(packageName) }
 				}
 			}
 		}
@@ -148,7 +165,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.filter { currentTask != null }
 				.collect {
 					delay(400)
-					publishForegroundState(false, it)
+					publishForegroundState(false, it.currentItem)
 				}
 		}
 	}
@@ -171,9 +188,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun cancelTasks(packageName: String?) {
 		tasks.removeAll {
 			(packageName == null || it.packageName == packageName) && run {
-				scope.launch {
-					_downloadState.emit(State.Cancel(it.packageName))
-				}
+				updateCurrentState(State.Cancel(it.packageName))
 				true
 			}
 		}
@@ -184,9 +199,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			if (packageName == null || it.task.packageName == packageName) {
 				it.job.cancel()
 				currentTask = null
-				scope.launch {
-					_downloadState.emit(State.Cancel(it.task.packageName))
-				}
+				updateCurrentState(State.Cancel(it.task.packageName))
 			}
 		}
 	}
@@ -269,8 +282,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private suspend fun publishSuccess(task: Task) {
 		val currentInstaller = installerType.first()
-		_downloadState.emit(State.Pending(task.packageName))
-		_downloadState.emit(State.Success(task.packageName, task.release))
+		updateCurrentState(State.Success(task.packageName, task.release))
 		val autoInstallWithSessionInstaller =
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
 					&& currentInstaller == InstallerType.SESSION
@@ -368,9 +380,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val job = scope.downloadFile(task, partialReleaseFile)
 		currentTask = CurrentTask(task, job, connectionState)
 		publishForegroundState(true, connectionState)
-		scope.launch {
-			_downloadState.emit(State.Connecting(task.packageName))
-		}
+		updateCurrentState(State.Connecting(task.packageName))
 	}
 
 	private fun createNotificationIntent(packageName: String): PendingIntent? =
@@ -398,7 +408,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			) { read, total ->
 				ensureActive()
 				yield()
-				_downloadState.emit(State.Downloading(task.packageName, read, total))
+				updateCurrentState(State.Downloading(task.packageName, read, total))
 			}
 
 			when (response) {
@@ -412,7 +422,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				}
 
 				is NetworkResponse.Error -> {
-					_downloadState.emit(State.Error(task.packageName))
+					updateCurrentState(State.Error(task.packageName))
 					val errorType = when (response) {
 						is NetworkResponse.Error.ConnectionTimeout -> ErrorType.ConnectionTimeout
 						is NetworkResponse.Error.IO -> ErrorType.IO
@@ -426,6 +436,21 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		} finally {
 			lock.withLock { currentTask = null }
 			handleDownload()
+		}
+	}
+
+	private fun updateCurrentState(state: State) {
+		_downloadState.update {
+			val newQueue =
+				if (state.packageName in it.queue) it.queue.updateAsMutable { remove(state.packageName) }
+				else it.queue
+			it.copy(currentItem = state, queue = newQueue)
+		}
+	}
+
+	private fun updateCurrentQueue(block: MutableList<String>.() -> Unit) {
+		_downloadState.update { state ->
+			state.copy(queue = state.queue.updateAsMutable(block))
 		}
 	}
 }

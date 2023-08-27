@@ -34,8 +34,6 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
 import com.looker.installer.model.*
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
@@ -89,21 +87,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
 	private var actions = Pair(emptySet<Action>(), null as Action?)
-	private var products =
-		emptyList<Pair<Product, Repository>>()
+	private var products = emptyList<Pair<Product, Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
 	private var installing = false
 
 	private var recyclerView: RecyclerView? = null
+	private var detailAdapter: AppDetailAdapter? = null
 
 	private val downloadConnection = Connection(
 		serviceClass = DownloadService::class.java,
 		onBind = { _, binder ->
 			lifecycleScope.launch {
 				binder.downloadState
-					.filter { it.packageName == packageName }
-					.collectLatest { updateDownloadState(it) }
+					.collect { updateDownloadState(it) }
 			}
 		}
 	)
@@ -112,6 +109,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		super.onViewCreated(view, savedInstanceState)
 
 		viewModel.setPackageName(packageName)
+		detailAdapter = AppDetailAdapter(this@AppDetailFragment)
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.menu.apply {
 			Action.entries.forEach { action ->
@@ -132,11 +130,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			this.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 			isMotionEventSplittingEnabled = false
 			isVerticalScrollBarEnabled = false
-			val adapter = AppDetailAdapter(this@AppDetailFragment)
-			this.adapter = adapter
+			adapter = detailAdapter
 			(itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-			savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
-				?.let(adapter::restoreState)
+			if (detailAdapter != null) {
+				savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+					?.let(detailAdapter!!::restoreState)
+			}
 			layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 			recyclerView = this
 			systemBarsPadding(includeFab = false)
@@ -190,6 +189,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	override fun onDestroyView() {
 		super.onDestroyView()
 		recyclerView = null
+		detailAdapter = null
 
 		downloadConnection.unbind(requireContext())
 	}
@@ -292,26 +292,35 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 	}
 
-	private fun updateDownloadState(state: DownloadService.State) {
-		val status = when (state) {
-			is DownloadService.State.Pending -> AppDetailAdapter.Status.Pending
-			is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting
-			is DownloadService.State.Downloading -> AppDetailAdapter.Status.Downloading(
-				state.read,
-				state.total
-			)
-
-			else -> AppDetailAdapter.Status.Idle
+	private fun updateDownloadState(state: DownloadService.DownloadState) {
+		val isPending = packageName in state.queue
+		val isDownloading = state isDownloading packageName
+		val isCompleted = state isComplete packageName
+		val isActive = isPending || isDownloading
+		if (isPending) {
+			detailAdapter?.status = AppDetailAdapter.Status.Pending
 		}
-		val downloading = status != AppDetailAdapter.Status.Idle
-		if (this.downloading != downloading) {
-			this.downloading = downloading
+		if (isDownloading) {
+			detailAdapter?.status = when (state.currentItem) {
+				is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting
+				is DownloadService.State.Downloading -> AppDetailAdapter.Status.Downloading(
+					state.currentItem.read,
+					state.currentItem.total
+				)
+
+				else -> AppDetailAdapter.Status.Idle
+			}
+		}
+		if (isCompleted) {
+			detailAdapter?.status = AppDetailAdapter.Status.Idle
+		}
+		if (this.downloading != isActive) {
+			this.downloading = isActive
 			updateButtons()
 		}
-		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
 		lifecycleScope.launch {
-			if (state is DownloadService.State.Success && isResumed) {
-				val installItem = packageName installFrom state.release.cacheFileName
+			if (state.currentItem is DownloadService.State.Success && isResumed) {
+				val installItem = packageName installFrom state.currentItem.release.cacheFileName
 				installer + installItem
 			}
 		}
