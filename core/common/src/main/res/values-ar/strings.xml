@@ -227,4 +227,5 @@
     <string name="contains_nsfw">يحتوي على محتوى غير آمن للعمل</string>
     <string name="shizuku_not_alive">شيزوكو لايعمل</string>
     <string name="shizuku_not_installed">شيزوكو غير مثبت</string>
+    <string name="special_credits">شكر خاص</string>
 </resources>
