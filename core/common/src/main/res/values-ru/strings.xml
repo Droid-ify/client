@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">Действие не удалось</string>
+    <string name="action_failed">Действие не выполнено</string>
     <string name="add_repository">Добавить репозиторий</string>
     <string name="address">Адрес</string>
     <string name="all_applications">Все приложения</string>
@@ -10,11 +10,11 @@
     <string name="amoled">Чёрная</string>
     <string name="anti_features">Анти-функционал</string>
     <string name="application">Приложение</string>
-    <string name="application_not_found">Не удалось найти это приложение</string>
+    <string name="application_not_found">Невозможно найти это приложение</string>
     <string name="author_email">Эл. почта автора</string>
     <string name="author_website">Сайт автора</string>
     <string name="available">Обзор</string>
-    <string name="bug_tracker">Баг-трекер</string>
+    <string name="bug_tracker">Трекер ошибок</string>
     <string name="cancel">Отмена</string>
     <string name="cant_edit_sync_DESC">Невозможно редактировать репозиторий, так как он сейчас синхронизируется.</string>
     <string name="changelog">Список изменений</string>
@@ -24,9 +24,9 @@
     <string name="confirmation">Подтверждение</string>
     <string name="connecting">Подключение…</string>
     <string name="contains_non_free_media">Содержит несвободные материалы</string>
-    <string name="could_not_download_FORMAT">Не удалось скачать %s</string>
-    <string name="could_not_sync_FORMAT">Не удалось синхронизировать %s</string>
-    <string name="could_not_validate_FORMAT">Не удалось проверить %s</string>
+    <string name="could_not_download_FORMAT">Невозможно скачать %s</string>
+    <string name="could_not_sync_FORMAT">Невозможно синхронизировать %s</string>
+    <string name="could_not_validate_FORMAT">Невозможно проверить %s</string>
     <string name="credits">Авторы</string>
     <string name="dark">Тёмная</string>
     <string name="delete">Удалить</string>
@@ -38,7 +38,7 @@
     <string name="downloading">Скачивание</string>
     <string name="downloading_FORMAT">Скачивание %s…</string>
     <string name="edit_repository">Редактировать репозиторий</string>
-    <string name="file_format_error_DESC">Недопустимый формат файла.</string>
+    <string name="file_format_error_DESC">Неправильный формат файла.</string>
     <string name="fingerprint">Отпечаток</string>
     <string name="has_advertising">Содержит рекламу</string>
     <string name="has_non_free_dependencies">Имеет несвободные зависимости</string>
@@ -51,7 +51,7 @@
     <string name="incompatible_api_max_DESC_FORMAT">Максимальная версия API - %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API - %d.</string>
     <string name="incompatible_features_DESC">Отсутствующие функции.</string>
-    <string name="incompatible_older_DESC">Эта версия старше той, которая установлена на вашем устройстве. Сначала удалите ее.</string>
+    <string name="incompatible_older_DESC">Эта версия старше той, которая установлена на вашем устройстве. Сначала удалите её.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не поддерживается.
 Поддерживаемые платформы: %2$s.</string>
     <string name="incompatible_signature_DESC">Эта версия подписана сертификатом, отличным от того, который установленным на вашем устройстве. Сначала удалите его.</string>
@@ -62,13 +62,13 @@
     <string name="install">Установить</string>
     <string name="install_types">Типы установки</string>
     <string name="installed">Установлено</string>
-    <string name="integrity_check_error_DESC">Не удалось проверить целостность.</string>
-    <string name="invalid_address">Неверный адрес</string>
-    <string name="invalid_fingerprint_format">Неверный формат отпечатка</string>
-    <string name="invalid_metadata_error_DESC">Неверные метаданные.</string>
-    <string name="invalid_permissions_error_DESC">Неверные разрешения.</string>
-    <string name="invalid_signature_error_DESC">Неверная подпись.</string>
-    <string name="invalid_username_format">Неверный формат имени пользователя</string>
+    <string name="integrity_check_error_DESC">Невозможно проверить целостность.</string>
+    <string name="invalid_address">Неправильный адрес</string>
+    <string name="invalid_fingerprint_format">Неправильный формат отпечатка</string>
+    <string name="invalid_metadata_error_DESC">Неправильные метаданные.</string>
+    <string name="invalid_permissions_error_DESC">Неправильные разрешения.</string>
+    <string name="invalid_signature_error_DESC">Неправильная подпись.</string>
+    <string name="invalid_username_format">Неправильный формат имени пользователя</string>
     <string name="launch">Открыть</string>
     <string name="license">Лицензия</string>
     <string name="license_FORMAT">Лицензия %s</string>
@@ -84,7 +84,7 @@
     <string name="new_updates_available">Доступны новые версии приложений</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d новое обновлений.</item>
-        <item quantity="few">%d новых обновлений.</item>
+        <item quantity="few">%d новых обновления.</item>
         <item quantity="many">%d новых обновлений.</item>
         <item quantity="other">%d новых обновлений.</item>
     </plurals>
@@ -101,7 +101,7 @@
     <string name="only_on_wifi">Только по Wi-Fi</string>
     <string name="open_DESC_FORMAT">Открыть %s?</string>
     <string name="other">Прочее</string>
-    <string name="parsing_index_error_DESC">Не удалось разобрать индексный файл.</string>
+    <string name="parsing_index_error_DESC">Невозможно разобрать индексный файл.</string>
     <string name="password">Пароль</string>
     <string name="password_missing">Пароль отсутствует</string>
     <string name="permissions">Разрешения</string>
@@ -113,17 +113,17 @@
     <string name="promotes_non_free_software">Продвигает несвободное ПО</string>
     <string name="provided_by_FORMAT">Предоставлено %s</string>
     <string name="proxy">Прокси</string>
-    <string name="proxy_host">Хост прокси</string>
+    <string name="proxy_host">Узел прокси</string>
     <string name="proxy_port">Порт прокси</string>
     <string name="proxy_type">Тип прокси</string>
-    <string name="recently_updated">Недавно обновленные</string>
+    <string name="recently_updated">Недавно обновлённые</string>
     <string name="repositories">Репозитории</string>
     <string name="repository">Репозиторий</string>
-    <string name="repository_not_used_DESC">Этот репозиторий еще не использовался. Вам необходимо включить его для просмотра находящиеся в нем приложений.</string>
-    <string name="repository_unsigned_DESC">Подпись отсутствует. Не удалось проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
+    <string name="repository_not_used_DESC">Этот репозиторий ещё не использовался. Вам необходимо включить его для просмотра находящиеся в нем приложений.</string>
+    <string name="repository_unsigned_DESC">Подпись отсутствует. Невозможно проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
     <string name="requires_FORMAT">Требуется %s</string>
     <string name="root_permission">Тихая установка</string>
-    <string name="root_permission_description">Предоставьте права Root для включения тихой установки</string>
+    <string name="root_permission_description">Предоставьте root-права для включения тихой установки</string>
     <string name="save">Сохранить</string>
     <string name="saving_details">Сохранение данных…</string>
     <string name="screenshots">Снимки экрана</string>
@@ -170,7 +170,7 @@
     <string name="versions">Версии</string>
     <string name="waiting_to_start_download">Ожидание скачивания…</string>
     <string name="whats_new">Что нового</string>
-    <string name="website">Веб-сайт</string>
+    <string name="website">Сайт</string>
     <string name="prefs_language_title">Язык</string>
     <string name="prefs_personalization">Персонализация</string>
     <string name="show_less">Показать меньше</string>
@@ -200,11 +200,11 @@
         <item quantity="other">часов</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Только по Wi-Fi и на зарядке</string>
-    <string name="io_error_DESC">Невозможно выполнить определенные действия.</string>
+    <string name="io_error_DESC">Невозможно выполнить определённые действия.</string>
     <string name="no_internet">Отсутствует подключение к интернету</string>
     <string name="allow_collapsing_toolbar">Расширение верхней панели</string>
     <string name="allow_collapsing_toolbar_DESC">Верхняя панель приложения будет сворачиваться и разворачиваться</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Material You</string>
     <string name="material_you_desc">Использовать цветовую тему Material You</string>
     <string name="favourites">Избранное</string>
     <string name="repository_unreachable">Репозиторий недоступен</string>
@@ -218,8 +218,9 @@
     <string name="auto_update_apps">Пытаться установить обновления автоматически</string>
     <string name="has_non_free_components">Содержит несвободные компоненты</string>
     <string name="socket_error_DESC">Сервер не смог предоставить новый пакет.</string>
-    <string name="connection_error_DESC">Не удалось соединиться с сервером</string>
+    <string name="connection_error_DESC">Невозможно соединиться с сервером</string>
     <string name="contains_nsfw">Содержит небезопасный для работы контент</string>
     <string name="shizuku_not_alive">Shizuku не запущен</string>
     <string name="shizuku_not_installed">Shizuku не установлен</string>
+    <string name="special_credits">Особая благодарность</string>
 </resources>
