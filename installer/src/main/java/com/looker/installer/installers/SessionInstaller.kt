@@ -71,8 +71,13 @@ internal class SessionInstaller(private val context: Context) : Installer {
 
 			if (cont.isActive) activeSession.commit(pendingIntent.intentSender)
 		}
+
 		cont.invokeOnCancellation {
-			sessionInstaller.abandonSession(id)
+			try {
+				sessionInstaller.abandonSession(id)
+			} catch (e: Exception) {
+				e.printStackTrace()
+			}
 		}
 	}
 
