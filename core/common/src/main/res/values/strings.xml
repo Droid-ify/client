@@ -176,6 +176,7 @@
     <string name="sorting_order">Sorting order</string>
     <string name="source_code">Source code</string>
     <string name="source_code_no_longer_available">Source code no longer available</string>
+    <string name="special_credits">Special Credits</string>
     <string name="suggested">Suggested</string>
     <string name="sync_repositories">Sync repositories</string>
     <string name="sync_repositories_automatically">Sync repositories automatically</string>

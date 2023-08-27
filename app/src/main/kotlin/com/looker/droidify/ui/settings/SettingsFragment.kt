@@ -83,7 +83,7 @@ class SettingsFragment : Fragment() {
 			proxyHost.title.text = getString(R.string.proxy_host)
 			proxyPort.title.text = getString(R.string.proxy_port)
 			installer.title.text = getString(R.string.installer)
-			creditFoxy.title.text = "Based on Foxy Droid"
+			creditFoxy.title.text = getString(R.string.special_credits)
 			creditFoxy.content.text = "FoxyDroid"
 			droidify.title.text = "Droid-ify"
 			droidify.content.text = BuildConfig.VERSION_NAME
