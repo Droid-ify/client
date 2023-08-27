@@ -218,4 +218,5 @@
     <string name="shizuku_not_alive">Shizuku není spuštěno</string>
     <string name="shizuku_not_installed">Shizuku není nainstalováno</string>
     <string name="contains_nsfw">Obsahuje obsah nevhodný do práce</string>
+    <string name="special_credits">Speciální poděkování</string>
 </resources>
