@@ -209,4 +209,8 @@
     <string name="has_non_free_components">具有非自由元件</string>
     <string name="connection_error_DESC">無法連線至伺服器</string>
     <string name="socket_error_DESC">伺服器未能提供新封包。</string>
+    <string name="shizuku_not_alive">Shizuku 未在執行中</string>
+    <string name="shizuku_not_installed">Shizuku 未安裝</string>
+    <string name="contains_nsfw">包含不適宜工作環境內容</string>
+    <string name="special_credits">特別感謝</string>
 </resources>
