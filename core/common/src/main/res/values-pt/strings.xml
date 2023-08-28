@@ -218,4 +218,5 @@
     <string name="shizuku_not_installed">Shizuku não está instalado</string>
     <string name="shizuku_not_alive">Shizuku não está a correr</string>
     <string name="contains_nsfw">Contém conteúdo não seguro para o trabalho</string>
+    <string name="special_credits">Créditos especiais</string>
 </resources>
