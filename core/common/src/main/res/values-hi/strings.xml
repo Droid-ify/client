@@ -213,4 +213,7 @@
     <string name="socket_error_DESC">सर्वर नया पैकेट प्रदान करने में विफल रहा।</string>
     <string name="connection_error_DESC">सर्वर से कनेक्ट नहीं हो सका</string>
     <string name="contains_nsfw">इसमें कार्य के लिए असुरक्षित सामग्री है</string>
+    <string name="shizuku_not_alive">Shizuku नहीं चल रहा है</string>
+    <string name="shizuku_not_installed">Shizuku इंस्टाल नहीं है</string>
+    <string name="special_credits">विशेष श्रेय</string>
 </resources>
