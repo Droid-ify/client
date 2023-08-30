@@ -166,8 +166,8 @@
     <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-utgåve %2$d) er ikkje stødd. %3$s</string>
     <string name="incompatible_platforms_DESC_FORMAT">Din %1$s-bygnad er ikkje stødd. Stødde bygnadar: %2$s.</string>
     <string name="incompatible_versions">Utgåver som ikkje høver</string>
-    <string name="incompatible_older_DESC">Denne utgåva er eldre enn han som er innlagd på eininga di. Slett ho fyrst.</string>
-    <string name="incompatible_signature_DESC">Opphavet til denne utgåva er stadfesta med eit anna løyve enn ho som er innlagd på eininga di. Slett ho fyrst.</string>
+    <string name="incompatible_older_DESC">Denne utgåva er eldre enn ho som er innlagd på eininga di. Slett ho først.</string>
+    <string name="incompatible_signature_DESC">Opphavet til denne utgåva er stadfesta med eit anna løyve enn ho som alt er lagd inn på eininga di. Slett ho først.</string>
     <string name="incompatible_version">Utgåva høver ikkje</string>
     <string name="updates">Oppdateringar</string>
     <string name="update">Oppdater</string>
@@ -194,7 +194,7 @@
     <string name="all_applications_up_to_date">Alle appane dine er av nyaste utgåve</string>
     <string name="validation_index_error_DESC">Kunne ikkje stadfeste indeksen.</string>
     <string name="io_error_DESC">Kan ikkje gjere somme gjerder.</string>
-    <string name="no_internet">Du har ingen internettforbindelse</string>
+    <string name="no_internet">Du har inkje internettsamband</string>
     <string name="allow_collapsing_toolbar">Lat applinja få utvide seg</string>
     <string name="allow_collapsing_toolbar_DESC">Lat den øvste applinja få utvide og minke seg</string>
     <string name="favourites">Likar</string>
@@ -209,4 +209,9 @@
     <string name="waiting_to_start_installation">Ventar på å leggja inn …</string>
     <string name="auto_update">Oppdater appane sjølvverkande</string>
     <string name="auto_update_apps">Røyn å leggja inn oppdateringar sjølvverkande</string>
+    <string name="has_non_free_components">Har ufrie delar</string>
+    <string name="shizuku_not_alive">Shizuku køyrer ikkje</string>
+    <string name="shizuku_not_installed">Shizuku er ikkje lagt inn</string>
+    <string name="contains_nsfw">Har vakse innhald</string>
+    <string name="connection_error_DESC">Greidde ikkje å binda saman med tenaren</string>
 </resources>
