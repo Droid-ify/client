@@ -218,4 +218,5 @@
     <string name="shizuku_not_alive">Shizuku no se está ejectando</string>
     <string name="contains_nsfw">Contenido no apto para el trabajo</string>
     <string name="shizuku_not_installed">Shizuku no está instalado</string>
+    <string name="special_credits">Gracias a</string>
 </resources>
