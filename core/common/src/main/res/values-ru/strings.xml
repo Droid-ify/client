@@ -83,10 +83,10 @@
     <string name="never">Никогда</string>
     <string name="new_updates_available">Доступны новые версии приложений</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d новое обновлений.</item>
-        <item quantity="few">%d новых обновления.</item>
-        <item quantity="many">%d новых обновлений.</item>
-        <item quantity="other">%d новых обновлений.</item>
+        <item quantity="one">%d обновление.</item>
+        <item quantity="few">%d обновления.</item>
+        <item quantity="many">%d обновлений.</item>
+        <item quantity="other">%d обновлений.</item>
     </plurals>
     <string name="no_applications_available">Нет доступных приложений</string>
     <string name="no_applications_installed">Нет установленных приложений</string>
