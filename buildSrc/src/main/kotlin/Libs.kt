@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
-	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.1"
+	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 	const val material = "com.google.android.material:material:1.9.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.1"
 }
