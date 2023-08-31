@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.*
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.*
+import com.looker.droidify.utility.serialization.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -478,7 +479,7 @@ object Database {
 		fun transform(cursor: Cursor): Repository {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Repository.ROW_DATA))
 				.jsonParse {
-					Repository.deserialize(it).apply {
+					it.repository().apply {
 						this.id = cursor.getLong(cursor.getColumnIndex(Schema.Repository.ROW_ID))
 					}
 				}
@@ -621,7 +622,7 @@ object Database {
 		private fun transform(cursor: Cursor): Product {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA))
 				.jsonParse {
-					Product.deserialize(it).apply {
+					it.product().apply {
 						this.repositoryId = cursor
 							.getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
 						this.description = cursor
@@ -634,7 +635,7 @@ object Database {
 		fun transformItem(cursor: Cursor): ProductItem {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA_ITEM))
 				.jsonParse {
-					ProductItem.deserialize(it).apply {
+					it.productItem().apply {
 						this.repositoryId = cursor
 							.getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
 						this.packageName = cursor

@@ -7,6 +7,8 @@ import com.looker.core.common.extension.parseDictionary
 import com.looker.core.common.extension.writeDictionary
 import com.looker.core.model.ProductPreference
 import com.looker.droidify.database.Database
+import com.looker.droidify.utility.serialization.productPreference
+import com.looker.droidify.utility.serialization.serialize
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -44,7 +46,7 @@ object ProductPreferences {
 		return if (preferences.contains(packageName)) {
 			try {
 				Json.factory.createParser(preferences.getString(packageName, "{}"))
-					.use { it.parseDictionary(ProductPreference.Companion::deserialize) }
+					.use { it.parseDictionary { productPreference() } }
 			} catch (e: Exception) {
 				e.printStackTrace()
 				defaultProductPreference

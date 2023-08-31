@@ -30,8 +30,3 @@ android {
 		resValues = false
 	}
 }
-
-dependencies {
-	modules(Modules.coreCommon)
-	implementation(Jackson.core)
-}
