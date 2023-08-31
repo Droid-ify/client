@@ -62,12 +62,12 @@ private object FDroid {
 }
 
 object Hilt {
-	const val version = "2.47"
+	const val version = "2.48"
 	const val android = "com.google.dagger:hilt-android:$version"
 
 	const val compiler = "com.google.dagger:hilt-compiler:$version"
 	const val plugin = "com.google.dagger.hilt.android"
-	private const val androidXHilt = "1.0.0"
+	private const val androidXHilt = "1.1.0-alpha01"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
 }
@@ -80,6 +80,11 @@ object Kotlin {
 	const val version = "1.9.10"
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+}
+
+object Ksp {
+	const val version = "${Kotlin.version}-1.0.13"
+	const val plugin = "com.google.devtools.ksp"
 }
 
 private object Ktor {
@@ -126,11 +131,6 @@ object Test {
 	const val jUnit = "junit:junit:4.13.2"
 	const val androidJUnit = "androidx.test.ext:junit:1.1.5"
 	const val espresso = "androidx.test.espresso:espresso-core:3.5.1"
-}
-
-object Ksp {
-	const val version = "${Kotlin.version}-1.0.13"
-	const val plugin = "com.google.devtools.ksp"
 }
 
 object Work {

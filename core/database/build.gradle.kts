@@ -1,6 +1,5 @@
 plugins {
 	id("looker.android.library")
-	id("com.google.devtools.ksp")
 	kotlin("plugin.serialization")
 	id("looker.hilt.work")
 }
@@ -12,13 +11,9 @@ android {
 		minSdk = Android.minSdk
 		testInstrumentationRunner = Test.jUnitRunner
 
-		javaCompileOptions {
-			annotationProcessorOptions {
-				ksp {
-					arg("room.schemaLocation", "$projectDir/schemas")
-					arg("room.incremental", "true")
-				}
-			}
+		ksp {
+			arg("room.schemaLocation", "$projectDir/schemas")
+			arg("room.incremental", "true")
 		}
 	}
 
@@ -36,10 +31,6 @@ android {
 		isCoreLibraryDesugaringEnabled = true
 		sourceCompatibility = JavaVersion.VERSION_17
 		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	kotlinOptions {
-		freeCompilerArgs += "-Xcontext-receivers"
 	}
 	buildFeatures {
 		buildConfig = false
