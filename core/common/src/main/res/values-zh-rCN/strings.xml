@@ -30,7 +30,7 @@
     <string name="credits">鸣谢</string>
     <string name="dark">暗色</string>
     <string name="delete">删除</string>
-    <string name="delete_repository_DESC">您确定要删除此存储库吗？</string>
+    <string name="delete_repository_DESC">确定要删除此存储库吗？</string>
     <string name="description">描述</string>
     <string name="details">详情</string>
     <string name="donate">捐助</string>
@@ -174,7 +174,7 @@
     <string name="sort_filter">排序 &amp; 过滤</string>
     <string name="latest">最新</string>
     <string name="explore">探索</string>
-    <string name="update_all">更新全部</string>
+    <string name="update_all">全部更新</string>
     <string name="installer">安装器</string>
     <string name="legacy_installer">传统安装器</string>
     <string name="session_installer">会话安装器</string>
@@ -196,7 +196,7 @@
     <string name="allow_collapsing_toolbar">允许顶部应用栏展开</string>
     <string name="auto_update">自动更新应用</string>
     <string name="auto_update_apps">尝试自动安装更新</string>
-    <string name="installing">安装</string>
+    <string name="installing">正在安装</string>
     <string name="favourites">收藏夹</string>
     <string name="material_you_desc">使用 Material You 配色</string>
     <string name="repository_unreachable">存储库无法访问</string>
@@ -209,4 +209,8 @@
     <string name="has_non_free_components">包含非自由组件</string>
     <string name="socket_error_DESC">服务器未能提供新数据包。</string>
     <string name="connection_error_DESC">无法连接到服务器</string>
+    <string name="contains_nsfw">包含不适宜工作场所的内容</string>
+    <string name="shizuku_not_alive">Shizuku 没有在运行</string>
+    <string name="shizuku_not_installed">Shizuku 没有安装</string>
+    <string name="special_credits">特别鸣谢</string>
 </resources>
