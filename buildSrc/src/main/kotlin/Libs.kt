@@ -1,6 +1,5 @@
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
-// TODO: Remember to use kotlinx-datetime to fix desugaring
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.1"
@@ -67,7 +66,7 @@ object Hilt {
 
 	const val compiler = "com.google.dagger:hilt-compiler:$version"
 	const val plugin = "com.google.dagger.hilt.android"
-	private const val androidXHilt = "1.1.0-alpha01"
+	private const val androidXHilt = "1.0.0"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
 }
@@ -140,7 +139,6 @@ object Work {
 
 fun DependencyHandlerScope.androidX() {
 	add("implementation", AndroidX.appCompat)
-	add("coreLibraryDesugaring", AndroidX.desugar)
 	add("implementation", AndroidX.material)
 	add("implementation", AndroidX.recyclerView)
 }
@@ -159,6 +157,10 @@ fun DependencyHandlerScope.compose() {
 fun DependencyHandlerScope.coroutines() {
 	add("implementation", Coroutines.core)
 	add("implementation", Coroutines.android)
+}
+
+fun DependencyHandlerScope.desugar() {
+	add("coreLibraryDesugaring", AndroidX.desugar)
 }
 
 fun DependencyHandlerScope.fdroid() {

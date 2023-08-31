@@ -152,6 +152,7 @@ dependencies {
 
 	androidX()
 	coroutines()
+	desugar()
 	lifecycle()
 
 	implementation(Coil.coil)

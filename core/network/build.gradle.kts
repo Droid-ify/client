@@ -1,6 +1,6 @@
 plugins {
 	id("looker.android.library")
-	id("looker.hilt.work")
+	id("looker.hilt")
 }
 
 android {
@@ -36,6 +36,7 @@ dependencies {
 	modules(Modules.coreCommon, Modules.coreDatastore, Modules.coreModel)
 
 	coroutines()
+	desugar()
 	ktor()
 
 	testImplementation(kotlin("test"))

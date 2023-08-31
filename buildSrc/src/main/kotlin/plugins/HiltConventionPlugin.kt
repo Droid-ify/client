@@ -24,13 +24,14 @@ class HiltWorkerConventionPlugin : Plugin<Project> {
 			with(pluginManager) {
 				apply(Ksp.plugin)
 				apply(Hilt.plugin)
+				apply("org.jetbrains.kotlin.kapt")
 			}
 
 			dependencies {
 				"implementation"(Hilt.android)
 				"implementation"(Hilt.work)
 				"ksp"(Hilt.compiler)
-				"ksp"(Hilt.androidX)
+				"kapt"(Hilt.androidX)
 			}
 		}
 	}

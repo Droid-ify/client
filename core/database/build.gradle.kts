@@ -1,7 +1,7 @@
 plugins {
 	id("looker.android.library")
 	kotlin("plugin.serialization")
-	id("looker.hilt.work")
+	id("looker.hilt")
 }
 
 android {

@@ -1,6 +1,6 @@
 plugins {
 	id("looker.android.library")
-	id("looker.hilt.work")
+	id("looker.hilt")
 }
 
 android {
