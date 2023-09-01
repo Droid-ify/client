@@ -78,7 +78,7 @@ object Jackson {
 object Kotlin {
 	const val version = "1.9.10"
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
-	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
+	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.1"
 }
 
 object Ksp {
