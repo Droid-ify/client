@@ -215,4 +215,8 @@
     <string name="has_non_free_components">A des composants non libres</string>
     <string name="socket_error_DESC">Le serveur n\'a pas fourni de nouveau paquet.</string>
     <string name="connection_error_DESC">Impossible de se connecter au serveur</string>
+    <string name="shizuku_not_alive">Shizuku n\'est pas en fonction</string>
+    <string name="shizuku_not_installed">Shizuku n\'est pas installé</string>
+    <string name="contains_nsfw">Contient des contenus non adaptés pour le travail</string>
+    <string name="special_credits">Crédits spéciaux</string>
 </resources>
