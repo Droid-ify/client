@@ -208,9 +208,9 @@
     <string name="restart_app">重新启动 Droid-ify 使更改生效</string>
     <string name="has_non_free_components">包含非自由组件</string>
     <string name="socket_error_DESC">服务器未能提供新数据包。</string>
-    <string name="connection_error_DESC">无法连接到服务器</string>
-    <string name="contains_nsfw">包含不适宜工作场所的内容</string>
-    <string name="shizuku_not_alive">Shizuku 没有在运行</string>
-    <string name="shizuku_not_installed">Shizuku 没有安装</string>
+    <string name="connection_error_DESC">无法连接服务器</string>
+    <string name="contains_nsfw">含有工作场所不宜（NSFW）的内容</string>
+    <string name="shizuku_not_alive">Shizuku 未运行</string>
+    <string name="shizuku_not_installed">Shizuku 未安装</string>
     <string name="special_credits">特别鸣谢</string>
 </resources>
