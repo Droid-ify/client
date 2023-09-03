@@ -12,7 +12,6 @@ import androidx.core.app.NotificationCompat
 import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
-import com.looker.core.common.result.Result.*
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.getProperty
@@ -359,10 +358,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		if (currentTask != null) return
 		if (tasks.isEmpty() && started) {
 			started = false
-			@Suppress("DEPRECATION")
-			if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
-			else stopForeground(true)
-			stopSelf()
+			stopForegroundCompat()
 			return
 		}
 		if (!started) {

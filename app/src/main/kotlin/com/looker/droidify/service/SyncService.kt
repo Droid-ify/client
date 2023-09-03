@@ -17,9 +17,7 @@ import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.asSequence
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.extension.*
 import com.looker.core.common.formatSize
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
@@ -403,6 +401,38 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		}
 	}
 
+	private suspend fun handleUpdates(
+		hasUpdates: Boolean,
+		notifyUpdates: Boolean,
+		autoUpdate: Boolean
+	) {
+		if (hasUpdates && notifyUpdates) {
+			val job = scope.launch {
+				val availableUpdate = Database.ProductAdapter.query(
+					installed = true,
+					updates = true,
+					searchQuery = "",
+					section = ProductItem.Section.All,
+					order = SortOrder.NAME,
+					signal = null
+				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
+				currentTask = null
+				handleNextTask(false)
+				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
+				if (!blocked && availableUpdate.isNotEmpty()) {
+					displayUpdatesNotification(availableUpdate)
+					if (autoUpdate) updateAllAppsInternal()
+				}
+			}
+			currentTask = CurrentTask(null, job, true, State.Finishing)
+		} else {
+			scope.launch { mutableFinishState.emit(Unit) }
+			val needStop = started == Started.MANUAL
+			started = Started.NO
+			if (needStop) stopForegroundCompat()
+		}
+	}
+
 	private suspend fun handleFileDownload(
 		task: Task,
 		initialState: State,
@@ -440,43 +470,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			}
 		}
 		currentTask = CurrentTask(task, job, hasUpdates, initialState)
-	}
-
-	private suspend fun handleUpdates(
-		hasUpdates: Boolean,
-		notifyUpdates: Boolean,
-		autoUpdate: Boolean
-	) {
-		if (hasUpdates && notifyUpdates) {
-			val job = scope.launch {
-				val availableUpdate = Database.ProductAdapter.query(
-					installed = true,
-					updates = true,
-					searchQuery = "",
-					section = ProductItem.Section.All,
-					order = SortOrder.NAME,
-					signal = null
-				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
-				currentTask = null
-				handleNextTask(false)
-				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-				if (!blocked && availableUpdate.isNotEmpty()) {
-					displayUpdatesNotification(availableUpdate)
-					if (autoUpdate) updateAllAppsInternal()
-				}
-			}
-			currentTask = CurrentTask(null, job, true, State.Finishing)
-		} else {
-			scope.launch { mutableFinishState.emit(Unit) }
-			val needStop = started == Started.MANUAL
-			started = Started.NO
-			if (needStop) {
-				@Suppress("DEPRECATION")
-				if (SdkCheck.isNougat) stopForeground(STOP_FOREGROUND_REMOVE)
-				else stopForeground(true)
-				stopSelf()
-			}
-		}
 	}
 
 	private fun updateAllAppsInternal() {
