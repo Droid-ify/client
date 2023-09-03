@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">所有应用已是最新</string>
     <string name="already_exists">已经存在</string>
     <string name="always">总是</string>
-    <string name="amoled">黑色</string>
+    <string name="amoled">黑色（AMOLED）</string>
     <string name="anti_features">负面特征</string>
     <string name="application">应用</string>
     <string name="application_not_found">找不到应用</string>
@@ -28,7 +28,7 @@
     <string name="could_not_sync_FORMAT">无法同步 %s</string>
     <string name="could_not_validate_FORMAT">无法验证 %s</string>
     <string name="credits">鸣谢</string>
-    <string name="dark">暗色</string>
+    <string name="dark">深色</string>
     <string name="delete">删除</string>
     <string name="delete_repository_DESC">确定要删除此存储库吗？</string>
     <string name="description">描述</string>
@@ -55,7 +55,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">您的 %1$s 平台不受支持。支持的平台：%2$s。</string>
     <string name="incompatible_signature_DESC">此版本和您设备上安装的版本使用了不同的证书来签名。请先卸载现有的版本。</string>
     <string name="incompatible_version">版本不兼容</string>
-    <string name="incompatible_versions">版本不兼容</string>
+    <string name="incompatible_versions">不兼容的版本</string>
     <string name="incompatible_versions_summary">显示与设备不兼容的应用版本</string>
     <string name="incompatible_with_FORMAT">与 %s 不兼容</string>
     <string name="install">安装</string>
@@ -71,7 +71,7 @@
     <string name="launch">启动</string>
     <string name="license">许可证</string>
     <string name="license_FORMAT">许可证 %s</string>
-    <string name="light">亮色</string>
+    <string name="light">浅色</string>
     <string name="link_copied_to_clipboard">链接已复制到剪贴板</string>
     <string name="links">链接</string>
     <string name="list_animation">列表动画</string>
@@ -141,7 +141,7 @@
     <string name="sync_repositories_automatically">自动同步存储库</string>
     <string name="syncing">同步中</string>
     <string name="syncing_FORMAT">正在同步 %s…</string>
-    <string name="system">系统</string>
+    <string name="system">跟随系统</string>
     <string name="tap_to_install_DESC">点击安装。</string>
     <string name="target">目标</string>
     <string name="theme">主题</string>
