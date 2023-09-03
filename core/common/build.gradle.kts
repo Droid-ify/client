@@ -48,8 +48,6 @@ dependencies {
 
 	implementation(Jackson.core)
 
-	implementation(OkHttp.okhttp)
-
 	testImplementation(kotlin("test"))
 	testImplementation(Test.jUnit)
 }

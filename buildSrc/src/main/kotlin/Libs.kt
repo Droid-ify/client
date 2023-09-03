@@ -41,7 +41,6 @@ object Datastore {
 }
 
 object Excludes {
-	const val jniExclude = "/okhttp3/internal/publicsuffix/*"
 	val listExclude: List<String> = listOf(
 		"/DebugProbesKt.bin",
 		"/kotlin/**.kotlin_builtins",
@@ -49,8 +48,7 @@ object Excludes {
 		"/META-INF/**.kotlin_module",
 		"/META-INF/**.pro",
 		"/META-INF/**.version",
-		"/META-INF/versions/9/previous-**.bin",
-		"/okhttp3/internal/publicsuffix/*"
+		"/META-INF/versions/9/previous-**.bin"
 	)
 }
 
@@ -90,7 +88,6 @@ private object Ktor {
 	private const val version = "2.3.3"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
-	const val logging = "io.ktor:ktor-client-logging:$version"
 }
 
 private object Lifecycle {
@@ -98,11 +95,6 @@ private object Lifecycle {
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
 	const val fragment = "androidx.fragment:fragment-ktx:1.6.1"
 	const val activity = "androidx.activity:activity-ktx:1.7.2"
-}
-
-object OkHttp {
-	private const val version = "5.0.0-alpha.11"
-	const val okhttp = "com.squareup.okhttp3:okhttp:$version"
 }
 
 object Others {
@@ -171,7 +163,6 @@ fun DependencyHandlerScope.fdroid() {
 fun DependencyHandlerScope.ktor() {
 	add("implementation", Ktor.core)
 	add("implementation", Ktor.okhttp)
-	add("implementation", Ktor.logging)
 }
 
 fun DependencyHandlerScope.lifecycle() {

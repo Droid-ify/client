@@ -1,24 +1,13 @@
 package com.looker.network.header
 
+import com.looker.core.common.extension.toFormattedString
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
-import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
-import java.util.TimeZone
 
 internal class KtorHeadersBuilder(
 	private val builder: io.ktor.http.HeadersBuilder
 ) : HeadersBuilder {
-
-	companion object {
-		private val HTTP_DATE_FORMAT: SimpleDateFormat
-			get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
-				timeZone = TimeZone.getTimeZone("GMT")
-			}
-
-		private fun formatHttpDate(date: Date): String = HTTP_DATE_FORMAT.format(date)
-	}
 
 	override fun String.headsWith(value: Any?) {
 		if (value == null) return
@@ -32,7 +21,7 @@ internal class KtorHeadersBuilder(
 	}
 
 	override fun ifModifiedSince(date: Date) {
-		HttpHeaders.IfModifiedSince headsWith formatHttpDate(date)
+		HttpHeaders.IfModifiedSince headsWith date.toFormattedString()
 	}
 
 	override fun ifModifiedSince(date: String) {

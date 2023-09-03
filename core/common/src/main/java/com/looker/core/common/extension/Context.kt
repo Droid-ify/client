@@ -2,7 +2,6 @@ package com.looker.core.common.extension
 
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
@@ -10,7 +9,6 @@ import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.looker.core.common.R
-import com.looker.core.common.nullIfEmpty
 
 inline val Context.notificationManager: NotificationManager
 	get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

@@ -121,9 +121,6 @@ android {
 		}
 	}
 	packaging {
-		jniLibs {
-			excludes += Excludes.jniExclude
-		}
 		resources {
 			excludes += Excludes.listExclude
 		}

@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.fingerprint
+import com.looker.core.common.extension.toFormattedString
 import com.looker.core.common.result.Result
 import com.looker.core.model.Product
 import com.looker.core.model.Release
@@ -16,7 +17,6 @@ import com.looker.network.NetworkResponse
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import okhttp3.internal.http.toHttpDateString
 import java.io.File
 import java.security.cert.X509Certificate
 import java.util.jar.JarEntry
@@ -181,7 +181,7 @@ object RepositoryUpdater {
 				Result.Success(
 					IndexFile(
 						isUnmodified = result.statusCode == 304,
-						lastModified = result.lastModified?.toHttpDateString() ?: "",
+						lastModified = result.lastModified?.toFormattedString() ?: "",
 						entityTag = result.etag ?: "",
 						statusCode = result.statusCode,
 						file = file
