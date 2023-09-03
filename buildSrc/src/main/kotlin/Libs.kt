@@ -85,7 +85,7 @@ object Ksp {
 }
 
 private object Ktor {
-	private const val version = "2.3.3"
+	private const val version = "2.3.4"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 }
