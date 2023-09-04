@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -31,7 +30,6 @@ import com.looker.core.datastore.model.*
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.databinding.SettingsPageBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.time.Duration
@@ -90,11 +88,6 @@ class SettingsFragment : Fragment() {
 		}
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				val defaultLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags()
-				val initialValue = viewModel.initialPreference.first().language
-				if (initialValue != defaultLanguage) {
-					viewModel.setLanguage(defaultLanguage)
-				}
 				setChangeListener()
 				launch {
 					viewModel.snackbarStringId.collect {

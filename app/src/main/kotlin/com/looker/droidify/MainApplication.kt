@@ -6,6 +6,7 @@ import android.app.job.JobInfo
 import android.app.job.JobScheduler
 import android.content.*
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.work.NetworkType
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -69,6 +70,7 @@ class MainApplication : Application(), ImageLoaderFactory {
 		ProductPreferences.init(this, appScope)
 		RepositoryUpdater.init(appScope, downloader)
 		listenApplications()
+		checkLanguage()
 		updatePreference()
 		setupInstaller()
 
@@ -112,6 +114,16 @@ class MainApplication : Application(), ImageLoaderFactory {
 		val installedItems =
 			packageManager.getInstalledPackagesCompat()?.map { it.toInstalledItem() }
 		installedItems?.let { Database.InstalledAdapter.putAll(it) }
+	}
+
+	private fun checkLanguage() {
+		appScope.launch {
+			val lastSetLanguage = userPreferencesRepository.fetchInitialPreferences().language
+			val systemSetLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags()
+			if (systemSetLanguage != lastSetLanguage && lastSetLanguage != "system") {
+				userPreferencesRepository.setLanguage(systemSetLanguage)
+			}
+		}
 	}
 
 	private fun updatePreference() {

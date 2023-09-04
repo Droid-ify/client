@@ -4,12 +4,15 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.core.common.extension.toLocale
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.*
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -22,7 +25,6 @@ class SettingsViewModel
 	private val shizukuPermissionHandler: ShizukuPermissionHandler
 ) : ViewModel() {
 
-	val initialPreference get() = flow { emit(userPreferencesRepository.fetchInitialPreferences()) }
 	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
 
 	private val _snackbarStringId = MutableSharedFlow<Int>()
@@ -30,8 +32,7 @@ class SettingsViewModel
 
 	fun setLanguage(language: String) {
 		viewModelScope.launch {
-			val appLocale: LocaleListCompat =
-				LocaleListCompat.forLanguageTags(language)
+			val appLocale = LocaleListCompat.create(language.toLocale())
 			AppCompatDelegate.setApplicationLocales(appLocale)
 			userPreferencesRepository.setLanguage(language)
 		}
