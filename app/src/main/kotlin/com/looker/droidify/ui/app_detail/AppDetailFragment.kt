@@ -28,7 +28,6 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
@@ -114,7 +113,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		toolbar.menu.apply {
 			Action.entries.forEach { action ->
 				add(0, action.id, 0, action.adapterAction.titleResId)
-					.setIcon(Utils.getToolbarIcon(toolbar.context, action.adapterAction.iconResId))
+					.setIcon(toolbar.context.getMutatedIcon(action.adapterAction.iconResId))
 					.setVisible(false)
 					.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 					.setOnMenuItemClickListener {

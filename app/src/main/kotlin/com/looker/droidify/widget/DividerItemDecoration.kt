@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.divider
 import com.looker.droidify.R
 import kotlin.math.roundToInt
 
@@ -56,7 +56,7 @@ class DividerItemDecoration(
 			configuration
 		}
 
-	private val divider = context.getDrawableFromAttr(android.R.attr.listDivider)
+	private val divider = context.divider
 	private val bounds = Rect()
 
 	private fun draw(

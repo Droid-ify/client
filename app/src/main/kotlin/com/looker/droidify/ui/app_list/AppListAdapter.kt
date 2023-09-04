@@ -11,10 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
-import com.looker.core.common.extension.inflate
-import com.looker.core.common.extension.setTextSizeScaled
+import com.looker.core.common.extension.*
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
@@ -117,6 +114,7 @@ class AppListAdapter(
 			ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
 				itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
 			}
+
 			ViewType.LOADING -> LoadingViewHolder(parent.context)
 			ViewType.EMPTY -> EmptyViewHolder(parent.context)
 		}
@@ -154,11 +152,13 @@ class AppListAdapter(
 								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
 							setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
 						}
+
 						isInstalled -> {
 							backgroundTintList =
 								context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
 							setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
 						}
+
 						else -> {
 							setPadding(0, 0, 0, 0)
 							setTextColor(holder.status.context.getColorFromAttr(MaterialR.attr.colorOnBackground))
@@ -166,7 +166,7 @@ class AppListAdapter(
 							return@apply
 						}
 					}
-					background = context.getDrawableCompat()
+					background = context.corneredBackground
 					resources.sizeScaled(6).let { setPadding(it, it, it, it) }
 				}
 				val enabled = productItem.compatible || productItem.installedVersion.isNotEmpty()
@@ -174,9 +174,11 @@ class AppListAdapter(
 					it.isEnabled = enabled
 				}
 			}
+
 			ViewType.LOADING -> {
 				// Do nothing
 			}
+
 			ViewType.EMPTY -> {
 				holder as EmptyViewHolder
 				holder.text.text = emptyText

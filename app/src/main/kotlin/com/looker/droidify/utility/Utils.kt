@@ -1,10 +1,7 @@
 package com.looker.droidify.utility
 
-import android.content.Context
 import android.content.pm.PackageInfo
-import android.graphics.drawable.Drawable
 import com.looker.core.common.extension.calculateHash
-import com.looker.core.common.extension.getDrawableCompat
 import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.model.InstalledItem
@@ -24,10 +21,6 @@ object Utils {
 			versionCodeCompat,
 			signatureString
 		)
-	}
-
-	fun getToolbarIcon(context: Context, resId: Int): Drawable {
-		return context.getDrawableCompat(resId).mutate()
 	}
 
 	fun startUpdate(

@@ -417,7 +417,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			itemView as TextView
 			itemView.typeface = TypefaceExtra.medium
 			itemView.setTextSizeScaled(14)
-			itemView.background = context.getDrawableCompat()
+			itemView.background = context.corneredBackground
 			itemView.backgroundTintList =
 				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 			itemView.gravity = Gravity.CENTER
@@ -1103,7 +1103,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					text = installedItem?.version ?: product?.version
 					if (product?.canUpdate(installedItem) == true) {
 						if (background == null) {
-							background = context.getDrawableCompat()
+							background = context.corneredBackground
 							resources.sizeScaled(4).let { setPadding(it * 2, it, it * 2, it) }
 							backgroundTintList =
 								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
@@ -1299,7 +1299,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						item.group.loadUnbadgedIcon(packageManager)
 					} else {
 						null
-					} ?: context.getDrawableCompat(drawableRes.ic_perm_device_information)
+					} ?: context.getMutatedIcon(drawableRes.ic_perm_device_information)
 				)
 				val localCache = PackageItemResolver.LocalCache()
 				val labels = item.permissions.map { permission ->
@@ -1363,7 +1363,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 				if (suggested) {
 					holder.itemView.apply {
-						background = context.getDrawableCompat()
+						background = context.corneredBackground
 						backgroundTintList =
 							holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
 					}
@@ -1382,7 +1382,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							else -> stringRes.unknown
 						}
 					)
-					background = context.getDrawableCompat()
+					background = context.corneredBackground
 					setPadding(15, 15, 15, 15)
 					backgroundTintList =
 						context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)

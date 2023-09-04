@@ -23,7 +23,21 @@ fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
 	return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
 }
 
-fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
+val Context.divider: Drawable
+	get() = getDrawableFromAttr(android.R.attr.listDivider)
+
+val Context.homeAsUp: Drawable
+	get() = getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+
+val Context.selectableBackground: Drawable
+	get() = getDrawableFromAttr(android.R.attr.selectableItemBackground)
+
+val Context.corneredBackground: Drawable
+	get() = getDrawableCompat(R.drawable.background_border)
+
+fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
+
+private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
 	val resId = try {
 		typedArray.getResourceId(0, 0)
@@ -33,5 +47,5 @@ fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 	return getDrawableCompat(resId)
 }
 
-fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
+private fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
 	ResourcesCompat.getDrawable(resources, resId, theme) ?: ContextCompat.getDrawable(this, resId)!!

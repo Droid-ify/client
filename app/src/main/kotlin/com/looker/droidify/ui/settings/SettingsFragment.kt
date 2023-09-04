@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.R
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.extension.*
@@ -56,8 +56,7 @@ class SettingsFragment : Fragment() {
 		_binding = SettingsPageBinding.inflate(inflater, container, false)
 		binding.nestedScrollView.systemBarsPadding()
 		val toolbar = binding.toolbar
-		toolbar.navigationIcon =
-			toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+		toolbar.navigationIcon = toolbar.context.homeAsUp
 		toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
 		toolbar.title = getString(R.string.settings)
 		with(binding) {

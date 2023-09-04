@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
@@ -24,7 +25,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
@@ -96,7 +96,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 			getString(if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository)
 
 		saveMenuItem = toolbar.menu.add(stringRes.save)
-			.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_save))
+			.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_save))
 			.setEnabled(false)
 			.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener {
 				onSaveRepositoryClick(true)

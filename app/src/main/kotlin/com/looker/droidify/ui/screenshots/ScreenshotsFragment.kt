@@ -24,7 +24,7 @@ import coil.load
 import com.jsibbold.zoomage.AutoResetMode.UNDER
 import com.jsibbold.zoomage.ZoomageView
 import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
+import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -192,8 +192,7 @@ class ScreenshotsFragment() : DialogFragment() {
 					animateOnReset = true
 					autoResetMode = UNDER
 				}
-				val placeholder =
-					itemView.context.getDrawableCompat(drawableRes.ic_photo_camera).mutate()
+				val placeholder = itemView.context.getMutatedIcon(drawableRes.ic_photo_camera)
 				placeholder.setTint(itemView.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor)
 				this.placeholder = PaddingDrawable(placeholder, 4f)
 			}

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
+import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
@@ -59,7 +59,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 			}
 
 			val placeholder =
-				image.context.getDrawableCompat(CommonR.drawable.ic_screenshot_placeholder).mutate()
+				image.context.getMutatedIcon(CommonR.drawable.ic_screenshot_placeholder)
 			placeholder.setTint(surfaceColor)
 			this.placeholder = PaddingDrawable(placeholder, 2f)
 		}

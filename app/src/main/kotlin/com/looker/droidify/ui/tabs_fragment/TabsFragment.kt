@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.view.animation.DecelerateInterpolator
+import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
@@ -24,7 +25,8 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.device.Huawei
-import com.looker.core.common.extension.getDrawableFromAttr
+import com.looker.core.common.extension.getMutatedIcon
+import com.looker.core.common.extension.selectableBackground
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.extension.sortOrderName
@@ -36,7 +38,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_list.AppListFragment
-import com.looker.droidify.utility.Utils
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.*
@@ -163,12 +164,12 @@ class TabsFragment : ScreenFragment() {
 			}
 
 			searchMenuItem = add(0, R.id.toolbar_search, 0, stringRes.search)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_search))
+				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_search))
 				.setActionView(searchView)
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
 
 			sortOrderMenu = addSubMenu(0, 0, 0, stringRes.sorting_order)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_sort))
+				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sort))
 				.let { menu ->
 					menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
 					val menuItems = SortOrder.entries.map { sortOrder ->
@@ -183,7 +184,7 @@ class TabsFragment : ScreenFragment() {
 				}
 
 			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
-				.setIcon(Utils.getToolbarIcon(toolbar.context, CommonR.drawable.ic_sync))
+				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
 				.setOnMenuItemClickListener {
 					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
 					true
@@ -191,10 +192,7 @@ class TabsFragment : ScreenFragment() {
 
 			favouritesItem = add(1, 0, 0, stringRes.favourites)
 				.setIcon(
-					Utils.getToolbarIcon(
-						toolbar.context,
-						CommonR.drawable.ic_favourite_checked
-					)
+					toolbar.context.getMutatedIcon(CommonR.drawable.ic_favourite_checked)
 				)
 				.setOnMenuItemClickListener {
 					view.post { screenActivity.navigateFavourites() }
@@ -499,20 +497,25 @@ class TabsFragment : ScreenFragment() {
 		enum class ViewType { SECTION }
 
 		private class SectionViewHolder(context: Context) :
-			RecyclerView.ViewHolder(TextView(context)) {
-			val title: TextView
-				get() = itemView as TextView
+			RecyclerView.ViewHolder(FrameLayout(context)) {
+			val title: TextView = TextView(context)
 
 			init {
-				with(itemView as TextView) {
+				with(title) {
 					gravity = Gravity.CENTER_VERTICAL
 					resources.sizeScaled(16).let { setPadding(it, 0, it, 0) }
-					background =
-						context.getDrawableFromAttr(android.R.attr.selectableItemBackground)
-					layoutParams = RecyclerView.LayoutParams(
-						RecyclerView.LayoutParams.WRAP_CONTENT,
-						resources.sizeScaled(48)
+					layoutParams = FrameLayout.LayoutParams(
+						FrameLayout.LayoutParams.WRAP_CONTENT,
+						FrameLayout.LayoutParams.MATCH_PARENT
 					)
+				}
+				with(itemView as FrameLayout) {
+					layoutParams = RecyclerView.LayoutParams(
+						RecyclerView.LayoutParams.MATCH_PARENT,
+						context.resources.sizeScaled(48)
+					)
+					background = context.selectableBackground
+					addView(title)
 				}
 			}
 		}

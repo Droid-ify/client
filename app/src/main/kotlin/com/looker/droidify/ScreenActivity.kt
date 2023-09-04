@@ -18,13 +18,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.getDrawableFromAttr
 import com.looker.core.common.extension.getPackageName
+import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
 import com.looker.core.datastore.extension.getThemeRes
+import com.looker.core.datastore.getProperty
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -250,8 +250,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	internal fun onToolbarCreated(toolbar: Toolbar) {
 		if (fragmentStack.isNotEmpty()) {
-			toolbar.navigationIcon =
-				toolbar.context.getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+			toolbar.navigationIcon = toolbar.context.homeAsUp
 			toolbar.setNavigationOnClickListener { onBackPressed() }
 		}
 	}
