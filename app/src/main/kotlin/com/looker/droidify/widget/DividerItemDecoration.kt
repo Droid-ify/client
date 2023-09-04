@@ -13,7 +13,7 @@ fun RecyclerView.addDivider(
 	configure: (
 		context: Context,
 		position: Int,
-		configuration: DividerItemDecoration.Configuration
+		configuration: DividerConfiguration
 	) -> Unit
 ) {
 	addItemDecoration(
@@ -24,18 +24,19 @@ fun RecyclerView.addDivider(
 	)
 }
 
-class DividerItemDecoration(
+fun interface DividerConfiguration {
+	fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int)
+}
+
+private class DividerItemDecoration(
 	context: Context,
 	private val configure: (
 		context: Context,
-		position: Int, configuration: Configuration,
+		position: Int, configuration: DividerConfiguration,
 	) -> Unit,
 ) : RecyclerView.ItemDecoration() {
-	interface Configuration {
-		fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int)
-	}
 
-	private class ConfigurationHolder : Configuration {
+	private class ConfigurationHolder : DividerConfiguration {
 		var needDivider = false
 		var toTop = false
 		var paddingStart = 0

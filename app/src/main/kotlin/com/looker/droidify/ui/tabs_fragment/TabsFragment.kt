@@ -25,9 +25,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.core.common.device.Huawei
-import com.looker.core.common.extension.getMutatedIcon
-import com.looker.core.common.extension.selectableBackground
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.common.extension.*
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
@@ -274,9 +272,9 @@ class TabsFragment : ScreenFragment() {
 			adapter = sectionsAdapter
 			sectionsAdapter?.let { addDivider(it::configureDivider) }
 			background = sectionBackground
-			elevation = resources.sizeScaled(4).toFloat()
+			elevation = 4.dp.toFloat()
 			content.addView(this)
-			val margins = resources.sizeScaled(8)
+			val margins = 8.dp
 			(layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
 			visibility = View.GONE
 			systemBarsPadding(includeFab = false)
@@ -503,7 +501,7 @@ class TabsFragment : ScreenFragment() {
 			init {
 				with(title) {
 					gravity = Gravity.CENTER_VERTICAL
-					resources.sizeScaled(16).let { setPadding(it, 0, it, 0) }
+					setPadding(16.dp, 0, 16.dp, 0)
 					layoutParams = FrameLayout.LayoutParams(
 						FrameLayout.LayoutParams.WRAP_CONTENT,
 						FrameLayout.LayoutParams.MATCH_PARENT
@@ -512,7 +510,7 @@ class TabsFragment : ScreenFragment() {
 				with(itemView as FrameLayout) {
 					layoutParams = RecyclerView.LayoutParams(
 						RecyclerView.LayoutParams.MATCH_PARENT,
-						context.resources.sizeScaled(48)
+						48.dp
 					)
 					background = context.selectableBackground
 					addView(title)
@@ -530,7 +528,7 @@ class TabsFragment : ScreenFragment() {
 		fun configureDivider(
 			context: Context,
 			position: Int,
-			configuration: DividerItemDecoration.Configuration,
+			configuration: DividerConfiguration,
 		) {
 			val currentSection = sections[position]
 			val nextSection = sections.getOrNull(position + 1)

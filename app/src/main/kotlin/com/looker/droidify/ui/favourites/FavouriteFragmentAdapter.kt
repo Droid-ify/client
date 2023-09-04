@@ -6,13 +6,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.looker.core.common.extension.corneredBackground
+import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.databinding.ProductItemBinding
 import com.looker.droidify.utility.extension.icon
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.google.android.material.R as MaterialR
 
 class FavouriteFragmentAdapter(
@@ -95,7 +95,7 @@ class FavouriteFragmentAdapter(
 				}
 			}
 			background = context.corneredBackground
-			resources.sizeScaled(6).let { setPadding(it, it, it, it) }
+			6.dp.let { setPadding(it, it, it, it) }
 		}
 	}
 }

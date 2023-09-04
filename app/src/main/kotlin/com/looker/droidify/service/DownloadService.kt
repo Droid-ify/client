@@ -41,9 +41,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 	}
 
-	private val downloadJob = SupervisorJob()
-	private val scope = CoroutineScope(Dispatchers.Main + downloadJob)
-
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
 
@@ -120,7 +117,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				isUpdate = isUpdate
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-				scope.launch { publishSuccess(task) }
+				lifecycleScope.launch { publishSuccess(task) }
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
@@ -159,7 +156,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 
-		scope.launch {
+		lifecycleScope.launch {
 			_downloadState
 				.filter { currentTask != null }
 				.collect {
@@ -171,8 +168,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	override fun onDestroy() {
 		super.onDestroy()
-
-		scope.cancel()
 		cancelTasks(null)
 		cancelCurrentTask(null)
 	}
@@ -373,7 +368,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		val connectionState = State.Connecting(task.packageName)
 		val partialReleaseFile =
 			Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-		val job = scope.downloadFile(task, partialReleaseFile)
+		val job = lifecycleScope.downloadFile(task, partialReleaseFile)
 		currentTask = CurrentTask(task, job, connectionState)
 		publishForegroundState(true, connectionState)
 		updateCurrentState(State.Connecting(task.packageName))

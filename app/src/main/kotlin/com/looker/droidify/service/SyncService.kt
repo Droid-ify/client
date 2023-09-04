@@ -15,12 +15,9 @@ import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
-import com.looker.core.common.Constants
-import com.looker.core.common.SdkCheck
+import com.looker.core.common.*
 import com.looker.core.common.extension.*
-import com.looker.core.common.formatSize
 import com.looker.core.common.result.Result
-import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.UserPreferences
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.SortOrder
@@ -32,18 +29,8 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -81,7 +68,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			val read: Long, val total: Long?,
 		) : State
 
-		object Finishing : State
+		data object Finishing : State
 	}
 
 	private class Task(val repositoryId: Long, val manual: Boolean)
@@ -91,8 +78,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	)
 
 	private enum class Started { NO, AUTO, MANUAL }
-
-	private val scope = CoroutineScope(Dispatchers.Default)
 
 	private var started = Started.NO
 	private val tasks = mutableListOf<Task>()
@@ -207,12 +192,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				.let(notificationManager::createNotificationChannel)
 		}
 		downloadConnection.bind(this)
-		mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(scope)
+		mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(lifecycleScope)
 	}
 
 	override fun onDestroy() {
 		super.onDestroy()
-		scope.cancel()
 		downloadConnection.unbind(this)
 		cancelTasks { true }
 		cancelCurrentTask { true }
@@ -263,6 +247,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 								RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
 								RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
 							}
+
 							else -> stringRes.unknown_error_DESC
 						}
 					)
@@ -300,6 +285,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 							setContentText(getString(stringRes.connecting))
 							setProgress(0, 0, true)
 						}
+
 						is State.Syncing -> {
 							setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
 							when (state.stage) {
@@ -316,6 +302,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 										setProgress(0, 0, true)
 									}
 								}
+
 								RepositoryUpdater.Stage.PROCESS -> {
 									val progress =
 										state.total?.let { 100f * state.read / it }?.roundToInt()
@@ -327,6 +314,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									)
 									setProgress(100, progress ?: 0, progress == null)
 								}
+
 								RepositoryUpdater.Stage.MERGE -> {
 									val progress = (100f * state.read / (state.total
 										?: state.read)).roundToInt()
@@ -338,12 +326,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 									)
 									setProgress(100, progress, false)
 								}
+
 								RepositoryUpdater.Stage.COMMIT -> {
 									setContentText(getString(stringRes.saving_details))
 									setProgress(0, 0, true)
 								}
 							}
 						}
+
 						is State.Finishing -> {
 							setContentTitle(getString(stringRes.syncing))
 							setContentText(null)
@@ -375,7 +365,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
-					scope.launch {
+					lifecycleScope.launch {
 						val unstableUpdates = initialPreference.first().unstableUpdate
 						handleFileDownload(
 							task = task,
@@ -389,7 +379,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					handleNextTask(hasUpdates)
 				}
 			} else if (started != Started.NO) {
-				scope.launch {
+				lifecycleScope.launch {
 					val preference = initialPreference.first()
 					handleUpdates(
 						hasUpdates = hasUpdates,
@@ -407,7 +397,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		autoUpdate: Boolean
 	) {
 		if (hasUpdates && notifyUpdates) {
-			val job = scope.launch {
+			val job = lifecycleScope.launch {
 				val availableUpdate = Database.ProductAdapter.query(
 					installed = true,
 					updates = true,
@@ -426,7 +416,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			}
 			currentTask = CurrentTask(null, job, true, State.Finishing)
 		} else {
-			scope.launch { mutableFinishState.emit(Unit) }
+			lifecycleScope.launch { mutableFinishState.emit(Unit) }
 			val needStop = started == Started.MANUAL
 			started = Started.NO
 			if (needStop) stopForegroundCompat()
@@ -440,7 +430,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		unstableUpdates: Boolean,
 		repository: Repository
 	) {
-		val job = scope.launch {
+		val job = lifecycleScope.launch {
 			val request = RepositoryUpdater.update(
 				this@SyncService,
 				repository,
@@ -466,6 +456,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					handleNextTask(request.data == true || hasUpdates)
 				}
+
 				is Result.Success -> handleNextTask(request.data || hasUpdates)
 			}
 		}
@@ -538,7 +529,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					}
 					if (productItems.size > MAX_UPDATE_NOTIFICATION) {
 						val summary =
-							getString(stringRes.plus_more_FORMAT, productItems.size - MAX_UPDATE_NOTIFICATION)
+							getString(
+								stringRes.plus_more_FORMAT,
+								productItems.size - MAX_UPDATE_NOTIFICATION
+							)
 						if (SdkCheck.isNougat) addLine(summary) else setSummaryText(summary)
 					}
 				})

@@ -23,6 +23,7 @@ import coil.dispose
 import coil.load
 import com.jsibbold.zoomage.AutoResetMode.UNDER
 import com.jsibbold.zoomage.ZoomageView
+import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.sdkAbove
@@ -30,7 +31,6 @@ import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import kotlinx.coroutines.flow.collectLatest
@@ -110,18 +110,21 @@ class ScreenshotsFragment() : DialogFragment() {
 		}
 
 		val viewPager = ViewPager2(dialog.context)
-		viewPager.adapter = Adapter(packageName)
-		viewPager.setPageTransformer(MarginPageTransformer(resources.sizeScaled(8)))
-		viewPager.viewTreeObserver.addOnGlobalLayoutListener {
-			(viewPager.adapter as Adapter).size = Pair(viewPager.width, viewPager.height)
-		}
-		dialog.addContentView(
-			viewPager, ViewGroup.LayoutParams(
-				ViewGroup.LayoutParams.MATCH_PARENT,
-				ViewGroup.LayoutParams.MATCH_PARENT
+		with(ViewPager2(dialog.context)) {
+			adapter = Adapter(packageName)
+			setPageTransformer(MarginPageTransformer(8.dp))
+			viewTreeObserver.addOnGlobalLayoutListener {
+				(adapter as Adapter).size = Pair(width, height)
+			}
+			dialog.addContentView(
+				this, ViewGroup.LayoutParams(
+					ViewGroup.LayoutParams.MATCH_PARENT,
+					ViewGroup.LayoutParams.MATCH_PARENT
+				)
 			)
-		)
-		this.viewPager = viewPager
+			this@ScreenshotsFragment.viewPager = this
+
+		}
 
 		var restored = false
 		lifecycleScope.launch {

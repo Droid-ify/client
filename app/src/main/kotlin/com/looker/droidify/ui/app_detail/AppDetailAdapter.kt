@@ -153,14 +153,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				get() = ViewType.APP_INFO
 		}
 
-		object DownloadStatusItem : Item() {
+		data object DownloadStatusItem : Item() {
 			override val descriptor: String
 				get() = "download_status"
 			override val viewType: ViewType
 				get() = ViewType.DOWNLOAD_STATUS
 		}
 
-		object InstallButtonItem : Item() {
+		data object InstallButtonItem : Item() {
 			override val descriptor: String
 				get() = "install_button"
 			override val viewType: ViewType
@@ -414,21 +414,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			get() = itemView as TextView
 
 		init {
-			itemView as TextView
-			itemView.typeface = TypefaceExtra.medium
-			itemView.setTextSizeScaled(14)
-			itemView.background = context.corneredBackground
-			itemView.backgroundTintList =
-				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
-			itemView.gravity = Gravity.CENTER
-			itemView.isAllCaps = true
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.MATCH_PARENT,
-				itemView.resources.sizeScaled(48)
-			).apply {
-				topMargin = itemView.resources.sizeScaled(16)
-				leftMargin = itemView.resources.sizeScaled(30)
-				rightMargin = itemView.resources.sizeScaled(30)
+			with(itemView as TextView) {
+				typeface = TypefaceExtra.medium
+				setTextSizeScaled(14)
+				background = context.corneredBackground
+				backgroundTintList =
+					context.getColorFromAttr(MaterialR.attr.colorSurface)
+				gravity = Gravity.CENTER
+				isAllCaps = true
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.MATCH_PARENT,
+					48.dp
+				).apply {
+					topMargin = 16.dp
+					leftMargin = 30.dp
+					rightMargin = 30.dp
+				}
 			}
 		}
 	}
@@ -439,15 +440,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			get() = itemView as TextView
 
 		init {
-			itemView as TextView
-			itemView.setTextIsSelectable(true)
-			itemView.setTextSizeScaled(15)
-			itemView.resources.sizeScaled(16).let { itemView.setPadding(it, it, it, it) }
-			itemView.movementMethod = LinkMovementMethod()
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.WRAP_CONTENT
-			)
+			with(itemView as TextView) {
+				setTextIsSelectable(true)
+				setTextSizeScaled(15)
+				16.dp.let { itemView.setPadding(it, it, it, it) }
+				movementMethod = LinkMovementMethod()
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.MATCH_PARENT,
+					RecyclerView.LayoutParams.WRAP_CONTENT
+				)
+			}
 		}
 	}
 
@@ -536,38 +538,41 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	private class EmptyViewHolder(context: Context) :
 		RecyclerView.ViewHolder(LinearLayout(context)) {
-		val packageName: TextView
+		val packageName = TextView(context)
 
 		init {
-			itemView as LinearLayout
-			itemView.orientation = LinearLayout.VERTICAL
-			itemView.gravity = Gravity.CENTER
-			itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
-			val title = TextView(itemView.context)
-			title.gravity = Gravity.CENTER
-			title.typeface = TypefaceExtra.light
-			title.setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
-			title.setTextSizeScaled(24)
-			title.setText(stringRes.application_not_found)
-			itemView.addView(
-				title,
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT
-			)
-			val packageName = TextView(itemView.context)
-			packageName.gravity = Gravity.CENTER
-			packageName.setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
-			packageName.setTextSizeScaled(18)
-			itemView.addView(
-				packageName,
-				LinearLayout.LayoutParams.MATCH_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT
-			)
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.MATCH_PARENT
-			)
-			this.packageName = packageName
+			with(itemView as LinearLayout) {
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.MATCH_PARENT,
+					RecyclerView.LayoutParams.MATCH_PARENT
+				)
+				orientation = LinearLayout.VERTICAL
+				gravity = Gravity.CENTER
+				20.dp.let { itemView.setPadding(it, it, it, it) }
+				val title = TextView(context)
+				with(title) {
+					gravity = Gravity.CENTER
+					typeface = TypefaceExtra.light
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+					setTextSizeScaled(24)
+					setText(stringRes.application_not_found)
+				}
+				with(packageName) {
+					gravity = Gravity.CENTER
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+					setTextSizeScaled(18)
+				}
+				addView(
+					title,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+				addView(
+					packageName,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+			}
 		}
 	}
 
@@ -633,10 +638,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			fun CharSequence.lineCropped(maxLines: Int, cropLines: Int): CharSequence? {
 				assert(cropLines <= maxLines)
 				textViewHolder.text.text = this
-				textViewHolder.itemView.measure(textViewWidthSpec, textViewHeightSpec)
-				textViewHolder.itemView.layout(
-					0, 0, textViewHolder.itemView.measuredWidth,
-					textViewHolder.itemView.measuredHeight
+				textViewHolder.text.measure(textViewWidthSpec, textViewHeightSpec)
+				textViewHolder.text.layout(
+					0, 0, textViewHolder.text.measuredWidth,
+					textViewHolder.text.measuredHeight
 				)
 				val layout = textViewHolder.text.layout
 				val cropLineOffset =
@@ -649,6 +654,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					cropLineOffset < 0 -> -1
 					paragraphEndLine >= 0 && paragraphEndLine - (cropLines - 1) <= 3 ->
 						if (paragraphEndIndex < length) paragraphEndIndex else -1
+
 					else -> cropLineOffset
 				}
 				val length = if (end < 0) -1 else asSequence().take(end)
@@ -930,10 +936,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.app_detail_header)).apply {
 				favouriteButton.setOnClickListener { callbacks.onFavouriteClicked() }
 			}
+
 			ViewType.DOWNLOAD_STATUS -> DownloadStatusViewHolder(parent.inflate(R.layout.download_status))
 			ViewType.INSTALL_BUTTON -> InstallButtonViewHolder(parent.inflate(R.layout.install_button)).apply {
 				button.setOnClickListener { action?.let(callbacks::onActionClick) }
 			}
+
 			ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
 			ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
 				itemView.setOnClickListener {
@@ -942,6 +950,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						SwitchType.IGNORE_ALL_UPDATES -> {
 							ProductPreferences[switchItem.packageName].let { it.copy(ignoreUpdates = !it.ignoreUpdates) }
 						}
+
 						SwitchType.IGNORE_THIS_UPDATE -> {
 							ProductPreferences[switchItem.packageName].let {
 								it.copy(
@@ -955,6 +964,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					callbacks.onPreferenceChanged(productPreference)
 				}
 			}
+
 			ViewType.SECTION -> SectionViewHolder(parent.inflate(R.layout.section_item)).apply {
 				itemView.setOnClickListener {
 					val position = absoluteAdapterPosition
@@ -981,6 +991,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 				}
 			}
+
 			ViewType.EXPAND -> ExpandViewHolder(parent.context).apply {
 				itemView.setOnClickListener {
 					val position = absoluteAdapterPosition
@@ -1015,6 +1026,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 				}
 			}
+
 			ViewType.TEXT -> TextViewHolder(parent.context)
 			ViewType.LINK -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
 				itemView.setOnClickListener {
@@ -1029,6 +1041,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					true
 				}
 			}
+
 			ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
 				itemView.setOnClickListener {
 					val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
@@ -1037,6 +1050,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						permissionsItem.permissions.map { it.name })
 				}
 			}
+
 			ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
 				itemView.setOnClickListener {
 					val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
@@ -1051,6 +1065,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					true
 				}
 			}
+
 			ViewType.EMPTY -> EmptyViewHolder(parent.context)
 		}
 	}
@@ -1104,7 +1119,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					if (product?.canUpdate(installedItem) == true) {
 						if (background == null) {
 							background = context.corneredBackground
-							resources.sizeScaled(4).let { setPadding(it * 2, it, it * 2, it) }
+							setPadding(8.dp, 4.dp, 8.dp, 4.dp)
 							backgroundTintList =
 								context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
 							setTextColor(context.getColorFromAttr(MaterialR.attr.colorSecondary))
@@ -1134,6 +1149,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.favouriteButton.isChecked = isFavourite
 			}
+
 			ViewType.DOWNLOAD_STATUS -> {
 				holder as DownloadStatusViewHolder
 				item as Item.DownloadStatusItem
@@ -1147,10 +1163,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							holder.statusText.setText(stringRes.waiting_to_start_download)
 							holder.progress.isIndeterminate = true
 						}
+
 						is Status.Connecting -> {
 							holder.statusText.setText(stringRes.connecting)
 							holder.progress.isIndeterminate = true
 						}
+
 						is Status.Downloading -> {
 							holder.statusText.text = context.getString(
 								stringRes.downloading_FORMAT, if (status.total == null)
@@ -1162,19 +1180,23 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 									(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
 							} else Unit
 						}
+
 						Status.Installing -> {
 							holder.statusText.setText(stringRes.installing)
 							holder.progress.isIndeterminate = true
 						}
+
 						Status.PendingInstall -> {
 							holder.statusText.setText(stringRes.waiting_to_start_installation)
 							holder.progress.isIndeterminate = true
 						}
+
 						Status.Idle -> {}
 					}::class
 				}
 				Unit
 			}
+
 			ViewType.INSTALL_BUTTON -> {
 				holder as InstallButtonViewHolder
 				item as Item.InstallButtonItem
@@ -1202,15 +1224,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				Unit
 			}
+
 			ViewType.SCREENSHOT -> {
 				holder as ScreenShotViewHolder
 				item as Item.ScreenshotItem
 				holder.screenshotsRecycler.run {
 					isNestedScrollingEnabled = false
 					clipToPadding = false
-					context.resources.sizeScaled(8).let {
-						setPadding(it, it, it, it)
-					}
+					setPadding(8.dp, 8.dp, 8.dp, 8.dp)
 					layoutManager =
 						LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 					adapter =
@@ -1219,6 +1240,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 				}
 			}
+
 			ViewType.SWITCH -> {
 				holder as SwitchViewHolder
 				item as Item.SwitchItem
@@ -1227,6 +1249,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						val productPreference = ProductPreferences[item.packageName]
 						Pair(productPreference.ignoreUpdates, true)
 					}
+
 					SwitchType.IGNORE_THIS_UPDATE -> {
 						val productPreference = ProductPreferences[item.packageName]
 						Pair(
@@ -1241,6 +1264,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					statefulViews.forEach { it.isEnabled = enabled }
 				}
 			}
+
 			ViewType.SECTION -> {
 				holder as SectionViewHolder
 				item as Item.SectionItem
@@ -1259,6 +1283,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.icon.scaleY = if (item.collapseCount > 0) -1f else 1f
 				holder.icon.imageTintList = color
 			}
+
 			ViewType.EXPAND -> {
 				holder as ExpandViewHolder
 				item as Item.ExpandItem
@@ -1269,11 +1294,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					}
 				} else context.getString(stringRes.show_less)
 			}
+
 			ViewType.TEXT -> {
 				holder as TextViewHolder
 				item as Item.TextItem
 				holder.text.text = item.text
 			}
+
 			ViewType.LINK -> {
 				holder as LinkViewHolder
 				item as Item.LinkItem
@@ -1286,6 +1313,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.link.isVisible = item.uri != null
 				holder.link.text = item.displayLink
 			}
+
 			ViewType.PERMISSIONS -> {
 				holder as PermissionsViewHolder
 				item as Item.PermissionsItem
@@ -1350,6 +1378,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				holder.text.text = builder
 			}
+
 			ViewType.RELEASE -> {
 				holder as ReleaseViewHolder
 				item as Item.ReleaseItem
@@ -1437,10 +1466,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 							stringRes.incompatible_with_FORMAT,
 							Android.name
 						)
+
 						is Release.Incompatibility.Platform -> context.getString(
 							stringRes.incompatible_with_FORMAT,
 							Android.primaryPlatform ?: context.getString(stringRes.unknown)
 						)
+
 						is Release.Incompatibility.Feature -> context.getString(
 							stringRes.requires_FORMAT,
 							incompatibility.feature
@@ -1454,6 +1485,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				val enabled = status == Status.Idle
 				holder.statefulViews.forEach { it.isEnabled = enabled }
 			}
+
 			ViewType.EMPTY -> {
 				holder as EmptyViewHolder
 				item as Item.EmptyItem

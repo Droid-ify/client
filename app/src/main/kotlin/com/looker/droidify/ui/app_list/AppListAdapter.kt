@@ -19,7 +19,6 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.CursorRecyclerAdapter
 import com.google.android.material.R as MaterialR
 
@@ -40,13 +39,14 @@ class AppListAdapter(
 	private class LoadingViewHolder(context: Context) :
 		RecyclerView.ViewHolder(FrameLayout(context)) {
 		init {
-			itemView as FrameLayout
-			val progressBar = CircularProgressIndicator(itemView.context)
-			itemView.addView(progressBar)
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.MATCH_PARENT
-			)
+			with(itemView as FrameLayout) {
+				val progressBar = CircularProgressIndicator(context)
+				addView(progressBar)
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.MATCH_PARENT,
+					RecyclerView.LayoutParams.MATCH_PARENT
+				)
+			}
 		}
 	}
 
@@ -56,16 +56,17 @@ class AppListAdapter(
 			get() = itemView as TextView
 
 		init {
-			itemView as TextView
-			itemView.gravity = Gravity.CENTER
-			itemView.resources.sizeScaled(20).let { itemView.setPadding(it, it, it, it) }
-			itemView.typeface = TypefaceExtra.light
-			itemView.setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
-			itemView.setTextSizeScaled(20)
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.MATCH_PARENT,
-				RecyclerView.LayoutParams.MATCH_PARENT
-			)
+			with(itemView as TextView) {
+				gravity = Gravity.CENTER
+				setPadding(20.dp, 20.dp, 20.dp, 20.dp)
+				typeface = TypefaceExtra.light
+				setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
+				setTextSizeScaled(20)
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.MATCH_PARENT,
+					RecyclerView.LayoutParams.MATCH_PARENT
+				)
+			}
 		}
 	}
 
@@ -167,7 +168,7 @@ class AppListAdapter(
 						}
 					}
 					background = context.corneredBackground
-					resources.sizeScaled(6).let { setPadding(it, it, it, it) }
+					6.dp.let { setPadding(it, it, it, it) }
 				}
 				val enabled = productItem.compatible || productItem.installedVersion.isNotEmpty()
 				sequenceOf(holder.name, holder.status, holder.summary).forEach {

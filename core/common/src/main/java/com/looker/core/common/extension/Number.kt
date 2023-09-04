@@ -2,6 +2,7 @@ package com.looker.core.common.extension
 
 import android.content.res.Resources
 import android.util.TypedValue
+import android.view.View
 import kotlin.math.roundToInt
 
 infix fun Long.percentBy(denominator: Long?): Int {
@@ -16,5 +17,6 @@ val Number.px
 		Resources.getSystem().displayMetrics
 	)
 
-val Int.dp
-	get() = (this * Resources.getSystem().displayMetrics.density).roundToInt()
+context(View)
+val Int.dp: Int
+	get() = (this * resources.displayMetrics.density).roundToInt()
