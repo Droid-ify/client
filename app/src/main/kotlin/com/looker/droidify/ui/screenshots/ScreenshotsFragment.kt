@@ -110,7 +110,7 @@ class ScreenshotsFragment() : DialogFragment() {
 		}
 
 		val viewPager = ViewPager2(dialog.context)
-		with(ViewPager2(dialog.context)) {
+		with(viewPager) {
 			adapter = Adapter(packageName)
 			setPageTransformer(MarginPageTransformer(8.dp))
 			viewTreeObserver.addOnGlobalLayoutListener {
@@ -123,7 +123,6 @@ class ScreenshotsFragment() : DialogFragment() {
 				)
 			)
 			this@ScreenshotsFragment.viewPager = this
-
 		}
 
 		var restored = false
