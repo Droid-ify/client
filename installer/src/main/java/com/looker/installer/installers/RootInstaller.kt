@@ -17,8 +17,8 @@ internal class RootInstaller(private val context: Context) : Installer {
 		private const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -S %s"
 		private const val DELETE_PACKAGE = "%s rm %s"
 
-		private val getCurrentUserState: String =
-			if (SdkCheck.isOreo) Shell.cmd("am get-current-user").exec().out[0]
+		private val getCurrentUserState: String
+			get() = if (SdkCheck.isOreo) Shell.cmd("am get-current-user").exec().out[0]
 			else Shell.cmd("dumpsys activity | grep -E \"mUserLru\"")
 				.exec().out[0].trim()
 				.removePrefix("mUserLru: [").removeSuffix("]")

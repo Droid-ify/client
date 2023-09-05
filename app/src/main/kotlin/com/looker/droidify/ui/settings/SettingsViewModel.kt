@@ -10,11 +10,8 @@ import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.*
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
-import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration
@@ -114,27 +111,23 @@ class SettingsViewModel
 
 	fun setInstaller(installerType: InstallerType) {
 		viewModelScope.launch {
-			when (installerType) {
-				InstallerType.SHIZUKU -> {
-					val isInstalled = shizukuPermissionHandler.isInstalled()
-					val isAlive = shizukuPermissionHandler.isBinderAlive.first()
-					when {
-						!isInstalled -> _snackbarStringId.emit(CommonR.string.shizuku_not_installed)
-						!isAlive -> _snackbarStringId.emit(CommonR.string.shizuku_not_alive)
-						else -> userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
+			userPreferencesRepository.setInstallerType(installerType)
+		}
+	}
+
+	init {
+		viewModelScope.launch {
+			combine(
+				shizukuPermissionHandler.isBinderAlive,
+				flowOf(shizukuPermissionHandler.isInstalled())
+			) { isAlive, isInstalled ->
+				if (isInstalled) {
+					if (!isAlive) {
+						_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
 					}
+				} else {
+					_snackbarStringId.emit(CommonR.string.shizuku_not_installed)
 				}
-
-				InstallerType.ROOT -> {
-					Shell.getShell()
-					val isRooted = Shell.isAppGrantedRoot()
-					userPreferencesRepository.setInstallerType(
-						if (isRooted == true) InstallerType.ROOT
-						else InstallerType.SESSION
-					)
-				}
-
-				else -> userPreferencesRepository.setInstallerType(installerType)
 			}
 		}
 	}

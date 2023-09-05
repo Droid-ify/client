@@ -3,7 +3,6 @@ package com.looker.core.datastore
 import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
-import com.looker.core.common.device.Miui
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
@@ -68,7 +67,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
 		val CLEAN_UP_INTERVAL = longPreferencesKey("clean_up_interval")
-		val LAST_CLEAN_UP = longPreferencesKey("clean_up_interval")
+		val LAST_CLEAN_UP = longPreferencesKey("last_clean_up_time")
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
@@ -143,9 +142,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		mapUserPreferences(dataStore.data.first().toPreferences())
 
 	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
-		val installerName = (if (Miui.isMiui) {
-			if (Miui.isMiuiOptimizationDisabled()) InstallerType.SESSION else InstallerType.LEGACY
-		} else InstallerType.SESSION).name
+		val defaultInstallerName = (InstallerType.Default).name
 
 		val language = preferences[LANGUAGE] ?: "system"
 		val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
@@ -153,7 +150,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val unstableUpdate = preferences[UNSTABLE_UPDATES] ?: false
 		val theme = Theme.valueOf(preferences[THEME] ?: Theme.SYSTEM.name)
 		val dynamicTheme = preferences[DYNAMIC_THEME] ?: false
-		val installerType = InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: installerName)
+		val installerType =
+			InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: defaultInstallerName)
 		val autoUpdate = preferences[AUTO_UPDATE] ?: false
 		val autoSync = AutoSync.valueOf(preferences[AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name)
 		val sortOrder = SortOrder.valueOf(preferences[SORT_ORDER] ?: SortOrder.UPDATED.name)

@@ -6,14 +6,31 @@ import com.looker.core.common.extension.getPackageInfoCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
+import rikka.shizuku.ShizukuProvider
+import rikka.sui.Sui
 
 class ShizukuPermissionHandler(
 	private val context: Context
 ) {
 
 	fun isInstalled(): Boolean =
-		context.packageManager.getPackageInfoCompat(SHIZUKU_PACKAGE_NAME) != null
+		context.packageManager.getPackageInfoCompat(ShizukuProvider.MANAGER_APPLICATION_ID) != null
+
+	private val isSui: Flow<Boolean> = callbackFlow {
+		val isSuiInitiated = Sui.init(context.packageName)
+		send(isSuiInitiated)
+		if (!isSuiInitiated) {
+			launch {
+				isGranted.collect {
+					send(it)
+				}
+			}
+			requestPermission()
+		}
+		awaitClose { }
+	}
 
 	val isBinderAlive: Flow<Boolean> = callbackFlow {
 		send(Shizuku.pingBinder())
@@ -31,8 +48,8 @@ class ShizukuPermissionHandler(
 		}
 	}.flowOn(Dispatchers.Default).conflate()
 
-	val isGranted: Flow<Boolean> = callbackFlow {
-		send(false)
+	private val isGranted: Flow<Boolean> = callbackFlow {
+		send(Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED)
 		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
 			if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
 				val granted = grantResult == PackageManager.PERMISSION_GRANTED
@@ -46,12 +63,28 @@ class ShizukuPermissionHandler(
 	}.flowOn(Dispatchers.Default).conflate()
 
 	fun requestPermission() {
-		if (Shizuku.shouldShowRequestPermissionRationale()) {}
+		if (Shizuku.shouldShowRequestPermissionRationale()) {
+		}
 		Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
+	}
+
+	val state: Flow<State> = combine(
+		flowOf(isInstalled()),
+		isSui,
+		isBinderAlive,
+		isGranted
+	) { isInstalled, isSui, isAlive, isGranted ->
+		State(isGranted, isAlive, isInstalled, isSui)
 	}
 
 	companion object {
 		private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263
-		private const val SHIZUKU_PACKAGE_NAME = "moe.shizuku.privileged.api"
 	}
+
+	data class State(
+		val isPermissionGranted: Boolean,
+		val isAlive: Boolean,
+		val isInstalled: Boolean,
+		val isSui: Boolean
+	)
 }

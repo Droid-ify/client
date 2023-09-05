@@ -85,9 +85,9 @@ class SettingsFragment : Fragment() {
 			droidify.title.text = "Droid-ify"
 			droidify.content.text = BuildConfig.VERSION_NAME
 		}
+		setChangeListener()
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.RESUMED) {
-				setChangeListener()
 				launch {
 					viewModel.snackbarStringId.collect {
 						Snackbar.make(binding.root, it, Snackbar.LENGTH_LONG).show()
@@ -276,7 +276,6 @@ class SettingsFragment : Fragment() {
 				).show()
 			}
 			forceCleanUp.root.isVisible = userPreferences.cleanUpInterval == Duration.INFINITE
-					|| userPreferences.cleanUpInterval == Duration.ZERO
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
@@ -348,7 +347,7 @@ class SettingsFragment : Fragment() {
 	private fun Duration.toTime(context: Context?): String {
 		val time = inWholeHours.toInt()
 		val days = inWholeDays.toInt()
-		if (this == Duration.INFINITE || this == Duration.ZERO) return getString(R.string.never)
+		if (this == Duration.INFINITE) return getString(R.string.never)
 		return if (time >= 24) "$days " + context?.resources?.getQuantityString(
 			R.plurals.days,
 			days

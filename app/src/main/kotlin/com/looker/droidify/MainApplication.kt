@@ -42,14 +42,14 @@ import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.ZERO
 import kotlin.time.Duration.Companion.hours
 import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory, Configuration.Provider {
 
-	private val appScope = CoroutineScope(Dispatchers.Default)
+	private val parentJob = SupervisorJob()
+	private val appScope = CoroutineScope(Dispatchers.Default + parentJob)
 
 	@Inject
 	lateinit var userPreferencesRepository: UserPreferencesRepository
@@ -90,22 +90,35 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	private fun setupInstaller() {
 		appScope.launch {
 			launch {
-				combine(
-					userPreferenceFlow.getProperty { installerType },
-					flowOf(shizukuPermissionHandler.isInstalled()),
-					shizukuPermissionHandler.isGranted,
-					shizukuPermissionHandler.isBinderAlive
-				) { installerType, isInstalled, isGranted, isAlive ->
-					if (installerType == InstallerType.SHIZUKU) {
-						if (!isAlive || !isInstalled) {
-							userPreferencesRepository.setInstallerType(InstallerType.SESSION)
+				userPreferenceFlow.getProperty { installerType }.collect {
+					if (it == InstallerType.SHIZUKU) handleShizukuInstaller()
+					if (it == InstallerType.ROOT)  {
+						Shell.getCachedShell() ?: Shell.getShell()
+						val isRooted = Shell.isAppGrantedRoot() ?: false
+						if (!isRooted) {
+							userPreferencesRepository.setInstallerType(InstallerType.Default)
 						}
-						if (isAlive && !isGranted) shizukuPermissionHandler.requestPermission()
 					}
-					if (installerType == InstallerType.ROOT) Shell.getShell()
-				}.collect()
+				}
 			}
 			installer()
+		}
+	}
+
+	private fun CoroutineScope.handleShizukuInstaller() = launch {
+		shizukuPermissionHandler.state.collect { (isGranted, isAlive, isInstalled, isSui) ->
+			if (!isSui) {
+				if (!isGranted || !isAlive || !isInstalled) {
+					userPreferencesRepository.setInstallerType(InstallerType.Default)
+				}
+				if (isAlive) {
+					if (!isGranted) {
+						shizukuPermissionHandler.requestPermission()
+					} else {
+						userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
+					}
+				}
+			}
 		}
 	}
 
@@ -145,11 +158,8 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 			}
 			launch {
 				userPreferenceFlow.getProperty { cleanUpInterval }.collect {
-					when (it) {
-						INFINITE -> CleanUpWorker.removeAllSchedules(applicationContext)
-						ZERO -> CleanUpWorker.force(applicationContext)
-						else -> CleanUpWorker.scheduleCleanup(applicationContext, it)
-					}
+					if (it == INFINITE) CleanUpWorker.removeAllSchedules(applicationContext)
+					else CleanUpWorker.scheduleCleanup(applicationContext, it)
 				}
 			}
 			launch {
