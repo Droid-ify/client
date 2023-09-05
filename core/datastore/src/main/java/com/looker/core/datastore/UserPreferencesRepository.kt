@@ -29,6 +29,7 @@ import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
+// TODO: rename to Settings
 data class UserPreferences(
 	val language: String,
 	val incompatibleVersions: Boolean,
