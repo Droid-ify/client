@@ -39,4 +39,5 @@ dependencies {
 	modules(Modules.coreCommon)
 	coroutines()
 	implementation(Datastore.datastore)
+	implementation(Kotlin.datetime)
 }

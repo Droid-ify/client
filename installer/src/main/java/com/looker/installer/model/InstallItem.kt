@@ -9,7 +9,7 @@ data class InstallItem(
 )
 
 data class InstallItemState(
-	val installedItem: InstallItem,
+	val currentItem: InstallItem,
 	val state: InstallState
 ) {
 	companion object {

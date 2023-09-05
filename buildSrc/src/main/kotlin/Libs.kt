@@ -60,11 +60,11 @@ private object FDroid {
 
 object Hilt {
 	const val version = "2.48"
-	const val android = "com.google.dagger:hilt-android:$version"
-
-	const val compiler = "com.google.dagger:hilt-compiler:$version"
-	const val plugin = "com.google.dagger.hilt.android"
 	private const val androidXHilt = "1.0.0"
+	const val plugin = "com.google.dagger.hilt.android"
+
+	const val android = "com.google.dagger:hilt-android:$version"
+	const val compiler = "com.google.dagger:hilt-compiler:$version"
 	const val work = "androidx.hilt:hilt-work:$androidXHilt"
 	const val androidX = "androidx.hilt:hilt-compiler:$androidXHilt"
 }
@@ -158,6 +158,13 @@ fun DependencyHandlerScope.desugar() {
 fun DependencyHandlerScope.fdroid() {
 	add("implementation", FDroid.index)
 	add("implementation", FDroid.download)
+}
+
+fun DependencyHandlerScope.hilt() {
+	add("implementation", Hilt.android)
+	add("implementation", Hilt.work)
+	add("kapt", Hilt.compiler)
+	add("kapt", Hilt.androidX)
 }
 
 fun DependencyHandlerScope.ktor() {

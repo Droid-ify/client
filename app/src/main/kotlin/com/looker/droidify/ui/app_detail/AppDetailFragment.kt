@@ -281,7 +281,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private fun updateInstallState(installerState: InstallerQueueState) {
 		val status = if (packageName isInstalling installerState) AppDetailAdapter.Status.Installing
-		else if (packageName isQueuedIn installerState) AppDetailAdapter.Status.PendingInstall
+		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
 		else AppDetailAdapter.Status.Idle
 		val installing = status != AppDetailAdapter.Status.Idle
 		if (this.installing != installing) {

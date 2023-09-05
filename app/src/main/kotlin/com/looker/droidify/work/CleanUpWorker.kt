@@ -3,14 +3,9 @@ package com.looker.droidify.work
 import android.content.Context
 import android.util.Log
 import androidx.hilt.work.HiltWorker
-import androidx.work.CoroutineWorker
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.looker.core.common.cache.Cache
+import com.looker.core.datastore.UserPreferencesRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -21,10 +16,11 @@ import kotlin.time.toJavaDuration
 @HiltWorker
 class CleanUpWorker @AssistedInject constructor(
 	@Assisted context: Context,
-	@Assisted workerParams: WorkerParameters
+	@Assisted workerParams: WorkerParameters,
+	private val userPreferencesRepository: UserPreferencesRepository
 ) : CoroutineWorker(context, workerParams) {
 	companion object {
-		const val TAG = "CleanUpWorker"
+		private const val TAG = "CleanUpWorker"
 
 		fun removeAllSchedules(context: Context) {
 			val workManager = WorkManager.getInstance(context)
@@ -33,21 +29,19 @@ class CleanUpWorker @AssistedInject constructor(
 
 		fun scheduleCleanup(context: Context, duration: Duration) {
 			val workManager = WorkManager.getInstance(context)
-			val cleanup = PeriodicWorkRequestBuilder<DelegatingWorker>(duration.toJavaDuration())
-				.setInputData(CleanUpWorker::class.delegatedData())
+			val cleanup = PeriodicWorkRequestBuilder<CleanUpWorker>(duration.toJavaDuration())
 				.build()
 
 			workManager.enqueueUniquePeriodicWork(
 				TAG,
-				ExistingPeriodicWorkPolicy.REPLACE,
+				ExistingPeriodicWorkPolicy.UPDATE,
 				cleanup
 			)
 			Log.i(TAG, "Periodic work enqueued with duration: $duration")
 		}
 
 		fun force(context: Context) {
-			val cleanup = OneTimeWorkRequestBuilder<DelegatingWorker>()
-				.setInputData(CleanUpWorker::class.delegatedData())
+			val cleanup = OneTimeWorkRequestBuilder<CleanUpWorker>()
 				.build()
 
 			val workManager = WorkManager.getInstance(context)
@@ -63,8 +57,8 @@ class CleanUpWorker @AssistedInject constructor(
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 		try {
 			Log.i(TAG, "doWork: Started Cleanup")
-			val context = applicationContext
-			Cache.cleanup(context)
+			userPreferencesRepository.setCleanupInstant()
+			Cache.cleanup(applicationContext)
 			Result.success()
 		} catch (e: Exception) {
 			Log.i(TAG, "doWork: Failed to clean up", e)

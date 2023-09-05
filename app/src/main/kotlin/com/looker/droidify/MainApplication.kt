@@ -7,6 +7,8 @@ import android.app.job.JobScheduler
 import android.content.*
 import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.hilt.work.HiltWorkerFactory
+import androidx.work.Configuration
 import androidx.work.NetworkType
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -17,8 +19,7 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.getInstalledPackagesCompat
 import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.*
 import com.looker.core.datastore.model.*
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -46,7 +47,7 @@ import kotlin.time.Duration.Companion.hours
 import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
-class MainApplication : Application(), ImageLoaderFactory {
+class MainApplication : Application(), ImageLoaderFactory, Configuration.Provider {
 
 	private val appScope = CoroutineScope(Dispatchers.Default)
 
@@ -62,6 +63,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 
 	@Inject
 	lateinit var shizukuPermissionHandler: ShizukuPermissionHandler
+
+	@Inject
+	lateinit var workerFactory: HiltWorkerFactory
 
 	override fun onCreate() {
 		super.onCreate()
@@ -250,4 +254,9 @@ class MainApplication : Application(), ImageLoaderFactory {
 			.crossfade(350)
 			.build()
 	}
+
+	override fun getWorkManagerConfiguration(): Configuration =
+		Configuration.Builder()
+			.setWorkerFactory(workerFactory)
+			.build()
 }

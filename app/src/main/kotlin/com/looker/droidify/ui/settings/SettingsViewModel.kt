@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.settings
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.toLocale
 import com.looker.core.datastore.UserPreferencesRepository
 import com.looker.core.datastore.model.*
+import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +55,12 @@ class SettingsViewModel
 	fun setCleanUpInterval(interval: Duration) {
 		viewModelScope.launch {
 			userPreferencesRepository.setCleanUpInterval(interval)
+		}
+	}
+
+	fun forceCleanup(context: Context) {
+		viewModelScope.launch {
+			CleanUpWorker.force(context)
 		}
 	}
 

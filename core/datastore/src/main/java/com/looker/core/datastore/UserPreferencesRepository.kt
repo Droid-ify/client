@@ -13,6 +13,7 @@ import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.FAVOU
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INCOMPATIBLE_VERSIONS
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INSTALLER_TYPE
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.LANGUAGE
+import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.LAST_CLEAN_UP
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.NOTIFY_UPDATES
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_HOST
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_PORT
@@ -22,6 +23,8 @@ import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.THEME
 import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.UNSTABLE_UPDATES
 import com.looker.core.datastore.model.*
 import kotlinx.coroutines.flow.*
+import kotlinx.datetime.Clock
+import kotlinx.datetime.Instant
 import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
@@ -39,6 +42,7 @@ data class UserPreferences(
 	val sortOrder: SortOrder,
 	val proxy: ProxyPreference,
 	val cleanUpInterval: Duration,
+	val lastCleanup: Instant?,
 	val favouriteApps: Set<String>
 )
 
@@ -63,6 +67,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val PROXY_HOST = stringPreferencesKey("key_proxy_host")
 		val PROXY_PORT = intPreferencesKey("key_proxy_port")
 		val CLEAN_UP_INTERVAL = longPreferencesKey("clean_up_interval")
+		val LAST_CLEAN_UP = longPreferencesKey("clean_up_interval")
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
 	}
 
@@ -114,6 +119,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun setCleanUpInterval(interval: Duration) =
 		CLEAN_UP_INTERVAL.update(interval.inWholeHours)
 
+	suspend fun setCleanupInstant() =
+		LAST_CLEAN_UP.update(Clock.System.now().toEpochMilliseconds())
+
 	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
 			val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
@@ -153,6 +161,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val port = preferences[PROXY_PORT] ?: 9050
 		val proxy = ProxyPreference(type = type, host = host, port = port)
 		val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
+		val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 
 		return UserPreferences(
@@ -168,6 +177,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			sortOrder = sortOrder,
 			proxy = proxy,
 			cleanUpInterval = cleanUpInterval,
+			lastCleanup = lastCleanup,
 			favouriteApps = favouriteApps
 		)
 	}

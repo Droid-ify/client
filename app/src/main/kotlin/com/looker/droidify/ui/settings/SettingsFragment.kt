@@ -203,22 +203,23 @@ class SettingsFragment : Fragment() {
 
 	private fun setChangeListener() {
 		with(binding) {
-			with(viewModel) {
-				dynamicTheme.checked.setOnCheckedChangeListener { _, checked ->
-					setDynamicTheme(checked)
-				}
-				notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
-					setNotifyUpdates(checked)
-				}
-				autoUpdate.checked.setOnCheckedChangeListener { _, checked ->
-					setAutoUpdate(checked)
-				}
-				unstableUpdates.checked.setOnCheckedChangeListener { _, checked ->
-					setUnstableUpdates(checked)
-				}
-				incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
-					setIncompatibleUpdates(checked)
-				}
+			dynamicTheme.checked.setOnCheckedChangeListener { _, checked ->
+				viewModel.setDynamicTheme(checked)
+			}
+			notifyUpdates.checked.setOnCheckedChangeListener { _, checked ->
+				viewModel.setNotifyUpdates(checked)
+			}
+			autoUpdate.checked.setOnCheckedChangeListener { _, checked ->
+				viewModel.setAutoUpdate(checked)
+			}
+			unstableUpdates.checked.setOnCheckedChangeListener { _, checked ->
+				viewModel.setUnstableUpdates(checked)
+			}
+			incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
+				viewModel.setIncompatibleUpdates(checked)
+			}
+			forceCleanUp.root.setOnClickListener {
+				viewModel.forceCleanup(it.context)
 			}
 			creditFoxy.root.setOnClickListener {
 				openLink("https://github.com/kitsunyan/foxy-droid")
@@ -276,7 +277,6 @@ class SettingsFragment : Fragment() {
 			}
 			forceCleanUp.root.isVisible = userPreferences.cleanUpInterval == Duration.INFINITE
 					|| userPreferences.cleanUpInterval == Duration.ZERO
-			forceCleanUp.root.setOnClickListener { viewModel.setCleanUpInterval(Duration.ZERO) }
 			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
