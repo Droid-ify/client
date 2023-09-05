@@ -215,4 +215,5 @@
     <string name="restart_app">Перезапустіть Droid-ify, щоб побачити зміни</string>
     <string name="enable_repo">Увімкніть репозиторій</string>
     <string name="waiting_to_start_installation">Очікування початку встановлення…</string>
+    <string name="has_non_free_components">Має невільні компоненти</string>
 </resources>
