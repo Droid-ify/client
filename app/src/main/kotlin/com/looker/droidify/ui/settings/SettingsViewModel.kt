@@ -112,6 +112,22 @@ class SettingsViewModel
 	fun setInstaller(installerType: InstallerType) {
 		viewModelScope.launch {
 			userPreferencesRepository.setInstallerType(installerType)
+			if (installerType == InstallerType.SHIZUKU) handleShizuku()
+		}
+	}
+
+	private fun handleShizuku() {
+		viewModelScope.launch {
+			shizukuPermissionHandler.state.collect { state ->
+				if (state.isAlive && state.isPermissionGranted) return@collect
+				if (state.isInstalled) {
+					if (!state.isAlive) {
+						_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
+					}
+				} else {
+					_snackbarStringId.emit(CommonR.string.shizuku_not_installed)
+				}
+			}
 		}
 	}
 

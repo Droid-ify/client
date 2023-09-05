@@ -92,7 +92,7 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 			launch {
 				userPreferenceFlow.getProperty { installerType }.collect {
 					if (it == InstallerType.SHIZUKU) handleShizukuInstaller()
-					if (it == InstallerType.ROOT)  {
+					if (it == InstallerType.ROOT) {
 						Shell.getCachedShell() ?: Shell.getShell()
 						val isRooted = Shell.isAppGrantedRoot() ?: false
 						if (!isRooted) {
@@ -106,18 +106,17 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	}
 
 	private fun CoroutineScope.handleShizukuInstaller() = launch {
-		shizukuPermissionHandler.state.collect { (isGranted, isAlive, isInstalled, isSui) ->
-			if (!isSui) {
-				if (!isGranted || !isAlive || !isInstalled) {
+		shizukuPermissionHandler.state.collect { (isGranted, isAlive, _) ->
+			if (isAlive) {
+				if (isGranted) {
+					userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
+					return@collect
+				} else {
 					userPreferencesRepository.setInstallerType(InstallerType.Default)
+					shizukuPermissionHandler.requestPermission()
 				}
-				if (isAlive) {
-					if (!isGranted) {
-						shizukuPermissionHandler.requestPermission()
-					} else {
-						userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
-					}
-				}
+			} else {
+				userPreferencesRepository.setInstallerType(InstallerType.Default)
 			}
 		}
 	}

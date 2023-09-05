@@ -6,10 +6,8 @@ import com.looker.core.common.extension.getPackageInfoCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
-import rikka.sui.Sui
 
 class ShizukuPermissionHandler(
 	private val context: Context
@@ -17,20 +15,6 @@ class ShizukuPermissionHandler(
 
 	fun isInstalled(): Boolean =
 		context.packageManager.getPackageInfoCompat(ShizukuProvider.MANAGER_APPLICATION_ID) != null
-
-	private val isSui: Flow<Boolean> = callbackFlow {
-		val isSuiInitiated = Sui.init(context.packageName)
-		send(isSuiInitiated)
-		if (!isSuiInitiated) {
-			launch {
-				isGranted.collect {
-					send(it)
-				}
-			}
-			requestPermission()
-		}
-		awaitClose { }
-	}
 
 	val isBinderAlive: Flow<Boolean> = callbackFlow {
 		send(Shizuku.pingBinder())
@@ -70,11 +54,10 @@ class ShizukuPermissionHandler(
 
 	val state: Flow<State> = combine(
 		flowOf(isInstalled()),
-		isSui,
 		isBinderAlive,
 		isGranted
-	) { isInstalled, isSui, isAlive, isGranted ->
-		State(isGranted, isAlive, isInstalled, isSui)
+	) { isInstalled, isAlive, isGranted ->
+		State(isGranted, isAlive, isInstalled)
 	}
 
 	companion object {
@@ -84,7 +67,6 @@ class ShizukuPermissionHandler(
 	data class State(
 		val isPermissionGranted: Boolean,
 		val isAlive: Boolean,
-		val isInstalled: Boolean,
-		val isSui: Boolean
+		val isInstalled: Boolean
 	)
 }
