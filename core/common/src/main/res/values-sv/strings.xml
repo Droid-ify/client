@@ -212,4 +212,7 @@
     <string name="has_non_free_components">Har icke-fria komponenter</string>
     <string name="connection_error_DESC">Kunde inte ansluta till server</string>
     <string name="socket_error_DESC">Servern misslyckades att tillhandahålla nytt paket.</string>
+    <string name="contains_nsfw">Innehåller innehåll som inte är säkert för arbete</string>
+    <string name="shizuku_not_alive">Shizuku körs inte</string>
+    <string name="shizuku_not_installed">Shizuku är inte installerat</string>
 </resources>
