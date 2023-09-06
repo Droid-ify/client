@@ -15,7 +15,7 @@
 .cxx
 local.properties
 /.idea/
-/build-logic/build/
+/build-logic/structure/build/
 /core-datastore/build/
 /app/release/
 /app/alpha/
