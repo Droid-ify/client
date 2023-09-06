@@ -1,4 +1,5 @@
 object DefaultConfig {
+	const val buildTools: String = "33.0.2"
 	const val appId = "com.looker.droidify"
 	const val compileSdk = 33
 	const val minSdk = 23

@@ -1,11 +1,11 @@
 package com.looker.droidify
 
+import DefaultConfig
+import Test
 import com.android.build.api.dsl.CommonExtension
 import desugar
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPluginExtension
-import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.provideDelegate
 import org.gradle.kotlin.dsl.withType
@@ -41,20 +41,6 @@ internal fun Project.configureKotlinAndroid(
 	dependencies {
 		desugar()
 	}
-}
-
-/**
- * Configure base Kotlin options for JVM (non-Android)
- */
-internal fun Project.configureKotlinJvm() {
-	extensions.configure<JavaPluginExtension> {
-		// Up to Java 11 APIs are available through desugaring
-		// https://developer.android.com/studio/write/java11-minimal-support-table
-		sourceCompatibility = JavaVersion.VERSION_11
-		targetCompatibility = JavaVersion.VERSION_11
-	}
-
-	configureKotlin()
 }
 
 /**

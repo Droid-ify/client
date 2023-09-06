@@ -1,17 +1,11 @@
 plugins {
-	id("com.android.application")
-	id("org.jetbrains.kotlin.android")
+	id("looker.android.application")
 	id("looker.hilt.work")
 }
 
 android {
-	buildToolsVersion = "33.0.2"
 	namespace = "com.looker.droidify"
-	compileSdk = DefaultConfig.compileSdk
 	defaultConfig {
-		applicationId = DefaultConfig.appId
-		versionCode = DefaultConfig.versionCode
-		versionName = DefaultConfig.versionName
 		vectorDrawables.useSupportLibrary = true
 
 		resourceConfigurations += mutableListOf(
@@ -116,9 +110,6 @@ android {
 	buildFeatures {
 		viewBinding = true
 		buildConfig = true
-		aidl = false
-		renderScript = false
-		shaders = false
 	}
 }
 

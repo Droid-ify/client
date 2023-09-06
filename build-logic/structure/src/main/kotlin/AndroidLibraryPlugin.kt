@@ -1,3 +1,4 @@
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import com.looker.droidify.configureKotlinAndroid
 import org.gradle.api.Plugin
@@ -22,6 +23,12 @@ class AndroidLibraryPlugin : Plugin<Project> {
 					renderScript = false
 					shaders = false
 					resValues = false
+				}
+			}
+			extensions.configure<LibraryAndroidComponentsExtension> {
+				beforeVariants {
+					it.enableAndroidTest = it.enableAndroidTest
+							&& project.projectDir.resolve("src/androidTest").exists()
 				}
 			}
 			dependencies {

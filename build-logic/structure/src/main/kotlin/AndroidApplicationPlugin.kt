@@ -14,7 +14,18 @@ class AndroidApplicationPlugin : Plugin<Project> {
 
 			extensions.configure<ApplicationExtension> {
 				configureKotlinAndroid(this)
-				defaultConfig.targetSdk = DefaultConfig.compileSdk
+				buildToolsVersion = DefaultConfig.buildTools
+				defaultConfig {
+					targetSdk = DefaultConfig.compileSdk
+					applicationId = DefaultConfig.appId
+					versionCode = DefaultConfig.versionCode
+					versionName = DefaultConfig.versionName
+				}
+				buildFeatures {
+					aidl = false
+					renderScript = false
+					shaders = false
+				}
 			}
 		}
 	}
