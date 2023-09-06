@@ -50,7 +50,7 @@ jobs:
         keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
         keyPassword: ${{ secrets.KEYSTORE_PASS }}
 
-    - uses: actions/upload-artifact@v3.1.2 
+    - uses: actions/upload-artifact@v3.1.3 
       with:
         name: Signed APK
         path: ${{steps.sign_app.outputs.signedReleaseFile}}
