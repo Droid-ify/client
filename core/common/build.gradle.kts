@@ -5,12 +5,9 @@ plugins {
 }
 
 android {
-	compileSdk = Android.compileSdk
 	namespace = "com.looker.core.common"
 	defaultConfig {
-		minSdk = Android.minSdk
 		vectorDrawables.useSupportLibrary = true
-		testInstrumentationRunner = Test.jUnitRunner
 	}
 
 	buildTypes {
@@ -23,19 +20,8 @@ android {
 			isMinifyEnabled = true
 		}
 	}
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	kotlinOptions {
-		freeCompilerArgs += "-Xcontext-receivers"
-	}
 	buildFeatures {
-		aidl = false
-		renderScript = false
-		shaders = false
-		resValues = false
+		buildConfig = true
 	}
 }
 
@@ -47,9 +33,6 @@ dependencies {
 	implementation(Core.core)
 
 	implementation(Jackson.core)
-
-	testImplementation(kotlin("test"))
-	testImplementation(Test.jUnit)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

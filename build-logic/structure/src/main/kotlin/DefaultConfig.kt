@@ -1,5 +1,4 @@
-// TODO: migrate to build-logic
-object Android {
+object DefaultConfig {
 	const val appId = "com.looker.droidify"
 	const val compileSdk = 33
 	const val minSdk = 23

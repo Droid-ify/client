@@ -1,12 +1,8 @@
 plugins {
 	id("com.android.application") version "8.1.1" apply false
 	id("com.android.library") version "8.1.1" apply false
-	id("org.jetbrains.kotlin.android") version Kotlin.version apply false
-	kotlin("plugin.serialization") version Kotlin.version apply false
-	id(Ksp.plugin) version Ksp.version apply false
-	id(Hilt.plugin) version Hilt.version apply false
-}
-
-tasks.register("clean", Delete::class) {
-	delete(rootProject.layout.buildDirectory)
+	id("org.jetbrains.kotlin.android") version "1.9.10" apply false
+	kotlin("plugin.serialization") version "1.9.10" apply false
+	id("com.google.devtools.ksp") version "1.9.10-1.0.13" apply false
+	id("com.google.dagger.hilt.android") version "2.48" apply false
 }

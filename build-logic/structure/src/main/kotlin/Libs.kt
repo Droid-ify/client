@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
-	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.1"
+	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
 	const val material = "com.google.android.material:material:1.9.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.1"
 }
@@ -74,13 +74,11 @@ object Jackson {
 }
 
 object Kotlin {
-	const val version = "1.9.10"
 	const val serialization = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0"
 	const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.1"
 }
 
 object Ksp {
-	const val version = "${Kotlin.version}-1.0.13"
 	const val plugin = "com.google.devtools.ksp"
 }
 
@@ -160,11 +158,13 @@ fun DependencyHandlerScope.fdroid() {
 	add("implementation", FDroid.download)
 }
 
-fun DependencyHandlerScope.hilt() {
+fun DependencyHandlerScope.hilt(includeWork: Boolean = false) {
 	add("implementation", Hilt.android)
-	add("implementation", Hilt.work)
 	add("kapt", Hilt.compiler)
-	add("kapt", Hilt.androidX)
+	if (includeWork) {
+		add("implementation", Hilt.work)
+		add("kapt", Hilt.androidX)
+	}
 }
 
 fun DependencyHandlerScope.ktor() {

@@ -5,11 +5,6 @@ plugins {
 
 android {
 	namespace = "com.looker.network"
-	compileSdk = Android.compileSdk
-	defaultConfig {
-		minSdk = Android.minSdk
-		testInstrumentationRunner = Test.jUnitRunner
-	}
 
 	buildTypes {
 		release {
@@ -21,15 +16,6 @@ android {
 			isMinifyEnabled = true
 		}
 	}
-	compileOptions {
-		isCoreLibraryDesugaringEnabled = true
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	kotlinOptions {
-		freeCompilerArgs += "-Xcontext-receivers"
-	}
 }
 
 dependencies {
@@ -38,7 +24,4 @@ dependencies {
 	coroutines()
 	desugar()
 	ktor()
-
-	testImplementation(kotlin("test"))
-	testImplementation(Test.jUnit)
 }

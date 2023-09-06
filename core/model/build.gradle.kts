@@ -4,8 +4,6 @@ plugins {
 
 android {
 	namespace = "com.looker.core.model"
-	compileSdk = Android.compileSdk
-	defaultConfig.minSdk = Android.minSdk
 
 	buildTypes {
 		release {
@@ -16,17 +14,5 @@ android {
 			initWith(getByName("debug"))
 			isMinifyEnabled = true
 		}
-	}
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	buildFeatures {
-		buildConfig = false
-		aidl = false
-		renderScript = false
-		shaders = false
-		resValues = false
 	}
 }
