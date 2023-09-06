@@ -212,4 +212,8 @@
     <string name="has_non_free_components">Διαθέτει μη-ελεύθερα στοιχεία</string>
     <string name="socket_error_DESC">Ο διακομιστής απέτυχε να παράσχει νέο πακέτο.</string>
     <string name="connection_error_DESC">Δε μπόρεσε να συνδεθεί με τον διακομιστή</string>
+    <string name="contains_nsfw">Περιέχει μη ασφαλές για εργασία περιεχόμενο</string>
+    <string name="shizuku_not_alive">Το Shizuku δεν εκτελείται</string>
+    <string name="special_credits">Ειδικές Πιστώσεις</string>
+    <string name="shizuku_not_installed">Το Shizuku δεν είναι εγκατεστημένο</string>
 </resources>
