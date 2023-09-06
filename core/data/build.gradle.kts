@@ -6,11 +6,6 @@ plugins {
 
 android {
 	namespace = "com.looker.core.data"
-	compileSdk = Android.compileSdk
-	defaultConfig {
-		minSdk = Android.minSdk
-		testInstrumentationRunner = Test.jUnitRunner
-	}
 
 	buildTypes {
 		release {
@@ -21,21 +16,6 @@ android {
 			initWith(getByName("debug"))
 			isMinifyEnabled = true
 		}
-	}
-	compileOptions {
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	kotlinOptions {
-		freeCompilerArgs += "-Xcontext-receivers"
-	}
-	buildFeatures {
-		buildConfig = false
-		aidl = false
-		renderScript = false
-		shaders = false
-		resValues = false
 	}
 }
 
@@ -54,8 +34,4 @@ dependencies {
 
 	implementation(Core.core)
 	implementation(Kotlin.serialization)
-	implementation(Work.manager)
-
-	testImplementation(kotlin("test"))
-	testImplementation(Test.jUnit)
 }

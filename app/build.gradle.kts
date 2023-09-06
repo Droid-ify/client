@@ -5,15 +5,12 @@ plugins {
 }
 
 android {
-	compileSdk = Android.compileSdk
 	buildToolsVersion = "33.0.2"
 	namespace = "com.looker.droidify"
 	defaultConfig {
-		applicationId = Android.appId
-		minSdk = Android.minSdk
-		targetSdk = Android.compileSdk
-		versionCode = Android.versionCode
-		versionName = Android.versionName
+		applicationId = DefaultConfig.appId
+		versionCode = DefaultConfig.versionCode
+		versionName = DefaultConfig.versionName
 		vectorDrawables.useSupportLibrary = true
 
 		resourceConfigurations += mutableListOf(
@@ -77,16 +74,6 @@ android {
 		}
 	}
 
-	compileOptions {
-		isCoreLibraryDesugaringEnabled = true
-		sourceCompatibility = JavaVersion.VERSION_17
-		targetCompatibility = JavaVersion.VERSION_17
-	}
-	kotlin.jvmToolchain(17)
-	kotlinOptions {
-		freeCompilerArgs += "-Xcontext-receivers"
-	}
-
 	buildTypes {
 		getByName("debug") {
 			applicationIdSuffix = ".debug"
@@ -116,7 +103,7 @@ android {
 			buildConfigField(
 				type = "String",
 				name = "VERSION_NAME",
-				value = "\"v${Android.versionName}\""
+				value = "\"v${DefaultConfig.versionName}\""
 			)
 		}
 	}
@@ -126,8 +113,8 @@ android {
 		}
 	}
 	buildFeatures {
-
 		viewBinding = true
+		buildConfig = true
 		aidl = false
 		renderScript = false
 		shaders = false
@@ -161,6 +148,4 @@ dependencies {
 	implementation(Others.zoomage)
 
 	implementation(SQLite.ktx)
-
-	implementation(Work.manager)
 }

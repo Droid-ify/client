@@ -1,7 +1,6 @@
 package com.looker.core.common.signature
 
 import kotlinx.coroutines.runBlocking
-import org.junit.Test
 import java.io.File
 import kotlin.test.*
 
