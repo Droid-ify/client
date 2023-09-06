@@ -3,7 +3,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
-
 }
 
 rootProject.name = "build-logic"
