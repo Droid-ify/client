@@ -23,7 +23,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.datastore.UserPreferences
+import com.looker.core.common.extension.updateAsMutable
+import com.looker.core.datastore.Settings
 import com.looker.core.datastore.extension.*
 import com.looker.core.datastore.model.*
 import com.looker.droidify.BuildConfig
@@ -34,6 +35,7 @@ import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
+import com.looker.core.common.BuildConfig as CommonBuildConfig
 import com.looker.core.common.R as CommonR
 
 @AndroidEntryPoint
@@ -41,6 +43,10 @@ class SettingsFragment : Fragment() {
 
 	companion object {
 		fun newInstance() = SettingsFragment()
+
+		private val localeCodesList: List<String> = CommonBuildConfig.DETECTED_LOCALES
+			.toList()
+			.updateAsMutable { add(0, "system") }
 	}
 
 	private val viewModel: SettingsViewModel by viewModels()
@@ -97,7 +103,7 @@ class SettingsFragment : Fragment() {
 					}
 				}
 				launch {
-					viewModel.userPreferencesFlow.collect(::updateUserPreference)
+					viewModel.settingsFlow.collect(::updateUserPreference)
 				}
 			}
 		}
@@ -236,31 +242,24 @@ class SettingsFragment : Fragment() {
 		}
 	}
 
-	private val languageList: List<String>
-		get() {
-			val list = com.looker.core.common.BuildConfig.DETECTED_LOCALES.toMutableList()
-			list.add(0, "system")
-			return list
-		}
-
-	private fun updateUserPreference(userPreferences: UserPreferences) {
+	private fun updateUserPreference(settings: Settings) {
 		with(binding) {
 			language.content.text =
-				translateLocale(context?.getLocaleOfCode(userPreferences.language))
+				translateLocale(context?.getLocaleOfCode(settings.language))
 			language.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.language,
-					values = languageList,
+					initialValue = settings.language,
+					values = localeCodesList,
 					title = CommonR.string.prefs_language_title,
 					iconRes = CommonR.drawable.ic_language,
 					onClick = viewModel::setLanguage,
 					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
 				).show()
 			}
-			theme.content.text = context.themeName(userPreferences.theme)
+			theme.content.text = context.themeName(settings.theme)
 			theme.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.theme,
+					initialValue = settings.theme,
 					values = Theme.entries,
 					title = CommonR.string.theme,
 					iconRes = CommonR.drawable.ic_themes,
@@ -268,13 +267,13 @@ class SettingsFragment : Fragment() {
 					valueToString = view.context::themeName
 				).show()
 			}
-			dynamicTheme.checked.isChecked = userPreferences.dynamicTheme
-			homeScreenSwiping.checked.isChecked = userPreferences.homeScreenSwiping
+			dynamicTheme.checked.isChecked = settings.dynamicTheme
+			homeScreenSwiping.checked.isChecked = settings.homeScreenSwiping
 			dynamicTheme.root.isVisible = SdkCheck.isSnowCake
-			cleanUp.content.text = userPreferences.cleanUpInterval.toTime(context)
+			cleanUp.content.text = settings.cleanUpInterval.toTime(context)
 			cleanUp.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.cleanUpInterval,
+					initialValue = settings.cleanUpInterval,
 					values = cleanUpIntervals,
 					valueToString = { it.toTime(context) },
 					title = CommonR.string.cleanup_title,
@@ -282,11 +281,11 @@ class SettingsFragment : Fragment() {
 					onClick = viewModel::setCleanUpInterval
 				).show()
 			}
-			forceCleanUp.root.isVisible = userPreferences.cleanUpInterval == Duration.INFINITE
-			autoSync.content.text = context.autoSyncName(userPreferences.autoSync)
+			forceCleanUp.root.isVisible = settings.cleanUpInterval == Duration.INFINITE
+			autoSync.content.text = context.autoSyncName(settings.autoSync)
 			autoSync.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.autoSync,
+					initialValue = settings.autoSync,
 					values = AutoSync.entries,
 					title = CommonR.string.sync_repositories_automatically,
 					iconRes = CommonR.drawable.ic_sync,
@@ -294,14 +293,14 @@ class SettingsFragment : Fragment() {
 					valueToString = view.context::autoSyncName
 				).show()
 			}
-			notifyUpdates.checked.isChecked = userPreferences.notifyUpdate
-			autoUpdate.checked.isChecked = userPreferences.autoUpdate
-			unstableUpdates.checked.isChecked = userPreferences.unstableUpdate
-			incompatibleUpdates.checked.isChecked = userPreferences.incompatibleVersions
-			proxyType.content.text = context.proxyName(userPreferences.proxy.type)
+			notifyUpdates.checked.isChecked = settings.notifyUpdate
+			autoUpdate.checked.isChecked = settings.autoUpdate
+			unstableUpdates.checked.isChecked = settings.unstableUpdate
+			incompatibleUpdates.checked.isChecked = settings.incompatibleVersions
+			proxyType.content.text = context.proxyName(settings.proxy.type)
 			proxyType.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.proxy.type,
+					initialValue = settings.proxy.type,
 					values = ProxyType.entries,
 					title = CommonR.string.proxy_type,
 					iconRes = CommonR.drawable.ic_proxy,
@@ -309,29 +308,29 @@ class SettingsFragment : Fragment() {
 					valueToString = view.context::proxyName
 				).show()
 			}
-			val allowProxies = userPreferences.proxy.type != ProxyType.DIRECT
+			val allowProxies = settings.proxy.type != ProxyType.DIRECT
 			proxyHost.root.isVisible = allowProxies
-			proxyHost.content.text = userPreferences.proxy.host
+			proxyHost.content.text = settings.proxy.host
 			proxyHost.root.setOnClickListener { view ->
 				view.addStringEditText(
-					initialValue = userPreferences.proxy.host,
+					initialValue = settings.proxy.host,
 					title = CommonR.string.proxy_host,
 					onFinish = viewModel::setProxyHost
 				).show()
 			}
 			proxyPort.root.isVisible = allowProxies
-			proxyPort.content.text = userPreferences.proxy.port.toString()
+			proxyPort.content.text = settings.proxy.port.toString()
 			proxyPort.root.setOnClickListener { view ->
 				view.addIntEditText(
-					initialValue = userPreferences.proxy.port,
+					initialValue = settings.proxy.port,
 					title = CommonR.string.proxy_host,
 					onFinish = viewModel::setProxyPort
 				).show()
 			}
-			installer.content.text = context.installerName(userPreferences.installerType)
+			installer.content.text = context.installerName(settings.installerType)
 			installer.root.setOnClickListener { view ->
 				view.addSingleCorrectDialog(
-					initialValue = userPreferences.installerType,
+					initialValue = settings.installerType,
 					values = InstallerType.entries,
 					title = CommonR.string.installer,
 					iconRes = CommonR.drawable.ic_download,

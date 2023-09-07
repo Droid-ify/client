@@ -3,8 +3,7 @@ package com.looker.droidify.ui.app_list
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.core.model.ProductItem.Section.All
@@ -14,19 +13,19 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
 @Inject constructor(
-	userPreferencesRepository: UserPreferencesRepository
+	settingsRepository: SettingsRepository
 ) : ViewModel() {
 
-	private val sortOrderFlow = userPreferencesRepository
-		.userPreferencesFlow
-		.getProperty { sortOrder }
+	private val sortOrderFlow = settingsRepository.get { sortOrder }
 
 	val reposStream = Database.RepositoryAdapter
 		.getAllStream()
@@ -64,11 +63,13 @@ class AppListViewModel
 				mSections,
 				mOrder
 			)
+
 			AppListFragment.Source.INSTALLED -> CursorOwner.Request.ProductsInstalled(
 				mSearchQuery,
 				mSections,
 				mOrder
 			)
+
 			AppListFragment.Source.UPDATES -> CursorOwner.Request.ProductsUpdates(
 				mSearchQuery,
 				mSections,

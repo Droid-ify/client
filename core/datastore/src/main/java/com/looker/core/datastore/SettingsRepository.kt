@@ -12,8 +12,7 @@ import java.io.IOException
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
-// TODO: rename to Settings
-data class UserPreferences(
+data class Settings(
 	val language: String,
 	val incompatibleVersions: Boolean,
 	val notifyUpdate: Boolean,
@@ -31,12 +30,9 @@ data class UserPreferences(
 	val homeScreenSwiping: Boolean
 )
 
-inline fun <T> Flow<UserPreferences>.getProperty(crossinline block: suspend UserPreferences.() -> T): Flow<T> =
-	map(block).distinctUntilChanged()
-
-class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
+class SettingsRepository(private val dataStore: DataStore<Preferences>) {
 	private companion object PreferencesKeys {
-		const val TAG: String = "UserPreferenceRepo"
+		const val TAG: String = "SettingsRepository"
 
 		val LANGUAGE = stringPreferencesKey("key_language")
 		val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
@@ -57,11 +53,14 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val HOME_SCREEN_SWIPING = booleanPreferencesKey("home_swiping")
 	}
 
-	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
+	val settingsFlow: Flow<Settings> = dataStore.data
 		.catch { exception ->
 			if (exception is IOException) Log.e(TAG, "Error reading preferences.", exception)
 			else throw exception
-		}.map(::mapUserPreferences)
+		}.map(::mapSettings)
+
+	inline fun <T> get(crossinline block: suspend Settings.() -> T): Flow<T> =
+		settingsFlow.map(block).distinctUntilChanged()
 
 	suspend fun setLanguage(language: String) =
 		LANGUAGE.update(language)
@@ -128,9 +127,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	}
 
 	suspend fun fetchInitialPreferences() =
-		mapUserPreferences(dataStore.data.first().toPreferences())
+		mapSettings(dataStore.data.first().toPreferences())
 
-	private fun mapUserPreferences(preferences: Preferences): UserPreferences {
+	private fun mapSettings(preferences: Preferences): Settings {
 		val defaultInstallerName = (InstallerType.Default).name
 
 		val language = preferences[LANGUAGE] ?: "system"
@@ -153,7 +152,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
 		val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
 
-		return UserPreferences(
+		return Settings(
 			language = language,
 			incompatibleVersions = incompatibleVersions,
 			notifyUpdate = notifyUpdate,

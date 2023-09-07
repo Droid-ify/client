@@ -5,7 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +29,7 @@ object DatastoreModule {
 
 	@Singleton
 	@Provides
-	fun provideUserPreferencesRepository(
+	fun provideSettingsRepository(
 		dataStore: DataStore<Preferences>
-	): UserPreferencesRepository = UserPreferencesRepository(dataStore)
+	): SettingsRepository = SettingsRepository(dataStore)
 }

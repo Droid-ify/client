@@ -39,7 +39,7 @@ import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.datastore.UserPreferences
+import com.looker.core.datastore.Settings
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.ProductPreference
@@ -585,7 +585,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		context: Context, packageName: String,
 		products: List<Pair<Product, Repository>>,
 		installedItem: InstalledItem?,
-		userPreferences: UserPreferences
+		settings: Settings
 	) {
 		val productRepository = Product.findSuggested(products, installedItem) { it.first }
 		items.clear()
@@ -856,7 +856,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			}
 		}
 
-		val incompatible = userPreferences.incompatibleVersions
+		val incompatible = settings.incompatibleVersions
 		val compatibleReleasePairs = products.asSequence()
 			.flatMap { (product, repository) ->
 				product.releases.asSequence()
@@ -894,7 +894,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				items += releaseItems
 			}
 		}
-		isFavourite = packageName in userPreferences.favouriteApps
+		isFavourite = packageName in settings.favouriteApps
 
 		if (items.isEmpty()) items += Item.EmptyItem(packageName)
 

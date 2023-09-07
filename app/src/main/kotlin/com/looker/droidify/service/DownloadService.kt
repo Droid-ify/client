@@ -13,8 +13,7 @@ import com.looker.core.common.*
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.*
 import com.looker.core.common.signature.ValidationException
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.model.Release
 import com.looker.core.model.Repository
@@ -42,13 +41,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	}
 
 	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
+	lateinit var settingsRepository: SettingsRepository
 
 	@Inject
 	lateinit var downloader: Downloader
 
 	private val installerType
-		get() = userPreferencesRepository.userPreferencesFlow.getProperty { installerType }
+		get() = settingsRepository.get { installerType }
 
 	@Inject
 	lateinit var installer: InstallManager

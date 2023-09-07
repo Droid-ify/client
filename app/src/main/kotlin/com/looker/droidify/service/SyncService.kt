@@ -18,8 +18,8 @@ import androidx.fragment.app.Fragment
 import com.looker.core.common.*
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result
-import com.looker.core.datastore.UserPreferences
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.Settings
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
@@ -54,11 +54,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	}
 
 	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
+	lateinit var settingsRepository: SettingsRepository
 
-	private val initialPreference: Flow<UserPreferences>
+	private val initialPreference: Flow<Settings>
 		get() = flow {
-			emit(userPreferencesRepository.fetchInitialPreferences())
+			emit(settingsRepository.fetchInitialPreferences())
 		}
 
 	private sealed interface State {

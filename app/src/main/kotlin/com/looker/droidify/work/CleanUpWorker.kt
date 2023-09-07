@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.*
 import com.looker.core.common.cache.Cache
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +17,7 @@ import kotlin.time.toJavaDuration
 class CleanUpWorker @AssistedInject constructor(
 	@Assisted context: Context,
 	@Assisted workerParams: WorkerParameters,
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val settingsRepository: SettingsRepository
 ) : CoroutineWorker(context, workerParams) {
 	companion object {
 		private const val TAG = "CleanUpWorker"
@@ -57,7 +57,7 @@ class CleanUpWorker @AssistedInject constructor(
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 		try {
 			Log.i(TAG, "doWork: Started Cleanup")
-			userPreferencesRepository.setCleanupInstant()
+			settingsRepository.setCleanupInstant()
 			Cache.cleanup(applicationContext)
 			Result.success()
 		} catch (e: Exception) {

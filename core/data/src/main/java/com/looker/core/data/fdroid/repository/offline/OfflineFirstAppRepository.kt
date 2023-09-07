@@ -4,8 +4,7 @@ import com.looker.core.data.fdroid.repository.AppRepository
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.model.*
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.newer.*
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -17,12 +16,10 @@ import javax.inject.Inject
 class OfflineFirstAppRepository @Inject constructor(
 	installedDao: InstalledDao,
 	private val appDao: AppDao,
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val settingsRepository: SettingsRepository
 ) : AppRepository {
 
-	private val localePreference = userPreferencesRepository
-		.userPreferencesFlow
-		.getProperty { language }
+	private val localePreference = settingsRepository.get { language }
 
 	private val installedFlow = installedDao.getInstalledStream()
 
@@ -42,13 +39,13 @@ class OfflineFirstAppRepository @Inject constructor(
 	override suspend fun addToFavourite(packageName: PackageName): Boolean = coroutineScope {
 		val isFavourite =
 			async {
-				userPreferencesRepository
+				settingsRepository
 					.fetchInitialPreferences()
 					.favouriteApps
 					.any { it == packageName.name }
 			}
 		launch {
-			userPreferencesRepository.toggleFavourites(packageName.name)
+			settingsRepository.toggleFavourites(packageName.name)
 		}
 		!isFavourite.await()
 	}

@@ -6,7 +6,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.toLocale
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.*
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
@@ -20,11 +20,11 @@ import com.looker.core.common.R as CommonR
 @HiltViewModel
 class SettingsViewModel
 @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository,
+	private val settingsRepository: SettingsRepository,
 	private val shizukuPermissionHandler: ShizukuPermissionHandler
 ) : ViewModel() {
 
-	val userPreferencesFlow get() = userPreferencesRepository.userPreferencesFlow
+	val settingsFlow get() = settingsRepository.settingsFlow
 
 	private val _snackbarStringId = MutableSharedFlow<Int>()
 	val snackbarStringId = _snackbarStringId.asSharedFlow()
@@ -33,31 +33,31 @@ class SettingsViewModel
 		viewModelScope.launch {
 			val appLocale = LocaleListCompat.create(language.toLocale())
 			AppCompatDelegate.setApplicationLocales(appLocale)
-			userPreferencesRepository.setLanguage(language)
+			settingsRepository.setLanguage(language)
 		}
 	}
 
 	fun setTheme(theme: Theme) {
 		viewModelScope.launch {
-			userPreferencesRepository.setTheme(theme)
+			settingsRepository.setTheme(theme)
 		}
 	}
 
 	fun setDynamicTheme(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.setDynamicTheme(enable)
+			settingsRepository.setDynamicTheme(enable)
 		}
 	}
 
 	fun setHomeScreenSwiping(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.setHomeScreenSwiping(enable)
+			settingsRepository.setHomeScreenSwiping(enable)
 		}
 	}
 
 	fun setCleanUpInterval(interval: Duration) {
 		viewModelScope.launch {
-			userPreferencesRepository.setCleanUpInterval(interval)
+			settingsRepository.setCleanUpInterval(interval)
 		}
 	}
 
@@ -69,55 +69,55 @@ class SettingsViewModel
 
 	fun setAutoSync(autoSync: AutoSync) {
 		viewModelScope.launch {
-			userPreferencesRepository.setAutoSync(autoSync)
+			settingsRepository.setAutoSync(autoSync)
 		}
 	}
 
 	fun setNotifyUpdates(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.enableNotifyUpdates(enable)
+			settingsRepository.enableNotifyUpdates(enable)
 		}
 	}
 
 	fun setAutoUpdate(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.setAutoUpdate(enable)
+			settingsRepository.setAutoUpdate(enable)
 		}
 	}
 
 	fun setUnstableUpdates(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.enableUnstableUpdates(enable)
+			settingsRepository.enableUnstableUpdates(enable)
 		}
 	}
 
 	fun setIncompatibleUpdates(enable: Boolean) {
 		viewModelScope.launch {
-			userPreferencesRepository.enableIncompatibleVersion(enable)
+			settingsRepository.enableIncompatibleVersion(enable)
 		}
 	}
 
 	fun setProxyType(proxyType: ProxyType) {
 		viewModelScope.launch {
-			userPreferencesRepository.setProxyType(proxyType)
+			settingsRepository.setProxyType(proxyType)
 		}
 	}
 
 	fun setProxyHost(proxyHost: String) {
 		viewModelScope.launch {
-			userPreferencesRepository.setProxyHost(proxyHost)
+			settingsRepository.setProxyHost(proxyHost)
 		}
 	}
 
 	fun setProxyPort(proxyPort: Int) {
 		viewModelScope.launch {
-			userPreferencesRepository.setProxyPort(proxyPort)
+			settingsRepository.setProxyPort(proxyPort)
 		}
 	}
 
 	fun setInstaller(installerType: InstallerType) {
 		viewModelScope.launch {
-			userPreferencesRepository.setInstallerType(installerType)
+			settingsRepository.setInstallerType(installerType)
 			if (installerType == InstallerType.SHIZUKU) handleShizuku()
 		}
 	}

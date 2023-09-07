@@ -22,9 +22,8 @@ import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
-import com.looker.core.datastore.getProperty
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.app_detail.AppDetailFragment
@@ -104,7 +103,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	@EntryPoint
 	@InstallIn(SingletonComponent::class)
 	interface CustomUserRepositoryInjector {
-		fun userPreferencesRepository(): UserPreferencesRepository
+		fun settingsRepository(): SettingsRepository
 	}
 
 	private fun collectChange() {
@@ -113,18 +112,18 @@ abstract class ScreenActivity : AppCompatActivity() {
 				this,
 				CustomUserRepositoryInjector::class.java
 			)
-		val newPreferences = hiltEntryPoint.userPreferencesRepository().userPreferencesFlow
+		val newSettings = hiltEntryPoint.settingsRepository()
+			.get { theme to dynamicTheme }
 		lifecycleScope.launch {
-			newPreferences.getProperty { theme to dynamicTheme }
-				.collectIndexed { index, themeAndDynamic ->
-					setTheme(
-						resources.configuration.getThemeRes(
-							themeAndDynamic.first,
-							themeAndDynamic.second
-						)
+			newSettings.collectIndexed { index, themeAndDynamic ->
+				setTheme(
+					resources.configuration.getThemeRes(
+						themeAndDynamic.first,
+						themeAndDynamic.second
 					)
-					if (index > 0) recreate()
-				}
+				)
+				if (index > 0) recreate()
+			}
 		}
 	}
 
@@ -147,11 +146,13 @@ abstract class ScreenActivity : AppCompatActivity() {
 				Manifest.permission.POST_NOTIFICATIONS
 			) == PackageManager.PERMISSION_GRANTED -> {
 			}
+
 			shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
 				sdkAbove(Build.VERSION_CODES.TIRAMISU) {
 					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
 				}
 			}
+
 			else -> {
 				sdkAbove(Build.VERSION_CODES.TIRAMISU) {
 					notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -270,6 +271,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 				val tabsFragment = currentFragment as TabsFragment
 				tabsFragment.selectUpdates()
 			}
+
 			is SpecialIntent.Install -> {
 				val packageName = specialIntent.packageName
 				if (!packageName.isNullOrEmpty()) {

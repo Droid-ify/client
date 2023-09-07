@@ -4,8 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.Database
@@ -17,17 +16,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class TabsViewModel @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository,
+	private val settingsRepository: SettingsRepository,
 	private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-	val currentSection = savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
+	val currentSection =
+		savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
 
-	private val userPreferencesFlow = userPreferencesRepository.userPreferencesFlow
+	val sortOrder = settingsRepository.get { sortOrder }
 
-	val sortOrder = userPreferencesFlow.getProperty { sortOrder }
-
-	val allowHomeScreenSwiping = userPreferencesFlow.getProperty { homeScreenSwiping }
+	val allowHomeScreenSwiping = settingsRepository.get { homeScreenSwiping }
 
 	val sections =
 		combine(
@@ -54,7 +52,7 @@ class TabsViewModel @Inject constructor(
 
 	fun setSortOrder(sortOrder: SortOrder) {
 		viewModelScope.launch {
-			userPreferencesRepository.setSortOrder(sortOrder)
+			settingsRepository.setSortOrder(sortOrder)
 		}
 	}
 

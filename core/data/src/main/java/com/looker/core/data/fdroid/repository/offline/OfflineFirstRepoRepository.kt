@@ -9,7 +9,7 @@ import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.toExternal
 import com.looker.core.database.model.update
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.newer.Repo
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
@@ -20,14 +20,14 @@ import javax.inject.Inject
 class OfflineFirstRepoRepository @Inject constructor(
 	private val appDao: AppDao,
 	private val repoDao: RepoDao,
-	private val userPreferencesRepository: UserPreferencesRepository,
+	private val settingsRepository: SettingsRepository,
 	private val indexManager: IndexManager,
 	@DefaultDispatcher private val dispatcher: CoroutineDispatcher,
 	@ApplicationScope private val scope: CoroutineScope
 ) : RepoRepository {
 
 	private val preference = runBlocking {
-		userPreferencesRepository.fetchInitialPreferences()
+		settingsRepository.fetchInitialPreferences()
 	}
 
 	private val locale = preference.language

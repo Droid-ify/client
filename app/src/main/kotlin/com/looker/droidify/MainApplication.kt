@@ -52,8 +52,7 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	private val appScope = CoroutineScope(Dispatchers.Default + parentJob)
 
 	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
-	private val userPreferenceFlow get() = userPreferencesRepository.userPreferencesFlow
+	lateinit var settingsRepository: SettingsRepository
 
 	@Inject
 	lateinit var installer: InstallManager
@@ -90,13 +89,13 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	private fun setupInstaller() {
 		appScope.launch {
 			launch {
-				userPreferenceFlow.getProperty { installerType }.collect {
+				settingsRepository.get { installerType }.collect {
 					if (it == InstallerType.SHIZUKU) handleShizukuInstaller()
 					if (it == InstallerType.ROOT) {
 						Shell.getCachedShell() ?: Shell.getShell()
 						val isRooted = Shell.isAppGrantedRoot() ?: false
 						if (!isRooted) {
-							userPreferencesRepository.setInstallerType(InstallerType.Default)
+							settingsRepository.setInstallerType(InstallerType.Default)
 						}
 					}
 				}
@@ -109,14 +108,14 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 		shizukuPermissionHandler.state.collect { (isGranted, isAlive, _) ->
 			if (isAlive) {
 				if (isGranted) {
-					userPreferencesRepository.setInstallerType(InstallerType.SHIZUKU)
+					settingsRepository.setInstallerType(InstallerType.SHIZUKU)
 					return@collect
 				} else {
-					userPreferencesRepository.setInstallerType(InstallerType.Default)
+					settingsRepository.setInstallerType(InstallerType.Default)
 					shizukuPermissionHandler.requestPermission()
 				}
 			} else {
-				userPreferencesRepository.setInstallerType(InstallerType.Default)
+				settingsRepository.setInstallerType(InstallerType.Default)
 			}
 		}
 	}
@@ -134,10 +133,10 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 
 	private fun checkLanguage() {
 		appScope.launch {
-			val lastSetLanguage = userPreferencesRepository.fetchInitialPreferences().language
+			val lastSetLanguage = settingsRepository.fetchInitialPreferences().language
 			val systemSetLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags()
 			if (systemSetLanguage != lastSetLanguage && lastSetLanguage != "system") {
-				userPreferencesRepository.setLanguage(systemSetLanguage)
+				settingsRepository.setLanguage(systemSetLanguage)
 			}
 		}
 	}
@@ -145,26 +144,24 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	private fun updatePreference() {
 		appScope.launch {
 			launch {
-				userPreferenceFlow.getProperty { unstableUpdate }.drop(1).collect {
+				settingsRepository.get { unstableUpdate }.drop(1).collect {
 					forceSyncAll()
 				}
 			}
 			launch {
-				userPreferenceFlow.getProperty { autoSync }.collectIndexed { index, syncMode ->
+				settingsRepository.get { autoSync }.collectIndexed { index, syncMode ->
 					// Don't update sync job on initial collect
 					updateSyncJob(index > 0, syncMode)
 				}
 			}
 			launch {
-				userPreferenceFlow.getProperty { cleanUpInterval }.collect {
+				settingsRepository.get { cleanUpInterval }.collect {
 					if (it == INFINITE) CleanUpWorker.removeAllSchedules(applicationContext)
 					else CleanUpWorker.scheduleCleanup(applicationContext, it)
 				}
 			}
 			launch {
-				userPreferenceFlow
-					.getProperty { proxy }
-					.collect(::updateProxy)
+				settingsRepository.get { proxy }.collect(::updateProxy)
 			}
 		}
 	}

@@ -3,8 +3,7 @@ package com.looker.droidify.ui.favourites
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.UserPreferencesRepository
-import com.looker.core.datastore.getProperty
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.Product
 import com.looker.droidify.database.Database
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,12 +14,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavouritesViewModel @Inject constructor(
-	private val userPreferencesRepository: UserPreferencesRepository
+	private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
 	val favouriteApps: StateFlow<List<List<Product>>> =
-		userPreferencesRepository.userPreferencesFlow
-			.getProperty { favouriteApps }
+		settingsRepository
+			.get { favouriteApps }
 			.map { favourites ->
 				favourites.mapNotNull { app ->
 					Database.ProductAdapter.get(app, null).ifEmpty { null }
@@ -29,7 +28,7 @@ class FavouritesViewModel @Inject constructor(
 
 	fun updateFavourites(packageName: String) {
 		viewModelScope.launch {
-			userPreferencesRepository.toggleFavourites(packageName)
+			settingsRepository.toggleFavourites(packageName)
 		}
 	}
 }

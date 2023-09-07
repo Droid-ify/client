@@ -1,7 +1,7 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.Module
 import dagger.Provides
@@ -18,8 +18,8 @@ object InstallModule {
 	@Provides
 	fun providesInstaller(
 		@ApplicationContext context: Context,
-		userPreferencesRepository: UserPreferencesRepository
-	): InstallManager = InstallManager(context, userPreferencesRepository)
+		settingsRepository: SettingsRepository
+	): InstallManager = InstallManager(context, settingsRepository)
 
 	@Singleton
 	@Provides

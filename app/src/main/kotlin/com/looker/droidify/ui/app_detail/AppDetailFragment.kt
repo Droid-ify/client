@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.*
-import com.looker.core.datastore.UserPreferencesRepository
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.*
 import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
@@ -82,7 +82,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	lateinit var installer: InstallManager
 
 	@Inject
-	lateinit var userPreferencesRepository: UserPreferencesRepository
+	lateinit var settingsRepository: SettingsRepository
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -167,7 +167,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 							packageName,
 							products,
 							state.installedItem,
-							userPreferencesRepository.fetchInitialPreferences()
+							settingsRepository.fetchInitialPreferences()
 						)
 						updateButtons()
 					}
@@ -392,7 +392,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	override fun onFavouriteClicked() {
 		lifecycleScope.launch {
-			userPreferencesRepository.toggleFavourites(packageName)
+			settingsRepository.toggleFavourites(packageName)
 		}
 	}
 
