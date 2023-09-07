@@ -49,6 +49,12 @@ class SettingsViewModel
 		}
 	}
 
+	fun setHomeScreenSwiping(enable: Boolean) {
+		viewModelScope.launch {
+			userPreferencesRepository.setHomeScreenSwiping(enable)
+		}
+	}
+
 	fun setCleanUpInterval(interval: Duration) {
 		viewModelScope.launch {
 			userPreferencesRepository.setCleanUpInterval(interval)

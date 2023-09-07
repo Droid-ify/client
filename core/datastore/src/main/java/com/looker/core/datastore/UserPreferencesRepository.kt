@@ -4,22 +4,6 @@ import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import com.looker.core.common.extension.updateAsMutable
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_SYNC
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.AUTO_UPDATE
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.CLEAN_UP_INTERVAL
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.DYNAMIC_THEME
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.FAVOURITE_APPS
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INCOMPATIBLE_VERSIONS
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.INSTALLER_TYPE
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.LANGUAGE
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.LAST_CLEAN_UP
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.NOTIFY_UPDATES
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_HOST
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_PORT
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.PROXY_TYPE
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.SORT_ORDER
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.THEME
-import com.looker.core.datastore.UserPreferencesRepository.PreferencesKeys.UNSTABLE_UPDATES
 import com.looker.core.datastore.model.*
 import kotlinx.coroutines.flow.*
 import kotlinx.datetime.Clock
@@ -43,16 +27,17 @@ data class UserPreferences(
 	val proxy: ProxyPreference,
 	val cleanUpInterval: Duration,
 	val lastCleanup: Instant?,
-	val favouriteApps: Set<String>
+	val favouriteApps: Set<String>,
+	val homeScreenSwiping: Boolean
 )
 
 inline fun <T> Flow<UserPreferences>.getProperty(crossinline block: suspend UserPreferences.() -> T): Flow<T> =
 	map(block).distinctUntilChanged()
 
 class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
-	private val tag: String = "UserPreferenceRepo"
+	private companion object PreferencesKeys {
+		const val TAG: String = "UserPreferenceRepo"
 
-	private object PreferencesKeys {
 		val LANGUAGE = stringPreferencesKey("key_language")
 		val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
 		val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
@@ -69,11 +54,12 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val CLEAN_UP_INTERVAL = longPreferencesKey("clean_up_interval")
 		val LAST_CLEAN_UP = longPreferencesKey("last_clean_up_time")
 		val FAVOURITE_APPS = stringSetPreferencesKey("favourite_apps")
+		val HOME_SCREEN_SWIPING = booleanPreferencesKey("home_swiping")
 	}
 
 	val userPreferencesFlow: Flow<UserPreferences> = dataStore.data
 		.catch { exception ->
-			if (exception is IOException) Log.e(tag, "Error reading preferences.", exception)
+			if (exception is IOException) Log.e(TAG, "Error reading preferences.", exception)
 			else throw exception
 		}.map(::mapUserPreferences)
 
@@ -122,6 +108,9 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 	suspend fun setCleanupInstant() =
 		LAST_CLEAN_UP.update(Clock.System.now().toEpochMilliseconds())
 
+	suspend fun setHomeScreenSwiping(value: Boolean) =
+		HOME_SCREEN_SWIPING.update(value)
+
 	suspend fun toggleFavourites(packageName: String) {
 		dataStore.edit { preference ->
 			val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
@@ -162,6 +151,7 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 		val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
 		val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
 		val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
+		val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
 
 		return UserPreferences(
 			language = language,
@@ -177,7 +167,8 @@ class UserPreferencesRepository(private val dataStore: DataStore<Preferences>) {
 			proxy = proxy,
 			cleanUpInterval = cleanUpInterval,
 			lastCleanup = lastCleanup,
-			favouriteApps = favouriteApps
+			favouriteApps = favouriteApps,
+			homeScreenSwiping = homeScreenSwiping
 		)
 	}
 }

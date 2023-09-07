@@ -60,6 +60,10 @@
                 layout="@layout/switch_type" />
 
             <include
+                android:id="@+id/home_screen_swiping"
+                layout="@layout/switch_type" />
+
+            <include
                 android:id="@+id/clean_up"
                 layout="@layout/enum_type" />
 

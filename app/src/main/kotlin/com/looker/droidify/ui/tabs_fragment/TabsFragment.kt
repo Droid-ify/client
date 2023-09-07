@@ -40,6 +40,7 @@ import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.widget.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -252,12 +253,17 @@ class TabsFragment : ScreenFragment() {
 				launch {
 					viewModel.currentSection.collect(::updateSection)
 				}
+				launch {
+					viewModel.allowHomeScreenSwiping.collect {
+						viewPager?.isUserInputEnabled = it
+					}
+				}
 			}
 		}
 
 		val backgroundPath = ShapeAppearanceModel.builder()
 			.setAllCornerSizes(
-				context?.resources?.getDimension(CommonR.dimen.shape_medium_corner) ?: 0F
+				context?.resources?.getDimension(CommonR.dimen.shape_large_corner) ?: 0F
 			)
 			.build()
 		val sectionBackground = MaterialShapeDrawable(backgroundPath)
