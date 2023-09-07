@@ -213,4 +213,6 @@
     <string name="shizuku_not_alive">Shizuku 未运行</string>
     <string name="shizuku_not_installed">Shizuku 未安装</string>
     <string name="special_credits">特别鸣谢</string>
+    <string name="home_screen_swiping">主屏幕滑动</string>
+    <string name="home_screen_swiping_DESC">允许用户在页面之间进行滑动切换</string>
 </resources>
