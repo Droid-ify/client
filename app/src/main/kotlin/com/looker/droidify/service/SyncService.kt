@@ -27,7 +27,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.utility.Utils
+import com.looker.droidify.utility.extension.startUpdate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -477,11 +477,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
 					.filter { it.repositoryId == repo!!.id }
 					.map { it to repo!! }
-				Utils.startUpdate(
+				downloadConnection.startUpdate(
 					installItem.packageName,
 					installItem,
-					productRepo,
-					downloadConnection
+					productRepo
 				)
 			}
 	}

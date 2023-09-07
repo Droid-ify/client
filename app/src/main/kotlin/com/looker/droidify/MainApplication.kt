@@ -29,7 +29,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
-import com.looker.droidify.utility.Utils.toInstalledItem
+import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.InstallManager
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler

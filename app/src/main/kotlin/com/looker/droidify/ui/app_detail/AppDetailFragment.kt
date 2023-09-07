@@ -28,8 +28,8 @@ import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
-import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.startUpdate
 import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallerQueueState
 import com.looker.installer.model.installFrom
@@ -323,7 +323,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 		lifecycleScope.launch {
 			if (state.currentItem is DownloadService.State.Success && isResumed) {
-				val installItem = state.currentItem.packageName installFrom state.currentItem.release.cacheFileName
+				val installItem =
+					state.currentItem.packageName installFrom state.currentItem.release.cacheFileName
 				installer + installItem
 			}
 		}
@@ -333,11 +334,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		when (action) {
 			AppDetailAdapter.Action.INSTALL,
 			AppDetailAdapter.Action.UPDATE,
-			-> startUpdate(
+			-> downloadConnection.startUpdate(
 				packageName,
 				installed?.installedItem,
-				products,
-				downloadConnection
+				products
 			)
 
 			AppDetailAdapter.Action.LAUNCH -> {

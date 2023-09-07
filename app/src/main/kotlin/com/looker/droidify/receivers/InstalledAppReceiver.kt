@@ -4,9 +4,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import com.looker.droidify.database.Database
-import com.looker.droidify.utility.Utils.toInstalledItem
 import com.looker.core.common.extension.getPackageInfoCompat
+import com.looker.droidify.database.Database
+import com.looker.droidify.utility.extension.toInstalledItem
 
 class InstalledAppReceiver(private val packageManager: PackageManager) : BroadcastReceiver() {
 	override fun onReceive(context: Context, intent: Intent) {
