@@ -219,4 +219,6 @@
     <string name="shizuku_not_installed">Shizuku není nainstalováno</string>
     <string name="contains_nsfw">Obsahuje obsah nevhodný do práce</string>
     <string name="special_credits">Speciální poděkování</string>
+    <string name="home_screen_swiping">Posouvání na domovské stránce</string>
+    <string name="home_screen_swiping_DESC">Umožnit uživateli posouvat mezi stránkami na domovské stránce</string>
 </resources>
