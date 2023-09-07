@@ -219,4 +219,6 @@
     <string name="shizuku_not_installed">Shizuku n\'est pas installé</string>
     <string name="contains_nsfw">Contient des contenus non adaptés pour le travail</string>
     <string name="special_credits">Crédits spéciaux</string>
+    <string name="home_screen_swiping">Balayage de l\'écran d\'accueil</string>
+    <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
 </resources>
