@@ -215,4 +215,7 @@
     <string name="contains_nsfw">Enthält für den Arbeitsplatz unangemessene Inhalte</string>
     <string name="connection_error_DESC">Verbindung zum Server nicht möglich</string>
     <string name="shizuku_not_installed">Shizuku ist nicht installiert</string>
+    <string name="home_screen_swiping">Wischgesten</string>
+    <string name="home_screen_swiping_DESC">Dem Benutzer erlauben, auf dem Startbildschirm zwischen den Seiten zu wischen</string>
+    <string name="special_credits">Besonderer Dank</string>
 </resources>
