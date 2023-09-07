@@ -10,9 +10,5 @@ data class InstallerQueueState(
 }
 
 operator fun InstallerQueueState.contains(packageName: String): Boolean {
-	return packageName in queued || packageName isInstalling this
+	return packageName in queued || packageName in currentItem
 }
-
-infix fun String.isInstalling(state: InstallerQueueState): Boolean =
-	this == state.currentItem.currentItem.packageName.name
-			&& state.currentItem.state == InstallState.Installing

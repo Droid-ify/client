@@ -13,6 +13,7 @@ import com.looker.installer.model.contains
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.onCompletion
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,7 +30,6 @@ class AppDetailViewModel @Inject constructor(
 
 	val installerState = installer
 		.getStatus()
-		.filter { packageName in it }
 		.asStateFlow(InstallerQueueState.EMPTY)
 
 	val state by  lazy {

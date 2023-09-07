@@ -15,6 +15,9 @@ data class InstallItemState(
 	companion object {
 		val EMPTY = InstallItemState(InstallItem("".toPackageName(), ""), InstallState.Installed)
 	}
+
+	operator fun contains(name: String): Boolean =
+		currentItem.packageName.name == name && state == InstallState.Installing
 }
 
 infix fun InstallItem.statesTo(state: InstallState) = InstallItemState(this, state)

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -31,7 +32,9 @@ import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
-import com.looker.installer.model.*
+import com.looker.installer.model.InstallerQueueState
+import com.looker.installer.model.contains
+import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -280,9 +283,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private fun updateInstallState(installerState: InstallerQueueState) {
-		val status = if (packageName isInstalling installerState) AppDetailAdapter.Status.Installing
-		else if (packageName in installerState.queued) AppDetailAdapter.Status.PendingInstall
-		else AppDetailAdapter.Status.Idle
+		Log.e("tag", "Package Name: $packageName, State: $installerState")
+		val status =
+			when (packageName) {
+				in installerState.currentItem -> AppDetailAdapter.Status.Installing
+				in installerState.queued -> AppDetailAdapter.Status.PendingInstall
+				else -> AppDetailAdapter.Status.Idle
+			}
 		val installing = status != AppDetailAdapter.Status.Idle
 		if (this.installing != installing) {
 			this.installing = installing
