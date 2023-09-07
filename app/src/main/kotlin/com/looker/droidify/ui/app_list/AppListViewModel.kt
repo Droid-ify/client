@@ -45,7 +45,9 @@ class AppListViewModel
 	val syncConnection = Connection(SyncService::class.java)
 
 	fun updateAll() {
-		syncConnection.binder?.updateAllApps()
+		viewModelScope.launch {
+			syncConnection.binder?.updateAllApps()
+		}
 	}
 
 	fun request(source: AppListFragment.Source): CursorOwner.Request {

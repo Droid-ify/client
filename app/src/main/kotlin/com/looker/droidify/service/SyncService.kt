@@ -125,7 +125,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			}
 		}
 
-		fun updateAllApps() {
+		suspend fun updateAllApps() {
 			updateAllAppsInternal()
 		}
 
@@ -463,16 +463,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		currentTask = CurrentTask(task, job, hasUpdates, initialState)
 	}
 
-	private fun updateAllAppsInternal() {
-		val products = Database.ProductAdapter.query(
-			installed = true,
-			updates = true,
-			searchQuery = "",
-			section = ProductItem.Section.All,
-			order = SortOrder.NAME,
-			signal = null
-		).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
-		products
+	private suspend fun updateAllAppsInternal() {
+		Database.ProductAdapter
+			.getUpdatesStream().first()
+			// Update Droid-ify the last
+			.sortedBy { if (it.packageName == packageName) 1 else -1 }
 			.map {
 				Database.InstalledAdapter.get(it.packageName, null) to
 						Database.RepositoryAdapter.get(it.repositoryId)
