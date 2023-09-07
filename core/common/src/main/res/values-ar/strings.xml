@@ -228,4 +228,6 @@
     <string name="shizuku_not_alive">شيزوكو لايعمل</string>
     <string name="shizuku_not_installed">شيزوكو غير مثبت</string>
     <string name="special_credits">شكر خاص</string>
+    <string name="home_screen_swiping">ايماءات الشاشة الرئيسية</string>
+    <string name="home_screen_swiping_DESC">السماح للمستخدم بالتمرير بين الصفحات في الشاشة الرئيسية</string>
 </resources>
