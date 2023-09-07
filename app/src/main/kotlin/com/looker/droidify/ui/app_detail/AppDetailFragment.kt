@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -33,7 +32,6 @@ import com.looker.droidify.utility.Utils.startUpdate
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallerQueueState
-import com.looker.installer.model.contains
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -283,7 +281,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	private fun updateInstallState(installerState: InstallerQueueState) {
-		Log.e("tag", "Package Name: $packageName, State: $installerState")
 		val status =
 			when (packageName) {
 				in installerState.currentItem -> AppDetailAdapter.Status.Installing
@@ -326,7 +323,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 		lifecycleScope.launch {
 			if (state.currentItem is DownloadService.State.Success && isResumed) {
-				val installItem = packageName installFrom state.currentItem.release.cacheFileName
+				val installItem = state.currentItem.packageName installFrom state.currentItem.release.cacheFileName
 				installer + installItem
 			}
 		}
