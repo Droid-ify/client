@@ -223,4 +223,6 @@
     <string name="shizuku_not_alive">Shizuku не запущен</string>
     <string name="shizuku_not_installed">Shizuku не установлен</string>
     <string name="special_credits">Особая благодарность</string>
+    <string name="home_screen_swiping">Жесты на Домашнем экране</string>
+    <string name="home_screen_swiping_DESC">Разрешить использование жестов на главном экране</string>
 </resources>
