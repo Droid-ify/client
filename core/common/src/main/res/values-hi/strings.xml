@@ -216,4 +216,6 @@
     <string name="shizuku_not_alive">Shizuku नहीं चल रहा है</string>
     <string name="shizuku_not_installed">Shizuku इंस्टाल नहीं है</string>
     <string name="special_credits">विशेष श्रेय</string>
+    <string name="home_screen_swiping">होम स्क्रीन स्वाइपिंग</string>
+    <string name="home_screen_swiping_DESC">उपयोगकर्ता को होम स्क्रीन में पृष्ठों के बीच स्वाइप करने की अनुमति दें</string>
 </resources>
