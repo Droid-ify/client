@@ -140,7 +140,7 @@
     <string name="sorting_order">Сортировка</string>
     <string name="source_code">Исходный код</string>
     <string name="source_code_no_longer_available">Исходный код более не доступен</string>
-    <string name="suggested">Рекомендации</string>
+    <string name="suggested">Рекомендуется</string>
     <string name="sync_repositories">Синхронизировать репозитории</string>
     <string name="sync_repositories_automatically">Автоcинхронизация репозиториев</string>
     <string name="syncing">Синхронизация</string>
