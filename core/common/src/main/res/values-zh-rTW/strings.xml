@@ -213,4 +213,6 @@
     <string name="shizuku_not_installed">Shizuku 未安裝</string>
     <string name="contains_nsfw">包含不適宜工作環境內容</string>
     <string name="special_credits">特別感謝</string>
+    <string name="home_screen_swiping">首頁畫面滑動</string>
+    <string name="home_screen_swiping_DESC">允許使用者在首頁畫面之間進行滑動切換</string>
 </resources>
