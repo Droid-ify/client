@@ -222,12 +222,12 @@
     <string name="auto_update">حدِّث التطبيقات تلقائيًّا</string>
     <string name="auto_update_apps">حاول تثبيت التحديثات تلقائيًّا</string>
     <string name="has_non_free_components">يحتوي على مكونات غير حرة</string>
-    <string name="socket_error_DESC">فشل الخادم في توفير حزمة جديدة.</string>
+    <string name="socket_error_DESC">فشل الخادوم في توفير حزمة جديدة.</string>
     <string name="connection_error_DESC">لا يمكن الاتصال بالخادم</string>
     <string name="contains_nsfw">يحتوي على محتوى غير آمن للعمل</string>
-    <string name="shizuku_not_alive">شيزوكو لايعمل</string>
+    <string name="shizuku_not_alive">شيزوكو لا يعمل</string>
     <string name="shizuku_not_installed">شيزوكو غير مثبت</string>
     <string name="special_credits">شكر خاص</string>
-    <string name="home_screen_swiping">ايماءات الشاشة الرئيسية</string>
-    <string name="home_screen_swiping_DESC">السماح للمستخدم بالتمرير بين الصفحات في الشاشة الرئيسية</string>
+    <string name="home_screen_swiping">ايماءات الشاشة الرئيسة</string>
+    <string name="home_screen_swiping_DESC">اسمح للمستخدم بالتمرير بين الصفحات في الشاشة الرئيسة</string>
 </resources>
