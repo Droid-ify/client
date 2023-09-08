@@ -219,4 +219,6 @@
     <string name="contains_nsfw">Contenido no apto para el trabajo</string>
     <string name="shizuku_not_installed">Shizuku no está instalado</string>
     <string name="special_credits">Gracias a</string>
+    <string name="home_screen_swiping">Deslizar la pantalla de inicio</string>
+    <string name="home_screen_swiping_DESC">Permite al usuario pasar de una página a otra en la pantalla de inicio</string>
 </resources>
