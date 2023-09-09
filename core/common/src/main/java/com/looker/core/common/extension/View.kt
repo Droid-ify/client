@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
+import kotlin.math.min
 import kotlin.math.roundToInt
 
 fun TextView.setTextSizeScaled(size: Int) {
@@ -35,3 +36,12 @@ val RecyclerView.firstItemPosition: Flow<Int>
 
 val RecyclerView.isFirstItemVisible: Flow<Boolean>
 	get() = firstItemPosition.map { it == 0 }.distinctUntilChanged()
+
+val View.minDimension: Int
+	get() = (min(
+		layoutParams.width,
+		layoutParams.height
+	) / resources.displayMetrics.density).roundToInt()
+
+val View.dpi: Int
+	get() = (context.resources.displayMetrics.densityDpi * minDimension) / 48

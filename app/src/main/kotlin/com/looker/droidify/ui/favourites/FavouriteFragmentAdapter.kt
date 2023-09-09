@@ -61,15 +61,9 @@ class FavouriteFragmentAdapter(
 		holder.name.text = item.name
 		holder.summary.isVisible = item.summary.isNotEmpty()
 		holder.summary.text = item.summary
-		repository?.let { repo ->
-			holder.icon.load(
-				item.packageName.icon(
-					view = holder.icon,
-					icon = item.icon,
-					metadataIcon = item.metadataIcon,
-					repository = repo
-				)
-			)
+		if (repository != null) {
+			val iconUrl = item.icon(holder.icon, repository)
+			holder.icon.load(iconUrl)
 		}
 		holder.version.apply {
 			text = item.installedVersion.nullIfEmpty() ?: item.version

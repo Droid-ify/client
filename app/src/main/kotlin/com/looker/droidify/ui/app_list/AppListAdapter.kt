@@ -131,17 +131,11 @@ class AppListAdapter(
 				holder.summary.isVisible =
 					productItem.summary.isNotEmpty() && productItem.name != productItem.summary
 				val repository: Repository? = repositories[productItem.repositoryId]
-				repository?.let {
-					holder.icon.load(
-						productItem.packageName.icon(
-							view = holder.icon,
-							icon = productItem.icon,
-							metadataIcon = productItem.metadataIcon,
-							repository = it
-						)
-					)
+				if (repository != null) {
+					val iconUrl = productItem.icon(view = holder.icon, repository = repository)
+					holder.icon.load(iconUrl)
 				}
-				holder.status.apply {
+				with(holder.status) {
 					val versionText = if (source == AppListFragment.Source.UPDATES) {
 						productItem.version
 					} else productItem.installedVersion.nullIfEmpty() ?: productItem.version
@@ -164,7 +158,7 @@ class AppListAdapter(
 							setPadding(0, 0, 0, 0)
 							setTextColor(holder.status.context.getColorFromAttr(MaterialR.attr.colorOnBackground))
 							background = null
-							return@apply
+							return@with
 						}
 					}
 					background = context.corneredBackground
