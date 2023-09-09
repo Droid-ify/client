@@ -215,4 +215,7 @@
     <string name="contains_nsfw">Innehåller innehåll som inte är säkert för arbete</string>
     <string name="shizuku_not_alive">Shizuku körs inte</string>
     <string name="shizuku_not_installed">Shizuku är inte installerat</string>
+    <string name="home_screen_swiping">Svep på hemskärmen</string>
+    <string name="home_screen_swiping_DESC">Tillåt användare att svepa mellan sidor på hemskärmen</string>
+    <string name="special_credits">Särskilda tack</string>
 </resources>
