@@ -216,7 +216,9 @@
     <string name="socket_error_DESC">O servidor não conseguiu fornecer um novo pacote.</string>
     <string name="connection_error_DESC">Não foi possível ligar ao servidor</string>
     <string name="shizuku_not_installed">Shizuku não está instalado</string>
-    <string name="shizuku_not_alive">Shizuku não está a correr</string>
+    <string name="shizuku_not_alive">Shizuku não está em execução</string>
     <string name="contains_nsfw">Contém conteúdo não seguro para o trabalho</string>
     <string name="special_credits">Créditos especiais</string>
+    <string name="home_screen_swiping">Deslize no ecrã principal</string>
+    <string name="home_screen_swiping_DESC">Permitir deslize para trocar de páginas no ecrã principal</string>
 </resources>
