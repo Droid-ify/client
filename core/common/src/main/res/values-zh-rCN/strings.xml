@@ -153,7 +153,7 @@
     <string name="unknown_FORMAT">未知：%s</string>
     <string name="unsigned">未签名</string>
     <string name="unstable_updates">不稳定的更新</string>
-    <string name="unstable_updates_summary">建议安装不稳定的版本</string>
+    <string name="unstable_updates_summary">安装不稳定的版本</string>
     <string name="unverified">未验证</string>
     <string name="update">更新</string>
     <string name="updates">更新</string>
