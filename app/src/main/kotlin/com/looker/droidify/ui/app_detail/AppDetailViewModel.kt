@@ -1,28 +1,35 @@
 package com.looker.droidify.ui.app_detail
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
+import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
+import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database
 import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallerQueueState
-import com.looker.installer.model.contains
+import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
-	installer: InstallManager
+	private val installer: InstallManager,
+	private val settingsRepository: SettingsRepository
 ) : ViewModel() {
 
 	private var _packageName: String? = null
 	val packageName: String get() = _packageName!!
+
+	val initialSetting
+		get() = flow { emit(settingsRepository.fetchInitialPreferences()) }
 
 	fun setPackageName(name: String) {
 		_packageName = name
@@ -32,11 +39,11 @@ class AppDetailViewModel @Inject constructor(
 		.getStatus()
 		.asStateFlow(InstallerQueueState.EMPTY)
 
-	val state by  lazy {
+	val state by lazy {
 		combine(
 			Database.ProductAdapter.getStream(packageName),
 			Database.RepositoryAdapter.getAllStream(),
-			Database.InstalledAdapter.getStream(packageName),
+			Database.InstalledAdapter.getStream(packageName)
 		) { products, repositories, installedItem ->
 			val idAndRepos = repositories.associateBy { it.id }
 			val filteredProducts = products.filter { product ->
@@ -49,6 +56,24 @@ class AppDetailViewModel @Inject constructor(
 				isSelf = packageName == BuildConfig.APPLICATION_ID
 			)
 		}.asStateFlow(AppDetailUiState())
+	}
+
+	fun setFavouriteState() {
+		viewModelScope.launch {
+			settingsRepository.toggleFavourites(packageName)
+		}
+	}
+
+	fun installPackage(packageName: String, fileName: String) {
+		viewModelScope.launch {
+			installer + (packageName installFrom fileName)
+		}
+	}
+
+	fun uninstallPackage() {
+		viewModelScope.launch {
+			installer - packageName.toPackageName()
+		}
 	}
 
 	override fun onCleared() {

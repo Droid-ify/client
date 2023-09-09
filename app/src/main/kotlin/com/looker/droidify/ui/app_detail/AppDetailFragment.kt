@@ -19,9 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.extension.*
-import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.*
-import com.looker.core.model.newer.toPackageName
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
@@ -30,12 +28,10 @@ import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallerQueueState
-import com.looker.installer.model.installFrom
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
@@ -77,12 +73,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			viewModel.setPackageName(name)
 			return name
 		}
-
-	@Inject
-	lateinit var installer: InstallManager
-
-	@Inject
-	lateinit var settingsRepository: SettingsRepository
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -167,18 +157,16 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 							packageName,
 							products,
 							state.installedItem,
-							settingsRepository.fetchInitialPreferences()
+							viewModel.initialSetting.first()
 						)
 						updateButtons()
 					}
 				}
 				launch {
-					viewModel.installerState.collect { updateInstallState(it) }
+					viewModel.installerState.collect(::updateInstallState)
 				}
 				launch {
-					recyclerView?.isFirstItemVisible?.collect { isFirstItemVisible ->
-						updateToolbarButtons(isFirstItemVisible)
-					}
+					recyclerView?.isFirstItemVisible?.collect(::updateToolbarButtons)
 				}
 			}
 		}
@@ -321,12 +309,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			this.downloading = isActive
 			updateButtons()
 		}
-		lifecycleScope.launch {
-			if (state.currentItem is DownloadService.State.Success && isResumed) {
-				val installItem =
-					state.currentItem.packageName installFrom state.currentItem.release.cacheFileName
-				installer + installItem
-			}
+		if (state.currentItem is DownloadService.State.Success && isResumed) {
+			viewModel.installPackage(
+				state.currentItem.packageName,
+				state.currentItem.release.cacheFileName
+			)
 		}
 	}
 
@@ -360,12 +347,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				)
 			}
 
-			AppDetailAdapter.Action.UNINSTALL -> {
-				lifecycleScope.launch {
-					installer - packageName.toPackageName()
-				}
-				Unit
-			}
+			AppDetailAdapter.Action.UNINSTALL -> viewModel.uninstallPackage()
 
 			AppDetailAdapter.Action.CANCEL -> {
 				val binder = downloadConnection.binder
@@ -391,9 +373,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	}
 
 	override fun onFavouriteClicked() {
-		lifecycleScope.launch {
-			settingsRepository.toggleFavourites(packageName)
-		}
+		viewModel.setFavouriteState()
 	}
 
 	private fun startLauncherActivity(name: String) {
