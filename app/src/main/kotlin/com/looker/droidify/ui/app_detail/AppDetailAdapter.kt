@@ -47,7 +47,6 @@ import com.looker.core.model.Release
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.ui.screenshots.ScreenshotsAdapter
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.icon

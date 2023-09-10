@@ -1,20 +1,17 @@
-package com.looker.droidify.ui.screenshots
+package com.looker.droidify.ui.app_detail
 
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.drawable.toDrawable
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.size.Scale
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getMutatedIcon
+import com.looker.core.common.extension.*
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
@@ -29,39 +26,39 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 
 	private class ViewHolder(context: Context) :
 		RecyclerView.ViewHolder(FrameLayout(context)) {
-		val image: ShapeableImageView
+		val image: ShapeableImageView = object : ShapeableImageView(context) {
+			override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+				super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+				setMeasuredDimension(measuredWidth, measuredHeight)
+			}
+		}
 		val placeholder: Drawable
+		val surfaceColor = context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+
+		val radius = context.resources.getDimension(dimenRes.shape_small_corner)
+		val imageShapeModel = image.shapeAppearanceModel.toBuilder()
+			.setAllCornerSizes(radius)
+			.build()
+		val imagePlaceholder = context.getMutatedIcon(CommonR.drawable.ic_screenshot_placeholder)
 
 		init {
-			itemView as FrameLayout
-			val surfaceColor =
-				itemView.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor
+			with(image) {
+				shapeAppearanceModel = imageShapeModel
+				background = context.selectableBackground
 
-			image = object : ShapeableImageView(context) {
-				override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-					super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-					setMeasuredDimension(measuredWidth, measuredHeight)
+				imagePlaceholder.setTintList(surfaceColor)
+				placeholder = PaddingDrawable(imagePlaceholder, 3f, context.aspectRatio)
+			}
+			with(itemView as FrameLayout) {
+				addView(image)
+				layoutParams = RecyclerView.LayoutParams(
+					RecyclerView.LayoutParams.WRAP_CONTENT,
+					RecyclerView.LayoutParams.MATCH_PARENT
+				).apply {
+					marginStart = radius.toInt()
+					marginEnd = radius.toInt()
 				}
 			}
-
-			val radius = image.context.resources.getDimension(dimenRes.shape_small_corner)
-			val shapeAppearanceModel = image.shapeAppearanceModel.toBuilder()
-				.setAllCornerSizes(radius)
-				.build()
-			image.shapeAppearanceModel = shapeAppearanceModel
-			itemView.addView(image)
-			itemView.layoutParams = RecyclerView.LayoutParams(
-				RecyclerView.LayoutParams.WRAP_CONTENT,
-				RecyclerView.LayoutParams.MATCH_PARENT
-			).apply {
-				marginStart = radius.toInt()
-				marginEnd = radius.toInt()
-			}
-
-			val placeholder =
-				image.context.getMutatedIcon(CommonR.drawable.ic_screenshot_placeholder)
-			placeholder.setTint(surfaceColor)
-			this.placeholder = PaddingDrawable(placeholder, 2f)
 		}
 	}
 
@@ -87,7 +84,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		viewType: ViewType
 	): RecyclerView.ViewHolder {
 		return ViewHolder(parent.context).apply {
-			itemView.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot) }
+			image.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot) }
 		}
 	}
 
@@ -95,31 +92,15 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 	override fun getItemCount(): Int = items.size
 
 	override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-		val context = holder.itemView.context
 		holder as ViewHolder
 		val item = items[position]
-		val screenWidth = context.resources.displayMetrics.widthPixels
-		val outer = context.resources.sizeScaled(GRID_SPACING_OUTER_DP)
-		val inner = context.resources.sizeScaled(GRID_SPACING_INNER_DP)
-		val cellSize = (screenWidth - outer - inner) / 1.5
 		holder.image.load(
 			item.screenshot.url(item.repository, item.packageName)
 		) {
-			placeholder(
-				PaddingDrawable(
-					holder.placeholder.mutate()
-						.toBitmap(height = cellSize.toInt(), width = cellSize.toInt() / 4)
-						.toDrawable(context.resources), 1f
-				)
-			)
+			scale(Scale.FILL)
+			placeholder(holder.placeholder)
 			error(holder.placeholder)
-			size(cellSize.toInt())
 		}
-	}
-
-	companion object {
-		private const val GRID_SPACING_OUTER_DP = 16
-		private const val GRID_SPACING_INNER_DP = 8
 	}
 
 	private sealed class Item {

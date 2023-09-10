@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageButton
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -21,11 +22,11 @@ import androidx.viewpager2.widget.MarginPageTransformer
 import androidx.viewpager2.widget.ViewPager2
 import coil.dispose
 import coil.load
+import com.google.android.material.shape.MaterialShapeDrawable
+import com.google.android.material.shape.ShapeAppearanceModel
 import com.jsibbold.zoomage.AutoResetMode.UNDER
 import com.jsibbold.zoomage.ZoomageView
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getMutatedIcon
+import com.looker.core.common.extension.*
 import com.looker.core.common.sdkAbove
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -80,6 +81,21 @@ class ScreenshotsFragment() : DialogFragment() {
 			)
 		)
 		decorView?.setPadding(0, 0, 0, 0)
+		val homeIsUpButton = ImageButton(context)
+		with(homeIsUpButton) {
+			val circleShape = ShapeAppearanceModel().withCornerSize { it.bottom / 2 }
+			val iconBackground = MaterialShapeDrawable(circleShape).apply {
+				fillColor = context.getColorFromAttr(MaterialR.attr.colorOutline)
+			}
+			val icon = context.homeAsUp.apply {
+				setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurface))
+			}
+			this.background = iconBackground
+			load(icon)
+			setOnClickListener {
+				dialog.hide()
+			}
+		}
 		if (window != null) {
 			window.attributes = window.attributes.apply {
 				title = ScreenshotsFragment::class.java.name
@@ -113,15 +129,13 @@ class ScreenshotsFragment() : DialogFragment() {
 		with(viewPager) {
 			adapter = Adapter(packageName)
 			setPageTransformer(MarginPageTransformer(8.dp))
-			viewTreeObserver.addOnGlobalLayoutListener {
-				(adapter as Adapter).size = Pair(width, height)
-			}
 			dialog.addContentView(
 				this, ViewGroup.LayoutParams(
 					ViewGroup.LayoutParams.MATCH_PARENT,
 					ViewGroup.LayoutParams.MATCH_PARENT
 				)
 			)
+			dialog.addContentView(homeIsUpButton, ViewGroup.LayoutParams(48.dp, 48.dp))
 			this@ScreenshotsFragment.viewPager = this
 		}
 
@@ -175,28 +189,27 @@ class ScreenshotsFragment() : DialogFragment() {
 
 		private class ViewHolder(context: Context) :
 			RecyclerView.ViewHolder(ZoomageView(context)) {
-			val image: ZoomageView
-				get() = itemView as ZoomageView
+			val image: ZoomageView = itemView as ZoomageView
 
 			val placeholder: Drawable
 
 			init {
-				itemView.layoutParams = RecyclerView.LayoutParams(
-					RecyclerView.LayoutParams.MATCH_PARENT,
-					RecyclerView.LayoutParams.MATCH_PARENT
-				)
-				image.apply {
+				with(image) {
+					layoutParams = RecyclerView.LayoutParams(
+						RecyclerView.LayoutParams.MATCH_PARENT,
+						RecyclerView.LayoutParams.MATCH_PARENT
+					)
 					isZoomable = true
 					isTranslatable = true
 					autoCenter = true
 					restrictBounds = false
-					setScaleRange(1f, 8f)
+					setScaleRange(0.6f, 8f)
 					animateOnReset = true
 					autoResetMode = UNDER
 				}
-				val placeholder = itemView.context.getMutatedIcon(drawableRes.ic_photo_camera)
-				placeholder.setTint(itemView.context.getColorFromAttr(MaterialR.attr.colorSurface).defaultColor)
-				this.placeholder = PaddingDrawable(placeholder, 4f)
+				val placeholder = context.getMutatedIcon(drawableRes.ic_photo_camera)
+				placeholder.setTint(context.getColorFromAttr(MaterialR.attr.colorOutline).defaultColor)
+				this.placeholder = PaddingDrawable(placeholder, 4f, context.aspectRatio)
 			}
 		}
 
@@ -212,13 +225,6 @@ class ScreenshotsFragment() : DialogFragment() {
 			this.screenshots = screenshots
 			notifyItemChanged(viewPager.currentItem)
 		}
-
-		var size = Pair(0, 0)
-			set(value) {
-				if (field != value) {
-					field = value
-				}
-			}
 
 		fun getCurrentIdentifier(viewPager: ViewPager2): String? {
 			val position = viewPager.currentItem

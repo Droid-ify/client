@@ -35,6 +35,9 @@ val Context.selectableBackground: Drawable
 val Context.corneredBackground: Drawable
 	get() = getDrawableCompat(R.drawable.background_border)
 
+val Context.aspectRatio: Float
+	get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
+
 fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
 
 private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
