@@ -136,7 +136,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 		fun cancel(packageName: String) {
 			cancelTasks(packageName)
 			cancelCurrentTask(packageName)
-			handleDownload()
 		}
 	}
 
