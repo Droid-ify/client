@@ -212,4 +212,10 @@
     <string name="has_non_free_components">ଅନାବଶ୍ୟକ ଉପାଦାନଗୁଡ଼ିକ ଅଛି</string>
     <string name="socket_error_DESC">ସର୍ଭର ନୂତନ ପ୍ୟାକେଟ ପ୍ରଦାନ କରିବାରେ ବିଫଳ ହୋଇଛି ।</string>
     <string name="connection_error_DESC">ସର୍ଭର ସହିତ ସଂଯୋଗ କରିପାରିଲା ନାହିଁ</string>
+    <string name="home_screen_swiping">ମୂଳପୃଷ୍ଠା ପରଦା ସ୍ୱିପିଂ</string>
+    <string name="contains_nsfw">କାର୍ଯ୍ୟ ବିଷୟବସ୍ତୁ ପାଇଁ ସୁରକ୍ଷିତ ନୁହଁ</string>
+    <string name="shizuku_not_alive">Shizuku ଚାଲୁ ନାହିଁ</string>
+    <string name="home_screen_swiping_DESC">ହୋମ ସ୍କ୍ରିନରେ ପୃଷ୍ଠାଗୁଡ଼ିକ ମଧ୍ୟରେ ଚାଳକକୁ ସ୍ୱାଇପ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
+    <string name="special_credits">ସ୍ୱତନ୍ତ୍ର କ୍ରେଡିଟ୍</string>
+    <string name="shizuku_not_installed">Shizuku ସ୍ଥାପିତ ହୋଇନାହିଁ</string>
 </resources>
