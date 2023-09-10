@@ -216,4 +216,6 @@
     <string name="shizuku_not_alive">Το Shizuku δεν εκτελείται</string>
     <string name="special_credits">Ειδικές Πιστώσεις</string>
     <string name="shizuku_not_installed">Το Shizuku δεν είναι εγκατεστημένο</string>
+    <string name="home_screen_swiping">Σύρσιμο Αρχικής Οθόνης</string>
+    <string name="home_screen_swiping_DESC">Επιτρέψτε στον χρήστη να συρθεί μεταξύ σελίδων στην αρχική οθόνη</string>
 </resources>
