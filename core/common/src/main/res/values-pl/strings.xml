@@ -222,4 +222,6 @@
     <string name="contains_nsfw">Zawiera treści NSFW</string>
     <string name="socket_error_DESC">Serwer nie mógł dostarczyć nowego pakietu.</string>
     <string name="connection_error_DESC">Nie udało się połączyć z serwerem</string>
+    <string name="home_screen_swiping">Przewijanie ekranu głównego</string>
+    <string name="home_screen_swiping_DESC">Pozwala użytkownikowi na przesuwanie palcem między stronami na ekranie głównym</string>
 </resources>
