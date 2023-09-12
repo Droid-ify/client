@@ -30,6 +30,8 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.installer.model.InstallerQueueState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import com.looker.core.common.R.string as stringRes
@@ -133,7 +135,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.CREATED) {
 				launch {
-					viewModel.state.collect { state ->
+					viewModel.state.collectLatest { state ->
 						products = state.products.mapNotNull { product ->
 							val requiredRepo = state.repos.find { it.id == product.repositoryId }
 							requiredRepo?.let { product to it }
@@ -151,6 +153,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 							}
 						}
 						val adapter = recyclerView?.adapter as? AppDetailAdapter
+
+						// `delay` is cancellable hence it waits for 50 sec to show empty page
+						if (products.isEmpty()) delay(50)
 
 						adapter?.setProducts(
 							requireContext(),
@@ -207,9 +212,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		val canUninstall = product != null && installed != null && !installed.isSystem
 		val canLaunch =
 			product != null && installed != null && installed.launcherActivities.isNotEmpty()
-		val canShare = product != null && (
-				products[0].second.name == "F-Droid" || products[0].second.name.contains("IzzyOnDroid")
-				)
 
 		val actions = mutableSetOf<Action>()
 
@@ -218,21 +220,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		if (canLaunch) actions += Action.LAUNCH
 		if (installed != null) actions += Action.DETAILS
 		if (canUninstall) actions += Action.UNINSTALL
-		if (canShare) actions += Action.SHARE
+		actions += Action.SHARE
 
 		val primaryAction = when {
 			canUpdate -> Action.UPDATE
 			canLaunch -> Action.LAUNCH
 			canInstall -> Action.INSTALL
 			installed != null -> Action.DETAILS
-			canShare -> Action.SHARE
-			else -> null
+			else -> Action.SHARE
 		}
 
 		val adapterAction = when {
 			installing -> null
 			downloading -> AppDetailAdapter.Action.CANCEL
-			else -> primaryAction?.adapterAction
+			else -> primaryAction.adapterAction
 		}
 
 		(recyclerView?.adapter as? AppDetailAdapter)?.action = adapterAction
@@ -361,7 +362,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					"https://www.f-droid.org/packages/${products[0].first.packageName}/"
 				} else if (products[0].second.name.contains("IzzyOnDroid")) {
 					"https://apt.izzysoft.de/fdroid/index/apk/${products[0].first.packageName}"
-				} else toString()
+				} else "https://droidify.eu.org/app/?id=${products[0].first.packageName}/?repo_address=${products[0].second.address}"
 				val sendIntent: Intent = Intent().apply {
 					this.action = Intent.ACTION_SEND
 					putExtra(Intent.EXTRA_TEXT, address)

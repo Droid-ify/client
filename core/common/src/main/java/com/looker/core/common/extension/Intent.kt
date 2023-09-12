@@ -30,16 +30,29 @@ fun Intent.getPackageName(): String? {
 
 		uri != null && uri.scheme in setOf("http", "https") -> {
 			val host = uri.host.orEmpty()
-			if (host == "f-droid.org"
-				|| host.endsWith(".f-droid.org")
-				|| host == "apt.izzysoft.de"
-			) {
-				uri.lastPathSegment?.nullIfEmpty()
-			} else {
-				null
-			}
+			if (host in hosts) {
+				if (host == PERSONAL_HOST) uri.getQueryParameter("id")
+				else uri.lastPathSegment?.nullIfEmpty()
+			} else null
 		}
 
 		else -> null
 	}
 }
+
+fun Intent.getRepoAddress(): String? {
+	val uri = data
+	return if (uri != null && uri.scheme in setOf("http", "https") && uri.host == PERSONAL_HOST) {
+		uri.getQueryParameter("repo_address")
+	} else null
+}
+
+private const val PERSONAL_HOST = "droidify.eu.org"
+
+private val hosts = setOf(
+	PERSONAL_HOST,
+	"f-droid.org",
+	"www.f-droid.org",
+	"staging.f-droid.org",
+	"apt.izzysoft.de"
+)

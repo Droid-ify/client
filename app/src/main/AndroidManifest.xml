@@ -111,8 +111,7 @@
 
                 <data android:scheme="https" />
                 <data android:host="droidify.eu.org" />
-                <!-- Remove once support for direct domain is added -->
-                <data android:host="www.droidify.eu.org" />
+                <data android:pathPattern="/app/.*" />
             </intent-filter>
 
         </activity>

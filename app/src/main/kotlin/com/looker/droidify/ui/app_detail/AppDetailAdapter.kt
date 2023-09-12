@@ -7,6 +7,7 @@ import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
@@ -14,6 +15,7 @@ import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.text.style.*
 import android.text.util.Linkify
+import android.util.Log
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.TextSwitcher
@@ -562,7 +564,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 				with(packageName) {
 					gravity = Gravity.CENTER
-					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOutline))
+					typeface = Typeface.DEFAULT_BOLD
 					setTextSizeScaled(18)
 				}
 				addView(
@@ -591,7 +594,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		settings: Settings
 	) {
 		val productRepository =
-			Product.findSuggested(products, installedItem) { it.first } ?: return
+			Product.findSuggested(products, installedItem) { it.first } ?: run {
+				items += Item.EmptyItem(packageName)
+				notifyDataSetChanged()
+				return
+			}
 		isFavourite = packageName in settings.favouriteApps
 		items.clear()
 
@@ -894,8 +901,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				items += releaseItems
 			}
 		}
-
-		if (items.isEmpty()) items += Item.EmptyItem(packageName)
 
 		this.product = productRepository.first
 		this.installedItem = installedItem
