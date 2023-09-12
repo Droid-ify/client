@@ -236,7 +236,7 @@ class MessageDialog() : DialogFragment() {
 					builder.append(
 						getString(
 							stringRes.incompatible_api_DESC_FORMAT,
-							Android.name, Android.sdk, versionMessage.orEmpty()
+							Android.name, SdkCheck.sdk, versionMessage.orEmpty()
 						)
 					).append("\n\n")
 				}

@@ -2,6 +2,7 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toFormattedString
@@ -15,10 +16,12 @@ import com.looker.droidify.utility.getProgress
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import java.io.File
-import java.security.cert.X509Certificate
+import java.security.CodeSigner
+import java.security.cert.Certificate
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
 
@@ -61,23 +64,21 @@ object RepositoryUpdater {
 
 	fun init(scope: CoroutineScope, downloader: Downloader) {
 		this.downloader = downloader
-		var lastDisabled = setOf<Long>()
-		Database.RepositoryAdapter
-			.getAllRemovedStream()
-			.onEach { deletedRepos ->
-				val newDisabled =
-					deletedRepos.asSequence().filter { !it.second }.map { it.first }.toSet()
-				val disabled = newDisabled - lastDisabled
-				lastDisabled = newDisabled
-				val deleted =
-					deletedRepos.asSequence().filter { it.second }.map { it.first }.toSet()
-				if (disabled.isNotEmpty() || deleted.isNotEmpty()) {
-					val pairs = (disabled.asSequence().map { Pair(it, false) } +
-							deleted.asSequence().map { Pair(it, true) }).toSet()
-					synchronized(cleanupLock) { Database.RepositoryAdapter.cleanup(pairs) }
+		scope.launch {
+			// No need of mutex because it is in same coroutine scope
+			var lastDisabled = emptyMap<Long, Boolean>()
+			Database.RepositoryAdapter
+				.getAllRemovedStream()
+				.map { deletedRepos ->
+					deletedRepos
+						.filterNot { it.key in lastDisabled.keys }
+						.also { lastDisabled = deletedRepos }
 				}
-			}
-			.launchIn(scope + Dispatchers.IO)
+				// To not perform complete cleanup on startup
+				.drop(1)
+				.filter { it.isNotEmpty() }
+				.collect(Database.RepositoryAdapter::cleanup)
+		}
 	}
 
 	fun await() {
@@ -231,7 +232,7 @@ object RepositoryUpdater {
 					.asSequence().map { it.name }.toSet() + setOf("android.hardware.touchscreen")
 
 
-				var changedRepositoryVar: Repository? = null
+				var changedRepository: Repository? = null
 
 				val mergerFile = Cache.getTemporaryFile(context)
 				try {
@@ -252,7 +253,7 @@ object RepositoryUpdater {
 										version: Int,
 										timestamp: Long,
 									) {
-										changedRepositoryVar = repository.update(
+										changedRepository = repository.update(
 											mirrors, name, description, version,
 											lastModified, entityTag, timestamp
 										)
@@ -315,65 +316,37 @@ object RepositoryUpdater {
 					mergerFile.delete()
 				}
 
-				val changedRepository = changedRepositoryVar
-
 				val workRepository = changedRepository ?: repository
-				if (workRepository.timestamp < repository.timestamp) {
-					throw UpdateException(
-						ErrorType.VALIDATION, "New index is older than current index: " +
-								"${workRepository.timestamp} < ${repository.timestamp}"
-					)
-				} else {
-					val fingerprint = run {
-						val certificateFromJar = run {
-							val codeSigners = indexEntry.codeSigners
-							if (codeSigners == null || codeSigners.size != 1) {
-								throw UpdateException(
-									ErrorType.VALIDATION,
-									"index.jar must be signed by a single code signer"
-								)
-							} else {
-								val certificates =
-									codeSigners[0].signerCertPath?.certificates.orEmpty()
-								if (certificates.size != 1) {
-									throw UpdateException(
-										ErrorType.VALIDATION,
-										"index.jar code signer should have only one certificate"
-									)
-								} else {
-									certificates[0] as X509Certificate
-								}
-							}
-						}
-						val fingerprintFromJar = certificateFromJar.fingerprint()
-						fingerprintFromJar.uppercase()
-					}
+				if (workRepository.timestamp < repository.timestamp) throw UpdateException(
+					ErrorType.VALIDATION,
+					"New index is older than current index: ${workRepository.timestamp} < ${repository.timestamp}"
+				)
 
-					val commitRepository = if (workRepository.fingerprint != fingerprint) {
-						if (workRepository.fingerprint.isEmpty()) {
-							workRepository.copy(fingerprint = fingerprint)
-						} else {
-							throw UpdateException(
-								ErrorType.VALIDATION,
-								"Certificate fingerprints do not match"
-							)
-						}
-					} else {
-						workRepository
-					}
-					if (Thread.interrupted()) {
-						throw InterruptedException()
-					}
-					callback(Stage.COMMIT, 0, null)
-					synchronized(cleanupLock) {
-						Database.UpdaterAdapter.finishTemporary(
-							commitRepository,
-							true
-						)
-					}
-					rollback = false
-					true
+				val fingerprint = indexEntry
+					.codeSigner
+					.certificate
+					.fingerprint()
+					.uppercase()
+
+				val commitRepository = if (workRepository.fingerprint != fingerprint) {
+					if (workRepository.fingerprint.isNotEmpty()) throw UpdateException(
+						ErrorType.VALIDATION,
+						"Certificate fingerprints do not match"
+					)
+
+					workRepository.copy(fingerprint = fingerprint)
+				} else {
+					workRepository
 				}
+				if (Thread.interrupted()) {
+					throw InterruptedException()
+				}
+				callback(Stage.COMMIT, 0, null)
+				synchronized(cleanupLock) {
+					Database.UpdaterAdapter.finishTemporary(commitRepository, true)
+				}
+				rollback = false
+				true
 			} catch (e: Exception) {
 				throw when (e) {
 					is UpdateException, is InterruptedException -> e
@@ -388,47 +361,67 @@ object RepositoryUpdater {
 		}
 	}
 
+	@get:Throws(UpdateException::class)
+	private val JarEntry.codeSigner: CodeSigner
+		get() = codeSigners?.singleOrNull()
+			?: throw UpdateException(
+				ErrorType.VALIDATION,
+				"index.jar must be signed by a single code signer"
+			)
+
+	@get:Throws(UpdateException::class)
+	private val CodeSigner.certificate: Certificate
+		get() = signerCertPath?.certificates?.singleOrNull()
+			?: throw UpdateException(
+				ErrorType.VALIDATION,
+				"index.jar code signer should have only one certificate"
+			)
+
 	private fun transformProduct(
 		product: Product,
 		features: Set<String>,
 		unstable: Boolean,
 	): Product {
-		val releasePairs =
-			product.releases.distinctBy { it.identifier }.sortedByDescending { it.versionCode }
-				.map { it ->
-					val incompatibilities = mutableListOf<Release.Incompatibility>()
-					if (it.minSdkVersion > 0 && Android.sdk < it.minSdkVersion) {
-						incompatibilities += Release.Incompatibility.MinSdk
-					}
-					if (it.maxSdkVersion > 0 && Android.sdk > it.maxSdkVersion) {
-						incompatibilities += Release.Incompatibility.MaxSdk
-					}
-					if (it.platforms.isNotEmpty() && it.platforms.intersect(Android.platforms)
-							.isEmpty()
-					) {
-						incompatibilities += Release.Incompatibility.Platform
-					}
-					incompatibilities += (it.features - features).sorted()
-						.map { Release.Incompatibility.Feature(it) }
-					Pair(it, incompatibilities as List<Release.Incompatibility>)
-				}.toMutableList()
+		val releasePairs = product.releases
+			.distinctBy { it.identifier }
+			.sortedByDescending { it.versionCode }
+			.map { release ->
+				val incompatibilities = mutableListOf<Release.Incompatibility>()
+				if (release.minSdkVersion > 0 && SdkCheck.sdk < release.minSdkVersion) {
+					incompatibilities += Release.Incompatibility.MinSdk
+				}
+				if (release.maxSdkVersion > 0 && SdkCheck.sdk > release.maxSdkVersion) {
+					incompatibilities += Release.Incompatibility.MaxSdk
+				}
+				if (release.platforms.isNotEmpty()
+					&& (release.platforms intersect Android.platforms).isEmpty()
+				) {
+					incompatibilities += Release.Incompatibility.Platform
+				}
+				incompatibilities += (release.features - features).sorted()
+					.map { Release.Incompatibility.Feature(it) }
+				Pair(release, incompatibilities.toList())
+			}
 
 		val predicate: (Release) -> Boolean = {
-			unstable || product.suggestedVersionCode <= 0 ||
-					it.versionCode <= product.suggestedVersionCode
+			unstable
+					|| product.suggestedVersionCode <= 0
+					|| it.versionCode <= product.suggestedVersionCode
 		}
-		val firstCompatibleReleaseIndex =
-			releasePairs.indexOfFirst { it.second.isEmpty() && predicate(it.first) }
-		val firstReleaseIndex =
-			if (firstCompatibleReleaseIndex >= 0) firstCompatibleReleaseIndex else
-				releasePairs.indexOfFirst { predicate(it.first) }
-		val firstSelected = if (firstReleaseIndex >= 0) releasePairs[firstReleaseIndex] else null
 
-		val releases = releasePairs.map { (release, incompatibilities) ->
-			release
-				.copy(incompatibilities = incompatibilities, selected = firstSelected
-					?.let { it.first.versionCode == release.versionCode && it.second == incompatibilities } == true)
-		}
+		val firstSelected =
+			releasePairs.firstOrNull { it.second.isEmpty() && predicate(it.first) }
+				?: releasePairs.firstOrNull { predicate(it.first) }
+
+		val releases = releasePairs
+			.map { (release, incompatibilities) ->
+				release.copy(
+					incompatibilities = incompatibilities,
+					selected = firstSelected?.let {
+						it.first.versionCode == release.versionCode && it.second == incompatibilities
+					} ?: false
+				)
+			}
 		return product.copy(releases = releases)
 	}
 }

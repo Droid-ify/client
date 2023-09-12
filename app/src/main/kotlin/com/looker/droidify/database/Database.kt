@@ -202,8 +202,7 @@ object Database {
 			val sql = db.query(
 				"${it.databasePrefix}sqlite_master", columns = arrayOf("sql"),
 				selection = Pair("type = ? AND name = ?", arrayOf("table", it.innerName))
-			)
-				.use { it.firstOrNull()?.getString(0) }.orEmpty()
+			).use { it.firstOrNull()?.getString(0) }.orEmpty()
 			it.formatCreateTable(it.innerName) != sql
 		}
 		return shouldRecreate && run {
@@ -220,18 +219,18 @@ object Database {
 	}
 
 	private fun handleIndexes(db: SQLiteDatabase, vararg tables: Table) {
-		val shouldVacuum = tables.map {
+		val shouldVacuum = tables.map { table ->
 			val sqls = db.query(
-				"${it.databasePrefix}sqlite_master", columns = arrayOf("name", "sql"),
-				selection = Pair("type = ? AND tbl_name = ?", arrayOf("index", it.innerName))
+				"${table.databasePrefix}sqlite_master", columns = arrayOf("name", "sql"),
+				selection = Pair("type = ? AND tbl_name = ?", arrayOf("index", table.innerName))
 			)
-				.use {
-					it.asSequence()
+				.use { cursor ->
+					cursor.asSequence()
 						.mapNotNull { it.getString(1)?.let { sql -> Pair(it.getString(0), sql) } }
 						.toList()
 				}
 				.filter { !it.first.startsWith("sqlite_") }
-			val createIndexes = it.createIndexPairFormatted?.let { listOf(it) }.orEmpty()
+			val createIndexes = table.createIndexPairFormatted?.let { listOf(it) }.orEmpty()
 			createIndexes.map { it.first } != sqls.map { it.second } && run {
 				for (name in sqls.map { it.first }) {
 					db.execSQL("DROP INDEX IF EXISTS $name")
@@ -239,7 +238,7 @@ object Database {
 				for (createIndexPair in createIndexes) {
 					db.execSQL(createIndexPair.second)
 				}
-				!it.memory
+				!table.memory
 			}
 		}
 		if (shouldVacuum.any { it } && !db.inTransaction()) {
@@ -254,7 +253,7 @@ object Database {
 		)
 			.use { it.asSequence().mapNotNull { it.getString(0) }.toList() }
 			.filter { !it.startsWith("sqlite_") && !it.startsWith("android_") }
-			.toSet() - neededTables.mapNotNull { if (it.memory) null else it.name }
+			.toSet() - neededTables.mapNotNull { if (it.memory) null else it.name }.toSet()
 		if (tables.isNotEmpty()) {
 			for (table in tables) {
 				db.execSQL("DROP TABLE IF EXISTS $table")
@@ -266,9 +265,9 @@ object Database {
 	}
 
 	sealed class Subject {
-		object Repositories : Subject()
+		data object Repositories : Subject()
 		data class Repository(val id: Long) : Subject()
-		object Products : Subject()
+		data object Products : Subject()
 	}
 
 	private val observers = mutableMapOf<Subject, MutableSet<() -> Unit>>()
@@ -349,7 +348,6 @@ object Database {
 	}
 
 	object RepositoryAdapter {
-		// Done in put
 		internal fun putWithoutNotification(repository: Repository, shouldReplace: Boolean): Long {
 			return db.insertOrReplace(shouldReplace, Schema.Repository.name, ContentValues().apply {
 				if (shouldReplace) {
@@ -361,7 +359,6 @@ object Database {
 			})
 		}
 
-		// Done
 		fun put(repository: Repository): Repository {
 			val shouldReplace = repository.id >= 0L
 			val newId = putWithoutNotification(repository, shouldReplace)
@@ -370,7 +367,6 @@ object Database {
 			return if (newId != repository.id) repository.copy(id = newId) else repository
 		}
 
-		// Done
 		fun get(id: Long): Repository? {
 			return db.query(
 				Schema.Repository.name,
@@ -385,15 +381,20 @@ object Database {
 		fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
 			.map { getAll() }
+			.flowOn(Dispatchers.IO)
 
 		fun getEnabledStream(): Flow<List<Repository>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
 			.map { getEnabled() }
+			.flowOn(Dispatchers.IO)
 
-		fun getEnabled(): List<Repository> {
+		private fun getEnabled(): List<Repository> {
 			return db.query(
 				Schema.Repository.name,
-				selection = Pair("${Schema.Repository.ROW_ENABLED} != 0 AND ${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
+				selection = Pair(
+					"${Schema.Repository.ROW_ENABLED} != 0 AND ${Schema.Repository.ROW_DELETED} == 0",
+					emptyArray()
+				),
 				signal = null
 			).use { it.asSequence().map(::transform).toList() }
 		}
@@ -406,11 +407,12 @@ object Database {
 			).use { it.asSequence().map(::transform).toList() }
 		}
 
-		fun getAllRemovedStream(): Flow<Set<Pair<Long, Boolean>>> = flowOf(Unit)
+		fun getAllRemovedStream(): Flow<Map<Long, Boolean>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
 			.map { getAllDisabledDeleted() }
+			.flowOn(Dispatchers.IO)
 
-		private fun getAllDisabledDeleted(): Set<Pair<Long, Boolean>> {
+		private fun getAllDisabledDeleted(): Map<Long, Boolean> {
 			return db.query(
 				Schema.Repository.name,
 				columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
@@ -420,16 +422,13 @@ object Database {
 				),
 				signal = null
 			).use {
-				it.asSequence().map {
-					Pair(
-						it.getLong(it.getColumnIndex(Schema.Repository.ROW_ID)),
-						it.getInt(it.getColumnIndex(Schema.Repository.ROW_DELETED)) != 0
-					)
-				}.toSet()
+				it.asSequence().associate {
+					it.getLong(it.getColumnIndex(Schema.Repository.ROW_ID)) to
+							(it.getInt(it.getColumnIndex(Schema.Repository.ROW_DELETED)) != 0)
+				}
 			}
 		}
 
-		// Done
 		fun markAsDeleted(id: Long) {
 			db.update(Schema.Repository.name, ContentValues().apply {
 				put(Schema.Repository.ROW_DELETED, 1)
@@ -437,24 +436,23 @@ object Database {
 			notifyChanged(Subject.Repositories, Subject.Repository(id), Subject.Products)
 		}
 
-		// Done
-		fun cleanup(pairs: Set<Pair<Long, Boolean>>) {
-			val result = pairs.windowed(10, 10, true).map {
-				val idsString = it.joinToString(separator = ", ") { it.first.toString() }
+		fun cleanup(removedRepos: Map<Long, Boolean>) {
+			val result = removedRepos.map { (id, isDeleted) ->
+				val idsString = id.toString()
 				val productsCount = db.delete(
 					Schema.Product.name,
-					"${Schema.Product.ROW_REPOSITORY_ID} IN ($idsString)", null
+					"${Schema.Product.ROW_REPOSITORY_ID} IN ($idsString)",
+					null
 				)
 				val categoriesCount = db.delete(
 					Schema.Category.name,
-					"${Schema.Category.ROW_REPOSITORY_ID} IN ($idsString)", null
+					"${Schema.Category.ROW_REPOSITORY_ID} IN ($idsString)",
+					null
 				)
-				val deleteIdsString = it.asSequence().filter { it.second }
-					.joinToString(separator = ", ") { it.first.toString() }
-				if (deleteIdsString.isNotEmpty()) {
+				if (isDeleted) {
 					db.delete(
 						Schema.Repository.name,
-						"${Schema.Repository.ROW_ID} IN ($deleteIdsString)",
+						"${Schema.Repository.ROW_ID} IN ($id)",
 						null
 					)
 				}
@@ -465,7 +463,6 @@ object Database {
 			}
 		}
 
-		// get the cursor in the specific table. Unnecessary with Room
 		fun query(signal: CancellationSignal?): Cursor {
 			return db.query(
 				Schema.Repository.name,
@@ -475,7 +472,6 @@ object Database {
 			).observable(Subject.Repositories)
 		}
 
-		// Unnecessary with Room
 		fun transform(cursor: Cursor): Repository {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Repository.ROW_DATA))
 				.jsonParse {
@@ -491,6 +487,7 @@ object Database {
 		fun getStream(packageName: String): Flow<List<Product>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
 			.map { get(packageName, null) }
+			.flowOn(Dispatchers.IO)
 
 		fun getUpdatesStream(): Flow<List<ProductItem>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
@@ -506,8 +503,8 @@ object Database {
 					signal = null
 				).use { it.asSequence().map(ProductAdapter::transformItem).toList() }
 			}
+			.flowOn(Dispatchers.IO)
 
-		// Done
 		fun get(packageName: String, signal: CancellationSignal?): List<Product> {
 			return db.query(
 				Schema.Product.name,
@@ -521,7 +518,6 @@ object Database {
 			).use { it.asSequence().map(::transform).toList() }
 		}
 
-		// Done
 		fun getCount(repositoryId: Long): Int {
 			return db.query(
 				Schema.Product.name, columns = arrayOf("COUNT (*)"),
@@ -533,7 +529,6 @@ object Database {
 				.use { it.firstOrNull()?.getInt(0) ?: 0 }
 		}
 
-		// Complex left to wiring phase
 		fun query(
 			installed: Boolean, updates: Boolean, searchQuery: String,
 			section: ProductItem.Section, order: SortOrder, signal: CancellationSignal?,
@@ -618,7 +613,6 @@ object Database {
 			return builder.query(db, signal).observable(Subject.Products)
 		}
 
-		// Unnecessary with Room
 		private fun transform(cursor: Cursor): Product {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA))
 				.jsonParse {
@@ -631,7 +625,6 @@ object Database {
 				}
 		}
 
-		// Unnecessary with Room
 		fun transformItem(cursor: Cursor): ProductItem {
 			return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA_ITEM))
 				.jsonParse {
@@ -663,6 +656,7 @@ object Database {
 		fun getAllStream(): Flow<Set<String>> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
 			.map { getAll() }
+			.flowOn(Dispatchers.IO)
 
 		private fun getAll(): Set<String> {
 			val builder = QueryBuilder()
@@ -686,8 +680,8 @@ object Database {
 		fun getStream(packageName: String): Flow<InstalledItem?> = flowOf(Unit)
 			.onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
 			.map { get(packageName, null) }
+			.flowOn(Dispatchers.IO)
 
-		// Done
 		fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
 			return db.query(
 				Schema.Installed.name,
@@ -700,7 +694,6 @@ object Database {
 			).use { it.firstOrNull()?.let(::transform) }
 		}
 
-		// Done in insert
 		private fun put(installedItem: InstalledItem, notify: Boolean) {
 			db.insertOrReplace(true, Schema.Installed.name, ContentValues().apply {
 				put(Schema.Installed.ROW_PACKAGE_NAME, installedItem.packageName)
@@ -722,7 +715,6 @@ object Database {
 			}
 		}
 
-		// Done
 		fun delete(packageName: String) {
 			val count = db.delete(
 				Schema.Installed.name,
@@ -734,7 +726,6 @@ object Database {
 			}
 		}
 
-		// Unnecessary with Room
 		private fun transform(cursor: Cursor): InstalledItem {
 			return InstalledItem(
 				cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_PACKAGE_NAME)),
@@ -746,7 +737,6 @@ object Database {
 	}
 
 	object LockAdapter {
-		// Done in insert (Lock object instead of pair)
 		private fun put(lock: Pair<String, Long>, notify: Boolean) {
 			db.insertOrReplace(true, Schema.Lock.name, ContentValues().apply {
 				put(Schema.Lock.ROW_PACKAGE_NAME, lock.first)
@@ -757,10 +747,8 @@ object Database {
 			}
 		}
 
-		// Done in insert (Lock object instead of pair)
 		fun put(lock: Pair<String, Long>) = put(lock, true)
 
-		// Done in insert (Lock object instead of pair)
 		fun putAll(locks: List<Pair<String, Long>>) {
 			db.transaction {
 				db.delete(Schema.Lock.name, null, null)
@@ -768,14 +756,12 @@ object Database {
 			}
 		}
 
-		// Done
 		fun delete(packageName: String) {
 			db.delete(Schema.Lock.name, "${Schema.Lock.ROW_PACKAGE_NAME} = ?", arrayOf(packageName))
 			notifyChanged(Subject.Products)
 		}
 	}
 
-	// TODO add temporary tables
 	object UpdaterAdapter {
 		private val Table.temporaryName: String
 			get() = "${name}_temporary"
@@ -838,13 +824,11 @@ object Database {
 					db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
 					db.execSQL("DROP TABLE IF EXISTS ${Schema.Category.temporaryName}")
 				}
-				if (success) {
-					notifyChanged(
-						Subject.Repositories,
-						Subject.Repository(repository.id),
-						Subject.Products
-					)
-				}
+				notifyChanged(
+					Subject.Repositories,
+					Subject.Repository(repository.id),
+					Subject.Products
+				)
 			} else {
 				db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
 				db.execSQL("DROP TABLE IF EXISTS ${Schema.Category.temporaryName}")

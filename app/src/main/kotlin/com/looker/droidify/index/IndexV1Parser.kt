@@ -5,6 +5,7 @@ import androidx.core.os.ConfigurationCompat.getLocales
 import androidx.core.os.LocaleListCompat
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
+import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.Json
 import com.looker.core.common.extension.collectDistinctNotEmptyStrings
 import com.looker.core.common.extension.collectNotNull
@@ -412,7 +413,7 @@ object IndexV1Parser {
 			if (firstToken != JsonToken.END_ARRAY) {
 				val secondToken = nextToken()
 				val maxSdk = if (secondToken == JsonToken.VALUE_NUMBER_INT) valueAsInt else 0
-				if (permission.isNotEmpty() && Android.sdk >= minSdk && (maxSdk <= 0 || Android.sdk <= maxSdk)) {
+				if (permission.isNotEmpty() && SdkCheck.sdk >= minSdk && (maxSdk <= 0 || SdkCheck.sdk <= maxSdk)) {
 					permissions.add(permission)
 				}
 				if (secondToken != JsonToken.END_ARRAY) {
