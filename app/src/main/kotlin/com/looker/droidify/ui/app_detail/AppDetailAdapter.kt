@@ -5,9 +5,7 @@ import android.content.*
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.net.Uri
 import android.os.Parcel
 import android.text.SpannableStringBuilder
@@ -15,11 +13,8 @@ import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.text.style.*
 import android.text.util.Linkify
-import android.util.Log
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextSwitcher
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
@@ -62,7 +57,9 @@ import java.lang.ref.WeakReference
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.Locale
+import kotlin.math.PI
 import kotlin.math.roundToInt
+import kotlin.math.sin
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.string as stringRes
@@ -316,7 +313,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				get() = ViewType.RELEASE
 		}
 
-		class EmptyItem(val packageName: String) : Item() {
+		class EmptyItem(val packageName: String, val repoAddress: String?) : Item() {
 			override val descriptor: String
 				get() = "empty"
 
@@ -544,6 +541,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private class EmptyViewHolder(context: Context) :
 		RecyclerView.ViewHolder(LinearLayout(context)) {
 		val packageName = TextView(context)
+		val repoTitle = TextView(context)
+		val repoAddress = TextView(context)
+		val copyRepoAddress = MaterialButton(context)
 
 		init {
 			with(itemView as LinearLayout) {
@@ -553,20 +553,69 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				)
 				orientation = LinearLayout.VERTICAL
 				gravity = Gravity.CENTER
-				20.dp.let { itemView.setPadding(it, it, it, it) }
+				setPadding(20.dp, 20.dp, 20.dp, 20.dp)
+				val imageView = ImageView(context)
+				val bitmap = Bitmap.createBitmap(
+					64.dp.px.roundToInt(),
+					32.dp.px.roundToInt(),
+					Bitmap.Config.ARGB_8888
+				)
+				val canvas = Canvas(bitmap)
 				val title = TextView(context)
 				with(title) {
 					gravity = Gravity.CENTER
-					typeface = TypefaceExtra.light
+					typeface = TypefaceExtra.medium
 					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
-					setTextSizeScaled(24)
+					setTextSizeScaled(20)
 					setText(stringRes.application_not_found)
+					setPadding(0, 12.dp, 0, 12.dp)
 				}
 				with(packageName) {
 					gravity = Gravity.CENTER
 					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOutline))
 					typeface = Typeface.DEFAULT_BOLD
-					setTextSizeScaled(18)
+					setTextSizeScaled(16)
+					background = context.corneredBackground
+					setPadding(0, 12.dp, 0, 12.dp)
+				}
+				val waveHeight = 2.dp.px
+				val waveWidth = 12.dp.px
+				with(canvas) {
+					val linePaint = Paint().apply {
+						color = context.getColorFromAttr(MaterialR.attr.colorOutline).defaultColor
+						strokeWidth = 8f
+						strokeCap = Paint.Cap.ROUND
+						strokeJoin = Paint.Join.ROUND
+					}
+					for (x in 12..(width - 12)) {
+						val yValue =
+							((sin(x * (2f * PI / waveWidth)) * (waveHeight / (2)) + (waveHeight / 2)).toFloat()
+									+ (0 - (waveHeight / 2))) + height / 2
+						drawPoint(x.toFloat(), yValue, linePaint)
+					}
+				}
+				imageView.load(bitmap)
+				with(repoTitle) {
+					gravity = Gravity.CENTER
+					typeface = TypefaceExtra.medium
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+					setTextSizeScaled(20)
+					setPadding(0, 0, 0, 12.dp)
+				}
+				with(repoAddress) {
+					gravity = Gravity.CENTER
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorOutline))
+					typeface = Typeface.DEFAULT_BOLD
+					setTextSizeScaled(16)
+					background = context.corneredBackground
+					setPadding(0, 12.dp, 0, 12.dp)
+				}
+				with(copyRepoAddress) {
+					icon = context.copy
+					setText(stringRes.label_copy)
+					setBackgroundColor(context.getColor(android.R.color.transparent))
+					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+					iconTint = context.getColorFromAttr(MaterialR.attr.colorPrimary)
 				}
 				addView(
 					title,
@@ -576,6 +625,26 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				addView(
 					packageName,
 					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+				addView(
+					imageView,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+				addView(
+					repoTitle,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+				addView(
+					repoAddress,
+					LinearLayout.LayoutParams.MATCH_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT
+				)
+				addView(
+					copyRepoAddress,
+					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT
 				)
 			}
@@ -588,19 +657,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	private var installedItem: InstalledItem? = null
 
 	fun setProducts(
-		context: Context, packageName: String,
+		context: Context,
+		packageName: String,
+		suggestedRepo: String? = null,
 		products: List<Pair<Product, Repository>>,
 		installedItem: InstalledItem?,
 		settings: Settings
 	) {
+		items.clear()
 		val productRepository =
 			Product.findSuggested(products, installedItem) { it.first } ?: run {
-				items += Item.EmptyItem(packageName)
+				items += Item.EmptyItem(packageName, suggestedRepo)
 				notifyDataSetChanged()
 				return
 			}
 		isFavourite = packageName in settings.favouriteApps
-		items.clear()
 
 		items += Item.AppInfoItem(
 			productRepository.second,
@@ -1070,7 +1141,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			ViewType.EMPTY -> EmptyViewHolder(parent.context)
+			ViewType.EMPTY -> EmptyViewHolder(parent.context).apply {
+				copyRepoAddress.setOnClickListener {
+					repoAddress.text?.let { link ->
+						copyLinkToClipboard(it, link.toString())
+					}
+				}
+			}
 		}
 	}
 
@@ -1489,6 +1566,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder as EmptyViewHolder
 				item as Item.EmptyItem
 				holder.packageName.text = item.packageName
+				if (item.repoAddress != null) {
+					holder.repoTitle.setText(stringRes.repository_not_found)
+					holder.repoAddress.text = item.repoAddress
+				} else {
+
+				}
 			}
 		}::class
 	}

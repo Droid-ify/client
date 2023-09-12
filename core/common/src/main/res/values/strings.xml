@@ -30,6 +30,7 @@
     <string name="confirmation">Confirmation</string>
     <string name="connecting">Connecting…</string>
     <string name="contains_non_free_media">Contains non-free media</string>
+    <string name="label_copy">Copy</string>
     <string name="could_not_download_FORMAT">Could not download %s</string>
     <string name="could_not_sync_FORMAT">Could not sync %s</string>
     <string name="could_not_validate_FORMAT">Could not validate %s</string>
@@ -155,6 +156,7 @@
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">This repository has not been used yet. Turn it on to view the applications in it.</string>
+    <string name="repository_not_found">Following repository was not found</string>
     <string name="repository_unsigned_DESC">Unsigned. Could not verify the application list. Be careful downloading applications from unsigned repositories.</string>
     <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>

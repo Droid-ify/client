@@ -40,13 +40,15 @@ import com.looker.core.common.R.string as stringRes
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	companion object {
 		private const val EXTRA_PACKAGE_NAME = "packageName"
+		private const val EXTRA_REPOSITORY_ADDRESS = "repoAddress"
 		private const val STATE_LAYOUT_MANAGER = "layoutManager"
 		private const val STATE_ADAPTER = "adapter"
 	}
 
-	constructor(packageName: String) : this() {
+	constructor(packageName: String, repoAddress: String? = null) : this() {
 		arguments = Bundle().apply {
 			putString(EXTRA_PACKAGE_NAME, packageName)
+			putString(EXTRA_REPOSITORY_ADDRESS, repoAddress)
 		}
 	}
 
@@ -75,6 +77,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			viewModel.setPackageName(name)
 			return name
 		}
+
+	private val repoAddress: String?
+		get() = arguments?.getString(EXTRA_REPOSITORY_ADDRESS)
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -154,15 +159,16 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 						}
 						val adapter = recyclerView?.adapter as? AppDetailAdapter
 
-						// `delay` is cancellable hence it waits for 50 sec to show empty page
+						// `delay` is cancellable hence it waits for 50 milliseconds to show empty page
 						if (products.isEmpty()) delay(50)
 
 						adapter?.setProducts(
-							requireContext(),
-							packageName,
-							products,
-							state.installedItem,
-							viewModel.initialSetting.first()
+							context = requireContext(),
+							packageName = packageName,
+							suggestedRepo = repoAddress,
+							products = products,
+							installedItem = state.installedItem,
+							settings = viewModel.initialSetting.first()
 						)
 						updateButtons()
 					}
@@ -362,7 +368,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					"https://www.f-droid.org/packages/${products[0].first.packageName}/"
 				} else if (products[0].second.name.contains("IzzyOnDroid")) {
 					"https://apt.izzysoft.de/fdroid/index/apk/${products[0].first.packageName}"
-				} else "https://droidify.eu.org/app/?id=${products[0].first.packageName}/?repo_address=${products[0].second.address}"
+				} else "https://droidify.eu.org/app/?id=${products[0].first.packageName}&repo_address=${products[0].second.address}"
 				val sendIntent: Intent = Intent().apply {
 					this.action = Intent.ACTION_SEND
 					putExtra(Intent.EXTRA_TEXT, address)

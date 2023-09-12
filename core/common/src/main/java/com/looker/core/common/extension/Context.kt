@@ -23,6 +23,9 @@ fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
 	return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
 }
 
+val Context.copy: Drawable
+	get() = getDrawableCompat(R.drawable.ic_copy)
+
 val Context.divider: Drawable
 	get() = getDrawableFromAttr(android.R.attr.listDivider)
 

@@ -19,6 +19,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getPackageName
+import com.looker.core.common.extension.getRepoAddress
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
@@ -293,7 +294,8 @@ abstract class ScreenActivity : AppCompatActivity() {
 				if (!packageName.isNullOrEmpty()) {
 					val fragment = currentFragment
 					if (fragment !is AppDetailFragment || fragment.packageName != packageName) {
-						navigateProduct(packageName)
+						val address = intent.getRepoAddress()
+						navigateProduct(packageName, address)
 					}
 				}
 			}
@@ -301,7 +303,9 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	internal fun navigateFavourites() = pushFragment(FavouritesFragment())
-	internal fun navigateProduct(packageName: String) = pushFragment(AppDetailFragment(packageName))
+	internal fun navigateProduct(packageName: String, repoAddress: String? = null) =
+		pushFragment(AppDetailFragment(packageName, repoAddress))
+
 	internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
 	internal fun navigatePreferences() = pushFragment(SettingsFragment.newInstance())
 	internal fun navigateAddRepository() = pushFragment(EditRepositoryFragment(null))
