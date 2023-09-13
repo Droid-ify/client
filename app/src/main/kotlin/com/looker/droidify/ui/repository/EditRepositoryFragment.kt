@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.looker.core.common.extension.get
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Repository
@@ -157,8 +158,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 					?.getItemAt(0)?.text?.toString().orEmpty()
 				val (addressText, fingerprintText) = try {
 					val uri = Uri.parse(URL(text).toString())
-					val fingerprintText = uri.getQueryParameter("fingerprint")?.nullIfEmpty()
-						?: uri.getQueryParameter("FINGERPRINT")?.nullIfEmpty()
+					val fingerprintText = uri["fingerprint"]?.nullIfEmpty()
+						?: uri["FINGERPRINT"]?.nullIfEmpty()
 					Pair(
 						uri.buildUpon().path(uri.path?.pathCropped).query(null).fragment(null)
 							.build().toString(), fingerprintText

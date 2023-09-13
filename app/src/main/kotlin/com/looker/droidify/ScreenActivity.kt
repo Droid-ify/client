@@ -18,8 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.getPackageName
-import com.looker.core.common.extension.getRepoAddress
+import com.looker.core.common.extension.packageName
+import com.looker.core.common.extension.repoAddress
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.sdkAbove
@@ -290,11 +290,11 @@ abstract class ScreenActivity : AppCompatActivity() {
 	open fun handleIntent(intent: Intent?) {
 		when (intent?.action) {
 			Intent.ACTION_VIEW -> {
-				val packageName = intent.getPackageName()
+				val packageName = intent.packageName
 				if (!packageName.isNullOrEmpty()) {
 					val fragment = currentFragment
 					if (fragment !is AppDetailFragment || fragment.packageName != packageName) {
-						val address = intent.getRepoAddress()
+						val address = intent.repoAddress
 						navigateProduct(packageName, address)
 					}
 				}

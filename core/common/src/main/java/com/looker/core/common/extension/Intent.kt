@@ -3,6 +3,7 @@ package com.looker.core.common.extension
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.nullIfEmpty
@@ -17,40 +18,45 @@ fun Intent.getPendingIntent(context: Context): PendingIntent? =
 		.addNextIntentWithParentStack(this)
 		.getPendingIntent(0, intentFlagCompat)
 
-fun Intent.getPackageName(): String? {
-	val uri = data
-	return when {
-		uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
-			uri.schemeSpecificPart?.nullIfEmpty()
-		}
+val Intent.packageName: String?
+	get() {
+		val uri = data
+		return when {
+			uri?.scheme == "package" || uri?.scheme == "fdroid.app" -> {
+				uri.schemeSpecificPart?.nullIfEmpty()
+			}
 
-		uri?.scheme == "market" && uri.host == "details" -> {
-			uri.getQueryParameter("id")?.nullIfEmpty()
-		}
+			uri?.scheme == "market" && uri.host == "details" -> {
+				uri["id"]?.nullIfEmpty()
+			}
 
-		uri != null && uri.scheme in setOf("http", "https") -> {
-			val host = uri.host.orEmpty()
-			if (host in hosts) {
-				if (host == PERSONAL_HOST) uri.getQueryParameter("id")
-				else uri.lastPathSegment?.nullIfEmpty()
-			} else null
-		}
+			uri != null && uri.scheme in httpScheme -> {
+				when (uri.host) {
+					in supportedExternalHosts -> uri.lastPathSegment?.nullIfEmpty()
+					PERSONAL_HOST -> uri["id"]
+					else -> null
+				}
+			}
 
-		else -> null
+			else -> null
+		}
 	}
-}
 
-fun Intent.getRepoAddress(): String? {
-	val uri = data
-	return if (uri != null && uri.scheme in setOf("http", "https") && uri.host == PERSONAL_HOST) {
-		uri.getQueryParameter("repo_address")
-	} else null
-}
+val Intent.repoAddress: String?
+	get() {
+		val uri = data
+		return if (uri != null && uri.scheme in httpScheme && uri.host == PERSONAL_HOST) {
+			uri["repo_address"]
+		} else null
+	}
+
+operator fun Uri.get(key: String): String? = getQueryParameter(key)
 
 private const val PERSONAL_HOST = "droidify.eu.org"
 
-private val hosts = setOf(
-	PERSONAL_HOST,
+private val httpScheme = setOf("http", "https")
+
+private val supportedExternalHosts = setOf(
 	"f-droid.org",
 	"www.f-droid.org",
 	"staging.f-droid.org",

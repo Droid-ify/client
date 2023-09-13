@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -349,8 +350,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 			AppDetailAdapter.Action.DETAILS -> {
 				startActivity(
-					Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-						.setData(Uri.parse("package:$packageName"))
+					Intent(
+						Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+						"package:$packageName".toUri()
+					)
 				)
 			}
 
@@ -364,16 +367,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 
 			AppDetailAdapter.Action.SHARE -> {
-				val address = if (products[0].second.name == "F-Droid") {
-					"https://www.f-droid.org/packages/${products[0].first.packageName}/"
-				} else if (products[0].second.name.contains("IzzyOnDroid")) {
-					"https://apt.izzysoft.de/fdroid/index/apk/${products[0].first.packageName}"
-				} else "https://droidify.eu.org/app/?id=${products[0].first.packageName}&repo_address=${products[0].second.address}"
-				val sendIntent: Intent = Intent().apply {
-					this.action = Intent.ACTION_SEND
-					putExtra(Intent.EXTRA_TEXT, address)
-					type = "text/plain"
+				val repo = products[0].second
+				val address = when {
+					repo.name == "F-Droid" -> "https://www.f-droid.org/packages/$packageName/"
+					"IzzyOnDroid" in repo.name -> "https://apt.izzysoft.de/fdroid/index/apk/$packageName"
+					else -> "https://droidify.eu.org/app/?id=$packageName&repo_address=${repo.address}"
 				}
+				val sendIntent = Intent(Intent.ACTION_SEND)
+					.putExtra(Intent.EXTRA_TEXT, address)
+					.setType("text/plain")
 				startActivity(Intent.createChooser(sendIntent, null))
 			}
 		}::class
