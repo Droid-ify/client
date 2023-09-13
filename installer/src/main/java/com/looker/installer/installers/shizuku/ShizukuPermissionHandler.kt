@@ -33,11 +33,10 @@ class ShizukuPermissionHandler(
 	}.flowOn(Dispatchers.Default).conflate()
 
 	private val isGranted: Flow<Boolean> = callbackFlow {
-		send(Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED)
+		send(false)
 		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
 			if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
-				val granted = grantResult == PackageManager.PERMISSION_GRANTED
-				trySend(granted)
+				trySend(grantResult == PackageManager.PERMISSION_GRANTED)
 			}
 		}
 		Shizuku.addRequestPermissionResultListener(listener)
