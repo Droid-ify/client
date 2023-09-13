@@ -225,4 +225,6 @@
     <string name="special_credits">Особая благодарность</string>
     <string name="home_screen_swiping">Жесты на Домашнем экране</string>
     <string name="home_screen_swiping_DESC">Разрешить использование жестов на главном экране</string>
+    <string name="label_copy">Копировать</string>
+    <string name="repository_not_found">Эти репозитории не были найдены</string>
 </resources>
