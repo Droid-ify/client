@@ -1,5 +1,4 @@
--keepattributes LineNumberTable,SourceFile
--renamesourcefileattribute SourceFile
+-dontobfuscate
 
 # Disable ServiceLoader reproducibility-breaking optimizations
 -keep class kotlinx.coroutines.CoroutineExceptionHandler
