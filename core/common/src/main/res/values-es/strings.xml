@@ -221,4 +221,6 @@
     <string name="special_credits">Gracias a</string>
     <string name="home_screen_swiping">Deslizamiento por la pantalla de inicio</string>
     <string name="home_screen_swiping_DESC">Permitir al usuario pasar de una página a otra en la pantalla de inicio</string>
+    <string name="label_copy">Copiar</string>
+    <string name="repository_not_found">No pudimos encontrar el siguiente repositorio</string>
 </resources>
