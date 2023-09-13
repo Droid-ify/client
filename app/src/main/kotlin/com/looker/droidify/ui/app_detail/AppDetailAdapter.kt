@@ -78,6 +78,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		fun onPermissionsClick(group: String?, permissions: List<String>)
 		fun onScreenshotClick(screenshot: Product.Screenshot)
 		fun onReleaseClick(release: Release)
+		fun onRequestAddRepository(address: String)
 		fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
 	}
 
@@ -611,8 +612,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 					setPadding(0, 12.dp, 0, 12.dp)
 				}
 				with(copyRepoAddress) {
-					icon = context.copy
-					setText(stringRes.label_copy)
+					icon = context.open
+					setText(stringRes.add_repository)
 					setBackgroundColor(context.getColor(android.R.color.transparent))
 					setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
 					iconTint = context.getColorFromAttr(MaterialR.attr.colorPrimary)
@@ -1144,7 +1145,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.EMPTY -> EmptyViewHolder(parent.context).apply {
 				copyRepoAddress.setOnClickListener {
 					repoAddress.text?.let { link ->
-						copyLinkToClipboard(it, link.toString())
+						callbacks.onRequestAddRepository(link.toString())
 					}
 				}
 			}
@@ -1614,9 +1615,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 	}
 
 	private fun copyLinkToClipboard(view: View, link: String) {
-		val clipboardManager =
-			view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-		clipboardManager.setPrimaryClip(ClipData.newPlainText(null, link))
+		view.context.copyToClipboard(link)
 		Snackbar.make(view, stringRes.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
 	}
 

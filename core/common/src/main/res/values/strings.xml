@@ -30,7 +30,6 @@
     <string name="confirmation">Confirmation</string>
     <string name="connecting">Connecting…</string>
     <string name="contains_non_free_media">Contains non-free media</string>
-    <string name="label_copy">Copy</string>
     <string name="could_not_download_FORMAT">Could not download %s</string>
     <string name="could_not_sync_FORMAT">Could not sync %s</string>
     <string name="could_not_validate_FORMAT">Could not validate %s</string>
@@ -104,6 +103,7 @@
     <string name="invalid_signature_error_DESC">Invalid signature.</string>
     <string name="invalid_username_format">Invalid username format</string>
     <string name="io_error_DESC">Unable to perform certain actions.</string>
+    <string name="label_copy">Copy</string>
     <string name="launch">Launch</string>
     <string name="license">License</string>
     <string name="license_FORMAT">%s license</string>

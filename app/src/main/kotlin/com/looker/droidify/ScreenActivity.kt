@@ -17,12 +17,9 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.packageName
-import com.looker.core.common.extension.repoAddress
-import com.looker.core.common.extension.homeAsUp
+import com.looker.core.common.*
+import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
-import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.droidify.database.CursorOwner
@@ -290,13 +287,19 @@ abstract class ScreenActivity : AppCompatActivity() {
 	open fun handleIntent(intent: Intent?) {
 		when (intent?.action) {
 			Intent.ACTION_VIEW -> {
-				val packageName = intent.packageName
-				if (!packageName.isNullOrEmpty()) {
-					val fragment = currentFragment
-					if (fragment !is AppDetailFragment || fragment.packageName != packageName) {
-						val address = intent.repoAddress
-						navigateProduct(packageName, address)
+				when (val deeplink = intent.deeplinkType) {
+					is DeeplinkType.AppDetail -> {
+						val fragment = currentFragment
+						if (fragment !is AppDetailFragment || fragment.packageName != deeplink.packageName) {
+							navigateProduct(deeplink.packageName, deeplink.repoAddress)
+						}
 					}
+
+					is DeeplinkType.AddRepository -> {
+						navigateAddRepository(repoAddress = deeplink.address)
+					}
+
+					null -> {}
 				}
 			}
 		}
@@ -308,10 +311,12 @@ abstract class ScreenActivity : AppCompatActivity() {
 
 	internal fun navigateRepositories() = pushFragment(RepositoriesFragment())
 	internal fun navigatePreferences() = pushFragment(SettingsFragment.newInstance())
-	internal fun navigateAddRepository() = pushFragment(EditRepositoryFragment(null))
+	internal fun navigateAddRepository(repoAddress: String? = null) =
+		pushFragment(EditRepositoryFragment(null, repoAddress))
+
 	internal fun navigateRepository(repositoryId: Long) =
 		pushFragment(RepositoryFragment(repositoryId))
 
 	internal fun navigateEditRepository(repositoryId: Long) =
-		pushFragment(EditRepositoryFragment(repositoryId))
+		pushFragment(EditRepositoryFragment(repositoryId, null))
 }

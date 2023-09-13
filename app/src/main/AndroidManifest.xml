@@ -114,6 +114,17 @@
                 <data android:pathPattern="/app/.*" />
             </intent-filter>
 
+            <!--Adding repo with special url-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="fdroidrepo" />
+                <data android:scheme="fdroidrepos" />
+            </intent-filter>
+
         </activity>
 
         <service android:name=".service.SyncService" />

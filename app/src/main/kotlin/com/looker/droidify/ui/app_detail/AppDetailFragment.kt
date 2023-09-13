@@ -461,6 +461,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
+	override fun onRequestAddRepository(address: String) {
+		screenActivity.navigateAddRepository(address)
+	}
+
 	override fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean {
 		return if (shouldConfirm && (uri.scheme == "http" || uri.scheme == "https")) {
 			MessageDialog(MessageDialog.Message.Link(uri)).show(childFragmentManager)

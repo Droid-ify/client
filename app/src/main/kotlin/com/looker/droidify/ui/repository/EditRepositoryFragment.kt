@@ -1,7 +1,5 @@
 package com.looker.droidify.ui.repository
 
-import android.content.ClipboardManager
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.text.Selection
@@ -10,12 +8,14 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.looker.core.common.extension.clipboardManager
 import com.looker.core.common.extension.get
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.nullIfEmpty
@@ -48,13 +48,15 @@ class EditRepositoryFragment() : ScreenFragment() {
 
 	companion object {
 		private const val EXTRA_REPOSITORY_ID = "repositoryId"
+		private const val EXTRA_REPOSITORY_ADDRESS = "repositoryAddress"
 
 		private val checkPaths = listOf("", "fdroid/repo", "repo")
 	}
 
-	constructor(repositoryId: Long?) : this() {
+	constructor(repositoryId: Long?, repoAddress: String?) : this() {
 		arguments = Bundle().apply {
 			repositoryId?.let { putLong(EXTRA_REPOSITORY_ID, it) }
+			repoAddress?.let { putString(EXTRA_REPOSITORY_ADDRESS, it) }
 		}
 	}
 
@@ -71,6 +73,11 @@ class EditRepositoryFragment() : ScreenFragment() {
 	private val repositoryId: Long?
 		get() = requireArguments().let {
 			if (it.containsKey(EXTRA_REPOSITORY_ID)) it.getLong(EXTRA_REPOSITORY_ID) else null
+		}
+
+	private val repositoryAddress: String?
+		get() = requireArguments().let {
+			if (it.containsKey(EXTRA_REPOSITORY_ADDRESS)) it.getString(EXTRA_REPOSITORY_ADDRESS) else null
 		}
 
 	private var saveMenuItem: MenuItem? = null
@@ -152,12 +159,12 @@ class EditRepositoryFragment() : ScreenFragment() {
 		if (savedInstanceState == null) {
 			val repository = repositoryId?.let(Database.RepositoryAdapter::get)
 			if (repository == null) {
-				val clipboardManager =
-					requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-				val text = clipboardManager.primaryClip?.let { if (it.itemCount > 0) it else null }
-					?.getItemAt(0)?.text?.toString().orEmpty()
+				val text = repositoryAddress ?: kotlin.run {
+					requireContext().clipboardManager.primaryClip?.takeIf { it.itemCount > 0 }
+						?.getItemAt(0)?.text?.toString().orEmpty()
+				}
 				val (addressText, fingerprintText) = try {
-					val uri = Uri.parse(URL(text).toString())
+					val uri = URL(text).toString().toUri()
 					val fingerprintText = uri["fingerprint"]?.nullIfEmpty()
 						?: uri["FINGERPRINT"]?.nullIfEmpty()
 					Pair(
