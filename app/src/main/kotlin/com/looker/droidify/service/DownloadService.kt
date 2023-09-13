@@ -209,7 +209,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setAction(Intent.ACTION_VIEW)
 			.setData(Uri.parse("package:${task.packageName}"))
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-			.getPendingIntent(this)
+			.toPendingIntent(this)
 		notificationManager.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
@@ -251,7 +251,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setData(Uri.parse("package:${task.packageName}"))
 			.putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-			.getPendingIntent(this)
+			.toPendingIntent(this)
 		notificationManager.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
@@ -377,7 +377,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setAction(Intent.ACTION_VIEW)
 			.setData(Uri.parse("package:${packageName}"))
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-			.getPendingIntent(this)
+			.toPendingIntent(this)
 
 	private fun CoroutineScope.downloadFile(
 		task: Task,

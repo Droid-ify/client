@@ -1,6 +1,8 @@
 package com.looker.core.common.extension
 
 import android.app.NotificationManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
@@ -13,15 +15,18 @@ import com.looker.core.common.R
 inline val Context.notificationManager: NotificationManager
 	get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
-	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
-	val (colorStateList, resId) = try {
-		Pair(typedArray.getColorStateList(0), typedArray.getResourceId(0, 0))
-	} finally {
-		typedArray.recycle()
-	}
-	return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
+inline val Context.clipboardManager: ClipboardManager
+	get() = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+fun Context.copyToClipboard(clip: String) {
+	clipboardManager.setPrimaryClip(ClipData.newPlainText(null, clip))
 }
+
+val Context.copy: Drawable
+	get() = getDrawableCompat(R.drawable.ic_copy)
+
+val Context.corneredBackground: Drawable
+	get() = getDrawableCompat(R.drawable.background_border)
 
 val Context.divider: Drawable
 	get() = getDrawableFromAttr(android.R.attr.listDivider)
@@ -29,11 +34,11 @@ val Context.divider: Drawable
 val Context.homeAsUp: Drawable
 	get() = getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 
+val Context.open: Drawable
+	get() = getDrawableCompat(R.drawable.ic_launch)
+
 val Context.selectableBackground: Drawable
 	get() = getDrawableFromAttr(android.R.attr.selectableItemBackground)
-
-val Context.corneredBackground: Drawable
-	get() = getDrawableCompat(R.drawable.background_border)
 
 val Context.aspectRatio: Float
 	get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
@@ -52,3 +57,13 @@ private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 
 private fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
 	ResourcesCompat.getDrawable(resources, resId, theme) ?: ContextCompat.getDrawable(this, resId)!!
+
+fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
+	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
+	val (colorStateList, resId) = try {
+		Pair(typedArray.getColorStateList(0), typedArray.getResourceId(0, 0))
+	} finally {
+		typedArray.recycle()
+	}
+	return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
+}

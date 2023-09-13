@@ -9,6 +9,7 @@ import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,6 +31,8 @@ import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.installer.model.InstallerQueueState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import com.looker.core.common.R.string as stringRes
@@ -38,13 +41,15 @@ import com.looker.core.common.R.string as stringRes
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	companion object {
 		private const val EXTRA_PACKAGE_NAME = "packageName"
+		private const val EXTRA_REPOSITORY_ADDRESS = "repoAddress"
 		private const val STATE_LAYOUT_MANAGER = "layoutManager"
 		private const val STATE_ADAPTER = "adapter"
 	}
 
-	constructor(packageName: String) : this() {
+	constructor(packageName: String, repoAddress: String? = null) : this() {
 		arguments = Bundle().apply {
 			putString(EXTRA_PACKAGE_NAME, packageName)
+			putString(EXTRA_REPOSITORY_ADDRESS, repoAddress)
 		}
 	}
 
@@ -73,6 +78,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			viewModel.setPackageName(name)
 			return name
 		}
+
+	private val repoAddress: String?
+		get() = arguments?.getString(EXTRA_REPOSITORY_ADDRESS)
 
 	private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -133,7 +141,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		viewLifecycleOwner.lifecycleScope.launch {
 			repeatOnLifecycle(Lifecycle.State.CREATED) {
 				launch {
-					viewModel.state.collect { state ->
+					viewModel.state.collectLatest { state ->
 						products = state.products.mapNotNull { product ->
 							val requiredRepo = state.repos.find { it.id == product.repositoryId }
 							requiredRepo?.let { product to it }
@@ -152,12 +160,16 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 						}
 						val adapter = recyclerView?.adapter as? AppDetailAdapter
 
+						// `delay` is cancellable hence it waits for 50 milliseconds to show empty page
+						if (products.isEmpty()) delay(50)
+
 						adapter?.setProducts(
-							requireContext(),
-							packageName,
-							products,
-							state.installedItem,
-							viewModel.initialSetting.first()
+							context = requireContext(),
+							packageName = packageName,
+							suggestedRepo = repoAddress,
+							products = products,
+							installedItem = state.installedItem,
+							settings = viewModel.initialSetting.first()
 						)
 						updateButtons()
 					}
@@ -207,9 +219,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		val canUninstall = product != null && installed != null && !installed.isSystem
 		val canLaunch =
 			product != null && installed != null && installed.launcherActivities.isNotEmpty()
-		val canShare = product != null && (
-				products[0].second.name == "F-Droid" || products[0].second.name.contains("IzzyOnDroid")
-				)
 
 		val actions = mutableSetOf<Action>()
 
@@ -218,21 +227,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		if (canLaunch) actions += Action.LAUNCH
 		if (installed != null) actions += Action.DETAILS
 		if (canUninstall) actions += Action.UNINSTALL
-		if (canShare) actions += Action.SHARE
+		actions += Action.SHARE
 
 		val primaryAction = when {
 			canUpdate -> Action.UPDATE
 			canLaunch -> Action.LAUNCH
 			canInstall -> Action.INSTALL
 			installed != null -> Action.DETAILS
-			canShare -> Action.SHARE
-			else -> null
+			else -> Action.SHARE
 		}
 
 		val adapterAction = when {
 			installing -> null
 			downloading -> AppDetailAdapter.Action.CANCEL
-			else -> primaryAction?.adapterAction
+			else -> primaryAction.adapterAction
 		}
 
 		(recyclerView?.adapter as? AppDetailAdapter)?.action = adapterAction
@@ -342,8 +350,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 			AppDetailAdapter.Action.DETAILS -> {
 				startActivity(
-					Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-						.setData(Uri.parse("package:$packageName"))
+					Intent(
+						Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+						"package:$packageName".toUri()
+					)
 				)
 			}
 
@@ -357,16 +367,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 			}
 
 			AppDetailAdapter.Action.SHARE -> {
-				val address = if (products[0].second.name == "F-Droid") {
-					"https://www.f-droid.org/packages/${products[0].first.packageName}/"
-				} else if (products[0].second.name.contains("IzzyOnDroid")) {
-					"https://apt.izzysoft.de/fdroid/index/apk/${products[0].first.packageName}"
-				} else toString()
-				val sendIntent: Intent = Intent().apply {
-					this.action = Intent.ACTION_SEND
-					putExtra(Intent.EXTRA_TEXT, address)
-					type = "text/plain"
+				val repo = products[0].second
+				val address = when {
+					repo.name == "F-Droid" -> "https://www.f-droid.org/packages/$packageName/"
+					"IzzyOnDroid" in repo.name -> "https://apt.izzysoft.de/fdroid/index/apk/$packageName"
+					else -> "https://droidify.eu.org/app/?id=$packageName&repo_address=${repo.address}"
 				}
+				val sendIntent = Intent(Intent.ACTION_SEND)
+					.putExtra(Intent.EXTRA_TEXT, address)
+					.setType("text/plain")
 				startActivity(Intent.createChooser(sendIntent, null))
 			}
 		}::class
@@ -450,6 +459,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				}
 			}
 		}
+	}
+
+	override fun onRequestAddRepository(address: String) {
+		screenActivity.navigateAddRepository(address)
 	}
 
 	override fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean {
