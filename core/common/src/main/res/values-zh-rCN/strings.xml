@@ -215,4 +215,6 @@
     <string name="special_credits">特别鸣谢</string>
     <string name="home_screen_swiping">主屏幕滑动</string>
     <string name="home_screen_swiping_DESC">允许用户在页面之间进行滑动切换</string>
+    <string name="label_copy">复制</string>
+    <string name="repository_not_found">未找到以下仓库</string>
 </resources>
