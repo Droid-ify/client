@@ -6,6 +6,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.toLocale
+import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.*
 import com.looker.droidify.work.CleanUpWorker
@@ -13,6 +14,7 @@ import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 import javax.inject.Inject
 import kotlin.time.Duration
 import com.looker.core.common.R as CommonR
@@ -24,10 +26,17 @@ class SettingsViewModel
 	private val shizukuPermissionHandler: ShizukuPermissionHandler
 ) : ViewModel() {
 
+	private val initialSetting = flow {
+		emit(settingsRepository.fetchInitialPreferences())
+	}
 	val settingsFlow get() = settingsRepository.settingsFlow
 
 	private val _snackbarStringId = MutableSharedFlow<Int>()
 	val snackbarStringId = _snackbarStringId.asSharedFlow()
+
+	fun <T> getSetting(block: Settings.() -> T): Flow<T> = settingsRepository.get(block)
+
+	fun <T> getInitialSetting(block: Settings.() -> T): Flow<T> = initialSetting.map { it.block() }
 
 	fun setLanguage(language: String) {
 		viewModelScope.launch {
@@ -109,9 +118,13 @@ class SettingsViewModel
 		}
 	}
 
-	fun setProxyPort(proxyPort: Int) {
+	fun setProxyPort(proxyPort: String) {
 		viewModelScope.launch {
-			settingsRepository.setProxyPort(proxyPort)
+			try {
+				settingsRepository.setProxyPort(proxyPort.toInt())
+			} catch (e: NumberFormatException) {
+				_snackbarStringId.emit(CommonR.string.proxy_port_error_not_int)
+			}
 		}
 	}
 

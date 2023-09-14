@@ -2,24 +2,12 @@ package com.looker.core.datastore.extension
 
 import android.content.Context
 import android.content.res.Configuration
+import com.looker.core.common.R
 import com.looker.core.common.SdkCheck
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.SortOrder
-import com.looker.core.datastore.model.Theme
+import com.looker.core.datastore.model.*
+import kotlin.time.Duration
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.R.style as styleRes
-
-fun Context?.themeName(theme: Theme) = this?.let {
-	when (theme) {
-		Theme.SYSTEM -> getString(stringRes.system)
-		Theme.SYSTEM_BLACK -> getString(stringRes.system) + " " + getString(stringRes.amoled)
-		Theme.LIGHT -> getString(stringRes.light)
-		Theme.DARK -> getString(stringRes.dark)
-		Theme.AMOLED -> getString(stringRes.amoled)
-	}
-} ?: ""
 
 fun Configuration.getThemeRes(theme: Theme, dynamicTheme: Boolean) = when (theme) {
 	Theme.SYSTEM -> {
@@ -30,16 +18,39 @@ fun Configuration.getThemeRes(theme: Theme, dynamicTheme: Boolean) = when (theme
 			if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicLight
 			else styleRes.Theme_Main_Light
 	}
+
 	Theme.SYSTEM_BLACK -> {
 		if ((uiMode and Configuration.UI_MODE_NIGHT_YES) != 0)
 			if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicAmoled else styleRes.Theme_Main_Amoled
 		else
 			if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
 	}
+
 	Theme.LIGHT -> if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicLight else styleRes.Theme_Main_Light
 	Theme.DARK -> if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicDark else styleRes.Theme_Main_Dark
 	Theme.AMOLED -> if (SdkCheck.isSnowCake && dynamicTheme) styleRes.Theme_Main_DynamicAmoled else styleRes.Theme_Main_Amoled
 }
+
+fun Context?.toTime(duration: Duration): String {
+	val time = duration.inWholeHours.toInt()
+	val days = duration.inWholeDays.toInt()
+	if (duration == Duration.INFINITE) return this?.getString(R.string.never) ?: ""
+	return if (time >= 24) "$days " + this?.resources?.getQuantityString(
+		R.plurals.days,
+		days
+	)
+	else "$time " + this?.resources?.getQuantityString(R.plurals.hours, time)
+}
+
+fun Context?.themeName(theme: Theme) = this?.let {
+	when (theme) {
+		Theme.SYSTEM -> getString(stringRes.system)
+		Theme.SYSTEM_BLACK -> getString(stringRes.system) + " " + getString(stringRes.amoled)
+		Theme.LIGHT -> getString(stringRes.light)
+		Theme.DARK -> getString(stringRes.dark)
+		Theme.AMOLED -> getString(stringRes.amoled)
+	}
+} ?: ""
 
 fun Context?.sortOrderName(sortOrder: SortOrder) = this?.let {
 	when (sortOrder) {
