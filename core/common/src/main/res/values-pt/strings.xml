@@ -17,7 +17,7 @@
     <string name="incompatible_api_min_DESC_FORMAT">A versão mínima da API é %d.</string>
     <string name="no_matching_applications_found">Não foi possível encontrar quaisquer aplicações</string>
     <string name="no_proxy">Não usar proxy</string>
-    <string name="notify_about_updates">Notificar sempre que existirem novas versões de aplicações</string>
+    <string name="notify_about_updates">Notificar para atualizações</string>
     <string name="notify_about_updates_summary">Mostrar uma notificação se existirem novas versões</string>
     <string name="promotes_non_free_network_services">Promove serviços de rede não livres</string>
     <string name="promotes_non_free_software">Promove software não livre</string>
@@ -221,4 +221,7 @@
     <string name="special_credits">Créditos especiais</string>
     <string name="home_screen_swiping">Deslize no ecrã principal</string>
     <string name="home_screen_swiping_DESC">Permitir deslize para trocar de páginas no ecrã principal</string>
+    <string name="label_copy">Cópia</string>
+    <string name="proxy_port_error_not_int">A porta proxy só pode ser um número inteiro</string>
+    <string name="repository_not_found">O repositório seguinte não foi encontrado</string>
 </resources>
