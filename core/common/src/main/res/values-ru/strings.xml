@@ -93,7 +93,7 @@
     <string name="no_description_available_DESC">Описание отсутствует</string>
     <string name="no_matching_applications_found">Не найдено таких приложений</string>
     <string name="no_proxy">Без прокси</string>
-    <string name="notify_about_updates">Уведомлять о новых версиях приложений</string>
+    <string name="notify_about_updates">Уведомлять об обновлениях</string>
     <string name="notify_about_updates_summary">Отображать уведомление о доступности новых версий</string>
     <string name="number_of_applications">Количество приложений</string>
     <string name="ok">ОК</string>
@@ -227,4 +227,5 @@
     <string name="home_screen_swiping_DESC">Разрешить использование жестов на главном экране</string>
     <string name="label_copy">Копировать</string>
     <string name="repository_not_found">Эти репозитории не были найдены</string>
+    <string name="proxy_port_error_not_int">Порт прокси должен быть целым числом</string>
 </resources>
