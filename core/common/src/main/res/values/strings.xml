@@ -129,7 +129,7 @@
     <string name="no_internet">You have no internet connection</string>
     <string name="no_matching_applications_found">Could not find any such applications</string>
     <string name="no_proxy">No proxy</string>
-    <string name="notify_about_updates">Notify about new versions of applications</string>
+    <string name="notify_about_updates">Notify for updates</string>
     <string name="notify_about_updates_summary">Show a notification when new versions are available</string>
     <string name="number_of_applications">Number of applications</string>
     <string name="ok">OK</string>
@@ -151,6 +151,7 @@
     <string name="proxy">Proxy</string>
     <string name="proxy_host">Proxy host</string>
     <string name="proxy_port">Proxy port</string>
+    <string name="proxy_port_error_not_int">Proxy port can only be a Integer</string>
     <string name="proxy_type">Proxy type</string>
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
