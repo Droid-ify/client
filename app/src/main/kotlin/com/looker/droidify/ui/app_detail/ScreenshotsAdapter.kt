@@ -97,6 +97,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		holder.image.load(
 			item.screenshot.url(item.repository, item.packageName)
 		) {
+			authentication(item.repository.authentication)
 			scale(Scale.FILL)
 			placeholder(holder.placeholder)
 			error(holder.placeholder)

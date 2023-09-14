@@ -32,6 +32,8 @@ dependencies {
 
 	implementation(Core.core)
 
+	implementation(Coil.coil)
+
 	implementation(Jackson.core)
 }
 

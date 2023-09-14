@@ -4,13 +4,20 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.request.ImageRequest
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 import kotlin.math.min
 import kotlin.math.roundToInt
+
+fun ImageRequest.Builder.authentication(base64: String) {
+	addHeader("Authorization", base64)
+}
 
 fun TextView.setTextSizeScaled(size: Int) {
 	val realSize = (size * resources.displayMetrics.scaledDensity).roundToInt()

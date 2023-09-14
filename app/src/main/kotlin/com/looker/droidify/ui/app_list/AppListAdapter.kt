@@ -133,7 +133,9 @@ class AppListAdapter(
 				val repository: Repository? = repositories[productItem.repositoryId]
 				if (repository != null) {
 					val iconUrl = productItem.icon(view = holder.icon, repository = repository)
-					holder.icon.load(iconUrl)
+					holder.icon.load(iconUrl) {
+						authentication(repository.authentication)
+					}
 				}
 				with(holder.status) {
 					val versionText = if (source == AppListFragment.Source.UPDATES) {

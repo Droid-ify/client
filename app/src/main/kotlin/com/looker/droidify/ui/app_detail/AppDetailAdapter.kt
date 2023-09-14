@@ -1171,7 +1171,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				var showAuthor = item.product.author.name.isNotEmpty()
 				val iconUrl =
 					item.product.item().icon(view = holder.icon, repository = item.repository)
-				holder.icon.load(iconUrl)
+				holder.icon.load(iconUrl) {
+					authentication(item.repository.authentication)
+				}
 				val authorText =
 					if (showAuthor) buildSpannedString {
 						append("by ")

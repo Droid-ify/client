@@ -248,6 +248,7 @@ class ScreenshotsFragment() : DialogFragment() {
 			val screenshot = screenshots[position]
 			repository?.let {
 				holder.image.load(screenshot.url(it, packageName)) {
+					authentication(it.authentication)
 					placeholder(holder.placeholder)
 					error(holder.placeholder)
 				}

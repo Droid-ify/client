@@ -5,9 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.looker.core.common.extension.corneredBackground
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.*
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
@@ -63,7 +61,9 @@ class FavouriteFragmentAdapter(
 		holder.summary.text = item.summary
 		if (repository != null) {
 			val iconUrl = item.icon(holder.icon, repository)
-			holder.icon.load(iconUrl)
+			holder.icon.load(iconUrl) {
+				authentication(repository.authentication)
+			}
 		}
 		holder.version.apply {
 			text = item.installedVersion.nullIfEmpty() ?: item.version
