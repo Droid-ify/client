@@ -221,4 +221,6 @@
     <string name="special_credits">Crédits spéciaux</string>
     <string name="home_screen_swiping">Balayage de l\'écran d\'accueil</string>
     <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
+    <string name="label_copy">Copie</string>
+    <string name="repository_not_found">Le dépôt suivant n\'a pas été trouvé</string>
 </resources>
