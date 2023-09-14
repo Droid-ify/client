@@ -221,4 +221,6 @@
     <string name="special_credits">Speciální poděkování</string>
     <string name="home_screen_swiping">Posouvání na domovské stránce</string>
     <string name="home_screen_swiping_DESC">Umožnit uživateli posouvat mezi stránkami na domovské stránce</string>
+    <string name="label_copy">Kopírovat</string>
+    <string name="repository_not_found">Následující repozitář nebyl nalezen</string>
 </resources>
