@@ -86,7 +86,7 @@
     <string name="no_description_available_DESC">Sin ninguna descripción</string>
     <string name="no_matching_applications_found">No se ha podido encontrar ninguna aplicación de este tipo</string>
     <string name="no_proxy">Sin proxy</string>
-    <string name="notify_about_updates">Notificar sobre nuevas versiones de aplicaciones</string>
+    <string name="notify_about_updates">Notificar las actualizaciones</string>
     <string name="notify_about_updates_summary">Mostrar una notificación cuando haya nuevas versiones disponibles</string>
     <string name="number_of_applications">Número de aplicaciones</string>
     <string name="ok">Aceptar</string>
@@ -223,4 +223,5 @@
     <string name="home_screen_swiping_DESC">Permitir al usuario pasar de una página a otra en la pantalla de inicio</string>
     <string name="label_copy">Copiar</string>
     <string name="repository_not_found">No pudimos encontrar el siguiente repositorio</string>
+    <string name="proxy_port_error_not_int">El puerto proxy sólo puede ser un número entero</string>
 </resources>
