@@ -113,7 +113,7 @@
     <string name="notify_about_updates_summary">有更新時顯示通知</string>
     <string name="no_matching_applications_found">找不到應用程式</string>
     <string name="no_proxy">無代理</string>
-    <string name="notify_about_updates">通知新版本應用</string>
+    <string name="notify_about_updates">通知更新</string>
     <string name="number_of_applications">應用程式數量</string>
     <string name="ok">好的</string>
     <string name="only_compatible_with_FORMAT">僅與 %s 相容</string>
@@ -215,4 +215,7 @@
     <string name="special_credits">特別感謝</string>
     <string name="home_screen_swiping">首頁畫面滑動</string>
     <string name="home_screen_swiping_DESC">允許使用者在首頁畫面之間進行滑動切換</string>
+    <string name="label_copy">複製</string>
+    <string name="proxy_port_error_not_int">代理端口只能設定為整數</string>
+    <string name="repository_not_found">未找到下列儲存庫</string>
 </resources>
