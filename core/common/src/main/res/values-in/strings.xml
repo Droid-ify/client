@@ -72,7 +72,7 @@
     <string name="no_description_available_DESC">Deskripsi tidak tersedia</string>
     <string name="no_matching_applications_found">Tidak bisa menemukan aplikasi tersebut</string>
     <string name="no_proxy">Tanpa proksi</string>
-    <string name="notify_about_updates">Beri tahu tentang versi baru dari aplikasi</string>
+    <string name="notify_about_updates">Beri tahu tentang pembaruan</string>
     <string name="notify_about_updates_summary">Tampilkan notifikasi saat versi baru telah tersedia</string>
     <string name="number_of_applications">Jumlah aplikasi</string>
     <string name="ok">OKE</string>
@@ -215,4 +215,7 @@
     <string name="home_screen_swiping_DESC">Izinkan pengguna menggeser antar halaman di layar beranda</string>
     <string name="special_credits">Kredit Spesial</string>
     <string name="shizuku_not_installed">Shizuku tidak terpasang</string>
+    <string name="label_copy">Salin</string>
+    <string name="proxy_port_error_not_int">Porta proksi harus bilangan bulat</string>
+    <string name="repository_not_found">Repositori berikut tidak ditemukan</string>
 </resources>
