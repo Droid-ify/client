@@ -1,5 +1,6 @@
 package com.looker.core.data.fdroid.repository.offline
 
+import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.data.di.ApplicationScope
 import com.looker.core.data.di.DefaultDispatcher
 import com.looker.core.data.fdroid.repository.RepoRepository
@@ -54,9 +55,37 @@ class OfflineFirstRepoRepository @Inject constructor(
 		}
 	}
 
-	override suspend fun sync(repo: Repo): Boolean =
-		coroutineScope {
-			val index = indexManager.getIndex(listOf(repo))[repo]!!
+	override suspend fun sync(repo: Repo): Boolean = coroutineScope {
+		val index = try {
+			indexManager.getIndex(listOf(repo))[repo]!!
+		} catch (e: Exception) {
+			e.exceptCancellation()
+			return@coroutineScope false
+		}
+		val updatedRepo = index.repo.toEntity(
+			id = repo.id,
+			fingerprint = repo.fingerprint,
+			username = repo.authentication.username,
+			password = repo.authentication.password,
+			enabled = true
+		)
+		repoDao.upsertRepo(updatedRepo)
+		val apps = index.packages.map {
+			it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
+		}
+		appDao.upsertApps(apps)
+		true
+	}
+
+	override suspend fun syncAll(): Boolean = supervisorScope {
+		val repos = repoDao.getRepoStream().first().filter { it.enabled }
+		val indices = try {
+			indexManager.getIndex(repos.toExternal(locale))
+		} catch (e: Exception) {
+			e.exceptCancellation()
+			return@supervisorScope false
+		}
+		indices.forEach { (repo, index) ->
 			val updatedRepo = index.repo.toEntity(
 				id = repo.id,
 				fingerprint = repo.fingerprint,
@@ -69,27 +98,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 				it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
 			}
 			appDao.upsertApps(apps)
-			true
 		}
-
-	override suspend fun syncAll(): Boolean =
-		supervisorScope {
-			val repos = repoDao.getRepoStream().first().filter { it.enabled }
-			val indices = indexManager.getIndex(repos.toExternal(locale))
-			indices.forEach { (repo, index) ->
-				val updatedRepo = index.repo.toEntity(
-					id = repo.id,
-					fingerprint = repo.fingerprint,
-					username = repo.authentication.username,
-					password = repo.authentication.password,
-					enabled = true
-				)
-				repoDao.upsertRepo(updatedRepo)
-				val apps = index.packages.map {
-					it.value.toEntity(it.key, repo.id, preference.unstableUpdate)
-				}
-				appDao.upsertApps(apps)
-			}
-			true
-		}
+		true
+	}
 }

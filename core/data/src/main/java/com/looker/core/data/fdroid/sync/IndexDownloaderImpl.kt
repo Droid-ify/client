@@ -27,7 +27,6 @@ class IndexDownloaderImpl @Inject constructor(
 
 		private const val INDEX_V1_FILE_NAME = "index-v1.jar"
 		private const val INDEX_V2_FILE_NAME = "index-v2.json"
-		private const val ENTRY_JSON_FILE_NAME = "entry.jar"
 		private const val ENTRY_FILE_NAME = "entry.jar"
 	}
 
@@ -63,7 +62,7 @@ class IndexDownloaderImpl @Inject constructor(
 	}
 
 	override suspend fun determineIndexType(repo: Repo): IndexType {
-		val indexV2Exist = downloader.headCall(repo.indexUrl(ENTRY_JSON_FILE_NAME))
+		val indexV2Exist = downloader.headCall(repo.indexUrl(ENTRY_FILE_NAME))
 		return if (indexV2Exist is NetworkResponse.Success) IndexType.ENTRY
 		else IndexType.INDEX_V1
 	}

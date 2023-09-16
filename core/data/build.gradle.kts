@@ -1,6 +1,5 @@
 plugins {
 	id("looker.android.library")
-	kotlin("plugin.serialization")
 	id("looker.hilt.work")
 }
 
@@ -33,5 +32,4 @@ dependencies {
 	ktor()
 
 	implementation(Core.core)
-	implementation(Kotlin.serialization)
 }
