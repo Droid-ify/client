@@ -109,7 +109,7 @@
     <string name="no_description_available_DESC">لا يوجد وصف متاح</string>
     <string name="no_matching_applications_found">لم يُعثر على تطبيق كهذا</string>
     <string name="no_proxy">بدون وسيط</string>
-    <string name="notify_about_updates">نبّه عند وجود إصدارات جديدة</string>
+    <string name="notify_about_updates">نبِّه بوجود التحديثات</string>
     <string name="notify_about_updates_summary">اعرض تنبيهًا عند توفر إصدارات جديدة</string>
     <string name="number_of_applications">عدد التطبيقات</string>
     <string name="only_compatible_with_FORMAT">متوافق فقط مع %s</string>
@@ -230,4 +230,7 @@
     <string name="special_credits">شكر خاص</string>
     <string name="home_screen_swiping">ايماءات الشاشة الرئيسة</string>
     <string name="home_screen_swiping_DESC">اسمح للمستخدم بالتمرير بين الصفحات في الشاشة الرئيسة</string>
+    <string name="label_copy">انسخ</string>
+    <string name="proxy_port_error_not_int">يجب أن يكون منفذ الوكيل رقمًا صحيحًا</string>
+    <string name="repository_not_found">لم يُعثَر على المستودع</string>
 </resources>
