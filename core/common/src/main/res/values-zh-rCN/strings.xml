@@ -89,7 +89,7 @@
     <string name="no_description_available_DESC">没有描述可用</string>
     <string name="no_matching_applications_found">找不到任何这样的应用</string>
     <string name="no_proxy">无代理</string>
-    <string name="notify_about_updates">应用新版本通知</string>
+    <string name="notify_about_updates">通知更新</string>
     <string name="notify_about_updates_summary">有新版本可用时显示通知</string>
     <string name="number_of_applications">应用数量</string>
     <string name="ok">好的</string>
@@ -217,4 +217,5 @@
     <string name="home_screen_swiping_DESC">允许用户在页面之间进行滑动切换</string>
     <string name="label_copy">复制</string>
     <string name="repository_not_found">未找到以下仓库</string>
+    <string name="proxy_port_error_not_int">代理的端口号只能是整数</string>
 </resources>
