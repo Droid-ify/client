@@ -21,7 +21,7 @@
     <string name="no_applications_installed">Nema instaliranih aplikacija</string>
     <string name="no_matching_applications_found">Nije moguće pronaći slične aplikacije</string>
     <string name="no_proxy">Bez proxy</string>
-    <string name="notify_about_updates">Obavijesti me o novijim inačicama aplikacija</string>
+    <string name="notify_about_updates">Obavijesti za ažuriranja</string>
     <string name="only_on_wifi">Samo na Wi-Fi mreži</string>
     <string name="only_on_wifi_with_charging">Samo na Wi-Fi mreži i tijekom Punjenja</string>
     <string name="password">Zaporka</string>
@@ -201,13 +201,13 @@
     <string name="allow_collapsing_toolbar_DESC">Dozvoli rasklapanje i sklapanje gornje trake aplikacije</string>
     <string name="allow_collapsing_toolbar">Dozvoli rasklapanje gornje trake aplikacije</string>
     <string name="installing">Instaliranje</string>
-    <string name="material_you">Materijal koji ste</string>
-    <string name="material_you_desc">Upotrijebite materijal temu u boji</string>
+    <string name="material_you">Material You</string>
+    <string name="material_you_desc">Upotrijebite Material You temu boja</string>
     <string name="favourites">Favoriti</string>
-    <string name="enable_repo">Omogućite spremište</string>
+    <string name="enable_repo">Omogućite repozitorij</string>
     <string name="force_clean_up">Prisiliti</string>
     <string name="force_clean_up_DESC">Čisti suvišne datoteke</string>
-    <string name="repository_unreachable">Spremište nedostupno</string>
+    <string name="repository_unreachable">Repozitorij je nedostupan</string>
     <string name="auto_update">Automatsko ažuriranje aplikacija</string>
     <string name="auto_update_apps">Pokušajte automatski instalirati ažuriranja</string>
     <string name="restart_app">Ponovo pokrenite droid-ify da biste vidjeli promjene</string>
@@ -215,4 +215,13 @@
     <string name="has_non_free_components">Sadrži komponente koje nisu besplatne</string>
     <string name="connection_error_DESC">Nije bilo moguće spojiti se s poslužiteljem</string>
     <string name="socket_error_DESC">Poslužitelj nije uspio dostaviti novi paket.</string>
+    <string name="home_screen_swiping">Prevlačenje početnim zaslonom</string>
+    <string name="contains_nsfw">Sadrži sadržaj koji nije siguran za rad</string>
+    <string name="shizuku_not_alive">Shizuku nije pokrenut</string>
+    <string name="label_copy">Kopiraj</string>
+    <string name="proxy_port_error_not_int">Proxy port može biti samo cijeli broj</string>
+    <string name="home_screen_swiping_DESC">Dopušta korisniku da prelazi između stranica na početnom zaslonu</string>
+    <string name="repository_not_found">Sljedeći repozitorij nije pronađen</string>
+    <string name="special_credits">Posebne zasluge</string>
+    <string name="shizuku_not_installed">Shizuku nije instaliran</string>
 </resources>
