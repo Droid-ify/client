@@ -112,7 +112,7 @@
         <item quantity="one">%d एप्लिकेशन का एक नया संस्करण है।</item>
         <item quantity="other">%d एप्लीकेशंस के नए संस्करण हैं।</item>
     </plurals>
-    <string name="notify_about_updates">अनुप्रयोगों के नए संस्करणों के बारे में सूचित करें</string>
+    <string name="notify_about_updates">अपडेटस के बारे में सूचित करें</string>
     <string name="notify_about_updates_summary">नए संस्करण उपलब्ध होने पर सूचना दिखाएं</string>
     <string name="number_of_applications">अप्लिकेशन संख्या</string>
     <string name="ok">ठीक है</string>
@@ -218,4 +218,7 @@
     <string name="special_credits">विशेष श्रेय</string>
     <string name="home_screen_swiping">होम स्क्रीन स्वाइपिंग</string>
     <string name="home_screen_swiping_DESC">उपयोगकर्ता को होम स्क्रीन में पृष्ठों के बीच स्वाइप करने की अनुमति दें</string>
+    <string name="label_copy">कापी करें</string>
+    <string name="proxy_port_error_not_int">प्रॉक्सी पोर्ट केवल पूर्णांक हो सकता है</string>
+    <string name="repository_not_found">निम्नलिखित रिपॉजिटरी नहीं मिली</string>
 </resources>
