@@ -29,7 +29,4 @@ dependencies {
 
 	coroutines()
 	fdroid()
-	ktor()
-
-	implementation(Core.core)
 }
