@@ -1,5 +1,9 @@
 package com.looker.core.data.fdroid.sync
 
+import com.looker.core.common.extension.exceptCancellation
+import com.looker.core.common.extension.fingerprint
+import com.looker.core.data.utils.certificate
+import com.looker.core.data.utils.codeSigner
 import com.looker.core.model.newer.Repo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
@@ -14,6 +18,7 @@ import org.fdroid.index.v2.IndexV2
 import java.io.File
 import java.util.Date
 import java.util.UUID
+import java.util.jar.JarFile
 import javax.inject.Inject
 
 class IndexDownloaderImpl @Inject constructor(
@@ -23,19 +28,33 @@ class IndexDownloaderImpl @Inject constructor(
 	companion object {
 		private val parser = IndexParser
 
+		private fun File.parseIndexV1(): IndexV1 = parser.parseV1(inputStream())
 		private fun File.parseIndexV2(): IndexV2 = parser.parseV2(inputStream())
+		private fun File.parseEntry(): Entry = parser.parseEntry(inputStream())
 
 		private const val INDEX_V1_FILE_NAME = "index-v1.jar"
 		private const val INDEX_V2_FILE_NAME = "index-v2.json"
 		private const val ENTRY_FILE_NAME = "entry.jar"
+
+		private const val INDEX_V1_JSON = "index-v1.json"
+		private const val ENTRY_JSON = "entry.json"
 	}
 
 	override suspend fun downloadIndexV1(
 		repo: Repo
-	): IndexV1 = withContext(Dispatchers.Default) {
+	): Pair<String, IndexV1> = withContext(Dispatchers.IO) {
 		val jarFile = downloadIndexFile(repo, INDEX_V1_FILE_NAME)
-		val verifier = IndexV1Verifier(jarFile, null, repo.fingerprint)
-		verifier.getStreamAndVerify(parser::parseV1).second
+		try {
+			val verifier = IndexV1Verifier(jarFile, null, repo.fingerprint)
+			verifier.getStreamAndVerify(parser::parseV1)
+		} catch (e: SigningException) {
+			e.exceptCancellation()
+			JarFile(jarFile, true)
+				.getJarEntry(INDEX_V1_JSON)
+				.codeSigner
+				.certificate
+				.fingerprint() to jarFile.parseIndexV1()
+		}
 	}
 
 	override suspend fun downloadIndexV2(
@@ -55,15 +74,24 @@ class IndexDownloaderImpl @Inject constructor(
 
 	override suspend fun downloadEntry(
 		repo: Repo
-	): Entry = withContext(Dispatchers.Default) {
+	): Pair<String, Entry> = withContext(Dispatchers.IO) {
 		val jarFile = downloadIndexFile(repo, ENTRY_FILE_NAME)
-		val verifier = EntryVerifier(jarFile, null, repo.fingerprint)
-		verifier.getStreamAndVerify(parser::parseEntry).second
+		try {
+			val verifier = EntryVerifier(jarFile, null, repo.fingerprint)
+			verifier.getStreamAndVerify(parser::parseEntry)
+		} catch (e: SigningException) {
+			e.exceptCancellation()
+			JarFile(jarFile, true)
+				.getJarEntry(ENTRY_JSON)
+				.codeSigner
+				.certificate
+				.fingerprint() to jarFile.parseEntry()
+		}
 	}
 
 	override suspend fun determineIndexType(repo: Repo): IndexType {
-		val indexV2Exist = downloader.headCall(repo.indexUrl(ENTRY_FILE_NAME))
-		return if (indexV2Exist is NetworkResponse.Success) IndexType.ENTRY
+		val isIndexV2 = downloader.headCall(repo.indexUrl(ENTRY_FILE_NAME))
+		return if (isIndexV2 is NetworkResponse.Success) IndexType.ENTRY
 		else IndexType.INDEX_V1
 	}
 

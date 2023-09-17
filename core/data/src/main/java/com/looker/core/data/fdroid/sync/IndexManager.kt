@@ -13,18 +13,20 @@ class IndexManager(
 
 	suspend fun getIndex(repos: List<Repo>): Map<Repo, IndexV2> =
 		withContext(Dispatchers.Default) {
-			repos.associateWith { repo ->
+			repos.associate { repo ->
 				when (indexDownloader.determineIndexType(repo)) {
 					IndexType.INDEX_V1 -> {
-						val indexV1 = indexDownloader.downloadIndexV1(repo)
-						converter.toIndexV2(indexV1)
+						val fingerprintAndIndex = indexDownloader.downloadIndexV1(repo)
+						repo.copy(fingerprint = fingerprintAndIndex.first) to
+								converter.toIndexV2(fingerprintAndIndex.second)
 					}
 
 					IndexType.ENTRY -> {
-						val entry = indexDownloader.downloadEntry(repo)
-						val diff = entry.getDiff(repo.versionInfo.timestamp)
-						if (diff == null) indexDownloader.downloadIndexV2(repo)
-						else indexDownloader.downloadIndexDiff(repo, diff.name)
+						val fingerprintAndEntry = indexDownloader.downloadEntry(repo)
+						val diff = fingerprintAndEntry.second.getDiff(repo.versionInfo.timestamp)
+						repo.copy(fingerprint = fingerprintAndEntry.first) to
+								if (diff == null) indexDownloader.downloadIndexV2(repo)
+								else indexDownloader.downloadIndexDiff(repo, diff.name)
 					}
 				}
 			}

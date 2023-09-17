@@ -6,10 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.*
-import io.ktor.client.engine.*
-import io.ktor.client.engine.okhttp.*
-import io.ktor.http.*
 import org.fdroid.index.IndexConverter
 
 @Module
