@@ -100,7 +100,7 @@
     <string name="no_description_available_DESC">ਕੋਈ ਵਿਵਰਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
     <string name="no_matching_applications_found">ਅਜਿਹੀ ਕੋਈ ਐਪਲੀਕੇਸ਼ਨ ਨਹੀਂ ਲੱਭ ਸਕੀ</string>
     <string name="no_proxy">ਕੋਈ ਪ੍ਰੌਕਸੀ ਨਹੀਂ</string>
-    <string name="notify_about_updates">ਐਪਲੀਕੇਸ਼ਨਾਂ ਦੇ ਨਵੇਂ ਸੰਸਕਰਣਾਂ ਬਾਰੇ ਸੂਚਿਤ ਕਰੋ</string>
+    <string name="notify_about_updates">ਅੱਪਡੇਟਾਂ ਬਾਰੇ ਸੂਚਿਤ ਕਰੋ</string>
     <string name="notify_about_updates_summary">ਨਵੇਂ ਸੰਸਕਰਣ ਉਪਲਬਧ ਹੋਣ \'ਤੇ ਇੱਕ ਸੂਚਨਾ ਦਿਖਾਓ</string>
     <string name="number_of_applications">ਐਪਲੀਕੇਸ਼ਨਾਂ ਦੀ ਗਿਣਤੀ</string>
     <string name="ok">ਠੀਕ ਹੈ</string>
@@ -218,4 +218,7 @@
     <string name="special_credits">ਵਿਸ਼ੇਸ਼ ਕ੍ਰੈਡਿਟ</string>
     <string name="home_screen_swiping">ਹੋਮ ਸਕ੍ਰੀਨ ਸਵਾਈਪਿੰਗ</string>
     <string name="home_screen_swiping_DESC">ਉਪਭੋਗਤਾ ਨੂੰ ਹੋਮ ਸਕ੍ਰੀਨ ਵਿੱਚ ਪੰਨਿਆਂ ਦੇ ਵਿਚਕਾਰ ਸਵਾਈਪ ਕਰਨ ਦਿਓ</string>
+    <string name="label_copy">ਕਾਪੀ ਕਰੋ</string>
+    <string name="proxy_port_error_not_int">ਪ੍ਰੌਕਸੀ ਪੋਰਟ ਸਿਰਫ਼ ਪੂਰਨ ਅੰਕ ਹੋ ਸਕਦਾ ਹੈ</string>
+    <string name="repository_not_found">ਹੇਠ ਦਿੱਤੀ ਰਿਪੋਜ਼ਟਰੀ ਨਹੀਂ ਮਿਲੀ</string>
 </resources>
