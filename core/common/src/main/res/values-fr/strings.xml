@@ -134,7 +134,7 @@
     <string name="no_description_available_DESC">Aucune description disponible</string>
     <string name="no_matching_applications_found">Impossible de trouver de telles applications</string>
     <string name="no_proxy">Aucun proxy</string>
-    <string name="notify_about_updates">Notifier les nouvelles versions des applications</string>
+    <string name="notify_about_updates">Notifier les mises à jour</string>
     <string name="number_of_applications">Nombre d’applications</string>
     <string name="only_compatible_with_FORMAT">Compatible seulement avec %s</string>
     <string name="only_on_wifi">Seulement avec Wi-Fi</string>
@@ -223,4 +223,5 @@
     <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
     <string name="label_copy">Copie</string>
     <string name="repository_not_found">Le dépôt suivant n\'a pas été trouvé</string>
+    <string name="proxy_port_error_not_int">Le port proxy ne peut qu\'être qu\'un entier</string>
 </resources>
