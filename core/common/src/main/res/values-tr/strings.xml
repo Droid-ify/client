@@ -91,7 +91,7 @@
     <string name="no_description_available_DESC">Açıklama yok</string>
     <string name="no_matching_applications_found">Böyle bir uygulama bulunamadı</string>
     <string name="no_proxy">Proxy yok</string>
-    <string name="notify_about_updates">Uygulamaların yeni sürümleri hakkında bilgilendir</string>
+    <string name="notify_about_updates">Güncellemeleri bildir</string>
     <string name="notify_about_updates_summary">Yeni sürümler kullanılabilir olduğunda bir bildirim göster</string>
     <string name="number_of_applications">Uygulama sayısı</string>
     <string name="ok">Tamam</string>
@@ -211,4 +211,15 @@
     <string name="auto_update">Uygulamaları otomatik güncelle</string>
     <string name="auto_update_apps">Güncellemeleri otomatik olarak kurmaya çalış</string>
     <string name="has_non_free_components">Özgür olmayan bileşenlere sahip</string>
+    <string name="home_screen_swiping">Ana Ekranda Kaydırma</string>
+    <string name="contains_nsfw">Uygunsuz içerik barındırır</string>
+    <string name="shizuku_not_alive">Shizuku çalışmıyor</string>
+    <string name="connection_error_DESC">Sunucuya bağlanılamadı</string>
+    <string name="socket_error_DESC">Sunucu yeni paketi sağlayamadı.</string>
+    <string name="label_copy">Kopyala</string>
+    <string name="proxy_port_error_not_int">Proxy kapısı (port) sadece tam sayı olabilir</string>
+    <string name="home_screen_swiping_DESC">Kullanıcı ana ekrandayken sayfalar arası kaydırabilmesini sağlar</string>
+    <string name="repository_not_found">İlgili depo bulunamadı</string>
+    <string name="special_credits">Teşekkürler</string>
+    <string name="shizuku_not_installed">Shizuku kurulu değil</string>
 </resources>
