@@ -63,7 +63,7 @@
     <string name="no_applications_installed">Няма инсталирани приложения</string>
     <string name="no_description_available_DESC">Няма налично описание</string>
     <string name="no_proxy">Без прокси</string>
-    <string name="notify_about_updates">Уведомления за нови версии на приложенията</string>
+    <string name="notify_about_updates">Уведомления за актуализации</string>
     <string name="number_of_applications">Брой приложения</string>
     <string name="ok">Окей</string>
     <string name="only_on_wifi">Само на Wi-Fi</string>
@@ -212,4 +212,13 @@
     <string name="socket_error_DESC">Сървърът не успя да предостави нов пакет.</string>
     <string name="has_non_free_components">Има несвободни компоненти</string>
     <string name="connection_error_DESC">Неуспешно свързване със сървъра</string>
+    <string name="home_screen_swiping">Плъзгане на началния екран</string>
+    <string name="contains_nsfw">Съдържа неподходящо за работа съдържание</string>
+    <string name="shizuku_not_alive">Shizuku не работи</string>
+    <string name="label_copy">Копирай</string>
+    <string name="proxy_port_error_not_int">Прокси портът може да бъде само цяло число</string>
+    <string name="home_screen_swiping_DESC">Позволете на потребителя да плъзга между страниците в началния екран</string>
+    <string name="repository_not_found">Следното хранилище не бе намерено</string>
+    <string name="special_credits">Специални благодарности</string>
+    <string name="shizuku_not_installed">Shizuku не е инсталиран</string>
 </resources>
