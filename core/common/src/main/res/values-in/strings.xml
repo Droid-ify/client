@@ -210,7 +210,7 @@
     <string name="socket_error_DESC">Server gagal menyediakan paket baru.</string>
     <string name="connection_error_DESC">Tidak dapat terhubung ke server</string>
     <string name="home_screen_swiping">Geser Layar Beranda</string>
-    <string name="contains_nsfw">Berisi konten tidak aman untuk saat bekerja</string>
+    <string name="contains_nsfw">Mengandung konten khusus dewasa</string>
     <string name="shizuku_not_alive">Shizuku tidak berjalan</string>
     <string name="home_screen_swiping_DESC">Izinkan pengguna menggeser antar halaman di layar beranda</string>
     <string name="special_credits">Kredit Spesial</string>
