@@ -32,9 +32,9 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.InstallManager
+import com.looker.installer.installers.root.RootPermissionHandler
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.looker.network.Downloader
-import com.topjohnwu.superuser.Shell
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
@@ -62,6 +62,9 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 
 	@Inject
 	lateinit var shizukuPermissionHandler: ShizukuPermissionHandler
+
+	@Inject
+	lateinit var rootPermissionHandler: RootPermissionHandler
 
 	@Inject
 	lateinit var workerFactory: HiltWorkerFactory
@@ -92,9 +95,7 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 				settingsRepository.get { installerType }.collect {
 					if (it == InstallerType.SHIZUKU) handleShizukuInstaller()
 					if (it == InstallerType.ROOT) {
-						Shell.getCachedShell() ?: Shell.getShell()
-						val isRooted = Shell.isAppGrantedRoot() ?: false
-						if (!isRooted) {
+						if (!rootPermissionHandler.isGranted) {
 							settingsRepository.setInstallerType(InstallerType.Default)
 						}
 					}

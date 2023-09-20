@@ -1,6 +1,6 @@
 package com.looker.installer.installers
 
-import com.looker.core.model.newer.PackageName
+import com.looker.core.common.PackageName
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 

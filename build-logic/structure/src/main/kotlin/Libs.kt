@@ -98,9 +98,6 @@ private object Lifecycle {
 object Others {
 	const val libsu = "com.github.topjohnwu.libsu:core:5.2.1"
 	const val zoomage = "com.jsibbold:zoomage:1.3.1"
-	private const val shizukuVersion = "13.0.0"
-	const val shizukuApi = "dev.rikka.shizuku:api:$shizukuVersion"
-	const val shizukuProvider = "dev.rikka.shizuku:provider:$shizukuVersion"
 }
 
 private object Room {
@@ -108,6 +105,12 @@ private object Room {
 	const val runtime = "androidx.room:room-runtime:$roomVersion"
 	const val compiler = "androidx.room:room-compiler:$roomVersion"
 	const val ktx = "androidx.room:room-ktx:$roomVersion"
+}
+
+object Shizuku {
+	private const val version = "13.0.0"
+	const val api = "dev.rikka.shizuku:api:$version"
+	const val provider = "dev.rikka.shizuku:provider:$version"
 }
 
 object SQLite {

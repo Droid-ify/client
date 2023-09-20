@@ -7,8 +7,9 @@ import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.model.newer.PackageName
+import com.looker.core.common.PackageName
 import com.looker.installer.installers.*
+import com.looker.installer.installers.root.RootInstaller
 import com.looker.installer.installers.shizuku.ShizukuInstaller
 import com.looker.installer.model.*
 import kotlinx.coroutines.CoroutineScope

@@ -16,3 +16,7 @@ android {
 		}
 	}
 }
+
+dependencies {
+	modules(Modules.coreCommon)
+}

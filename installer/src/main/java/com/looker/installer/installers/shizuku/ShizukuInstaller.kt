@@ -3,7 +3,7 @@ package com.looker.installer.installers.shizuku
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
-import com.looker.core.model.newer.PackageName
+import com.looker.core.common.PackageName
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.uninstallPackage
 import com.looker.installer.model.InstallItem

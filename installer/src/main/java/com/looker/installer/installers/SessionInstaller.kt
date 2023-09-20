@@ -11,7 +11,7 @@ import android.os.Looper
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
-import com.looker.core.model.newer.PackageName
+import com.looker.core.common.PackageName
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 import kotlinx.coroutines.suspendCancellableCoroutine

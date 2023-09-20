@@ -3,6 +3,7 @@ package com.looker.core.database.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import com.looker.core.common.nullIfEmpty
+import com.looker.core.common.toPackageName
 import com.looker.core.database.utils.localizedValue
 import com.looker.core.model.newer.*
 

@@ -1,9 +1,11 @@
-package com.looker.installer.installers
+package com.looker.installer.installers.root
 
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
-import com.looker.core.model.newer.PackageName
+import com.looker.core.common.PackageName
+import com.looker.installer.installers.Installer
+import com.looker.installer.installers.uninstallPackage
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 import com.topjohnwu.superuser.Shell

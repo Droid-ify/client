@@ -19,12 +19,13 @@ android {
 }
 
 dependencies {
-	modules(Modules.coreCommon, Modules.coreDatastore, Modules.coreModel)
+	modules(Modules.coreCommon, Modules.coreDatastore)
 
+	implementation(AndroidX.appCompat)
 	coroutines()
 
-	api(Others.libsu)
+	implementation(Others.libsu)
 
-	api(Others.shizukuApi)
-	api(Others.shizukuProvider)
+	implementation(Shizuku.api)
+	api(Shizuku.provider)
 }
