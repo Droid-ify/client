@@ -120,7 +120,7 @@
     <string name="no_internet">Немате интернет везу</string>
     <string name="skip">Прескочи</string>
     <string name="downloaded_FORMAT">Преузето %s</string>
-    <string name="cant_edit_sync_DESC">Није могуће уређивати репозиторијум, јер се тренутно синхронизује.</string>
+    <string name="cant_edit_sync_DESC">Није могуће изменити репозиторијум, јер се тренутно синхронизује.</string>
     <string name="proxy_port_error_not_int">Порт проксија може бити само цео број</string>
     <string name="number_of_applications">Број апликација</string>
     <string name="incompatible_with_FORMAT">Некомпатибилно са %s</string>
@@ -132,7 +132,7 @@
     <string name="already_exists">Већ постоји</string>
     <string name="author_website">Веб-сајт аутора</string>
     <string name="details">Детаљи</string>
-    <string name="edit_repository">Уреди репозиторијум</string>
+    <string name="edit_repository">Измени репозиторијум</string>
     <string name="sorting_order">Редослед сортирања</string>
     <string name="ignore_this_update">Игнориши ову верзију</string>
     <string name="unverified">Неверификовано</string>
