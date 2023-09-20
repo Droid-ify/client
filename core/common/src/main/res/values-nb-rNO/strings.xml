@@ -210,4 +210,15 @@
     <string name="installing">Installerer</string>
     <string name="restart_app">Start Droid-ify på ny for å ta i bruk endringene</string>
     <string name="has_non_free_components">Har ufrie komponenter</string>
+    <string name="home_screen_swiping">Hjemmeskjermsdragning</string>
+    <string name="contains_nsfw">Inneholder sensurerbart innhold</string>
+    <string name="shizuku_not_alive">Shizuku kjører ikke</string>
+    <string name="connection_error_DESC">Kunne ikke koble til tjener</string>
+    <string name="socket_error_DESC">Tjeneren kunne ikke tilby ny pakke.</string>
+    <string name="label_copy">Kopier</string>
+    <string name="proxy_port_error_not_int">Mellomtjenerport må være et heltall</string>
+    <string name="home_screen_swiping_DESC">Tillat bruker å dra mellom sider på hjemmeskjermen</string>
+    <string name="repository_not_found">Følgende pakkebrønner ble funnet</string>
+    <string name="special_credits">Spesiell takk til</string>
+    <string name="shizuku_not_installed">Shizuku er ikke installert</string>
 </resources>
