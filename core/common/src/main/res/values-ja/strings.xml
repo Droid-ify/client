@@ -94,7 +94,7 @@
     <string name="no_description_available_DESC">説明がありません</string>
     <string name="no_matching_applications_found">そのようなアプリは見つかりませんでした</string>
     <string name="no_proxy">プロキシなし</string>
-    <string name="notify_about_updates">アプリの新しいバージョンを通知する</string>
+    <string name="notify_about_updates">アップデートを通知する</string>
     <string name="notify_about_updates_summary">新しいバージョンが利用可能になったときに通知を表示します</string>
     <string name="number_of_applications">アプリの数</string>
     <string name="ok">OK</string>
@@ -194,7 +194,7 @@
     <string name="allow_collapsing_toolbar_DESC">トップアプリバーの拡大・縮小を可能にします</string>
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
     <string name="no_internet">インターネット接続がありません</string>
-    <string name="auto_update">アプリを自動でアップデートする</string>
+    <string name="auto_update">アプリの自動更新</string>
     <string name="auto_update_apps">アップデートを自動的にインストールするようにします</string>
     <string name="installing">インストール</string>
     <string name="waiting_to_start_installation">インストールを開始するのを待っています…</string>
@@ -207,4 +207,15 @@
     <string name="material_you_desc">Material Youのカラーテーマを使用します</string>
     <string name="restart_app">Droid-ifyを再起動して変更を確認する</string>
     <string name="has_non_free_components">不自由なコンポーネントを含みます</string>
+    <string name="home_screen_swiping">ホーム画面のスワイプ</string>
+    <string name="contains_nsfw">コンテンツには安全ではないものが含まれています</string>
+    <string name="shizuku_not_alive">Shizukuが動いていません</string>
+    <string name="connection_error_DESC">サーバーに接続出来ませんでした</string>
+    <string name="socket_error_DESC">サーバーは新しいパケットを提供できませんでした。</string>
+    <string name="label_copy">コピー</string>
+    <string name="proxy_port_error_not_int">プロキシポートは整数のみです</string>
+    <string name="home_screen_swiping_DESC">ホーム画面でページ間をスワイプ出来る様にする</string>
+    <string name="repository_not_found">次のリポジトリが見つかりませんでした</string>
+    <string name="special_credits">スペシャルクレジット</string>
+    <string name="shizuku_not_installed">Shizukuがインストールされていません</string>
 </resources>
