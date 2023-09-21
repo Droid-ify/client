@@ -48,6 +48,7 @@
     <string name="donate">ちーふ</string>
     <string name="has_security_vulnerabilities">セキュリティじょうぬしちじゃいちゅるゆいがあいびーん</string>
     <plurals name="hours">
+        <item quantity="one">じがん</item>
         <item quantity="other">じがん</item>
     </plurals>
     <string name="http_error_DESC">サーバーぬういんとうがんーかやいびーん。</string>
@@ -61,6 +62,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">うんじゅが %1$s プラットフォームーサポートさりやびらん。サポートさりとーるプラットフォーム： %2$s 。</string>
     <string name="incompatible_signature_DESC">くぬバージョンー，デバイスんかいインストールさりとーるアプリぬしーょうめいしょとぅはくとぅなるしょうめいしょでぃしょめいさりとーいびーん。さきんかいすちらアンインストールしみそーれー。</string>
     <plurals name="days">
+        <item quantity="one">ふぃい</item>
         <item quantity="other">ふぃい</item>
     </plurals>
     <string name="incompatible_version">ぐかんゆいぬねーんバージョン</string>
@@ -87,6 +89,7 @@
     <string name="list_animation">リストアニメーション</string>
     <string name="list_animation_description">メインページっしリストアニメーションすん</string>
     <plurals name="new_updates_DESC_FORMAT">
+        <item quantity="one">%d くぬアプリっしみーさるバージョンがいようかのうやいびーん。</item>
         <item quantity="other">%d くぬアプリっしみーさるバージョンがいようかのうやいびーん。</item>
     </plurals>
     <string name="no_applications_available">りようかのうやーアプリーあいびらん</string>
@@ -94,7 +97,7 @@
     <string name="no_description_available_DESC">しちめいがあいびらん</string>
     <string name="no_matching_applications_found">うぬぐとーるアプリーみちかやびらんたん</string>
     <string name="no_proxy">プロキシなし</string>
-    <string name="notify_about_updates">アプリぬみーさるバージョンちうちすん</string>
+    <string name="notify_about_updates">アップデートちうちすん</string>
     <string name="notify_about_updates_summary">みーさるバージョンがりようかのうなたるとぅちにちうちひょうじさびーん</string>
     <string name="number_of_applications">アプリぬかじ</string>
     <string name="ok">OK</string>
@@ -207,4 +210,15 @@
     <string name="material_you_desc">Material Youぬカラーテーマしーようさびーん</string>
     <string name="restart_app">Droid-ifyさいきぬーんちへんかんかくにんすん</string>
     <string name="has_non_free_components">ふじゆーるなコンポーネントくくまびーん</string>
+    <string name="home_screen_swiping">ホームやしがみんぬスワイプ</string>
+    <string name="contains_nsfw">コンテンツんかえーあんさんやあらんむんがくくまっとーいびーん</string>
+    <string name="shizuku_not_alive">Shizukuがんじゅちゃびらん</string>
+    <string name="connection_error_DESC">サーバーなさちどーくなやびらんたん</string>
+    <string name="socket_error_DESC">サーバーやみーさるパケットていきょうなやびらんたん。</string>
+    <string name="label_copy">コピー</string>
+    <string name="proxy_port_error_not_int">プロキシポートーせいするうぬみやいびーん</string>
+    <string name="home_screen_swiping_DESC">ホームやしがみんっしページかんスワイプないるぐとぅすん</string>
+    <string name="repository_not_found">ちぎぬリポジトリぬみちかやびらんたん</string>
+    <string name="special_credits">スペシャルクレジット</string>
+    <string name="shizuku_not_installed">Shizukuやしがインストールさりやびらん</string>
 </resources>
