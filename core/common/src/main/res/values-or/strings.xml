@@ -59,7 +59,7 @@
     <string name="confirmation">ନିଶ୍ଚିତ କରନ୍ତୁ</string>
     <string name="connecting">ସଂଯୋଗ କରୁଛି …</string>
     <string name="could_not_download_FORMAT">%s ସଞ୍ଚୟ ହୋଇପାରୁନାହିଁ</string>
-    <string name="downloading">ସଞ୍ଚୟ ହେଉଛି</string>
+    <string name="downloading">ଡାଉନଲୋଡ୍ ଚାଲିଛି</string>
     <string name="could_not_sync_FORMAT">%sସିଙ୍କ ହୋଇପାରୁନାହିଁ</string>
     <string name="could_not_validate_FORMAT">%s ବାଇଧତା ହୋଇପାରିଲା ନାହିଁ</string>
     <string name="credits">କ୍ରେଡିଟ୍</string>
@@ -73,7 +73,7 @@
     <string name="file_format_error_DESC">ଇଁବେଲିଡ ଫାଇଲ୍ ଫର୍ମାଟ୍ ।</string>
     <string name="donate">ଦାନ କରନ୍ତୁ</string>
     <string name="edit_repository">ସଂଗ୍ରହାଳୟ ସଂପାଦନ କରନ୍ତୁ</string>
-    <string name="downloading_FORMAT">%sସଞ୍ଚୟ ହେଉଛି…</string>
+    <string name="downloading_FORMAT">%s ଡାଉନଲୋଡ୍ ଚାଲିଛି…</string>
     <string name="has_advertising">ବିଜ୍ଞାପନ ଅଛି</string>
     <string name="has_non_free_dependencies">ମାଗଣା ମୁକ୍ତ ନିର୍ଭରଶୀଳତା ଅଛି</string>
     <string name="has_security_vulnerabilities">ସୁରକ୍ଷା ଦୁର୍ବଳତା ଅଛି</string>
