@@ -137,12 +137,10 @@ class SettingsViewModel
 
 	private fun handleShizuku() {
 		viewModelScope.launch {
-			val isInstalled = shizukuPermissionHandler.isInstalled()
-			val isAlive = shizukuPermissionHandler.isBinderAlive.first()
-			val isGranted = shizukuPermissionHandler.isGranted.first()
-			if (isAlive && isGranted) cancel()
-			if (isInstalled) {
-				if (!isAlive) {
+			val state = shizukuPermissionHandler.state.first()
+			if (state.isAlive && state.isPermissionGranted) cancel()
+			if (state.isInstalled) {
+				if (!state.isAlive) {
 					_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
 				}
 			} else {

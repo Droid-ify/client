@@ -32,7 +32,7 @@ class ShizukuPermissionHandler(
 		}
 	}.flowOn(Dispatchers.Default).distinctUntilChanged().conflate()
 
-	val isGranted: Flow<Boolean> = callbackFlow {
+	private val isGranted: Flow<Boolean> = callbackFlow {
 		if (Shizuku.pingBinder()) {
 			send(Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED)
 		} else {
