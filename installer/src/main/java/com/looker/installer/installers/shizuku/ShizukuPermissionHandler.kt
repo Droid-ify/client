@@ -30,10 +30,14 @@ class ShizukuPermissionHandler(
 			Shizuku.removeBinderReceivedListener(listener)
 			Shizuku.removeBinderDeadListener(deadListener)
 		}
-	}.flowOn(Dispatchers.Default).conflate()
+	}.flowOn(Dispatchers.Default).distinctUntilChanged().conflate()
 
-	private val isGranted: Flow<Boolean> = callbackFlow {
-		send(false)
+	val isGranted: Flow<Boolean> = callbackFlow {
+		if (Shizuku.pingBinder()) {
+			send(Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED)
+		} else {
+			send(false)
+		}
 		val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
 			if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
 				trySend(grantResult == PackageManager.PERMISSION_GRANTED)
@@ -43,7 +47,7 @@ class ShizukuPermissionHandler(
 		awaitClose {
 			Shizuku.removeRequestPermissionResultListener(listener)
 		}
-	}.flowOn(Dispatchers.Default).conflate()
+	}.flowOn(Dispatchers.Default).distinctUntilChanged().conflate()
 
 	fun requestPermission() {
 		if (Shizuku.shouldShowRequestPermissionRationale()) {
@@ -57,7 +61,7 @@ class ShizukuPermissionHandler(
 		isGranted
 	) { isInstalled, isAlive, isGranted ->
 		State(isGranted, isAlive, isInstalled)
-	}
+	}.distinctUntilChanged()
 
 	companion object {
 		private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263
