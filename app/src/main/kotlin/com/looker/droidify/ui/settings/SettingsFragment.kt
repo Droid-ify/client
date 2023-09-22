@@ -1,6 +1,5 @@
 package com.looker.droidify.ui.settings
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -47,13 +46,18 @@ class SettingsFragment : Fragment() {
 		private val localeCodesList: List<String> = CommonBuildConfig.DETECTED_LOCALES
 			.toList()
 			.updateAsMutable { add(0, "system") }
+
+		private const val FOXY_DROID_TITLE = "FoxyDroid"
+		private const val FOXY_DROID_URL = "https://github.com/kitsunyan/foxy-droid"
+
+		private const val DROID_IFY_TITLE = "Droid-ify"
+		private const val DROID_IFY_URL = "https://github.com/Iamlooker/Droid-ify"
 	}
 
 	private val viewModel: SettingsViewModel by viewModels()
 	private var _binding: SettingsPageBinding? = null
 	private val binding get() = _binding!!
 
-	@SuppressLint("SetTextI18n")
 	override fun onCreateView(
 		inflater: LayoutInflater,
 		container: ViewGroup?,
@@ -101,48 +105,114 @@ class SettingsFragment : Fragment() {
 				titleText = getString(CommonR.string.prefs_language_title),
 				map = { translateLocale(getLocaleOfCode(it)) },
 				setting = viewModel.getSetting { language }
-			)
+			) { selectedLocale, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = selectedLocale,
+					values = localeCodesList,
+					title = CommonR.string.prefs_language_title,
+					iconRes = CommonR.drawable.ic_language,
+					valueToString = valueToString,
+					onClick = viewModel::setLanguage
+				)
+			}
 			theme.connect(
 				titleText = getString(CommonR.string.theme),
 				setting = viewModel.getSetting { theme },
 				map = { themeName(it) }
-			)
+			) { theme, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = theme,
+					values = Theme.entries,
+					title = CommonR.string.themes,
+					iconRes = CommonR.drawable.ic_themes,
+					valueToString = valueToString,
+					onClick = viewModel::setTheme
+				)
+			}
 			cleanUp.connect(
 				titleText = getString(CommonR.string.cleanup_title),
 				setting = viewModel.getSetting { cleanUpInterval },
 				map = { toTime(it) }
-			)
+			) { duration, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = duration,
+					values = cleanUpIntervals,
+					title = CommonR.string.cleanup_title,
+					iconRes = CommonR.drawable.ic_time,
+					valueToString = valueToString,
+					onClick = viewModel::setCleanUpInterval
+				)
+			}
 			autoSync.connect(
 				titleText = getString(CommonR.string.sync_repositories_automatically),
 				setting = viewModel.getSetting { autoSync },
 				map = { autoSyncName(it) }
-			)
+			) { autoSync, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = autoSync,
+					values = AutoSync.entries,
+					title = CommonR.string.sync_repositories_automatically,
+					iconRes = CommonR.drawable.ic_sync,
+					valueToString = valueToString,
+					onClick = viewModel::setAutoSync
+				)
+			}
 			installer.connect(
 				titleText = getString(CommonR.string.installer),
 				setting = viewModel.getSetting { installerType },
 				map = { installerName(it) }
-			)
+			) { installerType, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = installerType,
+					values = InstallerType.entries,
+					title = CommonR.string.installer,
+					iconRes = CommonR.drawable.ic_download,
+					valueToString = valueToString,
+					onClick = viewModel::setInstaller
+				)
+			}
 			proxyType.connect(
 				titleText = getString(CommonR.string.proxy_type),
 				setting = viewModel.getSetting { proxy.type },
 				map = { proxyName(it) }
-			)
+			) { proxyType, valueToString ->
+				addSingleCorrectDialog(
+					initialValue = proxyType,
+					values = ProxyType.entries,
+					title = CommonR.string.proxy_type,
+					iconRes = CommonR.drawable.ic_proxy,
+					valueToString = valueToString,
+					onClick = viewModel::setProxyType
+				)
+			}
 			proxyHost.connect(
 				titleText = getString(CommonR.string.proxy_host),
 				setting = viewModel.getSetting { proxy.host },
 				map = { it }
-			)
+			) { host, _ ->
+				addEditTextDialog(
+					initialValue = host,
+					title = CommonR.string.proxy_host,
+					onFinish = viewModel::setProxyHost
+				)
+			}
 			proxyPort.connect(
 				titleText = getString(CommonR.string.proxy_port),
 				setting = viewModel.getSetting { proxy.port },
 				map = { it.toString() }
-			)
+			) { port, _ ->
+				addEditTextDialog(
+					initialValue = port.toString(),
+					title = CommonR.string.proxy_port,
+					onFinish = viewModel::setProxyPort
+				)
+			}
 
 			forceCleanUp.title.text = getString(CommonR.string.force_clean_up)
 			forceCleanUp.content.text = getString(CommonR.string.force_clean_up_DESC)
 			creditFoxy.title.text = getString(CommonR.string.special_credits)
-			creditFoxy.content.text = "FoxyDroid"
-			droidify.title.text = "Droid-ify"
+			creditFoxy.content.text = FOXY_DROID_TITLE
+			droidify.title.text = DROID_IFY_TITLE
 			droidify.content.text = BuildConfig.VERSION_NAME
 		}
 		setChangeListener()
@@ -190,10 +260,10 @@ class SettingsFragment : Fragment() {
 				viewModel.forceCleanup(it.context)
 			}
 			creditFoxy.root.setOnClickListener {
-				openLink("https://github.com/kitsunyan/foxy-droid")
+				openLink(FOXY_DROID_URL)
 			}
 			droidify.root.setOnClickListener {
-				openLink("https://github.com/Iamlooker/Droid-ify")
+				openLink(DROID_IFY_URL)
 			}
 		}
 	}
@@ -204,80 +274,6 @@ class SettingsFragment : Fragment() {
 			proxyHost.root.isVisible = allowProxies
 			proxyPort.root.isVisible = allowProxies
 			forceCleanUp.root.isVisible = settings.cleanUpInterval == Duration.INFINITE
-			language.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.language,
-					values = localeCodesList,
-					title = CommonR.string.prefs_language_title,
-					iconRes = CommonR.drawable.ic_language,
-					onClick = viewModel::setLanguage,
-					valueToString = { translateLocale(context?.getLocaleOfCode(it)) }
-				).show()
-			}
-			theme.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.theme,
-					values = Theme.entries,
-					title = CommonR.string.theme,
-					iconRes = CommonR.drawable.ic_themes,
-					onClick = viewModel::setTheme,
-					valueToString = view.context::themeName
-				).show()
-			}
-			cleanUp.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.cleanUpInterval,
-					values = cleanUpIntervals,
-					valueToString = { context.toTime(it) },
-					title = CommonR.string.cleanup_title,
-					iconRes = CommonR.drawable.ic_time,
-					onClick = viewModel::setCleanUpInterval
-				).show()
-			}
-			autoSync.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.autoSync,
-					values = AutoSync.entries,
-					title = CommonR.string.sync_repositories_automatically,
-					iconRes = CommonR.drawable.ic_sync,
-					onClick = viewModel::setAutoSync,
-					valueToString = view.context::autoSyncName
-				).show()
-			}
-			proxyType.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.proxy.type,
-					values = ProxyType.entries,
-					title = CommonR.string.proxy_type,
-					iconRes = CommonR.drawable.ic_proxy,
-					onClick = viewModel::setProxyType,
-					valueToString = view.context::proxyName
-				).show()
-			}
-			proxyHost.root.setOnClickListener { view ->
-				view.addEditTextDialog(
-					initialValue = settings.proxy.host,
-					title = CommonR.string.proxy_host,
-					onFinish = viewModel::setProxyHost
-				).show()
-			}
-			proxyPort.root.setOnClickListener { view ->
-				view.addEditTextDialog(
-					initialValue = settings.proxy.port.toString(),
-					title = CommonR.string.proxy_host,
-					onFinish = viewModel::setProxyPort
-				).show()
-			}
-			installer.root.setOnClickListener { view ->
-				view.addSingleCorrectDialog(
-					initialValue = settings.installerType,
-					values = InstallerType.entries,
-					title = CommonR.string.installer,
-					iconRes = CommonR.drawable.ic_download,
-					onClick = viewModel::setInstaller,
-					valueToString = view.context::installerName
-				).show()
-			}
 		}
 	}
 
@@ -329,7 +325,8 @@ class SettingsFragment : Fragment() {
 	private fun <T> EnumTypeBinding.connect(
 		titleText: String,
 		setting: Flow<T>,
-		map: Context.(T) -> String
+		map: Context.(T) -> String,
+		dialog: View.(T, valueToString: Context.(T) -> String) -> AlertDialog
 	) {
 		title.text = titleText
 		viewLifecycleOwner.lifecycleScope.launch {
@@ -337,6 +334,9 @@ class SettingsFragment : Fragment() {
 				.collect {
 					with(root.context) {
 						content.text = map(it)
+					}
+					root.setOnClickListener { _ ->
+						root.dialog(it, map).show()
 					}
 				}
 		}
@@ -361,12 +361,12 @@ class SettingsFragment : Fragment() {
 		@StringRes title: Int,
 		@DrawableRes iconRes: Int,
 		onClick: (T) -> Unit,
-		valueToString: (T) -> String
+		valueToString: Context.(T) -> String
 	) = MaterialAlertDialogBuilder(context)
 		.setTitle(title)
 		.setIcon(iconRes)
 		.setSingleChoiceItems(
-			values.map(valueToString).toTypedArray(),
+			values.map { context.valueToString(it) }.toTypedArray(),
 			values.indexOf(initialValue)
 		) { dialog, newValue ->
 			dialog.dismiss()
