@@ -12,9 +12,9 @@ import com.looker.core.datastore.model.*
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.lang.NumberFormatException
 import javax.inject.Inject
 import kotlin.time.Duration
 import com.looker.core.common.R as CommonR
@@ -137,32 +137,16 @@ class SettingsViewModel
 
 	private fun handleShizuku() {
 		viewModelScope.launch {
-			shizukuPermissionHandler.state.collect { state ->
-				if (state.isAlive && state.isPermissionGranted) return@collect
-				if (state.isInstalled) {
-					if (!state.isAlive) {
-						_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
-					}
-				} else {
-					_snackbarStringId.emit(CommonR.string.shizuku_not_installed)
+			val isInstalled = shizukuPermissionHandler.isInstalled()
+			val isAlive = shizukuPermissionHandler.isBinderAlive.first()
+			val isGranted = shizukuPermissionHandler.isGranted.first()
+			if (isAlive && isGranted) cancel()
+			if (isInstalled) {
+				if (!isAlive) {
+					_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
 				}
-			}
-		}
-	}
-
-	init {
-		viewModelScope.launch {
-			combine(
-				shizukuPermissionHandler.isBinderAlive,
-				flowOf(shizukuPermissionHandler.isInstalled())
-			) { isAlive, isInstalled ->
-				if (isInstalled) {
-					if (!isAlive) {
-						_snackbarStringId.emit(CommonR.string.shizuku_not_alive)
-					}
-				} else {
-					_snackbarStringId.emit(CommonR.string.shizuku_not_installed)
-				}
+			} else {
+				_snackbarStringId.emit(CommonR.string.shizuku_not_installed)
 			}
 		}
 	}
