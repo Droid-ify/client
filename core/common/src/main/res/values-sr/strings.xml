@@ -3,13 +3,13 @@
     <string name="updates">Ажурирања</string>
     <string name="size">Величина</string>
     <string name="license_FORMAT">%s лиценца</string>
-    <string name="session_installer">„Сесија“ програм за инсталацију</string>
+    <string name="session_installer">Програм за инсталацију „Сесија“</string>
     <string name="fingerprint">Отисак прста</string>
     <string name="incompatible_version">Некомпатибилна верзија</string>
     <plurals name="hours">
-        <item quantity="one">Сат</item>
-        <item quantity="few">Сата</item>
-        <item quantity="other">Сати</item>
+        <item quantity="one">сат</item>
+        <item quantity="few">сата</item>
+        <item quantity="other">сати</item>
     </plurals>
     <string name="could_not_download_FORMAT">Није могуће преузети %s</string>
     <string name="source_code_no_longer_available">Изворни кôд више није доступан</string>
@@ -22,7 +22,7 @@
     <string name="material_you_desc">Користите Material You тему боја</string>
     <string name="only_on_wifi_with_charging">Само на Wi-Fi мрежи и током пуњења</string>
     <string name="sync_repositories">Синхронизуј репозиторијуме</string>
-    <string name="root_installer">„Root“ програм за инсталацију</string>
+    <string name="root_installer">Програм за инсталацију „Root“</string>
     <string name="action_failed">Радња није успела</string>
     <string name="plus_more_FORMAT">+%d више</string>
     <string name="installer">Програм за инсталацију</string>
@@ -64,9 +64,9 @@
     <string name="shizuku_not_alive">Shizuku није покренут</string>
     <string name="unknown">Непознато</string>
     <plurals name="days">
-        <item quantity="one">Дан</item>
-        <item quantity="few">Дана</item>
-        <item quantity="other">Дана</item>
+        <item quantity="one">дан</item>
+        <item quantity="few">дана</item>
+        <item quantity="other">дана</item>
     </plurals>
     <string name="could_not_sync_FORMAT">Није могуће синхронизовати %s</string>
     <string name="installing">Инсталирање</string>
@@ -113,7 +113,7 @@
     <string name="signature_FORMAT">Потпис %s</string>
     <string name="link_copied_to_clipboard">Линк је копиран у привремену меморију</string>
     <string name="processing_FORMAT">Обрада %1$s…</string>
-    <string name="shizuku_installer">„Shizuku“ програм за инсталацију</string>
+    <string name="shizuku_installer">Програм за инсталацију „Shizuku“</string>
     <string name="new_applications">Нове апликације</string>
     <string name="label_copy">Копирај</string>
     <string name="uninstall">Деинсталирај</string>
@@ -161,8 +161,8 @@
     <string name="syncing">Синхронизација</string>
     <string name="prefs_language_title">Језик</string>
     <string name="install_types">Врсте инсталације</string>
-    <string name="legacy_installer">„Застарели“ програм за инсталацију</string>
-    <string name="search">Претражите</string>
+    <string name="legacy_installer">Програм за инсталацију „Застарело“</string>
+    <string name="search">Претрага</string>
     <string name="unknown_error_DESC">Непозната грешка.</string>
     <string name="themes">Теме</string>
     <string name="list_animation">Анимације листе</string>
@@ -177,7 +177,7 @@
     <string name="delete_repository_DESC">Избрисати репозиторијум\?</string>
     <string name="enable_repo">Омогући репозиторијум</string>
     <string name="project_website">Веб-сајт пројекта</string>
-    <string name="donate">Донирај</string>
+    <string name="donate">Донација</string>
     <string name="add_repository">Додај репозиторијум</string>
     <string name="allow_collapsing_toolbar">Дозволи да се горња трака апликације прошири</string>
     <string name="could_not_validate_FORMAT">Није могуће потврдити %s</string>
@@ -206,7 +206,7 @@
     <string name="share">Дели</string>
     <string name="changes">Промене</string>
     <string name="invalid_username_format">Неважећи формат корисничког имена</string>
-    <string name="notify_about_updates">Обавести за ажурирања</string>
+    <string name="notify_about_updates">Обавештење за ажурирања</string>
     <string name="provided_by_FORMAT">Обезбеђује %s</string>
     <string name="incompatible_versions_summary">Приказује верзије апликација које нису компатибилне са уређајем</string>
     <string name="show_older_versions">Прикажи старије верзије</string>
