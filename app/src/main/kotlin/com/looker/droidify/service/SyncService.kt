@@ -18,9 +18,7 @@ import androidx.fragment.app.Fragment
 import com.looker.core.common.*
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result
-import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
@@ -49,17 +47,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 		private val mutableStateSubject = MutableSharedFlow<State>()
 		private val mutableFinishState = MutableSharedFlow<Unit>()
-
-		private val finishState = mutableFinishState.asSharedFlow()
 	}
 
 	@Inject
 	lateinit var settingsRepository: SettingsRepository
-
-	private val initialPreference: Flow<Settings>
-		get() = flow {
-			emit(settingsRepository.fetchInitialPreferences())
-		}
 
 	private sealed interface State {
 		data class Connecting(val name: String) : State
@@ -91,7 +82,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	inner class Binder : android.os.Binder() {
 		val finish: SharedFlow<Unit>
-			get() = finishState
+			get() = mutableFinishState.asSharedFlow()
 
 		private fun sync(ids: List<Long>, request: SyncRequest) {
 			Log.i(TAG, "Sync Started: ${request.name}")
@@ -366,7 +357,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 					val initialState = State.Connecting(repository.name)
 					publishForegroundState(true, initialState)
 					lifecycleScope.launch {
-						val unstableUpdates = initialPreference.first().unstableUpdate
+						val unstableUpdates =
+							settingsRepository.fetchInitialPreferences().unstableUpdate
 						handleFileDownload(
 							task = task,
 							initialState = initialState,
@@ -380,11 +372,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 				}
 			} else if (started != Started.NO) {
 				lifecycleScope.launch {
-					val preference = initialPreference.first()
+					val setting = settingsRepository.fetchInitialPreferences()
 					handleUpdates(
 						hasUpdates = hasUpdates,
-						notifyUpdates = preference.notifyUpdate,
-						autoUpdate = preference.autoUpdate
+						notifyUpdates = setting.notifyUpdate,
+						autoUpdate = setting.autoUpdate
 					)
 				}
 			}
@@ -398,19 +390,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	) {
 		if (hasUpdates && notifyUpdates) {
 			val job = lifecycleScope.launch {
-				val availableUpdate = Database.ProductAdapter.query(
-					installed = true,
-					updates = true,
-					searchQuery = "",
-					section = ProductItem.Section.All,
-					order = SortOrder.NAME,
-					signal = null
-				).use { it.asSequence().map(Database.ProductAdapter::transformItem).toList() }
 				currentTask = null
 				handleNextTask(false)
 				val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-				if (!blocked && availableUpdate.isNotEmpty()) {
-					displayUpdatesNotification(availableUpdate)
+				val updates = Database.ProductAdapter.getUpdatesStream().first()
+				if (!blocked && updates.isNotEmpty()) {
+					displayUpdatesNotification(updates)
 					if (autoUpdate) updateAllAppsInternal()
 				}
 			}
