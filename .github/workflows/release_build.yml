@@ -20,7 +20,7 @@ jobs:
 
     steps:
     - name: Check out repository
-      uses: actions/checkout@v4.0.0
+      uses: actions/checkout@v4.1.0
       with:
         submodules: true
         
