@@ -1,5 +1,6 @@
 package com.looker.core.model
 
+import com.looker.core.common.extension.isOnion
 import java.net.URL
 
 data class Repository(
@@ -17,6 +18,13 @@ data class Repository(
 	val timestamp: Long,
 	val authentication: String
 ) {
+
+	val randomAddress: String
+		get() = (mirrors + address)
+			// We don't support tor yet
+			.filter { !it.isOnion }
+			.random()
+
 	fun edit(address: String, fingerprint: String, authentication: String): Repository {
 		val isAddressChanged = this.address != address
 		val isFingerprintChanged = this.fingerprint != fingerprint

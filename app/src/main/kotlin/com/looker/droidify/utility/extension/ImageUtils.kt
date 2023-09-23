@@ -15,14 +15,14 @@ fun Product.Screenshot.url(repository: Repository, packageName: String): String 
 		Product.Screenshot.Type.SMALL_TABLET -> "sevenInchScreenshots"
 		Product.Screenshot.Type.LARGE_TABLET -> "tenInchScreenshots"
 	}
-	return "${repository.address}/$packageName/${locale}/$phoneType/${path}"
+	return "${repository.randomAddress}/$packageName/${locale}/$phoneType/${path}"
 }
 
 fun ProductItem.icon(
 	view: View,
 	repository: Repository
 ): String? {
-	val address = repository.address.nullIfEmpty() ?: return null
+	val address = repository.randomAddress.nullIfEmpty() ?: return null
 	val packageNameCalculated = packageName.nullIfEmpty() ?: return null
 	val iconCal = icon.nullIfEmpty()
 	val metadataIconCalc = metadataIcon.nullIfEmpty()
