@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.drawable as drawableRes
 import com.looker.core.common.R.style as styleRes
 
 class ScreenshotsFragment() : DialogFragment() {
@@ -187,11 +186,12 @@ class ScreenshotsFragment() : DialogFragment() {
 		StableRecyclerAdapter<Adapter.ViewType, RecyclerView.ViewHolder>() {
 		enum class ViewType { SCREENSHOT }
 
-		private class ViewHolder(context: Context) :
-			RecyclerView.ViewHolder(ZoomageView(context)) {
+		private class ViewHolder(context: Context) : RecyclerView.ViewHolder(ZoomageView(context)) {
 			val image: ZoomageView = itemView as ZoomageView
 
-			val placeholder: Drawable
+			val cameraIcon = context.camera
+				.apply { setTintList(context.getColorFromAttr(MaterialR.attr.colorOutline)) }
+			val placeholder: Drawable = PaddingDrawable(cameraIcon, 5f, context.aspectRatio)
 
 			init {
 				with(image) {
@@ -207,9 +207,6 @@ class ScreenshotsFragment() : DialogFragment() {
 					animateOnReset = true
 					autoResetMode = UNDER
 				}
-				val placeholder = context.getMutatedIcon(drawableRes.ic_photo_camera)
-				placeholder.setTint(context.getColorFromAttr(MaterialR.attr.colorOutline).defaultColor)
-				this.placeholder = PaddingDrawable(placeholder, 4f, context.aspectRatio)
 			}
 		}
 
@@ -248,9 +245,9 @@ class ScreenshotsFragment() : DialogFragment() {
 			val screenshot = screenshots[position]
 			repository?.let {
 				holder.image.load(screenshot.url(it, packageName)) {
-					authentication(it.authentication)
 					placeholder(holder.placeholder)
 					error(holder.placeholder)
+					authentication(it.authentication)
 				}
 			}
 		}
