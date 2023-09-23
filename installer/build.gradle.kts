@@ -21,7 +21,7 @@ android {
 dependencies {
 	modules(Modules.coreCommon, Modules.coreDatastore)
 
-	implementation(AndroidX.appCompat)
+	implementation(AndroidX.material)
 	coroutines()
 
 	implementation(Others.libsu)
