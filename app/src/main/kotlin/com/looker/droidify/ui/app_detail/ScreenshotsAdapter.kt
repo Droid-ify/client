@@ -2,6 +2,7 @@ package com.looker.droidify.ui.app_detail
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,6 @@ import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.dimen as dimenRes
 
 class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
@@ -32,32 +32,35 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 				setMeasuredDimension(measuredWidth, measuredHeight)
 			}
 		}
-		val placeholder: Drawable
-		val surfaceColor = context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
-
+		val placeholderColor = context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
 		val radius = context.resources.getDimension(dimenRes.shape_small_corner)
+
 		val imageShapeModel = image.shapeAppearanceModel.toBuilder()
 			.setAllCornerSizes(radius)
 			.build()
-		val imagePlaceholder = context.getMutatedIcon(CommonR.drawable.ic_screenshot_placeholder)
+		val cameraIcon = context.camera
+			.apply { setTintList(placeholderColor) }
+		val placeholder: Drawable = PaddingDrawable(cameraIcon, 3f, context.aspectRatio)
 
 		init {
 			with(image) {
+				layoutParams = ViewGroup.LayoutParams(
+					ViewGroup.LayoutParams.WRAP_CONTENT,
+					ViewGroup.LayoutParams.WRAP_CONTENT
+				)
 				shapeAppearanceModel = imageShapeModel
 				background = context.selectableBackground
-
-				imagePlaceholder.setTintList(surfaceColor)
-				placeholder = PaddingDrawable(imagePlaceholder, 3f, context.aspectRatio)
 			}
 			with(itemView as FrameLayout) {
-				addView(image)
 				layoutParams = RecyclerView.LayoutParams(
 					RecyclerView.LayoutParams.WRAP_CONTENT,
-					RecyclerView.LayoutParams.MATCH_PARENT
+					150.dp
 				).apply {
 					marginStart = radius.toInt()
 					marginEnd = radius.toInt()
 				}
+				foregroundGravity = Gravity.CENTER
+				addView(image)
 			}
 		}
 	}
@@ -97,10 +100,10 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 		holder.image.load(
 			item.screenshot.url(item.repository, item.packageName)
 		) {
-			authentication(item.repository.authentication)
 			scale(Scale.FILL)
 			placeholder(holder.placeholder)
 			error(holder.placeholder)
+			authentication(item.repository.authentication)
 		}
 	}
 
