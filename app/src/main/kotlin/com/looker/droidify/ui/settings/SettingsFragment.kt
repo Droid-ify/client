@@ -152,7 +152,7 @@ class SettingsFragment : Fragment() {
 					initialValue = autoSync,
 					values = AutoSync.entries,
 					title = CommonR.string.sync_repositories_automatically,
-					iconRes = CommonR.drawable.ic_sync,
+					iconRes = CommonR.drawable.ic_sync_type,
 					valueToString = valueToString,
 					onClick = viewModel::setAutoSync
 				)
@@ -166,7 +166,7 @@ class SettingsFragment : Fragment() {
 					initialValue = installerType,
 					values = InstallerType.entries,
 					title = CommonR.string.installer,
-					iconRes = CommonR.drawable.ic_download,
+					iconRes = CommonR.drawable.ic_apk_install,
 					valueToString = valueToString,
 					onClick = viewModel::setInstaller
 				)

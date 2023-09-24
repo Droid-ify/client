@@ -141,9 +141,9 @@
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_code"
+                    android:src="@drawable/ic_source_code"
                     app:shapeAppearanceOverlay="@style/Shape.Small"
-                    app:srcCompat="@drawable/ic_code" />
+                    app:srcCompat="@drawable/ic_source_code" />
 
                 <TextView
                     android:layout_width="wrap_content"

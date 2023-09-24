@@ -65,4 +65,8 @@
             android:textColor="?colorOnError" />
     </LinearLayout>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"/>
+
 </LinearLayout>

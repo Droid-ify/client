@@ -22,9 +22,6 @@ fun Context.copyToClipboard(clip: String) {
 	clipboardManager.setPrimaryClip(ClipData.newPlainText(null, clip))
 }
 
-val Context.copy: Drawable
-	get() = getDrawableCompat(R.drawable.ic_copy)
-
 val Context.corneredBackground: Drawable
 	get() = getDrawableCompat(R.drawable.background_border)
 

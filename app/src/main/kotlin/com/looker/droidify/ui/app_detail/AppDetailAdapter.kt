@@ -262,7 +262,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 				override val iconResId: Int
 					get() = when (donate) {
-						is Product.Donate.Regular -> drawableRes.ic_donate_regular
+						is Product.Donate.Regular -> drawableRes.ic_donate
 						is Product.Donate.Bitcoin -> drawableRes.ic_donate_bitcoin
 						is Product.Donate.Litecoin -> drawableRes.ic_donate_litecoin
 						is Product.Donate.Flattr -> drawableRes.ic_donate_flattr
