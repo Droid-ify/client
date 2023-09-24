@@ -41,7 +41,7 @@ val Context.selectableBackground: Drawable
 	get() = getDrawableFromAttr(android.R.attr.selectableItemBackground)
 
 val Context.camera: Drawable
-	get() = getDrawableCompat(R.drawable.ic_photo_camera)
+	get() = getDrawableCompat(R.drawable.ic_image)
 
 val Context.aspectRatio: Float
 	get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
