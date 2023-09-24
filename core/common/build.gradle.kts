@@ -30,6 +30,8 @@ dependencies {
 	coroutines()
 	lifecycle()
 
+	implementation(AndroidX.material)
+
 	implementation(Core.core)
 
 	implementation(Coil.coil)
