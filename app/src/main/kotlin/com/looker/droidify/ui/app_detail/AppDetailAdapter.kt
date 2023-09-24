@@ -479,6 +479,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val link = itemView.findViewById<TextView>(R.id.link)!!
 
 		init {
+			text.typeface = TypefaceExtra.medium
 			val margin = measurement.invalidate(itemView.resources) {
 				@SuppressLint("SetTextI18n")
 				text.text = "measure"
