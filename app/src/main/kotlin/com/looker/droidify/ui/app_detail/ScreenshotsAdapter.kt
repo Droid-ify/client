@@ -44,10 +44,6 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
 
 		init {
 			with(image) {
-				layoutParams = ViewGroup.LayoutParams(
-					ViewGroup.LayoutParams.WRAP_CONTENT,
-					ViewGroup.LayoutParams.WRAP_CONTENT
-				)
 				shapeAppearanceModel = imageShapeModel
 				background = context.selectableBackground
 			}
