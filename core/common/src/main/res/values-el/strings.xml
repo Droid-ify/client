@@ -220,4 +220,5 @@
     <string name="home_screen_swiping_DESC">Επιτρέψτε στον χρήστη να συρθεί μεταξύ σελίδων στην αρχική οθόνη</string>
     <string name="label_copy">Αντιγραφή</string>
     <string name="repository_not_found">Το παρακάτω αποθετήριο δεν βρέθηκε</string>
+    <string name="proxy_port_error_not_int">Η θύρα Proxy μπορεί να είναι μόνο Ακέραιος</string>
 </resources>
