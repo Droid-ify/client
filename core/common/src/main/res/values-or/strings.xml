@@ -136,7 +136,7 @@
     <string name="notify_about_updates_summary">ନୂତନ ସଂସ୍କରଣ ଉପଲବ୍ଧ ହେଲେ ଏକ ବିଜ୍ଞପ୍ତି ଦେଖାନ୍ତୁ</string>
     <string name="number_of_applications">ପ୍ରୟୋଗ ସଂଖ୍ୟା</string>
     <string name="other">ଅନ୍ୟ</string>
-    <string name="notify_about_updates">ପ୍ରୟୋଗଗୁଡ଼ିକର ନୂତନ ସଂସ୍କରଣ ବିଷୟରେ ସୂଚିତ କର</string>
+    <string name="notify_about_updates">ଅଦ୍ୟତନ ପାଇଁ ବିଜ୍ଞପ୍ତି</string>
     <string name="parsing_index_error_DESC">ଇଣ୍ଡେକ୍ସ ଫାଇଲ୍ ପାର୍ସ କରିପାରିଲା ନାହିଁ ।</string>
     <string name="open_DESC_FORMAT">%s କୁ ଖୋଲନ୍ତୁ \?</string>
     <string name="password">ପାସୱାର୍ଡ</string>
@@ -218,4 +218,7 @@
     <string name="home_screen_swiping_DESC">ହୋମ ସ୍କ୍ରିନରେ ପୃଷ୍ଠାଗୁଡ଼ିକ ମଧ୍ୟରେ ଚାଳକକୁ ସ୍ୱାଇପ୍ କରିବାକୁ ଅନୁମତି ଦିଅନ୍ତୁ</string>
     <string name="special_credits">ସ୍ୱତନ୍ତ୍ର କ୍ରେଡିଟ୍</string>
     <string name="shizuku_not_installed">Shizuku ସ୍ଥାପିତ ହୋଇନାହିଁ</string>
+    <string name="label_copy">ନକଲ କରନ୍ତୁ</string>
+    <string name="proxy_port_error_not_int">ପ୍ରକ୍ସି ପୋର୍ଟ କେବଳ ଗୋଟିଏ ପୂର୍ଣ୍ଣସଂଖ୍ୟା ହୋଇପାରେ</string>
+    <string name="repository_not_found">ନିମ୍ନଲିଖିତ ଭଣ୍ଡାର ମିଳିଲା ନାହିଁ</string>
 </resources>
