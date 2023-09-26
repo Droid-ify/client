@@ -93,7 +93,7 @@
     <string name="add_repository">저장소 추가</string>
     <string name="address">주소</string>
     <string name="all_applications">모든 애플리케이션</string>
-    <string name="all_applications_up_to_date">모든 애플리케이션이 최신 상태입니다</string>
+    <string name="all_applications_up_to_date">모든 애플리케이션이 최신 버전입니다.</string>
     <string name="already_exists">이미 존재함</string>
     <string name="always">항상</string>
     <string name="amoled">블랙</string>
