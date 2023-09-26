@@ -19,11 +19,15 @@ data class Repository(
 	val authentication: String
 ) {
 
+	/**
+	 * Remove all onion addresses and supply it as random address
+	 *
+	 * If the list only contains onion urls we will provide the default address
+	 */
 	val randomAddress: String
 		get() = (mirrors + address)
-			// We don't support tor yet
 			.filter { !it.isOnion }
-			.random()
+			.randomOrNull() ?: address
 
 	fun edit(address: String, fingerprint: String, authentication: String): Repository {
 		val isAddressChanged = this.address != address
