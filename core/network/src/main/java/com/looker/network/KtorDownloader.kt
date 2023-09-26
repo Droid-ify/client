@@ -32,9 +32,12 @@ import java.net.Proxy
 internal class KtorDownloader : Downloader {
 
 	private var client = HttpClient(OkHttp) { timeoutConfig() }
+		set(newClient) {
+			field.close()
+			field = newClient
+		}
 
 	override fun setProxy(proxy: Proxy) {
-		client.close()
 		client = HttpClient(OkHttp) {
 			timeoutConfig()
 			engine { this.proxy = proxy }
