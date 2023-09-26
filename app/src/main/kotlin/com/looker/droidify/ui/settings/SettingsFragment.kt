@@ -349,6 +349,9 @@ class SettingsFragment : Fragment() {
 	) {
 		title.text = titleText
 		content.text = contentText
+		root.setOnClickListener {
+			checked.isChecked = !checked.isChecked
+		}
 		viewLifecycleOwner.lifecycleScope.launch {
 			setting.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
 				.collect(checked::setChecked)

@@ -4,26 +4,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/shape_margin_large"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingVertical="12dp">
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingEnd="54dp"
         android:textAppearance="?textAppearanceBodyLarge"
         app:layout_constraintBottom_toTopOf="@id/content"
+        app:layout_constraintEnd_toStartOf="@id/checked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/content"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingEnd="54dp"
         android:textAppearance="?textAppearanceBodyMedium"
         android:textColor="?colorOutline"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/checked"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 

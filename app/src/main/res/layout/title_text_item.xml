@@ -15,7 +15,7 @@
 
     <TextView
         android:id="@+id/text"
-        style="?textAppearanceBodyLarge"
+        android:textAppearance="?textAppearanceBodyLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp" />
