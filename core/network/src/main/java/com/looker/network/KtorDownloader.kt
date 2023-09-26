@@ -7,7 +7,9 @@ import com.looker.core.common.signature.ValidationException
 import com.looker.network.header.HeadersBuilder
 import com.looker.network.header.KtorHeadersBuilder
 import io.ktor.client.HttpClient
+import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.okhttp.OkHttpConfig
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpTimeout
@@ -29,20 +31,12 @@ import java.net.Proxy
 
 internal class KtorDownloader : Downloader {
 
-	private var client = HttpClient(OkHttp) {
-		install(HttpTimeout) {
-			connectTimeoutMillis = 30_000
-			socketTimeoutMillis = 15_000
-		}
-	}
+	private var client = HttpClient(OkHttp) { timeoutConfig() }
 
 	override fun setProxy(proxy: Proxy) {
 		client.close()
 		client = HttpClient(OkHttp) {
-			install(HttpTimeout) {
-				connectTimeoutMillis = 30_000
-				socketTimeoutMillis = 15_000
-			}
+			timeoutConfig()
 			engine { this.proxy = proxy }
 		}
 	}
@@ -69,10 +63,10 @@ internal class KtorDownloader : Downloader {
 			val request = createRequest(
 				url = url,
 				headers = {
-					target.size?.let { inRange(it) }
+					inRange(target.size)
 					headers()
 				},
-				fileSize = target.size ?: 0L,
+				fileSize = target.size,
 				block = block
 			)
 			client.prepareGet(request).execute { response ->
@@ -95,41 +89,50 @@ internal class KtorDownloader : Downloader {
 		}
 	}
 
-	private fun createRequest(
-		url: String,
-		headers: HeadersBuilder.() -> Unit,
-		fileSize: Long? = null,
-		block: ProgressListener? = null
-	) = request {
-		url(url)
-		headers {
-			KtorHeadersBuilder(this).headers()
+	companion object {
+
+		private fun HttpClientConfig<OkHttpConfig>.timeoutConfig() = install(HttpTimeout) {
+			connectTimeoutMillis = 30_000
+			socketTimeoutMillis = 15_000
 		}
-		onDownload { read, total ->
-			if (block != null && fileSize != null) {
-				block(read + fileSize, total + fileSize)
+
+		private fun createRequest(
+			url: String,
+			headers: HeadersBuilder.() -> Unit,
+			fileSize: Long? = null,
+			block: ProgressListener? = null
+		) = request {
+			url(url)
+			headers {
+				KtorHeadersBuilder(this).headers()
+			}
+			onDownload { read, total ->
+				if (block != null) {
+					block(read + (fileSize ?: 0L), total + (fileSize ?: 0L))
+				}
 			}
 		}
-	}
 
-	private suspend infix fun ByteReadChannel.saveTo(target: File) = withContext(Dispatchers.IO) {
-		while (!isClosedForRead && isActive) {
-			val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-			packet.appendTo(target)
-		}
-	}
+		private suspend infix fun ByteReadChannel.saveTo(target: File) =
+			withContext(Dispatchers.IO) {
+				while (!isClosedForRead && isActive) {
+					val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
+					packet.appendTo(target)
+				}
+			}
 
-	private suspend fun ByteReadPacket.appendTo(file: File) = withContext(Dispatchers.IO) {
-		while (!isEmpty && isActive) {
-			val bytes = readBytes()
-			file.appendBytes(bytes)
+		private suspend fun ByteReadPacket.appendTo(file: File) = withContext(Dispatchers.IO) {
+			while (!isEmpty && isActive) {
+				val bytes = readBytes()
+				file.appendBytes(bytes)
+			}
 		}
-	}
 
-	private fun HttpResponse.asNetworkResponse(): NetworkResponse =
-		if (status.isSuccess() || status == HttpStatusCode.NotModified) {
-			NetworkResponse.Success(status.value, lastModified(), etag())
-		} else {
-			NetworkResponse.Error.Http(status.value)
-		}
+		private fun HttpResponse.asNetworkResponse(): NetworkResponse =
+			if (status.isSuccess() || status == HttpStatusCode.NotModified) {
+				NetworkResponse.Success(status.value, lastModified(), etag())
+			} else {
+				NetworkResponse.Error.Http(status.value)
+			}
+	}
 }
