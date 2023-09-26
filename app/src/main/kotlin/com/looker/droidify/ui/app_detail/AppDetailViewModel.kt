@@ -36,7 +36,7 @@ class AppDetailViewModel @Inject constructor(
 	}
 
 	val installerState = installer
-		.getStatus()
+		.status
 		.asStateFlow(InstallerQueueState.EMPTY)
 
 	val state by lazy {

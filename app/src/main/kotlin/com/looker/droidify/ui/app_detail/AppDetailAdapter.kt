@@ -982,9 +982,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
 	var action: Action? = null
 		set(value) {
-			if (field != value) {
-				val index = items.indexOf(Item.InstallButtonItem)
-				if (index > 0) notifyItemChanged(index)
+			val index = items.indexOf(Item.InstallButtonItem)
+			val progressBarIndex = items.indexOf(Item.DownloadStatusItem)
+			if (index > 0 && progressBarIndex > 0) {
+				notifyItemChanged(index)
+				notifyItemChanged(progressBarIndex)
 			}
 			field = value
 		}

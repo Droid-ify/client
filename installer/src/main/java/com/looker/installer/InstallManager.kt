@@ -2,13 +2,15 @@ package com.looker.installer
 
 import android.content.Context
 import com.looker.core.common.Constants
+import com.looker.core.common.PackageName
 import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.common.PackageName
-import com.looker.installer.installers.*
+import com.looker.installer.installers.Installer
+import com.looker.installer.installers.LegacyInstaller
+import com.looker.installer.installers.SessionInstaller
 import com.looker.installer.installers.root.RootInstaller
 import com.looker.installer.installers.shizuku.ShizukuInstaller
 import com.looker.installer.model.*
@@ -62,7 +64,10 @@ class InstallManager(
 		uninstallItems.send(packageName)
 	}
 
-	fun getStatus() = combine(installState, installQueue) { current, queue ->
+	val status = combine(
+		installState,
+		installQueue
+	) { current, queue ->
 		InstallerQueueState(
 			currentItem = current,
 			queued = queue
