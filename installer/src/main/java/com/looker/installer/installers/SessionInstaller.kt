@@ -84,10 +84,7 @@ internal class SessionInstaller(private val context: Context) : Installer {
 	@SuppressLint("MissingPermission")
 	override suspend fun uninstall(packageName: PackageName) =
 		suspendCancellableCoroutine { cont ->
-			intent.putExtra(
-				SessionInstallerService.KEY_ACTION,
-				SessionInstallerService.ACTION_UNINSTALL
-			)
+			intent.putExtra(SessionInstallerService.ACTION_UNINSTALL, true)
 			val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
 			sessionInstaller.uninstall(packageName.name, pendingIntent.intentSender)

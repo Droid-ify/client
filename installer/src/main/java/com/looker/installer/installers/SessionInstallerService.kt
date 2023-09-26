@@ -14,8 +14,7 @@ import com.looker.core.common.R as CommonR
 
 class SessionInstallerService : Service() {
 	companion object {
-		const val KEY_ACTION = "installerAction"
-		const val ACTION_UNINSTALL = "uninstall"
+		const val ACTION_UNINSTALL = "action_uninstall"
 	}
 
 	override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -50,7 +49,7 @@ class SessionInstallerService : Service() {
 		val status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -1)
 		val name = intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME)
 		val message = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
-		val installerAction = intent.getStringExtra(KEY_ACTION)
+		val isUninstall = intent.getBooleanExtra(ACTION_UNINSTALL, false)
 
 		// get application name for notifications
 		val appLabel = try {
@@ -73,7 +72,7 @@ class SessionInstallerService : Service() {
 
 		when (status) {
 			PackageInstaller.STATUS_SUCCESS -> {
-				if (installerAction == ACTION_UNINSTALL)
+				if (isUninstall)
 					// remove any notification for this app
 					notificationManager.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
 				else {
