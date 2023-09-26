@@ -26,9 +26,8 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
 import java.net.Proxy
-import javax.inject.Inject
 
-class KtorDownloader @Inject constructor() : Downloader {
+internal class KtorDownloader : Downloader {
 
 	private var client = HttpClient(OkHttp) {
 		install(HttpTimeout) {

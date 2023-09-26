@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-	modules(Modules.coreCommon, Modules.coreDatastore, Modules.coreModel)
+	modules(Modules.coreCommon)
 
 	coroutines()
 	desugar()

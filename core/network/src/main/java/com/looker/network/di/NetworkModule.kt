@@ -2,18 +2,18 @@ package com.looker.network.di
 
 import com.looker.network.Downloader
 import com.looker.network.KtorDownloader
-import dagger.Binds
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface NetworkMap {
+object NetworkMap {
 
-	@Binds
-	fun bindsDownloader(
-		ktorDownloader: KtorDownloader
-	): Downloader
+	@Singleton
+	@Provides
+	fun provideDownloader(): Downloader = KtorDownloader()
 
 }
