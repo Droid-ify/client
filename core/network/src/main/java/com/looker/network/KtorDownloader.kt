@@ -37,6 +37,7 @@ internal class KtorDownloader : Downloader {
 	}
 
 	override fun setProxy(proxy: Proxy) {
+		client.close()
 		client = HttpClient(OkHttp) {
 			install(HttpTimeout) {
 				connectTimeoutMillis = 30_000
