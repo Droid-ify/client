@@ -36,7 +36,8 @@ internal class KtorHeadersBuilder(
 		HttpHeaders.Authorization headsWith base64
 	}
 
-	override fun inRange(start: Number, end: Number?) {
+	override fun inRange(start: Number?, end: Number?) {
+		if (start == null) return
 		val valueString = if (end != null) "bytes=$start-$end" else "bytes=${start}-"
 		HttpHeaders.Range headsWith valueString
 	}
