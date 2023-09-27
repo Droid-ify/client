@@ -54,7 +54,7 @@
     <string name="incompatible_older_DESC">Эта версия старше той, которая установлена на вашем устройстве. Сначала удалите её.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не поддерживается.
 Поддерживаемые платформы: %2$s.</string>
-    <string name="incompatible_signature_DESC">Эта версия подписана сертификатом, отличным от того, который установленным на вашем устройстве. Сначала удалите его.</string>
+    <string name="incompatible_signature_DESC">Эта версия подписана сертификатом, отличным от установленной на вашем устройстве. Сначала удалите её.</string>
     <string name="incompatible_version">Несовместимая версия</string>
     <string name="incompatible_versions">Несовместимые версии</string>
     <string name="incompatible_versions_summary">Показать версии приложений, несовместимые с устройством</string>
