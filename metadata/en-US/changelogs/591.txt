@@ -1,0 +1,16 @@
+Improvements:
+- Improve icons based on usage
+- Replace screenshot placeholder
+- Improvements to title of link items
+- Add ability to toggle switch by clicking the whole item
+- Improve background updates
+- Load icons from different mirrors
+- Cleanup after changing proxy
+
+Fixes:
+- Monet theme switch
+- Screenshot Size
+- Fix Tor/Onion Repositories
+- Fix Shizuku permission issue
+- Fix Installer reverting indefinitely
+- Fix calls to tor repositories

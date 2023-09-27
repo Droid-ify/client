@@ -3,6 +3,6 @@ object DefaultConfig {
 	const val appId = "com.looker.droidify"
 	const val compileSdk = 33
 	const val minSdk = 23
-	const val versionCode = 590
-	const val versionName = "0.5.9"
+	const val versionCode = 591
+	const val versionName = "0.5.9 Patch 1"
 }
