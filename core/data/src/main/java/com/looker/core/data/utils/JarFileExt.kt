@@ -1,8 +1,18 @@
 package com.looker.core.data.utils
 
+import com.looker.core.common.extension.fingerprint
+import java.io.File
 import java.security.CodeSigner
 import java.security.cert.Certificate
 import java.util.jar.JarEntry
+import java.util.jar.JarFile
+
+internal fun File.toJarFile(verify: Boolean = true): JarFile = JarFile(this, verify)
+
+internal fun JarFile.getFingerprint(contentName: String): String = getJarEntry(contentName)
+	.codeSigner
+	.certificate
+	.fingerprint()
 
 @get:Throws(IllegalStateException::class)
 internal val JarEntry.codeSigner: CodeSigner
