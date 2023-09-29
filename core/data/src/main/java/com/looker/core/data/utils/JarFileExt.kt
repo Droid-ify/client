@@ -1,6 +1,10 @@
 package com.looker.core.data.utils
 
 import com.looker.core.common.extension.fingerprint
+import com.looker.core.common.extension.writeTo
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
 import java.security.CodeSigner
@@ -14,6 +18,16 @@ internal fun JarFile.getEntryStream(contentName: String): InputStream =
 	getInputStream(getJarEntry(contentName))
 
 internal fun JarFile.getFingerprint(contentName: String): String = getJarEntry(contentName)
+	// TODO: Will improve this in future
+	.apply {
+		val deadFile = File.createTempFile("dead", System.currentTimeMillis().toString())
+		runBlocking {
+			withContext(Dispatchers.IO) {
+				getInputStream(this@apply).writeTo(deadFile)
+			}
+		}
+		deadFile.delete()
+	}
 	.codeSigner
 	.certificate
 	.fingerprint()

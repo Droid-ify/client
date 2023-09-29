@@ -40,10 +40,9 @@ class IndexDownloaderImpl @Inject constructor(
 		repo: Repo
 	): Pair<String, IndexV1> = withContext(Dispatchers.IO) {
 		var fingerprint = ""
-		val validator = IndexValidator(repo) {
-			fingerprint = it
-		}
+		val validator = IndexValidator { fingerprint = it }
 		val jarFile = downloadIndexFile(repo, INDEX_V1_FILE_NAME, validator).toJarFile(false)
+		if (fingerprint.isBlank()) throw IllegalStateException("Empty Fingerprint")
 		fingerprint to jarFile.getEntryStream(IndexValidator.JSON_NAME).parseIndexV1()
 	}
 
@@ -66,10 +65,9 @@ class IndexDownloaderImpl @Inject constructor(
 		repo: Repo
 	): Pair<String, Entry> = withContext(Dispatchers.IO) {
 		var fingerprint = ""
-		val validator = EntryValidator(repo) {
-			fingerprint = it
-		}
+		val validator = EntryValidator { fingerprint = it }
 		val jarFile = downloadIndexFile(repo, ENTRY_FILE_NAME, validator).toJarFile(false)
+		if (fingerprint.isBlank()) throw IllegalStateException("Empty Fingerprint")
 		fingerprint to jarFile.getEntryStream(EntryValidator.JSON_NAME).parseEntry()
 	}
 
