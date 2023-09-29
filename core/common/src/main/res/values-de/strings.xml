@@ -49,7 +49,7 @@
     <string name="new_updates_available">Neue Anwendungsversionen verfügbar</string>
     <string name="never">Nie</string>
     <string name="network_error_DESC">Netzwerkfehler</string>
-    <string name="notify_about_updates">Über neue Versionen von Anwendungen benachrichtigen</string>
+    <string name="notify_about_updates">Über neue Versionen benachrichtigen</string>
     <string name="no_description_available_DESC">Keine Beschreibung vorhanden</string>
     <string name="no_matching_applications_found">Keine derartigen Anwendungen konnten gefunden werden</string>
     <string name="no_applications_installed">Keine installierten Anwendungen</string>
@@ -218,4 +218,7 @@
     <string name="home_screen_swiping">Wischgesten</string>
     <string name="home_screen_swiping_DESC">Dem Benutzer erlauben, auf dem Startbildschirm zwischen den Seiten zu wischen</string>
     <string name="special_credits">Besonderer Dank</string>
+    <string name="label_copy">Kopieren</string>
+    <string name="proxy_port_error_not_int">Proxy-Port muss eine natürliche Zahl sein</string>
+    <string name="repository_not_found">Folgende Repos konnten nicht gefunden werden</string>
 </resources>
