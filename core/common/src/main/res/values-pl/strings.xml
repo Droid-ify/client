@@ -22,7 +22,7 @@
     <string name="add_repository">Dodaj repozytorium</string>
     <string name="always">Zawsze</string>
     <string name="anti_features">Niepożądane funkcje</string>
-    <string name="upstream_source_code_is_not_free">Upstreamowy kod źródłowy nie jest darmowy</string>
+    <string name="upstream_source_code_is_not_free">Nadrzędny kod źródłowy nie jest wolny</string>
     <string name="update">Aktualizacja</string>
     <string name="unknown_FORMAT">Nieznany: %s</string>
     <string name="address">Adres</string>
