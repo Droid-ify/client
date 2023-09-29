@@ -8,7 +8,7 @@ object AndroidX {
 }
 
 object Core {
-	private const val coreVersion = "1.10.1"
+	private const val coreVersion = "1.11.0-beta02"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
@@ -18,7 +18,7 @@ object Coil {
 }
 
 private object Compose {
-	const val bom = "androidx.compose:compose-bom:2023.08.00"
+	const val bom = "androidx.compose:compose-bom:2023.09.02"
 
 	const val animation = "androidx.compose.animation:animation"
 	const val ui = "androidx.compose.ui:ui"
@@ -89,8 +89,8 @@ private object Ktor {
 }
 
 private object Lifecycle {
-	private const val lifecycleVersion = "2.6.1"
-	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+	private const val version = "2.6.2"
+	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
 	const val fragment = "androidx.fragment:fragment-ktx:1.6.1"
 	const val activity = "androidx.activity:activity-ktx:1.7.2"
 }
