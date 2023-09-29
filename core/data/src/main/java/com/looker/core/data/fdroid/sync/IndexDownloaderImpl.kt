@@ -3,6 +3,8 @@ package com.looker.core.data.fdroid.sync
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.data.fdroid.sync.signature.EntryValidator
 import com.looker.core.data.fdroid.sync.signature.IndexValidator
+import com.looker.core.data.utils.getEntryStream
+import com.looker.core.data.utils.toJarFile
 import com.looker.core.model.newer.Repo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
@@ -13,6 +15,7 @@ import org.fdroid.index.v1.IndexV1
 import org.fdroid.index.v2.Entry
 import org.fdroid.index.v2.IndexV2
 import java.io.File
+import java.io.InputStream
 import java.util.Date
 import java.util.UUID
 import javax.inject.Inject
@@ -24,9 +27,9 @@ class IndexDownloaderImpl @Inject constructor(
 	companion object {
 		private val parser = IndexParser
 
-		private fun File.parseIndexV1(): IndexV1 = parser.parseV1(inputStream())
-		private fun File.parseIndexV2(): IndexV2 = parser.parseV2(inputStream())
-		private fun File.parseEntry(): Entry = parser.parseEntry(inputStream())
+		private fun InputStream.parseIndexV1(): IndexV1 = parser.parseV1(this)
+		private fun InputStream.parseIndexV2(): IndexV2 = parser.parseV2(this)
+		private fun InputStream.parseEntry(): Entry = parser.parseEntry(this)
 
 		private const val INDEX_V1_FILE_NAME = "index-v1.jar"
 		private const val INDEX_V2_FILE_NAME = "index-v2.json"
@@ -40,15 +43,15 @@ class IndexDownloaderImpl @Inject constructor(
 		val validator = IndexValidator(repo) {
 			fingerprint = it
 		}
-		val jarFile = downloadIndexFile(repo, INDEX_V1_FILE_NAME, validator)
-		fingerprint to jarFile.parseIndexV1()
+		val jarFile = downloadIndexFile(repo, INDEX_V1_FILE_NAME, validator).toJarFile(false)
+		fingerprint to jarFile.getEntryStream(IndexValidator.JSON_NAME).parseIndexV1()
 	}
 
 	override suspend fun downloadIndexV2(
 		repo: Repo
 	): IndexV2 = withContext(Dispatchers.Default) {
 		val file = downloadIndexFile(repo, INDEX_V2_FILE_NAME)
-		file.parseIndexV2()
+		file.inputStream().parseIndexV2()
 	}
 
 	override suspend fun downloadIndexDiff(
@@ -56,7 +59,7 @@ class IndexDownloaderImpl @Inject constructor(
 		name: String
 	): IndexV2 = withContext(Dispatchers.Default) {
 		val file = downloadIndexFile(repo, name)
-		file.parseIndexV2()
+		file.inputStream().parseIndexV2()
 	}
 
 	override suspend fun downloadEntry(
@@ -66,8 +69,8 @@ class IndexDownloaderImpl @Inject constructor(
 		val validator = EntryValidator(repo) {
 			fingerprint = it
 		}
-		val jarFile = downloadIndexFile(repo, ENTRY_FILE_NAME, validator)
-		fingerprint to jarFile.parseEntry()
+		val jarFile = downloadIndexFile(repo, ENTRY_FILE_NAME, validator).toJarFile(false)
+		fingerprint to jarFile.getEntryStream(EntryValidator.JSON_NAME).parseEntry()
 	}
 
 	override suspend fun determineIndexType(repo: Repo): IndexType {

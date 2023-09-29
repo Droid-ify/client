@@ -11,6 +11,7 @@ class IndexManager(
 	private val converter: IndexConverter
 ) {
 
+	// TODO: Update timestamp and etag
 	suspend fun getIndex(repos: List<Repo>): Map<Repo, IndexV2> =
 		withContext(Dispatchers.Default) {
 			repos.associate { repo ->
