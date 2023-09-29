@@ -24,7 +24,7 @@ class IndexValidator(
 			return@withContext
 		}
 		try {
-			val verifier = IndexV1Verifier(jarFile = file, null, repo.fingerprint)
+			val verifier = IndexV1Verifier(jarFile = file, null, repo.fingerprint.lowercase())
 			val (fingerprint, _) = verifier.getStreamAndVerify { }
 			fingerprintBlock(fingerprint)
 		} catch (e: SigningException) {
