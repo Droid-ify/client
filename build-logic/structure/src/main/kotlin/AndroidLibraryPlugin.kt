@@ -32,6 +32,9 @@ class AndroidLibraryPlugin : Plugin<Project> {
 				}
 			}
 			dependencies {
+				add("implementation", platform("org.jetbrains.kotlin:kotlin-bom:1.9.10"))
+				add("implementation", kotlin("stdlib"))
+				add("implementation", kotlin("reflect"))
 				add("testImplementation", kotlin("test"))
 				add("androidTestImplementation", kotlin("test"))
 			}

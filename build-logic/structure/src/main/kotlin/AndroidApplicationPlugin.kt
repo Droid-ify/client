@@ -3,6 +3,8 @@ import com.looker.droidify.configureKotlinAndroid
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.kotlin
 
 class AndroidApplicationPlugin : Plugin<Project> {
 	override fun apply(target: Project) {
@@ -26,6 +28,11 @@ class AndroidApplicationPlugin : Plugin<Project> {
 					renderScript = false
 					shaders = false
 				}
+			}
+			dependencies {
+				add("implementation", platform("org.jetbrains.kotlin:kotlin-bom:1.9.10"))
+				add("implementation", kotlin("stdlib"))
+				add("implementation", kotlin("reflect"))
 			}
 		}
 	}

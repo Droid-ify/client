@@ -123,7 +123,6 @@ dependencies {
 		Modules.installer
 	)
 
-	implementation(kotlin("stdlib"))
 	implementation(Core.core)
 
 	androidX()
