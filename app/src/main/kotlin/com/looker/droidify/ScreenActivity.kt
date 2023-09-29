@@ -128,7 +128,6 @@ abstract class ScreenActivity : AppCompatActivity() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		collectChange()
 		super.onCreate(savedInstanceState)
-		collectChange()
 		val rootView = FrameLayout(this).apply { id = R.id.main_content }
 		addContentView(
 			rootView,

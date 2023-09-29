@@ -330,8 +330,8 @@ class SettingsFragment : Fragment() {
 	) {
 		title.text = titleText
 		viewLifecycleOwner.lifecycleScope.launch {
-			setting.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-				.collect {
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				setting.collect {
 					with(root.context) {
 						content.text = map(it)
 					}
@@ -339,6 +339,7 @@ class SettingsFragment : Fragment() {
 						root.dialog(it, map).show()
 					}
 				}
+			}
 		}
 	}
 
@@ -353,8 +354,11 @@ class SettingsFragment : Fragment() {
 			checked.isChecked = !checked.isChecked
 		}
 		viewLifecycleOwner.lifecycleScope.launch {
-			setting.flowWithLifecycle(lifecycle, Lifecycle.State.RESUMED)
-				.collect(checked::setChecked)
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				setting.collect {
+					checked.isChecked = it
+				}
+			}
 		}
 	}
 
