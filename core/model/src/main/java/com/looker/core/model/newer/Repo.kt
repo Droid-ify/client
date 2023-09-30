@@ -15,6 +15,13 @@ data class Repo(
 ) {
 	val shouldAuthenticate =
 		authentication.username.isNotEmpty() && authentication.password.isNotEmpty()
+
+	fun update(fingerprint: String, lastModified: Long? = null, etag: String? = null): Repo {
+		return copy(
+			fingerprint = fingerprint,
+			versionInfo = lastModified?.let { VersionInfo(timestamp = it) } ?: versionInfo
+		)
+	}
 }
 
 data class AntiFeature(
