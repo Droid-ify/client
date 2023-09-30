@@ -109,7 +109,8 @@ class IndexDownloaderImpl @Inject constructor(
 					repo.authentication.username,
 					repo.authentication.password
 				)
-				ifModifiedSince(Date(repo.versionInfo.timestamp))
+				if (repo.versionInfo.etag != null) etag(repo.versionInfo.etag!!)
+				else if (repo.versionInfo.timestamp > 0L) ifModifiedSince(Date(repo.versionInfo.timestamp))
 			}
 		)
 		tempFile to response

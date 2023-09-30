@@ -21,7 +21,7 @@ class IndexManager(
 					val response = indexDownloader.downloadIndexV1(repo)
 					repo.update(
 						fingerprint = response.fingerprint,
-						lastModified = response.lastModified,
+						timestamp = response.lastModified,
 						etag = response.etag
 					) to converter.toIndexV2(response.index)
 				}
@@ -31,7 +31,7 @@ class IndexManager(
 					val diff = response.index.getDiff(repo.versionInfo.timestamp)
 					repo.update(
 						fingerprint = response.fingerprint,
-						lastModified = response.lastModified,
+						timestamp = response.lastModified,
 						etag = response.etag
 					) to downloadIndexBasedOnDiff(repo, diff)
 				}

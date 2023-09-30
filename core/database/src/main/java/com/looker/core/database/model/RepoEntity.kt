@@ -41,7 +41,7 @@ fun RepoEntity.toExternal(locale: String): Repo = Repo(
 	description = description.localizedValue(locale) ?: "",
 	fingerprint = fingerprint,
 	authentication = Authentication(username, password),
-	versionInfo = VersionInfo(timestamp = timestamp),
+	versionInfo = VersionInfo(timestamp = timestamp, etag = etag),
 	mirrors = mirrors,
 	categories = categories.values.toCategoryList(locale),
 	antiFeatures = antiFeatures.values.toAntiFeatureList(locale)

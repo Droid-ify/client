@@ -67,6 +67,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 			fingerprint = repo.fingerprint,
 			username = repo.authentication.username,
 			password = repo.authentication.password,
+			etag = repo.versionInfo.etag ?: "",
 			enabled = true
 		)
 		repoDao.upsertRepo(updatedRepo)
@@ -91,6 +92,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 				fingerprint = repo.fingerprint,
 				username = repo.authentication.username,
 				password = repo.authentication.password,
+				etag = repo.versionInfo.etag ?: "",
 				enabled = true
 			)
 			repoDao.upsertRepo(updatedRepo)

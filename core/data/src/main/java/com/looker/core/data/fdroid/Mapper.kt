@@ -87,6 +87,7 @@ fun PackageVersionV2.toPackage(): PackageEntity = PackageEntity(
 fun RepoV2.toEntity(
 	id: Long,
 	fingerprint: String,
+	etag: String,
 	username: String,
 	password: String,
 	enabled: Boolean = true
@@ -99,7 +100,7 @@ fun RepoV2.toEntity(
 	name = name,
 	description = description,
 	timestamp = timestamp,
-	etag = "",
+	etag = etag,
 	username = username,
 	password = password,
 	antiFeatures = antiFeatures.mapValues {
