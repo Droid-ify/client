@@ -4,8 +4,11 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.job.JobInfo
 import android.app.job.JobParameters
 import android.app.job.JobService
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
@@ -558,6 +561,28 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 			val reschedule = syncConnection.binder?.cancelAuto() == true
 			syncConnection.unbind(this)
 			return reschedule
+		}
+
+		companion object {
+			fun create(
+				context: Context,
+				periodMillis: Long,
+				networkType: Int,
+				isCharging: Boolean,
+				isBatteryLow: Boolean
+			): JobInfo = JobInfo.Builder(
+				Constants.JOB_ID_SYNC,
+				ComponentName(context, Job::class.java)
+			).apply {
+				setRequiredNetworkType(networkType)
+				sdkAbove(sdk = Build.VERSION_CODES.O) {
+					setRequiresCharging(isCharging)
+					setRequiresBatteryNotLow(isBatteryLow)
+					setRequiresStorageNotLow(true)
+				}
+				if (SdkCheck.isNougat) setPeriodic(periodMillis, JobInfo.getMinFlexMillis())
+				else setPeriodic(periodMillis)
+			}.build()
 		}
 	}
 }

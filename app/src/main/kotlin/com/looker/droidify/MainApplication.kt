@@ -206,23 +206,14 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 				AutoSync.NEVER -> jobScheduler.cancel(Constants.JOB_ID_SYNC)
 				else -> {
 					val period = 12.hours.inWholeMilliseconds
-
-					val jobInfo = JobInfo.Builder(
-						Constants.JOB_ID_SYNC,
-						ComponentName(this, SyncService.Job::class.java)
-					).apply {
-						setUserInitiated(true)
-						setRequiredNetworkType(syncConditions.toJobNetworkType())
-						sdkAbove(sdk = Build.VERSION_CODES.O) {
-							setRequiresCharging(syncConditions.pluggedIn)
-							setRequiresBatteryNotLow(syncConditions.batteryNotLow)
-							setRequiresStorageNotLow(true)
-						}
-						if (SdkCheck.isNougat) setPeriodic(period, JobInfo.getMinFlexMillis())
-						else setPeriodic(period)
-					}.build()
-
-					jobScheduler.schedule(jobInfo)
+					val job = SyncService.Job.create(
+						context = this,
+						periodMillis = period,
+						networkType = syncConditions.toJobNetworkType(),
+						isCharging = syncConditions.pluggedIn,
+						isBatteryLow = syncConditions.batteryNotLow
+					)
+					jobScheduler.schedule(job)
 					Unit
 				}
 			}::class.java
