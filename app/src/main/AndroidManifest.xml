@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.RUN_USER_INITIATED_JOBS" />
     <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
@@ -128,14 +129,18 @@
 
         </activity>
 
-        <service android:name=".service.SyncService" />
+        <service
+            android:name=".service.SyncService"
+            android:foregroundServiceType="dataSync" />
 
         <service
             android:name=".service.SyncService$Job"
-            android:exported="true"
+            android:exported="false"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
-        <service android:name=".service.DownloadService" />
+        <service
+            android:name=".service.DownloadService"
+            android:foregroundServiceType="dataSync" />
 
         <service
             android:name="com.looker.installer.installers.SessionInstallerService"
