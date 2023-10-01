@@ -210,7 +210,8 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 						JobInfo.Builder(
 							Constants.JOB_ID_SYNC,
 							ComponentName(this, SyncService.Job::class.java)
-						).setRequiredNetworkType(syncConditions.toJobNetworkType()).apply {
+						).apply {
+							setRequiredNetworkType(syncConditions.toJobNetworkType())
 							sdkAbove(sdk = Build.VERSION_CODES.O) {
 								setRequiresCharging(syncConditions.pluggedIn)
 								setRequiresBatteryNotLow(syncConditions.batteryNotLow)
