@@ -27,6 +27,7 @@ android {
 			"hi",
 			"hr",
 			"hu",
+			"ia",
 			"in",
 			"it",
 			"iw",
