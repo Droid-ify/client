@@ -1,2 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="could_not_download_FORMAT">Non es possibile discargar %s</string>
+    <string name="action_failed">Falleva le action</string>
+    <string name="auto_update_apps">Essayar le installation de actualisationes automaticamente</string>
+    <string name="all_applications_up_to_date">Tote le applicationes es actualisate</string>
+    <plurals name="days">
+        <item quantity="one">Die</item>
+        <item quantity="other">Dies</item>
+    </plurals>
+    <string name="connecting">Connectente…</string>
+    <string name="description">Description</string>
+    <string name="all_applications">Tote le applicationes</string>
+    <string name="delete">Deler</string>
+    <string name="auto_update">Actualisation automatic de applicationes</string>
+    <string name="already_exists">Jam existe</string>
+    <string name="application">Application</string>
+    <string name="always">Sempre</string>
+    <string name="address">Adresse</string>
+    <string name="dark">Obscur</string>
+    <string name="cancel">Cancellar</string>
+    <string name="amoled">Nigre</string>
+    <string name="delete_repository_DESC">Deler le repositorio\?</string>
+    <string name="add_repository">Adder repositorio</string>
+    <string name="credits">Creditos</string>
+</resources>
