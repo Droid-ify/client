@@ -7,7 +7,7 @@ class AndroidHiltPlugin : Plugin<Project> {
 		with(target) {
 			with(pluginManager) {
 				apply(Hilt.plugin)
-				apply("org.jetbrains.kotlin.kapt")
+				apply(Ksp.plugin)
 			}
 
 			dependencies {
