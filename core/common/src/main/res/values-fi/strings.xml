@@ -209,4 +209,16 @@
     <string name="waiting_to_start_installation">Odotetaan asennuksen aloittamista…</string>
     <string name="auto_update">Päivitä sovelluksia automaattisesti</string>
     <string name="auto_update_apps">Yritä asentaa päivitykset automaattisesti</string>
+    <string name="home_screen_swiping">Aloitusnäytön pyyhkäisy</string>
+    <string name="contains_nsfw">Sisältää NSFW-sisältöä</string>
+    <string name="has_non_free_components">Sisältää ei-vapaita komponentteja</string>
+    <string name="shizuku_not_alive">Shizuku ei ole käynnissä</string>
+    <string name="connection_error_DESC">Palvelimeen ei saatu yhteyttä</string>
+    <string name="socket_error_DESC">Palvelin ei pystynyt toimittamaan uutta pakettia.</string>
+    <string name="label_copy">Kopioi</string>
+    <string name="proxy_port_error_not_int">Välityspalvelimen portti voi olla vain kokonaisluku</string>
+    <string name="home_screen_swiping_DESC">Salli käyttäjän pyyhkäistä sivujen välillä aloitusnäytössä</string>
+    <string name="repository_not_found">Seuraavaa ohjelmavarastoa ei löytynyt</string>
+    <string name="special_credits">Erityiskiitokset</string>
+    <string name="shizuku_not_installed">Shizuku ei ole asennettu</string>
 </resources>
