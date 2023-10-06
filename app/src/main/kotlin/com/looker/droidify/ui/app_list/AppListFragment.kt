@@ -9,19 +9,16 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.core.common.extension.*
 import com.looker.core.model.ProductItem
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -124,13 +121,20 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 		super.onViewCreated(view, savedInstanceState)
 
-		screenActivity.cursorOwner.attach(this, viewModel.request(source))
+		updateRequest()
 		viewLifecycleOwner.lifecycleScope.launch {
-			viewModel.reposStream
-				.flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.CREATED)
-				.collect { repos ->
-					recyclerViewAdapter.repositories = repos.associateBy { it.id }
+			repeatOnLifecycle(Lifecycle.State.RESUMED) {
+				launch {
+					viewModel.reposStream.collect { repos ->
+						recyclerViewAdapter.repositories = repos.associateBy { it.id }
+					}
 				}
+				launch {
+					viewModel.sortOrderFlow.collect {
+						updateRequest()
+					}
+				}
+			}
 		}
 	}
 
@@ -142,41 +146,34 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 	}
 
 	override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-		recyclerViewAdapter.apply {
-			this.cursor = cursor
-			lifecycleScope.launch {
-				emptyText = when {
-					cursor == null -> ""
-					viewModel.searchQuery.first()
-						.isNotEmpty() -> getString(stringRes.no_matching_applications_found)
+		recyclerViewAdapter.cursor = cursor
+		recyclerViewAdapter.emptyText = when {
+			cursor == null -> ""
+			viewModel.searchQuery.value.isNotEmpty() -> {
+				getString(stringRes.no_matching_applications_found)
+			}
 
-					else -> when (source) {
-						Source.AVAILABLE -> getString(stringRes.no_applications_available)
-						Source.INSTALLED -> getString(stringRes.no_applications_installed)
-						Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
-					}
-				}
+			else -> when (source) {
+				Source.AVAILABLE -> getString(stringRes.no_applications_available)
+				Source.INSTALLED -> getString(stringRes.no_applications_installed)
+				Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
 			}
 		}
 	}
 
 	internal fun setSearchQuery(searchQuery: String) {
 		viewModel.setSearchQuery(searchQuery) {
-			if (view != null) {
-				screenActivity.cursorOwner.attach(this, viewModel.request(source))
-			}
+			updateRequest()
 		}
 	}
 
 	internal fun setSection(section: ProductItem.Section) {
 		viewModel.setSection(section) {
-			if (view != null) {
-				screenActivity.cursorOwner.attach(this, viewModel.request(source))
-			}
+			updateRequest()
 		}
 	}
 
-	internal fun setOrder() {
+	private fun updateRequest() {
 		if (view != null) {
 			screenActivity.cursorOwner.attach(this, viewModel.request(source))
 		}

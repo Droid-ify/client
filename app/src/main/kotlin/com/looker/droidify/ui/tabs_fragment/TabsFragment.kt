@@ -391,7 +391,6 @@ class TabsFragment : ScreenFragment() {
 
 	private fun updateOrder(sortOrder: SortOrder) {
 		sortOrderMenu!!.second[sortOrder.ordinal].isChecked = true
-		productFragments.filter { it.source.order }.forEach { it.setOrder() }
 	}
 
 	private fun updateSections(

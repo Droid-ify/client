@@ -23,9 +23,13 @@ class TabsViewModel @Inject constructor(
 	val currentSection =
 		savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
 
-	val sortOrder = settingsRepository.get { sortOrder }
+	val sortOrder = settingsRepository
+		.get { sortOrder }
+		.asStateFlow(SortOrder.UPDATED)
 
-	val allowHomeScreenSwiping = settingsRepository.get { homeScreenSwiping }
+	val allowHomeScreenSwiping = settingsRepository
+		.get { homeScreenSwiping }
+		.asStateFlow(false)
 
 	val sections =
 		combine(

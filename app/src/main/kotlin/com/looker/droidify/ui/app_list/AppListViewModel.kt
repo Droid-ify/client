@@ -13,9 +13,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -24,8 +22,6 @@ class AppListViewModel
 @Inject constructor(
 	settingsRepository: SettingsRepository
 ) : ViewModel() {
-
-	private val sortOrderFlow = settingsRepository.get { sortOrder }
 
 	val reposStream = Database.RepositoryAdapter
 		.getAllStream()
@@ -36,11 +32,12 @@ class AppListViewModel
 		.map { it.isNotEmpty() }
 		.asStateFlow(false)
 
-	private val _sections = MutableStateFlow<ProductItem.Section>(All)
-	private val sections: StateFlow<ProductItem.Section> = _sections
+	val sortOrderFlow = settingsRepository.get { sortOrder }
+		.asStateFlow(SortOrder.UPDATED)
 
-	private val _searchQuery = MutableStateFlow("")
-	val searchQuery: StateFlow<String> = _searchQuery
+	private val sections = MutableStateFlow<ProductItem.Section>(All)
+
+	val searchQuery = MutableStateFlow("")
 
 	val syncConnection = Connection(SyncService::class.java)
 
@@ -51,31 +48,23 @@ class AppListViewModel
 	}
 
 	fun request(source: AppListFragment.Source): CursorOwner.Request {
-		var mSearchQuery = ""
-		var mSections: ProductItem.Section = All
-		var mOrder: SortOrder = SortOrder.NAME
-		viewModelScope.launch {
-			launch { searchQuery.collect { mSearchQuery = it } }
-			launch { sections.collect { if (source.sections) mSections = it } }
-			sortOrderFlow.collect { mOrder = it }
-		}
 		return when (source) {
 			AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(
-				mSearchQuery,
-				mSections,
-				mOrder
+				searchQuery.value,
+				sections.value,
+				sortOrderFlow.value
 			)
 
 			AppListFragment.Source.INSTALLED -> CursorOwner.Request.ProductsInstalled(
-				mSearchQuery,
-				mSections,
-				mOrder
+				searchQuery.value,
+				sections.value,
+				sortOrderFlow.value
 			)
 
 			AppListFragment.Source.UPDATES -> CursorOwner.Request.ProductsUpdates(
-				mSearchQuery,
-				mSections,
-				mOrder
+				searchQuery.value,
+				sections.value,
+				sortOrderFlow.value
 			)
 		}
 	}
@@ -83,7 +72,7 @@ class AppListViewModel
 	fun setSection(newSection: ProductItem.Section, perform: () -> Unit) {
 		viewModelScope.launch {
 			if (newSection != sections.value) {
-				_sections.emit(newSection)
+				sections.emit(newSection)
 				launch(Dispatchers.Main) { perform() }
 			}
 		}
@@ -92,7 +81,7 @@ class AppListViewModel
 	fun setSearchQuery(newSearchQuery: String, perform: () -> Unit) {
 		viewModelScope.launch {
 			if (newSearchQuery != searchQuery.value) {
-				_searchQuery.emit(newSearchQuery)
+				searchQuery.emit(newSearchQuery)
 				launch(Dispatchers.Main) { perform() }
 			}
 		}
