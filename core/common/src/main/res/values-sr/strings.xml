@@ -111,7 +111,7 @@
     <string name="has_security_vulnerabilities">Има безбедносне пропусте</string>
     <string name="other">Остало</string>
     <string name="signature_FORMAT">Потпис %s</string>
-    <string name="link_copied_to_clipboard">Линк је копиран у привремену меморију</string>
+    <string name="link_copied_to_clipboard">Линк је копиран</string>
     <string name="processing_FORMAT">Обрада %1$s…</string>
     <string name="shizuku_installer">Програм за инсталацију „Shizuku“</string>
     <string name="new_applications">Нове апликације</string>
