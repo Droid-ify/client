@@ -82,7 +82,7 @@
     <string name="license">ライセンス</string>
     <string name="license_FORMAT">%s ライセンス</string>
     <string name="light">ライト</string>
-    <string name="link_copied_to_clipboard">リンクがクリップボードにコピーされました</string>
+    <string name="link_copied_to_clipboard">リンクがコピーされました</string>
     <string name="links">リンク</string>
     <string name="list_animation">リストアニメーション</string>
     <string name="list_animation_description">メインページでリストをアニメーションする</string>
