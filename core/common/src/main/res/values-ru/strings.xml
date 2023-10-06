@@ -73,7 +73,7 @@
     <string name="license">Лицензия</string>
     <string name="license_FORMAT">Лицензия %s</string>
     <string name="light">Светлая</string>
-    <string name="link_copied_to_clipboard">Ссылка скопирована в буфер обмена</string>
+    <string name="link_copied_to_clipboard">Ссылка скопирована</string>
     <string name="links">Ссылки</string>
     <string name="list_animation">Анимация списков</string>
     <string name="list_animation_description">Показывать анимацию списка на главной странице</string>
