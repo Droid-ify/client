@@ -120,7 +120,7 @@
     <string name="only_on_wifi">Tylko na Wi-Fi</string>
     <string name="launch">Uruchom</string>
     <string name="license">Licencja</string>
-    <string name="link_copied_to_clipboard">Link skopiowany do schowka</string>
+    <string name="link_copied_to_clipboard">Skopiowano link</string>
     <string name="list_animation_description">Włącz animację listy na stronie głównej</string>
     <string name="name">Według nazwy</string>
     <string name="network_error_DESC">Błąd sieci</string>
