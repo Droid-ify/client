@@ -18,6 +18,7 @@ import com.looker.core.common.Constants
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.getInstalledPackagesCompat
+import com.looker.core.common.extension.jobScheduler
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.*
 import com.looker.core.datastore.model.*
@@ -192,7 +193,7 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 	}
 
 	private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
-		val jobScheduler = getSystemService(JOB_SCHEDULER_SERVICE) as JobScheduler
+		val jobScheduler = jobScheduler
 		val syncConditions = when (autoSync) {
 			AutoSync.ALWAYS -> SyncPreference(NetworkType.CONNECTED)
 			AutoSync.WIFI_ONLY -> SyncPreference(NetworkType.UNMETERED)
@@ -200,10 +201,10 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 			AutoSync.NEVER -> SyncPreference(NetworkType.NOT_REQUIRED, canSync = false)
 		}
 		val reschedule =
-			force || !jobScheduler.allPendingJobs.any { it.id == Constants.JOB_ID_SYNC }
+			force || (jobScheduler?.allPendingJobs?.any { it.id == Constants.JOB_ID_SYNC } == false)
 		if (reschedule) {
 			when (autoSync) {
-				AutoSync.NEVER -> jobScheduler.cancel(Constants.JOB_ID_SYNC)
+				AutoSync.NEVER -> jobScheduler?.cancel(Constants.JOB_ID_SYNC)
 				else -> {
 					val period = 12.hours.inWholeMilliseconds
 					val job = SyncService.Job.create(
@@ -213,10 +214,9 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 						isCharging = syncConditions.pluggedIn,
 						isBatteryLow = syncConditions.batteryNotLow
 					)
-					jobScheduler.schedule(job)
-					Unit
+					jobScheduler?.schedule(job)
 				}
-			}::class.java
+			}
 		}
 	}
 

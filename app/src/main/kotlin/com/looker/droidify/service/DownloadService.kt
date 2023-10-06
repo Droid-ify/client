@@ -120,7 +120,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			} else {
 				cancelTasks(packageName)
 				cancelCurrentTask(packageName)
-				notificationManager.cancel(
+				notificationManager?.cancel(
 					task.notificationTag,
 					Constants.NOTIFICATION_ID_DOWNLOADING
 				)
@@ -149,9 +149,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			NotificationChannel(
 				Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
 				getString(stringRes.downloading), NotificationManager.IMPORTANCE_LOW
-			)
-				.apply { setShowBadge(false) }
-				.let(notificationManager::createNotificationChannel)
+			).apply { setShowBadge(false) }
+				.let {
+					notificationManager?.createNotificationChannel(it)
+				}
 		}
 
 		lifecycleScope.launch {
@@ -210,7 +211,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.setData(Uri.parse("package:${task.packageName}"))
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 			.toPendingIntent(this)
-		notificationManager.notify(
+		notificationManager?.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat
@@ -252,7 +253,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			.putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
 			.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
 			.toPendingIntent(this)
-		notificationManager.notify(
+		notificationManager?.notify(
 			task.notificationTag,
 			Constants.NOTIFICATION_ID_DOWNLOADING,
 			NotificationCompat

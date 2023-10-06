@@ -242,8 +242,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 	}
 
 	private fun hideKeyboard() {
-		(getSystemService(INPUT_METHOD_SERVICE) as? InputMethodManager)
-			?.hideSoftInputFromWindow((currentFocus ?: window.decorView).windowToken, 0)
+		inputManager?.hideSoftInputFromWindow((currentFocus ?: window.decorView).windowToken, 0)
 	}
 
 	internal fun onToolbarCreated(toolbar: Toolbar) {

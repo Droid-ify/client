@@ -74,7 +74,7 @@ class SessionInstallerService : Service() {
 			PackageInstaller.STATUS_SUCCESS -> {
 				if (isUninstall)
 					// remove any notification for this app
-					notificationManager.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
+					notificationManager?.cancel(notificationTag, NOTIFICATION_ID_DOWNLOADING)
 				else {
 					val notification = builder
 						.setSmallIcon(CommonR.drawable.ic_check)
@@ -85,7 +85,7 @@ class SessionInstallerService : Service() {
 						.setContentTitle("Installed")
 						.setContentText(appLabel)
 						.build()
-					notificationManager.notify(
+					notificationManager?.notify(
 						notificationTag,
 						NOTIFICATION_ID_DOWNLOADING,
 						notification
@@ -106,7 +106,7 @@ class SessionInstallerService : Service() {
 					.setContentTitle("Unknown Error")
 					.setContentText(message)
 					.build()
-				notificationManager.notify(
+				notificationManager?.notify(
 					notificationTag,
 					NOTIFICATION_ID_DOWNLOADING,
 					notification

@@ -1,25 +1,38 @@
 package com.looker.core.common.extension
 
 import android.app.NotificationManager
+import android.app.job.JobScheduler
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 import androidx.core.content.res.ResourcesCompat
 import com.looker.core.common.R
 
-inline val Context.notificationManager: NotificationManager
-	get() = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+inline val Context.clipboardManager: ClipboardManager?
+	get() = getSystemService()
 
-inline val Context.clipboardManager: ClipboardManager
-	get() = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+inline val Context.connectivityManager: ConnectivityManager?
+	get() = getSystemService()
+
+inline val Context.inputManager: InputMethodManager?
+	get() = getSystemService()
+
+inline val Context.jobScheduler: JobScheduler?
+	get() = getSystemService()
+
+inline val Context.notificationManager: NotificationManager?
+	get() = getSystemService()
 
 fun Context.copyToClipboard(clip: String) {
-	clipboardManager.setPrimaryClip(ClipData.newPlainText(null, clip))
+	clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
 }
 
 val Context.corneredBackground: Drawable

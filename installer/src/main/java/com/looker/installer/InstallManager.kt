@@ -96,7 +96,7 @@ class InstallManager(
 			val success = installer.install(item)
 			installState.emit(item statesTo success)
 			lock.withLock { currentQueue.remove(item.packageName.name) }
-			context.notificationManager.cancel(
+			context.notificationManager?.cancel(
 				"download-${item.packageName.name}",
 				Constants.NOTIFICATION_ID_DOWNLOADING
 			)

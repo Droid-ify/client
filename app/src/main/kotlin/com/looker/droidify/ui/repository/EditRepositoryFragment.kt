@@ -160,7 +160,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 			val repository = repositoryId?.let(Database.RepositoryAdapter::get)
 			if (repository == null) {
 				val text = repositoryAddress ?: kotlin.run {
-					requireContext().clipboardManager.primaryClip?.takeIf { it.itemCount > 0 }
+					context?.clipboardManager?.primaryClip?.takeIf { it.itemCount > 0 }
 						?.getItemAt(0)?.text?.toString().orEmpty()
 				}
 				val (addressText, fingerprintText) = try {

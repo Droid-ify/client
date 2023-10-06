@@ -5,7 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import androidx.core.content.getSystemService
+import com.looker.core.common.extension.connectivityManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -28,7 +28,7 @@ class ConnectivityManagerNetworkMonitor
 			}
 		}
 
-		val connectivityManager = context.getSystemService<ConnectivityManager>()
+		val connectivityManager = context.connectivityManager
 
 		connectivityManager?.registerNetworkCallback(
 			NetworkRequest.Builder()

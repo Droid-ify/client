@@ -126,7 +126,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		fun setUpdateNotificationBlocker(fragment: Fragment?) {
 			updateNotificationBlockerFragment = fragment?.let(::WeakReference)
 			if (fragment != null) {
-				notificationManager.cancel(Constants.NOTIFICATION_ID_UPDATES)
+				notificationManager?.cancel(Constants.NOTIFICATION_ID_UPDATES)
 			}
 		}
 
@@ -173,17 +173,17 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 		super.onCreate()
 
 		sdkAbove(Build.VERSION_CODES.O) {
-			NotificationChannel(
-				Constants.NOTIFICATION_CHANNEL_SYNCING,
-				getString(stringRes.syncing), NotificationManager.IMPORTANCE_LOW
+			val channels = listOf(
+				NotificationChannel(
+					Constants.NOTIFICATION_CHANNEL_SYNCING,
+					getString(stringRes.syncing), NotificationManager.IMPORTANCE_LOW
+				).apply { setShowBadge(false) },
+				NotificationChannel(
+					Constants.NOTIFICATION_CHANNEL_UPDATES,
+					getString(stringRes.updates), NotificationManager.IMPORTANCE_LOW
+				)
 			)
-				.apply { setShowBadge(false) }
-				.let(notificationManager::createNotificationChannel)
-			NotificationChannel(
-				Constants.NOTIFICATION_CHANNEL_UPDATES,
-				getString(stringRes.updates), NotificationManager.IMPORTANCE_LOW
-			)
-				.let(notificationManager::createNotificationChannel)
+			notificationManager?.createNotificationChannels(channels)
 		}
 		downloadConnection.bind(this)
 		mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(lifecycleScope)
@@ -223,7 +223,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 	}
 
 	private fun showNotificationError(repository: Repository, exception: Exception) {
-		notificationManager.notify(
+		notificationManager?.notify(
 			"repository-${repository.id}", Constants.NOTIFICATION_ID_SYNCING, NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
 				.setSmallIcon(android.R.drawable.stat_sys_warning)
@@ -475,7 +475,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
 	private fun displayUpdatesNotification(productItems: List<ProductItem>) {
 		fun <T> T.applyHack(callback: T.() -> Unit): T = apply(callback)
-		notificationManager.notify(
+		notificationManager?.notify(
 			Constants.NOTIFICATION_ID_UPDATES, NotificationCompat
 				.Builder(this, Constants.NOTIFICATION_CHANNEL_UPDATES)
 				.setSmallIcon(CommonR.drawable.ic_new_releases)

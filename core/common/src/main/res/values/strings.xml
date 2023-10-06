@@ -108,7 +108,7 @@
     <string name="license">License</string>
     <string name="license_FORMAT">%s license</string>
     <string name="light">Light</string>
-    <string name="link_copied_to_clipboard">Link copied to clipboard</string>
+    <string name="link_copied_to_clipboard">Link copied</string>
     <string name="links">Links</string>
     <string name="list_animation">List Animations</string>
     <string name="list_animation_description">Show list animation on the main page</string>

@@ -7,6 +7,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.ForegroundInfo
 import com.looker.core.common.SdkCheck
+import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.R as CommonR
 
 private const val SyncNotificationID = 12
@@ -27,9 +28,6 @@ private fun Context.syncWorkNotification(): Notification {
 			description = getString(CommonR.string.sync_repositories)
 		}
 		// Register the channel with the system
-		val notificationManager: NotificationManager? =
-			getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager
-
 		notificationManager?.createNotificationChannel(channel)
 	}
 
