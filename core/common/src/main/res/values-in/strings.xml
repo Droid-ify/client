@@ -150,7 +150,7 @@
     <string name="network_error_DESC">Jaringan error</string>
     <string name="license_FORMAT">Lisensi %s</string>
     <string name="installer">Pemasang</string>
-    <string name="link_copied_to_clipboard">Tautan disalin ke papan klip</string>
+    <string name="link_copied_to_clipboard">Tautan disalin</string>
     <string name="light">Terang</string>
     <string name="links">Tautan</string>
     <string name="only_on_wifi">Hanya pada Wi-Fi</string>
