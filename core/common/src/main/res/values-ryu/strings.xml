@@ -84,7 +84,7 @@
     <string name="license">ライセンス</string>
     <string name="license_FORMAT">%s ライセンス</string>
     <string name="light">ライト</string>
-    <string name="link_copied_to_clipboard">リンクぬクリップボードんかいコピーさりやびたん</string>
+    <string name="link_copied_to_clipboard">リンクぬコピーさりやびたん</string>
     <string name="links">リンク</string>
     <string name="list_animation">リストアニメーション</string>
     <string name="list_animation_description">メインページっしリストアニメーションすん</string>
