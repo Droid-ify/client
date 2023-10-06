@@ -344,6 +344,11 @@ class TabsFragment : ScreenFragment() {
 
 	override fun onBackPressed(): Boolean {
 		return when {
+			viewModel.currentSection.value != ProductItem.Section.All -> {
+				viewModel.setSection(ProductItem.Section.All)
+				true
+			}
+
 			searchMenuItem?.isActionViewExpanded == true -> {
 				searchMenuItem?.collapseActionView()
 				true
@@ -392,7 +397,7 @@ class TabsFragment : ScreenFragment() {
 	private fun updateSections(
 		sectionsList: List<ProductItem.Section>
 	) {
-		sectionsAdapter?.setNewSections(sectionsList)
+		sectionsAdapter?.sections = sectionsList
 		layout?.run {
 			sectionIcon.isVisible = sectionsList.any { it !is ProductItem.Section.All }
 			sectionLayout.setOnClickListener { showSections = isVisible && !showSections }
@@ -523,12 +528,11 @@ class TabsFragment : ScreenFragment() {
 			}
 		}
 
-		private var sections: List<ProductItem.Section> = emptyList()
-
-		fun setNewSections(list: List<ProductItem.Section>) {
-			sections = list
-			notifyDataSetChanged()
-		}
+		var sections: List<ProductItem.Section> = emptyList()
+			set(value) {
+				field = value
+				notifyDataSetChanged()
+			}
 
 		fun configureDivider(
 			context: Context,
