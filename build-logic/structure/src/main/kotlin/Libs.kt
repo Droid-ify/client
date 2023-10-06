@@ -3,12 +3,12 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 object AndroidX {
 	const val appCompat = "androidx.appcompat:appcompat:1.6.1"
 	const val desugar = "com.android.tools:desugar_jdk_libs:2.0.3"
-	const val material = "com.google.android.material:material:1.9.0"
+	const val material = "com.google.android.material:material:1.10.0"
 	const val recyclerView = "androidx.recyclerview:recyclerview:1.3.1"
 }
 
 object Core {
-	private const val coreVersion = "1.11.0-beta02"
+	private const val coreVersion = "1.12.0"
 	const val core = "androidx.core:core-ktx:$coreVersion"
 }
 
@@ -60,7 +60,7 @@ private object FDroid {
 
 object Hilt {
 	const val version = "2.48.1"
-	private const val androidXHilt = "1.1.0-alpha01"
+	private const val androidXHilt = "1.1.0-beta01"
 	const val plugin = "com.google.dagger.hilt.android"
 
 	const val android = "com.google.dagger:hilt-android:$version"
@@ -83,7 +83,7 @@ object Ksp {
 }
 
 private object Ktor {
-	private const val version = "2.3.4"
+	private const val version = "2.3.5"
 	const val core = "io.ktor:ktor-client-core:$version"
 	const val okhttp = "io.ktor:ktor-client-okhttp:$version"
 }
@@ -92,7 +92,9 @@ private object Lifecycle {
 	private const val version = "2.6.2"
 	const val viewmodel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
 	const val fragment = "androidx.fragment:fragment-ktx:1.6.1"
-	const val activity = "androidx.activity:activity-ktx:1.7.2"
+
+	// TODO: Try ::enableEdgeToEdge function
+	const val activity = "androidx.activity:activity-ktx:1.8.0"
 }
 
 object Others {
