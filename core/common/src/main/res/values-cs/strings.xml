@@ -11,7 +11,7 @@
     <string name="incompatible_older_DESC">Tato verze je starší než ta instalovaná na vašem zařízení. Nejdříve odinstalujte ji.</string>
     <string name="incompatible_versions_summary">Zobrait nekompatibilní verze aplikace s vaším zařízením</string>
     <string name="invalid_signature_error_DESC">Neplatný podpis.</string>
-    <string name="link_copied_to_clipboard">Odkaz zkopírován do schránky</string>
+    <string name="link_copied_to_clipboard">Odkaz zkopírován</string>
     <string name="light">Světlé</string>
     <string name="number_of_applications">Počet aplikací</string>
     <string name="processing_FORMAT">Zpracovávání %1$s…</string>
