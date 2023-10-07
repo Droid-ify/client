@@ -43,7 +43,7 @@ jobs:
         arguments: assembleRelease
       
     - name: Checks
-      run: cd app/build && ls -R
+      run: find . -type f --name "*.apk"
       
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
