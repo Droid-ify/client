@@ -16,7 +16,7 @@
     <string name="invalid_permissions_error_DESC">Neispravne dozvole.</string>
     <string name="license_FORMAT">%s licenca</string>
     <string name="light">Svijetlo</string>
-    <string name="link_copied_to_clipboard">Poveznica kopirana u međuspremnik</string>
+    <string name="link_copied_to_clipboard">Poveznica je kopirana</string>
     <string name="no_description_available_DESC">Opis nije dostupan</string>
     <string name="no_applications_installed">Nema instaliranih aplikacija</string>
     <string name="no_matching_applications_found">Nije moguće pronaći slične aplikacije</string>
