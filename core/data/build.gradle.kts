@@ -8,7 +8,8 @@ android {
 
 	buildTypes {
 		release {
-			isMinifyEnabled = true
+			// TODO: Enable once using
+			isMinifyEnabled = false
 			proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
 		}
 		create("alpha") {
