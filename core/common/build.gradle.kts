@@ -1,7 +1,7 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
-	id("looker.android.library")
+	alias(libs.plugins.looker.android.library)
 }
 
 android {
@@ -26,17 +26,15 @@ android {
 }
 
 dependencies {
-	recyclerView()
-	coroutines()
-	lifecycle()
-
-	implementation(AndroidX.material)
-
-	implementation(Core.core)
-
-	implementation(Coil.coil)
-
-	implementation(Jackson.core)
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.android.material)
+	implementation(libs.androidx.activity.ktx)
+	implementation(libs.androidx.fragment.ktx)
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.lifecycle.viewModel.ktx)
+	implementation(libs.androidx.recyclerview)
+	implementation(libs.coil.kt)
+	implementation(libs.jackson.core)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

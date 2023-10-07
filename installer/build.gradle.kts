@@ -1,6 +1,6 @@
 plugins {
-	id("looker.android.library")
-	id("looker.hilt")
+	alias(libs.plugins.looker.android.library)
+	alias(libs.plugins.looker.hilt)
 }
 
 android {
@@ -21,10 +21,9 @@ android {
 dependencies {
 	modules(Modules.coreCommon, Modules.coreDatastore)
 
-	coroutines()
-
-	implementation(Others.libsu)
-
-	implementation(Shizuku.api)
-	api(Shizuku.provider)
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.kotlinx.coroutines.guava)
+	implementation(libs.libsu.core)
+	implementation(libs.shizuku.api)
+	api(libs.shizuku.provider)
 }

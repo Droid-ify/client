@@ -1,8 +1,8 @@
 plugins {
-	id("looker.android.library")
-	kotlin("plugin.serialization")
-	id("looker.room")
-	id("looker.hilt")
+	alias(libs.plugins.looker.android.library)
+	alias(libs.plugins.looker.room)
+	alias(libs.plugins.looker.hilt)
+	alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -23,8 +23,7 @@ android {
 dependencies {
 	modules(Modules.coreCommon, Modules.coreModel)
 
-	coroutines()
-
-	implementation(Core.core)
-	implementation(Kotlin.serialization)
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.kotlinx.serialization.json)
 }
