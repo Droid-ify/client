@@ -1,6 +1,6 @@
 plugins {
-	id("looker.android.application")
-	id("looker.hilt.work")
+	alias(libs.plugins.looker.android.application)
+	alias(libs.plugins.looker.android.hilt.work)
 }
 
 android {
@@ -105,7 +105,15 @@ android {
 	}
 	packaging {
 		resources {
-			excludes += Excludes.listExclude
+			excludes += listOf(
+				"/DebugProbesKt.bin",
+				"/kotlin/**.kotlin_builtins",
+				"/kotlin/**.kotlin_metadata",
+				"/META-INF/**.kotlin_module",
+				"/META-INF/**.pro",
+				"/META-INF/**.version",
+				"/META-INF/versions/9/previous-**.bin"
+			)
 		}
 	}
 	buildFeatures {
@@ -124,20 +132,17 @@ dependencies {
 		Modules.installer
 	)
 
-	implementation(Core.core)
-
-	androidX()
-	coroutines()
-	desugar()
-	lifecycle()
-
-	implementation(Coil.coil)
-
-	implementation(Jackson.core)
-
-	implementation(Kotlin.datetime)
-
-	implementation(Others.zoomage)
-
-	implementation(SQLite.ktx)
+	implementation(libs.android.material)
+	implementation(libs.androidx.core.ktx)
+	implementation(libs.androidx.activity.ktx)
+	implementation(libs.androidx.appcompat)
+	implementation(libs.androidx.fragment.ktx)
+	implementation(libs.androidx.lifecycle.viewModel.ktx)
+	implementation(libs.androidx.recyclerview)
+	implementation(libs.androidx.sqlite.ktx)
+	implementation(libs.coil.kt)
+	implementation(libs.kotlinx.datetime)
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.jackson.core)
+	implementation(libs.zoomage)
 }

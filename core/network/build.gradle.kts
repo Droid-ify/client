@@ -1,6 +1,6 @@
 plugins {
-	id("looker.android.library")
-	id("looker.hilt")
+	alias(libs.plugins.looker.android.library)
+	alias(libs.plugins.looker.android.hilt)
 }
 
 android {
@@ -21,7 +21,7 @@ android {
 dependencies {
 	modules(Modules.coreCommon)
 
-	coroutines()
-	desugar()
-	ktor()
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.ktor.core)
+	implementation(libs.ktor.okhttp)
 }

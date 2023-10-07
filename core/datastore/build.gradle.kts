@@ -1,6 +1,6 @@
 plugins {
-	id("looker.android.library")
-	id("looker.hilt")
+	alias(libs.plugins.looker.android.library)
+	alias(libs.plugins.looker.android.hilt)
 }
 
 android {
@@ -20,7 +20,7 @@ android {
 
 dependencies {
 	modules(Modules.coreCommon)
-	coroutines()
-	implementation(Datastore.datastore)
-	implementation(Kotlin.datetime)
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.androidx.dataStore.core)
+	implementation(libs.kotlinx.datetime)
 }

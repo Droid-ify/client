@@ -1,3 +1,5 @@
+import com.looker.droidify.getLibrary
+import com.looker.droidify.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -6,12 +8,13 @@ class AndroidHiltPlugin : Plugin<Project> {
 	override fun apply(target: Project) {
 		with(target) {
 			with(pluginManager) {
-				apply(Hilt.plugin)
-				apply(Ksp.plugin)
+				apply("com.google.dagger.hilt.android")
+				apply("com.google.devtools.ksp")
 			}
 
 			dependencies {
-				hilt(includeWork = false)
+				add("implementation", libs.getLibrary("hilt.android"))
+				add("ksp", libs.getLibrary("hilt.compiler"))
 			}
 		}
 	}

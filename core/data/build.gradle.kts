@@ -1,6 +1,6 @@
 plugins {
-	id("looker.android.library")
-	id("looker.hilt.work")
+	alias(libs.plugins.looker.android.library)
+	alias(libs.plugins.looker.android.hilt.work)
 }
 
 android {
@@ -28,6 +28,7 @@ dependencies {
 		Modules.coreNetwork
 	)
 
-	coroutines()
-	fdroid()
+	implementation(libs.kotlinx.coroutines.android)
+	implementation(libs.fdroid.index)
+	implementation(libs.fdroid.download)
 }

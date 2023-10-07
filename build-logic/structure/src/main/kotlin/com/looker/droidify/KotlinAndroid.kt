@@ -1,9 +1,7 @@
 package com.looker.droidify
 
 import DefaultConfig
-import Test
 import com.android.build.api.dsl.CommonExtension
-import desugar
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
@@ -24,7 +22,7 @@ internal fun Project.configureKotlinAndroid(
 
 		defaultConfig {
 			minSdk = DefaultConfig.minSdk
-			testInstrumentationRunner = Test.jUnitRunner
+			testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 		}
 
 		compileOptions {
@@ -39,7 +37,7 @@ internal fun Project.configureKotlinAndroid(
 	configureKotlin()
 
 	dependencies {
-		desugar()
+		add("coreLibraryDesugaring", libs.getLibrary("android.desugarJdkLibs"))
 	}
 }
 

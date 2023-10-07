@@ -1,5 +1,7 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.looker.droidify.configureKotlinAndroid
+import com.looker.droidify.getLibrary
+import com.looker.droidify.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -30,7 +32,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
 				}
 			}
 			dependencies {
-				add("implementation", platform("org.jetbrains.kotlin:kotlin-bom:1.9.10"))
+				add("implementation", platform(libs.getLibrary("kotlin.bom")))
 				add("implementation", kotlin("stdlib"))
 				add("implementation", kotlin("reflect"))
 			}
