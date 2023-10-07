@@ -59,7 +59,7 @@ jobs:
 
     - uses: softprops/action-gh-release@v1
       name: Create Release
-      id: sign_app
+      id: publish_release
       with:
         files: ${{steps.sign_app.outputs.signedReleaseFile}}
         draft: true
