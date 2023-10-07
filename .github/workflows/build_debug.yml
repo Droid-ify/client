@@ -3,16 +3,14 @@ name: Build Debug APK
 on:
   push:
     branches:
-      - '*'
+      - 'main'
     paths-ignore:
       - '**.md'
       - '**.yml'
-  pull_request:
-    branches:
-      - '*'
+  pull_request_review:
     paths-ignore:
       - '**.md'
-    types: [opened, reopened]
+    types: submitted
   workflow_dispatch:
   
   
@@ -50,7 +48,7 @@ jobs:
       with:
         releaseDir: app/build/outputs/apk/debug
         signingKeyBase64: ${{ secrets.KEY_BASE64 }}
-        alias: ${{ secrets.ALIAS }}
+        alias: ${{ secrets.KEY_ALIAS }}
         keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
         keyPassword: ${{ secrets.KEYSTORE_PASS }}
     - name: Remove file that aren't signed
