@@ -88,7 +88,7 @@
     <string name="launch">شغل</string>
     <string name="license">الرخصة</string>
     <string name="license_FORMAT">رخصة %s</string>
-    <string name="link_copied_to_clipboard">تم نسخ الرابط</string>
+    <string name="link_copied_to_clipboard">نُسِخ الرابط</string>
     <string name="links">الروابط</string>
     <string name="list_animation_description">أظهر تحريكات القائمة على الصفحة الرئيسة</string>
     <string name="merging_FORMAT">قيد دمج %s</string>
