@@ -33,9 +33,12 @@ jobs:
         java-version: 17
         distribution: 'adopt'
         cache: gradle
+        
+    - name: Grant execution permission to Gradle Wrapper
+      run: chmod +x gradlew
 
     - name: Build Release APK
-      uses: gradle/gradle-command-action@v2
+      uses: gradle/gradle-build-action@v2.9.0
       with:
         arguments: assembleRelease
       
