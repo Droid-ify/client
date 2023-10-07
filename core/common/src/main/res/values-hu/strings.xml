@@ -82,7 +82,7 @@
     <string name="license">Licenc</string>
     <string name="license_FORMAT">%s licenc</string>
     <string name="light">Világos</string>
-    <string name="link_copied_to_clipboard">Hivatkozás a vágólapra másolva</string>
+    <string name="link_copied_to_clipboard">Hivatkozás másolva</string>
     <string name="links">Hivatkozások</string>
     <string name="merging_FORMAT">Egyesítés: %s</string>
     <string name="name">Név</string>
@@ -94,7 +94,7 @@
     <string name="no_description_available_DESC">Nem érhető el leírás</string>
     <string name="no_matching_applications_found">Nem találhatók ilyen alkalmazások</string>
     <string name="no_proxy">Nincs proxy</string>
-    <string name="notify_about_updates">Értesítés az alkalmazások új verzióiról</string>
+    <string name="notify_about_updates">Értesítés a frissítésekről</string>
     <string name="notify_about_updates_summary">Értesítés megjelenítése, ha új verziók érhetők el</string>
     <string name="number_of_applications">Alkalmazások száma</string>
     <string name="ok">OK</string>
@@ -210,4 +210,15 @@
     <string name="enable_repo">A tároló engedélyezése</string>
     <string name="material_you_desc">A Material You színtéma használata</string>
     <string name="has_non_free_components">Nem szabad összetevői vannak</string>
+    <string name="home_screen_swiping">Kezdőképernyő lapozása</string>
+    <string name="contains_nsfw">Érzékeny tartalmat tartalmaz</string>
+    <string name="shizuku_not_alive">A Shizuku nem fut</string>
+    <string name="connection_error_DESC">Nem sikerült kapcsolódni a kiszolgálóhoz</string>
+    <string name="socket_error_DESC">A kiszolgáló nem tudott új csomagot biztosítani.</string>
+    <string name="label_copy">Másolás</string>
+    <string name="proxy_port_error_not_int">A proxy portja csak egész szám lehet</string>
+    <string name="home_screen_swiping_DESC">Engedélyezés, hogy a felhasználó lapozzon a kezdőképernyő lapjai közt</string>
+    <string name="repository_not_found">A következő tároló nem található</string>
+    <string name="special_credits">Külön köszönet</string>
+    <string name="shizuku_not_installed">A Shizuku nincs telepítve</string>
 </resources>
