@@ -44,7 +44,7 @@ jobs:
       
     - name: Checks
       run: find . -type f -name "*.apk"
-      
+
     - uses: r0adkll/sign-android-release@v1
       name: Sign app APK
       id: sign_app
@@ -56,6 +56,14 @@ jobs:
         keyPassword: ${{ secrets.KEYSTORE_PASS }}
       env:
         BUILD_TOOLS_VERSION: "34.0.0"
+
+    - uses: softprops/action-gh-release@v1
+      name: Create Release
+      id: sign_app
+      with:
+        files: ${{steps.sign_app.outputs.signedReleaseFile}}
+        draft: true
+        prerelease: false
 
     - uses: actions/upload-artifact@v3.1.3 
       with:
