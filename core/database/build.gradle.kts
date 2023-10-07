@@ -1,7 +1,7 @@
 plugins {
 	alias(libs.plugins.looker.android.library)
-	alias(libs.plugins.looker.android.room)
-	alias(libs.plugins.looker.android.hilt)
+	alias(libs.plugins.looker.room)
+	alias(libs.plugins.looker.hilt)
 	alias(libs.plugins.kotlin.serialization)
 }
 
