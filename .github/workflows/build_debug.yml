@@ -3,16 +3,14 @@ name: Build Debug APK
 on:
   push:
     branches:
-      - '*'
+      - 'main'
     paths-ignore:
       - '**.md'
       - '**.yml'
-  pull_request:
-    branches:
-      - '*'
+  pull_request_review:
     paths-ignore:
       - '**.md'
-    types: [opened, reopened]
+    types: submitted
   workflow_dispatch:
   
   
