@@ -133,7 +133,7 @@ class TabsFragment : ScreenFragment() {
 		screenActivity.onToolbarCreated(toolbar)
 		toolbar.title = getString(R.string.application_name)
 		// Move focus from SearchView to Toolbar
-		toolbar.isFocusableInTouchMode = true
+		toolbar.isFocusable = true
 
 		val searchView = FocusSearchView(toolbar.context).apply {
 			maxWidth = Int.MAX_VALUE
@@ -166,6 +166,13 @@ class TabsFragment : ScreenFragment() {
 				.setActionView(searchView)
 				.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
 
+			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
+				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
+				.setOnMenuItemClickListener {
+					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+					true
+				}
+
 			sortOrderMenu = addSubMenu(0, 0, 0, stringRes.sorting_order)
 				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sort))
 				.let { menu ->
@@ -179,13 +186,6 @@ class TabsFragment : ScreenFragment() {
 					}
 					menu.setGroupCheckable(0, true, true)
 					Pair(menu.item, menuItems)
-				}
-
-			syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
-				.setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
-				.setOnMenuItemClickListener {
-					syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
-					true
 				}
 
 			favouritesItem = add(1, 0, 0, stringRes.favourites)
@@ -477,7 +477,7 @@ class TabsFragment : ScreenFragment() {
 				isVisible = source.order
 				setShowAsActionFlags(
 					if (!source.order ||
-						resources.configuration.screenWidthDp >= 400
+						resources.configuration.screenWidthDp >= 300
 					) MenuItem.SHOW_AS_ACTION_ALWAYS else 0
 				)
 			}
