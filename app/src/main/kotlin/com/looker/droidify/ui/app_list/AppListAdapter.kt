@@ -17,7 +17,7 @@ import com.looker.core.model.ProductItem
 import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.utility.extension.icon
+import com.looker.droidify.utility.extension.ImageUtils.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.widget.CursorRecyclerAdapter
 import com.google.android.material.R as MaterialR

@@ -13,7 +13,7 @@ import com.looker.core.common.extension.*
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.url
+import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.dimen as dimenRes

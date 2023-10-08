@@ -32,7 +32,7 @@ import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.url
+import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.map

@@ -45,8 +45,8 @@ import com.looker.core.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.utility.PackageItemResolver
+import com.looker.droidify.utility.extension.ImageUtils.icon
 import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.extension.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter

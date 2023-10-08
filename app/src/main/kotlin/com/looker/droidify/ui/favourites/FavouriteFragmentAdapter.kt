@@ -10,7 +10,7 @@ import com.looker.core.common.nullIfEmpty
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
 import com.looker.droidify.databinding.ProductItemBinding
-import com.looker.droidify.utility.extension.icon
+import com.looker.droidify.utility.extension.ImageUtils.icon
 import com.google.android.material.R as MaterialR
 
 class FavouriteFragmentAdapter(
