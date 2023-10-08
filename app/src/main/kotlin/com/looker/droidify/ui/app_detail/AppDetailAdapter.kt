@@ -37,11 +37,7 @@ import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.datastore.Settings
-import com.looker.core.model.InstalledItem
-import com.looker.core.model.Product
-import com.looker.core.model.ProductPreference
-import com.looker.core.model.Release
-import com.looker.core.model.Repository
+import com.looker.core.model.*
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.utility.PackageItemResolver
@@ -669,12 +665,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		settings: Settings
 	) {
 		items.clear()
-		val productRepository =
-			Product.findSuggested(products, installedItem) { it.first } ?: run {
-				items += Item.EmptyItem(packageName, suggestedRepo)
-				notifyDataSetChanged()
-				return
-			}
+		val productRepository = products.findSuggested(installedItem) ?: run {
+			items += Item.EmptyItem(packageName, suggestedRepo)
+			notifyDataSetChanged()
+			return
+		}
 		isFavourite = packageName in settings.favouriteApps
 
 		items += Item.AppInfoItem(

@@ -206,10 +206,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 	private fun updateButtons(preference: ProductPreference = ProductPreferences[packageName]) {
 		val installed = installed
-		val product = Product.findSuggested(
-			products,
-			installed?.installedItem
-		) { it.first }?.first
+		val product = products.findSuggested(installed?.installedItem)?.first
 		val compatible = product != null && product.selectedReleases.firstOrNull()
 			.let { it != null && it.incompatibilities.isEmpty() }
 		val canInstall = product != null && installed == null && compatible
@@ -345,7 +342,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				} else {
 					launcherActivities.firstOrNull()?.let { startLauncherActivity(it.first) }
 				}
-				Unit
 			}
 
 			AppDetailAdapter.Action.DETAILS -> {
@@ -363,7 +359,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 				val binder = downloadConnection.binder
 				if (downloading && binder != null) {
 					binder.cancel(packageName)
-				} else Unit
+				}
 			}
 
 			AppDetailAdapter.Action.SHARE -> {
@@ -378,7 +374,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 					.setType("text/plain")
 				startActivity(Intent.createChooser(sendIntent, null))
 			}
-		}::class
+		}
 	}
 
 	override fun onFavouriteClicked() {

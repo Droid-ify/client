@@ -85,17 +85,17 @@ data class Product(
 		return installedItem != null && compatible && versionCode > installedItem.versionCode &&
 				installedItem.signature in signatures
 	}
-
-	companion object {
-		fun <T> findSuggested(
-			products: List<T>,
-			installedItem: InstalledItem?,
-			extract: (T) -> Product,
-		): T? {
-			return products.maxWithOrNull(compareBy({
-				extract(it).compatible &&
-						(installedItem == null || installedItem.signature in extract(it).signatures)
-			}, { extract(it).versionCode }))
-		}
-	}
 }
+
+fun List<Pair<Product, Repository>>.findSuggested(
+	installedItem: InstalledItem?
+): Pair<Product, Repository>? = maxWithOrNull(
+	compareBy(
+		{ (product, _) ->
+			product.compatible &&
+					(installedItem == null || installedItem.signature in product.signatures)
+		}, { (product, _) ->
+			product.versionCode
+		}
+	)
+)
