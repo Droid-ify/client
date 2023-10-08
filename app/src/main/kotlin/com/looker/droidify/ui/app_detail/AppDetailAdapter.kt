@@ -419,6 +419,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		init {
 			with(itemView as TextView) {
 				typeface = TypefaceExtra.medium
+				isFocusable = true
 				setTextSizeScaled(14)
 				background = context.corneredBackground
 				backgroundTintList =
@@ -446,6 +447,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			with(itemView as TextView) {
 				setTextIsSelectable(true)
 				setTextSizeScaled(15)
+				isFocusable = false
 				16.dp.let { itemView.setPadding(it, it, it, it) }
 				movementMethod = LinkMovementMethod()
 				layoutParams = RecyclerView.LayoutParams(
