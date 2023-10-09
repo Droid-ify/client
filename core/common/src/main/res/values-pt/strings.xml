@@ -70,7 +70,7 @@
     <string name="license">Licença</string>
     <string name="license_FORMAT">Licença %s</string>
     <string name="light">Claro</string>
-    <string name="link_copied_to_clipboard">Ligação copiada para a área de transferência</string>
+    <string name="link_copied_to_clipboard">Ligação copiada</string>
     <string name="links">Ligações</string>
     <string name="list_animation">Animação de listas</string>
     <string name="list_animation_description">Animar lista da página principal</string>
