@@ -95,7 +95,7 @@
     <string name="license">授權</string>
     <string name="license_FORMAT">%s 授權</string>
     <string name="light">亮色</string>
-    <string name="link_copied_to_clipboard">連結已複製到剪貼簿</string>
+    <string name="link_copied_to_clipboard">已複製連結</string>
     <string name="links">連結</string>
     <string name="list_animation">清單動畫</string>
     <string name="list_animation_description">在主頁上顯示清單動畫</string>
