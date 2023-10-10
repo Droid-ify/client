@@ -34,7 +34,7 @@
     <string name="light">Lys</string>
     <string name="invalid_username_format">Ugyldig brukernavnsformat</string>
     <string name="license_FORMAT">%s-lisens</string>
-    <string name="link_copied_to_clipboard">Lenke kopiert til utklippstavle</string>
+    <string name="link_copied_to_clipboard">Lenke kopiert</string>
     <string name="list_animation">Listeanimasjoner</string>
     <string name="list_animation_description">Vis liste animasjon på hovedsiden</string>
     <string name="new_updates_available">Nye versjoner av programmer tilgjengelig</string>
