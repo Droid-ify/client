@@ -34,7 +34,7 @@
     <string name="installed">Đã cài đặt</string>
     <string name="merging_FORMAT">Đang gộp %s</string>
     <string name="name">Tên</string>
-    <string name="never">Hông bao giờ</string>
+    <string name="never">Không bao giờ</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="other">Ứng dụng %d với phiên bản mới.</item>
     </plurals>
@@ -120,7 +120,7 @@
     <string name="integrity_check_error_DESC">Không thể kiểm tra tính nguyên vẹn.</string>
     <string name="license_FORMAT">Giấy phép %s</string>
     <string name="invalid_fingerprint_format">Sai định dạng fingerprint</string>
-    <string name="link_copied_to_clipboard">Liên kết được chép vào bộ nhớ tạm</string>
+    <string name="link_copied_to_clipboard">Đã sao chép liên kết</string>
     <string name="list_animation_description">Hiện hiệu ứng danh sách trên trang chính</string>
     <string name="network_error_DESC">Lỗi mạng</string>
     <string name="invalid_address">Sai địa chỉ</string>
@@ -143,7 +143,7 @@
     <string name="no_matching_applications_found">Không tìm thấy ứng dụng nào</string>
     <string name="no_proxy">Không proxy</string>
     <string name="recently_updated">Cập nhật gần đây</string>
-    <string name="notify_about_updates">Thông báo về phiên bản mới của ứng dụng</string>
+    <string name="notify_about_updates">Thông báo các bản cập nhật</string>
     <string name="only_compatible_with_FORMAT">Chỉ tương thích với %s</string>
     <string name="open_DESC_FORMAT">Mở %s\?</string>
     <string name="proxy_host">Máy chủ Proxy</string>
@@ -170,9 +170,9 @@
     <string name="system">Hệ thống</string>
     <string name="uninstall">Gỡ cài đặt</string>
     <string name="unknown">Không rõ</string>
-    <string name="unstable_updates">Bản cập nhật Unstable</string>
+    <string name="unstable_updates">Cập nhật không ổn định</string>
     <string name="validation_index_error_DESC">Chỉ mục không thể được xác thực.</string>
-    <string name="unstable_updates_summary">Gợi ý cài bản cập nhật Unstable</string>
+    <string name="unstable_updates_summary">Gợi ý cài đặt các phiên bản không ổn định</string>
     <string name="waiting_to_start_download">Chờ để tải về…</string>
     <string name="show_less">Ẩn bớt</string>
     <string name="all_applications">Tất cả ứng dụng</string>
@@ -184,10 +184,10 @@
     <plurals name="hours">
         <item quantity="other">Giờ</item>
     </plurals>
-    <string name="installer">Người cài đặt</string>
+    <string name="installer">Trình cài đặt</string>
     <string name="legacy_installer">Trình cài đặt kế thừa</string>
     <string name="session_installer">Trình cài đặt phiên</string>
-    <string name="root_installer">Trình cài đặt gốc</string>
+    <string name="root_installer">Trình cài đặt root</string>
     <string name="allow_collapsing_toolbar">Cho phép mở rộng thanh công cụ</string>
     <string name="allow_collapsing_toolbar_DESC">Cho phép mở rộng thanh công cụ và sụp đổ</string>
     <string name="io_error_DESC">Không thể thực hiện một số hành động nhất định.</string>
@@ -206,4 +206,16 @@
     <string name="repository_unreachable">Kho lưu trữ không thể truy cập</string>
     <string name="enable_repo">Kích hoạt kho lưu trữ</string>
     <string name="restart_app">Khởi động lại Droid-ify để xem thay đổi</string>
+    <string name="home_screen_swiping">Vuốt màn hình chính</string>
+    <string name="contains_nsfw">Chứa nội dung không an toàn cho công việc</string>
+    <string name="has_non_free_components">Có các thành phần không tự do</string>
+    <string name="shizuku_not_alive">Shizuku không chạy</string>
+    <string name="connection_error_DESC">Không thể kết nối tới máy chủ</string>
+    <string name="socket_error_DESC">Máy chủ cấp gói mới thất bại.</string>
+    <string name="label_copy">Sao chép</string>
+    <string name="proxy_port_error_not_int">Cổng proxy chỉ có thể là Số nguyên</string>
+    <string name="home_screen_swiping_DESC">Cho phép người dùng vuốt giữa các trang trong màn hình chính</string>
+    <string name="repository_not_found">Không tìm thấy kho lưu trữ sau</string>
+    <string name="special_credits">Công trạng đặc biệt</string>
+    <string name="shizuku_not_installed">Shizuku chưa được cài đặt</string>
 </resources>
