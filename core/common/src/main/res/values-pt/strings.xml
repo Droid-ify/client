@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="address">Endereço</string>
-    <string name="credits">Contributos</string>
+    <string name="credits">Créditos</string>
     <string name="action_failed">Falha na ação</string>
     <string name="always">Sempre</string>
     <string name="available">Explorar</string>
