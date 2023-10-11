@@ -73,7 +73,7 @@
     <string name="license">Lisans</string>
     <string name="license_FORMAT">%s lisansı</string>
     <string name="light">Açık</string>
-    <string name="link_copied_to_clipboard">Bağlantı panoya kopyalandı</string>
+    <string name="link_copied_to_clipboard">Bağlantı kopyalandı</string>
     <string name="links">Bağlantılar</string>
     <string name="list_animation">Liste Animasyonu</string>
     <string name="list_animation_description">Liste canlandırmasını ana sayfada göster</string>
