@@ -96,7 +96,7 @@
     <string name="license">लाइसेंस</string>
     <string name="license_FORMAT">%s लाइसेंस</string>
     <string name="light">हल्की</string>
-    <string name="link_copied_to_clipboard">लिंक को क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="link_copied_to_clipboard">लिंक कॉपी किया गया</string>
     <string name="list_animation">एनिमेशन की सूची दिखाए</string>
     <string name="list_animation_description">मुख्य पृष्ठ पर एनीमेशन की सूची दिखाएं</string>
     <string name="merging_FORMAT">%s . को मर्ज कर रहा है</string>
