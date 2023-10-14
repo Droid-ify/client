@@ -34,7 +34,7 @@
     <string name="invalid_metadata_error_DESC">Ogiltig metadata.</string>
     <string name="license">Licens</string>
     <string name="light">Ljus</string>
-    <string name="link_copied_to_clipboard">Länken har kopierats till urklipp</string>
+    <string name="link_copied_to_clipboard">Länken har kopierats</string>
     <string name="links">Länkar</string>
     <string name="list_animation">Listanimationer</string>
     <string name="invalid_fingerprint_format">Ogiltigt fingeravtrycksformat</string>
@@ -47,7 +47,7 @@
     <string name="notify_about_updates_summary">Visa ett meddelande när nya versioner är tillgängliga</string>
     <string name="new_updates_available">Nya versioner av applikationer tillgängliga</string>
     <string name="no_matching_applications_found">Det gick inte att hitta några sådana applikationer</string>
-    <string name="notify_about_updates">Meddela om nya versioner av applikationer</string>
+    <string name="notify_about_updates">Avisera om uppdateringar</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d applikation har en ny version.</item>
         <item quantity="other">%d applikationer med nya versioner.</item>
@@ -218,4 +218,5 @@
     <string name="home_screen_swiping">Svep på hemskärmen</string>
     <string name="home_screen_swiping_DESC">Tillåt användare att svepa mellan sidor på hemskärmen</string>
     <string name="special_credits">Särskilda tack</string>
+    <string name="label_copy">Kopiera</string>
 </resources>
