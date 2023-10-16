@@ -122,16 +122,12 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 			addAction(Intent.ACTION_PACKAGE_REMOVED)
 			addDataScheme("package")
 		})
-		appScope.launch {
-			val installedItems =
-				packageManager.getInstalledPackagesCompat()
-					?.map { it.toInstalledItem() }
-					?: run {
-						cancel()
-						return@launch
-					}
-			Database.InstalledAdapter.putAll(installedItems)
-		}
+		val installedItems =
+			packageManager.getInstalledPackagesCompat()
+				?.map { it.toInstalledItem() }
+				?: return
+		Database.InstalledAdapter.putAll(installedItems)
+
 	}
 
 	private fun checkLanguage() {

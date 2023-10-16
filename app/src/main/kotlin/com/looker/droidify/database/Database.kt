@@ -709,7 +709,7 @@ object Database {
 
 		fun put(installedItem: InstalledItem) = put(installedItem, true)
 
-		suspend fun putAll(installedItems: List<InstalledItem>) = withContext(Dispatchers.IO) {
+		fun putAll(installedItems: List<InstalledItem>) {
 			db.transaction {
 				db.delete(Schema.Installed.name, null, null)
 				installedItems.forEach { put(it, false) }
