@@ -2,10 +2,7 @@ package com.looker.droidify
 
 import android.annotation.SuppressLint
 import android.app.Application
-import android.app.job.JobInfo
-import android.app.job.JobScheduler
 import android.content.*
-import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -15,11 +12,9 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core.common.Constants
-import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.getInstalledPackagesCompat
 import com.looker.core.common.extension.jobScheduler
-import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.*
 import com.looker.core.datastore.model.*
 import com.looker.droidify.content.ProductPreferences
@@ -108,17 +103,16 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 
 	private fun CoroutineScope.handleShizukuInstaller() = launch {
 		shizukuPermissionHandler.state.collect { (isGranted, isAlive, _) ->
-			if (isAlive) {
-				if (isGranted) {
-					settingsRepository.setInstallerType(InstallerType.SHIZUKU)
-					return@collect
-				} else {
-					settingsRepository.setInstallerType(InstallerType.Default)
-					shizukuPermissionHandler.requestPermission()
-				}
-			} else {
-				settingsRepository.setInstallerType(InstallerType.Default)
+			if (isAlive && isGranted) {
+				settingsRepository.setInstallerType(InstallerType.SHIZUKU)
+				return@collect
 			}
+			if (isAlive) {
+				settingsRepository.setInstallerType(InstallerType.Default)
+				shizukuPermissionHandler.requestPermission()
+				return@collect
+			}
+			settingsRepository.setInstallerType(InstallerType.Default)
 		}
 	}
 
@@ -128,9 +122,16 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 			addAction(Intent.ACTION_PACKAGE_REMOVED)
 			addDataScheme("package")
 		})
-		val installedItems =
-			packageManager.getInstalledPackagesCompat()?.map { it.toInstalledItem() }
-		installedItems?.let { Database.InstalledAdapter.putAll(it) }
+		appScope.launch {
+			val installedItems =
+				packageManager.getInstalledPackagesCompat()
+					?.map { it.toInstalledItem() }
+					?: run {
+						cancel()
+						return@launch
+					}
+			Database.InstalledAdapter.putAll(installedItems)
+		}
 	}
 
 	private fun checkLanguage() {

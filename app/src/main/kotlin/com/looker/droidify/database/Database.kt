@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 object Database {
@@ -708,7 +709,7 @@ object Database {
 
 		fun put(installedItem: InstalledItem) = put(installedItem, true)
 
-		fun putAll(installedItems: List<InstalledItem>) {
+		suspend fun putAll(installedItems: List<InstalledItem>) = withContext(Dispatchers.IO) {
 			db.transaction {
 				db.delete(Schema.Installed.name, null, null)
 				installedItems.forEach { put(it, false) }
