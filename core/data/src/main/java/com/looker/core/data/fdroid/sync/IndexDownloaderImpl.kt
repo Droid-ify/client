@@ -78,7 +78,7 @@ class IndexDownloaderImpl @Inject constructor(
 			fileEntry = entry
 		}
 		val (_, response) = downloadIndexFile(repo, ENTRY_FILE_NAME, validator)
-		if (repoFingerprint == null || fileEntry == null || repoFingerprint?.isBlank() == true || response is NetworkResponse.Error)
+		if (repoFingerprint == null || fileEntry == null || repoFingerprint?.isBlank() == true || response is NetworkResponse.Error.Validation)
 			throw IllegalStateException("Empty Fingerprint")
 		IndexDownloadResponse(
 			index = fileEntry!!,
@@ -109,8 +109,7 @@ class IndexDownloaderImpl @Inject constructor(
 					repo.authentication.username,
 					repo.authentication.password
 				)
-				if (repo.versionInfo.etag != null) etag(repo.versionInfo.etag!!)
-				else if (repo.versionInfo.timestamp > 0L) ifModifiedSince(Date(repo.versionInfo.timestamp))
+				if (repo.versionInfo.timestamp > 0L) ifModifiedSince(Date(repo.versionInfo.timestamp))
 			}
 		)
 		tempFile to response

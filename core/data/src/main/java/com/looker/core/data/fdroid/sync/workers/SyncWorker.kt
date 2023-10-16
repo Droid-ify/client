@@ -23,7 +23,13 @@ class SyncWorker @AssistedInject constructor(
 
 	override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
 		Log.i(SYNC_WORK, "Start Sync")
-		val isSuccess = repoRepository.syncAll()
+		setForegroundAsync(appContext.syncForegroundInfo())
+		val isSuccess = try {
+			repoRepository.syncAll()
+		} catch (e: Exception) {
+			e.printStackTrace()
+			return@withContext Result.failure()
+		}
 		if (isSuccess) Result.success() else Result.failure()
 	}
 

@@ -14,7 +14,7 @@ class IndexManager(
 
 	suspend fun getIndex(
 		repos: List<Repo>
-	): Map<Repo, IndexV2> = withContext(Dispatchers.Default) {
+	): Map<Repo, IndexV2?> = withContext(Dispatchers.Default) {
 		repos.associate { repo ->
 			when (indexDownloader.determineIndexType(repo)) {
 				IndexType.INDEX_V1 -> {
@@ -28,12 +28,14 @@ class IndexManager(
 
 				IndexType.ENTRY -> {
 					val response = indexDownloader.downloadEntry(repo)
-					val diff = response.index.getDiff(repo.versionInfo.timestamp)
-					repo.update(
+					val updatedRepo = repo.update(
 						fingerprint = response.fingerprint,
 						timestamp = response.lastModified,
 						etag = response.etag
-					) to downloadIndexBasedOnDiff(repo, diff)
+					)
+					if (response.lastModified == repo.versionInfo.timestamp) return@associate updatedRepo to null
+					val diff = response.index.getDiff(repo.versionInfo.timestamp)
+					updatedRepo to downloadIndexBasedOnDiff(repo, diff)
 				}
 			}
 		}

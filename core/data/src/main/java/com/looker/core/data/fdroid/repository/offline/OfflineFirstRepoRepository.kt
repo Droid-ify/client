@@ -57,7 +57,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 
 	override suspend fun sync(repo: Repo): Boolean = coroutineScope {
 		val index = try {
-			indexManager.getIndex(listOf(repo))[repo]!!
+			indexManager.getIndex(listOf(repo))[repo] ?: throw Exception("Empty index returned")
 		} catch (e: Exception) {
 			e.exceptCancellation()
 			return@coroutineScope false
@@ -81,13 +81,15 @@ class OfflineFirstRepoRepository @Inject constructor(
 	override suspend fun syncAll(): Boolean = supervisorScope {
 		val repos = repoDao.getRepoStream().first().filter { it.enabled }
 		val indices = try {
-			indexManager.getIndex(repos.toExternal(locale))
+			indexManager
+				.getIndex(repos.toExternal(locale))
+				.filter { (_, index) -> index != null }
 		} catch (e: Exception) {
 			e.exceptCancellation()
 			return@supervisorScope false
 		}
 		indices.forEach { (repo, index) ->
-			val updatedRepo = index.repo.toEntity(
+			val updatedRepo = index!!.repo.toEntity(
 				id = repo.id,
 				fingerprint = repo.fingerprint,
 				username = repo.authentication.username,
