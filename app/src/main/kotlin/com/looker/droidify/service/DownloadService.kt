@@ -116,20 +116,20 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 				isUpdate = isUpdate
 			)
 			if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-				lifecycleScope.launch { publishSuccess(task) }
+				runBlocking { publishSuccess(task) }
+				return
+			}
+			cancelTasks(packageName)
+			cancelCurrentTask(packageName)
+			notificationManager?.cancel(
+				task.notificationTag,
+				Constants.NOTIFICATION_ID_DOWNLOADING
+			)
+			tasks += task
+			if (currentTask == null) {
+				handleDownload()
 			} else {
-				cancelTasks(packageName)
-				cancelCurrentTask(packageName)
-				notificationManager?.cancel(
-					task.notificationTag,
-					Constants.NOTIFICATION_ID_DOWNLOADING
-				)
-				tasks += task
-				if (currentTask == null) {
-					handleDownload()
-				} else {
-					updateCurrentQueue { add(packageName) }
-				}
+				updateCurrentQueue { add(packageName) }
 			}
 		}
 
@@ -275,6 +275,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
 	private suspend fun publishSuccess(task: Task) {
 		val currentInstaller = installerType.first()
+		updateCurrentQueue { add("") }
 		updateCurrentState(State.Success(task.packageName, task.release))
 		val autoInstallWithSessionInstaller =
 			SdkCheck.canAutoInstall(task.release.targetSdkVersion)
@@ -432,7 +433,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	private fun updateCurrentState(state: State) {
 		_downloadState.update {
 			val newQueue =
-				if (state.packageName in it.queue) it.queue.updateAsMutable { remove(state.packageName) }
+				if (state.packageName in it.queue) it.queue.updateAsMutable {
+					removeAll { name -> name == "" }
+					remove(state.packageName)
+				}
 				else it.queue
 			it.copy(currentItem = state, queue = newQueue)
 		}

@@ -97,8 +97,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		serviceClass = DownloadService::class.java,
 		onBind = { _, binder ->
 			lifecycleScope.launch {
-				binder.downloadState
-					.collect { updateDownloadState(it) }
+				binder.downloadState.collect(::updateDownloadState)
 			}
 		}
 	)
