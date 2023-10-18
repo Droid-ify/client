@@ -32,6 +32,7 @@ import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.installer.model.InstallState
+import com.looker.installer.model.isCancellable
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -236,8 +237,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 
 		val adapterAction = when {
-			installing == InstallState.Installing -> null
-			installing == InstallState.Pending -> AppDetailAdapter.Action.CANCEL
+			installing?.isCancellable == true -> AppDetailAdapter.Action.CANCEL
 			downloading -> AppDetailAdapter.Action.CANCEL
 			else -> primaryAction.adapterAction
 		}
@@ -356,7 +356,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 			AppDetailAdapter.Action.CANCEL -> {
 				val binder = downloadConnection.binder
-				if (installing == InstallState.Pending) {
+				if (installing?.isCancellable == true) {
 					viewModel.removeQueue()
 				} else if (downloading && binder != null) {
 					binder.cancel(packageName)

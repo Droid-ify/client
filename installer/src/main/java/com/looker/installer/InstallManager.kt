@@ -110,7 +110,7 @@ class InstallManager(
 		}
 	}
 
-	private fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
+	private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
 		state.update { it.updateAsMutable(block) }
 	}
 }
