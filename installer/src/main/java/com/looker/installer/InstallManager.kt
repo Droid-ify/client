@@ -76,8 +76,10 @@ class InstallManager(
 	private fun CoroutineScope.installer() = launch {
 		val currentQueue = mutableSetOf<String>()
 		installItems.filter { item ->
-			currentQueue.addAndCompute(item.packageName.name) {
-				updateState { put(item.packageName, InstallState.Pending) }
+			currentQueue.addAndCompute(item.packageName.name) { isAdded ->
+				if (isAdded) {
+					updateState { put(item.packageName, InstallState.Pending) }
+				}
 			}
 		}.consumeEach { item ->
 			if (state.value[item.packageName] != null) {
