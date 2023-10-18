@@ -95,7 +95,7 @@
     <string name="could_not_sync_FORMAT">Konnte %s nicht synchronisieren</string>
     <string name="only_compatible_with_FORMAT">Nur kompatibel mit %s</string>
     <string name="license_FORMAT">%s-Lizenz</string>
-    <string name="link_copied_to_clipboard">Link in die Zwischenablage kopiert</string>
+    <string name="link_copied_to_clipboard">Link kopiert</string>
     <string name="project_website">Projekt-Website</string>
     <string name="proxy_type">Proxy Typ</string>
     <string name="repository">Paketquelle</string>
