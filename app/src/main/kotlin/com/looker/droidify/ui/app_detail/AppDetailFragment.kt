@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.looker.core.common.PackageName
 import com.looker.core.common.extension.*
+import com.looker.core.common.toPackageName
 import com.looker.core.model.*
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.service.Connection
@@ -29,7 +31,7 @@ import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.installer.model.InstallerQueueState
+import com.looker.installer.model.InstallState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -88,7 +90,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 	private var products = emptyList<Pair<Product, Repository>>()
 	private var installed: Installed? = null
 	private var downloading = false
-	private var installing = false
+	private var installing: InstallState? = null
 
 	private var recyclerView: RecyclerView? = null
 	private var detailAdapter: AppDetailAdapter? = null
@@ -234,7 +236,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 
 		val adapterAction = when {
-			installing -> null
+			installing == InstallState.Installing -> null
+			installing == InstallState.Pending -> AppDetailAdapter.Action.CANCEL
 			downloading -> AppDetailAdapter.Action.CANCEL
 			else -> primaryAction.adapterAction
 		}
@@ -272,19 +275,16 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 	}
 
-	private fun updateInstallState(installerState: InstallerQueueState) {
-		val status =
-			when (packageName) {
-				in installerState.currentItem -> AppDetailAdapter.Status.Installing
-				in installerState.queued -> AppDetailAdapter.Status.PendingInstall
-				else -> AppDetailAdapter.Status.Idle
-			}
-		val installing = status != AppDetailAdapter.Status.Idle
-		if (this.installing != installing) {
-			this.installing = installing
-			updateButtons()
+	private fun updateInstallState(installerState: Map<PackageName, InstallState>) {
+		val currentState = installerState[packageName.toPackageName()]
+		val status = when (currentState) {
+			InstallState.Pending -> AppDetailAdapter.Status.PendingInstall
+			InstallState.Installing -> AppDetailAdapter.Status.Installing
+			else -> AppDetailAdapter.Status.Idle
 		}
 		(recyclerView?.adapter as? AppDetailAdapter)?.status = status
+		installing = currentState
+		updateButtons()
 	}
 
 	private fun updateDownloadState(state: DownloadService.DownloadState) {
@@ -356,7 +356,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
 			AppDetailAdapter.Action.CANCEL -> {
 				val binder = downloadConnection.binder
-				if (downloading && binder != null) {
+				if (installing == InstallState.Pending) {
+					viewModel.removeQueue()
+				} else if (downloading && binder != null) {
 					binder.cancel(packageName)
 				}
 			}

@@ -3,17 +3,17 @@ package com.looker.droidify.ui.app_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
+import com.looker.core.common.toPackageName
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.InstalledItem
 import com.looker.core.model.Product
 import com.looker.core.model.Repository
-import com.looker.core.common.toPackageName
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database
 import com.looker.installer.InstallManager
-import com.looker.installer.model.InstallerQueueState
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -35,9 +35,7 @@ class AppDetailViewModel @Inject constructor(
 		_packageName = name
 	}
 
-	val installerState = installer
-		.status
-		.asStateFlow(InstallerQueueState.EMPTY)
+	val installerState = installer.state.asStateFlow()
 
 	val state by lazy {
 		combine(
@@ -66,13 +64,19 @@ class AppDetailViewModel @Inject constructor(
 
 	fun installPackage(packageName: String, fileName: String) {
 		viewModelScope.launch {
-			installer + (packageName installFrom fileName)
+			installer install (packageName installFrom fileName)
 		}
 	}
 
 	fun uninstallPackage() {
 		viewModelScope.launch {
-			installer - packageName.toPackageName()
+			installer uninstall packageName.toPackageName()
+		}
+	}
+
+	fun removeQueue() {
+		viewModelScope.launch {
+			installer remove packageName.toPackageName()
 		}
 	}
 

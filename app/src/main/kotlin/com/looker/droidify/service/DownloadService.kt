@@ -288,7 +288,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			|| autoInstallWithSessionInstaller
 		) {
 			val installItem = task.packageName installFrom task.release.cacheFileName
-			installer + installItem
+			installer install installItem
 		}
 	}
 

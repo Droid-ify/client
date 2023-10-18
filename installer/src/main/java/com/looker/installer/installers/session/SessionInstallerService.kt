@@ -1,4 +1,4 @@
-package com.looker.installer.installers
+package com.looker.installer.installers.session
 
 import android.app.Service
 import android.content.Intent

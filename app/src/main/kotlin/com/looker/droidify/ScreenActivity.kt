@@ -7,7 +7,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -274,7 +273,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 					navigateProduct(packageName)
 					specialIntent.cacheFileName?.also { cacheFile ->
 						val installItem = packageName installFrom cacheFile
-						lifecycleScope.launch { installer + installItem }
+						lifecycleScope.launch { installer install installItem }
 					}
 				}
 				Unit
