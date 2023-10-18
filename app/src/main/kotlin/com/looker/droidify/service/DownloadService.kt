@@ -320,7 +320,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					notification.build()
 				)
 			} ?: run {
-			Log.e("DownloadService", "Invalid Download State: $state")
+			log("Invalid Download State: $state", "DownloadService", Log.ERROR)
 		}
 	}
 

@@ -31,6 +31,6 @@ fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
 	"%02x".format(Locale.US, byte.toInt() and 0xff)
 }
 
-fun Any.log(message: Any?, tag: String = this::class.java.simpleName + ".DEBUG") {
-	Log.d(tag, message.toString())
+fun Any.log(message: Any?, tag: String = this::class.java.simpleName + ".DEBUG", type: Int = Log.DEBUG) {
+	Log.println(type, tag, message.toString())
 }
