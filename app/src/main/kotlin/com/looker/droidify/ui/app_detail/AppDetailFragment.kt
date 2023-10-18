@@ -237,7 +237,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 		}
 
 		val adapterAction = when {
-			installing?.isCancellable == true -> AppDetailAdapter.Action.CANCEL
+			installing == InstallState.Installing -> null
+			installing == InstallState.Pending -> AppDetailAdapter.Action.CANCEL
 			downloading -> AppDetailAdapter.Action.CANCEL
 			else -> primaryAction.adapterAction
 		}
