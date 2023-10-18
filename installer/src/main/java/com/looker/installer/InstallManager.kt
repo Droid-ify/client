@@ -91,6 +91,7 @@ class InstallManager(
 					"download-${item.packageName.name}",
 					Constants.NOTIFICATION_ID_DOWNLOADING
 				)
+				installer.cleanup()
 			}
 		}
 	}
