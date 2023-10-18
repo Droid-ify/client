@@ -11,9 +11,9 @@ import android.net.ConnectivityManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import androidx.core.content.res.ResourcesCompat
 import com.looker.core.common.R
 
 inline val Context.clipboardManager: ClipboardManager?
@@ -68,8 +68,8 @@ private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 	return getDrawableCompat(resId)
 }
 
-private fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
-	ResourcesCompat.getDrawable(resources, resId, theme) ?: ContextCompat.getDrawable(this, resId)!!
+fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
+	AppCompatResources.getDrawable(this, resId) ?: throw IllegalStateException("Cannot find drawable, ID: $resId")
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
 	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))

@@ -1,5 +1,6 @@
 package com.looker.network
 
+import com.looker.core.common.DataSize
 import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.common.extension.size
 import com.looker.core.common.signature.FileValidator
@@ -111,7 +112,7 @@ internal class KtorDownloader : Downloader {
 			}
 			onDownload { read, total ->
 				if (block != null) {
-					block(read + (fileSize ?: 0L), total + (fileSize ?: 0L))
+					block(DataSize(read + (fileSize ?: 0L)), DataSize(total + (fileSize ?: 0L)))
 				}
 			}
 		}

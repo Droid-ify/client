@@ -1,5 +1,6 @@
 package com.looker.network
 
+import com.looker.core.common.DataSize
 import com.looker.core.common.signature.FileValidator
 import com.looker.network.header.HeadersBuilder
 import java.io.File
@@ -24,4 +25,4 @@ interface Downloader {
 
 }
 
-typealias ProgressListener = suspend (bytesReceived: Long, contentLength: Long) -> Unit
+typealias ProgressListener = suspend (bytesReceived: DataSize, contentLength: DataSize) -> Unit

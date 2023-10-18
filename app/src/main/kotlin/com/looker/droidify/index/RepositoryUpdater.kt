@@ -174,7 +174,7 @@ object RepositoryUpdater {
 				authentication(repository.authentication)
 			}
 		) { read, total ->
-			callback(Stage.DOWNLOAD, read, total)
+			callback(Stage.DOWNLOAD, read.value, total.value)
 		}
 
 		when (result) {
