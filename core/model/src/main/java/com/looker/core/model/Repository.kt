@@ -150,6 +150,12 @@ data class Repository(
 				fingerprint = "E1EE5CD076D7B0DC84CB2B45FB78B86DF2EB39A3B6C56BA3DC292A5E0C3B9504"
 			),
 			defaultRepository(
+				address = "https://www.cromite.org/fdroid/repo",
+				name = "Cromite",
+				description = "The official repository for Cromite. Cromite is a Chromium with ad blocking and enhanced privacy.",
+				fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+			),
+			defaultRepository(
 				address = "https://molly.im/fdroid/foss/fdroid/repo",
 				name = "Molly",
 				description = "The official repository for Molly. Molly is a fork of Signal focused on security.",
