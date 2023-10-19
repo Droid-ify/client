@@ -6,6 +6,7 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toFormattedString
+import com.looker.core.common.log
 import com.looker.core.common.result.Result
 import com.looker.core.model.Product
 import com.looker.core.model.Release
@@ -328,7 +329,7 @@ object RepositoryUpdater {
 					.fingerprint()
 					.uppercase()
 
-				val commitRepository = if (workRepository.fingerprint != fingerprint) {
+				val commitRepository = if (!workRepository.fingerprint.equals(fingerprint, ignoreCase = true)) {
 					if (workRepository.fingerprint.isNotEmpty()) throw UpdateException(
 						ErrorType.VALIDATION,
 						"Certificate fingerprints do not match"

@@ -17,7 +17,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 
 object Database {
@@ -28,6 +27,9 @@ object Database {
 			for (repository in Repository.defaultRepositories) {
 				RepositoryAdapter.put(repository)
 			}
+		} else if (Repository.newlyAdded.isNotEmpty()) {
+			Repository.newlyAdded.forEach { RepositoryAdapter.put(it) }
+			Repository.newlyAdded.clear()
 		}
 		return helper.created || helper.updated
 	}
