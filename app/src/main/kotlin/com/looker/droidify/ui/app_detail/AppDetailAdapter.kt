@@ -32,6 +32,7 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
+import com.looker.core.common.DataSize
 import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
@@ -92,7 +93,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		data object Idle : Status
 		data object Pending : Status
 		data object Connecting : Status
-		data class Downloading(val read: Long, val total: Long?) : Status
+		data class Downloading(val read: DataSize, val total: DataSize?) : Status
 		data object PendingInstall : Status
 		data object Installing : Status
 	}
@@ -1251,13 +1252,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						is Status.Downloading -> {
 							holder.statusText.text = context.getString(
 								stringRes.downloading_FORMAT, if (status.total == null)
-									status.read.formatSize() else "${status.read.formatSize()} / ${status.total.formatSize()}"
+									status.read.toString() else "${status.read} / ${status.total}"
 							)
 							holder.progress.isIndeterminate = status.total == null
 							if (status.total != null) {
 								holder.progress.progress =
-									(holder.progress.max.toFloat() * status.read / status.total).roundToInt()
-							} else Unit
+									(holder.progress.max.toFloat() * status.read.value / status.total.value).roundToInt()
+							}
 						}
 
 						Status.Installing -> {
@@ -1271,7 +1272,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						}
 
 						Status.Idle -> {}
-					}::class
+					}
 				}
 				Unit
 			}
@@ -1283,7 +1284,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				holder.button.apply {
 					isEnabled = action != null
 					if (action != null) {
-						icon = context.getDrawable(action.iconResId)
+						icon = context.getDrawableCompat(action.iconResId)
 						setText(action.titleResId)
 						setTextColor(
 							if (action == Action.CANCEL) holder.actionTintOnCancel
@@ -1294,14 +1295,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 						iconTint = if (action == Action.CANCEL) holder.actionTintOnCancel
 						else holder.actionTintOnNormal
 					} else {
-						icon = context.getDrawable(drawableRes.ic_cancel)
+						icon = context.getDrawableCompat(drawableRes.ic_cancel)
 						setText(stringRes.cancel)
 						setTextColor(holder.actionTintOnDisabled)
 						backgroundTintList = holder.actionTintDisabled
 						iconTint = holder.actionTintOnDisabled
 					}
 				}
-				Unit
 			}
 
 			ViewType.SCREENSHOT -> {
@@ -1572,11 +1572,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				if (item.repoAddress != null) {
 					holder.repoTitle.setText(stringRes.repository_not_found)
 					holder.repoAddress.text = item.repoAddress
-				} else {
-
 				}
 			}
-		}::class
+		}
 	}
 
 	private fun formatHtml(text: String): SpannableStringBuilder {

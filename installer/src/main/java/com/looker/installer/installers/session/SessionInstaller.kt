@@ -1,4 +1,4 @@
-package com.looker.installer.installers
+package com.looker.installer.installers.session
 
 import android.annotation.SuppressLint
 import android.app.PendingIntent
@@ -12,6 +12,7 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.sdkAbove
 import com.looker.core.common.PackageName
+import com.looker.installer.installers.Installer
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -94,5 +95,6 @@ internal class SessionInstaller(private val context: Context) : Installer {
 	override fun cleanup() {
 		installerCallbacks.forEach { sessionInstaller.unregisterSessionCallback(it) }
 		sessionInstaller.mySessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
+		installerCallbacks.clear()
 	}
 }

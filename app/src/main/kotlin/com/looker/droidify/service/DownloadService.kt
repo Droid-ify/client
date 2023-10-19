@@ -55,7 +55,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 	sealed class State(val packageName: String) {
 		data object Idle : State("")
 		data class Connecting(val name: String) : State(name)
-		data class Downloading(val name: String, val read: Long, val total: Long?) : State(name)
+		data class Downloading(val name: String, val read: DataSize, val total: DataSize?) : State(name)
 		data class Error(val name: String) : State(name)
 		data class Cancel(val name: String) : State(name)
 		data class Success(val name: String, val release: Release) : State(name)
@@ -288,7 +288,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			|| autoInstallWithSessionInstaller
 		) {
 			val installItem = task.packageName installFrom task.release.cacheFileName
-			installer + installItem
+			installer install installItem
 		}
 	}
 
@@ -320,7 +320,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 					notification.build()
 				)
 			} ?: run {
-			Log.e("DownloadService", "Invalid Download State: $state")
+			log("Invalid Download State: $state", "DownloadService", Log.ERROR)
 		}
 	}
 
@@ -337,10 +337,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 			is State.Downloading -> {
 				setContentTitle(getString(stringRes.downloading_FORMAT, currentTask!!.task.name))
 				if (state.total != null) {
-					setContentText("${state.read.formatSize()} / ${state.total.formatSize()}")
-					setProgress(100, state.read percentBy state.total, false)
+					setContentText("${state.read} / ${state.total}")
+					setProgress(100, state.read.value percentBy state.total.value, false)
 				} else {
-					setContentText(state.read.formatSize())
+					setContentText(state.read.toString())
 					setProgress(0, 0, true)
 				}
 			}
