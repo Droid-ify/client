@@ -82,16 +82,16 @@ class InstallManager(
 				}
 			}
 		}.consumeEach { item ->
-			if (state.value[item.packageName] != null) {
+			currentQueue.remove(item.packageName.name)
+			if (state.value.containsKey(item.packageName)) {
 				updateState { put(item.packageName, InstallState.Installing) }
 				val success = installer.install(item)
+				installer.cleanup()
 				updateState { put(item.packageName, success) }
-				currentQueue.remove(item.packageName.name)
 				context.notificationManager?.cancel(
 					"download-${item.packageName.name}",
 					Constants.NOTIFICATION_ID_DOWNLOADING
 				)
-				installer.cleanup()
 			}
 		}
 	}
