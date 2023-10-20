@@ -62,7 +62,7 @@
     <string name="license">Άδεια</string>
     <string name="license_FORMAT">Άδεια %s</string>
     <string name="light">Φωτεινό</string>
-    <string name="link_copied_to_clipboard">Ο σύνδεσμος αντιγράφηκε στο πρόχειρο</string>
+    <string name="link_copied_to_clipboard">Ο σύνδεσμος αντιγράφηκε</string>
     <string name="links">Σύνδεσμοι</string>
     <string name="list_animation">Κινήσεις Λίστας</string>
     <string name="list_animation_description">Εμφάνιση κινήσεων λίστας στην αρχική σελίδα</string>
