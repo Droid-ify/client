@@ -408,31 +408,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 		val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
 	}
 
-	private class ExpandViewHolder(context: Context) :
-		RecyclerView.ViewHolder(TextView(context)) {
-		val text: TextView
-			get() = itemView as TextView
-
-		init {
-			with(itemView as TextView) {
-				typeface = TypefaceExtra.medium
-				isFocusable = true
-				setTextSizeScaled(14)
-				background = context.corneredBackground
-				backgroundTintList =
-					context.getColorFromAttr(MaterialR.attr.colorSurface)
-				gravity = Gravity.CENTER
-				isAllCaps = true
-				layoutParams = RecyclerView.LayoutParams(
-					RecyclerView.LayoutParams.MATCH_PARENT,
-					48.dp
-				).apply {
-					topMargin = 16.dp
-					leftMargin = 30.dp
-					rightMargin = 30.dp
-				}
-			}
-		}
+	private class ExpandViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+		val button = itemView.findViewById<MaterialButton>(R.id.expand_view_button)!!
 	}
 
 	private class TextViewHolder(context: Context) :
@@ -1069,7 +1046,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 				}
 			}
 
-			ViewType.EXPAND -> ExpandViewHolder(parent.context).apply {
+			ViewType.EXPAND -> ExpandViewHolder(parent.inflate(R.layout.expand_view_button)).apply {
 				itemView.setOnClickListener {
 					val position = absoluteAdapterPosition
 					val expandItem = items[position] as Item.ExpandItem
@@ -1366,7 +1343,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 			ViewType.EXPAND -> {
 				holder as ExpandViewHolder
 				item as Item.ExpandItem
-				holder.text.text = if (item.expandType !in expanded) {
+				holder.button.text = if (item.expandType !in expanded) {
 					when (item.expandType) {
 						ExpandType.VERSIONS -> context.getString(stringRes.show_older_versions)
 						else -> context.getString(stringRes.show_more)
