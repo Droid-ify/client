@@ -10,126 +10,130 @@ import com.looker.droidify.R
 import kotlin.math.roundToInt
 
 fun RecyclerView.addDivider(
-	configure: (
-		context: Context,
-		position: Int,
-		configuration: DividerConfiguration
-	) -> Unit
+    configure: (
+        context: Context,
+        position: Int,
+        configuration: DividerConfiguration
+    ) -> Unit
 ) {
-	addItemDecoration(
-		DividerItemDecoration(
-			context = context,
-			configure = configure
-		)
-	)
+    addItemDecoration(
+        DividerItemDecoration(
+            context = context,
+            configure = configure
+        )
+    )
 }
 
 fun interface DividerConfiguration {
-	fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int)
+    fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int)
 }
 
 private class DividerItemDecoration(
-	context: Context,
-	private val configure: (
-		context: Context,
-		position: Int, configuration: DividerConfiguration,
-	) -> Unit,
+    context: Context,
+    private val configure: (
+        context: Context,
+        position: Int,
+        configuration: DividerConfiguration
+    ) -> Unit
 ) : RecyclerView.ItemDecoration() {
 
-	private class ConfigurationHolder : DividerConfiguration {
-		var needDivider = false
-		var toTop = false
-		var paddingStart = 0
-		var paddingEnd = 0
+    private class ConfigurationHolder : DividerConfiguration {
+        var needDivider = false
+        var toTop = false
+        var paddingStart = 0
+        var paddingEnd = 0
 
-		override fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int) {
-			this.needDivider = needDivider
-			this.toTop = toTop
-			this.paddingStart = paddingStart
-			this.paddingEnd = paddingEnd
-		}
-	}
+        override fun set(needDivider: Boolean, toTop: Boolean, paddingStart: Int, paddingEnd: Int) {
+            this.needDivider = needDivider
+            this.toTop = toTop
+            this.paddingStart = paddingStart
+            this.paddingEnd = paddingEnd
+        }
+    }
 
-	private val View.configuration: ConfigurationHolder
-		get() = getTag(R.id.divider_configuration) as? ConfigurationHolder ?: run {
-			val configuration = ConfigurationHolder()
-			setTag(R.id.divider_configuration, configuration)
-			configuration
-		}
+    private val View.configuration: ConfigurationHolder
+        get() = getTag(R.id.divider_configuration) as? ConfigurationHolder ?: run {
+            val configuration = ConfigurationHolder()
+            setTag(R.id.divider_configuration, configuration)
+            configuration
+        }
 
-	private val divider = context.divider
-	private val bounds = Rect()
+    private val divider = context.divider
+    private val bounds = Rect()
 
-	private fun draw(
-		c: Canvas,
-		configuration: ConfigurationHolder,
-		view: View,
-		top: Int,
-		width: Int,
-		rtl: Boolean,
-	) {
-		val divider = divider
-		val left = if (rtl) configuration.paddingEnd else configuration.paddingStart
-		val right = width - (if (rtl) configuration.paddingStart else configuration.paddingEnd)
-		val translatedTop = top + view.translationY.roundToInt()
-		divider.alpha = (view.alpha * 0xff).toInt()
-		divider.setBounds(left, translatedTop, right, translatedTop + divider.intrinsicHeight)
-		divider.draw(c)
-	}
+    private fun draw(
+        c: Canvas,
+        configuration: ConfigurationHolder,
+        view: View,
+        top: Int,
+        width: Int,
+        rtl: Boolean
+    ) {
+        val divider = divider
+        val left = if (rtl) configuration.paddingEnd else configuration.paddingStart
+        val right = width - (if (rtl) configuration.paddingStart else configuration.paddingEnd)
+        val translatedTop = top + view.translationY.roundToInt()
+        divider.alpha = (view.alpha * 0xff).toInt()
+        divider.setBounds(left, translatedTop, right, translatedTop + divider.intrinsicHeight)
+        divider.draw(c)
+    }
 
-	override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
-		val divider = divider
-		val bounds = bounds
-		val rtl = parent.layoutDirection == View.LAYOUT_DIRECTION_RTL
-		for (i in 0 until parent.childCount) {
-			val view = parent.getChildAt(i)
-			val configuration = view.configuration
-			if (configuration.needDivider) {
-				val position = parent.getChildAdapterPosition(view)
-				if (position == parent.adapter!!.itemCount - 1) {
-					parent.getDecoratedBoundsWithMargins(view, bounds)
-					draw(c, configuration, view, bounds.bottom, parent.width, rtl)
-				} else {
-					val toTopView = if (configuration.toTop && position >= 0)
-						parent.findViewHolderForAdapterPosition(position + 1)?.itemView else null
-					if (toTopView != null) {
-						parent.getDecoratedBoundsWithMargins(toTopView, bounds)
-						draw(
-							c,
-							configuration,
-							toTopView,
-							bounds.top - divider.intrinsicHeight,
-							parent.width,
-							rtl
-						)
-					} else {
-						parent.getDecoratedBoundsWithMargins(view, bounds)
-						draw(
-							c,
-							configuration,
-							view,
-							bounds.bottom - divider.intrinsicHeight,
-							parent.width,
-							rtl
-						)
-					}
-				}
-			}
-		}
-	}
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        val divider = divider
+        val bounds = bounds
+        val rtl = parent.layoutDirection == View.LAYOUT_DIRECTION_RTL
+        for (i in 0 until parent.childCount) {
+            val view = parent.getChildAt(i)
+            val configuration = view.configuration
+            if (configuration.needDivider) {
+                val position = parent.getChildAdapterPosition(view)
+                if (position == parent.adapter!!.itemCount - 1) {
+                    parent.getDecoratedBoundsWithMargins(view, bounds)
+                    draw(c, configuration, view, bounds.bottom, parent.width, rtl)
+                } else {
+                    val toTopView = if (configuration.toTop && position >= 0) {
+                        parent.findViewHolderForAdapterPosition(position + 1)?.itemView
+                    } else {
+                        null
+                    }
+                    if (toTopView != null) {
+                        parent.getDecoratedBoundsWithMargins(toTopView, bounds)
+                        draw(
+                            c,
+                            configuration,
+                            toTopView,
+                            bounds.top - divider.intrinsicHeight,
+                            parent.width,
+                            rtl
+                        )
+                    } else {
+                        parent.getDecoratedBoundsWithMargins(view, bounds)
+                        draw(
+                            c,
+                            configuration,
+                            view,
+                            bounds.bottom - divider.intrinsicHeight,
+                            parent.width,
+                            rtl
+                        )
+                    }
+                }
+            }
+        }
+    }
 
-	override fun getItemOffsets(
-		outRect: Rect,
-		view: View,
-		parent: RecyclerView,
-		state: RecyclerView.State,
-	) {
-		val configuration = view.configuration
-		val position = parent.getChildAdapterPosition(view)
-		if (position >= 0) {
-			configure(view.context, position, configuration)
-		}
-		val needDivider = position < parent.adapter!!.itemCount - 1 && configuration.needDivider
-		outRect.set(0, 0, 0, if (needDivider) divider.intrinsicHeight else 0)
-	}
+    override fun getItemOffsets(
+        outRect: Rect,
+        view: View,
+        parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        val configuration = view.configuration
+        val position = parent.getChildAdapterPosition(view)
+        if (position >= 0) {
+            configure(view.context, position, configuration)
+        }
+        val needDivider = position < parent.adapter!!.itemCount - 1 && configuration.needDivider
+        outRect.set(0, 0, 0, if (needDivider) divider.intrinsicHeight else 0)
+    }
 }

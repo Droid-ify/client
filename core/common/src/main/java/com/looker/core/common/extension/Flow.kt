@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.*
 
 context(ViewModel)
 fun <T> Flow<T>.asStateFlow(
-	initialValue: T,
-	scope: CoroutineScope = viewModelScope,
-	started: SharingStarted = SharingStarted.WhileSubscribed(5_000)
+    initialValue: T,
+    scope: CoroutineScope = viewModelScope,
+    started: SharingStarted = SharingStarted.WhileSubscribed(5_000)
 ): StateFlow<T> = stateIn(
-	scope = scope,
-	started = started,
-	initialValue = initialValue
+    scope = scope,
+    started = started,
+    initialValue = initialValue
 )
 
 context(CoroutineScope)
 @OptIn(ExperimentalCoroutinesApi::class)
 fun <T> ReceiveChannel<T>.filter(
-	block: suspend (T) -> Boolean
+    block: suspend (T) -> Boolean
 ): ReceiveChannel<T> = produce(capacity = Channel.UNLIMITED) {
-	consumeEach {  item ->
-		if (block(item)) send(item)
-	}
+    consumeEach { item ->
+        if (block(item)) send(item)
+    }
 }

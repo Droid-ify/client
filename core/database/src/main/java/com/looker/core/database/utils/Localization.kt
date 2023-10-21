@@ -12,14 +12,14 @@ internal fun localeListCompat(tag: String): LocaleListCompat = LocaleListCompat.
  * Returns null if none matches or map or [locale] is empty
  */
 fun <T> Map<String, T>?.localizedValue(locale: String): T? {
-	val localeList = localeListCompat(locale)
-	if (isNullOrEmpty() || localeList.isEmpty) return null
-	val suitableLocale = localeList.suitableLocale(keys)
-	return get(suitableLocale)
-		?: get("en_US")
-		?: get("en-US")
-		?: get("en")
-		?: values.firstOrNull()
+    val localeList = localeListCompat(locale)
+    if (isNullOrEmpty() || localeList.isEmpty) return null
+    val suitableLocale = localeList.suitableLocale(keys)
+    return get(suitableLocale)
+        ?: get("en_US")
+        ?: get("en-US")
+        ?: get("en")
+        ?: values.firstOrNull()
 }
 
 /**
@@ -29,9 +29,9 @@ fun <T> Map<String, T>?.localizedValue(locale: String): T? {
  */
 @OptIn(ExperimentalStdlibApi::class)
 internal fun LocaleListCompat.suitableLocale(keys: Set<String>): String? = (0..<size())
-	.asSequence()
-	.mapNotNull { get(it).suitableTag(keys) }
-	.firstOrNull()
+    .asSequence()
+    .mapNotNull { get(it).suitableTag(keys) }
+    .firstOrNull()
 
 /**
  * Get the suitable tag for [Locale] from [keys]
@@ -39,15 +39,15 @@ internal fun LocaleListCompat.suitableLocale(keys: Set<String>): String? = (0..<
  * Returns null if [keys] are empty or [Locale] in null
  */
 internal fun Locale?.suitableTag(keys: Set<String>): String? {
-	if (keys.isEmpty()) return null
-	val currentLocale = this ?: return null
-	val tag = currentLocale.toLanguageTag()
-	val soloTag = currentLocale.language
-	val strippedTag = tag.stripBetween("-")
+    if (keys.isEmpty()) return null
+    val currentLocale = this ?: return null
+    val tag = currentLocale.toLanguageTag()
+    val soloTag = currentLocale.language
+    val strippedTag = tag.stripBetween("-")
 
-	return if (tag in keys) tag
-	else if (strippedTag in keys) strippedTag
-	else if (soloTag in keys) soloTag
-	// try children of the language
-	else keys.find { it.startsWith(soloTag) }
+    return if (tag in keys) tag
+    else if (strippedTag in keys) strippedTag
+    else if (soloTag in keys) soloTag
+    // try children of the language
+    else keys.find { it.startsWith(soloTag) }
 }

@@ -17,66 +17,68 @@ import androidx.core.content.getSystemService
 import com.looker.core.common.R
 
 inline val Context.clipboardManager: ClipboardManager?
-	get() = getSystemService()
+    get() = getSystemService()
 
 inline val Context.connectivityManager: ConnectivityManager?
-	get() = getSystemService()
+    get() = getSystemService()
 
 inline val Context.inputManager: InputMethodManager?
-	get() = getSystemService()
+    get() = getSystemService()
 
 inline val Context.jobScheduler: JobScheduler?
-	get() = getSystemService()
+    get() = getSystemService()
 
 inline val Context.notificationManager: NotificationManager?
-	get() = getSystemService()
+    get() = getSystemService()
 
 fun Context.copyToClipboard(clip: String) {
-	clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
+    clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
 }
 
 val Context.corneredBackground: Drawable
-	get() = getDrawableCompat(R.drawable.background_border)
+    get() = getDrawableCompat(R.drawable.background_border)
 
 val Context.divider: Drawable
-	get() = getDrawableFromAttr(android.R.attr.listDivider)
+    get() = getDrawableFromAttr(android.R.attr.listDivider)
 
 val Context.homeAsUp: Drawable
-	get() = getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
+    get() = getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 
 val Context.open: Drawable
-	get() = getDrawableCompat(R.drawable.ic_launch)
+    get() = getDrawableCompat(R.drawable.ic_launch)
 
 val Context.selectableBackground: Drawable
-	get() = getDrawableFromAttr(android.R.attr.selectableItemBackground)
+    get() = getDrawableFromAttr(android.R.attr.selectableItemBackground)
 
 val Context.camera: Drawable
-	get() = getDrawableCompat(R.drawable.ic_image)
+    get() = getDrawableCompat(R.drawable.ic_image)
 
 val Context.aspectRatio: Float
-	get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
+    get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
 
 fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
 
 private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
-	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
-	val resId = try {
-		typedArray.getResourceId(0, 0)
-	} finally {
-		typedArray.recycle()
-	}
-	return getDrawableCompat(resId)
+    val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
+    val resId = try {
+        typedArray.getResourceId(0, 0)
+    } finally {
+        typedArray.recycle()
+    }
+    return getDrawableCompat(resId)
 }
 
 fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
-	AppCompatResources.getDrawable(this, resId) ?: throw IllegalStateException("Cannot find drawable, ID: $resId")
+    AppCompatResources.getDrawable(this, resId) ?: throw IllegalStateException(
+        "Cannot find drawable, ID: $resId"
+    )
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
-	val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
-	val (colorStateList, resId) = try {
-		Pair(typedArray.getColorStateList(0), typedArray.getResourceId(0, 0))
-	} finally {
-		typedArray.recycle()
-	}
-	return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
+    val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
+    val (colorStateList, resId) = try {
+        Pair(typedArray.getColorStateList(0), typedArray.getResourceId(0, 0))
+    } finally {
+        typedArray.recycle()
+    }
+    return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
 }

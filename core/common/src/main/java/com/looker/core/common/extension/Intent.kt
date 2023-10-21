@@ -8,13 +8,16 @@ import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.SdkCheck
 
 inline val intentFlagCompat
-	get() = if (SdkCheck.isSnowCake) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
-	else PendingIntent.FLAG_UPDATE_CURRENT
+    get() = if (SdkCheck.isSnowCake) {
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+    } else {
+        PendingIntent.FLAG_UPDATE_CURRENT
+    }
 
 fun Intent.toPendingIntent(context: Context): PendingIntent? =
-	TaskStackBuilder
-		.create(context)
-		.addNextIntentWithParentStack(this)
-		.getPendingIntent(0, intentFlagCompat)
+    TaskStackBuilder
+        .create(context)
+        .addNextIntentWithParentStack(this)
+        .getPendingIntent(0, intentFlagCompat)
 
 operator fun Uri?.get(key: String): String? = this?.getQueryParameter(key)

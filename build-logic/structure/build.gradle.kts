@@ -19,11 +19,16 @@ tasks.withType<KotlinCompile>().configureEach {
 dependencies {
     compileOnly(libs.android.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.kotlin.ktlint)
     compileOnly(libs.ksp.gradlePlugin)
 }
 
 gradlePlugin {
     plugins {
+        register("lintPlugin") {
+            id = "looker.lint"
+            implementationClass = "AndroidLintPlugin"
+        }
         register("hiltPlugin") {
             id = "looker.hilt"
             implementationClass = "AndroidHiltPlugin"

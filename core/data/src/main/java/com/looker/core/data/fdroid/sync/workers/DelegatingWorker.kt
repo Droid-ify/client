@@ -15,34 +15,34 @@ import kotlin.reflect.KClass
 @EntryPoint
 @InstallIn(SingletonComponent::class)
 interface HiltWorkerFactoryEntryPoint {
-	fun hiltWorkerFactory(): HiltWorkerFactory
+    fun hiltWorkerFactory(): HiltWorkerFactory
 }
 
 private const val WORKER_CLASS_NAME = "RouterWorkerDelegateClassName"
 
 internal fun KClass<out CoroutineWorker>.delegatedData() =
-	Data.Builder()
-		.putString(WORKER_CLASS_NAME, qualifiedName)
-		.build()
+    Data.Builder()
+        .putString(WORKER_CLASS_NAME, qualifiedName)
+        .build()
 
 internal class DelegatingWorker(
-	appContext: Context,
-	workerParams: WorkerParameters,
+    appContext: Context,
+    workerParams: WorkerParameters,
 ) : CoroutineWorker(appContext, workerParams) {
 
-	private val workerClassName =
-		workerParams.inputData.getString(WORKER_CLASS_NAME) ?: ""
+    private val workerClassName =
+        workerParams.inputData.getString(WORKER_CLASS_NAME) ?: ""
 
-	private val delegateWorker =
-		EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
-			.hiltWorkerFactory()
-			.createWorker(appContext, workerClassName, workerParams)
-				as? CoroutineWorker
-			?: throw IllegalArgumentException("Unable to find appropriate worker")
+    private val delegateWorker =
+        EntryPointAccessors.fromApplication<HiltWorkerFactoryEntryPoint>(appContext)
+            .hiltWorkerFactory()
+            .createWorker(appContext, workerClassName, workerParams)
+            as? CoroutineWorker
+            ?: throw IllegalArgumentException("Unable to find appropriate worker")
 
-	override suspend fun getForegroundInfo(): ForegroundInfo =
-		delegateWorker.getForegroundInfo()
+    override suspend fun getForegroundInfo(): ForegroundInfo =
+        delegateWorker.getForegroundInfo()
 
-	override suspend fun doWork(): Result =
-		delegateWorker.doWork()
+    override suspend fun doWork(): Result =
+        delegateWorker.doWork()
 }

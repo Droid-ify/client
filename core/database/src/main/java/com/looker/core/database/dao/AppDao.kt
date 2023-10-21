@@ -12,40 +12,40 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AppDao {
 
-	@Query(value = "SELECT * FROM apps")
-	fun getAppStream(): Flow<List<AppEntity>>
+    @Query(value = "SELECT * FROM apps")
+    fun getAppStream(): Flow<List<AppEntity>>
 
-	@Query(
-		value = """
+    @Query(
+        value = """
 			SELECT * FROM apps
 			WHERE authorName = :authorName
 		"""
-	)
-	fun getAppsFromAuthor(authorName: String): Flow<List<AppEntity>>
+    )
+    fun getAppsFromAuthor(authorName: String): Flow<List<AppEntity>>
 
-	@Query(value = "SELECT * FROM apps WHERE packageName = :packageName")
-	fun getApp(packageName: String): Flow<List<AppEntity>>
+    @Query(value = "SELECT * FROM apps WHERE packageName = :packageName")
+    fun getApp(packageName: String): Flow<List<AppEntity>>
 
-	@Query(
-		value = """
+    @Query(
+        value = """
 			SELECT packages FROM apps
 			WHERE packageName = :packageName
 		"""
-	)
-	fun getPackages(packageName: String): Flow<List<PackageEntity>>
+    )
+    fun getPackages(packageName: String): Flow<List<PackageEntity>>
 
-	@Insert(onConflict = OnConflictStrategy.IGNORE)
-	suspend fun insertOrIgnore(apps: List<AppEntity>)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertOrIgnore(apps: List<AppEntity>)
 
-	@Upsert
-	suspend fun upsertApps(apps: List<AppEntity>)
+    @Upsert
+    suspend fun upsertApps(apps: List<AppEntity>)
 
-	@Query(
-		value = """
+    @Query(
+        value = """
 			DELETE FROM apps
 			WHERE repoId = :repoId
 		"""
-	)
-	suspend fun deleteApps(repoId: Long)
+    )
+    suspend fun deleteApps(repoId: Long)
 
 }

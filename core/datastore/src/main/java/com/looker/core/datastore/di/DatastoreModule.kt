@@ -19,17 +19,17 @@ private const val PREFERENCES = "preferences_file"
 @InstallIn(SingletonComponent::class)
 object DatastoreModule {
 
-	@Singleton
-	@Provides
-	fun provideDatastore(
-		@ApplicationContext context: Context
-	): DataStore<Preferences> = PreferenceDataStoreFactory.create {
-		context.preferencesDataStoreFile(PREFERENCES)
-	}
+    @Singleton
+    @Provides
+    fun provideDatastore(
+        @ApplicationContext context: Context
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create {
+        context.preferencesDataStoreFile(PREFERENCES)
+    }
 
-	@Singleton
-	@Provides
-	fun provideSettingsRepository(
-		dataStore: DataStore<Preferences>
-	): SettingsRepository = SettingsRepository(dataStore)
+    @Singleton
+    @Provides
+    fun provideSettingsRepository(
+        dataStore: DataStore<Preferences>
+    ): SettingsRepository = SettingsRepository(dataStore)
 }

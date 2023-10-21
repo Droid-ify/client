@@ -7,11 +7,11 @@ import com.looker.core.common.extension.versionCodeCompat
 import com.looker.core.model.InstalledItem
 
 fun PackageInfo.toInstalledItem(): InstalledItem {
-	val signatureString = singleSignature?.calculateHash().orEmpty()
-	return InstalledItem(
-		packageName,
-		versionName.orEmpty(),
-		versionCodeCompat,
-		signatureString
-	)
+    val signatureString = singleSignature?.calculateHash().orEmpty()
+    return InstalledItem(
+        packageName,
+        versionName.orEmpty(),
+        versionCodeCompat,
+        signatureString
+    )
 }

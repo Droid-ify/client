@@ -6,10 +6,9 @@ import com.looker.installer.model.InstallState
 
 interface Installer {
 
-	suspend fun install(installItem: InstallItem): InstallState
+    suspend fun install(installItem: InstallItem): InstallState
 
-	suspend fun uninstall(packageName: PackageName)
+    suspend fun uninstall(packageName: PackageName)
 
-	fun cleanup()
-
+    fun cleanup()
 }

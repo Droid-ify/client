@@ -5,17 +5,17 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 class AndroidHiltWorkerPlugin : Plugin<Project> {
-	override fun apply(target: Project) {
-		with(target) {
-			with(pluginManager) {
-				apply("looker.hilt")
-			}
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("looker.hilt")
+            }
 
-			dependencies {
-				add("implementation", libs.getLibrary("androidx.work.ktx"))
-				add("implementation", libs.getLibrary("hilt.ext.work"))
-				add("ksp", libs.getLibrary("hilt.ext.compiler"))
-			}
-		}
-	}
+            dependencies {
+                add("implementation", libs.getLibrary("androidx.work.ktx"))
+                add("implementation", libs.getLibrary("hilt.ext.work"))
+                add("ksp", libs.getLibrary("hilt.ext.compiler"))
+            }
+        }
+    }
 }

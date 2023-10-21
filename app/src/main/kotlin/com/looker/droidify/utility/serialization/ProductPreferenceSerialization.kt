@@ -6,19 +6,19 @@ import com.looker.core.common.extension.forEachKey
 import com.looker.core.model.ProductPreference
 
 fun ProductPreference.serialize(generator: JsonGenerator) {
-	generator.writeBooleanField("ignoreUpdates", ignoreUpdates)
-	generator.writeNumberField("ignoreVersionCode", ignoreVersionCode)
+    generator.writeBooleanField("ignoreUpdates", ignoreUpdates)
+    generator.writeNumberField("ignoreVersionCode", ignoreVersionCode)
 }
 
 fun JsonParser.productPreference(): ProductPreference {
-	var ignoreUpdates = false
-	var ignoreVersionCode = 0L
-	forEachKey {
-		when {
-			it.boolean("ignoreUpdates") -> ignoreUpdates = valueAsBoolean
-			it.number("ignoreVersionCode") -> ignoreVersionCode = valueAsLong
-			else -> skipChildren()
-		}
-	}
-	return ProductPreference(ignoreUpdates, ignoreVersionCode)
+    var ignoreUpdates = false
+    var ignoreVersionCode = 0L
+    forEachKey {
+        when {
+            it.boolean("ignoreUpdates") -> ignoreUpdates = valueAsBoolean
+            it.number("ignoreVersionCode") -> ignoreVersionCode = valueAsLong
+            else -> skipChildren()
+        }
+    }
+    return ProductPreference(ignoreUpdates, ignoreVersionCode)
 }
