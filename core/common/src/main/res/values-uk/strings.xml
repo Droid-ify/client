@@ -60,7 +60,7 @@
     <string name="launch">Запустити</string>
     <string name="license">Ліцензія</string>
     <string name="license_FORMAT">Ліцензія %s</string>
-    <string name="link_copied_to_clipboard">Посилання скопійоване у буфер обміну</string>
+    <string name="link_copied_to_clipboard">Посилання скопійовано</string>
     <string name="links">Посилання</string>
     <string name="list_animation">Анімація Списків</string>
     <string name="list_animation_description">Показувати анімацію списку на головній сторінці</string>
