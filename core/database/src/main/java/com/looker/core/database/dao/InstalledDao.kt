@@ -7,13 +7,13 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface InstalledDao {
 
-	@Query("SELECT * FROM installedentity")
-	fun getInstalledStream(): Flow<List<InstalledEntity>>
+    @Query("SELECT * FROM installedentity")
+    fun getInstalledStream(): Flow<List<InstalledEntity>>
 
-	@Upsert
-	suspend fun upsertInstalled(installedEntity: InstalledEntity)
+    @Upsert
+    suspend fun upsertInstalled(installedEntity: InstalledEntity)
 
-	@Delete
-	suspend fun deleteInstalled(installedEntity: InstalledEntity)
+    @Delete
+    suspend fun deleteInstalled(installedEntity: InstalledEntity)
 
 }

@@ -15,20 +15,20 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object InstallModule {
 
-	@Singleton
-	@Provides
-	fun providesInstaller(
-		@ApplicationContext context: Context,
-		settingsRepository: SettingsRepository
-	): InstallManager = InstallManager(context, settingsRepository)
+    @Singleton
+    @Provides
+    fun providesInstaller(
+        @ApplicationContext context: Context,
+        settingsRepository: SettingsRepository
+    ): InstallManager = InstallManager(context, settingsRepository)
 
-	@Singleton
-	@Provides
-	fun provideShizukuPermissionHandler(
-		@ApplicationContext context: Context
-	): ShizukuPermissionHandler = ShizukuPermissionHandler(context)
+    @Singleton
+    @Provides
+    fun provideShizukuPermissionHandler(
+        @ApplicationContext context: Context
+    ): ShizukuPermissionHandler = ShizukuPermissionHandler(context)
 
-	@Singleton
-	@Provides
-	fun provideRootPermissionHandler(): RootPermissionHandler = RootPermissionHandler()
+    @Singleton
+    @Provides
+    fun provideRootPermissionHandler(): RootPermissionHandler = RootPermissionHandler()
 }

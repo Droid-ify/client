@@ -9,21 +9,21 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RepoDao {
 
-	@Query(value = "SELECT * FROM repos")
-	fun getRepoStream(): Flow<List<RepoEntity>>
+    @Query(value = "SELECT * FROM repos")
+    fun getRepoStream(): Flow<List<RepoEntity>>
 
-	@Query(value = "SELECT * FROM repos WHERE id = :id")
-	suspend fun getRepoById(id: Long): RepoEntity
+    @Query(value = "SELECT * FROM repos WHERE id = :id")
+    suspend fun getRepoById(id: Long): RepoEntity
 
-	@Upsert
-	suspend fun upsertRepo(repoEntity: RepoEntity)
+    @Upsert
+    suspend fun upsertRepo(repoEntity: RepoEntity)
 
-	@Query(
-		value = """
+    @Query(
+        value = """
 			DELETE FROM repos
 			WHERE id = :id
 		"""
-	)
-	suspend fun deleteRepo(id: Long)
+    )
+    suspend fun deleteRepo(id: Long)
 
 }

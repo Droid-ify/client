@@ -15,40 +15,40 @@ import javax.inject.Inject
 
 class ConnectivityManagerNetworkMonitor
 @Inject constructor(
-	@ApplicationContext context: Context
+    @ApplicationContext context: Context
 ) : NetworkMonitor {
-	override val isOnline: Flow<Boolean> = callbackFlow {
-		val callback = object : ConnectivityManager.NetworkCallback() {
-			override fun onAvailable(network: Network) {
-				channel.trySend(true)
-			}
+    override val isOnline: Flow<Boolean> = callbackFlow {
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                channel.trySend(true)
+            }
 
-			override fun onLost(network: Network) {
-				channel.trySend(false)
-			}
-		}
+            override fun onLost(network: Network) {
+                channel.trySend(false)
+            }
+        }
 
-		val connectivityManager = context.connectivityManager
+        val connectivityManager = context.connectivityManager
 
-		connectivityManager?.registerNetworkCallback(
-			NetworkRequest.Builder()
-				.addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-				.build(),
-			callback
-		)
+        connectivityManager?.registerNetworkCallback(
+            NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                .build(),
+            callback
+        )
 
-		channel.trySend(connectivityManager.isCurrentlyConnected())
+        channel.trySend(connectivityManager.isCurrentlyConnected())
 
-		awaitClose {
-			connectivityManager?.unregisterNetworkCallback(callback)
-		}
-	}.conflate()
+        awaitClose {
+            connectivityManager?.unregisterNetworkCallback(callback)
+        }
+    }.conflate()
 
-	private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
-		null -> false
-		else -> activeNetwork
-			?.let(::getNetworkCapabilities)
-			?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-			?: false
-	}
+    private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
+        null -> false
+        else -> activeNetwork
+            ?.let(::getNetworkCapabilities)
+            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            ?: false
+    }
 }

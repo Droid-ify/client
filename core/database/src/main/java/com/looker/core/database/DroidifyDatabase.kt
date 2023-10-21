@@ -11,25 +11,25 @@ import com.looker.core.database.model.InstalledEntity
 import com.looker.core.database.model.RepoEntity
 
 @Database(
-	version = 1,
-	entities = [
-		AppEntity::class,
-		RepoEntity::class,
-		InstalledEntity::class
-	]
+    version = 1,
+    entities = [
+        AppEntity::class,
+        RepoEntity::class,
+        InstalledEntity::class
+    ]
 )
 @TypeConverters(
-	CollectionConverter::class,
-	LocalizedConverter::class,
-	PackageEntityConverter::class,
-	RepoConverter::class
+    CollectionConverter::class,
+    LocalizedConverter::class,
+    PackageEntityConverter::class,
+    RepoConverter::class
 )
 abstract class DroidifyDatabase : RoomDatabase() {
 
-	abstract fun appDao(): AppDao
+    abstract fun appDao(): AppDao
 
-	abstract fun repoDao(): RepoDao
+    abstract fun repoDao(): RepoDao
 
-	abstract fun installedDao(): InstalledDao
+    abstract fun installedDao(): InstalledDao
 
 }

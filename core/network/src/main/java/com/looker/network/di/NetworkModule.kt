@@ -12,8 +12,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkMap {
 
-	@Singleton
-	@Provides
-	fun provideDownloader(): Downloader = KtorDownloader()
-
+    @Singleton
+    @Provides
+    fun provideDownloader(): Downloader = KtorDownloader()
 }

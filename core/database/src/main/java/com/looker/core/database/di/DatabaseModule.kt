@@ -14,14 +14,14 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-	@Provides
-	@Singleton
-	fun provideDroidifyDatabase(
-		@ApplicationContext context: Context
-	): DroidifyDatabase = Room.databaseBuilder(
-		context,
-		DroidifyDatabase::class.java,
-		"droidify-database"
-	).createFromAsset("repo.db").build()
+    @Provides
+    @Singleton
+    fun provideDroidifyDatabase(
+        @ApplicationContext context: Context
+    ): DroidifyDatabase = Room.databaseBuilder(
+        context,
+        DroidifyDatabase::class.java,
+        "droidify-database"
+    ).createFromAsset("repo.db").build()
 
 }

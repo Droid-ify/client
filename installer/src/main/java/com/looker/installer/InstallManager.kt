@@ -3,7 +3,10 @@ package com.looker.installer
 import android.content.Context
 import com.looker.core.common.Constants
 import com.looker.core.common.PackageName
-import com.looker.core.common.extension.*
+import com.looker.core.common.extension.addAndCompute
+import com.looker.core.common.extension.filter
+import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.installers.Installer
@@ -26,94 +29,94 @@ import kotlinx.coroutines.sync.withLock
 
 // TODO: Fix the stuck state
 class InstallManager(
-	private val context: Context,
-	settingsRepository: SettingsRepository
+    private val context: Context,
+    settingsRepository: SettingsRepository
 ) {
 
-	private val installItems = Channel<InstallItem>()
-	private val uninstallItems = Channel<PackageName>()
+    private val installItems = Channel<InstallItem>()
+    private val uninstallItems = Channel<PackageName>()
 
-	val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
+    val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
 
-	private var _installer: Installer? = null
-		set(value) {
-			field?.cleanup()
-			field = value
-		}
-	private val installer: Installer get() = _installer!!
+    private var _installer: Installer? = null
+        set(value) {
+            field?.cleanup()
+            field = value
+        }
+    private val installer: Installer get() = _installer!!
 
-	private val lock = Mutex()
-	private val installerPreference = settingsRepository.get { installerType }
+    private val lock = Mutex()
+    private val installerPreference = settingsRepository.get { installerType }
 
-	suspend operator fun invoke() = coroutineScope {
-		setupInstaller()
-		installer()
-		uninstaller()
-	}
+    suspend operator fun invoke() = coroutineScope {
+        setupInstaller()
+        installer()
+        uninstaller()
+    }
 
-	fun close() {
-		_installer = null
-		uninstallItems.close()
-		installItems.close()
-	}
+    fun close() {
+        _installer = null
+        uninstallItems.close()
+        installItems.close()
+    }
 
-	suspend infix fun install(installItem: InstallItem) {
-		installItems.send(installItem)
-	}
+    suspend infix fun install(installItem: InstallItem) {
+        installItems.send(installItem)
+    }
 
-	suspend infix fun uninstall(packageName: PackageName) {
-		uninstallItems.send(packageName)
-	}
+    suspend infix fun uninstall(packageName: PackageName) {
+        uninstallItems.send(packageName)
+    }
 
-	infix fun remove(packageName: PackageName) {
-		updateState { remove(packageName) }
-	}
+    infix fun remove(packageName: PackageName) {
+        updateState { remove(packageName) }
+    }
 
-	private fun CoroutineScope.setupInstaller() = launch {
-		installerPreference.collectLatest(::setInstaller)
-	}
+    private fun CoroutineScope.setupInstaller() = launch {
+        installerPreference.collectLatest(::setInstaller)
+    }
 
-	private fun CoroutineScope.installer() = launch {
-		val currentQueue = mutableSetOf<String>()
-		installItems.filter { item ->
-			currentQueue.addAndCompute(item.packageName.name) { isAdded ->
-				if (isAdded) {
-					updateState { put(item.packageName, InstallState.Pending) }
-				}
-			}
-		}.consumeEach { item ->
-			currentQueue.remove(item.packageName.name)
-			if (state.value.containsKey(item.packageName)) {
-				updateState { put(item.packageName, InstallState.Installing) }
-				val success = installer.install(item)
-				installer.cleanup()
-				updateState { put(item.packageName, success) }
-				context.notificationManager?.cancel(
-					"download-${item.packageName.name}",
-					Constants.NOTIFICATION_ID_DOWNLOADING
-				)
-			}
-		}
-	}
+    private fun CoroutineScope.installer() = launch {
+        val currentQueue = mutableSetOf<String>()
+        installItems.filter { item ->
+            currentQueue.addAndCompute(item.packageName.name) { isAdded ->
+                if (isAdded) {
+                    updateState { put(item.packageName, InstallState.Pending) }
+                }
+            }
+        }.consumeEach { item ->
+            currentQueue.remove(item.packageName.name)
+            if (state.value.containsKey(item.packageName)) {
+                updateState { put(item.packageName, InstallState.Installing) }
+                val success = installer.install(item)
+                installer.cleanup()
+                updateState { put(item.packageName, success) }
+                context.notificationManager?.cancel(
+                    "download-${item.packageName.name}",
+                    Constants.NOTIFICATION_ID_DOWNLOADING
+                )
+            }
+        }
+    }
 
-	private fun CoroutineScope.uninstaller() = launch {
-		uninstallItems.consumeEach {
-			installer.uninstall(it)
-		}
-	}
+    private fun CoroutineScope.uninstaller() = launch {
+        uninstallItems.consumeEach {
+            installer.uninstall(it)
+        }
+    }
 
-	private suspend fun setInstaller(installerType: InstallerType) {
-		lock.withLock {
-			_installer = when (installerType) {
-				InstallerType.LEGACY -> LegacyInstaller(context)
-				InstallerType.SESSION -> SessionInstaller(context)
-				InstallerType.SHIZUKU -> ShizukuInstaller(context)
-				InstallerType.ROOT -> RootInstaller(context)
-			}
-		}
-	}
+    private suspend fun setInstaller(installerType: InstallerType) {
+        lock.withLock {
+            _installer = when (installerType) {
+                InstallerType.LEGACY -> LegacyInstaller(context)
+                InstallerType.SESSION -> SessionInstaller(context)
+                InstallerType.SHIZUKU -> ShizukuInstaller(context)
+                InstallerType.ROOT -> RootInstaller(context)
+            }
+        }
+    }
 
-	private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
-		state.update { it.updateAsMutable(block) }
-	}
+    private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
+        state.update { it.updateAsMutable(block) }
+    }
 }

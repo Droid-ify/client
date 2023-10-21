@@ -6,17 +6,17 @@ import android.view.View
 import kotlin.math.roundToInt
 
 infix fun Long.percentBy(denominator: Long?): Int {
-	if (denominator == null || denominator < 1) return -1
-	return (this * 100 / denominator).toInt()
+    if (denominator == null || denominator < 1) return -1
+    return (this * 100 / denominator).toInt()
 }
 
 val Number.px
-	get() = TypedValue.applyDimension(
-		TypedValue.COMPLEX_UNIT_DIP,
-		this.toFloat(),
-		Resources.getSystem().displayMetrics
-	)
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        this.toFloat(),
+        Resources.getSystem().displayMetrics
+    )
 
 context(View)
 val Int.dp: Int
-	get() = (this * resources.displayMetrics.density).roundToInt()
+    get() = (this * resources.displayMetrics.density).roundToInt()

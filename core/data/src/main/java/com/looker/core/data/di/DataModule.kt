@@ -15,18 +15,18 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface DataModule {
 
-	@Binds
-	fun bindsAppRepository(
-		appRepository: OfflineFirstAppRepository
-	): AppRepository
+    @Binds
+    fun bindsAppRepository(
+        appRepository: OfflineFirstAppRepository
+    ): AppRepository
 
-	@Binds
-	fun bindsRepoRepository(
-		repoRepository: OfflineFirstRepoRepository
-	): RepoRepository
+    @Binds
+    fun bindsRepoRepository(
+        repoRepository: OfflineFirstRepoRepository
+    ): RepoRepository
 
-	@Binds
-	fun bindIndexDownloader(
-		indexDownloader: IndexDownloaderImpl
-	): IndexDownloader
+    @Binds
+    fun bindIndexDownloader(
+        indexDownloader: IndexDownloaderImpl
+    ): IndexDownloader
 }

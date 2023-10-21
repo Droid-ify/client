@@ -14,22 +14,22 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DaoModule {
 
-	@Provides
-	@Singleton
-	fun provideRepoDao(
-		database: DroidifyDatabase
-	): RepoDao = database.repoDao()
+    @Provides
+    @Singleton
+    fun provideRepoDao(
+        database: DroidifyDatabase
+    ): RepoDao = database.repoDao()
 
-	@Provides
-	@Singleton
-	fun provideAppDao(
-		database: DroidifyDatabase
-	): AppDao = database.appDao()
+    @Provides
+    @Singleton
+    fun provideAppDao(
+        database: DroidifyDatabase
+    ): AppDao = database.appDao()
 
-	@Provides
-	@Singleton
-	fun provideInstalledDao(
-		database: DroidifyDatabase
-	): InstalledDao = database.installedDao()
+    @Provides
+    @Singleton
+    fun provideInstalledDao(
+        database: DroidifyDatabase
+    ): InstalledDao = database.installedDao()
 
 }

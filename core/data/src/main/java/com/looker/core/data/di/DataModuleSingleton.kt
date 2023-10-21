@@ -12,12 +12,12 @@ import org.fdroid.index.IndexConverter
 @InstallIn(SingletonComponent::class)
 object DataModuleSingleton {
 
-	@Provides
-	fun provideIndexManager(
-		downloader: IndexDownloader
-	): IndexManager = IndexManager(
-		indexDownloader = downloader,
-		converter = IndexConverter()
-	)
+    @Provides
+    fun provideIndexManager(
+        downloader: IndexDownloader
+    ): IndexManager = IndexManager(
+        indexDownloader = downloader,
+        converter = IndexConverter()
+    )
 
 }
