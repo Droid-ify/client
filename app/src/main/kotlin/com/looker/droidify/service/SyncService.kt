@@ -35,7 +35,6 @@ import com.looker.droidify.utility.extension.startUpdate
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import kotlin.math.roundToInt
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 
@@ -60,8 +59,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         data class Syncing(
             val name: String,
             val stage: RepositoryUpdater.Stage,
-            val read: Long,
-            val total: Long?
+            val read: DataSize,
+            val total: DataSize?
         ) : State
 
         data object Finishing : State
@@ -137,13 +136,17 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         fun setEnabled(repository: Repository, enabled: Boolean): Boolean {
             Database.RepositoryAdapter.put(repository.enable(enabled))
             if (enabled) {
-                if (repository.id != currentTask?.task?.repositoryId && !tasks.any { it.repositoryId == repository.id }) {
+                val isRepoInTasks = repository.id != currentTask?.task?.repositoryId &&
+                    !tasks.any { it.repositoryId == repository.id }
+                if (isRepoInTasks) {
                     tasks += Task(repository.id, true)
                     handleNextTask(false)
                 }
             } else {
                 cancelTasks { it.repositoryId == repository.id }
-                val cancelledTask = cancelCurrentTask { it.task?.repositoryId == repository.id }
+                val cancelledTask = cancelCurrentTask {
+                    it.task?.repositoryId == repository.id
+                }
                 handleNextTask(cancelledTask?.hasUpdates == true)
             }
             return true
@@ -192,7 +195,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             notificationManager?.createNotificationChannels(channels)
         }
         downloadConnection.bind(this)
-        mutableStateSubject.onEach { publishForegroundState(false, it) }.launchIn(lifecycleScope)
+        mutableStateSubject.onEach {
+            publishForegroundState(false, it)
+        }.launchIn(lifecycleScope)
     }
 
     override fun onDestroy() {
@@ -229,6 +234,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private fun showNotificationError(repository: Repository, exception: Exception) {
+        val description = getString(
+            when (exception) {
+                is RepositoryUpdater.UpdateException -> when (exception.errorType) {
+                    RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
+                    RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
+                    RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
+                    RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
+                }
+
+                else -> stringRes.unknown_error_DESC
+            }
+        )
         notificationManager?.notify(
             "repository-${repository.id}",
             Constants.NOTIFICATION_ID_SYNCING,
@@ -240,20 +257,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                         .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
                 )
                 .setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
-                .setContentText(
-                    getString(
-                        when (exception) {
-                            is RepositoryUpdater.UpdateException -> when (exception.errorType) {
-                                RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
-                                RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
-                                RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
-                                RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
-                            }
-
-                            else -> stringRes.unknown_error_DESC
-                        }
-                    )
-                )
+                .setContentText(description)
                 .build()
         )
     }
@@ -297,24 +301,23 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 when (state.stage) {
                                     RepositoryUpdater.Stage.DOWNLOAD -> {
                                         if (state.total != null) {
-                                            setContentText(
-                                                "${state.read.formatSize()} / ${state.total.formatSize()}"
-                                            )
+                                            setContentText("${state.read} / ${state.total}")
                                             setProgress(
                                                 100,
-                                                (100f * state.read / state.total).roundToInt(),
+                                                state.read percentBy state.total,
                                                 false
                                             )
                                         } else {
-                                            setContentText(state.read.formatSize())
+                                            setContentText(state.read.toString())
                                             setProgress(0, 0, true)
                                         }
                                     }
 
                                     RepositoryUpdater.Stage.PROCESS -> {
-                                        val progress =
-                                            state.total?.let { 100f * state.read / it }
-                                                ?.roundToInt()
+                                        val progress = (state.read percentBy state.total)
+                                            .takeIf {
+                                                it != -1
+                                            }
                                         setContentText(
                                             getString(
                                                 stringRes.processing_FORMAT,
@@ -325,12 +328,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                     }
 
                                     RepositoryUpdater.Stage.MERGE -> {
-                                        val progress = (
-                                            100f * state.read / (
-                                                state.total
-                                                    ?: state.read
-                                                )
-                                            ).roundToInt()
+                                        val progress = (state.read percentBy state.total)
                                         setContentText(
                                             getString(
                                                 stringRes.merging_FORMAT,
@@ -371,7 +369,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 if (repository != null && repository.enabled) {
                     val lastStarted = started
                     val newStarted =
-                        if (task.manual || lastStarted == Started.MANUAL) Started.MANUAL else Started.AUTO
+                        if (task.manual || lastStarted == Started.MANUAL) {
+                            Started.MANUAL
+                        } else {
+                            Started.AUTO
+                        }
                     started = newStarted
                     if (newStarted == Started.MANUAL && lastStarted != Started.MANUAL) {
                         startSelf()
@@ -449,8 +451,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                         State.Syncing(
                             repository.name,
                             stage,
-                            progress,
-                            total
+                            DataSize(progress),
+                            total?.let { DataSize(it) }
                         )
                     )
                 }

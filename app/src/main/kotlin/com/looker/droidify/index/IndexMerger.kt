@@ -24,7 +24,10 @@ class IndexMerger(file: File) : Closeable {
         db.execWithResult("PRAGMA synchronous = OFF")
         db.execWithResult("PRAGMA journal_mode = OFF")
         db.execSQL(
-            "CREATE TABLE product (package_name TEXT PRIMARY KEY, description TEXT NOT NULL, data BLOB NOT NULL)"
+            "CREATE TABLE product (" +
+                "package_name TEXT PRIMARY KEY," +
+                "description TEXT NOT NULL, " +
+                "data BLOB NOT NULL)"
         )
         db.execSQL("CREATE TABLE releases (package_name TEXT PRIMARY KEY, data BLOB NOT NULL)")
         db.beginTransaction()

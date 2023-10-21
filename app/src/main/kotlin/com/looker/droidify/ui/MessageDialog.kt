@@ -157,7 +157,9 @@ class MessageDialog() : DialogFragment() {
             is Message.DeleteRepositoryConfirm -> {
                 dialog.setTitle(stringRes.confirmation)
                 dialog.setMessage(stringRes.delete_repository_DESC)
-                dialog.setPositiveButton(stringRes.delete) { _, _ -> (parentFragment as RepositoryFragment).onDeleteConfirm() }
+                dialog.setPositiveButton(stringRes.delete) { _, _ ->
+                    (parentFragment as RepositoryFragment).onDeleteConfirm()
+                }
                 dialog.setNegativeButton(stringRes.cancel, null)
             }
 

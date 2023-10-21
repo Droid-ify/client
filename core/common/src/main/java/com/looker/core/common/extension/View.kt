@@ -30,8 +30,8 @@ val RecyclerView.firstItemPosition: Flow<Int>
     get() = callbackFlow {
         val listener = object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val position =
-                    (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                val position = (recyclerView.layoutManager as LinearLayoutManager)
+                    .findFirstVisibleItemPosition()
                 trySend(position)
             }
         }

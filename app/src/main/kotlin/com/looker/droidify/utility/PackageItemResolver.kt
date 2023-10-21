@@ -141,7 +141,8 @@ object PackageItemResolver {
                 -> Manifest.permission_group.PHONE
 
                 Manifest.permission.RECORD_AUDIO -> Manifest.permission_group.MICROPHONE
-                Manifest.permission.ACTIVITY_RECOGNITION -> Manifest.permission_group.ACTIVITY_RECOGNITION
+                Manifest.permission.ACTIVITY_RECOGNITION ->
+                    Manifest.permission_group.ACTIVITY_RECOGNITION
                 Manifest.permission.CAMERA -> Manifest.permission_group.CAMERA
                 Manifest.permission.BODY_SENSORS -> Manifest.permission_group.SENSORS
                 else -> null

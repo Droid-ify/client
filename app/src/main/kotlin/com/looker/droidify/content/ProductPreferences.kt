@@ -70,7 +70,9 @@ object ProductPreferences {
                     .use { it.writeDictionary(productPreference::serialize) }
             }.toByteArray().toString(Charset.defaultCharset())
         ).apply()
-        if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates || oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode) {
+        if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates ||
+            oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode
+        ) {
             mutableSubject.tryEmit(Pair(packageName, productPreference.databaseVersionCode))
         }
     }

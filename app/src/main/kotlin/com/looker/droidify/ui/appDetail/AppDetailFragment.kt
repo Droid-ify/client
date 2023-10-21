@@ -278,7 +278,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun updateToolbarButtons(
-        isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0
+        isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager)
+            .findFirstVisibleItemPosition() == 0
     ) {
         toolbar.title = if (isActionVisible) {
             getString(stringRes.application)
@@ -391,8 +392,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 val repo = products[0].second
                 val address = when {
                     repo.name == "F-Droid" -> "https://www.f-droid.org/packages/$packageName/"
-                    "IzzyOnDroid" in repo.name -> "https://apt.izzysoft.de/fdroid/index/apk/$packageName"
-                    else -> "https://droidify.eu.org/app/?id=$packageName&repo_address=${repo.address}"
+                    "IzzyOnDroid" in repo.name -> {
+                        "https://apt.izzysoft.de/fdroid/index/apk/$packageName"
+                    }
+                    else -> {
+                        "https://droidify.eu.org/app/?id=$packageName&repo_address=${repo.address}"
+                    }
                 }
                 val sendIntent = Intent(Intent.ACTION_SEND)
                     .putExtra(Intent.EXTRA_TEXT, address)

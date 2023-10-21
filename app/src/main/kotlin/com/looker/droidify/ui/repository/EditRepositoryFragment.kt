@@ -81,7 +81,11 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     private val repositoryAddress: String?
         get() = requireArguments().let {
-            if (it.containsKey(EXTRA_REPOSITORY_ADDRESS)) it.getString(EXTRA_REPOSITORY_ADDRESS) else null
+            if (it.containsKey(EXTRA_REPOSITORY_ADDRESS)) {
+                it.getString(EXTRA_REPOSITORY_ADDRESS)
+            } else {
+                null
+            }
         }
 
     private var saveMenuItem: MenuItem? = null
@@ -151,9 +155,11 @@ class EditRepositoryFragment() : ScreenFragment() {
             }
 
             val inputString = text.toString()
-            val outputString =
-                inputString.uppercase(Locale.US).filter(validChar).windowed(2, 2, true).take(32)
-                    .joinToString(separator = " ")
+            val outputString = inputString
+                .uppercase(Locale.US)
+                .filter(validChar)
+                .windowed(2, 2, true).take(32)
+                .joinToString(separator = " ")
             if (inputString != outputString) {
                 val inputStart = logicalPosition(inputString, Selection.getSelectionStart(text))
                 val inputEnd = logicalPosition(inputString, Selection.getSelectionEnd(text))
@@ -246,7 +252,8 @@ class EditRepositoryFragment() : ScreenFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             val list = Database.RepositoryAdapter.getAll()
             takenAddresses = list.asSequence().filter { it.id != repositoryId }
-                .flatMap { (it.mirrors + it.address).asSequence() }.map { it.withoutKnownPath }
+                .flatMap { (it.mirrors + it.address).asSequence() }
+                .map { it.withoutKnownPath }
                 .toSet()
             invalidateAddress()
         }

@@ -166,9 +166,20 @@ object IndexV1Parser {
                                 else -> skipChildren()
                             }
                         }
-                        val realMirrors =
-                            ((if (address.isNotEmpty()) listOf(address) else emptyList()) + mirrors).distinct()
-                        callback.onRepository(realMirrors, name, description, version, timestamp)
+                        val realMirrors = (
+                            if (address.isNotEmpty()) {
+                                listOf(address)
+                            } else {
+                                emptyList()
+                            }
+                            ) + mirrors
+                        callback.onRepository(
+                            mirrors = realMirrors.distinct(),
+                            name = name,
+                            description = description,
+                            version = version,
+                            timestamp = timestamp
+                        )
                     }
 
                     it.array("apps") -> forEach(JsonToken.START_OBJECT) {
@@ -450,7 +461,12 @@ object IndexV1Parser {
             if (firstToken != JsonToken.END_ARRAY) {
                 val secondToken = nextToken()
                 val maxSdk = if (secondToken == JsonToken.VALUE_NUMBER_INT) valueAsInt else 0
-                if (permission.isNotEmpty() && SdkCheck.sdk >= minSdk && (maxSdk <= 0 || SdkCheck.sdk <= maxSdk)) {
+                if (permission.isNotEmpty() &&
+                    SdkCheck.sdk >= minSdk && (
+                        maxSdk <= 0 ||
+                            SdkCheck.sdk <= maxSdk
+                        )
+                ) {
                     permissions.add(permission)
                 }
                 if (secondToken != JsonToken.END_ARRAY) {

@@ -335,7 +335,8 @@ object RepositoryUpdater {
                 if (workRepository.timestamp < repository.timestamp) {
                     throw UpdateException(
                         ErrorType.VALIDATION,
-                        "New index is older than current index: ${workRepository.timestamp} < ${repository.timestamp}"
+                        "New index is older than current index:" +
+                            " ${workRepository.timestamp} < ${repository.timestamp}"
                     )
                 }
 
@@ -441,7 +442,8 @@ object RepositoryUpdater {
                 release.copy(
                     incompatibilities = incompatibilities,
                     selected = firstSelected?.let {
-                        it.first.versionCode == release.versionCode && it.second == incompatibilities
+                        it.first.versionCode == release.versionCode &&
+                            it.second == incompatibilities
                     } ?: false
                 )
             }

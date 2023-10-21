@@ -293,7 +293,9 @@ abstract class ScreenActivity : AppCompatActivity() {
                 when (val deeplink = intent.deeplinkType) {
                     is DeeplinkType.AppDetail -> {
                         val fragment = currentFragment
-                        if (fragment !is AppDetailFragment || fragment.packageName != deeplink.packageName) {
+                        if (fragment !is AppDetailFragment ||
+                            fragment.packageName != deeplink.packageName
+                        ) {
                             navigateProduct(deeplink.packageName, deeplink.repoAddress)
                         }
                     }

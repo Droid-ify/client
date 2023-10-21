@@ -473,7 +473,8 @@ object Database {
             return db.query(
                 Schema.Repository.name,
                 selection = Pair(
-                    "${Schema.Repository.ROW_ENABLED} != 0 AND ${Schema.Repository.ROW_DELETED} == 0",
+                    "${Schema.Repository.ROW_ENABLED} != 0 AND " +
+                        "${Schema.Repository.ROW_DELETED} == 0",
                     emptyArray()
                 ),
                 signal = null
@@ -498,7 +499,8 @@ object Database {
                 Schema.Repository.name,
                 columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
                 selection = Pair(
-                    "${Schema.Repository.ROW_ENABLED} == 0 OR ${Schema.Repository.ROW_DELETED} != 0",
+                    "${Schema.Repository.ROW_ENABLED} == 0 OR " +
+                        "${Schema.Repository.ROW_DELETED} != 0",
                     emptyArray()
                 ),
                 signal = null
@@ -930,10 +932,12 @@ object Database {
                         arrayOf(repository.id.toString())
                     )
                     db.execSQL(
-                        "INSERT INTO ${Schema.Product.name} SELECT * FROM ${Schema.Product.temporaryName}"
+                        "INSERT INTO ${Schema.Product.name} SELECT * " +
+                            "FROM ${Schema.Product.temporaryName}"
                     )
                     db.execSQL(
-                        "INSERT INTO ${Schema.Category.name} SELECT * FROM ${Schema.Category.temporaryName}"
+                        "INSERT INTO ${Schema.Category.name} SELECT * " +
+                            "FROM ${Schema.Category.temporaryName}"
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")

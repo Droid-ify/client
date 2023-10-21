@@ -29,7 +29,9 @@ class ReleaseFileValidator(
         }
         val packageInfo = context.packageManager.getPackageArchiveInfoCompat(file.path)
             ?: throw ValidationException(getString(strings.file_format_error_DESC))
-        if (packageInfo.packageName != packageName || packageInfo.versionCodeCompat != release.versionCode) {
+        if (packageInfo.packageName != packageName ||
+            packageInfo.versionCodeCompat != release.versionCode
+        ) {
             throw ValidationException(getString(strings.invalid_metadata_error_DESC))
         }
 

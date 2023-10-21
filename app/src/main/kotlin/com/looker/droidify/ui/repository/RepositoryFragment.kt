@@ -118,7 +118,9 @@ class RepositoryFragment() : ScreenFragment() {
                             SpannableStringBuilder(getString(stringRes.repository_unsigned_DESC))
                         builder.setSpan(
                             ForegroundColorSpan(
-                                requireContext().getColorFromAttr(MaterialR.attr.colorError).defaultColor
+                                requireContext()
+                                    .getColorFromAttr(MaterialR.attr.colorError)
+                                    .defaultColor
                             ),
                             0,
                             builder.length,
