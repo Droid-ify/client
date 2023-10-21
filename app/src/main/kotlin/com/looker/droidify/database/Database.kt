@@ -10,8 +10,10 @@ import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.*
+import com.looker.core.common.log
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.model.*
+import com.looker.droidify.BuildConfig
 import com.looker.droidify.utility.serialization.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
@@ -27,10 +29,8 @@ object Database {
 			for (repository in Repository.defaultRepositories) {
 				RepositoryAdapter.put(repository)
 			}
-		} else if (Repository.newlyAdded.isNotEmpty()) {
-			Repository.newlyAdded.forEach { RepositoryAdapter.put(it) }
-			Repository.newlyAdded.clear()
 		}
+		RepositoryAdapter.removeDuplicates()
 		return helper.created || helper.updated
 	}
 
@@ -178,6 +178,7 @@ object Database {
 
 		private fun onVersionChange(db: SQLiteDatabase) {
 			handleTables(db, true, Schema.Product, Schema.Category)
+			addRepos(db, Repository.newlyAdded)
 			this.updated = true
 		}
 
@@ -218,6 +219,18 @@ object Database {
 				db.execSQL("VACUUM")
 			}
 			true
+		}
+	}
+
+	private fun addRepos(db: SQLiteDatabase, repos: List<Repository>) {
+		if (BuildConfig.DEBUG) {
+			log("Add Repos: $repos", "RepositoryAdapter")
+		}
+		if (repos.isEmpty()) return
+		db.transaction {
+			repos.forEach {
+				RepositoryAdapter.put(it)
+			}
 		}
 	}
 
@@ -368,6 +381,17 @@ object Database {
 			val id = if (shouldReplace) repository.id else newId
 			notifyChanged(Subject.Repositories, Subject.Repository(id), Subject.Products)
 			return if (newId != repository.id) repository.copy(id = newId) else repository
+		}
+
+		fun removeDuplicates() {
+			db.transaction {
+				val all = getAll()
+				val different = all.distinctBy { it.address }
+				val duplicates = all - different.toSet()
+				duplicates.forEach {
+					markAsDeleted(it.id)
+				}
+			}
 		}
 
 		fun get(id: Long): Repository? {

@@ -6,7 +6,6 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toFormattedString
-import com.looker.core.common.log
 import com.looker.core.common.result.Result
 import com.looker.core.model.Product
 import com.looker.core.model.Release
