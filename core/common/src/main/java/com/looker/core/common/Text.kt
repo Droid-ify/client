@@ -17,9 +17,9 @@ fun <T : CharSequence> T.nullIfEmpty(): T? {
 fun String.stripBetween(prefix: String, suffix: String = prefix): String {
     val prefixIndex = indexOf(prefix)
     val suffixIndex = lastIndexOf(suffix)
-    val isRangeValid = prefixIndex != -1
-        && suffixIndex != -1
-        && prefixIndex != suffixIndex
+    val isRangeValid = prefixIndex != -1 &&
+        suffixIndex != -1 &&
+        prefixIndex != suffixIndex
     return if (isRangeValid) {
         substring(0, prefixIndex + 1) + substring(suffixIndex + 1)
     } else {

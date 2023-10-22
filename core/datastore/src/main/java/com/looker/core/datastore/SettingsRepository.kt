@@ -16,9 +16,6 @@ import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
-import java.io.IOException
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -26,24 +23,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
-
-data class Settings(
-    val language: String,
-    val incompatibleVersions: Boolean,
-    val notifyUpdate: Boolean,
-    val unstableUpdate: Boolean,
-    val theme: Theme,
-    val dynamicTheme: Boolean,
-    val installerType: InstallerType,
-    val autoUpdate: Boolean,
-    val autoSync: AutoSync,
-    val sortOrder: SortOrder,
-    val proxy: ProxyPreference,
-    val cleanUpInterval: Duration,
-    val lastCleanup: Instant?,
-    val favouriteApps: Set<String>,
-    val homeScreenSwiping: Boolean
-)
+import java.io.IOException
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 
 class SettingsRepository(private val dataStore: DataStore<Preferences>) {
     private companion object PreferencesKeys {
