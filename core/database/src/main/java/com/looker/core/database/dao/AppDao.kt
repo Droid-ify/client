@@ -47,5 +47,4 @@ interface AppDao {
 		"""
     )
     suspend fun deleteApps(repoId: Long)
-
 }

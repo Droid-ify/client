@@ -23,5 +23,4 @@ object DatabaseModule {
         DroidifyDatabase::class.java,
         "droidify-database"
     ).createFromAsset("repo.db").build()
-
 }

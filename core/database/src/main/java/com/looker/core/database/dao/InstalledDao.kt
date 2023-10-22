@@ -15,5 +15,4 @@ interface InstalledDao {
 
     @Delete
     suspend fun deleteInstalled(installedEntity: InstalledEntity)
-
 }

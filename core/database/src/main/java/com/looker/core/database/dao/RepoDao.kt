@@ -25,5 +25,4 @@ interface RepoDao {
 		"""
     )
     suspend fun deleteRepo(id: Long)
-
 }

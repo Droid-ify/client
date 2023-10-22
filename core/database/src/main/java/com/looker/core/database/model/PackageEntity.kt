@@ -51,7 +51,7 @@ fun PackageEntity.toExternal(locale: String, installed: Boolean): Package = Pack
         versionName = versionName,
         usesSDKs = SDKs(minSdkVersion, targetSdkVersion),
         signer = setOf(signer),
-        permissions = usesPermission.map(PermissionEntity::toExternalModel),
+        permissions = usesPermission.map(PermissionEntity::toExternalModel)
     ),
     platforms = Platforms(nativeCode),
     features = features,

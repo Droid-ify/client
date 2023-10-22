@@ -31,5 +31,4 @@ object DaoModule {
     fun provideInstalledDao(
         database: DroidifyDatabase
     ): InstalledDao = database.installedDao()
-
 }

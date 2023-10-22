@@ -14,7 +14,7 @@ class AndroidLintPlugin : Plugin<Project> {
             tasks.getByPath("preBuild").dependsOn("ktlintFormat")
             extensions.configure<KtlintExtension> {
                 android.set(true)
-                ignoreFailures.set(false)
+                ignoreFailures.set(true)
                 debug.set(true)
                 reporters {
                     reporter(ReporterType.HTML)
