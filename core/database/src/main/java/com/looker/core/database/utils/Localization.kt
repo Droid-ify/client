@@ -4,7 +4,8 @@ import androidx.core.os.LocaleListCompat
 import com.looker.core.common.stripBetween
 import java.util.Locale
 
-internal fun localeListCompat(tag: String): LocaleListCompat = LocaleListCompat.forLanguageTags(tag)
+internal fun localeListCompat(tag: String): LocaleListCompat =
+    LocaleListCompat.forLanguageTags(tag)
 
 /**
  * Find the Localized value from [Map<String,T>] using [locale]
