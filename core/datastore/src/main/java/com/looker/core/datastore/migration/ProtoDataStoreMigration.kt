@@ -19,7 +19,7 @@ class ProtoDataStoreMigration(
         oldDataStore.data.first().asMap().isNotEmpty()
 
     override suspend fun migrate(currentData: Settings): Settings {
-        log(currentData, "Settings")
+        log(currentData, "SettingsMigration")
         return currentData
     }
 }

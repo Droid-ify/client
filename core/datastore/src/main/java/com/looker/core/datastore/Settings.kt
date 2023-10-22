@@ -35,7 +35,7 @@ data class Settings(
     val cleanUpInterval: Duration = 12.hours,
     val lastCleanup: Instant? = null,
     val favouriteApps: Set<String> = emptySet(),
-    val homeScreenSwiping: Boolean = true,
+    val homeScreenSwiping: Boolean = true
 )
 
 @OptIn(ExperimentalSerializationApi::class)

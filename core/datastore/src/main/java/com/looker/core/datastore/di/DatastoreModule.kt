@@ -10,6 +10,7 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.SettingsSerializer
+import com.looker.core.datastore.migration.ProtoDataStoreMigration
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,10 +36,13 @@ object DatastoreModule {
     @Singleton
     @Provides
     fun provideProtoDatastore(
-        @ApplicationContext context: Context
+        @ApplicationContext context: Context,
+        oldDataStore: DataStore<Preferences>
     ): DataStore<Settings> = DataStoreFactory.create(
         serializer = SettingsSerializer,
-        migrations = listOf()
+        migrations = listOf(
+            ProtoDataStoreMigration(oldDataStore)
+        )
     ) {
         context.dataStoreFile(PREFERENCES)
     }
@@ -46,6 +50,6 @@ object DatastoreModule {
     @Singleton
     @Provides
     fun provideSettingsRepository(
-        dataStore: DataStore<Preferences>
+        dataStore: DataStore<Settings>
     ): SettingsRepository = SettingsRepository(dataStore)
 }
