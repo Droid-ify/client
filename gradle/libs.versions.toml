@@ -106,5 +106,5 @@ looker-android-application = { id = "looker.android.application", version = "uns
 looker-android-library = { id = "looker.android.library", version = "unspecified" }
 looker-hilt = { id = "looker.hilt", version = "unspecified" }
 looker-hilt-work = { id = "looker.hilt.work", version = "unspecified" }
+looker-lint = { id = "looker.lint", version = "unspecified" }
 looker-room = { id = "looker.room", version = "unspecified" }
-

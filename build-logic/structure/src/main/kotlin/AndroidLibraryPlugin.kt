@@ -13,7 +13,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
-                apply("looker.lint")
             }
 
             extensions.configure<LibraryExtension> {

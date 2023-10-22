@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.looker.android.library)
+    alias(libs.plugins.looker.lint)
 }
 
 android {
