@@ -12,8 +12,11 @@ on:
       - '**.md'
     types: submitted
   workflow_dispatch:
-  
-  
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
 
@@ -27,17 +30,17 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: true
-        
+
     - name: Set up Java 17
       uses: actions/setup-java@v3
       with:
         java-version: 17
         distribution: 'adopt'
         cache: gradle
-        
+
     - name: Grant execution permission to Gradle Wrapper
       run: chmod +x gradlew
-      
+
     - name: Build Debug APK
       run: ./gradlew assembleDebug
 
@@ -55,7 +58,7 @@ jobs:
       continue-on-error: true
       run: |
         ls | grep 'signed\.apk$' && find . -type f -name '*.apk' ! -name '*-signed.apk' -delete
-      
+
     - name: Upload the APK
       uses: actions/upload-artifact@v3
       with:
