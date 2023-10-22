@@ -93,7 +93,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">ତୁମର %1$s ପ୍ଲାଟଫର୍ମ ସମର୍ଥିତ ନୁହେଁ । ସମର୍ଥିତ ପ୍ଲାଟଫର୍ମ:%2$s।</string>
     <string name="incompatible_signature_DESC">ଏହି ଡିଭାଇସ୍ ଆପଣଙ୍କ ଡିଭାଇସରେ ସଂସ୍ଥାପିତ ହୋଇଥିବା ତୁଳନାରେ ଏକ ଭିନ୍ନ ସାର୍ଟିଫିକେଟ୍ ସହିତ ସାଇନ୍ ହୋଇଛି । ପ୍ରଥମେ ଏହାକୁ ସଂସ୍ଥାପନ କରନ୍ତୁ ।</string>
     <string name="legacy_installer">ପୁରୁଣା ସଂସ୍ଥାପକ</string>
-    <string name="link_copied_to_clipboard">ଲିଙ୍କ୍ କ୍ଲିପବୋର୍ଡରେ କପି ହୋଇଛି</string>
+    <string name="link_copied_to_clipboard">ସଂଯୋଗ ନକଲ ହୋଇଛି</string>
     <string name="recently_updated">ସମ୍ପ୍ରତି ଅଦ୍ୟତନ ହୋଇଛି</string>
     <string name="incompatible_version">ଅସଙ୍ଗତ ସଂସ୍କରଣ</string>
     <string name="incompatible_versions_summary">ଡିଭାଇସ୍ ସହିତ ଅସଙ୍ଗତ ପ୍ରୟୋଗ ସଂସ୍କରଣଗୁଡିକ ଦେଖାନ୍ତୁ</string>
