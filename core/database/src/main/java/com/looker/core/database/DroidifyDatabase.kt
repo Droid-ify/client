@@ -31,5 +31,4 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun repoDao(): RepoDao
 
     abstract fun installedDao(): InstalledDao
-
 }

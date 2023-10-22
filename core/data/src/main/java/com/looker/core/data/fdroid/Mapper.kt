@@ -48,8 +48,8 @@ fun PackageV2.toEntity(
             ?: emptyMap(),
         tenInchScreenshots = metadata.screenshots?.tenInch?.mapValues { it.value.map { it.name } }
             ?: emptyMap(),
-        sevenInchScreenshots = metadata.screenshots?.sevenInch?.mapValues { it.value.map { it.name } }
-            ?: emptyMap(),
+        sevenInchScreenshots = metadata.screenshots?.sevenInch
+            ?.mapValues { it.value.map { it.name } } ?: emptyMap(),
         tvScreenshots = metadata.screenshots?.tv?.mapValues { it.value.map { it.name } }
             ?: emptyMap(),
         wearScreenshots = metadata.screenshots?.wear?.mapValues { it.value.map { it.name } }

@@ -34,7 +34,6 @@ class CollectionConverter {
 
     @TypeConverter
     fun stringToList(byteArray: ByteArray): List<String> = String(byteArray).split(STRING_DELIMITER)
-
 }
 
 class LocalizedConverter {
@@ -54,7 +53,6 @@ class LocalizedConverter {
     @TypeConverter
     fun jsonToLocalizedList(jsonObject: String): LocalizedList =
         json.decodeFromString(localizedListSerializer, jsonObject)
-
 }
 
 class PackageEntityConverter {
@@ -74,7 +72,6 @@ class PackageEntityConverter {
     @TypeConverter
     fun stringToPackageList(jsonString: String): List<PackageEntity> =
         json.decodeFromString(packageListSerializer, jsonString)
-
 }
 
 class RepoConverter {
@@ -94,5 +91,4 @@ class RepoConverter {
     @TypeConverter
     fun stringToCategory(string: String): Map<String, CategoryEntity> =
         json.decodeFromString(categorySerializer, string)
-
 }

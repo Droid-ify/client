@@ -2,6 +2,7 @@ import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
     alias(libs.plugins.looker.android.library)
+    alias(libs.plugins.looker.lint)
 }
 
 android {

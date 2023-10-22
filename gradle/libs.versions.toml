@@ -44,6 +44,7 @@ androidx-fragment-ktx = { group = "androidx.fragment", name = "fragment-ktx", ve
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
 androidx-dataStore-core = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "androidxDataStore" }
+androidx-dataStore-proto = { group = "androidx.datastore", name = "datastore", version.ref = "androidxDataStore" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxLifecycle" }
 androidx-lifecycle-viewModel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "androidxLifecycle" }
@@ -105,5 +106,5 @@ looker-android-application = { id = "looker.android.application", version = "uns
 looker-android-library = { id = "looker.android.library", version = "unspecified" }
 looker-hilt = { id = "looker.hilt", version = "unspecified" }
 looker-hilt-work = { id = "looker.hilt.work", version = "unspecified" }
+looker-lint = { id = "looker.lint", version = "unspecified" }
 looker-room = { id = "looker.room", version = "unspecified" }
-

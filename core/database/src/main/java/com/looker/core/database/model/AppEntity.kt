@@ -82,7 +82,7 @@ fun List<AppEntity>.toExternal(
 private fun AppEntity.author(): Author = Author(
     name = authorName,
     email = authorEmail,
-    web = authorWebSite,
+    web = authorWebSite
 )
 
 private fun AppEntity.donations(): Donation = Donation(
@@ -92,7 +92,7 @@ private fun AppEntity.donations(): Donation = Donation(
     liteCoinAddress = litecoin.nullIfEmpty(),
     openCollectiveId = openCollective.nullIfEmpty(),
     librePayId = liberapayID.nullIfEmpty(),
-    librePayAddress = liberapay.nullIfEmpty(),
+    librePayAddress = liberapay.nullIfEmpty()
 )
 
 private fun AppEntity.graphics(locale: String): Graphics = Graphics(
