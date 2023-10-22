@@ -1,12 +1,21 @@
 package com.looker.core.datastore
 
+import androidx.datastore.core.Serializer
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import kotlinx.datetime.Instant
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
+import kotlinx.serialization.json.encodeToStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
@@ -28,3 +37,30 @@ data class Settings(
     val favouriteApps: Set<String> = emptySet(),
     val homeScreenSwiping: Boolean = true,
 )
+
+@OptIn(ExperimentalSerializationApi::class)
+object SettingsSerializer : Serializer<Settings> {
+
+    private val json = Json { encodeDefaults = true }
+
+    override val defaultValue: Settings = Settings()
+
+    override suspend fun readFrom(input: InputStream): Settings {
+        return try {
+            json.decodeFromStream(input)
+        } catch (e: SerializationException) {
+            e.printStackTrace()
+            defaultValue
+        }
+    }
+
+    override suspend fun writeTo(t: Settings, output: OutputStream) {
+        try {
+            json.encodeToStream(t, output)
+        } catch (e: SerializationException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+}
