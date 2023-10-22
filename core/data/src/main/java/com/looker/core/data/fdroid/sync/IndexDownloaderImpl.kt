@@ -43,7 +43,11 @@ class IndexDownloaderImpl @Inject constructor(
             fileIndex = index
         }
         val (_, response) = downloadIndexFile(repo, INDEX_V1_FILE_NAME, validator)
-        if (repoFingerprint == null || fileIndex == null || repoFingerprint?.isBlank() == true || response is NetworkResponse.Error)
+        val isFingerprintAndIndexValid = repoFingerprint == null
+            || fileIndex == null
+            || repoFingerprint?.isBlank() == true
+            || response is NetworkResponse.Error
+        if (isFingerprintAndIndexValid)
             throw IllegalStateException("Fingerprint: $repoFingerprint, Index: $fileIndex")
         IndexDownloadResponse(
             index = fileIndex!!,
@@ -78,7 +82,11 @@ class IndexDownloaderImpl @Inject constructor(
             fileEntry = entry
         }
         val (_, response) = downloadIndexFile(repo, ENTRY_FILE_NAME, validator)
-        if (repoFingerprint == null || fileEntry == null || repoFingerprint?.isBlank() == true || response is NetworkResponse.Error.Validation)
+        val isFingerprintAndIndexValid = repoFingerprint == null
+            || fileEntry == null
+            || repoFingerprint?.isBlank() == true
+            || response is NetworkResponse.Error.Validation
+        if (isFingerprintAndIndexValid)
             throw IllegalStateException("Empty Fingerprint")
         IndexDownloadResponse(
             index = fileEntry!!,

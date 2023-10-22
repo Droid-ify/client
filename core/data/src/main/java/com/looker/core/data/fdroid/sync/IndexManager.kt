@@ -33,7 +33,9 @@ class IndexManager(
                         timestamp = response.lastModified,
                         etag = response.etag
                     )
-                    if (response.lastModified == repo.versionInfo.timestamp) return@associate updatedRepo to null
+                    if (response.lastModified == repo.versionInfo.timestamp) {
+                        return@associate updatedRepo to null
+                    }
                     val diff = response.index.getDiff(repo.versionInfo.timestamp)
                     updatedRepo to downloadIndexBasedOnDiff(repo, diff)
                 }
