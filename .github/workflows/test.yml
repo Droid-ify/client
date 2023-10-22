@@ -3,7 +3,7 @@ name: Test Droid-ify Code
 on:
   push:
     branches:
-      - '*'
+      - 'main'
     paths-ignore:
       - '**.md'
       - '**.yml'
@@ -30,9 +30,6 @@ jobs:
         java-version: '17'
         distribution: 'adopt'
 
-    - name: Grant execution permission to Gradle Wrapper
-      run: chmod +x gradlew
-      
     - name: Grant execution permission to Gradle Wrapper
       run: chmod +x gradlew
       
