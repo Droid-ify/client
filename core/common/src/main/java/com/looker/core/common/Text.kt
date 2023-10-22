@@ -7,11 +7,21 @@ fun <T : CharSequence> T.nullIfEmpty(): T? {
     return if (isNullOrBlank()) null else this
 }
 
+/**
+ * Removes the string between the first [prefix] and last [suffix]
+ *
+ * For example: if "xyz_abc_123" is passed with [prefix] = "_"
+ *
+ * @return: "xyz_123"
+ */
 fun String.stripBetween(prefix: String, suffix: String = prefix): String {
-    val firstHyphenIndex = this.indexOf(prefix)
-    val lastHyphenIndex = this.lastIndexOf(suffix)
-    return if (firstHyphenIndex != -1 && lastHyphenIndex != -1 && firstHyphenIndex != lastHyphenIndex) {
-        this.substring(0, firstHyphenIndex + 1) + this.substring(lastHyphenIndex + 1)
+    val prefixIndex = indexOf(prefix)
+    val suffixIndex = lastIndexOf(suffix)
+    val isRangeValid = prefixIndex != -1
+        && suffixIndex != -1
+        && prefixIndex != suffixIndex
+    return if (isRangeValid) {
+        substring(0, prefixIndex + 1) + substring(suffixIndex + 1)
     } else {
         this
     }

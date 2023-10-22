@@ -54,7 +54,9 @@ val Context.camera: Drawable
     get() = getDrawableCompat(R.drawable.ic_image)
 
 val Context.aspectRatio: Float
-    get() = resources.displayMetrics.heightPixels.toFloat() / resources.displayMetrics.widthPixels.toFloat()
+    get() = with(resources.displayMetrics) {
+        (heightPixels / widthPixels).toFloat()
+    }
 
 fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
 

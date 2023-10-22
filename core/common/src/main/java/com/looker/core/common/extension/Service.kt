@@ -17,7 +17,8 @@ fun Service.stopForegroundCompat(removeNotification: Boolean = true) {
     @Suppress("DEPRECATION")
     if (SdkCheck.isNougat) {
         stopForeground(
-            if (removeNotification) Service.STOP_FOREGROUND_REMOVE else Service.STOP_FOREGROUND_DETACH
+            if (removeNotification) Service.STOP_FOREGROUND_REMOVE
+            else Service.STOP_FOREGROUND_DETACH
         )
     } else {
         stopForeground(removeNotification)
