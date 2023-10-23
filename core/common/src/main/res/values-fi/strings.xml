@@ -70,7 +70,7 @@
     <string name="license">Lisenssi</string>
     <string name="license_FORMAT">%s -lisenssi</string>
     <string name="light">Vaalea</string>
-    <string name="link_copied_to_clipboard">Linkki kopioitu leikepöydälle</string>
+    <string name="link_copied_to_clipboard">Linkki kopioitu</string>
     <string name="links">Linkit</string>
     <string name="list_animation">Luettelon animaatiot</string>
     <string name="list_animation_description">Näytä luettelon animaatio pääsivulla</string>
@@ -132,7 +132,7 @@
     <string name="unverified">Vahvistamaton</string>
     <string name="upstream_source_code_is_not_free">Alkuperäinen lähdekoodi ei ole vapaa</string>
     <string name="website">Verkkosivusto</string>
-    <string name="whats_new">Uusimmat</string>
+    <string name="whats_new">Mitä uutta</string>
     <string name="waiting_to_start_download">Odotetaan latauksen aloittamista…</string>
     <string name="username_missing">Käyttäjätunnus puuttuu</string>
     <string name="username">Käyttäjänimi</string>
