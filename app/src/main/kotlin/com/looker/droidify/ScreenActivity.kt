@@ -37,11 +37,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {

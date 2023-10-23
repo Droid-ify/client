@@ -11,7 +11,6 @@ class AndroidLintPlugin : Plugin<Project> {
                 apply("org.jlleitschuh.gradle.ktlint")
             }
 
-            tasks.getByPath("preBuild").dependsOn("ktlintFormat")
             extensions.configure<KtlintExtension> {
                 android.set(true)
                 ignoreFailures.set(true)

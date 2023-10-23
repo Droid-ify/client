@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.appDetail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
@@ -22,22 +23,18 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
+    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    private var _packageName: String? = null
-    val packageName: String get() = _packageName!!
+    val packageName: String = savedStateHandle[ARG_PACKAGE_NAME]!!
 
     val initialSetting
         get() = flow { emit(settingsRepository.fetchInitialPreferences()) }
 
-    fun setPackageName(name: String) {
-        _packageName = name
-    }
-
     val installerState = installer.state.asStateFlow()
 
-    val state by lazy {
+    val state =
         combine(
             Database.ProductAdapter.getStream(packageName),
             Database.RepositoryAdapter.getAllStream(),
@@ -54,7 +51,6 @@ class AppDetailViewModel @Inject constructor(
                 isSelf = packageName == BuildConfig.APPLICATION_ID
             )
         }.asStateFlow(AppDetailUiState())
-    }
 
     fun setFavouriteState() {
         viewModelScope.launch {
@@ -80,9 +76,8 @@ class AppDetailViewModel @Inject constructor(
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        _packageName = null
+    companion object {
+        const val ARG_PACKAGE_NAME = "package_name"
     }
 }
 

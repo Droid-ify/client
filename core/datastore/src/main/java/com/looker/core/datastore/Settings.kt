@@ -6,6 +6,11 @@ import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
 import kotlinx.datetime.Instant
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -13,11 +18,6 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
 
 @Serializable
 data class Settings(

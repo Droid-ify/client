@@ -10,17 +10,19 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.DEFAULT_ARGS_KEY
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.viewmodel.MutableCreationExtras
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.core.common.PackageName
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.getLauncherActivities
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.isFirstItemVisible
@@ -39,6 +41,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE_NAME
 import com.looker.droidify.ui.screenshots.ScreenshotsFragment
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
@@ -49,6 +52,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
@@ -84,17 +88,19 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val launcherActivities: List<Pair<String, String>>
     )
 
-    private val viewModel: AppDetailViewModel by viewModels()
-
     val packageName: String
-        get() {
-            val name = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
-            viewModel.setPackageName(name)
-            return name
-        }
+        get() = requireArguments().getString(EXTRA_PACKAGE_NAME)!!
 
     private val repoAddress: String?
         get() = arguments?.getString(EXTRA_REPOSITORY_ADDRESS)
+
+    private val viewModel: AppDetailViewModel by viewModels(
+        extrasProducer = {
+            val extras = MutableCreationExtras(defaultViewModelCreationExtras)
+            extras[DEFAULT_ARGS_KEY] = bundleOf(ARG_PACKAGE_NAME to packageName)
+            extras
+        }
+    )
 
     private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
@@ -119,7 +125,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.setPackageName(packageName)
         detailAdapter = AppDetailAdapter(this@AppDetailFragment)
         screenActivity.onToolbarCreated(toolbar)
         toolbar.menu.apply {
@@ -395,6 +400,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     "IzzyOnDroid" in repo.name -> {
                         "https://apt.izzysoft.de/fdroid/index/apk/$packageName"
                     }
+
                     else -> {
                         "https://droidify.eu.org/app/?id=$packageName&repo_address=${repo.address}"
                     }

@@ -16,9 +16,9 @@ import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
+import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.flow.first
 import kotlinx.datetime.Instant
-import kotlin.time.Duration.Companion.hours
 
 class ProtoDataStoreMigration(
     private val oldDataStore: DataStore<Preferences>
