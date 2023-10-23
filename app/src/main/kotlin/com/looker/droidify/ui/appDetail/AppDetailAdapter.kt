@@ -26,7 +26,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.R as MaterialR
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -34,8 +33,6 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.DataSize
-import com.looker.core.common.R.drawable as drawableRes
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
@@ -50,6 +47,10 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import java.lang.ref.WeakReference
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -57,10 +58,9 @@ import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.string as stringRes
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -678,7 +678,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
         installedItem: InstalledItem?,
-        settings: Settings
+        isFavourite: Boolean,
+        allowIncompatibleVersion: Boolean,
     ) {
         items.clear()
         val productRepository = products.findSuggested(installedItem) ?: run {
@@ -686,7 +687,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             notifyDataSetChanged()
             return
         }
-        isFavourite = packageName in settings.favouriteApps
+
+        this.product = productRepository.first
+        this.installedItem = installedItem
+        this.isFavourite = isFavourite
 
         items += Item.AppInfoItem(
             productRepository.second,
@@ -979,25 +983,25 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val compatibleReleasePairs = products.asSequence()
             .flatMap { (product, repository) ->
                 product.releases.asSequence()
-                    .filter { settings.incompatibleVersions || it.incompatibilities.isEmpty() }
+                    .filter { allowIncompatibleVersion || it.incompatibilities.isEmpty() }
                     .map { Pair(it, repository) }
             }
-        val signaturesForVersionCode = compatibleReleasePairs
-            .mapNotNull { (release, _) ->
-                if (release.signature.isEmpty()) {
-                    null
-                } else {
-                    Pair(release.versionCode, release.signature)
-                }
-            }
-            .distinct().groupBy { it.first }.toMap()
+
+        val versionsWithMultiSignature = compatibleReleasePairs
+            .filterNot { release?.signature?.isEmpty() == true }
+            .map { (release, _) -> release.versionCode to release.signature }
+            .distinct()
+            .groupBy { it.first }
+            .filter { (_, entry) -> entry.size >= 2 }
+            .keys
+
         val releaseItems = compatibleReleasePairs
             .map { (release, repository) ->
                 Item.ReleaseItem(
-                    repository,
-                    release,
-                    repository.id == productRepository.second.id,
-                    signaturesForVersionCode[release.versionCode].orEmpty().size >= 2
+                    repository = repository,
+                    release = release,
+                    selectedRepository = repository.id == productRepository.second.id,
+                    showSignature = release.versionCode in versionsWithMultiSignature
                 )
             }
             .sortedByDescending { it.release.versionCode }
@@ -1541,31 +1545,31 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     labels.asSequence().filter { it.first } + labels.asSequence()
                         .filter { !it.first }
                     ).forEach {
-                    if (builder.isNotEmpty()) {
-                        builder.append("\n\n")
-                        builder.setSpan(
-                            RelativeSizeSpan(1f / 3f),
-                            builder.length - 2,
-                            builder.length,
-                            SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                        )
+                        if (builder.isNotEmpty()) {
+                            builder.append("\n\n")
+                            builder.setSpan(
+                                RelativeSizeSpan(1f / 3f),
+                                builder.length - 2,
+                                builder.length,
+                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                            )
+                        }
+                        builder.append(it.second)
+                        if (!it.first) {
+                            // Replace dots with spans to enable word wrap
+                            it.second.asSequence()
+                                .mapIndexedNotNull { index, c -> if (c == '.') index else null }
+                                .map { index -> index + builder.length - it.second.length }
+                                .forEach { index ->
+                                    builder.setSpan(
+                                        DotSpan(),
+                                        index,
+                                        index + 1,
+                                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                                    )
+                                }
+                        }
                     }
-                    builder.append(it.second)
-                    if (!it.first) {
-                        // Replace dots with spans to enable word wrap
-                        it.second.asSequence()
-                            .mapIndexedNotNull { index, c -> if (c == '.') index else null }
-                            .map { index -> index + builder.length - it.second.length }
-                            .forEach { index ->
-                                builder.setSpan(
-                                    DotSpan(),
-                                    index,
-                                    index + 1,
-                                    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                                )
-                            }
-                    }
-                }
                 holder.text.text = builder
             }
 

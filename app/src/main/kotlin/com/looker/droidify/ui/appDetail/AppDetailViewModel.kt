@@ -12,13 +12,15 @@ import com.looker.core.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database
 import com.looker.installer.InstallManager
+import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
@@ -27,19 +29,24 @@ class AppDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    val packageName: String = savedStateHandle[ARG_PACKAGE_NAME]!!
+    val packageName: String = requireNotNull(savedStateHandle[ARG_PACKAGE_NAME])
 
-    val initialSetting
-        get() = flow { emit(settingsRepository.fetchInitialPreferences()) }
+    private val repoAddress: StateFlow<String?> =
+        savedStateHandle.getStateFlow(ARG_REPO_ADDRESS, null)
 
-    val installerState = installer.state.asStateFlow()
+    val installerState: StateFlow<InstallState?> =
+        installer.state.mapNotNull { stateMap ->
+            stateMap[packageName.toPackageName()]
+        }.asStateFlow(null)
 
     val state =
         combine(
             Database.ProductAdapter.getStream(packageName),
             Database.RepositoryAdapter.getAllStream(),
-            Database.InstalledAdapter.getStream(packageName)
-        ) { products, repositories, installedItem ->
+            Database.InstalledAdapter.getStream(packageName),
+            repoAddress,
+            flow { emit(settingsRepository.fetchInitialPreferences()) }
+        ) { products, repositories, installedItem, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
                 idAndRepos[product.repositoryId] != null
@@ -48,7 +55,10 @@ class AppDetailViewModel @Inject constructor(
                 products = filteredProducts,
                 repos = repositories,
                 installedItem = installedItem,
-                isSelf = packageName == BuildConfig.APPLICATION_ID
+                isFavourite = packageName in initialSettings.favouriteApps,
+                allowIncompatibleVersions = initialSettings.incompatibleVersions,
+                isSelf = packageName == BuildConfig.APPLICATION_ID,
+                addressIfUnavailable = suggestedAddress
             )
         }.asStateFlow(AppDetailUiState())
 
@@ -78,6 +88,7 @@ class AppDetailViewModel @Inject constructor(
 
     companion object {
         const val ARG_PACKAGE_NAME = "package_name"
+        const val ARG_REPO_ADDRESS = "repo_address"
     }
 }
 
@@ -87,5 +98,6 @@ data class AppDetailUiState(
     val installedItem: InstalledItem? = null,
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,
-    val allowIncompatibleVersions: Boolean = false
+    val allowIncompatibleVersions: Boolean = false,
+    val addressIfUnavailable: String? = null,
 )
