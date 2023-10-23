@@ -72,6 +72,7 @@ code $changelog_file
 # Ask for confirmation before creating a Git tag
 read -p "Do you want to create a Git tag for version $git_tag? (y/n): " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+  git pull --rebase
   git add -A
   git commit -m "Release $version_name"
   # Create a Git tag
