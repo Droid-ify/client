@@ -37,9 +37,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
-import kotlinx.coroutines.flow.collectIndexed
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
@@ -116,15 +118,24 @@ abstract class ScreenActivity : AppCompatActivity() {
             )
         val newSettings = hiltEntryPoint.settingsRepository()
             .get { theme to dynamicTheme }
+        runBlocking {
+            val theme = newSettings.first()
+            setTheme(
+                resources.configuration.getThemeRes(
+                    theme = theme.first,
+                    dynamicTheme = theme.second
+                )
+            )
+        }
         lifecycleScope.launch {
-            newSettings.collectIndexed { index, themeAndDynamic ->
+            newSettings.drop(1).collect { themeAndDynamic ->
                 setTheme(
                     resources.configuration.getThemeRes(
-                        themeAndDynamic.first,
-                        themeAndDynamic.second
+                        theme = themeAndDynamic.first,
+                        dynamicTheme = themeAndDynamic.second
                     )
                 )
-                if (index > 0) recreate()
+                recreate()
             }
         }
     }
