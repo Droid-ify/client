@@ -177,10 +177,10 @@
     <string name="sort_filter">Sortowanie i filtrowanie</string>
     <string name="new_applications">Nowe aplikacje</string>
     <string name="installer">Instalator</string>
-    <string name="legacy_installer">Starszy instalator</string>
-    <string name="session_installer">Instalator sesji</string>
-    <string name="root_installer">Instalator root</string>
-    <string name="shizuku_installer">Instalator Shizuku</string>
+    <string name="legacy_installer">Native (starszy)</string>
+    <string name="session_installer">Session (nowszy)</string>
+    <string name="root_installer">ROOT</string>
+    <string name="shizuku_installer">Shizuku</string>
     <string name="latest">Najnowsza</string>
     <string name="explore">Poznaj</string>
     <string name="update_all">Aktualizuj wszystkie</string>
