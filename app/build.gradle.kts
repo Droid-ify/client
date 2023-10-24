@@ -20,6 +20,7 @@ android {
             "cs",
             "de",
             "el",
+            "eo",
             "es",
             "fa",
             "fi",
