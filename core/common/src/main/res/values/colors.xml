@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--Test commit-->
     <color name="pitch_black">#000000</color>
     <color name="grey_dark">#2C2C2C</color>
 
