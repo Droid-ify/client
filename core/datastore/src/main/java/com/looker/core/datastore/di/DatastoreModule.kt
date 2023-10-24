@@ -7,15 +7,22 @@ import androidx.datastore.dataStoreFile
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
+import com.looker.core.common.Exporter
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.SettingsSerializer
+import com.looker.core.datastore.exporter.SettingsExporter
 import com.looker.core.datastore.migration.ProtoDataStoreMigration
+import com.looker.core.di.ApplicationScope
+import com.looker.core.di.IoDispatcher
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.json.Json
 import javax.inject.Singleton
 
 private const val OLD_PREFERENCES = "preferences_file"
@@ -49,7 +56,24 @@ object DatastoreModule {
 
     @Singleton
     @Provides
+    fun provideSettingsExporter(
+        @ApplicationContext context: Context,
+        @ApplicationScope scope: CoroutineScope,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+    ): Exporter<Settings> = SettingsExporter(
+        context = context,
+        scope = scope,
+        ioDispatcher = dispatcher,
+        json = Json {
+            encodeDefaults = true
+            prettyPrint = true
+        }
+    )
+
+    @Singleton
+    @Provides
     fun provideSettingsRepository(
-        dataStore: DataStore<Settings>
-    ): SettingsRepository = SettingsRepository(dataStore)
+        dataStore: DataStore<Settings>,
+        exporter: Exporter<Settings>
+    ): SettingsRepository = SettingsRepository(dataStore, exporter)
 }

@@ -25,6 +25,7 @@ dependencies {
         Modules.coreCommon,
         Modules.coreDatabase,
         Modules.coreDatastore,
+        Modules.coreDI,
         Modules.coreModel,
         Modules.coreNetwork
     )

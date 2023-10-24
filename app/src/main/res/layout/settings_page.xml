@@ -139,6 +139,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/shape_margin_large"
+                android:text="@string/import_export"
+                android:textAppearance="?textAppearanceHeadlineSmall"
+                android:textColor="?colorPrimary"
+                android:textStyle="bold" />
+
+            <include
+                android:id="@+id/export_settings"
+                layout="@layout/enum_type" />
+
+            <include
+                android:id="@+id/import_settings"
+                layout="@layout/enum_type" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/shape_margin_large"
                 android:text="@string/credits"
                 android:textAppearance="?textAppearanceHeadlineSmall"
                 android:textColor="?colorPrimary"

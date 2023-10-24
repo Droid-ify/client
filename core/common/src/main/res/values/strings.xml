@@ -48,6 +48,11 @@
     <string name="downloading">Downloading</string>
     <string name="downloading_FORMAT">Downloading %s…</string>
     <string name="edit_repository">Edit repository</string>
+    <string name="import_export">Import/Export</string>
+    <string name="import_title">Import Settings</string>
+    <string name="import_DESC">Import settings and favourites to file</string>
+    <string name="export_title">Export Settings</string>
+    <string name="export_DESC">Export settings and favourites</string>
     <string name="enable_repo">Enable the repository</string>
     <string name="favourites">Favourites</string>
     <string name="file_format_error_DESC">Invalid file format.</string>

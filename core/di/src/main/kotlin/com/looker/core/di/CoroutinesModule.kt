@@ -1,4 +1,4 @@
-package com.looker.core.data.di
+package com.looker.core.di
 
 import dagger.Module
 import dagger.Provides
@@ -8,8 +8,8 @@ import kotlinx.coroutines.*
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
-@Qualifier
 @Retention(AnnotationRetention.RUNTIME)
+@Qualifier
 annotation class IoDispatcher
 
 @Retention(AnnotationRetention.RUNTIME)

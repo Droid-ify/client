@@ -1,6 +1,8 @@
 package com.looker.droidify.ui.settings
 
 import android.content.Context
+import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
@@ -26,6 +28,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.io.File
 
 @HiltViewModel
 class SettingsViewModel
@@ -131,7 +134,7 @@ class SettingsViewModel
             try {
                 settingsRepository.setProxyPort(proxyPort.toInt())
             } catch (e: NumberFormatException) {
-                _snackbarStringId.emit(CommonR.string.proxy_port_error_not_int)
+                createSnackbar(CommonR.string.proxy_port_error_not_int)
             }
         }
     }
@@ -143,16 +146,34 @@ class SettingsViewModel
         }
     }
 
+    fun exportSettings(file: Uri) {
+        viewModelScope.launch {
+            settingsRepository.exportSettings(file)
+        }
+    }
+
+    fun importSettings(file: Uri) {
+        viewModelScope.launch {
+            settingsRepository.importSettings(file)
+        }
+    }
+
+    fun createSnackbar(@StringRes message: Int) {
+        viewModelScope.launch {
+            _snackbarStringId.emit(message)
+        }
+    }
+
     private fun handleShizuku() {
         viewModelScope.launch {
             val state = shizukuPermissionHandler.state.first()
             if (state.isAlive && state.isPermissionGranted) cancel()
             if (state.isInstalled) {
                 if (!state.isAlive) {
-                    _snackbarStringId.emit(CommonR.string.shizuku_not_alive)
+                    createSnackbar(CommonR.string.shizuku_not_alive)
                 }
             } else {
-                _snackbarStringId.emit(CommonR.string.shizuku_not_installed)
+                createSnackbar(CommonR.string.shizuku_not_installed)
             }
         }
     }

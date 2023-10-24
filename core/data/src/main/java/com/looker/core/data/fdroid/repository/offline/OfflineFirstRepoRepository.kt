@@ -1,8 +1,8 @@
 package com.looker.core.data.fdroid.repository.offline
 
 import com.looker.core.common.extension.exceptCancellation
-import com.looker.core.data.di.ApplicationScope
-import com.looker.core.data.di.DefaultDispatcher
+import com.looker.core.di.ApplicationScope
+import com.looker.core.di.DefaultDispatcher
 import com.looker.core.data.fdroid.repository.RepoRepository
 import com.looker.core.data.fdroid.sync.IndexManager
 import com.looker.core.data.fdroid.toEntity
