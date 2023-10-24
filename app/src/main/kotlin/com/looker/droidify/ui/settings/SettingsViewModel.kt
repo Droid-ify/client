@@ -15,6 +15,8 @@ import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
+import com.looker.droidify.database.Database
+import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,13 +30,13 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.io.File
 
 @HiltViewModel
 class SettingsViewModel
 @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val shizukuPermissionHandler: ShizukuPermissionHandler
+    private val shizukuPermissionHandler: ShizukuPermissionHandler,
+    private val repositoryExporter: RepositoryExporter
 ) : ViewModel() {
 
     private val initialSetting = flow {
@@ -155,6 +157,20 @@ class SettingsViewModel
     fun importSettings(file: Uri) {
         viewModelScope.launch {
             settingsRepository.importSettings(file)
+        }
+    }
+
+    fun exportRepos(file: Uri) {
+        viewModelScope.launch {
+            val repos = Database.RepositoryAdapter.getAll()
+            repositoryExporter.saveToFile(repos, file)
+        }
+    }
+
+    fun importRepos(file: Uri) {
+        viewModelScope.launch {
+            val repos = repositoryExporter.readFromFile(file)
+            Database.RepositoryAdapter.importRepos(repos)
         }
     }
 

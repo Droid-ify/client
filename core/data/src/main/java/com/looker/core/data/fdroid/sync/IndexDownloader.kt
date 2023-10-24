@@ -16,7 +16,6 @@ interface IndexDownloader {
     suspend fun downloadEntry(repo: Repo): IndexDownloadResponse<Entry>
 
     suspend fun determineIndexType(repo: Repo): IndexType
-
 }
 
 data class IndexDownloadResponse<T>(

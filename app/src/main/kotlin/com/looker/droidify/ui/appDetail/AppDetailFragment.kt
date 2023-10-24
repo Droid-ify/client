@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.getLauncherActivities
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.isFirstItemVisible
@@ -47,7 +48,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
@@ -213,7 +213,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         adapterState?.let { outState.putParcelable(STATE_ADAPTER, it) }
     }
 
-    private fun updateButtons(preference: ProductPreference = ProductPreferences[viewModel.packageName]) {
+    private fun updateButtons(
+        preference: ProductPreference = ProductPreferences[viewModel.packageName]
+    ) {
         val installed = installed
         val product = products.findSuggested(installed?.installedItem)?.first
         val compatible = product != null && product.selectedReleases.firstOrNull()
@@ -378,8 +380,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             AppDetailAdapter.Action.SHARE -> {
                 val repo = products[0].second
                 val address = when {
-                    repo.name == "F-Droid" -> "https://www.f-droid.org/packages/" +
-                        "${viewModel.packageName}/"
+                    repo.name == "F-Droid" ->
+                        "https://www.f-droid.org/packages/" +
+                            "${viewModel.packageName}/"
 
                     "IzzyOnDroid" in repo.name -> {
                         "https://apt.izzysoft.de/fdroid/index/apk/${viewModel.packageName}"

@@ -5,13 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
-import androidx.core.net.toFile
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -20,6 +18,8 @@ import androidx.lifecycle.*
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.looker.core.common.BuildConfig as CommonBuildConfig
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.extension.systemBarsPadding
@@ -32,14 +32,12 @@ import com.looker.droidify.databinding.EnumTypeBinding
 import com.looker.droidify.databinding.SettingsPageBinding
 import com.looker.droidify.databinding.SwitchTypeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
-import com.looker.core.common.BuildConfig as CommonBuildConfig
-import com.looker.core.common.R as CommonR
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -62,17 +60,33 @@ class SettingsFragment : Fragment() {
     private var _binding: SettingsPageBinding? = null
     private val binding get() = _binding!!
 
-    private val createExportFile =
+    private val createExportFileForSettings =
         registerForActivityResult(CreateDocument("application/json")) { fileUri ->
             if (fileUri != null) {
                 viewModel.exportSettings(fileUri)
             }
         }
 
-    private val openImportFile =
+    private val openImportFileForSettings =
         registerForActivityResult(OpenDocument()) { fileUri ->
             if (fileUri != null) {
                 viewModel.importSettings(fileUri)
+            } else {
+                viewModel.createSnackbar(CommonR.string.file_format_error_DESC)
+            }
+        }
+
+    private val createExportFileForRepos =
+        registerForActivityResult(CreateDocument("application/json")) { fileUri ->
+            if (fileUri != null) {
+                viewModel.exportRepos(fileUri)
+            }
+        }
+
+    private val openImportFileForRepos =
+        registerForActivityResult(OpenDocument()) { fileUri ->
+            if (fileUri != null) {
+                viewModel.importRepos(fileUri)
             } else {
                 viewModel.createSnackbar(CommonR.string.file_format_error_DESC)
             }
@@ -231,10 +245,15 @@ class SettingsFragment : Fragment() {
             forceCleanUp.title.text = getString(CommonR.string.force_clean_up)
             forceCleanUp.content.text = getString(CommonR.string.force_clean_up_DESC)
 
-            importSettings.title.text = getString(CommonR.string.import_title)
-            importSettings.content.text = getString(CommonR.string.import_DESC)
-            exportSettings.title.text = getString(CommonR.string.export_title)
-            exportSettings.content.text = getString(CommonR.string.export_DESC)
+            importSettings.title.text = getString(CommonR.string.import_settings_title)
+            importSettings.content.text = getString(CommonR.string.import_settings_DESC)
+            exportSettings.title.text = getString(CommonR.string.export_settings_title)
+            exportSettings.content.text = getString(CommonR.string.export_settings_DESC)
+
+            importRepos.title.text = getString(CommonR.string.import_repos_title)
+            importRepos.content.text = getString(CommonR.string.import_repos_DESC)
+            exportRepos.title.text = getString(CommonR.string.export_repos_title)
+            exportRepos.content.text = getString(CommonR.string.export_repos_DESC)
 
             creditFoxy.title.text = getString(CommonR.string.special_credits)
             creditFoxy.content.text = FOXY_DROID_TITLE
@@ -286,10 +305,16 @@ class SettingsFragment : Fragment() {
                 viewModel.forceCleanup(it.context)
             }
             importSettings.root.setOnClickListener {
-                openImportFile.launch(arrayOf("application/json"))
+                openImportFileForSettings.launch(arrayOf("application/json"))
             }
             exportSettings.root.setOnClickListener {
-                createExportFile.launch("droidify_backup")
+                createExportFileForSettings.launch("droidify_settings")
+            }
+            importRepos.root.setOnClickListener {
+                openImportFileForRepos.launch(arrayOf("application/json"))
+            }
+            exportRepos.root.setOnClickListener {
+                createExportFileForRepos.launch("droidify_repos")
             }
             creditFoxy.root.setOnClickListener {
                 openLink(FOXY_DROID_URL)

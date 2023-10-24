@@ -44,6 +44,9 @@ class IndexManager(
     }
 
     private suspend fun downloadIndexBasedOnDiff(repo: Repo, diff: EntryFileV2?): IndexV2 =
-        if (diff == null) indexDownloader.downloadIndexV2(repo)
-        else indexDownloader.downloadIndexDiff(repo, diff.name)
+        if (diff == null) {
+            indexDownloader.downloadIndexV2(repo)
+        } else {
+            indexDownloader.downloadIndexDiff(repo, diff.name)
+        }
 }

@@ -20,10 +20,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
-import javax.inject.Singleton
 
 private const val OLD_PREFERENCES = "preferences_file"
 private const val PREFERENCES = "settings_file"

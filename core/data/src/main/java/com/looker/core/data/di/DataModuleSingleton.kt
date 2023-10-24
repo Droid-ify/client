@@ -19,5 +19,4 @@ object DataModuleSingleton {
         indexDownloader = downloader,
         converter = IndexConverter()
     )
-
 }

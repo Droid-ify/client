@@ -7,11 +7,11 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import com.looker.core.common.extension.connectivityManager
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
-import javax.inject.Inject
 
 class ConnectivityManagerNetworkMonitor
 @Inject constructor(
@@ -46,9 +46,10 @@ class ConnectivityManagerNetworkMonitor
 
     private fun ConnectivityManager?.isCurrentlyConnected() = when (this) {
         null -> false
-        else -> activeNetwork
-            ?.let(::getNetworkCapabilities)
-            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            ?: false
+        else ->
+            activeNetwork
+                ?.let(::getNetworkCapabilities)
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                ?: false
     }
 }

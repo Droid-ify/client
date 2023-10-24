@@ -152,6 +152,14 @@
                 android:id="@+id/import_settings"
                 layout="@layout/enum_type" />
 
+            <include
+                android:id="@+id/export_repos"
+                layout="@layout/enum_type" />
+
+            <include
+                android:id="@+id/import_repos"
+                layout="@layout/enum_type" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

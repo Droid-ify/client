@@ -12,12 +12,12 @@ import com.looker.core.datastore.SettingsRepository
 import com.looker.core.model.newer.App
 import com.looker.core.model.newer.Author
 import com.looker.core.model.newer.Package
+import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class OfflineFirstAppRepository @Inject constructor(
     installedDao: InstalledDao,

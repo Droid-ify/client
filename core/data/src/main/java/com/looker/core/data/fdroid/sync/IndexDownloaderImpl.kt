@@ -6,6 +6,11 @@ import com.looker.core.data.fdroid.sync.signature.IndexValidator
 import com.looker.core.model.newer.Repo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
+import java.io.File
+import java.io.InputStream
+import java.util.Date
+import java.util.UUID
+import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexParser
@@ -13,11 +18,6 @@ import org.fdroid.index.parseV2
 import org.fdroid.index.v1.IndexV1
 import org.fdroid.index.v2.Entry
 import org.fdroid.index.v2.IndexV2
-import java.io.File
-import java.io.InputStream
-import java.util.Date
-import java.util.UUID
-import javax.inject.Inject
 
 class IndexDownloaderImpl @Inject constructor(
     private val downloader: Downloader
@@ -43,12 +43,13 @@ class IndexDownloaderImpl @Inject constructor(
             fileIndex = index
         }
         val (_, response) = downloadIndexFile(repo, INDEX_V1_FILE_NAME, validator)
-        val isFingerprintAndIndexValid = repoFingerprint == null
-            || fileIndex == null
-            || repoFingerprint?.isBlank() == true
-            || response is NetworkResponse.Error
-        if (isFingerprintAndIndexValid)
+        val isFingerprintAndIndexValid = repoFingerprint == null ||
+            fileIndex == null ||
+            repoFingerprint?.isBlank() == true ||
+            response is NetworkResponse.Error
+        if (isFingerprintAndIndexValid) {
             throw IllegalStateException("Fingerprint: $repoFingerprint, Index: $fileIndex")
+        }
         IndexDownloadResponse(
             index = fileIndex!!,
             fingerprint = repoFingerprint!!,
@@ -82,12 +83,13 @@ class IndexDownloaderImpl @Inject constructor(
             fileEntry = entry
         }
         val (_, response) = downloadIndexFile(repo, ENTRY_FILE_NAME, validator)
-        val isFingerprintAndIndexValid = repoFingerprint == null
-            || fileEntry == null
-            || repoFingerprint?.isBlank() == true
-            || response is NetworkResponse.Error.Validation
-        if (isFingerprintAndIndexValid)
+        val isFingerprintAndIndexValid = repoFingerprint == null ||
+            fileEntry == null ||
+            repoFingerprint?.isBlank() == true ||
+            response is NetworkResponse.Error.Validation
+        if (isFingerprintAndIndexValid) {
             throw IllegalStateException("Empty Fingerprint")
+        }
         IndexDownloadResponse(
             index = fileEntry!!,
             fingerprint = repoFingerprint!!,
@@ -98,8 +100,11 @@ class IndexDownloaderImpl @Inject constructor(
 
     override suspend fun determineIndexType(repo: Repo): IndexType {
         val isIndexV2 = downloader.headCall(repo.indexUrl(ENTRY_FILE_NAME))
-        return if (isIndexV2 is NetworkResponse.Success) IndexType.ENTRY
-        else IndexType.INDEX_V1
+        return if (isIndexV2 is NetworkResponse.Success) {
+            IndexType.ENTRY
+        } else {
+            IndexType.INDEX_V1
+        }
     }
 
     private suspend fun downloadIndexFile(
@@ -113,11 +118,17 @@ class IndexDownloaderImpl @Inject constructor(
             target = tempFile,
             validator = validator,
             headers = {
-                if (repo.shouldAuthenticate) authentication(
-                    repo.authentication.username,
-                    repo.authentication.password
-                )
-                if (repo.versionInfo.timestamp > 0L) ifModifiedSince(Date(repo.versionInfo.timestamp))
+                if (repo.shouldAuthenticate) {
+                    authentication(
+                        repo.authentication.username,
+                        repo.authentication.password
+                    )
+                }
+                if (repo.versionInfo.timestamp > 0L) {
+                    ifModifiedSince(
+                        Date(repo.versionInfo.timestamp)
+                    )
+                }
             }
         )
         tempFile to response
