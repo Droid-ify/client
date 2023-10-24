@@ -1,8 +1,6 @@
 package com.looker.core.data.fdroid.repository.offline
 
 import com.looker.core.common.extension.exceptCancellation
-import com.looker.core.data.di.ApplicationScope
-import com.looker.core.data.di.DefaultDispatcher
 import com.looker.core.data.fdroid.repository.RepoRepository
 import com.looker.core.data.fdroid.sync.IndexManager
 import com.looker.core.data.fdroid.toEntity
@@ -11,7 +9,10 @@ import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.toExternal
 import com.looker.core.database.model.update
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.di.ApplicationScope
+import com.looker.core.di.DefaultDispatcher
 import com.looker.core.model.newer.Repo
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -22,7 +23,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 class OfflineFirstRepoRepository @Inject constructor(
     private val appDao: AppDao,

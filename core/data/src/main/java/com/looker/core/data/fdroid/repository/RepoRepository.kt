@@ -16,5 +16,4 @@ interface RepoRepository {
     suspend fun sync(repo: Repo): Boolean
 
     suspend fun syncAll(): Boolean
-
 }

@@ -7,12 +7,12 @@ import com.looker.core.data.utils.certificate
 import com.looker.core.data.utils.codeSigner
 import com.looker.core.data.utils.toJarFile
 import com.looker.core.model.newer.Repo
+import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexParser
 import org.fdroid.index.parseEntry
 import org.fdroid.index.v2.Entry
-import java.io.File
 
 class EntryValidator(
     private val repo: Repo,
@@ -20,10 +20,12 @@ class EntryValidator(
 ) : FileValidator {
     override suspend fun validate(file: File) = withContext(Dispatchers.IO) {
         val (entry, fingerprint) = getEntryAndFingerprint(file)
-        if (repo.fingerprint.isNotBlank()
-            && !repo.fingerprint.equals(fingerprint, ignoreCase = true)
+        if (repo.fingerprint.isNotBlank() &&
+            !repo.fingerprint.equals(fingerprint, ignoreCase = true)
         ) {
-            throw ValidationException("Expected Fingerprint: ${repo.fingerprint}, Acquired Fingerprint: $fingerprint")
+            throw ValidationException(
+                "Expected Fingerprint: ${repo.fingerprint}, Acquired Fingerprint: $fingerprint"
+            )
         }
         fingerprintBlock(entry, fingerprint)
     }

@@ -21,5 +21,4 @@ interface AppRepository {
      * returns false if the app was already in the favourites and so it is removed
      */
     suspend fun addToFavourite(packageName: PackageName): Boolean
-
 }

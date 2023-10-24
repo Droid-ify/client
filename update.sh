@@ -5,6 +5,10 @@ version=""
 changelog_directory="./metadata/en-US/changelogs"
 kotlin_file="./build-logic/structure/src/main/kotlin/DefaultConfig.kt"
 
+# Pull commits from origin
+echo "Pulling commits from GitHub"
+git pull --rebase
+
 # Parse command-line arguments
 while [[ $# -gt 0 ]]; do
   case $1 in
@@ -72,7 +76,6 @@ code $changelog_file
 # Ask for confirmation before creating a Git tag
 read -p "Do you want to create a Git tag for version $git_tag? (y/n): " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  git pull --rebase
   git add -A
   git commit -m "Release $version_name"
   # Create a Git tag

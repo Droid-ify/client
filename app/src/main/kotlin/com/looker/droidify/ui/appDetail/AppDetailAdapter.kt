@@ -26,6 +26,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.google.android.material.R as MaterialR
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -33,11 +34,12 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.looker.core.common.DataSize
+import com.looker.core.common.R.drawable as drawableRes
+import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.datastore.Settings
 import com.looker.core.model.*
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
@@ -47,10 +49,6 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
-import kotlinx.datetime.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
 import java.lang.ref.WeakReference
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -58,9 +56,10 @@ import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
-import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.drawable as drawableRes
-import com.looker.core.common.R.string as stringRes
+import kotlinx.datetime.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -679,7 +678,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         products: List<Pair<Product, Repository>>,
         installedItem: InstalledItem?,
         isFavourite: Boolean,
-        allowIncompatibleVersion: Boolean,
+        allowIncompatibleVersion: Boolean
     ) {
         items.clear()
         val productRepository = products.findSuggested(installedItem) ?: run {
@@ -1545,31 +1544,31 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     labels.asSequence().filter { it.first } + labels.asSequence()
                         .filter { !it.first }
                     ).forEach {
-                        if (builder.isNotEmpty()) {
-                            builder.append("\n\n")
-                            builder.setSpan(
-                                RelativeSizeSpan(1f / 3f),
-                                builder.length - 2,
-                                builder.length,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
-                        builder.append(it.second)
-                        if (!it.first) {
-                            // Replace dots with spans to enable word wrap
-                            it.second.asSequence()
-                                .mapIndexedNotNull { index, c -> if (c == '.') index else null }
-                                .map { index -> index + builder.length - it.second.length }
-                                .forEach { index ->
-                                    builder.setSpan(
-                                        DotSpan(),
-                                        index,
-                                        index + 1,
-                                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                }
-                        }
+                    if (builder.isNotEmpty()) {
+                        builder.append("\n\n")
+                        builder.setSpan(
+                            RelativeSizeSpan(1f / 3f),
+                            builder.length - 2,
+                            builder.length,
+                            SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
                     }
+                    builder.append(it.second)
+                    if (!it.first) {
+                        // Replace dots with spans to enable word wrap
+                        it.second.asSequence()
+                            .mapIndexedNotNull { index, c -> if (c == '.') index else null }
+                            .map { index -> index + builder.length - it.second.length }
+                            .forEach { index ->
+                                builder.setSpan(
+                                    DotSpan(),
+                                    index,
+                                    index + 1,
+                                    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                                )
+                            }
+                    }
+                }
                 holder.text.text = builder
             }
 

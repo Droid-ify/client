@@ -2,11 +2,10 @@ plugins {
     alias(libs.plugins.looker.android.library)
     alias(libs.plugins.looker.hilt)
     alias(libs.plugins.looker.lint)
-    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.looker.core.datastore"
+    namespace = "com.looker.core.di"
 
     buildTypes {
         release {
@@ -18,13 +17,4 @@ android {
             isMinifyEnabled = true
         }
     }
-}
-
-dependencies {
-    modules(Modules.coreCommon, Modules.coreDI)
-    implementation(libs.androidx.dataStore.core)
-    implementation(libs.androidx.dataStore.proto)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.serialization.json)
-    implementation(libs.kotlinx.datetime)
 }

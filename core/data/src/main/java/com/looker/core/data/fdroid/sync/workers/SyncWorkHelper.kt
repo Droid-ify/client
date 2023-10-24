@@ -6,9 +6,9 @@ import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.ForegroundInfo
+import com.looker.core.common.R as CommonR
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.R as CommonR
 
 private const val SyncNotificationID = 12
 private const val SyncNotificationChannelID = "SyncNotificationChannelID"
@@ -23,7 +23,7 @@ private fun Context.syncWorkNotification(): Notification {
         val channel = NotificationChannel(
             SyncNotificationChannelID,
             getString(CommonR.string.sync_repositories),
-            NotificationManager.IMPORTANCE_LOW,
+            NotificationManager.IMPORTANCE_LOW
         ).apply {
             description = getString(CommonR.string.sync_repositories)
         }
@@ -33,7 +33,7 @@ private fun Context.syncWorkNotification(): Notification {
 
     return NotificationCompat.Builder(
         this,
-        SyncNotificationChannelID,
+        SyncNotificationChannelID
     )
         .setSmallIcon(CommonR.drawable.ic_sync)
         .setContentTitle(getString(CommonR.string.syncing))

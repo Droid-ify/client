@@ -15,12 +15,12 @@ import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
@@ -99,5 +99,5 @@ data class AppDetailUiState(
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,
     val allowIncompatibleVersions: Boolean = false,
-    val addressIfUnavailable: String? = null,
+    val addressIfUnavailable: String? = null
 )

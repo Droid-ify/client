@@ -25,7 +25,7 @@ fun Repository.serialize(generator: JsonGenerator) {
 }
 
 fun JsonParser.repository(): Repository {
-    var id = 0L
+    var id = -1L
     var address = ""
     var mirrors = emptyList<String>()
     var name = ""

@@ -26,30 +26,9 @@ import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
 import java.io.ByteArrayOutputStream
-import kotlin.collections.List
-import kotlin.collections.Map
-import kotlin.collections.MutableSet
-import kotlin.collections.Set
-import kotlin.collections.any
-import kotlin.collections.asSequence
 import kotlin.collections.component1
 import kotlin.collections.component2
-import kotlin.collections.distinctBy
-import kotlin.collections.filter
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.joinToString
-import kotlin.collections.listOf
-import kotlin.collections.map
-import kotlin.collections.mapNotNull
-import kotlin.collections.minus
-import kotlin.collections.minusAssign
-import kotlin.collections.mutableMapOf
-import kotlin.collections.mutableSetOf
-import kotlin.collections.orEmpty
-import kotlin.collections.plusAssign
 import kotlin.collections.set
-import kotlin.collections.toSet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -548,6 +527,16 @@ object Database {
             }
             if (result.any { it }) {
                 notifyChanged(Subject.Products)
+            }
+        }
+
+        fun importRepos(list: List<Repository>) {
+            db.transaction {
+                val currentAddresses = getAll().map { it.address }
+                val newRepos = list
+                    .filter { it.address !in currentAddresses }
+                newRepos.forEach { put(it) }
+                removeDuplicates()
             }
         }
 

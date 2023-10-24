@@ -1,7 +1,9 @@
 package com.looker.core.datastore
 
+import android.net.Uri
 import android.util.Log
 import androidx.datastore.core.DataStore
+import com.looker.core.common.Exporter
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
@@ -17,7 +19,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 
-class SettingsRepository(private val dataStore: DataStore<Settings>) {
+class SettingsRepository(
+    private val dataStore: DataStore<Settings>,
+    private val exporter: Exporter<Settings>
+) {
     private companion object {
         const val TAG: String = "SettingsRepository"
     }
@@ -131,6 +136,16 @@ class SettingsRepository(private val dataStore: DataStore<Settings>) {
         dataStore.updateData { settings ->
             settings.copy(homeScreenSwiping = value)
         }
+    }
+
+    suspend fun exportSettings(target: Uri) {
+        val currentSettings = fetchInitialPreferences()
+        exporter.saveToFile(currentSettings, target)
+    }
+
+    suspend fun importSettings(target: Uri) {
+        val importedSettings = exporter.readFromFile(target)
+        dataStore.updateData { importedSettings }
     }
 
     suspend fun toggleFavourites(packageName: String) {
