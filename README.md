@@ -26,10 +26,17 @@
 <img src="metadata/en-US/images/phoneScreenshots/2.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/1.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="48%" />
 
 ## Building and Installing
+1. **Install Android Studio**:
+    - Download and install [Android Studio](https://developer.android.com/studio) on your computer if you haven't already.
 
-You need [Android Studio](https://developer.android.com/studio) to build this App.\
-After Installing Android Studio, select `Project from Version Control` and paste the link of this repository.\
-Navigate to `Build > APK > Create New Keystore > Enter the password` and wait for the build to finish.
+2. **Clone the Repository**:
+    - Open Android Studio and select "Project from Version Control."
+    - Paste the link to this repository to clone it to your local machine.
+
+3. **Build the APK**:
+    - In Android Studio, navigate to `Build > APK`.
+    - Select "Create New Keystore" and enter the required information, including a password.
+    - Wait for the build process to finish.
 
 ## TODO
 
