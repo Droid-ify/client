@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - '**.md'
       - '**.yml'
-      - 'values-*/**.xml'
+      - 'values-*/**'
   pull_request_review:
     paths-ignore:
       - '**.md'
