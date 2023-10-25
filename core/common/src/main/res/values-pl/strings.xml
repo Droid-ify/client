@@ -227,4 +227,13 @@
     <string name="label_copy">Kopiuj</string>
     <string name="proxy_port_error_not_int">Port proxy może być tylko liczbą naturalną</string>
     <string name="repository_not_found">Nie znaleziono następującego repozytorium</string>
+    <string name="import_settings_title">Przywróć ustawienia</string>
+    <string name="import_export">Import/Eksport</string>
+    <string name="import_settings_DESC">Przywróć ustawienia i ulubione z pliku</string>
+    <string name="export_settings_title">Eksportuj ustawienia</string>
+    <string name="export_repos_DESC">Zapisz wszystkie repozytoria do pliku</string>
+    <string name="import_repos_title">Importuj repozytoria</string>
+    <string name="export_settings_DESC">Zapisz ustawienia i ulubione do pliku</string>
+    <string name="export_repos_title">Eksportuj repozytoria</string>
+    <string name="import_repos_DESC">Przywróć wszystkie repozytoria z pliku</string>
 </resources>
