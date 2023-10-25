@@ -10,14 +10,14 @@ import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
-import java.io.IOException
-import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
+import java.io.IOException
+import kotlin.time.Duration
 
 class SettingsRepository(
     private val dataStore: DataStore<Settings>,
@@ -145,7 +145,10 @@ class SettingsRepository(
 
     suspend fun importSettings(target: Uri) {
         val importedSettings = exporter.readFromFile(target)
-        dataStore.updateData { importedSettings }
+        val updatedFavorites = importedSettings.favouriteApps +
+            fetchInitialPreferences().favouriteApps
+        val updatedSettings = importedSettings.copy(favouriteApps = updatedFavorites)
+        dataStore.updateData { updatedSettings }
     }
 
     suspend fun toggleFavourites(packageName: String) {
