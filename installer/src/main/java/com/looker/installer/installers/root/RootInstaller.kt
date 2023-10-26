@@ -9,9 +9,9 @@ import com.looker.installer.installers.uninstallPackage
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
 import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
-import kotlinx.coroutines.suspendCancellableCoroutine
 
 internal class RootInstaller(private val context: Context) : Installer {
 
@@ -63,10 +63,10 @@ internal class RootInstaller(private val context: Context) : Installer {
         installItem: InstallItem
     ): InstallState = suspendCancellableCoroutine { cont ->
         val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
-        val shellResult = Shell.cmd(releaseFile.install).exec()
-
-        if (shellResult.isSuccess) {
-            cont.resume(InstallState.Installed)
+        Shell.cmd(releaseFile.install).submit { shellResult ->
+            val result = if (shellResult.isSuccess) InstallState.Installed
+            else InstallState.Failed
+            cont.resume(result)
             Shell.cmd(releaseFile.deletePackage).submit()
         }
     }
