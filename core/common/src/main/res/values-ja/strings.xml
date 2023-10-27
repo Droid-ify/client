@@ -65,7 +65,7 @@
     </plurals>
     <string name="incompatible_version">互換性のないバージョン</string>
     <string name="incompatible_versions">互換性のないバージョン</string>
-    <string name="incompatible_versions_summary">端末と互換性のないアプリのバージョンを表示する</string>
+    <string name="incompatible_versions_summary">端末に対応していないバージョンを表示する</string>
     <string name="incompatible_with_FORMAT">%s とは互換性がありません</string>
     <string name="install">インストール</string>
     <string name="install_types">インストール方式</string>
@@ -95,7 +95,7 @@
     <string name="no_matching_applications_found">そのようなアプリは見つかりませんでした</string>
     <string name="no_proxy">プロキシなし</string>
     <string name="notify_about_updates">アップデートを通知する</string>
-    <string name="notify_about_updates_summary">新しいバージョンが利用可能になったときに通知を表示します</string>
+    <string name="notify_about_updates_summary">新しいバージョンが利用可能になったときに通知を表示する</string>
     <string name="number_of_applications">アプリの数</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">%s とのみ互換性があります</string>
@@ -151,7 +151,7 @@
     <string name="unknown_FORMAT">不明: %s</string>
     <string name="unsigned">署名なし</string>
     <string name="unstable_updates">不安定なアップデート</string>
-    <string name="unstable_updates_summary">不安定なバージョンのインストールを提案します</string>
+    <string name="unstable_updates_summary">不安定なバージョンのインストールを提案する</string>
     <string name="unverified">未検証</string>
     <string name="update">アップデート</string>
     <string name="updates">アップデート</string>
@@ -218,4 +218,13 @@
     <string name="repository_not_found">次のリポジトリが見つかりませんでした</string>
     <string name="special_credits">スペシャルクレジット</string>
     <string name="shizuku_not_installed">Shizukuがインストールされていません</string>
+    <string name="import_settings_title">設定をインポート</string>
+    <string name="import_export">インポート･エクスポート</string>
+    <string name="import_settings_DESC">ファイルから設定とお気に入りを読み込む</string>
+    <string name="export_settings_title">設定をエクスポート</string>
+    <string name="export_repos_DESC">ファイルに全てのリポジトリを書き出す</string>
+    <string name="import_repos_title">リポジトリをインポート</string>
+    <string name="export_settings_DESC">ファイルに設定とお気に入りを書き出す</string>
+    <string name="export_repos_title">リポジトリをエクスポート</string>
+    <string name="import_repos_DESC">ファイルから全てのリポジトリを読み込む</string>
 </resources>
