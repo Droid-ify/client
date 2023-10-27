@@ -224,4 +224,13 @@
     <string name="root_permission_description">Дозволите root дозволу за тихе инсталације</string>
     <string name="compiled_for_debugging">Састављено за отклањање грешака</string>
     <string name="unknown_FORMAT">Непознато: %s</string>
+    <string name="import_settings_title">Увоз подешавања</string>
+    <string name="import_export">Увоз/Извоз</string>
+    <string name="import_settings_DESC">Увезите подешавања и омиљене из фајла</string>
+    <string name="export_settings_title">Извоз подешавања</string>
+    <string name="export_repos_DESC">Извезите све репозиторијуме у фајл</string>
+    <string name="import_repos_title">Увоз репозиторијума</string>
+    <string name="export_settings_DESC">Извезите подешавања и омиљене у фајл</string>
+    <string name="export_repos_title">Извоз репозиторијума</string>
+    <string name="import_repos_DESC">Увезите све репозиторијуме из фајла</string>
 </resources>
