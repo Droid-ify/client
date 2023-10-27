@@ -217,4 +217,13 @@
     <string name="connection_error_DESC">Impossibile connettersi al server</string>
     <string name="contains_nsfw">Contiene contenuti non sicuri per il lavoro</string>
     <string name="socket_error_DESC">Il server non è riuscito a fornire un nuovo pacchetto.</string>
+    <string name="import_settings_title">Importa impostazioni</string>
+    <string name="import_export">Importa/Esporta</string>
+    <string name="import_settings_DESC">Importa impostazioni e preferiti da file</string>
+    <string name="export_settings_title">Esporta impostazioni</string>
+    <string name="export_repos_DESC">Esporta tutti i repository in file</string>
+    <string name="import_repos_title">Importa repository</string>
+    <string name="export_settings_DESC">Esporta impostazioni e preferiti in file</string>
+    <string name="export_repos_title">Esporta repository</string>
+    <string name="import_repos_DESC">Importare tutti i repository da file</string>
 </resources>
