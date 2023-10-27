@@ -377,6 +377,18 @@ data class Repository(
                 name = "SimpleX Chat F-Droid",
                 description = "SimpleX Chat official F-Droid repository.",
                 fingerprint = "9F358FF284D1F71656A2BFAF0E005DEAE6AA14143720E089F11FF2DDCFEB01BA"
+            ),
+            defaultRepository(
+                address = "https://repo.samourai.io/fdroid/repo",
+                name = "Samourai Wallet",
+                description = "Samourai Bitcoin Wallet official F-Droid repository.",
+                fingerprint = "5318AFA280284855CF5D0027AA54517769F461D735980B1FB0854CEAE8E072A5"
+            ),
+            defaultRepository(
+                address = "https://f-droid.monerujo.io/fdroid/repo",
+                name = "Monerujo Wallet",
+                description = "Monerujo Monero Wallet official F-Droid repository.",
+                fingerprint = "A82C68E14AF0AA6A2EC20E6B272EFF25E5A038F3F65884316E0F5E0D91E7B713"
             )
         )
 
