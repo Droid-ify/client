@@ -181,7 +181,7 @@
     <string name="all_applications">Sve aplikacije</string>
     <string name="available">Otkrij</string>
     <string name="delete">Izbriši</string>
-    <string name="donate">Donirajte</string>
+    <string name="donate">Doniraj</string>
     <string name="downloading">Preuzimanje</string>
     <string name="confirmation">Potvrda</string>
     <string name="edit_repository">Uredi repozitorij</string>
@@ -224,4 +224,13 @@
     <string name="repository_not_found">Sljedeći repozitorij nije pronađen</string>
     <string name="special_credits">Posebne zasluge</string>
     <string name="shizuku_not_installed">Shizuku nije instaliran</string>
+    <string name="import_settings_title">Uvezi postavke</string>
+    <string name="import_export">Uvezi/Izvezi</string>
+    <string name="import_settings_DESC">Uvezi postavke i favorite iz datoteke</string>
+    <string name="export_settings_title">Izvezi postavke</string>
+    <string name="export_repos_DESC">Izvezi sve repozitorije u datoteku</string>
+    <string name="import_repos_title">Uvezi repozitorije</string>
+    <string name="export_settings_DESC">Izvezi postavke i favorite u datoteku</string>
+    <string name="export_repos_title">Izvezi repozitorije</string>
+    <string name="import_repos_DESC">Uvezi sve repozitorije iz datoteke</string>
 </resources>
