@@ -29,6 +29,10 @@ gradlePlugin {
             id = "looker.lint"
             implementationClass = "AndroidLintPlugin"
         }
+        register("serializationPlugin") {
+            id = "looker.serialization"
+            implementationClass = "AndroidSerializationPlugin"
+        }
         register("hiltPlugin") {
             id = "looker.hilt"
             implementationClass = "AndroidHiltPlugin"
