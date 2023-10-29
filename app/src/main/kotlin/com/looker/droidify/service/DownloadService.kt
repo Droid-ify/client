@@ -428,7 +428,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 validator = releaseValidator,
                 headers = { authentication(task.authentication) }
             ) { read, total ->
-                ensureActive()
                 yield()
                 updateCurrentState(State.Downloading(task.packageName, read, total))
             }

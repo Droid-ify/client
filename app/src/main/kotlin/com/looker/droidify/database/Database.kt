@@ -25,10 +25,6 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -40,6 +36,11 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.set
 
 object Database {
     fun init(context: Context): Boolean {
@@ -448,8 +449,8 @@ object Database {
             .map { getEnabled() }
             .flowOn(Dispatchers.IO)
 
-        private fun getEnabled(): List<Repository> {
-            return db.query(
+        private suspend fun getEnabled(): List<Repository> = withContext(Dispatchers.IO) {
+            db.query(
                 Schema.Repository.name,
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} != 0 AND " +
@@ -740,7 +741,7 @@ object Database {
             .map { getAll() }
             .flowOn(Dispatchers.IO)
 
-        private fun getAll(): Set<String> {
+        private suspend fun getAll(): Set<String> = withContext(Dispatchers.IO) {
             val builder = QueryBuilder()
 
             builder += """SELECT DISTINCT category.${Schema.Category.ROW_NAME}
@@ -750,9 +751,10 @@ object Database {
         WHERE repository.${Schema.Repository.ROW_ENABLED} != 0 AND
         repository.${Schema.Repository.ROW_DELETED} == 0"""
 
-            return builder.query(db, null).use {
-                it.asSequence()
-                    .map { it.getString(it.getColumnIndex(Schema.Category.ROW_NAME)) }.toSet()
+            builder.query(db, null).use { cursor ->
+                cursor.asSequence().map {
+                    it.getString(it.getColumnIndexOrThrow(Schema.Category.ROW_NAME))
+                }.toSet()
             }
         }
     }
