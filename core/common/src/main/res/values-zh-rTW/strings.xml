@@ -218,4 +218,13 @@
     <string name="label_copy">複製</string>
     <string name="proxy_port_error_not_int">代理端口只能設定為整數</string>
     <string name="repository_not_found">未找到下列儲存庫</string>
+    <string name="import_settings_title">匯入設定</string>
+    <string name="import_export">匯入 / 匯出</string>
+    <string name="import_settings_DESC">從檔案中匯入設定和我的最愛</string>
+    <string name="export_settings_title">匯出設定</string>
+    <string name="export_repos_DESC">將所有軟體庫匯出至檔案</string>
+    <string name="import_repos_title">匯入軟體庫</string>
+    <string name="export_settings_DESC">將設定和我的最愛匯出至檔案</string>
+    <string name="export_repos_title">匯出軟體庫</string>
+    <string name="import_repos_DESC">從檔案中匯入所有軟體庫</string>
 </resources>

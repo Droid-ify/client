@@ -221,4 +221,13 @@
     <string name="root_permission_description">Permesi radikan permeson por silenta instalo</string>
     <string name="compiled_for_debugging">Kompilita por sencimigado</string>
     <string name="unknown_FORMAT">Nekonata: %s</string>
+    <string name="import_settings_title">Importi Agordojn</string>
+    <string name="import_export">Importi/Eksporti</string>
+    <string name="import_settings_DESC">Importi agordojn kaj favoratojn el dosiero</string>
+    <string name="export_settings_title">Eksporti Agordojn</string>
+    <string name="export_repos_DESC">Eksporti ĉiujn deponejojn al dosiero</string>
+    <string name="import_repos_title">Importi Deponejojn</string>
+    <string name="export_settings_DESC">Eksporti agordojn kaj favoratojn al dosiero</string>
+    <string name="export_repos_title">Eksporti Deponejojn</string>
+    <string name="import_repos_DESC">Importi ĉiujn deponejojn el dosiero</string>
 </resources>

@@ -221,4 +221,13 @@
     <string name="label_copy">ନକଲ କରନ୍ତୁ</string>
     <string name="proxy_port_error_not_int">ପ୍ରକ୍ସି ପୋର୍ଟ କେବଳ ଗୋଟିଏ ପୂର୍ଣ୍ଣସଂଖ୍ୟା ହୋଇପାରେ</string>
     <string name="repository_not_found">ନିମ୍ନଲିଖିତ ଭଣ୍ଡାର ମିଳିଲା ନାହିଁ</string>
+    <string name="import_settings_title">ସେଟିଂସମୂହ ଆମଦାନୀ କରନ୍ତୁ</string>
+    <string name="import_export">ଆମଦାନୀ ଏବଂ ରପ୍ତାନି</string>
+    <string name="import_settings_DESC">ଫାଇଲରୁ ସେଟିଂସମୂହ ଏବଂ ପସନ୍ଦଗୁଡିକ ଆମଦାନୀ କରନ୍ତୁ</string>
+    <string name="export_settings_title">ସେଟିଂସମୂହ ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="export_repos_DESC">ସମସ୍ତ ସଂଗ୍ରହାଳୟ ଫାଇଲ୍ କରିବାକୁ ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="import_repos_title">ସଂଗ୍ରହାଳୟ ଆମଦାନି କରନ୍ତୁ</string>
+    <string name="export_settings_DESC">ଫାଇଲ୍ ପାଇଁ ସେଟିଂସମୂହ ଏବଂ ପସନ୍ଦଗୁଡିକ ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="export_repos_title">ସଂଗ୍ରହାଳୟ ରପ୍ତାନି କରନ୍ତୁ</string>
+    <string name="import_repos_DESC">ଫାଇଲରୁ ସମସ୍ତ ସଂଗ୍ରହାଳୟ ଆମଦାନି କରନ୍ତୁ</string>
 </resources>

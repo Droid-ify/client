@@ -224,4 +224,13 @@
     <string name="label_copy">Copiar</string>
     <string name="proxy_port_error_not_int">Apenas pode usar um número inteiro para a porta do proxy</string>
     <string name="repository_not_found">Não foi possível encontrar o repositório seguinte</string>
+    <string name="import_settings_title">Importar definições</string>
+    <string name="import_export">Importar/Exportar</string>
+    <string name="import_settings_DESC">Importar definições e favoritos de um ficheiro</string>
+    <string name="export_settings_title">Exportar definições</string>
+    <string name="export_repos_DESC">Exportar todos os repositórios para um ficheiro</string>
+    <string name="import_repos_title">Importar repositórios</string>
+    <string name="export_settings_DESC">Exportar definições e favoritos para um ficheiro</string>
+    <string name="export_repos_title">Exportar repositórios</string>
+    <string name="import_repos_DESC">Importar todos os repositórios de um ficheiro</string>
 </resources>

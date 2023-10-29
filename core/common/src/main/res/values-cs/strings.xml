@@ -224,4 +224,13 @@
     <string name="label_copy">Kopírovat</string>
     <string name="repository_not_found">Následující repozitář nebyl nalezen</string>
     <string name="proxy_port_error_not_int">Port proxy smí být pouze celé číslo</string>
+    <string name="import_settings_title">Importovat nastavení</string>
+    <string name="import_export">Import/export</string>
+    <string name="import_settings_DESC">Importovat nastavení a oblíbené ze souboru</string>
+    <string name="export_settings_title">Exportovat nastavení</string>
+    <string name="export_repos_DESC">Exportovat všechny repozitáře do souboru</string>
+    <string name="import_repos_title">Importovat repozitáře</string>
+    <string name="export_settings_DESC">Exportovat nastavení a oblíbené do souboru</string>
+    <string name="export_repos_title">Exportovat repozitáře</string>
+    <string name="import_repos_DESC">Importovat všechny repozitáře ze souboru</string>
 </resources>

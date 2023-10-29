@@ -65,7 +65,7 @@
     </plurals>
     <string name="incompatible_version">互換性のないバージョン</string>
     <string name="incompatible_versions">互換性のないバージョン</string>
-    <string name="incompatible_versions_summary">デバイスと互換性のないアプリのバージョンを表示します</string>
+    <string name="incompatible_versions_summary">端末と互換性のないアプリのバージョンを表示する</string>
     <string name="incompatible_with_FORMAT">%s とは互換性がありません</string>
     <string name="install">インストール</string>
     <string name="install_types">インストール方式</string>
@@ -99,7 +99,7 @@
     <string name="number_of_applications">アプリの数</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">%s とのみ互換性があります</string>
-    <string name="only_on_wifi">Wi-Fi のみ</string>
+    <string name="only_on_wifi">Wi-Fi 接続時のみ</string>
     <string name="only_on_wifi_with_charging">Wi-Fi 接続時と充電時のみ</string>
     <string name="open_DESC_FORMAT">%s を開きますか\?</string>
     <string name="other">その他</string>
@@ -162,7 +162,7 @@
     <string name="version">バージョン</string>
     <string name="version_FORMAT">バージョン %s</string>
     <string name="versions">バージョン</string>
-    <string name="waiting_to_start_download">ダウンロード開始を待っています…</string>
+    <string name="waiting_to_start_download">ダウンロード開始を待機中…</string>
     <string name="whats_new">新着のアプリ</string>
     <string name="website">ウェブサイト</string>
     <string name="prefs_language_title">言語</string>
@@ -195,16 +195,16 @@
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
     <string name="no_internet">インターネット接続がありません</string>
     <string name="auto_update">アプリの自動更新</string>
-    <string name="auto_update_apps">アップデートを自動的にインストールするようにします</string>
+    <string name="auto_update_apps">可能であればアップデートを自動的にインストールする</string>
     <string name="installing">インストール</string>
-    <string name="waiting_to_start_installation">インストールを開始するのを待っています…</string>
+    <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
     <string name="material_you">Material You</string>
     <string name="repository_unreachable">リポジトリに到達できません</string>
     <string name="enable_repo">リポジトリを有効にします</string>
     <string name="force_clean_up">強制的にクリーンアップします</string>
     <string name="force_clean_up_DESC">冗長ファイルをクリーンアップします</string>
-    <string name="material_you_desc">Material Youのカラーテーマを使用します</string>
+    <string name="material_you_desc">テーマに Dynamic Color を使用する</string>
     <string name="restart_app">Droid-ifyを再起動して変更を確認する</string>
     <string name="has_non_free_components">不自由なコンポーネントを含みます</string>
     <string name="home_screen_swiping">ホーム画面のスワイプ</string>
@@ -214,7 +214,7 @@
     <string name="socket_error_DESC">サーバーは新しいパケットを提供できませんでした。</string>
     <string name="label_copy">コピー</string>
     <string name="proxy_port_error_not_int">プロキシポートは整数のみです</string>
-    <string name="home_screen_swiping_DESC">ホーム画面でページ間をスワイプ出来る様にする</string>
+    <string name="home_screen_swiping_DESC">ホーム画面でページ間をスワイプで移動する</string>
     <string name="repository_not_found">次のリポジトリが見つかりませんでした</string>
     <string name="special_credits">スペシャルクレジット</string>
     <string name="shizuku_not_installed">Shizukuがインストールされていません</string>

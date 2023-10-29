@@ -228,4 +228,13 @@
     <string name="label_copy">Копировать</string>
     <string name="repository_not_found">Эти репозитории не были найдены</string>
     <string name="proxy_port_error_not_int">Порт прокси должен быть целым числом</string>
+    <string name="import_settings_title">Импортировать Настройки</string>
+    <string name="import_export">Импорт/Экспорт</string>
+    <string name="import_settings_DESC">Импортировать настройки и избранные из файла</string>
+    <string name="export_settings_title">Экспортировать настройки</string>
+    <string name="export_repos_DESC">Экспортировать все репозитории из файла</string>
+    <string name="import_repos_title">Импортировать Репозитории</string>
+    <string name="export_settings_DESC">Экспортировать настройки и избранные из файла</string>
+    <string name="export_repos_title">Экспортировать Репозитории</string>
+    <string name="import_repos_DESC">Импортировать все репозитории из файла</string>
 </resources>

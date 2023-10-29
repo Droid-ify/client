@@ -221,4 +221,13 @@
     <string name="label_copy">ਕਾਪੀ ਕਰੋ</string>
     <string name="proxy_port_error_not_int">ਪ੍ਰੌਕਸੀ ਪੋਰਟ ਸਿਰਫ਼ ਪੂਰਨ ਅੰਕ ਹੋ ਸਕਦਾ ਹੈ</string>
     <string name="repository_not_found">ਹੇਠ ਦਿੱਤੀ ਰਿਪੋਜ਼ਟਰੀ ਨਹੀਂ ਮਿਲੀ</string>
+    <string name="import_settings_title">ਆਯਾਤ ਸੈਟਿੰਗਾਂ</string>
+    <string name="import_export">ਆਯਾਤ/ਨਿਰਯਾਤ</string>
+    <string name="import_settings_DESC">ਫ਼ਾਈਲ ਤੋਂ ਸੈਟਿੰਗਾਂ ਅਤੇ ਮਨਪਸੰਦ ਆਯਾਤ ਕਰੋ</string>
+    <string name="export_settings_title">ਨਿਰਯਾਤ ਸੈਟਿੰਗਾਂ</string>
+    <string name="export_repos_DESC">ਸਾਰੀਆਂ ਰਿਪੋਜ਼ਟਰੀਆਂ ਨੂੰ ਫ਼ਾਈਲ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="import_repos_title">ਰਿਪੋਜ਼ਟਰੀਆਂ ਆਯਾਤ ਕਰੋ</string>
+    <string name="export_settings_DESC">ਸੈਟਿੰਗਾਂ ਅਤੇ ਮਨਪਸੰਦ ਫ਼ਾਈਲ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ</string>
+    <string name="export_repos_title">ਰਿਪੋਜ਼ਟਰੀਆਂ ਨਿਰਯਾਤ ਕਰੋ</string>
+    <string name="import_repos_DESC">ਫ਼ਾਈਲ ਤੋਂ ਸਾਰੀਆਂ ਰਿਪੋਜ਼ਟਰੀਆਂ ਆਯਾਤ ਕਰੋ</string>
 </resources>
