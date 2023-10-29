@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -60,10 +61,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     constructor(packageName: String, repoAddress: String? = null) : this() {
-        arguments = Bundle().apply {
-            putString(ARG_PACKAGE_NAME, packageName)
-            putString(ARG_REPO_ADDRESS, repoAddress)
-        }
+        arguments = bundleOf(
+            ARG_PACKAGE_NAME to packageName,
+            ARG_REPO_ADDRESS to repoAddress
+        )
     }
 
     private enum class Action(

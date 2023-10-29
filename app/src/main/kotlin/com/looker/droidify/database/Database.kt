@@ -428,6 +428,11 @@ object Database {
             }
         }
 
+        fun getStream(id: Long): Flow<Repository?> = flowOf(Unit)
+            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+            .map { get(id) }
+            .flowOn(Dispatchers.IO)
+
         fun get(id: Long): Repository? {
             return db.query(
                 Schema.Repository.name,
@@ -435,8 +440,7 @@ object Database {
                     "${Schema.Repository.ROW_ID} = ? AND ${Schema.Repository.ROW_DELETED} == 0",
                     arrayOf(id.toString())
                 )
-            )
-                .use { it.firstOrNull()?.let(::transform) }
+            ).use { it.firstOrNull()?.let(::transform) }
         }
 
         fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
@@ -596,7 +600,12 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
-        fun getCount(repositoryId: Long): Int {
+        fun getCountStream(repositoryId: Long): Flow<Int> = flowOf(Unit)
+            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+            .map { getCount(repositoryId) }
+            .flowOn(Dispatchers.IO)
+
+        private fun getCount(repositoryId: Long): Int {
             return db.query(
                 Schema.Product.name,
                 columns = arrayOf("COUNT (*)"),
@@ -604,8 +613,7 @@ object Database {
                     "${Schema.Product.ROW_REPOSITORY_ID} = ?",
                     arrayOf(repositoryId.toString())
                 )
-            )
-                .use { it.firstOrNull()?.getInt(0) ?: 0 }
+            ).use { it.firstOrNull()?.getInt(0) ?: 0 }
         }
 
         fun query(

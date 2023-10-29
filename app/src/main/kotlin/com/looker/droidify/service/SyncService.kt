@@ -122,7 +122,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
         }
 
-        suspend fun updateAllApps() {
+        context (CoroutineScope)
+        fun updateAllApps() {
             updateAllAppsInternal()
         }
 
@@ -412,9 +413,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         hasUpdates: Boolean,
         notifyUpdates: Boolean,
         autoUpdate: Boolean
-    ) {
+    ) = withContext(Dispatchers.IO) {
         if (hasUpdates && notifyUpdates) {
-            val job = lifecycleScope.launch {
+            val job = launch {
                 currentTask = null
                 handleNextTask(false)
                 val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
@@ -426,7 +427,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
             currentTask = CurrentTask(null, job, true, State.Finishing)
         } else {
-            lifecycleScope.launch { mutableFinishState.emit(Unit) }
+            mutableFinishState.emit(Unit)
             val needStop = started == Started.MANUAL
             started = Started.NO
             if (needStop) stopForegroundCompat()
@@ -439,8 +440,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         hasUpdates: Boolean,
         unstableUpdates: Boolean,
         repository: Repository
-    ) {
-        val job = lifecycleScope.launch {
+    ) = withContext(Dispatchers.IO) {
+        val job = launch {
             val request = RepositoryUpdater.update(
                 this@SyncService,
                 repository,
@@ -473,7 +474,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         currentTask = CurrentTask(task, job, hasUpdates, initialState)
     }
 
-    private suspend fun updateAllAppsInternal() {
+    private fun CoroutineScope.updateAllAppsInternal() = launch {
         Database.ProductAdapter
             .getUpdatesStream().first()
             // Update Droid-ify the last

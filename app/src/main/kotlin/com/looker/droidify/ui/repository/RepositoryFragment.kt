@@ -9,11 +9,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
-import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.string as stringRes
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.service.Connection
@@ -21,30 +25,27 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Locale
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R.string as stringRes
 
+@AndroidEntryPoint
 class RepositoryFragment() : ScreenFragment() {
 
     private var _binding: RepositoryPageBinding? = null
     private val binding get() = _binding!!
 
-    companion object {
-        private const val EXTRA_REPOSITORY_ID = "repositoryId"
-    }
+    private val viewModel: RepositoryViewModel by viewModels()
 
     constructor(repositoryId: Long) : this() {
-        arguments = Bundle().apply {
-            putLong(EXTRA_REPOSITORY_ID, repositoryId)
-        }
+        arguments = bundleOf(RepositoryViewModel.ARG_REPO_ID to repositoryId)
     }
 
-    private val repositoryId: Long
-        get() = requireArguments().getLong(EXTRA_REPOSITORY_ID)
-
     private var layout: LinearLayout? = null
-
-    private val syncConnection = Connection(SyncService::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -53,14 +54,20 @@ class RepositoryFragment() : ScreenFragment() {
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = RepositoryPageBinding.inflate(inflater, container, false)
-        syncConnection.bind(requireContext())
+        viewModel.bindService(requireContext())
         screenActivity.onToolbarCreated(toolbar)
-        setupView()
         toolbar.title = getString(stringRes.repository)
         val scroll = NestedScrollView(binding.root.context)
         scroll.addView(binding.root)
         scroll.systemBarsPadding()
         fragmentBinding.fragmentContent.addView(scroll)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.state.collectLatest {
+                    setupView(it.repo, it.appCount)
+                }
+            }
+        }
         return fragmentBinding.root
     }
 
@@ -68,11 +75,10 @@ class RepositoryFragment() : ScreenFragment() {
         super.onDestroyView()
 
         layout = null
-        syncConnection.unbind(requireContext())
+        viewModel.unbindService(requireContext())
     }
 
-    private fun setupView() {
-        val repository = Database.RepositoryAdapter.get(repositoryId)
+    private fun setupView(repository: Repository?, appCount: Int) {
         with(binding) {
             address.title.setText(stringRes.address)
             if (repository == null) {
@@ -80,7 +86,7 @@ class RepositoryFragment() : ScreenFragment() {
             } else {
                 repoSwitch.isChecked = repository.enabled
                 repoSwitch.setOnCheckedChangeListener { _, isChecked ->
-                    syncConnection.binder?.setEnabled(repository, isChecked)
+                    viewModel.enabledRepository(isChecked)
                 }
 
                 address.text.text = repository.address
@@ -109,7 +115,7 @@ class RepositoryFragment() : ScreenFragment() {
                 }
 
                 numberOfApps.title.setText(stringRes.number_of_applications)
-                numberOfApps.text.text = Database.ProductAdapter.getCount(repository.id).toString()
+                numberOfApps.text.text = appCount.toString()
 
                 repoFingerprint.title.setText(stringRes.fingerprint)
                 if (repository.fingerprint.isEmpty()) {
@@ -145,7 +151,7 @@ class RepositoryFragment() : ScreenFragment() {
             }
 
             editRepoButton.setOnClickListener {
-                screenActivity.navigateEditRepository(repositoryId)
+                screenActivity.navigateEditRepository(viewModel.id)
             }
 
             deleteRepoButton.setOnClickListener {
@@ -157,8 +163,8 @@ class RepositoryFragment() : ScreenFragment() {
     }
 
     internal fun onDeleteConfirm() {
-        if (syncConnection.binder?.deleteRepository(repositoryId) == true) {
-            requireActivity().onBackPressed()
-        }
+        viewModel.deleteRepository(
+            onDelete = { requireActivity().onBackPressed() }
+        )
     }
 }
