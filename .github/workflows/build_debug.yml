@@ -15,7 +15,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
@@ -41,6 +41,9 @@ jobs:
 
     - name: Grant execution permission to Gradle Wrapper
       run: chmod +x gradlew
+
+    - name: Format Code
+      run: ./gradlew ktlintFormat
 
     - name: Build Debug APK
       run: ./gradlew assembleDebug
