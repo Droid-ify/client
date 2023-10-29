@@ -94,6 +94,7 @@ class OfflineFirstRepoRepository @Inject constructor(
             e.exceptCancellation()
             return@supervisorScope false
         }
+        if (indices.isEmpty()) return@supervisorScope true
         indices.forEach { (repo, index) ->
             val updatedRepo = index!!.repo.toEntity(
                 id = repo.id,
