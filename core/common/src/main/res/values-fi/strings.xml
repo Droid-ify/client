@@ -183,7 +183,7 @@
     <string name="root_installer">Root-asentaja</string>
     <string name="shizuku_installer">Shizuku-asentaja</string>
     <string name="cleanup_title">APK:n puhdistusväli</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
+    <string name="cleanup_description">Aika ladattujen tiedostojen tarkistamiseen ja poistamiseen</string>
     <plurals name="days">
         <item quantity="one">Päivä</item>
         <item quantity="other">Päivää</item>
@@ -221,4 +221,13 @@
     <string name="repository_not_found">Seuraavaa ohjelmavarastoa ei löytynyt</string>
     <string name="special_credits">Erityiskiitokset</string>
     <string name="shizuku_not_installed">Shizuku ei ole asennettu</string>
+    <string name="import_settings_title">Tuontiasetukset</string>
+    <string name="import_export">Tuo/Vie</string>
+    <string name="import_settings_DESC">Tuo asetukset ja suosikit tiedostosta</string>
+    <string name="export_settings_title">Vie asetukset</string>
+    <string name="export_repos_DESC">Vie kaikki tietovarastot tiedostoon</string>
+    <string name="import_repos_title">Tuo tietovarastoja</string>
+    <string name="export_settings_DESC">Vie asetukset ja suosikit tiedostoon</string>
+    <string name="export_repos_title">Vie tietovarastot</string>
+    <string name="import_repos_DESC">Tuo kaikki tietovarastot tiedostosta</string>
 </resources>
