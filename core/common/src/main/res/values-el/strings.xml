@@ -198,7 +198,7 @@
     <string name="allow_collapsing_toolbar">Να επιτρέπεται η Επέκταση της Γραμμής Κορυφαίων Εφαρμογών</string>
     <string name="allow_collapsing_toolbar_DESC">Να επιτρέπεται η επέκταση και σύμπτυξη της επάνω γραμμής εφαρμογών</string>
     <string name="material_you_desc">Χρησιμοποιήστε material you με θέμα το χρώμα σας</string>
-    <string name="material_you">Υλικό Εσείς</string>
+    <string name="material_you">Material You</string>
     <string name="favourites">Αγαπημένα</string>
     <string name="repository_unreachable">Αποθετήριο μη προσβάσιμο</string>
     <string name="force_clean_up">Αναγκαστική εκκαθάριση</string>
