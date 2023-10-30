@@ -85,7 +85,6 @@ class InstallManager(
                 }
             }
         }.consumeEach { item ->
-            currentQueue.remove(item.packageName.name)
             if (state.value.containsKey(item.packageName)) {
                 updateState { put(item.packageName, InstallState.Installing) }
                 val success = installer.install(item)
@@ -95,6 +94,7 @@ class InstallManager(
                     "download-${item.packageName.name}",
                     Constants.NOTIFICATION_ID_DOWNLOADING
                 )
+                currentQueue.remove(item.packageName.name)
             }
         }
     }
