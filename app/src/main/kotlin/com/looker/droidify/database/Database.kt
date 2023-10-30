@@ -223,13 +223,13 @@ object Database {
     }
 
     private fun handleTables(db: SQLiteDatabase, recreate: Boolean, vararg tables: Table): Boolean {
-        val shouldRecreate = recreate || tables.any {
+        val shouldRecreate = recreate || tables.any { table ->
             val sql = db.query(
-                "${it.databasePrefix}sqlite_master",
+                "${table.databasePrefix}sqlite_master",
                 columns = arrayOf("sql"),
-                selection = Pair("type = ? AND name = ?", arrayOf("table", it.innerName))
+                selection = Pair("type = ? AND name = ?", arrayOf("table", table.innerName))
             ).use { it.firstOrNull()?.getString(0) }.orEmpty()
-            it.formatCreateTable(it.innerName) != sql
+            table.formatCreateTable(table.innerName) != sql
         }
         return shouldRecreate && run {
             val shouldVacuum = tables.map {
@@ -291,7 +291,7 @@ object Database {
             columns = arrayOf("name"),
             selection = Pair("type = ?", arrayOf("table"))
         )
-            .use { it.asSequence().mapNotNull { it.getString(0) }.toList() }
+            .use { cursor -> cursor.asSequence().mapNotNull { it.getString(0) }.toList() }
             .filter { !it.startsWith("sqlite_") && !it.startsWith("android_") }
             .toSet() - neededTables.mapNotNull { if (it.memory) null else it.name }.toSet()
         if (tables.isNotEmpty()) {
@@ -488,10 +488,11 @@ object Database {
                     emptyArray()
                 ),
                 signal = null
-            ).use {
-                it.asSequence().associate {
-                    it.getLong(it.getColumnIndex(Schema.Repository.ROW_ID)) to
-                        (it.getInt(it.getColumnIndex(Schema.Repository.ROW_DELETED)) != 0)
+            ).use { parentCursor ->
+                parentCursor.asSequence().associate {
+                    val idIndex=it.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
+                    val isDeletedIndex =it.getColumnIndexOrThrow(Schema.Repository.ROW_DELETED)
+                    it.getLong(idIndex) to (it.getInt(isDeletedIndex) != 0)
                 }
             }
         }
@@ -555,10 +556,10 @@ object Database {
         }
 
         fun transform(cursor: Cursor): Repository {
-            return cursor.getBlob(cursor.getColumnIndex(Schema.Repository.ROW_DATA))
+            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_DATA))
                 .jsonParse {
                     it.repository().apply {
-                        this.id = cursor.getLong(cursor.getColumnIndex(Schema.Repository.ROW_ID))
+                        this.id = cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_ID))
                     }
                 }
         }
@@ -705,38 +706,38 @@ object Database {
         }
 
         private fun transform(cursor: Cursor): Product {
-            return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA))
+            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA))
                 .jsonParse {
                     it.product().apply {
                         this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
+                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
                         this.description = cursor
-                            .getString(cursor.getColumnIndex(Schema.Product.ROW_DESCRIPTION))
+                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DESCRIPTION))
                     }
                 }
         }
 
         fun transformItem(cursor: Cursor): ProductItem {
-            return cursor.getBlob(cursor.getColumnIndex(Schema.Product.ROW_DATA_ITEM))
+            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA_ITEM))
                 .jsonParse {
                     it.productItem().apply {
                         this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndex(Schema.Product.ROW_REPOSITORY_ID))
+                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
                         this.packageName = cursor
-                            .getString(cursor.getColumnIndex(Schema.Product.ROW_PACKAGE_NAME))
+                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
                         this.name = cursor
-                            .getString(cursor.getColumnIndex(Schema.Product.ROW_NAME))
+                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_NAME))
                         this.summary = cursor
-                            .getString(cursor.getColumnIndex(Schema.Product.ROW_SUMMARY))
+                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_SUMMARY))
                         this.installedVersion = cursor
-                            .getString(cursor.getColumnIndex(Schema.Installed.ROW_VERSION))
+                            .getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION))
                             .orEmpty()
                         this.compatible = cursor
-                            .getInt(cursor.getColumnIndex(Schema.Product.ROW_COMPATIBLE)) != 0
+                            .getInt(cursor.getColumnIndexOrThrow(Schema.Product.ROW_COMPATIBLE)) != 0
                         this.canUpdate = cursor
-                            .getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
+                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
                         this.matchRank = cursor
-                            .getInt(cursor.getColumnIndex(Schema.Synthetic.ROW_MATCH_RANK))
+                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_MATCH_RANK))
                     }
                 }
         }
@@ -826,10 +827,10 @@ object Database {
 
         private fun transform(cursor: Cursor): InstalledItem {
             return InstalledItem(
-                cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_PACKAGE_NAME)),
-                cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_VERSION)),
-                cursor.getLong(cursor.getColumnIndex(Schema.Installed.ROW_VERSION_CODE)),
-                cursor.getString(cursor.getColumnIndex(Schema.Installed.ROW_SIGNATURE))
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE))
             )
         }
     }
