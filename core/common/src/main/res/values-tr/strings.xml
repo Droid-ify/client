@@ -222,4 +222,13 @@
     <string name="repository_not_found">İlgili depo bulunamadı</string>
     <string name="special_credits">Teşekkürler</string>
     <string name="shizuku_not_installed">Shizuku kurulu değil</string>
+    <string name="import_settings_title">İçe aktarma seçenekleri</string>
+    <string name="import_export">Al/Aktar</string>
+    <string name="import_settings_DESC">Ayarları ve favorileri dosyadan içe aktar</string>
+    <string name="export_settings_title">Dışa Aktarma Seçenekleri</string>
+    <string name="export_repos_DESC">Tüm depoları dosyaya aktar</string>
+    <string name="import_repos_title">Depo ekle</string>
+    <string name="export_settings_DESC">Ayarları ve favorileri dosyaya aktar</string>
+    <string name="export_repos_title">Depoları Dışa Aktar</string>
+    <string name="import_repos_DESC">Tüm depoları dosyadan içe aktar</string>
 </resources>
