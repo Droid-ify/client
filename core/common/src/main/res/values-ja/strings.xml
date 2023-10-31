@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="changelog">更新履歴</string>
+    <string name="changelog">変更履歴</string>
     <string name="checking_repository">リポジトリをチェックしています…</string>
-    <string name="could_not_validate_FORMAT">%s を確認できませんでした</string>
+    <string name="could_not_validate_FORMAT">%s を検証できませんでした</string>
     <string name="description">説明</string>
     <string name="downloaded_FORMAT">%s をダウンロードしました</string>
     <string name="delete_repository_DESC">このリポジトリを削除しますか？</string>
@@ -36,7 +36,7 @@
     <string name="author_website">作者のウェブサイト</string>
     <string name="bug_tracker">バグトラッカー</string>
     <string name="cancel">キャンセル</string>
-    <string name="changes">変更内容</string>
+    <string name="changes">変更点</string>
     <string name="compiled_for_debugging">デバッグ用にコンパイルされています</string>
     <string name="confirmation">確認</string>
     <string name="connecting">接続中…</string>
@@ -175,9 +175,9 @@
     <string name="new_applications">新しいアプリ</string>
     <string name="available">探索</string>
     <string name="cleanup_title">APK の自動クリーンアップ間隔</string>
-    <string name="cleanup_description">ダウンロード済みファイルの確認と削除を行う間隔</string>
+    <string name="cleanup_description">ダウンロード済みファイルの確認と削除をする間隔</string>
     <string name="incompatible_features_DESC">機能が欠落しています。</string>
-    <string name="cant_edit_sync_DESC">同期中なのでリポジトリを編集できません。</string>
+    <string name="cant_edit_sync_DESC">現在同期中のため、リポジトリを編集できません。</string>
     <string name="credits">クレジット</string>
     <string name="legacy_installer">レガシーインストーラー</string>
     <string name="session_installer">セッションインストーラー</string>
@@ -195,7 +195,7 @@
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
     <string name="no_internet">インターネット接続がありません</string>
     <string name="auto_update">アプリの自動更新</string>
-    <string name="auto_update_apps">可能であればアップデートを自動的にインストールする</string>
+    <string name="auto_update_apps">更新を自動的にインストールします</string>
     <string name="installing">インストール</string>
     <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
