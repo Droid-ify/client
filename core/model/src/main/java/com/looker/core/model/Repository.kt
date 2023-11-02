@@ -272,19 +272,6 @@ data class Repository(
                 fingerprint = "862ED9F13A3981432BF86FE93D14596B381D75BE83A1D616E2D44A12654AD015"
             ),
             defaultRepository(
-                address = "https://fluffychat.im/repo/stable/repo",
-                name = "FluffyChat",
-                description = "The official repository for FluffyChat. Fluffy" +
-                    "chat is a Matrix client.",
-                fingerprint = "8E2637AEF6697CC6DD486AF044A6EE45B1A742AE3EF56566E748CDE8BC65C1FB"
-            ),
-            defaultRepository(
-                address = "https://fluffychat.im/repo/nightly/repo",
-                name = "FluffyChat Nightly",
-                description = "The official nightly repository for FluffyChat.",
-                fingerprint = "21A469657300576478B623DF99D8EB889A80BCD939ACA60A4074741BEAEC397D"
-            ),
-            defaultRepository(
                 address = "https://releases.threema.ch/fdroid/repo",
                 name = "Threema Libre",
                 description = "The official repository for Threema Libre. R" +
@@ -363,7 +350,7 @@ data class Repository(
                 address = "https://julianfairfax.gitlab.io/fdroid-repo/fdroid/repo",
                 name = "Julian's F-Droid Repo (Proton, GrapheneOS)",
                 description = "Repository for installing apps more easily.",
-                fingerprint = "561AD800D900CA8EBF3A531C6A860B5AB8569D0D376FD121CBCCFCA9434D7DF7"
+                fingerprint = "83ABB548CAA6F311CE3591DDCA466B65213FD0541352502702B1908F0C84206D"
             ),
             defaultRepository(
                 address = "https://zimbelstern.eu/fdroid/repo",
@@ -380,6 +367,19 @@ data class Repository(
             )
         )
 
-        val newlyAdded = listOf<Repository>()
+        val newlyAdded = listOf<Repository>(
+            defaultRepository(
+                address = "https://repo.samourai.io/fdroid/repo",
+                name = "Samourai Wallet",
+                description = "Samourai Bitcoin Wallet official F-Droid repository.",
+                fingerprint = "5318AFA280284855CF5D0027AA54517769F461D735980B1FB0854CEAE8E072A5"
+            ),
+            defaultRepository(
+                address = "https://f-droid.monerujo.io/fdroid/repo",
+                name = "Monerujo Wallet",
+                description = "Monerujo Monero Wallet official F-Droid repository.",
+                fingerprint = "A82C68E14AF0AA6A2EC20E6B272EFF25E5A038F3F65884316E0F5E0D91E7B713"
+            ),
+        )
     }
 }
