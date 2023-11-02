@@ -1,6 +1,6 @@
 # Taken from NIA sample app by Google
 [versions]
-androidDesugarJdkLibs = "2.0.3"
+androidDesugarJdkLibs = "2.0.4"
 androidGradlePlugin = "8.1.2"
 androidMaterial = "1.10.0"
 androidxActivity = "1.8.0"
