@@ -222,9 +222,9 @@
     <string name="import_export">インポート / エクスポート</string>
     <string name="import_settings_DESC">ファイルから設定とお気に入りをインポートする</string>
     <string name="export_settings_title">設定をエクスポート</string>
-    <string name="export_repos_DESC">すべてのリポジトリをファイルにエクスポートする</string>
+    <string name="export_repos_DESC">全てのリポジトリをファイルにエクスポートする</string>
     <string name="import_repos_title">リポジトリをインポート</string>
     <string name="export_settings_DESC">設定とお気に入りをファイルにエクスポートする</string>
     <string name="export_repos_title">リポジトリをエクスポート</string>
-    <string name="import_repos_DESC">ファイルからすべてのリポジトリをインポートする</string>
+    <string name="import_repos_DESC">ファイルから全てのリポジトリをインポートする</string>
 </resources>
