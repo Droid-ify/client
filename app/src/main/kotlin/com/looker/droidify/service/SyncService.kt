@@ -25,8 +25,8 @@ import com.looker.core.common.R.style as styleRes
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result
 import com.looker.core.datastore.SettingsRepository
-import com.looker.core.model.ProductItem
-import com.looker.core.model.Repository
+import com.looker.core.domain.ProductItem
+import com.looker.core.domain.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.database.Database

@@ -8,8 +8,8 @@ import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.collectNotNull
 import com.looker.core.common.extension.execWithResult
 import com.looker.core.common.extension.writeDictionary
-import com.looker.core.model.Product
-import com.looker.core.model.Release
+import com.looker.core.domain.Product
+import com.looker.core.domain.Release
 import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.release
 import com.looker.droidify.utility.serialization.serialize

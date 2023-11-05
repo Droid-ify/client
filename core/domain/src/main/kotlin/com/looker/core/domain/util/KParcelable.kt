@@ -1,4 +1,4 @@
-package com.looker.core.model.util
+package com.looker.core.domain.util
 
 import android.os.Parcel
 import android.os.Parcelable

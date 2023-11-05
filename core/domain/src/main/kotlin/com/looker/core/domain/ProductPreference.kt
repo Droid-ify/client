@@ -1,4 +1,4 @@
-package com.looker.core.model
+package com.looker.core.domain
 
 data class ProductPreference(val ignoreUpdates: Boolean, val ignoreVersionCode: Long) {
     fun shouldIgnoreUpdate(versionCode: Long): Boolean {

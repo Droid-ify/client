@@ -37,7 +37,7 @@ import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.model.ProductItem
+import com.looker.core.domain.ProductItem
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.service.Connection

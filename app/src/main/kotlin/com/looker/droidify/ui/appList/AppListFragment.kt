@@ -19,7 +19,7 @@ import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.model.ProductItem
+import com.looker.core.domain.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity

@@ -6,7 +6,7 @@ import com.looker.core.common.signature.ValidationException
 import com.looker.core.data.utils.certificate
 import com.looker.core.data.utils.codeSigner
 import com.looker.core.data.utils.toJarFile
-import com.looker.core.model.newer.Repo
+import com.looker.core.domain.newer.Repo
 import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

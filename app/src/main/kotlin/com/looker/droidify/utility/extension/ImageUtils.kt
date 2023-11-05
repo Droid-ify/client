@@ -3,9 +3,9 @@ package com.looker.droidify.utility.extension
 import android.view.View
 import com.looker.core.common.Singleton
 import com.looker.core.common.extension.dpi
-import com.looker.core.model.Product
-import com.looker.core.model.ProductItem
-import com.looker.core.model.Repository
+import com.looker.core.domain.Product
+import com.looker.core.domain.ProductItem
+import com.looker.core.domain.Repository
 
 object ImageUtils {
     private val SUPPORTED_DPI = listOf(120, 160, 240, 320, 480, 640)

@@ -1,4 +1,4 @@
-package com.looker.core.model.newer
+package com.looker.core.domain.newer
 
 interface DataFile {
     val name: String

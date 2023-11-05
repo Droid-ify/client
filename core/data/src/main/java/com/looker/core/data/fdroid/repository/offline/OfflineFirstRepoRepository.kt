@@ -11,7 +11,7 @@ import com.looker.core.database.model.update
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.DefaultDispatcher
-import com.looker.core.model.newer.Repo
+import com.looker.core.domain.newer.Repo
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope

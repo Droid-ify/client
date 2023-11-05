@@ -8,8 +8,8 @@ import com.looker.core.common.extension.collectNotNullStrings
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.writeArray
 import com.looker.core.common.extension.writeDictionary
-import com.looker.core.model.Product
-import com.looker.core.model.Release
+import com.looker.core.domain.Product
+import com.looker.core.domain.Release
 
 fun Product.serialize(generator: JsonGenerator) {
     generator.writeNumberField("repositoryId", repositoryId)

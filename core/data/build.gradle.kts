@@ -26,7 +26,7 @@ dependencies {
         Modules.coreDatabase,
         Modules.coreDatastore,
         Modules.coreDI,
-        Modules.coreModel,
+        Modules.coreDomain,
         Modules.coreNetwork
     )
 

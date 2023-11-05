@@ -127,7 +127,7 @@ android {
 dependencies {
 
     modules(
-        Modules.coreModel,
+        Modules.coreDomain,
         Modules.coreCommon,
         Modules.coreNetwork,
         Modules.coreDatastore,

@@ -1,4 +1,4 @@
-package com.looker.core.model.newer
+package com.looker.core.domain.newer
 
 data class Repo(
     val id: Long,
@@ -23,6 +23,9 @@ data class Repo(
         )
     }
 }
+
+val String.isOnion: Boolean
+    get() = endsWith(".onion")
 
 data class AntiFeature(
     val name: String,

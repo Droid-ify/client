@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import com.looker.core.common.extension.Json
 import com.looker.core.common.extension.parseDictionary
 import com.looker.core.common.extension.writeDictionary
-import com.looker.core.model.ProductPreference
+import com.looker.core.domain.ProductPreference
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.serialization.productPreference
 import com.looker.droidify.utility.serialization.serialize

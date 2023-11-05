@@ -9,9 +9,9 @@ import com.looker.core.database.model.InstalledEntity
 import com.looker.core.database.model.PackageEntity
 import com.looker.core.database.model.toExternal
 import com.looker.core.datastore.SettingsRepository
-import com.looker.core.model.newer.App
-import com.looker.core.model.newer.Author
-import com.looker.core.model.newer.Package
+import com.looker.core.domain.newer.App
+import com.looker.core.domain.newer.Author
+import com.looker.core.domain.newer.Package
 import javax.inject.Inject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

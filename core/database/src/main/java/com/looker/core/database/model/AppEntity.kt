@@ -5,13 +5,13 @@ import androidx.room.Entity
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.common.toPackageName
 import com.looker.core.database.utils.localizedValue
-import com.looker.core.model.newer.App
-import com.looker.core.model.newer.Author
-import com.looker.core.model.newer.Donation
-import com.looker.core.model.newer.Graphics
-import com.looker.core.model.newer.Links
-import com.looker.core.model.newer.Metadata
-import com.looker.core.model.newer.Screenshots
+import com.looker.core.domain.newer.App
+import com.looker.core.domain.newer.Author
+import com.looker.core.domain.newer.Donation
+import com.looker.core.domain.newer.Graphics
+import com.looker.core.domain.newer.Links
+import com.looker.core.domain.newer.Metadata
+import com.looker.core.domain.newer.Screenshots
 
 internal typealias LocalizedString = Map<String, String>
 internal typealias LocalizedList = Map<String, List<String>>

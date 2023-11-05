@@ -1,4 +1,4 @@
-package com.looker.core.model.newer
+package com.looker.core.domain.newer
 
 data class Package(
     val installed: Boolean,

@@ -12,7 +12,7 @@ import com.looker.core.common.extension.writeArray
 import com.looker.core.common.extension.writeDictionary
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.IoDispatcher
-import com.looker.core.model.Repository
+import com.looker.core.domain.Repository
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
 import dagger.hilt.android.qualifiers.ApplicationContext

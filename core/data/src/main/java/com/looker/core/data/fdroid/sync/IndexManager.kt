@@ -1,6 +1,6 @@
 package com.looker.core.data.fdroid.sync
 
-import com.looker.core.model.newer.Repo
+import com.looker.core.domain.newer.Repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexConverter

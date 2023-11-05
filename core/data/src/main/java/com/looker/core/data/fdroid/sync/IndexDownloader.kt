@@ -1,6 +1,6 @@
 package com.looker.core.data.fdroid.sync
 
-import com.looker.core.model.newer.Repo
+import com.looker.core.domain.newer.Repo
 import org.fdroid.index.v1.IndexV1
 import org.fdroid.index.v2.Entry
 import org.fdroid.index.v2.IndexV2

@@ -11,7 +11,7 @@ import com.looker.core.common.signature.FileValidator
 import com.looker.core.common.signature.Hash
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.common.signature.verifyHash
-import com.looker.core.model.Release
+import com.looker.core.domain.Release
 import java.io.File
 
 class ReleaseFileValidator(

@@ -13,7 +13,7 @@ import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.model.Release
+import com.looker.core.domain.Release
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android

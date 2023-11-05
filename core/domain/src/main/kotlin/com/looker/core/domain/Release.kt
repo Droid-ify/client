@@ -1,4 +1,4 @@
-package com.looker.core.model
+package com.looker.core.domain
 
 import android.net.Uri
 

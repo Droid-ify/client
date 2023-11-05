@@ -1,7 +1,7 @@
-package com.looker.core.model
+package com.looker.core.domain
 
 import android.os.Parcel
-import com.looker.core.model.util.KParcelable
+import com.looker.core.domain.util.KParcelable
 
 data class ProductItem(
     var repositoryId: Long,

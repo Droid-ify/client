@@ -3,11 +3,11 @@ package com.looker.core.database.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.looker.core.database.utils.localizedValue
-import com.looker.core.model.newer.AntiFeature
-import com.looker.core.model.newer.Authentication
-import com.looker.core.model.newer.Category
-import com.looker.core.model.newer.Repo
-import com.looker.core.model.newer.VersionInfo
+import com.looker.core.domain.newer.AntiFeature
+import com.looker.core.domain.newer.Authentication
+import com.looker.core.domain.newer.Category
+import com.looker.core.domain.newer.Repo
+import com.looker.core.domain.newer.VersionInfo
 import kotlinx.serialization.Serializable
 
 @Entity(tableName = "repos")

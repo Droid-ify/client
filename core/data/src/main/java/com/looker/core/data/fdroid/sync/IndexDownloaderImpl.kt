@@ -3,7 +3,7 @@ package com.looker.core.data.fdroid.sync
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.data.fdroid.sync.signature.EntryValidator
 import com.looker.core.data.fdroid.sync.signature.IndexValidator
-import com.looker.core.model.newer.Repo
+import com.looker.core.domain.newer.Repo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import java.io.File

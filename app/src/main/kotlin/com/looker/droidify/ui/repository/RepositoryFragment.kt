@@ -17,7 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.model.Repository
+import com.looker.core.domain.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.service.Connection

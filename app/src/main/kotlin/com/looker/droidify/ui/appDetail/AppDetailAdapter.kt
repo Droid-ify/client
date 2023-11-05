@@ -40,7 +40,7 @@ import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.model.*
+import com.looker.core.domain.*
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.utility.PackageItemResolver

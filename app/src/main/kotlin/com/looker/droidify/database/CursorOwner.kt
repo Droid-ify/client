@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.model.ProductItem
+import com.looker.core.domain.ProductItem
 
 class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     sealed class Request {

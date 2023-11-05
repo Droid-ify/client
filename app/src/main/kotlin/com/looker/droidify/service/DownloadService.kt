@@ -27,8 +27,8 @@ import com.looker.core.common.sdkAbove
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.model.Release
-import com.looker.core.model.Repository
+import com.looker.core.domain.Release
+import com.looker.core.domain.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.installer.InstallManager

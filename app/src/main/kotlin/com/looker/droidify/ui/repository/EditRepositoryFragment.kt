@@ -20,7 +20,7 @@ import com.looker.core.common.extension.clipboardManager
 import com.looker.core.common.extension.get
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.model.Repository
+import com.looker.core.domain.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.service.Connection
