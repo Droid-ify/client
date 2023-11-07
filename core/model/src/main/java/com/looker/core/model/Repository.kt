@@ -364,6 +364,12 @@ data class Repository(
                 name = "SimpleX Chat F-Droid",
                 description = "SimpleX Chat official F-Droid repository.",
                 fingerprint = "9F358FF284D1F71656A2BFAF0E005DEAE6AA14143720E089F11FF2DDCFEB01BA"
+            ),
+            defaultRepository(
+                address = "https://fdroid.pixelfed.net/fdroid/repo/",
+                name = "Pixelfed F-Droid Repo",
+                description = "This is a repository of official Pixelfed apps.",
+                fingerprint = "FAE6C2292348F0BF910397A08916CCF4B2601B010327768B314951CD300DCA6E"
             )
         )
 
