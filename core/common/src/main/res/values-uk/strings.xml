@@ -227,4 +227,13 @@
     <string name="repository_not_found">Наступний репозиторій не знайдено</string>
     <string name="special_credits">Особлива подяка</string>
     <string name="shizuku_not_installed">Shizuku не встановлено</string>
+    <string name="import_settings_title">Налаштування імпорту</string>
+    <string name="import_export">Імпорт/Експорт</string>
+    <string name="import_settings_DESC">Імпорт налаштувань та обраного з файлу</string>
+    <string name="export_settings_title">Налаштування експорту</string>
+    <string name="export_repos_DESC">Експорт всіх репозиторіїв до файлу</string>
+    <string name="import_repos_title">Імпорт репозиторіїв</string>
+    <string name="export_settings_DESC">Експорт налаштувань та обраного до файлу</string>
+    <string name="export_repos_title">Експорт репозиторіїв</string>
+    <string name="import_repos_DESC">Імпорт всіх репозиторіїв з файлу</string>
 </resources>
