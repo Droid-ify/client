@@ -27,3 +27,4 @@ include(
 	":core:network",
 	":installer"
 )
+include(":sync:fdroid")
