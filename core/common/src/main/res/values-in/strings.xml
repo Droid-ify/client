@@ -218,4 +218,13 @@
     <string name="label_copy">Salin</string>
     <string name="proxy_port_error_not_int">Porta proksi harus bilangan bulat</string>
     <string name="repository_not_found">Repositori berikut tidak ditemukan</string>
+    <string name="import_settings_title">Impor Pengaturan</string>
+    <string name="import_export">Impor/Ekspor</string>
+    <string name="import_settings_DESC">Impor pengaturan dan favorit dari berkas</string>
+    <string name="export_settings_title">Ekspor Pengaturan</string>
+    <string name="export_repos_DESC">Ekspor semua repositori ke berkas</string>
+    <string name="import_repos_title">Impor Repositori</string>
+    <string name="export_settings_DESC">Ekspor pengaturan dan favorit ke berkas</string>
+    <string name="export_repos_title">Ekspor Repositori</string>
+    <string name="import_repos_DESC">Impor semua repositori dari berkas</string>
 </resources>
