@@ -69,7 +69,7 @@
     <string name="description">설명</string>
     <string name="details">애플리케이션 정보</string>
     <string name="donate">기부</string>
-    <string name="downloaded_FORMAT">다운로드됨 %s</string>
+    <string name="downloaded_FORMAT">%s 앱을 다운로드했습니다.</string>
     <string name="allow_collapsing_toolbar">상단 앱 바 확장 허용</string>
     <string name="allow_collapsing_toolbar_DESC">상단 앱 바 확장 및 축소 허용</string>
     <string name="cleanup_description">다운로드한 파일을 확인하고 제거할 시간 간격</string>
