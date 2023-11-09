@@ -308,13 +308,13 @@ class SettingsFragment : Fragment() {
                 openImportFileForSettings.launch(arrayOf("application/json"))
             }
             exportSettings.root.setOnClickListener {
-                createExportFileForSettings.launch("droidify_settings")
+                createExportFileForSettings.launch("droidify_settings.json")
             }
             importRepos.root.setOnClickListener {
                 openImportFileForRepos.launch(arrayOf("application/json"))
             }
             exportRepos.root.setOnClickListener {
-                createExportFileForRepos.launch("droidify_repos")
+                createExportFileForRepos.launch("droidify_repos.json")
             }
             creditFoxy.root.setOnClickListener {
                 openLink(FOXY_DROID_URL)
