@@ -218,4 +218,13 @@
     <string name="label_copy">复制</string>
     <string name="repository_not_found">未找到以下仓库</string>
     <string name="proxy_port_error_not_int">代理的端口号只能是整数</string>
+    <string name="import_settings_title">导入设置</string>
+    <string name="import_export">导入/导出</string>
+    <string name="import_settings_DESC">从文件导入设置和收藏夹</string>
+    <string name="export_settings_title">导出设置</string>
+    <string name="export_repos_DESC">导出所有存储库到文件</string>
+    <string name="import_repos_title">导入存储库</string>
+    <string name="export_settings_DESC">导出设置和收藏夹到文件</string>
+    <string name="export_repos_title">导出存储库</string>
+    <string name="import_repos_DESC">从文件导入所有存储库</string>
 </resources>
