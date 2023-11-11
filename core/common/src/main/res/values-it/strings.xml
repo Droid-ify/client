@@ -73,7 +73,7 @@
     <string name="license">Licenze</string>
     <string name="license_FORMAT">Licenza %s</string>
     <string name="light">Chiaro</string>
-    <string name="link_copied_to_clipboard">Collegamento copiato negli appunti</string>
+    <string name="link_copied_to_clipboard">Link copiato</string>
     <string name="links">Collegamenti</string>
     <string name="list_animation">Elenco animazioni</string>
     <string name="list_animation_description">Mostra l\'animazione della lista nella pagina principale</string>
@@ -92,7 +92,7 @@
     <string name="no_description_available_DESC">Nessuna descrizione disponibile</string>
     <string name="no_matching_applications_found">Impossibile trovare tali applicazioni</string>
     <string name="no_proxy">Senza proxy</string>
-    <string name="notify_about_updates">Notifica sulle nuove versioni delle applicazioni</string>
+    <string name="notify_about_updates">Avvisa per gli aggiornamenti</string>
     <string name="notify_about_updates_summary">Mostra una notifica quando ci sono nuove versioni disponibili</string>
     <string name="number_of_applications">Numero di applicazioni</string>
     <string name="ok">OK</string>
@@ -116,7 +116,7 @@
     <string name="proxy_port">Porta proxy</string>
     <string name="proxy_type">Tipo proxy</string>
     <string name="recently_updated">Aggiornato di recente</string>
-    <string name="repositories">Repository</string>
+    <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
     <string name="repository_not_used_DESC">Questo repository non è stato ancora utilizzato. Attivalo per vedere le applicazioni in esso contenute.</string>
     <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. È importante stare attenti quando si scaricano le applicazioni dai repository senza firma.</string>
@@ -226,4 +226,10 @@
     <string name="export_settings_DESC">Esporta impostazioni e preferiti in file</string>
     <string name="export_repos_title">Esporta repository</string>
     <string name="import_repos_DESC">Importare tutti i repository da file</string>
+    <string name="shizuku_not_alive">Shizuku non è in esecuzione</string>
+    <string name="label_copy">Copia</string>
+    <string name="proxy_port_error_not_int">La porta proxy può essere solo un numero intero</string>
+    <string name="repository_not_found">La seguente repository non è stata trovata</string>
+    <string name="special_credits">Menzione Speciale</string>
+    <string name="shizuku_not_installed">Shizuku non è installato</string>
 </resources>
