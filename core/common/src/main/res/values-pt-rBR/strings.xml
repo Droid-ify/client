@@ -218,4 +218,5 @@
     <string name="has_non_free_components">Possui componentes não livres</string>
     <string name="socket_error_DESC">O servidor não conseguiu fornecer o novo pacote.</string>
     <string name="connection_error_DESC">Não foi possível conectar ao servidor</string>
+    <string name="import_export">Importar/Exportar</string>
 </resources>
