@@ -1,7 +1,7 @@
 package com.looker.core.domain
 
-import android.os.Parcel
-import com.looker.core.domain.util.KParcelable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 data class ProductItem(
     var repositoryId: Long,
@@ -16,43 +16,15 @@ data class ProductItem(
     var canUpdate: Boolean,
     var matchRank: Int
 ) {
-    sealed class Section : KParcelable {
-        object All : Section() {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator { All }
-        }
+    sealed class Section : Parcelable {
 
-        data class Category(val name: String) : Section() {
-            override fun writeToParcel(dest: Parcel, flags: Int) {
-                dest.writeString(name)
-            }
+        @Parcelize
+        data object All : Section()
 
-            companion object {
-                @Suppress("unused")
-                @JvmField
-                val CREATOR = KParcelable.creator {
-                    val name = it.readString()!!
-                    Category(name)
-                }
-            }
-        }
+        @Parcelize
+        data class Category(val name: String) : Section()
 
-        data class Repository(val id: Long, val name: String) : Section() {
-            override fun writeToParcel(dest: Parcel, flags: Int) {
-                dest.writeLong(id)
-                dest.writeString(name)
-            }
-
-            companion object {
-                @Suppress("unused")
-                @JvmField
-                val CREATOR = KParcelable.creator {
-                    val id = it.readLong()
-                    val name = it.readString()!!
-                    Repository(id, name)
-                }
-            }
-        }
+        @Parcelize
+        data class Repository(val id: Long, val name: String) : Section()
     }
 }

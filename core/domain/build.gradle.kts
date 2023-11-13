@@ -1,5 +1,20 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.looker.android.library)
+    alias(libs.plugins.looker.lint)
+    id("kotlin-parcelize")
 }
 
-kotlin.jvmToolchain(11)
+android {
+    namespace = "com.looker.core.domain"
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+        }
+        create("alpha") {
+            initWith(getByName("debug"))
+            isMinifyEnabled = true
+        }
+    }
+}
