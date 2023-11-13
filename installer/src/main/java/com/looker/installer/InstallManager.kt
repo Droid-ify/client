@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-// TODO: Fix the stuck state
+// TODO: Fix the stuck state, and other installer
 class InstallManager(
     private val context: Context,
     settingsRepository: SettingsRepository
