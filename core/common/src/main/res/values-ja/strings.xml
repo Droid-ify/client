@@ -141,7 +141,7 @@
     <string name="syncing">同期中</string>
     <string name="syncing_FORMAT">%s を同期中…</string>
     <string name="system">システム</string>
-    <string name="tap_to_install_DESC">タップしてインストールします。</string>
+    <string name="tap_to_install_DESC">タップしてインストール</string>
     <string name="target">ターゲット</string>
     <string name="theme">テーマ</string>
     <string name="themes">テーマ</string>
@@ -195,7 +195,7 @@
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
     <string name="no_internet">インターネット接続がありません</string>
     <string name="auto_update">アプリの自動更新</string>
-    <string name="auto_update_apps">アップデートを自動的にインストールする</string>
+    <string name="auto_update_apps">アップデートを自動的にインストールします</string>
     <string name="installing">インストール中</string>
     <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
