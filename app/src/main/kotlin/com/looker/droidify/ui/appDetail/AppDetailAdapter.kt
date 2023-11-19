@@ -73,7 +73,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onFavouriteClicked()
         fun onPreferenceChanged(preference: ProductPreference)
         fun onPermissionsClick(group: String?, permissions: List<String>)
-        fun onScreenshotClick(screenshot: Product.Screenshot)
+        fun onScreenshotClick(screenshot: Product.Screenshot, parentView: ImageView)
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
@@ -1407,7 +1407,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     adapter =
-                        ScreenshotsAdapter { callbacks.onScreenshotClick(it) }.apply {
+                        ScreenshotsAdapter { screenshot, view ->
+                            callbacks.onScreenshotClick(screenshot, view)
+                        }.apply {
                             setScreenshots(item.repository, item.packageName, item.screenshots)
                         }
                 }

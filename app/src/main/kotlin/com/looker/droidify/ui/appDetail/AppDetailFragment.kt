@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -431,7 +432,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             .show(childFragmentManager)
     }
 
-    override fun onScreenshotClick(screenshot: Product.Screenshot) {
+    override fun onScreenshotClick(screenshot: Product.Screenshot, parentView: ImageView) {
         val product = products
             .firstOrNull { (product, _) ->
                 product.screenshots.find { it === screenshot }?.identifier != null
@@ -443,6 +444,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             .Builder(context, screenshots) { view, current ->
                 view.load(current.url(product.second, viewModel.packageName))
             }
+            .withTransitionFrom(parentView)
             .withStartPosition(position)
             .show()
     }

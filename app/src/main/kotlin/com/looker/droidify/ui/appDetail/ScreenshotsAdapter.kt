@@ -3,8 +3,10 @@ package com.looker.droidify.ui.appDetail
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.Gravity
+import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
@@ -23,7 +25,7 @@ import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 
-class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
+class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) -> Unit) :
     StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
     enum class ViewType { SCREENSHOT }
 
@@ -51,6 +53,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
             with(image) {
                 shapeAppearanceModel = imageShapeModel
                 background = context.selectableBackground
+                isFocusable = true
             }
             with(itemView as FrameLayout) {
                 layoutParams = RecyclerView.LayoutParams(
@@ -88,7 +91,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot) -> Unit) :
         viewType: ViewType
     ): RecyclerView.ViewHolder {
         return ViewHolder(parent.context).apply {
-            image.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot) }
+            image.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot, it as ImageView) }
         }
     }
 
