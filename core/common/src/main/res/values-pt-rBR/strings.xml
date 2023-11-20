@@ -75,7 +75,7 @@
     <string name="license">Licença</string>
     <string name="license_FORMAT">%s licença</string>
     <string name="light">Claro</string>
-    <string name="link_copied_to_clipboard">Link copiado para a área de transferência</string>
+    <string name="link_copied_to_clipboard">Link copiado</string>
     <string name="links">Links</string>
     <string name="list_animation">Animação da lista</string>
     <string name="list_animation_description">Mostrar a animação da lista na página principal</string>
@@ -94,7 +94,7 @@
     <string name="no_description_available_DESC">Nenhuma descrição disponível</string>
     <string name="no_matching_applications_found">Não foi possível encontrar nenhum desses aplicativos</string>
     <string name="no_proxy">Sem proxy</string>
-    <string name="notify_about_updates">Notificar sobre novas versões de aplicativos</string>
+    <string name="notify_about_updates">Notificar atualizações</string>
     <string name="notify_about_updates_summary">Mostrar uma notificação quando novas versões estiverem disponíveis</string>
     <string name="number_of_applications">Número de aplicativos</string>
     <string name="ok">OK</string>
@@ -160,7 +160,7 @@
     <string name="unstable_updates">Atualizações instáveis</string>
     <string name="unstable_updates_summary">Sugerir instalar versões instáveis</string>
     <string name="unverified">Não verificado</string>
-    <string name="update">Atualização</string>
+    <string name="update">Atualizar</string>
     <string name="updates">Atualizações</string>
     <string name="upstream_source_code_is_not_free">O código-fonte upstream não é gratuito</string>
     <string name="username">Nome de usuário</string>
@@ -219,4 +219,21 @@
     <string name="socket_error_DESC">O servidor não conseguiu fornecer o novo pacote.</string>
     <string name="connection_error_DESC">Não foi possível conectar ao servidor</string>
     <string name="import_export">Importar/Exportar</string>
+    <string name="home_screen_swiping">Deslizamento na tela principal</string>
+    <string name="import_settings_title">Importar configurações</string>
+    <string name="contains_nsfw">Contém conteúdo não seguro para o trabalho</string>
+    <string name="shizuku_not_alive">Shizuku não está em execução</string>
+    <string name="import_settings_DESC">Importar configurações e favoritos de um arquivo</string>
+    <string name="label_copy">Copiar</string>
+    <string name="export_settings_title">Exportar configurações</string>
+    <string name="proxy_port_error_not_int">A Porta Proxy deve ser um inteiro</string>
+    <string name="export_repos_DESC">Exportar todos os repositórios para um arquivo</string>
+    <string name="import_repos_title">Importar repositórios</string>
+    <string name="export_settings_DESC">Exportar configurações e favoritos para um arquivo</string>
+    <string name="home_screen_swiping_DESC">Permitir que usuário deslize entre páginas na tela inicial</string>
+    <string name="export_repos_title">Exportar repositórios</string>
+    <string name="import_repos_DESC">Importar todos os repositórios de um arquivo</string>
+    <string name="repository_not_found">O seguinte repositório não foi encontrado</string>
+    <string name="special_credits">Créditos especiais</string>
+    <string name="shizuku_not_installed">Shizuku não está instalado</string>
 </resources>
