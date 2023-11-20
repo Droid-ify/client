@@ -110,7 +110,7 @@
     <string name="signature_FORMAT">Assinatura %s</string>
     <string name="size">Tamanho</string>
     <string name="skip">Ignorar</string>
-    <string name="update">Atualização</string>
+    <string name="update">Atualizar</string>
     <string name="bug_tracker">Rastreio de erros</string>
     <string name="connecting">A estabelecer ligação…</string>
     <string name="could_not_validate_FORMAT">Não foi possível validar %s</string>
