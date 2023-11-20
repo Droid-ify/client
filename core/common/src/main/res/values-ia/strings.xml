@@ -45,7 +45,7 @@
     <string name="edit_repository">Modificar repositorio</string>
     <string name="ignore_this_update">Ignorar iste version</string>
     <string name="unverified">Non verificate</string>
-    <string name="prefs_language_title">LIngua</string>
+    <string name="prefs_language_title">Lingua</string>
     <string name="unknown_error_DESC">Error incognite.</string>
     <string name="themes">Themas</string>
     <string name="file_format_error_DESC">Formato de file non valide.</string>
@@ -63,4 +63,9 @@
     <string name="ignore_all_updates">Ignorar tote le nove versiones</string>
     <string name="downloading_FORMAT">Discargante %s…</string>
     <string name="unknown_FORMAT">Incognite: %s</string>
+    <string name="size">Dimension</string>
+    <string name="source_code_no_longer_available">Le codice fonte jam non es disponibile</string>
+    <string name="theme">Thema</string>
+    <string name="source_code">Codice fonte</string>
+    <string name="settings">Parametros</string>
 </resources>
