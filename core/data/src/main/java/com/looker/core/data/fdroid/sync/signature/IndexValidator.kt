@@ -1,18 +1,18 @@
 package com.looker.core.data.fdroid.sync.signature
 
+import com.looker.core.common.extension.certificate
+import com.looker.core.common.extension.codeSigner
 import com.looker.core.common.extension.fingerprint
+import com.looker.core.common.extension.toJarFile
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.common.signature.ValidationException
-import com.looker.core.data.utils.certificate
-import com.looker.core.data.utils.codeSigner
-import com.looker.core.data.utils.toJarFile
 import com.looker.core.domain.newer.Repo
-import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexParser
 import org.fdroid.index.parseV1
 import org.fdroid.index.v1.IndexV1
+import java.io.File
 
 class IndexValidator(
     private val repo: Repo,
@@ -38,8 +38,9 @@ class IndexValidator(
         file: File
     ): Pair<IndexV1, String> = withContext(Dispatchers.IO) {
         val jar = file.toJarFile()
-        val jarEntry = jar.getJarEntry(JSON_NAME)
-            ?: throw IllegalStateException("No entry for: $JSON_NAME")
+        val jarEntry = requireNotNull(jar.getJarEntry(JSON_NAME)) {
+            "No entry for: $JSON_NAME"
+        }
 
         val entry = jar
             .getInputStream(jarEntry)
