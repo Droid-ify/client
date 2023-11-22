@@ -68,4 +68,12 @@
     <string name="theme">Thema</string>
     <string name="source_code">Codice fonte</string>
     <string name="settings">Parametros</string>
+    <string name="website">Sito web</string>
+    <string name="username">Nomine de usator</string>
+    <string name="version_FORMAT">Version %s</string>
+    <string name="version">Version</string>
+    <string name="new_applications">Nove applicationes</string>
+    <string name="tap_to_install_DESC">Tocca pro installar.</string>
+    <string name="versions">Versiones</string>
+    <string name="latest">Le plus recente</string>
 </resources>
