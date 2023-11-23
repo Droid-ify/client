@@ -219,4 +219,15 @@
     <string name="home_screen_swiping_DESC">Tillåt användare att svepa mellan sidor på hemskärmen</string>
     <string name="special_credits">Särskilda tack</string>
     <string name="label_copy">Kopiera</string>
+    <string name="import_settings_title">Importera inställningar</string>
+    <string name="import_export">Import/Export</string>
+    <string name="import_settings_DESC">Importera inställningar och favoriter från fil</string>
+    <string name="export_settings_title">Exportera inställningar</string>
+    <string name="proxy_port_error_not_int">Proxyport kan bara vara ett heltal</string>
+    <string name="export_repos_DESC">Exportera alla arkiv till fil</string>
+    <string name="import_repos_title">Importera arkiv</string>
+    <string name="export_settings_DESC">Exportera inställningar och favoriter till fil</string>
+    <string name="export_repos_title">Exportera arkiv</string>
+    <string name="import_repos_DESC">Importera alla arkiv från fil</string>
+    <string name="repository_not_found">Följande arkiv hittades inte</string>
 </resources>
