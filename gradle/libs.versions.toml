@@ -32,7 +32,7 @@ ksp = "1.9.20-1.0.14"
 ktlint = "11.6.1"
 ktor = "2.3.6"
 libsu = "5.2.1"
-room = "2.6.0"
+room = "2.6.1"
 shizuku = "13.0.0"
 image-viewer = "v1.0.1"
 
