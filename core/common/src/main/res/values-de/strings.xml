@@ -221,4 +221,13 @@
     <string name="label_copy">Kopieren</string>
     <string name="proxy_port_error_not_int">Proxy-Port muss eine natürliche Zahl sein</string>
     <string name="repository_not_found">Folgende Repos konnten nicht gefunden werden</string>
+    <string name="import_settings_title">Einstellungen importieren</string>
+    <string name="import_export">Importieren/Exportieren</string>
+    <string name="import_settings_DESC">Importiere Einstellung und Favoriten von Datei</string>
+    <string name="export_settings_title">Exportiere Einstellungen</string>
+    <string name="export_repos_DESC">Exportiere alle Sammlungen in Datei</string>
+    <string name="import_repos_title">Importiere eine Sammlung</string>
+    <string name="export_settings_DESC">Exportiere Einstellungen und Favoriten in Datei</string>
+    <string name="export_repos_title">Exportiere Sammlungen</string>
+    <string name="import_repos_DESC">Importiere alle Sammlungen aus Datei</string>
 </resources>
