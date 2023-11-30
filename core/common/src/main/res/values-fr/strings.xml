@@ -44,7 +44,7 @@
     <string name="open_DESC_FORMAT">Ouvrir %s \?</string>
     <string name="ok">OK</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">L’application %d a une nouvelle version.</item>
+        <item quantity="one">%d application a une nouvelle version.</item>
         <item quantity="many">%d applications avec de nouvelles versions.</item>
         <item quantity="other">%d applications avec de nouvelles versions.</item>
     </plurals>
@@ -108,7 +108,7 @@
     <string name="license">Licence</string>
     <string name="password">Mot de passe</string>
     <string name="has_security_vulnerabilities">Présente des failles de sécurité</string>
-    <string name="link_copied_to_clipboard">Lien copié dans le presse-papiers</string>
+    <string name="link_copied_to_clipboard">Lien copié</string>
     <string name="incompatible_version">Version incompatible</string>
     <string name="has_advertising">Contient des annonces</string>
     <string name="http_error_DESC">Réponse du serveur non valide.</string>
@@ -223,5 +223,14 @@
     <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
     <string name="label_copy">Copie</string>
     <string name="repository_not_found">Le dépôt suivant n\'a pas été trouvé</string>
-    <string name="proxy_port_error_not_int">Le port proxy ne peut qu\'être qu\'un entier</string>
+    <string name="proxy_port_error_not_int">Le port proxy ne peut être qu\'un entier</string>
+    <string name="import_settings_title">Importer les paramètres</string>
+    <string name="import_export">Import/Export</string>
+    <string name="import_settings_DESC">Importer les paramètres et favoris à partir d\'un fichier</string>
+    <string name="export_settings_title">Exporter les paramètres</string>
+    <string name="export_repos_DESC">Exporter tous les dépôts vers un fichier</string>
+    <string name="import_repos_title">Importer les dépôts</string>
+    <string name="export_settings_DESC">Exporter les paramètres et favoris vers un fichier</string>
+    <string name="export_repos_title">Exporter les dépôts</string>
+    <string name="import_repos_DESC">Importer tous les dépôts à partir d\'un fichier</string>
 </resources>
