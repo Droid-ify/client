@@ -145,7 +145,7 @@
     <string name="sync_repositories_automatically">Автоcинхронизация репозиториев</string>
     <string name="syncing">Синхронизация</string>
     <string name="syncing_FORMAT">Синхронизация %s…</string>
-    <string name="system">Системная</string>
+    <string name="system">Как в системе</string>
     <string name="tap_to_install_DESC">Нажмите, чтобы установить.</string>
     <string name="target">Целевой</string>
     <string name="theme">Тема</string>
@@ -204,7 +204,7 @@
     <string name="no_internet">Отсутствует подключение к интернету</string>
     <string name="allow_collapsing_toolbar">Расширение верхней панели</string>
     <string name="allow_collapsing_toolbar_DESC">Верхняя панель приложения будет сворачиваться и разворачиваться</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Material You</string>
     <string name="material_you_desc">Использовать цветовую тему Material You</string>
     <string name="favourites">Избранное</string>
     <string name="repository_unreachable">Репозиторий недоступен</string>
@@ -219,7 +219,7 @@
     <string name="has_non_free_components">Содержит несвободные компоненты</string>
     <string name="socket_error_DESC">Сервер не смог предоставить новый пакет.</string>
     <string name="connection_error_DESC">Невозможно соединиться с сервером</string>
-    <string name="contains_nsfw">Содержит небезопасный для работы контент</string>
+    <string name="contains_nsfw">Содержит NSFW контент</string>
     <string name="shizuku_not_alive">Shizuku не запущен</string>
     <string name="shizuku_not_installed">Shizuku не установлен</string>
     <string name="special_credits">Особая благодарность</string>
