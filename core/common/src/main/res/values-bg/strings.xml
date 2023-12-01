@@ -221,4 +221,5 @@
     <string name="repository_not_found">Следното хранилище не бе намерено</string>
     <string name="special_credits">Специални благодарности</string>
     <string name="shizuku_not_installed">Shizuku не е инсталиран</string>
+    <string name="import_export">Внос/износ</string>
 </resources>
