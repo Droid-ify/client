@@ -219,7 +219,7 @@
     <string name="has_non_free_components">Содержит несвободные компоненты</string>
     <string name="socket_error_DESC">Сервер не смог предоставить новый пакет.</string>
     <string name="connection_error_DESC">Невозможно соединиться с сервером</string>
-    <string name="contains_nsfw">Содержит NSFW контент</string>
+    <string name="contains_nsfw">Содержит NSFW-материал</string>
     <string name="shizuku_not_alive">Shizuku не запущен</string>
     <string name="shizuku_not_installed">Shizuku не установлен</string>
     <string name="special_credits">Особая благодарность</string>
