@@ -11,7 +11,7 @@
         <item quantity="other">Horoj</item>
     </plurals>
     <string name="could_not_download_FORMAT">Ne eblis elŝuti %s</string>
-    <string name="source_code_no_longer_available">Fontkodo ne plu havebla</string>
+    <string name="source_code_no_longer_available">Fontkodo ne plu disponebla</string>
     <string name="incompatible_signature_DESC">Ĉi tiu versio estas subskribita per malsama atestilo ol tiu instalita sur via aparato. Unue malinstalu tion.</string>
     <string name="save">Konservi</string>
     <string name="sync_repositories_automatically">Sinkronigi deponejojn aŭtomate</string>
@@ -50,13 +50,13 @@
     <string name="auto_update_apps">Provi instali ĝisdatigojn aŭtomate</string>
     <string name="downloading">Elŝutanta</string>
     <string name="explore">Esplori</string>
-    <string name="notify_about_updates_summary">Montri sciigon kiam novaj versioj estas havebla</string>
+    <string name="notify_about_updates_summary">Montri sciigon kiam novaj versioj estas disponebla</string>
     <string name="suggested">Sugestita</string>
     <string name="permissions">Permesoj</string>
     <string name="sort_filter">Ordigi ϗ Filtri</string>
     <string name="open_DESC_FORMAT">Ĉu malfermi %s\?</string>
     <string name="validation_index_error_DESC">Indekso ne povis esti validigita.</string>
-    <string name="new_updates_available">Novaj versioj de aplikaĵoj haveblaj</string>
+    <string name="new_updates_available">Novaj versioj de aplikaĵoj disponeblaj</string>
     <string name="all_applications_up_to_date">Ĉiuj viaj aplikaĵoj estas ĝisdatigitaj</string>
     <string name="has_non_free_dependencies">Havas neliberajn dependecojn</string>
     <string name="changelog">Ŝanĝprotokolo</string>
@@ -76,7 +76,7 @@
     <string name="update">Ĝisdatigi</string>
     <string name="show_more">Montri pli</string>
     <string name="incompatible_features_DESC">Mankas funkcioj.</string>
-    <string name="no_applications_available">Neniuj haveblaj aplikaĵoj</string>
+    <string name="no_applications_available">Neniuj disponeblaj aplikaĵoj</string>
     <string name="force_clean_up">Altrudi purigi</string>
     <string name="theme">Haŭto</string>
     <string name="socks_proxy">SOCKS prokurilo</string>
@@ -139,7 +139,7 @@
     <string name="always">Ĉiam</string>
     <string name="address">Adreso</string>
     <string name="root_permission">Silenta Instalo</string>
-    <string name="no_description_available_DESC">Neniu priskribo havebla</string>
+    <string name="no_description_available_DESC">Neniu priskribo disponebla</string>
     <string name="invalid_fingerprint_format">Nevalida fingrospura formato</string>
     <string name="saving_details">Konservanta detalojn…</string>
     <string name="links">Ligiloj</string>
