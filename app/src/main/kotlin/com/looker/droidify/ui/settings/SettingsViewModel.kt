@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.common.R as CommonR
 import com.looker.core.common.extension.toLocale
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.datastore.get
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
@@ -20,8 +20,6 @@ import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
-import kotlin.time.Duration
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -30,6 +28,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration
+import com.looker.core.common.R as CommonR
 
 @HiltViewModel
 class SettingsViewModel
@@ -150,13 +151,13 @@ class SettingsViewModel
 
     fun exportSettings(file: Uri) {
         viewModelScope.launch {
-            settingsRepository.exportSettings(file)
+            settingsRepository.export(file)
         }
     }
 
     fun importSettings(file: Uri) {
         viewModelScope.launch {
-            settingsRepository.importSettings(file)
+            settingsRepository.import(file)
         }
     }
 

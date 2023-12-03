@@ -7,12 +7,19 @@ import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlin.time.Duration
 
 interface SettingsRepository {
+
     val data: Flow<Settings>
 
     suspend fun getInitial(): Settings
+
+    suspend fun export(target: Uri)
+
+    suspend fun import(target: Uri)
 
     suspend fun setLanguage(language: String)
 
@@ -46,10 +53,9 @@ interface SettingsRepository {
 
     suspend fun setHomeScreenSwiping(value: Boolean)
 
-    suspend fun exportSettings(target: Uri)
-
-    suspend fun importSettings(target: Uri)
-
     suspend fun toggleFavourites(packageName: String)
 }
 
+inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {
+    return data.map(block).distinctUntilChanged()
+}

@@ -26,6 +26,7 @@ import com.looker.core.common.log
 import com.looker.core.common.sdkAbove
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.domain.Release
 import com.looker.core.domain.Repository

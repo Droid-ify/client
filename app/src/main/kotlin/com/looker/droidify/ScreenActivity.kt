@@ -21,6 +21,7 @@ import com.looker.core.common.extension.*
 import com.looker.core.common.file.KParcelable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
+import com.looker.core.datastore.get
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailFragment

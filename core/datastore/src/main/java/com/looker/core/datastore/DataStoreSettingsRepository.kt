@@ -12,9 +12,7 @@ import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Clock
 import java.io.IOException
 import kotlin.time.Duration
@@ -36,11 +34,9 @@ class DataStoreSettingsRepository(
             }
         }
 
-    inline fun <T> get(crossinline block: suspend Settings.() -> T): Flow<T> =
-        data.map(block).distinctUntilChanged()
-
-    override suspend fun getInitial() =
-        dataStore.data.first()
+    override suspend fun getInitial(): Settings {
+        return dataStore.data.first()
+    }
 
     override suspend fun setLanguage(language: String) {
         dataStore.updateData { settings ->
@@ -138,12 +134,12 @@ class DataStoreSettingsRepository(
         }
     }
 
-    override suspend fun exportSettings(target: Uri) {
+    override suspend fun export(target: Uri) {
         val currentSettings = getInitial()
         exporter.export(currentSettings, target)
     }
 
-    override suspend fun importSettings(target: Uri) {
+    override suspend fun import(target: Uri) {
         val importedSettings = exporter.import(target)
         val updatedFavorites = importedSettings.favouriteApps +
             getInitial().favouriteApps

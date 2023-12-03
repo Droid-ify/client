@@ -8,6 +8,7 @@ import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.LegacyInstaller

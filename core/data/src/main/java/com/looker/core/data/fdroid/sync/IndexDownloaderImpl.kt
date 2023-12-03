@@ -87,9 +87,7 @@ class IndexDownloaderImpl @Inject constructor(
             fileEntry == null ||
             repoFingerprint?.isBlank() == true ||
             response is NetworkResponse.Error.Validation
-        if (isFingerprintAndIndexValid) {
-            throw IllegalStateException("Empty Fingerprint")
-        }
+        require(isFingerprintAndIndexValid) { "Empty Fingerprint" }
         IndexDownloadResponse(
             index = fileEntry!!,
             fingerprint = repoFingerprint!!,

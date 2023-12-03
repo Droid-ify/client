@@ -4,7 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.looker.core.common.Exporter
 import com.looker.core.datastore.Settings
-import java.io.IOException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -15,6 +14,7 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
+import java.io.IOException
 
 @OptIn(ExperimentalSerializationApi::class)
 class SettingsExporter(
@@ -43,11 +43,8 @@ class SettingsExporter(
     override suspend fun import(target: Uri): Settings = withContext(ioDispatcher) {
         try {
             context.contentResolver.openInputStream(target).use {
-                if (it != null) {
-                    json.decodeFromStream(it)
-                } else {
-                    throw IllegalStateException("Null input stream for import file")
-                }
+                checkNotNull(it) { "Null input stream for import file" }
+                json.decodeFromStream(it)
             }
         } catch (e: SerializationException) {
             e.printStackTrace()
