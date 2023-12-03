@@ -34,7 +34,7 @@ class OfflineFirstRepoRepository @Inject constructor(
 ) : RepoRepository {
 
     private val preference = runBlocking {
-        settingsRepository.fetchInitialPreferences()
+        settingsRepository.getInitial()
     }
 
     private val locale = preference.language

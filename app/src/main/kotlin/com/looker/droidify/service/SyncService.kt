@@ -384,7 +384,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     publishForegroundState(true, initialState)
                     lifecycleScope.launch {
                         val unstableUpdates =
-                            settingsRepository.fetchInitialPreferences().unstableUpdate
+                            settingsRepository.getInitial().unstableUpdate
                         handleFileDownload(
                             task = task,
                             initialState = initialState,
@@ -398,7 +398,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 }
             } else if (started != Started.NO) {
                 lifecycleScope.launch {
-                    val setting = settingsRepository.fetchInitialPreferences()
+                    val setting = settingsRepository.getInitial()
                     handleUpdates(
                         hasUpdates = hasUpdates,
                         notifyUpdates = setting.notifyUpdate,

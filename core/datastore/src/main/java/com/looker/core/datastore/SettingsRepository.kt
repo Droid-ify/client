@@ -1,162 +1,55 @@
 package com.looker.core.datastore
 
 import android.net.Uri
-import android.util.Log
-import androidx.datastore.core.DataStore
-import com.looker.core.common.Exporter
-import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.SortOrder
 import com.looker.core.datastore.model.Theme
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import kotlinx.datetime.Clock
-import java.io.IOException
 import kotlin.time.Duration
 
-class SettingsRepository(
-    private val dataStore: DataStore<Settings>,
-    private val exporter: Exporter<Settings>
-) {
-    private companion object {
-        const val TAG: String = "SettingsRepository"
-    }
+interface SettingsRepository {
+    val data: Flow<Settings>
 
-    val settingsFlow: Flow<Settings> = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                Log.e(TAG, "Error reading preferences.", exception)
-            } else {
-                throw exception
-            }
-        }
+    suspend fun getInitial(): Settings
 
-    inline fun <T> get(crossinline block: suspend Settings.() -> T): Flow<T> =
-        settingsFlow.map(block).distinctUntilChanged()
+    suspend fun setLanguage(language: String)
 
-    suspend fun fetchInitialPreferences() =
-        dataStore.data.first()
+    suspend fun enableIncompatibleVersion(enable: Boolean)
 
-    suspend fun setLanguage(language: String) {
-        dataStore.updateData { settings ->
-            settings.copy(language = language)
-        }
-    }
+    suspend fun enableNotifyUpdates(enable: Boolean)
 
-    suspend fun enableIncompatibleVersion(enable: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(incompatibleVersions = enable)
-        }
-    }
+    suspend fun enableUnstableUpdates(enable: Boolean)
 
-    suspend fun enableNotifyUpdates(enable: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(notifyUpdate = enable)
-        }
-    }
+    suspend fun setTheme(theme: Theme)
 
-    suspend fun enableUnstableUpdates(enable: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(unstableUpdate = enable)
-        }
-    }
+    suspend fun setDynamicTheme(enable: Boolean)
 
-    suspend fun setTheme(theme: Theme) {
-        dataStore.updateData { settings ->
-            settings.copy(theme = theme)
-        }
-    }
+    suspend fun setInstallerType(installerType: InstallerType)
 
-    suspend fun setDynamicTheme(enable: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(dynamicTheme = enable)
-        }
-    }
+    suspend fun setAutoUpdate(allow: Boolean)
 
-    suspend fun setInstallerType(installerType: InstallerType) {
-        dataStore.updateData { settings ->
-            settings.copy(installerType = installerType)
-        }
-    }
+    suspend fun setAutoSync(autoSync: AutoSync)
 
-    suspend fun setAutoUpdate(allow: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(autoUpdate = allow)
-        }
-    }
+    suspend fun setSortOrder(sortOrder: SortOrder)
 
-    suspend fun setAutoSync(autoSync: AutoSync) {
-        dataStore.updateData { settings ->
-            settings.copy(autoSync = autoSync)
-        }
-    }
+    suspend fun setProxyType(proxyType: ProxyType)
 
-    suspend fun setSortOrder(sortOrder: SortOrder) {
-        dataStore.updateData { settings ->
-            settings.copy(sortOrder = sortOrder)
-        }
-    }
+    suspend fun setProxyHost(proxyHost: String)
 
-    suspend fun setProxyType(proxyType: ProxyType) {
-        dataStore.updateData { settings ->
-            settings.copy(proxy = settings.proxy.update(newType = proxyType))
-        }
-    }
+    suspend fun setProxyPort(proxyPort: Int)
 
-    suspend fun setProxyHost(proxyHost: String) {
-        dataStore.updateData { settings ->
-            settings.copy(proxy = settings.proxy.update(newHost = proxyHost))
-        }
-    }
+    suspend fun setCleanUpInterval(interval: Duration)
 
-    suspend fun setProxyPort(proxyPort: Int) {
-        dataStore.updateData { settings ->
-            settings.copy(proxy = settings.proxy.update(newPort = proxyPort))
-        }
-    }
+    suspend fun setCleanupInstant()
 
-    suspend fun setCleanUpInterval(interval: Duration) {
-        dataStore.updateData { settings ->
-            settings.copy(cleanUpInterval = interval)
-        }
-    }
+    suspend fun setHomeScreenSwiping(value: Boolean)
 
-    suspend fun setCleanupInstant() {
-        dataStore.updateData { settings ->
-            settings.copy(lastCleanup = Clock.System.now())
-        }
-    }
+    suspend fun exportSettings(target: Uri)
 
-    suspend fun setHomeScreenSwiping(value: Boolean) {
-        dataStore.updateData { settings ->
-            settings.copy(homeScreenSwiping = value)
-        }
-    }
+    suspend fun importSettings(target: Uri)
 
-    suspend fun exportSettings(target: Uri) {
-        val currentSettings = fetchInitialPreferences()
-        exporter.saveToFile(currentSettings, target)
-    }
-
-    suspend fun importSettings(target: Uri) {
-        val importedSettings = exporter.readFromFile(target)
-        val updatedFavorites = importedSettings.favouriteApps +
-            fetchInitialPreferences().favouriteApps
-        val updatedSettings = importedSettings.copy(favouriteApps = updatedFavorites)
-        dataStore.updateData { updatedSettings }
-    }
-
-    suspend fun toggleFavourites(packageName: String) {
-        dataStore.updateData { settings ->
-            val newSet = settings.favouriteApps.updateAsMutable {
-                if (!add(packageName)) remove(packageName)
-            }
-            settings.copy(favouriteApps = newSet)
-        }
-    }
+    suspend fun toggleFavourites(packageName: String)
 }
+

@@ -40,9 +40,9 @@ class SettingsViewModel
 ) : ViewModel() {
 
     private val initialSetting = flow {
-        emit(settingsRepository.fetchInitialPreferences())
+        emit(settingsRepository.getInitial())
     }
-    val settingsFlow get() = settingsRepository.settingsFlow
+    val settingsFlow get() = settingsRepository.data
 
     private val _snackbarStringId = MutableSharedFlow<Int>()
     val snackbarStringId = _snackbarStringId.asSharedFlow()
@@ -163,13 +163,13 @@ class SettingsViewModel
     fun exportRepos(file: Uri) {
         viewModelScope.launch {
             val repos = Database.RepositoryAdapter.getAll()
-            repositoryExporter.saveToFile(repos, file)
+            repositoryExporter.export(repos, file)
         }
     }
 
     fun importRepos(file: Uri) {
         viewModelScope.launch {
-            val repos = repositoryExporter.readFromFile(file)
+            val repos = repositoryExporter.import(file)
             Database.RepositoryAdapter.importRepos(repos)
         }
     }

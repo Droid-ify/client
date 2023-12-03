@@ -4,7 +4,7 @@ import android.net.Uri
 
 interface Exporter<T> {
 
-    suspend fun saveToFile(item: T, target: Uri)
+    suspend fun export(item: T, target: Uri)
 
-    suspend fun readFromFile(target: Uri): T
+    suspend fun import(target: Uri): T
 }

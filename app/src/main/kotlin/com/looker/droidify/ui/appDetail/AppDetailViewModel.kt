@@ -45,7 +45,7 @@ class AppDetailViewModel @Inject constructor(
             Database.RepositoryAdapter.getAllStream(),
             Database.InstalledAdapter.getStream(packageName),
             repoAddress,
-            flow { emit(settingsRepository.fetchInitialPreferences()) }
+            flow { emit(settingsRepository.getInitial()) }
         ) { products, repositories, installedItem, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->

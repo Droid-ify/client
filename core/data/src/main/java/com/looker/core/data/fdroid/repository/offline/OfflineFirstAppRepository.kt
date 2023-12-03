@@ -46,7 +46,7 @@ class OfflineFirstAppRepository @Inject constructor(
         val isFavourite =
             async {
                 settingsRepository
-                    .fetchInitialPreferences()
+                    .getInitial()
                     .favouriteApps
                     .any { it == packageName.name }
             }

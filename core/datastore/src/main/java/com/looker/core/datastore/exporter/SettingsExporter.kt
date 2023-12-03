@@ -24,7 +24,7 @@ class SettingsExporter(
     private val json: Json
 ) : Exporter<Settings> {
 
-    override suspend fun saveToFile(item: Settings, target: Uri) {
+    override suspend fun export(item: Settings, target: Uri) {
         scope.launch(ioDispatcher) {
             try {
                 context.contentResolver.openOutputStream(target).use {
@@ -40,7 +40,7 @@ class SettingsExporter(
         }
     }
 
-    override suspend fun readFromFile(target: Uri): Settings = withContext(ioDispatcher) {
+    override suspend fun import(target: Uri): Settings = withContext(ioDispatcher) {
         try {
             context.contentResolver.openInputStream(target).use {
                 if (it != null) {

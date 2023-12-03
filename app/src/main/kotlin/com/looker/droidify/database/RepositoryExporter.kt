@@ -29,7 +29,7 @@ class RepositoryExporter @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : Exporter<List<Repository>> {
-    override suspend fun saveToFile(item: List<Repository>, target: Uri) {
+    override suspend fun export(item: List<Repository>, target: Uri) {
         scope.launch(ioDispatcher) {
             val stream = context.contentResolver.openOutputStream(target)
             Json.factory.createGenerator(stream).use { generator ->
@@ -53,7 +53,7 @@ class RepositoryExporter @Inject constructor(
         }
     }
 
-    override suspend fun readFromFile(target: Uri): List<Repository> = withContext(ioDispatcher) {
+    override suspend fun import(target: Uri): List<Repository> = withContext(ioDispatcher) {
         val list = mutableListOf<Repository>()
         val stream = context.contentResolver.openInputStream(target)
         Json.factory.createParser(stream).use { generator ->

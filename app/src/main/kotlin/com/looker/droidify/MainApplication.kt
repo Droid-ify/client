@@ -134,7 +134,7 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
 
     private fun checkLanguage() {
         appScope.launch {
-            val lastSetLanguage = settingsRepository.fetchInitialPreferences().language
+            val lastSetLanguage = settingsRepository.getInitial().language
             val systemSetLanguage = AppCompatDelegate.getApplicationLocales().toLanguageTags()
             if (systemSetLanguage != lastSetLanguage && lastSetLanguage != "system") {
                 settingsRepository.setLanguage(systemSetLanguage)

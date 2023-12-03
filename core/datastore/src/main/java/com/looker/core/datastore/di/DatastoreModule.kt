@@ -8,6 +8,7 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.looker.core.common.Exporter
+import com.looker.core.datastore.DataStoreSettingsRepository
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.SettingsSerializer
@@ -75,5 +76,5 @@ object DatastoreModule {
     fun provideSettingsRepository(
         dataStore: DataStore<Settings>,
         exporter: Exporter<Settings>
-    ): SettingsRepository = SettingsRepository(dataStore, exporter)
+    ): SettingsRepository = DataStoreSettingsRepository(dataStore, exporter)
 }
