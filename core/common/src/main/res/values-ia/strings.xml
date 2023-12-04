@@ -84,7 +84,7 @@
     <string name="password">Contrasigno</string>
     <string name="favourites">Favoritos</string>
     <string name="import_export">Importar/Exportar</string>
-    <string name="anti_features">Anti-characteristicas</string>
+    <string name="anti_features">Anti-functionalitates</string>
     <string name="suggested">Suggestiones</string>
     <string name="permissions">Permissiones</string>
     <string name="has_non_free_dependencies">Ha dependentias non libere</string>
@@ -124,4 +124,19 @@
     <string name="share">Compartir</string>
     <string name="application_not_found">Non poteva trovar ille application</string>
     <string name="repositories">Repositorios</string>
+    <string name="plus_more_FORMAT">+%d plus</string>
+    <string name="only_on_wifi">Solmente con Wi-Fi</string>
+    <string name="open_DESC_FORMAT">Aperir %s?</string>
+    <string name="socks_proxy">Proxy SOCKS</string>
+    <string name="only_compatible_with_FORMAT">Solmente compatibile con %s</string>
+    <string name="ok">OK</string>
+    <string name="no_internet">Tu non ha connexion a Internet</string>
+    <string name="skip">Ignorar</string>
+    <string name="saving_details">Salvante detalios…</string>
+    <string name="no_proxy">Necun proxy</string>
+    <string name="install_types">Typos de installation</string>
+    <string name="proxy_type">Typo de proxy</string>
+    <string name="show_less">Monstrar minus</string>
+    <string name="install">Installar</string>
+    <string name="show_older_versions">Monstrar le versiones ancian</string>
 </resources>
