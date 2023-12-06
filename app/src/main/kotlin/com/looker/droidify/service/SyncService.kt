@@ -19,9 +19,6 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.*
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
-import com.looker.core.common.R.style as styleRes
 import com.looker.core.common.extension.*
 import com.looker.core.common.result.Result
 import com.looker.core.datastore.SettingsRepository
@@ -33,10 +30,13 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.utility.extension.startUpdate
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.ref.WeakReference
-import javax.inject.Inject
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
+import java.lang.ref.WeakReference
+import javax.inject.Inject
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
+import com.looker.core.common.R.style as styleRes
 
 @AndroidEntryPoint
 class SyncService : ConnectionService<SyncService.Binder>() {
@@ -367,34 +367,30 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             if (tasks.isNotEmpty()) {
                 val task = tasks.removeAt(0)
                 val repository = Database.RepositoryAdapter.get(task.repositoryId)
-                if (repository != null && repository.enabled) {
-                    val lastStarted = started
-                    val newStarted =
-                        if (task.manual || lastStarted == Started.MANUAL) {
-                            Started.MANUAL
-                        } else {
-                            Started.AUTO
-                        }
-                    started = newStarted
-                    if (newStarted == Started.MANUAL && lastStarted != Started.MANUAL) {
-                        startSelf()
-                        handleSetStarted()
-                    }
-                    val initialState = State.Connecting(repository.name)
-                    publishForegroundState(true, initialState)
-                    lifecycleScope.launch {
-                        val unstableUpdates =
-                            settingsRepository.getInitial().unstableUpdate
-                        handleFileDownload(
-                            task = task,
-                            initialState = initialState,
-                            hasUpdates = hasUpdates,
-                            unstableUpdates = unstableUpdates,
-                            repository = repository
-                        )
-                    }
+                if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
+                val lastStarted = started
+                val newStarted = if (task.manual || lastStarted == Started.MANUAL) {
+                    Started.MANUAL
                 } else {
-                    handleNextTask(hasUpdates)
+                    Started.AUTO
+                }
+                started = newStarted
+                if (newStarted == Started.MANUAL && lastStarted != Started.MANUAL) {
+                    startSelf()
+                    handleSetStarted()
+                }
+                val initialState = State.Connecting(repository!!.name)
+                publishForegroundState(true, initialState)
+                lifecycleScope.launch {
+                    val unstableUpdates =
+                        settingsRepository.getInitial().unstableUpdate
+                    handleFileDownload(
+                        task = task,
+                        initialState = initialState,
+                        hasUpdates = hasUpdates,
+                        unstableUpdates = unstableUpdates,
+                        repository = repository
+                    )
                 }
             } else if (started != Started.NO) {
                 lifecycleScope.launch {
@@ -569,14 +565,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 }
                 binder.sync(SyncRequest.AUTO)
             }, onUnbind = { _, binder ->
-                    binder.cancelAuto()
-                    jobScope.cancel()
-                    val params = syncParams
-                    if (params != null) {
-                        syncParams = null
-                        jobFinished(params, true)
-                    }
-                })
+                binder.cancelAuto()
+                jobScope.cancel()
+                val params = syncParams
+                if (params != null) {
+                    syncParams = null
+                    jobFinished(params, true)
+                }
+            })
 
         override fun onStartJob(params: JobParameters): Boolean {
             syncParams = params
