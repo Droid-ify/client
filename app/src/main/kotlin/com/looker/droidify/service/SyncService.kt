@@ -47,6 +47,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     companion object {
         private const val TAG = "SyncService"
 
+        private const val MAX_PROGRESS = 100
+
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
 
         private const val MAX_UPDATE_NOTIFICATION = 5
@@ -313,7 +315,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         if (state.total != null) {
                                             setContentText("${state.read} / ${state.total}")
                                             setProgress(
-                                                100,
+                                                MAX_PROGRESS,
                                                 state.read percentBy state.total,
                                                 false
                                             )
@@ -334,7 +336,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                                 "${progress ?: 0}%"
                                             )
                                         )
-                                        setProgress(100, progress ?: 0, progress == null)
+                                        setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
                                     }
 
                                     RepositoryUpdater.Stage.MERGE -> {
@@ -342,10 +344,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         setContentText(
                                             getString(
                                                 stringRes.merging_FORMAT,
-                                                "${state.read} / ${state.total ?: state.read}"
+                                                "${state.read.value} / ${state.total?.value ?: state.read.value}"
                                             )
                                         )
-                                        setProgress(100, progress, false)
+                                        setProgress(MAX_PROGRESS, progress, false)
                                     }
 
                                     RepositoryUpdater.Stage.COMMIT -> {
@@ -386,7 +388,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
             return
         }
-        val task = tasks.removeAt(0)
+        val task = tasks.removeFirstOrNull() ?: return
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
         val lastStarted = started
@@ -451,9 +453,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 is Result.Success -> response.data || hasUpdates
             }
         } finally {
-            handleNextTask(passedHasUpdates)
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }
+                handleNextTask(passedHasUpdates)
             }
         }
     }
@@ -473,6 +475,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates()
+            log("Updates: $currentTask", "SyncService")
             if (!blocked && updates.isNotEmpty()) {
                 displayUpdatesNotification(updates)
                 if (autoUpdate) updateAllAppsInternal()
@@ -480,7 +483,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             handleUpdates(hasUpdates = false, notifyUpdates = true, autoUpdate = autoUpdate)
         } finally {
             withContext(NonCancellable) {
-                currentTask = null
+                log("Ending: $currentTask", "SyncService")
+                lock.withLock { currentTask = null }
+                handleNextTask(false)
             }
         }
     }
