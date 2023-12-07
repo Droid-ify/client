@@ -490,8 +490,8 @@ object Database {
                 signal = null
             ).use { parentCursor ->
                 parentCursor.asSequence().associate {
-                    val idIndex=it.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
-                    val isDeletedIndex =it.getColumnIndexOrThrow(Schema.Repository.ROW_DELETED)
+                    val idIndex = it.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
+                    val isDeletedIndex = it.getColumnIndexOrThrow(Schema.Repository.ROW_DELETED)
                     it.getLong(idIndex) to (it.getInt(isDeletedIndex) != 0)
                 }
             }
@@ -559,7 +559,8 @@ object Database {
             return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_DATA))
                 .jsonParse {
                     it.repository().apply {
-                        this.id = cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_ID))
+                        this.id =
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_ID))
                     }
                 }
         }
@@ -572,20 +573,26 @@ object Database {
             .map { get(packageName, null) }
             .flowOn(Dispatchers.IO)
 
+        suspend fun getUpdates(): List<ProductItem> = withContext(Dispatchers.IO) {
+            query(
+                installed = true,
+                updates = true,
+                searchQuery = "",
+                section = ProductItem.Section.All,
+                order = SortOrder.NAME,
+                signal = null
+            ).use {
+                it.asSequence()
+                    .map(ProductAdapter::transformItem)
+                    .toList()
+            }
+        }
+
         fun getUpdatesStream(): Flow<List<ProductItem>> = flowOf(Unit)
             .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
             // Crashes due to immediate retrieval of data?
             .onEach { delay(50) }
-            .map {
-                query(
-                    installed = true,
-                    updates = true,
-                    searchQuery = "",
-                    section = ProductItem.Section.All,
-                    order = SortOrder.NAME,
-                    signal = null
-                ).use { it.asSequence().map(ProductAdapter::transformItem).toList() }
-            }
+            .map { getUpdates() }
             .flowOn(Dispatchers.IO)
 
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {

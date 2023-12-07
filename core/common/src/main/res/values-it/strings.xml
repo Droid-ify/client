@@ -232,4 +232,6 @@
     <string name="repository_not_found">La seguente repository non è stata trovata</string>
     <string name="special_credits">Menzione Speciale</string>
     <string name="shizuku_not_installed">Shizuku non è installato</string>
+    <string name="home_screen_swiping">Scorri schermata home</string>
+    <string name="home_screen_swiping_DESC">Consente di scorrere (swiping) le pagine nella schermata home</string>
 </resources>

@@ -45,6 +45,10 @@ class SettingsFragment : Fragment() {
     companion object {
         fun newInstance() = SettingsFragment()
 
+        private const val BACKUP_MIME_TYPE = "application/json"
+        private const val REPO_BACKUP_NAME = "droidify_repos.json"
+        private const val SETTINGS_BACKUP_NAME = "droidify_settings.json"
+
         private val localeCodesList: List<String> = CommonBuildConfig.DETECTED_LOCALES
             .toList()
             .updateAsMutable { add(0, "system") }
@@ -61,7 +65,7 @@ class SettingsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val createExportFileForSettings =
-        registerForActivityResult(CreateDocument("application/json")) { fileUri ->
+        registerForActivityResult(CreateDocument(BACKUP_MIME_TYPE)) { fileUri ->
             if (fileUri != null) {
                 viewModel.exportSettings(fileUri)
             }
@@ -77,7 +81,7 @@ class SettingsFragment : Fragment() {
         }
 
     private val createExportFileForRepos =
-        registerForActivityResult(CreateDocument("application/json")) { fileUri ->
+        registerForActivityResult(CreateDocument(BACKUP_MIME_TYPE)) { fileUri ->
             if (fileUri != null) {
                 viewModel.exportRepos(fileUri)
             }
@@ -305,16 +309,16 @@ class SettingsFragment : Fragment() {
                 viewModel.forceCleanup(it.context)
             }
             importSettings.root.setOnClickListener {
-                openImportFileForSettings.launch(arrayOf("application/json"))
+                openImportFileForSettings.launch(arrayOf(BACKUP_MIME_TYPE))
             }
             exportSettings.root.setOnClickListener {
-                createExportFileForSettings.launch("droidify_settings")
+                createExportFileForSettings.launch(SETTINGS_BACKUP_NAME)
             }
             importRepos.root.setOnClickListener {
-                openImportFileForRepos.launch(arrayOf("application/json"))
+                openImportFileForRepos.launch(arrayOf(BACKUP_MIME_TYPE))
             }
             exportRepos.root.setOnClickListener {
-                createExportFileForRepos.launch("droidify_repos")
+                createExportFileForRepos.launch(REPO_BACKUP_NAME)
             }
             creditFoxy.root.setOnClickListener {
                 openLink(FOXY_DROID_URL)
@@ -364,8 +368,8 @@ class SettingsFragment : Fragment() {
     private fun openLink(link: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
-        } catch (e: Exception) {
-            e.printStackTrace()
+        } catch (e: IllegalStateException) {
+            viewModel.createSnackbar(CommonR.string.cannot_open_link)
         }
     }
 

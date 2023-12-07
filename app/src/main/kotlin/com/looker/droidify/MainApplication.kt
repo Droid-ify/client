@@ -12,7 +12,6 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.core.common.Constants
-import com.looker.core.common.R as CommonR
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.getInstalledPackagesCompat
 import com.looker.core.common.extension.jobScheduler
@@ -33,13 +32,14 @@ import com.looker.installer.installers.root.RootPermissionHandler
 import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.looker.network.Downloader
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.*
+import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
 class MainApplication : Application(), ImageLoaderFactory, Configuration.Provider {
@@ -257,8 +257,8 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
             .build()
     }
 
-    override fun getWorkManagerConfiguration(): Configuration =
-        Configuration.Builder()
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
 }
