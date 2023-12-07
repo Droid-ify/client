@@ -242,4 +242,5 @@
     <string name="export_settings_DESC">صدِّر الإعدادات والمفضلات في هيئة ملف</string>
     <string name="export_repos_title">صدِّر المستودعات</string>
     <string name="import_repos_DESC">استورد كل المستودعات التي في ملف</string>
+    <string name="cannot_open_link">تعذَّر فتح الرابط</string>
 </resources>
