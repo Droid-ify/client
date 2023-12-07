@@ -233,4 +233,5 @@
     <string name="export_settings_DESC">Exporter les paramètres et favoris vers un fichier</string>
     <string name="export_repos_title">Exporter les dépôts</string>
     <string name="import_repos_DESC">Importer tous les dépôts à partir d\'un fichier</string>
+    <string name="cannot_open_link">Impossible d\'ouvrir le lien</string>
 </resources>
