@@ -233,4 +233,5 @@
     <string name="export_settings_DESC">Exportovat nastavení a oblíbené do souboru</string>
     <string name="export_repos_title">Exportovat repozitáře</string>
     <string name="import_repos_DESC">Importovat všechny repozitáře ze souboru</string>
+    <string name="cannot_open_link">Nelze otevřít odkaz</string>
 </resources>
