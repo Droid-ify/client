@@ -20,6 +20,7 @@
     <string name="available">Explore</string>
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Cancel</string>
+    <string name="cannot_open_link">Cannot Open Link</string>
     <string name="cant_edit_sync_DESC">Cannot edit repository since it is syncing right now.</string>
     <string name="changelog">Changelog</string>
     <string name="changes">Changes</string>
