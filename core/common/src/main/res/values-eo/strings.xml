@@ -230,4 +230,5 @@
     <string name="export_settings_DESC">Eksporti agordojn kaj favoratojn al dosiero</string>
     <string name="export_repos_title">Eksporti Deponejojn</string>
     <string name="import_repos_DESC">Importi ĉiujn deponejojn el dosiero</string>
+    <string name="cannot_open_link">Ne povas malfermi ligilon</string>
 </resources>
