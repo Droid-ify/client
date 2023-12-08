@@ -230,4 +230,5 @@
     <string name="export_repos_title">Exportera arkiv</string>
     <string name="import_repos_DESC">Importera alla arkiv från fil</string>
     <string name="repository_not_found">Följande arkiv hittades inte</string>
+    <string name="cannot_open_link">Kan inte öppna länk</string>
 </resources>
