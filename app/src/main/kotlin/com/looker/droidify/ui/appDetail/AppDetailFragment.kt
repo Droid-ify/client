@@ -52,7 +52,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.looker.core.common.R.string as stringRes
-import com.looker.core.common.R as CommonR
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
@@ -233,14 +232,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
 
-        val actions = mutableSetOf<Action>()
-
-        if (canInstall) actions += Action.INSTALL
-        if (canUpdate) actions += Action.UPDATE
-        if (canLaunch) actions += Action.LAUNCH
-        if (installed != null) actions += Action.DETAILS
-        if (canUninstall) actions += Action.UNINSTALL
-        actions += Action.SHARE
+        val actions = buildSet {
+            if (canInstall) add(Action.INSTALL)
+            if (canUpdate) add(Action.UPDATE)
+            if (canLaunch) add(Action.LAUNCH)
+            if (installed != null) add(Action.DETAILS)
+            if (canUninstall) add(Action.UNINSTALL)
+            add(Action.SHARE)
+        }
 
         val primaryAction = when {
             canUpdate -> Action.UPDATE
@@ -261,9 +260,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
         for (action in sequenceOf(
             Action.INSTALL,
-            Action.SHARE,
             Action.UPDATE,
-            Action.UNINSTALL
         )) {
             toolbar.menu.findItem(action.id).isEnabled = !downloading
         }
@@ -475,8 +472,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
             else -> {
                 val productRepository =
-                    products.asSequence().filter { it -> it.first.releases.any { it === release } }
-                        .firstOrNull()
+                    products.asSequence().filter { (product, _) ->
+                        product.releases.any { it === release }
+                    }.firstOrNull()
                 if (productRepository != null) {
                     downloadConnection.binder?.enqueue(
                         viewModel.packageName,
