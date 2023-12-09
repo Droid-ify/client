@@ -234,4 +234,5 @@
     <string name="shizuku_not_installed">Shizuku non è installato</string>
     <string name="home_screen_swiping">Scorri schermata home</string>
     <string name="home_screen_swiping_DESC">Consente di scorrere (swiping) le pagine nella schermata home</string>
+    <string name="cannot_open_link">Impossibile aprire il link</string>
 </resources>
