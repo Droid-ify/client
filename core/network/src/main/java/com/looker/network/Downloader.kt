@@ -22,6 +22,11 @@ interface Downloader {
         headers: HeadersBuilder.() -> Unit = {},
         block: ProgressListener? = null
     ): NetworkResponse
+
+    companion object {
+        internal const val CONNECTION_TIMEOUT = 30_000L
+        internal const val SOCKET_TIMEOUT = 15_000L
+    }
 }
 
 typealias ProgressListener = suspend (bytesReceived: DataSize, contentLength: DataSize) -> Unit

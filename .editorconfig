@@ -8,7 +8,6 @@ trim_trailing_whitespace = true
 [*.{kt,kts}]
 ktlint_code_style = android_studio
 indent_size = 4
-ij_kotlin_packages_to_use_import_on_demand = **
 ij_kotlin_name_count_to_use_star_import = 999
 ij_kotlin_name_count_to_use_star_import_for_members = 999
 
