@@ -32,7 +32,7 @@ class RepositoriesAdapter(
     }
 
     private fun getRepository(position: Int): Repository {
-        return Database.RepositoryAdapter.transform(moveTo(position))
+        return Database.RepositoryAdapter.transform(moveTo(position.takeUnless { it < 0 } ?: 0))
     }
 
     override fun onCreateViewHolder(
