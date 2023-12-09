@@ -2,6 +2,7 @@ package com.looker.droidify.ui.appList
 
 import android.database.Cursor
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,6 +36,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private val binding get() = _binding!!
 
     companion object {
+        private const val STATE_LAYOUT_MANAGER = "layoutManager"
+
         private const val EXTRA_SOURCE = "source"
     }
 
@@ -61,6 +64,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: AppListAdapter
     private var shortAnimationDuration: Int = 0
+    private var layoutManagerState: Parcelable? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -122,6 +126,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 
         updateRequest()
         viewLifecycleOwner.lifecycleScope.launch {
@@ -138,6 +143,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 }
             }
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        (layoutManagerState ?: recyclerView.layoutManager?.onSaveInstanceState())
+            ?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
     }
 
     override fun onDestroyView() {
@@ -160,6 +171,10 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 Source.INSTALLED -> getString(stringRes.no_applications_installed)
                 Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
             }
+        }
+        layoutManagerState?.let {
+            layoutManagerState = null
+            recyclerView.layoutManager?.onRestoreInstanceState(it)
         }
     }
 
