@@ -8,23 +8,25 @@ import android.content.pm.PackageInstaller
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.looker.core.common.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.log
 import com.looker.core.common.sdkAbove
 import com.looker.installer.installers.Installer
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
-import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 internal class SessionInstaller(private val context: Context) : Installer {
 
-    private val sessionInstaller = context.packageManager.packageInstaller
+    private val installer = context.packageManager.packageInstaller
     private val intent = Intent(context, SessionInstallerService::class.java)
 
     companion object {
-        private var installerCallbacks = mutableListOf<PackageInstaller.SessionCallback>()
+        private var installerCallbacks: PackageInstaller.SessionCallback? = null
         private val flags = if (SdkCheck.isSnowCake) PendingIntent.FLAG_MUTABLE else 0
         private val sessionParams =
             PackageInstaller.SessionParams(PackageInstaller.SessionParams.MODE_FULL_INSTALL).apply {
@@ -38,7 +40,7 @@ internal class SessionInstaller(private val context: Context) : Installer {
         installItem: InstallItem
     ): InstallState = suspendCancellableCoroutine { cont ->
         val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
-        val id = sessionInstaller.createSession(sessionParams)
+        val id = installer.createSession(sessionParams)
         val installerCallback = object : PackageInstaller.SessionCallback() {
             override fun onCreated(sessionId: Int) {}
             override fun onBadgingChanged(sessionId: Int) {}
@@ -48,14 +50,14 @@ internal class SessionInstaller(private val context: Context) : Installer {
                 if (sessionId == id) cont.resume(InstallState.Installed)
             }
         }
-        installerCallbacks.add(installerCallback)
+        installerCallbacks = installerCallback
 
-        sessionInstaller.registerSessionCallback(
-            installerCallbacks.last(),
+        installer.registerSessionCallback(
+            installerCallbacks!!,
             Handler(Looper.getMainLooper())
         )
 
-        val session = sessionInstaller.openSession(id)
+        val session = installer.openSession(id)
 
         session.use { activeSession ->
             val sizeBytes = cacheFile.length()
@@ -75,8 +77,8 @@ internal class SessionInstaller(private val context: Context) : Installer {
 
         cont.invokeOnCancellation {
             try {
-                sessionInstaller.abandonSession(id)
-            } catch (e: Exception) {
+                installer.abandonSession(id)
+            } catch (e: SecurityException) {
                 e.printStackTrace()
             }
         }
@@ -88,13 +90,19 @@ internal class SessionInstaller(private val context: Context) : Installer {
             intent.putExtra(SessionInstallerService.ACTION_UNINSTALL, true)
             val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
 
-            sessionInstaller.uninstall(packageName.name, pendingIntent.intentSender)
+            installer.uninstall(packageName.name, pendingIntent.intentSender)
             cont.resume(Unit)
         }
 
     override fun cleanup() {
-        installerCallbacks.forEach { sessionInstaller.unregisterSessionCallback(it) }
-        sessionInstaller.mySessions.forEach { sessionInstaller.abandonSession(it.sessionId) }
-        installerCallbacks.clear()
+        installerCallbacks?.let {
+            installer.unregisterSessionCallback(it)
+            installerCallbacks = null
+        }
+        try {
+            installer.mySessions.forEach { installer.abandonSession(it.sessionId) }
+        } catch (e: SecurityException) {
+            log(e.message, type = Log.ERROR)
+        }
     }
 }
