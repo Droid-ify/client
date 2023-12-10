@@ -139,7 +139,12 @@
     <string name="show_less">Monstrar minus</string>
     <string name="install">Installar</string>
     <string name="show_older_versions">Monstrar le versiones ancian</string>
-    <string name="only_on_wifi_with_charging"></string>
+    <string name="only_on_wifi_with_charging"/>
     <string name="installing">Installante</string>
     <string name="invalid_address">Adresse non valide</string>
+    <string name="sort_filter">Ordinar e filtrar</string>
+    <string name="whats_new">Novitates</string>
+    <string name="launch">Lancear</string>
+    <string name="upstream_source_code_is_not_free">Le codice fonte non es libere</string>
+    <string name="proxy">Proxy</string>
 </resources>
