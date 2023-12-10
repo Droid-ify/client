@@ -37,6 +37,7 @@ import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.net.URI
+import java.net.URISyntaxException
 import java.net.URL
 import java.nio.charset.Charset
 import java.util.Locale
@@ -55,7 +56,7 @@ class EditRepositoryFragment() : ScreenFragment() {
         private const val EXTRA_REPOSITORY_ID = "repositoryId"
         private const val EXTRA_REPOSITORY_ADDRESS = "repositoryAddress"
 
-        private val checkPaths = listOf("", "fdroid/repo", "repo")
+        private val addressSuffixes = listOf("fdroid/repo", "repo")
     }
 
     constructor(repositoryId: Long?, repoAddress: String?) : this() {
@@ -349,7 +350,8 @@ class EditRepositoryFragment() : ScreenFragment() {
         get() {
             val cropped = pathCropped
             val endsWith =
-                checkPaths.asSequence().filter { it.isNotEmpty() }.sortedByDescending { it.length }
+                addressSuffixes.asSequence()
+                    .sortedByDescending { it.length }
                     .find { cropped.endsWith("/$it") }
             return if (endsWith != null) {
                 cropped.substring(
@@ -365,25 +367,12 @@ class EditRepositoryFragment() : ScreenFragment() {
         val uri = try {
             val uri = URI(address)
             if (uri.isAbsolute) uri.normalize() else null
-        } catch (e: Exception) {
-            null
+        } catch (e: URISyntaxException) {
+            return null
         }
-        val path = uri?.path?.pathCropped
-        return if (uri != null && path != null) {
-            try {
-                URI(
-                    uri.scheme,
-                    uri.userInfo,
-                    uri.host,
-                    uri.port,
-                    path,
-                    uri.query,
-                    uri.fragment
-                ).toString()
-            } catch (e: Exception) {
-                null
-            }
-        } else {
+        return try {
+            uri?.toURL()?.toURI()?.toString()?.removeSuffix("/")
+        } catch (e: URISyntaxException) {
             null
         }
     }
@@ -443,12 +432,10 @@ class EditRepositoryFragment() : ScreenFragment() {
     private suspend fun checkAddress(
         address: String,
         authentication: String
-    ) = coroutineScope {
+    ): String? = coroutineScope {
         checkInProgress = true
         invalidateState()
-        val allAddresses = checkPaths.map { path ->
-            address + if (path.isEmpty()) "" else "/$path"
-        }
+        val allAddresses = addressSuffixes.map { "$address/$it" } + address
         val pathCheck = allAddresses.map {
             async {
                 downloader.headCall(
