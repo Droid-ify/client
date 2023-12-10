@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -49,49 +50,21 @@ import com.looker.core.common.R.string as stringRes
 @AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
 
-    private var _editRepositoryBinding: EditRepositoryBinding? = null
-    private val editRepositoryBinding get() = _editRepositoryBinding!!
-
-    companion object {
-        private const val EXTRA_REPOSITORY_ID = "repositoryId"
-        private const val EXTRA_REPOSITORY_ADDRESS = "repositoryAddress"
-
-        private val addressSuffixes = listOf("fdroid/repo", "repo")
-    }
-
     constructor(repositoryId: Long?, repoAddress: String?) : this() {
-        arguments = Bundle().apply {
-            repositoryId?.let { putLong(EXTRA_REPOSITORY_ID, it) }
-            repoAddress?.let { putString(EXTRA_REPOSITORY_ADDRESS, it) }
-        }
+        arguments =
+            bundleOf(EXTRA_REPOSITORY_ID to repositoryId, EXTRA_REPOSITORY_ADDRESS to repoAddress)
     }
 
-    private class Layout(view: EditRepositoryBinding) {
-        val addressContainer = view.addressContainer
-        val address = view.address
-        val fingerprint = view.fingerprint
-        val username = view.username
-        val password = view.password
-        val overlay = view.overlay
-        val skip = view.skip
-    }
+    private var _binding: EditRepositoryBinding? = null
+    private val binding get() = _binding!!
 
-    private val repositoryId: Long?
-        get() = requireArguments().let {
-            if (it.containsKey(EXTRA_REPOSITORY_ID)) it.getLong(EXTRA_REPOSITORY_ID) else null
-        }
+    private val repoId: Long?
+        get() = arguments?.getLong(EXTRA_REPOSITORY_ID)
 
-    private val repositoryAddress: String?
-        get() = requireArguments().let {
-            if (it.containsKey(EXTRA_REPOSITORY_ADDRESS)) {
-                it.getString(EXTRA_REPOSITORY_ADDRESS)
-            } else {
-                null
-            }
-        }
+    private val repoAddress: String?
+        get() = arguments?.getString(EXTRA_REPOSITORY_ADDRESS)
 
     private var saveMenuItem: MenuItem? = null
-    private var layout: Layout? = null
 
     private val syncConnection = Connection(SyncService::class.java)
     private var checkInProgress = false
@@ -105,14 +78,14 @@ class EditRepositoryFragment() : ScreenFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        _editRepositoryBinding = EditRepositoryBinding.inflate(layoutInflater)
+        _binding = EditRepositoryBinding.inflate(layoutInflater)
 
         syncConnection.bind(requireContext())
 
         screenActivity.onToolbarCreated(toolbar)
         toolbar.title =
             getString(
-                if (repositoryId != null) stringRes.edit_repository else stringRes.add_repository
+                if (repoId != null) stringRes.edit_repository else stringRes.add_repository
             )
 
         saveMenuItem = toolbar.menu.add(stringRes.save)
@@ -125,13 +98,11 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         val content = fragmentBinding.fragmentContent
 
-        content.addView(editRepositoryBinding.root)
-        val layout = Layout(editRepositoryBinding)
-        this.layout = layout
+        content.addView(binding.root)
 
         val validChar: (Char) -> Boolean = { it in '0'..'9' || it in 'a'..'f' || it in 'A'..'F' }
 
-        layout.fingerprint.doAfterTextChanged { text ->
+        binding.fingerprint.doAfterTextChanged { text ->
             fun logicalPosition(text: String, position: Int): Int {
                 return if (position > 0) {
                     text.asSequence().take(position)
@@ -175,9 +146,9 @@ class EditRepositoryFragment() : ScreenFragment() {
         }
 
         if (savedInstanceState == null) {
-            val repository = repositoryId?.let(Database.RepositoryAdapter::get)
+            val repository = repoId?.let(Database.RepositoryAdapter::get)
             if (repository == null) {
-                val text = repositoryAddress ?: kotlin.run {
+                val text = repoAddress ?: kotlin.run {
                     context?.clipboardManager?.primaryClip?.takeIf { it.itemCount > 0 }
                         ?.getItemAt(0)?.text?.toString().orEmpty()
                 }
@@ -193,12 +164,12 @@ class EditRepositoryFragment() : ScreenFragment() {
                 } catch (e: Exception) {
                     Pair(null, null)
                 }
-                layout.address.setText(addressText)
-                layout.fingerprint.setText(fingerprintText)
+                binding.address.setText(addressText)
+                binding.fingerprint.setText(fingerprintText)
             } else {
-                layout.address.setText(repository.address)
+                binding.address.setText(repository.address)
                 val mirrors = repository.mirrors.map { it.withoutKnownPath }
-                layout.addressContainer.apply {
+                binding.addressContainer.apply {
                     isEndIconVisible = mirrors.isNotEmpty()
                     setEndIconDrawable(CommonR.drawable.ic_arrow_down)
                     setEndIconOnClickListener {
@@ -208,7 +179,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                         )
                     }
                 }
-                layout.fingerprint.setText(repository.fingerprint)
+                binding.fingerprint.setText(repository.fingerprint)
                 val (usernameText, passwordText) = repository.authentication.nullIfEmpty()
                     ?.let { if (it.startsWith("Basic ")) it.substring(6) else null }?.let {
                         try {
@@ -228,22 +199,22 @@ class EditRepositoryFragment() : ScreenFragment() {
                             null
                         }
                     } ?: Pair(null, null)
-                layout.username.setText(usernameText)
-                layout.password.setText(passwordText)
+                binding.username.setText(usernameText)
+                binding.password.setText(passwordText)
             }
         }
 
-        layout.address.doAfterTextChanged { invalidateAddress() }
-        layout.fingerprint.doAfterTextChanged { invalidateFingerprint() }
-        layout.username.doAfterTextChanged { invalidateUsernamePassword() }
-        layout.password.doAfterTextChanged { invalidateUsernamePassword() }
+        binding.address.doAfterTextChanged { invalidateAddress() }
+        binding.fingerprint.doAfterTextChanged { invalidateFingerprint() }
+        binding.username.doAfterTextChanged { invalidateUsernamePassword() }
+        binding.password.doAfterTextChanged { invalidateUsernamePassword() }
 
-        (layout.overlay.parent as ViewGroup).layoutTransition?.setDuration(200L)
-        layout.overlay.background!!.apply {
+        (binding.overlay.parent as ViewGroup).layoutTransition?.setDuration(200L)
+        binding.overlay.background!!.apply {
             mutate()
             alpha = 0xcc
         }
-        layout.skip.setOnClickListener {
+        binding.skip.setOnClickListener {
             if (checkInProgress) {
                 checkInProgress = false
                 checkJob?.cancel()
@@ -253,7 +224,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             val list = Database.RepositoryAdapter.getAll()
-            takenAddresses = list.asSequence().filter { it.id != repositoryId }
+            takenAddresses = list.asSequence().filter { it.id != repoId }
                 .flatMap { (it.mirrors + it.address).asSequence() }
                 .map { it.withoutKnownPath }
                 .toSet()
@@ -268,10 +239,8 @@ class EditRepositoryFragment() : ScreenFragment() {
         super.onDestroyView()
 
         saveMenuItem = null
-        layout = null
-
         syncConnection.unbind(requireContext())
-        _editRepositoryBinding = null
+        _binding = null
     }
 
     private var addressError = false
@@ -279,11 +248,10 @@ class EditRepositoryFragment() : ScreenFragment() {
     private var usernamePasswordError = false
 
     private fun invalidateAddress() {
-        invalidateAddress(layout!!.address.text.toString())
+        invalidateAddress(binding.address.text.toString())
     }
 
     private fun invalidateAddress(addressText: String) {
-        val layout = layout!!
         val normalizedAddress = normalizeAddress(addressText)
         val addressErrorResId = if (normalizedAddress != null) {
             if (normalizedAddress.withoutKnownPath in takenAddresses) {
@@ -295,49 +263,46 @@ class EditRepositoryFragment() : ScreenFragment() {
             stringRes.invalid_address
         }
         addressError = addressErrorResId != null
-        addressErrorResId?.let { layout.address.error = getString(it) }
+        addressErrorResId?.let { binding.address.error = getString(it) }
         invalidateState()
     }
 
     private fun invalidateFingerprint() {
-        val layout = layout!!
-        val fingerprint = layout.fingerprint.text.toString().replace(" ", "")
+        val fingerprint = binding.fingerprint.text.toString().replace(" ", "")
         val fingerprintInvalid = fingerprint.isNotEmpty() && fingerprint.length != 64
         if (fingerprintInvalid) {
-            layout.fingerprint.error = getString(stringRes.invalid_fingerprint_format)
+            binding.fingerprint.error = getString(stringRes.invalid_fingerprint_format)
         }
         fingerprintError = fingerprintInvalid
         invalidateState()
     }
 
     private fun invalidateUsernamePassword() {
-        val layout = layout!!
-        val username = layout.username.text.toString()
-        val password = layout.password.text.toString()
+        val username = binding.username.text.toString()
+        val password = binding.password.text.toString()
         val usernameInvalid = username.contains(':')
         val usernameEmpty = username.isEmpty() && password.isNotEmpty()
         val passwordEmpty = username.isNotEmpty() && password.isEmpty()
         if (usernameEmpty) {
-            layout.username.error = getString(stringRes.username_missing)
+            binding.username.error = getString(stringRes.username_missing)
         } else if (passwordEmpty) {
-            layout.password.error = getString(stringRes.password_missing)
+            binding.password.error = getString(stringRes.password_missing)
         } else if (usernameInvalid) {
-            layout.username.error = getString(stringRes.invalid_username_format)
+            binding.username.error = getString(stringRes.invalid_username_format)
         }
         usernamePasswordError = usernameInvalid || usernameEmpty || passwordEmpty
         invalidateState()
     }
 
     private fun invalidateState() {
-        val layout = layout!!
         saveMenuItem!!.isEnabled =
             !addressError && !fingerprintError && !usernamePasswordError && !checkInProgress
-        layout.apply {
+        binding.apply {
             sequenceOf(address, fingerprint, username, password).forEach {
                 it.isEnabled = !checkInProgress
             }
         }
-        layout.overlay.isVisible = checkInProgress
+        binding.overlay.isVisible = checkInProgress
     }
 
     private val String.pathCropped: String
@@ -378,16 +343,15 @@ class EditRepositoryFragment() : ScreenFragment() {
     }
 
     private fun setMirror(address: String) {
-        layout?.address?.setText(address)
+        binding.address.setText(address)
     }
 
     private fun onSaveRepositoryClick(check: Boolean) {
         if (!checkInProgress) {
-            val layout = layout!!
-            val address = normalizeAddress(layout.address.text.toString())!!
-            val fingerprint = layout.fingerprint.text.toString().replace(" ", "")
-            val username = layout.username.text.toString().nullIfEmpty()
-            val password = layout.password.text.toString().nullIfEmpty()
+            val address = normalizeAddress(binding.address.text.toString())!!
+            val fingerprint = binding.fingerprint.text.toString().replace(" ", "")
+            val username = binding.username.text.toString().nullIfEmpty()
+            val password = binding.password.text.toString().nullIfEmpty()
             val authentication = username?.let { u ->
                 password?.let { p ->
                     Base64.encodeToString(
@@ -408,7 +372,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     }
                     val allow = resultAddress == address || run {
                         if (resultAddress == null) return@run false
-                        layout.address.setText(resultAddress)
+                        binding.address.setText(resultAddress)
                         invalidateAddress(resultAddress)
                         !addressError
                     }
@@ -455,7 +419,7 @@ class EditRepositoryFragment() : ScreenFragment() {
     ) {
         val binder = syncConnection.binder
         if (binder != null) {
-            val repositoryId = repositoryId
+            val repositoryId = repoId
             if (repositoryId != null && binder.isCurrentlySyncing(repositoryId)) {
                 MessageDialog(Message.CantEditSyncing).show(childFragmentManager)
                 invalidateState()
@@ -485,14 +449,8 @@ class EditRepositoryFragment() : ScreenFragment() {
     }
 
     class SelectMirrorDialog() : DialogFragment() {
-        companion object {
-            private const val EXTRA_MIRRORS = "mirrors"
-        }
-
         constructor(mirrors: List<String>) : this() {
-            arguments = Bundle().apply {
-                putStringArrayList(EXTRA_MIRRORS, ArrayList(mirrors))
-            }
+            arguments = bundleOf(EXTRA_MIRRORS to ArrayList(mirrors))
         }
 
         override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
@@ -502,5 +460,16 @@ class EditRepositoryFragment() : ScreenFragment() {
                     (parentFragment as EditRepositoryFragment).setMirror(mirrors[position])
                 }.setNegativeButton(stringRes.cancel, null).create()
         }
+
+        private companion object {
+            const val EXTRA_MIRRORS = "mirrors"
+        }
+    }
+
+    private companion object {
+        const val EXTRA_REPOSITORY_ID = "repositoryId"
+        const val EXTRA_REPOSITORY_ADDRESS = "repositoryAddress"
+
+        val addressSuffixes = listOf("fdroid/repo", "repo")
     }
 }
