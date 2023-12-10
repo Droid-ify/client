@@ -8,7 +8,6 @@ data class SyncPreference(
     val networkType: NetworkType,
     val pluggedIn: Boolean = false,
     val batteryNotLow: Boolean = true,
-    val canSync: Boolean = true
 )
 
 fun SyncPreference.toJobNetworkType() = when (networkType) {
