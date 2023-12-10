@@ -142,7 +142,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 isUpdate = isUpdate
             )
             if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
-                runBlocking { publishSuccess(task) }
+                lifecycleScope.launch { publishSuccess(task) }
                 return
             }
             cancelTasks(packageName)

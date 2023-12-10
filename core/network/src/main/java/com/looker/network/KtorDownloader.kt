@@ -97,11 +97,8 @@ internal class KtorDownloader : Downloader {
         } catch (e: ValidationException) {
             target.delete()
             NetworkResponse.Error.Validation(e)
-        } catch (e: URLParserException) {
-            NetworkResponse.Error.Unknown(e)
-        } catch (e: IllegalStateException) {
-            NetworkResponse.Error.Unknown(e)
-        } catch (e: IllegalArgumentException) {
+        } catch (e: Exception) {
+            e.exceptCancellation()
             NetworkResponse.Error.Unknown(e)
         }
     }
