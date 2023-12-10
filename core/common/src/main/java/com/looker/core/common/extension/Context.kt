@@ -71,9 +71,7 @@ private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 }
 
 fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
-    AppCompatResources.getDrawable(this, resId) ?: throw IllegalStateException(
-        "Cannot find drawable, ID: $resId"
-    )
+    requireNotNull(AppCompatResources.getDrawable(this, resId)) { "Cannot find drawable, ID: $resId" }
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
     val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
