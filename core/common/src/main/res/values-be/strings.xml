@@ -236,4 +236,5 @@
     <string name="latest">Апошнія</string>
     <string name="root_permission_description">Дайце правы root, каб уключыць бясшумную ўстаноўку</string>
     <string name="unknown_FORMAT">Невядома: %s</string>
+    <string name="cannot_open_link">Немагчыма адкрыць спасылку</string>
 </resources>
