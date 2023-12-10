@@ -236,4 +236,5 @@
     <string name="export_settings_DESC">Експорт налаштувань та обраного до файлу</string>
     <string name="export_repos_title">Експорт репозиторіїв</string>
     <string name="import_repos_DESC">Імпорт всіх репозиторіїв з файлу</string>
+    <string name="cannot_open_link">Неможливо відкрити посилання</string>
 </resources>
