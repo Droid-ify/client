@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.looker.android.application)
     alias(libs.plugins.looker.hilt.work)
     alias(libs.plugins.looker.lint)
+    id("kotlin-parcelize")
 }
 
 android {

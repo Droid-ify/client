@@ -37,6 +37,7 @@ import com.looker.core.domain.findSuggested
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
+import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE_NAME
@@ -425,7 +426,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onPermissionsClick(group: String?, permissions: List<String>) {
-        MessageDialog(MessageDialog.Message.Permissions(group, permissions))
+        MessageDialog(Message.Permissions(group, permissions))
             .show(childFragmentManager)
     }
 
@@ -451,7 +452,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         when {
             release.incompatibilities.isNotEmpty() -> {
                 MessageDialog(
-                    MessageDialog.Message.ReleaseIncompatible(
+                    Message.ReleaseIncompatible(
                         release.incompatibilities,
                         release.platforms,
                         release.minSdkVersion,
@@ -461,11 +462,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             }
 
             installedItem != null && installedItem.versionCode > release.versionCode -> {
-                MessageDialog(MessageDialog.Message.ReleaseOlder).show(childFragmentManager)
+                MessageDialog(Message.ReleaseOlder).show(childFragmentManager)
             }
 
             installedItem != null && installedItem.signature != release.signature -> {
-                MessageDialog(MessageDialog.Message.ReleaseSignatureMismatch).show(
+                MessageDialog(Message.ReleaseSignatureMismatch).show(
                     childFragmentManager
                 )
             }
@@ -494,7 +495,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     override fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean {
         return if (shouldConfirm && (uri.scheme == "http" || uri.scheme == "https")) {
-            MessageDialog(MessageDialog.Message.Link(uri)).show(childFragmentManager)
+            MessageDialog(Message.Link(uri)).show(childFragmentManager)
             true
         } else {
             try {

@@ -18,10 +18,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.domain.Repository
-import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryPageBinding
-import com.looker.droidify.service.Connection
-import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
@@ -156,7 +154,7 @@ class RepositoryFragment() : ScreenFragment() {
 
             deleteRepoButton.setOnClickListener {
                 MessageDialog(
-                    MessageDialog.Message.DeleteRepositoryConfirm
+                    Message.DeleteRepositoryConfirm
                 ).show(childFragmentManager)
             }
         }

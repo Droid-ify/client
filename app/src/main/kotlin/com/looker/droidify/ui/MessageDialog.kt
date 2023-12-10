@@ -5,141 +5,30 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcel
+import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.SdkCheck
-import com.looker.core.common.file.KParcelable
 import com.looker.core.common.nullIfEmpty
 import com.looker.core.domain.Release
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
+import com.looker.core.common.R.string as stringRes
 
 class MessageDialog() : DialogFragment() {
     companion object {
         private const val EXTRA_MESSAGE = "message"
     }
 
-    sealed interface Message : KParcelable {
-        object DeleteRepositoryConfirm : Message {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator { DeleteRepositoryConfirm }
-        }
-
-        object CantEditSyncing : Message {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator { CantEditSyncing }
-        }
-
-        class Link(val uri: Uri) : Message {
-            override fun writeToParcel(dest: Parcel, flags: Int) {
-                dest.writeString(uri.toString())
-            }
-
-            companion object {
-                @Suppress("unused")
-                @JvmField
-                val CREATOR = KParcelable.creator {
-                    val uri = Uri.parse(it.readString()!!)
-                    Link(uri)
-                }
-            }
-        }
-
-        class Permissions(val group: String?, val permissions: List<String>) : Message {
-            override fun writeToParcel(dest: Parcel, flags: Int) {
-                dest.writeString(group)
-                dest.writeStringList(permissions)
-            }
-
-            companion object {
-                @Suppress("unused")
-                @JvmField
-                val CREATOR = KParcelable.creator {
-                    val group = it.readString()
-                    val permissions = it.createStringArrayList()!!
-                    Permissions(group, permissions)
-                }
-            }
-        }
-
-        class ReleaseIncompatible(
-            val incompatibilities: List<Release.Incompatibility>,
-            val platforms: List<String>,
-            val minSdkVersion: Int,
-            val maxSdkVersion: Int
-        ) : Message {
-            override fun writeToParcel(dest: Parcel, flags: Int) {
-                dest.writeInt(incompatibilities.size)
-                for (incompatibility in incompatibilities) {
-                    when (incompatibility) {
-                        is Release.Incompatibility.MinSdk -> {
-                            dest.writeInt(0)
-                        }
-
-                        is Release.Incompatibility.MaxSdk -> {
-                            dest.writeInt(1)
-                        }
-
-                        is Release.Incompatibility.Platform -> {
-                            dest.writeInt(2)
-                        }
-
-                        is Release.Incompatibility.Feature -> {
-                            dest.writeInt(3)
-                            dest.writeString(incompatibility.feature)
-                        }
-                    }::class
-                }
-                dest.writeStringList(platforms)
-                dest.writeInt(minSdkVersion)
-                dest.writeInt(maxSdkVersion)
-            }
-
-            companion object {
-                @Suppress("unused")
-                @JvmField
-                val CREATOR = KParcelable.creator {
-                    val count = it.readInt()
-                    val incompatibilities = generateSequence {
-                        when (it.readInt()) {
-                            0 -> Release.Incompatibility.MinSdk
-                            1 -> Release.Incompatibility.MaxSdk
-                            2 -> Release.Incompatibility.Platform
-                            3 -> Release.Incompatibility.Feature(it.readString()!!)
-                            else -> throw RuntimeException()
-                        }
-                    }.take(count).toList()
-                    val platforms = it.createStringArrayList()!!
-                    val minSdkVersion = it.readInt()
-                    val maxSdkVersion = it.readInt()
-                    ReleaseIncompatible(incompatibilities, platforms, minSdkVersion, maxSdkVersion)
-                }
-            }
-        }
-
-        object ReleaseOlder : Message {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator { ReleaseOlder }
-        }
-
-        object ReleaseSignatureMismatch : Message {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator { ReleaseSignatureMismatch }
-        }
-    }
-
     constructor(message: Message) : this() {
-        arguments = Bundle().apply {
-            putParcelable(EXTRA_MESSAGE, message)
-        }
+        arguments = bundleOf(EXTRA_MESSAGE to message)
     }
 
     fun show(fragmentManager: FragmentManager) {
@@ -149,9 +38,9 @@ class MessageDialog() : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         val dialog = MaterialAlertDialogBuilder(requireContext())
         val message = if (SdkCheck.isTiramisu) {
-            requireArguments().getParcelable(EXTRA_MESSAGE, Message::class.java)!!
+            arguments?.getParcelable(EXTRA_MESSAGE, Message::class.java)!!
         } else {
-            requireArguments().getParcelable(EXTRA_MESSAGE)!!
+            arguments?.getParcelable(EXTRA_MESSAGE)!!
         }
         when (message) {
             is Message.DeleteRepositoryConfirm -> {
@@ -194,8 +83,7 @@ class MessageDialog() : DialogFragment() {
                             requireContext(),
                             localCache,
                             permissionGroupInfo
-                        )
-                            ?.nullIfEmpty()?.let { if (it == message.group) null else it }
+                        )?.nullIfEmpty()?.let { if (it == message.group) null else it }
                     } catch (e: Exception) {
                         null
                     }
@@ -204,18 +92,17 @@ class MessageDialog() : DialogFragment() {
                     getString(stringRes.other)
                 }
                 for (permission in message.permissions) {
-                    val description = try {
+                    kotlin.runCatching {
                         val permissionInfo = packageManager.getPermissionInfo(permission, 0)
                         PackageItemResolver.loadDescription(
                             requireContext(),
                             localCache,
                             permissionInfo
-                        )
-                            ?.nullIfEmpty()?.let { if (it == permission) null else it }
-                    } catch (e: Exception) {
-                        null
+                        )?.nullIfEmpty()?.let { if (it == permission) null else it }
+                            ?: error("Invalid Permission Description")
+                    }.onSuccess {
+                        builder.append(it).append("\n\n")
                     }
-                    description?.let { builder.append(it).append("\n\n") }
                 }
                 if (builder.isNotEmpty()) {
                     builder.delete(builder.length - 2, builder.length)
@@ -302,5 +189,77 @@ class MessageDialog() : DialogFragment() {
             }
         }::class
         return dialog.create()
+    }
+}
+
+@Parcelize
+sealed interface Message : Parcelable {
+    @Parcelize
+    data object DeleteRepositoryConfirm : Message
+
+    @Parcelize
+    data object CantEditSyncing : Message
+
+    @Parcelize
+    class Link(val uri: Uri) : Message
+
+    @Parcelize
+    class Permissions(val group: String?, val permissions: List<String>) : Message
+
+    @Parcelize
+    @TypeParceler<Release.Incompatibility, ReleaseIncompatibilityParceler>
+    class ReleaseIncompatible(
+        val incompatibilities: List<Release.Incompatibility>,
+        val platforms: List<String>,
+        val minSdkVersion: Int,
+        val maxSdkVersion: Int
+    ) : Message
+
+    @Parcelize
+    data object ReleaseOlder : Message
+
+    @Parcelize
+    data object ReleaseSignatureMismatch : Message
+}
+
+class ReleaseIncompatibilityParceler : Parceler<Release.Incompatibility> {
+
+    private companion object {
+        // Incompatibility indices in `Parcel`
+        const val MIN_SDK_INDEX = 0
+        const val MAX_SDK_INDEX = 1
+        const val PLATFORM_INDEX = 2
+        const val FEATURE_INDEX = 3
+    }
+
+    override fun create(parcel: Parcel): Release.Incompatibility {
+        return when (parcel.readInt()) {
+            MIN_SDK_INDEX -> Release.Incompatibility.MinSdk
+            MAX_SDK_INDEX -> Release.Incompatibility.MaxSdk
+            PLATFORM_INDEX -> Release.Incompatibility.Platform
+            FEATURE_INDEX -> Release.Incompatibility.Feature(requireNotNull(parcel.readString()))
+            else -> error("Invalid Index for Incompatibility")
+        }
+    }
+
+    override fun Release.Incompatibility.write(parcel: Parcel, flags: Int) {
+        when (this) {
+            is Release.Incompatibility.MinSdk -> {
+                parcel.writeInt(MIN_SDK_INDEX)
+            }
+
+            is Release.Incompatibility.MaxSdk -> {
+                parcel.writeInt(MAX_SDK_INDEX)
+            }
+
+            is Release.Incompatibility.Platform -> {
+                parcel.writeInt(PLATFORM_INDEX)
+            }
+
+            is Release.Incompatibility.Feature -> {
+                parcel.writeInt(FEATURE_INDEX)
+                parcel.writeString(feature)
+            }
+        }
     }
 }

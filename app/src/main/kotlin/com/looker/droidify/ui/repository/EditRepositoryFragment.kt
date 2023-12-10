@@ -14,8 +14,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.clipboardManager
 import com.looker.core.common.extension.get
 import com.looker.core.common.extension.getMutatedIcon
@@ -25,24 +23,27 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
-import java.net.URI
-import java.net.URL
-import java.nio.charset.Charset
-import java.util.Locale
-import javax.inject.Inject
-import kotlin.math.min
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.net.URI
+import java.net.URL
+import java.nio.charset.Charset
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.math.min
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
@@ -469,7 +470,7 @@ class EditRepositoryFragment() : ScreenFragment() {
         if (binder != null) {
             val repositoryId = repositoryId
             if (repositoryId != null && binder.isCurrentlySyncing(repositoryId)) {
-                MessageDialog(MessageDialog.Message.CantEditSyncing).show(childFragmentManager)
+                MessageDialog(Message.CantEditSyncing).show(childFragmentManager)
                 invalidateState()
             } else {
                 val repository = repositoryId?.let(Database.RepositoryAdapter::get)

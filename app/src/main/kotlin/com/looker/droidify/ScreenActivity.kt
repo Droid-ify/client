@@ -5,7 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcel
+import android.os.Parcelable
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,7 +18,6 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.looker.core.common.*
 import com.looker.core.common.extension.*
-import com.looker.core.common.file.KParcelable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.datastore.get
@@ -38,11 +37,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @AndroidEntryPoint
 abstract class ScreenActivity : AppCompatActivity() {
@@ -61,38 +61,12 @@ abstract class ScreenActivity : AppCompatActivity() {
     @Inject
     lateinit var installer: InstallManager
 
+    @Parcelize
     private class FragmentStackItem(
         val className: String,
         val arguments: Bundle?,
         val savedState: Fragment.SavedState?
-    ) : KParcelable {
-        override fun writeToParcel(dest: Parcel, flags: Int) {
-            dest.writeString(className)
-            dest.writeByte(if (arguments != null) 1 else 0)
-            arguments?.writeToParcel(dest, flags)
-            dest.writeByte(if (savedState != null) 1 else 0)
-            savedState?.writeToParcel(dest, flags)
-        }
-
-        companion object {
-            @Suppress("unused")
-            @JvmField
-            val CREATOR = KParcelable.creator {
-                val className = it.readString()!!
-                val arguments =
-                    if (it.readByte().toInt() == 0) null else Bundle.CREATOR.createFromParcel(it)
-                arguments?.classLoader = ScreenActivity::class.java.classLoader
-                val savedState = if (it.readByte()
-                    .toInt() == 0
-                ) {
-                    null
-                } else {
-                    Fragment.SavedState.CREATOR.createFromParcel(it)
-                }
-                FragmentStackItem(className, arguments, savedState)
-            }
-        }
-    }
+    ) : Parcelable
 
     lateinit var cursorOwner: CursorOwner
         private set
