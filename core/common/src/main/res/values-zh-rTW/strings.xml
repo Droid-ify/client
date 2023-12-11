@@ -227,4 +227,5 @@
     <string name="export_settings_DESC">將設定和我的最愛匯出至檔案</string>
     <string name="export_repos_title">匯出軟體庫</string>
     <string name="import_repos_DESC">從檔案中匯入所有軟體庫</string>
+    <string name="cannot_open_link">無法開啟連結</string>
 </resources>
