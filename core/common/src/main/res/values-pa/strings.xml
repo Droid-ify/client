@@ -230,4 +230,5 @@
     <string name="export_settings_DESC">ਸੈਟਿੰਗਾਂ ਅਤੇ ਮਨਪਸੰਦ ਫ਼ਾਈਲ ਵਿੱਚ ਐਕਸਪੋਰਟ ਕਰੋ</string>
     <string name="export_repos_title">ਰਿਪੋਜ਼ਟਰੀਆਂ ਨਿਰਯਾਤ ਕਰੋ</string>
     <string name="import_repos_DESC">ਫ਼ਾਈਲ ਤੋਂ ਸਾਰੀਆਂ ਰਿਪੋਜ਼ਟਰੀਆਂ ਆਯਾਤ ਕਰੋ</string>
+    <string name="cannot_open_link">ਲਿੰਕ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
 </resources>
