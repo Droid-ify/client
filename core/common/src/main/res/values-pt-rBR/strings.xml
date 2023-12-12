@@ -236,4 +236,5 @@
     <string name="repository_not_found">O seguinte repositório não foi encontrado</string>
     <string name="special_credits">Créditos especiais</string>
     <string name="shizuku_not_installed">Shizuku não está instalado</string>
+    <string name="cannot_open_link">Não foi possível abrir o link</string>
 </resources>
