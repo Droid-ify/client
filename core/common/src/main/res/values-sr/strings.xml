@@ -233,4 +233,5 @@
     <string name="export_settings_DESC">Извезите подешавања и омиљене у фајл</string>
     <string name="export_repos_title">Извоз репозиторијума</string>
     <string name="import_repos_DESC">Увезите све репозиторијуме из фајла</string>
+    <string name="cannot_open_link">Није могуће отворити линк</string>
 </resources>
