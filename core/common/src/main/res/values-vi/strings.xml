@@ -227,4 +227,5 @@
     <string name="export_settings_DESC">Xuất thiết đặt và mục yêu thích sang tệp</string>
     <string name="export_repos_title">Xuất kho lưu trữ</string>
     <string name="import_repos_DESC">Nhập mọi kho lưu trữ từ tệp</string>
+    <string name="cannot_open_link">Không thể mở liên kết</string>
 </resources>
