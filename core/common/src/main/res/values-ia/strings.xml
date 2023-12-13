@@ -147,4 +147,23 @@
     <string name="launch">Lancear</string>
     <string name="upstream_source_code_is_not_free">Le codice fonte non es libere</string>
     <string name="proxy">Proxy</string>
+    <string name="session_installer">Installator de session</string>
+    <string name="incompatible_version">Version incompatibile</string>
+    <plurals name="hours">
+        <item quantity="one">Hora</item>
+        <item quantity="other">Horas</item>
+    </plurals>
+    <string name="sync_repositories_automatically">Synchronisar repositorios automaticamente</string>
+    <string name="sync_repositories">Synchronisar repositorios</string>
+    <string name="installer">Installator</string>
+    <string name="syncing_FORMAT">Synchronisante %s…</string>
+    <string name="http_error_DESC">Responsa de servitor non valide.</string>
+    <string name="waiting_to_start_download">Attendente pro le initio del discargamento…</string>
+    <string name="waiting_to_start_installation">Attendente pro le initio del installation…</string>
+    <string name="connection_error_DESC">Non poteva connecter al servitor</string>
+    <string name="shizuku_installer">Installator Shizuku</string>
+    <string name="incompatible_with_FORMAT">Incompatibile con %s</string>
+    <string name="syncing">Synchronisante</string>
+    <string name="incompatible_versions">Versiones incompatibile</string>
+    <string name="incompatible_versions_summary">Monstrar versiones de application incompatibile con le apparato</string>
 </resources>
