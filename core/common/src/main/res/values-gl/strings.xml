@@ -209,4 +209,8 @@
     <string name="waiting_to_start_installation">Agardando para iniciala instalación…</string>
     <string name="auto_update">Actualizacións automática das aplicacións</string>
     <string name="auto_update_apps">Tenta instalar actualizacións automaticamente</string>
+    <string name="import_settings_title">Importalos axustes</string>
+    <string name="import_export">Importación/exportación</string>
+    <string name="import_settings_DESC">Importalos axustes e favoritos dende un fixeiro</string>
+    <string name="cannot_open_link">Non se pode abrir a ligazón</string>
 </resources>
