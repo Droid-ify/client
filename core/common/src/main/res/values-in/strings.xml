@@ -227,4 +227,5 @@
     <string name="export_settings_DESC">Ekspor pengaturan dan favorit ke berkas</string>
     <string name="export_repos_title">Ekspor Repositori</string>
     <string name="import_repos_DESC">Impor semua repositori dari berkas</string>
+    <string name="cannot_open_link">Tidak Bisa Membuka Tautan</string>
 </resources>
