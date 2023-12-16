@@ -143,7 +143,7 @@
     <string name="plus_more_FORMAT">+%d повече</string>
     <string name="promotes_non_free_network_services">Насърчава несвободни мрежови услуги</string>
     <string name="search">Търсене</string>
-    <string name="link_copied_to_clipboard">Линка успешно копиран във времения буфер</string>
+    <string name="link_copied_to_clipboard">Линка е копиран</string>
     <string name="new_updates_available">Налични нови версии на приложението</string>
     <string name="no_applications_available">Няма налични приложения</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -221,5 +221,14 @@
     <string name="repository_not_found">Следното хранилище не бе намерено</string>
     <string name="special_credits">Специални благодарности</string>
     <string name="shizuku_not_installed">Shizuku не е инсталиран</string>
-    <string name="import_export">Внос/износ</string>
+    <string name="import_export">Импортиране/Експортиране</string>
+    <string name="import_settings_title">Импортирай Настройки</string>
+    <string name="import_settings_DESC">Импортиране на настройки и любими от файл</string>
+    <string name="export_settings_title">Експортирай Настройки</string>
+    <string name="export_repos_DESC">Експортирай всички хранилища във файл</string>
+    <string name="import_repos_title">Импортирай хранилища</string>
+    <string name="export_settings_DESC">Експортиране на настройки и любими във файл</string>
+    <string name="export_repos_title">Експортирай хранилища</string>
+    <string name="cannot_open_link">Линкът не може да се отвори</string>
+    <string name="import_repos_DESC">Импортирай всички хранилища от файл</string>
 </resources>
