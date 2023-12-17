@@ -824,9 +824,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 "NSFW" -> context.getString(stringRes.contains_nsfw)
                 "Tracking" -> context.getString(stringRes.tracks_or_reports_your_activity)
                 "UpstreamNonFree" -> context.getString(stringRes.upstream_source_code_is_not_free)
-                // special tag(https://floss.social/@IzzyOnDroid/110815951568369581)
+                // special tag (https://floss.social/@IzzyOnDroid/110815951568369581)
                 // apps include non-free libraries
                 "NonFreeComp" -> context.getString(stringRes.has_non_free_components)
+                "TetheredNet" -> context.getString(stringRes.has_tethered_network)
                 else -> context.getString(stringRes.unknown_FORMAT, it)
             }
         }.joinToString(separator = "\n") { "\u2022 $it" }

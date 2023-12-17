@@ -68,6 +68,7 @@
     <string name="has_non_free_dependencies">Has non-free dependencies</string>
     <string name="has_non_free_components">Has non-free components</string>
     <string name="has_security_vulnerabilities">Has security vulnerabilities</string>
+    <string name="has_tethered_network">Bound to a certain network service</string>
     <string name="home_screen_swiping">Home Screen Swiping</string>
     <string name="home_screen_swiping_DESC">Allow user to swipe between pages in home screen</string>
     <plurals name="hours">
