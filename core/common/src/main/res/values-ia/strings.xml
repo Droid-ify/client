@@ -166,4 +166,5 @@
     <string name="syncing">Synchronisante</string>
     <string name="incompatible_versions">Versiones incompatibile</string>
     <string name="incompatible_versions_summary">Monstrar versiones de application incompatibile con le apparato</string>
+    <string name="confirmation">Confirmation</string>
 </resources>
