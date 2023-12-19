@@ -230,4 +230,5 @@
     <string name="export_settings_DESC">Exportiere Einstellungen und Favoriten in Datei</string>
     <string name="export_repos_title">Exportiere Sammlungen</string>
     <string name="import_repos_DESC">Importiere alle Sammlungen aus Datei</string>
+    <string name="cannot_open_link">Link kann nicht geöffnet werden</string>
 </resources>
