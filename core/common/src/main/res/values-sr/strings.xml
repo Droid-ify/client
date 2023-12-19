@@ -234,4 +234,5 @@
     <string name="export_repos_title">Извоз репозиторијума</string>
     <string name="import_repos_DESC">Увезите све репозиторијуме из фајла</string>
     <string name="cannot_open_link">Није могуће отворити линк</string>
+    <string name="has_tethered_network">Везано за одређену мрежну услугу</string>
 </resources>
