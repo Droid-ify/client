@@ -17,7 +17,7 @@
             android:id="@+id/icon"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            app:shapeAppearanceOverlay="@style/Shape.Small"
+            app:shapeAppearanceOverlay="@style/Shape.Medium"
             tools:ignore="ContentDescription" />
 
         <LinearLayout
