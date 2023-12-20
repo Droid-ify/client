@@ -228,4 +228,5 @@
     <string name="export_repos_title">Xuất kho lưu trữ</string>
     <string name="import_repos_DESC">Nhập mọi kho lưu trữ từ tệp</string>
     <string name="cannot_open_link">Không thể mở liên kết</string>
+    <string name="has_tethered_network">Bị ràng buộc với một dịch vụ mạng nhất định</string>
 </resources>
