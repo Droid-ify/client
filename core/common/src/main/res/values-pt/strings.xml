@@ -234,4 +234,5 @@
     <string name="export_repos_title">Exportar repositórios</string>
     <string name="import_repos_DESC">Importar todos os repositórios de um ficheiro</string>
     <string name="cannot_open_link">Não foi possível abrir a ligação</string>
+    <string name="has_tethered_network">Ligado a um certo serviço de rede</string>
 </resources>
