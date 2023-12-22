@@ -233,4 +233,6 @@
     <string name="export_settings_DESC">Izvezi postavke i favorite u datoteku</string>
     <string name="export_repos_title">Izvezi repozitorije</string>
     <string name="import_repos_DESC">Uvezi sve repozitorije iz datoteke</string>
+    <string name="has_tethered_network">Vezano na određenu mrežnu uslugu</string>
+    <string name="cannot_open_link">Nije moguće otvoriti poveznicu</string>
 </resources>
