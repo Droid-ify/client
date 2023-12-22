@@ -231,4 +231,5 @@
     <string name="export_repos_title">रिपॉजिटरीआं निर्यात करें</string>
     <string name="import_repos_DESC">फ़ाइल से सभी रिपॉजिटरी आयात करें</string>
     <string name="cannot_open_link">लिंक नहीं खुल सका</string>
+    <string name="has_tethered_network">एक निश्चित नेटवर्क सेवा से जुड़ा हुआ</string>
 </resources>
