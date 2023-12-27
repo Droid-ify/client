@@ -238,5 +238,5 @@
     <string name="export_repos_title">Экспорт репозиториев</string>
     <string name="import_repos_DESC">Импортировать все репозитории из файла</string>
     <string name="cannot_open_link">Невозможно открыть ссылку</string>
-    <string name="has_tethered_network">Привязка к определенной сетевой службе</string>
+    <string name="has_tethered_network">Привязка к определённой сетевой службе</string>
 </resources>
