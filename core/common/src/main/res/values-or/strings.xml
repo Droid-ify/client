@@ -230,4 +230,6 @@
     <string name="export_settings_DESC">ଫାଇଲ୍ ପାଇଁ ସେଟିଂସମୂହ ଏବଂ ପସନ୍ଦଗୁଡିକ ରପ୍ତାନି କରନ୍ତୁ</string>
     <string name="export_repos_title">ସଂଗ୍ରହାଳୟ ରପ୍ତାନି କରନ୍ତୁ</string>
     <string name="import_repos_DESC">ଫାଇଲରୁ ସମସ୍ତ ସଂଗ୍ରହାଳୟ ଆମଦାନି କରନ୍ତୁ</string>
+    <string name="has_tethered_network">ଗୋଟିଏ ନିର୍ଦ୍ଦିଷ୍ଟ ନେଟୱର୍କ ସେବାରେ ବାନ୍ଧି ରଖନ୍ତୁ</string>
+    <string name="cannot_open_link">ସଂଯୋଗକୁ ଖୋଲାଯାଇପାରିବ ନାହିଁ</string>
 </resources>
