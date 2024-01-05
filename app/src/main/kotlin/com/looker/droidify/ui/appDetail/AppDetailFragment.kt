@@ -384,7 +384,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 val repo = products[0].second
                 val address = when {
                     repo.name == "F-Droid" ->
-                        "https://www.f-droid.org/packages/" +
+                        "https://f-droid.org/packages/" +
                             "${viewModel.packageName}/"
 
                     "IzzyOnDroid" in repo.name -> {
