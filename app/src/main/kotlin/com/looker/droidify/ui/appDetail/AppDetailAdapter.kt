@@ -1276,8 +1276,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             background = context.corneredBackground
                             setPadding(8.dp, 4.dp, 8.dp, 4.dp)
                             backgroundTintList =
-                                context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
-                            setTextColor(context.getColorFromAttr(MaterialR.attr.colorSecondary))
+                                context.getColorFromAttr(MaterialR.attr.colorTertiaryContainer)
+                            setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnTertiaryContainer))
                         }
                     } else {
                         if (background != null) {
@@ -1590,7 +1590,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     holder.itemView.apply {
                         background = context.corneredBackground
                         backgroundTintList =
-                            holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurface)
+                            holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurfaceContainerHigh)
                     }
                 } else {
                     holder.itemView.background = null
@@ -1609,9 +1609,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     )
                     background = context.corneredBackground
                     setPadding(15, 15, 15, 15)
+                    val (background, foreground) = if (installed) {
+                        MaterialR.attr.colorSecondaryContainer to MaterialR.attr.colorOnSecondaryContainer
+                    } else {
+                        MaterialR.attr.colorPrimaryContainer to MaterialR.attr.colorOnPrimaryContainer
+                    }
                     backgroundTintList =
-                        context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
+                        context.getColorFromAttr(background)
+                    setTextColor(context.getColorFromAttr(foreground))
                 }
                 holder.source.text =
                     context.getString(stringRes.provided_by_FORMAT, item.repository.name)

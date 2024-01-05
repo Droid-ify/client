@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.IBinder
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
@@ -82,10 +83,7 @@ class SessionInstallerService : Service() {
                 } else {
                     val notification = builder
                         .setSmallIcon(CommonR.drawable.ic_check)
-                        .setColor(
-                            ContextThemeWrapper(this, CommonR.style.Theme_Main_Light)
-                                .getColor(CommonR.color.md_theme_light_primaryContainer)
-                        )
+                        .setColor(Color.GREEN)
                         .setContentTitle("Installed")
                         .setContentText(appLabel)
                         .build()
@@ -105,10 +103,7 @@ class SessionInstallerService : Service() {
                 // problem occurred when installing/uninstalling package
                 val notification = builder
                     .setSmallIcon(android.R.drawable.stat_notify_error)
-                    .setColor(
-                        ContextThemeWrapper(this, CommonR.style.Theme_Main_Light)
-                            .getColor(CommonR.color.md_theme_dark_errorContainer)
-                    )
+                    .setColor(Color.GREEN)
                     .setContentTitle("Unknown Error")
                     .setContentText(message)
                     .build()

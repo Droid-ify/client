@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -245,10 +246,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
                 .setAutoCancel(true)
                 .setSmallIcon(android.R.drawable.stat_notify_error)
-                .setColor(
-                    ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColor(CommonR.color.md_theme_dark_errorContainer)
-                )
+                .setColor(Color.GREEN)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(intent)
                 .errorNotificationContent(task, errorType)
@@ -291,10 +289,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                .setColor(
-                    ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColor(CommonR.color.md_theme_dark_primaryContainer)
-                )
+                .setColor(Color.GREEN)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(intent)
                 .setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
@@ -326,10 +321,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         NotificationCompat
             .Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
             .setSmallIcon(android.R.drawable.stat_sys_download)
-            .setColor(
-                ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                    .getColor(CommonR.color.md_theme_dark_primaryContainer)
-            )
+            .setColor(Color.GREEN)
             .addAction(
                 0,
                 getString(stringRes.cancel),

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorSurface"
     tools:context="com.looker.droidify.ui.settings.SettingsFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,7 +11,7 @@
         style="?attr/appBarLayoutStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?colorSurface"
+        android:background="?colorSurfaceContainer"
         app:elevation="0dp"
         app:liftOnScroll="false">
 
@@ -21,7 +20,7 @@
             style="?attr/toolbarStyle"
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
-            android:background="?colorSurface"
+            android:background="?colorSurfaceContainer"
             android:elevation="0dp" />
     </com.google.android.material.appbar.AppBarLayout>
 

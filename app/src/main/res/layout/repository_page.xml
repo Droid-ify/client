@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/shape_margin_large"
         android:background="@drawable/background_border"
+        android:backgroundTint="?colorSurfaceContainer"
         android:padding="28dp"
         android:text="@string/enable_repo"
         android:textAppearance="?textAppearanceHeadlineSmall"

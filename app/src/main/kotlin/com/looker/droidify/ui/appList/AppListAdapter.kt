@@ -153,17 +153,17 @@ class AppListAdapter(
                     when {
                         productItem.canUpdate -> {
                             backgroundTintList =
-                                context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+                                context.getColorFromAttr(MaterialR.attr.colorTertiaryContainer)
                             setTextColor(
-                                context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer)
+                                context.getColorFromAttr(MaterialR.attr.colorOnTertiaryContainer)
                             )
                         }
 
                         isInstalled -> {
                             backgroundTintList =
-                                context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+                                context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
                             setTextColor(
-                                context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer)
+                                context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer)
                             )
                         }
 

@@ -33,7 +33,7 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/MainTheme"
-        tools:targetApi="tiramisu">
+        tools:ignore="UnusedAttribute">
 
         <receiver
             android:name=".MainApplication$BootReceiver"
