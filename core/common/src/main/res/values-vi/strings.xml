@@ -101,7 +101,7 @@
     <string name="anti_features">Tính năng không mong muốn</string>
     <string name="application">Ứng dụng</string>
     <string name="changes">Thay đổi</string>
-    <string name="contains_non_free_media">Không chứa phương tiện tự do</string>
+    <string name="contains_non_free_media">Chứa phương tiện không tự do</string>
     <string name="file_format_error_DESC">Định dạng sai.</string>
     <string name="delete">Xóa</string>
     <string name="donate">Ủng hộ</string>
@@ -157,7 +157,7 @@
     <string name="repository_unsigned_DESC">Chưa kí. Không thể xác minh danh sách ứng dụng. Cận thẩn với kho chưa kí.</string>
     <string name="show_more">Hiện thêm</string>
     <string name="sync_repositories_automatically">Đồng bộ kho tự động</string>
-    <string name="size">Dung lượng</string>
+    <string name="size">Kích cỡ</string>
     <string name="unknown_error_DESC">Lỗi không rõ.</string>
     <string name="whats_new">Có gì mới nè</string>
     <string name="source_code">Mã nguồn</string>
@@ -189,7 +189,7 @@
     <string name="session_installer">Trình cài đặt phiên</string>
     <string name="root_installer">Trình cài đặt Root</string>
     <string name="allow_collapsing_toolbar">Cho phép mở rộng thanh công cụ</string>
-    <string name="allow_collapsing_toolbar_DESC">Cho phép mở rộng thanh công cụ và sụp đổ</string>
+    <string name="allow_collapsing_toolbar_DESC">Cho phép thanh công cụ mở rộng và thu hẹp</string>
     <string name="io_error_DESC">Không thể thực hiện một số hành động nhất định.</string>
     <string name="shizuku_installer">Trình cài đặt Shizuku</string>
     <string name="no_internet">Bạn không có kết nối internet</string>
