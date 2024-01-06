@@ -212,4 +212,15 @@
     <string name="force_clean_up_DESC">Notīra liekos failus</string>
     <string name="material_you_desc">Izmantojiet materiāls tu krāsu motīvu</string>
     <string name="repository_unreachable">Repozitorijs nav sasniedzams</string>
+    <string name="has_non_free_components">Ir nesaturošas sastāvdaļas</string>
+    <string name="cannot_open_link">Nevar atvērt saiti</string>
+    <string name="import_export">Importēt/eksportēt</string>
+    <string name="import_settings_title">Importēt iestatījumus</string>
+    <string name="import_settings_DESC">Importēt iestatījumus un izlasi no faila</string>
+    <string name="export_settings_title">Eksportēt iestatījumus</string>
+    <string name="export_settings_DESC">Eksportēt iestatījumus un izlasi no faila</string>
+    <string name="export_repos_DESC">Eksportējiet visus repozitorijus failā</string>
+    <string name="import_repos_title">Importēt repozitorijus</string>
+    <string name="import_repos_DESC">Importēt visus repozitorijus no faila</string>
+    <string name="export_repos_title">Eksportēt repozitorijus</string>
 </resources>
