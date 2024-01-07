@@ -184,7 +184,7 @@ object Database {
         }
     }
 
-    private class Helper(context: Context) : SQLiteOpenHelper(context, "droidify", null, 2) {
+    private class Helper(context: Context) : SQLiteOpenHelper(context, "droidify", null, 3) {
         var created = false
             private set
         var updated = false
@@ -251,7 +251,7 @@ object Database {
         if (repos.isEmpty()) return
         db.transaction {
             repos.forEach {
-                RepositoryAdapter.put(it)
+                RepositoryAdapter.put(it, database = this)
             }
         }
     }
@@ -394,8 +394,12 @@ object Database {
     }
 
     object RepositoryAdapter {
-        internal fun putWithoutNotification(repository: Repository, shouldReplace: Boolean): Long {
-            return db.insertOrReplace(
+        internal fun putWithoutNotification(
+            repository: Repository,
+            shouldReplace: Boolean,
+            database: SQLiteDatabase
+        ): Long {
+            return database.insertOrReplace(
                 shouldReplace,
                 Schema.Repository.name,
                 ContentValues().apply {
@@ -409,9 +413,9 @@ object Database {
             )
         }
 
-        fun put(repository: Repository): Repository {
+        fun put(repository: Repository, database: SQLiteDatabase = db): Repository {
             val shouldReplace = repository.id >= 0L
-            val newId = putWithoutNotification(repository, shouldReplace)
+            val newId = putWithoutNotification(repository, shouldReplace, database)
             val id = if (shouldReplace) repository.id else newId
             notifyChanged(Subject.Repositories, Subject.Repository(id), Subject.Products)
             return if (newId != repository.id) repository.copy(id = newId) else repository
@@ -946,7 +950,7 @@ object Database {
                         "INSERT INTO ${Schema.Category.name} SELECT * " +
                             "FROM ${Schema.Category.temporaryName}"
                     )
-                    RepositoryAdapter.putWithoutNotification(repository, true)
+                    RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Category.temporaryName}")
                 }
