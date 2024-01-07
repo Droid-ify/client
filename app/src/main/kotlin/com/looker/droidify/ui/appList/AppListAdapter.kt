@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.appList
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.Gravity
 import android.view.View
@@ -76,12 +77,14 @@ class AppListAdapter(
     }
 
     var repositories: Map<Long, Repository> = emptyMap()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
     var emptyText: String = ""
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             if (field != value) {
                 field = value
@@ -109,7 +112,11 @@ class AppListAdapter(
     }
 
     private fun getProductItem(position: Int): ProductItem {
-        return Database.ProductAdapter.transformItem(moveTo(position))
+        val cursorPosition =
+            if (position >= 0) position
+            else
+                0
+        return Database.ProductAdapter.transformItem(moveTo(cursorPosition))
     }
 
     override fun onCreateViewHolder(
