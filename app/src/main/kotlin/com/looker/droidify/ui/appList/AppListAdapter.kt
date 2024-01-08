@@ -112,11 +112,7 @@ class AppListAdapter(
     }
 
     private fun getProductItem(position: Int): ProductItem {
-        val cursorPosition =
-            if (position >= 0) position
-            else
-                0
-        return Database.ProductAdapter.transformItem(moveTo(cursorPosition))
+        return Database.ProductAdapter.transformItem(moveTo(position.coerceAtLeast(0)))
     }
 
     override fun onCreateViewHolder(
