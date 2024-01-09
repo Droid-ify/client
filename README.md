@@ -23,7 +23,7 @@
 
 ## Screenshots
 
-<img src="metadata/en-US/images/phoneScreenshots/2.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/1.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="48%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="48%" />
+<img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
 
 ## Building and Installing
 1. **Install Android Studio**:
