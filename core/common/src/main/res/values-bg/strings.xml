@@ -143,7 +143,7 @@
     <string name="plus_more_FORMAT">+%d повече</string>
     <string name="promotes_non_free_network_services">Насърчава несвободни мрежови услуги</string>
     <string name="search">Търсене</string>
-    <string name="link_copied_to_clipboard">Линка е копиран</string>
+    <string name="link_copied_to_clipboard">Линкът е копиран</string>
     <string name="new_updates_available">Налични нови версии на приложението</string>
     <string name="no_applications_available">Няма налични приложения</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -191,7 +191,7 @@
     <string name="cleanup_description">Период за проверка и премахване на изтеглените файлове</string>
     <plurals name="hours">
         <item quantity="one">Час</item>
-        <item quantity="other">Часове</item>
+        <item quantity="other">Часа</item>
     </plurals>
     <string name="no_internet">Нямате интернет връзка</string>
     <string name="allow_collapsing_toolbar">Разрешете горната лента на приложението да се разшири</string>
