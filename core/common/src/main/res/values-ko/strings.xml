@@ -227,4 +227,6 @@
     <string name="export_settings_DESC">설정 및 즐겨찾기를 파일로 내보냅니다.</string>
     <string name="export_repos_title">저장소 내보내기</string>
     <string name="import_repos_DESC">저장소 목록을 파일에서 가져옵니다.</string>
+    <string name="has_tethered_network">특정 네트워크 서비스에 바인딩됨</string>
+    <string name="cannot_open_link">링크를 열 수 없습니다</string>
 </resources>
