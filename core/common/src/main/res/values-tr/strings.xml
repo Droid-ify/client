@@ -232,4 +232,5 @@
     <string name="export_repos_title">Depoları Dışa Aktar</string>
     <string name="import_repos_DESC">Tüm depoları dosyadan içe aktar</string>
     <string name="cannot_open_link">Bağlantı açılamıyor</string>
+    <string name="has_tethered_network">Belirli bir ağ hizmetine bağlı</string>
 </resources>
