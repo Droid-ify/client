@@ -23,7 +23,7 @@
     <string name="edit_repository">Sửa kho</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="has_advertising">Có quảng cáo</string>
-    <string name="http_proxy">HTTP proxy</string>
+    <string name="http_proxy">HTTP</string>
     <string name="ignore_all_updates">Bỏ qua tất cả các phiên bản mới</string>
     <string name="incompatible_api_DESC_FORMAT">%1$s của bạn (Phiên bản API %2$d) không được hỗ trợ. %3$s</string>
     <string name="incompatible_api_min_DESC_FORMAT">Phiên bản API nhỏ nhất là %d.</string>
@@ -47,7 +47,7 @@
     <string name="parsing_index_error_DESC">Không thể phân tích cú pháp tệp chỉ mục.</string>
     <string name="permissions">Quyền</string>
     <string name="plus_more_FORMAT">+%d nhiều hơn</string>
-    <string name="settings">Thiết đặt</string>
+    <string name="settings">Cài đặt</string>
     <string name="project_website">Website của dự án</string>
     <string name="promotes_non_free_software">Thúc đẩy phần mềm không tự do</string>
     <string name="provided_by_FORMAT">Cung cấp bởi %s</string>
@@ -76,7 +76,7 @@
     <string name="unsigned">Chưa kí</string>
     <string name="unverified">Chưa xác minh</string>
     <string name="update">Cập nhật</string>
-    <string name="updates">Các cập nhật</string>
+    <string name="updates">Cập nhật</string>
     <string name="upstream_source_code_is_not_free">Mã nguồn ngược dòng không tự do</string>
     <string name="username">Tên người dùng</string>
     <string name="username_missing">Tên người dùng bị thiếu</string>
@@ -116,7 +116,7 @@
     <string name="incompatible_older_DESC">Phiên bản này cũ hơn phiên bản được cài đặt trên thiết bị của bạn. Hãy gỡ cài đặt đó trước.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Nền tảng %1$s của bạn không được hỗ trợ. Nền tảng hỗ trợ: %2$s.</string>
     <string name="incompatible_signature_DESC">Phiên bản này được ký bằng chứng chỉ khác với phiên bản được cài đặt trên thiết bị của bạn. Hãy gỡ cài đặt đó trước.</string>
-    <string name="install_types">Loại cài đặt</string>
+    <string name="install_types">Phương thức cài đặt</string>
     <string name="integrity_check_error_DESC">Không thể kiểm tra tính nguyên vẹn.</string>
     <string name="license_FORMAT">Giấy phép %s</string>
     <string name="invalid_fingerprint_format">Sai định dạng fingerprint</string>
@@ -141,7 +141,7 @@
     <string name="no_applications_available">Không có ứng dụng nào</string>
     <string name="password_missing">Mật khẩu bị thiếu</string>
     <string name="no_matching_applications_found">Không tìm thấy ứng dụng nào</string>
-    <string name="no_proxy">Không proxy</string>
+    <string name="no_proxy">Không</string>
     <string name="recently_updated">Cập nhật gần đây</string>
     <string name="notify_about_updates">Thông báo các bản cập nhật</string>
     <string name="only_compatible_with_FORMAT">Chỉ tương thích với %s</string>
@@ -163,7 +163,7 @@
     <string name="source_code">Mã nguồn</string>
     <string name="prefs_language_title">Ngôn ngữ</string>
     <string name="proxy">Proxy</string>
-    <string name="socks_proxy">SOCKS Proxy</string>
+    <string name="socks_proxy">SOCKS</string>
     <string name="tap_to_install_DESC">Nhấn để cài.</string>
     <string name="version">Phiên bản</string>
     <string name="prefs_personalization">Cá nhân hóa</string>
@@ -213,18 +213,18 @@
     <string name="connection_error_DESC">Không thể kết nối tới máy chủ</string>
     <string name="socket_error_DESC">Máy chủ không cung cấp được gói mới.</string>
     <string name="label_copy">Sao chép</string>
-    <string name="proxy_port_error_not_int">Cổng proxy chỉ có thể là Số nguyên</string>
+    <string name="proxy_port_error_not_int">Cổng Proxy chỉ có thể là số nguyên</string>
     <string name="home_screen_swiping_DESC">Cho phép người dùng vuốt giữa các trang trong màn hình chính</string>
     <string name="repository_not_found">Không tìm thấy kho lưu trữ sau</string>
     <string name="special_credits">Công trạng đặc biệt</string>
     <string name="shizuku_not_installed">Shizuku chưa được cài đặt</string>
-    <string name="import_settings_title">Nhập thiết đặt</string>
+    <string name="import_settings_title">Nhập cài đặt</string>
     <string name="import_export">Nhập/Xuất</string>
-    <string name="import_settings_DESC">Nhập thiết đặt và mục yêu thích từ tệp</string>
-    <string name="export_settings_title">Xuất thiết đặt</string>
+    <string name="import_settings_DESC">Nhập cài đặt và mục yêu thích từ tệp</string>
+    <string name="export_settings_title">Xuất cài đặt</string>
     <string name="export_repos_DESC">Xuất mọi kho lưu trữ sang tệp</string>
     <string name="import_repos_title">Nhập kho lưu trữ</string>
-    <string name="export_settings_DESC">Xuất thiết đặt và mục yêu thích sang tệp</string>
+    <string name="export_settings_DESC">Xuất cài đặt và mục yêu thích sang tệp</string>
     <string name="export_repos_title">Xuất kho lưu trữ</string>
     <string name="import_repos_DESC">Nhập mọi kho lưu trữ từ tệp</string>
     <string name="cannot_open_link">Không thể mở liên kết</string>
