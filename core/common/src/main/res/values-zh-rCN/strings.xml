@@ -72,7 +72,7 @@
     <string name="license">许可证</string>
     <string name="license_FORMAT">许可证 %s</string>
     <string name="light">浅色</string>
-    <string name="link_copied_to_clipboard">链接已复制</string>
+    <string name="link_copied_to_clipboard">已复制链接</string>
     <string name="links">链接</string>
     <string name="list_animation">列表动画</string>
     <string name="list_animation_description">在主页上显示列表动画</string>
@@ -227,4 +227,6 @@
     <string name="export_settings_DESC">导出设置和收藏夹到文件</string>
     <string name="export_repos_title">导出存储库</string>
     <string name="import_repos_DESC">从文件导入所有存储库</string>
+    <string name="has_tethered_network">依赖于特定网络服务</string>
+    <string name="cannot_open_link">无法打开链接</string>
 </resources>
