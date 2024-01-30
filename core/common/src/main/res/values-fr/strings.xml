@@ -8,7 +8,7 @@
     <string name="amoled">Noir</string>
     <string name="application_not_found">Impossible de trouver cette application</string>
     <string name="author_email">Courriel de l’auteur</string>
-    <string name="author_website">Site web de l’auteur</string>
+    <string name="author_website">Site internet de l\'auteur</string>
     <string name="available">Explorer</string>
     <string name="bug_tracker">Traqueur de bogues</string>
     <string name="cancel">Annuler</string>
@@ -31,7 +31,7 @@
     <string name="downloading_FORMAT">Téléchargement %s…</string>
     <string name="edit_repository">Modifier le dépôt</string>
     <string name="file_format_error_DESC">Format de fichier non valide.</string>
-    <string name="fingerprint">Empreinte</string>
+    <string name="fingerprint">Empreinte digitale</string>
     <string name="license_FORMAT">Licence %s</string>
     <string name="launch">Lancer</string>
     <string name="invalid_address">Adresse invalide</string>
@@ -78,7 +78,7 @@
     <string name="versions">Versions</string>
     <string name="waiting_to_start_download">En attente du lancement du téléchargement…</string>
     <string name="whats_new">Quoi de neuf</string>
-    <string name="website">Site web</string>
+    <string name="website">Site internet</string>
     <string name="update">Mettre à jour</string>
     <string name="updates">Mises à jour</string>
     <string name="unverified">Non vérifié</string>
@@ -92,7 +92,7 @@
     <string name="all_applications">Toutes les applications</string>
     <string name="tap_to_install_DESC">Appuyez pour installer.</string>
     <string name="provided_by_FORMAT">Fourni par %s</string>
-    <string name="project_website">Site web du projet</string>
+    <string name="project_website">Site internet du projet</string>
     <string name="could_not_download_FORMAT">Impossible de télécharger %s</string>
     <string name="theme">Thème</string>
     <string name="uninstall">Désinstaller</string>
@@ -183,12 +183,12 @@
     <string name="installer">Installateur</string>
     <string name="root_installer">Installateur racine</string>
     <string name="shizuku_installer">Installateur Shizuku</string>
-    <string name="cleanup_title">Intervalle de nettoyage APK</string>
+    <string name="cleanup_title">Intervalle de nettoyage des APK</string>
     <string name="cleanup_description">Période de vérification et de suppression des fichiers téléchargés</string>
     <plurals name="days">
         <item quantity="one">Jour</item>
-        <item quantity="many">Journées</item>
-        <item quantity="other">Journées</item>
+        <item quantity="many">Jours</item>
+        <item quantity="other">Jours</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Heure</item>
@@ -221,11 +221,11 @@
     <string name="special_credits">Crédits spéciaux</string>
     <string name="home_screen_swiping">Balayage de l\'écran d\'accueil</string>
     <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
-    <string name="label_copy">Copie</string>
+    <string name="label_copy">Copier</string>
     <string name="repository_not_found">Le dépôt suivant n\'a pas été trouvé</string>
     <string name="proxy_port_error_not_int">Le port proxy ne peut être qu\'un entier</string>
     <string name="import_settings_title">Importer les paramètres</string>
-    <string name="import_export">Import/Export</string>
+    <string name="import_export">Importer/Exporter</string>
     <string name="import_settings_DESC">Importer les paramètres et favoris à partir d\'un fichier</string>
     <string name="export_settings_title">Exporter les paramètres</string>
     <string name="export_repos_DESC">Exporter tous les dépôts vers un fichier</string>
@@ -234,4 +234,5 @@
     <string name="export_repos_title">Exporter les dépôts</string>
     <string name="import_repos_DESC">Importer tous les dépôts à partir d\'un fichier</string>
     <string name="cannot_open_link">Impossible d\'ouvrir le lien</string>
+    <string name="has_tethered_network">Lié à un certain service de réseau</string>
 </resources>
