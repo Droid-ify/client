@@ -77,7 +77,7 @@
     <string name="versions">Versiones</string>
     <string name="latest">Le plus recente</string>
     <string name="license_FORMAT">Licentia %s</string>
-    <string name="save">Salvar</string>
+    <string name="save">Salveguardar</string>
     <string name="material_you_desc">Usar le thema de color Material You</string>
     <string name="import_settings_title">Parametros de importation</string>
     <string name="incompatible_api_DESC_FORMAT">Tu %1$s (version de API %2$d) non es supportate. %3$s</string>
