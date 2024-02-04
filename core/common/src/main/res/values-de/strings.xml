@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_repository">Paketquelle hinzufügen</string>
+    <string name="add_repository">Repository hinzufügen</string>
     <string name="all_applications">Alle Anwendungen</string>
     <string name="all_applications_up_to_date">All deine Anwendungen sind aktuell</string>
     <string name="already_exists">Bereits vorhanden</string>
@@ -224,11 +224,12 @@
     <string name="import_settings_title">Einstellungen importieren</string>
     <string name="import_export">Importieren/Exportieren</string>
     <string name="import_settings_DESC">Importiere Einstellung und Favoriten von Datei</string>
-    <string name="export_settings_title">Exportiere Einstellungen</string>
-    <string name="export_repos_DESC">Exportiere alle Sammlungen in Datei</string>
+    <string name="export_settings_title">Einstellungen exportieren</string>
+    <string name="export_repos_DESC">Alle Repositorys in eine Datei exportieren</string>
     <string name="import_repos_title">Importiere eine Sammlung</string>
-    <string name="export_settings_DESC">Exportiere Einstellungen und Favoriten in Datei</string>
-    <string name="export_repos_title">Exportiere Sammlungen</string>
-    <string name="import_repos_DESC">Importiere alle Sammlungen aus Datei</string>
+    <string name="export_settings_DESC">Einstellungen und Favoriten in eine Datei exportieren</string>
+    <string name="export_repos_title">Repositorys exportieren</string>
+    <string name="import_repos_DESC">Alle Repositorys aus einer Datei importieren</string>
     <string name="cannot_open_link">Link kann nicht geöffnet werden</string>
+    <string name="has_tethered_network">An einen bestimmten Netzwerkdienst gebunden</string>
 </resources>
