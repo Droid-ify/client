@@ -225,11 +225,11 @@
     <string name="import_export">Importieren/Exportieren</string>
     <string name="import_settings_DESC">Importiere Einstellung und Favoriten von Datei</string>
     <string name="export_settings_title">Einstellungen exportieren</string>
-    <string name="export_repos_DESC">Alle Repositorys in eine Datei exportieren</string>
+    <string name="export_repos_DESC">Alle Repositories in eine Datei exportieren</string>
     <string name="import_repos_title">Importiere eine Sammlung</string>
     <string name="export_settings_DESC">Einstellungen und Favoriten in eine Datei exportieren</string>
-    <string name="export_repos_title">Repositorys exportieren</string>
-    <string name="import_repos_DESC">Alle Repositorys aus einer Datei importieren</string>
+    <string name="export_repos_title">Repositories exportieren</string>
+    <string name="import_repos_DESC">Alle Repositories aus einer Datei importieren</string>
     <string name="cannot_open_link">Link kann nicht geöffnet werden</string>
     <string name="has_tethered_network">An einen bestimmten Netzwerkdienst gebunden</string>
 </resources>
