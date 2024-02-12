@@ -52,7 +52,7 @@ task("detectAndroidLocals") {
             langsList.add(languageCode)
         }
     }
-    val langsListString = "{${langsList.joinToString(",") { "\"${it}\"" }}}"
+    val langsListString = "{${langsList.sorted().joinToString(",") { "\"${it}\"" }}}"
     android.defaultConfig.buildConfigField("String[]", "DETECTED_LOCALES", langsListString)
 }
 tasks.preBuild.dependsOn("detectAndroidLocals")
