@@ -38,7 +38,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build Release APK
-      uses: gradle/gradle-build-action@v2.11.1
+      uses: gradle/gradle-build-action@v3.1.0
       with:
         arguments: assembleRelease
       
