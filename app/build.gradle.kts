@@ -40,6 +40,7 @@ android {
             "lt",
             "lv",
             "ml",
+            "ms",
             "nb-rNO",
             "nl",
             "nn",
