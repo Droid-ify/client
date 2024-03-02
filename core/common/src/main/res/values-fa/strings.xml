@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">ناموفق بود</string>
+    <string name="action_failed">عملیات ناموفق بود</string>
     <string name="add_repository">افزودن مخزن</string>
     <string name="address">آدرس</string>
     <string name="all_applications">همهٔ برنامه‌ها</string>
@@ -56,7 +56,7 @@
     <string name="network_error_DESC">خطای شبکه</string>
     <string name="never">هرگز</string>
     <string name="new_updates_available">نسخه‌های جدیدی از اپلیکیشن‌ها موجوده</string>
-    <string name="notify_about_updates">خبرم کن درمورد نسخه جدید برنامه‌ها</string>
+    <string name="notify_about_updates">درمورد نسخه جدید برنامه‌ها خبرم کن</string>
     <string name="ok">تایید</string>
     <string name="only_compatible_with_FORMAT">تنها با %s سازگار است</string>
     <string name="only_on_wifi">فقط با وایفای</string>
@@ -173,7 +173,7 @@
     <string name="integrity_check_error_DESC">بررسی صحت ناموفق بود.</string>
     <string name="invalid_fingerprint_format">ساختار نادرست اثرانگشت</string>
     <string name="invalid_address">آدرس ناردست</string>
-    <string name="link_copied_to_clipboard">لینک کپی شد</string>
+    <string name="link_copied_to_clipboard">لینک به کلیپ بورد کپی شد</string>
     <string name="no_proxy">بدون پروکسی</string>
     <string name="no_description_available_DESC">هیچ توضیحاتی موجود نیست</string>
     <string name="no_matching_applications_found">چنین اپلیکیشنی یافت نشد</string>
@@ -209,4 +209,26 @@
     <string name="auto_update_apps">سعی می‌کند به‌روزرسانی‌ها را به صورت خودکار نصب کند</string>
     <string name="installing">در حال نصب</string>
     <string name="waiting_to_start_installation">در انتظار شروع نصب…</string>
+    <string name="export_repos_DESC">استخراج همه مخازن به فایل</string>
+    <string name="import_settings_DESC">استیراد تنظیمات و موارد دلخواه از فایل</string>
+    <string name="import_repos_title">استیراد مخازن</string>
+    <string name="import_repos_DESC">استیراد همه مخازن از فایل</string>
+    <string name="repository_not_found">مخزن ذیل پیدا نشد</string>
+    <string name="has_non_free_components">دارای اجزای غیر رایگان</string>
+    <string name="shizuku_not_installed">شیزوکو نصب نشده</string>
+    <string name="shizuku_not_alive">شیزوکو فعال نیست</string>
+    <string name="contains_nsfw">دارای محتوای غیر اخلاقی</string>
+    <string name="proxy_port_error_not_int">پورت پراکسی فقط میتواند عدد صحیح باشد</string>
+    <string name="has_tethered_network">وابسته به برخی از سرویس های شبکه</string>
+    <string name="cannot_open_link">خطا در باز کردن لینک</string>
+    <string name="export_settings_title">استخراج تنظیمات</string>
+    <string name="export_settings_DESC">استخراج تنظیمات و موارد دلخواه به فایل</string>
+    <string name="export_repos_title">استخراج مخازن</string>
+    <string name="import_export">استیراد/استخراج</string>
+    <string name="import_settings_title">استیراد تنظیمات</string>
+    <string name="home_screen_swiping_DESC">اجازه حرکت بین صفحات در صفحه اصلی به کاربر</string>
+    <string name="socket_error_DESC">سرور در فراهم کردن بسته اطلاعات جدید ناموفق بود</string>
+    <string name="connection_error_DESC">اتصال به سرور ناموفق بود</string>
+    <string name="home_screen_swiping">حرکات صفحه اصلی</string>
+    <string name="label_copy">کپی</string>
 </resources>
