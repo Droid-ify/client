@@ -19,6 +19,7 @@ android {
             "bn",
             "ca",
             "cs",
+            "da",
             "de",
             "el",
             "eo",
