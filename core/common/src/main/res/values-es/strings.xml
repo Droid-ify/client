@@ -14,7 +14,7 @@
     <string name="author_email">Correo electrónico del autor</string>
     <string name="author_website">Sitio web del autor</string>
     <string name="available">Explorar</string>
-    <string name="bug_tracker">Registro de incidencias</string>
+    <string name="bug_tracker">Registro de errores</string>
     <string name="cancel">Cancelar</string>
     <string name="cant_edit_sync_DESC">No se puede editar el repositorio ya que se está sincronizando ahora mismo.</string>
     <string name="changelog">Registro de cambios</string>
