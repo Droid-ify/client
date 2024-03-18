@@ -20,7 +20,7 @@
     <string name="ignore_all_updates">Ignoruoti visas naujas versijas</string>
     <string name="ignore_this_update">Ignoruoti šią versiją</string>
     <string name="incompatible_signature_DESC">Ši versija pasirašyta kitu sertifikatu nei jūsų įrenginyje įdiegtas sertifikatas. Pirmiausia jį pašalinkite.</string>
-    <string name="notify_about_updates">Pranešti apie naujas programėlių versijas</string>
+    <string name="notify_about_updates">Pranešti apie atnaujinimus</string>
     <string name="save">Išsaugoti</string>
     <string name="show_older_versions">Rodyti senesnes versijas</string>
     <string name="source_code">Pirminis kodas</string>
@@ -181,7 +181,7 @@
     <string name="incompatible_versions_summary">Rodyti su įrenginiu nesuderinamas programėlės versijas</string>
     <string name="incompatible_with_FORMAT">Nesuderinama su %s</string>
     <string name="legacy_installer">Senoji diegimo programa</string>
-    <string name="link_copied_to_clipboard">Nuoroda nukopijuota į iškarpinę</string>
+    <string name="link_copied_to_clipboard">Nuoroda nukopijuota</string>
     <string name="no_proxy">Nėra įgaliotojo serverio</string>
     <string name="only_on_wifi_with_charging">Tik naudojant Wi-Fi ir prijungus krauti</string>
     <string name="promotes_non_free_network_services">Skatina ne „libre“ tinklo paslaugas</string>
@@ -212,4 +212,27 @@
     <string name="enable_repo">Įgalinti saugyklą</string>
     <string name="material_you">Medžiaga Tu</string>
     <string name="material_you_desc">Naudokite medžiaga tu spalvų temą</string>
+    <string name="has_non_free_components">Turi nelaisvų komponentų</string>
+    <string name="shizuku_not_alive">Shizuku neveikia</string>
+    <string name="shizuku_not_installed">Shizuku neįdiegtas</string>
+    <string name="proxy_port_error_not_int">Tarpinio serverio prievadas gali būti tik sveikasis skaičius</string>
+    <string name="repository_not_found">Ši saugykla nerasta</string>
+    <string name="contains_nsfw">Sudėtyje yra nesaugus vaikams turinys</string>
+    <string name="has_tethered_network">Susieta su tam tikra tinklo paslauga</string>
+    <string name="home_screen_swiping">Pradžios ekrano braukimas</string>
+    <string name="home_screen_swiping_DESC">Leisti vartotojui braukti tarp puslapių pagrindiniame ekrane</string>
+    <string name="socket_error_DESC">Serveriui nepavyko pateikti naujo paketo.</string>
+    <string name="connection_error_DESC">Nepavyko prisijungti prie serverio</string>
+    <string name="special_credits">Specialūs kreditai</string>
+    <string name="label_copy">Kopijuoti</string>
+    <string name="cannot_open_link">Negalima atidaryti nuorodos</string>
+    <string name="import_export">Importuoti/eksportuoti</string>
+    <string name="import_settings_title">Importuoti nustatymus</string>
+    <string name="import_settings_DESC">Importuokite nustatymus ir mėgstamiausius iš failo</string>
+    <string name="export_settings_title">Eksportuoti nustatymus</string>
+    <string name="export_settings_DESC">Eksportuoti nustatymus ir mėgstamiausius iš failo</string>
+    <string name="import_repos_title">Importuoti saugyklas</string>
+    <string name="import_repos_DESC">Importuoti visas saugyklas iš failo</string>
+    <string name="export_repos_title">Eksportuoti saugyklas</string>
+    <string name="export_repos_DESC">Eksportuoti visas saugyklas į failą</string>
 </resources>
