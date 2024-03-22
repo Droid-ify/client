@@ -19,10 +19,10 @@ androidxTestRules = "1.5.0"
 androidxTestRunner = "1.5.2"
 androidxUiAutomator = "2.3.0"
 androidxWork = "2.9.0"
-coil = "2.5.0"
+coil = "2.6.0"
 fdroid = "0.1.1"
-hilt = "2.50"
-hiltExt = "1.1.0"
+hilt = "2.51"
+hiltExt = "1.2.0"
 junit4 = "4.13.2"
 jackson = "2.16.1"
 kotlin = "1.9.23"
@@ -100,6 +100,7 @@ android-test = { id = "com.android.test", version.ref = "androidGradlePlugin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
