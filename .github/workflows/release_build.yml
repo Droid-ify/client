@@ -25,7 +25,7 @@ jobs:
         submodules: true
 
     - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v1
+      uses: gradle/wrapper-validation-action@v2
 
     - name: Set up Java 17
       uses: actions/setup-java@v4
@@ -38,7 +38,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build Release APK
-      uses: gradle/gradle-build-action@v2.12.0
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: assembleRelease
       

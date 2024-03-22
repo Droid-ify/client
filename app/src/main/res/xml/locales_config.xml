@@ -8,6 +8,7 @@
     <locale android:name="bn" />
     <locale android:name="ca" />
     <locale android:name="cs" />
+    <locale android:name="da" />
     <locale android:name="de" />
     <locale android:name="el" />
     <locale android:name="eo" />
@@ -29,6 +30,7 @@
     <locale android:name="lt" />
     <locale android:name="lv" />
     <locale android:name="ml" />
+    <locale android:name="ms" />
     <locale android:name="nb-rNO" />
     <locale android:name="nl" />
     <locale android:name="nn" />
