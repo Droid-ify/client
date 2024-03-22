@@ -65,11 +65,11 @@ class SettingsFragment : Fragment() {
             .toList()
             .updateAsMutable { add(0, "system") }
 
-        private const val FOXY_DROID_TITLE = "FoxyDroid"
-        private const val FOXY_DROID_URL = "https://github.com/kitsunyan/foxy-droid"
+        private const val FOXY_DROID_TITLE = "Droid-ify"
+        private const val FOXY_DROID_URL = "https://github.com/Iamlooker/Droid-ify"
 
-        private const val DROID_IFY_TITLE = "Droid-ify"
-        private const val DROID_IFY_URL = "https://github.com/Iamlooker/Droid-ify"
+        private const val DROID_IFY_TITLE = "FullcodesApps"
+        private const val DROID_IFY_URL = "https://github.com/ThatFinnDev/FullcodesApps"
     }
 
     private val viewModel: SettingsViewModel by viewModels()
@@ -120,7 +120,7 @@ class SettingsFragment : Fragment() {
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
         toolbar.title = getString(CommonR.string.settings)
         with(binding) {
-            dynamicTheme.root.isVisible = SdkCheck.isSnowCake
+            dynamicTheme.root.isVisible = false//SdkCheck.isSnowCake
             dynamicTheme.connect(
                 titleText = getString(CommonR.string.material_you),
                 contentText = getString(CommonR.string.material_you_desc),

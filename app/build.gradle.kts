@@ -9,7 +9,7 @@ android {
     namespace = "com.looker.droidify"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
-
+        applicationId = "at.FullCodes.apps"
         resourceConfigurations += mutableListOf(
             /* locale list begin */
             "ar",
@@ -78,12 +78,12 @@ android {
     buildTypes {
         getByName("debug") {
             applicationIdSuffix = ".debug"
-            resValue("string", "application_name", "Droid-ify-Debug")
+            resValue("string", "application_name", "Fullcodes-Apps-Debug")
         }
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
-            resValue("string", "application_name", "Droid-ify")
+            resValue("string", "application_name", "Fullcodes-Apps")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro"
@@ -92,7 +92,7 @@ android {
         create("alpha") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".alpha"
-            resValue("string", "application_name", "Droid-ify Alpha")
+            resValue("string", "application_name", "Fullcodes-Apps Alpha")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro"

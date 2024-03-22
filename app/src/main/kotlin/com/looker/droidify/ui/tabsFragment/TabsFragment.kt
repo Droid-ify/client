@@ -81,6 +81,7 @@ class TabsFragment : ScreenFragment() {
     private var searchMenuItem: MenuItem? = null
     private var sortOrderMenu: Pair<MenuItem, List<MenuItem>>? = null
     private var syncRepositoriesMenuItem: MenuItem? = null
+    private var settingsMenuItem: MenuItem? = null
     private var layout: Layout? = null
     private var sectionsList: RecyclerView? = null
     private var sectionsAdapter: SectionsAdapter? = null
@@ -202,6 +203,7 @@ class TabsFragment : ScreenFragment() {
                     Pair(menu.item, menuItems)
                 }
 
+            /*
             favouritesItem = add(1, 0, 0, stringRes.favourites)
                 .setIcon(
                     toolbar.context.getMutatedIcon(CommonR.drawable.ic_favourite_checked)
@@ -215,9 +217,10 @@ class TabsFragment : ScreenFragment() {
                 .setOnMenuItemClickListener {
                     view.post { screenActivity.navigateRepositories() }
                     true
-                }
+                }*/
 
-            add(1, 0, 0, stringRes.settings)
+            settingsMenuItem = add(0, 0, 0, stringRes.settings)
+                .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_tune))
                 .setOnMenuItemClickListener {
                     view.post { screenActivity.navigatePreferences() }
                     true
@@ -326,6 +329,7 @@ class TabsFragment : ScreenFragment() {
         searchMenuItem = null
         sortOrderMenu = null
         syncRepositoriesMenuItem = null
+        settingsMenuItem = null
         layout = null
         sectionsList = null
         sectionsAdapter = null
@@ -505,6 +509,7 @@ class TabsFragment : ScreenFragment() {
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+            settingsMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
             if (showSections && !source.sections) {
                 showSections = false
             }

@@ -39,9 +39,9 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
             context.contentResolver.openInputStream(uri).use {
                 val createCommand =
                     if (SdkCheck.isNougat) {
-                        "pm install-create --user current -i $packageName -S $size"
+                        "pm install-create -d --user current -i $packageName -S $size"
                     } else {
-                        "pm install-create -i $packageName -S $size"
+                        "pm install-create -d -i $packageName -S $size"
                     }
                 val createResult = exec(createCommand)
                 sessionId = SESSION_ID_REGEX.find(createResult.out)?.value

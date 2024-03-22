@@ -94,11 +94,13 @@
 
             <include
                 android:id="@+id/unstable_updates"
-                layout="@layout/switch_type" />
+                layout="@layout/switch_type"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/incompatible_updates"
-                layout="@layout/switch_type" />
+                layout="@layout/switch_type"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -141,23 +143,28 @@
                 android:text="@string/import_export"
                 android:textAppearance="?textAppearanceHeadlineSmall"
                 android:textColor="?colorPrimary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/export_settings"
-                layout="@layout/enum_type" />
+                layout="@layout/enum_type"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/import_settings"
-                layout="@layout/enum_type" />
+                layout="@layout/enum_type"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/export_repos"
-                layout="@layout/enum_type" />
+                layout="@layout/enum_type"
+                android:visibility="gone" />
 
             <include
                 android:id="@+id/import_repos"
-                layout="@layout/enum_type" />
+                layout="@layout/enum_type"
+                android:visibility="gone" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -16,7 +16,7 @@ import kotlin.coroutines.resume
 internal class RootInstaller(private val context: Context) : Installer {
 
     companion object {
-        private const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -S %s"
+        private const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -d -S %s"
         private const val DELETE_PACKAGE = "%s rm %s"
 
         private val getCurrentUserState: String

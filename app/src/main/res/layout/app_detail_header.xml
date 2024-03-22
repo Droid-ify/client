@@ -165,6 +165,7 @@
         android:layout_height="wrap_content"
         android:checkable="true"
         android:padding="16dp"
+        android:visibility="gone"
         app:icon="@drawable/favourite_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
