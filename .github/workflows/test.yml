@@ -39,6 +39,6 @@ jobs:
       run: chmod +x gradlew
 
     - name: Test Droid-ify
-      uses: gradle/gradle-build-action@v2
+      uses: gradle/gradle-build-action@v3
       with:
         arguments: test
