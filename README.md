@@ -6,8 +6,8 @@
 
 ### A client for the Fullcodes F-Droid Repository.
 
-
 <div align="left">
+
 ## Information
 
 This is a fork that changes only a bit of the original app.
