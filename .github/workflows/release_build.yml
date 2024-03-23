@@ -57,7 +57,7 @@ jobs:
       env:
         BUILD_TOOLS_VERSION: "34.0.0"
 
-    - uses: softprops/action-gh-release@v1
+    - uses: softprops/action-gh-release@v2
       name: Create Release
       id: publish_release
       with:
