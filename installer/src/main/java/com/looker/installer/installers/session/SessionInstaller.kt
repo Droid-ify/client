@@ -33,6 +33,9 @@ internal class SessionInstaller(private val context: Context) : Installer {
                 sdkAbove(sdk = Build.VERSION_CODES.S) {
                     setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
                 }
+                sdkAbove(sdk = Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                    setRequestUpdateOwnership(true)
+                }
             }
     }
 
