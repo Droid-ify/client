@@ -4,7 +4,7 @@
 
 # Fullcodes-Apps
 
-### An F-Droid client for the Fullcodes Repository.
+### A client for the Fullcodes F-Droid Repository.
 
 
 <div align="left">
@@ -14,7 +14,7 @@ This is a fork that changes only a bit of the original app.
 Go support the original developer here: [Here](https://github.com/Droid-ify/client)
 
 I made this fork to add an install flag to the Shizuku Installer.
-It's possible to downgrade debuggable apps now. (Which is a good thing when testing development builds)
+Now it's possible to downgrade debuggable apps. (Which is a good thing when testing development builds)
 
 ## License
 
