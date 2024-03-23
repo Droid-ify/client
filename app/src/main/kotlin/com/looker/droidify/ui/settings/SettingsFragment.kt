@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.settings
 
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -8,11 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.getSystemService
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -40,6 +43,7 @@ import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
 import com.looker.droidify.BuildConfig
+import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EnumTypeBinding
 import com.looker.droidify.databinding.SettingsPageBinding
 import com.looker.droidify.databinding.SwitchTypeBinding
@@ -142,9 +146,9 @@ class SettingsFragment : Fragment() {
                 setting = viewModel.getInitialSetting { notifyUpdate }
             )
             unstableUpdates.connect(
-                titleText = getString(CommonR.string.unstable_updates),
-                contentText = getString(CommonR.string.unstable_updates_summary),
-                setting = viewModel.getInitialSetting { unstableUpdate }
+                titleText = "Activate Dev Apps",
+                contentText = "You need the copy the authentication key to your clipboard",
+                setting = viewModel.getInitialSetting { Database.RepositoryAdapter.getAll().size>1 }
             )
             incompatibleUpdates.connect(
                 titleText = getString(CommonR.string.incompatible_versions),
@@ -312,7 +316,7 @@ class SettingsFragment : Fragment() {
                 viewModel.setAutoUpdate(checked)
             }
             unstableUpdates.checked.setOnCheckedChangeListener { _, checked ->
-                viewModel.setUnstableUpdates(checked)
+                viewModel.setDevApps(checked, (requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager), context);
             }
             incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
                 viewModel.setIncompatibleUpdates(checked)
