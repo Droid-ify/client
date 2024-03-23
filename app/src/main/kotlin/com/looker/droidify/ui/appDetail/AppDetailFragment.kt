@@ -449,6 +449,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     override fun onReleaseClick(release: Release) {
         val installedItem = installed?.installedItem
+        var denyDowngrade : Boolean = true
+        if(viewModel.packageName.contains(".dev"))
+            denyDowngrade = false
+
         when {
             release.incompatibilities.isNotEmpty() -> {
                 MessageDialog(
@@ -461,7 +465,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 ).show(childFragmentManager)
             }
 
-            installedItem != null && installedItem.versionCode > release.versionCode -> {
+            denyDowngrade && (installedItem != null && installedItem.versionCode > release.versionCode) -> {
                 MessageDialog(Message.ReleaseOlder).show(childFragmentManager)
             }
 
