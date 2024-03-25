@@ -6,7 +6,7 @@ import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toJarFile
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.common.signature.ValidationException
-import com.looker.core.domain.newer.Repo
+import com.looker.core.domain.model.Repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexParser

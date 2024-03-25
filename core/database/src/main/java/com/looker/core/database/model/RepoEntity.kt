@@ -3,11 +3,12 @@ package com.looker.core.database.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.looker.core.database.utils.localizedValue
-import com.looker.core.domain.newer.AntiFeature
-import com.looker.core.domain.newer.Authentication
-import com.looker.core.domain.newer.Category
-import com.looker.core.domain.newer.Repo
-import com.looker.core.domain.newer.VersionInfo
+import com.looker.core.domain.model.AntiFeature
+import com.looker.core.domain.model.Authentication
+import com.looker.core.domain.model.Category
+import com.looker.core.domain.model.Fingerprint
+import com.looker.core.domain.model.Repo
+import com.looker.core.domain.model.VersionInfo
 import kotlinx.serialization.Serializable
 
 @Entity(tableName = "repos")
@@ -34,7 +35,7 @@ fun RepoEntity.update(repo: Repo) = copy(
     timestamp = repo.versionInfo.timestamp,
     enabled = repo.enabled,
     mirrors = repo.mirrors,
-    fingerprint = repo.fingerprint
+    fingerprint = repo.fingerprint.value
 )
 
 fun RepoEntity.toExternal(locale: String): Repo = Repo(
@@ -43,7 +44,7 @@ fun RepoEntity.toExternal(locale: String): Repo = Repo(
     address = address,
     name = name.localizedValue(locale) ?: "",
     description = description.localizedValue(locale) ?: "",
-    fingerprint = fingerprint,
+    fingerprint = Fingerprint(fingerprint),
     authentication = Authentication(username, password),
     versionInfo = VersionInfo(timestamp = timestamp, etag = etag),
     mirrors = mirrors,

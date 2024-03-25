@@ -1,4 +1,4 @@
-package com.looker.core.domain.newer
+package com.looker.core.domain.model
 
 import com.looker.core.common.PackageName
 

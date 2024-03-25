@@ -11,7 +11,7 @@ import com.looker.core.database.model.update
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.DefaultDispatcher
-import com.looker.core.domain.newer.Repo
+import com.looker.core.domain.model.Repo
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -70,7 +70,7 @@ class OfflineFirstRepoRepository @Inject constructor(
         }
         val updatedRepo = index.repo.toEntity(
             id = repo.id,
-            fingerprint = repo.fingerprint,
+            fingerprint = repo.fingerprint.value,
             username = repo.authentication.username,
             password = repo.authentication.password,
             etag = repo.versionInfo.etag ?: "",
@@ -98,7 +98,7 @@ class OfflineFirstRepoRepository @Inject constructor(
         indices.forEach { (repo, index) ->
             val updatedRepo = index!!.repo.toEntity(
                 id = repo.id,
-                fingerprint = repo.fingerprint,
+                fingerprint = repo.fingerprint.value,
                 username = repo.authentication.username,
                 password = repo.authentication.password,
                 etag = repo.versionInfo.etag ?: "",

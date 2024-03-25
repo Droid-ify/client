@@ -1,12 +1,12 @@
 package com.looker.core.database.model
 
 import com.looker.core.database.utils.localizedValue
-import com.looker.core.domain.newer.ApkFile
-import com.looker.core.domain.newer.Manifest
-import com.looker.core.domain.newer.Package
-import com.looker.core.domain.newer.Permission
-import com.looker.core.domain.newer.Platforms
-import com.looker.core.domain.newer.SDKs
+import com.looker.core.domain.model.ApkFile
+import com.looker.core.domain.model.Manifest
+import com.looker.core.domain.model.Package
+import com.looker.core.domain.model.Permission
+import com.looker.core.domain.model.Platforms
+import com.looker.core.domain.model.SDKs
 import kotlinx.serialization.Serializable
 
 @Serializable

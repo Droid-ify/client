@@ -20,5 +20,5 @@ android {
 }
 
 dependencies {
-    modules(Modules.coreCommon)
+    modules(Modules.coreCommon, Modules.coreNetwork)
 }

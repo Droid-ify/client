@@ -1,4 +1,4 @@
-package com.looker.core.domain.newer
+package com.looker.core.domain.model
 
 data class Repo(
     val id: Long,
@@ -6,7 +6,7 @@ data class Repo(
     val address: String,
     val name: String,
     val description: String,
-    val fingerprint: String,
+    val fingerprint: Fingerprint,
     val authentication: Authentication,
     val versionInfo: VersionInfo,
     val mirrors: List<String>,
@@ -16,7 +16,7 @@ data class Repo(
     val shouldAuthenticate =
         authentication.username.isNotEmpty() && authentication.password.isNotEmpty()
 
-    fun update(fingerprint: String, timestamp: Long? = null, etag: String? = null): Repo {
+    fun update(fingerprint: Fingerprint, timestamp: Long? = null, etag: String? = null): Repo {
         return copy(
             fingerprint = fingerprint,
             versionInfo = timestamp?.let { VersionInfo(timestamp = it, etag = etag) } ?: versionInfo

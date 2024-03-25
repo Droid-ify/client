@@ -6,12 +6,7 @@ import java.security.cert.Certificate
 import java.security.cert.CertificateEncodingException
 
 fun Certificate.fingerprint(): String {
-    val encoded = try {
-        encoded
-    } catch (e: CertificateEncodingException) {
-        null
-    }
-    return encoded?.fingerprint().orEmpty()
+    return runCatching { encoded.fingerprint() }.getOrElse { "" }
 }
 
 fun ByteArray.fingerprint(): String = if (size >= 256) {

@@ -1,30 +1,28 @@
 package com.looker.core.domain
 
-import com.looker.core.domain.newer.App
-import com.looker.core.domain.newer.Repo
+import com.looker.core.domain.model.App
+import com.looker.core.domain.model.Repo
+import com.looker.network.Downloader
+import java.io.File
 
 /**
- * Expected Architecture: https://excalidraw.com/#json=6JIt5NYdqesMGza45l5eE,uyCOnQUx2ET8sVsmtJivjg
+ * Expected Architecture: [https://excalidraw.com/#json=JqpGunWTJONjq-ecDNiPg,j9t0X4coeNvIG7B33GTq6A]
  *
  * Current Issue: When downloading entry.jar we need to re-call the synchronizer,
  * which this arch doesn't allow.
  */
-interface Syncable {
+interface Syncable<T> {
 
-    val synchronizer: Synchronizer
+    val downloader: Downloader
 
-    val parser: Parser
+    val parser: Parser<T>
 
-}
-
-interface Parser {
-
-    suspend fun parsedRepo(): Repo
-
-    suspend fun parsedApps(): List<App>
+    suspend fun sync(): Pair<Repo, List<App>>
 
 }
 
-interface Synchronizer {
-    suspend fun downloadData()
+interface Parser<out T> {
+
+    suspend fun parse(downloadedFile: File): T
+
 }

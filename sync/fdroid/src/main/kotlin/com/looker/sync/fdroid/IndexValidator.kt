@@ -6,7 +6,8 @@ import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toJarFile
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.common.signature.ValidationException
-import com.looker.core.domain.newer.Repo
+import com.looker.core.domain.model.Fingerprint
+import com.looker.core.domain.model.Repo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.fdroid.index.IndexParser
@@ -24,9 +25,8 @@ class IndexValidator<T>(
 ) : FileValidator {
     override suspend fun validate(file: File) = withContext(Dispatchers.Default) {
         val (entry, fingerprint) = getEntryStream(file, config.parser, config.jsonName)
-        if (repo.fingerprint.isNotBlank() &&
-            !repo.fingerprint.equals(fingerprint, ignoreCase = true)
-        ) {
+
+        if (repo.fingerprint.check(Fingerprint(fingerprint))) {
             throw ValidationException(
                 "Expected Fingerprint: ${repo.fingerprint}, " +
                     "Acquired Fingerprint: $fingerprint"
