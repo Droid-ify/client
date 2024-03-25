@@ -219,9 +219,9 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
             AutoSync.WIFI_PLUGGED_IN -> SyncPreference(NetworkType.UNMETERED, pluggedIn = true)
             else -> null
         }
-        val isPreviousJobPending = jobScheduler?.allPendingJobs
+        val isCompleted = jobScheduler?.allPendingJobs
             ?.any { it.id == Constants.JOB_ID_SYNC } == false
-        if ((force || !isPreviousJobPending) && syncConditions != null) {
+        if ((force || isCompleted) && syncConditions != null) {
             val period = 12.hours.inWholeMilliseconds
             val job = SyncService.Job.create(
                 context = this,
