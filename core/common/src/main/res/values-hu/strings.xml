@@ -221,4 +221,15 @@
     <string name="repository_not_found">A következő tároló nem található</string>
     <string name="special_credits">Külön köszönet</string>
     <string name="shizuku_not_installed">A Shizuku nincs telepítve</string>
+    <string name="has_tethered_network">Bizonyos hálózati szolgáltatáshoz kapcsolódik</string>
+    <string name="cannot_open_link">Nem nyitható meg a link</string>
+    <string name="import_export">Importálás/Exportálás</string>
+    <string name="import_settings_title">Importálási Beállítások</string>
+    <string name="import_settings_DESC">Beállítások és kedvencek importálása fájlból</string>
+    <string name="export_settings_title">Exportálás Beállítások</string>
+    <string name="export_settings_DESC">Beállítások és kedvencek exportálása fájlként</string>
+    <string name="import_repos_title">Tároló Importálása</string>
+    <string name="import_repos_DESC">Minden tároló importálása a fájlból</string>
+    <string name="export_repos_title">Tárolók Exportálása</string>
+    <string name="export_repos_DESC">Minden tároló exportálása fájlként</string>
 </resources>
