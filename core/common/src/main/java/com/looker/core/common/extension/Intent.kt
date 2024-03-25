@@ -7,6 +7,10 @@ import android.net.Uri
 import androidx.core.app.TaskStackBuilder
 import com.looker.core.common.SdkCheck
 
+fun intent(action: String, block: Intent.() -> Unit = {}): Intent {
+    return Intent(action).apply(block)
+}
+
 inline val intentFlagCompat
     get() = if (SdkCheck.isSnowCake) {
         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE

@@ -1,9 +1,6 @@
 package com.looker.droidify
 
-import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.ViewGroup
@@ -11,13 +8,17 @@ import android.widget.FrameLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.looker.core.common.*
-import com.looker.core.common.extension.*
+import com.looker.core.common.DeeplinkType
+import com.looker.core.common.SdkCheck
+import com.looker.core.common.deeplinkType
+import com.looker.core.common.extension.homeAsUp
+import com.looker.core.common.extension.inputManager
+import com.looker.core.common.requestBatteryFreedom
+import com.looker.core.common.requestNotificationPermission
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.datastore.get
@@ -127,25 +128,8 @@ abstract class ScreenActivity : AppCompatActivity() {
             )
         )
 
-        when {
-            ContextCompat.checkSelfPermission(
-                this,
-                Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED -> {
-            }
-
-            shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                sdkAbove(Build.VERSION_CODES.TIRAMISU) {
-                    notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
-            }
-
-            else -> {
-                sdkAbove(Build.VERSION_CODES.TIRAMISU) {
-                    notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-                }
-            }
-        }
+        requestNotificationPermission(request = notificationPermission::launch)
+        requestBatteryFreedom()
 
         supportFragmentManager.addFragmentOnAttachListener { _, _ ->
             hideKeyboard()

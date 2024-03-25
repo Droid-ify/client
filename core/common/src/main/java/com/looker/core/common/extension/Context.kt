@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
+import android.os.PowerManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -29,6 +30,9 @@ inline val Context.jobScheduler: JobScheduler?
     get() = getSystemService()
 
 inline val Context.notificationManager: NotificationManager?
+    get() = getSystemService()
+
+inline val Context.powerManager: PowerManager?
     get() = getSystemService()
 
 fun Context.copyToClipboard(clip: String) {
