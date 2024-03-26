@@ -3,16 +3,13 @@ package com.looker.droidify.ui.appDetail
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.size.Scale
-import com.google.android.material.R as MaterialR
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core.common.R.dimen as dimenRes
 import com.looker.core.common.extension.aspectRatio
 import com.looker.core.common.extension.authentication
 import com.looker.core.common.extension.camera
@@ -24,6 +21,8 @@ import com.looker.core.domain.Repository
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.widget.StableRecyclerAdapter
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.R.dimen as dimenRes
 
 class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) -> Unit) :
     StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
@@ -51,20 +50,21 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) ->
 
         init {
             with(image) {
+                layout(0,0,0,0)
                 shapeAppearanceModel = imageShapeModel
                 background = context.selectableBackground
                 isFocusable = true
             }
             with(itemView as FrameLayout) {
+                addView(image)
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.WRAP_CONTENT,
-                    150.dp
+                    150.dp,
                 ).apply {
                     marginStart = radius.toInt()
                     marginEnd = radius.toInt()
                 }
                 foregroundGravity = Gravity.CENTER
-                addView(image)
             }
         }
     }
@@ -91,7 +91,12 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) ->
         viewType: ViewType
     ): RecyclerView.ViewHolder {
         return ViewHolder(parent.context).apply {
-            image.setOnClickListener { onClick(items[absoluteAdapterPosition].screenshot, it as ImageView) }
+            image.setOnClickListener {
+                onClick(
+                    items[absoluteAdapterPosition].screenshot,
+                    it as ImageView
+                )
+            }
         }
     }
 
