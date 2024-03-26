@@ -17,7 +17,7 @@ interface Syncable<T> {
 
     val parser: Parser<T>
 
-    suspend fun sync(): Pair<Repo, List<App>>
+    suspend fun sync(repo: Repo): Pair<Repo, List<App>>
 
 }
 

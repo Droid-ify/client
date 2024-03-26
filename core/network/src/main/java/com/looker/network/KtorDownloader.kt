@@ -25,7 +25,6 @@ import io.ktor.client.request.url
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsChannel
 import io.ktor.http.HttpStatusCode
-import io.ktor.http.URLParserException
 import io.ktor.http.etag
 import io.ktor.http.isSuccess
 import io.ktor.http.lastModified
@@ -72,8 +71,8 @@ internal class KtorDownloader : Downloader {
         validator: FileValidator?,
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?
-    ): NetworkResponse {
-        return try {
+    ): NetworkResponse = withContext(Dispatchers.IO) {
+        try {
             val request = createRequest(
                 url = url,
                 headers = {
@@ -135,12 +134,13 @@ internal class KtorDownloader : Downloader {
                 }
             }
 
-        private suspend fun ByteReadPacket.appendTo(file: File) = withContext(Dispatchers.IO) {
-            while (!isEmpty && isActive) {
-                val bytes = readBytes()
-                file.appendBytes(bytes)
+        private suspend fun ByteReadPacket.appendTo(file: File) =
+            withContext(Dispatchers.IO) {
+                while (!isEmpty && isActive) {
+                    val bytes = readBytes()
+                    file.appendBytes(bytes)
+                }
             }
-        }
 
         private fun HttpResponse.asNetworkResponse(): NetworkResponse =
             if (status.isSuccess() || status == HttpStatusCode.NotModified) {
