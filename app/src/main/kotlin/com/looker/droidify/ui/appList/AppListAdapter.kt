@@ -133,7 +133,7 @@ class AppListAdapter(
         when (getItemEnumViewType(position)) {
             ViewType.PRODUCT -> {
                 holder as ProductViewHolder
-                val productItem = getProductItem(if (position > -1) position else 0)
+                val productItem = getProductItem(position)
                 holder.name.text = productItem.name
                 holder.summary.text = productItem.summary
                 holder.summary.isVisible =
