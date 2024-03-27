@@ -3,6 +3,7 @@ package com.looker.core.data.fdroid.sync
 import com.looker.core.common.signature.FileValidator
 import com.looker.core.data.fdroid.sync.signature.EntryValidator
 import com.looker.core.data.fdroid.sync.signature.IndexValidator
+import com.looker.core.domain.model.Fingerprint
 import com.looker.core.domain.model.Repo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
@@ -52,7 +53,7 @@ class IndexDownloaderImpl @Inject constructor(
         }
         IndexDownloadResponse(
             index = fileIndex!!,
-            fingerprint = repoFingerprint!!,
+            fingerprint = Fingerprint(repoFingerprint!!),
             lastModified = fileIndex?.repo?.timestamp,
             etag = (response as NetworkResponse.Success).etag
         )
@@ -90,7 +91,7 @@ class IndexDownloaderImpl @Inject constructor(
         require(isFingerprintAndIndexValid) { "Empty Fingerprint" }
         IndexDownloadResponse(
             index = fileEntry!!,
-            fingerprint = repoFingerprint!!,
+            fingerprint = Fingerprint(repoFingerprint!!),
             lastModified = fileEntry?.timestamp,
             etag = (response as NetworkResponse.Success).etag
         )

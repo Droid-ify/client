@@ -1,5 +1,6 @@
 package com.looker.core.data.fdroid.sync
 
+import com.looker.core.domain.model.Fingerprint
 import com.looker.core.domain.model.Repo
 import org.fdroid.index.v1.IndexV1
 import org.fdroid.index.v2.Entry
@@ -20,7 +21,7 @@ interface IndexDownloader {
 
 data class IndexDownloadResponse<T>(
     val index: T,
-    val fingerprint: String,
+    val fingerprint: Fingerprint,
     val lastModified: Long?,
     val etag: String?
 )
