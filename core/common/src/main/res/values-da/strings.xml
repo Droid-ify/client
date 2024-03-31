@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">Handling fejlet</string>
+    <string name="action_failed">Handling mislykkedes</string>
     <string name="all_applications_up_to_date">Alle dine applikationer er ajour</string>
     <string name="all_applications">Alle applikationer</string>
-    <string name="already_exists">Eksisterer allerede</string>
+    <string name="already_exists">Findes allerede</string>
     <string name="always">Altid</string>
     <string name="amoled">Sort</string>
     <string name="application">Applikation</string>
@@ -53,18 +53,18 @@
     <string name="has_advertising">Har reklame</string>
     <string name="has_non_free_dependencies">Har ikke-frie afhængigheder</string>
     <string name="has_security_vulnerabilities">Har sikkerhedssårbarheder</string>
-    <string name="cant_edit_sync_DESC">Kan ikke redigere repository, da den synkronisere lige nu.</string>
+    <string name="cant_edit_sync_DESC">Kan ikke redigere repository, da den synkroniserer lige nu.</string>
     <string name="force_clean_up">Tving oprydning</string>
     <plurals name="hours">
         <item quantity="one">Time</item>
         <item quantity="other">Timer</item>
     </plurals>
-    <string name="http_error_DESC">Ugyldigt server svar.</string>
+    <string name="http_error_DESC">Ugyldigt serversvar.</string>
     <string name="connection_error_DESC">Kunne ikke oprette forbindelse til server</string>
     <string name="ignore_all_updates">Ignorér alle nye versioner</string>
-    <string name="incompatible_api_DESC_FORMAT">Din %1$s (API version %2$d) understøttes ikke. %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">Den maksimale API version er %d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">Minimum API version er %d.</string>
+    <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-version %2$d) understøttes ikke. %3$s</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Maksimal API-version er %d.</string>
+    <string name="incompatible_api_min_DESC_FORMAT">Minimum API-version er %d.</string>
     <string name="incompatible_features_DESC">Manglende funktioner.</string>
     <string name="incompatible_older_DESC">Denne version er ældre end den, der er installeret på din enhed. Afinstallér den først.</string>
     <string name="incompatible_version">Inkompatibel version</string>
@@ -90,7 +90,7 @@
     <string name="light">Lys</string>
     <string name="link_copied_to_clipboard">Link kopieret</string>
     <string name="links">Links</string>
-    <string name="list_animation">Liste over Animationer</string>
+    <string name="list_animation">Listeanimationer</string>
     <string name="home_screen_swiping">Strygning på Startskærm</string>
     <string name="socket_error_DESC">Serveren kunne ikke levere ny pakke.</string>
     <string name="http_proxy">HTTP-proxy</string>
@@ -120,9 +120,9 @@
     <string name="only_compatible_with_FORMAT">Kun kompatibel med %s</string>
     <string name="only_on_wifi">Kun på Wi-Fi</string>
     <string name="only_on_wifi_with_charging">Kun på Wi-Fi &amp; Opladning</string>
-    <string name="open_DESC_FORMAT">Åben %s?</string>
+    <string name="open_DESC_FORMAT">Åbn %s?</string>
     <string name="other">Andet</string>
-    <string name="parsing_index_error_DESC">Kunne ikke parse indeksfilen.</string>
+    <string name="parsing_index_error_DESC">Kunne ikke analysere indeksfilen.</string>
     <string name="password">Adgangskode</string>
     <string name="password_missing">Manglende adgangskode</string>
     <string name="plus_more_FORMAT">+%d mere</string>
@@ -158,7 +158,7 @@
     <string name="repository_unsigned_DESC">Ikke signeret. Applikationslisten kunne ikke verificeres. Vær forsigtig med at hente applikationer fra usignerede repositories.</string>
     <string name="repository_unreachable">Repository ikke tilgængeligt</string>
     <string name="root_permission">Stille Installation</string>
-    <string name="root_permission_description">Tillad root-tilladelse til stille installationer</string>
+    <string name="root_permission_description">Tillad root til stille installationer</string>
     <string name="select_mirror">Vælg et mirror</string>
     <string name="socks_proxy">SOCKS-proxy</string>
     <string name="sync_repositories">Synkronisér repositories</string>
@@ -198,7 +198,7 @@
     <string name="export_settings_DESC">Eksportér indstillinger og favoritter til fil</string>
     <string name="has_non_free_components">Har ikke-frie komponenter</string>
     <string name="has_tethered_network">Bundet til en bestemt netværkstjeneste</string>
-    <string name="home_screen_swiping_DESC">Tillad brugeren at stryge mellem sider på startskærmen</string>
+    <string name="home_screen_swiping_DESC">Lad brugeren stryge mellem sider på startskærmen</string>
     <string name="ignore_this_update">Ignorér denne version</string>
     <string name="incompatible_signature_DESC">Denne version er signeret med et andet certifikat end den, der er installeret på din enhed. Afinstallér den først.</string>
     <string name="installed">Installeret</string>
@@ -225,4 +225,7 @@
     <string name="export_repos_title">Eksportér repositories</string>
     <string name="export_repos_DESC">Eksportér alle repositories til fil</string>
     <string name="enable_repo">Aktivér repository</string>
+    <string name="credits">Kredit</string>
+    <string name="update">Opdatér</string>
+    <string name="list_animation_description">Vis listeanimationer på startsiden</string>
 </resources>
