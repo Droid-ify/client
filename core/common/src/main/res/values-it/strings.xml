@@ -97,7 +97,7 @@
     <string name="number_of_applications">Numero di applicazioni</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Compatibile solo con %s</string>
-    <string name="only_on_wifi">Solo con Wi-Fi</string>
+    <string name="only_on_wifi">Solo su Wi-Fi</string>
     <string name="open_DESC_FORMAT">Aprire %s?</string>
     <string name="other">Altro</string>
     <string name="parsing_index_error_DESC">Impossibile analizzare il file di indice.</string>
@@ -196,7 +196,7 @@
         <item quantity="other">Ore</item>
     </plurals>
     <string name="cleanup_title">Intervallo di pulizia APK</string>
-    <string name="only_on_wifi_with_charging">Solo su Wi-Fi e ricarica</string>
+    <string name="only_on_wifi_with_charging">Solo su Wi-Fi e in carica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
     <string name="no_internet">Non hai connessione internet</string>
     <string name="allow_collapsing_toolbar">Consenti l\'espansione della barra superiore dell\'app</string>
@@ -236,4 +236,6 @@
     <string name="home_screen_swiping_DESC">Consente di scorrere (swiping) le pagine nella schermata home</string>
     <string name="cannot_open_link">Impossibile aprire il link</string>
     <string name="has_tethered_network">Legato a un determinato servizio di rete</string>
+    <string name="require_background_access">Richiede l\'accesso in background</string>
+    <string name="require_background_access_DESC">L\'accesso in background è necessario per eseguire correttamente la sincronizzazione in background</string>
 </resources>
