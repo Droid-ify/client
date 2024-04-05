@@ -233,4 +233,6 @@
     <string name="import_repos_DESC">Tüm depoları dosyadan içe aktar</string>
     <string name="cannot_open_link">Bağlantı açılamıyor</string>
     <string name="has_tethered_network">Belirli bir ağ hizmetine bağlı</string>
+    <string name="require_background_access">Arka Plan Erişimi Gerekli</string>
+    <string name="require_background_access_DESC">Arka plan eşzamanlamasını düzgün bir şekilde çalıştırmak için arka plan erişimi gereklidir</string>
 </resources>
