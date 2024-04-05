@@ -312,9 +312,7 @@ class SettingsFragment : Fragment() {
                 }
                 launch {
                     viewModel.backgroundTask.collect {
-                        if (it) {
-                            binding.allowBackgroundWork.root.visibility = View.GONE
-                        }
+                        binding.allowBackgroundWork.root.isVisible = !it
                     }
                 }
             }
@@ -386,6 +384,7 @@ class SettingsFragment : Fragment() {
 
     private fun updateSettings(settings: Settings) {
         with(binding) {
+            allowBackgroundWork.root.isVisible = settings.autoSync != AutoSync.NEVER
             val allowProxies = settings.proxy.type != ProxyType.DIRECT
             proxyHost.root.isVisible = allowProxies
             proxyPort.root.isVisible = allowProxies
