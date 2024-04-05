@@ -129,7 +129,6 @@ abstract class ScreenActivity : AppCompatActivity() {
         )
 
         requestNotificationPermission(request = notificationPermission::launch)
-        requestBatteryFreedom()
 
         supportFragmentManager.addFragmentOnAttachListener { _, _ ->
             hideKeyboard()

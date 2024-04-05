@@ -23,12 +23,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core.common.BuildConfig as CommonBuildConfig
-import com.looker.core.common.R as CommonR
 import com.looker.core.common.SdkCheck
+import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.extension.updateAsMutable
+import com.looker.core.common.isIgnoreBatteryEnabled
+import com.looker.core.common.requestBatteryFreedom
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.extension.autoSyncName
 import com.looker.core.datastore.extension.installerName
@@ -44,12 +45,15 @@ import com.looker.droidify.databinding.EnumTypeBinding
 import com.looker.droidify.databinding.SettingsPageBinding
 import com.looker.droidify.databinding.SwitchTypeBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
+import com.google.android.material.R as MaterialR
+import com.looker.core.common.BuildConfig as CommonBuildConfig
+import com.looker.core.common.R as CommonR
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -115,6 +119,9 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = SettingsPageBinding.inflate(inflater, container, false)
         binding.nestedScrollView.systemBarsPadding()
+        if (requireContext().isIgnoreBatteryEnabled()) {
+            viewModel.allowBackground()
+        }
         val toolbar = binding.toolbar
         toolbar.navigationIcon = toolbar.context.homeAsUp
         toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
@@ -271,6 +278,22 @@ class SettingsFragment : Fragment() {
             exportRepos.title.text = getString(CommonR.string.export_repos_title)
             exportRepos.content.text = getString(CommonR.string.export_repos_DESC)
 
+            allowBackgroundWork.title.text = getString(CommonR.string.require_background_access)
+            allowBackgroundWork.content.text =
+                getString(CommonR.string.require_background_access_DESC)
+            allowBackgroundWork.root.setBackgroundColor(
+                requireContext()
+                    .getColorFromAttr(MaterialR.attr.colorErrorContainer)
+                    .defaultColor
+            )
+            allowBackgroundWork.title.setTextColor(
+                requireContext()
+                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
+            )
+            allowBackgroundWork.content.setTextColor(
+                requireContext()
+                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
+            )
             creditFoxy.title.text = getString(CommonR.string.special_credits)
             creditFoxy.content.text = FOXY_DROID_TITLE
             droidify.title.text = DROID_IFY_TITLE
@@ -287,9 +310,23 @@ class SettingsFragment : Fragment() {
                 launch {
                     viewModel.settingsFlow.collect(::updateSettings)
                 }
+                launch {
+                    viewModel.backgroundTask.collect {
+                        if (it) {
+                            binding.allowBackgroundWork.root.visibility = View.GONE
+                        }
+                    }
+                }
             }
         }
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (requireContext().isIgnoreBatteryEnabled()) {
+            viewModel.allowBackground()
+        }
     }
 
     override fun onDestroyView() {
@@ -331,6 +368,12 @@ class SettingsFragment : Fragment() {
             }
             exportRepos.root.setOnClickListener {
                 createExportFileForRepos.launch(REPO_BACKUP_NAME)
+            }
+            allowBackgroundWork.root.setOnClickListener {
+                requireContext().requestBatteryFreedom()
+                if (requireContext().isIgnoreBatteryEnabled()) {
+                    viewModel.allowBackground()
+                }
             }
             creditFoxy.root.setOnClickListener {
                 openLink(FOXY_DROID_URL)

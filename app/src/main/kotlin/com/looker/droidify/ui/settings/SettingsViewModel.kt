@@ -23,7 +23,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
@@ -45,12 +47,21 @@ class SettingsViewModel
     }
     val settingsFlow get() = settingsRepository.data
 
+    private val _backgroundTask = MutableStateFlow(false)
+    val backgroundTask = _backgroundTask.asStateFlow()
+
     private val _snackbarStringId = MutableSharedFlow<Int>()
     val snackbarStringId = _snackbarStringId.asSharedFlow()
 
     fun <T> getSetting(block: Settings.() -> T): Flow<T> = settingsRepository.get(block)
 
     fun <T> getInitialSetting(block: Settings.() -> T): Flow<T> = initialSetting.map { it.block() }
+
+    fun allowBackground() {
+        viewModelScope.launch {
+            _backgroundTask.emit(true)
+        }
+    }
 
     fun setLanguage(language: String) {
         viewModelScope.launch {
