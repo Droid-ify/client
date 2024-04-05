@@ -85,6 +85,10 @@
                 layout="@layout/enum_type" />
 
             <include
+                android:id="@+id/allow_background_work"
+                layout="@layout/enum_type" />
+
+            <include
                 android:id="@+id/auto_update"
                 layout="@layout/switch_type" />
 
