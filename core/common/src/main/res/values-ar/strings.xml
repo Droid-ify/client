@@ -244,4 +244,6 @@
     <string name="import_repos_DESC">استورد كل المستودعات التي في ملف</string>
     <string name="cannot_open_link">تعذَّر فتح الرابط</string>
     <string name="has_tethered_network">منضمة إلى خدمة شبكة معينة</string>
+    <string name="require_background_access">تتطلب الوصول إلى الخلفية</string>
+    <string name="require_background_access_DESC">مطلوب الوصول في الخلفية لتشغيل مزامنة الخلفية بشكل صحيح</string>
 </resources>
