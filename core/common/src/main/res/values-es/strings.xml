@@ -235,4 +235,6 @@
     <string name="import_repos_DESC">Importar todos los repositorios del archivo</string>
     <string name="cannot_open_link">No se puede abrir el enlace</string>
     <string name="has_tethered_network">Vinculado a un determinado servicio de red</string>
+    <string name="require_background_access">Exigir acceso en segundo plano</string>
+    <string name="require_background_access_DESC">El acceso en segundo plano es necesario para ejecutar correctamente la sincronización en segundo plano</string>
 </resources>
