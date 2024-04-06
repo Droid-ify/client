@@ -229,4 +229,6 @@
     <string name="import_repos_DESC">从文件导入所有存储库</string>
     <string name="has_tethered_network">依赖于特定网络服务</string>
     <string name="cannot_open_link">无法打开链接</string>
+    <string name="require_background_access">需要后台访问权</string>
+    <string name="require_background_access_DESC">需要后台运行权限，以正常进行后台同步</string>
 </resources>
