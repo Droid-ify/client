@@ -239,4 +239,6 @@
     <string name="import_repos_DESC">Импортировать все репозитории из файла</string>
     <string name="cannot_open_link">Невозможно открыть ссылку</string>
     <string name="has_tethered_network">Привязка к определённой сетевой службе</string>
+    <string name="require_background_access_DESC">Для правильного выполнения фоновой синхронизации требуется фоновый доступ</string>
+    <string name="require_background_access">Требуйте фоновый доступ</string>
 </resources>
