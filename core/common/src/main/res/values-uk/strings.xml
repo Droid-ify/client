@@ -238,4 +238,6 @@
     <string name="import_repos_DESC">Імпорт всіх репозиторіїв з файлу</string>
     <string name="cannot_open_link">Неможливо відкрити посилання</string>
     <string name="has_tethered_network">Прив\'язка до певної мережевої служби</string>
+    <string name="require_background_access">Ігнорувати оптимізацію акумулятора</string>
+    <string name="require_background_access_DESC">Для правильної роботи фонової синхронізації потрібно вимкнути оптимізацію акумулятора для застосунку</string>
 </resources>
