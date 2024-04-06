@@ -235,4 +235,6 @@
     <string name="import_repos_DESC">Importovat všechny repozitáře ze souboru</string>
     <string name="cannot_open_link">Nelze otevřít odkaz</string>
     <string name="has_tethered_network">Připojeno k určité síťové službě</string>
+    <string name="require_background_access_DESC">Přístup na pozadí je vyžadován pro správné spuštění synchronizace na pozadí</string>
+    <string name="require_background_access">Vyžadovat přístup na pozadí</string>
 </resources>
