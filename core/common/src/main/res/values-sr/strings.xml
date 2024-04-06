@@ -235,4 +235,6 @@
     <string name="import_repos_DESC">Увезите све репозиторијуме из фајла</string>
     <string name="cannot_open_link">Није могуће отворити линк</string>
     <string name="has_tethered_network">Везано за одређену мрежну услугу</string>
+    <string name="require_background_access_DESC">Позадински приступ је неопходан за правилно покретање позадинске синхронизације</string>
+    <string name="require_background_access">Захтева позадински приступ</string>
 </resources>
