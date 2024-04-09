@@ -229,4 +229,6 @@
     <string name="import_repos_DESC">從檔案中匯入所有軟體庫</string>
     <string name="cannot_open_link">無法開啟連結</string>
     <string name="has_tethered_network">綁定至特定網路服務</string>
+    <string name="require_background_access_DESC">為了正確執行背景同步，需要背景存取權限</string>
+    <string name="require_background_access">需要背景存取權限</string>
 </resources>
