@@ -232,4 +232,6 @@
     <string name="integrity_check_error_DESC">Non poteva verificar le integritate.</string>
     <string name="root_permission_description">Permitter permission del usator root pro le installationes silenciose</string>
     <string name="compiled_for_debugging">Compilate pro le depuration</string>
+    <string name="require_background_access_DESC">Accesso in secunde plano es requirite pro executar correctemente le synchronisation in secunde plano</string>
+    <string name="require_background_access">Require accesso in secunde plano</string>
 </resources>
