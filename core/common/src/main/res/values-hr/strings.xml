@@ -139,7 +139,7 @@
     <string name="recently_updated">Nedavno ažurirano</string>
     <string name="repositories">Repozitoriji</string>
     <string name="repository">Repozitorij</string>
-    <string name="requires_FORMAT">Potrebno %s</string>
+    <string name="requires_FORMAT">Zahtijeva %s</string>
     <string name="root_permission">Neometana instalacija</string>
     <string name="save">Spremi</string>
     <string name="saving_details">Spremam detalje…</string>
@@ -235,4 +235,6 @@
     <string name="import_repos_DESC">Uvezi sve repozitorije iz datoteke</string>
     <string name="has_tethered_network">Vezano na određenu mrežnu uslugu</string>
     <string name="cannot_open_link">Nije moguće otvoriti poveznicu</string>
+    <string name="require_background_access_DESC">Za ispravno pokretanje sinkronizacije u pozadini potreban je pristup pozadini</string>
+    <string name="require_background_access">Zahtijeva pristup pozadini</string>
 </resources>
