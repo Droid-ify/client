@@ -229,4 +229,6 @@
     <string name="import_repos_DESC">Impor semua repositori dari berkas</string>
     <string name="cannot_open_link">Tidak Bisa Membuka Tautan</string>
     <string name="has_tethered_network">Terikat ke layanan jaringan tertentu</string>
+    <string name="require_background_access">Membutuhkan Akses Latar Belakang</string>
+    <string name="require_background_access_DESC">Akses Latar Belakang diperlukan untuk menjalankan sinkronisasi latar belakang dengan benar</string>
 </resources>
