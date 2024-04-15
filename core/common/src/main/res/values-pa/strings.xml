@@ -232,4 +232,6 @@
     <string name="import_repos_DESC">ਫ਼ਾਈਲ ਤੋਂ ਸਾਰੀਆਂ ਰਿਪੋਜ਼ਟਰੀਆਂ ਆਯਾਤ ਕਰੋ</string>
     <string name="cannot_open_link">ਲਿੰਕ ਖੋਲ੍ਹਿਆ ਨਹੀਂ ਜਾ ਸਕਦਾ</string>
     <string name="has_tethered_network">ਇੱਕ ਖਾਸ ਨੈੱਟਵਰਕ ਸੇਵਾ ਨਾਲ ਜੁੜਿਆ</string>
+    <string name="require_background_access">ਬੈਕਗ੍ਰਾਊਂਡ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੈ</string>
+    <string name="require_background_access_DESC">ਬੈਕਗ੍ਰਾਊਂਡ ਸਿੰਕ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਚਲਾਉਣ ਲਈ ਬੈਕਗ੍ਰਾਊਂਡ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੈ</string>
 </resources>
