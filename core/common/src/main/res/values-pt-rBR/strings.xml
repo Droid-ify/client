@@ -238,4 +238,5 @@
     <string name="shizuku_not_installed">Shizuku não está instalado</string>
     <string name="cannot_open_link">Não foi possível abrir o link</string>
     <string name="has_tethered_network">Ligado a um certo serviço de rede</string>
+    <string name="require_background_access_DESC">O acesso em segundo plano é necessário para executar corretamente a sincronização em segundo plano</string>
 </resources>
