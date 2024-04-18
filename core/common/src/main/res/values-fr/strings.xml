@@ -235,4 +235,6 @@
     <string name="import_repos_DESC">Importer tous les dépôts à partir d\'un fichier</string>
     <string name="cannot_open_link">Impossible d\'ouvrir le lien</string>
     <string name="has_tethered_network">Lié à un certain service de réseau</string>
+    <string name="require_background_access">Exiger l\'accès en arrière-plan</string>
+    <string name="require_background_access_DESC">L\'accès en arrière-plan est nécessaire pour exécuter correctement la synchronisation en arrière-plan</string>
 </resources>
