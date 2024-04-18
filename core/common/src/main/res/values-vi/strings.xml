@@ -229,4 +229,6 @@
     <string name="import_repos_DESC">Nhập mọi kho lưu trữ từ tệp</string>
     <string name="cannot_open_link">Không thể mở liên kết</string>
     <string name="has_tethered_network">Bị ràng buộc với một dịch vụ mạng nhất định</string>
+    <string name="require_background_access">Yêu cầu quyền truy cập nền</string>
+    <string name="require_background_access_DESC">Cần có quyền truy cập nền để chạy đồng bộ hóa nền đúng cách</string>
 </resources>
