@@ -25,10 +25,11 @@
     <string name="credits">Crèdits</string>
     <plurals name="days">
         <item quantity="one">Dia</item>
+        <item quantity="many">Dies</item>
         <item quantity="other">Dies</item>
     </plurals>
-    <string name="delete">Elimina</string>
-    <string name="delete_repository_DESC">Elimina el repositori\?</string>
+    <string name="delete">Esborra</string>
+    <string name="delete_repository_DESC">Esborra el repositori?</string>
     <string name="description">Descripció</string>
     <string name="details">Detalls</string>
     <string name="donate">Donar</string>
@@ -142,7 +143,7 @@
     <string name="bug_tracker">Rastrejador d\'incidències</string>
     <string name="downloading">Descarregant</string>
     <string name="could_not_download_FORMAT">No podria descarregar %s</string>
-    <string name="dark">Fosca</string>
+    <string name="dark">Fosc</string>
     <string name="edit_repository">Edita repositori</string>
     <string name="has_advertising">Té publicitat</string>
     <string name="ignore_this_update">Ignora aquesta versió</string>
@@ -168,7 +169,7 @@
     <string name="license">Llicència</string>
     <string name="theme">Tema</string>
     <string name="invalid_username_format">Nul username format</string>
-    <string name="launch">Llanxa</string>
+    <string name="launch">Executa</string>
     <string name="light">Llum</string>
     <string name="links">Nexes</string>
     <string name="list_animation">Animacions de llista</string>
@@ -209,4 +210,16 @@
     <string name="waiting_to_start_installation">S\'està esperant per iniciar la instal·lació…</string>
     <string name="restart_app">Reinicieu Droid-ify per veure els canvis</string>
     <string name="installing">Instal·lació</string>
+    <string name="import_settings_DESC">Importa configuració i preferits des de fitxer</string>
+    <string name="has_tethered_network">Enllaçat a un determinat servei de xarxa</string>
+    <string name="import_export">Importa/Exporta</string>
+    <string name="import_settings_title">Importa Configuració</string>
+    <string name="cannot_open_link">No es pot obrir l\'enllaç</string>
+    <string name="export_settings_title">Exporta la Configuració</string>
+    <string name="export_settings_DESC">Exporta la configuració i preferits a un fitxer</string>
+    <string name="import_repos_title">Importa repositoris</string>
+    <string name="import_repos_DESC">Importa tots els repositoris des de un fitxer</string>
+    <string name="export_repos_title">Exporta els repositoris</string>
+    <string name="export_repos_DESC">Exporta tots els repositoris a un fitxer</string>
+    <string name="home_screen_swiping">Lliscar la pantalla d\'inici</string>
 </resources>
