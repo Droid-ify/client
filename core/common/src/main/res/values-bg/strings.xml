@@ -232,4 +232,6 @@
     <string name="cannot_open_link">Линкът не може да се отвори</string>
     <string name="import_repos_DESC">Импортирай всички хранилища от файл</string>
     <string name="has_tethered_network">Обвързан с определена мрежова услуга</string>
+    <string name="require_background_access">Изискване на фонов достъп</string>
+    <string name="require_background_access_DESC">Необходим е фонов достъп, за да стартирате правилно фоновото синхронизиране</string>
 </resources>
