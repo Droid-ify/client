@@ -82,9 +82,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            recyclerViewAdapter = AppListAdapter(source) {
-                screenActivity.navigateProduct(it.packageName)
-            }
+            recyclerViewAdapter = AppListAdapter(
+                source,
+                viewModel.favourites.value,
+                { screenActivity.navigateProduct(it.packageName) },
+                { true }
+            )
             adapter = recyclerViewAdapter
             systemBarsPadding()
         }

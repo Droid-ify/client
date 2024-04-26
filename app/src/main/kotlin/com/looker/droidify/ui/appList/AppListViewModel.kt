@@ -13,7 +13,6 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
@@ -36,6 +35,9 @@ class AppListViewModel
 
     val sortOrderFlow = settingsRepository.get { sortOrder }
         .asStateFlow(SortOrder.UPDATED)
+
+    val favourites = settingsRepository.get { favouriteApps }
+        .asStateFlow(emptySet()) // always returns an empty set for some reason!
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 

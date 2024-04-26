@@ -2,7 +2,10 @@ package com.looker.droidify.ui.appList
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.view.ContextMenu
 import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -30,7 +33,9 @@ import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class AppListAdapter(
     private val source: AppListFragment.Source,
-    private val onClick: (ProductItem) -> Unit
+    private val favouriteApps: Set<String>,
+    private val onClick: (ProductItem) -> Unit,
+    private val onContextAction: (ProductItem) -> Boolean
 ) : CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
 
     enum class ViewType { PRODUCT, LOADING, EMPTY }
@@ -122,6 +127,44 @@ class AppListAdapter(
         return when (viewType) {
             ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
                 itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
+
+                itemView.setOnCreateContextMenuListener(
+                    fun(
+                        menu: ContextMenu?,
+                        _: View?,
+                        _: ContextMenu.ContextMenuInfo?
+                    ) {
+                        menu?.setHeaderTitle("Pick an Action");
+
+                        val installItem = menu?.add(
+                            Menu.NONE,
+                            Menu.NONE,
+                            Menu.NONE,
+                            if (getProductItem(absoluteAdapterPosition).installedVersion.nullIfEmpty() != null)
+                                com.looker.core.common.R.string.uninstall
+                            else
+                                com.looker.core.common.R.string.install
+                        );
+
+                        val favItem = menu?.add(
+                            Menu.NONE,
+                            Menu.NONE,
+                            Menu.NONE,
+                            if (favouriteApps.contains(getProductItem(absoluteAdapterPosition).packageName))
+                                com.looker.core.common.R.string.remove_from_favourites
+                            else
+                                com.looker.core.common.R.string.add_to_favourites
+                        );
+
+                        val clickListener = MenuItem.OnMenuItemClickListener {
+                            onContextAction(
+                                getProductItem(absoluteAdapterPosition)
+                            )
+                        }
+
+                        installItem?.setOnMenuItemClickListener(clickListener)
+                        favItem?.setOnMenuItemClickListener(clickListener)
+                    })
             }
 
             ViewType.LOADING -> LoadingViewHolder(parent.context)
