@@ -14,8 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
+import com.looker.core.common.PackageName
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsMargin
@@ -24,8 +23,12 @@ import com.looker.core.domain.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.installer.InstallManager
+import com.looker.installer.model.InstallItem
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
@@ -82,11 +85,45 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
+
+            var favouriteApps: Set<String> = emptySet()
+
+            lifecycleScope.launch {
+                favouriteApps = viewModel.settingsRepository.getInitial().favouriteApps
+            }
+
             recyclerViewAdapter = AppListAdapter(
                 source,
-                viewModel.favourites.value,
+                favouriteApps,
                 { screenActivity.navigateProduct(it.packageName) },
-                { true }
+                fun(productItem, menuItem): Boolean {
+
+                    when (menuItem.title) {
+
+                        getString(com.looker.core.common.R.string.install) -> lifecycleScope.launch {
+                            InstallManager(context, viewModel.settingsRepository)
+                                .install(
+                                    InstallItem(
+                                        PackageName(productItem.packageName),
+                                        productItem.name
+                                    )
+                                )
+                        }
+
+                        getString(com.looker.core.common.R.string.uninstall) -> {
+
+                        }
+
+                        getString(com.looker.core.common.R.string.add_to_favourites) -> {
+
+                        }
+
+                        getString(com.looker.core.common.R.string.remove_from_favourites) -> {
+
+                        }
+                    }
+                    return true
+                }
             )
             adapter = recyclerViewAdapter
             systemBarsPadding()

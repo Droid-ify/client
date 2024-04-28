@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
@@ -36,8 +37,7 @@ class AppListViewModel
     val sortOrderFlow = settingsRepository.get { sortOrder }
         .asStateFlow(SortOrder.UPDATED)
 
-    val favourites = settingsRepository.get { favouriteApps }
-        .asStateFlow(emptySet()) // always returns an empty set for some reason!
+    val settingsRepository = settingsRepository
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 

@@ -13,7 +13,6 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.R as MaterialR
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.looker.core.common.extension.authentication
@@ -30,12 +29,13 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.ImageUtils.icon
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.widget.CursorRecyclerAdapter
+import com.google.android.material.R as MaterialR
 
 class AppListAdapter(
     private val source: AppListFragment.Source,
     private val favouriteApps: Set<String>,
     private val onClick: (ProductItem) -> Unit,
-    private val onContextAction: (ProductItem) -> Boolean
+    private val onContextAction: (ProductItem, MenuItem) -> Boolean
 ) : CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
 
     enum class ViewType { PRODUCT, LOADING, EMPTY }
@@ -158,7 +158,7 @@ class AppListAdapter(
 
                         val clickListener = MenuItem.OnMenuItemClickListener {
                             onContextAction(
-                                getProductItem(absoluteAdapterPosition)
+                                getProductItem(absoluteAdapterPosition), it
                             )
                         }
 
