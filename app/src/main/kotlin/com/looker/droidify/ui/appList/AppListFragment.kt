@@ -114,12 +114,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
                         }
 
-                        getString(com.looker.core.common.R.string.add_to_favourites) -> {
-
-                        }
-
-                        getString(com.looker.core.common.R.string.remove_from_favourites) -> {
-
+                        else -> {
+                            lifecycleScope.launch {
+                                viewModel.settingsRepository.toggleFavourites(
+                                    productItem.packageName
+                                )
+                            }
                         }
                     }
                     return true
