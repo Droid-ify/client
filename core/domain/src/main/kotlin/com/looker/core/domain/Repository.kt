@@ -386,6 +386,12 @@ data class Repository(
                 description = "Cake Labs official F-Droid repository for Cake Wallet and Monero.com",
                 fingerprint = "EA44EFAEE0B641EE7A032D397D5D976F9C4E5E1ED26E11C75702D064E55F8755"
             ),
+            defaultRepository(
+                address = "https://app.futo.org/fdroid/repo",
+                name = "FUTO",
+                description = "FUTO official F-Droid repository.",
+                fingerprint = "39D47869D29CBFCE4691D9F7E6946A7B6D7E6FF4883497E6E675744ECDFA6D6D"
+            ),
         )
     }
 }
