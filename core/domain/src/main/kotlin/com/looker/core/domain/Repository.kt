@@ -155,13 +155,6 @@ data class Repository(
                 fingerprint = "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165"
             ),
             defaultRepository(
-                address = "https://app.futo.org/fdroid/repo",
-                name = "FUTO",
-                description = "The official repository of FUTO apps " +
-                    "for use with the F-Droid client.",
-                fingerprint = "39D47869D29CBFCE4691D9F7E6946A7B6D7E6FF4883497E6E675744ECDFA6D6D"
-            ),
-            defaultRepository(
                 address = "https://repo.netsyms.com/fdroid/repo",
                 name = "Netsyms Technologies",
                 description = "Official collection of open-source apps created" +
