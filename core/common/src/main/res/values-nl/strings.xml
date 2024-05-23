@@ -24,7 +24,7 @@
     <string name="application_not_found">App niet gevonden</string>
     <string name="author_email">E-mailadres van de auteur</string>
     <string name="versions">Versies</string>
-    <string name="updates">Bijwerkingen</string>
+    <string name="updates">Updates</string>
     <string name="cancel">Annuleren</string>
     <string name="cant_edit_sync_DESC">Kan de opslagplaats niet bewerken, omdat deze nu wordt gesynchroniseerd.</string>
     <string name="checking_repository">Opslagplaats controleren…</string>
@@ -33,7 +33,7 @@
     <string name="version">Versie</string>
     <string name="version_FORMAT">Versie %s</string>
     <string name="username_missing">Gebruikersnaam ontbreekt</string>
-    <string name="unstable_updates_summary">Stel voor om onstabiele versies te installeren</string>
+    <string name="unstable_updates_summary">Installatie van instabiele versies voorstellen</string>
     <string name="validation_index_error_DESC">De index kon niet worden gevalideerd.</string>
     <string name="unknown_FORMAT">Onbekend: %s</string>
     <string name="unsigned">Niet ondertekend</string>
@@ -91,7 +91,7 @@
     <string name="no_description_available_DESC">Geen beschrijving beschikbaar</string>
     <string name="no_proxy">Geen proxy</string>
     <string name="notify_about_updates">Meldingen bij nieuwe versies</string>
-    <string name="notify_about_updates_summary">Geef een melding wanneer er nieuwe versies beschikbaar zijn</string>
+    <string name="notify_about_updates_summary">Melding weergeven wanneer er nieuwe versies beschikbaar zijn</string>
     <string name="number_of_applications">Aantal applicaties</string>
     <string name="ok">Oké</string>
     <string name="only_compatible_with_FORMAT">Alleen compabibel met %s</string>
@@ -179,7 +179,7 @@
     <string name="downloaded_FORMAT">%s gedownload</string>
     <string name="shizuku_installer">Shizuku-installatie</string>
     <string name="root_installer">Root-installatie</string>
-    <string name="installer">Installatie</string>
+    <string name="installer">Installatiewijze</string>
     <string name="legacy_installer">Verouderde installatie</string>
     <string name="session_installer">Sessie-installatie</string>
     <string name="cleanup_title">Ingeval van APK-opschoning</string>
