@@ -221,7 +221,7 @@
     <string name="import_export">Importar/Exportar</string>
     <string name="home_screen_swiping">Deslizamento na tela principal</string>
     <string name="import_settings_title">Importar configurações</string>
-    <string name="contains_nsfw">Contém conteúdo não seguro para o trabalho</string>
+    <string name="contains_nsfw">Contém conteúdo não apropriado para menores de 18 anos</string>
     <string name="shizuku_not_alive">Shizuku não está em execução</string>
     <string name="import_settings_DESC">Importar configurações e favoritos de um arquivo</string>
     <string name="label_copy">Copiar</string>
