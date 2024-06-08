@@ -36,6 +36,7 @@ android {
             "it",
             "iw",
             "ja",
+            "jbo",
             "kn",
             "ko",
             "lt",

@@ -200,7 +200,7 @@
     <string name="uninstall">Выдаліць</string>
     <string name="skip">Прапусціць</string>
     <string name="export_settings_title">Налады экспарту</string>
-    <string name="export_repos_DESC">Экспарт усіх рэпазітараў з файла</string>
+    <string name="export_repos_DESC">Экспарт ўсіх рэпазітараў з файла</string>
     <string name="import_repos_title">Імпарт рэпазітараў</string>
     <string name="screenshots">Скрыншоты</string>
     <string name="recently_updated">Нядаўна абноўлены</string>
@@ -226,7 +226,7 @@
     <string name="upstream_source_code_is_not_free">Зыходны код бацькоўскай праграмы зачынены</string>
     <string name="versions">Версіі</string>
     <string name="repository_not_used_DESC">Гэты рэпазітар яшчэ не выкарыстоўваўся. Вам трэба ўключыць яго для прагляду прымянення ў ім.</string>
-    <string name="import_repos_DESC">Імпарт усіх рэпазітараў з файла</string>
+    <string name="import_repos_DESC">Імпарт ўсіх рэпазітараў з файла</string>
     <string name="system">Як ў сістэме</string>
     <string name="special_credits">Асобнае дзякуй</string>
     <string name="share">Падзяліцца</string>
@@ -234,8 +234,10 @@
     <string name="shizuku_not_installed">Shizuku не ўстаноўлена</string>
     <string name="unstable_updates">Нестабільнае абнаўленне</string>
     <string name="latest">Апошнія</string>
-    <string name="root_permission_description">Дайце правы root, каб ўключыць бясшумную ўстаноўку</string>
+    <string name="root_permission_description">Падайце root-правы для ўключэння ціхай ўсталёўкі</string>
     <string name="unknown_FORMAT">Невядома: %s</string>
     <string name="cannot_open_link">Немагчыма адкрыць спасылку</string>
     <string name="has_tethered_network">Прывязка да вызначанай сеткавай службы</string>
+    <string name="require_background_access">Патрабуецца фонавы доступ</string>
+    <string name="require_background_access_DESC">Для правільнай працы фонавай сінхранізацыі патрабуецца дазвол на працу ў фоне</string>
 </resources>

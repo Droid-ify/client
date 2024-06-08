@@ -236,4 +236,8 @@
     <string name="export_settings_DESC">Zapisz ustawienia i ulubione do pliku</string>
     <string name="export_repos_title">Eksportuj repozytoria</string>
     <string name="import_repos_DESC">Przywróć wszystkie repozytoria z pliku</string>
+    <string name="has_tethered_network">Powiązanie z określoną usługą sieciową</string>
+    <string name="cannot_open_link">Nie można otworzyć łącza</string>
+    <string name="require_background_access_DESC">Dostęp w tle jest wymagany do prawidłowego działania synchronizacji w tle</string>
+    <string name="require_background_access">Wymaganie dostępu do działania w tle</string>
 </resources>

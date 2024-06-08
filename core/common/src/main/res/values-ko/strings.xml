@@ -229,4 +229,6 @@
     <string name="import_repos_DESC">저장소 목록을 파일에서 가져옵니다.</string>
     <string name="has_tethered_network">특정 네트워크 서비스에 바인딩됨</string>
     <string name="cannot_open_link">링크를 열 수 없습니다</string>
+    <string name="require_background_access">백그라운드 액세스 필요</string>
+    <string name="require_background_access_DESC">백그라운드 동기화를 제대로 실행하려면 백그라운드 액세스가 필요합니다</string>
 </resources>

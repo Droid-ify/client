@@ -157,7 +157,7 @@
     <string name="incompatible_older_DESC">Versi ini lebih lama daripada yang dipasang pada peranti anda. Nyahpasang dahulu.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Platform %1$s anda tidak disokong. Platform yang disokong: %2$s.</string>
     <string name="incompatible_versions">Versi tidak serasi</string>
-    <string name="installed">DIpasang</string>
+    <string name="installed">Dipasang</string>
     <string name="invalid_permissions_error_DESC">Keizinan tidak sah.</string>
     <string name="invalid_signature_error_DESC">Tandatangan tidak sah.</string>
     <string name="invalid_username_format">Format nama pengguna tidak sah</string>
