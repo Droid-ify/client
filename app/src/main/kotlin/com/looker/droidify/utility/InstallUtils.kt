@@ -45,6 +45,18 @@ class InstallUtils {
                 }
             ).startUpdate(installedItem.packageName, installedItem, products)
         }
+
+        fun uninstall(
+            context: Context,
+            settingsRepository: SettingsRepository,
+            scope: CoroutineScope,
+            packageName: PackageName,
+        ) {
+            scope.launch {
+                InstallManager(context, settingsRepository)
+                    .uninstall(packageName)
+            }
+        }
     }
 
 }

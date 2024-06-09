@@ -123,20 +123,22 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                                     products = listOf(Pair(it[0], repository))
                             }
 
-                            /*InstallUtils.install(
+                            InstallUtils.install(
                                 context,
                                 viewModel.settingsRepository,
                                 lifecycleScope,
                                 packageInfo.toInstalledItem(),
                                 products
-                                )*/
+                                )
                         }
 
                         getString(com.looker.core.common.R.string.uninstall) -> lifecycleScope.launch {
-                            InstallManager(context, viewModel.settingsRepository)
-                                .uninstall(
-                                    PackageName(productItem.packageName)
-                                )
+                            InstallUtils.uninstall(
+                                context,
+                                viewModel.settingsRepository,
+                                lifecycleScope,
+                                PackageName(productItem.packageName),
+                            )
                         }
 
                         else -> {
