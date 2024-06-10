@@ -392,6 +392,12 @@ data class Repository(
                 description = "FUTO official F-Droid repository.",
                 fingerprint = "39D47869D29CBFCE4691D9F7E6946A7B6D7E6FF4883497E6E675744ECDFA6D6D"
             ),
+            defaultRepository(
+                address = "https://fdroid.mm20.de/repo",
+                name = "MM20 Apps",
+                description = "Apps developed and distributed by MM20",
+                fingerprint = "156FBAB952F6996415F198F3F29628D24B30E725B0F07A2B49C3A9B5161EEE1A"
+            ),
         )
     }
 }
