@@ -1,10 +1,6 @@
 <div align="center">
 
-<img width="" src="metadata/en-US/images/featureGraphic.png" alt="Kenko" align="center">
-
-# Droid-ify
-
-### A quick material F-Droid client.
+<img width="" src="metadata/en-US/images/featureGraphic.png" alt="Droid-ify" align="center">
 
 [![Github Stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
 [![Github License](https://img.shields.io/github/license/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/blob/master/COPYING)
