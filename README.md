@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="Droid-ify" align="center">
+<img width="" src="metadata/en-US/images/featureGraphic.png" alt="Kenko" align="center">
 
 # Droid-ify
 
