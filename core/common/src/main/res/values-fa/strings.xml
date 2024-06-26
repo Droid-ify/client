@@ -3,17 +3,17 @@
     <string name="action_failed">عملیات ناموفق بود</string>
     <string name="add_repository">افزودن مخزن</string>
     <string name="address">آدرس</string>
-    <string name="all_applications">همهٔ برنامه‌ها</string>
-    <string name="all_applications_up_to_date">همهٔ برنامه‌های شما به‌روز هستند</string>
+    <string name="all_applications">تمام کاره ها</string>
+    <string name="all_applications_up_to_date">تمام کاره‌های شما به‌روز هستند</string>
     <string name="already_exists">از قبل وجود دارد</string>
     <string name="amoled">سیاه</string>
-    <string name="application">برنامه</string>
-    <string name="application_not_found">آن برنامه پیدا نشد</string>
+    <string name="application">کاره</string>
+    <string name="application_not_found">کاره یافت نشد</string>
     <string name="always">همیشه</string>
-    <string name="author_email">ایمیل سازنده</string>
+    <string name="author_email">رایانامه سازنده</string>
     <string name="author_website">وبسایت سازنده</string>
     <string name="available">کاوش</string>
-    <string name="bug_tracker">ردیاب باگ</string>
+    <string name="bug_tracker">ردیاب مشکل</string>
     <string name="cancel">لغو</string>
     <string name="changes">تغییرات</string>
     <string name="description">توضیحات</string>
@@ -27,7 +27,7 @@
     <string name="could_not_validate_FORMAT">اعتبارسنجی ناموفق %s</string>
     <string name="credits">دست‌اندرکاران</string>
     <string name="dark">تاریک</string>
-    <string name="delete">حذف</string>
+    <string name="delete">پاک کردن</string>
     <string name="could_not_sync_FORMAT">تبادل ناموفق %s</string>
     <string name="details">جزییات</string>
     <string name="downloaded_FORMAT">دریافت شده %s</string>
@@ -43,8 +43,8 @@
     <string name="incompatible_api_max_DESC_FORMAT">حداکثر نسخهAPI اینه %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">حداقل نسخهAPI اینه %d.</string>
     <string name="incompatible_features_DESC">قابلیت‌هایی را ندارد.</string>
-    <string name="incompatible_older_DESC">این نسخه قدیمی‌تر از اونی که روی دستگاه شما نصب هست. اول اونو حذف کن.</string>
-    <string name="incompatible_signature_DESC">این نسخه با کلید متفاوتی امضاء شده نسبت به نسخه‌ای که در دستگاه شما نصب شده. اول اونو حذف کن.</string>
+    <string name="incompatible_older_DESC">این نسخه قدیمی‌تر از اونی که روی دستگاه شما نصب هست. اول اونو پاک کن.</string>
+    <string name="incompatible_signature_DESC">این نسخه نسبت به نسخه‌ای که در دستگاه شما نصب شده با کلید متفاوتی امضاء شده. اول اونو پاک کن.</string>
     <string name="install_types">انواع نصب</string>
     <string name="install">نصب</string>
     <string name="invalid_metadata_error_DESC">فراداده نادرست.</string>
@@ -56,7 +56,7 @@
     <string name="network_error_DESC">خطای شبکه</string>
     <string name="never">هرگز</string>
     <string name="new_updates_available">نسخه‌های جدیدی از اپلیکیشن‌ها موجوده</string>
-    <string name="notify_about_updates">درمورد نسخه جدید برنامه‌ها خبرم کن</string>
+    <string name="notify_about_updates">درمورد نسخه جدید کاره‌ها خبرم کن</string>
     <string name="ok">تایید</string>
     <string name="only_compatible_with_FORMAT">تنها با %s سازگار است</string>
     <string name="only_on_wifi">فقط با وایفای</string>
@@ -65,7 +65,7 @@
     <string name="open_DESC_FORMAT">باز کردن %s ؟</string>
     <string name="repository_not_used_DESC">این مخزن هنوز استفاده نشده. فعالش کن تا اپلیکیشن‌های داخلشو ببینی.</string>
     <string name="unknown">ناشناس</string>
-    <string name="uninstall">لغونصب</string>
+    <string name="uninstall">پاک کردن</string>
     <string name="waiting_to_start_download">منتظر شروع بارگیری…</string>
     <string name="versions">نسخه‌ها</string>
     <string name="cleanup_title">وقفه پاکسازی APK</string>
@@ -80,8 +80,8 @@
     <string name="no_applications_installed">هیچ اپلیکیشنی نصب نیست</string>
     <string name="number_of_applications">تعداد اپلیکیشن‌ها</string>
     <string name="only_on_wifi_with_charging">وایفای یا درحال‌شارژ</string>
-    <string name="password">کلمه‌عبور</string>
-    <string name="password_missing">کلمه‌عبور نیست</string>
+    <string name="password">گذرواژه</string>
+    <string name="password_missing">گذرواژه نیست</string>
     <string name="plus_more_FORMAT">%d+ بیشتر</string>
     <string name="settings">تنظیمات</string>
     <string name="processing_FORMAT">درحال‌پردازش %1$s …</string>
@@ -91,7 +91,7 @@
     <string name="size">حجم</string>
     <string name="skip">بیخیال</string>
     <string name="socks_proxy">پروکسی socks</string>
-    <string name="source_code">سورس کد</string>
+    <string name="source_code">کد منبع‎</string>
     <string name="suggested">پیشنهادات</string>
     <string name="sync_repositories">به‌روزرسانی مخازن</string>
     <string name="sync_repositories_automatically">به‌روزرسانی خودکار مخازن</string>
@@ -99,7 +99,7 @@
     <string name="system">سامانه</string>
     <string name="tap_to_install_DESC">بزن نصب شه.</string>
     <string name="update">به‌روزرسانی</string>
-    <string name="upstream_source_code_is_not_free">سورس‌کد اصلی رایگان نیست</string>
+    <string name="upstream_source_code_is_not_free">کد منبع اصلی رایگان نیست</string>
     <string name="prefs_language_title">زبان</string>
     <string name="prefs_personalization">شخصی‌سازی</string>
     <string name="show_less">نمایش کمتر</string>
@@ -120,7 +120,7 @@
     <string name="license_FORMAT">%s جواز</string>
     <string name="proxy">پروکسی</string>
     <string name="promotes_non_free_network_services">ارتقاء خدمات پولی شبکه</string>
-    <string name="promotes_non_free_software">ارتقاء برنامه پولی</string>
+    <string name="promotes_non_free_software">ارتقاء کاره پولی</string>
     <string name="proxy_host">سرور پروکسی</string>
     <string name="proxy_port">پورت پروکسی</string>
     <string name="repositories">مخزن‌ها</string>
@@ -130,7 +130,7 @@
     <string name="screenshots">اسکرین‌شات‌ها</string>
     <string name="search">جستجو</string>
     <string name="select_mirror">از کجا دریافت کنم</string>
-    <string name="share">اشتراک</string>
+    <string name="share">هم‌رسانی</string>
     <string name="save">ذخیره</string>
     <string name="saving_details">درحال‌ذخیره جزییات…</string>
     <string name="show_more">نمایش بیشتر</string>
@@ -150,8 +150,8 @@
     <string name="website">وبسایت</string>
     <string name="username_missing">نام‌کاربری نیست</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">بروزرسانی برای %d برنامه موجود می باشد.</item>
-        <item quantity="other">بروزرسانی برای %d برنامه موجود می باشد.</item>
+        <item quantity="one">بروزرسانی برای %d کاره موجود می باشد.</item>
+        <item quantity="other">بروزرسانی برای %d ‌کاره موجود می باشد.</item>
     </plurals>
     <plurals name="days">
         <item quantity="one">روز</item>
@@ -162,7 +162,7 @@
         <item quantity="other">ساعات</item>
     </plurals>
     <string name="donate">حمایت‌مالی</string>
-    <string name="delete_repository_DESC">این مخزن حذف شود؟</string>
+    <string name="delete_repository_DESC">این مخزن پاک شود؟</string>
     <string name="cant_edit_sync_DESC">هنگام یکپارچه‌سازی مخزن نمی‌توان آن را ویرایش کرد.</string>
     <string name="contains_non_free_media">حاوی محتوای پولی</string>
     <string name="has_non_free_dependencies">دارای وابستگی‌های پولی</string>
@@ -186,17 +186,17 @@
     <string name="repository_unsigned_DESC">امضاءنشده. فهرست کاره قابل اعتماد نیست. حین دریافت کاره از مخازن بدون‌امضاء احتیاط کنید.</string>
     <string name="sorting_order">اولویت ترتیب</string>
     <string name="unstable_updates_summary">پیشنهاد نصب نسخه‌های آزمایشی</string>
-    <string name="source_code_no_longer_available">سورس‌کد دیگه موجود نیست</string>
+    <string name="source_code_no_longer_available">کد منبع دیگر موجود نیست</string>
     <string name="syncing_FORMAT">در حال به‌روزرسانی %s …</string>
     <string name="installed_applications">اپلیکیشن‌های نصب شده</string>
     <string name="updates">به‌روزرسانی ها</string>
-    <string name="new_applications">برنامه‌های جدید</string>
+    <string name="new_applications">کاره‌های جدید</string>
     <string name="version">نسخه</string>
     <string name="version_FORMAT">نسخه %s</string>
     <string name="no_internet">شما هیچ اتصال اینترنتی ندارید</string>
     <string name="io_error_DESC">قادر به انجام برخی اقدامات خاص نیست.</string>
-    <string name="allow_collapsing_toolbar">به نوار بالای برنامه اجازه دهید تا گسترش یابد</string>
-    <string name="allow_collapsing_toolbar_DESC">به نوار بالای برنامه اجازه دهید تا گسترده و فشرده شود</string>
+    <string name="allow_collapsing_toolbar">به نوار بالای کاره اجازه دهید تا گسترش یابد</string>
+    <string name="allow_collapsing_toolbar_DESC">به نوار بالای کاره اجازه دهید تا گسترده و فشرده شود</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">از پوسته رنگی material you استفاده کنید</string>
     <string name="enable_repo">مخزن را فعال کنید</string>
@@ -204,7 +204,7 @@
     <string name="restart_app">برای مشاهده تغییرات، Droid-ify را مجددا راه اندازی کنید</string>
     <string name="favourites">موارد دلخواه</string>
     <string name="repository_unreachable">مخزن قابل دسترسی نیست</string>
-    <string name="auto_update">به‌روز رسانی خودکار برنامه‌ها</string>
+    <string name="auto_update">به‌روز رسانی خودکار کاره‌ها</string>
     <string name="force_clean_up_DESC">فایل های اضافی را پاک می کند</string>
     <string name="auto_update_apps">سعی می‌کند به‌روزرسانی‌ها را به صورت خودکار نصب کند</string>
     <string name="installing">در حال نصب</string>
@@ -232,4 +232,6 @@
     <string name="home_screen_swiping">حرکات صفحه اصلی</string>
     <string name="label_copy">کپی</string>
     <string name="special_credits">تشکر ویژه</string>
+    <string name="require_background_access">نیازمند دسترسی پس‌زمینه</string>
+    <string name="require_background_access_DESC">برای همگام‌سازی در پس‌زمینه، دسترسی پس‌زمینه لازم است</string>
 </resources>
