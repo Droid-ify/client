@@ -24,7 +24,7 @@
     <string name="author_email">Пошта автора</string>
     <string name="author_website">Вебсайт автора</string>
     <string name="available">Огляд</string>
-    <string name="bug_tracker">Баг-трекер</string>
+    <string name="bug_tracker">Відстеження помилок</string>
     <string name="cant_edit_sync_DESC">Не можу редагувати репозиторії, оскільки він зараз синхронізується.</string>
     <string name="changelog">Список змін</string>
     <string name="compiled_for_debugging">Скомпільовано для відладки</string>
