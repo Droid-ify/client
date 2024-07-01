@@ -141,10 +141,10 @@ dependencies {
 
     implementation(libs.android.material)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.lifecycle.viewModel.ktx)
+    implementation(libs.androidx.lifecycle.viewModel)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.sqlite.ktx)
     implementation(libs.coil.kt)
