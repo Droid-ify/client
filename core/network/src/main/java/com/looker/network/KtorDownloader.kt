@@ -16,6 +16,7 @@ import io.ktor.client.engine.okhttp.OkHttpConfig
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.head
 import io.ktor.client.request.headers
@@ -41,17 +42,14 @@ import java.net.Proxy
 
 internal class KtorDownloader : Downloader {
 
-    private var client = HttpClient(OkHttp) { timeoutConfig() }
+    private var client = client(null)
         set(newClient) {
             field.close()
             field = newClient
         }
 
     override fun setProxy(proxy: Proxy) {
-        client = HttpClient(OkHttp) {
-            timeoutConfig()
-            engine { this.proxy = proxy }
-        }
+        client = client(proxy)
     }
 
     override suspend fun headCall(
@@ -102,14 +100,29 @@ internal class KtorDownloader : Downloader {
         }
     }
 
-    companion object {
+    private companion object {
 
-        private fun HttpClientConfig<OkHttpConfig>.timeoutConfig() = install(HttpTimeout) {
+        fun client(proxy: Proxy?): HttpClient {
+            return HttpClient(OkHttp) {
+                userAgentConfig()
+                timeoutConfig()
+                engine { this.proxy = proxy }
+            }
+        }
+
+        const val USER_AGENT =
+            "Droid-ify, Mode: ${BuildConfig.BUILD_TYPE}, Version: ${BuildConfig.VERSION_NAME}"
+
+        fun HttpClientConfig<OkHttpConfig>.userAgentConfig() = install(UserAgent) {
+            agent = USER_AGENT
+        }
+
+        fun HttpClientConfig<OkHttpConfig>.timeoutConfig() = install(HttpTimeout) {
             connectTimeoutMillis = CONNECTION_TIMEOUT
             socketTimeoutMillis = SOCKET_TIMEOUT
         }
 
-        private fun createRequest(
+        fun createRequest(
             url: String,
             headers: HeadersBuilder.() -> Unit,
             fileSize: Long? = null,
@@ -126,7 +139,7 @@ internal class KtorDownloader : Downloader {
             }
         }
 
-        private suspend infix fun ByteReadChannel.saveTo(target: File) =
+        suspend infix fun ByteReadChannel.saveTo(target: File) =
             withContext(Dispatchers.IO) {
                 while (!isClosedForRead && isActive) {
                     val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
@@ -134,7 +147,7 @@ internal class KtorDownloader : Downloader {
                 }
             }
 
-        private suspend fun ByteReadPacket.appendTo(file: File) =
+        suspend fun ByteReadPacket.appendTo(file: File) =
             withContext(Dispatchers.IO) {
                 while (!isEmpty && isActive) {
                     val bytes = readBytes()
@@ -142,7 +155,7 @@ internal class KtorDownloader : Downloader {
                 }
             }
 
-        private fun HttpResponse.asNetworkResponse(): NetworkResponse =
+        fun HttpResponse.asNetworkResponse(): NetworkResponse =
             if (status.isSuccess() || status == HttpStatusCode.NotModified) {
                 NetworkResponse.Success(status.value, lastModified(), etag())
             } else {

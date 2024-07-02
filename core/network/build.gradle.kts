@@ -7,6 +7,13 @@ plugins {
 android {
     namespace = "com.looker.network"
 
+    defaultConfig {
+        buildConfigField(
+            type = "String",
+            name = "VERSION_NAME",
+            value = "\"${DefaultConfig.versionName}\""
+        )
+    }
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -16,6 +23,9 @@ android {
             initWith(getByName("debug"))
             isMinifyEnabled = true
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
 
