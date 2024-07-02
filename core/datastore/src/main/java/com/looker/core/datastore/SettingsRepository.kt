@@ -29,6 +29,8 @@ interface SettingsRepository {
 
     suspend fun enableUnstableUpdates(enable: Boolean)
 
+    suspend fun setIgnoreSignature(enable: Boolean)
+
     suspend fun setTheme(theme: Theme)
 
     suspend fun setDynamicTheme(enable: Boolean)

@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.core.common.Exporter
+import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyPreference
@@ -72,6 +73,9 @@ class PreferenceSettingsRepository(
     override suspend fun enableUnstableUpdates(enable: Boolean) =
         UNSTABLE_UPDATES.update(enable)
 
+    override suspend fun setIgnoreSignature(enable: Boolean) =
+        IGNORE_SIGNATURE.update(enable)
+
     override suspend fun setTheme(theme: Theme) =
         THEME.update(theme.name)
 
@@ -109,7 +113,13 @@ class PreferenceSettingsRepository(
         HOME_SCREEN_SWIPING.update(value)
 
     override suspend fun toggleFavourites(packageName: String) {
-        TODO("Not yet implemented")
+        dataStore.edit { preference ->
+            val currentSet = preference[FAVOURITE_APPS] ?: emptySet()
+            val newSet = currentSet.updateAsMutable {
+                if (!add(packageName)) remove(packageName)
+            }
+            preference[FAVOURITE_APPS] = newSet
+        }
     }
 
     private fun mapSettings(preferences: Preferences): Settings {
@@ -119,6 +129,7 @@ class PreferenceSettingsRepository(
         val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
         val notifyUpdate = preferences[NOTIFY_UPDATES] ?: true
         val unstableUpdate = preferences[UNSTABLE_UPDATES] ?: false
+        val ignoreSignature = preferences[IGNORE_SIGNATURE] ?: false
         val theme = Theme.valueOf(preferences[THEME] ?: Theme.SYSTEM.name)
         val dynamicTheme = preferences[DYNAMIC_THEME] ?: false
         val installerType =
@@ -140,6 +151,7 @@ class PreferenceSettingsRepository(
             incompatibleVersions = incompatibleVersions,
             notifyUpdate = notifyUpdate,
             unstableUpdate = unstableUpdate,
+            ignoreSignature = ignoreSignature,
             theme = theme,
             dynamicTheme = dynamicTheme,
             installerType = installerType,
@@ -165,6 +177,7 @@ class PreferenceSettingsRepository(
         private val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
         private val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
         private val UNSTABLE_UPDATES = booleanPreferencesKey("key_unstable_updates")
+        private val IGNORE_SIGNATURE = booleanPreferencesKey("key_ignore_signature")
         private val THEME = stringPreferencesKey("key_theme")
         private val DYNAMIC_THEME = booleanPreferencesKey("key_dynamic_theme")
         private val INSTALLER_TYPE = stringPreferencesKey("key_installer_type")
