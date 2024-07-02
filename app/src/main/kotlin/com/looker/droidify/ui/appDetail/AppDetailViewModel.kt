@@ -62,6 +62,10 @@ class AppDetailViewModel @Inject constructor(
             )
         }.asStateFlow(AppDetailUiState())
 
+    suspend fun shouldIgnoreSignature(): Boolean {
+        return settingsRepository.getInitial().ignoreSignature
+    }
+
     fun setFavouriteState() {
         viewModelScope.launch {
             settingsRepository.toggleFavourites(packageName)

@@ -125,6 +125,12 @@ class SettingsViewModel
         }
     }
 
+    fun setIgnoreSignature(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setIgnoreSignature(enable)
+        }
+    }
+
     fun setIncompatibleUpdates(enable: Boolean) {
         viewModelScope.launch {
             settingsRepository.enableIncompatibleVersion(enable)

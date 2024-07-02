@@ -153,6 +153,11 @@ class SettingsFragment : Fragment() {
                 contentText = getString(CommonR.string.unstable_updates_summary),
                 setting = viewModel.getInitialSetting { unstableUpdate }
             )
+            ignoreSignature.connect(
+                titleText = getString(CommonR.string.ignore_signature),
+                contentText = getString(CommonR.string.ignore_signature_summary),
+                setting = viewModel.getInitialSetting { ignoreSignature }
+            )
             incompatibleUpdates.connect(
                 titleText = getString(CommonR.string.incompatible_versions),
                 contentText = getString(CommonR.string.incompatible_versions_summary),
@@ -348,6 +353,9 @@ class SettingsFragment : Fragment() {
             }
             unstableUpdates.checked.setOnCheckedChangeListener { _, checked ->
                 viewModel.setUnstableUpdates(checked)
+            }
+            ignoreSignature.checked.setOnCheckedChangeListener { _, checked ->
+                viewModel.setIgnoreSignature(checked)
             }
             incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
                 viewModel.setIncompatibleUpdates(checked)

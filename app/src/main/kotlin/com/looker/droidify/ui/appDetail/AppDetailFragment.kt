@@ -466,26 +466,34 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             }
 
             installedItem != null && installedItem.signature != release.signature -> {
-                MessageDialog(Message.ReleaseSignatureMismatch).show(
-                    childFragmentManager
-                )
+                lifecycleScope.launch {
+                    if (viewModel.shouldIgnoreSignature()) {
+                        queueReleaseInstall(release, installedItem)
+                    } else {
+                        MessageDialog(Message.ReleaseSignatureMismatch).show(childFragmentManager)
+                    }
+                }
             }
 
             else -> {
-                val productRepository =
-                    products.asSequence().filter { (product, _) ->
-                        product.releases.any { it === release }
-                    }.firstOrNull()
-                if (productRepository != null) {
-                    downloadConnection.binder?.enqueue(
-                        viewModel.packageName,
-                        productRepository.first.name,
-                        productRepository.second,
-                        release,
-                        installedItem != null
-                    )
-                }
+                queueReleaseInstall(release, installedItem)
             }
+        }
+    }
+
+    private fun queueReleaseInstall(release: Release, installedItem: InstalledItem?) {
+        val productRepository =
+            products.asSequence().filter { (product, _) ->
+                product.releases.any { it === release }
+            }.firstOrNull()
+        if (productRepository != null) {
+            downloadConnection.binder?.enqueue(
+                viewModel.packageName,
+                productRepository.first.name,
+                productRepository.second,
+                release,
+                installedItem != null
+            )
         }
     }
 

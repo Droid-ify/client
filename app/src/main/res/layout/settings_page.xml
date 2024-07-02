@@ -103,6 +103,10 @@
                 layout="@layout/switch_type" />
 
             <include
+                android:id="@+id/ignore_signature"
+                layout="@layout/switch_type" />
+
+            <include
                 android:id="@+id/incompatible_updates"
                 layout="@layout/switch_type" />
 
