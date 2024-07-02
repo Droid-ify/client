@@ -4,12 +4,16 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.core.DataStoreFactory
 import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStoreFile
 import com.looker.core.common.Exporter
-import com.looker.core.datastore.DataStoreSettingsRepository
+import com.looker.core.datastore.PreferenceSettingsRepository
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.SettingsSerializer
 import com.looker.core.datastore.exporter.SettingsExporter
+import com.looker.core.datastore.migration.ProtoToPreferenceMigration
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.IoDispatcher
 import dagger.Module
@@ -24,6 +28,8 @@ import javax.inject.Singleton
 
 private const val PREFERENCES = "settings_file"
 
+private const val SETTINGS = "settings"
+
 @Module
 @InstallIn(SingletonComponent::class)
 object DatastoreModule {
@@ -34,10 +40,21 @@ object DatastoreModule {
         @ApplicationContext context: Context,
     ): DataStore<Settings> = DataStoreFactory.create(
         serializer = SettingsSerializer,
-        migrations = listOf(
-        )
     ) {
         context.dataStoreFile(PREFERENCES)
+    }
+
+    @Singleton
+    @Provides
+    fun providePreferenceDatastore(
+        @ApplicationContext context: Context,
+        oldDatastore: DataStore<Settings>,
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        migrations = listOf(
+            ProtoToPreferenceMigration(oldDatastore)
+        )
+    ) {
+        context.preferencesDataStoreFile(SETTINGS)
     }
 
     @Singleton
@@ -59,7 +76,7 @@ object DatastoreModule {
     @Singleton
     @Provides
     fun provideSettingsRepository(
-        dataStore: DataStore<Settings>,
+        dataStore: DataStore<Preferences>,
         exporter: Exporter<Settings>
-    ): SettingsRepository = DataStoreSettingsRepository(dataStore, exporter)
+    ): SettingsRepository = PreferenceSettingsRepository(dataStore, exporter)
 }
