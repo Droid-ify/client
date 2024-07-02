@@ -14,18 +14,27 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
+import com.looker.core.common.PackageName
 import com.looker.core.common.extension.dp
+import com.looker.core.common.extension.getPackageInfoCompat
 import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.extension.systemBarsPadding
+import com.looker.core.domain.Product
 import com.looker.core.domain.ProductItem
+import com.looker.core.domain.Repository
 import com.looker.droidify.database.CursorOwner
+import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
+import com.looker.droidify.service.DownloadService.State.Idle.packageName
+import com.looker.droidify.utility.InstallUtils
 import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.toInstalledItem
+import com.looker.installer.InstallManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
@@ -82,9 +91,67 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            recyclerViewAdapter = AppListAdapter(source) {
-                screenActivity.navigateProduct(it.packageName)
+
+            var favouriteApps: Set<String> = emptySet()
+
+            lifecycleScope.launch {
+                favouriteApps = viewModel.settingsRepository.getInitial().favouriteApps
             }
+
+            recyclerViewAdapter = AppListAdapter(
+                source,
+                favouriteApps,
+                { screenActivity.navigateProduct(it.packageName) },
+                fun(productItem, menuItem): Boolean {
+
+                    when (menuItem.title) {
+
+                        getString(com.looker.core.common.R.string.install) -> lifecycleScope.launch {
+
+                            var products: List<Pair<Product, Repository>> = emptyList()
+
+                            val packageInfo =
+                                context.packageManager.getPackageInfoCompat(productItem.packageName)
+
+                            if (packageInfo == null)
+                                return@launch
+
+                            Database.ProductAdapter.getStream(packageName).collect {
+                                val repository = Database.RepositoryAdapter.get(it[0].repositoryId)
+
+                                if (repository != null)
+                                    products = listOf(Pair(it[0], repository))
+                            }
+
+                            InstallUtils.install(
+                                context,
+                                viewModel.settingsRepository,
+                                lifecycleScope,
+                                packageInfo.toInstalledItem(),
+                                products
+                                )
+                        }
+
+                        getString(com.looker.core.common.R.string.uninstall) -> lifecycleScope.launch {
+                            InstallUtils.uninstall(
+                                context,
+                                viewModel.settingsRepository,
+                                lifecycleScope,
+                                PackageName(productItem.packageName),
+                            )
+                        }
+
+                        else -> {
+                            lifecycleScope.launch {
+                                viewModel.settingsRepository.toggleFavourites(
+                                    productItem.packageName
+                                )
+                            }
+                        }
+                    }
+                    return true
+                }
+            )
             adapter = recyclerViewAdapter
             systemBarsPadding()
         }

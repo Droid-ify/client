@@ -13,11 +13,11 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
@@ -36,6 +36,8 @@ class AppListViewModel
 
     val sortOrderFlow = settingsRepository.get { sortOrder }
         .asStateFlow(SortOrder.UPDATED)
+
+    val settingsRepository = settingsRepository
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 

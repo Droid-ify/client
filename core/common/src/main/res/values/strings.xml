@@ -59,6 +59,8 @@
     <string name="export_repos_title">Export Repositories</string>
     <string name="export_repos_DESC">Export all repositories to file</string>
     <string name="enable_repo">Enable the repository</string>
+    <string name="add_to_favourites">Add to Favourites</string>
+    <string name="remove_from_favourites">Remove from Favourites</string>
     <string name="favourites">Favourites</string>
     <string name="file_format_error_DESC">Invalid file format.</string>
     <string name="fingerprint">Fingerprint</string>
