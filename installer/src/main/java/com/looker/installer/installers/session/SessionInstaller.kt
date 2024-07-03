@@ -97,7 +97,7 @@ internal class SessionInstaller(private val context: Context) : Installer {
             cont.resume(Unit)
         }
 
-    override fun cleanup() {
+    override fun close() {
         installerCallbacks?.let {
             installer.unregisterSessionCallback(it)
             installerCallbacks = null

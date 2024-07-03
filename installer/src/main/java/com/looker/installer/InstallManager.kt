@@ -41,7 +41,7 @@ class InstallManager(
 
     private var _installer: Installer? = null
         set(value) {
-            field?.cleanup()
+            field?.close()
             field = value
         }
     private val installer: Installer get() = _installer!!
@@ -88,8 +88,9 @@ class InstallManager(
         }.consumeEach { item ->
             if (state.value.containsKey(item.packageName)) {
                 updateState { put(item.packageName, InstallState.Installing) }
-                val success = installer.install(item)
-                installer.cleanup()
+                val success = installer.use {
+                    it.install(item)
+                }
                 updateState { put(item.packageName, success) }
                 context.notificationManager?.cancel(
                     "download-${item.packageName.name}",

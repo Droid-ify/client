@@ -75,7 +75,7 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
     override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
 
-    override fun cleanup() {}
+    override fun close() {}
 
     private data class ShellResult(val resultCode: Int, val out: String)
 
