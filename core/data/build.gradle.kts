@@ -6,18 +6,6 @@ plugins {
 
 android {
     namespace = "com.looker.core.data"
-
-    buildTypes {
-        release {
-            // TODO: Enable once using
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
-        }
-        create("alpha") {
-            initWith(getByName("debug"))
-            isMinifyEnabled = true
-        }
-    }
 }
 
 dependencies {

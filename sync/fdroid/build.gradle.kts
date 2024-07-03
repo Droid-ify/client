@@ -6,17 +6,6 @@ plugins {
 
 android {
     namespace = "com.looker.sync.fdroid"
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
-        }
-        create("alpha") {
-            initWith(getByName("debug"))
-            isMinifyEnabled = true
-        }
-    }
 }
 
 dependencies {
