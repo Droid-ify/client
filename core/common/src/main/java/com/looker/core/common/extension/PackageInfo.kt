@@ -1,7 +1,10 @@
 package com.looker.core.common.extension
 
 import android.content.Intent
-import android.content.pm.*
+import android.content.pm.ApplicationInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.content.pm.Signature
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.hex
 import java.security.MessageDigest
@@ -100,6 +103,22 @@ fun PackageManager.getPackageInfoCompat(
     }
 } catch (e: Exception) {
     null
+}
+
+fun PackageManager.getPackageName(
+    packageName: String?,
+): CharSequence? {
+    if (packageName == null) return null
+    return try {
+        getApplicationLabel(
+            getApplicationInfo(
+                packageName,
+                PackageManager.GET_META_DATA
+            )
+        )
+    } catch (e: PackageManager.NameNotFoundException) {
+        null
+    }
 }
 
 fun PackageManager.getPackageArchiveInfoCompat(

@@ -1,14 +1,11 @@
 package com.looker.core.data.fdroid.sync.workers
 
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.work.ForegroundInfo
+import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.R as CommonR
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.notificationManager
 
 private const val SyncNotificationID = 12
 private const val SyncNotificationChannelID = "SyncNotificationChannelID"
@@ -19,18 +16,11 @@ fun Context.syncForegroundInfo() = ForegroundInfo(
 )
 
 private fun Context.syncWorkNotification(): Notification {
-    if (SdkCheck.isOreo) {
-        val channel = NotificationChannel(
-            SyncNotificationChannelID,
-            getString(CommonR.string.sync_repositories),
-            NotificationManager.IMPORTANCE_LOW
-        ).apply {
-            description = getString(CommonR.string.sync_repositories)
-        }
-        // Register the channel with the system
-        notificationManager?.createNotificationChannel(channel)
-    }
-
+    createNotificationChannel(
+        id = SyncNotificationChannelID,
+        name = getString(CommonR.string.sync_repositories),
+        description = getString(CommonR.string.sync_repositories),
+    )
     return NotificationCompat.Builder(
         this,
         SyncNotificationChannelID

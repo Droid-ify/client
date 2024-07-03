@@ -1,22 +1,16 @@
 package com.looker.droidify.service
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.util.Log
-import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants
 import com.looker.core.common.DataSize
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
-import com.looker.core.common.R.style as styleRes
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.percentBy
 import com.looker.core.common.extension.startSelf
@@ -24,7 +18,6 @@ import com.looker.core.common.extension.stopForegroundCompat
 import com.looker.core.common.extension.toPendingIntent
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.common.log
-import com.looker.core.common.sdkAbove
 import com.looker.core.common.signature.ValidationException
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
@@ -38,8 +31,6 @@ import com.looker.installer.model.installFrom
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,10 +41,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
+import java.io.File
+import javax.inject.Inject
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class DownloadService : ConnectionService<DownloadService.Binder>() {
@@ -171,17 +164,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     override fun onCreate() {
         super.onCreate()
-
-        sdkAbove(Build.VERSION_CODES.O) {
-            NotificationChannel(
-                Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
-                getString(stringRes.downloading),
-                NotificationManager.IMPORTANCE_LOW
-            ).apply { setShowBadge(false) }
-                .let {
-                    notificationManager?.createNotificationChannel(it)
-                }
-        }
+        createNotificationChannel(
+            id = Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
+            name = getString(stringRes.downloading),
+        )
 
         lifecycleScope.launch {
             _downloadState
@@ -283,9 +269,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             .toPendingIntent(this)
         notificationManager?.notify(
             task.notificationTag,
-            Constants.NOTIFICATION_ID_DOWNLOADING,
+            Constants.NOTIFICATION_ID_INSTALL,
             NotificationCompat
-                .Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
+                .Builder(this, Constants.NOTIFICATION_CHANNEL_INSTALL)
                 .setAutoCancel(true)
                 .setOngoing(false)
                 .setSmallIcon(android.R.drawable.stat_sys_download_done)
