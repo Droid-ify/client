@@ -50,7 +50,7 @@ internal class LegacyInstaller(private val context: Context) : Installer {
     override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
 
-    override fun cleanup() {}
+    override fun close() {}
 }
 
 internal suspend fun Context.uninstallPackage(packageName: PackageName) =
