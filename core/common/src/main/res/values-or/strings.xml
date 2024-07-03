@@ -232,4 +232,8 @@
     <string name="import_repos_DESC">ଫାଇଲରୁ ସମସ୍ତ ସଂଗ୍ରହାଳୟ ଆମଦାନି କରନ୍ତୁ</string>
     <string name="has_tethered_network">ଗୋଟିଏ ନିର୍ଦ୍ଦିଷ୍ଟ ନେଟୱର୍କ ସେବାରେ ବାନ୍ଧି ରଖନ୍ତୁ</string>
     <string name="cannot_open_link">ସଂଯୋଗକୁ ଖୋଲାଯାଇପାରିବ ନାହିଁ</string>
+    <string name="ignore_signature">ଦସ୍ତଖତକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ</string>
+    <string name="ignore_signature_summary">LSPosed ବ୍ୟବହାରକାରୀ କିମ୍ବା ଉନ୍ନତ ବ୍ୟବହାରକାରୀଙ୍କ ପାଇଁ apk ସଂସ୍ଥାପନ କରିବା ସମୟରେ ଦସ୍ତଖତ ଯାଂଚ୍ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ</string>
+    <string name="require_background_access">ପୃଷ୍ଠଭୂମି ପ୍ରବେଶ ଆବଶ୍ୟକ କରେ</string>
+    <string name="require_background_access_DESC">ବ୍ୟାକଗ୍ରାଉଣ୍ଡ ସିଙ୍କ ସଠିକ୍ ଭାବରେ ଚଲାଇବା ପାଇଁ ପୃଷ୍ଠଭୂମି ପ୍ରବେଶ ଆବଶ୍ୟକ</string>
 </resources>
