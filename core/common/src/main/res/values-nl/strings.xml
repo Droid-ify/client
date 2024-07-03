@@ -76,7 +76,7 @@
     <string name="invalid_metadata_error_DESC">Ongeldige metagegevens.</string>
     <string name="invalid_fingerprint_format">Ongeldig vingerafdrukformaat</string>
     <string name="invalid_permissions_error_DESC">Ongeldige rechten.</string>
-    <string name="invalid_signature_error_DESC">Ongeldige ondertekening.</string>
+    <string name="invalid_signature_error_DESC">Ongeldige handtekening.</string>
     <string name="launch">Opstarten</string>
     <string name="license">Licentie</string>
     <string name="license_FORMAT">%s-licentie</string>
@@ -115,7 +115,7 @@
     <string name="screenshots">Schermopnamen</string>
     <string name="share">Delen</string>
     <string name="show_more">Meer tonen</string>
-    <string name="signature_FORMAT">Ondertekening %s</string>
+    <string name="signature_FORMAT">Handtekening %s</string>
     <string name="signed_using_unsafe_algorithm">Ondertekend met een onveilig algoritme</string>
     <string name="socks_proxy">SOCKS-proxy</string>
     <string name="sorting_order">Sorteervolgorde</string>
@@ -234,4 +234,6 @@
     <string name="require_background_access">Achtergrondtoegang vereisen</string>
     <string name="special_credits">Speciale dank</string>
     <string name="contains_nsfw">Bevat inhoud ongeschikt voor werk</string>
+    <string name="ignore_signature_summary">Verificatie van handtekening achterwege laten bij het installeren van apk; voor LSPosed-gebruikers of gevorderde gebruikers</string>
+    <string name="ignore_signature">Handtekening negeren</string>
 </resources>
