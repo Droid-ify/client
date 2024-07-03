@@ -1,8 +1,6 @@
 package com.looker.droidify.service
 
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.job.JobInfo
 import android.app.job.JobParameters
@@ -20,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
 import com.looker.core.common.DataSize
 import com.looker.core.common.SdkCheck
+import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.percentBy
@@ -198,21 +197,15 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     override fun onCreate() {
         super.onCreate()
 
-        sdkAbove(Build.VERSION_CODES.O) {
-            val channels = listOf(
-                NotificationChannel(
-                    Constants.NOTIFICATION_CHANNEL_SYNCING,
-                    getString(stringRes.syncing),
-                    NotificationManager.IMPORTANCE_LOW
-                ).apply { setShowBadge(false) },
-                NotificationChannel(
-                    Constants.NOTIFICATION_CHANNEL_UPDATES,
-                    getString(stringRes.updates),
-                    NotificationManager.IMPORTANCE_LOW
-                )
-            )
-            notificationManager?.createNotificationChannels(channels)
-        }
+        createNotificationChannel(
+            id = Constants.NOTIFICATION_CHANNEL_SYNCING,
+            name = getString(stringRes.syncing),
+        )
+        createNotificationChannel(
+            id = Constants.NOTIFICATION_CHANNEL_UPDATES,
+            name = getString(stringRes.updates),
+        )
+
         downloadConnection.bind(this)
         lifecycleScope.launch {
             syncState
