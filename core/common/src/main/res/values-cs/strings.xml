@@ -237,4 +237,6 @@
     <string name="has_tethered_network">Připojeno k určité síťové službě</string>
     <string name="require_background_access_DESC">Přístup na pozadí je vyžadován pro správné spuštění synchronizace na pozadí</string>
     <string name="require_background_access">Vyžadovat přístup na pozadí</string>
+    <string name="ignore_signature">Ignorovat podpis</string>
+    <string name="ignore_signature_summary">Ignorovat ověřování podpisu při instalaci aplikace, pro uživatele LSPosed nebo pokročilé uživatele</string>
 </resources>
