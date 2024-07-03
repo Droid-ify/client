@@ -232,4 +232,6 @@
     <string name="import_repos_DESC">Alle Repositories aus einer Datei importieren</string>
     <string name="cannot_open_link">Link kann nicht geöffnet werden</string>
     <string name="has_tethered_network">An einen bestimmten Netzwerkdienst gebunden</string>
+    <string name="ignore_signature">Signatur ignorieren</string>
+    <string name="ignore_signature_summary">Verifikation der APK-Signatur beim Installieren ignorieren. Für LSPosed-Benutzer oder Experten.</string>
 </resources>
