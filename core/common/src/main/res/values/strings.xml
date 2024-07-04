@@ -106,6 +106,10 @@
     <string name="shizuku_not_installed">Shizuku is not installed</string>
     <string name="installed">Installed</string>
     <string name="installing">Installing</string>
+    <string name="installation_failed">Installation Failed</string>
+    <string name="installation_failed_DESC">Failed to install %s</string>
+    <string name="uninstalled_application">Uninstalled</string>
+    <string name="uninstalled_application_DESC">%s has been uninstalled</string>
     <string name="integrity_check_error_DESC">Could not check integrity.</string>
     <string name="invalid_address">Invalid address</string>
     <string name="invalid_fingerprint_format">Invalid fingerprint format</string>

@@ -1,11 +1,9 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.common.Constants
 import com.looker.core.common.PackageName
 import com.looker.core.common.extension.addAndCompute
 import com.looker.core.common.extension.filter
-import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
@@ -28,7 +26,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-// TODO: Fix the stuck state, and other installer
 class InstallManager(
     private val context: Context,
     settingsRepository: SettingsRepository
@@ -92,10 +89,6 @@ class InstallManager(
                     it.install(item)
                 }
                 updateState { put(item.packageName, success) }
-                context.notificationManager?.cancel(
-                    "download-${item.packageName.name}",
-                    Constants.NOTIFICATION_ID_DOWNLOADING
-                )
                 currentQueue.remove(item.packageName.name)
             }
         }
