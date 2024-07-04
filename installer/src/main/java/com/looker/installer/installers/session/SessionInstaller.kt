@@ -23,7 +23,7 @@ import kotlin.coroutines.resume
 internal class SessionInstaller(private val context: Context) : Installer {
 
     private val installer = context.packageManager.packageInstaller
-    private val intent = Intent(context, SessionInstallerService::class.java)
+    private val intent = Intent(context, SessionInstallerReceiver::class.java)
 
     companion object {
         private var installerCallbacks: PackageInstaller.SessionCallback? = null
@@ -73,7 +73,7 @@ internal class SessionInstaller(private val context: Context) : Installer {
                 }
             }
 
-            val pendingIntent = PendingIntent.getService(context, id, intent, flags)
+            val pendingIntent = PendingIntent.getBroadcast(context, id, intent, flags)
 
             if (cont.isActive) activeSession.commit(pendingIntent.intentSender)
         }
@@ -90,8 +90,8 @@ internal class SessionInstaller(private val context: Context) : Installer {
     @SuppressLint("MissingPermission")
     override suspend fun uninstall(packageName: PackageName) =
         suspendCancellableCoroutine { cont ->
-            intent.putExtra(SessionInstallerService.ACTION_UNINSTALL, true)
-            val pendingIntent = PendingIntent.getService(context, -1, intent, flags)
+            intent.putExtra(SessionInstallerReceiver.ACTION_UNINSTALL, true)
+            val pendingIntent = PendingIntent.getBroadcast(context, -1, intent, flags)
 
             installer.uninstall(packageName.name, pendingIntent.intentSender)
             cont.resume(Unit)

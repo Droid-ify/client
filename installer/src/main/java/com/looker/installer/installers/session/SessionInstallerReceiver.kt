@@ -4,17 +4,27 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
-import android.graphics.Color
-import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_INSTALL
-import com.looker.core.common.Constants.NOTIFICATION_ID_DOWNLOADING
-import com.looker.core.common.Constants.NOTIFICATION_ID_INSTALL
 import com.looker.core.common.R
 import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.notificationManager
+import com.looker.core.common.toPackageName
+import com.looker.installer.InstallManager
+import com.looker.installer.model.InstallState
+import com.looker.installer.notification.createInstallNotification
+import com.looker.installer.notification.installNotification
+import com.looker.installer.notification.removeInstallNotification
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SessionInstallerReceiver : BroadcastReceiver() {
+
+    // This is a cyclic dependency injection, I know but this is the best option for now
+    @Inject
+    lateinit var installManager: InstallManager
+
     override fun onReceive(context: Context, intent: Intent) {
         val status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -1)
 
@@ -50,55 +60,47 @@ class SessionInstallerReceiver : BroadcastReceiver() {
 
         val appName = packageManager.getPackageName(packageName)
 
-        val notificationTag = "download-$packageName"
-
-        val builder = NotificationCompat
-            .Builder(context, NOTIFICATION_CHANNEL_INSTALL)
-            .setAutoCancel(true)
-
-        when(status) {
-            PackageInstaller.STATUS_SUCCESS -> {
-                if (isUninstall) {
-                    // remove any notification for this app
-                    notificationManager?.cancel(notificationTag, NOTIFICATION_ID_INSTALL)
-                } else {
-                    val notification = builder
-                        .setSmallIcon(R.drawable.ic_check)
-                        .setColor(Color.GREEN)
-                        .setContentTitle("Installed")
-                        .setTimeoutAfter(5_000)
-                        .setContentText(appName)
-                        .build()
-                    notificationManager?.notify(
-                        notificationTag,
-                        NOTIFICATION_ID_INSTALL,
-                        notification
+        if (packageName != null) {
+            when (status) {
+                PackageInstaller.STATUS_SUCCESS -> {
+                    notificationManager?.removeInstallNotification(packageName)
+                    val notification = context.createInstallNotification(
+                        appName = (appName ?: packageName.substringAfterLast('.')).toString(),
+                        state = InstallState.Installed,
+                        isUninstall = isUninstall,
+                    ) {
+                        setTimeoutAfter(SUCCESS_TIMEOUT)
+                    }
+                    notificationManager?.installNotification(
+                        packageName = packageName.toString(),
+                        notification = notification,
                     )
                 }
-            }
 
-            PackageInstaller.STATUS_FAILURE_ABORTED -> {
-                // do nothing if user cancels
-            }
+                PackageInstaller.STATUS_FAILURE_ABORTED -> {
+                    installManager.remove(packageName.toPackageName())
+                }
 
-            else -> {
-                // problem occurred when installing/uninstalling package
-                val notification = builder
-                    .setSmallIcon(android.R.drawable.stat_notify_error)
-                    .setColor(Color.GREEN)
-                    .setContentTitle("Unknown Error")
-                    .setContentText(message)
-                    .build()
-                notificationManager?.notify(
-                    notificationTag,
-                    NOTIFICATION_ID_DOWNLOADING,
-                    notification
-                )
+                else -> {
+                    installManager.remove(packageName.toPackageName())
+                    val notification = context.createInstallNotification(
+                        appName = appName.toString(),
+                        state = InstallState.Failed,
+                    ) {
+                        setContentText(message)
+                    }
+                    notificationManager?.installNotification(
+                        packageName = packageName,
+                        notification = notification
+                    )
+                }
             }
         }
     }
 
     companion object {
-        private const val ACTION_UNINSTALL = "action_uninstall"
+        const val ACTION_UNINSTALL = "action_uninstall"
+
+        private const val SUCCESS_TIMEOUT = 5_000L
     }
 }

@@ -7,10 +7,13 @@ import android.net.Uri
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants
+import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.core.common.DataSize
+import com.looker.core.common.R
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.createNotificationChannel
+import com.looker.core.common.extension.intent
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.percentBy
 import com.looker.core.common.extension.startSelf
@@ -27,7 +30,11 @@ import com.looker.core.domain.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.installer.InstallManager
+import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
+import com.looker.installer.notification.createInstallNotification
+import com.looker.installer.notification.installNotification
+import com.looker.installer.notification.installTag
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
@@ -168,6 +175,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             id = Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
             name = getString(stringRes.downloading),
         )
+        createNotificationChannel(
+            id = NOTIFICATION_CHANNEL_INSTALL,
+            name = getString(R.string.install)
+        )
 
         lifecycleScope.launch {
             _downloadState
@@ -267,20 +278,16 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             .putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .toPendingIntent(this)
-        notificationManager?.notify(
-            task.notificationTag,
-            Constants.NOTIFICATION_ID_INSTALL,
-            NotificationCompat
-                .Builder(this, Constants.NOTIFICATION_CHANNEL_INSTALL)
-                .setAutoCancel(true)
-                .setOngoing(false)
-                .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                .setColor(Color.GREEN)
-                .setOnlyAlertOnce(true)
-                .setContentIntent(intent)
-                .setContentTitle(getString(stringRes.downloaded_FORMAT, task.name))
-                .setContentText(getString(stringRes.tap_to_install_DESC))
-                .build()
+        val notification = createInstallNotification(
+            appName = task.name,
+            state = InstallState.Pending,
+            autoCancel = true,
+        ) {
+            setContentIntent(intent)
+        }
+        notificationManager?.installNotification(
+            packageName = task.packageName,
+            notification = notification,
         )
     }
 

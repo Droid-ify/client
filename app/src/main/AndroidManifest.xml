@@ -145,8 +145,8 @@
             android:name=".service.DownloadService"
             android:foregroundServiceType="dataSync" />
 
-        <service
-            android:name="com.looker.installer.installers.session.SessionInstallerService"
+        <receiver
+            android:name="com.looker.installer.installers.session.SessionInstallerReceiver"
             android:exported="false" />
 
         <service
