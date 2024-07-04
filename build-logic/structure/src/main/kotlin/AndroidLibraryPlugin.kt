@@ -31,12 +31,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
                         isMinifyEnabled = false
                     }
                 }
-                buildFeatures {
-                    aidl = false
-                    renderScript = false
-                    shaders = false
-                    resValues = false
-                }
             }
             extensions.configure<LibraryAndroidComponentsExtension> {
                 beforeVariants {

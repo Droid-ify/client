@@ -23,11 +23,6 @@ class AndroidApplicationPlugin : Plugin<Project> {
                     versionCode = DefaultConfig.versionCode
                     versionName = DefaultConfig.versionName
                 }
-                buildFeatures {
-                    aidl = false
-                    renderScript = false
-                    shaders = false
-                }
             }
             dependencies {
                 add("implementation", embeddedKotlin("stdlib"))
