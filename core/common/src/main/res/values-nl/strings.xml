@@ -236,4 +236,8 @@
     <string name="contains_nsfw">Bevat inhoud ongeschikt voor werk</string>
     <string name="ignore_signature_summary">Verificatie van handtekening achterwege laten bij het installeren van apk; voor LSPosed-gebruikers of gevorderde gebruikers</string>
     <string name="ignore_signature">Handtekening negeren</string>
+    <string name="installation_failed_DESC">%s is niet geïnstalleerd</string>
+    <string name="uninstalled_application">Verwijderd</string>
+    <string name="uninstalled_application_DESC">%s is verwijderd</string>
+    <string name="installation_failed">Installatie mislukt</string>
 </resources>
