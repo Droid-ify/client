@@ -234,4 +234,8 @@
     <string name="has_tethered_network">An einen bestimmten Netzwerkdienst gebunden</string>
     <string name="ignore_signature">Signatur ignorieren</string>
     <string name="ignore_signature_summary">Verifikation der APK-Signatur beim Installieren ignorieren. Für LSPosed-Benutzer oder Experten.</string>
+    <string name="installation_failed">Installation fehlgeschlagen</string>
+    <string name="uninstalled_application_DESC">%s wurde deinstalliert</string>
+    <string name="installation_failed_DESC">%s konnte nicht installiert werden</string>
+    <string name="uninstalled_application">Deinstalliert</string>
 </resources>
