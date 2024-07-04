@@ -237,4 +237,10 @@
     <string name="has_tethered_network">Ligado a um certo serviço de rede</string>
     <string name="require_background_access">Requer acesso em segundo plano</string>
     <string name="require_background_access_DESC">Está permissão é necessária para a sincronização em segundo plano</string>
+    <string name="uninstalled_application">Desinstalada</string>
+    <string name="uninstalled_application_DESC">A aplicação %s foi desinstalada</string>
+    <string name="installation_failed">Falha ao instalar</string>
+    <string name="installation_failed_DESC">Não foi possível instalar %s</string>
+    <string name="ignore_signature">Ignorar assinatura</string>
+    <string name="ignore_signature_summary">Ignorar verificação de assinatura nas instalações (utilizadores Lposed/avançados)</string>
 </resources>
