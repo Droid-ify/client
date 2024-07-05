@@ -9,64 +9,10 @@ android {
     namespace = "com.looker.droidify"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
+    }
 
-        resourceConfigurations += mutableListOf(
-            /* locale list begin */
-            "ar",
-            "az",
-            "be",
-            "bg",
-            "bn",
-            "ca",
-            "cs",
-            "da",
-            "de",
-            "el",
-            "eo",
-            "es",
-            "fa",
-            "fi",
-            "fr",
-            "gl",
-            "hi",
-            "hr",
-            "hu",
-            "ia",
-            "in",
-            "it",
-            "iw",
-            "ja",
-            "jbo",
-            "kn",
-            "ko",
-            "lt",
-            "lv",
-            "ml",
-            "ms",
-            "nb-rNO",
-            "nl",
-            "nn",
-            "or",
-            "pa",
-            "pl",
-            "pt",
-            "pt-rBR",
-            "ro",
-            "ru",
-            "ryu",
-            "si",
-            "sl",
-            "sr",
-            "sv",
-            "tl",
-            "tr",
-            "uk",
-            "ur",
-            "vi",
-            "zh-rCN",
-            "zh-rTW"
-            /* locale list end */
-        )
+    androidResources {
+        generateLocaleConfig = true
     }
 
     sourceSets.forEach { source ->
@@ -123,6 +69,7 @@ android {
         }
     }
     buildFeatures {
+        resValues = true
         viewBinding = true
         buildConfig = true
     }
