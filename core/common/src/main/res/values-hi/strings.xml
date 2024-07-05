@@ -234,4 +234,10 @@
     <string name="has_tethered_network">एक निश्चित नेटवर्क सेवा से जुड़ा हुआ</string>
     <string name="require_background_access">पृष्ठभूमि पहुंच की आवश्यकता है</string>
     <string name="require_background_access_DESC">पृष्ठभूमि समन्वयन को ठीक से चलाने के लिए पृष्ठभूमि पहुँच आवश्यक है</string>
+    <string name="uninstalled_application_DESC">%s अनइंस्टॉल कर दिया गया है</string>
+    <string name="installation_failed">इंस्टालेशन असफल</string>
+    <string name="ignore_signature">हस्ताक्षर को अनदेखा करें</string>
+    <string name="ignore_signature_summary">LSPosed उपयोगकर्ताओं या उन्नत उपयोगकर्ताओं के लिए एपीके इंस्टॉल करते समय हस्ताक्षर सत्यापन को अनदेखा करें</string>
+    <string name="uninstalled_application">अनइंस्टॉल किया गया</string>
+    <string name="installation_failed_DESC">%s इंस्टॉल करने में विफल</string>
 </resources>
