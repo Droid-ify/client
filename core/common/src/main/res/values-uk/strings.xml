@@ -242,4 +242,8 @@
     <string name="require_background_access_DESC">Для правильної роботи фонової синхронізації потрібен дозвіл на працювання у фоні</string>
     <string name="ignore_signature">Ігнорувати сигнатури</string>
     <string name="ignore_signature_summary">Ігнорувати перевірку сигнатур при встановленні APK для користувачів LSPosed або досвідчених користувачів</string>
+    <string name="installation_failed">Не вдалося встановити</string>
+    <string name="installation_failed_DESC">Не вдалося встановити %s</string>
+    <string name="uninstalled_application_DESC">%s було видалено</string>
+    <string name="uninstalled_application">Видалено</string>
 </resources>
