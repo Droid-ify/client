@@ -246,4 +246,10 @@
     <string name="has_tethered_network">منضمة إلى خدمة شبكة معينة</string>
     <string name="require_background_access">تتطلب الوصول إلى الخلفية</string>
     <string name="require_background_access_DESC">مطلوب الوصول في الخلفية لتشغيل مزامنة الخلفية بشكل صحيح</string>
+    <string name="uninstalled_application">تم إلغاء تثبيتها</string>
+    <string name="uninstalled_application_DESC">تم إلغاء تثبيت %s</string>
+    <string name="installation_failed">فشل التثبيت</string>
+    <string name="installation_failed_DESC">فشل في تثبيت %s</string>
+    <string name="ignore_signature_summary">تجاهل التحقق من التوقيع عند التثبيت لمستخدمي LSPosed أو المستخدمين المتقدمين</string>
+    <string name="ignore_signature">تجاهل التوقيع</string>
 </resources>
