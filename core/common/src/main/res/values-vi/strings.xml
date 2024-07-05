@@ -231,4 +231,10 @@
     <string name="has_tethered_network">Bị ràng buộc với một dịch vụ mạng nhất định</string>
     <string name="require_background_access">Yêu cầu quyền truy cập nền</string>
     <string name="require_background_access_DESC">Cần có quyền truy cập nền để chạy đồng bộ hóa nền đúng cách</string>
+    <string name="installation_failed_DESC">Không cài đặt được %s</string>
+    <string name="uninstalled_application">Đã gỡ cài đặt</string>
+    <string name="installation_failed">Cài đặt thất bại</string>
+    <string name="ignore_signature">Bỏ qua chữ ký</string>
+    <string name="uninstalled_application_DESC">%s đã được gỡ cài đặt</string>
+    <string name="ignore_signature_summary">Bỏ qua xác minh chữ ký khi cài đặt apk, đối với người dùng LSPosed hoặc người dùng nâng cao</string>
 </resources>
