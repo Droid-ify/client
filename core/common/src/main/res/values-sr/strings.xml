@@ -237,4 +237,10 @@
     <string name="has_tethered_network">Везано за одређену мрежну услугу</string>
     <string name="require_background_access_DESC">Позадински приступ је неопходан за правилно покретање позадинске синхронизације</string>
     <string name="require_background_access">Захтева позадински приступ</string>
+    <string name="uninstalled_application">Деинсталирано</string>
+    <string name="uninstalled_application_DESC">%s је деинсталиран</string>
+    <string name="installation_failed">Инсталација није успела</string>
+    <string name="installation_failed_DESC">Није успела инсталација %s</string>
+    <string name="ignore_signature">Игнориши потпис</string>
+    <string name="ignore_signature_summary">Игноришите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
 </resources>
