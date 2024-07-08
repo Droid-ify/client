@@ -565,8 +565,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 setPadding(20.dp, 20.dp, 20.dp, 20.dp)
                 val imageView = ImageView(context)
                 val bitmap = Bitmap.createBitmap(
-                    64.dp.px.roundToInt(),
-                    32.dp.px.roundToInt(),
+                    64.dp.dpToPx.roundToInt(),
+                    32.dp.dpToPx.roundToInt(),
                     Bitmap.Config.ARGB_8888
                 )
                 val canvas = Canvas(bitmap)
@@ -587,8 +587,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     background = context.corneredBackground
                     setPadding(0, 12.dp, 0, 12.dp)
                 }
-                val waveHeight = 2.dp.px
-                val waveWidth = 12.dp.px
+                val waveHeight = 2.dp.dpToPx
+                val waveWidth = 12.dp.dpToPx
                 with(canvas) {
                     val linePaint = Paint().apply {
                         color = context.getColorFromAttr(MaterialR.attr.colorOutline).defaultColor

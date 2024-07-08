@@ -13,7 +13,7 @@ infix fun Long.percentBy(denominator: Long?): Int {
 
 infix fun DataSize.percentBy(denominator: DataSize?): Int = value percentBy denominator?.value
 
-val Number.px
+val Number.dpToPx
     get() = TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
