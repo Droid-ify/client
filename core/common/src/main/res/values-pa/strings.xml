@@ -234,4 +234,10 @@
     <string name="has_tethered_network">ਇੱਕ ਖਾਸ ਨੈੱਟਵਰਕ ਸੇਵਾ ਨਾਲ ਜੁੜਿਆ</string>
     <string name="require_background_access">ਬੈਕਗ੍ਰਾਊਂਡ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੈ</string>
     <string name="require_background_access_DESC">ਬੈਕਗ੍ਰਾਊਂਡ ਸਿੰਕ ਨੂੰ ਸਹੀ ਢੰਗ ਨਾਲ ਚਲਾਉਣ ਲਈ ਬੈਕਗ੍ਰਾਊਂਡ ਪਹੁੰਚ ਦੀ ਲੋੜ ਹੈ</string>
+    <string name="uninstalled_application_DESC">%s ਨੂੰ ਅਣਇੰਸਟਾਲ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ</string>
+    <string name="uninstalled_application">ਅਣਇੰਸਟਾਲ ਕੀਤਾ ਗਿਆ</string>
+    <string name="ignore_signature">ਦਸਤਖਤ ਨੂੰ ਅਣਡਿੱਠ ਕਰੋ</string>
+    <string name="installation_failed">ਇੰਸਟਾਲੇਸ਼ਨ ਅਸਫਲ ਰਹੀ</string>
+    <string name="ignore_signature_summary">LSPosed ਉਪਭੋਗਤਾਵਾਂ ਜਾਂ ਉੱਨਤ ਉਪਭੋਗਤਾਵਾਂ ਲਈ, apk ਸਥਾਪਤ ਕਰਨ ਵੇਲੇ ਹਸਤਾਖਰਾਂ ਦੀ ਤਸਦੀਕ ਨੂੰ ਅਣਡਿੱਠ ਕਰੋ</string>
+    <string name="installation_failed_DESC">%s ਨੂੰ ਇੰਸਟਾਲ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ</string>
 </resources>
