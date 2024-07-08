@@ -3,7 +3,7 @@ package com.looker.sync.fdroid
 import com.looker.core.common.extension.certificate
 import com.looker.core.common.extension.codeSigner
 import com.looker.core.common.extension.fingerprint
-import com.looker.core.common.signature.ValidationException
+import com.looker.core.common.signature.invalid
 import com.looker.core.domain.model.Fingerprint
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -24,9 +24,9 @@ class IndexJarValidator(
                     .fingerprint()
             )
         } catch (e: IllegalStateException) {
-            throw ValidationException(e.message ?: "Unknown Exception")
+            invalid(e.message ?: "Unknown Exception")
         } catch (e: IllegalArgumentException) {
-            throw ValidationException(e.message ?: "Error creating Fingerprint object")
+            invalid(e.message ?: "Error creating Fingerprint object")
         }
         if (expectedFingerprint == null) {
             fingerprint
@@ -34,7 +34,7 @@ class IndexJarValidator(
             if (expectedFingerprint.check(fingerprint)) {
                 expectedFingerprint
             } else {
-                throw ValidationException(
+                invalid(
                     "Expected Fingerprint: ${expectedFingerprint}, " +
                         "Acquired Fingerprint: $fingerprint"
                 )
