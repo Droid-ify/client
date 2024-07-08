@@ -1,6 +1,7 @@
 package com.looker.core.domain
 
 import com.looker.core.domain.model.App
+import com.looker.core.domain.model.Fingerprint
 import com.looker.core.domain.model.Repo
 import com.looker.network.Downloader
 import java.io.File
@@ -23,6 +24,9 @@ interface Syncable<T> {
 
 interface Parser<out T> {
 
-    suspend fun parse(downloadedFile: File): T
+    suspend fun parse(
+        file: File,
+        repo: Repo,
+    ): Pair<Fingerprint, T>
 
 }

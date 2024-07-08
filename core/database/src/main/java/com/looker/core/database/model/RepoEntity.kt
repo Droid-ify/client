@@ -35,7 +35,7 @@ fun RepoEntity.update(repo: Repo) = copy(
     timestamp = repo.versionInfo.timestamp,
     enabled = repo.enabled,
     mirrors = repo.mirrors,
-    fingerprint = repo.fingerprint.value
+    fingerprint = repo.fingerprint?.value ?: ""
 )
 
 fun RepoEntity.toExternal(locale: String): Repo = Repo(
@@ -44,7 +44,7 @@ fun RepoEntity.toExternal(locale: String): Repo = Repo(
     address = address,
     name = name.localizedValue(locale) ?: "",
     description = description.localizedValue(locale) ?: "",
-    fingerprint = Fingerprint(fingerprint),
+    fingerprint = if (fingerprint.isBlank()) null else Fingerprint(fingerprint),
     authentication = Authentication(username, password),
     versionInfo = VersionInfo(timestamp = timestamp, etag = etag),
     mirrors = mirrors,

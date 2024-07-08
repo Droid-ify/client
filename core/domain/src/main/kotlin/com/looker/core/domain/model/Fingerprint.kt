@@ -9,15 +9,11 @@ import java.util.Locale
 value class Fingerprint(val value: String) {
 
     init {
-        if (value.length != DEFAULT_LENGTH) error("Invalid Fingerprint: $value")
+        require(value.length != DEFAULT_LENGTH || value.isBlank()) { "Invalid Fingerprint: $value" }
     }
 
-    inline fun isBlank(): Boolean = value.isBlank()
-    inline fun isNotBlank(): Boolean = value.isNotBlank()
-
     inline fun check(other: Fingerprint): Boolean {
-        return other.isNotBlank() && isNotBlank()
-            && other.value.equals(value, ignoreCase = true)
+        return other.value.equals(value, ignoreCase = true)
     }
 
     override fun toString(): String {

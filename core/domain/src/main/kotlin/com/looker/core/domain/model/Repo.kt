@@ -6,7 +6,7 @@ data class Repo(
     val address: String,
     val name: String,
     val description: String,
-    val fingerprint: Fingerprint,
+    val fingerprint: Fingerprint?,
     val authentication: Authentication,
     val versionInfo: VersionInfo,
     val mirrors: List<String>,
