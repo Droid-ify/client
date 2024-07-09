@@ -29,6 +29,7 @@
         android:name=".MainApplication"
         android:allowBackup="true"
         android:banner="@drawable/tv_banner"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/application_name"
         android:networkSecurityConfig="@xml/network_security_config"
