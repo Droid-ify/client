@@ -162,7 +162,7 @@ class RepositoryFragment() : ScreenFragment() {
 
     internal fun onDeleteConfirm() {
         viewModel.deleteRepository(
-            onDelete = { requireActivity().onBackPressed() }
+            onDelete = { requireActivity().onBackPressedDispatcher.onBackPressed() }
         )
     }
 }

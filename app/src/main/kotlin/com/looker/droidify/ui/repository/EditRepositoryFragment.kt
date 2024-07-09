@@ -431,7 +431,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 if (repositoryId == null && changedRepository.enabled) {
                     binder.sync(changedRepository)
                 }
-                screenActivity.onBackPressed()
+                screenActivity.onBackPressedDispatcher.onBackPressed()
             }
         } else {
             invalidateState()
