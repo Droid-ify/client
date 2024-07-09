@@ -1,11 +1,12 @@
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.gradle.LibraryExtension
 import com.looker.droidify.configureKotlinAndroid
+import com.looker.droidify.kotlin2
+import com.looker.droidify.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.embeddedKotlin
 
 class AndroidLibraryPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -39,10 +40,10 @@ class AndroidLibraryPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                add("implementation", embeddedKotlin("stdlib"))
-                add("implementation", embeddedKotlin("reflect"))
-                add("testImplementation", embeddedKotlin("test"))
-                add("androidTestImplementation", embeddedKotlin("test"))
+                add("implementation", kotlin2("stdlib", libs))
+                add("implementation", kotlin2("reflect", libs))
+                add("testImplementation", kotlin2("test", libs))
+                add("androidTestImplementation", kotlin2("test", libs))
             }
         }
     }

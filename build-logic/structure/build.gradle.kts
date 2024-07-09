@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     `kotlin-dsl`
@@ -10,9 +10,10 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
-tasks.withType<KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_17.toString()
+
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_17
     }
 }
 
@@ -52,6 +53,10 @@ gradlePlugin {
         register("androidLibraryPlugin") {
             id = "looker.android.library"
             implementationClass = "AndroidLibraryPlugin"
+        }
+        register("jvmLibraryPlugin") {
+            id = "looker.jvm.library"
+            implementationClass = "JvmLibraryPlugin"
         }
     }
 }

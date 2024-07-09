@@ -108,6 +108,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 # Plugins defined by this project
 looker-android-application = { id = "looker.android.application", version = "unspecified" }
 looker-android-library = { id = "looker.android.library", version = "unspecified" }
+looker-jvm-library = { id = "looker.jvm.library", version = "unspecified" }
 looker-hilt = { id = "looker.hilt", version = "unspecified" }
 looker-hilt-work = { id = "looker.hilt.work", version = "unspecified" }
 looker-lint = { id = "looker.lint", version = "unspecified" }

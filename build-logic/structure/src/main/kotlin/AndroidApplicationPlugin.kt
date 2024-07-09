@@ -1,10 +1,11 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.looker.droidify.configureKotlinAndroid
+import com.looker.droidify.kotlin2
+import com.looker.droidify.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.embeddedKotlin
 
 class AndroidApplicationPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -25,8 +26,8 @@ class AndroidApplicationPlugin : Plugin<Project> {
                 }
             }
             dependencies {
-                add("implementation", embeddedKotlin("stdlib"))
-                add("implementation", embeddedKotlin("reflect"))
+                add("implementation", kotlin2("stdlib", libs))
+                add("implementation", kotlin2("reflect", libs))
             }
         }
     }
