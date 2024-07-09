@@ -70,7 +70,8 @@ class OfflineFirstRepoRepository @Inject constructor(
         }
         val updatedRepo = index.repo.toEntity(
             id = repo.id,
-            fingerprint = repo.fingerprint.value,
+            // TODO: Not correct
+            fingerprint = repo.fingerprint!!.value,
             username = repo.authentication.username,
             password = repo.authentication.password,
             etag = repo.versionInfo.etag ?: "",
@@ -98,7 +99,8 @@ class OfflineFirstRepoRepository @Inject constructor(
         indices.forEach { (repo, index) ->
             val updatedRepo = index!!.repo.toEntity(
                 id = repo.id,
-                fingerprint = repo.fingerprint.value,
+            // TODO: Not correct
+                fingerprint = repo.fingerprint!!.value,
                 username = repo.authentication.username,
                 password = repo.authentication.password,
                 etag = repo.versionInfo.etag ?: "",

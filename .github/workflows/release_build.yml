@@ -1,12 +1,12 @@
 name: Build Release APK
 
-on:  
+on:
   workflow_dispatch:
   push:
     tags:
       - '*'
 
-concurrency: 
+concurrency:
   group: "release-build"
   cancel-in-progress: true
 
@@ -19,53 +19,54 @@ jobs:
       packages: write
 
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v4
-      with:
-        submodules: true
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
 
-    - name: Validate Gradle Wrapper
-      uses: gradle/wrapper-validation-action@v3
+      - name: Validate Gradle Wrapper
+        uses: gradle/actions/setup-gradle@v3
 
-    - name: Set up Java 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: 17
-        distribution: 'adopt'
-        cache: gradle
-        
-    - name: Grant execution permission to Gradle Wrapper
-      run: chmod +x gradlew
+      - name: Setup Gradle
+        uses: gradle/wrapper-validation-action@v3
 
-    - name: Build Release APK
-      uses: gradle/gradle-build-action@v3
-      with:
-        arguments: assembleRelease
-      
-    - name: Checks
-      run: find . -type f -name "*.apk"
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: gradle
 
-    - uses: r0adkll/sign-android-release@v1
-      name: Sign app APK
-      id: sign_app
-      with:
-        releaseDirectory: app/build/outputs/apk/release
-        signingKeyBase64: ${{ secrets.KEY_BASE64 }}
-        alias: ${{ secrets.KEY_ALIAS }}
-        keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
-        keyPassword: ${{ secrets.KEYSTORE_PASS }}
-      env:
-        BUILD_TOOLS_VERSION: "34.0.0"
+      - name: Grant execution permission to Gradle Wrapper
+        run: chmod +x gradlew
 
-    - uses: softprops/action-gh-release@v2
-      name: Create Release
-      id: publish_release
-      with:
-        files: ${{steps.sign_app.outputs.signedReleaseFile}}
-        draft: true
-        prerelease: false
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: Signed APK
-        path: ${{steps.sign_app.outputs.signedReleaseFile}}
+      - name: Checks
+        run: find . -type f -name "*.apk"
+
+      - uses: r0adkll/sign-android-release@v1
+        name: Signing APK
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEY_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
+          keyPassword: ${{ secrets.KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "34.0.0"
+
+      - uses: softprops/action-gh-release@v2
+        name: Create Release
+        id: publish_release
+        with:
+          files: ${{steps.sign_app.outputs.signedReleaseFile}}
+          draft: true
+          prerelease: false
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Signed APK
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
