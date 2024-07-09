@@ -124,7 +124,7 @@ class SettingsFragment : Fragment() {
         }
         val toolbar = binding.toolbar
         toolbar.navigationIcon = toolbar.context.homeAsUp
-        toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        toolbar.setNavigationOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
         toolbar.title = getString(CommonR.string.settings)
         with(binding) {
             dynamicTheme.root.isVisible = SdkCheck.isSnowCake
