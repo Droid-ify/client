@@ -72,6 +72,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
     lateinit var cursorOwner: CursorOwner
         private set
+    lateinit var onBackPressedCallback: OnBackPressedCallback
 
     private val fragmentStack = mutableListOf<FragmentStackItem>()
 
@@ -167,23 +168,17 @@ abstract class ScreenActivity : AppCompatActivity() {
     }
 
     private fun setUpBackHandler() {
+        onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
+            override fun handleOnBackPressed() {
+                hideKeyboard()
+                popFragment()
+            }
+        }
         onBackPressedDispatcher.addCallback(
             this,
-            object : OnBackPressedCallback(enabled = true) {
-                override fun handleOnBackPressed() {
-                    val currentFragment = currentFragment
-                    if (!(currentFragment is ScreenFragment && currentFragment.onBackPressed())) {
-                        hideKeyboard()
-                        if (!popFragment()) {
-                            isEnabled = false
-                            this@ScreenActivity.onBackPressedDispatcher.onBackPressed()
-                            isEnabled = true
-                        }
-                    }
-
-                }
-            },
+            onBackPressedCallback,
         )
+        updateBackCallbackState()
     }
 
     private fun replaceFragment(fragment: Fragment, open: Boolean?) {
@@ -214,6 +209,11 @@ abstract class ScreenActivity : AppCompatActivity() {
             )
         }
         replaceFragment(fragment, true)
+        updateBackCallbackState()
+    }
+
+    private fun updateBackCallbackState() {
+        onBackPressedCallback.isEnabled = fragmentStack.isNotEmpty()
     }
 
     private fun popFragment(): Boolean {
@@ -223,6 +223,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             stackItem.arguments?.let(fragment::setArguments)
             stackItem.savedState?.let(fragment::setInitialSavedState)
             replaceFragment(fragment, false)
+            updateBackCallbackState()
             true
         }
     }
@@ -252,6 +253,7 @@ abstract class ScreenActivity : AppCompatActivity() {
                 }
                 val tabsFragment = currentFragment as TabsFragment
                 tabsFragment.selectUpdates()
+                updateBackCallbackState()
             }
 
             is SpecialIntent.Install -> {
