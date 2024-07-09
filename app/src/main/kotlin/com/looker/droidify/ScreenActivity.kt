@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -157,6 +158,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
+        setUpBackHandler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -164,14 +166,24 @@ abstract class ScreenActivity : AppCompatActivity() {
         outState.putParcelableArrayList(STATE_FRAGMENT_STACK, ArrayList(fragmentStack))
     }
 
-    override fun onBackPressed() {
-        val currentFragment = currentFragment
-        if (!(currentFragment is ScreenFragment && currentFragment.onBackPressed())) {
-            hideKeyboard()
-            if (!popFragment()) {
-                super.onBackPressed()
-            }
-        }
+    private fun setUpBackHandler() {
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(enabled = true) {
+                override fun handleOnBackPressed() {
+                    val currentFragment = currentFragment
+                    if (!(currentFragment is ScreenFragment && currentFragment.onBackPressed())) {
+                        hideKeyboard()
+                        if (!popFragment()) {
+                            isEnabled = false
+                            this@ScreenActivity.onBackPressedDispatcher.onBackPressed()
+                            isEnabled = true
+                        }
+                    }
+
+                }
+            },
+        )
     }
 
     private fun replaceFragment(fragment: Fragment, open: Boolean?) {
@@ -222,7 +234,7 @@ abstract class ScreenActivity : AppCompatActivity() {
     internal fun onToolbarCreated(toolbar: Toolbar) {
         if (fragmentStack.isNotEmpty()) {
             toolbar.navigationIcon = toolbar.context.homeAsUp
-            toolbar.setNavigationOnClickListener { onBackPressed() }
+            toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         }
     }
 
