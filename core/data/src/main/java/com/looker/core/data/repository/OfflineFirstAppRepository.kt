@@ -1,7 +1,7 @@
-package com.looker.core.data.fdroid.repository.offline
+package com.looker.core.data.repository
 
 import com.looker.core.common.PackageName
-import com.looker.core.data.fdroid.repository.AppRepository
+import com.looker.core.data.AppRepository
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.model.AppEntity

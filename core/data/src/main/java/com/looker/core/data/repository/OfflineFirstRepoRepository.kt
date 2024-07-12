@@ -1,8 +1,8 @@
-package com.looker.core.data.fdroid.repository.offline
+package com.looker.core.data.repository
 
 import com.looker.core.common.extension.exceptCancellation
-import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.toEntity
+import com.looker.core.common.log
+import com.looker.core.data.RepoRepository
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.toExternal
@@ -11,6 +11,8 @@ import com.looker.core.datastore.SettingsRepository
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.DefaultDispatcher
 import com.looker.core.domain.model.Repo
+import com.looker.network.Downloader
+import com.looker.sync.fdroid.v1.V1Syncable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -27,6 +29,7 @@ class OfflineFirstRepoRepository @Inject constructor(
     private val appDao: AppDao,
     private val repoDao: RepoDao,
     private val settingsRepository: SettingsRepository,
+    downloader: Downloader,
     @DefaultDispatcher private val dispatcher: CoroutineDispatcher,
     @ApplicationScope private val scope: CoroutineScope
 ) : RepoRepository {
@@ -59,9 +62,18 @@ class OfflineFirstRepoRepository @Inject constructor(
         }
     }
 
+    private val syncable = V1Syncable(downloader, dispatcher)
+
     override suspend fun sync(repo: Repo): Boolean = coroutineScope {
-        TODO("Add Sync")
-        true
+        try {
+            val (updatedRepo, apps) = syncable.sync(repo)
+            log(updatedRepo.name)
+            log(apps.joinToString { it.metadata.name })
+            true
+        } catch (e: Exception) {
+            e.exceptCancellation()
+            false
+        }
     }
 
     override suspend fun syncAll(): Boolean = supervisorScope {

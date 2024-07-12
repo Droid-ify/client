@@ -1,9 +1,9 @@
 package com.looker.core.data.di
 
-import com.looker.core.data.fdroid.repository.AppRepository
-import com.looker.core.data.fdroid.repository.RepoRepository
-import com.looker.core.data.fdroid.repository.offline.OfflineFirstAppRepository
-import com.looker.core.data.fdroid.repository.offline.OfflineFirstRepoRepository
+import com.looker.core.data.AppRepository
+import com.looker.core.data.RepoRepository
+import com.looker.core.data.repository.OfflineFirstAppRepository
+import com.looker.core.data.repository.OfflineFirstRepoRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
