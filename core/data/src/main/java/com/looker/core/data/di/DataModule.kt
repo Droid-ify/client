@@ -4,8 +4,6 @@ import com.looker.core.data.fdroid.repository.AppRepository
 import com.looker.core.data.fdroid.repository.RepoRepository
 import com.looker.core.data.fdroid.repository.offline.OfflineFirstAppRepository
 import com.looker.core.data.fdroid.repository.offline.OfflineFirstRepoRepository
-import com.looker.core.data.fdroid.sync.IndexDownloader
-import com.looker.core.data.fdroid.sync.IndexDownloaderImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -25,8 +23,4 @@ interface DataModule {
         repoRepository: OfflineFirstRepoRepository
     ): RepoRepository
 
-    @Binds
-    fun bindIndexDownloader(
-        indexDownloader: IndexDownloaderImpl
-    ): IndexDownloader
 }

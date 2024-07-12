@@ -25,6 +25,6 @@ include(
     ":core:di",
     ":core:domain",
 	":core:network",
-	":installer"
+	":installer",
+    ":sync:fdroid",
 )
-include(":sync:fdroid")
