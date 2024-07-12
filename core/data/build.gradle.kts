@@ -20,6 +20,4 @@ dependencies {
     )
 
     implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.fdroid.index)
-    implementation(libs.fdroid.download)
 }
