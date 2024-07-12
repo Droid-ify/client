@@ -9,7 +9,7 @@ import java.util.Locale
 value class Fingerprint(val value: String) {
 
     init {
-        require(value.length != DEFAULT_LENGTH || value.isBlank()) { "Invalid Fingerprint: $value" }
+        require(value.isNotBlank() && value.length == DEFAULT_LENGTH) { "Invalid Fingerprint: $value" }
     }
 
     inline fun check(other: Fingerprint): Boolean {
