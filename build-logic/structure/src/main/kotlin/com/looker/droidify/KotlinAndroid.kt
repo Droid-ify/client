@@ -66,7 +66,8 @@ private inline fun <reified T : KotlinTopLevelExtension> Project.configureKotlin
         is KotlinJvmProjectExtension -> compilerOptions
         else -> TODO("Unsupported project extension $this ${T::class}")
     }.apply {
-        apiVersion = KotlinVersion.KOTLIN_2_0
+        // Use when hilt supports ksp2
+//        apiVersion = KotlinVersion.KOTLIN_2_0
         jvmTarget = JvmTarget.JVM_11
         freeCompilerArgs = listOf(
             "-opt-in=kotlin.RequiresOptIn",

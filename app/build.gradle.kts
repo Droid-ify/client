@@ -99,4 +99,6 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.jackson.core)
     implementation(libs.image.viewer)
+
+    debugImplementation(libs.leakcanary)
 }

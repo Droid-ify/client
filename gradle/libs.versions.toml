@@ -1,7 +1,7 @@
 # Taken from NIA sample app by Google
 [versions]
 androidDesugarJdkLibs = "2.0.4"
-androidGradlePlugin = "8.5.1"
+androidGradlePlugin = "8.5.0"
 androidMaterial = "1.12.0"
 androidxActivity = "1.9.0"
 androidxAppCompat = "1.7.0"
@@ -21,6 +21,7 @@ androidxUiAutomator = "2.3.0"
 androidxWork = "2.9.0"
 coil = "2.6.0"
 fdroid = "0.1.1"
+leakcanary = "2.14"
 hilt = "2.51.1"
 hiltExt = "1.2.0"
 junit4 = "4.13.2"
@@ -70,6 +71,7 @@ hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", v
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
 hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
+leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
