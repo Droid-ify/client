@@ -1,11 +1,6 @@
 plugins {
-    alias(libs.plugins.looker.android.library)
-    alias(libs.plugins.looker.hilt)
+    alias(libs.plugins.looker.jvm.library)
     alias(libs.plugins.looker.lint)
-}
-
-android {
-    namespace = "com.looker.sync.fdroid"
 }
 
 dependencies {
@@ -15,10 +10,8 @@ dependencies {
         Modules.coreNetwork,
     )
 
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.core)
     implementation(libs.fdroid.index)
     implementation(libs.fdroid.download)
     testImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
 }
