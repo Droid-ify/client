@@ -240,4 +240,10 @@
     <string name="has_tethered_network">Ligado a um certo serviço de rede</string>
     <string name="require_background_access_DESC">O acesso em segundo plano é necessário para executar corretamente a sincronização em segundo plano</string>
     <string name="require_background_access">Exigir Acesso em segundo plano</string>
+    <string name="installation_failed">Falha na instalação</string>
+    <string name="installation_failed_DESC">Falha ao instalar %s</string>
+    <string name="uninstalled_application">Desinstalado</string>
+    <string name="uninstalled_application_DESC">%s foi desinstalado</string>
+    <string name="ignore_signature_summary">Ignore a verificação de assinatura ao instalar o apk, para usuários LSPosed ou usuários avançados</string>
+    <string name="ignore_signature">Ignorar Assinatura</string>
 </resources>
