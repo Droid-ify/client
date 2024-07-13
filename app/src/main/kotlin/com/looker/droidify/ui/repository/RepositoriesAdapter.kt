@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
 import com.looker.droidify.widget.CursorRecyclerAdapter

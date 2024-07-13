@@ -1,9 +1,11 @@
 package com.looker.network.header
 
-import com.looker.core.common.extension.toFormattedString
 import io.ktor.http.HttpHeaders
 import io.ktor.util.encodeBase64
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 internal class KtorHeadersBuilder(
     private val builder: io.ktor.http.HeadersBuilder
@@ -40,5 +42,14 @@ internal class KtorHeadersBuilder(
         if (start == null) return
         val valueString = if (end != null) "bytes=$start-$end" else "bytes=$start-"
         HttpHeaders.Range headsWith valueString
+    }
+
+    private companion object {
+        val HTTP_DATE_FORMAT: SimpleDateFormat
+            get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
+                timeZone = TimeZone.getTimeZone("GMT")
+            }
+
+        fun Date.toFormattedString(): String = HTTP_DATE_FORMAT.format(this)
     }
 }

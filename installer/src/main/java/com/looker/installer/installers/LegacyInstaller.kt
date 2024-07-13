@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.AndroidRuntimeException
 import androidx.core.net.toUri
-import com.looker.core.common.PackageName
+import com.looker.core.domain.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.installer.model.InstallItem
@@ -47,13 +47,13 @@ internal class LegacyInstaller(private val context: Context) : Installer {
         }
     }
 
-    override suspend fun uninstall(packageName: PackageName) =
+    override suspend fun uninstall(packageName: com.looker.core.domain.PackageName) =
         context.uninstallPackage(packageName)
 
     override fun close() {}
 }
 
-internal suspend fun Context.uninstallPackage(packageName: PackageName) =
+internal suspend fun Context.uninstallPackage(packageName: com.looker.core.domain.PackageName) =
     suspendCancellableCoroutine { cont ->
         try {
             startActivity(

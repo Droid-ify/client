@@ -3,7 +3,7 @@ package com.looker.droidify.utility.serialization
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.forEachKey
-import com.looker.core.domain.ProductItem
+import com.looker.droidify.model.ProductItem
 
 fun ProductItem.serialize(generator: JsonGenerator) {
     generator.writeNumberField("serialVersion", 1)

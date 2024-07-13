@@ -1,8 +1,7 @@
 package com.looker.network
 
-import com.looker.core.common.DataSize
-import com.looker.core.common.signature.FileValidator
 import com.looker.network.header.HeadersBuilder
+import com.looker.network.validation.FileValidator
 import java.io.File
 import java.net.Proxy
 

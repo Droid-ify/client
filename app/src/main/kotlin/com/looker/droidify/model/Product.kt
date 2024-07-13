@@ -1,4 +1,4 @@
-package com.looker.core.domain
+package com.looker.droidify.model
 
 data class Product(
     var repositoryId: Long,

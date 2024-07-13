@@ -7,9 +7,9 @@ import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.fingerprint
 import com.looker.core.common.extension.toFormattedString
 import com.looker.core.common.result.Result
-import com.looker.core.domain.Product
-import com.looker.core.domain.Release
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Release
+import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress

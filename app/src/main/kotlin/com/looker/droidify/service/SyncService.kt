@@ -16,7 +16,7 @@ import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.core.common.Constants
-import com.looker.core.common.DataSize
+import com.looker.network.DataSize
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.getColorFromAttr
@@ -27,8 +27,8 @@ import com.looker.core.common.extension.stopForegroundCompat
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.SettingsRepository
-import com.looker.core.domain.ProductItem
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.database.Database

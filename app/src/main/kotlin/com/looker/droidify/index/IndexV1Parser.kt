@@ -13,8 +13,8 @@ import com.looker.core.common.extension.forEach
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.illegal
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.domain.Product
-import com.looker.core.domain.Release
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Release
 import java.io.InputStream
 
 object IndexV1Parser {

@@ -1,9 +1,9 @@
 package com.looker.droidify.utility.extension
 
-import com.looker.core.domain.InstalledItem
-import com.looker.core.domain.Product
-import com.looker.core.domain.Repository
-import com.looker.core.domain.findSuggested
+import com.looker.droidify.model.InstalledItem
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Repository
+import com.looker.droidify.model.findSuggested
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.extension.android.Android

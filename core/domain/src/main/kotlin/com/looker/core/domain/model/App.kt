@@ -1,7 +1,5 @@
 package com.looker.core.domain.model
 
-import com.looker.core.common.PackageName
-
 data class App(
     val repoId: Long,
     val categories: List<String>,

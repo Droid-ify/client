@@ -20,7 +20,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -37,9 +36,10 @@ import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.selectableBackground
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
+import com.looker.core.data.fdroid.sync.workers.SyncWorker
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.domain.ProductItem
+import com.looker.droidify.model.ProductItem
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.service.Connection
@@ -53,11 +53,9 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import kotlinx.coroutines.launch
-import kotlin.reflect.jvm.internal.impl.types.TypeCheckerState.SupertypesPolicy.None
 
 @AndroidEntryPoint
 class TabsFragment : ScreenFragment() {
@@ -207,7 +205,8 @@ class TabsFragment : ScreenFragment() {
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
                 .setOnMenuItemClickListener {
-                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+                    SyncWorker.startSyncWork(requireContext())
+//                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
                     true
                 }
 

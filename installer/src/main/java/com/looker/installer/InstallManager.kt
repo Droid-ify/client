@@ -1,7 +1,7 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.common.PackageName
+import com.looker.core.domain.PackageName
 import com.looker.core.common.extension.addAndCompute
 import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.updateAsMutable
@@ -32,9 +32,9 @@ class InstallManager(
 ) {
 
     private val installItems = Channel<InstallItem>()
-    private val uninstallItems = Channel<PackageName>()
+    private val uninstallItems = Channel<com.looker.core.domain.PackageName>()
 
-    val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
+    val state = MutableStateFlow<Map<com.looker.core.domain.PackageName, InstallState>>(emptyMap())
 
     private var _installer: Installer? = null
         set(value) {
@@ -62,11 +62,11 @@ class InstallManager(
         installItems.send(installItem)
     }
 
-    suspend infix fun uninstall(packageName: PackageName) {
+    suspend infix fun uninstall(packageName: com.looker.core.domain.PackageName) {
         uninstallItems.send(packageName)
     }
 
-    infix fun remove(packageName: PackageName) {
+    infix fun remove(packageName: com.looker.core.domain.PackageName) {
         updateState { remove(packageName) }
     }
 
@@ -111,7 +111,7 @@ class InstallManager(
         }
     }
 
-    private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
+    private inline fun updateState(block: MutableMap<com.looker.core.domain.PackageName, InstallState>.() -> Unit) {
         state.update { it.updateAsMutable(block) }
     }
 }

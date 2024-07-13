@@ -5,7 +5,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.collectNotNullStrings
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.writeArray
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Repository
 
 fun Repository.serialize(generator: JsonGenerator) {
     generator.writeNumberField("serialVersion", 1)

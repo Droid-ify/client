@@ -4,7 +4,7 @@ import android.content.pm.PackageInfo
 import com.looker.core.common.extension.calculateHash
 import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
-import com.looker.core.domain.InstalledItem
+import com.looker.droidify.model.InstalledItem
 
 fun PackageInfo.toInstalledItem(): InstalledItem {
     val signatureString = singleSignature?.calculateHash().orEmpty()

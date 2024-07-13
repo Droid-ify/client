@@ -1,4 +1,4 @@
-package com.looker.core.domain
+package com.looker.droidify.model
 
 class InstalledItem(
     val packageName: String,

@@ -1,5 +1,6 @@
-package com.looker.core.common
+package com.looker.network
 
+import java.io.File
 import java.util.Locale
 
 @JvmInline
@@ -21,3 +22,6 @@ value class DataSize(val value: Long) {
         return sizeFormats[index].format(Locale.US, size)
     }
 }
+
+val File.size: Long?
+    get() = if (exists()) length().takeIf { it > 0L } else null

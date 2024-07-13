@@ -8,7 +8,7 @@ import com.looker.core.common.extension.collectNotNullStrings
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.writeArray
 import com.looker.core.common.extension.writeDictionary
-import com.looker.core.domain.Release
+import com.looker.droidify.model.Release
 
 fun Release.serialize(generator: JsonGenerator) {
     generator.writeNumberField("serialVersion", 1)

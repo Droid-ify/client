@@ -1,4 +1,4 @@
-package com.looker.core.domain
+package com.looker.droidify.model
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

@@ -6,11 +6,11 @@ import com.looker.core.common.extension.calculateHash
 import com.looker.core.common.extension.getPackageArchiveInfoCompat
 import com.looker.core.common.extension.singleSignature
 import com.looker.core.common.extension.versionCodeCompat
-import com.looker.core.common.signature.FileValidator
+import com.looker.network.validation.FileValidator
 import com.looker.core.common.signature.Hash
-import com.looker.core.common.signature.invalid
+import com.looker.network.validation.invalid
 import com.looker.core.common.signature.verifyHash
-import com.looker.core.domain.Release
+import com.looker.droidify.model.Release
 import java.io.File
 import com.looker.core.common.R.string as strings
 

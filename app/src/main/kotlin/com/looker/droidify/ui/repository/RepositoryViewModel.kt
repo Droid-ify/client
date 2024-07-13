@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService

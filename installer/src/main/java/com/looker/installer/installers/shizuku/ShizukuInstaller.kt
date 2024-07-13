@@ -1,7 +1,7 @@
 package com.looker.installer.installers.shizuku
 
 import android.content.Context
-import com.looker.core.common.PackageName
+import com.looker.core.domain.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.installer.installers.Installer
@@ -72,7 +72,7 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
         }
     }
 
-    override suspend fun uninstall(packageName: PackageName) =
+    override suspend fun uninstall(packageName: com.looker.core.domain.PackageName) =
         context.uninstallPackage(packageName)
 
     override fun close() {}

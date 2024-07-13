@@ -78,12 +78,12 @@ android {
 dependencies {
 
     modules(
-        Modules.coreDomain,
+        Modules.coreData,
         Modules.coreCommon,
         Modules.coreNetwork,
         Modules.coreDatastore,
         Modules.coreDI,
-        Modules.installer
+        Modules.installer,
     )
 
     implementation(libs.android.material)
@@ -100,5 +100,5 @@ dependencies {
     implementation(libs.jackson.core)
     implementation(libs.image.viewer)
 
-    debugImplementation(libs.leakcanary)
+//    debugImplementation(libs.leakcanary)
 }

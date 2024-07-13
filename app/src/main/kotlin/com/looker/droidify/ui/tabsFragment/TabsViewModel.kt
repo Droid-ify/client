@@ -7,7 +7,7 @@ import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.domain.ProductItem
+import com.looker.droidify.model.ProductItem
 import com.looker.droidify.database.Database
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
-import com.looker.core.domain.Product
+import com.looker.droidify.model.Product
 import com.looker.droidify.database.Database
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

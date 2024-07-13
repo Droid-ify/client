@@ -6,8 +6,8 @@ import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.SortOrder
-import com.looker.core.domain.ProductItem
-import com.looker.core.domain.ProductItem.Section.All
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.ProductItem.Section.All
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.Database
 import com.looker.droidify.service.Connection

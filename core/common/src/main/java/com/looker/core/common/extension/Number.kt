@@ -3,7 +3,7 @@ package com.looker.core.common.extension
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
-import com.looker.core.common.DataSize
+import com.looker.network.DataSize
 import kotlin.math.roundToInt
 
 infix fun Long.percentBy(denominator: Long?): Int {
@@ -11,7 +11,7 @@ infix fun Long.percentBy(denominator: Long?): Int {
     return (this * 100 / denominator).toInt()
 }
 
-infix fun DataSize.percentBy(denominator: DataSize?): Int = value percentBy denominator?.value
+infix fun com.looker.network.DataSize.percentBy(denominator: com.looker.network.DataSize?): Int = value percentBy denominator?.value
 
 val Number.dpToPx
     get() = TypedValue.applyDimension(

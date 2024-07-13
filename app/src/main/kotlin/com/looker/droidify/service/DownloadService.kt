@@ -8,12 +8,11 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants
 import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_INSTALL
-import com.looker.core.common.DataSize
+import com.looker.network.DataSize
 import com.looker.core.common.R
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.createNotificationChannel
-import com.looker.core.common.extension.intent
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.percentBy
 import com.looker.core.common.extension.startSelf
@@ -21,12 +20,12 @@ import com.looker.core.common.extension.stopForegroundCompat
 import com.looker.core.common.extension.toPendingIntent
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.common.log
-import com.looker.core.common.signature.ValidationException
+import com.looker.network.validation.ValidationException
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.domain.Release
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Release
+import com.looker.droidify.model.Repository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.installer.InstallManager
@@ -34,7 +33,6 @@ import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
 import com.looker.installer.notification.createInstallNotification
 import com.looker.installer.notification.installNotification
-import com.looker.installer.notification.installTag
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint

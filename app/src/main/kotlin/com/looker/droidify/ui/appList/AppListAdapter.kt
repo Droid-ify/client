@@ -20,8 +20,8 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.inflate
 import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.domain.ProductItem
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.ImageUtils.icon

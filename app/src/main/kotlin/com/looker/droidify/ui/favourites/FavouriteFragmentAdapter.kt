@@ -11,8 +11,8 @@ import com.looker.core.common.extension.corneredBackground
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.domain.Product
-import com.looker.core.domain.Repository
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Repository
 import com.looker.droidify.databinding.ProductItemBinding
 import com.looker.droidify.utility.extension.ImageUtils.icon
 

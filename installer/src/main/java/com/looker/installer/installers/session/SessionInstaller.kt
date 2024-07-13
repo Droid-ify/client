@@ -9,7 +9,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.looker.core.common.PackageName
+import com.looker.core.domain.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.log
@@ -88,7 +88,7 @@ internal class SessionInstaller(private val context: Context) : Installer {
     }
 
     @SuppressLint("MissingPermission")
-    override suspend fun uninstall(packageName: PackageName) =
+    override suspend fun uninstall(packageName: com.looker.core.domain.PackageName) =
         suspendCancellableCoroutine { cont ->
             intent.putExtra(SessionInstallerReceiver.ACTION_UNINSTALL, true)
             val pendingIntent = PendingIntent.getBroadcast(context, -1, intent, flags)
