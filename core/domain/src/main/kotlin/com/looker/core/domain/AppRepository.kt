@@ -1,9 +1,9 @@
-package com.looker.core.data
+package com.looker.core.domain
 
-import com.looker.core.domain.model.PackageName
 import com.looker.core.domain.model.App
 import com.looker.core.domain.model.Author
 import com.looker.core.domain.model.Package
+import com.looker.core.domain.model.PackageName
 import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {

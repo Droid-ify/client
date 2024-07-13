@@ -2,7 +2,7 @@ package com.looker.core.data.repository
 
 import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.common.log
-import com.looker.core.data.RepoRepository
+import com.looker.core.domain.RepoRepository
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.toExternal

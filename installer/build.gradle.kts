@@ -9,7 +9,11 @@ android {
 }
 
 dependencies {
-    modules(Modules.coreCommon, Modules.coreDatastore)
+    modules(
+        Modules.coreCommon,
+        Modules.coreDatastore,
+        Modules.coreDomain,
+    )
 
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.kotlinx.coroutines.guava)

@@ -14,7 +14,7 @@ import java.io.File
 import java.util.Date
 
 class V1Syncable(
-    override val downloader: Downloader,
+    private val downloader: Downloader,
     private val dispatcher: CoroutineDispatcher,
 ) : Syncable<IndexV1> {
     override val parser: Parser<IndexV1>

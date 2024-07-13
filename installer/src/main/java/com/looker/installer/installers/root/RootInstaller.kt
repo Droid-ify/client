@@ -1,9 +1,9 @@
 package com.looker.installer.installers.root
 
 import android.content.Context
-import com.looker.core.domain.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.domain.model.PackageName
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.uninstallPackage
 import com.looker.installer.model.InstallItem
@@ -69,7 +69,7 @@ internal class RootInstaller(private val context: Context) : Installer {
         }
     }
 
-    override suspend fun uninstall(packageName: com.looker.core.domain.PackageName) =
+    override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
 
     override fun close() {}

@@ -2,7 +2,6 @@ package com.looker.core.domain
 
 import com.looker.core.domain.model.App
 import com.looker.core.domain.model.Repo
-import com.looker.network.Downloader
 
 /**
  * Expected Architecture: [https://excalidraw.com/#json=JqpGunWTJONjq-ecDNiPg,j9t0X4coeNvIG7B33GTq6A]
@@ -11,8 +10,6 @@ import com.looker.network.Downloader
  * which this arch doesn't allow.
  */
 interface Syncable<T> {
-
-    val downloader: Downloader
 
     val parser: Parser<T>
 

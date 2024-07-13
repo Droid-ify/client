@@ -1,4 +1,4 @@
-package com.looker.core.data
+package com.looker.core.domain
 
 import com.looker.core.domain.model.Repo
 import kotlinx.coroutines.flow.Flow

@@ -4,23 +4,23 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
-import com.looker.core.domain.model.toPackageName
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.domain.model.toPackageName
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.database.Database
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.database.Database
 import com.looker.installer.InstallManager
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(

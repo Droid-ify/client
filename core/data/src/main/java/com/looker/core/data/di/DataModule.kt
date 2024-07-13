@@ -1,7 +1,7 @@
 package com.looker.core.data.di
 
-import com.looker.core.data.AppRepository
-import com.looker.core.data.RepoRepository
+import com.looker.core.domain.AppRepository
+import com.looker.core.domain.RepoRepository
 import com.looker.core.data.repository.OfflineFirstAppRepository
 import com.looker.core.data.repository.OfflineFirstRepoRepository
 import dagger.Binds

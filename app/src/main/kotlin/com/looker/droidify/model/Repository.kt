@@ -1,6 +1,6 @@
 package com.looker.droidify.model
 
-import com.looker.core.domain.model.isOnion
+import com.looker.core.common.extension.isOnion
 import java.net.URL
 
 data class Repository(

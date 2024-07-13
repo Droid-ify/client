@@ -1,18 +1,18 @@
 package com.looker.installer.installers.shizuku
 
 import android.content.Context
-import com.looker.core.domain.PackageName
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.domain.model.PackageName
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.uninstallPackage
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
+import kotlinx.coroutines.suspendCancellableCoroutine
+import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStream
 import kotlin.coroutines.resume
-import kotlinx.coroutines.suspendCancellableCoroutine
-import rikka.shizuku.Shizuku
 
 @Suppress("DEPRECATION")
 internal class ShizukuInstaller(private val context: Context) : Installer {
@@ -72,7 +72,7 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
         }
     }
 
-    override suspend fun uninstall(packageName: com.looker.core.domain.PackageName) =
+    override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
 
     override fun close() {}

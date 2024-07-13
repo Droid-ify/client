@@ -4,5 +4,5 @@ plugins {
 }
 
 dependencies {
-    modules(Modules.coreCommon, Modules.coreNetwork)
+    implementation(libs.kotlinx.coroutines.core)
 }

@@ -25,3 +25,10 @@ value class DataSize(val value: Long) {
 
 val File.size: Long?
     get() = if (exists()) length().takeIf { it > 0L } else null
+
+infix fun DataSize.percentBy(denominator: DataSize?): Int = value percentBy denominator?.value
+
+infix fun Long.percentBy(denominator: Long?): Int {
+    if (denominator == null || denominator < 1) return -1
+    return (this * 100 / denominator).toInt()
+}

@@ -36,7 +36,6 @@ import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.selectableBackground
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
-import com.looker.core.data.fdroid.sync.workers.SyncWorker
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
@@ -205,8 +204,8 @@ class TabsFragment : ScreenFragment() {
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
                 .setOnMenuItemClickListener {
-                    SyncWorker.startSyncWork(requireContext())
-//                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+//                    SyncWorker.startSyncWork(requireContext())
+                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
                     true
                 }
 

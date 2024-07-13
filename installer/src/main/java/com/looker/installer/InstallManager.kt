@@ -1,13 +1,13 @@
 package com.looker.installer
 
 import android.content.Context
-import com.looker.core.domain.PackageName
 import com.looker.core.common.extension.addAndCompute
 import com.looker.core.common.extension.filter
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
+import com.looker.core.domain.model.PackageName
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.LegacyInstaller
 import com.looker.installer.installers.root.RootInstaller
@@ -32,9 +32,9 @@ class InstallManager(
 ) {
 
     private val installItems = Channel<InstallItem>()
-    private val uninstallItems = Channel<com.looker.core.domain.PackageName>()
+    private val uninstallItems = Channel<PackageName>()
 
-    val state = MutableStateFlow<Map<com.looker.core.domain.PackageName, InstallState>>(emptyMap())
+    val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
 
     private var _installer: Installer? = null
         set(value) {
@@ -62,11 +62,11 @@ class InstallManager(
         installItems.send(installItem)
     }
 
-    suspend infix fun uninstall(packageName: com.looker.core.domain.PackageName) {
+    suspend infix fun uninstall(packageName: PackageName) {
         uninstallItems.send(packageName)
     }
 
-    infix fun remove(packageName: com.looker.core.domain.PackageName) {
+    infix fun remove(packageName: PackageName) {
         updateState { remove(packageName) }
     }
 
@@ -111,7 +111,7 @@ class InstallManager(
         }
     }
 
-    private inline fun updateState(block: MutableMap<com.looker.core.domain.PackageName, InstallState>.() -> Unit) {
+    private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
         state.update { it.updateAsMutable(block) }
     }
 }
