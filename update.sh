@@ -59,7 +59,7 @@ fi
 # Update the Kotlin file with new version code and name
 sed -i "s/const val versionCode = [0-9]*/const val versionCode = $version_code/" "$kotlin_file"
 sed -i "s/const val versionName = \"[^\"]*\"/const val versionName = \"$version_name\"/" "$kotlin_file"
-sed -i "s/internal const val USER_AGENT = \"[^\"]*\"/internal const val USER_AGENT = \"Droid-ify $version_name\"/" "$user_agent"
+sed -i "s/internal const val USER_AGENT = \"[^\"]*\"/internal const val USER_AGENT = \"Droid-ify v$version_name\"/" "$user_agent"
 
 # Line ending to CRLF
 sed -i ':a;N;$!ba;s/\n/\r\n/g' "$kotlin_file"
