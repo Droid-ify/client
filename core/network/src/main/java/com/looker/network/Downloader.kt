@@ -25,6 +25,8 @@ interface Downloader {
     companion object {
         internal const val CONNECTION_TIMEOUT = 30_000L
         internal const val SOCKET_TIMEOUT = 15_000L
+
+        internal const val USER_AGENT = "Droid-ify, v0.6.3"
     }
 }
 
