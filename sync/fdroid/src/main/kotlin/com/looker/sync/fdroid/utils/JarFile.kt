@@ -1,4 +1,4 @@
-package com.looker.core.common.extension
+package com.looker.sync.fdroid.utils
 
 import java.io.File
 import java.security.CodeSigner

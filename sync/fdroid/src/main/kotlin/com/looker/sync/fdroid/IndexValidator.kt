@@ -1,7 +1,7 @@
 package com.looker.sync.fdroid
 
-import com.looker.core.common.signature.ValidationException
 import com.looker.core.domain.model.Fingerprint
+import com.looker.network.validation.ValidationException
 import java.util.jar.JarEntry
 
 interface IndexValidator {

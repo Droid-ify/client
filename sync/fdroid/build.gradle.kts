@@ -5,13 +5,10 @@ plugins {
 
 dependencies {
     modules(
-        Modules.coreCommon,
         Modules.coreDomain,
         Modules.coreNetwork,
     )
 
     implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.fdroid.index)
-    implementation(libs.fdroid.download)
     testImplementation(libs.junit4)
 }

@@ -3,7 +3,6 @@ package com.looker.core.common.extension
 import com.looker.core.common.hex
 import java.security.MessageDigest
 import java.security.cert.Certificate
-import java.security.cert.CertificateEncodingException
 
 fun Certificate.fingerprint(): String {
     return runCatching { encoded.fingerprint() }.getOrElse { "" }
