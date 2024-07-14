@@ -9,8 +9,8 @@ import com.looker.network.validation.FileValidator
 import com.looker.network.validation.ValidationException
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
+import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.engine.okhttp.OkHttpConfig
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpTimeout
@@ -32,6 +32,7 @@ import io.ktor.utils.io.CancellationException
 import io.ktor.utils.io.core.ByteReadPacket
 import io.ktor.utils.io.core.isEmpty
 import io.ktor.utils.io.core.readBytes
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
@@ -39,16 +40,19 @@ import java.io.File
 import java.io.IOException
 import java.net.Proxy
 
-internal class KtorDownloader : Downloader {
+internal class KtorDownloader(
+    httpClientEngine: HttpClientEngine,
+    private val dispatcher: CoroutineDispatcher,
+) : Downloader {
 
-    private var client = client(null)
+    private var client = client(httpClientEngine)
         set(newClient) {
             field.close()
             field = newClient
         }
 
     override fun setProxy(proxy: Proxy) {
-        client = client(proxy)
+        client = client(OkHttp.create { this.proxy = proxy })
     }
 
     override suspend fun headCall(
@@ -68,7 +72,7 @@ internal class KtorDownloader : Downloader {
         validator: FileValidator?,
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?
-    ): NetworkResponse = withContext(Dispatchers.IO) {
+    ): NetworkResponse = withContext(dispatcher) {
         try {
             val request = createRequest(
                 url = url,
@@ -80,9 +84,13 @@ internal class KtorDownloader : Downloader {
                 block = block
             )
             client.prepareGet(request).execute { response ->
+                val networkResponse = response.asNetworkResponse()
+                if (networkResponse !is NetworkResponse.Success) {
+                    return@execute networkResponse
+                }
                 response.bodyAsChannel() saveTo target
                 validator?.validate(target)
-                response.asNetworkResponse()
+                networkResponse
             }
         } catch (e: SocketTimeoutException) {
             NetworkResponse.Error.SocketTimeout(e)
@@ -101,19 +109,20 @@ internal class KtorDownloader : Downloader {
 
     private companion object {
 
-        fun client(proxy: Proxy?): HttpClient {
-            return HttpClient(OkHttp) {
+        fun client(
+            engine: HttpClientEngine = OkHttp.create()
+        ): HttpClient {
+            return HttpClient(engine) {
                 userAgentConfig()
                 timeoutConfig()
-                engine { this.proxy = proxy }
             }
         }
 
-        fun HttpClientConfig<OkHttpConfig>.userAgentConfig() = install(UserAgent) {
+        fun HttpClientConfig<*>.userAgentConfig() = install(UserAgent) {
             agent = USER_AGENT
         }
 
-        fun HttpClientConfig<OkHttpConfig>.timeoutConfig() = install(HttpTimeout) {
+        fun HttpClientConfig<*>.timeoutConfig() = install(HttpTimeout) {
             connectTimeoutMillis = CONNECTION_TIMEOUT
             socketTimeoutMillis = SOCKET_TIMEOUT
         }
