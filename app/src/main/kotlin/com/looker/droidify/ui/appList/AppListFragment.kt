@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,23 +15,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.PackageName
 import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.getPackageInfoCompat
 import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsMargin
 import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.domain.Product
 import com.looker.core.domain.ProductItem
-import com.looker.core.domain.Repository
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
-import com.looker.droidify.service.DownloadService.State.Idle.packageName
-import com.looker.droidify.utility.InstallUtils
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.droidify.utility.extension.toInstalledItem
-import com.looker.installer.InstallManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.looker.core.common.R as CommonR
@@ -106,39 +98,22 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
                     when (menuItem.title) {
 
-                        getString(com.looker.core.common.R.string.install) -> lifecycleScope.launch {
-
-                            var products: List<Pair<Product, Repository>> = emptyList()
-
-                            val packageInfo =
-                                context.packageManager.getPackageInfoCompat(productItem.packageName)
-
-                            if (packageInfo == null)
-                                return@launch
-
-                            Database.ProductAdapter.getStream(packageName).collect {
-                                val repository = Database.RepositoryAdapter.get(it[0].repositoryId)
-
-                                if (repository != null)
-                                    products = listOf(Pair(it[0], repository))
-                            }
-
-                            InstallUtils.install(
-                                context,
-                                viewModel.settingsRepository,
-                                lifecycleScope,
-                                packageInfo.toInstalledItem(),
-                                products
-                                )
+                        getString(com.looker.core.common.R.string.install) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                com.looker.core.common.R.string.installing,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.install(requireContext(), productItem)
                         }
 
-                        getString(com.looker.core.common.R.string.uninstall) -> lifecycleScope.launch {
-                            InstallUtils.uninstall(
-                                context,
-                                viewModel.settingsRepository,
-                                lifecycleScope,
-                                PackageName(productItem.packageName),
-                            )
+                        getString(com.looker.core.common.R.string.uninstall) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                com.looker.core.common.R.string.installing,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.uninstallPackage(productItem)
                         }
 
                         else -> {
