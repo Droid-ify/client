@@ -237,4 +237,10 @@
     <string name="has_tethered_network">Lié à un certain service de réseau</string>
     <string name="require_background_access">Exiger l\'accès en arrière-plan</string>
     <string name="require_background_access_DESC">L\'accès en arrière-plan est nécessaire pour exécuter correctement la synchronisation en arrière-plan</string>
+    <string name="installation_failed">L\'installation a échoué</string>
+    <string name="installation_failed_DESC">L\'installation de %s a échoué</string>
+    <string name="uninstalled_application">Désinstallé</string>
+    <string name="uninstalled_application_DESC">%s a été désinstallé</string>
+    <string name="ignore_signature">Ignorer la signature</string>
+    <string name="ignore_signature_summary">Ignorer la vérification des signatures lors de l\'installation de l\'apk, pour les utilisateurs LSPosed ou les utilisateurs avancés</string>
 </resources>
