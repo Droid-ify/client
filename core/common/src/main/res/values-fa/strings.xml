@@ -49,7 +49,7 @@
     <string name="install">نصب</string>
     <string name="invalid_metadata_error_DESC">فراداده نادرست.</string>
     <string name="invalid_permissions_error_DESC">دسترسی‌های نادرست.</string>
-    <string name="links">لینک‌ها</string>
+    <string name="links">پیوندها</string>
     <string name="list_animation_description">نمایش لیست انیمیشن در صفحه‌اصلی</string>
     <string name="merging_FORMAT">ادغام %s</string>
     <string name="name">نام</string>
@@ -173,7 +173,7 @@
     <string name="integrity_check_error_DESC">بررسی صحت ناموفق بود.</string>
     <string name="invalid_fingerprint_format">ساختار نادرست اثرانگشت</string>
     <string name="invalid_address">آدرس ناردست</string>
-    <string name="link_copied_to_clipboard">لینک به کلیپ بورد کپی شد</string>
+    <string name="link_copied_to_clipboard">پیوند به تخته‌گیره رونوشت شد</string>
     <string name="no_proxy">بدون پروکسی</string>
     <string name="no_description_available_DESC">هیچ توضیحاتی موجود نیست</string>
     <string name="no_matching_applications_found">چنین کاره‌ای یافت نشد</string>
@@ -220,7 +220,7 @@
     <string name="contains_nsfw">دارای محتوای غیر اخلاقی</string>
     <string name="proxy_port_error_not_int">پورت پراکسی فقط میتواند عدد صحیح باشد</string>
     <string name="has_tethered_network">وابسته به برخی از سرویس های شبکه</string>
-    <string name="cannot_open_link">خطا در باز کردن لینک</string>
+    <string name="cannot_open_link">خطا در باز کردن پیوند</string>
     <string name="export_settings_title">استخراج تنظیمات</string>
     <string name="export_settings_DESC">استخراج تنظیمات و موارد دلخواه به فایل</string>
     <string name="export_repos_title">استخراج مخازن</string>
