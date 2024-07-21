@@ -231,4 +231,10 @@
     <string name="has_tethered_network">Terikat ke layanan jaringan tertentu</string>
     <string name="require_background_access">Membutuhkan Akses Latar Belakang</string>
     <string name="require_background_access_DESC">Akses Latar Belakang diperlukan untuk menjalankan sinkronisasi latar belakang dengan benar</string>
+    <string name="installation_failed">Pemasangan Gagal</string>
+    <string name="installation_failed_DESC">Gagal memasang %s</string>
+    <string name="uninstalled_application">Tercopot</string>
+    <string name="uninstalled_application_DESC">%s telah dicopot</string>
+    <string name="ignore_signature">Abaikan Tandatangan</string>
+    <string name="ignore_signature_summary">Abaikan verifikasi tanda tangan ketika memasang apk, untuk pengguna LSPosed atau pengguna ahli</string>
 </resources>
