@@ -234,4 +234,10 @@
     <string name="session_installer">Session Installatør</string>
     <string name="special_credits">Særlige Krediteringer</string>
     <string name="contains_nsfw">Indeholder potentielt stødende indhold</string>
+    <string name="ignore_signature_summary">Ignorer signaturbekræftelse, når du installerer apk, for LSPosed-brugere eller avancerede brugere</string>
+    <string name="installation_failed">Installation Mislykkedes</string>
+    <string name="installation_failed_DESC">Kunne ikke installere %s</string>
+    <string name="uninstalled_application">Afinstalleret</string>
+    <string name="uninstalled_application_DESC">%s blev afinstalleret</string>
+    <string name="ignore_signature">Ignorer Signatur</string>
 </resources>
