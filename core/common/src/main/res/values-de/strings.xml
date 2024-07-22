@@ -238,4 +238,6 @@
     <string name="uninstalled_application_DESC">%s wurde deinstalliert</string>
     <string name="installation_failed_DESC">%s konnte nicht installiert werden</string>
     <string name="uninstalled_application">Deinstalliert</string>
+    <string name="require_background_access">Hintergrundzugriff anfordern</string>
+    <string name="require_background_access_DESC">Hintergrundzugriff ist erforderlich, um die Hintergrundsynchronisation ordnungsgemäß durchzuführen</string>
 </resources>
