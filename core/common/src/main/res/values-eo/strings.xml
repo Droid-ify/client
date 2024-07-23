@@ -231,4 +231,6 @@
     <string name="export_repos_title">Eksporti Deponejojn</string>
     <string name="import_repos_DESC">Importi ĉiujn deponejojn el dosiero</string>
     <string name="cannot_open_link">Ne povas malfermi ligilon</string>
+    <string name="uninstalled_application_DESC">%s estas malinstalita</string>
+    <string name="uninstalled_application">Malinstalita</string>
 </resources>
