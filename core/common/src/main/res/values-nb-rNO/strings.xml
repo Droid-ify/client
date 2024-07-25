@@ -173,7 +173,7 @@
     <string name="show_less">Vis mindre</string>
     <string name="sort_filter">Sorter og filtrer</string>
     <string name="explore">Utforsk</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">Opprenskningsintervall</string>
     <string name="cleanup_description">Period to check and remove downloaded files</string>
     <plurals name="days">
         <item quantity="one">Dag</item>
@@ -198,7 +198,7 @@
     <string name="io_error_DESC">Noen av handlingene kunne ikke utføres.</string>
     <string name="allow_collapsing_toolbar_DESC">Tillat toppfeltet å utvide og folde seg sammen</string>
     <string name="material_you_desc">Bruk «materiell deig»-fargedrakt</string>
-    <string name="material_you">Materiell deig</string>
+    <string name="material_you">Material You</string>
     <string name="favourites">Favoritter</string>
     <string name="repository_unreachable">Pakkebrønn kan ikke nås</string>
     <string name="enable_repo">Skru på pakkebrønnen</string>
