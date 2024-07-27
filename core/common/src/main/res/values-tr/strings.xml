@@ -134,7 +134,7 @@
     <string name="signed_using_unsafe_algorithm">Güvenli olmayan bir algoritma ile imzalanmış</string>
     <string name="size">Boyut</string>
     <string name="skip">Atla</string>
-    <string name="socks_proxy">SOCKS proxy</string>
+    <string name="socks_proxy">SOCKS vekili</string>
     <string name="sorting_order">Sıralama düzeni</string>
     <string name="source_code">Kaynak kodu</string>
     <string name="source_code_no_longer_available">Kaynak kodu artık mevcut değil</string>
@@ -235,4 +235,10 @@
     <string name="has_tethered_network">Belirli bir ağ hizmetine bağlı</string>
     <string name="require_background_access">Arka Plan Erişimi Gerekli</string>
     <string name="require_background_access_DESC">Arka plan eşzamanlamasını düzgün bir şekilde çalıştırmak için arka plan erişimi gereklidir</string>
+    <string name="installation_failed">Kurulum Başarısız</string>
+    <string name="installation_failed_DESC">%s kurulamadı</string>
+    <string name="uninstalled_application">Kaldırıldı</string>
+    <string name="uninstalled_application_DESC">%s kaldırıldı</string>
+    <string name="ignore_signature">İmzayı Yok Say</string>
+    <string name="ignore_signature_summary">LSPosed kullanıcıları veya ileri düzey kullanıcılar için apk kurulurken imza doğrulamasını yok say</string>
 </resources>
