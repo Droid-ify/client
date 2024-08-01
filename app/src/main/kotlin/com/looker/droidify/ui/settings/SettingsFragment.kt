@@ -46,6 +46,7 @@ import com.looker.droidify.databinding.SettingsPageBinding
 import com.looker.droidify.databinding.SwitchTypeBinding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.time.Duration
@@ -313,11 +314,10 @@ class SettingsFragment : Fragment() {
                     }
                 }
                 launch {
-                    viewModel.settingsFlow.collect(::updateSettings)
-                }
-                launch {
-                    viewModel.backgroundTask.collect {
-                        binding.allowBackgroundWork.root.isVisible = !it
+                    viewModel.settingsFlow.collect { setting ->
+                        updateSettings(setting)
+                        binding.allowBackgroundWork.root.isVisible = !viewModel.backgroundTask.first()
+                            && setting.autoSync != AutoSync.NEVER
                     }
                 }
             }
@@ -392,7 +392,6 @@ class SettingsFragment : Fragment() {
 
     private fun updateSettings(settings: Settings) {
         with(binding) {
-            allowBackgroundWork.root.isVisible = settings.autoSync != AutoSync.NEVER
             val allowProxies = settings.proxy.type != ProxyType.DIRECT
             proxyHost.root.isVisible = allowProxies
             proxyPort.root.isVisible = allowProxies
