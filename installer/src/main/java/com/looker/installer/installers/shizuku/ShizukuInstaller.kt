@@ -3,6 +3,7 @@ package com.looker.installer.installers.shizuku
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
+import com.looker.core.common.extension.size
 import com.looker.core.domain.model.PackageName
 import com.looker.installer.installers.Installer
 import com.looker.installer.installers.uninstallPackage
@@ -14,7 +15,6 @@ import java.io.BufferedReader
 import java.io.InputStream
 import kotlin.coroutines.resume
 
-@Suppress("DEPRECATION")
 internal class ShizukuInstaller(private val context: Context) : Installer {
 
     companion object {
@@ -25,23 +25,20 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
         installItem: InstallItem
     ): InstallState = suspendCancellableCoroutine { cont ->
         var sessionId: String? = null
-        val uri = Cache.getReleaseUri(context, installItem.installFileName)
-        val releaseFileLength =
-            Cache.getReleaseFile(context, installItem.installFileName).length()
+        val file = Cache.getReleaseFile(context, installItem.installFileName)
         val packageName = installItem.packageName.name
         try {
-            val size =
-                releaseFileLength.takeIf { it >= 0 } ?: run {
-                    cont.cancel()
-                    throw IllegalStateException()
-                }
+            val fileSize = file.size ?: run {
+                cont.cancel()
+                error("File is not valid: Size ${file.size}")
+            }
             if (cont.isCompleted) return@suspendCancellableCoroutine
-            context.contentResolver.openInputStream(uri).use {
+            file.inputStream().use {
                 val createCommand =
                     if (SdkCheck.isNougat) {
-                        "pm install-create --user current -i $packageName -S $size"
+                        "pm install-create --user current -i $packageName -S $fileSize"
                     } else {
-                        "pm install-create -i $packageName -S $size"
+                        "pm install-create -i $packageName -S $fileSize"
                     }
                 val createResult = exec(createCommand)
                 sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
@@ -51,7 +48,7 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
                     }
                 if (cont.isCompleted) return@suspendCancellableCoroutine
 
-                val writeResult = exec("pm install-write -S $size $sessionId base -", it)
+                val writeResult = exec("pm install-write -S $fileSize $sessionId base -", it)
                 if (writeResult.resultCode != 0) {
                     cont.cancel()
                     throw RuntimeException("Failed to write APK to session $sessionId")
