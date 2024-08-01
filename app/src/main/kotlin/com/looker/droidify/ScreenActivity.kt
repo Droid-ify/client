@@ -18,13 +18,11 @@ import com.looker.core.common.SdkCheck
 import com.looker.core.common.deeplinkType
 import com.looker.core.common.extension.homeAsUp
 import com.looker.core.common.extension.inputManager
-import com.looker.core.common.requestBatteryFreedom
 import com.looker.core.common.requestNotificationPermission
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.extension.getThemeRes
 import com.looker.core.datastore.get
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailFragment
 import com.looker.droidify.ui.favourites.FavouritesFragment
 import com.looker.droidify.ui.repository.EditRepositoryFragment
@@ -72,7 +70,8 @@ abstract class ScreenActivity : AppCompatActivity() {
 
     lateinit var cursorOwner: CursorOwner
         private set
-    lateinit var onBackPressedCallback: OnBackPressedCallback
+
+    private var onBackPressedCallback: OnBackPressedCallback? = null
 
     private val fragmentStack = mutableListOf<FragmentStackItem>()
 
@@ -159,7 +158,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
-        setUpBackHandler()
+        backHandler()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -167,18 +166,20 @@ abstract class ScreenActivity : AppCompatActivity() {
         outState.putParcelableArrayList(STATE_FRAGMENT_STACK, ArrayList(fragmentStack))
     }
 
-    private fun setUpBackHandler() {
-        onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
-            override fun handleOnBackPressed() {
-                hideKeyboard()
-                popFragment()
+    private fun backHandler() {
+        if (onBackPressedCallback == null) {
+            onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
+                override fun handleOnBackPressed() {
+                    hideKeyboard()
+                    popFragment()
+                }
             }
+            onBackPressedDispatcher.addCallback(
+                this,
+                onBackPressedCallback!!,
+            )
         }
-        onBackPressedDispatcher.addCallback(
-            this,
-            onBackPressedCallback,
-        )
-        updateBackCallbackState()
+        onBackPressedCallback?.isEnabled = fragmentStack.isNotEmpty()
     }
 
     private fun replaceFragment(fragment: Fragment, open: Boolean?) {
@@ -209,11 +210,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             )
         }
         replaceFragment(fragment, true)
-        updateBackCallbackState()
-    }
-
-    private fun updateBackCallbackState() {
-        onBackPressedCallback.isEnabled = fragmentStack.isNotEmpty()
+        backHandler()
     }
 
     private fun popFragment(): Boolean {
@@ -223,7 +220,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             stackItem.arguments?.let(fragment::setArguments)
             stackItem.savedState?.let(fragment::setInitialSavedState)
             replaceFragment(fragment, false)
-            updateBackCallbackState()
+            backHandler()
             true
         }
     }
@@ -253,7 +250,7 @@ abstract class ScreenActivity : AppCompatActivity() {
                 }
                 val tabsFragment = currentFragment as TabsFragment
                 tabsFragment.selectUpdates()
-                updateBackCallbackState()
+                backHandler()
             }
 
             is SpecialIntent.Install -> {
