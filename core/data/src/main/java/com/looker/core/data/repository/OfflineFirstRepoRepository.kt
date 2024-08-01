@@ -1,8 +1,7 @@
 package com.looker.core.data.repository
 
 import com.looker.core.common.extension.exceptCancellation
-import com.looker.core.common.log
-import com.looker.core.domain.RepoRepository
+import com.looker.core.data.fdroid.toEntity
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.RepoDao
 import com.looker.core.database.model.toExternal
@@ -10,9 +9,10 @@ import com.looker.core.database.model.update
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.di.ApplicationScope
 import com.looker.core.di.DefaultDispatcher
+import com.looker.core.domain.RepoRepository
 import com.looker.core.domain.model.Repo
 import com.looker.network.Downloader
-import com.looker.sync.fdroid.v1.V1Syncable
+import com.looker.sync.fdroid.v2.EntrySyncable
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -62,13 +62,29 @@ class OfflineFirstRepoRepository @Inject constructor(
         }
     }
 
-    private val syncable = V1Syncable(downloader, dispatcher)
+    private val syncable = EntrySyncable(downloader, dispatcher)
 
     override suspend fun sync(repo: Repo): Boolean = coroutineScope {
         try {
-            val (updatedRepo, apps) = syncable.sync(repo)
-            log(updatedRepo.name)
-            log(apps.joinToString { it.metadata.name })
+            val (fingerprint, indexV2) = syncable.sync(repo)
+            if (indexV2 == null) return@coroutineScope true
+            val updatedRepo = indexV2.repo.toEntity(
+                id = repo.id,
+                fingerprint = fingerprint.value,
+                etag = "",
+                username = repo.authentication.username,
+                password = repo.authentication.password,
+            )
+            val apps = indexV2.packages
+                .map { (packageName, packageV2) ->
+                    packageV2.toEntity(
+                        packageName = packageName,
+                        repoId = repo.id,
+                        allowUnstable = preference.unstableUpdate,
+                    )
+                }
+            repoDao.upsertRepo(updatedRepo)
+            appDao.upsertApps(apps)
             true
         } catch (e: Exception) {
             e.exceptCancellation()
@@ -77,7 +93,10 @@ class OfflineFirstRepoRepository @Inject constructor(
     }
 
     override suspend fun syncAll(): Boolean = supervisorScope {
-        val repos = repoDao.getRepoStream().first().filter { it.enabled }
+        val repos = repoDao
+            .getRepoStream()
+            .first()
+            .filter { it.enabled }
         repos.forEach {
             sync(it.toExternal("en-US"))
         }

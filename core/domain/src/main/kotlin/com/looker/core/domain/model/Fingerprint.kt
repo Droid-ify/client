@@ -35,7 +35,7 @@ fun Certificate.fingerprint(): Fingerprint {
     return if (bytes.size >= 256) {
         try {
             val fingerprint = MessageDigest.getInstance("sha256").digest(bytes)
-            Fingerprint(fingerprint.hex())
+            Fingerprint(fingerprint.hex().uppercase())
         } catch (e: Exception) {
             e.printStackTrace()
             Fingerprint("")

@@ -1,53 +1,39 @@
 package com.looker.sync.fdroid.v1
 
-import com.looker.core.domain.Parser
-import com.looker.core.domain.Syncable
-import com.looker.core.domain.model.App
+import com.looker.core.domain.model.Fingerprint
 import com.looker.core.domain.model.Repo
 import com.looker.network.Downloader
+import com.looker.sync.fdroid.Parser
+import com.looker.sync.fdroid.Syncable
+import com.looker.sync.fdroid.common.IndexJarValidator
+import com.looker.sync.fdroid.common.JsonParser
+import com.looker.sync.fdroid.common.downloadIndex
+import com.looker.sync.fdroid.common.toV2
+import com.looker.sync.fdroid.v1.model.IndexV1
+import com.looker.sync.fdroid.v2.model.IndexV2
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.Date
 
 class V1Syncable(
     private val downloader: Downloader,
     private val dispatcher: CoroutineDispatcher,
-) : Syncable<String> {
-    override val parser: Parser<String>
-        get() = V1Parser(dispatcher)
-
-    override suspend fun sync(repo: Repo): Pair<Repo, List<App>> = withContext(Dispatchers.IO) {
-        val jar = downloadIndex(repo)
-        val (fingerprint, indexV1) = parser.parse(jar, repo)
-        TODO("Not yet implemented")
-    }
-
-    private suspend fun downloadIndex(repo: Repo): File = withContext(Dispatchers.IO) {
-        val tempFile = File.createTempFile(repo.name, "-v1")
-        downloader.downloadToFile(
-            url = repo.indexUrl("index-v1.jar"),
-            target = tempFile,
-            headers = {
-                if (repo.shouldAuthenticate) {
-                    authentication(
-                        repo.authentication.username,
-                        repo.authentication.password
-                    )
-                }
-                if (repo.versionInfo.timestamp > 0L) {
-                    ifModifiedSince(Date(repo.versionInfo.timestamp))
-                }
-            }
+) : Syncable<IndexV1> {
+    override val parser: Parser<IndexV1>
+        get() = V1Parser(
+            dispatcher = dispatcher,
+            json = JsonParser.parser,
+            validator = IndexJarValidator(dispatcher),
         )
-        tempFile
-    }
-}
 
-fun Repo.indexUrl(parameter: String): String =
-    buildString {
-        append(address.removeSuffix("/"))
-        append("/")
-        append(parameter.removePrefix("/"))
-    }
+    override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2> =
+        withContext(Dispatchers.IO) {
+            val jar = downloader.downloadIndex(
+                repo = repo,
+                url = repo.address.removeSuffix("/") + "/index-v1.jar",
+                fileName = "index-v1.jar",
+            )
+            val (fingerprint, indexV1) = parser.parse(jar, repo)
+            fingerprint to indexV1.toV2()
+        }
+}

@@ -38,7 +38,6 @@ room = "2.6.1"
 shizuku = "13.0.0"
 image-viewer = "v1.0.1"
 junitJupiter = "5.10.3"
-junitJupiterVersion = "5.8.1"
 
 [libraries]
 android-desugarJdkLibs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "androidDesugarJdkLibs" }

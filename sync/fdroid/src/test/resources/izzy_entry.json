@@ -1,0 +1,72 @@
+{
+	"timestamp": 1721411427000,
+	"version": 20002,
+	"index": {
+		"name": "/index-v2.json",
+		"sha256": "ad97af70cb2e33db861a4a3afee6bf00737236bddc84a8a2ba342adce4875c71",
+		"size": 6788520,
+		"numPackages": 1166
+	},
+	"diffs": {
+		"1721151805000": {
+			"name": "/diff/1721151805000.json",
+			"sha256": "2980035cba55f0028845cf2a2023d0dd75c28fa92bd2c766188c26f1ebb32cdf",
+			"size": 274474,
+			"numPackages": 62
+		},
+		"1721171113000": {
+			"name": "/diff/1721171113000.json",
+			"sha256": "c7eac2b78e400ba2370444a8a4f44c0b0f3452dd440d50e21ffd5e6949a91f20",
+			"size": 272941,
+			"numPackages": 51
+		},
+		"1721214220000": {
+			"name": "/diff/1721214220000.json",
+			"sha256": "5db8bae71f43de2de50d261eef3c56455564d8d93f10b21d84475532c529a3d7",
+			"size": 266580,
+			"numPackages": 45
+		},
+		"1721237018000": {
+			"name": "/diff/1721237018000.json",
+			"sha256": "ee3925f59e9508fceb03a41be8a3c188582c3bd0fe4a5032d6c7aaa0ea27efc9",
+			"size": 263504,
+			"numPackages": 45
+		},
+		"1721238180000": {
+			"name": "/diff/1721238180000.json",
+			"sha256": "850776b3c4442461b1dd0865dbd0d8ce6736e823950764f5472af02f49aebb2e",
+			"size": 70624,
+			"numPackages": 43
+		},
+		"1721320317000": {
+			"name": "/diff/1721320317000.json",
+			"sha256": "7a7065fe932664bfad8080c35c04a3d6ce928a46f87e9e0202f3018d8765c579",
+			"size": 64040,
+			"numPackages": 25
+		},
+		"1721320691000": {
+			"name": "/diff/1721320691000.json",
+			"sha256": "170d4fbd53af8aca4a011cbcaad8864c243317ac16d0292b462d093c58833c49",
+			"size": 59915,
+			"numPackages": 24
+		},
+		"1721325026000": {
+			"name": "/diff/1721325026000.json",
+			"sha256": "9c3414a7295d8070580a9f079597092b3f7f1f22b70e3d81d32ff231cea3bc52",
+			"size": 22766,
+			"numPackages": 23
+		},
+		"1721405552000": {
+			"name": "/diff/1721405552000.json",
+			"sha256": "c1ffd9ef9dfdeba090fde09cc52dc9f2f8d61f49004fc559fbdc75df7c605f9b",
+			"size": 20711,
+			"numPackages": 10
+		},
+		"1721405817000": {
+			"name": "/diff/1721405817000.json",
+			"sha256": "1bddc9f642730f7711519524c4f93a3bd6b2254abbb87da6be82def9322e2d4a",
+			"size": 18888,
+			"numPackages": 10
+		}
+	}
+}
