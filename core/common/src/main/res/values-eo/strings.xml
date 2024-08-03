@@ -233,4 +233,11 @@
     <string name="cannot_open_link">Ne povas malfermi ligilon</string>
     <string name="uninstalled_application_DESC">%s estas malinstalita</string>
     <string name="uninstalled_application">Malinstalita</string>
+    <string name="installation_failed">La instalado malsukcesis</string>
+    <string name="installation_failed_DESC">Ne eblis instali %s</string>
+    <string name="ignore_signature">Ignori subskribon</string>
+    <string name="ignore_signature_summary">Ignori subskriban konfirmon dum la instalado de la apk, por LSPosed-uzantoj aŭ altnivelaj uzantoj</string>
+    <string name="has_tethered_network">Ligita al certa retservo</string>
+    <string name="require_background_access">Postuli fonan aliron</string>
+    <string name="require_background_access_DESC">Fona aliro estas bezonata por ĝuste fari fonan sinkronigon</string>
 </resources>
