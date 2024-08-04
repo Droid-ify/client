@@ -231,4 +231,10 @@
     <string name="cannot_open_link">无法打开链接</string>
     <string name="require_background_access">需要后台访问权</string>
     <string name="require_background_access_DESC">需要后台运行权限，以正常进行后台同步</string>
+    <string name="installation_failed">安装失败</string>
+    <string name="installation_failed_DESC">无法安装 %s</string>
+    <string name="uninstalled_application">已卸载</string>
+    <string name="uninstalled_application_DESC">%s 已卸载</string>
+    <string name="ignore_signature_summary">安装 apk 时忽略签名验证，适用于 LSPosed 用户或高级用户</string>
+    <string name="ignore_signature">忽略签名</string>
 </resources>
