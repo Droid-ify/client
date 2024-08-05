@@ -6,6 +6,7 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,8 +15,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.isFirstItemVisible
 import com.looker.core.common.extension.systemBarsMargin
@@ -26,6 +25,8 @@ import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.utility.extension.screenActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
@@ -82,9 +83,50 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            recyclerViewAdapter = AppListAdapter(source) {
-                screenActivity.navigateProduct(it.packageName)
+
+            var favouriteApps: Set<String> = emptySet()
+
+            lifecycleScope.launch {
+                favouriteApps = viewModel.settingsRepository.getInitial().favouriteApps
             }
+
+            recyclerViewAdapter = AppListAdapter(
+                source,
+                favouriteApps,
+                { screenActivity.navigateProduct(it.packageName) },
+                fun(productItem, menuItem): Boolean {
+
+                    when (menuItem.title) {
+
+                        getString(com.looker.core.common.R.string.install) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                com.looker.core.common.R.string.installing,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.install(requireContext(), productItem)
+                        }
+
+                        getString(com.looker.core.common.R.string.uninstall) -> {
+                            Toast.makeText(
+                                requireContext(),
+                                com.looker.core.common.R.string.installing,
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            viewModel.uninstallPackage(productItem)
+                        }
+
+                        else -> {
+                            lifecycleScope.launch {
+                                viewModel.settingsRepository.toggleFavourites(
+                                    productItem.packageName
+                                )
+                            }
+                        }
+                    }
+                    return true
+                }
+            )
             adapter = recyclerViewAdapter
             systemBarsPadding()
         }
