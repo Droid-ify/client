@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.looker.core.common.Scroller
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.extension.dp
@@ -104,7 +105,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             } else {
                 text = ""
                 setIconResource(CommonR.drawable.arrow_up)
-                setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+                setOnClickListener {
+                    val scroller = Scroller(requireContext())
+                    scroller.targetPosition = 0
+                    recyclerView.layoutManager?.startSmoothScroll(scroller)
+                }
                 alpha = 0f
                 isVisible = true
                 systemBarsMargin(16.dp)
