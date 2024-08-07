@@ -231,4 +231,10 @@
     <string name="has_tethered_network">綁定至特定網路服務</string>
     <string name="require_background_access_DESC">為了正確執行背景同步，需要背景存取權限</string>
     <string name="require_background_access">需要背景存取權限</string>
+    <string name="installation_failed">安裝失敗</string>
+    <string name="installation_failed_DESC">安裝 %s 失敗</string>
+    <string name="uninstalled_application">已解除安裝</string>
+    <string name="uninstalled_application_DESC">%s 已被解除安裝</string>
+    <string name="ignore_signature">忽略簽章</string>
+    <string name="ignore_signature_summary">安裝 apk 時忽略簽章驗證，適用於 LSPosed 或進階使用者</string>
 </resources>
