@@ -398,6 +398,12 @@ data class Repository(
                 description = "Apps developed and distributed by MM20",
                 fingerprint = "156FBAB952F6996415F198F3F29628D24B30E725B0F07A2B49C3A9B5161EEE1A"
             ),
+            defaultRepository(
+                address = "https://breezy-weather.github.io/fdroid-repo/fdroid/repo",
+                name = "Breezy Weather",
+                description = "The F-Droid repository for Breezy Weather",
+                fingerprint = "3480A7BB2A296D8F98CB90D2309199B5B9519C1B31978DBCD877ADB102AF35EE"
+            ),
         )
     }
 }
