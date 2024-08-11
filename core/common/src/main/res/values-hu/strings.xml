@@ -234,4 +234,10 @@
     <string name="export_repos_DESC">Az összes tároló fájlba exportálása</string>
     <string name="require_background_access">Háttérbeli hozzáférés igénylése</string>
     <string name="require_background_access_DESC">A háttérszinkronizálás megfelelő futtatásához háttérbeli hozzáférés szükséges</string>
+    <string name="ignore_signature_summary">Aláírás ellenőrzés figyelmen kívül hagyása az apk telepítésekor, LSPosed felhasználók vagy haladó felhasználók számára</string>
+    <string name="installation_failed">A telepítés meghiúsult</string>
+    <string name="installation_failed_DESC">%s telepítése meghiúsult</string>
+    <string name="uninstalled_application">Eltávolított</string>
+    <string name="uninstalled_application_DESC">%s eltávolításra került</string>
+    <string name="ignore_signature">Aláírás figyelmen kívül hagyása</string>
 </resources>
