@@ -4,7 +4,6 @@ import com.looker.sync.fdroid.v1.model.AppV1
 import com.looker.sync.fdroid.v1.model.IndexV1
 import com.looker.sync.fdroid.v1.model.Localized
 import com.looker.sync.fdroid.v1.model.PackageV1
-import com.looker.sync.fdroid.v1.model.PermissionV1
 import com.looker.sync.fdroid.v1.model.RepoV1
 import com.looker.sync.fdroid.v2.model.AntiFeatureV2
 import com.looker.sync.fdroid.v2.model.CategoryV2
@@ -172,8 +171,8 @@ private fun PackageV1.toVersionV2(
         usesSdk = sdkV2(),
         minSdkVersion = minSdkVersion,
         maxSdkVersion = maxSdkVersion,
-        usesPermission = usesPermission.toV2(),
-        usesPermissionSdk23 = usesPermission23.toV2(),
+        usesPermission = usesPermission.map { PermissionV2(it.name, it.maxSdk) },
+        usesPermissionSdk23 = usesPermission23.map { PermissionV2(it.name, it.maxSdk) },
         features = features?.map { FeatureV2(it) } ?: emptyList(),
         nativecode = nativeCode ?: emptyList()
     ),
@@ -189,8 +188,6 @@ private fun PackageV1.sdkV2(): UsesSdkV2? {
         )
     }
 }
-
-private fun List<PermissionV1>.toV2(): List<PermissionV2> = map { PermissionV2(it.name, it.maxSdk) }
 
 private inline fun Map<String, Localized>.localizedString(
     default: String?,

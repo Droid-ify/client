@@ -43,11 +43,6 @@ class V1ParserTest {
     private val v2JsonFile = getResource("izzy_index_v2.json")
     private val repo = Izzy
 
-    /**
-     * Use jackson's streaming api to parse json's
-     * https://www.baeldung.com/jackson-streaming-api
-     * https://github.com/FasterXML/jackson-docs/wiki/JacksonStreamingApi
-     */
     @Test
     fun `parse v1 json and compare with v2`() = runTest(dispatcher) {
         requireNotNull(jarFile)
@@ -65,7 +60,7 @@ class V1ParserTest {
     }
 }
 
-private inline fun memory(
+internal inline fun memory(
     block: () -> Unit,
 ) {
     val runtime = Runtime.getRuntime()
