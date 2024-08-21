@@ -12,7 +12,6 @@ import com.looker.sync.fdroid.common.toV2
 import com.looker.sync.fdroid.v1.model.IndexV1
 import com.looker.sync.fdroid.v2.model.IndexV2
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class V1Syncable(
@@ -27,13 +26,14 @@ class V1Syncable(
         )
 
     override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val jar = downloader.downloadIndex(
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/index-v1.jar",
                 fileName = "index-v1.jar",
             )
             val (fingerprint, indexV1) = parser.parse(jar, repo)
+            jar.delete()
             fingerprint to indexV1.toV2()
         }
 }

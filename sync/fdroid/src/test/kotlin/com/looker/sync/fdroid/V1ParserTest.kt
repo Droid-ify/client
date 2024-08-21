@@ -7,12 +7,15 @@ import com.looker.sync.fdroid.common.getResource
 import com.looker.sync.fdroid.common.toV2
 import com.looker.sync.fdroid.v1.V1Parser
 import com.looker.sync.fdroid.v2.V2Parser
+import io.ktor.utils.io.CancellationException
+import kotlinx.coroutines.async
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertIterableEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.util.jar.JarEntry
 import kotlin.time.measureTime
 
@@ -57,6 +60,14 @@ class V1ParserTest {
                 convertedIndex.packages.keys.sorted()
             )
         }
+    }
+
+    @Test
+    fun `check cancellation`() = runTest(dispatcher) {
+        requireNotNull(jarFile)
+        val job = async { v1Parser.parse(jarFile, repo) }
+        job.cancel()
+        assertThrows<CancellationException> { job.await() }
     }
 }
 

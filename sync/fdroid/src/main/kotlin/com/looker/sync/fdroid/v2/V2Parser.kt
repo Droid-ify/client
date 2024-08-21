@@ -24,6 +24,8 @@ class V2Parser(
         val indexV2 = file.inputStream().use {
             json.decodeFromStream(IndexV2.serializer(), it)
         }
-        repo.fingerprint!! to indexV2
+        requireNotNull(repo.fingerprint) {
+            "Fingerprint should not be null if index v2 is being fetched"
+        } to indexV2
     }
 }

@@ -1,9 +1,9 @@
 package com.looker.sync.fdroid.v1
 
-import com.looker.sync.fdroid.Parser
 import com.looker.core.domain.model.Fingerprint
 import com.looker.core.domain.model.Repo
 import com.looker.sync.fdroid.IndexValidator
+import com.looker.sync.fdroid.Parser
 import com.looker.sync.fdroid.utils.toJarFile
 import com.looker.sync.fdroid.v1.model.IndexV1
 import kotlinx.coroutines.CoroutineDispatcher
