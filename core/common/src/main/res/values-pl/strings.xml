@@ -240,4 +240,10 @@
     <string name="cannot_open_link">Nie można otworzyć łącza</string>
     <string name="require_background_access_DESC">Dostęp w tle jest wymagany do prawidłowego działania synchronizacji w tle</string>
     <string name="require_background_access">Wymaganie dostępu do działania w tle</string>
+    <string name="installation_failed">Instalacja nie powiodła się</string>
+    <string name="installation_failed_DESC">Nie udało się zainstalować %s</string>
+    <string name="uninstalled_application">Odinstalowano</string>
+    <string name="uninstalled_application_DESC">Aplikacja %s została odinstalowana</string>
+    <string name="ignore_signature">Ignorowanie podpisu</string>
+    <string name="ignore_signature_summary">Ignorowanie weryfikacji podpisu podczas instalacji apk, dla użytkowników LSPosed lub zaawansowanych użytkowników</string>
 </resources>
