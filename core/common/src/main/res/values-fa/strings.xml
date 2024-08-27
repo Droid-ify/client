@@ -234,4 +234,6 @@
     <string name="special_credits">تشکر ویژه</string>
     <string name="require_background_access">نیازمند دسترسی پس‌زمینه</string>
     <string name="require_background_access_DESC">برای همگام‌سازی در پس‌زمینه، دسترسی پس‌زمینه لازم است</string>
+    <string name="installation_failed">نصب انجام نشد</string>
+    <string name="uninstalled_application">حذف نصب شد</string>
 </resources>
