@@ -227,4 +227,14 @@
     <string name="export_settings_DESC">設定とお気に入りをファイルにエクスポートする</string>
     <string name="export_repos_title">リポジトリをエクスポート</string>
     <string name="import_repos_DESC">ファイルから全てのリポジトリをインポートする</string>
+    <string name="uninstalled_application">アンインストール</string>
+    <string name="uninstalled_application_DESC">%s をアンインストールしました</string>
+    <string name="installation_failed">インストールに失敗しました</string>
+    <string name="installation_failed_DESC">%s のインストールに失敗しました</string>
+    <string name="ignore_signature_summary">LSPosedユーザー、上級ユーザー向けに、apkをインストールする際の署名の検証を無視します</string>
+    <string name="ignore_signature">署名を無視する</string>
+    <string name="has_tethered_network">特定のネットワークサービスに制限されています</string>
+    <string name="cannot_open_link">リンクを開けません</string>
+    <string name="require_background_access">バックグラウンドのアクセスが必要です</string>
+    <string name="require_background_access_DESC">バックグラウンドでの使用を可能にするには、バックグランドのアクセスを許可する必要があります</string>
 </resources>
