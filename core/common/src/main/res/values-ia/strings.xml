@@ -234,4 +234,6 @@
     <string name="compiled_for_debugging">Compilate pro le depuration</string>
     <string name="require_background_access_DESC">Accesso in secunde plano es requirite pro executar correctemente le synchronisation in secunde plano</string>
     <string name="require_background_access">Require accesso in secunde plano</string>
+    <string name="installation_failed">Falleva le installation</string>
+    <string name="installation_failed_DESC">Falleva le installation de %s</string>
 </resources>
