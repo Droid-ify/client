@@ -30,6 +30,11 @@ class EntrySyncable(
         json = JsonParser.parser,
     )
 
+    private val diffParser: Parser<IndexV2Diff> = DiffParser(
+        dispatcher = dispatcher,
+        json = JsonParser.parser,
+    )
+
     override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> =
         withContext(Dispatchers.IO) {
             val jar = downloader.downloadIndex(
