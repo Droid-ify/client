@@ -236,4 +236,8 @@
     <string name="require_background_access">Require accesso in secunde plano</string>
     <string name="installation_failed">Falleva le installation</string>
     <string name="installation_failed_DESC">Falleva le installation de %s</string>
+    <string name="uninstalled_application">Disinstallate</string>
+    <string name="uninstalled_application_DESC">%s ha essite disinstallate</string>
+    <string name="ignore_signature">Ignorar le signatura</string>
+    <string name="ignore_signature_summary">Ignorar le verification de signatura in le installation de apk, pro usatores avantiate o de LSPosed</string>
 </resources>
