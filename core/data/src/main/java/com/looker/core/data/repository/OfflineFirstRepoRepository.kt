@@ -65,7 +65,7 @@ class OfflineFirstRepoRepository @Inject constructor(
         }
     }
 
-    private val syncable = EntrySyncable(downloader, dispatcher)
+    private val syncable = EntrySyncable(context, downloader, dispatcher)
 
     override suspend fun sync(repo: Repo): Boolean = coroutineScope {
         try {

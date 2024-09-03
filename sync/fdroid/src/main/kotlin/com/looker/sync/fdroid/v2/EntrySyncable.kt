@@ -33,20 +33,23 @@ class EntrySyncable(
     override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> =
         withContext(Dispatchers.IO) {
             val jar = downloader.downloadIndex(
+                context = context,
                 repo = repo,
-                url = repo.address.removeSuffix("/") + "/entry.jar",
-                fileName = "entry.jar"
+                url = repo.address.removeSuffix("/") + "/$ENTRY_V2_NAME",
+                fileName = ENTRY_V2_NAME
             )
             val (fingerprint, entry) = parser.parse(jar, repo)
             val index = entry.getDiff(repo.versionInfo.timestamp)
                 ?: return@withContext fingerprint to null
             val indexPath = repo.address.removeSuffix("/") + index.name
-            val indexFile = downloader.downloadIndex(
-                repo = repo,
-                url = indexPath,
-                fileName = "index-v2.json"
-            )
             val (_, indexV2) = indexParser.parse(indexFile, repo)
+                // example https://apt.izzysoft.de/fdroid/repo/index-v2.json
+                val newIndexFile = downloader.downloadIndex(
+                    context = context,
+                    repo = repo,
+                    url = indexPath,
+                    fileName = INDEX_V2_NAME,
+                )
             fingerprint to indexV2
         }
 }
