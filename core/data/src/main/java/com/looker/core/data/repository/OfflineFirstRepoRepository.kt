@@ -1,5 +1,6 @@
 package com.looker.core.data.repository
 
+import android.content.Context
 import com.looker.core.common.extension.exceptCancellation
 import com.looker.core.data.fdroid.toEntity
 import com.looker.core.database.dao.AppDao
@@ -13,6 +14,7 @@ import com.looker.core.domain.RepoRepository
 import com.looker.core.domain.model.Repo
 import com.looker.network.Downloader
 import com.looker.sync.fdroid.v2.EntrySyncable
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -26,6 +28,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class OfflineFirstRepoRepository @Inject constructor(
+    @ApplicationContext context: Context,
     private val appDao: AppDao,
     private val repoDao: RepoDao,
     private val settingsRepository: SettingsRepository,
