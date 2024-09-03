@@ -24,6 +24,7 @@ object Cache {
     private const val RELEASE_DIR = "releases"
     private const val PARTIAL_DIR = "partial"
     private const val IMAGES_DIR = "images"
+    private const val INDEX_DIR = "index"
     private const val TEMP_DIR = "temporary"
 
     private fun ensureCacheDir(context: Context, name: String): File {
@@ -50,6 +51,10 @@ object Cache {
 
     fun getImagesDir(context: Context): File {
         return ensureCacheDir(context, IMAGES_DIR)
+    }
+
+    fun getIndexFile(context: Context, indexName: String): File {
+        return File(ensureCacheDir(context, INDEX_DIR), indexName)
     }
 
     fun getPartialReleaseFile(context: Context, cacheFileName: String): File {
@@ -108,9 +113,10 @@ object Cache {
             cleanup(
                 context,
                 Pair(IMAGES_DIR, Duration.INFINITE),
+                Pair(INDEX_DIR, Duration.INFINITE),
                 Pair(PARTIAL_DIR, 24.hours),
                 Pair(RELEASE_DIR, 24.hours),
-                Pair(TEMP_DIR, 1.hours)
+                Pair(TEMP_DIR, 1.hours),
             )
         }
     }
