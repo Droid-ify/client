@@ -1,11 +1,16 @@
 plugins {
-    alias(libs.plugins.looker.jvm.library)
+    alias(libs.plugins.looker.android.library)
     alias(libs.plugins.looker.serialization)
     alias(libs.plugins.looker.lint)
 }
 
+android {
+    namespace = "com.looker.sync.fdroid"
+}
+
 dependencies {
     modules(
+        Modules.coreCommon,
         Modules.coreDomain,
         Modules.coreNetwork,
     )
@@ -18,9 +23,9 @@ dependencies {
     testRuntimeOnly(libs.junit.platform)
 }
 
-tasks.test {
+/*tasks.test {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
     }
-}
+}*/
