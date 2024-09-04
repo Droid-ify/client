@@ -16,16 +16,7 @@ dependencies {
     )
 
     implementation(libs.kotlinx.coroutines.core)
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
     testImplementation(libs.ktor.mock)
     testImplementation(libs.kotlinx.coroutines.test)
-    testRuntimeOnly(libs.junit.platform)
+    testRuntimeOnly(kotlin("test"))
 }
-
-/*tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events("passed", "skipped", "failed")
-    }
-}*/

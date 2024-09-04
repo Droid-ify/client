@@ -7,16 +7,16 @@ import com.looker.sync.fdroid.common.getResource
 import com.looker.sync.fdroid.common.toV2
 import com.looker.sync.fdroid.v1.V1Parser
 import com.looker.sync.fdroid.v2.V2Parser
-import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertIterableEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
 import java.util.jar.JarEntry
+import kotlin.coroutines.cancellation.CancellationException
+import kotlin.test.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.time.measureTime
 
 /**
@@ -55,7 +55,7 @@ class V1ParserTest {
             val convertedIndex = indexV1.toV2()
             val (_, indexV2) = v2Parser.parse(v2JsonFile, repo)
             assertEquals(indexV2.packages.size, convertedIndex.packages.size)
-            assertIterableEquals(
+            assertContentEquals(
                 indexV2.packages.keys.sorted(),
                 convertedIndex.packages.keys.sorted()
             )
@@ -67,7 +67,7 @@ class V1ParserTest {
         requireNotNull(jarFile)
         val job = async { v1Parser.parse(jarFile, repo) }
         job.cancel()
-        assertThrows<CancellationException> { job.await() }
+        assertFailsWith<CancellationException> { job.await() }
     }
 }
 
