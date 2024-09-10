@@ -16,7 +16,8 @@ import com.looker.sync.fdroid.v2.model.Entry
 import com.looker.sync.fdroid.v2.model.IndexV2
 import com.looker.sync.fdroid.v2.model.IndexV2Diff
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -46,7 +47,7 @@ class EntrySyncable(
 
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             // example https://apt.izzysoft.de/fdroid/repo/entry.json
             val jar = downloader.downloadIndex(
                 context = context,
@@ -57,6 +58,7 @@ class EntrySyncable(
             val (fingerprint, entry) = parser.parse(jar, repo)
             jar.delete()
             val index = entry.getDiff(repo.versionInfo.timestamp)
+            // Already latest
                 ?: return@withContext fingerprint to null
             val indexPath = repo.address.removeSuffix("/") + index.name
             val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$INDEX_V2_NAME")
@@ -69,6 +71,7 @@ class EntrySyncable(
                     fileName = "diff_${repo.versionInfo.timestamp}.json",
                     diff = true,
                 )
+                // TODO: Maybe parse in parallel
                 diffParser.parse(diffFile, repo).second.let {
                     diffFile.delete()
                     it.patchInto(indexParser.parse(indexFile, repo).second) { index ->
