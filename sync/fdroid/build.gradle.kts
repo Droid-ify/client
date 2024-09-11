@@ -16,7 +16,5 @@ dependencies {
     )
 
     implementation(libs.kotlinx.coroutines.core)
-    testImplementation(libs.ktor.mock)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testRuntimeOnly(kotlin("test"))
+    androidTestImplementation(libs.bundles.test.android)
 }

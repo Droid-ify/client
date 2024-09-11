@@ -42,8 +42,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
             dependencies {
                 add("implementation", kotlin2("stdlib", libs))
                 add("implementation", kotlin2("reflect", libs))
-                add("testImplementation", kotlin2("test", libs))
-                add("androidTestImplementation", kotlin2("test", libs))
             }
         }
     }

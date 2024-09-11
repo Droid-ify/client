@@ -76,6 +76,7 @@ hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testi
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "kotlinxCoroutines" }
@@ -124,4 +125,5 @@ looker-room = { id = "looker.room", version = "unspecified" }
 looker-serialization = { id = "looker.serialization", version = "unspecified" }
 
 [bundles]
-test-ui = ["androidx-test-runner", "androidx-test-rules", "androidx-test-espresso-core", "androidx-test-uiautomator"]
+test-android = ["androidx-test-runner", "androidx-test-rules", "androidx-test-ext", "androidx-test-espresso-core", "kotlinx-coroutines-test", "kotlin-test"]
+test-ui = ["androidx-test-runner", "androidx-test-rules", "androidx-test-espresso-core", "androidx-test-uiautomator", "kotlinx-coroutines-test", "kotlin-test"]
