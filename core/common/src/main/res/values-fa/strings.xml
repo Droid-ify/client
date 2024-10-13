@@ -236,4 +236,8 @@
     <string name="require_background_access_DESC">برای همگام‌سازی در پس‌زمینه، دسترسی پس‌زمینه لازم است</string>
     <string name="installation_failed">نصب انجام نشد</string>
     <string name="uninstalled_application">حذف نصب شد</string>
+    <string name="ignore_signature">امضا را نادیده بگیر</string>
+    <string name="uninstalled_application_DESC">%s پاک شده</string>
+    <string name="ignore_signature_summary">هنگام نصب APK ، برای کاربران Lsposed یا کاربران پیشرفته ، تأیید امضا نادیده گرفته شود</string>
+    <string name="installation_failed_DESC">نصب %s ناموفق بود</string>
 </resources>
