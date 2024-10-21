@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.transition.MaterialFade
 import com.looker.droidify.databinding.FragmentBinding
 
 
@@ -19,6 +20,8 @@ open class ScreenFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _fragmentBinding = FragmentBinding.inflate(layoutInflater)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
     }
 
     override fun onCreateView(
