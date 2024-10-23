@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.droidify.database.Database
@@ -27,6 +28,12 @@ class FavouritesFragment : ScreenFragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerViewAdapter: FavouriteFragmentAdapter
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

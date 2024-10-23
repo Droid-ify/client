@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.extension.getLauncherActivities
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.isFirstItemVisible
@@ -107,6 +108,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             }
         }
     )
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

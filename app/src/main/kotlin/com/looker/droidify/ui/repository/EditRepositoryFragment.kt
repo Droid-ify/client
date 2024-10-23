@@ -15,6 +15,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.extension.clipboardManager
 import com.looker.core.common.extension.get
 import com.looker.core.common.extension.getMutatedIcon
@@ -74,6 +75,12 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     @Inject
     lateinit var downloader: Downloader
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

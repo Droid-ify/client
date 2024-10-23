@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.systemBarsMargin
@@ -24,6 +25,12 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
     private val binding get() = _binding!!
 
     private val syncConnection = Connection(SyncService::class.java)
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
