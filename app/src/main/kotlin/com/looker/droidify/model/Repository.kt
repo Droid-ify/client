@@ -404,6 +404,12 @@ data class Repository(
                 description = "The F-Droid repository for Breezy Weather",
                 fingerprint = "3480A7BB2A296D8F98CB90D2309199B5B9519C1B31978DBCD877ADB102AF35EE"
             ),
+            defaultRepository(
+                address = "https://gh.artemchep.com/keyguard-repo-fdroid/repo",
+                name = "Keyguard Project",
+                description = "Mirrors artifacts available on https://github.com/AChep/keyguard-app/releases",
+                fingerprint = "03941CE79B081666609C8A48AB6E46774263F6FC0BBF1FA046CCFFC60EA643BC"
+            ),
         )
     }
 }
