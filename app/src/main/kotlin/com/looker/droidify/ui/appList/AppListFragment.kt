@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.Scroller
 import com.looker.core.common.R as CommonR
 import com.looker.core.common.R.string as stringRes
@@ -66,6 +67,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private lateinit var recyclerViewAdapter: AppListAdapter
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

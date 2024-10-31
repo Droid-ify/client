@@ -23,6 +23,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.homeAsUp
@@ -112,6 +113,12 @@ class SettingsFragment : Fragment() {
                 viewModel.createSnackbar(CommonR.string.file_format_error_DESC)
             }
         }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

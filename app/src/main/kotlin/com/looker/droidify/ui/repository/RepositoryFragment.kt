@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.transition.MaterialFade
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.droidify.model.Repository
@@ -44,7 +45,13 @@ class RepositoryFragment() : ScreenFragment() {
     }
 
     private var layout: LinearLayout? = null
-
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFade()
+        exitTransition = MaterialFade()
+    }
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
