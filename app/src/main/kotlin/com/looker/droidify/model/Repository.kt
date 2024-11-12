@@ -410,6 +410,12 @@ data class Repository(
                 description = "Mirrors artifacts available on https://github.com/AChep/keyguard-app/releases",
                 fingerprint = "03941CE79B081666609C8A48AB6E46774263F6FC0BBF1FA046CCFFC60EA643BC"
             ),
+            defaultRepository(
+                address = "https://f5a.torus.icu/fdroid/repo",
+                name = "Fcitx 5 For Android F-Droid Repo",
+                description = "Out-of-tree fcitx5-android plugins.",
+                fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
+            ),
         )
     }
 }
