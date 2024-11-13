@@ -404,6 +404,12 @@ data class Repository(
                 description = "Out-of-tree fcitx5-android plugins.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
+            defaultRepository(
+                address = "https://fdroid.i2pd.xyz/fdroid/repo/",
+                name = "PurpleI2P F-Droid repository",
+                description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
+                fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
+            ),
         )
     }
 }
