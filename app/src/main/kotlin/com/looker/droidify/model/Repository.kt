@@ -363,12 +363,6 @@ data class Repository(
 
         val newlyAdded = listOf<Repository>(
             defaultRepository(
-                address = "https://repo.samourai.io/fdroid/repo",
-                name = "Samourai Wallet",
-                description = "Samourai Bitcoin Wallet official F-Droid repository.",
-                fingerprint = "5318AFA280284855CF5D0027AA54517769F461D735980B1FB0854CEAE8E072A5"
-            ),
-            defaultRepository(
                 address = "https://f-droid.monerujo.io/fdroid/repo",
                 name = "Monerujo Wallet",
                 description = "Monerujo Monero Wallet official F-Droid repository.",
