@@ -347,12 +347,6 @@ data class Repository(
                 fingerprint = "13784ba6c80ff4e2181e55c56f961eed5844cea16870d3b38d58780b85e1158f"
             ),
             defaultRepository(
-                address = "https://julianfairfax.gitlab.io/fdroid-repo/fdroid/repo",
-                name = "Julian's F-Droid Repo (Proton, GrapheneOS)",
-                description = "Repository for installing apps more easily.",
-                fingerprint = "83ABB548CAA6F311CE3591DDCA466B65213FD0541352502702B1908F0C84206D"
-            ),
-            defaultRepository(
                 address = "https://zimbelstern.eu/fdroid/repo",
                 name = "Zimbelstern's F-Droid repository",
                 description = "This is the official repository of apps from zimbelstern.eu," +
