@@ -234,4 +234,10 @@
     <string name="has_tethered_network">Bundet till en viss nätverkstjänst</string>
     <string name="require_background_access">Kräv bakgrundsåtkomst</string>
     <string name="require_background_access_DESC">Bakgrundsåtkomst krävs för att köra bakgrundssynkronisering korrekt</string>
+    <string name="installation_failed">Installation misslyckades</string>
+    <string name="installation_failed_DESC">Misslyckades att installera %s</string>
+    <string name="uninstalled_application">Avinstallerad</string>
+    <string name="uninstalled_application_DESC">%s har blivit avinstallerad</string>
+    <string name="ignore_signature">Ignorera signatur</string>
+    <string name="ignore_signature_summary">Ignorera signaturverifiering när du installerar apk, för LSPosed användare eller avancerade användare</string>
 </resources>
