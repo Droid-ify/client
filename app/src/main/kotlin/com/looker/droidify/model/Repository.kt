@@ -347,12 +347,6 @@ data class Repository(
                 fingerprint = "13784ba6c80ff4e2181e55c56f961eed5844cea16870d3b38d58780b85e1158f"
             ),
             defaultRepository(
-                address = "https://julianfairfax.gitlab.io/fdroid-repo/fdroid/repo",
-                name = "Julian's F-Droid Repo (Proton, GrapheneOS)",
-                description = "Repository for installing apps more easily.",
-                fingerprint = "83ABB548CAA6F311CE3591DDCA466B65213FD0541352502702B1908F0C84206D"
-            ),
-            defaultRepository(
                 address = "https://zimbelstern.eu/fdroid/repo",
                 name = "Zimbelstern's F-Droid repository",
                 description = "This is the official repository of apps from zimbelstern.eu," +
@@ -368,12 +362,6 @@ data class Repository(
         )
 
         val newlyAdded = listOf<Repository>(
-            defaultRepository(
-                address = "https://repo.samourai.io/fdroid/repo",
-                name = "Samourai Wallet",
-                description = "Samourai Bitcoin Wallet official F-Droid repository.",
-                fingerprint = "5318AFA280284855CF5D0027AA54517769F461D735980B1FB0854CEAE8E072A5"
-            ),
             defaultRepository(
                 address = "https://f-droid.monerujo.io/fdroid/repo",
                 name = "Monerujo Wallet",
@@ -414,6 +402,12 @@ data class Repository(
                 address = "https://f5a.torus.icu/fdroid/repo",
                 name = "Fcitx 5 For Android F-Droid Repo",
                 description = "Out-of-tree fcitx5-android plugins.",
+                fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
+            ),
+            defaultRepository(
+                address = "https://fdroid.i2pd.xyz/fdroid/repo/",
+                name = "PurpleI2P F-Droid repository",
+                description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
         )
