@@ -1,6 +1,7 @@
 package com.looker.droidify
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
 import android.view.ViewGroup
@@ -63,9 +64,7 @@ abstract class ScreenActivity : AppCompatActivity() {
 
     @Parcelize
     private class FragmentStackItem(
-        val className: String,
-        val arguments: Bundle?,
-        val savedState: Fragment.SavedState?
+        val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?
     ) : Parcelable
 
     lateinit var cursorOwner: CursorOwner
@@ -88,19 +87,15 @@ abstract class ScreenActivity : AppCompatActivity() {
     }
 
     private fun collectChange() {
-        val hiltEntryPoint =
-            EntryPointAccessors.fromApplication(
-                this,
-                CustomUserRepositoryInjector::class.java
-            )
-        val newSettings = hiltEntryPoint.settingsRepository()
-            .get { theme to dynamicTheme }
+        val hiltEntryPoint = EntryPointAccessors.fromApplication(
+            this, CustomUserRepositoryInjector::class.java
+        )
+        val newSettings = hiltEntryPoint.settingsRepository().get { theme to dynamicTheme }
         runBlocking {
             val theme = newSettings.first()
             setTheme(
                 resources.configuration.getThemeRes(
-                    theme = theme.first,
-                    dynamicTheme = theme.second
+                    theme = theme.first, dynamicTheme = theme.second
                 )
             )
         }
@@ -108,8 +103,7 @@ abstract class ScreenActivity : AppCompatActivity() {
             newSettings.drop(1).collect { themeAndDynamic ->
                 setTheme(
                     resources.configuration.getThemeRes(
-                        theme = themeAndDynamic.first,
-                        dynamicTheme = themeAndDynamic.second
+                        theme = themeAndDynamic.first, dynamicTheme = themeAndDynamic.second
                     )
                 )
                 recreate()
@@ -122,10 +116,8 @@ abstract class ScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val rootView = FrameLayout(this).apply { id = R.id.main_content }
         addContentView(
-            rootView,
-            ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+            rootView, ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
             )
         )
 
@@ -141,8 +133,8 @@ abstract class ScreenActivity : AppCompatActivity() {
                 add(cursorOwner, CursorOwner::class.java.name)
             }
         } else {
-            cursorOwner = supportFragmentManager
-                .findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
+            cursorOwner =
+                supportFragmentManager.findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
         }
 
         savedInstanceState?.getParcelableArrayList<FragmentStackItem>(STATE_FRAGMENT_STACK)
@@ -284,6 +276,17 @@ abstract class ScreenActivity : AppCompatActivity() {
 
                     null -> {}
                 }
+            }
+
+            Intent.ACTION_SHOW_APP_INFO -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    val packageName = intent.getStringExtra(Intent.EXTRA_PACKAGE_NAME)
+
+                    if (packageName != null && currentFragment !is AppDetailFragment) {
+                        navigateProduct(packageName)
+                    }
+                }
+
             }
         }
     }
