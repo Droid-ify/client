@@ -234,4 +234,10 @@
     <string name="cannot_open_link">Δεν είναι δυνατό το άνοιγμα του συνδέσμου</string>
     <string name="require_background_access">Απαιτείται πρόσβαση στο παρασκήνιο</string>
     <string name="require_background_access_DESC">Απαιτείται πρόσβαση στο παρασκήνιο για τη σωστή εκτέλεση του συγχρονισμού παρασκηνίου</string>
+    <string name="installation_failed">Η εγκατάσταση απέτυχε</string>
+    <string name="installation_failed_DESC">Η εγκατάσταση του %s απέτυχε</string>
+    <string name="uninstalled_application">Απεγκαταστάθηκε</string>
+    <string name="uninstalled_application_DESC">Το %s απεγκαταστάθηκε</string>
+    <string name="ignore_signature">Αγνόησή Υπογραφής</string>
+    <string name="ignore_signature_summary">Αγνοήστε την επαλήθευση υπογραφής κατά την εγκατάσταση apk, για χρήστες με LSP ή προχωρημένους χρήστες</string>
 </resources>
