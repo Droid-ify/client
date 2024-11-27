@@ -237,4 +237,8 @@
     <string name="cannot_open_link">Nije moguće otvoriti poveznicu</string>
     <string name="require_background_access_DESC">Za ispravno pokretanje sinkronizacije u pozadini potreban je pristup pozadini</string>
     <string name="require_background_access">Zahtijeva pristup pozadini</string>
+    <string name="installation_failed">Instalacija neuspjela</string>
+    <string name="uninstalled_application">Deinstalirano</string>
+    <string name="uninstalled_application_DESC">%s je deinstaliran</string>
+    <string name="ignore_signature">Ignoriraj potpis</string>
 </resources>
