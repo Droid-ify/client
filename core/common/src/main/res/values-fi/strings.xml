@@ -234,4 +234,10 @@
     <string name="installation_failed_DESC">%s asentaminen epäonnistui</string>
     <string name="uninstalled_application">Poistettu</string>
     <string name="uninstalled_application_DESC">%s on poistettu</string>
+    <string name="ignore_signature_summary">Ohita allekirjoituksen vahvistus, kun asennat apk:ta LSPosed-käyttäjille tai kokeneille käyttäjille</string>
+    <string name="require_background_access_DESC">Taustasynkronoinnin suorittaminen oikein edellyttää taustakäyttöä</string>
+    <string name="ignore_signature">Ohita allekirjoitus</string>
+    <string name="has_tethered_network">Tiettyyn verkkopalveluun sidottu</string>
+    <string name="cannot_open_link">Linkkiä ei voi avata</string>
+    <string name="require_background_access">Vaadi taustakäyttöä</string>
 </resources>
