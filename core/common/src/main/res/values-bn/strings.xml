@@ -209,4 +209,7 @@
     <string name="waiting_to_start_download">ডাউনলোড শুরু করার জন্য অপেক্ষা করা হচ্ছে…</string>
     <string name="prefs_language_title">ভাষা</string>
     <string name="new_applications">নতুন অ্যাপ্লিকেশন</string>
+    <string name="cannot_open_link">লিংকটি ওপেন করা সম্ভব হয়নি</string>
+    <string name="import_export">ইম্পোর্ট/এক্সপোর্ট</string>
+    <string name="import_settings_title">সেটিংস ইম্পোর্ট করুন</string>
 </resources>
