@@ -134,7 +134,7 @@
     <string name="details">Детаљи</string>
     <string name="edit_repository">Измени репозиторијум</string>
     <string name="sorting_order">Редослед сортирања</string>
-    <string name="ignore_this_update">Игнориши ову верзију</string>
+    <string name="ignore_this_update">Занемари ову верзију</string>
     <string name="unverified">Неверификовано</string>
     <string name="http_proxy">HTTP прокси</string>
     <string name="application">Апликација</string>
@@ -202,7 +202,7 @@
     <string name="system">Системски</string>
     <string name="confirmation">Потврда</string>
     <string name="repository_not_found">Следећи репозиторијум није пронађен</string>
-    <string name="special_credits">Посебни кредити</string>
+    <string name="special_credits">Посебне заслуге</string>
     <string name="share">Дели</string>
     <string name="changes">Промене</string>
     <string name="invalid_username_format">Неважећи формат корисничког имена</string>
@@ -213,13 +213,13 @@
     <string name="shizuku_not_installed">Shizuku није инсталиран</string>
     <string name="unstable_updates">Нестабилна ажурирања</string>
     <string name="proxy_host">Хост проксија</string>
-    <string name="ignore_all_updates">Игнориши све нове верзије</string>
+    <string name="ignore_all_updates">Занемари све нове верзије</string>
     <string name="downloading_FORMAT">Преузимање %s…</string>
     <string name="integrity_check_error_DESC">Није могуће проверити интегритет.</string>
     <string name="application_not_found">Није могуће пронаћи ту апликацију</string>
     <string name="proxy">Прокси</string>
     <string name="latest">Најновије</string>
-    <string name="credits">Кредити</string>
+    <string name="credits">Заслуге</string>
     <string name="repositories">Репозиторијуми</string>
     <string name="root_permission_description">Дозволите root дозволу за тихе инсталације</string>
     <string name="compiled_for_debugging">Састављено за отклањање грешака</string>
@@ -241,6 +241,6 @@
     <string name="uninstalled_application_DESC">%s је деинсталиран</string>
     <string name="installation_failed">Инсталација није успела</string>
     <string name="installation_failed_DESC">Није успела инсталација %s</string>
-    <string name="ignore_signature">Игнориши потпис</string>
-    <string name="ignore_signature_summary">Игноришите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
+    <string name="ignore_signature">Занемари потпис</string>
+    <string name="ignore_signature_summary">Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
 </resources>
