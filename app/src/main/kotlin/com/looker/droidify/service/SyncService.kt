@@ -216,6 +216,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
+    override fun onTimeout(startId: Int) {
+        super.onTimeout(startId)
+        onDestroy()
+        stopSelf()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         downloadConnection.unbind(this)

@@ -16,8 +16,6 @@ import com.looker.sync.fdroid.v2.model.Entry
 import com.looker.sync.fdroid.v2.model.IndexV2
 import com.looker.sync.fdroid.v2.model.IndexV2Diff
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
