@@ -27,14 +27,9 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.http.etag
 import io.ktor.http.isSuccess
 import io.ktor.http.lastModified
-import io.ktor.utils.io.ByteReadChannel
 import io.ktor.utils.io.CancellationException
-import io.ktor.utils.io.core.ByteReadPacket
-import io.ktor.utils.io.core.isEmpty
-import io.ktor.utils.io.core.readBytes
+import io.ktor.utils.io.jvm.javaio.copyTo
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
@@ -88,7 +83,7 @@ internal class KtorDownloader(
                 if (networkResponse !is NetworkResponse.Success) {
                     return@execute networkResponse
                 }
-                response.bodyAsChannel() saveTo target
+                response.bodyAsChannel().copyTo(target.outputStream())
                 validator?.validate(target)
                 networkResponse
             }
@@ -139,26 +134,13 @@ internal class KtorDownloader(
             }
             onDownload { read, total ->
                 if (block != null) {
-                    block(DataSize(read + (fileSize ?: 0L)), DataSize(total + (fileSize ?: 0L)))
+                    block(
+                        DataSize(read + (fileSize ?: 0L)),
+                        DataSize((total ?: 0L) + (fileSize ?: 0L))
+                    )
                 }
             }
         }
-
-        suspend infix fun ByteReadChannel.saveTo(target: File) =
-            withContext(Dispatchers.IO) {
-                while (!isClosedForRead && isActive) {
-                    val packet = readRemaining(DEFAULT_BUFFER_SIZE.toLong())
-                    packet.appendTo(target)
-                }
-            }
-
-        suspend fun ByteReadPacket.appendTo(file: File) =
-            withContext(Dispatchers.IO) {
-                while (!isEmpty && isActive) {
-                    val bytes = readBytes()
-                    file.appendBytes(bytes)
-                }
-            }
 
         fun HttpResponse.asNetworkResponse(): NetworkResponse =
             if (status.isSuccess() || status == HttpStatusCode.NotModified) {

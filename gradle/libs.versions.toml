@@ -32,7 +32,7 @@ kotlinxDatetime = "0.6.1"
 kotlinxSerializationJson = "1.7.3"
 ksp = "2.1.0-1.0.29"
 ktlint = "12.1.2"
-ktor = "2.3.13"
+ktor = "3.0.3"
 libsu = "6.0.0"
 room = "2.6.1"
 shizuku = "13.0.0"
@@ -83,9 +83,9 @@ kotlinx-coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-co
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+ktor-core = { group = "io.ktor", name = "ktor-client-core" }
+ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp" }
+ktor-mock = { group = "io.ktor", name = "ktor-client-mock" }
 libsu-core = { group = "com.github.topjohnwu.libsu", name = "core", version.ref = "libsu" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -113,6 +113,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
 
 # Plugins defined by this project
 looker-android-application = { id = "looker.android.application", version = "unspecified" }
