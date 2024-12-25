@@ -246,4 +246,6 @@
     <string name="installation_failed_DESC">Не вдалося встановити %s</string>
     <string name="uninstalled_application_DESC">%s було видалено</string>
     <string name="uninstalled_application">Видалено</string>
+    <string name="insufficient_storage">Недостатньо місця</string>
+    <string name="insufficient_storage_DESC">На пристрої недостатньо вільного місця для встановлення цієї програми. Спробуйте звільнити місце</string>
 </resources>
