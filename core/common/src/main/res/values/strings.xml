@@ -98,6 +98,8 @@
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>
     <string name="installer">Installer</string>
+    <string name="insufficient_storage">Insufficient Space</string>
+    <string name="insufficient_storage_DESC">There is not enough free space on the device to install this application. Try clearing some space</string>
     <string name="legacy_installer">Legacy Installer</string>
     <string name="session_installer">Session Installer</string>
     <string name="root_installer">Root Installer</string>

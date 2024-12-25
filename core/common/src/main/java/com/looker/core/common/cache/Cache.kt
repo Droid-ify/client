@@ -9,6 +9,7 @@ import android.database.MatrixCursor
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
+import android.os.storage.StorageManager
 import android.provider.OpenableColumns
 import android.system.Os
 import com.looker.core.common.SdkCheck
@@ -16,6 +17,7 @@ import com.looker.core.common.sdkAbove
 import java.io.File
 import java.util.UUID
 import kotlin.concurrent.thread
+import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -48,6 +50,11 @@ object Cache {
         val filePath = file.path
         filePath.startsWith(dirPath) || throw RuntimeException()
         return filePath.substring(dirPath.length)
+    }
+
+    fun getEmptySpace(context: Context): Long {
+        val dir = context.cacheDir
+        return min(dir.usableSpace, dir.freeSpace)
     }
 
     fun getImagesDir(context: Context): File {

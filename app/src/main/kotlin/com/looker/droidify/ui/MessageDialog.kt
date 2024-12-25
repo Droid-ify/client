@@ -187,6 +187,12 @@ class MessageDialog() : DialogFragment() {
                 dialog.setMessage(stringRes.incompatible_signature_DESC)
                 dialog.setPositiveButton(stringRes.ok, null)
             }
+
+            is Message.InsufficientStorage -> {
+                dialog.setTitle(stringRes.insufficient_storage)
+                dialog.setMessage(stringRes.insufficient_storage_DESC)
+                dialog.setPositiveButton(stringRes.ok, null)
+            }
         }::class
         return dialog.create()
     }
@@ -220,6 +226,9 @@ sealed interface Message : Parcelable {
 
     @Parcelize
     data object ReleaseSignatureMismatch : Message
+
+    @Parcelize
+    data object InsufficientStorage : Message
 }
 
 class ReleaseIncompatibilityParceler : Parceler<Release.Incompatibility> {
