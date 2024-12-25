@@ -220,7 +220,7 @@
     <string name="unstable_updates">Unstable updates</string>
     <string name="unstable_updates_summary">Suggest installing unstable versions</string>
     <string name="ignore_signature">Ignore Signature</string>
-    <string name="ignore_signature_summary">Ignore signature verification when installing apk, for LSPosed users or advanced users</string>
+    <string name="ignore_signature_summary">*Warning* Ignore signature verification when installing apk, for LSPosed users or advanced users</string>
     <string name="unverified">Unverified</string>
     <string name="update">Update</string>
     <string name="updates">Updates</string>

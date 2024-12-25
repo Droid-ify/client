@@ -1,0 +1,28 @@
+Added:
+- Dialog to indicate low storage (blocks download)
+- UserAgent, for repository developers
+- Multiple New Repositories
+- Option to Ignore Signature Verification of App (Warning)
+- Predictive Back Support (Thanks to @First Last)
+- Better RTL Support
+- Ability to open app info from Android Settings (Thanks to @jonas-w)
+- Image cache clears in 7 days
+
+Fixed:
+- Background Access Dialog reappearing
+- Screenshot Container expanding
+- Some text alignments
+- 0B/0B sync notification
+- Auto update won't work if notifications are disabled
+
+Changed:
+- Target SDK 34 -> 35
+- Migrated to Preferences Datastore (removes hassle to add new settings)
+- Better Install notifications
+
+Removed:
+- Screenshot transitions
+
+Improvement:
+- Downloading performance
+- Shizuku Installer performance

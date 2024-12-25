@@ -73,7 +73,7 @@ echo "Version Name: $version_name"
 echo "Changelog file name: $changelog_file"
 echo "Git tag: $git_tag"
 
-code $changelog_file
+nvim $changelog_file
 
 # Ask for confirmation before creating a Git tag
 read -p "Do you want to create a Git tag for version $git_tag? (y/n): " -r

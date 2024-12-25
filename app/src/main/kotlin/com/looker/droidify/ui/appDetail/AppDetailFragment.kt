@@ -448,7 +448,6 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             .Builder(context, screenshots) { view, current ->
                 view.load(current.url(product.second, viewModel.packageName))
             }
-            .withTransitionFrom(parentView)
             .withStartPosition(position)
             .show()
     }
