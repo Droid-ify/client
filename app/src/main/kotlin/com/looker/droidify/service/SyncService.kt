@@ -22,6 +22,7 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.startSelf
 import com.looker.core.common.extension.stopForegroundCompat
+import com.looker.core.common.log
 import com.looker.core.common.result.Result
 import com.looker.core.common.sdkAbove
 import com.looker.core.datastore.SettingsRepository
@@ -471,7 +472,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         autoUpdate: Boolean
     ) {
         try {
-            if (!hasUpdates || !notifyUpdates) {
+            if (!hasUpdates) {
                 syncState.emit(State.Finish)
                 val needStop = started == Started.MANUAL
                 started = Started.NO
@@ -481,10 +482,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates()
             if (!blocked && updates.isNotEmpty()) {
-                displayUpdatesNotification(updates)
+                if (notifyUpdates) displayUpdatesNotification(updates)
                 if (autoUpdate) updateAllAppsInternal()
             }
-            handleUpdates(hasUpdates = false, notifyUpdates = true, autoUpdate = autoUpdate)
+            handleUpdates(
+                hasUpdates = false,
+                notifyUpdates = notifyUpdates,
+                autoUpdate = autoUpdate
+            )
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }
@@ -494,6 +499,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private suspend fun updateAllAppsInternal() {
+        log("Check Running", "Syncing")
         Database.ProductAdapter
             .getUpdates()
             // Update Droid-ify the last
