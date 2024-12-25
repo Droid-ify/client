@@ -17,6 +17,7 @@ import java.io.File
 import java.util.UUID
 import kotlin.concurrent.thread
 import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 
 object Cache {
@@ -112,10 +113,10 @@ object Cache {
         thread {
             cleanup(
                 context,
-                Pair(IMAGES_DIR, Duration.INFINITE),
+                Pair(IMAGES_DIR, 7.days),
                 Pair(INDEX_DIR, Duration.INFINITE),
-                Pair(PARTIAL_DIR, 24.hours),
-                Pair(RELEASE_DIR, 24.hours),
+                Pair(PARTIAL_DIR, 1.days),
+                Pair(RELEASE_DIR, 1.days),
                 Pair(TEMP_DIR, 1.hours),
             )
         }
