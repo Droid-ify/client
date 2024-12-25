@@ -28,20 +28,17 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
 import com.looker.core.common.device.Huawei
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getMutatedIcon
 import com.looker.core.common.extension.selectableBackground
 import com.looker.core.common.extension.systemBarsPadding
 import com.looker.core.common.sdkAbove
-import com.looker.core.data.fdroid.sync.workers.SyncWorker
 import com.looker.core.datastore.extension.sortOrderName
 import com.looker.core.datastore.model.SortOrder
-import com.looker.droidify.model.ProductItem
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
+import com.looker.droidify.model.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
@@ -53,9 +50,11 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
-import kotlinx.coroutines.launch
+import com.looker.core.common.R as CommonR
+import com.looker.core.common.R.string as stringRes
 
 @AndroidEntryPoint
 class TabsFragment : ScreenFragment() {
@@ -205,8 +204,8 @@ class TabsFragment : ScreenFragment() {
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
                 .setOnMenuItemClickListener {
-                    SyncWorker.startSyncWork(requireContext())
-//                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+//                    SyncWorker.startSyncWork(requireContext())
+                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
                     true
                 }
 
@@ -397,7 +396,7 @@ class TabsFragment : ScreenFragment() {
     }
 
     private fun performOnBackPressed() {
-        when(viewModel.backAction.value) {
+        when (viewModel.backAction.value) {
             BackAction.ProductAll -> {
                 viewModel.setSection(ProductItem.Section.All)
             }
