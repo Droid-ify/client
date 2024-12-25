@@ -389,7 +389,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
             return
         }
-        val task = tasks.removeFirst()
+        val task = tasks.removeAt(0)
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
         val lastStarted = started
