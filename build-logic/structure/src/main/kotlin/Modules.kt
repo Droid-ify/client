@@ -15,8 +15,7 @@ object Modules {
 }
 
 fun DependencyHandlerScope.modules(vararg module: String) {
-    val modules = module.toList()
-    modules.forEach {
+    module.forEach {
         add("implementation", project(it))
     }
 }
