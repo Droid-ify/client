@@ -1,13 +1,16 @@
 package com.looker.sync.fdroid
 
-import com.looker.core.common.extension.writeTo
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse
 import com.looker.network.ProgressListener
 import com.looker.network.header.HeadersBuilder
 import com.looker.network.validation.FileValidator
 import com.looker.sync.fdroid.common.assets
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.InputStream
 import java.net.Proxy
 
 val FakeDownloader = object : Downloader {
@@ -43,6 +46,19 @@ val FakeDownloader = object : Downloader {
             }
             index.writeTo(target)
             NetworkResponse.Success(200, null, null)
+        }
+    }
+
+    suspend infix fun InputStream.writeTo(file: File) = withContext(Dispatchers.IO) {
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var bytesRead = read(buffer)
+        file.outputStream().use { output ->
+            while (bytesRead != -1) {
+                ensureActive()
+                output.write(buffer, 0, bytesRead)
+                bytesRead = read(buffer)
+            }
+            output.flush()
         }
     }
 }

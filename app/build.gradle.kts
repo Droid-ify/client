@@ -79,7 +79,7 @@ dependencies {
 
     modules(
         Modules.coreDomain,
-        Modules.coreData,
+//        Modules.coreData,
         Modules.coreCommon,
         Modules.coreNetwork,
         Modules.coreDatastore,
