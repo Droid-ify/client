@@ -16,13 +16,13 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.android.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.fragment.ktx)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.viewModel)
-    implementation(libs.androidx.recyclerview)
+    implementation(libs.coroutines.android)
+    implementation(libs.material)
+    implementation(libs.activity)
+    implementation(libs.fragment.ktx)
+    implementation(libs.core.ktx)
+    implementation(libs.lifecycle.viewModel)
+    implementation(libs.recyclerview)
     implementation(libs.coil.kt)
     implementation(libs.jackson.core)
 }

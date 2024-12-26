@@ -15,8 +15,8 @@ dependencies {
         Modules.coreDomain,
     )
 
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.coroutines.guava)
+    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.guava)
     implementation(libs.libsu.core)
     implementation(libs.shizuku.api)
     api(libs.shizuku.provider)

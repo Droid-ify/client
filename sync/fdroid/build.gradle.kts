@@ -15,6 +15,6 @@ dependencies {
         Modules.coreNetwork,
     )
 
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.coroutines.core)
     androidTestImplementation(libs.bundles.test.android)
 }

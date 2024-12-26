@@ -12,7 +12,7 @@ class AndroidSerializationPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", libs.getLibrary("kotlinx.serialization.json"))
+                add("implementation", libs.getLibrary("serialization"))
             }
         }
     }

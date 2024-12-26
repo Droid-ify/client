@@ -7,13 +7,13 @@ plugins {
 
 dependencies {
     modules(Modules.coreDI)
-    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.coroutines.core)
     implementation(libs.ktor.core)
     implementation(libs.ktor.okhttp)
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.ktor.mock)
-    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.coroutines.test)
     testImplementation(kotlin("test"))
     testRuntimeOnly(libs.junit.platform)
 }

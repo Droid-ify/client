@@ -11,8 +11,8 @@ android {
 
 dependencies {
     modules(Modules.coreCommon, Modules.coreDI)
-    implementation(libs.androidx.dataStore.core)
-    implementation(libs.androidx.dataStore.proto)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.kotlinx.datetime)
+    implementation(libs.datastore.core)
+    implementation(libs.datastore.proto)
+    implementation(libs.coroutines.android)
+    implementation(libs.datetime)
 }

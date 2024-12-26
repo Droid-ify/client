@@ -19,5 +19,5 @@ dependencies {
         Modules.sync,
     )
 
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.coroutines.android)
 }

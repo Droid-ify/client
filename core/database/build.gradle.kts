@@ -12,6 +12,6 @@ android {
 dependencies {
     modules(Modules.coreCommon, Modules.coreDomain)
 
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.coroutines.android)
+    implementation(libs.core.ktx)
 }

@@ -12,7 +12,7 @@ class AndroidHiltWorkerPlugin : Plugin<Project> {
             }
 
             dependencies {
-                add("implementation", libs.getLibrary("androidx.work.ktx"))
+                add("implementation", libs.getLibrary("work.ktx"))
                 add("implementation", libs.getLibrary("hilt.ext.work"))
                 add("ksp", libs.getLibrary("hilt.ext.compiler"))
             }

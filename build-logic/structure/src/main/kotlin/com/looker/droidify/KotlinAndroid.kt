@@ -41,7 +41,7 @@ internal fun Project.configureKotlinAndroid(
     configureKotlin<KotlinAndroidProjectExtension>()
 
     dependencies {
-        add("coreLibraryDesugaring", libs.getLibrary("android.desugarJdkLibs"))
+        add("coreLibraryDesugaring", libs.getLibrary("desugaring"))
     }
 }
 
