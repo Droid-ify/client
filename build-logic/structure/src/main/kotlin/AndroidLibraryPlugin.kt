@@ -34,7 +34,6 @@ class AndroidLibraryPlugin : Plugin<Project> {
             }
             dependencies {
                 add("implementation", kotlin2("stdlib", libs))
-                add("implementation", kotlin2("reflect", libs))
             }
         }
     }

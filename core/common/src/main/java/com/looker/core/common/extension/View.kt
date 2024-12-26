@@ -8,10 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.request.ImageRequest
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.flow.*
 
 fun ImageRequest.Builder.authentication(base64: String) {
     addHeader("Authorization", base64)

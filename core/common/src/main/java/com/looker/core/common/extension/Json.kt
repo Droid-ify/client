@@ -37,7 +37,7 @@ fun JsonParser.forEachKey(callback: JsonParser.(KeyToken) -> Unit) {
     while (true) {
         val token = nextToken()
         if (token == JsonToken.FIELD_NAME) {
-            passKey = currentName
+            passKey = currentName()
             passToken = nextToken()
             callback(keyToken)
         } else if (token == JsonToken.END_OBJECT) {
