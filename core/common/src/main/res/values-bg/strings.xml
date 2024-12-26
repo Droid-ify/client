@@ -158,7 +158,7 @@
     <string name="processing_FORMAT">Обработка на %1$s…</string>
     <string name="project_website">Уебстраница на проекта</string>
     <string name="promotes_non_free_software">Насърчава несвободен софтуер</string>
-    <string name="provided_by_FORMAT">Предоставени от %s</string>
+    <string name="provided_by_FORMAT">Предоставено от %s</string>
     <string name="themes">Теми</string>
     <string name="uninstall">Деинсталиране</string>
     <string name="source_code">Програмен код</string>
@@ -239,5 +239,7 @@
     <string name="uninstalled_application_DESC">%s е било деинсталирано</string>
     <string name="installation_failed">Неуспешна инсталация</string>
     <string name="ignore_signature">Пренебрегване на подписа</string>
-    <string name="ignore_signature_summary">Пренебрегване проверката на подписа при инсталиране на APK, за LSPosed потребители или напреднали потребители</string>
+    <string name="ignore_signature_summary">*Внимание* Игнорирайте проверката на подписа при инсталиране на APK за LSPosed потребители или напреднали потребители</string>
+    <string name="insufficient_storage">Недостатъчно място</string>
+    <string name="insufficient_storage_DESC">Няма достатъчно свободно място на устройството за инсталиране на това приложение. Опитайте да освободите малко място</string>
 </resources>
