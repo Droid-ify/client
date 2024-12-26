@@ -234,10 +234,12 @@
     <string name="require_background_access">Achtergrondtoegang vereisen</string>
     <string name="special_credits">Speciale dank</string>
     <string name="contains_nsfw">Bevat inhoud ongeschikt voor werk</string>
-    <string name="ignore_signature_summary">Verificatie van handtekening achterwege laten bij het installeren van apk; voor LSPosed-gebruikers of gevorderde gebruikers</string>
+    <string name="ignore_signature_summary">\"Waarschuwing\" Negeer handtekeningverificatie bij het installeren van apk; voor LSPosed-gebruikers of gevorderde gebruikers</string>
     <string name="ignore_signature">Handtekening negeren</string>
     <string name="installation_failed_DESC">%s is niet geïnstalleerd</string>
     <string name="uninstalled_application">Verwijderd</string>
     <string name="uninstalled_application_DESC">%s is verwijderd</string>
     <string name="installation_failed">Installatie mislukt</string>
+    <string name="insufficient_storage">Onvoldoende ruimte</string>
+    <string name="insufficient_storage_DESC">Er is niet genoeg vrije ruimte op het apparaat om deze applicatie te installeren. Probeer wat ruimte vrij te maken</string>
 </resources>
