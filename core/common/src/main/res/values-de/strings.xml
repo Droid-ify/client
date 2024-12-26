@@ -233,11 +233,13 @@
     <string name="cannot_open_link">Link kann nicht geöffnet werden</string>
     <string name="has_tethered_network">An einen bestimmten Netzwerkdienst gebunden</string>
     <string name="ignore_signature">Signatur ignorieren</string>
-    <string name="ignore_signature_summary">Verifikation der APK-Signatur beim Installieren ignorieren. Für LSPosed-Benutzer oder Experten.</string>
+    <string name="ignore_signature_summary">*Achtung* Signaturüberprüfung bei der Installation der APK ignorieren. Für LSPosed-Benutzer oder Experten.</string>
     <string name="installation_failed">Installation fehlgeschlagen</string>
     <string name="uninstalled_application_DESC">%s wurde deinstalliert</string>
     <string name="installation_failed_DESC">%s konnte nicht installiert werden</string>
     <string name="uninstalled_application">Deinstalliert</string>
     <string name="require_background_access">Hintergrundzugriff anfordern</string>
     <string name="require_background_access_DESC">Hintergrundzugriff ist erforderlich, um die Hintergrundsynchronisation ordnungsgemäß durchzuführen</string>
+    <string name="insufficient_storage">Nicht genug Speicherplatz</string>
+    <string name="insufficient_storage_DESC">Es gibt nicht genug Speicherplatz, um diese Anwendung zu installieren. Versuche etwas Platz zu schafffen.</string>
 </resources>
