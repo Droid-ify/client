@@ -238,9 +238,11 @@
     <string name="require_background_access">Requerir acceso en segundo plano</string>
     <string name="require_background_access_DESC">El acceso en segundo plano es necesario para ejecutar correctamente la sincronización en segundo plano</string>
     <string name="ignore_signature">Ignorar firma</string>
-    <string name="ignore_signature_summary">Ignorar la verificación de firma al instalar apk, para usuarios LSPosed o usuarios avanzados</string>
+    <string name="ignore_signature_summary">*Precaución* Ignore la verificación de firma al instalar el APK. Para usuarios o expertos de LSPosed</string>
     <string name="installation_failed_DESC">No se pudo instalar %s</string>
     <string name="uninstalled_application_DESC">%s ha sido desinstalada</string>
     <string name="installation_failed">Instalación fallida</string>
     <string name="uninstalled_application">Desinstalada</string>
+    <string name="insufficient_storage">Espacio insuficiente</string>
+    <string name="insufficient_storage_DESC">No hay suficiente espacio libre en el dispositivo para instalar esta aplicación. Intente liberar algo de espacio</string>
 </resources>
