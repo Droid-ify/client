@@ -242,5 +242,7 @@
     <string name="installation_failed">Инсталација није успела</string>
     <string name="installation_failed_DESC">Није успела инсталација %s</string>
     <string name="ignore_signature">Занемари потпис</string>
-    <string name="ignore_signature_summary">Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
+    <string name="ignore_signature_summary">Упозорење: Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
+    <string name="insufficient_storage">Недовољно меморије</string>
+    <string name="insufficient_storage_DESC">Нема довољно слободног меморијског простора на уређају за инсталирање ове апликације. Покушајте да ослободите мало простора</string>
 </resources>
