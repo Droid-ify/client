@@ -238,9 +238,11 @@
     <string name="require_background_access_DESC">Přístup na pozadí je vyžadován pro správné spuštění synchronizace na pozadí</string>
     <string name="require_background_access">Vyžadovat přístup na pozadí</string>
     <string name="ignore_signature">Ignorovat podpis</string>
-    <string name="ignore_signature_summary">Ignorovat ověřování podpisu při instalaci aplikace, pro uživatele LSPosed nebo pokročilé uživatele</string>
+    <string name="ignore_signature_summary">*Varování* Ignorovat ověřování podpisu při instalaci aplikace, pro uživatele LSPosed nebo pokročilé uživatele</string>
     <string name="uninstalled_application_DESC">Aplikace %s byla odinstalována</string>
     <string name="installation_failed">Instalace selhala</string>
     <string name="installation_failed_DESC">Nepodařilo se nainstalovat aplikaci %s</string>
     <string name="uninstalled_application">Odinstalováno</string>
+    <string name="insufficient_storage">Nedostatek místa</string>
+    <string name="insufficient_storage_DESC">Na zařízení není dostatek místa k instalaci této aplikace. Zkuste uvolnit trochu místa</string>
 </resources>
