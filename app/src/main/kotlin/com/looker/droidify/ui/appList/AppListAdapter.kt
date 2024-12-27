@@ -10,7 +10,6 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.R as MaterialR
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.looker.core.common.extension.authentication
@@ -20,13 +19,13 @@ import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.inflate
 import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.nullIfEmpty
-import com.looker.droidify.model.ProductItem
-import com.looker.droidify.model.Repository
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
-import com.looker.droidify.utility.extension.ImageUtils.icon
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.widget.CursorRecyclerAdapter
+import com.google.android.material.R as MaterialR
 
 class AppListAdapter(
     private val source: AppListFragment.Source,

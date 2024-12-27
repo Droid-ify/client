@@ -44,6 +44,18 @@ data class Product(
 
         val identifier: String
             get() = "$locale.${type.name}.$path"
+
+        fun url(
+            repository: Repository,
+            packageName: String
+        ): String {
+            val phoneType = when (type) {
+                Type.PHONE -> "phoneScreenshots"
+                Type.SMALL_TABLET -> "sevenInchScreenshots"
+                Type.LARGE_TABLET -> "tenInchScreenshots"
+            }
+            return "${repository.address}/$packageName/$locale/$phoneType/$path"
+        }
     }
 
     // Same releases with different signatures

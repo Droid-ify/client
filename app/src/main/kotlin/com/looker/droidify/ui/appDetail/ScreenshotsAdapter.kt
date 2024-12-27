@@ -19,10 +19,9 @@ import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.dpToPx
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.extension.selectableBackground
+import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
-import com.looker.droidify.graphics.PaddingDrawable
-import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
 import com.looker.core.common.R.dimen as dimenRes

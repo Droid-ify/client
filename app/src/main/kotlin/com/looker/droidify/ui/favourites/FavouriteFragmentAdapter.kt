@@ -5,16 +5,15 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.google.android.material.R as MaterialR
 import com.looker.core.common.extension.authentication
 import com.looker.core.common.extension.corneredBackground
 import com.looker.core.common.extension.dp
 import com.looker.core.common.extension.getColorFromAttr
 import com.looker.core.common.nullIfEmpty
+import com.looker.droidify.databinding.ProductItemBinding
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
-import com.looker.droidify.databinding.ProductItemBinding
-import com.looker.droidify.utility.extension.ImageUtils.icon
+import com.google.android.material.R as MaterialR
 
 class FavouriteFragmentAdapter(
     private val onProductClick: (String) -> Unit

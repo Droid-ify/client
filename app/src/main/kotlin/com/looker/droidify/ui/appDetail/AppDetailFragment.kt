@@ -43,7 +43,6 @@ import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE_NAME
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_REPO_ADDRESS
-import com.looker.droidify.utility.extension.ImageUtils.url
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.installer.model.InstallState

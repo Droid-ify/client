@@ -1,20 +1,35 @@
 package com.looker.droidify.ui.appDetail
 
 import android.annotation.SuppressLint
-import android.content.*
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
-import android.text.style.*
+import android.text.style.BulletSpan
+import android.text.style.ClickableSpan
+import android.text.style.RelativeSizeSpan
+import android.text.style.ReplacementSpan
+import android.text.style.TypefaceSpan
+import android.text.style.URLSpan
 import android.text.util.Linkify
-import android.view.*
-import android.widget.*
+import android.view.Gravity
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextSwitcher
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
@@ -32,8 +47,17 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
-import com.looker.network.DataSize
-import com.looker.core.common.extension.*
+import com.looker.core.common.extension.authentication
+import com.looker.core.common.extension.copyToClipboard
+import com.looker.core.common.extension.corneredBackground
+import com.looker.core.common.extension.dp
+import com.looker.core.common.extension.dpToPx
+import com.looker.core.common.extension.getColorFromAttr
+import com.looker.core.common.extension.getDrawableCompat
+import com.looker.core.common.extension.getMutatedIcon
+import com.looker.core.common.extension.inflate
+import com.looker.core.common.extension.open
+import com.looker.core.common.extension.setTextSizeScaled
 import com.looker.core.common.formatSize
 import com.looker.core.common.nullIfEmpty
 import com.looker.droidify.R
@@ -45,11 +69,11 @@ import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.utility.PackageItemResolver
-import com.looker.droidify.utility.extension.ImageUtils.icon
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
+import com.looker.network.DataSize
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
@@ -1673,7 +1697,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     holder.compatibility.text = when (incompatibility) {
                         is Release.Incompatibility.MinSdk,
                         is Release.Incompatibility.MaxSdk
-                        -> context.getString(
+                            -> context.getString(
                             stringRes.incompatible_with_FORMAT,
                             Android.name
                         )
