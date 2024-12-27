@@ -6,7 +6,6 @@ import com.fasterxml.jackson.core.JsonToken
 import com.looker.core.common.extension.Json
 import com.looker.core.common.extension.asSequence
 import com.looker.core.common.extension.collectNotNull
-import com.looker.core.common.extension.execWithResult
 import com.looker.core.common.extension.writeDictionary
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
@@ -111,5 +110,9 @@ class IndexMerger(file: File) : Closeable {
 
     override fun close() {
         db.use { closeTransaction() }
+    }
+
+    private inline fun SQLiteDatabase.execWithResult(sql: String) {
+        rawQuery(sql, null).use { it.count }
     }
 }
