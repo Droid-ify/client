@@ -12,93 +12,93 @@ import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 
 fun Product.serialize(generator: JsonGenerator) {
-    generator.writeNumberField("repositoryId", repositoryId)
-    generator.writeNumberField("serialVersion", 1)
-    generator.writeStringField("packageName", packageName)
-    generator.writeStringField("name", name)
-    generator.writeStringField("summary", summary)
-    generator.writeStringField("description", description)
-    generator.writeStringField("whatsNew", whatsNew)
-    generator.writeStringField("icon", icon)
-    generator.writeStringField("metadataIcon", metadataIcon)
-    generator.writeStringField("authorName", author.name)
-    generator.writeStringField("authorEmail", author.email)
-    generator.writeStringField("authorWeb", author.web)
-    generator.writeStringField("source", source)
-    generator.writeStringField("changelog", changelog)
-    generator.writeStringField("web", web)
-    generator.writeStringField("tracker", tracker)
-    generator.writeNumberField("added", added)
-    generator.writeNumberField("updated", updated)
-    generator.writeNumberField("suggestedVersionCode", suggestedVersionCode)
-    generator.writeArray("categories") { categories.forEach(::writeString) }
-    generator.writeArray("antiFeatures") { antiFeatures.forEach(::writeString) }
-    generator.writeArray("licenses") { licenses.forEach(::writeString) }
-    generator.writeArray("donates") {
+    generator.writeNumberField(REPOSITORYID, repositoryId)
+    generator.writeNumberField(SERIALVERSION, 1)
+    generator.writeStringField(PACKAGENAME, packageName)
+    generator.writeStringField(NAME, name)
+    generator.writeStringField(SUMMARY, summary)
+    generator.writeStringField(DESCRIPTION, description)
+    generator.writeStringField(WHATSNEW, whatsNew)
+    generator.writeStringField(ICON, icon)
+    generator.writeStringField(METADATAICON, metadataIcon)
+    generator.writeStringField(AUTHORNAME, author.name)
+    generator.writeStringField(AUTHOREMAIL, author.email)
+    generator.writeStringField(AUTHORWEB, author.web)
+    generator.writeStringField(SOURCE, source)
+    generator.writeStringField(CHANGELOG, changelog)
+    generator.writeStringField(WEB, web)
+    generator.writeStringField(TRACKER, tracker)
+    generator.writeNumberField(ADDED, added)
+    generator.writeNumberField(UPDATED, updated)
+    generator.writeNumberField(SUGGESTEDVERSIONCODE, suggestedVersionCode)
+    generator.writeArray(CATEGORIES) { categories.forEach(::writeString) }
+    generator.writeArray(ANTIFEATURES) { antiFeatures.forEach(::writeString) }
+    generator.writeArray(LICENSES) { licenses.forEach(::writeString) }
+    generator.writeArray(DONATES) {
         donates.forEach {
             writeDictionary {
                 when (it) {
                     is Product.Donate.Regular -> {
-                        writeStringField("type", "")
-                        writeStringField("url", it.url)
+                        writeStringField(TYPE, DONATION_EMPTY)
+                        writeStringField(URL, it.url)
                     }
 
                     is Product.Donate.Bitcoin -> {
-                        writeStringField("type", "bitcoin")
-                        writeStringField("address", it.address)
+                        writeStringField(TYPE, DONATION_BITCOIN)
+                        writeStringField(ADDRESS, it.address)
                     }
 
                     is Product.Donate.Litecoin -> {
-                        writeStringField("type", "litecoin")
-                        writeStringField("address", it.address)
+                        writeStringField(TYPE, DONATION_LITECOIN)
+                        writeStringField(ADDRESS, it.address)
                     }
 
                     is Product.Donate.Flattr -> {
-                        writeStringField("type", "flattr")
-                        writeStringField("id", it.id)
+                        writeStringField(TYPE, DONATION_FLATTR)
+                        writeStringField(ID, it.id)
                     }
 
                     is Product.Donate.Liberapay -> {
-                        writeStringField("type", "liberapay")
-                        writeStringField("id", it.id)
+                        writeStringField(TYPE, DONATION_LIBERAPAY)
+                        writeStringField(ID, it.id)
                     }
 
                     is Product.Donate.OpenCollective -> {
-                        writeStringField("type", "openCollective")
-                        writeStringField("id", it.id)
+                        writeStringField(TYPE, DONATION_OPENCOLLECTIVE)
+                        writeStringField(ID, it.id)
                     }
                 }::class
             }
         }
     }
-    generator.writeArray("screenshots") {
+    generator.writeArray(SCREENSHOTS) {
         screenshots.forEach {
             writeDictionary {
-                writeStringField("locale", it.locale)
-                writeStringField("type", it.type.jsonName)
-                writeStringField("path", it.path)
+                writeStringField(LOCALE, it.locale)
+                writeStringField(TYPE, it.type.jsonName)
+                writeStringField(PATH, it.path)
             }
         }
     }
-    generator.writeArray("releases") { releases.forEach { writeDictionary { it.serialize(this) } } }
+    generator.writeArray(RELEASES) { releases.forEach { writeDictionary { it.serialize(this) } } }
 }
 
 fun JsonParser.product(): Product {
     var repositoryId = 0L
-    var packageName = ""
-    var name = ""
-    var summary = ""
-    var description = ""
-    var whatsNew = ""
-    var icon = ""
-    var metadataIcon = ""
-    var authorName = ""
-    var authorEmail = ""
-    var authorWeb = ""
-    var source = ""
-    var changelog = ""
-    var web = ""
-    var tracker = ""
+    var packageName = KEY_EMPTY
+    var name = KEY_EMPTY
+    var summary = KEY_EMPTY
+    var description = KEY_EMPTY
+    var whatsNew = KEY_EMPTY
+    var icon = KEY_EMPTY
+    var metadataIcon = KEY_EMPTY
+    var authorName = KEY_EMPTY
+    var authorEmail = KEY_EMPTY
+    var authorWeb = KEY_EMPTY
+    var source = KEY_EMPTY
+    var changelog = KEY_EMPTY
+    var web = KEY_EMPTY
+    var tracker = KEY_EMPTY
     var added = 0L
     var updated = 0L
     var suggestedVersionCode = 0L
@@ -108,65 +108,65 @@ fun JsonParser.product(): Product {
     var donates = emptyList<Product.Donate>()
     var screenshots = emptyList<Product.Screenshot>()
     var releases = emptyList<Release>()
-    forEachKey { it ->
+    forEachKey { key ->
         when {
-            it.string("repositoryId") -> repositoryId = valueAsLong
-            it.string("packageName") -> packageName = valueAsString
-            it.string("name") -> name = valueAsString
-            it.string("summary") -> summary = valueAsString
-            it.string("description") -> description = valueAsString
-            it.string("whatsNew") -> whatsNew = valueAsString
-            it.string("icon") -> icon = valueAsString
-            it.string("metadataIcon") -> metadataIcon = valueAsString
-            it.string("authorName") -> authorName = valueAsString
-            it.string("authorEmail") -> authorEmail = valueAsString
-            it.string("authorWeb") -> authorWeb = valueAsString
-            it.string("source") -> source = valueAsString
-            it.string("changelog") -> changelog = valueAsString
-            it.string("web") -> web = valueAsString
-            it.string("tracker") -> tracker = valueAsString
-            it.number("added") -> added = valueAsLong
-            it.number("updated") -> updated = valueAsLong
-            it.number("suggestedVersionCode") -> suggestedVersionCode = valueAsLong
-            it.array("categories") -> categories = collectNotNullStrings()
-            it.array("antiFeatures") -> antiFeatures = collectNotNullStrings()
-            it.array("licenses") -> licenses = collectNotNullStrings()
-            it.array("donates") -> donates = collectNotNull(JsonToken.START_OBJECT) {
-                var type = ""
-                var url = ""
-                var address = ""
-                var id = ""
+            key.string(REPOSITORYID) -> repositoryId = valueAsLong
+            key.string(PACKAGENAME) -> packageName = valueAsString
+            key.string(NAME) -> name = valueAsString
+            key.string(SUMMARY) -> summary = valueAsString
+            key.string(DESCRIPTION) -> description = valueAsString
+            key.string(WHATSNEW) -> whatsNew = valueAsString
+            key.string(ICON) -> icon = valueAsString
+            key.string(METADATAICON) -> metadataIcon = valueAsString
+            key.string(AUTHORNAME) -> authorName = valueAsString
+            key.string(AUTHOREMAIL) -> authorEmail = valueAsString
+            key.string(AUTHORWEB) -> authorWeb = valueAsString
+            key.string(SOURCE) -> source = valueAsString
+            key.string(CHANGELOG) -> changelog = valueAsString
+            key.string(WEB) -> web = valueAsString
+            key.string(TRACKER) -> tracker = valueAsString
+            key.number(ADDED) -> added = valueAsLong
+            key.number(UPDATED) -> updated = valueAsLong
+            key.number(SUGGESTEDVERSIONCODE) -> suggestedVersionCode = valueAsLong
+            key.array(CATEGORIES) -> categories = collectNotNullStrings()
+            key.array(ANTIFEATURES) -> antiFeatures = collectNotNullStrings()
+            key.array(LICENSES) -> licenses = collectNotNullStrings()
+            key.array(DONATES) -> donates = collectNotNull(JsonToken.START_OBJECT) {
+                var type = KEY_EMPTY
+                var url = KEY_EMPTY
+                var address = KEY_EMPTY
+                var id = KEY_EMPTY
                 forEachKey {
                     when {
-                        it.string("type") -> type = valueAsString
-                        it.string("url") -> url = valueAsString
-                        it.string("address") -> address = valueAsString
-                        it.string("id") -> id = valueAsString
+                        it.string(TYPE) -> type = valueAsString
+                        it.string(URL) -> url = valueAsString
+                        it.string(ADDRESS) -> address = valueAsString
+                        it.string(ID) -> id = valueAsString
                         else -> skipChildren()
                     }
                 }
                 when (type) {
-                    "" -> Product.Donate.Regular(url)
-                    "bitcoin" -> Product.Donate.Bitcoin(address)
-                    "litecoin" -> Product.Donate.Litecoin(address)
-                    "flattr" -> Product.Donate.Flattr(id)
-                    "liberapay" -> Product.Donate.Liberapay(id)
-                    "openCollective" -> Product.Donate.OpenCollective(id)
+                    DONATION_EMPTY -> Product.Donate.Regular(url)
+                    DONATION_BITCOIN -> Product.Donate.Bitcoin(address)
+                    DONATION_LITECOIN -> Product.Donate.Litecoin(address)
+                    DONATION_FLATTR -> Product.Donate.Flattr(id)
+                    DONATION_LIBERAPAY -> Product.Donate.Liberapay(id)
+                    DONATION_OPENCOLLECTIVE -> Product.Donate.OpenCollective(id)
                     else -> null
                 }
             }
 
-            it.array("screenshots") ->
+            key.array(SCREENSHOTS) ->
                 screenshots =
                     collectNotNull(JsonToken.START_OBJECT) {
-                        var locale = ""
-                        var type = ""
-                        var path = ""
+                        var locale = KEY_EMPTY
+                        var type = KEY_EMPTY
+                        var path = KEY_EMPTY
                         forEachKey {
                             when {
-                                it.string("locale") -> locale = valueAsString
-                                it.string("type") -> type = valueAsString
-                                it.string("path") -> path = valueAsString
+                                it.string(LOCALE) -> locale = valueAsString
+                                it.string(TYPE) -> type = valueAsString
+                                it.string(PATH) -> path = valueAsString
                                 else -> skipChildren()
                             }
                         }
@@ -174,7 +174,7 @@ fun JsonParser.product(): Product {
                             ?.let { Product.Screenshot(locale, it, path) }
                     }
 
-            it.array("releases") ->
+            key.array(RELEASES) ->
                 releases =
                     collectNotNull(JsonToken.START_OBJECT) { release() }
 
@@ -182,27 +182,67 @@ fun JsonParser.product(): Product {
         }
     }
     return Product(
-        repositoryId,
-        packageName,
-        name,
-        summary,
-        description,
-        whatsNew,
-        icon,
-        metadataIcon,
-        Product.Author(authorName, authorEmail, authorWeb),
-        source,
-        changelog,
-        web,
-        tracker,
-        added,
-        updated,
-        suggestedVersionCode,
-        categories,
-        antiFeatures,
-        licenses,
-        donates,
-        screenshots,
-        releases
+        repositoryId = repositoryId,
+        packageName = packageName,
+        name = name,
+        summary = summary,
+        description = description,
+        whatsNew = whatsNew,
+        icon = icon,
+        metadataIcon = metadataIcon,
+        author = Product.Author(authorName, authorEmail, authorWeb),
+        source = source,
+        changelog = changelog,
+        web = web,
+        tracker = tracker,
+        added = added,
+        updated = updated,
+        suggestedVersionCode = suggestedVersionCode,
+        categories = categories,
+        antiFeatures = antiFeatures,
+        licenses = licenses,
+        donates = donates,
+        screenshots = screenshots,
+        releases = releases
     )
 }
+
+private const val REPOSITORYID = "repositoryId"
+private const val SERIALVERSION = "serialVersion"
+private const val PACKAGENAME = "packageName"
+private const val NAME = "name"
+private const val SUMMARY = "summary"
+private const val DESCRIPTION = "description"
+private const val WHATSNEW = "whatsNew"
+private const val ICON = "icon"
+private const val METADATAICON = "metadataIcon"
+private const val AUTHORNAME = "authorName"
+private const val AUTHOREMAIL = "authorEmail"
+private const val AUTHORWEB = "authorWeb"
+private const val SOURCE = "source"
+private const val CHANGELOG = "changelog"
+private const val WEB = "web"
+private const val TRACKER = "tracker"
+private const val ADDED = "added"
+private const val UPDATED = "updated"
+private const val SUGGESTEDVERSIONCODE = "suggestedVersionCode"
+private const val CATEGORIES = "categories"
+private const val ANTIFEATURES = "antiFeatures"
+private const val LICENSES = "licenses"
+private const val DONATES = "donates"
+private const val ADDRESS = "address"
+private const val URL = "url"
+private const val TYPE = "type"
+private const val ID = "id"
+private const val SCREENSHOTS = "screenshots"
+private const val RELEASES = "releases"
+private const val PATH = "path"
+private const val LOCALE = "locale"
+
+private const val KEY_EMPTY = ""
+private const val DONATION_EMPTY = ""
+private const val DONATION_BITCOIN = "bitcoin"
+private const val DONATION_LITECOIN = "litecoin"
+private const val DONATION_FLATTR = "flattr"
+private const val DONATION_LIBERAPAY = "liberapay"
+private const val DONATION_OPENCOLLECTIVE = "openCollective"

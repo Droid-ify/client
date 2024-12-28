@@ -31,7 +31,7 @@ object RepositoryUpdater {
     }
 
     // TODO Add support for Index-V2 and also cleanup everything here
-    private enum class IndexType(
+    enum class IndexType(
         val jarName: String,
         val contentName: String
     ) {
@@ -219,12 +219,13 @@ object RepositoryUpdater {
         }
     }
 
-    private fun processFile(
+    fun processFile(
         context: Context,
         repository: Repository,
         indexType: IndexType,
         unstable: Boolean,
         file: File,
+        mergerFile: File = Cache.getTemporaryFile(context),
         lastModified: String,
         entityTag: String,
         callback: (Stage, Long, Long?) -> Unit
@@ -241,7 +242,6 @@ object RepositoryUpdater {
 
                 var changedRepository: Repository? = null
 
-                val mergerFile = Cache.getTemporaryFile(context)
                 try {
                     val unmergedProducts = mutableListOf<Product>()
                     val unmergedReleases = mutableListOf<Pair<String, List<Release>>>()

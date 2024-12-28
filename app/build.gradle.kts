@@ -9,6 +9,7 @@ android {
     namespace = "com.looker.droidify"
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     androidResources {
@@ -77,6 +78,7 @@ android {
 
 dependencies {
 
+    implementation(libs.monitor)
     modules(
         Modules.coreDomain,
 //        Modules.coreData,
@@ -100,6 +102,9 @@ dependencies {
     implementation(libs.coroutines.android)
     implementation(libs.jackson.core)
     implementation(libs.image.viewer)
+
+    androidTestImplementation(platform(libs.junit.bom))
+    androidTestImplementation(libs.bundles.test.android)
 
 //    debugImplementation(libs.leakcanary)
 }

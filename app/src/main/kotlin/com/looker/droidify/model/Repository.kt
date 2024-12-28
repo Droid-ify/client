@@ -1,6 +1,5 @@
 package com.looker.droidify.model
 
-import com.looker.core.common.extension.isOnion
 import java.net.URL
 
 data class Repository(
@@ -18,16 +17,6 @@ data class Repository(
     val timestamp: Long,
     val authentication: String
 ) {
-
-    /**
-     * Remove all onion addresses and supply it as random address
-     *
-     * If the list only contains onion urls we will provide the default address
-     */
-    val randomAddress: String
-        get() = (mirrors + address)
-            .filter { !it.isOnion }
-            .randomOrNull() ?: address
 
     fun edit(address: String, fingerprint: String, authentication: String): Repository {
         val isAddressChanged = this.address != address

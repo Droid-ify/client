@@ -141,14 +141,25 @@ object IndexV1Parser {
         }
     }
 
+    private const val DICT_REPO = "repo"
+    private const val DICT_PRODUCT = "apps"
+    private const val DICT_RELEASE = "packages"
+
+    private const val KEY_REPO_ADDRESS = "address"
+    private const val KEY_REPO_MIRRORS = "mirrors"
+    private const val KEY_REPO_NAME = "name"
+    private const val KEY_REPO_DESC = "description"
+    private const val KEY_REPO_VER = "version"
+    private const val KEY_REPO_TIME = "timestamp"
+
     fun parse(repositoryId: Long, inputStream: InputStream, callback: Callback) {
         val jsonParser = Json.factory.createParser(inputStream)
         if (jsonParser.nextToken() != JsonToken.START_OBJECT) {
             jsonParser.illegal()
         } else {
-            jsonParser.forEachKey { it ->
+            jsonParser.forEachKey { key ->
                 when {
-                    it.dictionary("repo") -> {
+                    key.dictionary(DICT_REPO) -> {
                         var address = ""
                         var mirrors = emptyList<String>()
                         var name = ""
@@ -157,12 +168,14 @@ object IndexV1Parser {
                         var timestamp = 0L
                         forEachKey {
                             when {
-                                it.string("address") -> address = valueAsString
-                                it.array("mirrors") -> mirrors = collectDistinctNotEmptyStrings()
-                                it.string("name") -> name = valueAsString
-                                it.string("description") -> description = valueAsString
-                                it.number("version") -> version = valueAsInt
-                                it.number("timestamp") -> timestamp = valueAsLong
+                                it.string(KEY_REPO_ADDRESS) -> address = valueAsString
+                                it.array(KEY_REPO_MIRRORS) -> mirrors =
+                                    collectDistinctNotEmptyStrings()
+
+                                it.string(KEY_REPO_NAME) -> name = valueAsString
+                                it.string(KEY_REPO_DESC) -> description = valueAsString
+                                it.number(KEY_REPO_VER) -> version = valueAsInt
+                                it.number(KEY_REPO_TIME) -> timestamp = valueAsLong
                                 else -> skipChildren()
                             }
                         }
@@ -182,12 +195,12 @@ object IndexV1Parser {
                         )
                     }
 
-                    it.array("apps") -> forEach(JsonToken.START_OBJECT) {
+                    key.array(DICT_PRODUCT) -> forEach(JsonToken.START_OBJECT) {
                         val product = parseProduct(repositoryId)
                         callback.onProduct(product)
                     }
 
-                    it.dictionary("packages") -> forEachKey {
+                    key.dictionary(DICT_RELEASE) -> forEachKey {
                         if (it.token == JsonToken.START_ARRAY) {
                             val packageName = it.key
                             val releases = collectNotNull(JsonToken.START_OBJECT) { parseRelease() }
@@ -202,6 +215,35 @@ object IndexV1Parser {
             }
         }
     }
+
+    private const val KEY_PRODUCT_PACKAGENAME = "packageName"
+    private const val KEY_PRODUCT_NAME = "name"
+    private const val KEY_PRODUCT_SUMMARY = "summary"
+    private const val KEY_PRODUCT_DESCRIPTION = "description"
+    private const val KEY_PRODUCT_ICON = "icon"
+    private const val KEY_PRODUCT_AUTHORNAME = "authorName"
+    private const val KEY_PRODUCT_AUTHOREMAIL = "authorEmail"
+    private const val KEY_PRODUCT_AUTHORWEBSITE = "authorWebSite"
+    private const val KEY_PRODUCT_SOURCECODE = "sourceCode"
+    private const val KEY_PRODUCT_CHANGELOG = "changelog"
+    private const val KEY_PRODUCT_WEBSITE = "webSite"
+    private const val KEY_PRODUCT_ISSUETRACKER = "issueTracker"
+    private const val KEY_PRODUCT_ADDED = "added"
+    private const val KEY_PRODUCT_LASTUPDATED = "lastUpdated"
+    private const val KEY_PRODUCT_SUGGESTEDVERSIONCODE = "suggestedVersionCode"
+    private const val KEY_PRODUCT_CATEGORIES = "categories"
+    private const val KEY_PRODUCT_ANTIFEATURES = "antiFeatures"
+    private const val KEY_PRODUCT_LICENSE = "license"
+    private const val KEY_PRODUCT_DONATE = "donate"
+    private const val KEY_PRODUCT_BITCOIN = "bitcoin"
+    private const val KEY_PRODUCT_FLATTRID = "flattrID"
+    private const val KEY_PRODUCT_LIBERAPAYID = "liberapayID"
+    private const val KEY_PRODUCT_OPENCOLLECTIVE = "openCollective"
+    private const val KEY_PRODUCT_LOCALIZED = "localized"
+    private const val KEY_PRODUCT_WHATSNEW = "whatsNew"
+    private const val KEY_PRODUCT_PHONESCREENSHOTS = "phoneScreenshots"
+    private const val KEY_PRODUCT_SEVENINCHSCREENSHOTS = "sevenInchScreenshots"
+    private const val KEY_PRODUCT_TENINCHSCREENSHOTS = "tenInchScreenshots"
 
     private fun JsonParser.parseProduct(repositoryId: Long): Product {
         var packageName = ""
@@ -224,42 +266,47 @@ object IndexV1Parser {
         val licenses = mutableListOf<String>()
         val donates = mutableListOf<Product.Donate>()
         val localizedMap = mutableMapOf<String, Localized>()
-        forEachKey { it ->
+        forEachKey { key ->
             when {
-                it.string("packageName") -> packageName = valueAsString
-                it.string("name") -> nameFallback = valueAsString
-                it.string("summary") -> summaryFallback = valueAsString
-                it.string("description") -> descriptionFallback = valueAsString
-                it.string("icon") -> icon = validateIcon(valueAsString)
-                it.string("authorName") -> authorName = valueAsString
-                it.string("authorEmail") -> authorEmail = valueAsString
-                it.string("authorWebSite") -> authorWeb = valueAsString
-                it.string("sourceCode") -> source = valueAsString
-                it.string("changelog") -> changelog = valueAsString
-                it.string("webSite") -> web = valueAsString
-                it.string("issueTracker") -> tracker = valueAsString
-                it.number("added") -> added = valueAsLong
-                it.number("lastUpdated") -> updated = valueAsLong
-                it.string("suggestedVersionCode") ->
+                key.string(KEY_PRODUCT_PACKAGENAME) -> packageName = valueAsString
+                key.string(KEY_PRODUCT_NAME) -> nameFallback = valueAsString
+                key.string(KEY_PRODUCT_SUMMARY) -> summaryFallback = valueAsString
+                key.string(KEY_PRODUCT_DESCRIPTION) -> descriptionFallback = valueAsString
+                key.string(KEY_PRODUCT_ICON) -> icon = validateIcon(valueAsString)
+                key.string(KEY_PRODUCT_AUTHORNAME) -> authorName = valueAsString
+                key.string(KEY_PRODUCT_AUTHOREMAIL) -> authorEmail = valueAsString
+                key.string(KEY_PRODUCT_AUTHORWEBSITE) -> authorWeb = valueAsString
+                key.string(KEY_PRODUCT_SOURCECODE) -> source = valueAsString
+                key.string(KEY_PRODUCT_CHANGELOG) -> changelog = valueAsString
+                key.string(KEY_PRODUCT_WEBSITE) -> web = valueAsString
+                key.string(KEY_PRODUCT_ISSUETRACKER) -> tracker = valueAsString
+                key.number(KEY_PRODUCT_ADDED) -> added = valueAsLong
+                key.number(KEY_PRODUCT_LASTUPDATED) -> updated = valueAsLong
+                key.string(KEY_PRODUCT_SUGGESTEDVERSIONCODE) ->
                     suggestedVersionCode =
                         valueAsString.toLongOrNull() ?: 0L
 
-                it.array("categories") -> categories = collectDistinctNotEmptyStrings()
-                it.array("antiFeatures") -> antiFeatures = collectDistinctNotEmptyStrings()
-                it.string("license") -> licenses += valueAsString.split(',')
+                key.array(KEY_PRODUCT_CATEGORIES) -> categories = collectDistinctNotEmptyStrings()
+                key.array(KEY_PRODUCT_ANTIFEATURES) -> antiFeatures =
+                    collectDistinctNotEmptyStrings()
+
+                key.string(KEY_PRODUCT_LICENSE) -> licenses += valueAsString.split(',')
                     .filter { it.isNotEmpty() }
 
-                it.string("donate") -> donates += Product.Donate.Regular(valueAsString)
-                it.string("bitcoin") -> donates += Product.Donate.Bitcoin(valueAsString)
-                it.string("flattrID") -> donates += Product.Donate.Flattr(valueAsString)
-                it.string("liberapayID") -> donates += Product.Donate.Liberapay(valueAsString)
-                it.string("openCollective") -> donates += Product.Donate.OpenCollective(
+                key.string(KEY_PRODUCT_DONATE) -> donates += Product.Donate.Regular(valueAsString)
+                key.string(KEY_PRODUCT_BITCOIN) -> donates += Product.Donate.Bitcoin(valueAsString)
+                key.string(KEY_PRODUCT_FLATTRID) -> donates += Product.Donate.Flattr(valueAsString)
+                key.string(KEY_PRODUCT_LIBERAPAYID) -> donates += Product.Donate.Liberapay(
                     valueAsString
                 )
 
-                it.dictionary("localized") -> forEachKey { it ->
-                    if (it.token == JsonToken.START_OBJECT) {
-                        val locale = it.key
+                key.string(KEY_PRODUCT_OPENCOLLECTIVE) -> donates += Product.Donate.OpenCollective(
+                    valueAsString
+                )
+
+                key.dictionary(KEY_PRODUCT_LOCALIZED) -> forEachKey { localizedKey ->
+                    if (localizedKey.token == JsonToken.START_OBJECT) {
+                        val locale = localizedKey.key
                         var name = ""
                         var summary = ""
                         var description = ""
@@ -270,20 +317,20 @@ object IndexV1Parser {
                         var largeTablet = emptyList<String>()
                         forEachKey {
                             when {
-                                it.string("name") -> name = valueAsString
-                                it.string("summary") -> summary = valueAsString
-                                it.string("description") -> description = valueAsString
-                                it.string("whatsNew") -> whatsNew = valueAsString
-                                it.string("icon") -> metadataIcon = valueAsString
-                                it.array("phoneScreenshots") ->
+                                it.string(KEY_PRODUCT_NAME) -> name = valueAsString
+                                it.string(KEY_PRODUCT_SUMMARY) -> summary = valueAsString
+                                it.string(KEY_PRODUCT_DESCRIPTION) -> description = valueAsString
+                                it.string(KEY_PRODUCT_WHATSNEW) -> whatsNew = valueAsString
+                                it.string(KEY_PRODUCT_ICON) -> metadataIcon = valueAsString
+                                it.array(KEY_PRODUCT_PHONESCREENSHOTS) ->
                                     phone =
                                         collectDistinctNotEmptyStrings()
 
-                                it.array("sevenInchScreenshots") ->
+                                it.array(KEY_PRODUCT_SEVENINCHSCREENSHOTS) ->
                                     smallTablet =
                                         collectDistinctNotEmptyStrings()
 
-                                it.array("tenInchScreenshots") ->
+                                it.array(KEY_PRODUCT_TENINCHSCREENSHOTS) ->
                                     largeTablet =
                                         collectDistinctNotEmptyStrings()
 
@@ -353,30 +400,51 @@ object IndexV1Parser {
             }
             .orEmpty().toList()
         return Product(
-            repositoryId,
-            packageName,
-            name,
-            summary,
-            description,
-            whatsNew,
-            icon,
-            metadataIcon,
-            Product.Author(authorName, authorEmail, authorWeb),
-            source,
-            changelog,
-            web,
-            tracker,
-            added,
-            updated,
-            suggestedVersionCode,
-            categories,
-            antiFeatures,
-            licenses,
-            donates.sortedWith(DonateComparator),
-            screenshots,
-            emptyList()
+            repositoryId = repositoryId,
+            packageName = packageName,
+            name = name,
+            summary = summary,
+            description = description,
+            whatsNew = whatsNew,
+            icon = icon,
+            metadataIcon = metadataIcon,
+            author = Product.Author(authorName, authorEmail, authorWeb),
+            source = source,
+            changelog = changelog,
+            web = web,
+            tracker = tracker,
+            added = added,
+            updated = updated,
+            suggestedVersionCode = suggestedVersionCode,
+            categories = categories,
+            antiFeatures = antiFeatures,
+            licenses = licenses,
+            donates = donates.sortedWith(DonateComparator),
+            screenshots = screenshots,
+            releases = emptyList()
         )
     }
+
+    private const val KEY_RELEASE_VERSIONNAME = "versionName"
+    private const val KEY_RELEASE_VERSIONCODE = "versionCode"
+    private const val KEY_RELEASE_ADDED = "added"
+    private const val KEY_RELEASE_SIZE = "size"
+    private const val KEY_RELEASE_MINSDKVERSION = "minSdkVersion"
+    private const val KEY_RELEASE_TARGETSDKVERSION = "targetSdkVersion"
+    private const val KEY_RELEASE_MAXSDKVERSION = "maxSdkVersion"
+    private const val KEY_RELEASE_SRCNAME = "srcname"
+    private const val KEY_RELEASE_APKNAME = "apkName"
+    private const val KEY_RELEASE_HASH = "hash"
+    private const val KEY_RELEASE_HASHTYPE = "hashType"
+    private const val KEY_RELEASE_SIG = "sig"
+    private const val KEY_RELEASE_OBBMAINFILE = "obbMainFile"
+    private const val KEY_RELEASE_OBBMAINFILESHA256 = "obbMainFileSha256"
+    private const val KEY_RELEASE_OBBPATCHFILE = "obbPatchFile"
+    private const val KEY_RELEASE_OBBPATCHFILESHA256 = "obbPatchFileSha256"
+    private const val KEY_RELEASE_USESPERMISSION = "uses-permission"
+    private const val KEY_RELEASE_USESPERMISSIONSDK23 = "uses-permission-sdk-23"
+    private const val KEY_RELEASE_FEATURES = "features"
+    private const val KEY_RELEASE_NATIVECODE = "nativecode"
 
     private fun JsonParser.parseRelease(): Release {
         var version = ""
@@ -398,28 +466,28 @@ object IndexV1Parser {
         val permissions = linkedSetOf<String>()
         var features = emptyList<String>()
         var platforms = emptyList<String>()
-        forEachKey {
+        forEachKey { key ->
             when {
-                it.string("versionName") -> version = valueAsString
-                it.number("versionCode") -> versionCode = valueAsLong
-                it.number("added") -> added = valueAsLong
-                it.number("size") -> size = valueAsLong
-                it.number("minSdkVersion") -> minSdkVersion = valueAsInt
-                it.number("targetSdkVersion") -> targetSdkVersion = valueAsInt
-                it.number("maxSdkVersion") -> maxSdkVersion = valueAsInt
-                it.string("srcname") -> source = valueAsString
-                it.string("apkName") -> release = valueAsString
-                it.string("hash") -> hash = valueAsString
-                it.string("hashType") -> hashTypeCandidate = valueAsString
-                it.string("sig") -> signature = valueAsString
-                it.string("obbMainFile") -> obbMain = valueAsString
-                it.string("obbMainFileSha256") -> obbMainHash = valueAsString
-                it.string("obbPatchFile") -> obbPatch = valueAsString
-                it.string("obbPatchFileSha256") -> obbPatchHash = valueAsString
-                it.array("uses-permission") -> collectPermissions(permissions, 0)
-                it.array("uses-permission-sdk-23") -> collectPermissions(permissions, 23)
-                it.array("features") -> features = collectDistinctNotEmptyStrings()
-                it.array("nativecode") -> platforms = collectDistinctNotEmptyStrings()
+                key.string(KEY_RELEASE_VERSIONNAME) -> version = valueAsString
+                key.number(KEY_RELEASE_VERSIONCODE) -> versionCode = valueAsLong
+                key.number(KEY_RELEASE_ADDED) -> added = valueAsLong
+                key.number(KEY_RELEASE_SIZE) -> size = valueAsLong
+                key.number(KEY_RELEASE_MINSDKVERSION) -> minSdkVersion = valueAsInt
+                key.number(KEY_RELEASE_TARGETSDKVERSION) -> targetSdkVersion = valueAsInt
+                key.number(KEY_RELEASE_MAXSDKVERSION) -> maxSdkVersion = valueAsInt
+                key.string(KEY_RELEASE_SRCNAME) -> source = valueAsString
+                key.string(KEY_RELEASE_APKNAME) -> release = valueAsString
+                key.string(KEY_RELEASE_HASH) -> hash = valueAsString
+                key.string(KEY_RELEASE_HASHTYPE) -> hashTypeCandidate = valueAsString
+                key.string(KEY_RELEASE_SIG) -> signature = valueAsString
+                key.string(KEY_RELEASE_OBBMAINFILE) -> obbMain = valueAsString
+                key.string(KEY_RELEASE_OBBMAINFILESHA256) -> obbMainHash = valueAsString
+                key.string(KEY_RELEASE_OBBPATCHFILE) -> obbPatch = valueAsString
+                key.string(KEY_RELEASE_OBBPATCHFILESHA256) -> obbPatchHash = valueAsString
+                key.array(KEY_RELEASE_USESPERMISSION) -> collectPermissions(permissions, 0)
+                key.array(KEY_RELEASE_USESPERMISSIONSDK23) -> collectPermissions(permissions, 23)
+                key.array(KEY_RELEASE_FEATURES) -> features = collectDistinctNotEmptyStrings()
+                key.array(KEY_RELEASE_NATIVECODE) -> platforms = collectDistinctNotEmptyStrings()
                 else -> skipChildren()
             }
         }
@@ -428,29 +496,29 @@ object IndexV1Parser {
         val obbMainHashType = if (obbMainHash.isNotEmpty()) "sha256" else ""
         val obbPatchHashType = if (obbPatchHash.isNotEmpty()) "sha256" else ""
         return Release(
-            false,
-            version,
-            versionCode,
-            added,
-            size,
-            minSdkVersion,
-            targetSdkVersion,
-            maxSdkVersion,
-            source,
-            release,
-            hash,
-            hashType,
-            signature,
-            obbMain,
-            obbMainHash,
-            obbMainHashType,
-            obbPatch,
-            obbPatchHash,
-            obbPatchHashType,
-            permissions.toList(),
-            features,
-            platforms,
-            emptyList()
+            selected = false,
+            version = version,
+            versionCode = versionCode,
+            added = added,
+            size = size,
+            minSdkVersion = minSdkVersion,
+            targetSdkVersion = targetSdkVersion,
+            maxSdkVersion = maxSdkVersion,
+            source = source,
+            release = release,
+            hash = hash,
+            hashType = hashType,
+            signature = signature,
+            obbMain = obbMain,
+            obbMainHash = obbMainHash,
+            obbMainHashType = obbMainHashType,
+            obbPatch = obbPatch,
+            obbPatchHash = obbPatchHash,
+            obbPatchHashType = obbPatchHashType,
+            permissions = permissions.toList(),
+            features = features,
+            platforms = platforms,
+            incompatibilities = emptyList()
         )
     }
 

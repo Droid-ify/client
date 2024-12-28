@@ -522,7 +522,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private fun displayUpdatesNotification(productItems: List<ProductItem>) {
-        fun <T> T.applyHack(callback: T.() -> Unit): T = apply(callback)
         notificationManager?.notify(
             Constants.NOTIFICATION_ID_UPDATES,
             NotificationCompat
@@ -550,7 +549,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     )
                 )
                 .setStyle(
-                    NotificationCompat.InboxStyle().applyHack {
+                    NotificationCompat.InboxStyle().also {
                         for (productItem in productItems.take(MAX_UPDATE_NOTIFICATION)) {
                             val builder = SpannableStringBuilder(productItem.name)
                             builder.setSpan(
@@ -560,7 +559,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
                             )
                             builder.append(' ').append(productItem.version)
-                            addLine(builder)
+                            it.addLine(builder)
                         }
                         if (productItems.size > MAX_UPDATE_NOTIFICATION) {
                             val summary =
@@ -568,7 +567,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                     stringRes.plus_more_FORMAT,
                                     productItems.size - MAX_UPDATE_NOTIFICATION
                                 )
-                            if (SdkCheck.isNougat) addLine(summary) else setSummaryText(summary)
+                            if (SdkCheck.isNougat) {
+                                it.addLine(summary)
+                            } else {
+                                it.setSummaryText(summary)
+                            }
                         }
                     }
                 )

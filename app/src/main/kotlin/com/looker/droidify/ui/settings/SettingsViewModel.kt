@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.common.extension.toLocale
 import com.looker.core.datastore.Settings
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
@@ -30,6 +29,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.time.Duration
 import com.looker.core.common.R as CommonR
@@ -211,4 +211,18 @@ class SettingsViewModel
             }
         }
     }
+}
+
+private fun String.toLocale(): Locale = when {
+    contains("-r") -> Locale(
+        substring(0, 2),
+        substring(4)
+    )
+
+    contains("_") -> Locale(
+        substring(0, 2),
+        substring(3)
+    )
+
+    else -> Locale(this)
 }
