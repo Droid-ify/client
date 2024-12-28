@@ -5,7 +5,7 @@
     <string name="version">Wersja</string>
     <string name="validation_index_error_DESC">Indeks nie mógł zostać zatwierdzony.</string>
     <string name="website">Strona</string>
-    <string name="whats_new">Nowe aplikacje</string>
+    <string name="whats_new">Co nowego</string>
     <string name="version_FORMAT">Wersja %s</string>
     <string name="username_missing">Brak nazwy użytkownika</string>
     <string name="waiting_to_start_download">Oczekiwanie na rozpoczęcie pobierania…</string>
