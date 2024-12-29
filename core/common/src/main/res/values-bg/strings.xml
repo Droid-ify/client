@@ -198,7 +198,7 @@
     <string name="io_error_DESC">Невъзможност за извършване на определени действия.</string>
     <string name="allow_collapsing_toolbar_DESC">Разрешете горната лента на приложението да се разширява и свива</string>
     <string name="material_you_desc">Използвайте material you цветова тема</string>
-    <string name="material_you">Материални Вие</string>
+    <string name="material_you">Material You</string>
     <string name="auto_update">Автоматично актуализиране на приложения</string>
     <string name="installing">Инсталиране</string>
     <string name="auto_update_apps">Опитайте се да инсталирате актуализации автоматично</string>
