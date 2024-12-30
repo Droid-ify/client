@@ -242,5 +242,7 @@
     <string name="installation_failed">Falha ao instalar</string>
     <string name="installation_failed_DESC">Não foi possível instalar %s</string>
     <string name="ignore_signature">Ignorar assinatura</string>
-    <string name="ignore_signature_summary">Ignorar verificação de assinatura nas instalações (utilizadores Lposed/avançados)</string>
+    <string name="ignore_signature_summary">*AVISO* Ignorar verificação de assinatura nas instalações (utilizadores Lposed/avançados)</string>
+    <string name="insufficient_storage">Espaço insuficiente</string>
+    <string name="insufficient_storage_DESC">Não existe espaço livre no dispositivo para instalar a aplicação. Experimente libertar algum espaço.</string>
 </resources>
