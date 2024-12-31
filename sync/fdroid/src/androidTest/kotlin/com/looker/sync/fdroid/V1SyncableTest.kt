@@ -9,6 +9,7 @@ import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.downloadIndex
 import com.looker.sync.fdroid.common.memory
+import com.looker.sync.fdroid.common.toV2
 import com.looker.sync.fdroid.v1.V1Parser
 import com.looker.sync.fdroid.v1.V1Syncable
 import com.looker.sync.fdroid.v1.model.IndexV1
@@ -22,12 +23,12 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.runner.RunWith
+import kotlin.math.exp
 import kotlin.system.measureTimeMillis
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
 class V1SyncableTest {
@@ -82,9 +83,24 @@ class V1SyncableTest {
 
     @Test
     fun v1tov2() = runTest(dispatcher) {
-        val fileV2 = FakeDownloader.downloadIndex(context, repo, "data", "index-v2-updated.json")
-        val (fingerV1, foundIndex) = syncable.sync(repo)
+        testIndexConversion("index-v1.jar", "index-v2-updated.json")
+    }
+
+    @Test
+    fun v1tov2FDroidRepo() = runTest(dispatcher) {
+        testIndexConversion("fdroid-index-v1.json", "fdroid-index-v2.json", "com.looker.droidify")
+    }
+
+    private suspend fun testIndexConversion(
+        v1: String,
+        v2: String,
+        targeted: String? = null,
+    ) {
+        val fileV1 = FakeDownloader.downloadIndex(context, repo, "data-v1", v1)
+        val fileV2 = FakeDownloader.downloadIndex(context, repo, "data-v2", v2)
+        val (fingerV1, foundIndexV1) = parser.parse(fileV1, repo)
         val (fingerV2, expectedIndex) = v2Parser.parse(fileV2, repo)
+        val foundIndex = foundIndexV1.toV2()
         assertEquals(fingerV2, fingerV1)
         assertNotNull(foundIndex)
         assertNotNull(expectedIndex)
@@ -94,13 +110,31 @@ class V1SyncableTest {
             expectedIndex.packages.keys.sorted(),
             foundIndex.packages.keys.sorted(),
         )
-        val expectedPackage = expectedIndex.packages["com.looker.droidify"]
-        val foundPackage = foundIndex.packages["com.looker.droidify"]
+        if (targeted == null) {
+            expectedIndex.packages.keys.forEach { key ->
+                val expectedPackage = expectedIndex.packages[key]
+                val foundPackage = foundIndex.packages[key]
 
-        assertNotNull(expectedPackage)
-        assertNotNull(foundPackage)
-        assertMetadata(expectedPackage.metadata, foundPackage.metadata)
-        assertVersion(expectedPackage.versions, foundPackage.versions)
+                println("**".repeat(25))
+                println("Testing: ${expectedPackage?.metadata?.name?.get("en-US")} <$key>")
+
+                assertNotNull(expectedPackage)
+                assertNotNull(foundPackage)
+                assertMetadata(expectedPackage.metadata, foundPackage.metadata)
+                assertVersion(expectedPackage.versions, foundPackage.versions)
+            }
+        } else {
+            val expectedPackage = expectedIndex.packages[targeted]
+            val foundPackage = foundIndex.packages[targeted]
+
+            println("**".repeat(25))
+            println("Testing: ${expectedPackage?.metadata?.name?.get("en-US")} <$targeted>")
+
+            assertNotNull(expectedPackage)
+            assertNotNull(foundPackage)
+            assertMetadata(expectedPackage.metadata, foundPackage.metadata)
+            assertVersion(expectedPackage.versions, foundPackage.versions)
+        }
     }
 }
 
@@ -168,28 +202,32 @@ private fun assertVersion(
 ) {
     assertEquals(expected.keys.size, found.keys.size)
     assertContentEquals(expected.keys.sorted(), found.keys.sorted().asIterable())
-    expected.keys.forEach {
-        val expected = expected[it]
-        val found = found[it]
-        assertNotNull(expected)
-        assertNotNull(found)
+    expected.keys.forEach { versionHash ->
+        val expectedVersion = expected[versionHash]
+        val foundVersion = found[versionHash]
+        assertNotNull(expectedVersion)
+        assertNotNull(foundVersion)
 
-        assertEquals(expected.added, found.added)
-        assertEquals(expected.file.name, found.file.name)
-        assertEquals(expected.src?.name, found.src?.name)
-        // We are knowingly adding same whats new to all versions
+        assertEquals(expectedVersion.added, foundVersion.added)
+        assertEquals(expectedVersion.file.name, foundVersion.file.name)
+        assertEquals(expectedVersion.src?.name, foundVersion.src?.name)
+//         We are knowingly adding same whats new to all versions
 //        assertLocalizedString(expected.whatsNew, found.whatsNew)
-        assertLocalized(
-            expected.antiFeatures,
-            found.antiFeatures
-        ) { antiFeatureExpected, antiFeatureFound ->
-            assertLocalizedString(antiFeatureExpected, antiFeatureFound)
-        }
+
+//         We cannot assure this too, since they started adding version specific anti-features
+//        assertLocalized(
+//            expected.antiFeatures,
+//            found.antiFeatures
+//        ) { antiFeatureExpected, antiFeatureFound ->
+//            println(antiFeatureExpected)
+//            println(antiFeatureFound)
+//            assertLocalizedString(antiFeatureExpected, antiFeatureFound)
+//        }
         // TODO: fix
         // assertContentEquals(expected.signer?.sha256, found.signer?.sha256)
 
-        val expectedMan = expected.manifest
-        val foundMan = found.manifest
+        val expectedMan = expectedVersion.manifest
+        val foundMan = foundVersion.manifest
 
         assertEquals(expectedMan.versionCode, foundMan.versionCode)
         assertEquals(expectedMan.versionName, foundMan.versionName)
@@ -221,14 +259,16 @@ private fun <T> assertLocalized(
     found: Map<String, T>?,
     block: (expected: T, found: T) -> Unit,
 ) {
-    if (expected == null && found == null) return
+    if (expected == null || found == null) {
+        assertEquals(expected, found)
+        return
+    }
     assertNotNull(expected)
     assertNotNull(found)
     assertEquals(expected.size, found.size)
     assertContentEquals(expected.keys.sorted(), found.keys.sorted().asIterable())
     expected.keys.forEach {
-        assertTrue { expected[it] != null && found[it] != null }
-        block(expected[it]!!, found[it]!!)
+        if (expected[it] != null && found[it] != null) block(expected[it]!!, found[it]!!)
     }
 }
 

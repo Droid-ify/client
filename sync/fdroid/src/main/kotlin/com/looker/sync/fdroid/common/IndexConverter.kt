@@ -98,7 +98,7 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     authorEmail = authorEmail,
     authorName = authorName,
     authorPhone = authorPhone,
-    authorWebsite = authorWebSite ?: webSite,
+    authorWebsite = authorWebSite,
     bitcoin = bitcoin,
     categories = categories,
     changelog = changelog,
@@ -193,7 +193,12 @@ private inline fun Map<String, Localized>.localizedString(
     crossinline block: (Localized) -> String?,
 ): LocalizedString? {
     // Because top level fields are null if there are localized fields underneath
-    if (default != null) {
+    // Turns out no
+    if (isEmpty() && default != null) {
+        return mapOf(V1_LOCALE to default)
+    }
+    val checkDefault = get(V1_LOCALE)?.let { block(it) }
+    if (checkDefault == null && default != null) {
         return mapOf(V1_LOCALE to default)
     }
     return mapValuesNotNull { (_, localized) ->
@@ -207,10 +212,12 @@ private inline fun Map<String, Localized>.localizedIcon(
     default: String? = null,
     crossinline block: (Localized) -> String?,
 ): LocalizedIcon? {
-    if (default != null) {
-        return mapOf(
-            V1_LOCALE to FileV2("/$packageName/$V1_LOCALE/$default")
-        )
+    if (isEmpty() && default != null) {
+        return mapOf(V1_LOCALE to FileV2("/icons/$default"))
+    }
+    val checkDefault = get(V1_LOCALE)?.let { block(it) }
+    if (checkDefault == null && default != null) {
+        return mapOf(V1_LOCALE to FileV2("/icons/$default"))
     }
     return mapValuesNotNull { (locale, localized) ->
         block(localized)?.let {

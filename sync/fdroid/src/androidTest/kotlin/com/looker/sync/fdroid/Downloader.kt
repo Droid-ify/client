@@ -35,6 +35,9 @@ val FakeDownloader = object : Downloader {
         return if (url.endsWith("fail")) NetworkResponse.Error.Unknown(Exception("You asked for it"))
         else {
             val index = when {
+                url.endsWith("fdroid-index-v1.jar") -> assets("fdroid_index_v1.jar")
+                url.endsWith("fdroid-index-v1.json") -> assets("fdroid_index_v1.json")
+                url.endsWith("fdroid-index-v2.json") -> assets("fdroid_index_v2.json")
                 url.endsWith("index-v1.jar") -> assets("izzy_index_v1.jar")
                 url.endsWith("index-v2.json") -> assets("izzy_index_v2.json")
                 url.endsWith("index-v2-updated.json") -> assets("izzy_index_v2_updated.json")
