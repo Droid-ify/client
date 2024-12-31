@@ -8,9 +8,7 @@ import com.looker.sync.fdroid.utils.toJarFile
 import com.looker.sync.fdroid.v1.model.IndexV1
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 
 class V1Parser(
@@ -19,17 +17,15 @@ class V1Parser(
     private val validator: IndexValidator,
 ) : Parser<IndexV1> {
 
-    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun parse(
         file: File,
         repo: Repo,
     ): Pair<Fingerprint, IndexV1> = withContext(dispatcher) {
         val jar = file.toJarFile()
         val entry = jar.getJarEntry("index-v1.json")
-        val indexV1 = jar.getInputStream(entry).use {
-            json.decodeFromStream(IndexV1.serializer(), it)
+        val indexString = jar.getInputStream(entry).use {
+            it.readBytes().decodeToString()
         }
-        val validatedFingerprint: Fingerprint = validator.validate(entry, repo.fingerprint)
-        validatedFingerprint to indexV1
+        validator.validate(entry, repo.fingerprint) to json.decodeFromString(indexString)
     }
 }
