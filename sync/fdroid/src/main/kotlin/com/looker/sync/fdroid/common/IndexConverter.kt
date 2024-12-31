@@ -27,8 +27,8 @@ import com.looker.sync.fdroid.v2.model.VersionV2
 private const val V1_LOCALE = "en-US"
 
 internal fun IndexV1.toV2(): IndexV2 {
-    val antiFeatures: HashSet<String> = hashSetOf()
-    val categories: HashSet<String> = hashSetOf()
+    val antiFeatures: MutableList<String> = mutableListOf()
+    val categories: MutableList<String> = mutableListOf()
 
     val packagesV2: HashMap<String, PackageV2> = hashMapOf()
 
@@ -61,8 +61,8 @@ internal fun IndexV1.toV2(): IndexV2 {
 }
 
 private fun RepoV1.toRepoV2(
-    categories: Set<String>,
-    antiFeatures: Set<String>,
+    categories: List<String>,
+    antiFeatures: List<String>,
 ): RepoV2 = RepoV2(
     address = address,
     timestamp = timestamp,
@@ -169,7 +169,6 @@ private fun PackageV1.toVersionV2(
         versionCode = versionCode ?: 0L,
         signer = signer?.let { SignerV2(listOf(it)) },
         usesSdk = sdkV2(),
-        minSdkVersion = minSdkVersion,
         maxSdkVersion = maxSdkVersion,
         usesPermission = usesPermission.map { PermissionV2(it.name, it.maxSdk) },
         usesPermissionSdk23 = usesPermission23.map { PermissionV2(it.name, it.maxSdk) },
@@ -193,6 +192,7 @@ private inline fun Map<String, Localized>.localizedString(
     default: String?,
     crossinline block: (Localized) -> String?,
 ): LocalizedString? {
+    // Because top level fields are null if there are localized fields underneath
     if (default != null) {
         return mapOf(V1_LOCALE to default)
     }

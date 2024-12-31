@@ -228,7 +228,6 @@ data class ManifestV2(
     val versionCode: Long,
     val signer: SignerV2? = null,
     val usesSdk: UsesSdkV2? = null,
-    val minSdkVersion: Int? = null,
     val maxSdkVersion: Int? = null,
     val usesPermission: List<PermissionV2> = emptyList(),
     val usesPermissionSdk23: List<PermissionV2> = emptyList(),

@@ -4,6 +4,9 @@ import kotlinx.serialization.json.Json
 
 object JsonParser {
 
-    val parser = Json { ignoreUnknownKeys = true }
+    val parser = Json {
+        ignoreUnknownKeys = true
+        coerceInputValues = true
+    }
 
 }
