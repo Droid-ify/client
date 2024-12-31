@@ -77,7 +77,6 @@ fun VersionV2.toPackage(): PackageEntity = PackageEntity(
     features = manifest.features.map { it.name },
     apkName = file.name,
     hashType = "SHA-256",
-    minSdkVersion = manifest.minSdkVersion ?: -1,
     maxSdkVersion = manifest.maxSdkVersion ?: -1,
     signer = manifest.signer?.sha256?.firstOrNull() ?: "",
     size = file.size ?: -1,
