@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.core.domain.model.Repo
+import com.looker.sync.fdroid.common.IndexJarValidator
 import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.assets
+import com.looker.sync.fdroid.common.downloadIndex
 import com.looker.sync.fdroid.common.memory
+import com.looker.sync.fdroid.v2.EntryParser
 import com.looker.sync.fdroid.v2.EntrySyncable
 import com.looker.sync.fdroid.v2.model.Entry
 import com.looker.sync.fdroid.v2.model.IndexV2
@@ -18,6 +21,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.junit.Before
 import org.junit.runner.RunWith
+import kotlin.system.measureTimeMillis
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
@@ -28,6 +32,8 @@ class EntrySyncableTest {
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var context: Context
     private lateinit var syncable: Syncable<Entry>
+    private lateinit var parser: Parser<Entry>
+    private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
     private lateinit var newIndex: IndexV2
 
@@ -40,19 +46,34 @@ class EntrySyncableTest {
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().context
         dispatcher = StandardTestDispatcher()
+        validator = IndexJarValidator(dispatcher)
+        parser = EntryParser(dispatcher, JsonParser.parser, validator)
         syncable = EntrySyncable(context, FakeDownloader, dispatcher)
         newIndex = JsonParser.parser.decodeFromStream<IndexV2>(assets("izzy_index_v2_updated.json"))
         repo = Izzy
     }
 
-    // Not very trustworthy
     @Test
     fun benchmark_sync_full() = runTest(dispatcher) {
-        memory("Full Benchmark") {
-            syncable.sync(repo)
+        memory(10) {
+            measureTimeMillis { syncable.sync(repo) }
         }
-        memory("Diff Benchmark") {
-            syncable.sync(repo)
+    }
+
+    @Test
+    fun benchmark_entry_parser() = runTest(dispatcher) {
+        memory(10) {
+            measureTimeMillis {
+                parser.parse(
+                    file = FakeDownloader.downloadIndex(
+                        context = context,
+                        repo = repo,
+                        fileName = "izzy",
+                        url = "entry.jar"
+                    ),
+                    repo = repo
+                )
+            }
         }
     }
 

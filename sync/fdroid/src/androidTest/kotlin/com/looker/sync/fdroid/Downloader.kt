@@ -37,6 +37,7 @@ val FakeDownloader = object : Downloader {
             val index = when {
                 url.endsWith("index-v1.jar") -> assets("izzy_index_v1.jar")
                 url.endsWith("index-v2.json") -> assets("izzy_index_v2.json")
+                url.endsWith("index-v2-updated.json") -> assets("izzy_index_v2_updated.json")
                 url.endsWith("entry.jar") -> assets("izzy_entry.jar")
                 url.endsWith("/diff/1725731263000.json") -> assets("izzy_diff.json")
                 // Just in case we try these in future
