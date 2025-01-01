@@ -46,7 +46,14 @@ class AppListAdapter(
         init {
             with(itemView as FrameLayout) {
                 val progressBar = CircularProgressIndicator(context)
-                addView(progressBar)
+                progressBar.isIndeterminate = true
+                addView(
+                    progressBar,
+                    FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                    ).apply { gravity = Gravity.CENTER }
+                )
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
                     RecyclerView.LayoutParams.MATCH_PARENT
