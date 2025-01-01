@@ -98,7 +98,7 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     authorEmail = authorEmail,
     authorName = authorName,
     authorPhone = authorPhone,
-    authorWebsite = authorWebSite,
+    authorWebSite = authorWebSite,
     bitcoin = bitcoin,
     categories = categories,
     changelog = changelog,
@@ -161,7 +161,6 @@ private fun PackageV1.toVersionV2(
         size = size,
     ),
     src = srcName?.let { FileV2("/$it") },
-    signer = signer?.let { SignerV2(listOf(it)) },
     whatsNew = whatsNew ?: emptyMap(),
     antiFeatures = packageAntiFeatures.associateWith { mapOf(V1_LOCALE to it) },
     manifest = ManifestV2(

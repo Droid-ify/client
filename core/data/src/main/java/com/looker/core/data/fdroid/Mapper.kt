@@ -29,7 +29,7 @@ fun PackageV2.toEntity(
         name = metadata.name ?: emptyMap(),
         authorName = metadata.authorName ?: "",
         authorEmail = metadata.authorEmail ?: "",
-        authorWebSite = metadata.authorWebsite ?: "",
+        authorWebSite = metadata.authorWebSite ?: "",
         donate = metadata.donate.firstOrNull() ?: "",
         liberapayID = metadata.liberapay ?: "",
         liberapay = metadata.liberapay ?: "",
@@ -92,7 +92,7 @@ fun VersionV2.toPackage(): PackageEntity = PackageEntity(
     nativeCode = manifest.nativecode,
     antiFeatures = antiFeatures.keys.toList(),
     targetSdkVersion = manifest.usesSdk?.targetSdkVersion ?: -1,
-    sig = signer?.sha256?.firstOrNull() ?: "",
+    sig = manifest.signer?.sha256?.firstOrNull() ?: "",
     whatsNew = whatsNew
 )
 
