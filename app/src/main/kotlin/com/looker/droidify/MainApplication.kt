@@ -130,19 +130,21 @@ class MainApplication : Application(), ImageLoaderFactory, Configuration.Provide
     }
 
     private fun listenApplications() {
-        registerReceiver(
-            InstalledAppReceiver(packageManager),
-            IntentFilter().apply {
-                addAction(Intent.ACTION_PACKAGE_ADDED)
-                addAction(Intent.ACTION_PACKAGE_REMOVED)
-                addDataScheme("package")
-            }
-        )
-        val installedItems =
-            packageManager.getInstalledPackagesCompat()
-                ?.map { it.toInstalledItem() }
-                ?: return
-        Database.InstalledAdapter.putAll(installedItems)
+        appScope.launch(Dispatchers.Default) {
+            registerReceiver(
+                InstalledAppReceiver(packageManager),
+                IntentFilter().apply {
+                    addAction(Intent.ACTION_PACKAGE_ADDED)
+                    addAction(Intent.ACTION_PACKAGE_REMOVED)
+                    addDataScheme("package")
+                }
+            )
+            val installedItems =
+                packageManager.getInstalledPackagesCompat()
+                    ?.map { it.toInstalledItem() }
+                    ?: return@launch
+            Database.InstalledAdapter.putAll(installedItems)
+        }
     }
 
     private fun checkLanguage() {
