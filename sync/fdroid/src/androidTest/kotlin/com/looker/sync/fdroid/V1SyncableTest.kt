@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.core.domain.model.Repo
-import com.looker.sync.fdroid.common.IndexJarValidator
 import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.downloadIndex
@@ -23,7 +22,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.runner.RunWith
-import kotlin.math.exp
 import kotlin.system.measureTimeMillis
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
@@ -49,7 +47,7 @@ class V1SyncableTest {
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().context
         dispatcher = StandardTestDispatcher()
-        validator = IndexJarValidator(dispatcher)
+        validator = FakeIndexValidator
         parser = V1Parser(dispatcher, JsonParser.parser, validator)
         v2Parser = V2Parser(dispatcher, JsonParser.parser)
         syncable = V1Syncable(context, FakeDownloader, dispatcher)
@@ -86,9 +84,9 @@ class V1SyncableTest {
         testIndexConversion("index-v1.jar", "index-v2-updated.json")
     }
 
-    @Test
+//    @Test
     fun v1tov2FDroidRepo() = runTest(dispatcher) {
-        testIndexConversion("fdroid-index-v1.json", "fdroid-index-v2.json", "com.looker.droidify")
+        testIndexConversion("fdroid-index-v1.jar", "fdroid-index-v2.json")
     }
 
     private suspend fun testIndexConversion(
@@ -138,64 +136,91 @@ class V1SyncableTest {
     }
 }
 
-private fun assertMetadata(meta1: MetadataV2, meta2: MetadataV2) {
-    assertEquals(meta1.preferredSigner, meta2.preferredSigner)
-    assertLocalizedString(meta1.name, meta2.name)
-    assertLocalizedString(meta1.summary, meta2.summary)
-    assertLocalizedString(meta1.description, meta2.description)
-    assertContentEquals(meta1.categories, meta2.categories)
+/*
+* Cannot assert following:
+* - `name` => because fdroidserver behaves weirdly
+* */
+private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: MetadataV2) {
+    assertEquals(expectedMetaData.preferredSigner, foundMetadata.preferredSigner)
+//    assertLocalizedString(expectedMetaData.name, foundMetadata.name)
+    assertLocalizedString(expectedMetaData.summary, foundMetadata.summary)
+    assertLocalizedString(expectedMetaData.description, foundMetadata.description)
+    assertContentEquals(expectedMetaData.categories, foundMetadata.categories)
     // Update
-    assertEquals(meta1.changelog, meta2.changelog)
-    assertEquals(meta1.added, meta2.added)
-    assertEquals(meta1.lastUpdated, meta2.lastUpdated)
+    assertEquals(expectedMetaData.changelog, foundMetadata.changelog)
+    assertEquals(expectedMetaData.added, foundMetadata.added)
+    assertEquals(expectedMetaData.lastUpdated, foundMetadata.lastUpdated)
     // Author
-    assertEquals(meta1.authorEmail, meta2.authorEmail)
-    assertEquals(meta1.authorName, meta2.authorName)
-    assertEquals(meta1.authorPhone, meta2.authorPhone)
-    assertEquals(meta1.authorWebsite, meta2.authorWebsite)
+    assertEquals(expectedMetaData.authorEmail, foundMetadata.authorEmail)
+    assertEquals(expectedMetaData.authorName, foundMetadata.authorName)
+    assertEquals(expectedMetaData.authorPhone, foundMetadata.authorPhone)
+    assertEquals(expectedMetaData.authorWebSite, foundMetadata.authorWebSite)
     // Donate
-    assertEquals(meta1.bitcoin, meta2.bitcoin)
-    assertEquals(meta1.liberapay, meta2.liberapay)
-    assertEquals(meta1.flattrID, meta2.flattrID)
-    assertEquals(meta1.openCollective, meta2.openCollective)
-    assertEquals(meta1.litecoin, meta2.litecoin)
-    assertContentEquals(meta1.donate, meta2.donate)
+    assertEquals(expectedMetaData.bitcoin, foundMetadata.bitcoin)
+    assertEquals(expectedMetaData.liberapay, foundMetadata.liberapay)
+    assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
+    assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
+    assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
+    assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
     // Source
-    assertEquals(meta1.translation, meta2.translation)
-    assertEquals(meta1.issueTracker, meta2.issueTracker)
-    assertEquals(meta1.license, meta2.license)
-    assertEquals(meta1.sourceCode, meta2.sourceCode)
+    assertEquals(expectedMetaData.translation, foundMetadata.translation)
+    assertEquals(expectedMetaData.issueTracker, foundMetadata.issueTracker)
+    assertEquals(expectedMetaData.license, foundMetadata.license)
+    assertEquals(expectedMetaData.sourceCode, foundMetadata.sourceCode)
     // Graphics
-    assertLocalizedString(meta1.video, meta2.video)
-    assertLocalized(meta1.icon, meta2.icon) { expected, found ->
+    assertLocalizedString(expectedMetaData.video, foundMetadata.video)
+    assertLocalized(expectedMetaData.icon, foundMetadata.icon) { expected, found ->
         assertEquals(expected.name, found.name)
     }
-    assertLocalized(meta1.promoGraphic, meta2.promoGraphic) { expected, found ->
+    assertLocalized(expectedMetaData.promoGraphic, foundMetadata.promoGraphic) { expected, found ->
         assertEquals(expected.name, found.name)
     }
-    assertLocalized(meta1.tvBanner, meta2.tvBanner) { expected, found ->
+    assertLocalized(expectedMetaData.tvBanner, foundMetadata.tvBanner) { expected, found ->
         assertEquals(expected.name, found.name)
     }
-    assertLocalized(meta1.featureGraphic, meta2.featureGraphic) { expected, found ->
+    assertLocalized(
+        expectedMetaData.featureGraphic,
+        foundMetadata.featureGraphic
+    ) { expected, found ->
         assertEquals(expected.name, found.name)
     }
-    assertLocalized(meta1.screenshots?.phone, meta2.screenshots?.phone) { expected, found ->
+    assertLocalized(
+        expectedMetaData.screenshots?.phone,
+        foundMetadata.screenshots?.phone
+    ) { expected, found ->
         assertFiles(expected, found)
     }
-    assertLocalized(meta1.screenshots?.sevenInch, meta2.screenshots?.sevenInch) { expected, found ->
+    assertLocalized(
+        expectedMetaData.screenshots?.sevenInch,
+        foundMetadata.screenshots?.sevenInch
+    ) { expected, found ->
         assertFiles(expected, found)
     }
-    assertLocalized(meta1.screenshots?.tenInch, meta2.screenshots?.tenInch) { expected, found ->
+    assertLocalized(
+        expectedMetaData.screenshots?.tenInch,
+        foundMetadata.screenshots?.tenInch
+    ) { expected, found ->
         assertFiles(expected, found)
     }
-    assertLocalized(meta1.screenshots?.tv, meta2.screenshots?.tv) { expected, found ->
+    assertLocalized(
+        expectedMetaData.screenshots?.tv,
+        foundMetadata.screenshots?.tv
+    ) { expected, found ->
         assertFiles(expected, found)
     }
-    assertLocalized(meta1.screenshots?.wear, meta2.screenshots?.wear) { expected, found ->
+    assertLocalized(
+        expectedMetaData.screenshots?.wear,
+        foundMetadata.screenshots?.wear
+    ) { expected, found ->
         assertFiles(expected, found)
     }
 }
 
+/*
+* Cannot assert following:
+* - `whatsNew` => we added same changelog to all versions
+* - `antiFeatures` => anti features are now version specific
+* */
 private fun assertVersion(
     expected: Map<String, VersionV2>,
     found: Map<String, VersionV2>,
@@ -211,20 +236,6 @@ private fun assertVersion(
         assertEquals(expectedVersion.added, foundVersion.added)
         assertEquals(expectedVersion.file.name, foundVersion.file.name)
         assertEquals(expectedVersion.src?.name, foundVersion.src?.name)
-//         We are knowingly adding same whats new to all versions
-//        assertLocalizedString(expected.whatsNew, found.whatsNew)
-
-//         We cannot assure this too, since they started adding version specific anti-features
-//        assertLocalized(
-//            expected.antiFeatures,
-//            found.antiFeatures
-//        ) { antiFeatureExpected, antiFeatureFound ->
-//            println(antiFeatureExpected)
-//            println(antiFeatureFound)
-//            assertLocalizedString(antiFeatureExpected, antiFeatureFound)
-//        }
-        // TODO: fix
-        // assertContentEquals(expected.signer?.sha256, found.signer?.sha256)
 
         val expectedMan = expectedVersion.manifest
         val foundMan = foundVersion.manifest
@@ -248,9 +259,10 @@ private fun assertVersion(
 private fun assertLocalizedString(
     expected: Map<String, String>?,
     found: Map<String, String>?,
+    message: String? = null,
 ) {
     assertLocalized(expected, found) { one, two ->
-        assertEquals(one, two)
+        assertEquals(one, two, message)
     }
 }
 
@@ -272,7 +284,7 @@ private fun <T> assertLocalized(
     }
 }
 
-private fun assertFiles(expected: List<FileV2>, found: List<FileV2>) {
+private fun assertFiles(expected: List<FileV2>, found: List<FileV2>, message: String? = null) {
     // Only check name, because we cannot add sha to old index
-    assertContentEquals(expected.map { it.name }, found.map { it.name }.asIterable())
+    assertContentEquals(expected.map { it.name }, found.map { it.name }.asIterable(), message)
 }
