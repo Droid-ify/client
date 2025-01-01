@@ -368,7 +368,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                             }
 
                             is State.Finish -> {}
-                        }::class
+                        }
                     }.build()
                 )
             }

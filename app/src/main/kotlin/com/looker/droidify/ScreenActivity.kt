@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.PredictiveBackControl
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.looker.core.common.DeeplinkType
@@ -153,6 +154,11 @@ abstract class ScreenActivity : AppCompatActivity() {
         backHandler()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        onBackPressedCallback = null
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(STATE_FRAGMENT_STACK, ArrayList(fragmentStack))
@@ -254,9 +260,8 @@ abstract class ScreenActivity : AppCompatActivity() {
                         lifecycleScope.launch { installer install installItem }
                     }
                 }
-                Unit
             }
-        }::class
+        }
     }
 
     open fun handleIntent(intent: Intent?) {
