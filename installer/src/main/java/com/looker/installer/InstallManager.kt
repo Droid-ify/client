@@ -3,6 +3,7 @@ package com.looker.installer
 import android.content.Context
 import com.looker.core.common.extension.addAndCompute
 import com.looker.core.common.extension.filter
+import com.looker.core.common.extension.notificationManager
 import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
@@ -15,6 +16,7 @@ import com.looker.installer.installers.session.SessionInstaller
 import com.looker.installer.installers.shizuku.ShizukuInstaller
 import com.looker.installer.model.InstallItem
 import com.looker.installer.model.InstallState
+import com.looker.installer.notification.removeInstallNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
@@ -88,6 +90,7 @@ class InstallManager(
                 val success = installer.use {
                     it.install(item)
                 }
+                context.notificationManager?.removeInstallNotification(item.packageName.name)
                 updateState { put(item.packageName, success) }
                 currentQueue.remove(item.packageName.name)
             }
