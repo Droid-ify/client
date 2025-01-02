@@ -5,6 +5,8 @@ import com.looker.sync.fdroid.v1.model.IndexV1
 import com.looker.sync.fdroid.v1.model.Localized
 import com.looker.sync.fdroid.v1.model.PackageV1
 import com.looker.sync.fdroid.v1.model.RepoV1
+import com.looker.sync.fdroid.v1.model.maxSdk
+import com.looker.sync.fdroid.v1.model.name
 import com.looker.sync.fdroid.v2.model.AntiFeatureV2
 import com.looker.sync.fdroid.v2.model.CategoryV2
 import com.looker.sync.fdroid.v2.model.FeatureV2
