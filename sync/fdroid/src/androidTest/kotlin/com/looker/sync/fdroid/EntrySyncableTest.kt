@@ -47,9 +47,9 @@ class EntrySyncableTest {
         context = InstrumentationRegistry.getInstrumentation().context
         dispatcher = StandardTestDispatcher()
         validator = IndexJarValidator(dispatcher)
-        parser = EntryParser(dispatcher, JsonParser.parser, validator)
+        parser = EntryParser(dispatcher, JsonParser, validator)
         syncable = EntrySyncable(context, FakeDownloader, dispatcher)
-        newIndex = JsonParser.parser.decodeFromStream<IndexV2>(assets("izzy_index_v2_updated.json"))
+        newIndex = JsonParser.decodeFromStream<IndexV2>(assets("izzy_index_v2_updated.json"))
         repo = Izzy
     }
 

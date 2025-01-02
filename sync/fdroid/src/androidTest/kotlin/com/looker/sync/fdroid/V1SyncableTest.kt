@@ -45,8 +45,8 @@ class V1SyncableTest {
         context = InstrumentationRegistry.getInstrumentation().context
         dispatcher = StandardTestDispatcher()
         validator = IndexJarValidator(dispatcher)
-        parser = V1Parser(dispatcher, JsonParser.parser, validator)
-        v2Parser = V2Parser(dispatcher, JsonParser.parser)
+        parser = V1Parser(dispatcher, JsonParser, validator)
+        v2Parser = V2Parser(dispatcher, JsonParser)
         syncable = V1Syncable(context, FakeDownloader, dispatcher)
         repo = Izzy
     }

@@ -29,18 +29,18 @@ class EntrySyncable(
     override val parser: Parser<Entry>
         get() = EntryParser(
             dispatcher = dispatcher,
-            json = JsonParser.parser,
+            json = JsonParser,
             validator = IndexJarValidator(dispatcher),
         )
 
     private val indexParser: Parser<IndexV2> = V2Parser(
         dispatcher = dispatcher,
-        json = JsonParser.parser,
+        json = JsonParser,
     )
 
     private val diffParser: Parser<IndexV2Diff> = DiffParser(
         dispatcher = dispatcher,
-        json = JsonParser.parser,
+        json = JsonParser,
     )
 
     @OptIn(ExperimentalSerializationApi::class)

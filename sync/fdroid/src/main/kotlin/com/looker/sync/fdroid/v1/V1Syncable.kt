@@ -24,7 +24,7 @@ class V1Syncable(
     override val parser: Parser<IndexV1>
         get() = V1Parser(
             dispatcher = dispatcher,
-            json = JsonParser.parser,
+            json = JsonParser,
             validator = IndexJarValidator(dispatcher),
         )
 
