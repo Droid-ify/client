@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.core.domain.model.Repo
+import com.looker.sync.fdroid.common.IndexJarValidator
 import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.downloadIndex
@@ -39,15 +40,11 @@ class V1SyncableTest {
     private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
 
-    /**
-     * In this particular test 1 package is removed and 36 packages are updated
-     */
-
     @Before
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().context
         dispatcher = StandardTestDispatcher()
-        validator = FakeIndexValidator
+        validator = IndexJarValidator(dispatcher)
         parser = V1Parser(dispatcher, JsonParser.parser, validator)
         v2Parser = V2Parser(dispatcher, JsonParser.parser)
         syncable = V1Syncable(context, FakeDownloader, dispatcher)
@@ -56,27 +53,48 @@ class V1SyncableTest {
 
     @Test
     fun benchmark_sync_v1() = runTest(dispatcher) {
-        memory(10) {
+        val output = memory(10) {
             measureTimeMillis { syncable.sync(repo) }
         }
+        println(output)
     }
-
 
     @Test
     fun benchmark_v1_parser() = runTest(dispatcher) {
-        memory(10) {
+        val file = FakeDownloader.downloadIndex(context, repo, "izzy", "index-v1.jar")
+        val output = memory(10) {
             measureTimeMillis {
                 parser.parse(
-                    file = FakeDownloader.downloadIndex(
-                        context = context,
-                        repo = repo,
-                        fileName = "izzy",
-                        url = "index-v1.jar"
-                    ),
+                    file = file,
                     repo = repo
                 )
             }
         }
+        println(output)
+    }
+
+    @Test
+    fun benchmark_v1_vs_v2_parser() = runTest(dispatcher) {
+        val v1File = FakeDownloader.downloadIndex(context, repo, "izzy-v1", "index-v1.jar")
+        val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
+        val output1 = memory(10) {
+            measureTimeMillis {
+                parser.parse(
+                    file = v1File,
+                    repo = repo
+                )
+            }
+        }
+        val output2 = memory(10) {
+            measureTimeMillis {
+                v2Parser.parse(
+                    file = v2File,
+                    repo = repo,
+                )
+            }
+        }
+        println(output1)
+        println(output2)
     }
 
     @Test
@@ -84,7 +102,7 @@ class V1SyncableTest {
         testIndexConversion("index-v1.jar", "index-v2-updated.json")
     }
 
-//    @Test
+    // @Test
     fun v1tov2FDroidRepo() = runTest(dispatcher) {
         testIndexConversion("fdroid-index-v1.jar", "fdroid-index-v2.json")
     }

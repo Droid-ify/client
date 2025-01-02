@@ -7,7 +7,7 @@ internal inline fun memory(
     repetition: Int,
     extraMessage: String? = null,
     block: () -> Long,
-) {
+): String {
     if (extraMessage != null) {
         println("=".repeat(50))
         println(extraMessage)
@@ -20,11 +20,16 @@ internal inline fun memory(
         times[iteration] = block().toDouble()
     }
     val meanAndDeviation = times.culledMeanAndDeviation()
-    println("=".repeat(50))
-    println(times.joinToString(" | "))
-    println("${meanAndDeviation.first} ms ± ${meanAndDeviation.second.toFloat()} ms")
-    println("=".repeat(50))
-    println()
+    return buildString {
+        append("=".repeat(50))
+        append("\n")
+        append(times.joinToString(" | "))
+        append("\n")
+        append("${meanAndDeviation.first} ms ± ${meanAndDeviation.second.toFloat()} ms")
+        append("\n")
+        append("=".repeat(50))
+        append("\n")
+    }
 }
 
 private fun DoubleArray.culledMeanAndDeviation(): Pair<Double, Double> {

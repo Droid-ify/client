@@ -1,5 +1,9 @@
 package com.looker.sync.fdroid.v1.model
 
+/*
+* PackageV1, PermissionV1 are licensed under the GPL 3.0 to FDroid Organization.
+* */
+
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

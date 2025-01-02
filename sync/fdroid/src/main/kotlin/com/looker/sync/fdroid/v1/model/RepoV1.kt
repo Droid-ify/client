@@ -1,5 +1,9 @@
 package com.looker.sync.fdroid.v1.model
 
+/*
+* RepoV1 is licensed under the GPL 3.0 to FDroid Organization.
+* */
+
 import kotlinx.serialization.Serializable
 
 @Serializable

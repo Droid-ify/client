@@ -1,5 +1,7 @@
 package com.looker.sync.fdroid.v2.model
-
+/*
+* RepoV2, AntiFeatureV2, CategoryV2, MirrorV2 are licensed under the GPL 3.0 to FDroid Organization.
+* */
 import kotlinx.serialization.Serializable
 
 @Serializable

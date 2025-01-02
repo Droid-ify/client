@@ -1,5 +1,10 @@
 package com.looker.sync.fdroid.v2.model
 
+/*
+* PackageV2, MetadataV2, VersionV2, ManifestV2, UsesSdkV2, PermissionV2, FeatureV2, SignerV2
+* are licensed under the GPL 3.0 to FDroid Organization.
+* */
+
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -55,14 +55,15 @@ class EntrySyncableTest {
 
     @Test
     fun benchmark_sync_full() = runTest(dispatcher) {
-        memory(10) {
+        val output = memory(10) {
             measureTimeMillis { syncable.sync(repo) }
         }
+        println(output)
     }
 
     @Test
     fun benchmark_entry_parser() = runTest(dispatcher) {
-        memory(10) {
+        val output = memory(10) {
             measureTimeMillis {
                 parser.parse(
                     file = FakeDownloader.downloadIndex(
@@ -75,6 +76,7 @@ class EntrySyncableTest {
                 )
             }
         }
+        println(output)
     }
 
     @Test

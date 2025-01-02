@@ -124,5 +124,6 @@ looker-room = { id = "looker.room", version = "unspecified" }
 looker-serialization = { id = "looker.serialization", version = "unspecified" }
 
 [bundles]
+test-unit = ["coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "test-espresso-core", "coroutines-test", "kotlin-test"]
 test-ui = ["test-runner", "test-rules", "test-espresso-core", "test-uiautomator", "coroutines-test", "kotlin-test"]
