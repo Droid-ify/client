@@ -243,5 +243,7 @@
     <string name="uninstalled_application">Disinstallato</string>
     <string name="uninstalled_application_DESC">%s è stato disinstallato</string>
     <string name="ignore_signature">Ignora firma</string>
-    <string name="ignore_signature_summary">Ignora la verifica della firma durante l\'installazione dell\'apk, per gli utenti LSPosed o per gli utenti avanzati</string>
+    <string name="ignore_signature_summary">*Attenzione* Ignora la verifica della firma durante l\'installazione dell\'apk, per gli utenti LSPosed o per gli utenti avanzati</string>
+    <string name="insufficient_storage_DESC">Lo spazio libero sul dispositivo non è sufficiente per installare questa applicazione. Prova a liberare un po\' di spazio</string>
+    <string name="insufficient_storage">Spazio insufficiente</string>
 </resources>
