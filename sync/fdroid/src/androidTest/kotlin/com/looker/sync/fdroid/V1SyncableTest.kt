@@ -8,7 +8,7 @@ import com.looker.sync.fdroid.common.IndexJarValidator
 import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.downloadIndex
-import com.looker.sync.fdroid.common.memory
+import com.looker.sync.fdroid.common.benchmark
 import com.looker.sync.fdroid.common.toV2
 import com.looker.sync.fdroid.v1.V1Parser
 import com.looker.sync.fdroid.v1.V1Syncable
@@ -53,7 +53,7 @@ class V1SyncableTest {
 
     @Test
     fun benchmark_sync_v1() = runTest(dispatcher) {
-        val output = memory(10) {
+        val output = benchmark(10) {
             measureTimeMillis { syncable.sync(repo) }
         }
         println(output)
@@ -62,7 +62,7 @@ class V1SyncableTest {
     @Test
     fun benchmark_v1_parser() = runTest(dispatcher) {
         val file = FakeDownloader.downloadIndex(context, repo, "izzy", "index-v1.jar")
-        val output = memory(10) {
+        val output = benchmark(10) {
             measureTimeMillis {
                 parser.parse(
                     file = file,
@@ -77,7 +77,7 @@ class V1SyncableTest {
     fun benchmark_v1_vs_v2_parser() = runTest(dispatcher) {
         val v1File = FakeDownloader.downloadIndex(context, repo, "izzy-v1", "index-v1.jar")
         val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
-        val output1 = memory(10) {
+        val output1 = benchmark(10) {
             measureTimeMillis {
                 parser.parse(
                     file = v1File,
@@ -85,7 +85,7 @@ class V1SyncableTest {
                 )
             }
         }
-        val output2 = memory(10) {
+        val output2 = benchmark(10) {
             measureTimeMillis {
                 v2Parser.parse(
                     file = v2File,

@@ -3,7 +3,7 @@ package com.looker.sync.fdroid.common
 import kotlin.math.pow
 import kotlin.math.sqrt
 
-internal inline fun memory(
+internal inline fun benchmark(
     repetition: Int,
     extraMessage: String? = null,
     block: () -> Long,

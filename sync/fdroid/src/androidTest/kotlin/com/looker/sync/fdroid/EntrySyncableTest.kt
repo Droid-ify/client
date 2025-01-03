@@ -9,7 +9,7 @@ import com.looker.sync.fdroid.common.Izzy
 import com.looker.sync.fdroid.common.JsonParser
 import com.looker.sync.fdroid.common.assets
 import com.looker.sync.fdroid.common.downloadIndex
-import com.looker.sync.fdroid.common.memory
+import com.looker.sync.fdroid.common.benchmark
 import com.looker.sync.fdroid.v2.EntryParser
 import com.looker.sync.fdroid.v2.EntrySyncable
 import com.looker.sync.fdroid.v2.model.Entry
@@ -55,7 +55,7 @@ class EntrySyncableTest {
 
     @Test
     fun benchmark_sync_full() = runTest(dispatcher) {
-        val output = memory(10) {
+        val output = benchmark(10) {
             measureTimeMillis { syncable.sync(repo) }
         }
         println(output)
@@ -63,7 +63,7 @@ class EntrySyncableTest {
 
     @Test
     fun benchmark_entry_parser() = runTest(dispatcher) {
-        val output = memory(10) {
+        val output = benchmark(10) {
             measureTimeMillis {
                 parser.parse(
                     file = FakeDownloader.downloadIndex(
