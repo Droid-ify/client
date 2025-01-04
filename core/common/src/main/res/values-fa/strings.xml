@@ -19,7 +19,7 @@
     <string name="description">توضیحات</string>
     <string name="changelog">تغییرات</string>
     <string name="anti_features">پادویژگی‌ها</string>
-    <string name="checking_repository">بررسی مخزن …</string>
+    <string name="checking_repository">بررسی مخزن…</string>
     <string name="confirmation">تاییدیه</string>
     <string name="connecting">درحال‌اتصال…</string>
     <string name="could_not_download_FORMAT">دریافت ناموفق %s</string>
@@ -123,7 +123,7 @@
     <string name="promotes_non_free_software">تقویت نرم‌افزار غیرآزاد</string>
     <string name="proxy_host">سرور پروکسی</string>
     <string name="proxy_port">پورت پروکسی</string>
-    <string name="repositories">مخزن‌ها</string>
+    <string name="repositories">مخازن</string>
     <string name="repository">مخزن</string>
     <string name="requires_FORMAT">نیازمند %s</string>
     <string name="root_permission">نصب بدون‌پرسش</string>
@@ -173,7 +173,7 @@
     <string name="integrity_check_error_DESC">بررسی صحت ناموفق بود.</string>
     <string name="invalid_fingerprint_format">ساختار نادرست اثرانگشت</string>
     <string name="invalid_address">آدرس ناردست</string>
-    <string name="link_copied_to_clipboard">پیوند به تخته‌گیره رونوشت شد</string>
+    <string name="link_copied_to_clipboard">پیوند در تخته‌گیره رونویسی شد</string>
     <string name="no_proxy">بدون پروکسی</string>
     <string name="no_description_available_DESC">هیچ توضیحاتی موجود نیست</string>
     <string name="no_matching_applications_found">چنین کاره‌ای یافت نشد</string>
@@ -213,7 +213,7 @@
     <string name="import_settings_DESC">ورود تنظیمات و موارد دلخواه از فایل</string>
     <string name="import_repos_title">ورود مخازن</string>
     <string name="import_repos_DESC">ورود همه مخازن از فایل</string>
-    <string name="repository_not_found">مخزن ذیل پیدا نشد</string>
+    <string name="repository_not_found">مخزن زیر پیدا نشد</string>
     <string name="has_non_free_components">دارای اجزای غیرآزاد</string>
     <string name="shizuku_not_installed">شیزوکو نصب نشده</string>
     <string name="shizuku_not_alive">شیزوکو فعال نیست</string>
