@@ -50,7 +50,8 @@ datastore-core = { group = "androidx.datastore", name = "datastore-preferences",
 datastore-proto = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 lifecycle-runtime= { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
 lifecycle-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
-navigation = { group = "androidx.navigation", name = "navigation", version.ref = "navigation" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigation" }
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigation" }
 navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recycler-view" }
 sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqlite" }
