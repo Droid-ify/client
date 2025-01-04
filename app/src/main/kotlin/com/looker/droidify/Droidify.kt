@@ -55,7 +55,7 @@ import kotlin.time.Duration.Companion.hours
 import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
-class MainApplication : Application(), ImageLoaderFactory, Configuration.Provider {
+class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
 
     private val parentJob = SupervisorJob()
     private val appScope = CoroutineScope(Dispatchers.Default + parentJob)
