@@ -250,6 +250,8 @@
     <string name="uninstalled_application_DESC">تم إلغاء تثبيت %s</string>
     <string name="installation_failed">فشل التثبيت</string>
     <string name="installation_failed_DESC">فشل في تثبيت %s</string>
-    <string name="ignore_signature_summary">تجاهل التحقق من التوقيع عند التثبيت لمستخدمي LSPosed أو المستخدمين المتقدمين</string>
+    <string name="ignore_signature_summary">*تحذير* تجاهل التحقق من التوقيع عند التثبيت لمستخدمي LSPosed أو المستخدمين المتقدمين</string>
     <string name="ignore_signature">تجاهل التوقيع</string>
+    <string name="insufficient_storage">مساحة غير كافية</string>
+    <string name="insufficient_storage_DESC">لا توجد مساحة خالية كافية على الجهاز لتثبيت هذا التطبيق. حاول إفراغ بعض المساحة</string>
 </resources>
