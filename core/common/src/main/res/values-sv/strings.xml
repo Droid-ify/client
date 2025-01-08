@@ -239,5 +239,7 @@
     <string name="uninstalled_application">Avinstallerad</string>
     <string name="uninstalled_application_DESC">%s har blivit avinstallerad</string>
     <string name="ignore_signature">Ignorera signatur</string>
-    <string name="ignore_signature_summary">Ignorera signaturverifiering när du installerar apk, för LSPosed användare eller avancerade användare</string>
+    <string name="ignore_signature_summary">*Varning* Ignorera signaturverifiering när du installerar apk, för LSPosed användare eller avancerade användare</string>
+    <string name="insufficient_storage">Otillräckligt utrymme</string>
+    <string name="insufficient_storage_DESC">Det finns inte tillräckligt med ledigt utrymme på enheten för att installera denna applikation. Försök att rensa lite utrymme</string>
 </resources>
