@@ -399,6 +399,13 @@ data class Repository(
                 description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
+            defaultRepository(
+                address = "https://fdroid.ironfoxoss.org/fdroid/repo",
+                name = "IronFox",
+                description = "The official repository for IronFox:" +
+                    " A privacy and security-oriented Firefox-based browser for Android.",
+                fingerprint = "C5E291B5A571F9C8CD9A9799C2C94E02EC9703948893F2CA756D67B94204F904"
+            ),
         )
     }
 }
