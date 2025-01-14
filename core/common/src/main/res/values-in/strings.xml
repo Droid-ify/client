@@ -237,4 +237,6 @@
     <string name="uninstalled_application_DESC">%s telah dicopot</string>
     <string name="ignore_signature">Abaikan Tandatangan</string>
     <string name="ignore_signature_summary">*Peringatan* Abaikan verifikasi tanda tangan ketika memasang apk, untuk pengguna LSPosed atau pengguna ahli</string>
+    <string name="insufficient_storage_DESC">Tidak cukup ruang kosong pada perangkat untuk memasang aplikasi ini. Coba bersihkan berkas atau aplikasi</string>
+    <string name="insufficient_storage">Ruang Tidak Cukup</string>
 </resources>
