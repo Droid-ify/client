@@ -1,5 +1,10 @@
 package com.looker.core.database.model
 
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.looker.core.database.utils.localizedValue
 import com.looker.core.domain.model.ApkFile
 import com.looker.core.domain.model.Manifest
@@ -9,7 +14,18 @@ import com.looker.core.domain.model.Platforms
 import com.looker.core.domain.model.SDKs
 import kotlinx.serialization.Serializable
 
-@Serializable
+@Entity(
+    tableName = "packages",
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["appId"],
+            onDelete = CASCADE,
+        ),
+    ],
+    indices = [Index("appId")],
+)
 data class PackageEntity(
     val added: Long,
     val apkName: String,
@@ -28,7 +44,10 @@ data class PackageEntity(
     val nativeCode: List<String>,
     val features: List<String>,
     val antiFeatures: List<String>,
-    val whatsNew: LocalizedString
+    val whatsNew: LocalizedString,
+    val appId: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = -1L,
 )
 
 @Serializable
@@ -39,6 +58,7 @@ data class PermissionEntity(
 )
 
 fun PackageEntity.toExternal(locale: String, installed: Boolean): Package = Package(
+    id = id,
     installed = installed,
     added = added,
     apk = ApkFile(

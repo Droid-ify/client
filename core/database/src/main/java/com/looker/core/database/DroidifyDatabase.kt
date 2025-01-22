@@ -6,14 +6,26 @@ import androidx.room.TypeConverters
 import com.looker.core.database.dao.AppDao
 import com.looker.core.database.dao.InstalledDao
 import com.looker.core.database.dao.RepoDao
+import com.looker.core.database.model.AntiFeatureEntity
 import com.looker.core.database.model.AppEntity
+import com.looker.core.database.model.AuthorEntity
+import com.looker.core.database.model.CategoryEntity
+import com.looker.core.database.model.DonationEntity
+import com.looker.core.database.model.GraphicEntity
 import com.looker.core.database.model.InstalledEntity
 import com.looker.core.database.model.RepoEntity
+import com.looker.core.database.model.ScreenshotEntity
 
 @Database(
     version = 1,
     entities = [
         AppEntity::class,
+        AntiFeatureEntity::class,
+        AuthorEntity::class,
+        CategoryEntity::class,
+        DonationEntity::class,
+        GraphicEntity::class,
+        ScreenshotEntity::class,
         RepoEntity::class,
         InstalledEntity::class
     ]

@@ -31,7 +31,6 @@ fun PackageV2.toEntity(
         authorEmail = metadata.authorEmail ?: "",
         authorWebSite = metadata.authorWebSite ?: "",
         donate = metadata.donate.firstOrNull() ?: "",
-        liberapayID = metadata.liberapay ?: "",
         liberapay = metadata.liberapay ?: "",
         openCollective = metadata.openCollective ?: "",
         bitcoin = metadata.bitcoin ?: "",

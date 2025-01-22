@@ -1,6 +1,7 @@
 package com.looker.core.domain
 
 import com.looker.core.domain.model.App
+import com.looker.core.domain.model.AppMinimal
 import com.looker.core.domain.model.Author
 import com.looker.core.domain.model.Package
 import com.looker.core.domain.model.PackageName
@@ -8,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {
 
-    fun getApps(): Flow<List<App>>
+    fun getApps(): Flow<List<AppMinimal>>
 
     fun getApp(packageName: PackageName): Flow<List<App>>
 

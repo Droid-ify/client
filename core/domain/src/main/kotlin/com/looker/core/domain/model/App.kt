@@ -2,6 +2,7 @@ package com.looker.core.domain.model
 
 data class App(
     val repoId: Long,
+    val appId: Long,
     val categories: List<String>,
     val links: Links,
     val metadata: Metadata,
@@ -14,6 +15,7 @@ data class App(
 )
 
 data class Author(
+    val id: Long,
     val name: String,
     val email: String,
     val web: String
@@ -26,7 +28,6 @@ data class Donation(
     val liteCoinAddress: String? = null,
     val openCollectiveId: String? = null,
     val librePayId: String? = null,
-    val librePayAddress: String? = null
 )
 
 data class Graphics(
@@ -66,9 +67,17 @@ data class Screenshots(
 )
 
 data class AppMinimal(
+    val appId: Long,
     val name: String,
     val summary: String,
-    val icon: String
+    val icon: String,
+    val suggestedVersion: String,
 )
 
-fun App.minimal(): AppMinimal = AppMinimal(metadata.name, metadata.summary, metadata.icon)
+fun App.minimal() = AppMinimal(
+    appId = appId,
+    name = metadata.name,
+    summary = metadata.summary,
+    icon = metadata.icon,
+    suggestedVersion = metadata.suggestedVersionName,
+)

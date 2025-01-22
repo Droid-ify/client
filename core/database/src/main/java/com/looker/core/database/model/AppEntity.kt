@@ -1,108 +1,167 @@
 package com.looker.core.database.model
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.looker.core.common.nullIfEmpty
-import com.looker.core.domain.model.toPackageName
 import com.looker.core.database.utils.localizedValue
 import com.looker.core.domain.model.App
+import com.looker.core.domain.model.AppMinimal
 import com.looker.core.domain.model.Author
 import com.looker.core.domain.model.Donation
 import com.looker.core.domain.model.Graphics
 import com.looker.core.domain.model.Links
 import com.looker.core.domain.model.Metadata
+import com.looker.core.domain.model.Package
 import com.looker.core.domain.model.Screenshots
+import com.looker.core.domain.model.toPackageName
 
 internal typealias LocalizedString = Map<String, String>
 internal typealias LocalizedList = Map<String, List<String>>
 
-@Entity(tableName = "apps", primaryKeys = ["repoId", "packageName"])
+@Entity(
+    tableName = "apps",
+    foreignKeys = [
+        ForeignKey(
+            entity = RepoEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["repoId"],
+            onDelete = CASCADE,
+        ),
+        ForeignKey(
+            entity = AuthorEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["authorId"],
+        ),
+    ],
+    indices = [
+        // Sorting index
+        Index("repoId", "added", "lastUpdated", "name"),
+        // Searching index
+        Index("packageName", "summary", "description"),
+    ],
+)
 data class AppEntity(
-    @ColumnInfo(name = "packageName")
     val packageName: String,
-    @ColumnInfo(name = "repoId")
-    val repoId: Long,
     val categories: List<String>,
+    val icon: LocalizedString,
+    val name: LocalizedString,
     val summary: LocalizedString,
     val description: LocalizedString,
+    val suggestedVersionName: String,
+    val suggestedVersionCode: Long,
+    val license: String,
+    val added: Long,
+    val lastUpdated: Long,
+    val authorId: Long,
+    val repoId: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = -1L,
+)
+
+@Entity(
+    tableName = "app_extras",
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["appId"],
+            onDelete = CASCADE,
+        ),
+    ],
+    indices = [Index("appId")],
+)
+data class AppExtraEntity(
     val changelog: String,
     val translation: String,
     val issueTracker: String,
     val sourceCode: String,
     val binaries: String,
-    val name: LocalizedString,
-    val authorName: String,
-    val authorEmail: String,
-    val authorWebSite: String,
-    val donate: String,
-    val liberapayID: String,
-    val liberapay: String,
-    val openCollective: String,
-    val bitcoin: String,
-    val litecoin: String,
-    val flattrID: String,
-    val suggestedVersionName: String,
-    val suggestedVersionCode: Long,
-    val license: String,
     val webSite: String,
-    val added: Long,
-    val icon: LocalizedString,
-    val phoneScreenshots: LocalizedList,
-    val sevenInchScreenshots: LocalizedList,
-    val tenInchScreenshots: LocalizedList,
-    val wearScreenshots: LocalizedList,
-    val tvScreenshots: LocalizedList,
-    val featureGraphic: LocalizedString,
-    val promoGraphic: LocalizedString,
-    val tvBanner: LocalizedString,
-    val video: LocalizedString,
-    val lastUpdated: Long,
-    val packages: List<PackageEntity>
+    val appId: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = -1L,
 )
 
-fun AppEntity.toExternal(locale: String, installed: PackageEntity? = null): App = App(
+fun AppEntity.minimal(locale: String) = AppMinimal(
+    appId = id,
+    name = name.localizedValue(locale) ?: "",
+    summary = summary.localizedValue(locale) ?: "",
+    icon = icon.localizedValue(locale) ?: "",
+    suggestedVersion = suggestedVersionName,
+)
+
+fun List<AppEntity>.toAppMinimal(locale: String) = map {
+    it.minimal(locale)
+}
+
+fun AppEntity.toExternal(
+    locale: String,
+    donationEntity: DonationEntity,
+    extraEntity: AppExtraEntity,
+    authorEntity: AuthorEntity,
+    graphicEntity: GraphicEntity,
+    screenshotEntity: ScreenshotEntity,
+    packages: List<Package>
+): App = App(
     repoId = repoId,
+    appId = id,
     categories = categories,
-    links = links(),
     metadata = metadata(locale),
-    screenshots = screenshots(locale),
-    graphics = graphics(locale),
-    author = author(),
-    donation = donations(),
-    packages = packages.toExternal(locale) { it == installed }
+    links = extraEntity.links(),
+    screenshots = screenshotEntity.screenshots(),
+    graphics = graphicEntity.graphics(),
+    author = authorEntity.author(),
+    donation = donationEntity.donations(),
+    packages = packages,
 )
 
 fun List<AppEntity>.toExternal(
     locale: String,
-    isInstalled: (AppEntity) -> PackageEntity?
+    donationEntity: DonationEntity,
+    extraEntity: AppExtraEntity,
+    authorEntity: AuthorEntity,
+    graphicEntity: GraphicEntity,
+    screenshotEntity: ScreenshotEntity,
+    packages: List<Package>
 ): List<App> = map {
-    it.toExternal(locale, isInstalled(it))
+    it.toExternal(
+        locale = locale,
+        donationEntity = donationEntity,
+        extraEntity = extraEntity,
+        authorEntity = authorEntity,
+        graphicEntity = graphicEntity,
+        screenshotEntity = screenshotEntity,
+        packages = packages,
+    )
 }
 
-private fun AppEntity.author(): Author = Author(
-    name = authorName,
-    email = authorEmail,
-    web = authorWebSite
+private fun AuthorEntity.author(): Author = Author(
+    name = name,
+    email = email,
+    web = web,
+    id = id,
 )
 
-private fun AppEntity.donations(): Donation = Donation(
-    regularUrl = donate.nullIfEmpty(),
+private fun DonationEntity.donations(): Donation = Donation(
+    regularUrl = regularUrl.nullIfEmpty(),
     bitcoinAddress = bitcoin.nullIfEmpty(),
     flattrId = flattrID.nullIfEmpty(),
     liteCoinAddress = litecoin.nullIfEmpty(),
     openCollectiveId = openCollective.nullIfEmpty(),
-    librePayId = liberapayID.nullIfEmpty(),
-    librePayAddress = liberapay.nullIfEmpty()
+    librePayId = liberapay.nullIfEmpty(),
 )
 
-private fun AppEntity.graphics(locale: String): Graphics = Graphics(
-    featureGraphic = featureGraphic.localizedValue(locale) ?: "",
-    promoGraphic = promoGraphic.localizedValue(locale) ?: "",
-    tvBanner = tvBanner.localizedValue(locale) ?: "",
-    video = video.localizedValue(locale) ?: ""
+private fun GraphicEntity.graphics(): Graphics = Graphics(
+    featureGraphic = featureGraphic,
+    promoGraphic = promoGraphic,
+    tvBanner = tvBanner,
+    video = video,
 )
 
-private fun AppEntity.links(): Links = Links(
+private fun AppExtraEntity.links(): Links = Links(
     changelog = changelog,
     issueTracker = issueTracker,
     sourceCode = sourceCode,
@@ -111,22 +170,22 @@ private fun AppEntity.links(): Links = Links(
 )
 
 private fun AppEntity.metadata(locale: String): Metadata = Metadata(
-    name = name.localizedValue(locale) ?: "",
     packageName = packageName.toPackageName(),
-    added = added,
-    description = description.localizedValue(locale) ?: "",
     icon = icon.localizedValue(locale) ?: "",
+    name = name.localizedValue(locale) ?: "",
+    summary = summary.localizedValue(locale) ?: "",
+    description = description.localizedValue(locale) ?: "",
+    added = added,
     lastUpdated = lastUpdated,
     license = license,
     suggestedVersionCode = suggestedVersionCode,
     suggestedVersionName = suggestedVersionName,
-    summary = summary.localizedValue(locale) ?: ""
 )
 
-private fun AppEntity.screenshots(locale: String): Screenshots = Screenshots(
-    phone = phoneScreenshots.localizedValue(locale) ?: emptyList(),
-    sevenInch = sevenInchScreenshots.localizedValue(locale) ?: emptyList(),
-    tenInch = tenInchScreenshots.localizedValue(locale) ?: emptyList(),
-    tv = tvScreenshots.localizedValue(locale) ?: emptyList(),
-    wear = wearScreenshots.localizedValue(locale) ?: emptyList()
+private fun ScreenshotEntity.screenshots(): Screenshots = Screenshots(
+    phone = phone,
+    sevenInch = sevenInch,
+    tenInch = tenInch,
+    tv = tv,
+    wear = wear
 )

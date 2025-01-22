@@ -152,7 +152,6 @@ fun Donation.toLegacy() = buildList {
     liteCoinAddress?.let { add(Product.Donate.Litecoin(it)) }
     openCollectiveId?.let { add(Product.Donate.OpenCollective(it)) }
     librePayId?.let { add(Product.Donate.Liberapay(it)) }
-    librePayAddress?.let { add(Product.Donate.Liberapay(it)) }
 }
 
 fun Screenshots.toLegacy() = buildList {

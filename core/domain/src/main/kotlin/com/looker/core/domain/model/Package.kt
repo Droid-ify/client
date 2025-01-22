@@ -1,6 +1,7 @@
 package com.looker.core.domain.model
 
 data class Package(
+    val id: Long,
     val installed: Boolean,
     val added: Long,
     val apk: ApkFile,

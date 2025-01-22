@@ -1,50 +1,40 @@
 package com.looker.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Upsert
 import com.looker.core.database.model.AppEntity
-import com.looker.core.database.model.PackageEntity
+import com.looker.core.database.model.AppExtraEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
 
-    @Query(value = "SELECT * FROM apps")
-    fun getAppStream(): Flow<List<AppEntity>>
+    @Query("SELECT * FROM apps JOIN app_extras ON apps.id = app_extras.appId")
+    fun appsMinimalStream(): Flow<List<AppEntity>>
 
-    @Query(
-        value = """
-			SELECT * FROM apps
-			WHERE authorName = :authorName
-		"""
-    )
-    fun getAppsFromAuthor(authorName: String): Flow<List<AppEntity>>
+    @Query("SELECT * FROM apps WHERE authorId = :authorId")
+    fun appsMinimalByAuthorStream(authorId: Long): Flow<List<AppEntity>>
 
-    @Query(value = "SELECT * FROM apps WHERE packageName = :packageName")
-    fun getApp(packageName: String): Flow<List<AppEntity>>
+    @Query("SELECT * FROM apps WHERE repoId = :repoId")
+    fun appsMinimalByRepoStream(repoId: Long): Flow<List<AppEntity>>
 
-    @Query(
-        value = """
-			SELECT packages FROM apps
-			WHERE packageName = :packageName
-		"""
-    )
-    fun getPackages(packageName: String): Flow<List<PackageEntity>>
+    @Query("SELECT * FROM apps WHERE id = :id")
+    suspend fun getAppById(id: Long): Map<AppEntity, AppExtraEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertOrIgnore(apps: List<AppEntity>)
+    @Query("SELECT * FROM apps WHERE id = :id")
+    fun appByIdStream(id: Long): Flow<Map<AppEntity, AppExtraEntity>>
+
+    @Query("SELECT * FROM apps WHERE packageName = :packageName")
+    fun appByPackageNameStream(packageName: String): Flow<Map<AppEntity, AppExtraEntity>>
+
+    @Query("SELECT * FROM apps WHERE packageName = :packageName")
+    suspend fun getAppByPackageName(packageName: String): Map<AppEntity, AppExtraEntity>
 
     @Upsert
-    suspend fun upsertApps(apps: List<AppEntity>)
+    suspend fun upsert(app: AppEntity)
 
-    @Query(
-        value = """
-			DELETE FROM apps
-			WHERE repoId = :repoId
-		"""
-    )
-    suspend fun deleteApps(repoId: Long)
+    @Upsert
+    suspend fun upsertExtra(appExtra: AppExtraEntity)
+
 }
