@@ -347,10 +347,7 @@ data class Repository(
                 name = "SimpleX Chat F-Droid",
                 description = "SimpleX Chat official F-Droid repository.",
                 fingerprint = "9F358FF284D1F71656A2BFAF0E005DEAE6AA14143720E089F11FF2DDCFEB01BA"
-            )
-        )
-
-        val newlyAdded = listOf<Repository>(
+            ),
             defaultRepository(
                 address = "https://f-droid.monerujo.io/fdroid/repo",
                 name = "Monerujo Wallet",
@@ -399,12 +396,21 @@ data class Repository(
                 description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
+        )
+
+        val newlyAdded = listOf<Repository>(
             defaultRepository(
                 address = "https://fdroid.ironfoxoss.org/fdroid/repo",
                 name = "IronFox",
                 description = "The official repository for IronFox:" +
                     " A privacy and security-oriented Firefox-based browser for Android.",
                 fingerprint = "C5E291B5A571F9C8CD9A9799C2C94E02EC9703948893F2CA756D67B94204F904"
+            ),
+            defaultRepository(
+                address = "https://raw.githubusercontent.com/chrisgch/tca/master/fdroid/repo",
+                name = "Total Commander",
+                description = "The official repository for Total Commander",
+                fingerprint = "3576596CECDD70488D61CFD90799A49B7FFD26A81A8FEF1BADEC88D069FA72C1"
             ),
         )
     }

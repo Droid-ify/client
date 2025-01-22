@@ -184,7 +184,7 @@ object Database {
         }
     }
 
-    private class Helper(context: Context) : SQLiteOpenHelper(context, "droidify", null, 4) {
+    private class Helper(context: Context) : SQLiteOpenHelper(context, "droidify", null, 5) {
         var created = false
             private set
         var updated = false
