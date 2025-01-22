@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.android.application)
@@ -102,6 +103,18 @@ android {
         resValues = true
         viewBinding = true
         buildConfig = true
+    }
+}
+
+ktlint {
+    android.set(true)
+    ignoreFailures.set(true)
+    debug.set(true)
+    reporters {
+        reporter(ReporterType.HTML)
+    }
+    filter {
+        exclude("**/generated/**")
     }
 }
 
