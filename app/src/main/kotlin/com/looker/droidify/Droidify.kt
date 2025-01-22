@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -14,28 +15,28 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import com.looker.droidify.utility.common.Constants
-import com.looker.droidify.utility.common.cache.Cache
-import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
-import com.looker.droidify.utility.common.extension.jobScheduler
-import com.looker.droidify.utility.common.log
+import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
-import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.network.Downloader
 import com.looker.droidify.receivers.InstalledAppReceiver
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
+import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
+import com.looker.droidify.utility.common.extension.jobScheduler
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.droidify.installer.InstallManager
-import com.looker.droidify.network.Downloader
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -70,6 +71,8 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        if (BuildConfig.DEBUG) threadPolicy()
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
@@ -234,4 +237,13 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         get() = Configuration.Builder()
             .setWorkerFactory(workerFactory)
             .build()
+}
+
+private fun threadPolicy() {
+    StrictMode.setThreadPolicy(
+        StrictMode.ThreadPolicy.Builder()
+            .detectAll()
+            .penaltyDeath()
+            .build()
+    )
 }
