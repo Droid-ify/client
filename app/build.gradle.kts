@@ -81,7 +81,6 @@ dependencies {
 
     implementation(libs.monitor)
     modules(
-        Modules.coreDomain,
         Modules.coreCommon,
         Modules.coreNetwork,
         Modules.coreDatastore,

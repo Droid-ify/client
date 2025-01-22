@@ -1,6 +1,6 @@
 package com.looker.droidify.sync
 
-import com.looker.core.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Fingerprint
 import java.util.jar.JarEntry
 
 val FakeIndexValidator = object : IndexValidator {

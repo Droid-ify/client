@@ -1,8 +1,8 @@
 package com.looker.droidify.sync.v1
 
 import android.content.Context
-import com.looker.core.domain.model.Fingerprint
-import com.looker.core.domain.model.Repo
+import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.INDEX_V1_NAME

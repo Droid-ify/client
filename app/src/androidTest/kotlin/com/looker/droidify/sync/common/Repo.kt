@@ -1,9 +1,9 @@
 package com.looker.droidify.sync.common
 
-import com.looker.core.domain.model.Authentication
-import com.looker.core.domain.model.Fingerprint
-import com.looker.core.domain.model.Repo
-import com.looker.core.domain.model.VersionInfo
+import com.looker.droidify.domain.model.Authentication
+import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.domain.model.VersionInfo
 
 val Izzy = Repo(
     id = 1L,

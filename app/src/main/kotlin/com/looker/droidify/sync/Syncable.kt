@@ -1,7 +1,7 @@
 package com.looker.droidify.sync
 
-import com.looker.core.domain.model.Fingerprint
-import com.looker.core.domain.model.Repo
+import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Repo
 
 /**
  * Expected Architecture: [https://excalidraw.com/#json=JqpGunWTJONjq-ecDNiPg,j9t0X4coeNvIG7B33GTq6A]

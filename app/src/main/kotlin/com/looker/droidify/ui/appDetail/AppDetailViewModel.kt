@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.domain.model.toPackageName
+import com.looker.droidify.domain.model.toPackageName
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database
 import com.looker.droidify.model.InstalledItem

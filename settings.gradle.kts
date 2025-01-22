@@ -21,6 +21,5 @@ include(
 	":core:common",
 	":core:datastore",
     ":core:di",
-    ":core:domain",
 	":core:network",
 )

@@ -3,7 +3,7 @@ package com.looker.droidify.installer.installers.root
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
-import com.looker.core.domain.model.PackageName
+import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.uninstallPackage
 import com.looker.droidify.installer.model.InstallItem

@@ -8,7 +8,7 @@ import com.looker.core.common.extension.updateAsMutable
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
-import com.looker.core.domain.model.PackageName
+import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.LegacyInstaller
 import com.looker.droidify.installer.installers.root.RootInstaller

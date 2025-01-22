@@ -1,7 +1,7 @@
 package com.looker.droidify.sync.v2
 
-import com.looker.core.domain.model.Fingerprint
-import com.looker.core.domain.model.Repo
+import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.v2.model.IndexV2
 import kotlinx.coroutines.CoroutineDispatcher

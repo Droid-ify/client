@@ -2,7 +2,7 @@ package com.looker.droidify.sync.common
 
 import android.content.Context
 import com.looker.core.common.cache.Cache
-import com.looker.core.domain.model.Repo
+import com.looker.droidify.domain.model.Repo
 import com.looker.network.Downloader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

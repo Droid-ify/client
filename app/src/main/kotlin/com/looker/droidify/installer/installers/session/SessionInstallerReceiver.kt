@@ -9,7 +9,7 @@ import com.looker.core.common.R
 import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.notificationManager
-import com.looker.core.domain.model.toPackageName
+import com.looker.droidify.domain.model.toPackageName
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.notification.createInstallNotification

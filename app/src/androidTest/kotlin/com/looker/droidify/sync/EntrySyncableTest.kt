@@ -3,7 +3,7 @@ package com.looker.droidify.sync
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.looker.core.domain.model.Repo
+import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.sync.common.IndexJarValidator
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.JsonParser
