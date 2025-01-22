@@ -249,4 +249,12 @@
     <string name="uninstalled_application">Удалено</string>
     <string name="insufficient_storage">Недостаточно места</string>
     <string name="insufficient_storage_DESC">На устройстве недостаточно свободного места для установки данного приложения. Попробуйте немного его освободить.</string>
+    <string name="error_shizuku_service_unavailable">Shizuku не работает</string>
+    <string name="error_shizuku_not_running_DESC">Служба Shizuku не запущена, проверьте в приложении Shizuku</string>
+    <string name="error_shizuku_not_granted">Разрешение Shizuku отсутствует</string>
+    <string name="error_shizuku_not_granted_DESC">Разрешение для службы Shizuku не предоставлено, проверьте в приложении Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku не установлен</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku, похоже, не установлен</string>
+    <string name="open_shizuku">Открыть Shizuku</string>
+    <string name="switch_to_default_installer">Использовать установщик по умолчанию</string>
 </resources>
