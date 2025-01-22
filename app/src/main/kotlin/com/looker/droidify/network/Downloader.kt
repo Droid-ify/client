@@ -1,5 +1,6 @@
 package com.looker.droidify.network
 
+import com.looker.droidify.BuildConfig
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import java.io.File
@@ -26,7 +27,7 @@ interface Downloader {
         internal const val CONNECTION_TIMEOUT = 30_000L
         internal const val SOCKET_TIMEOUT = 15_000L
 
-        internal const val USER_AGENT = "Droid-ify, v0.6.3"
+        internal const val USER_AGENT = "Droid-ify, ${BuildConfig.VERSION_NAME}"
     }
 }
 

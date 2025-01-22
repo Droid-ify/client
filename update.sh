@@ -3,8 +3,7 @@
 # Default values
 version=""
 changelog_directory="./metadata/en-US/changelogs"
-kotlin_file="./build-logic/structure/src/main/kotlin/DefaultConfig.kt"
-user_agent="./core/network/src/main/java/com/looker/network/Downloader.kt"
+kotlin_file="./app/build.gradle.kts"
 
 # Pull commits from origin
 echo "Pulling commits from GitHub"
@@ -57,12 +56,8 @@ else
 fi
 
 # Update the Kotlin file with new version code and name
-sed -i "s/const val versionCode = [0-9]*/const val versionCode = $version_code/" "$kotlin_file"
-sed -i "s/const val versionName = \"[^\"]*\"/const val versionName = \"$version_name\"/" "$kotlin_file"
-sed -i "s/internal const val USER_AGENT = \"[^\"]*\"/internal const val USER_AGENT = \"Droid-ify v$version_name\"/" "$user_agent"
-
-# Line ending to CRLF
-sed -i ':a;N;$!ba;s/\n/\r\n/g' "$kotlin_file"
+sed -i "s/val latestVersionName = \"[^\"]*\"/const val latestVersionName = \"$version_name\"/" "$kotlin_file"
+sed -i "s/versionCode = [0-9]*/versionCode = $version_code/" "$kotlin_file"
 
 # Create a changelog file
 mkdir -p "$changelog_directory"
