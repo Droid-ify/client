@@ -1,4 +1,3 @@
-# Taken from NIA sample app by Google
 [versions]
 desugaring = "2.1.4"
 agp = "8.8.0"
@@ -10,10 +9,8 @@ datastore = "1.1.2"
 fragment = "1.8.5"
 espresso = "3.6.1"
 lifecycle = "2.8.7"
-navigation = "2.8.5"
 recycler-view = "1.4.0"
 sqlite = "2.4.0"
-test-core = "1.6.1"
 test-ext = "1.2.1"
 test-rules = "1.6.1"
 test-runner = "1.6.2"
@@ -23,7 +20,6 @@ coil = "2.7.0"
 leakcanary = "2.14"
 hilt = "2.55"
 hiltExt = "1.2.0"
-junit4 = "4.13.2"
 jackson = "2.18.2"
 kotlin = "2.1.0"
 coroutines = "1.10.1"
@@ -37,7 +33,6 @@ room = "2.6.1"
 shizuku = "13.0.0"
 image-viewer = "v1.0.1"
 junit-jupiter = "5.11.4"
-monitor = "1.7.2"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -50,12 +45,8 @@ datastore-core = { group = "androidx.datastore", name = "datastore-preferences",
 datastore-proto = { group = "androidx.datastore", name = "datastore", version.ref = "datastore" }
 lifecycle-runtime= { group = "androidx.lifecycle", name = "lifecycle-runtime", version.ref = "lifecycle" }
 lifecycle-viewModel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel", version.ref = "lifecycle" }
-navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigation" }
-navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigation" }
-navigation-testing = { group = "androidx.navigation", name = "navigation-testing", version.ref = "navigation" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recycler-view" }
 sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sqlite" }
-test-core = { group = "androidx.test", name = "core", version.ref = "test-core" }
 test-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso" }
 test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "test-ext" }
 test-rules = { group = "androidx.test", name = "rules", version.ref = "test-rules" }
@@ -64,16 +55,14 @@ test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", 
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
-coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-ext-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "hiltExt" }
 hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
-hilt-android-testing = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
 leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", version.ref = "leakcanary" }
-junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
+kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -95,35 +84,15 @@ junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit-jupi
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
 
-# Dependencies of the included build-logic
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
-kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-ktlint = { group = "org.jlleitschuh.gradle", name = "ktlint-gradle", version.ref = "ktlint" }
-ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
-monitor = { group = "androidx.test", name = "monitor", version.ref = "monitor" }
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-android-library = { id = "com.android.library", version.ref = "agp" }
-android-test = { id = "com.android.test", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
-# Plugins defined by this project
-looker-android-application = { id = "looker.android.application", version = "unspecified" }
-looker-android-library = { id = "looker.android.library", version = "unspecified" }
-looker-jvm-library = { id = "looker.jvm.library", version = "unspecified" }
-looker-hilt = { id = "looker.hilt", version = "unspecified" }
-looker-hilt-work = { id = "looker.hilt.work", version = "unspecified" }
-looker-lint = { id = "looker.lint", version = "unspecified" }
-looker-room = { id = "looker.room", version = "unspecified" }
-looker-serialization = { id = "looker.serialization", version = "unspecified" }
-
 [bundles]
-test-unit = ["coroutines-test", "kotlin-test"]
+test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "test-espresso-core", "coroutines-test", "kotlin-test"]
-test-ui = ["test-runner", "test-rules", "test-espresso-core", "test-uiautomator", "coroutines-test", "kotlin-test"]

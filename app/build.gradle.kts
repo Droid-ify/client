@@ -1,18 +1,44 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 
 plugins {
-    alias(libs.plugins.looker.android.application)
-    alias(libs.plugins.looker.hilt.work)
-    alias(libs.plugins.looker.lint)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ktlint)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.looker.serialization)
 }
 
 android {
+    val latestVersionName = "0.6.4"
     namespace = "com.looker.droidify"
+    buildToolsVersion = "35.0.0"
+    compileSdk = 35
     defaultConfig {
+        minSdk = 23
+        targetSdk = 35
+        applicationId = "com.looker.droidify"
+        versionCode = 640
+        versionName = latestVersionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
+        freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-Xcontext-receivers"
+        )
     }
 
     androidResources {
@@ -55,7 +81,7 @@ android {
             buildConfigField(
                 type = "String",
                 name = "VERSION_NAME",
-                value = "\"v${DefaultConfig.versionName}\""
+                value = "\"v$latestVersionName\""
             )
         }
     }
@@ -80,8 +106,7 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.monitor)
+    coreLibraryDesugaring(libs.desugaring)
 
     implementation(libs.material)
     implementation(libs.core.ktx)
@@ -91,31 +116,41 @@ dependencies {
     implementation(libs.lifecycle.viewModel)
     implementation(libs.recyclerview)
     implementation(libs.sqlite.ktx)
-    implementation(libs.coil.kt)
-    implementation(libs.datetime)
-    implementation(libs.jackson.core)
+
     implementation(libs.image.viewer)
+    implementation(libs.coil.kt)
 
     implementation(libs.datastore.core)
     implementation(libs.datastore.proto)
 
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.datetime)
+
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
     implementation(libs.coroutines.guava)
+
     implementation(libs.libsu.core)
     implementation(libs.shizuku.api)
     api(libs.shizuku.provider)
 
+    implementation(libs.jackson.core)
+    implementation(libs.serialization)
+
     implementation(libs.ktor.core)
     implementation(libs.ktor.okhttp)
 
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
-    testImplementation(libs.ktor.mock)
-    testImplementation(libs.coroutines.test)
-    testImplementation(kotlin("test"))
-    testRuntimeOnly(libs.junit.platform)
+    implementation(libs.work.ktx)
 
+    implementation(libs.hilt.core)
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.ext.work)
+    ksp(libs.hilt.compiler)
+    ksp(libs.hilt.ext.compiler)
+
+    testImplementation(platform(libs.junit.bom))
+    testImplementation(libs.bundles.test.unit)
+    testRuntimeOnly(libs.junit.platform)
     androidTestImplementation(platform(libs.junit.bom))
     androidTestImplementation(libs.bundles.test.android)
 
