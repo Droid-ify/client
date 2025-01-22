@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.droidify.R
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.database.Database
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
@@ -68,7 +68,7 @@ class FavouritesFragment : ScreenFragment() {
             }
         }
 
-        toolbar.title = getString(CommonR.string.favourites)
+        toolbar.title = getString(R.string.favourites)
         return view
     }
 

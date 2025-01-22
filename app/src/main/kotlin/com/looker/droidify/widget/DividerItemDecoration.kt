@@ -5,7 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.extension.divider
+import com.looker.droidify.utility.common.extension.divider
 import com.looker.droidify.R
 import kotlin.math.roundToInt
 

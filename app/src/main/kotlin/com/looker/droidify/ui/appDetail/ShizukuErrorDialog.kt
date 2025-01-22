@@ -2,7 +2,7 @@ package com.looker.droidify.ui.appDetail
 
 import android.content.Context
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.string as stringRes
 
 fun shizukuDialog(
     context: Context,

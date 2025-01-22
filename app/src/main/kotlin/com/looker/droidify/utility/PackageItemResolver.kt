@@ -6,7 +6,7 @@ import android.content.pm.PackageItemInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
 import android.os.Build
-import com.looker.core.common.SdkCheck
+import com.looker.droidify.utility.common.SdkCheck
 import java.util.Locale
 
 object PackageItemResolver {

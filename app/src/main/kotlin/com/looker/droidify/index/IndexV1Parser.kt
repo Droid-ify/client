@@ -5,14 +5,14 @@ import androidx.core.os.ConfigurationCompat.getLocales
 import androidx.core.os.LocaleListCompat
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core.common.SdkCheck
+import com.looker.droidify.utility.common.SdkCheck
 import com.looker.core.common.extension.Json
 import com.looker.core.common.extension.collectDistinctNotEmptyStrings
 import com.looker.core.common.extension.collectNotNull
 import com.looker.core.common.extension.forEach
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.illegal
-import com.looker.core.common.nullIfEmpty
+import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import java.io.InputStream

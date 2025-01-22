@@ -12,19 +12,19 @@ import coil.load
 import coil.size.Dimension
 import coil.size.Scale
 import com.google.android.material.imageview.ShapeableImageView
-import com.looker.core.common.extension.aspectRatio
-import com.looker.core.common.extension.authentication
-import com.looker.core.common.extension.camera
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.dpToPx
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.selectableBackground
+import com.looker.droidify.utility.common.extension.aspectRatio
+import com.looker.droidify.utility.common.extension.authentication
+import com.looker.droidify.utility.common.extension.camera
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.dpToPx
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.dimen as dimenRes
+import com.looker.droidify.R.dimen as dimenRes
 
 class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) -> Unit) :
     StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {

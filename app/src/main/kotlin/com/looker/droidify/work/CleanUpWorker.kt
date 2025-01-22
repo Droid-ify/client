@@ -10,8 +10,8 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.looker.core.common.cache.Cache
-import com.looker.core.datastore.SettingsRepository
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.datastore.SettingsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlin.time.Duration

@@ -1,13 +1,13 @@
 package com.looker.droidify.installer
 
 import android.content.Context
-import com.looker.core.common.extension.addAndCompute
-import com.looker.core.common.extension.filter
-import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.extension.updateAsMutable
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.get
-import com.looker.core.datastore.model.InstallerType
+import com.looker.droidify.utility.common.extension.addAndCompute
+import com.looker.droidify.utility.common.extension.filter
+import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.LegacyInstaller

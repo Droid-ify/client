@@ -14,16 +14,16 @@ import coil.ImageLoader
 import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
-import com.looker.core.common.Constants
-import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.getInstalledPackagesCompat
-import com.looker.core.common.extension.jobScheduler
-import com.looker.core.common.log
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.get
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.ProxyPreference
-import com.looker.core.datastore.model.ProxyType
+import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
+import com.looker.droidify.utility.common.extension.jobScheduler
+import com.looker.droidify.utility.common.log
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.ProxyPreference
+import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -35,7 +35,7 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.droidify.installer.InstallManager
-import com.looker.network.Downloader
+import com.looker.droidify.network.Downloader
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -49,7 +49,6 @@ import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
-import com.looker.core.common.R as CommonR
 
 @HiltAndroidApp
 class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
@@ -226,7 +225,7 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         return ImageLoader.Builder(this)
             .memoryCache(memoryCache)
             .diskCache(diskCache)
-            .error(CommonR.drawable.ic_cannot_load)
+            .error(R.drawable.ic_cannot_load)
             .crossfade(350)
             .build()
     }

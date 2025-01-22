@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.fasterxml.jackson.core.JsonToken
 import com.looker.core.common.extension.Json
-import com.looker.core.common.extension.asSequence
+import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.core.common.extension.collectNotNull
 import com.looker.core.common.extension.writeDictionary
 import com.looker.droidify.model.Product

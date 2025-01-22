@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.model.InstallerType
+import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.domain.model.toPackageName
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database

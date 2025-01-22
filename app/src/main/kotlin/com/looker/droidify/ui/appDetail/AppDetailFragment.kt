@@ -22,13 +22,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import coil.load
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.getLauncherActivities
-import com.looker.core.common.extension.getMutatedIcon
-import com.looker.core.common.extension.isFirstItemVisible
-import com.looker.core.common.extension.isSystemApplication
-import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.getLauncherActivities
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.extension.isFirstItemVisible
+import com.looker.droidify.utility.common.extension.isSystemApplication
+import com.looker.droidify.utility.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
@@ -53,7 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {

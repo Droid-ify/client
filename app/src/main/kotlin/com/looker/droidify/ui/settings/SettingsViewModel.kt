@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.datastore.Settings
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.get
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.InstallerType.*
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.Theme
+import com.looker.droidify.datastore.Settings
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.InstallerType.*
+import com.looker.droidify.datastore.model.ProxyType
+import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.work.CleanUpWorker
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.time.Duration
-import com.looker.core.common.R as CommonR
+import com.looker.droidify.R
 
 @HiltViewModel
 class SettingsViewModel
@@ -156,7 +156,7 @@ class SettingsViewModel
             try {
                 settingsRepository.setProxyPort(proxyPort.toInt())
             } catch (_: NumberFormatException) {
-                createSnackbar(CommonR.string.proxy_port_error_not_int)
+                createSnackbar(R.string.proxy_port_error_not_int)
             }
         }
     }
@@ -167,7 +167,7 @@ class SettingsViewModel
                 SHIZUKU -> {
                     if (isShizukuInstalled(context)) {
                         if (!isShizukuAlive()) {
-                            createSnackbar(CommonR.string.shizuku_not_alive)
+                            createSnackbar(R.string.shizuku_not_alive)
                             return@launch
                         } else if (isShizukuGranted()) {
                             settingsRepository.setInstallerType(installerType)
@@ -177,7 +177,7 @@ class SettingsViewModel
                             }
                         }
                     } else {
-                        createSnackbar(CommonR.string.shizuku_not_installed)
+                        createSnackbar(R.string.shizuku_not_installed)
                     }
                 }
 

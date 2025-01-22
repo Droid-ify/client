@@ -28,14 +28,14 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
-import com.looker.core.common.device.Huawei
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.getMutatedIcon
-import com.looker.core.common.extension.selectableBackground
-import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.extension.sortOrderName
-import com.looker.core.datastore.model.SortOrder
+import com.looker.droidify.utility.common.device.Huawei
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.extension.selectableBackground
+import com.looker.droidify.utility.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.sdkAbove
+import com.looker.droidify.datastore.extension.sortOrderName
+import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.model.ProductItem
@@ -53,8 +53,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class TabsFragment : ScreenFragment() {
@@ -184,7 +183,7 @@ class TabsFragment : ScreenFragment() {
             }
 
             searchMenuItem = add(0, R.id.toolbar_search, 0, stringRes.search)
-                .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_search))
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_search))
                 .setActionView(searchView)
                 .setShowAsActionFlags(
                     MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
@@ -202,7 +201,7 @@ class TabsFragment : ScreenFragment() {
                 })
 
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
-                .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sync))
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sync))
                 .setOnMenuItemClickListener {
 //                    SyncWorker.startSyncWork(requireContext())
                     syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
@@ -210,7 +209,7 @@ class TabsFragment : ScreenFragment() {
                 }
 
             sortOrderMenu = addSubMenu(0, 0, 0, stringRes.sorting_order)
-                .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_sort))
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sort))
                 .let { menu ->
                     menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                     val menuItems = SortOrder.entries.map { sortOrder ->
@@ -226,7 +225,7 @@ class TabsFragment : ScreenFragment() {
 
             favouritesItem = add(1, 0, 0, stringRes.favourites)
                 .setIcon(
-                    toolbar.context.getMutatedIcon(CommonR.drawable.ic_favourite_checked)
+                    toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked)
                 )
                 .setOnMenuItemClickListener {
                     view.post { screenActivity.navigateFavourites() }
@@ -303,7 +302,7 @@ class TabsFragment : ScreenFragment() {
 
         val backgroundPath = ShapeAppearanceModel.builder()
             .setAllCornerSizes(
-                context?.resources?.getDimension(CommonR.dimen.shape_large_corner) ?: 0F
+                context?.resources?.getDimension(R.dimen.shape_large_corner) ?: 0F
             )
             .build()
         val sectionBackground = MaterialShapeDrawable(backgroundPath)

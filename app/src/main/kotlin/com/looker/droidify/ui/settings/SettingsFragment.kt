@@ -23,23 +23,23 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.homeAsUp
-import com.looker.core.common.extension.systemBarsPadding
-import com.looker.core.common.extension.updateAsMutable
-import com.looker.core.common.isIgnoreBatteryEnabled
-import com.looker.core.common.requestBatteryFreedom
-import com.looker.core.datastore.Settings
-import com.looker.core.datastore.extension.autoSyncName
-import com.looker.core.datastore.extension.installerName
-import com.looker.core.datastore.extension.proxyName
-import com.looker.core.datastore.extension.themeName
-import com.looker.core.datastore.extension.toTime
-import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
-import com.looker.core.datastore.model.ProxyType
-import com.looker.core.datastore.model.Theme
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.homeAsUp
+import com.looker.droidify.utility.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
+import com.looker.droidify.utility.common.requestBatteryFreedom
+import com.looker.droidify.datastore.Settings
+import com.looker.droidify.datastore.extension.autoSyncName
+import com.looker.droidify.datastore.extension.installerName
+import com.looker.droidify.datastore.extension.proxyName
+import com.looker.droidify.datastore.extension.themeName
+import com.looker.droidify.datastore.extension.toTime
+import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.ProxyType
+import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.databinding.EnumTypeBinding
 import com.looker.droidify.databinding.SettingsPageBinding
@@ -53,8 +53,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.BuildConfig as CommonBuildConfig
-import com.looker.core.common.R as CommonR
+import com.looker.droidify.R
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -66,7 +65,7 @@ class SettingsFragment : Fragment() {
         private const val REPO_BACKUP_NAME = "droidify_repos"
         private const val SETTINGS_BACKUP_NAME = "droidify_settings"
 
-        private val localeCodesList: List<String> = CommonBuildConfig.DETECTED_LOCALES
+        private val localeCodesList: List<String> = BuildConfig.DETECTED_LOCALES
             .toList()
             .updateAsMutable { add(0, "system") }
 
@@ -93,7 +92,7 @@ class SettingsFragment : Fragment() {
             if (fileUri != null) {
                 viewModel.importSettings(fileUri)
             } else {
-                viewModel.createSnackbar(CommonR.string.file_format_error_DESC)
+                viewModel.createSnackbar(R.string.file_format_error_DESC)
             }
         }
 
@@ -109,7 +108,7 @@ class SettingsFragment : Fragment() {
             if (fileUri != null) {
                 viewModel.importRepos(fileUri)
             } else {
-                viewModel.createSnackbar(CommonR.string.file_format_error_DESC)
+                viewModel.createSnackbar(R.string.file_format_error_DESC)
             }
         }
 
@@ -126,167 +125,167 @@ class SettingsFragment : Fragment() {
         val toolbar = binding.toolbar
         toolbar.navigationIcon = toolbar.context.homeAsUp
         toolbar.setNavigationOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
-        toolbar.title = getString(CommonR.string.settings)
+        toolbar.title = getString(R.string.settings)
         with(binding) {
             dynamicTheme.root.isVisible = SdkCheck.isSnowCake
             dynamicTheme.connect(
-                titleText = getString(CommonR.string.material_you),
-                contentText = getString(CommonR.string.material_you_desc),
+                titleText = getString(R.string.material_you),
+                contentText = getString(R.string.material_you_desc),
                 setting = viewModel.getInitialSetting { dynamicTheme }
             )
             homeScreenSwiping.connect(
-                titleText = getString(CommonR.string.home_screen_swiping),
-                contentText = getString(CommonR.string.home_screen_swiping_DESC),
+                titleText = getString(R.string.home_screen_swiping),
+                contentText = getString(R.string.home_screen_swiping_DESC),
                 setting = viewModel.getInitialSetting { homeScreenSwiping }
             )
             autoUpdate.connect(
-                titleText = getString(CommonR.string.auto_update),
-                contentText = getString(CommonR.string.auto_update_apps),
+                titleText = getString(R.string.auto_update),
+                contentText = getString(R.string.auto_update_apps),
                 setting = viewModel.getInitialSetting { autoUpdate }
             )
             notifyUpdates.connect(
-                titleText = getString(CommonR.string.notify_about_updates),
-                contentText = getString(CommonR.string.notify_about_updates_summary),
+                titleText = getString(R.string.notify_about_updates),
+                contentText = getString(R.string.notify_about_updates_summary),
                 setting = viewModel.getInitialSetting { notifyUpdate }
             )
             unstableUpdates.connect(
-                titleText = getString(CommonR.string.unstable_updates),
-                contentText = getString(CommonR.string.unstable_updates_summary),
+                titleText = getString(R.string.unstable_updates),
+                contentText = getString(R.string.unstable_updates_summary),
                 setting = viewModel.getInitialSetting { unstableUpdate }
             )
             ignoreSignature.connect(
-                titleText = getString(CommonR.string.ignore_signature),
-                contentText = getString(CommonR.string.ignore_signature_summary),
+                titleText = getString(R.string.ignore_signature),
+                contentText = getString(R.string.ignore_signature_summary),
                 setting = viewModel.getInitialSetting { ignoreSignature }
             )
             incompatibleUpdates.connect(
-                titleText = getString(CommonR.string.incompatible_versions),
-                contentText = getString(CommonR.string.incompatible_versions_summary),
+                titleText = getString(R.string.incompatible_versions),
+                contentText = getString(R.string.incompatible_versions_summary),
                 setting = viewModel.getInitialSetting { incompatibleVersions }
             )
             language.connect(
-                titleText = getString(CommonR.string.prefs_language_title),
+                titleText = getString(R.string.prefs_language_title),
                 map = { translateLocale(getLocaleOfCode(it)) },
                 setting = viewModel.getSetting { language }
             ) { selectedLocale, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = selectedLocale,
                     values = localeCodesList,
-                    title = CommonR.string.prefs_language_title,
-                    iconRes = CommonR.drawable.ic_language,
+                    title = R.string.prefs_language_title,
+                    iconRes = R.drawable.ic_language,
                     valueToString = valueToString,
                     onClick = viewModel::setLanguage
                 )
             }
             theme.connect(
-                titleText = getString(CommonR.string.theme),
+                titleText = getString(R.string.theme),
                 setting = viewModel.getSetting { theme },
                 map = { themeName(it) }
             ) { theme, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = theme,
                     values = Theme.entries,
-                    title = CommonR.string.themes,
-                    iconRes = CommonR.drawable.ic_themes,
+                    title = R.string.themes,
+                    iconRes = R.drawable.ic_themes,
                     valueToString = valueToString,
                     onClick = viewModel::setTheme
                 )
             }
             cleanUp.connect(
-                titleText = getString(CommonR.string.cleanup_title),
+                titleText = getString(R.string.cleanup_title),
                 setting = viewModel.getSetting { cleanUpInterval },
                 map = { toTime(it) }
             ) { duration, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = duration,
                     values = cleanUpIntervals,
-                    title = CommonR.string.cleanup_title,
-                    iconRes = CommonR.drawable.ic_time,
+                    title = R.string.cleanup_title,
+                    iconRes = R.drawable.ic_time,
                     valueToString = valueToString,
                     onClick = viewModel::setCleanUpInterval
                 )
             }
             autoSync.connect(
-                titleText = getString(CommonR.string.sync_repositories_automatically),
+                titleText = getString(R.string.sync_repositories_automatically),
                 setting = viewModel.getSetting { autoSync },
                 map = { autoSyncName(it) }
             ) { autoSync, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = autoSync,
                     values = AutoSync.entries,
-                    title = CommonR.string.sync_repositories_automatically,
-                    iconRes = CommonR.drawable.ic_sync_type,
+                    title = R.string.sync_repositories_automatically,
+                    iconRes = R.drawable.ic_sync_type,
                     valueToString = valueToString,
                     onClick = viewModel::setAutoSync
                 )
             }
             installer.connect(
-                titleText = getString(CommonR.string.installer),
+                titleText = getString(R.string.installer),
                 setting = viewModel.getSetting { installerType },
                 map = { installerName(it) }
             ) { installerType, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = installerType,
                     values = InstallerType.entries,
-                    title = CommonR.string.installer,
-                    iconRes = CommonR.drawable.ic_apk_install,
+                    title = R.string.installer,
+                    iconRes = R.drawable.ic_apk_install,
                     valueToString = valueToString,
                     onClick = { viewModel.setInstaller(requireContext(), it) }
                 )
             }
             proxyType.connect(
-                titleText = getString(CommonR.string.proxy_type),
+                titleText = getString(R.string.proxy_type),
                 setting = viewModel.getSetting { proxy.type },
                 map = { proxyName(it) }
             ) { proxyType, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = proxyType,
                     values = ProxyType.entries,
-                    title = CommonR.string.proxy_type,
-                    iconRes = CommonR.drawable.ic_proxy,
+                    title = R.string.proxy_type,
+                    iconRes = R.drawable.ic_proxy,
                     valueToString = valueToString,
                     onClick = viewModel::setProxyType
                 )
             }
             proxyHost.connect(
-                titleText = getString(CommonR.string.proxy_host),
+                titleText = getString(R.string.proxy_host),
                 setting = viewModel.getSetting { proxy.host },
                 map = { it }
             ) { host, _ ->
                 addEditTextDialog(
                     initialValue = host,
-                    title = CommonR.string.proxy_host,
+                    title = R.string.proxy_host,
                     onFinish = viewModel::setProxyHost
                 )
             }
             proxyPort.connect(
-                titleText = getString(CommonR.string.proxy_port),
+                titleText = getString(R.string.proxy_port),
                 setting = viewModel.getSetting { proxy.port },
                 map = { it.toString() }
             ) { port, _ ->
                 addEditTextDialog(
                     initialValue = port.toString(),
-                    title = CommonR.string.proxy_port,
+                    title = R.string.proxy_port,
                     onFinish = viewModel::setProxyPort
                 )
             }
 
-            forceCleanUp.title.text = getString(CommonR.string.force_clean_up)
-            forceCleanUp.content.text = getString(CommonR.string.force_clean_up_DESC)
+            forceCleanUp.title.text = getString(R.string.force_clean_up)
+            forceCleanUp.content.text = getString(R.string.force_clean_up_DESC)
 
-            importSettings.title.text = getString(CommonR.string.import_settings_title)
-            importSettings.content.text = getString(CommonR.string.import_settings_DESC)
-            exportSettings.title.text = getString(CommonR.string.export_settings_title)
-            exportSettings.content.text = getString(CommonR.string.export_settings_DESC)
+            importSettings.title.text = getString(R.string.import_settings_title)
+            importSettings.content.text = getString(R.string.import_settings_DESC)
+            exportSettings.title.text = getString(R.string.export_settings_title)
+            exportSettings.content.text = getString(R.string.export_settings_DESC)
 
-            importRepos.title.text = getString(CommonR.string.import_repos_title)
-            importRepos.content.text = getString(CommonR.string.import_repos_DESC)
-            exportRepos.title.text = getString(CommonR.string.export_repos_title)
-            exportRepos.content.text = getString(CommonR.string.export_repos_DESC)
+            importRepos.title.text = getString(R.string.import_repos_title)
+            importRepos.content.text = getString(R.string.import_repos_DESC)
+            exportRepos.title.text = getString(R.string.export_repos_title)
+            exportRepos.content.text = getString(R.string.export_repos_DESC)
 
-            allowBackgroundWork.title.text = getString(CommonR.string.require_background_access)
+            allowBackgroundWork.title.text = getString(R.string.require_background_access)
             allowBackgroundWork.content.text =
-                getString(CommonR.string.require_background_access_DESC)
+                getString(R.string.require_background_access_DESC)
             allowBackgroundWork.root.setBackgroundColor(
                 requireContext()
                     .getColorFromAttr(MaterialR.attr.colorErrorContainer)
@@ -300,7 +299,7 @@ class SettingsFragment : Fragment() {
                 requireContext()
                     .getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
             )
-            creditFoxy.title.text = getString(CommonR.string.special_credits)
+            creditFoxy.title.text = getString(R.string.special_credits)
             creditFoxy.content.text = FOXY_DROID_TITLE
             droidify.title.text = DROID_IFY_TITLE
             droidify.content.text = BuildConfig.VERSION_NAME
@@ -421,7 +420,7 @@ class SettingsFragment : Fragment() {
                         )
                 )
         } else {
-            getString(CommonR.string.system)
+            getString(R.string.system)
         }
         return languageDisplay
     }
@@ -430,7 +429,7 @@ class SettingsFragment : Fragment() {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
         } catch (e: IllegalStateException) {
-            viewModel.createSnackbar(CommonR.string.cannot_open_link)
+            viewModel.createSnackbar(R.string.cannot_open_link)
         }
     }
 
@@ -515,7 +514,7 @@ class SettingsFragment : Fragment() {
                 onClick(values.elementAt(newValue))
             }
         }
-        .setNegativeButton(CommonR.string.cancel, null)
+        .setNegativeButton(R.string.cancel, null)
         .create()
 
     private fun View.addEditTextDialog(
@@ -526,7 +525,7 @@ class SettingsFragment : Fragment() {
         val scroll = NestedScrollView(context)
         val customEditText = TextInputEditText(context)
         customEditText.id = android.R.id.edit
-        val paddingValue = context.resources.getDimension(CommonR.dimen.shape_margin_large).toInt()
+        val paddingValue = context.resources.getDimension(R.dimen.shape_margin_large).toInt()
         scroll.setPadding(paddingValue, 0, paddingValue, 0)
         customEditText.setText(initialValue)
         customEditText.hint = customEditText.text.toString()
@@ -540,10 +539,10 @@ class SettingsFragment : Fragment() {
         return MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setView(scroll)
-            .setPositiveButton(CommonR.string.ok) { _, _ ->
+            .setPositiveButton(R.string.ok) { _, _ ->
                 post { onFinish(customEditText.text.toString()) }
             }
-            .setNegativeButton(CommonR.string.cancel, null)
+            .setNegativeButton(R.string.cancel, null)
             .create()
             .apply {
                 window!!.setSoftInputMode(

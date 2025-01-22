@@ -2,7 +2,7 @@ package com.looker.droidify.sync.common
 
 import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.fingerprint
-import com.looker.network.validation.invalid
+import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.utils.certificate
 import com.looker.droidify.sync.utils.codeSigner
 import kotlinx.coroutines.CoroutineDispatcher

@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.systemBarsMargin
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.droidify.R
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.systemBarsMargin
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
@@ -34,8 +34,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
         val view = fragmentBinding.root.apply {
             binding.scrollUp.apply {
-                setIconResource(CommonR.drawable.ic_add)
-                setText(CommonR.string.add_repository)
+                setIconResource(R.drawable.ic_add)
+                setText(R.string.add_repository)
                 setOnClickListener { screenActivity.navigateAddRepository() }
                 systemBarsMargin(16.dp)
             }
@@ -81,7 +81,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         syncConnection.bind(requireContext())
         screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
         screenActivity.onToolbarCreated(toolbar)
-        toolbar.title = getString(CommonR.string.repositories)
+        toolbar.title = getString(R.string.repositories)
     }
 
     override fun onDestroyView() {

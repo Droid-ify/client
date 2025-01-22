@@ -6,22 +6,21 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.looker.core.common.Constants
-import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_INSTALL
-import com.looker.core.common.R
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.cache.Cache
-import com.looker.core.common.createNotificationChannel
-import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.extension.percentBy
-import com.looker.core.common.extension.startSelf
-import com.looker.core.common.extension.stopForegroundCompat
-import com.looker.core.common.extension.toPendingIntent
-import com.looker.core.common.extension.updateAsMutable
-import com.looker.core.common.log
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.get
-import com.looker.core.datastore.model.InstallerType
+import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.createNotificationChannel
+import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.percentBy
+import com.looker.droidify.utility.common.extension.startSelf
+import com.looker.droidify.utility.common.extension.stopForegroundCompat
+import com.looker.droidify.utility.common.extension.toPendingIntent
+import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.log
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.model.Release
@@ -31,10 +30,10 @@ import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.installer.notification.createInstallNotification
 import com.looker.droidify.installer.notification.installNotification
-import com.looker.network.DataSize
-import com.looker.network.Downloader
-import com.looker.network.NetworkResponse
-import com.looker.network.validation.ValidationException
+import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.validation.ValidationException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -51,7 +50,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
 import java.io.File
 import javax.inject.Inject
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class DownloadService : ConnectionService<DownloadService.Binder>() {
@@ -175,7 +174,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         )
         createNotificationChannel(
             id = NOTIFICATION_CHANNEL_INSTALL,
-            name = getString(R.string.install)
+            name = getString(stringRes.install)
         )
 
         lifecycleScope.launch {

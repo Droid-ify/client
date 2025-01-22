@@ -3,8 +3,8 @@ package com.looker.droidify.database
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.CancellationSignal
-import com.looker.core.common.extension.asSequence
-import com.looker.core.common.log
+import com.looker.droidify.utility.common.extension.asSequence
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.BuildConfig
 
 class QueryBuilder {

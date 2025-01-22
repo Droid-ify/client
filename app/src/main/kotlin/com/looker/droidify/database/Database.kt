@@ -10,12 +10,12 @@ import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.looker.core.common.extension.Json
-import com.looker.core.common.extension.asSequence
-import com.looker.core.common.extension.firstOrNull
+import com.looker.droidify.utility.common.extension.asSequence
+import com.looker.droidify.utility.common.extension.firstOrNull
 import com.looker.core.common.extension.parseDictionary
 import com.looker.core.common.extension.writeDictionary
-import com.looker.core.common.log
-import com.looker.core.datastore.model.SortOrder
+import com.looker.droidify.utility.common.log
+import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductItem

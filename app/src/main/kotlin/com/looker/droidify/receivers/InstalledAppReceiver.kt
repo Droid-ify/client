@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import com.looker.core.common.extension.getPackageInfoCompat
+import com.looker.droidify.utility.common.extension.getPackageInfoCompat
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.toInstalledItem
 

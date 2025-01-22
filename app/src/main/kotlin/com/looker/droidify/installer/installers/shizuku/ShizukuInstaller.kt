@@ -1,9 +1,9 @@
 package com.looker.droidify.installer.installers.shizuku
 
 import android.content.Context
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.size
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.size
 import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.uninstallPackage

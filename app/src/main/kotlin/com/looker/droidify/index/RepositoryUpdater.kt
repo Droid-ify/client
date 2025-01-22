@@ -2,19 +2,19 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.cache.Cache
-import com.looker.core.common.extension.fingerprint
-import com.looker.core.common.extension.toFormattedString
-import com.looker.core.common.result.Result
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.fingerprint
+import com.looker.droidify.utility.common.extension.toFormattedString
+import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress
-import com.looker.network.Downloader
-import com.looker.network.NetworkResponse
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
 import java.io.File
 import java.security.CodeSigner
 import java.security.cert.Certificate

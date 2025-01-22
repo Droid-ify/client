@@ -1,7 +1,7 @@
 package com.looker.droidify.sync
 
 import com.looker.droidify.domain.model.Fingerprint
-import com.looker.network.validation.ValidationException
+import com.looker.droidify.network.validation.ValidationException
 import java.util.jar.JarEntry
 
 interface IndexValidator {

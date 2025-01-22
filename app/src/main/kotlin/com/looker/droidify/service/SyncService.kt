@@ -15,17 +15,17 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
-import com.looker.core.common.Constants
-import com.looker.core.common.SdkCheck
-import com.looker.core.common.createNotificationChannel
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.notificationManager
-import com.looker.core.common.extension.startSelf
-import com.looker.core.common.extension.stopForegroundCompat
-import com.looker.core.common.log
-import com.looker.core.common.result.Result
-import com.looker.core.common.sdkAbove
-import com.looker.core.datastore.SettingsRepository
+import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.createNotificationChannel
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.startSelf
+import com.looker.droidify.utility.common.extension.stopForegroundCompat
+import com.looker.droidify.utility.common.log
+import com.looker.droidify.utility.common.result.Result
+import com.looker.droidify.utility.common.sdkAbove
+import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.database.Database
@@ -33,8 +33,8 @@ import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.network.DataSize
-import com.looker.network.percentBy
+import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.percentBy
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -52,9 +52,10 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
-import com.looker.core.common.R.style as styleRes
+import com.looker.droidify.R
+import android.R as AndroidR
+import com.looker.droidify.R.string as stringRes
+import com.looker.droidify.R.style as styleRes
 import kotlinx.coroutines.Job as CoroutinesJob
 
 @AndroidEntryPoint
@@ -276,10 +277,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             Constants.NOTIFICATION_ID_SYNCING,
             NotificationCompat
                 .Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
-                .setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setSmallIcon(AndroidR.drawable.stat_sys_warning)
                 .setColor(
                     ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
+                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
                 )
                 .setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
                 .setContentText(description)
@@ -290,10 +291,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private val stateNotificationBuilder by lazy {
         NotificationCompat
             .Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
-            .setSmallIcon(CommonR.drawable.ic_sync)
+            .setSmallIcon(R.drawable.ic_sync)
             .setColor(
                 ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                    .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
+                    .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
             )
             .addAction(
                 0,
@@ -526,18 +527,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             Constants.NOTIFICATION_ID_UPDATES,
             NotificationCompat
                 .Builder(this, Constants.NOTIFICATION_CHANNEL_UPDATES)
-                .setSmallIcon(CommonR.drawable.ic_new_releases)
+                .setSmallIcon(R.drawable.ic_new_releases)
                 .setContentTitle(getString(stringRes.new_updates_available))
                 .setContentText(
                     resources.getQuantityString(
-                        CommonR.plurals.new_updates_DESC_FORMAT,
+                        R.plurals.new_updates_DESC_FORMAT,
                         productItems.size,
                         productItems.size
                     )
                 )
                 .setColor(
                     ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColorFromAttr(android.R.attr.colorPrimary).defaultColor
+                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
                 )
                 .setContentIntent(
                     PendingIntent.getActivity(

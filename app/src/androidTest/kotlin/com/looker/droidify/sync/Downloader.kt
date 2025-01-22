@@ -1,10 +1,10 @@
 package com.looker.droidify.sync
 
-import com.looker.network.Downloader
-import com.looker.network.NetworkResponse
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
 import com.looker.network.ProgressListener
-import com.looker.network.header.HeadersBuilder
-import com.looker.network.validation.FileValidator
+import com.looker.droidify.network.header.HeadersBuilder
+import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.sync.common.assets
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive

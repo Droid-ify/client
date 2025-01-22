@@ -2,17 +2,17 @@ package com.looker.droidify.service
 
 import android.content.Context
 import androidx.annotation.StringRes
-import com.looker.core.common.extension.calculateHash
-import com.looker.core.common.extension.getPackageArchiveInfoCompat
-import com.looker.core.common.extension.singleSignature
-import com.looker.core.common.extension.versionCodeCompat
-import com.looker.network.validation.FileValidator
-import com.looker.core.common.signature.Hash
-import com.looker.network.validation.invalid
-import com.looker.core.common.signature.verifyHash
+import com.looker.droidify.utility.common.extension.calculateHash
+import com.looker.droidify.utility.common.extension.getPackageArchiveInfoCompat
+import com.looker.droidify.utility.common.extension.singleSignature
+import com.looker.droidify.utility.common.extension.versionCodeCompat
+import com.looker.droidify.network.validation.FileValidator
+import com.looker.droidify.utility.common.signature.Hash
+import com.looker.droidify.network.validation.invalid
+import com.looker.droidify.utility.common.signature.verifyHash
 import com.looker.droidify.model.Release
 import java.io.File
-import com.looker.core.common.R.string as strings
+import com.looker.droidify.R.string as strings
 
 class ReleaseFileValidator(
     private val context: Context,

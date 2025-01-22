@@ -12,7 +12,7 @@ import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
 import com.looker.droidify.sync.v1.model.IndexV1
 import com.looker.droidify.sync.v2.model.IndexV2
-import com.looker.network.Downloader
+import com.looker.droidify.network.Downloader
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 

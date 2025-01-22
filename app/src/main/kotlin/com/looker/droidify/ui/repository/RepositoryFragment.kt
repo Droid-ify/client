@@ -15,8 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.model.Repository
 import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.ui.Message
@@ -29,7 +29,7 @@ import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Locale
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class RepositoryFragment() : ScreenFragment() {

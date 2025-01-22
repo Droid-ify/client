@@ -47,19 +47,19 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.extension.authentication
-import com.looker.core.common.extension.copyToClipboard
-import com.looker.core.common.extension.corneredBackground
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.dpToPx
-import com.looker.core.common.extension.getColorFromAttr
-import com.looker.core.common.extension.getDrawableCompat
-import com.looker.core.common.extension.getMutatedIcon
-import com.looker.core.common.extension.inflate
-import com.looker.core.common.extension.open
-import com.looker.core.common.extension.setTextSizeScaled
-import com.looker.core.common.formatSize
-import com.looker.core.common.nullIfEmpty
+import com.looker.droidify.utility.common.extension.authentication
+import com.looker.droidify.utility.common.extension.copyToClipboard
+import com.looker.droidify.utility.common.extension.corneredBackground
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.dpToPx
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.getDrawableCompat
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.extension.inflate
+import com.looker.droidify.utility.common.extension.open
+import com.looker.droidify.utility.common.extension.setTextSizeScaled
+import com.looker.droidify.utility.common.formatSize
+import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.model.InstalledItem
@@ -73,7 +73,7 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
-import com.looker.network.DataSize
+import com.looker.droidify.network.DataSize
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
@@ -87,8 +87,8 @@ import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import com.google.android.material.R as MaterialR
-import com.looker.core.common.R.drawable as drawableRes
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R.drawable as drawableRes
+import com.looker.droidify.R.string as stringRes
 
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {

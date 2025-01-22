@@ -3,10 +3,10 @@ package com.looker.droidify.ui.tabsFragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.core.common.extension.asStateFlow
-import com.looker.core.datastore.SettingsRepository
-import com.looker.core.datastore.get
-import com.looker.core.datastore.model.SortOrder
+import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.database.Database
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction

@@ -1,12 +1,12 @@
 package com.looker.droidify.sync.v2
 
 import android.content.Context
-import com.looker.core.common.cache.Cache
+import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.Syncable
-import com.looker.network.Downloader
+import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.common.ENTRY_V2_NAME
 import com.looker.droidify.sync.common.INDEX_V2_NAME
 import com.looker.droidify.sync.common.IndexJarValidator

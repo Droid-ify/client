@@ -15,10 +15,10 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.looker.core.common.extension.clipboardManager
-import com.looker.core.common.extension.get
-import com.looker.core.common.extension.getMutatedIcon
-import com.looker.core.common.nullIfEmpty
+import com.looker.droidify.utility.common.extension.clipboardManager
+import com.looker.droidify.utility.common.extension.get
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
@@ -28,8 +28,8 @@ import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.network.Downloader
-import com.looker.network.NetworkResponse
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -44,8 +44,8 @@ import java.nio.charset.Charset
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.min
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
+import com.looker.droidify.R
+import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class EditRepositoryFragment() : ScreenFragment() {
@@ -89,7 +89,7 @@ class EditRepositoryFragment() : ScreenFragment() {
             )
 
         saveMenuItem = toolbar.menu.add(stringRes.save)
-            .setIcon(toolbar.context.getMutatedIcon(CommonR.drawable.ic_save))
+            .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_save))
             .setEnabled(false)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS).setOnMenuItemClickListener {
                 onSaveRepositoryClick(true)
@@ -171,7 +171,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 val mirrors = repository.mirrors.map { it.withoutKnownPath }
                 binding.addressContainer.apply {
                     isEndIconVisible = mirrors.isNotEmpty()
-                    setEndIconDrawable(CommonR.drawable.ic_arrow_down)
+                    setEndIconDrawable(R.drawable.ic_arrow_down)
                     setEndIconOnClickListener {
                         SelectMirrorDialog(mirrors).show(
                             childFragmentManager,
@@ -443,7 +443,7 @@ class EditRepositoryFragment() : ScreenFragment() {
         invalidateState()
         Snackbar.make(
             requireView(),
-            CommonR.string.repository_unreachable,
+            R.string.repository_unreachable,
             Snackbar.LENGTH_SHORT
         ).show()
     }

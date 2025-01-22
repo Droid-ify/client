@@ -14,13 +14,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.core.common.Scroller
-import com.looker.core.common.R as CommonR
-import com.looker.core.common.R.string as stringRes
-import com.looker.core.common.extension.dp
-import com.looker.core.common.extension.isFirstItemVisible
-import com.looker.core.common.extension.systemBarsMargin
-import com.looker.core.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.Scroller
+import com.looker.droidify.R
+import com.looker.droidify.R.string as stringRes
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.isFirstItemVisible
+import com.looker.droidify.utility.common.extension.systemBarsMargin
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
@@ -92,9 +92,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         val fab = binding.scrollUp
         with(fab) {
             if (source.updateAll) {
-                text = getString(CommonR.string.update_all)
+                text = getString(R.string.update_all)
                 setOnClickListener { viewModel.updateAll() }
-                setIconResource(CommonR.drawable.ic_download)
+                setIconResource(R.drawable.ic_download)
                 alpha = 1f
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.showUpdateAllButton.collect {
@@ -104,7 +104,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 systemBarsMargin(16.dp)
             } else {
                 text = ""
-                setIconResource(CommonR.drawable.arrow_up)
+                setIconResource(R.drawable.arrow_up)
                 setOnClickListener {
                     val scroller = Scroller(requireContext())
                     scroller.targetPosition = 0
