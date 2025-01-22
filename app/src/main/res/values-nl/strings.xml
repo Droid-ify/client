@@ -242,4 +242,9 @@
     <string name="installation_failed">Installatie mislukt</string>
     <string name="insufficient_storage">Onvoldoende ruimte</string>
     <string name="insufficient_storage_DESC">Er is niet genoeg vrije ruimte op het apparaat om deze applicatie te installeren. Probeer wat ruimte vrij te maken</string>
+    <string name="error_shizuku_not_running_DESC">De Shizuku-service is niet actief. Controleer a.u.b. de Shizuku-app</string>
+    <string name="error_shizuku_service_unavailable">Shizuku is niet actief</string>
+    <string name="error_shizuku_not_granted">Shizuku-toestemming ontbreekt</string>
+    <string name="error_shizuku_not_granted_DESC">Toestemming Shizuku-service is niet verleend. Controleer a.u.b. de Shizuku-app</string>
+    <string name="error_shizuku_not_installed">Shizuku niet geïnstalleerd</string>
 </resources>
