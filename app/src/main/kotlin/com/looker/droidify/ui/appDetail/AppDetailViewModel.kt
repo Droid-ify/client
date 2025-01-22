@@ -1,10 +1,12 @@
 package com.looker.droidify.ui.appDetail
 
+import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.core.common.extension.asStateFlow
 import com.looker.core.datastore.SettingsRepository
+import com.looker.core.datastore.model.InstallerType
 import com.looker.core.domain.model.toPackageName
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.database.Database
@@ -12,6 +14,10 @@ import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.installer.InstallManager
+import com.looker.installer.installers.isShizukuAlive
+import com.looker.installer.installers.isShizukuGranted
+import com.looker.installer.installers.isShizukuInstalled
+import com.looker.installer.installers.requestPermissionListener
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.installFrom
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,6 +26,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,6 +69,31 @@ class AppDetailViewModel @Inject constructor(
             )
         }.asStateFlow(AppDetailUiState())
 
+    fun shizukuState(context: Context): ShizukuState? {
+        val isSelected =
+            runBlocking { settingsRepository.getInitial().installerType == InstallerType.SHIZUKU }
+        if (!isSelected) return null
+        val isAlive = isShizukuAlive()
+        val isGranted = if (isAlive) {
+            if (isShizukuGranted()) {
+                true
+            } else {
+                runBlocking { requestPermissionListener() }
+            }
+        } else false
+        return ShizukuState(
+            isNotInstalled = !isShizukuInstalled(context),
+            isNotGranted = !isGranted,
+            isNotAlive = !isAlive,
+        )
+    }
+
+    fun setDefaultInstaller() {
+        viewModelScope.launch {
+            settingsRepository.setInstallerType(InstallerType.Default)
+        }
+    }
+
     suspend fun shouldIgnoreSignature(): Boolean {
         return settingsRepository.getInitial().ignoreSignature
     }
@@ -94,6 +126,15 @@ class AppDetailViewModel @Inject constructor(
         const val ARG_PACKAGE_NAME = "package_name"
         const val ARG_REPO_ADDRESS = "repo_address"
     }
+}
+
+data class ShizukuState(
+    val isNotInstalled: Boolean,
+    val isNotGranted: Boolean,
+    val isNotAlive: Boolean,
+) {
+    val check: Boolean
+        get() = isNotInstalled || isNotAlive || isNotGranted
 }
 
 data class AppDetailUiState(

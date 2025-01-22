@@ -22,7 +22,6 @@ import com.looker.core.common.log
 import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.AutoSync
-import com.looker.core.datastore.model.InstallerType
 import com.looker.core.datastore.model.ProxyPreference
 import com.looker.core.datastore.model.ProxyType
 import com.looker.droidify.content.ProductPreferences
@@ -36,8 +35,6 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import com.looker.installer.InstallManager
-import com.looker.installer.installers.root.RootPermissionHandler
-import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
 import com.looker.network.Downloader
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -70,12 +67,6 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
     lateinit var downloader: Downloader
 
     @Inject
-    lateinit var shizukuPermissionHandler: ShizukuPermissionHandler
-
-    @Inject
-    lateinit var rootPermissionHandler: RootPermissionHandler
-
-    @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
@@ -87,7 +78,7 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         listenApplications()
         checkLanguage()
         updatePreference()
-        setupInstaller()
+        appScope.launch { installer() }
 
         if (databaseUpdated) forceSyncAll()
     }
@@ -96,37 +87,6 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         super.onTerminate()
         appScope.cancel("Application Terminated")
         installer.close()
-    }
-
-    private fun setupInstaller() {
-        appScope.launch {
-            launch {
-                settingsRepository.get { installerType }.collect {
-                    if (it == InstallerType.SHIZUKU) handleShizukuInstaller()
-                    if (it == InstallerType.ROOT) {
-                        if (!rootPermissionHandler.isGranted) {
-                            settingsRepository.setInstallerType(InstallerType.Default)
-                        }
-                    }
-                }
-            }
-            installer()
-        }
-    }
-
-    private fun CoroutineScope.handleShizukuInstaller() = launch {
-        shizukuPermissionHandler.state.collect { (isGranted, isAlive, _) ->
-            if (isAlive && isGranted) {
-                settingsRepository.setInstallerType(InstallerType.SHIZUKU)
-                return@collect
-            }
-            if (isAlive) {
-                settingsRepository.setInstallerType(InstallerType.Default)
-                shizukuPermissionHandler.requestPermission()
-                return@collect
-            }
-            settingsRepository.setInstallerType(InstallerType.Default)
-        }
     }
 
     private fun listenApplications() {

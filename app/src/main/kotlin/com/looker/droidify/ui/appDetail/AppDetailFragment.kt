@@ -45,6 +45,7 @@ import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_REPO_ADDRESS
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.installer.installers.launchShizuku
 import com.looker.installer.model.InstallState
 import com.looker.installer.model.isCancellable
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -346,10 +347,20 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     MessageDialog(Message.InsufficientStorage).show(childFragmentManager)
                     return
                 }
+                val shizukuState = viewModel.shizukuState(requireContext())
+                if (shizukuState != null && shizukuState.check) {
+                    shizukuDialog(
+                        context = requireContext(),
+                        shizukuState = shizukuState,
+                        openShizuku = { launchShizuku(requireContext()) },
+                        switchInstaller = { viewModel.setDefaultInstaller() },
+                    ).show()
+                    return
+                }
                 downloadConnection.startUpdate(
-                    viewModel.packageName,
-                    installed?.installedItem,
-                    products
+                    packageName = viewModel.packageName,
+                    installedItem = installed?.installedItem,
+                    products = products,
                 )
             }
 

@@ -231,7 +231,7 @@ class SettingsFragment : Fragment() {
                     title = CommonR.string.installer,
                     iconRes = CommonR.drawable.ic_apk_install,
                     valueToString = valueToString,
-                    onClick = viewModel::setInstaller
+                    onClick = { viewModel.setInstaller(requireContext(), it) }
                 )
             }
             proxyType.connect(

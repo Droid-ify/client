@@ -49,6 +49,14 @@
     <string name="downloading">Downloading</string>
     <string name="downloading_FORMAT">Downloading %s…</string>
     <string name="edit_repository">Edit repository</string>
+
+    <string name="error_shizuku_service_unavailable">Shizuku Not Running</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku service is not running. Please check in Shizuku App</string>
+    <string name="error_shizuku_not_granted">Shizuku Permission Missing</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku service permission is not granted. Please check in Shizuku App</string>
+    <string name="error_shizuku_not_installed">Shizuku Not Installed</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku does not seem to be installed</string>
+
     <string name="import_export">Import/Export</string>
     <string name="import_settings_title">Import Settings</string>
     <string name="import_settings_DESC">Import settings and favourites from file</string>
@@ -154,6 +162,7 @@
     <string name="only_on_wifi">Only on Wi-Fi</string>
     <string name="only_on_wifi_with_charging">Only on Wi-Fi &amp; Charging</string>
     <string name="open_DESC_FORMAT">Open %s?</string>
+    <string name="open_shizuku">Open Shizuku</string>
     <string name="other">Other</string>
     <string name="parsing_index_error_DESC">Could not parse the index file.</string>
     <string name="password">Password</string>
@@ -202,6 +211,7 @@
     <string name="source_code_no_longer_available">Source code no longer available</string>
     <string name="special_credits">Special Credits</string>
     <string name="suggested">Suggested</string>
+    <string name="switch_to_default_installer">Switch to Default</string>
     <string name="sync_repositories">Sync repositories</string>
     <string name="sync_repositories_automatically">Sync repositories automatically</string>
     <string name="syncing">Syncing</string>

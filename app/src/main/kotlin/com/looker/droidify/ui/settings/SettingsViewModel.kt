@@ -12,20 +12,23 @@ import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.AutoSync
 import com.looker.core.datastore.model.InstallerType
+import com.looker.core.datastore.model.InstallerType.*
 import com.looker.core.datastore.model.ProxyType
 import com.looker.core.datastore.model.Theme
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.installer.installers.shizuku.ShizukuPermissionHandler
+import com.looker.installer.installers.isMagiskGranted
+import com.looker.installer.installers.isShizukuAlive
+import com.looker.installer.installers.isShizukuGranted
+import com.looker.installer.installers.isShizukuInstalled
+import com.looker.installer.installers.requestPermissionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -38,7 +41,6 @@ import com.looker.core.common.R as CommonR
 class SettingsViewModel
 @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val shizukuPermissionHandler: ShizukuPermissionHandler,
     private val repositoryExporter: RepositoryExporter
 ) : ViewModel() {
 
@@ -153,16 +155,42 @@ class SettingsViewModel
         viewModelScope.launch {
             try {
                 settingsRepository.setProxyPort(proxyPort.toInt())
-            } catch (e: NumberFormatException) {
+            } catch (_: NumberFormatException) {
                 createSnackbar(CommonR.string.proxy_port_error_not_int)
             }
         }
     }
 
-    fun setInstaller(installerType: InstallerType) {
+    fun setInstaller(context: Context, installerType: InstallerType) {
         viewModelScope.launch {
-            settingsRepository.setInstallerType(installerType)
-            if (installerType == InstallerType.SHIZUKU) handleShizuku()
+            when (installerType) {
+                SHIZUKU -> {
+                    if (isShizukuInstalled(context)) {
+                        if (!isShizukuAlive()) {
+                            createSnackbar(CommonR.string.shizuku_not_alive)
+                            return@launch
+                        } else if (isShizukuGranted()) {
+                            settingsRepository.setInstallerType(installerType)
+                        } else if (!isShizukuGranted()) {
+                            if(requestPermissionListener()) {
+                                settingsRepository.setInstallerType(installerType)
+                            }
+                        }
+                    } else {
+                        createSnackbar(CommonR.string.shizuku_not_installed)
+                    }
+                }
+
+                ROOT -> {
+                    if (isMagiskGranted()) {
+                        settingsRepository.setInstallerType(installerType)
+                    }
+                }
+
+                else -> {
+                    settingsRepository.setInstallerType(installerType)
+                }
+            }
         }
     }
 
@@ -195,20 +223,6 @@ class SettingsViewModel
     fun createSnackbar(@StringRes message: Int) {
         viewModelScope.launch {
             _snackbarStringId.emit(message)
-        }
-    }
-
-    private fun handleShizuku() {
-        viewModelScope.launch {
-            val state = shizukuPermissionHandler.state.first()
-            if (state.isAlive && state.isPermissionGranted) cancel()
-            if (state.isInstalled) {
-                if (!state.isAlive) {
-                    createSnackbar(CommonR.string.shizuku_not_alive)
-                }
-            } else {
-                createSnackbar(CommonR.string.shizuku_not_installed)
-            }
         }
     }
 }
