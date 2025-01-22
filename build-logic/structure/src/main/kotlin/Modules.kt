@@ -4,8 +4,6 @@ import org.gradle.kotlin.dsl.project
 object Modules {
     const val app = ":app"
     const val coreCommon = ":core:common"
-    const val coreData = ":core:data"
-    const val coreDatabase = ":core:database"
     const val coreDatastore = ":core:datastore"
     const val coreDI = ":core:di"
     const val coreDomain = ":core:domain"
