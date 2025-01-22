@@ -2,7 +2,7 @@ package com.looker.droidify.sync
 
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
-import com.looker.network.ProgressListener
+import com.looker.droidify.network.ProgressListener
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.sync.common.assets
