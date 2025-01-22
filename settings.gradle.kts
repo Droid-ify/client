@@ -23,5 +23,4 @@ include(
     ":core:di",
     ":core:domain",
 	":core:network",
-    ":sync:fdroid",
 )

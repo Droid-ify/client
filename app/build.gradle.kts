@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.looker.hilt.work)
     alias(libs.plugins.looker.lint)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.looker.serialization)
 }
 
 android {
