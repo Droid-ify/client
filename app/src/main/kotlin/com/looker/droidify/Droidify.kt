@@ -6,7 +6,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.StrictMode
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -31,6 +33,7 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
 import com.looker.droidify.utility.common.extension.jobScheduler
@@ -72,7 +75,7 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG) threadPolicy()
+        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
@@ -239,11 +242,21 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
             .build()
 }
 
-private fun threadPolicy() {
+@RequiresApi(Build.VERSION_CODES.O)
+fun strictThreadPolicy() {
     StrictMode.setThreadPolicy(
         StrictMode.ThreadPolicy.Builder()
+            .detectDiskReads()
+            .detectDiskWrites()
+            .detectNetwork()
+            .detectUnbufferedIo()
+            .penaltyLog()
+            .build()
+    )
+    StrictMode.setVmPolicy(
+        StrictMode.VmPolicy.Builder()
             .detectAll()
-            .penaltyDeath()
+            .penaltyLog()
             .build()
     )
 }
