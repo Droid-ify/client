@@ -1,8 +1,8 @@
-package com.looker.installer.installers
+package com.looker.droidify.installer.installers
 
 import com.looker.core.domain.model.PackageName
-import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallState
+import com.looker.droidify.installer.model.InstallItem
+import com.looker.droidify.installer.model.InstallState
 
 interface Installer : AutoCloseable {
 

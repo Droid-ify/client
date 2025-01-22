@@ -45,9 +45,9 @@ import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_REPO_ADDRESS
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.installer.installers.launchShizuku
-import com.looker.installer.model.InstallState
-import com.looker.installer.model.isCancellable
+import com.looker.droidify.installer.installers.launchShizuku
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.model.isCancellable
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

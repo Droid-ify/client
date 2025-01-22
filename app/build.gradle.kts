@@ -85,7 +85,6 @@ dependencies {
         Modules.coreNetwork,
         Modules.coreDatastore,
         Modules.coreDI,
-        Modules.installer,
     )
 
     implementation(libs.material)
@@ -101,6 +100,12 @@ dependencies {
     implementation(libs.coroutines.android)
     implementation(libs.jackson.core)
     implementation(libs.image.viewer)
+
+    implementation(libs.coroutines.android)
+    implementation(libs.coroutines.guava)
+    implementation(libs.libsu.core)
+    implementation(libs.shizuku.api)
+    api(libs.shizuku.provider)
 
     androidTestImplementation(platform(libs.junit.bom))
     androidTestImplementation(libs.bundles.test.android)

@@ -8,7 +8,6 @@ object Modules {
     const val coreDI = ":core:di"
     const val coreDomain = ":core:domain"
     const val coreNetwork = ":core:network"
-    const val installer = ":installer"
     const val sync = ":sync:fdroid"
 }
 

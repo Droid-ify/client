@@ -1,4 +1,4 @@
-package com.looker.installer.model
+package com.looker.droidify.installer.model
 
 import com.looker.core.domain.model.PackageName
 import com.looker.core.domain.model.toPackageName

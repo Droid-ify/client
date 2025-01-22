@@ -1,4 +1,4 @@
-package com.looker.installer
+package com.looker.droidify.installer
 
 import android.content.Context
 import com.looker.core.datastore.SettingsRepository

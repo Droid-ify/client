@@ -1,16 +1,15 @@
-package com.looker.installer.installers.shizuku
+package com.looker.droidify.installer.installers.shizuku
 
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.common.extension.size
 import com.looker.core.domain.model.PackageName
-import com.looker.installer.installers.Installer
-import com.looker.installer.installers.uninstallPackage
-import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallState
+import com.looker.droidify.installer.installers.Installer
+import com.looker.droidify.installer.installers.uninstallPackage
+import com.looker.droidify.installer.model.InstallItem
+import com.looker.droidify.installer.model.InstallState
 import kotlinx.coroutines.suspendCancellableCoroutine
-import rikka.shizuku.Shizuku
 import java.io.BufferedReader
 import java.io.InputStream
 import kotlin.coroutines.resume
@@ -77,7 +76,7 @@ internal class ShizukuInstaller(private val context: Context) : Installer {
     private data class ShellResult(val resultCode: Int, val out: String)
 
     private fun exec(command: String, stdin: InputStream? = null): ShellResult {
-        val process = Shizuku.newProcess(arrayOf("sh", "-c", command), null, null)
+        val process = rikka.shizuku.Shizuku.newProcess(arrayOf("sh", "-c", command), null, null)
         if (stdin != null) {
             process.outputStream.use { stdin.copyTo(it) }
         }

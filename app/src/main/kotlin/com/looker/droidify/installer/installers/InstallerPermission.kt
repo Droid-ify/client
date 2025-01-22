@@ -1,4 +1,4 @@
-package com.looker.installer.installers
+package com.looker.droidify.installer.installers
 
 import android.content.ComponentName
 import android.content.Context
@@ -7,9 +7,7 @@ import android.content.pm.PackageManager
 import com.looker.core.common.extension.getLauncherActivities
 import com.looker.core.common.extension.getPackageInfoCompat
 import com.looker.core.common.extension.intent
-import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.suspendCancellableCoroutine
-import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.resume
 
@@ -34,29 +32,29 @@ fun launchShizuku(context: Context) {
 fun isShizukuInstalled(context: Context) =
     context.packageManager.getPackageInfoCompat(ShizukuProvider.MANAGER_APPLICATION_ID) != null
 
-fun isShizukuAlive() = Shizuku.pingBinder()
+fun isShizukuAlive() = rikka.shizuku.Shizuku.pingBinder()
 
-fun isShizukuGranted() = Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
+fun isShizukuGranted() = rikka.shizuku.Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED
 
 suspend fun requestPermissionListener() = suspendCancellableCoroutine {
-    val listener = Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
+    val listener = rikka.shizuku.Shizuku.OnRequestPermissionResultListener { requestCode, grantResult ->
         if (requestCode == SHIZUKU_PERMISSION_REQUEST_CODE) {
             it.resume(grantResult == PackageManager.PERMISSION_GRANTED)
         }
     }
-    Shizuku.addRequestPermissionResultListener(listener)
-    Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
+    rikka.shizuku.Shizuku.addRequestPermissionResultListener(listener)
+    rikka.shizuku.Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
     it.invokeOnCancellation {
-        Shizuku.removeRequestPermissionResultListener(listener)
+        rikka.shizuku.Shizuku.removeRequestPermissionResultListener(listener)
     }
 }
 
 fun requestShizuku() {
-    Shizuku.shouldShowRequestPermissionRationale()
-    Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
+    rikka.shizuku.Shizuku.shouldShowRequestPermissionRationale()
+    rikka.shizuku.Shizuku.requestPermission(SHIZUKU_PERMISSION_REQUEST_CODE)
 }
 
 fun isMagiskGranted(): Boolean {
-    Shell.getCachedShell() ?: Shell.getShell()
-    return Shell.isAppGrantedRoot() == true
+    com.topjohnwu.superuser.Shell.getCachedShell() ?: com.topjohnwu.superuser.Shell.getShell()
+    return com.topjohnwu.superuser.Shell.isAppGrantedRoot() == true
 }

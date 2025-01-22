@@ -18,11 +18,11 @@ import com.looker.core.datastore.model.Theme
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.installer.installers.isMagiskGranted
-import com.looker.installer.installers.isShizukuAlive
-import com.looker.installer.installers.isShizukuGranted
-import com.looker.installer.installers.isShizukuInstalled
-import com.looker.installer.installers.requestPermissionListener
+import com.looker.droidify.installer.installers.isMagiskGranted
+import com.looker.droidify.installer.installers.isShizukuAlive
+import com.looker.droidify.installer.installers.isShizukuGranted
+import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.requestPermissionListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow

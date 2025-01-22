@@ -32,8 +32,8 @@ import com.looker.droidify.ui.repository.RepositoriesFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabsFragment.TabsFragment
-import com.looker.installer.InstallManager
-import com.looker.installer.model.installFrom
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.installFrom
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint

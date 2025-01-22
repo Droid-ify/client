@@ -1,4 +1,4 @@
-package com.looker.installer.installers.session
+package com.looker.droidify.installer.installers.session
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -10,11 +10,11 @@ import com.looker.core.common.createNotificationChannel
 import com.looker.core.common.extension.getPackageName
 import com.looker.core.common.extension.notificationManager
 import com.looker.core.domain.model.toPackageName
-import com.looker.installer.InstallManager
-import com.looker.installer.model.InstallState
-import com.looker.installer.notification.createInstallNotification
-import com.looker.installer.notification.installNotification
-import com.looker.installer.notification.removeInstallNotification
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.notification.createInstallNotification
+import com.looker.droidify.installer.notification.installNotification
+import com.looker.droidify.installer.notification.removeInstallNotification
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

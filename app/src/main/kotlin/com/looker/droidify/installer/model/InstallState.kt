@@ -1,4 +1,4 @@
-package com.looker.installer.model
+package com.looker.droidify.installer.model
 
 enum class InstallState { Failed, Pending, Installing, Installed }
 

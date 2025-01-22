@@ -34,7 +34,7 @@ import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
-import com.looker.installer.InstallManager
+import com.looker.droidify.installer.InstallManager
 import com.looker.network.Downloader
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope

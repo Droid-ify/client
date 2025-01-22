@@ -1,14 +1,13 @@
-package com.looker.installer.installers.root
+package com.looker.droidify.installer.installers.root
 
 import android.content.Context
 import com.looker.core.common.SdkCheck
 import com.looker.core.common.cache.Cache
 import com.looker.core.domain.model.PackageName
-import com.looker.installer.installers.Installer
-import com.looker.installer.installers.uninstallPackage
-import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallState
-import com.topjohnwu.superuser.Shell
+import com.looker.droidify.installer.installers.Installer
+import com.looker.droidify.installer.installers.uninstallPackage
+import com.looker.droidify.installer.model.InstallItem
+import com.looker.droidify.installer.model.InstallState
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
@@ -21,9 +20,9 @@ internal class RootInstaller(private val context: Context) : Installer {
 
         val getCurrentUserState: String
             get() = if (SdkCheck.isOreo) {
-                Shell.cmd("am get-current-user").exec().out[0]
+                com.topjohnwu.superuser.Shell.cmd("am get-current-user").exec().out[0]
             } else {
-                Shell.cmd("dumpsys activity | grep -E \"mUserLru\"")
+                com.topjohnwu.superuser.Shell.cmd("dumpsys activity | grep -E \"mUserLru\"")
                     .exec().out[0].trim()
                     .removePrefix("mUserLru: [").removeSuffix("]")
             }
@@ -34,7 +33,7 @@ internal class RootInstaller(private val context: Context) : Installer {
         val getUtilBoxPath: String
             get() {
                 listOf("toybox", "busybox").forEach {
-                    val shellResult = Shell.cmd("which $it").exec()
+                    val shellResult = com.topjohnwu.superuser.Shell.cmd("which $it").exec()
                     if (shellResult.out.isNotEmpty()) {
                         val utilBoxPath = shellResult.out.joinToString("")
                         if (utilBoxPath.isNotEmpty()) return utilBoxPath.quote
@@ -61,11 +60,11 @@ internal class RootInstaller(private val context: Context) : Installer {
         installItem: InstallItem
     ): InstallState = suspendCancellableCoroutine { cont ->
         val releaseFile = Cache.getReleaseFile(context, installItem.installFileName)
-        Shell.cmd(installCmd(releaseFile)).submit { shellResult ->
+        com.topjohnwu.superuser.Shell.cmd(installCmd(releaseFile)).submit { shellResult ->
             val result = if (shellResult.isSuccess) InstallState.Installed
             else InstallState.Failed
             cont.resume(result)
-            Shell.cmd(deleteCmd(releaseFile)).submit()
+            com.topjohnwu.superuser.Shell.cmd(deleteCmd(releaseFile)).submit()
         }
     }
 

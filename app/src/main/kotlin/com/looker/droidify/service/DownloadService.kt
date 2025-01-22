@@ -26,11 +26,11 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
-import com.looker.installer.InstallManager
-import com.looker.installer.model.InstallState
-import com.looker.installer.model.installFrom
-import com.looker.installer.notification.createInstallNotification
-import com.looker.installer.notification.installNotification
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.model.installFrom
+import com.looker.droidify.installer.notification.createInstallNotification
+import com.looker.droidify.installer.notification.installNotification
 import com.looker.network.DataSize
 import com.looker.network.Downloader
 import com.looker.network.NetworkResponse

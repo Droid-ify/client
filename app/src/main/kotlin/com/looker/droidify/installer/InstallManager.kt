@@ -1,4 +1,4 @@
-package com.looker.installer
+package com.looker.droidify.installer
 
 import android.content.Context
 import com.looker.core.common.extension.addAndCompute
@@ -9,14 +9,14 @@ import com.looker.core.datastore.SettingsRepository
 import com.looker.core.datastore.get
 import com.looker.core.datastore.model.InstallerType
 import com.looker.core.domain.model.PackageName
-import com.looker.installer.installers.Installer
-import com.looker.installer.installers.LegacyInstaller
-import com.looker.installer.installers.root.RootInstaller
-import com.looker.installer.installers.session.SessionInstaller
-import com.looker.installer.installers.shizuku.ShizukuInstaller
-import com.looker.installer.model.InstallItem
-import com.looker.installer.model.InstallState
-import com.looker.installer.notification.removeInstallNotification
+import com.looker.droidify.installer.installers.Installer
+import com.looker.droidify.installer.installers.LegacyInstaller
+import com.looker.droidify.installer.installers.root.RootInstaller
+import com.looker.droidify.installer.installers.session.SessionInstaller
+import com.looker.droidify.installer.installers.shizuku.ShizukuInstaller
+import com.looker.droidify.installer.model.InstallItem
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.notification.removeInstallNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach

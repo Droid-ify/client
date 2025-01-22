@@ -1,4 +1,4 @@
-package com.looker.installer.notification
+package com.looker.droidify.installer.notification
 
 import android.app.Notification
 import android.app.NotificationManager
@@ -7,11 +7,7 @@ import android.graphics.Color
 import androidx.core.app.NotificationCompat
 import com.looker.core.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.core.common.Constants.NOTIFICATION_ID_INSTALL
-import com.looker.installer.model.InstallState
-import com.looker.installer.model.InstallState.Failed
-import com.looker.installer.model.InstallState.Installed
-import com.looker.installer.model.InstallState.Installing
-import com.looker.installer.model.InstallState.Pending
+import com.looker.droidify.installer.model.InstallState
 import com.looker.core.common.R as CommonR
 
 fun NotificationManager.installNotification(
@@ -56,26 +52,26 @@ fun Context.createInstallNotification(
                     getString(CommonR.string.uninstalled_application_DESC, appName)
             } else {
                 when (state) {
-                    Failed -> {
+                    InstallState.Failed -> {
                         setSmallIcon(CommonR.drawable.ic_bug_report)
                         getString(CommonR.string.installation_failed) to
                             getString(CommonR.string.installation_failed_DESC, appName)
                     }
 
-                    Pending -> {
+                    InstallState.Pending -> {
                         setSmallIcon(CommonR.drawable.ic_download)
                         getString(CommonR.string.downloaded_FORMAT, appName) to
                             getString(CommonR.string.tap_to_install_DESC)
                     }
 
-                    Installing -> {
+                    InstallState.Installing -> {
                         setSmallIcon(CommonR.drawable.ic_download)
                         setProgress(-1, -1, true)
                         getString(CommonR.string.installing) to
                             appName
                     }
 
-                    Installed -> {
+                    InstallState.Installed -> {
                         setTimeoutAfter(SUCCESS_TIMEOUT)
                         setSmallIcon(CommonR.drawable.ic_check)
                         getString(CommonR.string.installed) to
