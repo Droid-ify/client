@@ -47,6 +47,16 @@ import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
+import com.looker.droidify.R
+import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.model.InstalledItem
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.ProductPreference
+import com.looker.droidify.model.Release
+import com.looker.droidify.model.Repository
+import com.looker.droidify.model.findSuggested
+import com.looker.droidify.network.DataSize
+import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.copyToClipboard
 import com.looker.droidify.utility.common.extension.corneredBackground
@@ -58,22 +68,11 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.open
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
-import com.looker.droidify.utility.common.formatSize
 import com.looker.droidify.utility.common.nullIfEmpty
-import com.looker.droidify.R
-import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.model.InstalledItem
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.ProductPreference
-import com.looker.droidify.model.Release
-import com.looker.droidify.model.Repository
-import com.looker.droidify.model.findSuggested
-import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
-import com.looker.droidify.network.DataSize
 import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
@@ -1318,7 +1317,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         }
                     }
                 }
-                holder.size.text = product?.displayRelease?.size?.formatSize()
+                holder.size.text = DataSize(product?.displayRelease?.size ?: 0).toString()
 
                 holder.dev.setOnClickListener {
                     product?.source?.let { link ->
@@ -1660,7 +1659,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     holder.dateFormat.format(item.release.added)
                 }
                 holder.added.text = dateFormat
-                holder.size.text = item.release.size.formatSize()
+                holder.size.text = DataSize(item.release.size).toString()
                 holder.signature.isVisible =
                     item.showSignature && item.release.signature.isNotEmpty()
                 if (item.showSignature && item.release.signature.isNotEmpty()) {

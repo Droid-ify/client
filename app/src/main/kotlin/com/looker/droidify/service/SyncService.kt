@@ -20,7 +20,7 @@ import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.notificationManager
-import com.looker.droidify.utility.common.extension.startSelf
+import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.result.Result
@@ -126,7 +126,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             handleNextTask(cancelledTask?.hasUpdates == true)
             if (request != SyncRequest.AUTO && started == Started.AUTO) {
                 started = Started.MANUAL
-                startSelf()
+                startServiceCompat()
                 handleSetStarted()
                 currentTask?.lastState?.let { publishForegroundState(true, it) }
             }
@@ -406,7 +406,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
         started = newStarted
         if (newStarted == Started.MANUAL && lastStarted != Started.MANUAL) {
-            startSelf()
+            startServiceCompat()
             handleSetStarted()
         }
         val initialState = State.Connecting(repository!!.name)

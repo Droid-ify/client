@@ -6,34 +6,34 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.MainActivity
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.model.installFrom
+import com.looker.droidify.installer.notification.createInstallNotification
+import com.looker.droidify.installer.notification.installNotification
+import com.looker.droidify.model.Release
+import com.looker.droidify.model.Repository
+import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.percentBy
+import com.looker.droidify.network.validation.ValidationException
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.notificationManager
-import com.looker.droidify.utility.common.extension.percentBy
-import com.looker.droidify.utility.common.extension.startSelf
+import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.extension.toPendingIntent
 import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.utility.common.log
-import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.datastore.get
-import com.looker.droidify.datastore.model.InstallerType
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.MainActivity
-import com.looker.droidify.model.Release
-import com.looker.droidify.model.Repository
-import com.looker.droidify.installer.InstallManager
-import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.model.installFrom
-import com.looker.droidify.installer.notification.createInstallNotification
-import com.looker.droidify.installer.notification.installNotification
-import com.looker.droidify.network.DataSize
-import com.looker.droidify.network.Downloader
-import com.looker.droidify.network.NetworkResponse
-import com.looker.droidify.network.validation.ValidationException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -378,7 +378,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         }
         if (!started) {
             started = true
-            startSelf()
+            startServiceCompat()
         }
         val task = tasks.removeFirstOrNull() ?: return
         with(stateNotificationBuilder) {

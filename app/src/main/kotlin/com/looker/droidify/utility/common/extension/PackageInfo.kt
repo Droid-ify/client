@@ -5,8 +5,8 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import com.looker.droidify.domain.model.hex
 import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.hex
 import java.security.MessageDigest
 
 val PackageInfo.singleSignature: Signature?

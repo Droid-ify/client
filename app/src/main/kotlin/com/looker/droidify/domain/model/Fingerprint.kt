@@ -1,34 +1,31 @@
 package com.looker.droidify.domain.model
 
-import com.looker.droidify.domain.model.Fingerprint.Companion.hex
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.util.Locale
 
 @JvmInline
 value class Fingerprint(val value: String) {
-
     init {
-        require(value.isNotBlank() && value.length == DEFAULT_LENGTH) { "Invalid Fingerprint: $value" }
+        require(value.isNotBlank() && value.length == FINGERPRINT_LENGTH) { "Invalid Fingerprint: $value" }
     }
 
-    inline fun check(other: Fingerprint): Boolean {
-        return other.value.equals(value, ignoreCase = true)
-    }
-
-    override fun toString(): String {
-        return value.windowed(2, 2, false)
-            .take(DEFAULT_LENGTH / 2).joinToString(separator = " ") { it.uppercase(Locale.US) }
-    }
-
-    internal companion object {
-        const val DEFAULT_LENGTH = 64
-
-        fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
-            "%02x".format(Locale.US, byte.toInt() and 0xff)
-        }
-    }
+    override fun toString(): String = value
 }
+
+@Suppress("NOTHING_TO_INLINE")
+inline fun Fingerprint.check(found: Fingerprint): Boolean {
+    return found.value.equals(value, ignoreCase = true)
+}
+
+private const val FINGERPRINT_LENGTH = 64
+
+fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
+    "%02x".format(Locale.US, byte.toInt() and 0xff)
+}
+
+fun Fingerprint.formattedString(): String = value.windowed(2, 2, false)
+    .take(FINGERPRINT_LENGTH / 2).joinToString(separator = " ") { it.uppercase(Locale.US) }
 
 fun Certificate.fingerprint(): Fingerprint {
     val bytes = encoded

@@ -4,7 +4,7 @@ import android.app.Service
 import android.content.Intent
 import com.looker.droidify.utility.common.SdkCheck
 
-fun Service.startSelf() {
+fun Service.startServiceCompat() {
     val intent = Intent(this, this::class.java)
     if (SdkCheck.isOreo) {
         startForegroundService(intent)

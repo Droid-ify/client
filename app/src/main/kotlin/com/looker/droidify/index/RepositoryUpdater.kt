@@ -2,28 +2,28 @@ package com.looker.droidify.index
 
 import android.content.Context
 import android.net.Uri
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.cache.Cache
-import com.looker.droidify.utility.common.extension.fingerprint
-import com.looker.droidify.utility.common.extension.toFormattedString
-import com.looker.droidify.utility.common.result.Result
+import com.looker.droidify.database.Database
+import com.looker.droidify.domain.model.fingerprint
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
-import com.looker.droidify.database.Database
-import com.looker.droidify.utility.extension.android.Android
-import com.looker.droidify.utility.getProgress
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.toFormattedString
+import com.looker.droidify.utility.common.result.Result
+import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.getProgress
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.map
 import java.io.File
 import java.security.CodeSigner
 import java.security.cert.Certificate
 import java.util.jar.JarEntry
 import java.util.jar.JarFile
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 
 object RepositoryUpdater {
     enum class Stage {
@@ -344,6 +344,7 @@ object RepositoryUpdater {
                     .codeSigner
                     .certificate
                     .fingerprint()
+                    .toString()
                     .uppercase()
 
                 val commitRepository = if (!workRepository.fingerprint.equals(
