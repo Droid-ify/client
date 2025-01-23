@@ -2,15 +2,24 @@ package com.looker.droidify.datastore
 
 import android.net.Uri
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.core.IOException
+import androidx.datastore.preferences.core.MutablePreferences
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
-import com.looker.droidify.utility.common.Exporter
-import com.looker.droidify.utility.common.extension.updateAsMutable
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
+import com.looker.droidify.utility.common.Exporter
+import com.looker.droidify.utility.common.extension.updateAsMutable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
@@ -21,12 +30,12 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 
 class PreferenceSettingsRepository(
-    private val dataStore: androidx.datastore.core.DataStore<androidx.datastore.preferences.core.Preferences>,
+    private val dataStore: DataStore<Preferences>,
     private val exporter: Exporter<Settings>,
 ) : SettingsRepository {
     override val data: Flow<Settings> = dataStore.data
         .catch { exception ->
-            if (exception is androidx.datastore.core.IOException) {
+            if (exception is IOException) {
                 Log.e("TAG", "Error reading preferences.", exception)
             } else {
                 throw exception
@@ -113,8 +122,9 @@ class PreferenceSettingsRepository(
         }
     }
 
-    private fun mapSettings(preferences: androidx.datastore.preferences.core.Preferences): Settings {
-        val defaultInstallerName = (InstallerType.Companion.Default).name
+    private fun mapSettings(preferences: Preferences): Settings {
+        val installerType =
+            InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
 
         val language = preferences[LANGUAGE] ?: "system"
         val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
@@ -123,8 +133,6 @@ class PreferenceSettingsRepository(
         val ignoreSignature = preferences[IGNORE_SIGNATURE] ?: false
         val theme = Theme.valueOf(preferences[THEME] ?: Theme.SYSTEM.name)
         val dynamicTheme = preferences[DYNAMIC_THEME] ?: false
-        val installerType =
-            InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: defaultInstallerName)
         val autoUpdate = preferences[AUTO_UPDATE] ?: false
         val autoSync = AutoSync.valueOf(preferences[AUTO_SYNC] ?: AutoSync.WIFI_ONLY.name)
         val sortOrder = SortOrder.valueOf(preferences[SORT_ORDER] ?: SortOrder.UPDATED.name)
@@ -157,50 +165,35 @@ class PreferenceSettingsRepository(
         )
     }
 
-    private suspend inline fun <T> androidx.datastore.preferences.core.Preferences.Key<T>.update(newValue: T) {
+    private suspend inline fun <T> Preferences.Key<T>.update(newValue: T) {
         dataStore.edit { preferences ->
             preferences[this] = newValue
         }
     }
 
     companion object PreferencesKeys {
-        private val LANGUAGE =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_language")
-        private val INCOMPATIBLE_VERSIONS =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_incompatible_versions")
-        private val NOTIFY_UPDATES =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_notify_updates")
-        private val UNSTABLE_UPDATES =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_unstable_updates")
-        private val IGNORE_SIGNATURE =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_ignore_signature")
-        private val THEME = androidx.datastore.preferences.core.stringPreferencesKey("key_theme")
-        private val DYNAMIC_THEME =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_dynamic_theme")
-        private val INSTALLER_TYPE =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_installer_type")
-        private val AUTO_UPDATE =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_auto_updates")
-        private val AUTO_SYNC =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_auto_sync")
-        private val SORT_ORDER =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_sort_order")
-        private val PROXY_TYPE =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_proxy_type")
-        private val PROXY_HOST =
-            androidx.datastore.preferences.core.stringPreferencesKey("key_proxy_host")
-        private val PROXY_PORT =
-            androidx.datastore.preferences.core.intPreferencesKey("key_proxy_port")
-        private val CLEAN_UP_INTERVAL =
-            androidx.datastore.preferences.core.longPreferencesKey("key_clean_up_interval")
-        private val LAST_CLEAN_UP =
-            androidx.datastore.preferences.core.longPreferencesKey("key_last_clean_up_time")
-        private val FAVOURITE_APPS =
-            androidx.datastore.preferences.core.stringSetPreferencesKey("key_favourite_apps")
-        private val HOME_SCREEN_SWIPING =
-            androidx.datastore.preferences.core.booleanPreferencesKey("key_home_swiping")
+        val LANGUAGE = stringPreferencesKey("key_language")
+        val INCOMPATIBLE_VERSIONS = booleanPreferencesKey("key_incompatible_versions")
+        val NOTIFY_UPDATES = booleanPreferencesKey("key_notify_updates")
+        val UNSTABLE_UPDATES = booleanPreferencesKey("key_unstable_updates")
+        val IGNORE_SIGNATURE = booleanPreferencesKey("key_ignore_signature")
+        val DYNAMIC_THEME = booleanPreferencesKey("key_dynamic_theme")
+        val AUTO_UPDATE = booleanPreferencesKey("key_auto_updates")
+        val PROXY_HOST = stringPreferencesKey("key_proxy_host")
+        val PROXY_PORT = intPreferencesKey("key_proxy_port")
+        val CLEAN_UP_INTERVAL = longPreferencesKey("key_clean_up_interval")
+        val LAST_CLEAN_UP = longPreferencesKey("key_last_clean_up_time")
+        val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
+        val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
 
-        fun androidx.datastore.preferences.core.MutablePreferences.setting(settings: Settings): androidx.datastore.preferences.core.Preferences {
+        // Enums
+        val THEME = stringPreferencesKey("key_theme")
+        val INSTALLER_TYPE = stringPreferencesKey("key_installer_type")
+        val AUTO_SYNC = stringPreferencesKey("key_auto_sync")
+        val SORT_ORDER = stringPreferencesKey("key_sort_order")
+        val PROXY_TYPE = stringPreferencesKey("key_proxy_type")
+
+        fun MutablePreferences.setting(settings: Settings): Preferences {
             set(LANGUAGE, settings.language)
             set(INCOMPATIBLE_VERSIONS, settings.incompatibleVersions)
             set(NOTIFY_UPDATES, settings.notifyUpdate)
