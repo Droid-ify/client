@@ -1,8 +1,6 @@
 package com.looker.droidify.network
 
-import com.looker.droidify.network.Downloader.Companion.CONNECTION_TIMEOUT
-import com.looker.droidify.network.Downloader.Companion.SOCKET_TIMEOUT
-import com.looker.droidify.network.Downloader.Companion.USER_AGENT
+import com.looker.droidify.BuildConfig
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.header.KtorHeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
@@ -103,51 +101,53 @@ internal class KtorDownloader(
         }
     }
 
-    private companion object {
+    private fun client(
+        engine: HttpClientEngine = OkHttp.create()
+    ): HttpClient {
+        return HttpClient(engine) {
+            userAgentConfig()
+            timeoutConfig()
+        }
+    }
 
-        fun client(
-            engine: HttpClientEngine = OkHttp.create()
-        ): HttpClient {
-            return HttpClient(engine) {
-                userAgentConfig()
-                timeoutConfig()
+
+    private fun createRequest(
+        url: String,
+        headers: HeadersBuilder.() -> Unit,
+        fileSize: Long? = null,
+        block: ProgressListener? = null
+    ) = request {
+        url(url)
+        this.headers {
+            KtorHeadersBuilder(this).headers()
+        }
+        onDownload { read, total ->
+            if (block != null) {
+                block(
+                    DataSize(read + (fileSize ?: 0L)),
+                    DataSize((total ?: 0L) + (fileSize ?: 0L))
+                )
             }
         }
-
-        fun HttpClientConfig<*>.userAgentConfig() = install(UserAgent) {
-            agent = USER_AGENT
-        }
-
-        fun HttpClientConfig<*>.timeoutConfig() = install(HttpTimeout) {
-            connectTimeoutMillis = CONNECTION_TIMEOUT
-            socketTimeoutMillis = SOCKET_TIMEOUT
-        }
-
-        fun createRequest(
-            url: String,
-            headers: HeadersBuilder.() -> Unit,
-            fileSize: Long? = null,
-            block: ProgressListener? = null
-        ) = request {
-            url(url)
-            this.headers {
-                KtorHeadersBuilder(this).headers()
-            }
-            onDownload { read, total ->
-                if (block != null) {
-                    block(
-                        DataSize(read + (fileSize ?: 0L)),
-                        DataSize((total ?: 0L) + (fileSize ?: 0L))
-                    )
-                }
-            }
-        }
-
-        fun HttpResponse.asNetworkResponse(): NetworkResponse =
-            if (status.isSuccess() || status == HttpStatusCode.NotModified) {
-                NetworkResponse.Success(status.value, lastModified(), etag())
-            } else {
-                NetworkResponse.Error.Http(status.value)
-            }
     }
 }
+
+private const val CONNECTION_TIMEOUT = 30_000L
+private const val SOCKET_TIMEOUT = 15_000L
+private const val USER_AGENT = "Droid-ify, ${BuildConfig.VERSION_NAME}"
+
+private fun HttpClientConfig<*>.userAgentConfig() = install(UserAgent) {
+    agent = USER_AGENT
+}
+
+private fun HttpClientConfig<*>.timeoutConfig() = install(HttpTimeout) {
+    connectTimeoutMillis = CONNECTION_TIMEOUT
+    socketTimeoutMillis = SOCKET_TIMEOUT
+}
+
+private fun HttpResponse.asNetworkResponse(): NetworkResponse =
+    if (status.isSuccess() || status == HttpStatusCode.NotModified) {
+        NetworkResponse.Success(status.value, lastModified(), etag())
+    } else {
+        NetworkResponse.Error.Http(status.value)
+    }
