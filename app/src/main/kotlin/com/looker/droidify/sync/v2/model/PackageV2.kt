@@ -187,7 +187,7 @@ data class VersionV2(
     val src: FileV2? = null,
     val whatsNew: LocalizedString = emptyMap(),
     val manifest: ManifestV2,
-    val antiFeatures: Map<String, LocalizedString> = emptyMap(),
+    val antiFeatures: Map<Tag, AntiFeatureReason> = emptyMap(),
 )
 
 @Serializable
@@ -197,7 +197,7 @@ data class VersionV2Diff(
     val src: FileV2? = null,
     val whatsNew: LocalizedString? = null,
     val manifest: ManifestV2? = null,
-    val antiFeatures: Map<String, LocalizedString>? = null,
+    val antiFeatures: Map<Tag, AntiFeatureReason>? = null,
 ) {
     fun toVersion() = VersionV2(
         added = added ?: 0,

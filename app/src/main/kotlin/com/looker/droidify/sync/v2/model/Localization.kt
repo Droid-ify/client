@@ -8,3 +8,5 @@ typealias LocalizedFiles = Map<String, List<FileV2>>
 
 typealias DefaultName = String
 typealias Tag = String
+
+typealias AntiFeatureReason = LocalizedString
