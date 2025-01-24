@@ -10,8 +10,8 @@ data class RepoV2(
     val icon: LocalizedIcon? = null,
     val name: LocalizedString = emptyMap(),
     val description: LocalizedString = emptyMap(),
-    val antiFeatures: Map<String, AntiFeatureV2> = emptyMap(),
-    val categories: Map<String, CategoryV2> = emptyMap(),
+    val antiFeatures: Map<Tag, AntiFeatureV2> = emptyMap(),
+    val categories: Map<DefaultName, CategoryV2> = emptyMap(),
     val mirrors: List<MirrorV2> = emptyList(),
     val timestamp: Long,
 )
@@ -22,8 +22,8 @@ data class RepoV2Diff(
     val icon: LocalizedIcon? = null,
     val name: LocalizedString? = null,
     val description: LocalizedString? = null,
-    val antiFeatures: Map<String, AntiFeatureV2?>? = null,
-    val categories: Map<String, CategoryV2?>? = null,
+    val antiFeatures: Map<Tag, AntiFeatureV2?>? = null,
+    val categories: Map<DefaultName, CategoryV2?>? = null,
     val mirrors: List<MirrorV2>? = null,
     val timestamp: Long,
 ) {
