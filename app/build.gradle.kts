@@ -164,7 +164,6 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.junit.platform)
-    androidTestImplementation(platform(libs.junit.bom))
     androidTestImplementation(libs.bundles.test.android)
 
 //    debugImplementation(libs.leakcanary)
