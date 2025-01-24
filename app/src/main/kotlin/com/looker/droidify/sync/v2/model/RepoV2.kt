@@ -69,7 +69,7 @@ data class RepoV2Diff(
 data class MirrorV2(
     val url: String,
     val isPrimary: Boolean? = null,
-    val location: String? = null
+    val countryCode: String? = null
 )
 
 @Serializable
