@@ -28,6 +28,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
 class V1SyncableTest {
@@ -102,9 +103,20 @@ class V1SyncableTest {
         testIndexConversion("index-v1.jar", "index-v2-updated.json")
     }
 
-    // @Test
-    fun v1tov2FDroidRepo() = runTest(dispatcher) {
-        testIndexConversion("fdroid-index-v1.jar", "fdroid-index-v2.json")
+    @Test
+    fun targetPropertyTest() = runTest(dispatcher) {
+        val v2IzzyFile =
+            FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2-updated.json")
+        val v2FdroidFile =
+            FakeDownloader.downloadIndex(context, repo, "fdroid-v2", "fdroid-index-v2.json")
+        val (_, v2Izzy) = v2Parser.parse(v2IzzyFile, repo)
+        val (_, v2Fdroid) = v2Parser.parse(v2FdroidFile, repo)
+        v2Izzy.packages.forEach { (packageName, data) ->
+            println("Testing $packageName")
+        }
+        v2Fdroid.packages.forEach { (packageName, data) ->
+            println("Testing $packageName")
+        }
     }
 
     private suspend fun testIndexConversion(
@@ -263,7 +275,13 @@ private fun assertVersion(
         assertEquals(expectedMan.versionCode, foundMan.versionCode)
         assertEquals(expectedMan.versionName, foundMan.versionName)
         assertEquals(expectedMan.maxSdkVersion, foundMan.maxSdkVersion)
+        assertNotNull(expectedMan.usesSdk)
+        assertNotNull(foundMan.usesSdk)
         assertEquals(expectedMan.usesSdk, foundMan.usesSdk)
+        assertTrue(expectedMan.usesSdk.minSdkVersion >= 1)
+        assertTrue(expectedMan.usesSdk.targetSdkVersion >= 1)
+        assertTrue(foundMan.usesSdk.minSdkVersion >= 1)
+        assertTrue(foundMan.usesSdk.targetSdkVersion >= 1)
 
         assertContentEquals(
             expectedMan.features.sortedBy { it.name },
