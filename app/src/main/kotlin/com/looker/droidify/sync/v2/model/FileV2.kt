@@ -12,3 +12,10 @@ data class FileV2(
     val sha256: String? = null,
     val size: Long? = null,
 )
+
+@Serializable
+data class ApkFileV2(
+    val name: String,
+    val sha256: String,
+    val size: Long,
+)

@@ -183,7 +183,7 @@ data class MetadataV2Diff(
 @Serializable
 data class VersionV2(
     val added: Long,
-    val file: FileV2,
+    val file: ApkFileV2,
     val src: FileV2? = null,
     val whatsNew: LocalizedString = emptyMap(),
     val manifest: ManifestV2,
@@ -193,7 +193,7 @@ data class VersionV2(
 @Serializable
 data class VersionV2Diff(
     val added: Long? = null,
-    val file: FileV2? = null,
+    val file: ApkFileV2? = null,
     val src: FileV2? = null,
     val whatsNew: LocalizedString? = null,
     val manifest: ManifestV2? = null,
@@ -201,7 +201,7 @@ data class VersionV2Diff(
 ) {
     fun toVersion() = VersionV2(
         added = added ?: 0,
-        file = file ?: FileV2(""),
+        file = file ?: ApkFileV2("", "", -1L),
         src = src ?: FileV2(""),
         whatsNew = whatsNew ?: emptyMap(),
         manifest = manifest ?: ManifestV2(

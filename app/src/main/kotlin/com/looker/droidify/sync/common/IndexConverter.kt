@@ -8,6 +8,7 @@ import com.looker.droidify.sync.v1.model.RepoV1
 import com.looker.droidify.sync.v1.model.maxSdk
 import com.looker.droidify.sync.v1.model.name
 import com.looker.droidify.sync.v2.model.AntiFeatureV2
+import com.looker.droidify.sync.v2.model.ApkFileV2
 import com.looker.droidify.sync.v2.model.CategoryV2
 import com.looker.droidify.sync.v2.model.FeatureV2
 import com.looker.droidify.sync.v2.model.FileV2
@@ -157,7 +158,7 @@ private fun PackageV1.toVersionV2(
     packageAntiFeatures: List<String>,
 ): VersionV2 = VersionV2(
     added = added ?: 0L,
-    file = FileV2(
+    file = ApkFileV2(
         name = "/$apkName",
         sha256 = hash,
         size = size,
