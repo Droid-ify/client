@@ -7,8 +7,8 @@ import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.sync.common.IndexJarValidator
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.JsonParser
-import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.benchmark
+import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
 import com.looker.droidify.sync.v1.V1Parser
 import com.looker.droidify.sync.v1.V1Syncable
@@ -42,7 +42,7 @@ class V1SyncableTest {
 
     @Before
     fun before() {
-        context = InstrumentationRegistry.getInstrumentation().context
+        context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
         validator = IndexJarValidator(dispatcher)
         parser = V1Parser(dispatcher, JsonParser, validator)
@@ -252,6 +252,8 @@ private fun assertVersion(
         assertNotNull(foundVersion)
 
         assertEquals(expectedVersion.added, foundVersion.added)
+        assertEquals(expectedVersion.file.sha256, foundVersion.file.sha256)
+        assertEquals(expectedVersion.file.size, foundVersion.file.size)
         assertEquals(expectedVersion.file.name, foundVersion.file.name)
         assertEquals(expectedVersion.src?.name, foundVersion.src?.name)
 
