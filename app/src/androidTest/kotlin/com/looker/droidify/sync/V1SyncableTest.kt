@@ -17,6 +17,7 @@ import com.looker.droidify.sync.v2.V2Parser
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.MetadataV2
+import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.VersionV2
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -28,6 +29,7 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
@@ -111,11 +113,29 @@ class V1SyncableTest {
             FakeDownloader.downloadIndex(context, repo, "fdroid-v2", "fdroid-index-v2.json")
         val (_, v2Izzy) = v2Parser.parse(v2IzzyFile, repo)
         val (_, v2Fdroid) = v2Parser.parse(v2FdroidFile, repo)
+
+        val performTest: (PackageV2) -> Unit = { data ->
+            print("lib: ")
+            println(data.metadata.liberapay)
+            print("donate: ")
+            println(data.metadata.donate)
+            print("bit: ")
+            println(data.metadata.bitcoin)
+            print("flattr: ")
+            println(data.metadata.flattrID)
+            print("Open: ")
+            println(data.metadata.openCollective)
+            print("LiteCoin: ")
+            println(data.metadata.litecoin)
+        }
+
         v2Izzy.packages.forEach { (packageName, data) ->
-            println("Testing $packageName")
+            println("Testing on Izzy $packageName")
+            performTest(data)
         }
         v2Fdroid.packages.forEach { (packageName, data) ->
-            println("Testing $packageName")
+            println("Testing on FDroid $packageName")
+            performTest(data)
         }
     }
 
