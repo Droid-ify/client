@@ -1,5 +1,6 @@
 package com.looker.droidify.data.local.model
 
+import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString
 
@@ -14,7 +15,7 @@ data class MetadataEntity(
     val lastUpdated: Long,
     val license: String,
     val name: LocalizedString,
-    val categories: List<String>,
+    val categories: List<DefaultName>,
     val website: String?,
     val icon: LocalizedIcon?,
     val preferredSigner: String?,

@@ -31,10 +31,10 @@ data class Donation(
 )
 
 data class Graphics(
-    val featureGraphic: String = "",
-    val promoGraphic: String = "",
-    val tvBanner: String = "",
-    val video: String = ""
+    val featureGraphic: String? = null,
+    val promoGraphic: String? = null,
+    val tvBanner: String? = null,
+    val video: String? = null,
 )
 
 data class Links(
