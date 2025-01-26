@@ -25,7 +25,7 @@ class IndexValuesTest {
 
         val performTest: (PackageV2) -> Unit = { data ->
             val metadata = data.metadata
-            if (metadata.categories.isEmpty()) {
+            if (metadata.authorName==null) {
                 size++
             }
         }

@@ -6,7 +6,7 @@ data class App(
     val categories: List<String>,
     val links: Links,
     val metadata: Metadata,
-    val author: Author,
+    val author: Author?,
     val screenshots: Screenshots,
     val graphics: Graphics,
     val donation: Donation,
@@ -15,19 +15,20 @@ data class App(
 )
 
 data class Author(
-    val id: Long,
-    val name: String,
-    val email: String,
-    val web: String
+    val id: Int,
+    val name: String?,
+    val email: String?,
+    val phone: String?,
+    val web: String?,
 )
 
 data class Donation(
-    val regularUrl: String? = null,
+    val regularUrl: List<String>? = null,
     val bitcoinAddress: String? = null,
     val flattrId: String? = null,
-    val liteCoinAddress: String? = null,
+    val litecoinAddress: String? = null,
     val openCollectiveId: String? = null,
-    val librePayId: String? = null,
+    val liberapayId: String? = null,
 )
 
 data class Graphics(

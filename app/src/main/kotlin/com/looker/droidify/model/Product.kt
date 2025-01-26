@@ -1,6 +1,5 @@
 package com.looker.droidify.model
 
-import com.looker.droidify.domain.model.App
 import com.looker.droidify.domain.model.Donation
 import com.looker.droidify.domain.model.Screenshots
 
@@ -146,12 +145,12 @@ fun List<Pair<Product, Repository>>.findSuggested(
 //)
 
 fun Donation.toLegacy() = buildList {
-    regularUrl?.let { add(Product.Donate.Regular(it)) }
+    regularUrl?.let { it.forEach { add(Product.Donate.Regular(it)) } }
     bitcoinAddress?.let { add(Product.Donate.Bitcoin(it)) }
     flattrId?.let { add(Product.Donate.Flattr(it)) }
-    liteCoinAddress?.let { add(Product.Donate.Litecoin(it)) }
+    litecoinAddress?.let { add(Product.Donate.Litecoin(it)) }
     openCollectiveId?.let { add(Product.Donate.OpenCollective(it)) }
-    librePayId?.let { add(Product.Donate.Liberapay(it)) }
+    liberapayId?.let { add(Product.Donate.Liberapay(it)) }
 }
 
 fun Screenshots.toLegacy() = buildList {
