@@ -9,6 +9,15 @@ data class CategoryEntity(
     val icon: LocalizedIcon? = null,
     val description: LocalizedString? = null,
     val defaultName: DefaultName,
-    val repoId: Int,
     val id: Int = -1,
+)
+
+data class RepoCategoryCrossRef(
+    val repoId: Int,
+    val categoryId: Int,
+)
+
+data class MetadataCategoryCrossRef(
+    val appId: Int,
+    val categoryId: Int,
 )

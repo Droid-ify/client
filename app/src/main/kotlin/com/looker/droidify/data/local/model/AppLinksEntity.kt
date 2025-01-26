@@ -9,10 +9,12 @@ data class AppLinksEntity(
     val translation: String?,
     val sourceCode: String?,
     val webSite: String?,
+    val appId: Int,
     val id: Int = -1,
 )
 
-fun MetadataV2.linkEntity() = AppLinksEntity(
+fun MetadataV2.linkEntity(appId: Int) = AppLinksEntity(
+    appId = appId,
     changelog = changelog,
     issueTracker = issueTracker,
     translation = translation,

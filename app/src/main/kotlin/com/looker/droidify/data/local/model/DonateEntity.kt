@@ -10,10 +10,12 @@ data class DonateEntity(
     val openCollectiveId: String?,
     val flattrId: String?,
     val customUrl: List<String>?,
+    val appId: Int,
     val id: Int = -1,
 )
 
-fun MetadataV2.donateEntity() = DonateEntity(
+fun MetadataV2.donateEntity(appId: Int) = DonateEntity(
+    appId = appId,
     bitcoinAddress = bitcoin,
     litecoinAddress = litecoin,
     liberapayId = liberapay,
