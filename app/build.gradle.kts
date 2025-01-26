@@ -139,19 +139,15 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.datetime)
 
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    implementation(libs.coroutines.guava)
+    implementation(libs.bundles.coroutines)
 
     implementation(libs.libsu.core)
-    implementation(libs.shizuku.api)
-    api(libs.shizuku.provider)
+    implementation(libs.bundles.shizuku)
 
     implementation(libs.jackson.core)
     implementation(libs.serialization)
 
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.okhttp)
+    implementation(libs.bundles.ktor)
 
     implementation(libs.work.ktx)
 

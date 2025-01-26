@@ -94,5 +94,9 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
+room = ["room-runtime", "room-ktx"]
+shizuku = ["shizuku-provider", "shizuku-api"]
+ktor = ["ktor-core", "ktor-okhttp"]
+coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
 test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "test-espresso-core", "coroutines-test", "kotlin-test"]
