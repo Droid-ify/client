@@ -38,11 +38,11 @@ data class Graphics(
 )
 
 data class Links(
-    val changelog: String = "",
-    val issueTracker: String = "",
-    val sourceCode: String = "",
-    val translation: String = "",
-    val webSite: String = ""
+    val changelog: String? = null,
+    val issueTracker: String? = null,
+    val sourceCode: String? = null,
+    val translation: String? = null,
+    val webSite: String? = null,
 )
 
 data class Metadata(

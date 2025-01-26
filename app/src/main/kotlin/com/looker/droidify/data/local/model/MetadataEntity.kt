@@ -16,7 +16,6 @@ data class MetadataEntity(
     val license: String,
     val name: LocalizedString,
     val categories: List<DefaultName>,
-    val website: String?,
     val icon: LocalizedIcon?,
     val preferredSigner: String?,
     val summary: LocalizedString?,
