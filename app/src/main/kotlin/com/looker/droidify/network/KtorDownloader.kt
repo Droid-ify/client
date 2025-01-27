@@ -82,7 +82,9 @@ internal class KtorDownloader(
                 if (networkResponse !is NetworkResponse.Success) {
                     return@execute networkResponse
                 }
-                response.bodyAsChannel().copyTo(target.outputStream())
+                target.outputStream().use { output ->
+                    response.bodyAsChannel().copyTo(output)
+                }
                 validator?.validate(target)
                 networkResponse
             }
