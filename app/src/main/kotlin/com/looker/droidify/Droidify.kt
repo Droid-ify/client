@@ -18,21 +18,12 @@ import coil.ImageLoaderFactory
 import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.data.local.DroidifyDatabase
-import com.looker.droidify.data.local.model.AuthorEntity
-import com.looker.droidify.data.local.model.RepoEntity
-import com.looker.droidify.data.local.model.appEntity
-import com.looker.droidify.data.local.model.repoEntity
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
-import com.looker.droidify.domain.model.Authentication
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.domain.model.VersionInfo
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.network.Downloader
@@ -41,7 +32,6 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
-import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
@@ -57,13 +47,10 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.net.InetSocketAddress
 import java.net.Proxy
 import javax.inject.Inject
-import kotlin.collections.component1
-import kotlin.collections.component2
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
 
@@ -85,60 +72,8 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    @Inject
-    lateinit var db: DroidifyDatabase
-
     override fun onCreate() {
         super.onCreate()
-        val repoDao = db.repoDao()
-        val dao = db.appDao()
-        val authorDao = db.authorDao()
-        val syncable = V1Syncable(this, downloader, Dispatchers.IO)
-        appScope.launch {
-            repoDao.upsert(
-                RepoEntity(
-                    icon = emptyMap(),
-                    address = "https://apt.izzysoft.de/fdroid/repo",
-                    name = mapOf("en-US" to "IzzyOnDroid"),
-                    description = emptyMap(),
-                    timestamp = 0L,
-                    id = 1,
-                )
-            )
-            log("Upserted Repo: ${repoDao.stream().first()}", "database")
-            val (_, index) = syncable.sync(
-                Repo(
-                    id = 1L,
-                    enabled = true,
-                    address = "https://apt.izzysoft.de/fdroid/repo",
-                    name = "IzzyOnDroid F-Droid Repo",
-                    description = "",
-                    fingerprint = Fingerprint("3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A"),
-                    authentication = Authentication("", ""),
-                    versionInfo = VersionInfo(0L, null),
-                    mirrors = emptyList(),
-                    antiFeatures = emptyList(),
-                    categories = emptyList(),
-                )
-            )
-            repoDao.upsert(index.repo.repoEntity())
-            log("Upserted Repo: ${repoDao.stream().first()}", "database")
-            index.packages.forEach { (packageName, data) ->
-                val authorId = authorDao.upsert(
-                    AuthorEntity(
-                        email = data.metadata.authorEmail,
-                        name = data.metadata.authorName,
-                        phone = data.metadata.authorPhone,
-                        website = data.metadata.authorWebSite,
-                    )
-                )
-                log("Upserted author: ${authorId}", "database")
-                val entity = data.metadata.appEntity(packageName, 1, authorId.toInt())
-                dao.upsert(entity)
-            }
-            val apps = dao.stream().first()
-            log(apps, "tag")
-        }
 
         if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
 
@@ -167,7 +102,7 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
                     addAction(Intent.ACTION_PACKAGE_ADDED)
                     addAction(Intent.ACTION_PACKAGE_REMOVED)
                     addDataScheme("package")
-                }
+                },
             )
             val installedItems =
                 packageManager.getInstalledPackagesCompat()
@@ -260,7 +195,7 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
                 periodMillis = period,
                 networkType = syncConditions.toJobNetworkType(),
                 isCharging = syncConditions.pluggedIn,
-                isBatteryLow = syncConditions.batteryNotLow
+                isBatteryLow = syncConditions.batteryNotLow,
             )
             jobScheduler?.schedule(job)
         }
@@ -272,10 +207,13 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
                 Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
             }
         }
-        Connection(SyncService::class.java, onBind = { connection, binder ->
-            binder.sync(SyncService.SyncRequest.FORCE)
-            connection.unbind(this)
-        }).bind(this)
+        Connection(
+            SyncService::class.java,
+            onBind = { connection, binder ->
+                binder.sync(SyncService.SyncRequest.FORCE)
+                connection.unbind(this)
+            },
+        ).bind(this)
     }
 
     class BootReceiver : BroadcastReceiver() {
@@ -316,12 +254,12 @@ fun strictThreadPolicy() {
             .detectNetwork()
             .detectUnbufferedIo()
             .penaltyLog()
-            .build()
+            .build(),
     )
     StrictMode.setVmPolicy(
         StrictMode.VmPolicy.Builder()
             .detectAll()
             .penaltyLog()
-            .build()
+            .build(),
     )
 }
