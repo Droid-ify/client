@@ -23,5 +23,5 @@ object DatabaseModule {
         context = context,
         klass = DroidifyDatabase::class.java,
         name = "droidify_room",
-    ).build()
+    ).fallbackToDestructiveMigration().build()
 }
