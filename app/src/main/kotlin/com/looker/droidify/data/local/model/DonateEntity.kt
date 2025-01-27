@@ -29,7 +29,7 @@ data class DonateEntity(
     val customUrl: List<String>?,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 fun MetadataV2.donateEntity(appId: Int) = DonateEntity(

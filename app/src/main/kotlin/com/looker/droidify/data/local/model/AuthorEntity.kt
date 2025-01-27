@@ -12,7 +12,7 @@ data class AuthorEntity(
     val phone: String?,
     val website: String?,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 fun MetadataV2.authorEntity() = AuthorEntity(

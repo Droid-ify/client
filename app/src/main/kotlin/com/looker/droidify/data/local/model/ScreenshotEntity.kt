@@ -27,7 +27,7 @@ data class ScreenshotEntity(
     val locale: String,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 enum class ScreenshotType {

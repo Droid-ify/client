@@ -44,5 +44,5 @@ data class VersionEntity(
     val antiFeature: Map<Tag, AntiFeatureReason>,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )

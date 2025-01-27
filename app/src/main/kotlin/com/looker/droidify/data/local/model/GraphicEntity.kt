@@ -30,7 +30,7 @@ data class GraphicEntity(
     val locale: String,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 fun MetadataV2.localizedGraphics(appId: Int): List<GraphicEntity> {

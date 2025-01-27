@@ -29,7 +29,7 @@ data class AntiFeatureEntity(
     val description: LocalizedString?,
     val repoId: Int,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 fun AntiFeatureV2.antiFeatureEntity(

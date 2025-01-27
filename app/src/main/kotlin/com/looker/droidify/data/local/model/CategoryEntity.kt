@@ -13,7 +13,7 @@ data class CategoryEntity(
     val description: LocalizedString?,
     val defaultName: DefaultName,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = -1,
+    val id: Int = 0,
 )
 
 data class RepoCategoryCrossRef(
