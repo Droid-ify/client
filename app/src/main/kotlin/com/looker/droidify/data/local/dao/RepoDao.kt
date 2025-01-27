@@ -4,12 +4,13 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.looker.droidify.data.local.model.RepoEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RepoDao {
 
     @Query("SELECT * FROM repository")
-    fun stream(): List<RepoEntity>
+    fun stream(): Flow<List<RepoEntity>>
 
     @Upsert
     suspend fun upsert(repoEntity: RepoEntity)
