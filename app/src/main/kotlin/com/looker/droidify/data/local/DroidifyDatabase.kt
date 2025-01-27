@@ -7,7 +7,6 @@ import androidx.room.TypeConverters
 import com.looker.droidify.data.local.converters.Converters
 import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
-import com.looker.droidify.data.local.dao.AuthorDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureEntity
 import com.looker.droidify.data.local.model.AppEntity
@@ -44,6 +43,5 @@ import com.looker.droidify.data.local.model.VersionEntity
 )
 abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun appDao(): AppDao
-    abstract fun authorDao(): AuthorDao
     abstract fun repoDao(): RepoDao
 }

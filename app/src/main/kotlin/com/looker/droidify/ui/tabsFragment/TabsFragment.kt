@@ -203,8 +203,7 @@ class TabsFragment : ScreenFragment() {
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sync))
                 .setOnMenuItemClickListener {
-//                    SyncWorker.startSyncWork(requireContext())
-                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
+                    viewModel.sync()
                     true
                 }
 
@@ -224,9 +223,7 @@ class TabsFragment : ScreenFragment() {
                 }
 
             favouritesItem = add(1, 0, 0, stringRes.favourites)
-                .setIcon(
-                    toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked)
-                )
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked))
                 .setOnMenuItemClickListener {
                     view.post { screenActivity.navigateFavourites() }
                     true

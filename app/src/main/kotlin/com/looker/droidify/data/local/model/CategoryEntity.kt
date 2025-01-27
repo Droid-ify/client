@@ -16,11 +16,13 @@ data class CategoryEntity(
     val id: Int = 0,
 )
 
+@Entity(primaryKeys = ["repoId", "categoryId"])
 data class RepoCategoryCrossRef(
     val repoId: Int,
     val categoryId: Int,
 )
 
+@Entity(primaryKeys = ["appId", "categoryId"])
 data class MetadataCategoryCrossRef(
     val appId: Int,
     val categoryId: Int,

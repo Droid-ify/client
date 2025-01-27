@@ -75,17 +75,17 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
+//        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
-        RepositoryUpdater.init(appScope, downloader)
+//        RepositoryUpdater.init(appScope, downloader)
         listenApplications()
         checkLanguage()
         updatePreference()
         appScope.launch { installer() }
 
-        if (databaseUpdated) forceSyncAll()
+//        if (databaseUpdated) forceSyncAll()
     }
 
     override fun onTerminate() {

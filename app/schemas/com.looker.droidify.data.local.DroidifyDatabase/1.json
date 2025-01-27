@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "17e53bf24ea1cfbf2b177b4e80da85fb",
+    "identityHash": "3e909944061057ce5c8fd97fb81bf6e2",
     "entities": [
       {
         "tableName": "anti_feature",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `tag` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `tag` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "icon",
@@ -33,12 +33,6 @@
             "notNull": false
           },
           {
-            "fieldPath": "repoId",
-            "columnName": "repoId",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
@@ -53,28 +47,16 @@
         },
         "indices": [
           {
-            "name": "index_anti_feature_repoId",
+            "name": "index_anti_feature_tag",
             "unique": false,
             "columnNames": [
-              "repoId"
+              "tag"
             ],
             "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_feature_repoId` ON `${TABLE_NAME}` (`repoId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_feature_tag` ON `${TABLE_NAME}` (`tag`)"
           }
         ],
-        "foreignKeys": [
-          {
-            "table": "repository",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "repoId"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "foreignKeys": []
       },
       {
         "tableName": "author",
@@ -117,7 +99,20 @@
             "id"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_author_email_name_phone_website",
+            "unique": true,
+            "columnNames": [
+              "email",
+              "name",
+              "phone",
+              "website"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_author_email_name_phone_website` ON `${TABLE_NAME}` (`email`, `name`, `phone`, `website`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
@@ -610,7 +605,7 @@
       },
       {
         "tableName": "repository",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `username` TEXT, `password` TEXT, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "icon",
@@ -635,6 +630,24 @@
             "columnName": "description",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "fingerprint",
+            "columnName": "fingerprint",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "username",
+            "columnName": "username",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
           },
           {
             "fieldPath": "timestamp",
@@ -894,7 +907,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '17e53bf24ea1cfbf2b177b4e80da85fb')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e909944061057ce5c8fd97fb81bf6e2')"
     ]
   }
 }

@@ -3,6 +3,8 @@ package com.looker.droidify.di
 import android.content.Context
 import androidx.room.Room
 import com.looker.droidify.data.local.DroidifyDatabase
+import com.looker.droidify.data.local.dao.AppDao
+import com.looker.droidify.data.local.dao.RepoDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +26,16 @@ object DatabaseModule {
         klass = DroidifyDatabase::class.java,
         name = "droidify_room",
     ).fallbackToDestructiveMigration().build()
+
+    @Singleton
+    @Provides
+    fun provideAppDao(
+        db: DroidifyDatabase,
+    ): AppDao = db.appDao()
+
+    @Singleton
+    @Provides
+    fun provideRepoDao(
+        db: DroidifyDatabase,
+    ): RepoDao = db.repoDao()
 }
