@@ -1,10 +1,8 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
@@ -35,11 +33,13 @@ android {
     kotlinOptions {
         jvmTarget = "11"
         freeCompilerArgs = listOf(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
             "-Xcontext-receivers"
         )
+    }
+
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
     }
 
     androidResources {
@@ -106,18 +106,6 @@ android {
     }
 }
 
-ktlint {
-    android.set(true)
-    ignoreFailures.set(true)
-    debug.set(true)
-    reporters {
-        reporter(ReporterType.HTML)
-    }
-    filter {
-        exclude("**/generated/**")
-    }
-}
-
 dependencies {
     coreLibraryDesugaring(libs.desugaring)
 
@@ -148,6 +136,8 @@ dependencies {
     implementation(libs.serialization)
 
     implementation(libs.bundles.ktor)
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 
     implementation(libs.work.ktx)
 
@@ -160,6 +150,7 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.junit.platform)
+    androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
 
 //    debugImplementation(libs.leakcanary)
