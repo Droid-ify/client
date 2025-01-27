@@ -1,10 +1,27 @@
 package com.looker.droidify.data.local.model
 
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Graphics
 import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.locales
 import com.looker.droidify.sync.v2.model.localizedValue
 
+@Entity(
+    tableName = "graphic",
+    indices = [Index("appId", "locale"), Index("appId")],
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            childColumns = ["appId"],
+            parentColumns = ["id"],
+            onDelete = CASCADE,
+        ),
+    ]
+)
 data class GraphicEntity(
     val video: String?,
     val tvBanner: String?,
@@ -12,6 +29,7 @@ data class GraphicEntity(
     val featureGraphic: String?,
     val locale: String,
     val appId: Int,
+    @PrimaryKey(autoGenerate = true)
     val id: Int = -1,
 )
 

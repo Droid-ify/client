@@ -23,7 +23,7 @@ data class PackageV2Diff(
             added = metadata?.added ?: 0L,
             lastUpdated = metadata?.lastUpdated ?: 0L,
             name = metadata?.name
-                ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap(),
+                ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap() ?: emptyMap(),
             summary = metadata?.summary
                 ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap(),
             description = metadata?.description
@@ -116,7 +116,7 @@ data class PackageV2Diff(
 
 @Serializable
 data class MetadataV2(
-    val name: LocalizedString? = null,
+    val name: LocalizedString,
     val summary: LocalizedString? = null,
     val description: LocalizedString? = null,
     val icon: LocalizedIcon? = null,

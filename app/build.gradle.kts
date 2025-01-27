@@ -25,16 +25,14 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
-        jvmTarget = "11"
-        freeCompilerArgs = listOf(
-            "-Xcontext-receivers"
-        )
+        jvmTarget = "17"
+        freeCompilerArgs = listOf("-Xcontext-receivers")
     }
 
     ksp {
@@ -44,13 +42,6 @@ android {
 
     androidResources {
         generateLocaleConfig = true
-    }
-
-    sourceSets.forEach { source ->
-        val javaDir = source.java.srcDirs.find { it.name == "java" }
-        source.java {
-            srcDir(File(javaDir?.parentFile, "kotlin"))
-        }
     }
 
     buildTypes {
@@ -88,15 +79,7 @@ android {
     }
     packaging {
         resources {
-            excludes += listOf(
-                "/DebugProbesKt.bin",
-                "/kotlin/**.kotlin_builtins",
-                "/kotlin/**.kotlin_metadata",
-                "/META-INF/**.kotlin_module",
-                "/META-INF/**.pro",
-                "/META-INF/**.version",
-                "/META-INF/versions/9/previous-**.bin"
-            )
+            excludes += listOf("/DebugProbesKt.bin")
         }
     }
     buildFeatures {

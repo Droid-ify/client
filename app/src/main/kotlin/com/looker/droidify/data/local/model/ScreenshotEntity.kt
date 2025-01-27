@@ -1,14 +1,32 @@
 package com.looker.droidify.data.local.model
 
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
+import androidx.room.Index
+import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Screenshots
 import com.looker.droidify.sync.v2.model.LocalizedFiles
 import com.looker.droidify.sync.v2.model.ScreenshotsV2
 
+@Entity(
+    tableName = "screenshot",
+    indices = [Index("appId", "locale"), Index("appId")],
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            childColumns = ["appId"],
+            parentColumns = ["id"],
+            onDelete = CASCADE,
+        ),
+    ]
+)
 data class ScreenshotEntity(
     val path: String,
     val type: ScreenshotType,
     val locale: String,
     val appId: Int,
+    @PrimaryKey(autoGenerate = true)
     val id: Int = -1,
 )
 
@@ -22,7 +40,7 @@ fun ScreenshotsV2.localizedScreenshots(appId: Int): List<ScreenshotEntity> {
 
     val screenshotIterator: (ScreenshotType, LocalizedFiles) -> Unit = { type, localizedFiles ->
         localizedFiles.forEach { (locale, files) ->
-            for((path, _, _) in files) {
+            for ((path, _, _) in files) {
                 val entity = ScreenshotEntity(
                     locale = locale,
                     appId = appId,
