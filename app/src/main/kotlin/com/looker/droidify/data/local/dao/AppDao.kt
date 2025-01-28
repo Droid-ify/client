@@ -44,7 +44,7 @@ interface AppDao {
     suspend fun upsertLinks(linksEntity: LinksEntity)
 
     @Upsert
-    suspend fun upsertDonate(donateEntity: DonateEntity)
+    suspend fun upsertDonate(donateEntity: List<DonateEntity>)
 
     @Transaction
     suspend fun upsertMetadata(
@@ -62,7 +62,7 @@ interface AppDao {
         upsertGraphics(metadata.localizedGraphics(appId))
         metadata.screenshots?.localizedScreenshots(appId)?.let { upsertScreenshots(it) }
         upsertLinks(metadata.linkEntity(appId))
-        upsertDonate(metadata.donateEntity(appId))
+        metadata.donateEntity(appId)?.let { upsertDonate(it) }
     }
 
     @Query("DELETE FROM app WHERE id = :id")

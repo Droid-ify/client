@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local.converters
 
 import androidx.room.TypeConverter
+import com.looker.droidify.data.local.model.DonateType
 import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.LocalizedIcon
@@ -56,6 +57,16 @@ object Converters {
 
     @TypeConverter
     fun toStringList(value: String): List<String> {
-        return value.let { JsonParser.decodeFromString(stringListSerializer, it) }
+        return JsonParser.decodeFromString(stringListSerializer, value)
+    }
+
+    @TypeConverter
+    fun fromDonateType(value: DonateType): String {
+        return JsonParser.encodeToString(DonateType.serializer(), value)
+    }
+
+    @TypeConverter
+    fun toDonateType(value: String): DonateType {
+        return JsonParser.decodeFromString(DonateType.serializer(), value)
     }
 }

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "3e909944061057ce5c8fd97fb81bf6e2",
+    "identityHash": "71248176a3b657916013b7d125ad098e",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -99,20 +99,7 @@
             "id"
           ]
         },
-        "indices": [
-          {
-            "name": "index_author_email_name_phone_website",
-            "unique": true,
-            "columnNames": [
-              "email",
-              "name",
-              "phone",
-              "website"
-            ],
-            "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_author_email_name_phone_website` ON `${TABLE_NAME}` (`email`, `name`, `phone`, `website`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": []
       },
       {
@@ -289,43 +276,13 @@
       },
       {
         "tableName": "donate",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bitcoinAddress` TEXT, `litecoinAddress` TEXT, `liberapayId` TEXT, `openCollectiveId` TEXT, `flattrId` TEXT, `customUrl` TEXT, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "bitcoinAddress",
-            "columnName": "bitcoinAddress",
+            "fieldPath": "type",
+            "columnName": "type",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "litecoinAddress",
-            "columnName": "litecoinAddress",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "liberapayId",
-            "columnName": "liberapayId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "openCollectiveId",
-            "columnName": "openCollectiveId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "flattrId",
-            "columnName": "flattrId",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "customUrl",
-            "columnName": "customUrl",
-            "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "appId",
@@ -907,7 +864,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3e909944061057ce5c8fd97fb81bf6e2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '71248176a3b657916013b7d125ad098e')"
     ]
   }
 }
