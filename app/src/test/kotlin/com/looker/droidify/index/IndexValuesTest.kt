@@ -21,13 +21,15 @@ class IndexValuesTest {
         val izzyIndex: IndexV2 = JsonParser.decodeFromString(izzy.readBytes().decodeToString())
         val fdroidIndex: IndexV2 = JsonParser.decodeFromString(fdroid.readBytes().decodeToString())
 
-        var size = 0
+        var hits = 0
+        var total = 0
 
         val performTest: (PackageV2) -> Unit = { data ->
             val metadata = data.metadata
-            if (metadata.authorName==null) {
-                size++
+            if (metadata.webSite == null) {
+                hits++
             }
+            total++
         }
 
         izzyIndex.packages.forEach { (packageName, data) ->
@@ -38,6 +40,6 @@ class IndexValuesTest {
 //            println("Testing on FDroid $packageName")
             performTest(data)
         }
-        println("Size: $size")
+        println("Hits: %d, %.2f%%".format(hits, hits * 100 / total.toFloat()))
     }
 }

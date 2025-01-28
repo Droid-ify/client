@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "71248176a3b657916013b7d125ad098e",
+    "identityHash": "41b4de8a44dcb83403558e76c7dbb358",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -330,31 +330,19 @@
       },
       {
         "tableName": "graphic",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`video` TEXT, `tvBanner` TEXT, `promoGraphic` TEXT, `featureGraphic` TEXT, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `url` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
-            "fieldPath": "video",
-            "columnName": "video",
+            "fieldPath": "type",
+            "columnName": "type",
             "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
-            "fieldPath": "tvBanner",
-            "columnName": "tvBanner",
+            "fieldPath": "url",
+            "columnName": "url",
             "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "promoGraphic",
-            "columnName": "promoGraphic",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "featureGraphic",
-            "columnName": "featureGraphic",
-            "affinity": "TEXT",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "locale",
@@ -391,15 +379,6 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
-          },
-          {
-            "name": "index_graphic_appId",
-            "unique": false,
-            "columnNames": [
-              "appId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -864,7 +843,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '71248176a3b657916013b7d125ad098e')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '41b4de8a44dcb83403558e76c7dbb358')"
     ]
   }
 }

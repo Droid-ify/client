@@ -13,6 +13,8 @@ typealias Tag = String
 
 typealias AntiFeatureReason = LocalizedString
 
+fun Map<String, Any>?.localesSize(): Int? = this?.keys?.size
+
 fun Map<String, Any>?.locales(): List<String> = buildList {
     if (!isNullOrEmpty()) {
         for (locale in this@locales!!.keys) {

@@ -59,9 +59,9 @@ interface AppDao {
             website = metadata.authorWebSite,
         ) ?: upsertAuthor(metadata.authorEntity()).toInt()
         val appId = upsert(metadata.appEntity(packageName, repoId, authorId)).toInt()
-        upsertGraphics(metadata.localizedGraphics(appId))
-        metadata.screenshots?.localizedScreenshots(appId)?.let { upsertScreenshots(it) }
         upsertLinks(metadata.linkEntity(appId))
+        metadata.screenshots?.localizedScreenshots(appId)?.let { upsertScreenshots(it) }
+        metadata.localizedGraphics(appId)?.let { upsertGraphics(it) }
         metadata.donateEntity(appId)?.let { upsertDonate(it) }
     }
 

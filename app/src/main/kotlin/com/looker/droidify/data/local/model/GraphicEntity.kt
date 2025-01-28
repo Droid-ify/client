@@ -7,12 +7,10 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Graphics
 import com.looker.droidify.sync.v2.model.MetadataV2
-import com.looker.droidify.sync.v2.model.locales
-import com.looker.droidify.sync.v2.model.localizedValue
 
 @Entity(
     tableName = "graphic",
-    indices = [Index("appId", "locale"), Index("appId")],
+    indices = [Index("appId", "locale")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -20,41 +18,59 @@ import com.looker.droidify.sync.v2.model.localizedValue
             parentColumns = ["id"],
             onDelete = CASCADE,
         ),
-    ]
+    ],
 )
 data class GraphicEntity(
-    val video: String?,
-    val tvBanner: String?,
-    val promoGraphic: String?,
-    val featureGraphic: String?,
+    val type: GraphicType,
+    val url: String,
     val locale: String,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 )
 
-fun MetadataV2.localizedGraphics(appId: Int): List<GraphicEntity> {
-    val locales = mutableListOf<String>()
-    locales.addAll(promoGraphic.locales())
-    locales.addAll(featureGraphic.locales())
-    locales.addAll(tvBanner.locales())
-    locales.addAll(video.locales())
-
-    return locales.map { locale ->
-        GraphicEntity(
-            appId = appId,
-            locale = locale,
-            promoGraphic = promoGraphic?.localizedValue(locale)?.name,
-            featureGraphic = featureGraphic?.localizedValue(locale)?.name,
-            tvBanner = tvBanner?.localizedValue(locale)?.name,
-            video = video?.localizedValue(locale),
-        )
-    }
+enum class GraphicType {
+    Video,
+    TvBanner,
+    PromoGraphic,
+    FeatureGraphic,
 }
 
-fun GraphicEntity.toGraphics() = Graphics(
-    featureGraphic = featureGraphic,
-    promoGraphic = promoGraphic,
-    tvBanner = tvBanner,
-    video = video,
-)
+fun MetadataV2.localizedGraphics(appId: Int): List<GraphicEntity>? {
+    return buildList {
+        promoGraphic?.forEach { (locale, value) ->
+            add(GraphicEntity(GraphicType.PromoGraphic, value.name, locale, appId))
+        }
+        featureGraphic?.forEach { (locale, value) ->
+            add(GraphicEntity(GraphicType.FeatureGraphic, value.name, locale, appId))
+        }
+        tvBanner?.forEach { (locale, value) ->
+            add(GraphicEntity(GraphicType.TvBanner, value.name, locale, appId))
+        }
+        video?.forEach { (locale, value) ->
+            add(GraphicEntity(GraphicType.FeatureGraphic, value, locale, appId))
+        }
+    }.ifEmpty { null }
+}
+
+fun List<GraphicEntity>.toGraphics(): Graphics {
+    var featureGraphic: String? = null
+    var promoGraphic: String? = null
+    var tvBanner: String? = null
+    var video: String? = null
+
+    for (entity in this) {
+        when (entity.type) {
+            GraphicType.FeatureGraphic -> featureGraphic = entity.url
+            GraphicType.PromoGraphic -> promoGraphic = entity.url
+            GraphicType.TvBanner -> tvBanner = entity.url
+            GraphicType.Video -> video = entity.url
+        }
+    }
+    return Graphics(
+        featureGraphic = featureGraphic,
+        promoGraphic = promoGraphic,
+        tvBanner = tvBanner,
+        video = video,
+    )
+}
