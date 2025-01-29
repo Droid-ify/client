@@ -25,11 +25,12 @@ class IndexValuesTest {
         var total = 0
 
         val performTest: (PackageV2) -> Unit = { data ->
-            val metadata = data.metadata
-            if (metadata.webSite == null) {
-                hits++
+            data.metadata.promoGraphic?.forEach { (locale, data) ->
+                if (data.name.length < 10) {
+                    hits++
+                }
+                total++
             }
-            total++
         }
 
         izzyIndex.packages.forEach { (packageName, data) ->

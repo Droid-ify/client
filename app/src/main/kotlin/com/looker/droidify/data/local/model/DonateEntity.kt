@@ -1,16 +1,16 @@
 package com.looker.droidify.data.local.model
 
+import androidx.annotation.IntDef
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Donation
 import com.looker.droidify.sync.v2.model.MetadataV2
-import kotlinx.serialization.Serializable
 
 @Entity(
     tableName = "donate",
+    primaryKeys = ["type", "appId"],
     indices = [Index("appId")],
     foreignKeys = [
         ForeignKey(
@@ -22,41 +22,31 @@ import kotlinx.serialization.Serializable
     ],
 )
 data class DonateEntity(
-    val type: DonateType,
+    @DonationType
+    val type: Int,
+    val value: String,
     val appId: Int,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
 )
-
-@Serializable
-sealed interface DonateType {
-    data class Bitcoin(val address: String) : DonateType
-    data class Litecoin(val address: String) : DonateType
-    data class Liberapay(val id: String) : DonateType
-    data class OpenCollective(val id: String) : DonateType
-    data class Flattr(val id: String) : DonateType
-    data class Regular(val url: List<String>) : DonateType
-}
 
 fun MetadataV2.donateEntity(appId: Int): List<DonateEntity>? {
     return buildList {
         if (bitcoin != null) {
-            add(DonateEntity(DonateType.Bitcoin(bitcoin), appId))
+            add(DonateEntity(BITCOIN_ADD, bitcoin, appId))
         }
         if (litecoin != null) {
-            add(DonateEntity(DonateType.Litecoin(litecoin), appId))
+            add(DonateEntity(LITECOIN_ADD, litecoin, appId))
         }
         if (liberapay != null) {
-            add(DonateEntity(DonateType.Liberapay(liberapay), appId))
+            add(DonateEntity(LIBERAPAY_ID, liberapay, appId))
         }
         if (openCollective != null) {
-            add(DonateEntity(DonateType.OpenCollective(openCollective), appId))
+            add(DonateEntity(OPEN_COLLECTIVE_ID, openCollective, appId))
         }
         if (flattrID != null) {
-            add(DonateEntity(DonateType.Flattr(flattrID), appId))
+            add(DonateEntity(FLATTR_ID, flattrID, appId))
         }
         if (!donate.isNullOrEmpty()) {
-            add(DonateEntity(DonateType.Regular(donate), appId))
+            add(DonateEntity(REGULAR, donate.joinToString(STRING_LIST_SEPARATOR), appId))
         }
     }.ifEmpty { null }
 }
@@ -69,17 +59,16 @@ fun List<DonateEntity>.toDonation(): Donation {
     var flattrId: String? = null
     var regular: List<String>? = null
     for (entity in this) {
-        val type = entity.type
-        when (type) {
-            is DonateType.Bitcoin -> bitcoinAddress = type.address
-            is DonateType.Flattr -> flattrId = type.id
-            is DonateType.Liberapay -> liberapayId = type.id
-            is DonateType.Litecoin -> litecoinAddress = type.address
-            is DonateType.OpenCollective -> openCollectiveId = type.id
-            is DonateType.Regular -> regular = type.url
+        when (entity.type) {
+            BITCOIN_ADD -> bitcoinAddress = entity.value
+            FLATTR_ID -> flattrId = entity.value
+            LIBERAPAY_ID -> liberapayId = entity.value
+            LITECOIN_ADD -> litecoinAddress = entity.value
+            OPEN_COLLECTIVE_ID -> openCollectiveId = entity.value
+            REGULAR -> regular = entity.value.split(STRING_LIST_SEPARATOR)
         }
-
     }
+
     return Donation(
         bitcoinAddress = bitcoinAddress,
         litecoinAddress = litecoinAddress,
@@ -89,3 +78,23 @@ fun List<DonateEntity>.toDonation(): Donation {
         regularUrl = regular,
     )
 }
+
+private const val STRING_LIST_SEPARATOR = "&^%#@!"
+
+@Retention(AnnotationRetention.BINARY)
+@IntDef(
+    BITCOIN_ADD,
+    LITECOIN_ADD,
+    LIBERAPAY_ID,
+    OPEN_COLLECTIVE_ID,
+    FLATTR_ID,
+    REGULAR,
+)
+private annotation class DonationType
+
+private const val BITCOIN_ADD = 0
+private const val LITECOIN_ADD = 1
+private const val LIBERAPAY_ID = 2
+private const val OPEN_COLLECTIVE_ID = 3
+private const val FLATTR_ID = 4
+private const val REGULAR = 5

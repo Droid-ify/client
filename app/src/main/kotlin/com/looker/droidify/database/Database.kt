@@ -599,6 +599,19 @@ object Database {
             .map { getUpdates() }
             .flowOn(Dispatchers.IO)
 
+        fun getAll(): List<Product> {
+            return db.query(
+                Schema.Product.name,
+                columns = arrayOf(
+                    Schema.Product.ROW_REPOSITORY_ID,
+                    Schema.Product.ROW_DESCRIPTION,
+                    Schema.Product.ROW_DATA,
+                ),
+                selection = null,
+                signal = null,
+            ).use { it.asSequence().map(::transform).toList() }
+        }
+
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {
             return db.query(
                 Schema.Product.name,

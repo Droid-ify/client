@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "41b4de8a44dcb83403558e76c7dbb358",
+    "identityHash": "fb5c47af417cecde43392e7dd11cf3ce",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -60,7 +60,7 @@
       },
       {
         "tableName": "author",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT, `name` TEXT, `phone` TEXT, `website` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`email` TEXT, `name` TEXT, `website` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "email",
@@ -71,12 +71,6 @@
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "phone",
-            "columnName": "phone",
             "affinity": "TEXT",
             "notNull": false
           },
@@ -99,12 +93,24 @@
             "id"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_author_email_name_website",
+            "unique": true,
+            "columnNames": [
+              "email",
+              "name",
+              "website"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_author_email_name_website` ON `${TABLE_NAME}` (`email`, `name`, `website`)"
+          }
+        ],
         "foreignKeys": []
       },
       {
         "tableName": "app",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `name` TEXT NOT NULL, `icon` TEXT, `preferredSigner` TEXT, `summary` TEXT, `description` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `name` TEXT NOT NULL, `icon` TEXT, `preferredSigner` TEXT, `summary` TEXT, `description` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "added",
@@ -203,6 +209,25 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_app_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_app_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_app_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          },
+          {
+            "name": "index_app_packageName_repoId",
+            "unique": true,
+            "columnNames": [
+              "packageName",
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_app_packageName_repoId` ON `${TABLE_NAME}` (`packageName`, `repoId`)"
           }
         ],
         "foreignKeys": [
@@ -219,7 +244,7 @@
           },
           {
             "table": "author",
-            "onDelete": "NO ACTION",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "authorId"
@@ -276,11 +301,17 @@
       },
       {
         "tableName": "donate",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `value` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "type",
             "columnName": "type",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "value",
+            "columnName": "value",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -289,18 +320,13 @@
             "columnName": "appId",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "type",
+            "appId"
           ]
         },
         "indices": [
@@ -330,12 +356,12 @@
       },
       {
         "tableName": "graphic",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` TEXT NOT NULL, `url` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `url` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -355,18 +381,14 @@
             "columnName": "appId",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "type",
+            "locale",
+            "appId"
           ]
         },
         "indices": [
@@ -843,7 +865,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '41b4de8a44dcb83403558e76c7dbb358')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb5c47af417cecde43392e7dd11cf3ce')"
     ]
   }
 }

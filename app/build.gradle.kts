@@ -21,7 +21,7 @@ android {
         versionCode = 640
         versionName = latestVersionName
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
     compileOptions {
@@ -133,8 +133,10 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.junit.platform)
+    androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
+    kspAndroidTest(libs.hilt.compiler)
 
 //    debugImplementation(libs.leakcanary)
 }

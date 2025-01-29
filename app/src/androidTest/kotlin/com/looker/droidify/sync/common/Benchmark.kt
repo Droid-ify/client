@@ -8,11 +8,6 @@ internal inline fun benchmark(
     extraMessage: String? = null,
     block: () -> Long,
 ): String {
-    if (extraMessage != null) {
-        println("=".repeat(50))
-        println(extraMessage)
-        println("=".repeat(50))
-    }
     val times = DoubleArray(repetition)
     repeat(repetition) { iteration ->
         System.gc()
@@ -23,6 +18,11 @@ internal inline fun benchmark(
     return buildString {
         append("=".repeat(50))
         append("\n")
+        if (extraMessage != null) {
+            println(extraMessage)
+            append("=".repeat(50))
+            append("\n")
+        }
         append(times.joinToString(" | "))
         append("\n")
         append("${meanAndDeviation.first} ms ± ${meanAndDeviation.second.toFloat()} ms")
