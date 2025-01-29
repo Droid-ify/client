@@ -15,16 +15,19 @@ internal inline fun benchmark(
         times[iteration] = block().toDouble()
     }
     val meanAndDeviation = times.culledMeanAndDeviation()
-    return buildString {
+    return buildString(200) {
         append("=".repeat(50))
         append("\n")
         if (extraMessage != null) {
-            println(extraMessage)
+            append(extraMessage)
+            append("\n")
             append("=".repeat(50))
             append("\n")
         }
-        append(times.joinToString(" | "))
-        append("\n")
+        if (times.size > 1) {
+            append(times.joinToString(" | "))
+            append("\n")
+        }
         append("${meanAndDeviation.first} ms ± ${meanAndDeviation.second.toFloat()} ms")
         append("\n")
         append("=".repeat(50))
