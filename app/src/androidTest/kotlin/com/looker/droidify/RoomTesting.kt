@@ -66,18 +66,7 @@ class RoomTesting {
             password = repo.authentication?.password,
             id = repo.id,
         )
-        val insert = benchmark(1, "Insert") {
-            measureTimeMillis {
-                index.packages.forEach { (packageName, data) ->
-                    appDao.upsertMetadata(
-                        repoId = id,
-                        packageName = packageName,
-                        metadata = data.metadata,
-                    )
-                }
-            }
-        }
-        val insertNew = benchmark(1, "Insert Bunch") {
+        val insert = benchmark(1, "Insert Bunch") {
             measureTimeMillis {
                 appDao.upsertMetadata(
                     repoId = id,
@@ -96,7 +85,6 @@ class RoomTesting {
             }
         }
         println(insert)
-        println(insertNew)
         println(queryAll)
         println(queryOne)
     }
