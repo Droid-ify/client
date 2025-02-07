@@ -107,13 +107,10 @@ class TabsViewModel @Inject constructor(
                 password = repo.password,
                 id = repo.id,
             )
-            index.packages.forEach { (packageName, data) ->
-                appDao.upsertMetadata(
-                    repoId = id,
-                    packageName = packageName,
-                    metadata = data.metadata,
-                )
-            }
+            appDao.upsertMetadata(
+                repoId = id,
+                metadatas = index.packages,
+            )
         }
     }
 

@@ -19,10 +19,8 @@ import com.looker.droidify.data.local.model.donateEntity
 import com.looker.droidify.data.local.model.linkEntity
 import com.looker.droidify.data.local.model.localizedGraphics
 import com.looker.droidify.data.local.model.localizedScreenshots
-import com.looker.droidify.sync.v2.model.MetadataV2
-import kotlinx.coroutines.Dispatchers
+import com.looker.droidify.sync.v2.model.PackageV2
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
 
 @Dao
 interface AppDao {
@@ -30,6 +28,7 @@ interface AppDao {
     @Query("SELECT * FROM app")
     fun stream(): Flow<List<AppEntity>>
 
+    @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")
     fun queryAppEntity(packageName: String): Flow<List<AppEntityRelations>>
 
@@ -42,13 +41,13 @@ interface AppDao {
     @Query("SELECT id FROM app WHERE packageName = :packageName")
     suspend fun getIdByPackageName(packageName: String): Int
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAuthor(authorEntity: AuthorEntity): Long
 
     @Query("SELECT id FROM author WHERE email = :email AND name = :name AND website = :website")
     suspend fun getAuthorId(email: String?, name: String?, website: String?): Int
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun upsertScreenshots(screenshotEntity: List<ScreenshotEntity>)
 
     @Upsert
@@ -57,16 +56,17 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGraphics(graphicEntity: List<GraphicEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDonate(donateEntity: List<DonateEntity>)
 
     @Transaction
     suspend fun upsertMetadata(
         repoId: Int,
-        packageName: String,
-        metadata: MetadataV2,
+        metadatas: Map<String, PackageV2>,
     ) {
-        withContext(Dispatchers.IO) {
+        check(metadatas.size < 1000) { "Too many packages to insert: ${metadatas.size}, must be under 1000" }
+        metadatas.forEach { (packageName, packages) ->
+            val metadata = packages.metadata
             val author = metadata.authorEntity()
             val authorId = insertAuthor(author).toInt().takeIf { it > 0 } ?: getAuthorId(
                 email = author.email,
@@ -80,7 +80,7 @@ interface AppDao {
                     authorId = authorId,
                 ),
             ).toInt().takeIf { it > 0 } ?: getIdByPackageName(packageName)
-            upsertLinks(metadata.linkEntity(appId))
+            metadata.linkEntity(appId)?.let { upsertLinks(it) }
             metadata.screenshots?.localizedScreenshots(appId)?.let { upsertScreenshots(it) }
             metadata.localizedGraphics(appId)?.let { insertGraphics(it) }
             metadata.donateEntity(appId)?.let { insertDonate(it) }
@@ -89,5 +89,4 @@ interface AppDao {
 
     @Query("DELETE FROM app WHERE id = :id")
     suspend fun delete(id: Int)
-
 }

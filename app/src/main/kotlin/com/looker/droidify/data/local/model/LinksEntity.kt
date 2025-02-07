@@ -17,8 +17,8 @@ import com.looker.droidify.sync.v2.model.MetadataV2
             childColumns = ["appId"],
             parentColumns = ["id"],
             onDelete = CASCADE,
-        )
-    ]
+        ),
+    ],
 )
 data class LinksEntity(
     val changelog: String?,
@@ -31,14 +31,24 @@ data class LinksEntity(
     val id: Int = 0,
 )
 
-fun MetadataV2.linkEntity(appId: Int) = LinksEntity(
-    appId = appId,
-    changelog = changelog,
-    issueTracker = issueTracker,
-    translation = translation,
-    sourceCode = sourceCode,
-    webSite = webSite,
-)
+private fun MetadataV2.isLinkNull(): Boolean {
+    return changelog == null &&
+        issueTracker == null &&
+        translation == null &&
+        sourceCode == null &&
+        webSite == null
+}
+
+fun MetadataV2.linkEntity(appId: Int) = if (!isLinkNull()) {
+    LinksEntity(
+        appId = appId,
+        changelog = changelog,
+        issueTracker = issueTracker,
+        translation = translation,
+        sourceCode = sourceCode,
+        webSite = webSite,
+    )
+} else null
 
 fun LinksEntity.toLinks() = Links(
     changelog = changelog,

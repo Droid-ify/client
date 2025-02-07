@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "fb5c47af417cecde43392e7dd11cf3ce",
+    "identityHash": "f8a7f36683ce62351fcf6a5644d2acd5",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -631,7 +631,7 @@
       },
       {
         "tableName": "screenshot",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`path` TEXT NOT NULL, `type` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`path` TEXT NOT NULL, `type` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`path`, `type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "path",
@@ -656,18 +656,15 @@
             "columnName": "appId",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "path",
+            "type",
+            "locale",
+            "appId"
           ]
         },
         "indices": [
@@ -680,15 +677,6 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
-          },
-          {
-            "name": "index_screenshot_appId",
-            "unique": false,
-            "columnNames": [
-              "appId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -865,7 +853,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb5c47af417cecde43392e7dd11cf3ce')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f8a7f36683ce62351fcf6a5644d2acd5')"
     ]
   }
 }

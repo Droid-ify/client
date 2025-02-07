@@ -61,22 +61,17 @@ data class AppEntityRelations(
         parentColumn = "id",
         entityColumn = "appId",
     )
-    val links: LinksEntity,
+    val links: LinksEntity?,
     @Relation(
         parentColumn = "id",
         entityColumn = "appId",
     )
-    val graphics: List<GraphicEntity>,
+    val graphics: List<GraphicEntity>?,
     @Relation(
         parentColumn = "id",
         entityColumn = "appId",
     )
-    val screenshots: List<ScreenshotEntity>,
-    @Relation(
-        parentColumn = "id",
-        entityColumn = "appId",
-    )
-    val version: List<VersionEntity>,
+    val screenshots: List<ScreenshotEntity>?,
 )
 
 fun MetadataV2.appEntity(

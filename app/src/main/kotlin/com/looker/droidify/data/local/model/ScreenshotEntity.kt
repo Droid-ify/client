@@ -4,14 +4,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Screenshots
 import com.looker.droidify.sync.v2.model.LocalizedFiles
 import com.looker.droidify.sync.v2.model.ScreenshotsV2
 
 @Entity(
     tableName = "screenshot",
-    indices = [Index("appId", "locale"), Index("appId")],
+    primaryKeys = ["path", "type", "locale", "appId"],
+    indices = [Index("appId", "locale")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -19,15 +19,13 @@ import com.looker.droidify.sync.v2.model.ScreenshotsV2
             parentColumns = ["id"],
             onDelete = CASCADE,
         ),
-    ]
+    ],
 )
 data class ScreenshotEntity(
     val path: String,
     val type: ScreenshotType,
     val locale: String,
     val appId: Int,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
 )
 
 enum class ScreenshotType {

@@ -77,6 +77,14 @@ class RoomTesting {
                 }
             }
         }
+        val insertNew = benchmark(1, "Insert Bunch") {
+            measureTimeMillis {
+                appDao.upsertMetadata(
+                    repoId = id,
+                    metadatas = index.packages,
+                )
+            }
+        }
         val queryAll = benchmark(5, "Stream of apps") {
             measureTimeMillis {
                 appDao.stream()
@@ -88,6 +96,7 @@ class RoomTesting {
             }
         }
         println(insert)
+        println(insertNew)
         println(queryAll)
         println(queryOne)
     }
