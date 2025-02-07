@@ -17,6 +17,7 @@ import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.utility.common.extension.windowed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
@@ -107,10 +108,12 @@ class TabsViewModel @Inject constructor(
                 password = repo.password,
                 id = repo.id,
             )
-            appDao.upsertMetadata(
-                repoId = id,
-                metadatas = index.packages,
-            )
+            index.packages.windowed(500) {
+                appDao.upsertMetadata(
+                    repoId = id,
+                    metadatas = it,
+                )
+            }
         }
     }
 

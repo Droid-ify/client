@@ -14,11 +14,14 @@ import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.model.IndexV2
+import com.looker.droidify.sync.v2.model.PackageV2
+import com.looker.droidify.utility.common.extension.windowed
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -68,10 +71,12 @@ class RoomTesting {
         )
         val insert = benchmark(1, "Insert Bunch") {
             measureTimeMillis {
-                appDao.upsertMetadata(
-                    repoId = id,
-                    metadatas = index.packages,
-                )
+                index.packages.windowed(500) {
+                    appDao.upsertMetadata(
+                        repoId = id,
+                        metadatas = it,
+                    )
+                }
             }
         }
         val queryAll = benchmark(5, "Stream of apps") {

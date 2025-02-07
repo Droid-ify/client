@@ -34,7 +34,7 @@ import com.looker.droidify.sync.v2.model.MetadataV2
         ),
     ],
 )
-data class AppEntity(
+class AppEntity(
     val added: Long,
     val lastUpdated: Long,
     val license: String?,
