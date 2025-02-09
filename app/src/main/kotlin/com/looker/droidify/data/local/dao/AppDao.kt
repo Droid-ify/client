@@ -9,16 +9,19 @@ import androidx.room.Upsert
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AppEntityRelations
 import com.looker.droidify.data.local.model.AuthorEntity
+import com.looker.droidify.data.local.model.CategoryAppRelation
 import com.looker.droidify.data.local.model.DonateEntity
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.LinksEntity
 import com.looker.droidify.data.local.model.ScreenshotEntity
+import com.looker.droidify.data.local.model.VersionEntity
 import com.looker.droidify.data.local.model.appEntity
 import com.looker.droidify.data.local.model.authorEntity
 import com.looker.droidify.data.local.model.donateEntity
 import com.looker.droidify.data.local.model.linkEntity
 import com.looker.droidify.data.local.model.localizedGraphics
 import com.looker.droidify.data.local.model.localizedScreenshots
+import com.looker.droidify.data.local.model.versionEntities
 import com.looker.droidify.sync.v2.model.PackageV2
 import kotlinx.coroutines.flow.Flow
 
@@ -59,6 +62,12 @@ interface AppDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertDonate(donateEntity: List<DonateEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertVersions(versions: List<VersionEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertCategoryCrossRef(crossRef: List<CategoryAppRelation>)
+
     @Transaction
     suspend fun upsertMetadata(
         repoId: Int,
@@ -80,6 +89,11 @@ interface AppDao {
                     authorId = authorId,
                 ),
             ).toInt().takeIf { it > 0 } ?: getIdByPackageName(packageName)
+            val categories = packages.metadata.categories.map { name ->
+                CategoryAppRelation(appId, name)
+            }
+            insertVersions(packages.versionEntities(appId))
+            insertCategoryCrossRef(categories)
             metadata.linkEntity(appId)?.let { upsertLinks(it) }
             metadata.screenshots?.localizedScreenshots(appId)?.let { upsertScreenshots(it) }
             metadata.localizedGraphics(appId)?.let { insertGraphics(it) }

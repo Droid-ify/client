@@ -98,10 +98,10 @@ class TabsViewModel @Inject constructor(
                 timestamp = 0L,
                 icon = emptyMap(),
             )
-            repoDao.upsert(repo)
+            repoDao.insert(repo)
             val (_, index) = syncable.sync(repo.toRepo("en-US", emptyList(), true))
             requireNotNull(index)
-            val id = repoDao.upsertRepo(
+            val id = repoDao.insertRepo(
                 fingerprint = repo.fingerprint,
                 repo = index.repo,
                 username = repo.username,

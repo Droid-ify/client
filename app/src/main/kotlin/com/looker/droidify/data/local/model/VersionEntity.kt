@@ -10,6 +10,7 @@ import com.looker.droidify.sync.v2.model.AntiFeatureReason
 import com.looker.droidify.sync.v2.model.ApkFileV2
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.LocalizedString
+import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.PermissionV2
 import com.looker.droidify.sync.v2.model.Tag
 
@@ -46,3 +47,25 @@ data class VersionEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 )
+
+fun PackageV2.versionEntities(appId: Int): List<VersionEntity> {
+    return versions.map { (_, version) ->
+        VersionEntity(
+            added = version.added,
+            whatsNew = version.whatsNew,
+            versionName = version.manifest.versionName,
+            versionCode = version.manifest.versionCode,
+            maxSdkVersion = version.manifest.maxSdkVersion,
+            minSdkVersion = version.manifest.usesSdk?.minSdkVersion ?: -1,
+            targetSdkVersion = version.manifest.usesSdk?.targetSdkVersion ?: -1,
+            apk = version.file,
+            src = version.src,
+            features = version.manifest.features.map { it.name },
+            nativeCode = version.manifest.nativecode,
+            permissions = version.manifest.usesPermission,
+            permissionsSdk23 = version.manifest.usesPermissionSdk23,
+            antiFeature = version.antiFeatures,
+            appId = appId,
+        )
+    }
+}

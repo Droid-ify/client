@@ -2,23 +2,17 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "f8a7f36683ce62351fcf6a5644d2acd5",
+    "identityHash": "e02e06ff754b307a6c69aaf82f77bf3a",
     "entities": [
       {
         "tableName": "anti_feature",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `tag` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `name` TEXT NOT NULL, `description` TEXT, `locale` TEXT NOT NULL, `tag` TEXT NOT NULL, PRIMARY KEY(`tag`, `locale`))",
         "fields": [
           {
             "fieldPath": "icon",
             "columnName": "icon",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "tag",
-            "columnName": "tag",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "name",
@@ -33,29 +27,53 @@
             "notNull": false
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "tag",
+            "locale"
           ]
         },
-        "indices": [
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "AntiFeatureRepoRelation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `tag` TEXT NOT NULL, PRIMARY KEY(`repoId`, `tag`))",
+        "fields": [
           {
-            "name": "index_anti_feature_tag",
-            "unique": false,
-            "columnNames": [
-              "tag"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_feature_tag` ON `${TABLE_NAME}` (`tag`)"
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "tag"
+          ]
+        },
+        "indices": [],
         "foreignKeys": []
       },
       {
@@ -257,7 +275,7 @@
       },
       {
         "tableName": "category",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `name` TEXT NOT NULL, `description` TEXT, `defaultName` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `name` TEXT NOT NULL, `description` TEXT, `locale` TEXT NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`defaultName`, `locale`))",
         "fields": [
           {
             "fieldPath": "icon",
@@ -278,22 +296,77 @@
             "notNull": false
           },
           {
-            "fieldPath": "defaultName",
-            "columnName": "defaultName",
+            "fieldPath": "locale",
+            "columnName": "locale",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "defaultName",
+            "columnName": "defaultName",
+            "affinity": "TEXT",
             "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "defaultName",
+            "locale"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CategoryAppRelation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`appId`, `defaultName`))",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultName",
+            "columnName": "defaultName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "defaultName"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "CategoryRepoRelation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`repoId`, `defaultName`))",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "defaultName",
+            "columnName": "defaultName",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "defaultName"
           ]
         },
         "indices": [],
@@ -853,7 +926,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f8a7f36683ce62351fcf6a5644d2acd5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e02e06ff754b307a6c69aaf82f77bf3a')"
     ]
   }
 }

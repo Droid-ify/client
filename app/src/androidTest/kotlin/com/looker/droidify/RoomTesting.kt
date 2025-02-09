@@ -55,20 +55,20 @@ class RoomTesting {
 
     @Test
     fun roomBenchmark() = runTest {
-        val v2File = FakeDownloader
-            .downloadIndex(context, repo, "izzy-v2", "index-v2.json")
-            .readBytes()
-            .decodeToString()
-        val index = JsonParser.decodeFromString<IndexV2>(v2File)
-        val id = repoDao.upsertRepo(
-            fingerprint = repo.fingerprint!!,
-            repo = index.repo,
-            username = repo.authentication?.username,
-            password = repo.authentication?.password,
-            id = repo.id,
-        )
         val insert = benchmark(1, "Insert Bunch") {
+            val v2File = FakeDownloader
+                .downloadIndex(context, repo, "izzy-v2", "index-v2.json")
             measureTimeMillis {
+                val index = JsonParser.decodeFromString<IndexV2>(
+                    v2File.readBytes().decodeToString(),
+                )
+                val id = repoDao.insertRepo(
+                    fingerprint = repo.fingerprint!!,
+                    repo = index.repo,
+                    username = repo.authentication?.username,
+                    password = repo.authentication?.password,
+                    id = repo.id,
+                )
                 index.packages.windowed(500) {
                     appDao.upsertMetadata(
                         repoId = id,

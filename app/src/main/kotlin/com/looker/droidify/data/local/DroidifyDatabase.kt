@@ -9,9 +9,12 @@ import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureEntity
+import com.looker.droidify.data.local.model.AntiFeatureRepoRelation
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AuthorEntity
+import com.looker.droidify.data.local.model.CategoryAppRelation
 import com.looker.droidify.data.local.model.CategoryEntity
+import com.looker.droidify.data.local.model.CategoryRepoRelation
 import com.looker.droidify.data.local.model.DonateEntity
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.LinksEntity
@@ -23,9 +26,12 @@ import com.looker.droidify.data.local.model.VersionEntity
 @Database(
     entities = [
         AntiFeatureEntity::class,
+        AntiFeatureRepoRelation::class,
         AuthorEntity::class,
         AppEntity::class,
         CategoryEntity::class,
+        CategoryAppRelation::class,
+        CategoryRepoRelation::class,
         DonateEntity::class,
         GraphicEntity::class,
         LinksEntity::class,

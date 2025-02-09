@@ -1,17 +1,43 @@
 package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.looker.droidify.sync.v2.model.CategoryV2
 import com.looker.droidify.sync.v2.model.DefaultName
-import com.looker.droidify.sync.v2.model.LocalizedIcon
-import com.looker.droidify.sync.v2.model.LocalizedString
 
-@Entity(tableName = "category")
-data class CategoryEntity(
-    val icon: LocalizedIcon?,
-    val name: LocalizedString,
-    val description: LocalizedString?,
-    val defaultName: DefaultName,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+@Entity(
+    tableName = "category",
+    primaryKeys = ["defaultName", "locale"],
 )
+data class CategoryEntity(
+    val icon: String?,
+    val name: String,
+    val description: String?,
+    val locale: String,
+    val defaultName: DefaultName,
+)
+
+@Entity(primaryKeys = ["repoId", "defaultName"])
+data class CategoryRepoRelation(
+    val repoId: Int,
+    val defaultName: DefaultName,
+)
+
+@Entity(primaryKeys = ["appId", "defaultName"])
+data class CategoryAppRelation(
+    val appId: Int,
+    val defaultName: DefaultName,
+)
+
+fun CategoryV2.categoryEntity(
+    defaultName: DefaultName,
+): List<CategoryEntity> {
+    return name.map { (locale, localizedName) ->
+        CategoryEntity(
+            icon = icon[locale]?.name,
+            name = localizedName,
+            description = description[locale],
+            defaultName = defaultName,
+            locale = locale,
+        )
+    }
+}
