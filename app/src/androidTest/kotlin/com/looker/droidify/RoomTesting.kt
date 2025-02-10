@@ -65,8 +65,6 @@ class RoomTesting {
                 val id = repoDao.insertRepo(
                     fingerprint = repo.fingerprint!!,
                     repo = index.repo,
-                    username = repo.authentication?.username,
-                    password = repo.authentication?.password,
                     id = repo.id,
                 )
                 index.packages.windowed(500) {

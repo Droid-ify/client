@@ -18,8 +18,6 @@ data class RepoEntity(
     val name: LocalizedString,
     val description: LocalizedString,
     val fingerprint: Fingerprint,
-    val username: String? = null,
-    val password: String? = null,
     val timestamp: Long,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
@@ -28,8 +26,6 @@ data class RepoEntity(
 fun RepoV2.repoEntity(
     id: Int,
     fingerprint: Fingerprint,
-    username: String?,
-    password: String?,
 ) = RepoEntity(
     id = id,
     icon = icon,
@@ -38,21 +34,18 @@ fun RepoV2.repoEntity(
     description = description,
     timestamp = timestamp,
     fingerprint = fingerprint,
-    username = username,
-    password = password,
 )
 
 fun RepoEntity.toRepo(
     locale: String,
     mirrors: List<String>,
     enabled: Boolean,
+    authentication: Authentication? = null,
 ) = Repo(
     name = name.localizedValue(locale) ?: "Unknown",
     description = description.localizedValue(locale) ?: "Unknown",
     fingerprint = fingerprint,
-    authentication = if (username != null && password != null) {
-        Authentication(username = username, password = password)
-    } else null,
+    authentication = authentication,
     enabled = enabled,
     address = address,
     versionInfo = VersionInfo(timestamp = timestamp, etag = null),

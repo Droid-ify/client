@@ -43,20 +43,22 @@ interface RepoDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategoryCrossRef(crossRef: List<CategoryRepoRelation>)
 
+    @Query("DELETE FROM repository WHERE id = :id")
+    suspend fun delete(id: Int)
+
+    @Query("DELETE FROM authentication WHERE repoId = :repoId")
+    suspend fun deleteAuth(repoId: Int)
+
     @Transaction
     suspend fun insertRepo(
         repo: RepoV2,
         fingerprint: Fingerprint,
-        username: String? = null,
-        password: String? = null,
         id: Int = 0,
     ): Int {
         val repoId = insert(
             repo.repoEntity(
                 id = id,
                 fingerprint = fingerprint,
-                username = username,
-                password = password,
             ),
         ).toInt()
         val antiFeatures = repo.antiFeatures.flatMap { (tag, feature) ->
@@ -80,7 +82,9 @@ interface RepoDao {
         return repoId
     }
 
-    @Query("DELETE FROM repository WHERE id = :id")
-    suspend fun delete(id: Int)
-
+    @Transaction
+    suspend fun deleteRepo(repoId: Int) {
+        delete(repoId)
+        deleteAuth(repoId)
+    }
 }

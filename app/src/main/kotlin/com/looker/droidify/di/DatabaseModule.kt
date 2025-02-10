@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
+import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.RepoDao
 import dagger.Module
 import dagger.Provides
@@ -38,4 +39,10 @@ object DatabaseModule {
     fun provideRepoDao(
         db: DroidifyDatabase,
     ): RepoDao = db.repoDao()
+
+    @Singleton
+    @Provides
+    fun provideAuthDao(
+        db: DroidifyDatabase,
+    ): AuthDao = db.authDao()
 }

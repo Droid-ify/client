@@ -93,19 +93,21 @@ class TabsViewModel @Inject constructor(
                 name = mapOf("en-US" to "IzzyOnDroid F-Droid Repo"),
                 description = emptyMap(),
                 fingerprint = Fingerprint("3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A"),
-                username = "",
-                password = "",
                 timestamp = 0L,
                 icon = emptyMap(),
             )
             repoDao.insert(repo)
-            val (_, index) = syncable.sync(repo.toRepo("en-US", emptyList(), true))
+            val (_, index) = syncable.sync(
+                repo.toRepo(
+                    locale = "en-US",
+                    mirrors = emptyList(),
+                    enabled = true,
+                ),
+            )
             requireNotNull(index)
             val id = repoDao.insertRepo(
                 fingerprint = repo.fingerprint,
                 repo = index.repo,
-                username = repo.username,
-                password = repo.password,
                 id = repo.id,
             )
             index.packages.windowed(500) {
