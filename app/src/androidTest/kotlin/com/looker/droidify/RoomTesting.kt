@@ -1,8 +1,7 @@
 package com.looker.droidify
 
 import android.content.Context
-import com.looker.droidify.data.local.dao.AppDao
-import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.index.RepositoryUpdater.IndexType
@@ -14,7 +13,6 @@ import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.model.IndexV2
-import com.looker.droidify.utility.common.extension.windowed
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -35,10 +33,7 @@ class RoomTesting {
     val hiltRule = HiltAndroidRule(this)
 
     @Inject
-    lateinit var repoDao: RepoDao
-
-    @Inject
-    lateinit var appDao: AppDao
+    lateinit var indexDao: IndexDao
 
     @Inject
     @ApplicationContext
@@ -53,46 +48,31 @@ class RoomTesting {
         setupLegacy()
     }
 
+    // 3.1s +- 0.25
+    // TODO: Test with insert multiple repo and old vs new data set
     @Test
     fun roomBenchmark() = runTest {
-        val insert = benchmark(1, "Insert Bunch") {
+        val insert = benchmark(6) {
             val v2File = FakeDownloader
                 .downloadIndex(context, repo, "izzy-v2", "index-v2.json")
             measureTimeMillis {
                 val index = JsonParser.decodeFromString<IndexV2>(
                     v2File.readBytes().decodeToString(),
                 )
-                val id = repoDao.insertRepo(
+                indexDao.insertIndex(
                     fingerprint = repo.fingerprint!!,
-                    repo = index.repo,
-                    id = repo.id,
+                    index = index,
+                    expectedRepoId = repo.id,
                 )
-                index.packages.windowed(500) {
-                    appDao.upsertMetadata(
-                        repoId = id,
-                        metadatas = it,
-                    )
-                }
-            }
-        }
-        val queryAll = benchmark(5, "Stream of apps") {
-            measureTimeMillis {
-                appDao.stream()
-            }
-        }
-        val queryOne = benchmark(5, "Query app") {
-            measureTimeMillis {
-                appDao.queryAppEntity("com.looker.droidify")
             }
         }
         println(insert)
-        println(queryAll)
-        println(queryOne)
     }
 
+    // 3.5s +- 0.35
     @Test
     fun legacyBenchmark() {
-        val insert = benchmark(1, "Insert") {
+        val insert = benchmark(6) {
             val createFile = File.createTempFile("index", "entry")
             val mergerFile = File.createTempFile("index", "merger")
             val jarStream = assets("izzy_index_v1.jar")
@@ -111,19 +91,7 @@ class RoomTesting {
                 )
             }
         }
-        val queryAll = benchmark(5, "Stream of apps") {
-            measureTimeMillis {
-                Database.ProductAdapter.getAll()
-            }
-        }
-        val queryOne = benchmark(5, "Query app") {
-            measureTimeMillis {
-                Database.ProductAdapter.get("com.looker.droidify", null)
-            }
-        }
         println(insert)
-        println(queryAll)
-        println(queryOne)
     }
 
     private fun setupLegacy() {
