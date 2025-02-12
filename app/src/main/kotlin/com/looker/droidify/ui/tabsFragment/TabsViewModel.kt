@@ -3,8 +3,7 @@ package com.looker.droidify.ui.tabsFragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.data.local.dao.AppDao
-import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.toRepo
 import com.looker.droidify.database.Database
@@ -17,7 +16,6 @@ import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
-import com.looker.droidify.utility.common.extension.windowed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
@@ -28,8 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TabsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val repoDao: RepoDao,
-    private val appDao: AppDao,
+    private val indexDao: IndexDao,
     private val syncable: Syncable<IndexV2>,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -96,7 +93,6 @@ class TabsViewModel @Inject constructor(
                 timestamp = 0L,
                 icon = emptyMap(),
             )
-            repoDao.insert(repo)
             val (_, index) = syncable.sync(
                 repo.toRepo(
                     locale = "en-US",
@@ -105,17 +101,11 @@ class TabsViewModel @Inject constructor(
                 ),
             )
             requireNotNull(index)
-            val id = repoDao.insertRepo(
+            indexDao.insertIndex(
                 fingerprint = repo.fingerprint,
-                repo = index.repo,
-                id = repo.id,
+                index = index,
+                expectedRepoId = repo.id,
             )
-            index.packages.windowed(500) {
-                appDao.upsertMetadata(
-                    repoId = id,
-                    metadatas = it,
-                )
-            }
         }
     }
 

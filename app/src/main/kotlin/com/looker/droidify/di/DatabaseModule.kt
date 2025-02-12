@@ -45,4 +45,10 @@ object DatabaseModule {
     fun provideAuthDao(
         db: DroidifyDatabase,
     ): AuthDao = db.authDao()
+
+    @Singleton
+    @Provides
+    fun provideIndexDao(
+        db: DroidifyDatabase,
+    ): IndexDao = db.indexDao()
 }

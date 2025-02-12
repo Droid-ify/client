@@ -1,13 +1,16 @@
 package com.looker.droidify.data.local
 
+import android.content.Context
 import androidx.room.BuiltInTypeConverters
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.looker.droidify.data.local.converters.Converters
 import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
+import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureEntity
 import com.looker.droidify.data.local.model.AntiFeatureRepoRelation
@@ -54,4 +57,5 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun appDao(): AppDao
     abstract fun repoDao(): RepoDao
     abstract fun authDao(): AuthDao
+    abstract fun indexDao(): IndexDao
 }
