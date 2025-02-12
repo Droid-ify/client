@@ -6,6 +6,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.looker.droidify.data.local.converters.Converters
 import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
@@ -59,3 +60,20 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun authDao(): AuthDao
     abstract fun indexDao(): IndexDao
 }
+
+fun droidifyDatabase(context: Context): DroidifyDatabase = Room
+    .databaseBuilder(
+        context = context,
+        klass = DroidifyDatabase::class.java,
+        name = "droidify_room",
+    )
+    .addCallback(
+        object : RoomDatabase.Callback() {
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
+                db.query("PRAGMA synchronous = OFF")
+                db.query("PRAGMA journal_mode = WAL")
+            }
+        },
+    )
+    .build()

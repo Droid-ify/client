@@ -1,11 +1,12 @@
 package com.looker.droidify.di
 
 import android.content.Context
-import androidx.room.Room
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
+import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.data.local.droidifyDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,11 +23,7 @@ object DatabaseModule {
     fun provideDatabase(
         @ApplicationContext
         context: Context,
-    ): DroidifyDatabase = Room.databaseBuilder(
-        context = context,
-        klass = DroidifyDatabase::class.java,
-        name = "droidify_room",
-    ).fallbackToDestructiveMigration().build()
+    ): DroidifyDatabase = droidifyDatabase(context)
 
     @Singleton
     @Provides
