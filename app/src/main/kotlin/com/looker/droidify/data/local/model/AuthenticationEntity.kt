@@ -10,8 +10,10 @@ import com.looker.droidify.domain.model.Authentication
     foreignKeys = [
         ForeignKey(
             entity = RepoEntity::class,
-            parentColumns = ["id"],
             childColumns = ["repoId"],
+            parentColumns = ["id"],
+//            Handles in dao
+//            onDelete = CASCADE,
         ),
     ],
 )

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b398a77049521674137642e935488ec7",
+    "identityHash": "d533351cf0974cef2bbbbe718a9ede53",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -536,7 +536,7 @@
       },
       {
         "tableName": "link",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`changelog` TEXT, `issueTracker` TEXT, `translation` TEXT, `sourceCode` TEXT, `webSite` TEXT, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`changelog` TEXT, `issueTracker` TEXT, `translation` TEXT, `sourceCode` TEXT, `webSite` TEXT, `appId` INTEGER NOT NULL, PRIMARY KEY(`appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "changelog",
@@ -573,31 +573,15 @@
             "columnName": "appId",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": true,
+          "autoGenerate": false,
           "columnNames": [
-            "id"
+            "appId"
           ]
         },
-        "indices": [
-          {
-            "name": "index_link_appId",
-            "unique": false,
-            "columnNames": [
-              "appId"
-            ],
-            "orders": [],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_link_appId` ON `${TABLE_NAME}` (`appId`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": [
           {
             "table": "app",
@@ -958,7 +942,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b398a77049521674137642e935488ec7')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd533351cf0974cef2bbbbe718a9ede53')"
     ]
   }
 }

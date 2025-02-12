@@ -3,14 +3,12 @@ package com.looker.droidify.data.local.model
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.looker.droidify.domain.model.Links
 import com.looker.droidify.sync.v2.model.MetadataV2
 
 @Entity(
     tableName = "link",
-    indices = [Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -26,9 +24,8 @@ data class LinksEntity(
     val translation: String?,
     val sourceCode: String?,
     val webSite: String?,
+    @PrimaryKey
     val appId: Int,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
 )
 
 private fun MetadataV2.isLinkNull(): Boolean {
