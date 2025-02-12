@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "86e6689bba99a340eeb5ace743803ccf",
+    "identityHash": "b398a77049521674137642e935488ec7",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -418,7 +418,7 @@
       },
       {
         "tableName": "donate",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `value` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `value` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "type",
@@ -473,7 +473,7 @@
       },
       {
         "tableName": "graphic",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `url` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`type` INTEGER NOT NULL, `url` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "type",
@@ -614,7 +614,7 @@
       },
       {
         "tableName": "mirror",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `countryCode` TEXT, `isPrimary` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`url` TEXT NOT NULL, `countryCode` TEXT, `isPrimary` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "url",
@@ -736,7 +736,7 @@
       },
       {
         "tableName": "screenshot",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`path` TEXT NOT NULL, `type` TEXT NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`path`, `type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`path` TEXT NOT NULL, `type` INTEGER NOT NULL, `locale` TEXT NOT NULL, `appId` INTEGER NOT NULL, PRIMARY KEY(`path`, `type`, `locale`, `appId`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "path",
@@ -747,7 +747,7 @@
           {
             "fieldPath": "type",
             "columnName": "type",
-            "affinity": "TEXT",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
@@ -800,7 +800,7 @@
       },
       {
         "tableName": "version",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `whatsNew` TEXT NOT NULL, `versionName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `maxSdkVersion` INTEGER, `minSdkVersion` INTEGER NOT NULL, `targetSdkVersion` INTEGER NOT NULL, `features` TEXT NOT NULL, `nativeCode` TEXT NOT NULL, `permissions` TEXT NOT NULL, `permissionsSdk23` TEXT NOT NULL, `antiFeature` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apk_name` TEXT NOT NULL, `apk_sha256` TEXT NOT NULL, `apk_size` INTEGER NOT NULL, `src_name` TEXT, `src_sha256` TEXT, `src_size` INTEGER, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `whatsNew` TEXT NOT NULL, `versionName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `maxSdkVersion` INTEGER, `minSdkVersion` INTEGER NOT NULL, `targetSdkVersion` INTEGER NOT NULL, `features` TEXT NOT NULL, `nativeCode` TEXT NOT NULL, `permissions` TEXT NOT NULL, `permissionsSdk23` TEXT NOT NULL, `antiFeature` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apk_name` TEXT NOT NULL, `apk_sha256` TEXT NOT NULL, `apk_size` INTEGER NOT NULL, `src_name` TEXT, `src_sha256` TEXT, `src_size` INTEGER, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "added",
@@ -958,7 +958,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '86e6689bba99a340eeb5ace743803ccf')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b398a77049521674137642e935488ec7')"
     ]
   }
 }
