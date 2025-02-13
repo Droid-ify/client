@@ -1,6 +1,6 @@
 [versions]
 desugaring = "2.1.4"
-agp = "8.8.0"
+agp = "8.8.1"
 material = "1.12.0"
 activity = "1.10.0"
 app-compat = "1.7.0"
