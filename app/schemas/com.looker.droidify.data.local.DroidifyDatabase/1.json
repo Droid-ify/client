@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d533351cf0974cef2bbbbe718a9ede53",
+    "identityHash": "70d20342a2acee71c5c517cfa3a20eb9",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -50,8 +50,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "AntiFeatureRepoRelation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `tag` TEXT NOT NULL, PRIMARY KEY(`repoId`, `tag`))",
+        "tableName": "anti_feature_repo_relation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `tag` TEXT NOT NULL, PRIMARY KEY(`repoId`, `tag`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "repoId",
@@ -74,7 +74,19 @@
           ]
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "authentication",
@@ -363,8 +375,8 @@
         "foreignKeys": []
       },
       {
-        "tableName": "CategoryAppRelation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`appId`, `defaultName`))",
+        "tableName": "category_app_relation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`appId`, `defaultName`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "appId",
@@ -387,11 +399,23 @@
           ]
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
-        "tableName": "CategoryRepoRelation",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`repoId`, `defaultName`))",
+        "tableName": "category_repo_relation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `defaultName` TEXT NOT NULL, PRIMARY KEY(`repoId`, `defaultName`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "repoId",
@@ -414,7 +438,19 @@
           ]
         },
         "indices": [],
-        "foreignKeys": []
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "donate",
@@ -663,6 +699,106 @@
         ]
       },
       {
+        "tableName": "permission",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`name` TEXT NOT NULL, `maxSdk` INTEGER NOT NULL, `minSdk` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "maxSdk",
+            "columnName": "maxSdk",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "minSdk",
+            "columnName": "minSdk",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_permission_name_maxSdk_minSdk",
+            "unique": true,
+            "columnNames": [
+              "name",
+              "maxSdk",
+              "minSdk"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_permission_name_maxSdk_minSdk` ON `${TABLE_NAME}` (`name`, `maxSdk`, `minSdk`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "permission_version_relation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionId` INTEGER NOT NULL, `permissionId` INTEGER NOT NULL, PRIMARY KEY(`versionId`, `permissionId`), FOREIGN KEY(`versionId`) REFERENCES `version`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION , FOREIGN KEY(`permissionId`) REFERENCES `permission`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "fields": [
+          {
+            "fieldPath": "versionId",
+            "columnName": "versionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "permissionId",
+            "columnName": "permissionId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "versionId",
+            "permissionId"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": [
+          {
+            "table": "version",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "versionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "permission",
+            "onDelete": "NO ACTION",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "permissionId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
         "tableName": "repository",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
@@ -784,7 +920,7 @@
       },
       {
         "tableName": "version",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `whatsNew` TEXT NOT NULL, `versionName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `maxSdkVersion` INTEGER, `minSdkVersion` INTEGER NOT NULL, `targetSdkVersion` INTEGER NOT NULL, `features` TEXT NOT NULL, `nativeCode` TEXT NOT NULL, `permissions` TEXT NOT NULL, `permissionsSdk23` TEXT NOT NULL, `antiFeature` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apk_name` TEXT NOT NULL, `apk_sha256` TEXT NOT NULL, `apk_size` INTEGER NOT NULL, `src_name` TEXT, `src_sha256` TEXT, `src_size` INTEGER, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `whatsNew` TEXT NOT NULL, `versionName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `maxSdkVersion` INTEGER, `minSdkVersion` INTEGER NOT NULL, `targetSdkVersion` INTEGER NOT NULL, `features` TEXT NOT NULL, `nativeCode` TEXT NOT NULL, `antiFeature` TEXT NOT NULL, `appId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `apk_name` TEXT NOT NULL, `apk_sha256` TEXT NOT NULL, `apk_size` INTEGER NOT NULL, `src_name` TEXT, `src_sha256` TEXT, `src_size` INTEGER, FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "added",
@@ -837,18 +973,6 @@
           {
             "fieldPath": "nativeCode",
             "columnName": "nativeCode",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "permissions",
-            "columnName": "permissions",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "permissionsSdk23",
-            "columnName": "permissionsSdk23",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -942,7 +1066,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd533351cf0974cef2bbbbe718a9ede53')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '70d20342a2acee71c5c517cfa3a20eb9')"
     ]
   }
 }

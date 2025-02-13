@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import com.looker.droidify.sync.v2.model.CategoryV2
 import com.looker.droidify.sync.v2.model.DefaultName
 
@@ -16,13 +17,35 @@ data class CategoryEntity(
     val defaultName: DefaultName,
 )
 
-@Entity(primaryKeys = ["repoId", "defaultName"])
+@Entity(
+    tableName = "category_repo_relation",
+    primaryKeys = ["repoId", "defaultName"],
+    foreignKeys = [
+        ForeignKey(
+            entity = RepoEntity::class,
+            childColumns = ["repoId"],
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+)
 data class CategoryRepoRelation(
     val repoId: Int,
     val defaultName: DefaultName,
 )
 
-@Entity(primaryKeys = ["appId", "defaultName"])
+@Entity(
+    tableName = "category_app_relation",
+    primaryKeys = ["appId", "defaultName"],
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            childColumns = ["appId"],
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+)
 data class CategoryAppRelation(
     val appId: Int,
     val defaultName: DefaultName,

@@ -24,13 +24,13 @@ class IndexValuesTest {
         var hits = 0
         var total = 0
 
+        val nativeCode = mutableSetOf<String>()
         val performTest: (PackageV2) -> Unit = { data ->
-            data.metadata.promoGraphic?.forEach { (locale, data) ->
-                if (data.name.length < 10) {
-                    hits++
-                }
-                total++
+            data.versions.forEach { t, u ->
+                hits++
+                nativeCode.addAll(u.manifest.nativecode)
             }
+            total++
         }
 
         izzyIndex.packages.forEach { (packageName, data) ->
@@ -41,6 +41,7 @@ class IndexValuesTest {
 //            println("Testing on FDroid $packageName")
             performTest(data)
         }
+        println(nativeCode)
         println("Hits: %d, %.2f%%".format(hits, hits * 100 / total.toFloat()))
     }
 }

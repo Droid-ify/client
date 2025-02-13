@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import com.looker.droidify.sync.v2.model.AntiFeatureV2
 import com.looker.droidify.sync.v2.model.Tag
 
@@ -16,7 +17,18 @@ data class AntiFeatureEntity(
     val tag: Tag,
 )
 
-@Entity(primaryKeys = ["repoId", "tag"])
+@Entity(
+    tableName = "anti_feature_repo_relation",
+    primaryKeys = ["repoId", "tag"],
+    foreignKeys = [
+        ForeignKey(
+            entity = RepoEntity::class,
+            childColumns = ["repoId"],
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+    ],
+)
 data class AntiFeatureRepoRelation(
     val repoId: Int,
     val tag: Tag,
