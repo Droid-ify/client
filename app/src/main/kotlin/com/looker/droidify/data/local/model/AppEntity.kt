@@ -66,7 +66,7 @@ data class AppEntityRelations(
     @Relation(
         parentColumn = "id",
         entityColumn = "defaultName",
-        associateBy = Junction(CategoryAppRelation::class)
+        associateBy = Junction(CategoryAppRelation::class),
     )
     val categories: List<CategoryEntity>,
     @Relation(
@@ -79,6 +79,11 @@ data class AppEntityRelations(
         entityColumn = "appId",
     )
     val screenshots: List<ScreenshotEntity>?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
+    val versions: List<VersionEntity>?,
 )
 
 fun MetadataV2.appEntity(
