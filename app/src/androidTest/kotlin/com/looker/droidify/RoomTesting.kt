@@ -1,6 +1,7 @@
 package com.looker.droidify
 
 import android.content.Context
+import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.database.Database
 import com.looker.droidify.index.RepositoryUpdater
@@ -18,6 +19,7 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -36,6 +38,9 @@ class RoomTesting {
     lateinit var indexDao: IndexDao
 
     @Inject
+    lateinit var appDao: AppDao
+
+    @Inject
     @ApplicationContext
     lateinit var context: Context
 
@@ -52,7 +57,7 @@ class RoomTesting {
     // TODO: Test with insert multiple repo and old vs new data set
     @Test
     fun roomBenchmark() = runTest {
-        val insert = benchmark(6) {
+        val insert = benchmark(3) {
             val v2File = FakeDownloader
                 .downloadIndex(context, repo, "izzy-v2", "index-v2.json")
             measureTimeMillis {
@@ -66,6 +71,8 @@ class RoomTesting {
                 )
             }
         }
+        val query = appDao.queryAppEntity("com.looker.droidify")
+        println(query.first().joinToString("\n"))
         println(insert)
     }
 
