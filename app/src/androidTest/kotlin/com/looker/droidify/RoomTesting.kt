@@ -4,11 +4,13 @@ import android.content.Context
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.database.Database
+import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.domain.model.VersionInfo
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.index.RepositoryUpdater.IndexType
 import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
-import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
@@ -20,6 +22,7 @@ import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -44,8 +47,9 @@ class RoomTesting {
     @ApplicationContext
     lateinit var context: Context
 
-    val repo = Izzy
-    lateinit var legacyRepo: Repository
+    private val defaults = Repository.defaultRepositories
+    private val izzyLegacy = defaults[4]
+    private val fdroidLegacy = defaults[0]
 
     @Before
     fun before() = runTest {
@@ -53,33 +57,47 @@ class RoomTesting {
         setupLegacy()
     }
 
-    // 3.1s +- 0.25
-    // TODO: Test with insert multiple repo and old vs new data set
     @Test
     fun roomBenchmark() = runTest {
-        val insert = benchmark(3) {
+        val izzy = izzyLegacy.toRepo(1)
+        val insert = benchmark(1) {
             val v2File = FakeDownloader
-                .downloadIndex(context, repo, "izzy-v2", "index-v2.json")
+                .downloadIndex(context, izzy, "izzy-v2", "index-v2.json")
             measureTimeMillis {
                 val index = JsonParser.decodeFromString<IndexV2>(
                     v2File.readBytes().decodeToString(),
                 )
                 indexDao.insertIndex(
-                    fingerprint = repo.fingerprint!!,
+                    fingerprint = izzy.fingerprint!!,
                     index = index,
-                    expectedRepoId = repo.id,
+                    expectedRepoId = izzy.id,
+                )
+            }
+        }
+        val fdroid = fdroidLegacy.toRepo(2)
+        val insertFDroid = benchmark(1) {
+            val v2File = FakeDownloader
+                .downloadIndex(context, fdroid, "fdroid-v2", "fdroid-index-v2.json")
+            measureTimeMillis {
+                val index = JsonParser.decodeFromString<IndexV2>(
+                    v2File.readBytes().decodeToString(),
+                )
+                indexDao.insertIndex(
+                    fingerprint = fdroid.fingerprint!!,
+                    index = index,
+                    expectedRepoId = fdroid.id,
                 )
             }
         }
         val query = appDao.queryAppEntity("com.looker.droidify")
         println(query.first().joinToString("\n"))
         println(insert)
+        println(insertFDroid)
     }
 
-    // 3.5s +- 0.35
     @Test
     fun legacyBenchmark() {
-        val insert = benchmark(6) {
+        val insert = benchmark(1) {
             val createFile = File.createTempFile("index", "entry")
             val mergerFile = File.createTempFile("index", "merger")
             val jarStream = assets("izzy_index_v1.jar")
@@ -87,7 +105,7 @@ class RoomTesting {
             measureTimeMillis {
                 RepositoryUpdater.processFile(
                     context = context,
-                    repository = legacyRepo,
+                    repository = izzyLegacy,
                     indexType = IndexType.INDEX_V1,
                     unstable = false,
                     file = createFile,
@@ -96,28 +114,49 @@ class RoomTesting {
                     entityTag = "",
                     callback = { _, _, _ -> },
                 )
+                createFile.delete()
+                mergerFile.delete()
+            }
+        }
+        val insertFDroid = benchmark(1) {
+            val createFile = File.createTempFile("index", "entry")
+            val mergerFile = File.createTempFile("index", "merger")
+            val jarStream = assets("fdroid_index_v1.jar")
+            jarStream.copyTo(createFile.outputStream())
+            measureTimeMillis {
+                RepositoryUpdater.processFile(
+                    context = context,
+                    repository = fdroidLegacy,
+                    indexType = IndexType.INDEX_V1,
+                    unstable = false,
+                    file = createFile,
+                    mergerFile = mergerFile,
+                    lastModified = "",
+                    entityTag = "",
+                    callback = { _, _, _ -> },
+                )
+                createFile.delete()
+                mergerFile.delete()
             }
         }
         println(insert)
+        println(insertFDroid)
     }
 
     private fun setupLegacy() {
         Database.init(context)
         RepositoryUpdater.init(CoroutineScope(Dispatchers.Default), FakeDownloader)
-        legacyRepo = Repository(
-            id = 15,
-            address = "https://apt.izzysoft.de/fdroid/repo",
-            mirrors = emptyList(),
-            name = "IzzyOnDroid F-Droid Repo",
-            description = "",
-            version = 20002,
-            enabled = true,
-            fingerprint = "3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A",
-            lastModified = "",
-            entityTag = "",
-            updated = 1735315749835,
-            timestamp = 1725352450000,
-            authentication = "",
-        )
     }
 }
+
+private fun Repository.toRepo(id: Int) = Repo(
+    id = id,
+    enabled = enabled,
+    address = address,
+    name = name,
+    description = description,
+    fingerprint = Fingerprint(fingerprint),
+    authentication = null,
+    versionInfo = VersionInfo(timestamp, entityTag),
+    mirrors = emptyList(),
+)
