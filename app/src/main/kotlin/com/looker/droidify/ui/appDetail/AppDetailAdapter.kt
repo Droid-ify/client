@@ -56,6 +56,7 @@ import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.percentBy
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.copyToClipboard
@@ -1365,12 +1366,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             )
                             holder.progress.isIndeterminate = status.total == null
                             if (status.total != null) {
-                                holder.progress.progress =
-                                    (
-                                        holder.progress.max.toFloat() *
-                                            status.read.value /
-                                            status.total.value
-                                        ).roundToInt()
+                                holder.progress.setProgressCompat(
+                                    status.read.value percentBy status.total.value,
+                                    true
+                                )
                             }
                         }
 
