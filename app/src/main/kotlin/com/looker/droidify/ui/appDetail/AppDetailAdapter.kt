@@ -331,7 +331,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
                     is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
                     is Product.Donate.Liberapay -> Uri.parse(
-                        "https://liberapay.com/~${donate.id}"
+                        "https://liberapay.com/${donate.id}"
                     )
 
                     is Product.Donate.OpenCollective -> Uri.parse(

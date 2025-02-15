@@ -12,6 +12,11 @@ import com.looker.core.common.extension.forEach
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.illegal
 import com.looker.droidify.model.Product
+import com.looker.droidify.model.Product.Donate.Bitcoin
+import com.looker.droidify.model.Product.Donate.Liberapay
+import com.looker.droidify.model.Product.Donate.Litecoin
+import com.looker.droidify.model.Product.Donate.OpenCollective
+import com.looker.droidify.model.Product.Donate.Regular
 import com.looker.droidify.model.Product.Screenshot.Type.LARGE_TABLET
 import com.looker.droidify.model.Product.Screenshot.Type.PHONE
 import com.looker.droidify.model.Product.Screenshot.Type.SMALL_TABLET
@@ -128,11 +133,11 @@ object IndexV1Parser {
 
     internal object DonateComparator : Comparator<Product.Donate> {
         private val classes = listOf(
-            Product.Donate.Regular::class,
-            Product.Donate.Bitcoin::class,
-            Product.Donate.Litecoin::class,
-            Product.Donate.Liberapay::class,
-            Product.Donate.OpenCollective::class
+            Regular::class,
+            Bitcoin::class,
+            Litecoin::class,
+            Liberapay::class,
+            OpenCollective::class
         )
 
         override fun compare(donate1: Product.Donate, donate2: Product.Donate): Int {
@@ -241,7 +246,8 @@ object IndexV1Parser {
     private const val KEY_PRODUCT_LICENSE = "license"
     private const val KEY_PRODUCT_DONATE = "donate"
     private const val KEY_PRODUCT_BITCOIN = "bitcoin"
-    private const val KEY_PRODUCT_LIBERAPAYID = "liberapayID"
+    private const val KEY_PRODUCT_LIBERAPAYID = "liberapay"
+    private const val KEY_PRODUCT_LITECOIN = "litecoin"
     private const val KEY_PRODUCT_OPENCOLLECTIVE = "openCollective"
     private const val KEY_PRODUCT_LOCALIZED = "localized"
     private const val KEY_PRODUCT_WHATSNEW = "whatsNew"
@@ -299,15 +305,11 @@ object IndexV1Parser {
                 key.string(KEY_PRODUCT_LICENSE) -> licenses += valueAsString.split(',')
                     .filter { it.isNotEmpty() }
 
-                key.string(KEY_PRODUCT_DONATE) -> donates += Product.Donate.Regular(valueAsString)
-                key.string(KEY_PRODUCT_BITCOIN) -> donates += Product.Donate.Bitcoin(valueAsString)
-                key.string(KEY_PRODUCT_LIBERAPAYID) -> donates += Product.Donate.Liberapay(
-                    valueAsString
-                )
-
-                key.string(KEY_PRODUCT_OPENCOLLECTIVE) -> donates += Product.Donate.OpenCollective(
-                    valueAsString
-                )
+                key.string(KEY_PRODUCT_DONATE) -> donates += Regular(valueAsString)
+                key.string(KEY_PRODUCT_BITCOIN) -> donates += Bitcoin(valueAsString)
+                key.string(KEY_PRODUCT_LIBERAPAYID) -> donates += Liberapay(valueAsString)
+                key.string(KEY_PRODUCT_LITECOIN) -> donates += Litecoin(valueAsString)
+                key.string(KEY_PRODUCT_OPENCOLLECTIVE) -> donates += OpenCollective(valueAsString)
 
                 key.dictionary(KEY_PRODUCT_LOCALIZED) -> forEachKey { localizedKey ->
                     if (localizedKey.token == JsonToken.START_OBJECT) {
