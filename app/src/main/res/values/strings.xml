@@ -5,8 +5,6 @@
     <string name="address">Address</string>
     <string name="all_applications">All applications</string>
     <string name="all_applications_up_to_date">All your applications are up to date</string>
-    <string name="allow_collapsing_toolbar">Allow Top App Bar to Expand</string>
-    <string name="allow_collapsing_toolbar_DESC">Allow top app bar to expand and collapse</string>
     <string name="already_exists">Already exists</string>
     <string name="always">Always</string>
     <string name="amoled">Black</string>
@@ -26,7 +24,6 @@
     <string name="changes">Changes</string>
     <string name="checking_repository">Checking repository…</string>
     <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Compiled for debugging</string>
     <string name="confirmation">Confirmation</string>
     <string name="connecting">Connecting…</string>
@@ -128,15 +125,12 @@
     <string name="invalid_signature_error_DESC">Invalid signature.</string>
     <string name="invalid_username_format">Invalid username format</string>
     <string name="io_error_DESC">Unable to perform certain actions.</string>
-    <string name="label_copy">Copy</string>
     <string name="launch">Launch</string>
     <string name="license">License</string>
     <string name="license_FORMAT">%s license</string>
     <string name="light">Light</string>
     <string name="link_copied_to_clipboard">Link copied</string>
     <string name="links">Links</string>
-    <string name="list_animation">List Animations</string>
-    <string name="list_animation_description">Show list animation on the main page</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Use material you color theme</string>
     <string name="merging_FORMAT">Merging %s</string>
@@ -151,7 +145,6 @@
     <string name="no_applications_available">No available applications</string>
     <string name="no_applications_installed">No installed applications</string>
     <string name="no_description_available_DESC">No description available</string>
-    <string name="no_internet">You have no internet connection</string>
     <string name="no_matching_applications_found">Could not find any such applications</string>
     <string name="no_proxy">No proxy</string>
     <string name="notify_about_updates">Notify for updates</string>
@@ -182,19 +175,14 @@
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
-    <string name="repository_not_used_DESC">This repository has not been used yet. Turn it on to view the applications in it.</string>
     <string name="repository_not_found">Following repository was not found</string>
     <string name="repository_unsigned_DESC">Unsigned. Could not verify the application list. Be careful downloading applications from unsigned repositories.</string>
     <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>
     <string name="require_background_access">Require Background Access</string>
     <string name="require_background_access_DESC">Background Access is required to properly run background sync</string>
-    <string name="restart_app">Restart Droid-ify to see changes</string>
-    <string name="root_permission">Silent Install</string>
-    <string name="root_permission_description">Allow root permission for silent installs</string>
     <string name="save">Save</string>
     <string name="saving_details">Saving details…</string>
-    <string name="screenshots">Screenshots</string>
     <string name="search">Search</string>
     <string name="select_mirror">Select a mirror</string>
     <string name="settings">Settings</string>
@@ -218,7 +206,6 @@
     <string name="syncing_FORMAT">Syncing %s…</string>
     <string name="system">System</string>
     <string name="tap_to_install_DESC">Tap to install.</string>
-    <string name="target">Target</string>
     <string name="theme">Theme</string>
     <string name="themes">Themes</string>
     <string name="tracks_or_reports_your_activity">Tracks or reports your activity</string>
@@ -226,12 +213,10 @@
     <string name="unknown">Unknown</string>
     <string name="unknown_error_DESC">Unknown error.</string>
     <string name="unknown_FORMAT">Unknown: %s</string>
-    <string name="unsigned">Unsigned</string>
     <string name="unstable_updates">Unstable updates</string>
     <string name="unstable_updates_summary">Suggest installing unstable versions</string>
     <string name="ignore_signature">Ignore Signature</string>
     <string name="ignore_signature_summary">*Warning* Ignore signature verification when installing apk, for LSPosed users or advanced users</string>
-    <string name="unverified">Unverified</string>
     <string name="update">Update</string>
     <string name="updates">Updates</string>
     <string name="upstream_source_code_is_not_free">The upstream source code is not free</string>
@@ -248,12 +233,7 @@
     <string name="prefs_language_title">Language</string>
     <string name="prefs_personalization">Personalization</string>
     <string name="show_less">Show Less</string>
-    <string name="latest">Latest</string>
-    <string name="explore">Explore</string>
     <string name="update_all">Update all</string>
-    <string name="installed_applications">Installed applications</string>
-    <string name="sort_filter">Sort &amp; Filter</string>
-    <string name="new_applications">New applications</string>
     <string name="contains_nsfw">Contains not safe for work content</string>
     <string name="label_open_video">Video</string>
 </resources>

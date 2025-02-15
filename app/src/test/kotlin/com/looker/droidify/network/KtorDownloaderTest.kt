@@ -15,14 +15,14 @@ import kotlin.test.assertIs
 
 class KtorDownloaderTest {
 
-    private val engine = io.ktor.client.engine.mock.MockEngine.Companion { request ->
+    private val engine = MockEngine { request ->
         when (request.url.host) {
             "success.com" -> respondOk("success")
-            "notfound.com" -> respondError(io.ktor.http.HttpStatusCode.Companion.NotFound)
-            "connection.com" -> throw io.ktor.client.plugins.ConnectTimeoutException(request)
-            "socket.com" -> throw io.ktor.client.plugins.SocketTimeoutException(request)
-            "notmodified.com" -> respond("", io.ktor.http.HttpStatusCode.Companion.NotModified)
-            "authenticate.com" -> respondError(io.ktor.http.HttpStatusCode.Companion.Unauthorized)
+            "notfound.com" -> respondError(HttpStatusCode.Companion.NotFound)
+            "connection.com" -> throw ConnectTimeoutException(request)
+            "socket.com" -> throw SocketTimeoutException(request)
+            "notmodified.com" -> respond("", HttpStatusCode.Companion.NotModified)
+            "authenticate.com" -> respondError(HttpStatusCode.Companion.Unauthorized)
 
             else -> TODO("Not implemented for: ${request.url.host}")
         }

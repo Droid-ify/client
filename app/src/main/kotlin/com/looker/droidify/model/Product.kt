@@ -1,7 +1,6 @@
 package com.looker.droidify.model
 
 import android.content.Context
-import com.looker.droidify.utility.common.extension.camera
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.videoPlaceHolder
 import com.google.android.material.R as MaterialR

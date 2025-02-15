@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.appDetail
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
@@ -89,6 +90,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private val viewModel: AppDetailViewModel by viewModels()
 
+    @SuppressLint("RestrictedApi")
     private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
     private var actions = Pair(emptySet<Action>(), null as Action?)
@@ -109,6 +111,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         }
     )
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -209,6 +212,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         downloadConnection.unbind(requireContext())
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
