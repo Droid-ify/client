@@ -53,6 +53,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 import com.looker.droidify.R
 import kotlinx.coroutines.FlowPreview
+import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -69,15 +70,16 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         private const val MAX_UPDATE_NOTIFICATION = 5
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
-        private val syncState = MutableSharedFlow<State>()
+        val syncState = MutableSharedFlow<State>()
     }
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
     sealed class State(val name: String) {
-        data class Connecting(val appName: String) : State(appName)
-        data class Syncing(
+        class Connecting(appName: String) : State(appName)
+
+        class Syncing(
             val appName: String,
             val stage: RepositoryUpdater.Stage,
             val read: DataSize,
@@ -85,6 +87,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         ) : State(appName)
 
         data object Finish : State("")
+
+        val progress: Int
+            get() = when (this) {
+                is Connecting -> Int.MIN_VALUE
+                Finish -> Int.MAX_VALUE
+                is Syncing -> when(stage) {
+                    RepositoryUpdater.Stage.DOWNLOAD -> ((read percentBy total) * 0.4F).roundToInt()
+                    RepositoryUpdater.Stage.PROCESS -> 50
+                    RepositoryUpdater.Stage.MERGE -> 75
+                    RepositoryUpdater.Stage.COMMIT -> 90
+                }
+            }
     }
 
     private class Task(val repositoryId: Long, val manual: Boolean)
