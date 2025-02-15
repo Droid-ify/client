@@ -16,6 +16,8 @@ import com.looker.droidify.installer.installers.session.SessionInstaller
 import com.looker.droidify.installer.installers.shizuku.ShizukuInstaller
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.notification.createInstallNotification
+import com.looker.droidify.installer.notification.installNotification
 import com.looker.droidify.installer.notification.removeInstallNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
@@ -87,6 +89,13 @@ class InstallManager(
         }.consumeEach { item ->
             if (state.value.containsKey(item.packageName)) {
                 updateState { put(item.packageName, InstallState.Installing) }
+                context.notificationManager?.installNotification(
+                    packageName = item.packageName.name,
+                    notification = context.createInstallNotification(
+                        appName = item.packageName.name,
+                        state = InstallState.Installing,
+                    )
+                )
                 val success = installer.use {
                     it.install(item)
                 }
