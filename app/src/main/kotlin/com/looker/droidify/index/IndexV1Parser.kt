@@ -125,7 +125,6 @@ object IndexV1Parser {
             Product.Donate.Regular::class,
             Product.Donate.Bitcoin::class,
             Product.Donate.Litecoin::class,
-            Product.Donate.Flattr::class,
             Product.Donate.Liberapay::class,
             Product.Donate.OpenCollective::class
         )
@@ -236,7 +235,6 @@ object IndexV1Parser {
     private const val KEY_PRODUCT_LICENSE = "license"
     private const val KEY_PRODUCT_DONATE = "donate"
     private const val KEY_PRODUCT_BITCOIN = "bitcoin"
-    private const val KEY_PRODUCT_FLATTRID = "flattrID"
     private const val KEY_PRODUCT_LIBERAPAYID = "liberapayID"
     private const val KEY_PRODUCT_OPENCOLLECTIVE = "openCollective"
     private const val KEY_PRODUCT_LOCALIZED = "localized"
@@ -295,7 +293,6 @@ object IndexV1Parser {
 
                 key.string(KEY_PRODUCT_DONATE) -> donates += Product.Donate.Regular(valueAsString)
                 key.string(KEY_PRODUCT_BITCOIN) -> donates += Product.Donate.Bitcoin(valueAsString)
-                key.string(KEY_PRODUCT_FLATTRID) -> donates += Product.Donate.Flattr(valueAsString)
                 key.string(KEY_PRODUCT_LIBERAPAYID) -> donates += Product.Donate.Liberapay(
                     valueAsString
                 )

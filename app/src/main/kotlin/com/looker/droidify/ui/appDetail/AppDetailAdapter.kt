@@ -314,7 +314,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         is Product.Donate.Regular -> drawableRes.ic_donate
                         is Product.Donate.Bitcoin -> drawableRes.ic_donate_bitcoin
                         is Product.Donate.Litecoin -> drawableRes.ic_donate_litecoin
-                        is Product.Donate.Flattr -> drawableRes.ic_donate_flattr
                         is Product.Donate.Liberapay -> drawableRes.ic_donate_liberapay
                         is Product.Donate.OpenCollective -> drawableRes.ic_donate_opencollective
                     }
@@ -323,7 +322,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.Regular -> context.getString(stringRes.website)
                     is Product.Donate.Bitcoin -> "Bitcoin"
                     is Product.Donate.Litecoin -> "Litecoin"
-                    is Product.Donate.Flattr -> "Flattr"
                     is Product.Donate.Liberapay -> "Liberapay"
                     is Product.Donate.OpenCollective -> "Open Collective"
                 }
@@ -332,10 +330,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.Regular -> Uri.parse(donate.url)
                     is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
                     is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
-                    is Product.Donate.Flattr -> Uri.parse(
-                        "https://flattr.com/thing/${donate.id}"
-                    )
-
                     is Product.Donate.Liberapay -> Uri.parse(
                         "https://liberapay.com/~${donate.id}"
                     )

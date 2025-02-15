@@ -53,11 +53,6 @@ fun Product.serialize(generator: JsonGenerator) {
                         writeStringField(ADDRESS, it.address)
                     }
 
-                    is Product.Donate.Flattr -> {
-                        writeStringField(TYPE, DONATION_FLATTR)
-                        writeStringField(ID, it.id)
-                    }
-
                     is Product.Donate.Liberapay -> {
                         writeStringField(TYPE, DONATION_LIBERAPAY)
                         writeStringField(ID, it.id)
@@ -149,7 +144,6 @@ fun JsonParser.product(): Product {
                     DONATION_EMPTY -> Product.Donate.Regular(url)
                     DONATION_BITCOIN -> Product.Donate.Bitcoin(address)
                     DONATION_LITECOIN -> Product.Donate.Litecoin(address)
-                    DONATION_FLATTR -> Product.Donate.Flattr(id)
                     DONATION_LIBERAPAY -> Product.Donate.Liberapay(id)
                     DONATION_OPENCOLLECTIVE -> Product.Donate.OpenCollective(id)
                     else -> null
@@ -243,6 +237,5 @@ private const val KEY_EMPTY = ""
 private const val DONATION_EMPTY = ""
 private const val DONATION_BITCOIN = "bitcoin"
 private const val DONATION_LITECOIN = "litecoin"
-private const val DONATION_FLATTR = "flattr"
 private const val DONATION_LIBERAPAY = "liberapay"
 private const val DONATION_OPENCOLLECTIVE = "openCollective"
