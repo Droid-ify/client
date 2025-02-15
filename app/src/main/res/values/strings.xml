@@ -255,4 +255,5 @@
     <string name="sort_filter">Sort &amp; Filter</string>
     <string name="new_applications">New applications</string>
     <string name="contains_nsfw">Contains not safe for work content</string>
+    <string name="label_open_video">Video</string>
 </resources>

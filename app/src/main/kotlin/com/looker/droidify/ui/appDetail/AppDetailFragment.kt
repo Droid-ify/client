@@ -456,7 +456,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val position = screenshots.indexOfFirst { screenshot.identifier == it.identifier }
         StfalconImageViewer
             .Builder(context, screenshots) { view, current ->
-                view.load(current.url(product.second, viewModel.packageName))
+                view.load(current.url(requireContext(), product.second, viewModel.packageName))
             }
             .withStartPosition(position)
             .show()

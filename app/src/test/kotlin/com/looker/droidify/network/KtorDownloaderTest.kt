@@ -108,7 +108,7 @@ class KtorDownloaderTest {
                 "https://authenticate.com",
                 target = file,
                 headers = {
-                    com.looker.droidify.network.header.HeadersBuilder.authentication(
+                    authentication(
                         "iamlooker",
                         "sneakypeaky"
                     )

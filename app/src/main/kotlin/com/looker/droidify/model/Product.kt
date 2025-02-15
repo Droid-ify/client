@@ -1,5 +1,11 @@
 package com.looker.droidify.model
 
+import android.content.Context
+import com.looker.droidify.utility.common.extension.camera
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.videoPlaceHolder
+import com.google.android.material.R as MaterialR
+
 data class Product(
     var repositoryId: Long,
     val packageName: String,
@@ -36,6 +42,7 @@ data class Product(
 
     class Screenshot(val locale: String, val type: Type, val path: String) {
         enum class Type(val jsonName: String) {
+            VIDEO("video"),
             PHONE("phone"),
             SMALL_TABLET("smallTablet"),
             LARGE_TABLET("largeTablet"),
@@ -47,15 +54,20 @@ data class Product(
             get() = "$locale.${type.name}.$path"
 
         fun url(
+            context: Context,
             repository: Repository,
             packageName: String
-        ): String {
+        ): Any {
+            if (type == Type.VIDEO) return context.videoPlaceHolder.apply {
+                setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurfaceInverse))
+            }
             val phoneType = when (type) {
                 Type.PHONE -> "phoneScreenshots"
                 Type.SMALL_TABLET -> "sevenInchScreenshots"
                 Type.LARGE_TABLET -> "tenInchScreenshots"
                 Type.WEAR -> "wearScreenshots"
                 Type.TV -> "tvScreenshots"
+                Type.VIDEO -> error("Should not be here, video url already returned")
             }
             return "${repository.address}/$packageName/$locale/$phoneType/$path"
         }

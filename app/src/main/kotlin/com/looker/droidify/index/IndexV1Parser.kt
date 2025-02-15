@@ -21,6 +21,7 @@ import com.looker.droidify.model.Product.Screenshot.Type.LARGE_TABLET
 import com.looker.droidify.model.Product.Screenshot.Type.PHONE
 import com.looker.droidify.model.Product.Screenshot.Type.SMALL_TABLET
 import com.looker.droidify.model.Product.Screenshot.Type.TV
+import com.looker.droidify.model.Product.Screenshot.Type.VIDEO
 import com.looker.droidify.model.Product.Screenshot.Type.WEAR
 import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.SdkCheck
@@ -42,6 +43,7 @@ object IndexV1Parser {
     }
 
     private class Screenshots(
+        val video: List<String>,
         val phone: List<String>,
         val smallTablet: List<String>,
         val largeTablet: List<String>,
@@ -256,6 +258,7 @@ object IndexV1Parser {
     private const val KEY_PRODUCT_TEN_INCH_SCREENSHOTS = "tenInchScreenshots"
     private const val KEY_PRODUCT_WEAR_SCREENSHOTS = "wearScreenshots"
     private const val KEY_PRODUCT_TV_SCREENSHOTS = "tvScreenshots"
+    private const val KEY_PRODUCT_VIDEO = "video"
 
     private fun JsonParser.parseProduct(repositoryId: Long): Product {
         var packageName = ""
@@ -324,6 +327,7 @@ object IndexV1Parser {
                         var largeTablet = emptyList<String>()
                         var wear = emptyList<String>()
                         var tv = emptyList<String>()
+                        var video = emptyList<String>()
                         forEachKey {
                             when {
                                 it.string(KEY_PRODUCT_NAME) -> name = valueAsString
@@ -331,6 +335,7 @@ object IndexV1Parser {
                                 it.string(KEY_PRODUCT_DESCRIPTION) -> description = valueAsString
                                 it.string(KEY_PRODUCT_WHATSNEW) -> whatsNew = valueAsString
                                 it.string(KEY_PRODUCT_ICON) -> metadataIcon = valueAsString
+                                it.string(KEY_PRODUCT_VIDEO) -> video = listOf(valueAsString)
                                 it.array(KEY_PRODUCT_PHONE_SCREENSHOTS) ->
                                     phone = collectDistinctNotEmptyStrings()
 
@@ -349,26 +354,23 @@ object IndexV1Parser {
                                 else -> skipChildren()
                             }
                         }
+                        val isScreenshotEmpty =
+                            arrayOf(video, phone, smallTablet, largeTablet, wear, tv)
+                                .any { it.isNotEmpty() }
                         val screenshots =
-                            if (arrayOf(
-                                    phone,
-                                    smallTablet,
-                                    largeTablet,
-                                    wear,
-                                    tv,
-                                ).any { it.isNotEmpty() }
-                            ) {
-                                Screenshots(phone, smallTablet, largeTablet, wear, tv)
+                            if (isScreenshotEmpty) {
+                                Screenshots(video, phone, smallTablet, largeTablet, wear, tv)
                             } else {
                                 null
                             }
                         localizedMap[locale] = Localized(
-                            name,
-                            summary,
-                            description,
-                            whatsNew,
-                            metadataIcon.nullIfEmpty()?.let { "$locale/$it" }.orEmpty(),
-                            screenshots
+                            name = name,
+                            summary = summary,
+                            description = description,
+                            whatsNew = whatsNew,
+                            metadataIcon = metadataIcon.nullIfEmpty()?.let { "$locale/$it" }
+                                .orEmpty(),
+                            screenshots = screenshots,
                         )
                     } else {
                         skipChildren()
@@ -392,7 +394,8 @@ object IndexV1Parser {
         val screenshotPairs =
             localizedMap.find { key, localized -> localized.screenshots?.let { Pair(key, it) } }
         val screenshots = screenshotPairs?.let { (key, screenshots) ->
-            screenshots.phone.map { Product.Screenshot(key, PHONE, it) } +
+            screenshots.video.map { Product.Screenshot(key, VIDEO, it) } +
+                screenshots.phone.map { Product.Screenshot(key, PHONE, it) } +
                 screenshots.smallTablet.map { Product.Screenshot(key, SMALL_TABLET, it) } +
                 screenshots.largeTablet.map { Product.Screenshot(key, LARGE_TABLET, it) } +
                 screenshots.wear.map { Product.Screenshot(key, WEAR, it) } +

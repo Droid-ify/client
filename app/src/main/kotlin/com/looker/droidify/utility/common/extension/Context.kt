@@ -5,6 +5,7 @@ import android.app.job.JobScheduler
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
@@ -15,6 +16,7 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import androidx.core.net.toUri
 import com.looker.droidify.R
 
 inline val Context.clipboardManager: ClipboardManager?
@@ -39,6 +41,13 @@ fun Context.copyToClipboard(clip: String) {
     clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
 }
 
+fun Context.openLink(url: String) {
+    val intent = intent(Intent.ACTION_VIEW) {
+        setData(url.toUri())
+    }
+    startActivity(intent)
+}
+
 val Context.corneredBackground: Drawable
     get() = getDrawableCompat(R.drawable.background_border)
 
@@ -56,6 +65,9 @@ val Context.selectableBackground: Drawable
 
 val Context.camera: Drawable
     get() = getDrawableCompat(R.drawable.ic_image)
+
+val Context.videoPlaceHolder: Drawable
+    get() = getDrawableCompat(R.drawable.ic_video)
 
 val Context.aspectRatio: Float
     get() = with(resources.displayMetrics) {
@@ -75,14 +87,21 @@ private fun Context.getDrawableFromAttr(attrResId: Int): Drawable {
 }
 
 fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_border): Drawable =
-    requireNotNull(AppCompatResources.getDrawable(this, resId)) { "Cannot find drawable, ID: $resId" }
+    requireNotNull(
+        AppCompatResources.getDrawable(
+            this,
+            resId
+        )
+    ) { "Cannot find drawable, ID: $resId" }
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
     val typedArray = obtainStyledAttributes(intArrayOf(attrResId))
-    val (colorStateList, resId) = try {
-        Pair(typedArray.getColorStateList(0), typedArray.getResourceId(0, 0))
+    return try {
+        typedArray.getColorStateList(0) ?: run {
+            val resourceId = typedArray.getResourceId(0, 0)
+            ContextCompat.getColorStateList(this, resourceId)!!
+        }
     } finally {
         typedArray.recycle()
     }
-    return colorStateList ?: ContextCompat.getColorStateList(this, resId)!!
 }

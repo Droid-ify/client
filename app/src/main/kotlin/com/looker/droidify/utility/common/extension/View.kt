@@ -1,5 +1,6 @@
 package com.looker.droidify.utility.common.extension
 
+import android.content.Context
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +19,18 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 
 fun ImageRequest.Builder.authentication(base64: String) {
-    addHeader("Authorization", base64)
+    if (base64.isNotEmpty()) {
+        addHeader("Authorization", base64)
+    }
 }
 
 fun TextView.setTextSizeScaled(size: Int) {
     val realSize = (size * resources.displayMetrics.scaledDensity).roundToInt()
     setTextSize(TypedValue.COMPLEX_UNIT_PX, realSize.toFloat())
 }
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)
 
 fun ViewGroup.inflate(layoutResId: Int): View {
     return LayoutInflater.from(context).inflate(layoutResId, this, false)
