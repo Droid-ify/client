@@ -577,11 +577,12 @@ object Database {
             .map { get(packageName, null) }
             .flowOn(Dispatchers.IO)
 
-        suspend fun getUpdates(): List<ProductItem> = withContext(Dispatchers.IO) {
+        suspend fun getUpdates(skipSignatureCheck: Boolean): List<ProductItem> = withContext(Dispatchers.IO) {
             query(
                 installed = true,
                 updates = true,
                 searchQuery = "",
+                skipSignatureCheck = skipSignatureCheck,
                 section = ProductItem.Section.All,
                 order = SortOrder.NAME,
                 signal = null
@@ -592,11 +593,11 @@ object Database {
             }
         }
 
-        fun getUpdatesStream(): Flow<List<ProductItem>> = flowOf(Unit)
+        fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<List<ProductItem>> = flowOf(Unit)
             .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
             // Crashes due to immediate retrieval of data?
             .onEach { delay(50) }
-            .map { getUpdates() }
+            .map { getUpdates(skipSignatureCheck) }
             .flowOn(Dispatchers.IO)
 
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {
@@ -631,6 +632,7 @@ object Database {
         fun query(
             installed: Boolean,
             updates: Boolean,
+            skipSignatureCheck: Boolean = false,
             searchQuery: String,
             section: ProductItem.Section,
             order: SortOrder,
@@ -638,9 +640,10 @@ object Database {
         ): Cursor {
             val builder = QueryBuilder()
 
-            val signatureMatches = """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
-        product.${Schema.Product.ROW_SIGNATURES} LIKE ('%.' || installed.${Schema.Installed.ROW_SIGNATURE} || '.%') AND
-        product.${Schema.Product.ROW_SIGNATURES} != ''"""
+            val signatureMatches = if (skipSignatureCheck) "1"
+            else """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
+                product.${Schema.Product.ROW_SIGNATURES} LIKE ('%.' || installed.${Schema.Installed.ROW_SIGNATURE} || '.%') AND
+                product.${Schema.Product.ROW_SIGNATURES} != ''"""
 
             builder += """SELECT product.rowid AS _id, product.${Schema.Product.ROW_REPOSITORY_ID},
         product.${Schema.Product.ROW_PACKAGE_NAME}, product.${Schema.Product.ROW_NAME},

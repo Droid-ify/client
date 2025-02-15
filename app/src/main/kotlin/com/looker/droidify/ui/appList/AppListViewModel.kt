@@ -15,7 +15,9 @@ import com.looker.droidify.service.SyncService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
@@ -25,14 +27,18 @@ class AppListViewModel
     settingsRepository: SettingsRepository
 ) : ViewModel() {
 
+    private val skipSignatureStream = settingsRepository.get { ignoreSignature }
+
     val reposStream = Database.RepositoryAdapter
         .getAllStream()
         .asStateFlow(emptyList())
 
-    val showUpdateAllButton = Database.ProductAdapter
-        .getUpdatesStream()
-        .map { it.isNotEmpty() }
-        .asStateFlow(false)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val showUpdateAllButton = skipSignatureStream.flatMapConcat { skip ->
+        Database.ProductAdapter
+            .getUpdatesStream(skip)
+            .map { it.isNotEmpty() }
+    }.asStateFlow(false)
 
     val sortOrderFlow = settingsRepository.get { sortOrder }
         .asStateFlow(SortOrder.UPDATED)
