@@ -5,16 +5,21 @@ import androidx.core.os.ConfigurationCompat.getLocales
 import androidx.core.os.LocaleListCompat
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.droidify.utility.common.SdkCheck
 import com.looker.core.common.extension.Json
 import com.looker.core.common.extension.collectDistinctNotEmptyStrings
 import com.looker.core.common.extension.collectNotNull
 import com.looker.core.common.extension.forEach
 import com.looker.core.common.extension.forEachKey
 import com.looker.core.common.extension.illegal
-import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.model.Product
+import com.looker.droidify.model.Product.Screenshot.Type.LARGE_TABLET
+import com.looker.droidify.model.Product.Screenshot.Type.PHONE
+import com.looker.droidify.model.Product.Screenshot.Type.SMALL_TABLET
+import com.looker.droidify.model.Product.Screenshot.Type.TV
+import com.looker.droidify.model.Product.Screenshot.Type.WEAR
 import com.looker.droidify.model.Release
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.nullIfEmpty
 import java.io.InputStream
 
 object IndexV1Parser {
@@ -34,7 +39,9 @@ object IndexV1Parser {
     private class Screenshots(
         val phone: List<String>,
         val smallTablet: List<String>,
-        val largeTablet: List<String>
+        val largeTablet: List<String>,
+        val wear: List<String>,
+        val tv: List<String>,
     )
 
     private class Localized(
@@ -90,10 +97,9 @@ object IndexV1Parser {
     }
 
     private fun <T> Map<String, Localized>.find(callback: (String, Localized) -> T?): T? {
-        return getAndCall("en-US", callback) ?: getAndCall("en_US", callback) ?: getAndCall(
-            "en",
-            callback
-        )
+        return getAndCall("en-US", callback)
+            ?: getAndCall("en_US", callback)
+            ?: getAndCall("en", callback)
     }
 
     private fun <T> Map<String, Localized>.findLocalized(callback: (Localized) -> T?): T? {
@@ -239,9 +245,11 @@ object IndexV1Parser {
     private const val KEY_PRODUCT_OPENCOLLECTIVE = "openCollective"
     private const val KEY_PRODUCT_LOCALIZED = "localized"
     private const val KEY_PRODUCT_WHATSNEW = "whatsNew"
-    private const val KEY_PRODUCT_PHONESCREENSHOTS = "phoneScreenshots"
-    private const val KEY_PRODUCT_SEVENINCHSCREENSHOTS = "sevenInchScreenshots"
-    private const val KEY_PRODUCT_TENINCHSCREENSHOTS = "tenInchScreenshots"
+    private const val KEY_PRODUCT_PHONE_SCREENSHOTS = "phoneScreenshots"
+    private const val KEY_PRODUCT_SEVEN_INCH_SCREENSHOTS = "sevenInchScreenshots"
+    private const val KEY_PRODUCT_TEN_INCH_SCREENSHOTS = "tenInchScreenshots"
+    private const val KEY_PRODUCT_WEAR_SCREENSHOTS = "wearScreenshots"
+    private const val KEY_PRODUCT_TV_SCREENSHOTS = "tvScreenshots"
 
     private fun JsonParser.parseProduct(repositoryId: Long): Product {
         var packageName = ""
@@ -312,6 +320,8 @@ object IndexV1Parser {
                         var phone = emptyList<String>()
                         var smallTablet = emptyList<String>()
                         var largeTablet = emptyList<String>()
+                        var wear = emptyList<String>()
+                        var tv = emptyList<String>()
                         forEachKey {
                             when {
                                 it.string(KEY_PRODUCT_NAME) -> name = valueAsString
@@ -319,29 +329,34 @@ object IndexV1Parser {
                                 it.string(KEY_PRODUCT_DESCRIPTION) -> description = valueAsString
                                 it.string(KEY_PRODUCT_WHATSNEW) -> whatsNew = valueAsString
                                 it.string(KEY_PRODUCT_ICON) -> metadataIcon = valueAsString
-                                it.array(KEY_PRODUCT_PHONESCREENSHOTS) ->
-                                    phone =
-                                        collectDistinctNotEmptyStrings()
+                                it.array(KEY_PRODUCT_PHONE_SCREENSHOTS) ->
+                                    phone = collectDistinctNotEmptyStrings()
 
-                                it.array(KEY_PRODUCT_SEVENINCHSCREENSHOTS) ->
-                                    smallTablet =
-                                        collectDistinctNotEmptyStrings()
+                                it.array(KEY_PRODUCT_SEVEN_INCH_SCREENSHOTS) ->
+                                    smallTablet = collectDistinctNotEmptyStrings()
 
-                                it.array(KEY_PRODUCT_TENINCHSCREENSHOTS) ->
-                                    largeTablet =
-                                        collectDistinctNotEmptyStrings()
+                                it.array(KEY_PRODUCT_TEN_INCH_SCREENSHOTS) ->
+                                    largeTablet = collectDistinctNotEmptyStrings()
+
+                                it.array(KEY_PRODUCT_WEAR_SCREENSHOTS) ->
+                                    wear = collectDistinctNotEmptyStrings()
+
+                                it.array(KEY_PRODUCT_TV_SCREENSHOTS) ->
+                                    tv = collectDistinctNotEmptyStrings()
 
                                 else -> skipChildren()
                             }
                         }
                         val screenshots =
-                            if (sequenceOf(
+                            if (arrayOf(
                                     phone,
                                     smallTablet,
-                                    largeTablet
+                                    largeTablet,
+                                    wear,
+                                    tv,
                                 ).any { it.isNotEmpty() }
                             ) {
-                                Screenshots(phone, smallTablet, largeTablet)
+                                Screenshots(phone, smallTablet, largeTablet, wear, tv)
                             } else {
                                 null
                             }
@@ -374,28 +389,13 @@ object IndexV1Parser {
         }
         val screenshotPairs =
             localizedMap.find { key, localized -> localized.screenshots?.let { Pair(key, it) } }
-        val screenshots = screenshotPairs
-            ?.let { (key, screenshots) ->
-                screenshots.phone.asSequence()
-                    .map { Product.Screenshot(key, Product.Screenshot.Type.PHONE, it) } +
-                    screenshots.smallTablet.asSequence()
-                        .map {
-                            Product.Screenshot(
-                                key,
-                                Product.Screenshot.Type.SMALL_TABLET,
-                                it
-                            )
-                        } +
-                    screenshots.largeTablet.asSequence()
-                        .map {
-                            Product.Screenshot(
-                                key,
-                                Product.Screenshot.Type.LARGE_TABLET,
-                                it
-                            )
-                        }
-            }
-            .orEmpty().toList()
+        val screenshots = screenshotPairs?.let { (key, screenshots) ->
+            screenshots.phone.map { Product.Screenshot(key, PHONE, it) } +
+                screenshots.smallTablet.map { Product.Screenshot(key, SMALL_TABLET, it) } +
+                screenshots.largeTablet.map { Product.Screenshot(key, LARGE_TABLET, it) } +
+                screenshots.wear.map { Product.Screenshot(key, WEAR, it) } +
+                screenshots.tv.map { Product.Screenshot(key, TV, it) }
+        }.orEmpty()
         return Product(
             repositoryId = repositoryId,
             packageName = packageName,

@@ -38,7 +38,9 @@ data class Product(
         enum class Type(val jsonName: String) {
             PHONE("phone"),
             SMALL_TABLET("smallTablet"),
-            LARGE_TABLET("largeTablet")
+            LARGE_TABLET("largeTablet"),
+            WEAR("wear"),
+            TV("tv")
         }
 
         val identifier: String
@@ -52,6 +54,8 @@ data class Product(
                 Type.PHONE -> "phoneScreenshots"
                 Type.SMALL_TABLET -> "sevenInchScreenshots"
                 Type.LARGE_TABLET -> "tenInchScreenshots"
+                Type.WEAR -> "wearScreenshots"
+                Type.TV -> "tvScreenshots"
             }
             return "${repository.address}/$packageName/$locale/$phoneType/$path"
         }
