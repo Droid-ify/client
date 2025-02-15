@@ -23,13 +23,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.extension.getColorFromAttr
-import com.looker.droidify.utility.common.extension.homeAsUp
-import com.looker.droidify.utility.common.extension.systemBarsPadding
-import com.looker.droidify.utility.common.extension.updateAsMutable
-import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
-import com.looker.droidify.utility.common.requestBatteryFreedom
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.R
+import com.looker.droidify.databinding.EnumTypeBinding
+import com.looker.droidify.databinding.SettingsPageBinding
+import com.looker.droidify.databinding.SwitchTypeBinding
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.extension.autoSyncName
 import com.looker.droidify.datastore.extension.installerName
@@ -40,20 +38,21 @@ import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.databinding.EnumTypeBinding
-import com.looker.droidify.databinding.SettingsPageBinding
-import com.looker.droidify.databinding.SwitchTypeBinding
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.homeAsUp
+import com.looker.droidify.utility.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
+import com.looker.droidify.utility.common.requestBatteryFreedom
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import com.google.android.material.R as MaterialR
-import com.looker.droidify.R
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -119,9 +118,7 @@ class SettingsFragment : Fragment() {
     ): View {
         _binding = SettingsPageBinding.inflate(inflater, container, false)
         binding.nestedScrollView.systemBarsPadding()
-        if (requireContext().isIgnoreBatteryEnabled()) {
-            viewModel.allowBackground()
-        }
+        viewModel.toggleBackgroundAccess(requireContext().isIgnoreBatteryEnabled())
         val toolbar = binding.toolbar
         toolbar.navigationIcon = toolbar.context.homeAsUp
         toolbar.setNavigationOnClickListener { activity?.onBackPressedDispatcher?.onBackPressed() }
@@ -283,6 +280,7 @@ class SettingsFragment : Fragment() {
             exportRepos.title.text = getString(R.string.export_repos_title)
             exportRepos.content.text = getString(R.string.export_repos_DESC)
 
+            allowBackgroundWork.root.isVisible = false
             allowBackgroundWork.title.text = getString(R.string.require_background_access)
             allowBackgroundWork.content.text =
                 getString(R.string.require_background_access_DESC)
@@ -315,8 +313,8 @@ class SettingsFragment : Fragment() {
                 launch {
                     viewModel.settingsFlow.collect { setting ->
                         updateSettings(setting)
-                        binding.allowBackgroundWork.root.isVisible = !viewModel.backgroundTask.first()
-                            && setting.autoSync != AutoSync.NEVER
+                        binding.allowBackgroundWork.root.isVisible =
+                            !viewModel.isBackgroundAllowed && setting.autoSync != AutoSync.NEVER
                     }
                 }
             }
@@ -326,9 +324,7 @@ class SettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (requireContext().isIgnoreBatteryEnabled()) {
-            viewModel.allowBackground()
-        }
+        viewModel.toggleBackgroundAccess(requireContext().isIgnoreBatteryEnabled())
     }
 
     override fun onDestroyView() {
@@ -376,9 +372,7 @@ class SettingsFragment : Fragment() {
             }
             allowBackgroundWork.root.setOnClickListener {
                 requireContext().requestBatteryFreedom()
-                if (requireContext().isIgnoreBatteryEnabled()) {
-                    viewModel.allowBackground()
-                }
+                viewModel.toggleBackgroundAccess(requireContext().isIgnoreBatteryEnabled())
             }
             creditFoxy.root.setOnClickListener {
                 openLink(FOXY_DROID_URL)
