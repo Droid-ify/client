@@ -2,9 +2,9 @@ package com.looker.droidify.utility.serialization
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.core.common.extension.collectNotNullStrings
-import com.looker.core.common.extension.forEachKey
-import com.looker.core.common.extension.writeArray
+import com.looker.droidify.utility.common.extension.collectNotNullStrings
+import com.looker.droidify.utility.common.extension.forEachKey
+import com.looker.droidify.utility.common.extension.writeArray
 import com.looker.droidify.model.Repository
 
 fun Repository.serialize(generator: JsonGenerator) {
