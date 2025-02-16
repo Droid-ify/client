@@ -53,7 +53,6 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
-        <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
@@ -113,7 +112,6 @@
         <item name="android:statusBarColor">?colorSurfaceContainer</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
 
-        <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
@@ -140,7 +138,6 @@
         <item name="colorOnError">@color/md_theme_d_onError_mediumContrast</item>
         <item name="colorErrorContainer">@color/md_theme_d_errorContainer_mediumContrast</item>
         <item name="colorOnErrorContainer">@color/md_theme_d_onErrorContainer_mediumContrast</item>
-        <!--<item name="android:colorBackground">@color/md_theme_d_background_mediumContrast</item>-->
         <item name="android:colorBackground">@color/pitch_black</item>
         <item name="colorOnBackground">@color/md_theme_d_onBackground_mediumContrast</item>
         <item name="colorSurface">@color/md_theme_d_surface_mediumContrast</item>
@@ -174,7 +171,6 @@
         <item name="android:statusBarColor">?colorSurfaceContainer</item>
         <item name="android:navigationBarColor">?android:colorBackground</item>
 
-        <item name="toolbarStyle">@style/Theme.Toolbar</item>
         <item name="textInputStyle">@style/Theme.EditText</item>
         <item name="materialAlertDialogTheme">@style/Theme.Alert</item>
         <item name="appBarLayoutStyle">@style/Theme.AppBarLayout</item>
@@ -202,10 +198,6 @@
 
     <style name="Theme.AppBarLayout" parent="Widget.Material3.AppBarLayout">
         <item name="android:fitsSystemWindows">true</item>
-    </style>
-
-    <style name="Theme.Toolbar" parent="Widget.Material3.Toolbar.Surface">
-        <item name="layout_collapseMode">pin</item>
     </style>
 
     <style name="Theme.Alert" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
