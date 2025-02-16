@@ -22,7 +22,7 @@ android {
         applicationId = "com.looker.droidify"
         versionCode = 640
         versionName = latestVersionName
-        vectorDrawables.useSupportLibrary = true
+        vectorDrawables.useSupportLibrary = false
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -54,11 +54,11 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             applicationIdSuffix = ".debug"
             resValue("string", "application_name", "Droid-ify-Debug")
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             resValue("string", "application_name", "Droid-ify")
@@ -103,6 +103,10 @@ android {
         resValues = true
         viewBinding = true
         buildConfig = true
+    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
