@@ -135,7 +135,7 @@ dependencies {
     implementation(libs.sqlite.ktx)
 
     implementation(libs.image.viewer)
-    implementation(libs.coil.kt)
+    implementation(libs.bundles.coil)
 
     implementation(libs.datastore.core)
     implementation(libs.datastore.proto)

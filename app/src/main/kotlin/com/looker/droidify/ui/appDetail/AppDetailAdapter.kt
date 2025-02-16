@@ -40,7 +40,7 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import coil3.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -102,7 +102,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onFavouriteClicked()
         fun onPreferenceChanged(preference: ProductPreference)
         fun onPermissionsClick(group: String?, permissions: List<String>)
-        fun onScreenshotClick(screenshot: Product.Screenshot, parentView: ImageView)
+        fun onScreenshotClick(position: Int)
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
@@ -1428,12 +1428,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     setPadding(8.dp, 8.dp, 8.dp, 8.dp)
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter =
-                        ScreenshotsAdapter { screenshot, view ->
-                            callbacks.onScreenshotClick(screenshot, view)
-                        }.apply {
-                            setScreenshots(item.repository, item.packageName, item.screenshots)
-                        }
+                    adapter = ScreenshotsAdapter(callbacks::onScreenshotClick).apply {
+                        setScreenshots(item.repository, item.packageName, item.screenshots)
+                    }
                 }
             }
 
