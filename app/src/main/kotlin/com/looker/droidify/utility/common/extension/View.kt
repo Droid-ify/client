@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.request.ImageRequest
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
+import coil3.request.ImageRequest
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -18,9 +20,12 @@ import kotlinx.coroutines.flow.map
 import kotlin.math.min
 import kotlin.math.roundToInt
 
+private val networkHeader by lazy { NetworkHeaders.Builder() }
+
 fun ImageRequest.Builder.authentication(base64: String) {
     if (base64.isNotEmpty()) {
-        addHeader("Authorization", base64)
+        networkHeader["Authorization"] = base64
+        httpHeaders(networkHeader.build())
     }
 }
 

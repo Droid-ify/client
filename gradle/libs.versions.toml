@@ -16,7 +16,7 @@ test-rules = "1.6.1"
 test-runner = "1.6.2"
 ui-automator = "2.3.0"
 work = "2.10.0"
-coil = "2.7.0"
+coil = "3.1.0"
 leakcanary = "2.14"
 hilt = "2.55"
 hiltExt = "1.2.0"
@@ -54,7 +54,8 @@ test-runner = { group = "androidx.test", name = "runner", version.ref = "test-ru
 test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "ui-automator" }
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
-coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
+coil-core = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -94,5 +95,6 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 [bundles]
+coil = ["coil-core", "coil-network"]
 test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "test-espresso-core", "coroutines-test", "kotlin-test"]

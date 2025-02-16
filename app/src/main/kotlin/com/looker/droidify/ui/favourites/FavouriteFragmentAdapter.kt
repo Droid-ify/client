@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import coil3.load
 import com.looker.droidify.databinding.ProductItemBinding
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository

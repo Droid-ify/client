@@ -5,19 +5,19 @@ import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import coil.dispose
-import coil.load
-import coil.size.Dimension
-import coil.size.Scale
+import coil3.asImage
+import coil3.dispose
+import coil3.load
+import coil3.request.placeholder
+import coil3.size.Dimension
+import coil3.size.Scale
 import com.google.android.material.imageview.ShapeableImageView
 import com.looker.droidify.databinding.VideoButtonBinding
 import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.aspectRatio
-import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.camera
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.dpToPx
@@ -29,7 +29,7 @@ import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.dimen as dimenRes
 
-class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) -> Unit) :
+class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
     StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
     enum class ViewType { SCREENSHOT, VIDEO }
 
@@ -120,8 +120,12 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) ->
             ViewType.VIDEO -> VideoViewHolder(VideoButtonBinding.inflate(parent.context.layoutInflater))
             ViewType.SCREENSHOT -> ScreenshotViewHolder(parent.context).apply {
                 image.setOnClickListener {
-                    val item = items[absoluteAdapterPosition] as Item.ScreenshotItem
-                    onClick(item.screenshot, it as ImageView)
+                    val position = if (items.any { it.viewType == ViewType.VIDEO }) {
+                        absoluteAdapterPosition - 1
+                    } else {
+                        absoluteAdapterPosition
+                    }
+                    onClick(position)
                 }
             }
         }
@@ -138,8 +142,7 @@ class ScreenshotsAdapter(private val onClick: (Product.Screenshot, ImageView) ->
                         size(Dimension.Undefined, Dimension(150.dp.dpToPx.toInt()))
                         scale(Scale.FIT)
                         placeholder(holder.placeholder)
-                        error(holder.placeholder)
-                        authentication(item.repository.authentication)
+                        error(holder.placeholder.asImage())
                     }
                 }
             }
