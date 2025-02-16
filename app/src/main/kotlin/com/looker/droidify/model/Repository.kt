@@ -151,14 +151,6 @@ data class Repository(
                 fingerprint = "2581BA7B32D3AB443180C4087CAB6A7E8FB258D3A6E98870ECB3C675E4D64489"
             ),
             defaultRepository(
-                address = "https://fdroid.bromite.org/fdroid/repo",
-                name = "Bromite",
-                description = "The official repository for Bromite. " +
-                    "Bromite is a Chromium with ad blocking and enhanced p" +
-                    "rivacy.",
-                fingerprint = "E1EE5CD076D7B0DC84CB2B45FB78B86DF2EB39A3B6C56BA3DC292A5E0C3B9504"
-            ),
-            defaultRepository(
                 address = "https://molly.im/fdroid/foss/fdroid/repo",
                 name = "Molly",
                 description = "The official repository for Molly. " +
@@ -412,6 +404,14 @@ data class Repository(
                 description = "The official repository for Total Commander",
                 fingerprint = "3576596CECDD70488D61CFD90799A49B7FFD26A81A8FEF1BADEC88D069FA72C1"
             ),
+            defaultRepository(
+                address = "https://www.cromite.org/fdroid/repo",
+                name = "Cromite",
+                description = "The official repository for Cromite. " +
+                    "Cromite is a Chromium fork based on Bromite with " +
+                    "built-in support for ad blocking and an eye for privacy.",
+                fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+            )
         )
     }
 }
