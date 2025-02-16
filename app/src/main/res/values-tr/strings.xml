@@ -75,8 +75,6 @@
     <string name="light">Açık</string>
     <string name="link_copied_to_clipboard">Bağlantı kopyalandı</string>
     <string name="links">Bağlantılar</string>
-    <string name="list_animation">Liste Animasyonu</string>
-    <string name="list_animation_description">Liste canlandırmasını ana sayfada göster</string>
     <string name="merging_FORMAT">%s birleştiriliyor</string>
     <string name="name">İsim</string>
     <string name="network_error_DESC">Ağ hatası</string>
@@ -117,14 +115,10 @@
     <string name="recently_updated">Son güncelleme</string>
     <string name="repositories">Depolar</string>
     <string name="repository">Depo</string>
-    <string name="repository_not_used_DESC">Bu depo henüz kullanılmadı. İçindeki uygulamaları görüntülemek için etkinleştirin.</string>
     <string name="repository_unsigned_DESC">İmzalanmamış. Uygulama listesi doğrulanamadı. İmzalanmamış depolardan uygulama indirirken dikkatli olun.</string>
     <string name="requires_FORMAT">%s gerektirir</string>
-    <string name="root_permission">Sessiz Kurulum</string>
-    <string name="root_permission_description">Sessiz kurulumlar için root iznine izin ver</string>
     <string name="save">Kaydet</string>
     <string name="saving_details">Ayrıntılar kaydediliyor…</string>
-    <string name="screenshots">Ekran görüntüleri</string>
     <string name="search">Arama</string>
     <string name="select_mirror">Bir mirror seç</string>
     <string name="share">Paylaş</string>
@@ -145,7 +139,6 @@
     <string name="syncing_FORMAT">%s senkronize ediliyor…</string>
     <string name="system">Sistem</string>
     <string name="tap_to_install_DESC">Kurmak için dokunun.</string>
-    <string name="target">Hedef</string>
     <string name="theme">Tema</string>
     <string name="themes">Temalar</string>
     <string name="tracks_or_reports_your_activity">Etkinliğinizi takip eder ya da raporlar</string>
@@ -153,10 +146,8 @@
     <string name="unknown">Bilinmeyen</string>
     <string name="unknown_error_DESC">Bilinmeyen hata.</string>
     <string name="unknown_FORMAT">Bilinmeyen: %s</string>
-    <string name="unsigned">İmzalanmamış</string>
     <string name="unstable_updates">Kararsız güncellemeler</string>
     <string name="unstable_updates_summary">Kararsız sürümleri kurmayı öner</string>
-    <string name="unverified">Doğrulanmamış</string>
     <string name="update">Güncelle</string>
     <string name="updates">Güncellemeler</string>
     <string name="upstream_source_code_is_not_free">Yukarı akış kaynak kodu özgür değil</string>
@@ -172,12 +163,7 @@
     <string name="prefs_language_title">Dil</string>
     <string name="prefs_personalization">Kişiselleştirme</string>
     <string name="show_less">Daha Az Göster</string>
-    <string name="latest">En son</string>
-    <string name="explore">Gözat</string>
     <string name="update_all">Tümünü güncelle</string>
-    <string name="sort_filter">Sırala ve Filtrele</string>
-    <string name="installed_applications">Yüklü uygulamalar</string>
-    <string name="new_applications">Yeni uygulamalar</string>
     <string name="installer">Kurucu</string>
     <string name="legacy_installer">Eski Kurucu</string>
     <string name="session_installer">Oturum Kurucusu</string>
@@ -189,15 +175,11 @@
         <item quantity="other">Gün</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Sadece Wi-Fi ve Şarj Olurken</string>
-    <string name="cleanup_description">İndirilen dosyaları kontrol etme ve kaldırma süresi</string>
     <plurals name="hours">
         <item quantity="one">Saat</item>
         <item quantity="other">Saat</item>
     </plurals>
     <string name="io_error_DESC">Belirli eylemler gerçekleştirilemiyor.</string>
-    <string name="no_internet">İnternet bağlantınız yok</string>
-    <string name="allow_collapsing_toolbar">Üst Uygulama Çubuğunun Genişletilmesine İzin Ver</string>
-    <string name="allow_collapsing_toolbar_DESC">Üst uygulama çubuğunun genişletilmesine ve daraltılmasına izin verin</string>
     <string name="material_you_desc">Material you renk temasını kullan</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Favoriler</string>
@@ -206,7 +188,6 @@
     <string name="force_clean_up_DESC">Gereksiz dosyaları temizler</string>
     <string name="enable_repo">Depoyu etkinleştir</string>
     <string name="installing">Kuruluyor</string>
-    <string name="restart_app">Değişiklikleri görmek için Droid-ify\'ı yeniden başlatın</string>
     <string name="waiting_to_start_installation">Kurulumun başlatılması bekleniyor…</string>
     <string name="auto_update">Uygulamaları otomatik güncelle</string>
     <string name="auto_update_apps">Güncellemeleri otomatik olarak kurmaya çalış</string>
@@ -216,7 +197,6 @@
     <string name="shizuku_not_alive">Shizuku çalışmıyor</string>
     <string name="connection_error_DESC">Sunucuya bağlanılamadı</string>
     <string name="socket_error_DESC">Sunucu yeni paketi sağlayamadı.</string>
-    <string name="label_copy">Kopyala</string>
     <string name="proxy_port_error_not_int">Proxy kapısı (port) sadece tam sayı olabilir</string>
     <string name="home_screen_swiping_DESC">Kullanıcı ana ekrandayken sayfalar arası kaydırabilmesini sağlar</string>
     <string name="repository_not_found">İlgili depo bulunamadı</string>

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="action_failed">Не атрымалася выканаць дзеянне</string>
-    <string name="allow_collapsing_toolbar">Дазволіць верхняй панэлі праграм пашырацца</string>
     <string name="application_not_found">Не ўдалося знайсці гэтую праграму</string>
     <string name="author_website">Сайт аўтара</string>
     <string name="auto_update">Аўтаабнаўленне праграм</string>
     <string name="add_repository">Дадаць рэпазіторый</string>
     <string name="address">Адрас</string>
     <string name="all_applications">Ўсе праграмы</string>
-    <string name="allow_collapsing_toolbar_DESC">Дазволіць верхнюю панэль праграмы пашыраць і згортваць</string>
     <string name="already_exists">Ўжо існуе</string>
     <string name="always">Заўсёды</string>
     <string name="amoled">Чорная</string>
@@ -21,7 +19,6 @@
     <string name="cancel">Скасаваць</string>
     <string name="all_applications_up_to_date">Усе вашыя праграмы абноўлены</string>
     <string name="delete">Выдаліць</string>
-    <string name="cleanup_description">Перыяд для праверкі і выдалення спампаваных файлаў</string>
     <string name="description">Апісанне</string>
     <string name="details">Дэталі</string>
     <string name="downloading_FORMAT">Ідзе загрузка %s…</string>
@@ -80,7 +77,6 @@
     <string name="installing">Ўсталяванне</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не падтрымліваецца. Падтрымліваюцца платформы: %2$s.</string>
     <string name="repository_unreachable">Рэпазіторый недаступны</string>
-    <string name="restart_app">Перазапусціце Droid-ify, каб убачыць змены</string>
     <string name="incompatible_features_DESC">Адсутныя функцыі.</string>
     <string name="no_applications_available">Няма даступных праграм</string>
     <string name="password_missing">Пароль адсутнічае</string>
@@ -96,8 +92,6 @@
     <string name="other">Іншае</string>
     <string name="link_copied_to_clipboard">Спасылка скапіявана</string>
     <string name="processing_FORMAT">Апрацоўваецца %1$s…</string>
-    <string name="label_copy">Капіяваць</string>
-    <string name="no_internet">У вас няма падключэння да інтэрнэту</string>
     <string name="proxy_port_error_not_int">Порт проксі можа быць толькі цэлым лікам</string>
     <string name="number_of_applications">Колькасць праграм</string>
     <string name="incompatible_with_FORMAT">Несумяшчальна з %s</string>
@@ -158,19 +152,15 @@
     <string name="plus_more_FORMAT">+%d больш</string>
     <string name="import_settings_title">Налады імпарту</string>
     <string name="incompatible_api_DESC_FORMAT">Ваш %1$s (версія API %2$d) не падтрымліваецца. %3$s</string>
-    <string name="unsigned">Без подпісу</string>
     <string name="contains_nsfw">Змяшчае NSFW кантэнт</string>
     <string name="select_mirror">Выберыце люстэрка</string>
-    <string name="list_animation_description">Паказаць анімацыю спісу на галоўнай старонцы</string>
     <string name="syncing_FORMAT">Сінхранізацыя %s…</string>
     <string name="import_export">Імпарт/Экспарт</string>
     <string name="tracks_or_reports_your_activity">Адсочвае або паведамляе аб вашай дзейнасці</string>
     <string name="website">Вэб-сайт</string>
     <string name="merging_FORMAT">Аб\'яднанне %s</string>
     <string name="waiting_to_start_download">Чаканне пачатку загрузкі…</string>
-    <string name="explore">Агляд</string>
     <string name="suggested">Рэкамендуецца</string>
-    <string name="sort_filter">Сартаваць і фільтраваць</string>
     <string name="open_DESC_FORMAT">Адкрыць %s?</string>
     <string name="validation_index_error_DESC">Не ўдалося праверыць індэкс.</string>
     <string name="shizuku_not_alive">Shizuku не працуе</string>
@@ -181,14 +171,12 @@
     <string name="theme">Тэма</string>
     <string name="socks_proxy">SOCKS проксі</string>
     <string name="material_you">Material You</string>
-    <string name="target">Мэтавы</string>
     <string name="waiting_to_start_installation">Чаканне пачатку ўстаноўкі…</string>
     <string name="signed_using_unsafe_algorithm">Падпісана з выкарыстаннем небяспечнага алгарытму</string>
     <string name="source_code">Зыходны код</string>
     <string name="username">Імя карыстальніка</string>
     <string name="version_FORMAT">Версія %s</string>
     <string name="light">Светлая</string>
-    <string name="installed_applications">Ўсталяваныя праграмы</string>
     <string name="import_settings_DESC">Імпарт налад і абранага з файла</string>
     <string name="repository">Рэпазіторый</string>
     <string name="unstable_updates_summary">Прапанаваць усталёўваць нестабільныя версіі</string>
@@ -196,17 +184,13 @@
     <string name="prefs_personalization">Персаналізацыя</string>
     <string name="signature_FORMAT">Подпіс %s</string>
     <string name="shizuku_installer">Shizuku устаноўшчык</string>
-    <string name="new_applications">Новыя праграмы</string>
     <string name="uninstall">Выдаліць</string>
     <string name="skip">Прапусціць</string>
     <string name="export_settings_title">Налады экспарту</string>
     <string name="export_repos_DESC">Экспарт усіх рэпазіторыяў з файла</string>
     <string name="import_repos_title">Імпарт рэпазіторыяў</string>
-    <string name="screenshots">Скрыншоты</string>
     <string name="recently_updated">Нядаўна абноўлены</string>
     <string name="sorting_order">Парадак сартавання</string>
-    <string name="unverified">Неправераныя</string>
-    <string name="root_permission">Ціхая ўстаноўка</string>
     <string name="invalid_fingerprint_format">Няправільны фармат адбітка</string>
     <string name="saving_details">Захаванне даных…</string>
     <string name="whats_new">Што новага</string>
@@ -218,14 +202,12 @@
     <string name="search">Пошук</string>
     <string name="unknown_error_DESC">Невядомая памылка.</string>
     <string name="themes">Тэмы</string>
-    <string name="list_animation">Анімацыя спісаў</string>
     <string name="home_screen_swiping_DESC">Дазволіць карыстальніку гартаць старонкі на галоўным экране</string>
     <string name="export_repos_title">Экспарт рэпазіторыяў</string>
     <string name="show_less">Паказаць менш</string>
     <string name="settings">Налады</string>
     <string name="upstream_source_code_is_not_free">Зыходны код не з\'яўляецца свабодным</string>
     <string name="versions">Версіі</string>
-    <string name="repository_not_used_DESC">Гэты рэпазіторый яшчэ не выкарыстоўваўся. Вам трэба ўключыць яго для прагляду прымянення ў ім.</string>
     <string name="import_repos_DESC">Імпарт усіх рэпазіторыяў з файла</string>
     <string name="system">Як у сістэме</string>
     <string name="special_credits">Асаблівыя падзякі</string>
@@ -233,8 +215,6 @@
     <string name="show_older_versions">Паказаць старыя версіі</string>
     <string name="shizuku_not_installed">Shizuku не ўстаноўлена</string>
     <string name="unstable_updates">Нестабільнае абнаўленне</string>
-    <string name="latest">Апошнія</string>
-    <string name="root_permission_description">Падайце root-правы для ўключэння ціхай устаноўкі</string>
     <string name="unknown_FORMAT">Невядома: %s</string>
     <string name="cannot_open_link">Немагчыма адкрыць спасылку</string>
     <string name="has_tethered_network">Прывязка да вызначанай сеткавай службы</string>

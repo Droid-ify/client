@@ -21,7 +21,6 @@
     <string name="add_repository">റെപ്പോസിറ്റോറി ചേർക്കുക</string>
     <string name="all_applications">എല്ലാ ആപ്പ്ലിക്കേഷനുകളും</string>
     <string name="all_applications_up_to_date">നിങ്ങളുടെ എല്ലാ അപ്പ്ലിക്കേഷനുകളും പുതിയവ ആണ്</string>
-    <string name="new_applications">പുതിയ അപ്പ്ലിക്കേഷനുകൾ</string>
     <string name="auto_update">ആപ്പുകൾ സ്വയമേവ അപ്ഡേറ്റ് ചെയ്യുക</string>
     <string name="bug_tracker">ബഗ് ട്രാക്കർ</string>
     <string name="changelog">ചേഞ്ച്ലോഗ്</string>
@@ -86,11 +85,8 @@
     <string name="edit_repository">ശേഖരം എഡിറ്റ് ചെയ്യുക</string>
     <string name="has_security_vulnerabilities">സുരക്ഷാ പാളിച്ചകൾ ഉണ്ട്</string>
     <string name="http_error_DESC">അസാധുവായ സെർവർ പ്രതികരണം.</string>
-    <string name="allow_collapsing_toolbar">ടോപ്പ് ആപ്പ് ബാർ വികസിപ്പിക്കാൻ അനുവദിക്കുക</string>
-    <string name="allow_collapsing_toolbar_DESC">മുകളിലെ ആപ്പ് ബാർ വികസിപ്പിക്കാനും ചുരുക്കാനും അനുവദിക്കുക</string>
     <string name="author_email">രചയിതാവിന്റെ ഇമെയിൽ</string>
     <string name="author_website">രചയിതാവിന്റെ വെബ്സൈറ്റ്</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="could_not_download_FORMAT">%s ഡൗൺലോഡ് ചെയ്യാനായില്ല</string>
     <string name="auto_update_apps">അപ്ഡേറ്റുകൾ സ്വയമേവ ഇൻസ്റ്റാൾ ചെയ്യാൻ ശ്രമിക്കുക</string>
     <string name="downloading_FORMAT">%s ഡൗൺലോഡ് ചെയ്യുന്നു…</string>
@@ -100,7 +96,6 @@
     <string name="password_missing">പാസ്‌വേഡ് കാണുന്നില്ല</string>
     <string name="permissions">അനുമതികൾ</string>
     <string name="requires_FORMAT">%s ആവശ്യമാണ്</string>
-    <string name="restart_app">മാറ്റങ്ങൾ കാണുന്നതിന് Droid-ify പുനരാരംഭിക്കുക</string>
     <string name="socks_proxy">സോക്സ് പ്രോക്സി</string>
     <string name="sorting_order">അടുക്കൽ ക്രമം</string>
     <string name="system">സിസ്റ്റം</string>
@@ -108,9 +103,7 @@
     <string name="tracks_or_reports_your_activity">നിങ്ങളുടെ പ്രവർത്തനം ട്രാക്ക് ചെയ്യുകയോ റിപ്പോർട്ടുചെയ്യുകയോ ചെയ്യുന്നു</string>
     <string name="unknown_error_DESC">അജ്ഞാത പിശക്.</string>
     <string name="unknown_FORMAT">അജ്ഞാതം: %s</string>
-    <string name="unsigned">ഒപ്പിടാത്തത്</string>
     <string name="waiting_to_start_installation">ഇൻസ്റ്റാളേഷൻ ആരംഭിക്കാൻ കാത്തിരിക്കുന്നു…</string>
-    <string name="explore">ആരായുക</string>
     <string name="update_all">എല്ലാം അപ്ഡേറ്റ് ചെയ്യുക</string>
     <string name="ok">ശരി</string>
     <string name="save">രക്ഷിക്കും</string>
@@ -123,9 +116,7 @@
     <string name="website">വെബ്സൈറ്റ്</string>
     <string name="prefs_personalization">വ്യക്തിഗതമാക്കൽ</string>
     <string name="links">ലിങ്കുകൾ</string>
-    <string name="list_animation">ലിസ്റ്റ് ആനിമേഷനുകൾ</string>
     <string name="link_copied_to_clipboard">ലിങ്ക് ക്ലിപ്പ്ബോർഡിലേക്ക് പകർത്തി</string>
-    <string name="list_animation_description">പ്രധാന പേജിൽ ലിസ്റ്റ് ആനിമേഷൻ കാണിക്കുക</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d അപ്ലിക്കേഷനും ഒരു പുതിയ പതിപ്പ് ഉണ്ട്.</item>
         <item quantity="other">%d അപ്ലിക്കേഷനും പുതിയ പതിപ്പുകൾ ഉണ്ട്.</item>
@@ -137,15 +128,11 @@
     <string name="notify_about_updates_summary">പുതിയ പതിപ്പുകൾ ലഭ്യമാകുമ്പോൾ ഒരു അറിയിപ്പ് കാണിക്കുക</string>
     <string name="only_on_wifi_with_charging">വൈഫൈയിലും ചാർജിംഗിലും മാത്രം</string>
     <string name="recently_updated">അടുത്തിടെ അപ്ഡേറ്റ് ചെയ്തത്</string>
-    <string name="repository_not_used_DESC">ഈ ശേഖരം ഇതുവരെ ഉപയോഗിച്ചിട്ടില്ല. ഇതിലെ ആപ്ലിക്കേഷനുകൾ കാണുന്നതിന് അത് ഓണാക്കുക.</string>
     <string name="share">പങ്കിടുക</string>
     <string name="sync_repositories_automatically">റിപ്പോസിറ്ററികൾ സ്വയമേവ സമന്വയിപ്പിക്കുക</string>
     <string name="repository_unsigned_DESC">ഒപ്പിടാത്തത്. ആപ്ലിക്കേഷൻ ലിസ്റ്റ് പരിശോധിക്കാൻ കഴിഞ്ഞില്ല. ഒപ്പിടാത്ത റിപ്പോസിറ്ററികളിൽ നിന്ന് ആപ്ലിക്കേഷനുകൾ ഡൗൺലോഡ് ചെയ്യുന്നത് ശ്രദ്ധിക്കുക.</string>
     <string name="unknown">അജ്ഞാതം</string>
-    <string name="root_permission">നിശബ്ദ ഇൻസ്റ്റാളേഷൻ</string>
-    <string name="target">ലക്ഷ്യം</string>
     <string name="unstable_updates_summary">അസ്ഥിരമായ പതിപ്പുകൾ ഇൻസ്റ്റാൾ ചെയ്യാൻ നിർദ്ദേശിക്കുക</string>
-    <string name="root_permission_description">നിശബ്ദ ഇൻസ്റ്റാളുകൾക്ക് റൂട്ട് അനുമതി അനുവദിക്കുക</string>
     <string name="show_more">കൂടുതൽ കാണിക്കുക</string>
     <string name="saving_details">വിശദാംശങ്ങൾ സംരക്ഷിക്കുന്നു…</string>
     <string name="search">തിരയുക</string>
@@ -167,14 +154,11 @@
     <string name="version_FORMAT">പതിപ്പ് %s</string>
     <string name="versions">പതിപ്പുകൾ</string>
     <string name="prefs_language_title">ഭാഷ</string>
-    <string name="installed_applications">ഇൻസ്റ്റാൾ ചെയ്ത ആപ്ലിക്കേഷനുകൾ</string>
-    <string name="sort_filter">അടുക്കുക &amp; ഫിൽട്ടർ ചെയ്യുക</string>
     <string name="license_FORMAT">%s ലൈസൻസ്</string>
     <string name="light">ഭാരംകുറഞ്ഞ</string>
     <string name="other">മറ്റേതായ</string>
     <string name="parsing_index_error_DESC">സൂചിക ഫയൽ പാഴ്സുചെയ്യാൻ കഴിഞ്ഞില്ല.</string>
     <string name="plus_more_FORMAT">+%d കൂടുതൽ</string>
-    <string name="screenshots">സ്ക്രീൻഷോട്ടുകൾ</string>
     <string name="waiting_to_start_download">ഡൗൺലോഡ് ആരംഭിക്കാൻ കാത്തിരിക്കുന്നു…</string>
     <string name="whats_new">പുതിയതെന്താണ്</string>
     <string name="size">വലിപ്പം</string>
@@ -196,7 +180,6 @@
     <string name="repository">സംഭരണിയാണ്</string>
     <string name="repository_unreachable">ശേഖരം ലഭ്യമല്ല</string>
     <string name="show_less">കുറവ് കാണിക്കുക</string>
-    <string name="latest">ഏറ്റവും പുതിയ</string>
     <string name="open_DESC_FORMAT">%s തുറക്കുന്നു\?</string>
     <string name="merging_FORMAT">%s ലയിപ്പിക്കുന്നു</string>
     <string name="name">പേര്</string>
@@ -204,9 +187,7 @@
     <string name="never">ഒരിക്കലും</string>
     <string name="new_updates_available">ലഭ്യമായ അപ്ലിക്കേഷനുകളുടെ പുതിയ പതിപ്പുകൾ</string>
     <string name="no_description_available_DESC">വിവരണം ലഭ്യമല്ല</string>
-    <string name="no_internet">നിങ്ങൾക്ക് ഇന്റർനെറ്റ് കണക്ഷനില്ല</string>
     <string name="no_matching_applications_found">അത്തരം അപ്ലിക്കേഷനുകൾ കണ്ടെത്താൻ കഴിഞ്ഞില്ല</string>
     <string name="number_of_applications">അപ്ലിക്കേഷനുകളുടെ എണ്ണം</string>
     <string name="password">പാസ്വേഡ്</string>
-    <string name="unverified">പരിശോധിച്ചുറപ്പിച്ചിട്ടില്ല</string>
 </resources>

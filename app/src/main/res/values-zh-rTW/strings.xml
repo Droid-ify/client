@@ -27,18 +27,11 @@
     <string name="plus_more_FORMAT">+%d 個</string>
     <string name="settings">設定</string>
     <string name="repository">儲存庫</string>
-    <string name="repository_not_used_DESC">您還未啟用此儲存庫。您需要啟用它以檢視其中的應用程式。</string>
     <string name="requires_FORMAT">需要 %s</string>
-    <string name="root_permission">背景安裝</string>
     <string name="show_older_versions">顯示舊版本</string>
     <string name="signature_FORMAT">簽名 %s</string>
     <string name="unknown">未知</string>
-    <string name="latest">最新</string>
-    <string name="explore">探索</string>
     <string name="update_all">更新全部</string>
-    <string name="installed_applications">已安裝的應用程式</string>
-    <string name="sort_filter">排序和過濾</string>
-    <string name="new_applications">新的應用程式</string>
     <string name="all_applications">所有應用程式</string>
     <string name="all_applications_up_to_date">所有應用程式已是最新</string>
     <string name="always">總是</string>
@@ -97,8 +90,6 @@
     <string name="light">亮色</string>
     <string name="link_copied_to_clipboard">已複製連結</string>
     <string name="links">連結</string>
-    <string name="list_animation">清單動畫</string>
-    <string name="list_animation_description">在主頁上顯示清單動畫</string>
     <string name="merging_FORMAT">合併 %s</string>
     <string name="name">名稱</string>
     <string name="network_error_DESC">網路錯誤</string>
@@ -129,14 +120,12 @@
     <string name="proxy_host">代理主機</string>
     <string name="proxy_port">代理埠</string>
     <string name="saving_details">儲存詳細資訊中……</string>
-    <string name="screenshots">截圖</string>
     <string name="search">搜尋</string>
     <string name="select_mirror">選擇一個鏡像</string>
     <string name="proxy_type">代理類型</string>
     <string name="recently_updated">最近更新</string>
     <string name="repositories">儲存庫</string>
     <string name="repository_unsigned_DESC">未簽名，無法驗證應用程式列表。從未簽名的儲存庫下載應用程式時要小心。</string>
-    <string name="root_permission_description">開啟 Root 權限以啟用背景安裝</string>
     <string name="save">儲存</string>
     <string name="share">分享</string>
     <string name="show_more">顯示更多</string>
@@ -154,17 +143,14 @@
     <string name="sync_repositories_automatically">自動同步儲存庫</string>
     <string name="syncing">同步中</string>
     <string name="tap_to_install_DESC">點選安裝。</string>
-    <string name="target">目標</string>
     <string name="theme">主題</string>
     <string name="themes">主題</string>
     <string name="tracks_or_reports_your_activity">追蹤或報告您的活動</string>
     <string name="uninstall">解除安裝</string>
     <string name="unknown_error_DESC">未知錯誤。</string>
-    <string name="unsigned">未簽名</string>
     <string name="unknown_FORMAT">未知： %s</string>
     <string name="unstable_updates">不穩定的更新</string>
     <string name="unstable_updates_summary">建議安裝不穩定的版本</string>
-    <string name="unverified">未驗證</string>
     <string name="update">更新</string>
     <string name="updates">更新</string>
     <string name="upstream_source_code_is_not_free">上游原始碼不自由</string>
@@ -182,7 +168,6 @@
     <string name="show_less">顯示較少</string>
     <string name="installer">安裝程式</string>
     <string name="cleanup_title">APK 清理時間間隔</string>
-    <string name="cleanup_description">檢查和刪除下載檔案的期限</string>
     <plurals name="hours">
         <item quantity="other">小時</item>
     </plurals>
@@ -191,9 +176,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">僅在連到 Wi-Fi 和充電時</string>
     <string name="io_error_DESC">無法執行某些特定操作。</string>
-    <string name="allow_collapsing_toolbar">允許頂部工具列展開</string>
-    <string name="allow_collapsing_toolbar_DESC">允許頂部工具列展開和折疊</string>
-    <string name="no_internet">您沒有網路連線</string>
     <string name="material_you">Material You 設計</string>
     <string name="material_you_desc">使用 material you 顏色主題</string>
     <string name="favourites">我的最愛</string>
@@ -204,7 +186,6 @@
     <string name="auto_update">自動更新程式</string>
     <string name="auto_update_apps">嘗試自動安裝更新</string>
     <string name="installing">安裝</string>
-    <string name="restart_app">重新啟動 Droid-ify 查看更變</string>
     <string name="waiting_to_start_installation">等待開始安裝…</string>
     <string name="has_non_free_components">具有非自由元件</string>
     <string name="connection_error_DESC">無法連線至伺服器</string>
@@ -215,7 +196,6 @@
     <string name="special_credits">特別感謝</string>
     <string name="home_screen_swiping">首頁畫面滑動</string>
     <string name="home_screen_swiping_DESC">允許使用者在首頁畫面之間進行滑動切換</string>
-    <string name="label_copy">複製</string>
     <string name="proxy_port_error_not_int">代理端口只能設定為整數</string>
     <string name="repository_not_found">未找到下列儲存庫</string>
     <string name="import_settings_title">匯入設定</string>

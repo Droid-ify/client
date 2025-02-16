@@ -45,7 +45,6 @@
     <string name="invalid_signature_error_DESC">Ungültige Signatur.</string>
     <string name="launch">Öffnen</string>
     <string name="light">Hell</string>
-    <string name="list_animation_description">Listenanimation auf der Hauptseite anzeigen</string>
     <string name="new_updates_available">Neue Anwendungsversionen verfügbar</string>
     <string name="never">Nie</string>
     <string name="network_error_DESC">Netzwerkfehler</string>
@@ -66,18 +65,14 @@
     <string name="proxy">Proxy</string>
     <string name="repositories">Paketquellen</string>
     <string name="requires_FORMAT">Benötigt %s</string>
-    <string name="root_permission">Stumme Installation</string>
     <string name="save">Speichern</string>
     <string name="saving_details">Details werden gespeichert …</string>
-    <string name="screenshots">Bildschirmfotos</string>
     <string name="skip">Überspringen</string>
     <string name="suggested">Empfohlen</string>
     <string name="syncing">Synchronisierung</string>
     <string name="themes">Themen</string>
-    <string name="target">Ziel</string>
     <string name="unknown">Unbekannt</string>
     <string name="uninstall">Deinstallation</string>
-    <string name="unsigned">Unsigniert</string>
     <string name="update">Aktualisierung</string>
     <string name="version">Version</string>
     <string name="versions">Versionen</string>
@@ -110,7 +105,6 @@
     <string name="source_code">Quellcode</string>
     <string name="sync_repositories">Paketquellen synchronisieren</string>
     <string name="sync_repositories_automatically">Paketquellen automatisch synchronisieren</string>
-    <string name="repository_not_used_DESC">Diese Paketquelle wurde noch nicht verwendet. Aktivieren Sie es, um die darin enthaltenen Anwendungen anzuzeigen.</string>
     <string name="signature_FORMAT">Signatur %s</string>
     <string name="has_non_free_dependencies">Enthält nicht-freie Abhängigkeiten</string>
     <string name="incompatible_version">Inkompatible Version</string>
@@ -126,7 +120,6 @@
     <string name="share">Teilen</string>
     <string name="show_more">Zeige mehr</string>
     <string name="show_older_versions">Ältere Versionen zeigen</string>
-    <string name="unverified">Ungeprüft</string>
     <string name="username_missing">Benutzername fehlt</string>
     <string name="edit_repository">Paketquelle bearbeiten</string>
     <string name="file_format_error_DESC">Ungültiges Dateiformat.</string>
@@ -148,7 +141,6 @@
     <string name="repository_unsigned_DESC">Nicht signiert. Die Anwendungsliste konnte nicht verifiziert werden. Sei vorsichtig beim Herunterladen von Anwendungen aus nicht signierten Paketquellen.</string>
     <string name="unstable_updates_summary">Installation von instabilen Versionen vorschlagen</string>
     <string name="unstable_updates">Instabile Aktualisierungen</string>
-    <string name="root_permission_description">Root-Rechte für stille Installationen zulassen</string>
     <string name="proxy_host">Proxy Host</string>
     <string name="tap_to_install_DESC">Tippe um zu installieren.</string>
     <string name="tracks_or_reports_your_activity">Verfolgt oder erfasst deine Aktivitäten</string>
@@ -163,7 +155,6 @@
     </plurals>
     <string name="signed_using_unsafe_algorithm">Mit einem unsicheren Algorithmus signiert</string>
     <string name="select_mirror">Wähle einen Spiegel</string>
-    <string name="list_animation">Animationen anzeigen</string>
     <string name="links">Links</string>
     <string name="merging_FORMAT">Führe %s zusammen</string>
     <string name="name">Name</string>
@@ -171,12 +162,7 @@
     <string name="prefs_language_title">Sprache</string>
     <string name="prefs_personalization">Personalisierung</string>
     <string name="show_less">Weniger anzeigen</string>
-    <string name="latest">Neueste</string>
-    <string name="explore">Entdecken</string>
     <string name="update_all">Alle aktualisieren</string>
-    <string name="installed_applications">Installierte Anwendungen</string>
-    <string name="sort_filter">Sortieren und filtern</string>
-    <string name="new_applications">Neue Anwendungen</string>
     <plurals name="days">
         <item quantity="one">Tag</item>
         <item quantity="other">Tage</item>
@@ -187,16 +173,12 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Nur während des Ladevorgangs und aktiviertem WLAN</string>
     <string name="installer">Installationsmethode</string>
-    <string name="cleanup_description">Zeitraum zum Prüfen und Entfernen heruntergeladener Dateien</string>
     <string name="cleanup_title">APK-Bereinigungsintervall</string>
     <string name="root_installer">Root-Installation</string>
     <string name="legacy_installer">Alte Installationsmethode</string>
     <string name="session_installer">Sitzungs-Installation</string>
     <string name="shizuku_installer">Shizuku-Installation</string>
     <string name="io_error_DESC">Bestimmte Aktionen können nicht durchgeführt werden.</string>
-    <string name="no_internet">Sie haben keine Internetverbindung</string>
-    <string name="allow_collapsing_toolbar">Erweiterung der oberen Anwendungsleiste zulassen</string>
-    <string name="allow_collapsing_toolbar_DESC">Das Erweitern und Reduzieren der oberen Anwendungsleiste erlauben</string>
     <string name="favourites">Favoriten</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Material You-Farbschema verwenden</string>
@@ -205,7 +187,6 @@
     <string name="enable_repo">Repository aktivieren</string>
     <string name="force_clean_up_DESC">Entfernt doppelte Dateien</string>
     <string name="installing">Installation</string>
-    <string name="restart_app">Starten Sie Droid-ify neu, um die Änderungen zu sehen</string>
     <string name="waiting_to_start_installation">Warten auf den Beginn der Installation …</string>
     <string name="auto_update">Apps automatisch aktualisieren</string>
     <string name="auto_update_apps">Versuche, Updates automatisch zu installieren</string>
@@ -218,7 +199,6 @@
     <string name="home_screen_swiping">Wischgesten</string>
     <string name="home_screen_swiping_DESC">Dem Benutzer erlauben, auf dem Startbildschirm zwischen den Seiten zu wischen</string>
     <string name="special_credits">Besonderer Dank</string>
-    <string name="label_copy">Kopieren</string>
     <string name="proxy_port_error_not_int">Proxy-Port muss eine natürliche Zahl sein</string>
     <string name="repository_not_found">Folgende Repos konnten nicht gefunden werden</string>
     <string name="import_settings_title">Einstellungen importieren</string>

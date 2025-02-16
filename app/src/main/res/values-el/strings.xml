@@ -64,8 +64,6 @@
     <string name="light">Φωτεινό</string>
     <string name="link_copied_to_clipboard">Ο σύνδεσμος αντιγράφηκε</string>
     <string name="links">Σύνδεσμοι</string>
-    <string name="list_animation">Κινήσεις Λίστας</string>
-    <string name="list_animation_description">Εμφάνιση κινήσεων λίστας στην αρχική σελίδα</string>
     <string name="merging_FORMAT">Συγχώνευση %s</string>
     <string name="name">Όνομα</string>
     <string name="network_error_DESC">Σφάλμα δικτύου</string>
@@ -107,10 +105,8 @@
     <string name="repository">Αποθετήριο</string>
     <string name="repository_unsigned_DESC">Μη υπογεγραμμένο. Αδυναμία επαλήθευσης της λίστας εφαρμογών. Προσέχετε όταν κατεβάζετε εφαρμογές από μη υπογεγραμμένα αποθετήρια.</string>
     <string name="requires_FORMAT">Απαιτεί %s</string>
-    <string name="root_permission">Σιωπηλή Εγκατάσταση</string>
     <string name="save">Αποθήκευση</string>
     <string name="saving_details">Αποθήκευση λεπτομερειών…</string>
-    <string name="screenshots">Στιγμιότυπα οθόνης</string>
     <string name="search">Αναζήτηση</string>
     <string name="select_mirror">Επιλέξτε ένα mirror</string>
     <string name="share">Κοινοποίηση</string>
@@ -139,11 +135,8 @@
     <string name="unstable_updates_summary">Πρόταση για εγκατάσταση ασταθών εκδόσεων</string>
     <string name="update">Ενημέρωση</string>
     <string name="updates">Ενημερώσεις</string>
-    <string name="unsigned">Μη υπογεγραμμένο</string>
-    <string name="unverified">Μη επιβεβαιωμένο</string>
     <string name="delete">Διαγραφή</string>
     <string name="recently_updated">Πρόσφατα ενημερωμένα</string>
-    <string name="target">Στόχος</string>
     <string name="whats_new">Τι νέο υπάρχει</string>
     <string name="upstream_source_code_is_not_free">Upstream source code is not free</string>
     <string name="username">Όνομα χρήστη</string>
@@ -161,28 +154,20 @@
     <string name="incompatible_signature_DESC">Αυτή η έκδοση είναι υπογεγραμμένη με ένα διαφορετικό πιστοποιητικό από αυτή που είναι εγκατεστημένη στη συσκευή σας. Απεγκαταστήστε εκείνη πρώτα.</string>
     <string name="integrity_check_error_DESC">Αδυναμία ελέγχου ακεραιότητας.</string>
     <string name="invalid_signature_error_DESC">Μη έγκυρη υπογραφή.</string>
-    <string name="repository_not_used_DESC">Αυτό το αποθετήριο δεν έχει χρησιμοποιηθεί ακόμα. Χρειάζεται να το ενεργοποιήσετε για να δείτε τις εφαρμογές που παρέχει.</string>
     <string name="signed_using_unsafe_algorithm">Έχει υπογραφεί χρησιμοποιώντας έναν μη ασφαλή αλγόριθμο</string>
     <string name="socks_proxy">SOCKS διακομιστής μεσολάβησης</string>
     <string name="tracks_or_reports_your_activity">Καταγράφει ή αναφέρει τη δραστηριότητά σας</string>
     <string name="validation_index_error_DESC">Αδυναμία επαλήθευσης δείκτη.</string>
-    <string name="root_permission_description">Επιτρέψτε την άδεια root για σιωπηλή εγκατάσταση</string>
     <string name="amoled">Amoled</string>
     <string name="prefs_personalization">Εξατομίκευση</string>
     <string name="prefs_language_title">Γλώσσα</string>
-    <string name="latest">Πρόσφατα</string>
-    <string name="sort_filter">Ταξινόμηση &amp; Φιλτράρισμα</string>
-    <string name="installed_applications">Εγκατεστημένες εφαρμογές</string>
     <string name="installer">Πρόγραμμα Εγκατάστασης</string>
     <string name="legacy_installer">Παλιό πρόγραμμα Εγκατάστασης</string>
     <string name="session_installer">Πρόγραμμα Εκατάστασης Συνεδρίας</string>
     <string name="root_installer">Πρόγραμμα Εγκατάστασης Root</string>
     <string name="shizuku_installer">Πρόγραμμα Εγκατάστασης Shizuku</string>
     <string name="show_less">Εμφάνιση Λιγότερων</string>
-    <string name="explore">Εξερεύνηση</string>
     <string name="update_all">Ενημέρωση όλων</string>
-    <string name="new_applications">Νέες εφαρμογές</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="cleanup_title">APK cleanup interval</string>
     <plurals name="days">
         <item quantity="one">Ημέρα</item>
@@ -194,9 +179,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi και Φόρτιση</string>
     <string name="io_error_DESC">Δεν είναι δυνατή η εκτέλεση ορισμένων ενεργειών.</string>
-    <string name="no_internet">Δεν έχετε σύνδεση στο διαδίκτυο</string>
-    <string name="allow_collapsing_toolbar">Να επιτρέπεται η Επέκταση της Γραμμής Κορυφαίων Εφαρμογών</string>
-    <string name="allow_collapsing_toolbar_DESC">Να επιτρέπεται η επέκταση και σύμπτυξη της επάνω γραμμής εφαρμογών</string>
     <string name="material_you_desc">Χρησιμοποιήστε material you με θέμα το χρώμα σας</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Αγαπημένα</string>
@@ -204,7 +186,6 @@
     <string name="force_clean_up">Αναγκαστική εκκαθάριση</string>
     <string name="force_clean_up_DESC">Καθαρίζει τα περιττά αρχεία</string>
     <string name="enable_repo">Ενεργοποιήστε το αποθετήριο</string>
-    <string name="restart_app">Επανεκκινήστε το Droid-ify για να δείτε αλλαγές</string>
     <string name="installing">Εγκατάσταση</string>
     <string name="waiting_to_start_installation">Αναμονή για έναρξη εγκατάστασης…</string>
     <string name="auto_update">Αυτόματη ενημέρωση εφαρμογών</string>
@@ -218,7 +199,6 @@
     <string name="shizuku_not_installed">Το Shizuku δεν είναι εγκατεστημένο</string>
     <string name="home_screen_swiping">Σύρσιμο Αρχικής Οθόνης</string>
     <string name="home_screen_swiping_DESC">Επιτρέψτε στον χρήστη να συρθεί μεταξύ σελίδων στην αρχική οθόνη</string>
-    <string name="label_copy">Αντιγραφή</string>
     <string name="repository_not_found">Το παρακάτω αποθετήριο δεν βρέθηκε</string>
     <string name="proxy_port_error_not_int">Η θύρα Proxy μπορεί να είναι μόνο Ακέραιος</string>
     <string name="import_settings_title">Εισαγωγή Ρυθμίσεων</string>

@@ -8,18 +8,14 @@
     <string name="credits">Köszönet</string>
     <string name="donate">Adományozás</string>
     <string name="install_types">Telepítési típusok</string>
-    <string name="list_animation">Listaanimációk</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d alkalmazásnak új verziója van.</item>
         <item quantity="other">%d alkalmazásnak új verziója van.</item>
     </plurals>
     <string name="settings">Beállítások</string>
     <string name="recently_updated">Nemrég frissített</string>
-    <string name="root_permission">Néma telepítés</string>
-    <string name="root_permission_description">Engedélyezze a rendszergazdai jogosultságot a néma telepítés érdekében</string>
     <string name="share">Megosztás</string>
     <string name="size">Méret</string>
-    <string name="target">Cél</string>
     <string name="themes">Témák</string>
     <string name="updates">Frissítések</string>
     <string name="version">Verzió</string>
@@ -119,7 +115,6 @@
     <string name="repository">Tároló</string>
     <string name="requires_FORMAT">Szükséges: %s</string>
     <string name="save">Mentés</string>
-    <string name="screenshots">Képernyőképek</string>
     <string name="search">Keresés</string>
     <string name="select_mirror">Válasszon egy tükröt</string>
     <string name="show_more">Továbbiak megjelenítése</string>
@@ -143,10 +138,8 @@
     <string name="unknown">Ismeretlen</string>
     <string name="unknown_error_DESC">Ismeretlen hiba.</string>
     <string name="unknown_FORMAT">Ismeretlen: %s</string>
-    <string name="unsigned">Nem aláírt</string>
     <string name="unstable_updates">Nem stabil frissítések</string>
     <string name="unstable_updates_summary">Nem stabil verziófrissítések javaslata</string>
-    <string name="unverified">Nem ellenőrzött</string>
     <string name="update">Frissítés</string>
     <string name="upstream_source_code_is_not_free">Az upstream forráskód nem szabad</string>
     <string name="username">Felhasználónév</string>
@@ -155,7 +148,6 @@
     <string name="version_FORMAT">Verzió: %s</string>
     <string name="versions">Verziók</string>
     <string name="website">Weboldal</string>
-    <string name="list_animation_description">Listaanimációk megjelenítése a főoldalon</string>
     <string name="file_format_error_DESC">Érvénytelen fájlformátum.</string>
     <string name="prefs_personalization">Testreszabás</string>
     <string name="connecting">Kapcsolódás…</string>
@@ -168,23 +160,16 @@
     <string name="incompatible_signature_DESC">Ez a verzió a jelenleg az eszközére telepített verziójától eltérő tanúsítvánnyal rendelkezik. Előbb távolítsa el azt.</string>
     <string name="processing_FORMAT">%1$s feldolgozása…</string>
     <string name="syncing_FORMAT">%s szinkronizálása…</string>
-    <string name="repository_not_used_DESC">Ez a tároló még nem volt használva. Kapcsolja be, hogy megtekintse a benne lévő alkalmazásokat.</string>
     <string name="repository_unsigned_DESC">Nincs aláírva. Nem sikerült ellenőrizni az alkalmazáslistát. Legyen óvatos amikor nem aláírt tárolókból tölt le alkalmazásokat.</string>
     <string name="show_less">Kevesebb megjelenítése</string>
-    <string name="sort_filter">Rendezés és szűrés</string>
     <string name="only_on_wifi_with_charging">Csak Wi-Fin és töltés közben</string>
-    <string name="explore">Felfedezés</string>
     <string name="update_all">Összes frissítése</string>
-    <string name="installed_applications">Telepített alkalmazások</string>
-    <string name="new_applications">Új alkalmazások</string>
     <string name="installer">A telepítő</string>
     <string name="legacy_installer">Hagyományos telepítő</string>
     <string name="session_installer">Munkamenet-alapú telepítő</string>
     <string name="root_installer">Rendszergazdai telepítő</string>
     <string name="shizuku_installer">Shizuku telepítő</string>
-    <string name="latest">Legújabb</string>
     <string name="cleanup_title">APK takarítás időköze</string>
-    <string name="cleanup_description">Letöltött fájlok ellenőrzésének és törlésének időköze</string>
     <plurals name="hours">
         <item quantity="one">óra</item>
         <item quantity="other">óra</item>
@@ -193,13 +178,9 @@
         <item quantity="one">nap</item>
         <item quantity="other">nap</item>
     </plurals>
-    <string name="allow_collapsing_toolbar">Felső alkalmazássáv kibontása</string>
     <string name="io_error_DESC">Bizonyos műveletek végrehajtása sikertelen.</string>
-    <string name="allow_collapsing_toolbar_DESC">Felső alkalmazássáv kibontása és összecsukása</string>
-    <string name="no_internet">Nincs internet-hozzáférés</string>
     <string name="auto_update_apps">Próbálja automatikusan telepíteni a frissítéseket</string>
     <string name="installing">Telepítés…</string>
-    <string name="restart_app">Indítsa újra a Droid-ify-t a változások megtekintéséhez</string>
     <string name="waiting_to_start_installation">Várakozás a telepítés megkezdésére …</string>
     <string name="favourites">Kedvencek</string>
     <string name="force_clean_up_DESC">Eltakarítja a redundáns fájlokat</string>
@@ -215,7 +196,6 @@
     <string name="shizuku_not_alive">A Shizuku nem fut</string>
     <string name="connection_error_DESC">Nem sikerült kapcsolódni a kiszolgálóhoz</string>
     <string name="socket_error_DESC">A kiszolgáló nem tudott új csomagot biztosítani.</string>
-    <string name="label_copy">Másolás</string>
     <string name="proxy_port_error_not_int">A proxy portja csak egész szám lehet</string>
     <string name="home_screen_swiping_DESC">Engedélyezés, hogy a felhasználó lapozzon a kezdőképernyő lapjai közt</string>
     <string name="repository_not_found">A következő tároló nem található</string>

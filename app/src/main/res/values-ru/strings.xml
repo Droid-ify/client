@@ -75,8 +75,6 @@
     <string name="light">Светлая</string>
     <string name="link_copied_to_clipboard">Ссылка скопирована</string>
     <string name="links">Ссылки</string>
-    <string name="list_animation">Анимация списков</string>
-    <string name="list_animation_description">Показывать анимацию списка на главной странице</string>
     <string name="merging_FORMAT">Слияние %s</string>
     <string name="name">Имя</string>
     <string name="network_error_DESC">Ошибка сети</string>
@@ -119,14 +117,10 @@
     <string name="recently_updated">Недавно обновлённые</string>
     <string name="repositories">Репозитории</string>
     <string name="repository">Репозиторий</string>
-    <string name="repository_not_used_DESC">Этот репозиторий ещё не использовался. Вам необходимо включить его для просмотра находящиеся в нем приложений.</string>
     <string name="repository_unsigned_DESC">Подпись отсутствует. Невозможно проверить список приложений. Будьте осторожны, загружая приложения из неподписанных репозиториев.</string>
     <string name="requires_FORMAT">Требуется %s</string>
-    <string name="root_permission">Тихая установка</string>
-    <string name="root_permission_description">Предоставьте root-права для включения тихой установки</string>
     <string name="save">Сохранить</string>
     <string name="saving_details">Сохранение данных…</string>
-    <string name="screenshots">Снимки экрана</string>
     <string name="search">Поиск</string>
     <string name="select_mirror">Выберите зеркало</string>
     <string name="share">Поделиться</string>
@@ -147,7 +141,6 @@
     <string name="syncing_FORMAT">Синхронизация %s…</string>
     <string name="system">Как в системе</string>
     <string name="tap_to_install_DESC">Нажмите, чтобы установить.</string>
-    <string name="target">Целевой</string>
     <string name="theme">Тема</string>
     <string name="themes">Темы</string>
     <string name="tracks_or_reports_your_activity">Отслеживает и передаёт информацию о вашей активности</string>
@@ -155,10 +148,8 @@
     <string name="unknown">Неизвестно</string>
     <string name="unknown_error_DESC">Неизвестная ошибка.</string>
     <string name="unknown_FORMAT">Неизвестно: %s</string>
-    <string name="unsigned">Неподписанный</string>
     <string name="unstable_updates">Нестабильные обновления</string>
     <string name="unstable_updates_summary">Предлагать установить нестабильные версии</string>
-    <string name="unverified">Непроверенный</string>
     <string name="update">Обновить</string>
     <string name="updates">Обновления</string>
     <string name="upstream_source_code_is_not_free">Вышестоящий исходный код несвободен</string>
@@ -178,14 +169,8 @@
     <string name="legacy_installer">Устаревший установщик</string>
     <string name="root_installer">Установщик через Root</string>
     <string name="shizuku_installer">Установщик через Shizuku</string>
-    <string name="latest">Новое</string>
-    <string name="explore">Обзор</string>
     <string name="update_all">Обновить все</string>
-    <string name="installed_applications">Установленные приложения</string>
-    <string name="sort_filter">Сортировать и фильтровать</string>
-    <string name="new_applications">Новые приложения</string>
     <string name="session_installer">Сессионный установщик</string>
-    <string name="cleanup_description">Период удаления скачанных файлов</string>
     <string name="cleanup_title">Интервал удаления APK</string>
     <plurals name="days">
         <item quantity="one">день</item>
@@ -201,9 +186,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Только по Wi-Fi и на зарядке</string>
     <string name="io_error_DESC">Невозможно выполнить определённые действия.</string>
-    <string name="no_internet">Отсутствует подключение к интернету</string>
-    <string name="allow_collapsing_toolbar">Расширение верхней панели</string>
-    <string name="allow_collapsing_toolbar_DESC">Верхняя панель приложения будет сворачиваться и разворачиваться</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Использовать цветовую тему Material You</string>
     <string name="favourites">Избранное</string>
@@ -211,7 +193,6 @@
     <string name="force_clean_up">Произвести очистку</string>
     <string name="force_clean_up_DESC">Удаление лишних файлов</string>
     <string name="enable_repo">Включить репозиторий</string>
-    <string name="restart_app">Перезапустите Droid-ify для применения изменений</string>
     <string name="installing">Установка</string>
     <string name="waiting_to_start_installation">Ожидание начала установки…</string>
     <string name="auto_update">Автообновление приложений</string>
@@ -225,7 +206,6 @@
     <string name="special_credits">Особая благодарность</string>
     <string name="home_screen_swiping">Жесты на главном экране</string>
     <string name="home_screen_swiping_DESC">Разрешить использование жестов на главном экране</string>
-    <string name="label_copy">Копировать</string>
     <string name="repository_not_found">Эти репозитории не были найдены</string>
     <string name="proxy_port_error_not_int">Порт прокси должен быть целым числом</string>
     <string name="import_settings_title">Импорт настроек</string>

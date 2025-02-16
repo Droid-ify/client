@@ -3,8 +3,6 @@
     <string name="add_repository">Yeni qaynaq əlavə et</string>
     <string name="address">Ünvan</string>
     <string name="all_applications">Bütün applikasiyalar</string>
-    <string name="allow_collapsing_toolbar">Üst çubuğun genişlədilməsinə izn ver</string>
-    <string name="allow_collapsing_toolbar_DESC">Üst çubuğun genişləndirilməsinə və sıxılmasına izn ver</string>
     <string name="already_exists">Zatən mövcuddur</string>
     <string name="always">Hər zaman</string>
     <string name="anti_features">Anti-özəlliklər</string>
@@ -20,7 +18,6 @@
     <string name="changelog">Dəyişim günlüyü</string>
     <string name="changes">Dəyişikliklər</string>
     <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Xəta tapmaq üçün kompayl edildi</string>
     <string name="confirmation">Təsdiq</string>
     <string name="connecting">Bağlanılır…</string>
@@ -78,8 +75,6 @@
     <string name="license_FORMAT">%s lisenziyası</string>
     <string name="light">Açıq</string>
     <string name="links">Linklər</string>
-    <string name="list_animation">Siyahı Animasiyaları</string>
-    <string name="list_animation_description">Siyahı canlandırmasını ana səhifədə göstər</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Material you rəng temasını istifadə et</string>
     <string name="merging_FORMAT">%s birləşdirilir</string>
@@ -92,7 +87,6 @@
     </plurals>
     <string name="no_applications_available">İstifadə edilə bilən applikasiya yoxdur</string>
     <string name="no_description_available_DESC">Açıqlama yoxdur</string>
-    <string name="no_internet">İnternet bağlantınız yoxdur</string>
     <string name="no_proxy">Proxy yoxdur</string>
     <string name="notify_about_updates">Applikasiyanın yeni versiyaları haqqında bilgiləndir</string>
     <string name="number_of_applications">Applikasiya sayı</string>
@@ -144,16 +138,11 @@
     <string name="recently_updated">Bu yaxınlarda yeniləndi</string>
     <string name="repositories">Anbarlar</string>
     <string name="repository">Repozitoriya</string>
-    <string name="repository_not_used_DESC">Bu anbardan hələ istifadə olunmayıb. İçindəki proqramlara baxmaq üçün onu yandırın.</string>
     <string name="repository_unsigned_DESC">İmzasız. Tətbiq siyahısını yoxlamaq mümkün olmadı. İmzasız depolardan proqramları endirərkən diqqətli olun.</string>
     <string name="repository_unreachable">Repozitoriya əlçatmazdır</string>
     <string name="requires_FORMAT">%s tələb edir</string>
-    <string name="restart_app">Dəyişiklikləri görmək üçün Droid-ify-ı yenidən başladın</string>
-    <string name="root_permission">Səssiz Quraşdırma</string>
-    <string name="root_permission_description">Səssiz quraşdırmalar üçün kök icazəsinə icazə verin</string>
     <string name="save">Yadda saxla</string>
     <string name="saving_details">Detallar yadda saxlanılır…</string>
-    <string name="screenshots">Ekran görüntüləri</string>
     <string name="search">Axtar</string>
     <string name="select_mirror">Güzgü seçin</string>
     <string name="settings">Parametrlər</string>
@@ -173,17 +162,14 @@
     <string name="syncing">Sinxronizasiya</string>
     <string name="syncing_FORMAT">%s sinxronizasiya edilir…</string>
     <string name="system">Sistem</string>
-    <string name="target">Hədəf</string>
     <string name="theme">Mövzu</string>
     <string name="themes">Mövzular</string>
     <string name="tracks_or_reports_your_activity">Fəaliyyətinizi izləyir və ya hesabat verir</string>
     <string name="unknown">Naməlum</string>
     <string name="unknown_error_DESC">Naməlum xəta.</string>
     <string name="unknown_FORMAT">Naməlum: %s</string>
-    <string name="unsigned">İmzasız</string>
     <string name="unstable_updates">Qeyri-sabit yeniləmələr</string>
     <string name="unstable_updates_summary">Qeyri-sabit versiyaların quraşdırılmasını təklif edin</string>
-    <string name="unverified">Doğrulanmamış</string>
     <string name="update">Yeniləyin</string>
     <string name="updates">Yeniləmələr</string>
     <string name="username">İstifadəçi adı</string>
@@ -197,12 +183,7 @@
     <string name="website">Veb sayt</string>
     <string name="prefs_language_title">Dil</string>
     <string name="prefs_personalization">Fərdiləşdirmə</string>
-    <string name="latest">Ən son</string>
-    <string name="explore">Araşdırın</string>
     <string name="update_all">Hamısını yeniləyin</string>
-    <string name="installed_applications">Quraşdırılmış proqramlar</string>
-    <string name="sort_filter">Çeşidləyin və Filtr edin</string>
-    <string name="new_applications">Yeni tətbiqlər</string>
     <string name="show_less">Daha az göstər</string>
     <string name="sync_repositories_automatically">Repozitoriyaları avtomatik sinxronlaşdırın</string>
     <string name="uninstall">Silin</string>

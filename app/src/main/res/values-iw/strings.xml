@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="list_animation_description">הצג רשימת אנימציית בעמוד הראשי</string>
     <string name="address">כתובות</string>
     <string name="anti_features">אנטי-תכונות</string>
     <string name="cancel">בטל</string>
@@ -17,7 +16,6 @@
     <string name="changes">שינויים</string>
     <string name="checking_repository">בודק מאגר…</string>
     <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">אישורים</string>
     <string name="could_not_download_FORMAT">לא ניתן היה להוריד את %s</string>
     <string name="could_not_sync_FORMAT">לא ניתן היה לסנכרן את %s</string>
@@ -56,7 +54,6 @@
     <string name="light">מואר</string>
     <string name="link_copied_to_clipboard">הקישור הועתק ללוח</string>
     <string name="links">קישורים</string>
-    <string name="list_animation">רשימת אנימציות</string>
     <string name="merging_FORMAT">ממזג %s</string>
     <string name="new_updates_available">היי, זמינות גרסאות חדשות של יישומים</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -108,21 +105,15 @@
     <string name="syncing_FORMAT">מסנכרן את %s…</string>
     <string name="system">מערכת</string>
     <string name="tap_to_install_DESC">הקש כדי להתקין.</string>
-    <string name="target">יעד</string>
     <string name="theme">ערכת נושא</string>
     <string name="themes">ערכות נושא</string>
     <string name="tracks_or_reports_your_activity">עוקב או מדווח על הפעילות שלך</string>
     <string name="unknown">לא ידוע</string>
-    <string name="unverified">לא מאומת</string>
     <string name="upstream_source_code_is_not_free">קוד המקור המלא אינו חינמי</string>
     <string name="username">שם משתמש</string>
     <string name="username_missing">שם משתמש חסר</string>
     <string name="prefs_language_title">שפה</string>
-    <string name="explore">עיין</string>
     <string name="update_all">עדכן הכל</string>
-    <string name="installed_applications">אפליקציות מותקנות</string>
-    <string name="sort_filter">מיון וסינון</string>
-    <string name="new_applications">יישומים חדשים</string>
     <string name="action_failed">פעולה נכשל</string>
     <string name="add_repository">הוסף מאגר</string>
     <string name="all_applications">כל האפליקציות</string>
@@ -169,20 +160,15 @@
     <string name="settings">הגדרות</string>
     <string name="proxy">‌פרוקסי</string>
     <string name="recently_updated">עודכן לאחרונה</string>
-    <string name="repository_not_used_DESC">עדיין לא נעשה שימוש במאגר זה. הפעל אותו כדי להציג את היישומים שבו.</string>
     <string name="permissions">הרשאות</string>
     <string name="proxy_host">מארח פרוקסי</string>
-    <string name="screenshots">צילומי מסך</string>
-    <string name="root_permission_description">אפשר הרשאת רוט עבור התקנות שקטות</string>
     <string name="save">שמור</string>
-    <string name="root_permission">התקנה שקטה (רוט)</string>
     <string name="signed_using_unsafe_algorithm">חתום באמצעות אלגוריתם. לא בטוח</string>
     <string name="share">שתף</string>
     <string name="show_more">הצג יותר</string>
     <string name="search">חיפוש</string>
     <string name="select_mirror">בחר מראה</string>
     <string name="signature_FORMAT">חתימה %s</string>
-    <string name="unsigned">לא חתום</string>
     <string name="unstable_updates_summary">הצע להתקין גרסאות לא יציבות</string>
     <string name="updates">עידכונים</string>
     <string name="version_FORMAT">גרסה %s</string>
@@ -198,15 +184,10 @@
     <string name="waiting_to_start_download">ממתין לתחילת ההורדה…</string>
     <string name="prefs_personalization">התאמה אישית</string>
     <string name="show_less">הצג פחות</string>
-    <string name="latest">הכי מאוחר</string>
-    <string name="allow_collapsing_toolbar">אפשר לסרגל האפליקציות העליון להתרחב</string>
-    <string name="allow_collapsing_toolbar_DESC">אפשר לסרגל האפליקציות העליון להתרחב ולהתמוטט</string>
-    <string name="no_internet">אין לך חיבור לאינטרנט</string>
     <string name="io_error_DESC">לא ניתן לבצע פעולות מסוימות.</string>
     <string name="installing">התקנה</string>
     <string name="material_you">חומר אתה</string>
     <string name="material_you_desc">השתמש בחומר אתה נושא צבע</string>
-    <string name="restart_app">הפעל מחדש את Droid-iim כדי לראות שינויים</string>
     <string name="waiting_to_start_installation">מחכה להתחיל בהתקנה …</string>
     <string name="favourites">מועדפים</string>
     <string name="force_clean_up_DESC">מנקה קבצים מיותרים</string>
@@ -223,7 +204,6 @@
     <string name="installation_failed">ההתקנה נכשלה</string>
     <string name="installation_failed_DESC">ההתקנה נכשלה %s</string>
     <string name="uninstalled_application">הוסר</string>
-    <string name="label_copy">העתק</string>
     <string name="ignore_signature">התעלם מהחתימה</string>
     <string name="ignore_signature_summary">*אזהרה* התעלמות מאימות חתימה בעת התקנת apk, נוצרה עבור משתמשים עם LSPosed או משתמשים מתקדמים</string>
     <string name="export_repos_title">ייצוא מאגרים</string>

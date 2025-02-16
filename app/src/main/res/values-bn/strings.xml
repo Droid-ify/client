@@ -21,7 +21,6 @@
     <string name="already_exists">আগে থেকেই আছে</string>
     <string name="always">সর্বদা</string>
     <string name="amoled">অন্ধকার</string>
-    <string name="allow_collapsing_toolbar">অ্যাপের টপ বার সম্প্রসারিত হতে দাও</string>
     <string name="could_not_validate_FORMAT">%s সত্যায়িত করা সম্ভব হয়নি</string>
     <string name="donate">অনুদান</string>
     <string name="description">বর্ণনা</string>
@@ -30,7 +29,6 @@
         <item quantity="other">ঘণ্টা</item>
     </plurals>
     <string name="incompatible_api_max_DESC_FORMAT">সর্বোচ্চ এপিআই সংস্করণ %d।</string>
-    <string name="allow_collapsing_toolbar_DESC">অ্যাপের টপ বার সম্প্রসারিত ও সংকুচিত হতে দাও</string>
     <string name="anti_features">অপবৈশিষ্ট্য</string>
     <string name="has_advertising">বিজ্ঞাপন আছে</string>
     <string name="http_proxy">HTTP প্রক্সি</string>
@@ -60,7 +58,6 @@
     <string name="delete_repository_DESC">রিপোজিটরি ডিলিট করতে চান\?</string>
     <string name="edit_repository">রিপোজিটরি সম্পাদনা করুন</string>
     <string name="ignore_this_update">এই সংস্করণটি অগ্রাহ্য করো</string>
-    <string name="cleanup_description">ডাউনলোড করা নথিগুলো পরীক্ষা এবং অপসারণের সময়কাল</string>
     <string name="compiled_for_debugging">ডিবাগিংয়ের জন্য কম্পাইল করা হয়েছে</string>
     <string name="bug_tracker">বাগ ট্র্যাকার</string>
     <string name="incompatible_signature_DESC">এই সংস্করণটি আপনার ডিভাইসে ইনস্টল করা একটি থেকে একটি ভিন্ন শংসাপত্রের সাথে স্বাক্ষরিত৷ প্রথমে এটি আনইনস্টল করুন।</string>
@@ -91,8 +88,6 @@
     <string name="license">লাইসেন্স</string>
     <string name="license_FORMAT">%s লাইসেন্স</string>
     <string name="light">আলো</string>
-    <string name="list_animation">তালিকা অ্যানিমেশন</string>
-    <string name="list_animation_description">প্রধান পৃষ্ঠায় তালিকা অ্যানিমেশন দেখান</string>
     <string name="merging_FORMAT">%s মার্জ করা হচ্ছে</string>
     <string name="material_you">উপাদান আপনি</string>
     <string name="session_installer">সেশন ইনস্টলার</string>
@@ -108,7 +103,6 @@
         <item quantity="other">নতুন সংস্করণ সহ %dটি অ্যাপ্লিকেশন।</item>
     </plurals>
     <string name="no_applications_installed">কোনো ইনস্টল করা অ্যাপ্লিকেশন নেই</string>
-    <string name="no_internet">আপনার কোন ইন্টারনেট সংযোগ নেই</string>
     <string name="no_matching_applications_found">এই ধরনের কোনো অ্যাপ্লিকেশন খুঁজে পাওয়া যায়নি</string>
     <string name="number_of_applications">আবেদনের সংখ্যা</string>
     <string name="auto_update">স্বয়ংক্রিয়ভাবে অ্যাপ্লিকেশন হালনাগাদ</string>
@@ -129,8 +123,6 @@
     <string name="proxy_port">প্রক্সি পর্ট</string>
     <string name="recently_updated">সম্প্রতি আপডেট করা হয়েছে</string>
     <string name="repository">ভান্ডার</string>
-    <string name="repository_not_used_DESC">এই সংগ্রহস্থল এখনও ব্যবহার করা হয় নি. এটিতে থাকা অ্যাপ্লিকেশনগুলি দেখতে এটি চালু করুন।</string>
-    <string name="restart_app">পরিবর্তনগুলি দেখতে Droid-ify পুনরায় চালু করুন</string>
     <string name="show_older_versions">পুরানো সংস্করণ দেখান</string>
     <string name="plus_more_FORMAT">+%d আরো</string>
     <string name="favourites">প্রিয়</string>
@@ -149,10 +141,7 @@
     <string name="project_website">প্রকল্প ওয়েবসাইট</string>
     <string name="repository_unreachable">রিপোজিটরি পৌঁছানো যায় না</string>
     <string name="requires_FORMAT">%s প্রয়োজন</string>
-    <string name="root_permission">নীরব ইনস্টল</string>
     <string name="saving_details">বিবরণ সংরক্ষণ করা হচ্ছে…</string>
-    <string name="screenshots">স্ক্রিনশট</string>
-    <string name="root_permission_description">নীরব ইনস্টলেশনের জন্য রুট অনুমতির অনুমতি দিন</string>
     <string name="save">সংরক্ষণ</string>
     <string name="search">অনুসন্ধান করুন</string>
     <string name="select_mirror">একটি আয়না নির্বাচন করুন</string>
@@ -172,24 +161,18 @@
     <string name="syncing">সিঙ্ক হচ্ছে</string>
     <string name="system">পদ্ধতি</string>
     <string name="tap_to_install_DESC">ইনস্টল করতে আলতো চাপুন।</string>
-    <string name="target">টার্গেট</string>
     <string name="uninstall">আনইনস্টল করুন</string>
     <string name="unknown">অজানা</string>
     <string name="unknown_error_DESC">অজানা ত্রুটি.</string>
     <string name="unknown_FORMAT">অজানা: %s</string>
-    <string name="unsigned">স্বাক্ষরবিহীন</string>
-    <string name="unverified">যাচাই করা হয়নি</string>
     <string name="username">ব্যবহারকারীর নাম</string>
     <string name="version_FORMAT">সংস্করণ %s</string>
     <string name="website">ওয়েবসাইট</string>
     <string name="prefs_personalization">ব্যক্তিগতকরণ</string>
     <string name="show_less">প্রদর্শন কম</string>
-    <string name="latest">সর্বশেষ</string>
-    <string name="sort_filter">বাছাই এবং ফিল্টার</string>
     <string name="sync_repositories">সিঙ্ক রিপোজিটরি</string>
     <string name="tracks_or_reports_your_activity">আপনার কার্যকলাপ ট্র্যাক বা রিপোর্ট</string>
     <string name="versions">সংস্করণ</string>
-    <string name="explore">অন্বেষণ</string>
     <string name="syncing_FORMAT">%s সিঙ্ক হচ্ছে…</string>
     <string name="whats_new">নতুন কি</string>
     <string name="themes">রঙ</string>
@@ -204,11 +187,9 @@
     <string name="waiting_to_start_installation">ইনস্টলেশন শুরু করার জন্য অপেক্ষা করা হচ্ছে…</string>
     <string name="upstream_source_code_is_not_free">আপস্ট্রিম সোর্স কোড বিনামূল্যে নয়</string>
     <string name="validation_index_error_DESC">সূচক যাচাই করা যায়নি.</string>
-    <string name="installed_applications">ইনস্টল করা অ্যাপ্লিকেশন</string>
     <string name="update">হালনাগাদ</string>
     <string name="waiting_to_start_download">ডাউনলোড শুরু করার জন্য অপেক্ষা করা হচ্ছে…</string>
     <string name="prefs_language_title">ভাষা</string>
-    <string name="new_applications">নতুন অ্যাপ্লিকেশন</string>
     <string name="cannot_open_link">লিংকটি ওপেন করা সম্ভব হয়নি</string>
     <string name="import_export">ইম্পোর্ট/এক্সপোর্ট</string>
     <string name="import_settings_title">সেটিংস ইম্পোর্ট করুন</string>

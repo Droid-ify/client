@@ -75,8 +75,6 @@
     <string name="light">Chiaro</string>
     <string name="link_copied_to_clipboard">Link copiato</string>
     <string name="links">Collegamenti</string>
-    <string name="list_animation">Elenco animazioni</string>
-    <string name="list_animation_description">Mostra l\'animazione della lista nella pagina principale</string>
     <string name="merging_FORMAT">Unione di %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Errore di rete</string>
@@ -118,14 +116,10 @@
     <string name="recently_updated">Aggiornato di recente</string>
     <string name="repositories">Repository</string>
     <string name="repository">Repository</string>
-    <string name="repository_not_used_DESC">Questo repository non è stato ancora utilizzato. Attivalo per vedere le applicazioni in esso contenute.</string>
     <string name="repository_unsigned_DESC">Senza firma. Impossibile verificare la lista delle applicazioni. È importante stare attenti quando si scaricano le applicazioni dai repository senza firma.</string>
     <string name="requires_FORMAT">Richiede %s</string>
-    <string name="root_permission">Installazione silenziosa</string>
-    <string name="root_permission_description">Consenti permesso di Root per abilitare installazioni silenziose</string>
     <string name="save">Salva</string>
     <string name="saving_details">Salvataggio dei dettagli…</string>
-    <string name="screenshots">Schermate</string>
     <string name="search">Cerca</string>
     <string name="select_mirror">Seleziona alternativa</string>
     <string name="share">Condividi</string>
@@ -146,7 +140,6 @@
     <string name="syncing_FORMAT">Sincronizzazione di %s in corso…</string>
     <string name="system">Sistema</string>
     <string name="tap_to_install_DESC">Tocca per installare.</string>
-    <string name="target">Obiettivo</string>
     <string name="theme">Tema</string>
     <string name="themes">Temi</string>
     <string name="tracks_or_reports_your_activity">Traccia o riferisce le tue attività</string>
@@ -154,10 +147,8 @@
     <string name="unknown">Sconosciuto</string>
     <string name="unknown_error_DESC">Errore sconosciuto.</string>
     <string name="unknown_FORMAT">Sconosciuto: %s</string>
-    <string name="unsigned">Non firmato</string>
     <string name="unstable_updates">Aggiornamenti instabili</string>
     <string name="unstable_updates_summary">Suggerisci l\'installazione di versioni instabili</string>
-    <string name="unverified">Non verificato</string>
     <string name="update">Aggiorna</string>
     <string name="updates">Aggiornamenti</string>
     <string name="upstream_source_code_is_not_free">Il codice sorgente aggiornato non libero</string>
@@ -173,18 +164,12 @@
     <string name="prefs_language_title">Lingua</string>
     <string name="prefs_personalization">Personalizzazione</string>
     <string name="update_all">Aggiorna tutto</string>
-    <string name="sort_filter">Ordina e filtra</string>
-    <string name="latest">Ultime novità</string>
     <string name="show_less">Mostra meno</string>
-    <string name="new_applications">Nuove applicazioni</string>
-    <string name="explore">Esplora</string>
-    <string name="installed_applications">Applicazioni installate</string>
     <string name="installer">Installatore</string>
     <string name="shizuku_installer">Installatore Shizuku</string>
     <string name="session_installer">Installatore di sessione</string>
     <string name="legacy_installer">Installatore legacy</string>
     <string name="root_installer">Installatore root</string>
-    <string name="cleanup_description">Periodo per controllare e rimuovere i file scaricati</string>
     <plurals name="days">
         <item quantity="one">Giorno</item>
         <item quantity="many">Giorni</item>
@@ -198,9 +183,6 @@
     <string name="cleanup_title">Intervallo di pulizia APK</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi e in carica</string>
     <string name="io_error_DESC">Impossibile eseguire determinate azioni.</string>
-    <string name="no_internet">Non hai connessione internet</string>
-    <string name="allow_collapsing_toolbar">Consenti l\'espansione della barra superiore dell\'app</string>
-    <string name="allow_collapsing_toolbar_DESC">Consenti alla barra superiore dell\'app di espandersi e comprimersi</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Preferiti</string>
     <string name="material_you_desc">Usa il tema material you</string>
@@ -210,7 +192,6 @@
     <string name="enable_repo">Abilita il repository</string>
     <string name="installing">Installazione</string>
     <string name="waiting_to_start_installation">In attesa di avviare l\'installazione…</string>
-    <string name="restart_app">Riavvia Droid-ify per vedere le modifiche</string>
     <string name="auto_update">Aggiornamento automatico delle app</string>
     <string name="auto_update_apps">Prova a installare gli aggiornamenti automaticamente</string>
     <string name="has_non_free_components">Ha componenti non liberi</string>
@@ -227,7 +208,6 @@
     <string name="export_repos_title">Esporta repository</string>
     <string name="import_repos_DESC">Importare tutti i repository da file</string>
     <string name="shizuku_not_alive">Shizuku non è in esecuzione</string>
-    <string name="label_copy">Copia</string>
     <string name="proxy_port_error_not_int">La porta proxy può essere solo un numero intero</string>
     <string name="repository_not_found">La seguente repository non è stata trovata</string>
     <string name="special_credits">Menzione Speciale</string>
