@@ -73,7 +73,6 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
         init {
             with(image) {
                 layout(0, 0, 0, 0)
-                adjustViewBounds = true
                 shapeAppearanceModel = imageShapeModel
                 background = context.selectableBackground
                 isFocusable = true
