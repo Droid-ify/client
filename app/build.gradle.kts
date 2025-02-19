@@ -27,13 +27,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
         isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
         freeCompilerArgs = listOf(
             "-opt-in=kotlin.RequiresOptIn",
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
@@ -95,7 +95,8 @@ android {
                 "/META-INF/**.kotlin_module",
                 "/META-INF/**.pro",
                 "/META-INF/**.version",
-                "/META-INF/versions/9/previous-**.bin"
+                "/META-INF/{AL2.0,LGPL2.1,LICENSE*}",
+                "/META-INF/versions/9/previous-**.bin",
             )
         }
     }
