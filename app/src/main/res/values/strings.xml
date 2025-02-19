@@ -236,4 +236,6 @@
     <string name="update_all">Update all</string>
     <string name="contains_nsfw">Contains not safe for work content</string>
     <string name="label_open_video">Video</string>
+    <string name="label_targets_sdk">Targets: Android %s</string>
+    <string name="label_unknown_sdk">Unknown (%d)</string>
 </resources>

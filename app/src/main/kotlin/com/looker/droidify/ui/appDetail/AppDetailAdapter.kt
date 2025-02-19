@@ -70,6 +70,7 @@ import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.open
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
 import com.looker.droidify.utility.common.nullIfEmpty
+import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -556,6 +557,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val size = itemView.findViewById<TextView>(R.id.size)!!
         val signature = itemView.findViewById<TextView>(R.id.signature)!!
         val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
+        val targetSdk = itemView.findViewById<TextView>(R.id.target_sdk)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(
@@ -566,7 +568,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 added,
                 size,
                 signature,
-                compatibility
+                compatibility,
+                targetSdk,
             )
     }
 
@@ -1616,7 +1619,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder.version.text =
                     context.getString(stringRes.version_FORMAT, item.release.version)
 
-                holder.status.apply {
+                with(holder.status) {
                     isVisible = installed || suggested
                     setText(
                         when {
@@ -1627,14 +1630,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     )
                     background = context.corneredBackground
                     setPadding(15, 15, 15, 15)
-                    val (background, foreground) = if (installed) {
-                        MaterialR.attr.colorSecondaryContainer to MaterialR.attr.colorOnSecondaryContainer
+                    if (installed) {
+                        backgroundTintList =
+                            context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
                     } else {
-                        MaterialR.attr.colorPrimaryContainer to MaterialR.attr.colorOnPrimaryContainer
+                        backgroundTintList =
+                            context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
                     }
-                    backgroundTintList =
-                        context.getColorFromAttr(background)
-                    setTextColor(context.getColorFromAttr(foreground))
                 }
                 holder.source.text =
                     context.getString(stringRes.provided_by_FORMAT, item.repository.name)
@@ -1678,35 +1682,44 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     }
                     holder.signature.text = builder
                 }
-                holder.compatibility.isVisible = incompatibility != null || singlePlatform != null
-                if (incompatibility != null) {
-                    holder.compatibility.setTextColor(
-                        context.getColorFromAttr(MaterialR.attr.colorError)
-                    )
-                    holder.compatibility.text = when (incompatibility) {
-                        is Release.Incompatibility.MinSdk,
-                        is Release.Incompatibility.MaxSdk
-                            -> context.getString(
-                            stringRes.incompatible_with_FORMAT,
-                            Android.name
-                        )
+                with(holder.compatibility) {
+                    isVisible = incompatibility != null || singlePlatform != null
+                    if (incompatibility != null) {
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorError))
+                        text = when (incompatibility) {
+                            is Release.Incompatibility.MinSdk,
+                            is Release.Incompatibility.MaxSdk -> context.getString(
+                                stringRes.incompatible_with_FORMAT,
+                                Android.name
+                            )
 
-                        is Release.Incompatibility.Platform -> context.getString(
-                            stringRes.incompatible_with_FORMAT,
-                            Android.primaryPlatform ?: context.getString(stringRes.unknown)
-                        )
+                            is Release.Incompatibility.Platform -> context.getString(
+                                stringRes.incompatible_with_FORMAT,
+                                Android.primaryPlatform ?: context.getString(stringRes.unknown)
+                            )
 
-                        is Release.Incompatibility.Feature -> context.getString(
-                            stringRes.requires_FORMAT,
-                            incompatibility.feature
+                            is Release.Incompatibility.Feature -> context.getString(
+                                stringRes.requires_FORMAT,
+                                incompatibility.feature
+                            )
+                        }
+                    } else if (singlePlatform != null) {
+                        setTextColor(context.getColorFromAttr(android.R.attr.textColorSecondary))
+                        text = context.getString(
+                            stringRes.only_compatible_with_FORMAT,
+                            singlePlatform,
                         )
                     }
-                } else if (singlePlatform != null) {
-                    holder.compatibility.setTextColor(
-                        context.getColorFromAttr(android.R.attr.textColorSecondary)
+                }
+                with(holder.targetSdk) {
+                    val sdkVersion = sdkName.getOrDefault(
+                        item.release.targetSdkVersion,
+                        context.getString(
+                            stringRes.label_unknown_sdk,
+                            item.release.targetSdkVersion,
+                        ),
                     )
-                    holder.compatibility.text =
-                        context.getString(stringRes.only_compatible_with_FORMAT, singlePlatform)
+                    text = context.getString(stringRes.label_targets_sdk, sdkVersion)
                 }
                 val enabled = status == Status.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }
