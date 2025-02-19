@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -48,7 +47,6 @@ import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.isSystemApplication
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.extension.updateAsMutable
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.screenActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -74,7 +72,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private enum class Action(
         val id: Int,
-        val adapterAction: AppDetailAdapter.Action,
+        val adapterAction: AppDetailAdapter.Action
     ) {
         INSTALL(1, AppDetailAdapter.Action.INSTALL),
         UPDATE(2, AppDetailAdapter.Action.UPDATE),
@@ -87,7 +85,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private class Installed(
         val installedItem: InstalledItem,
         val isSystem: Boolean,
-        val launcherActivities: List<Pair<String, String>>,
+        val launcherActivities: List<Pair<String, String>>
     )
 
     private val viewModel: AppDetailViewModel by viewModels()
@@ -118,98 +116,93 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        try {
-            detailAdapter = AppDetailAdapter(this@AppDetailFragment)
-            screenActivity.onToolbarCreated(toolbar)
-            toolbar.menu.apply {
-                Action.entries.forEach { action ->
-                    add(0, action.id, 0, action.adapterAction.titleResId)
-                        .setIcon(toolbar.context.getMutatedIcon(action.adapterAction.iconResId))
-                        .setVisible(false)
-                        .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                        .setOnMenuItemClickListener {
-                            onActionClick(action.adapterAction)
-                            true
-                        }
-                }
+        detailAdapter = AppDetailAdapter(this@AppDetailFragment)
+        screenActivity.onToolbarCreated(toolbar)
+        toolbar.menu.apply {
+            Action.entries.forEach { action ->
+                add(0, action.id, 0, action.adapterAction.titleResId)
+                    .setIcon(toolbar.context.getMutatedIcon(action.adapterAction.iconResId))
+                    .setVisible(false)
+                    .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                    .setOnMenuItemClickListener {
+                        onActionClick(action.adapterAction)
+                        true
+                    }
             }
-
-            val content = fragmentBinding.fragmentContent
-            content.addView(
-                RecyclerView(content.context).apply {
-                    id = android.R.id.list
-                    this.layoutManager = LinearLayoutManager(
-                        context,
-                        LinearLayoutManager.VERTICAL,
-                        false
-                    )
-                    isMotionEventSplittingEnabled = false
-                    isVerticalScrollBarEnabled = false
-                    adapter = detailAdapter
-                    (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
-                    if (detailAdapter != null) {
-                        savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
-                            ?.let(detailAdapter!!::restoreState)
-                    }
-                    layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
-                    recyclerView = this
-                    systemBarsPadding(includeFab = false)
-                }
-            )
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.CREATED) {
-                    launch {
-                        viewModel.state.collectLatest { state ->
-                            products = state.products.mapNotNull { product ->
-                                val requiredRepo =
-                                    state.repos.find { it.id == product.repositoryId }
-                                requiredRepo?.let { product to it }
-                            }
-                            layoutManagerState?.let {
-                                recyclerView?.layoutManager!!.onRestoreInstanceState(it)
-                            }
-                            layoutManagerState = null
-                            installed = state.installedItem?.let {
-                                with(requireContext().packageManager) {
-                                    val isSystem = isSystemApplication(viewModel.packageName)
-                                    val launcherActivities = if (state.isSelf) {
-                                        emptyList()
-                                    } else {
-                                        getLauncherActivities(viewModel.packageName)
-                                    }
-                                    Installed(it, isSystem, launcherActivities)
-                                }
-                            }
-                            val adapter = recyclerView?.adapter as? AppDetailAdapter
-
-                            // `delay` is cancellable hence it waits for 50 milliseconds to show empty page
-                            if (products.isEmpty()) delay(50)
-
-                            adapter?.setProducts(
-                                context = requireContext(),
-                                packageName = viewModel.packageName,
-                                suggestedRepo = state.addressIfUnavailable,
-                                products = products,
-                                installedItem = state.installedItem,
-                                isFavourite = state.isFavourite,
-                                allowIncompatibleVersion = state.allowIncompatibleVersions
-                            )
-                            updateButtons()
-                        }
-                    }
-                    launch {
-                        viewModel.installerState.collect(::updateInstallState)
-                    }
-                    launch {
-                        recyclerView?.isFirstItemVisible?.collect(::updateToolbarButtons)
-                    }
-                }
-            }
-            downloadConnection.bind(requireContext())
-        } catch (e: Exception) {
-            e.printStackTrace()
-            log("Exception Caught: ${e.message}", type = Log.ERROR)
         }
+
+        val content = fragmentBinding.fragmentContent
+        content.addView(
+            RecyclerView(content.context).apply {
+                id = android.R.id.list
+                this.layoutManager = LinearLayoutManager(
+                    context,
+                    LinearLayoutManager.VERTICAL,
+                    false
+                )
+                isMotionEventSplittingEnabled = false
+                isVerticalScrollBarEnabled = false
+                adapter = detailAdapter
+                (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+                if (detailAdapter != null) {
+                    savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+                        ?.let(detailAdapter!!::restoreState)
+                }
+                layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+                recyclerView = this
+                systemBarsPadding(includeFab = false)
+            }
+        )
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                launch {
+                    viewModel.state.collectLatest { state ->
+                        products = state.products.mapNotNull { product ->
+                            val requiredRepo = state.repos.find { it.id == product.repositoryId }
+                            requiredRepo?.let { product to it }
+                        }
+                        layoutManagerState?.let {
+                            recyclerView?.layoutManager!!.onRestoreInstanceState(it)
+                        }
+                        layoutManagerState = null
+                        installed = state.installedItem?.let {
+                            with(requireContext().packageManager) {
+                                val isSystem = isSystemApplication(viewModel.packageName)
+                                val launcherActivities = if (state.isSelf) {
+                                    emptyList()
+                                } else {
+                                    getLauncherActivities(viewModel.packageName)
+                                }
+                                Installed(it, isSystem, launcherActivities)
+                            }
+                        }
+                        val adapter = recyclerView?.adapter as? AppDetailAdapter
+
+                        // `delay` is cancellable hence it waits for 50 milliseconds to show empty page
+                        if (products.isEmpty()) delay(50)
+
+                        adapter?.setProducts(
+                            context = requireContext(),
+                            packageName = viewModel.packageName,
+                            suggestedRepo = state.addressIfUnavailable,
+                            products = products,
+                            installedItem = state.installedItem,
+                            isFavourite = state.isFavourite,
+                            allowIncompatibleVersion = state.allowIncompatibleVersions
+                        )
+                        updateButtons()
+                    }
+                }
+                launch {
+                    viewModel.installerState.collect(::updateInstallState)
+                }
+                launch {
+                    recyclerView?.isFirstItemVisible?.collect(::updateToolbarButtons)
+                }
+            }
+        }
+
+        downloadConnection.bind(requireContext())
     }
 
     override fun onDestroyView() {
@@ -233,7 +226,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun updateButtons(
-        preference: ProductPreference = ProductPreferences[viewModel.packageName],
+        preference: ProductPreference = ProductPreferences[viewModel.packageName]
     ) {
         val installed = installed
         val product = products.findSuggested(installed?.installedItem)?.first
@@ -285,7 +278,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private fun updateToolbarButtons(
         isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager)
-            .findFirstVisibleItemPosition() == 0,
+            .findFirstVisibleItemPosition() == 0
     ) {
         toolbar.title = if (isActionVisible) {
             getString(stringRes.application)
@@ -355,8 +348,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     override fun onActionClick(action: AppDetailAdapter.Action) {
         when (action) {
             AppDetailAdapter.Action.INSTALL,
-            AppDetailAdapter.Action.UPDATE,
-                -> {
+            AppDetailAdapter.Action.UPDATE -> {
                 if (Cache.getEmptySpace(requireContext()) < products.first().first.releases.first().size) {
                     MessageDialog(Message.InsufficientStorage).show(childFragmentManager)
                     return
