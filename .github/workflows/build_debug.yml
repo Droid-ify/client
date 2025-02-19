@@ -48,9 +48,6 @@ jobs:
       - name: Grant execution permission to Gradle Wrapper
         run: chmod +x gradlew
 
-      - name: Format Code
-        run: ./gradlew ktlintFormat
-
       - name: Build Debug APK
         run: ./gradlew assembleDebug
 
@@ -78,9 +75,9 @@ jobs:
           echo "::set-output name=version_code::$VERSION_CODE"
           echo "Version Code: $VERSION_CODE"
 
-          - name: Read Changelog
-          id: read_changelog
-          run: |
+      - name: Read Changelog
+        id: read_changelog
+        run: |
           CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
           if [[ -f "$CHANGELOG_PATH" ]]; then
             CHANGELOG=$(cat "$CHANGELOG_PATH")
