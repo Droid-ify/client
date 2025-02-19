@@ -58,10 +58,32 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "35.0.0"
 
+      - name: Extract Version Code
+        id: extract_version
+        run: |
+          VERSION_CODE=$(grep -oP '(?<=versionCode=)\d+' app/build.gradle) # Adjust path to your build.gradle
+          echo "::set-output name=version_code::$VERSION_CODE"
+          echo "Version Code: $VERSION_CODE"
+
+      - name: Read Changelog
+        id: read_changelog
+        run: |
+          CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
+          if [[ -f "$CHANGELOG_PATH" ]]; then
+            CHANGELOG=$(cat "$CHANGELOG_PATH")
+            echo "::set-output name=changelog::$CHANGELOG"
+          else
+            echo "::set-output name=changelog::No changelog found for this version."
+            echo "No changelog found at: $CHANGELOG_PATH"
+          fi
+
       - uses: softprops/action-gh-release@v2
         name: Create Release
         id: publish_release
         with:
+          body: ${{ steps.read_changelog.outputs.changelog }}
+          tag_name: ${{ github.ref }}
+          name: Release ${{ github.ref }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
           draft: true
           prerelease: false

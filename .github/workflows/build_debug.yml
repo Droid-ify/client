@@ -67,38 +67,6 @@ jobs:
         run: |
           ls | grep 'signed\.apk$' && find . -type f -name '*.apk' ! -name '*-signed.apk' -delete
 
-
-      - name: Extract Version Code
-        id: extract_version
-        run: |
-          VERSION_CODE=$(grep "versionCode =" app/build.gradle.kts | awk -F'= ' '{print $2}' | tr -d ' ')
-          echo "::set-output name=version_code::$VERSION_CODE"
-          echo "Version Code: $VERSION_CODE"
-
-      - name: Read Changelog
-        id: read_changelog
-        run: |
-          CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
-          if [[ -f "$CHANGELOG_PATH" ]]; then
-            CHANGELOG=$(cat "$CHANGELOG_PATH")
-            echo "::set-output name=changelog::$CHANGELOG"
-            echo "Changelog:\n$CHANGELOG"
-          else
-            echo "::set-output name=changelog::No changelog found for this version."
-            echo "No changelog found at: $CHANGELOG_PATH"
-          fi
-
-      - uses: softprops/action-gh-release@v2
-        name: Create Release
-        id: publish_release
-        with:
-          body: ${{ steps.read_changelog.outputs.changelog }}
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          files: app/build/outputs/apk/debug/app-debug*.apk
-          draft: true
-          prerelease: false
-
       - name: Upload the APK
         uses: actions/upload-artifact@v4
         with:
