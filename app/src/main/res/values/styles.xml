@@ -205,15 +205,8 @@
     </style>
 
     <style name="Theme.EditText" parent="Widget.Material3.TextInputLayout.FilledBox">
-        <item name="boxBackgroundColor">?attr/colorSurfaceContainerHighest</item>
-        <item name="boxStrokeWidth">0dp</item>
-        <item name="boxStrokeWidthFocused">0dp</item>
-        <item name="boxCornerRadiusBottomEnd">@dimen/shape_medium_corner</item>
-        <item name="boxCornerRadiusBottomStart">@dimen/shape_medium_corner</item>
         <item name="boxCornerRadiusTopEnd">@dimen/shape_medium_corner</item>
         <item name="boxCornerRadiusTopStart">@dimen/shape_medium_corner</item>
-        <item name="hintTextColor">?attr/colorPrimary</item>
-        <item name="android:textColorHint">?attr/colorPrimary</item>
     </style>
 
     <style name="Theme.Progress" parent="Widget.Material3.LinearProgressIndicator">
