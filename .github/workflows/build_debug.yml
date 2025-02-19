@@ -74,7 +74,7 @@ jobs:
       - name: Extract Version Code
         id: extract_version
         run: |
-          VERSION_CODE=$(grep -oP '(?<=versionCode=)\d+' app/build.gradle) # Adjust path to your build.gradle
+          VERSION_CODE=$(grep "versionCode =" app/build.gradle.kts | awk -F'= ' '{print $2}' | tr -d ' ')
           echo "::set-output name=version_code::$VERSION_CODE"
           echo "Version Code: $VERSION_CODE"
 
