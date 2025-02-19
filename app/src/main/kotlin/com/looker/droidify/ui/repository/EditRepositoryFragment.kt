@@ -15,26 +15,25 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.looker.droidify.utility.common.extension.clipboardManager
-import com.looker.droidify.utility.common.extension.get
-import com.looker.droidify.utility.common.extension.getMutatedIcon
-import com.looker.droidify.utility.common.nullIfEmpty
-import com.looker.droidify.model.Repository
+import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
+import com.looker.droidify.model.Repository
+import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.utility.common.extension.clipboardManager
+import com.looker.droidify.utility.common.extension.get
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.screenActivity
-import com.looker.droidify.network.Downloader
-import com.looker.droidify.network.NetworkResponse
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.net.URI
@@ -44,7 +43,6 @@ import java.nio.charset.Charset
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.min
-import com.looker.droidify.R
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -84,9 +82,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         screenActivity.onToolbarCreated(toolbar)
         toolbar.title =
-            getString(
-                if (repoId != null) stringRes.edit_repository else stringRes.add_repository
-            )
+            getString(if (repoId != null) stringRes.edit_repository else stringRes.add_repository)
 
         saveMenuItem = toolbar.menu.add(stringRes.save)
             .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_save))
@@ -240,6 +236,8 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         saveMenuItem = null
         syncConnection.unbind(requireContext())
+        checkJob?.cancel()
+        checkJob = null
         _binding = null
     }
 
@@ -394,22 +392,22 @@ class EditRepositoryFragment() : ScreenFragment() {
     }
 
     private suspend fun checkAddress(
-        address: String,
+        rawAddress: String,
         authentication: String
     ): String? = coroutineScope {
         checkInProgress = true
         invalidateState()
-        val allAddresses = addressSuffixes.map { "$address/$it" } + address
-        val pathCheck = allAddresses.map {
-            async {
-                downloader.headCall(
-                    url = "$it/index-v1.jar",
+        val allAddresses = addressSuffixes.map { "$rawAddress/$it" } + rawAddress
+        allAddresses
+            .sortedBy { it.length }
+            .forEach { address ->
+                val response = downloader.headCall(
+                    url = "$address/index-v1.jar",
                     headers = { authentication(authentication) }
-                ) is NetworkResponse.Success
+                )
+                if (response is NetworkResponse.Success) return@coroutineScope address
             }
-        }
-        val indexOfValidAddress = pathCheck.awaitAll().indexOf(true)
-        allAddresses[indexOfValidAddress].nullIfEmpty()
+        null
     }
 
     private fun onSaveRepositoryProceedInvalidate(
@@ -470,6 +468,6 @@ class EditRepositoryFragment() : ScreenFragment() {
         const val EXTRA_REPOSITORY_ID = "repositoryId"
         const val EXTRA_REPOSITORY_ADDRESS = "repositoryAddress"
 
-        val addressSuffixes = listOf("fdroid/repo", "repo")
+        val addressSuffixes = arrayOf("fdroid/repo", "repo")
     }
 }
