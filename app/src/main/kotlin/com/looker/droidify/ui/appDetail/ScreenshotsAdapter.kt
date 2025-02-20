@@ -17,6 +17,7 @@ import com.looker.droidify.graphics.PaddingDrawable
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.aspectRatio
+import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.camera
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
@@ -130,6 +131,7 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                 val item = items[position] as Item.ScreenshotItem
                 with(holder.image) {
                     load(item.screenshot.url(context, item.repository, item.packageName)) {
+                        authentication(item.repository.authentication)
                         scale(Scale.FILL)
                         placeholder(holder.placeholder)
                         error(holder.placeholder.asImage())
