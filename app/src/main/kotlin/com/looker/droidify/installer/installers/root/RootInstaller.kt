@@ -12,7 +12,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import kotlin.coroutines.resume
 
-internal class RootInstaller(private val context: Context) : Installer {
+class RootInstaller(private val context: Context) : Installer {
 
     private companion object {
         const val ROOT_INSTALL_PACKAGE = "cat %s | pm install --user %s -t -r -S %s"

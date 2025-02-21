@@ -14,7 +14,7 @@ import java.io.BufferedReader
 import java.io.InputStream
 import kotlin.coroutines.resume
 
-internal class ShizukuInstaller(private val context: Context) : Installer {
+class ShizukuInstaller(private val context: Context) : Installer {
 
     companion object {
         private val SESSION_ID_REGEX = Regex("(?<=\\[).+?(?=])")

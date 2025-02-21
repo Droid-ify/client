@@ -4,43 +4,44 @@ import android.content.Context
 import android.content.Intent
 import android.util.AndroidRuntimeException
 import androidx.core.net.toUri
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
-import kotlin.coroutines.resume
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.intent
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
-internal class LegacyInstaller(private val context: Context) : Installer {
+class LegacyInstaller(private val context: Context) : Installer {
 
     companion object {
         private const val APK_MIME = "application/vnd.android.package-archive"
     }
 
     override suspend fun install(
-        installItem: InstallItem
+        installItem: InstallItem,
     ): InstallState = suspendCancellableCoroutine { cont ->
-        val (uri, flags) = if (SdkCheck.isNougat) {
+        val installFlag = if (SdkCheck.isNougat) Intent.FLAG_GRANT_READ_URI_PERMISSION else 0
+        val fileUri = if (SdkCheck.isNougat) {
             Cache.getReleaseUri(
                 context,
                 installItem.installFileName
-            ) to Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
         } else {
-            val file = Cache.getReleaseFile(context, installItem.installFileName)
-            file.toUri() to 0
+            Cache.getReleaseFile(context, installItem.installFileName).toUri()
+        }
+        val installIntent = intent(Intent.ACTION_INSTALL_PACKAGE) {
+            setDataAndType(fileUri, APK_MIME)
+            flags = installFlag
         }
         try {
-            context.startActivity(
-                Intent(Intent.ACTION_INSTALL_PACKAGE).setDataAndType(uri, APK_MIME).setFlags(flags)
-            )
+            context.startActivity(installIntent)
             cont.resume(InstallState.Installed)
         } catch (e: AndroidRuntimeException) {
-            context.startActivity(
-                Intent(Intent.ACTION_INSTALL_PACKAGE).setDataAndType(uri, APK_MIME)
-                    .setFlags(flags or Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+            installIntent.flags = installFlag or Intent.FLAG_ACTIVITY_NEW_TASK
+            context.startActivity(installIntent)
             cont.resume(InstallState.Installed)
         } catch (e: Exception) {
             cont.resume(InstallState.Failed)
@@ -53,14 +54,14 @@ internal class LegacyInstaller(private val context: Context) : Installer {
     override fun close() {}
 }
 
-internal suspend fun Context.uninstallPackage(packageName: PackageName) =
+suspend fun Context.uninstallPackage(packageName: PackageName) =
     suspendCancellableCoroutine { cont ->
         try {
             startActivity(
-                Intent(
-                    Intent.ACTION_UNINSTALL_PACKAGE,
-                    "package:${packageName.name}".toUri()
-                ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent(Intent.ACTION_UNINSTALL_PACKAGE) {
+                    data = "package:${packageName.name}".toUri()
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                }
             )
             cont.resume(Unit)
         } catch (e: Exception) {
