@@ -31,7 +31,7 @@ data class Release(
         object MinSdk : Incompatibility()
         object MaxSdk : Incompatibility()
         object Platform : Incompatibility()
-        data class Feature(val feature: String) : Incompatibility()
+        class Feature(val feature: String) : Incompatibility()
     }
 
     val identifier: String

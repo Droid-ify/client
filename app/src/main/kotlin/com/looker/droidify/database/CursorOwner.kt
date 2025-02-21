@@ -12,7 +12,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     sealed class Request {
         internal abstract val id: Int
 
-        data class ProductsAvailable(
+        class ProductsAvailable(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder
@@ -21,7 +21,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 get() = 1
         }
 
-        data class ProductsInstalled(
+        class ProductsInstalled(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder
@@ -30,7 +30,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 get() = 2
         }
 
-        data class ProductsUpdates(
+        class ProductsUpdates(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder
