@@ -12,7 +12,7 @@ private val supportedExternalHosts = arrayOf(
     "f-droid.org",
     "www.f-droid.org",
     "staging.f-droid.org",
-    "apt.izzysoft.de"
+    "apt.izzysoft.de",
 )
 
 val Intent.deeplinkType: DeeplinkType?
@@ -77,7 +77,7 @@ private inline fun invalidDeeplink(message: String): Nothing = throw InvalidDeep
 
 sealed interface DeeplinkType {
 
-    data class AddRepository(val address: String) : DeeplinkType
+    class AddRepository(val address: String) : DeeplinkType
 
-    data class AppDetail(val packageName: String, val repoAddress: String? = null) : DeeplinkType
+    class AppDetail(val packageName: String, val repoAddress: String? = null) : DeeplinkType
 }
