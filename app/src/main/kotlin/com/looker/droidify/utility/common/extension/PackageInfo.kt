@@ -74,7 +74,6 @@ fun PackageManager.getApplicationInfoCompat(
         PackageManager.ApplicationInfoFlags.of(0L)
     )
 } else {
-    @Suppress("DEPRECATION")
     getApplicationInfo(filePath, 0)
 }
 
@@ -98,7 +97,6 @@ fun PackageManager.getPackageInfoCompat(
             PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
         )
     } else {
-        @Suppress("DEPRECATION")
         getPackageInfo(packageName, signatureFlag)
     }
 } catch (e: Exception) {
@@ -131,7 +129,6 @@ fun PackageManager.getPackageArchiveInfoCompat(
             PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
         )
     } else {
-        @Suppress("DEPRECATION")
         getPackageArchiveInfo(filePath, signatureFlag)
     }
 } catch (e: Exception) {
@@ -144,7 +141,6 @@ fun PackageManager.getInstalledPackagesCompat(
     if (SdkCheck.isTiramisu) {
         getInstalledPackages(PackageManager.PackageInfoFlags.of(signatureFlag.toLong()))
     } else {
-        @Suppress("DEPRECATION")
         getInstalledPackages(signatureFlag)
     }
 } catch (e: Exception) {
