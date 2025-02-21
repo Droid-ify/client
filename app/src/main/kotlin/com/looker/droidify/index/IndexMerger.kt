@@ -82,9 +82,9 @@ class IndexMerger(file: File) : Closeable {
         closeTransaction()
         db.rawQuery(
             """SELECT product.description, product.data AS pd, releases.data AS rd FROM product
-      LEFT JOIN releases ON product.package_name = releases.package_name""",
+          LEFT JOIN releases ON product.package_name = releases.package_name""",
             null
-        )?.use { cursor ->
+        ).use { cursor ->
             cursor.asSequence().map { currentCursor ->
                 val description = currentCursor.getString(0)
                 val product = Json.factory.createParser(currentCursor.getBlob(1)).use {
