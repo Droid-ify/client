@@ -46,13 +46,6 @@ object Cache {
         }
     }
 
-    private fun subPath(dir: File, file: File): String {
-        val dirPath = "${dir.path}/"
-        val filePath = file.path
-        filePath.startsWith(dirPath) || throw RuntimeException()
-        return filePath.substring(dirPath.length)
-    }
-
     fun getEmptySpace(context: Context): Long {
         val dir = context.cacheDir
         return min(dir.usableSpace, dir.freeSpace)

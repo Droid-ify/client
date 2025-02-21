@@ -24,9 +24,6 @@ data class Repo(
     }
 }
 
-val String.isOnion: Boolean
-    get() = endsWith(".onion")
-
 data class AntiFeature(
     val id: Long,
     val name: String,

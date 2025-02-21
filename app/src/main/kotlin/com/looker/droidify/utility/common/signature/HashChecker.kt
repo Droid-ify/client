@@ -34,7 +34,7 @@ suspend fun File.calculateHash(hashType: String): String? {
 }
 
 private suspend fun MessageDigest.readBytesFrom(
-    file: File
+    file: File,
 ): ByteArray? = withContext(Dispatchers.IO) {
     try {
         if (file.length() < DIRECT_READ_LIMIT) return@withContext digest(file.readBytes())
@@ -57,16 +57,9 @@ private suspend fun MessageDigest.readBytesFrom(
 // 25 MB
 private const val DIRECT_READ_LIMIT = 25 * 1024 * 1024
 
-@Suppress("FunctionName")
 data class Hash(
     val type: String,
-    val hash: String
+    val hash: String,
 ) {
-
-    companion object {
-        fun SHA256(hash: String) = Hash(type = "sha256", hash)
-        fun MD5(hash: String) = Hash(type = "md5", hash)
-    }
-
     fun isValid(): Boolean = type.isNotBlank() && hash.isNotBlank()
 }
