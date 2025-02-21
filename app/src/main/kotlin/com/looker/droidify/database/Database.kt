@@ -84,7 +84,7 @@ object Database {
             get() = createIndex?.let {
                 Pair(
                     "CREATE INDEX ${innerName}_index ON $innerName ($it)",
-                    "CREATE INDEX ${name}_index ON $innerName ($it)"
+                    "CREATE INDEX ${name}_index ON $innerName ($it)",
                 )
             }
     }
@@ -220,7 +220,7 @@ object Database {
                 Schema.Product,
                 Schema.Category,
                 Schema.Installed,
-                Schema.Lock
+                Schema.Lock,
             )
             dropOldTables(db, Schema.Repository, Schema.Product, Schema.Category)
             this.created = this.created || create
@@ -233,7 +233,7 @@ object Database {
             val sql = db.query(
                 "${table.databasePrefix}sqlite_master",
                 columns = arrayOf("sql"),
-                selection = Pair("type = ? AND name = ?", arrayOf("table", table.innerName))
+                selection = Pair("type = ? AND name = ?", arrayOf("table", table.innerName)),
             ).use { it.firstOrNull()?.getString(0) }.orEmpty()
             table.formatCreateTable(table.innerName) != sql
         }
@@ -267,7 +267,7 @@ object Database {
             val sqls = db.query(
                 "${table.databasePrefix}sqlite_master",
                 columns = arrayOf("name", "sql"),
-                selection = Pair("type = ? AND tbl_name = ?", arrayOf("index", table.innerName))
+                selection = Pair("type = ? AND tbl_name = ?", arrayOf("index", table.innerName)),
             )
                 .use { cursor ->
                     cursor.asSequence()
@@ -295,7 +295,7 @@ object Database {
         val tables = db.query(
             "sqlite_master",
             columns = arrayOf("name"),
-            selection = Pair("type = ?", arrayOf("table"))
+            selection = Pair("type = ?", arrayOf("table")),
         )
             .use { cursor -> cursor.asSequence().mapNotNull { it.getString(0) }.toList() }
             .filter { !it.startsWith("sqlite_") && !it.startsWith("android_") }
@@ -351,7 +351,7 @@ object Database {
     private fun SQLiteDatabase.insertOrReplace(
         replace: Boolean,
         table: String,
-        contentValues: ContentValues
+        contentValues: ContentValues,
     ): Long {
         return if (replace) {
             replace(table, null, contentValues)
@@ -359,7 +359,7 @@ object Database {
             insert(
                 table,
                 null,
-                contentValues
+                contentValues,
             )
         }
     }
@@ -369,7 +369,7 @@ object Database {
         columns: Array<String>? = null,
         selection: Pair<String, Array<String>>? = null,
         orderBy: String? = null,
-        signal: CancellationSignal? = null
+        signal: CancellationSignal? = null,
     ): Cursor {
         return query(
             false,
@@ -381,7 +381,7 @@ object Database {
             null,
             orderBy,
             null,
-            signal
+            signal,
         )
     }
 
@@ -403,7 +403,7 @@ object Database {
         internal fun putWithoutNotification(
             repository: Repository,
             shouldReplace: Boolean,
-            database: SQLiteDatabase
+            database: SQLiteDatabase,
         ): Long {
             return database.insertOrReplace(
                 shouldReplace,
@@ -415,7 +415,7 @@ object Database {
                     put(Schema.Repository.ROW_ENABLED, if (repository.enabled) 1 else 0)
                     put(Schema.Repository.ROW_DELETED, 0)
                     put(Schema.Repository.ROW_DATA, jsonGenerate(repository::serialize))
-                }
+                },
             )
         }
 
@@ -448,8 +448,8 @@ object Database {
                 Schema.Repository.name,
                 selection = Pair(
                     "${Schema.Repository.ROW_ID} = ? AND ${Schema.Repository.ROW_DELETED} == 0",
-                    arrayOf(id.toString())
-                )
+                    arrayOf(id.toString()),
+                ),
             ).use { it.firstOrNull()?.let(::transform) }
         }
 
@@ -469,9 +469,9 @@ object Database {
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} != 0 AND " +
                         "${Schema.Repository.ROW_DELETED} == 0",
-                    emptyArray()
+                    emptyArray(),
                 ),
-                signal = null
+                signal = null,
             ).use { it.asSequence().map(::transform).toList() }
         }
 
@@ -479,7 +479,7 @@ object Database {
             return db.query(
                 Schema.Repository.name,
                 selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
-                signal = null
+                signal = null,
             ).use { it.asSequence().map(::transform).toList() }
         }
 
@@ -495,9 +495,9 @@ object Database {
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} == 0 OR " +
                         "${Schema.Repository.ROW_DELETED} != 0",
-                    emptyArray()
+                    emptyArray(),
                 ),
-                signal = null
+                signal = null,
             ).use { parentCursor ->
                 parentCursor.asSequence().associate {
                     val idIndex = it.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
@@ -514,7 +514,7 @@ object Database {
                     put(Schema.Repository.ROW_DELETED, 1)
                 },
                 "${Schema.Repository.ROW_ID} = ?",
-                arrayOf(id.toString())
+                arrayOf(id.toString()),
             )
             notifyChanged(Subject.Repositories, Subject.Repository(id), Subject.Products)
         }
@@ -525,18 +525,18 @@ object Database {
                 val productsCount = db.delete(
                     Schema.Product.name,
                     "${Schema.Product.ROW_REPOSITORY_ID} IN ($idsString)",
-                    null
+                    null,
                 )
                 val categoriesCount = db.delete(
                     Schema.Category.name,
                     "${Schema.Category.ROW_REPOSITORY_ID} IN ($idsString)",
-                    null
+                    null,
                 )
                 if (isDeleted) {
                     db.delete(
                         Schema.Repository.name,
                         "${Schema.Repository.ROW_ID} IN ($id)",
-                        null
+                        null,
                     )
                 }
                 productsCount != 0 || categoriesCount != 0
@@ -561,7 +561,7 @@ object Database {
                 Schema.Repository.name,
                 selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
                 orderBy = "${Schema.Repository.ROW_ENABLED} DESC",
-                signal = signal
+                signal = signal,
             ).observable(Subject.Repositories)
         }
 
@@ -583,21 +583,22 @@ object Database {
             .map { get(packageName, null) }
             .flowOn(Dispatchers.IO)
 
-        suspend fun getUpdates(skipSignatureCheck: Boolean): List<ProductItem> = withContext(Dispatchers.IO) {
-            query(
-                installed = true,
-                updates = true,
-                searchQuery = "",
-                skipSignatureCheck = skipSignatureCheck,
-                section = ProductItem.Section.All,
-                order = SortOrder.NAME,
-                signal = null
-            ).use {
-                it.asSequence()
-                    .map(ProductAdapter::transformItem)
-                    .toList()
+        suspend fun getUpdates(skipSignatureCheck: Boolean): List<ProductItem> =
+            withContext(Dispatchers.IO) {
+                query(
+                    installed = true,
+                    updates = true,
+                    searchQuery = "",
+                    skipSignatureCheck = skipSignatureCheck,
+                    section = ProductItem.Section.All,
+                    order = SortOrder.NAME,
+                    signal = null,
+                ).use {
+                    it.asSequence()
+                        .map(ProductAdapter::transformItem)
+                        .toList()
+                }
             }
-        }
 
         fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<List<ProductItem>> = flowOf(Unit)
             .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
@@ -612,10 +613,10 @@ object Database {
                 columns = arrayOf(
                     Schema.Product.ROW_REPOSITORY_ID,
                     Schema.Product.ROW_DESCRIPTION,
-                    Schema.Product.ROW_DATA
+                    Schema.Product.ROW_DATA,
                 ),
                 selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-                signal = signal
+                signal = signal,
             ).use { it.asSequence().map(::transform).toList() }
         }
 
@@ -630,8 +631,8 @@ object Database {
                 columns = arrayOf("COUNT (*)"),
                 selection = Pair(
                     "${Schema.Product.ROW_REPOSITORY_ID} = ?",
-                    arrayOf(repositoryId.toString())
-                )
+                    arrayOf(repositoryId.toString()),
+                ),
             ).use { it.firstOrNull()?.getInt(0) ?: 0 }
         }
 
@@ -642,7 +643,7 @@ object Database {
             searchQuery: String,
             section: ProductItem.Section,
             order: SortOrder,
-            signal: CancellationSignal?
+            signal: CancellationSignal?,
         ): Cursor {
             val builder = QueryBuilder()
 
@@ -806,10 +807,10 @@ object Database {
                     Schema.Installed.ROW_PACKAGE_NAME,
                     Schema.Installed.ROW_VERSION,
                     Schema.Installed.ROW_VERSION_CODE,
-                    Schema.Installed.ROW_SIGNATURE
+                    Schema.Installed.ROW_SIGNATURE,
                 ),
                 selection = Pair("${Schema.Installed.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-                signal = signal
+                signal = signal,
             ).use { it.firstOrNull()?.let(::transform) }
         }
 
@@ -822,7 +823,7 @@ object Database {
                     put(Schema.Installed.ROW_VERSION, installedItem.version)
                     put(Schema.Installed.ROW_VERSION_CODE, installedItem.versionCode)
                     put(Schema.Installed.ROW_SIGNATURE, installedItem.signature)
-                }
+                },
             )
             if (notify) {
                 notifyChanged(Subject.Products)
@@ -842,7 +843,7 @@ object Database {
             val count = db.delete(
                 Schema.Installed.name,
                 "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                arrayOf(packageName)
+                arrayOf(packageName),
             )
             if (count > 0) {
                 notifyChanged(Subject.Products)
@@ -854,7 +855,7 @@ object Database {
                 cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)),
                 cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)),
                 cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE))
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE)),
             )
         }
     }
@@ -867,7 +868,7 @@ object Database {
                 ContentValues().apply {
                     put(Schema.Lock.ROW_PACKAGE_NAME, lock.first)
                     put(Schema.Lock.ROW_VERSION_CODE, lock.second)
-                }
+                },
             )
             if (notify) {
                 notifyChanged(Subject.Products)
@@ -923,9 +924,9 @@ object Database {
                             put(Schema.Product.ROW_DATA, jsonGenerate(product::serialize))
                             put(
                                 Schema.Product.ROW_DATA_ITEM,
-                                jsonGenerate(product.item()::serialize)
+                                jsonGenerate(product.item()::serialize),
                             )
-                        }
+                        },
                     )
                     for (category in product.categories) {
                         db.insertOrReplace(
@@ -935,7 +936,7 @@ object Database {
                                 put(Schema.Category.ROW_REPOSITORY_ID, product.repositoryId)
                                 put(Schema.Category.ROW_PACKAGE_NAME, product.packageName)
                                 put(Schema.Category.ROW_NAME, category)
-                            }
+                            },
                         )
                     }
                 }
@@ -948,20 +949,20 @@ object Database {
                     db.delete(
                         Schema.Product.name,
                         "${Schema.Product.ROW_REPOSITORY_ID} = ?",
-                        arrayOf(repository.id.toString())
+                        arrayOf(repository.id.toString()),
                     )
                     db.delete(
                         Schema.Category.name,
                         "${Schema.Category.ROW_REPOSITORY_ID} = ?",
-                        arrayOf(repository.id.toString())
+                        arrayOf(repository.id.toString()),
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Product.name} SELECT * " +
-                            "FROM ${Schema.Product.temporaryName}"
+                            "FROM ${Schema.Product.temporaryName}",
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Category.name} SELECT * " +
-                            "FROM ${Schema.Category.temporaryName}"
+                            "FROM ${Schema.Category.temporaryName}",
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
@@ -970,7 +971,7 @@ object Database {
                 notifyChanged(
                     Subject.Repositories,
                     Subject.Repository(repository.id),
-                    Subject.Products
+                    Subject.Products,
                 )
             } else {
                 db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
