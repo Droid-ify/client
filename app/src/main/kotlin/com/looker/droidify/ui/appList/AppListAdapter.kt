@@ -2,6 +2,7 @@ package com.looker.droidify.ui.appList
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -22,23 +23,31 @@ import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.widget.CursorRecyclerAdapter
+import kotlin.system.measureTimeMillis
 import com.google.android.material.R as MaterialR
 
 class AppListAdapter(
     private val source: AppListFragment.Source,
-    private val onClick: (ProductItem) -> Unit
+    private val onClick: (packageName: String) -> Unit,
 ) : CursorRecyclerAdapter<AppListAdapter.ViewType, RecyclerView.ViewHolder>() {
 
     enum class ViewType { PRODUCT, LOADING, EMPTY }
 
-    private class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private inner class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)!!
         val status = itemView.findViewById<TextView>(R.id.status)!!
         val summary = itemView.findViewById<TextView>(R.id.summary)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
+
+        init {
+            itemView.setOnClickListener {
+                log(measureTimeMillis { onClick(getPackageName(absoluteAdapterPosition)) }, "Bench")
+            }
+        }
     }
 
     private class LoadingViewHolder(context: Context) :
@@ -82,12 +91,14 @@ class AppListAdapter(
         }
     }
 
-    var repositories: Map<Long, Repository> = emptyMap()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    private val repositories: HashMap<Long, Repository> = HashMap()
+
+    fun updateRepos(repos: List<Repository>) {
+        repos.forEach {
+            repositories[it.id] = it
         }
+        notifyDataSetChanged()
+    }
 
     var emptyText: String = ""
         @SuppressLint("NotifyDataSetChanged")
@@ -117,23 +128,30 @@ class AppListAdapter(
         }
     }
 
+    private fun getPackageName(position: Int): String {
+        return Database.ProductAdapter.transformPackageName(moveTo(position.coerceAtLeast(0)))
+    }
+
     private fun getProductItem(position: Int): ProductItem {
         return Database.ProductAdapter.transformItem(moveTo(position.coerceAtLeast(0)))
     }
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: ViewType
+        viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return when (viewType) {
-            ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item)).apply {
-                itemView.setOnClickListener { onClick(getProductItem(absoluteAdapterPosition)) }
-            }
-
+            ViewType.PRODUCT -> ProductViewHolder(parent.inflate(R.layout.product_item))
             ViewType.LOADING -> LoadingViewHolder(parent.context)
             ViewType.EMPTY -> EmptyViewHolder(parent.context)
         }
     }
+
+    private var updateBackground: ColorStateList? = null
+    private var updateForeground: ColorStateList? = null
+    private var installedBackground: ColorStateList? = null
+    private var installedForeground: ColorStateList? = null
+    private var defaultForeground: ColorStateList? = null
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemEnumViewType(position)) {
@@ -142,9 +160,9 @@ class AppListAdapter(
                 val productItem = getProductItem(position)
                 holder.name.text = productItem.name
                 holder.summary.text = productItem.summary
-                holder.summary.isVisible =
-                    productItem.summary.isNotEmpty() && productItem.name != productItem.summary
-                val repository: Repository? = repositories[productItem.repositoryId]
+                holder.summary.isVisible = productItem.summary.isNotEmpty()
+                    && productItem.name != productItem.summary
+                val repository = repositories[productItem.repositoryId]
                 if (repository != null) {
                     val iconUrl = productItem.icon(view = holder.icon, repository = repository)
                     holder.icon.load(iconUrl) {
@@ -161,28 +179,38 @@ class AppListAdapter(
                     val isInstalled = productItem.installedVersion.nullIfEmpty() != null
                     when {
                         productItem.canUpdate -> {
-                            backgroundTintList =
-                                context.getColorFromAttr(MaterialR.attr.colorTertiaryContainer)
-                            setTextColor(
-                                context.getColorFromAttr(MaterialR.attr.colorOnTertiaryContainer)
-                            )
+                            if (updateBackground == null) {
+                                updateBackground =
+                                    context.getColorFromAttr(MaterialR.attr.colorTertiaryContainer)
+                            }
+                            if (updateForeground == null) {
+                                updateForeground =
+                                    context.getColorFromAttr(MaterialR.attr.colorOnTertiaryContainer)
+                            }
+                            backgroundTintList = updateBackground
+                            setTextColor(updateForeground)
                         }
 
                         isInstalled -> {
-                            backgroundTintList =
-                                context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
-                            setTextColor(
-                                context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer)
-                            )
+                            if (installedBackground == null) {
+                                installedBackground =
+                                    context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+                            }
+                            if (installedForeground == null) {
+                                installedForeground =
+                                    context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer)
+                            }
+                            backgroundTintList = installedBackground
+                            setTextColor(installedForeground)
                         }
 
                         else -> {
                             setPadding(0, 0, 0, 0)
-                            setTextColor(
-                                holder.status.context.getColorFromAttr(
-                                    MaterialR.attr.colorOnBackground
-                                )
-                            )
+                            if (defaultForeground == null) {
+                                defaultForeground =
+                                    context.getColorFromAttr(MaterialR.attr.colorOnBackground)
+                            }
+                            setTextColor(defaultForeground)
                             background = null
                             return@with
                         }
@@ -191,9 +219,9 @@ class AppListAdapter(
                     6.dp.let { setPadding(it, it, it, it) }
                 }
                 val enabled = productItem.compatible || productItem.installedVersion.isNotEmpty()
-                sequenceOf(holder.name, holder.status, holder.summary).forEach {
-                    it.isEnabled = enabled
-                }
+                holder.name.isEnabled = enabled
+                holder.status.isEnabled = enabled
+                holder.summary.isEnabled = enabled
             }
 
             ViewType.LOADING -> {
@@ -204,6 +232,6 @@ class AppListAdapter(
                 holder as EmptyViewHolder
                 holder.text.text = emptyText
             }
-        }::class
+        }
     }
 }

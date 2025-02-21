@@ -731,6 +731,10 @@ object Database {
                 }
         }
 
+        fun transformPackageName(cursor: Cursor): String {
+            return cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
+        }
+
         fun transformItem(cursor: Cursor): ProductItem {
             return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA_ITEM))
                 .jsonParse {

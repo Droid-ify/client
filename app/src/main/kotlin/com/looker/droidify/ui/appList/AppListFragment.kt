@@ -46,7 +46,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         val titleResId: Int,
         val sections: Boolean,
         val order: Boolean,
-        val updateAll: Boolean
+        val updateAll: Boolean,
     ) {
         AVAILABLE(stringRes.available, true, true, false),
         INSTALLED(stringRes.installed, false, true, false),
@@ -63,7 +63,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var recyclerViewAdapter: AppListAdapter
+    private lateinit var appListAdapter: AppListAdapter
     private var scroller: Scroller? = null
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
@@ -71,7 +71,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
 
@@ -84,10 +84,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            recyclerViewAdapter = AppListAdapter(source) {
-                screenActivity.navigateProduct(it.packageName)
-            }
-            adapter = recyclerViewAdapter
+            appListAdapter = AppListAdapter(source, screenActivity::navigateProduct)
+            adapter = appListAdapter
             systemBarsPadding()
         }
         val fab = binding.scrollUp
@@ -141,7 +139,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
                     viewModel.reposStream.collect { repos ->
-                        recyclerViewAdapter.repositories = repos.associateBy { it.id }
+                        appListAdapter.updateRepos(repos)
                     }
                 }
                 launch {
@@ -168,8 +166,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     }
 
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-        recyclerViewAdapter.cursor = cursor
-        recyclerViewAdapter.emptyText = when {
+        appListAdapter.cursor = cursor
+        appListAdapter.emptyText = when {
             cursor == null -> ""
             viewModel.searchQuery.value.isNotEmpty() -> {
                 getString(stringRes.no_matching_applications_found)
