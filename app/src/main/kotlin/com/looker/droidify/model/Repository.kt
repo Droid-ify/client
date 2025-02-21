@@ -15,7 +15,7 @@ data class Repository(
     val entityTag: String,
     val updated: Long,
     val timestamp: Long,
-    val authentication: String
+    val authentication: String,
 ) {
 
     fun edit(address: String, fingerprint: String, authentication: String): Repository {
@@ -38,7 +38,7 @@ data class Repository(
         version: Int,
         lastModified: String,
         entityTag: String,
-        timestamp: Long
+        timestamp: Long,
     ): Repository {
         return copy(
             mirrors = mirrors,
@@ -62,7 +62,7 @@ data class Repository(
         fun newRepository(
             address: String,
             fingerprint: String,
-            authentication: String
+            authentication: String,
         ): Repository {
             val name = try {
                 URL(address).let { "${it.host}${it.path}" }
@@ -79,7 +79,7 @@ data class Repository(
             version: Int = 21,
             enabled: Boolean = false,
             fingerprint: String,
-            authentication: String = ""
+            authentication: String = "",
         ): Repository {
             return Repository(
                 -1, address, emptyList(), name, description, version, enabled,
@@ -390,7 +390,7 @@ data class Repository(
             ),
         )
 
-        val newlyAdded = listOf<Repository>(
+        val newlyAdded: List<Repository> = listOf(
             defaultRepository(
                 address = "https://fdroid.ironfoxoss.org/fdroid/repo",
                 name = "IronFox",

@@ -180,7 +180,7 @@ object Cache {
             projection: Array<String>?,
             selection: String?,
             selectionArgs: Array<out String>?,
-            sortOrder: String?
+            sortOrder: String?,
         ): Cursor {
             val file = getFileAndTypeForUri(uri).first
             val columns = (projection ?: defaultColumns).mapNotNull {
@@ -210,7 +210,7 @@ object Cache {
             uri: Uri,
             contentValues: ContentValues?,
             selection: String?,
-            selectionArgs: Array<out String>?
+            selectionArgs: Array<out String>?,
         ): Int = unsupported
 
         override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor? {
