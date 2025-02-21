@@ -12,7 +12,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     sealed class Request {
         internal abstract val id: Int
 
-        class ProductsAvailable(
+        class Available(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
@@ -21,7 +21,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 get() = 1
         }
 
-        class ProductsInstalled(
+        class Installed(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
@@ -30,7 +30,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 get() = 2
         }
 
-        class ProductsUpdates(
+        class Updates(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
@@ -94,7 +94,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         val request = activeRequests[id]!!.request
         return QueryLoader(requireContext()) {
             when (request) {
-                is Request.ProductsAvailable ->
+                is Request.Available ->
                     Database.ProductAdapter
                         .query(
                             installed = false,
@@ -105,7 +105,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             signal = it,
                         )
 
-                is Request.ProductsInstalled ->
+                is Request.Installed ->
                     Database.ProductAdapter
                         .query(
                             installed = true,
@@ -116,7 +116,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             signal = it,
                         )
 
-                is Request.ProductsUpdates ->
+                is Request.Updates ->
                     Database.ProductAdapter
                         .query(
                             installed = true,

@@ -3,6 +3,9 @@ package com.looker.droidify.ui.appList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.database.CursorOwner
+import com.looker.droidify.database.CursorOwner.Request.Available
+import com.looker.droidify.database.CursorOwner.Request.Installed
+import com.looker.droidify.database.CursorOwner.Request.Updates
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
@@ -31,6 +34,10 @@ class AppListViewModel
         .get { ignoreSignature }
         .asStateFlow(false)
 
+    val sortOrderFlow = settingsRepository
+        .get { sortOrder }
+        .asStateFlow(SortOrder.UPDATED)
+
     val reposStream = Database.RepositoryAdapter
         .getAllStream()
         .asStateFlow(emptyList())
@@ -41,9 +48,6 @@ class AppListViewModel
             .getUpdatesStream(skip)
             .map { it.isNotEmpty() }
     }.asStateFlow(false)
-
-    val sortOrderFlow = settingsRepository.get { sortOrder }
-        .asStateFlow(SortOrder.UPDATED)
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 
@@ -59,19 +63,19 @@ class AppListViewModel
 
     fun request(source: AppListFragment.Source): CursorOwner.Request {
         return when (source) {
-            AppListFragment.Source.AVAILABLE -> CursorOwner.Request.ProductsAvailable(
+            AppListFragment.Source.AVAILABLE -> Available(
                 searchQuery = searchQuery.value,
                 section = sections.value,
                 order = sortOrderFlow.value,
             )
 
-            AppListFragment.Source.INSTALLED -> CursorOwner.Request.ProductsInstalled(
+            AppListFragment.Source.INSTALLED -> Installed(
                 searchQuery = searchQuery.value,
                 section = sections.value,
                 order = sortOrderFlow.value,
             )
 
-            AppListFragment.Source.UPDATES -> CursorOwner.Request.ProductsUpdates(
+            AppListFragment.Source.UPDATES -> Updates(
                 searchQuery = searchQuery.value,
                 section = sections.value,
                 order = sortOrderFlow.value,
