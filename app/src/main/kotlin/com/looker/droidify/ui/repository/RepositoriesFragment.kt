@@ -15,7 +15,7 @@ import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.addDivider
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
@@ -36,7 +36,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
             binding.scrollUp.apply {
                 setIconResource(R.drawable.ic_add)
                 setText(R.string.add_repository)
-                setOnClickListener { screenActivity.navigateAddRepository() }
+                setOnClickListener { mainActivity.navigateAddRepository() }
                 systemBarsMargin(16.dp)
             }
             binding.recyclerView.apply {
@@ -44,7 +44,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                 isMotionEventSplittingEnabled = false
                 setHasFixedSize(true)
                 adapter = RepositoriesAdapter(
-                    navigate = { screenActivity.navigateRepository(it.id) }
+                    navigate = { mainActivity.navigateRepository(it.id) }
                 ) { repository, isEnabled ->
                     repository.enabled != isEnabled &&
                         syncConnection.binder?.setEnabled(repository, isEnabled) == true
@@ -79,8 +79,8 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         super.onViewCreated(view, savedInstanceState)
 
         syncConnection.bind(requireContext())
-        screenActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(R.string.repositories)
     }
 
@@ -89,7 +89,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
         _binding = null
         syncConnection.unbind(requireContext())
-        screenActivity.cursorOwner.detach(this)
+        mainActivity.cursorOwner.detach(this)
     }
 
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {

@@ -30,7 +30,7 @@ import com.looker.droidify.utility.common.extension.clipboardManager
 import com.looker.droidify.utility.common.extension.get
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -80,7 +80,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
         syncConnection.bind(requireContext())
 
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.title =
             getString(if (repoId != null) stringRes.edit_repository else stringRes.add_repository)
 
@@ -429,7 +429,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 if (repositoryId == null && changedRepository.enabled) {
                     binder.sync(changedRepository)
                 }
-                screenActivity.onBackPressedDispatcher.onBackPressed()
+                mainActivity.onBackPressedDispatcher.onBackPressed()
             }
         } else {
             invalidateState()

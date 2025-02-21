@@ -23,7 +23,7 @@ import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
@@ -84,7 +84,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            appListAdapter = AppListAdapter(source, screenActivity::navigateProduct)
+            appListAdapter = AppListAdapter(source, mainActivity::navigateProduct)
             adapter = appListAdapter
             systemBarsPadding()
         }
@@ -162,7 +162,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         viewModel.syncConnection.unbind(requireContext())
         _binding = null
         scroller = null
-        screenActivity.cursorOwner.detach(this)
+        mainActivity.cursorOwner.detach(this)
     }
 
     override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
@@ -199,7 +199,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     private fun updateRequest() {
         if (view != null) {
-            screenActivity.cursorOwner.attach(this, viewModel.request(source))
+            mainActivity.cursorOwner.attach(this, viewModel.request(source))
         }
     }
 }

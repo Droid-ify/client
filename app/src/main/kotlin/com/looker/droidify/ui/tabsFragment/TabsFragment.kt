@@ -45,7 +45,7 @@ import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.resources.sizeScaled
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.DividerConfiguration
 import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
@@ -152,7 +152,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(R.string.application_name)
         // Move focus from SearchView to Toolbar
         toolbar.isFocusable = true
@@ -228,19 +228,19 @@ class TabsFragment : ScreenFragment() {
                     toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked)
                 )
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigateFavourites() }
+                    view.post { mainActivity.navigateFavourites() }
                     true
                 }
 
             add(1, 0, 0, stringRes.repositories)
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigateRepositories() }
+                    view.post { mainActivity.navigateRepositories() }
                     true
                 }
 
             add(1, 0, 0, stringRes.settings)
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigatePreferences() }
+                    view.post { mainActivity.navigatePreferences() }
                     true
                 }
         }

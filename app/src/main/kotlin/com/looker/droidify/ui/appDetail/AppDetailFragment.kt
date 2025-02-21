@@ -47,7 +47,7 @@ import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.isSystemApplication
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.extension.updateAsMutable
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
@@ -117,7 +117,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         super.onViewCreated(view, savedInstanceState)
 
         detailAdapter = AppDetailAdapter(this@AppDetailFragment)
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.menu.apply {
             Action.entries.forEach { action ->
                 add(0, action.id, 0, action.adapterAction.titleResId)
@@ -530,7 +530,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onRequestAddRepository(address: String) {
-        screenActivity.navigateAddRepository(address)
+        mainActivity.navigateAddRepository(address)
     }
 
     override fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean {
