@@ -9,18 +9,18 @@ import android.os.CancellationSignal
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.model.InstalledItem
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.droidify.utility.common.extension.firstOrNull
 import com.looker.droidify.utility.common.extension.parseDictionary
 import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.utility.common.log
-import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.model.InstalledItem
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.ProductItem
-import com.looker.droidify.model.Repository
-import com.looker.droidify.BuildConfig
 import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
@@ -71,7 +71,13 @@ object Database {
             get() = "$databasePrefix$innerName"
 
         fun formatCreateTable(name: String): String {
-            return "CREATE TABLE $name (${QueryBuilder.trimQuery(createTable)})"
+            return buildString(128) {
+                append("CREATE TABLE ")
+                append(name)
+                append(" (")
+                trimAndJoin(createTable)
+                append(")")
+            }
         }
 
         val createIndexPairFormatted: Pair<String, String>?
