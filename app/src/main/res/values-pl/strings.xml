@@ -228,4 +228,15 @@
     <string name="ignore_signature_summary">*Uwaga* Ignorowanie weryfikacji podpisu podczas instalacji apk, dla użytkowników LSPosed lub zaawansowanych użytkowników</string>
     <string name="insufficient_storage">Za mało miejsca</string>
     <string name="insufficient_storage_DESC">Nie można zainstalować aplikacji z powodu małej ilości miejsca na urządzeniu. Zwolnij trochę miejsca</string>
+    <string name="error_shizuku_service_unavailable">Shizuku nie działa</string>
+    <string name="error_shizuku_not_running_DESC">Usługa Shizuku nie działa, sprawdź aplikację Shizuku</string>
+    <string name="error_shizuku_not_granted">Brak uprawnienia Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Nie przyznano uprawnienia usługi Shizuku. Sprawdź w aplikacji Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Wygląda na to, że Shizuku nie jest zainstalowane</string>
+    <string name="open_shizuku">Otwórz Shizuku</string>
+    <string name="switch_to_default_installer">Przełącz na domyślny</string>
+    <string name="label_unknown_sdk">Nieznany (%d)</string>
+    <string name="error_shizuku_not_installed">Shizuku nie jest zainstalowane</string>
+    <string name="label_open_video">Wideo</string>
+    <string name="label_targets_sdk">Cele: Android %s</string>
 </resources>
