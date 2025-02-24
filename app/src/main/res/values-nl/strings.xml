@@ -227,4 +227,10 @@
     <string name="error_shizuku_not_granted">Shizuku-toestemming ontbreekt</string>
     <string name="error_shizuku_not_granted_DESC">Toestemming Shizuku-service is niet verleend. Controleer a.u.b. de Shizuku-app</string>
     <string name="error_shizuku_not_installed">Shizuku niet geïnstalleerd</string>
+    <string name="open_shizuku">Shizuku openen</string>
+    <string name="switch_to_default_installer">Overschakelen naar standaard</string>
+    <string name="label_open_video">Video</string>
+    <string name="error_shizuku_not_installed_DESC">Het lijkt erop dat Shizuku niet is geïnstalleerd</string>
+    <string name="label_targets_sdk">Doel: Android %s</string>
+    <string name="label_unknown_sdk">Onbekend (%d)</string>
 </resources>
