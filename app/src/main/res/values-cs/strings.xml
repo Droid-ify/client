@@ -225,4 +225,15 @@
     <string name="uninstalled_application">Odinstalováno</string>
     <string name="insufficient_storage">Nedostatek místa</string>
     <string name="insufficient_storage_DESC">Na zařízení není dostatek místa k instalaci této aplikace. Zkuste uvolnit trochu místa</string>
+    <string name="error_shizuku_service_unavailable">Shizuku není spuštěno</string>
+    <string name="error_shizuku_not_granted">Chybějící oprávnění Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Nebylo uděleno oprávnění ke službě Shizuku. Zkontrolujte prosím aplikaci Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Aplikace Shizuku nejspíše není nainstalována</string>
+    <string name="switch_to_default_installer">Přepnout na výchozí</string>
+    <string name="label_unknown_sdk">Neznámé (%d)</string>
+    <string name="error_shizuku_not_running_DESC">Služba Shizuku není spuštěna. Zkontrolujte prosím aplikaci Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku není nainstalováno</string>
+    <string name="label_open_video">Video</string>
+    <string name="open_shizuku">Otevřít Shizuku</string>
+    <string name="label_targets_sdk">Cíle: Android %s</string>
 </resources>
