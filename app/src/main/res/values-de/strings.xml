@@ -222,4 +222,12 @@
     <string name="require_background_access_DESC">Hintergrundzugriff ist erforderlich, um die Hintergrundsynchronisation ordnungsgemäß durchzuführen</string>
     <string name="insufficient_storage">Nicht genug Speicherplatz</string>
     <string name="insufficient_storage_DESC">Es gibt nicht genug Speicherplatz, um diese Anwendung zu installieren. Versuche etwas Platz zu schafffen.</string>
+    <string name="error_shizuku_not_granted">Shizuku-Erlaubnis fehlt</string>
+    <string name="error_shizuku_not_granted_DESC">Erlaubnis für den Shizuku-Dienst ist nicht gewährt. Bitte in der Shizuku-App prüfen</string>
+    <string name="error_shizuku_not_installed">Shizuku nicht installiert</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku scheint nicht installiert zu sein</string>
+    <string name="switch_to_default_installer">Auf Standard wechseln</string>
+    <string name="open_shizuku">Shizuku öffnen</string>
+    <string name="error_shizuku_service_unavailable">Shizuku läuft nicht</string>
+    <string name="error_shizuku_not_running_DESC">Der Shizuku-Dienst läuft nicht. Bitte in der Shizuku-App prüfen</string>
 </resources>
