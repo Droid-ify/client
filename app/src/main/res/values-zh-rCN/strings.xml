@@ -219,4 +219,5 @@
     <string name="ignore_signature">忽略签名</string>
     <string name="insufficient_storage">空间不足</string>
     <string name="insufficient_storage_DESC">设备上没有足够的可用空间来安装此应用程序。 尝试清理一些空间</string>
+    <string name="error_shizuku_service_unavailable">Shizuku 未运行</string>
 </resources>
