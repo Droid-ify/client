@@ -225,4 +225,15 @@
     <string name="ignore_signature_summary">Упозорење: Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
     <string name="insufficient_storage">Недовољно меморије</string>
     <string name="insufficient_storage_DESC">Нема довољно слободног меморијског простора на уређају за инсталирање ове апликације. Покушајте да ослободите мало простора</string>
+    <string name="error_shizuku_service_unavailable">Shizuku није покренут</string>
+    <string name="error_shizuku_not_granted_DESC">Дозвола за услугу Shizuku није дата. Проверите у апликацији Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku није инсталиран</string>
+    <string name="error_shizuku_not_installed_DESC">Изгледа да Shizuku није инсталиран</string>
+    <string name="label_open_video">Видео снимак</string>
+    <string name="label_targets_sdk">Циља: Android %s</string>
+    <string name="label_unknown_sdk">Непознато (%d)</string>
+    <string name="error_shizuku_not_running_DESC">Услуга Shizuku није покренута. Проверите у апликацији Shizuku</string>
+    <string name="open_shizuku">Отвори Shizuku</string>
+    <string name="error_shizuku_not_granted">Недостаје дозвола за Shizuku</string>
+    <string name="switch_to_default_installer">Промени на подразумевани</string>
 </resources>
