@@ -1,10 +1,8 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.ktlint)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
@@ -108,18 +106,6 @@ android {
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
-    }
-}
-
-ktlint {
-    android.set(true)
-    ignoreFailures.set(true)
-    debug.set(true)
-    reporters {
-        reporter(ReporterType.HTML)
-    }
-    filter {
-        exclude("**/generated/**")
     }
 }
 

@@ -1,11 +1,11 @@
 [versions]
-desugaring = "2.1.4"
-agp = "8.8.1"
+desugaring = "2.1.5"
+agp = "8.8.2"
 material = "1.12.0"
-activity = "1.10.0"
+activity = "1.10.1"
 app-compat = "1.7.0"
 core = "1.15.0"
-datastore = "1.1.2"
+datastore = "1.1.3"
 fragment = "1.8.6"
 espresso = "3.6.1"
 lifecycle = "2.8.7"
@@ -25,14 +25,13 @@ kotlin = "2.1.10"
 coroutines = "1.10.1"
 datetime = "0.6.2"
 serialization = "1.8.0"
-ksp = "2.1.10-1.0.30"
-ktlint = "12.1.2"
-ktor = "3.1.0"
+ksp = "2.1.10-1.0.31"
+ktor = "3.1.1"
 libsu = "6.0.0"
 room = "2.6.1"
 shizuku = "13.0.0"
 image-viewer = "v1.0.1"
-junit-jupiter = "5.11.4"
+junit-jupiter = "5.12.0"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -88,7 +87,6 @@ junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
