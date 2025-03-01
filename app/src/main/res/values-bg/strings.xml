@@ -65,7 +65,7 @@
     <string name="notify_about_updates">Уведомления за актуализации</string>
     <string name="number_of_applications">Брой приложения</string>
     <string name="ok">Окей</string>
-    <string name="only_on_wifi">Само на Wi-Fi</string>
+    <string name="only_on_wifi">Само при Wi-Fi</string>
     <string name="open_DESC_FORMAT">Отвори %s\?</string>
     <string name="other">Други</string>
     <string name="parsing_index_error_DESC">Не може да се прочете индекс файла.</string>
@@ -186,7 +186,7 @@
     <string name="auto_update_apps">Опитайте се да инсталирате актуализации автоматично</string>
     <string name="waiting_to_start_installation">Изчакване за стартиране на инсталацията…</string>
     <string name="favourites">Любими</string>
-    <string name="enable_repo">Активирайте хранилището</string>
+    <string name="enable_repo">Активирай хранилището</string>
     <string name="force_clean_up">Принудително почистване</string>
     <string name="force_clean_up_DESC">Почиства излишните файлове</string>
     <string name="repository_unreachable">Хранилището е недостъпно</string>
@@ -205,12 +205,12 @@
     <string name="import_settings_title">Внеси Настройки</string>
     <string name="import_settings_DESC">Внасяне на настройки и любими от файл</string>
     <string name="export_settings_title">Изнеси Настройки</string>
-    <string name="export_repos_DESC">Изнеси всички хранилища във файл</string>
+    <string name="export_repos_DESC">Изнасяне на всички хранилища във файл</string>
     <string name="import_repos_title">Внеси хранилища</string>
     <string name="export_settings_DESC">Изнасяне на настройки и любими във файл</string>
     <string name="export_repos_title">Изнеси хранилища</string>
     <string name="cannot_open_link">Линкът не може да се отвори</string>
-    <string name="import_repos_DESC">Внеси всички хранилища от файл</string>
+    <string name="import_repos_DESC">Внасяне на всички хранилища от файл</string>
     <string name="has_tethered_network">Обвързан с определена мрежова услуга</string>
     <string name="require_background_access">Изискване на фонов достъп</string>
     <string name="require_background_access_DESC">Необходим е фонов достъп, за да стартирате правилно фоновото синхронизиране</string>
@@ -222,4 +222,15 @@
     <string name="ignore_signature_summary">*Внимание* Игнорирайте проверката на подписа при инсталиране на APK за LSPosed потребители или напреднали потребители</string>
     <string name="insufficient_storage">Недостатъчно място</string>
     <string name="insufficient_storage_DESC">Няма достатъчно свободно място на устройството за инсталиране на това приложение. Опитайте да освободите малко място</string>
+    <string name="label_targets_sdk">Цели: Android %s</string>
+    <string name="error_shizuku_not_installed">Shizuku Не е инсталиран</string>
+    <string name="label_open_video">Видео</string>
+    <string name="switch_to_default_installer">Превключване към подразбиране</string>
+    <string name="open_shizuku">Отворете Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">Услугата Shizuku не работи. Моля, проверете в приложението Shizuku</string>
+    <string name="error_shizuku_not_granted">Липсва разрешение за Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Разрешението за услуга Shizuku не е дадено. Моля, проверете в приложението Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku изглежда не е инсталиран</string>
+    <string name="error_shizuku_service_unavailable">Shizuku Не работи</string>
+    <string name="label_unknown_sdk">Неизвестен (%d)</string>
 </resources>
