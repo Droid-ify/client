@@ -225,4 +225,12 @@
     <string name="ignore_signature_summary">*AVISO* Ignorar verificação de assinatura nas instalações (utilizadores Lposed/avançados)</string>
     <string name="insufficient_storage">Espaço insuficiente</string>
     <string name="insufficient_storage_DESC">Não existe espaço livre no dispositivo para instalar a aplicação. Experimente libertar algum espaço.</string>
+    <string name="open_shizuku">Abrir Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">O serviço Shizuku não está a ser executado. Verifique se iniciou a aplicação.</string>
+    <string name="error_shizuku_service_unavailable">Shizuku não está em execução</string>
+    <string name="error_shizuku_not_granted">Permissão Shizuku não concedida</string>
+    <string name="switch_to_default_installer">Utilizar predefinição</string>
+    <string name="label_open_video">Vídeo</string>
+    <string name="label_targets_sdk">Alvo: Android %s</string>
+    <string name="label_unknown_sdk">Desconhecido (%d)</string>
 </resources>
