@@ -217,4 +217,10 @@
     <string name="uninstalled_application_DESC">%s 已被解除安裝</string>
     <string name="ignore_signature">忽略簽章</string>
     <string name="ignore_signature_summary">安裝 apk 時忽略簽章驗證，適用於 LSPosed 或進階使用者</string>
+    <string name="error_shizuku_service_unavailable">Shizuku 未運行</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku 服務未運行，請在 Shizuku App 中檢查。</string>
+    <string name="error_shizuku_not_granted">缺少 Shizuku 權限</string>
+    <string name="error_shizuku_not_granted_DESC">未授予 Shizuku 服務權限，請在 Shizuku App 中檢查。</string>
+    <string name="error_shizuku_not_installed">未安裝 Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">似乎沒有安裝 Shizuku</string>
 </resources>
