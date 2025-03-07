@@ -223,4 +223,11 @@
     <string name="error_shizuku_not_granted_DESC">未授予 Shizuku 服務權限，請在 Shizuku App 中檢查。</string>
     <string name="error_shizuku_not_installed">未安裝 Shizuku</string>
     <string name="error_shizuku_not_installed_DESC">似乎沒有安裝 Shizuku</string>
+    <string name="insufficient_storage">空間不足</string>
+    <string name="insufficient_storage_DESC">裝置上的可用空間不足，無法安裝此應用程式，請嘗試清理一些空間。</string>
+    <string name="open_shizuku">開啟 Shizuku</string>
+    <string name="switch_to_default_installer">切換到預設</string>
+    <string name="label_open_video">影片</string>
+    <string name="label_targets_sdk">目標：Android %s</string>
+    <string name="label_unknown_sdk">未知 (%d)</string>
 </resources>
