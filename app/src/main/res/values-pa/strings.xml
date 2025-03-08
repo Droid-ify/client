@@ -220,5 +220,17 @@
     <string name="installation_failed">ਇੰਸਟਾਲੇਸ਼ਨ ਅਸਫਲ ਰਹੀ</string>
     <string name="ignore_signature_summary">LSPosed ਉਪਭੋਗਤਾਵਾਂ ਜਾਂ ਉੱਨਤ ਉਪਭੋਗਤਾਵਾਂ ਲਈ, apk ਸਥਾਪਤ ਕਰਨ ਵੇਲੇ ਹਸਤਾਖਰਾਂ ਦੀ ਤਸਦੀਕ ਨੂੰ ਅਣਡਿੱਠ ਕਰੋ</string>
     <string name="installation_failed_DESC">%s ਨੂੰ ਇੰਸਟਾਲ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ</string>
-    <string name="error_shizuku_service_unavailable">ਸ਼ਿਜ਼ੁਕੂ ਨਹੀਂ ਚਲ ਰਹੀ</string>
+    <string name="error_shizuku_service_unavailable">Shizuku ਨਹੀਂ ਚਲ ਰਹੀ</string>
+    <string name="label_open_video">ਵੀਡੀਓ</string>
+    <string name="insufficient_storage">ਨਾਕਾਫ਼ੀ ਜਗ੍ਹਾ</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku ਸੇਵਾ ਨਹੀਂ ਚੱਲ ਰਹੀ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ Shizuku ਐਪ ਵਿੱਚ ਜਾਂਚ ਕਰੋ</string>
+    <string name="insufficient_storage_DESC">ਇਸ ਐਪਲੀਕੇਸ਼ਨ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਲਈ ਡਿਵਾਈਸ \'ਤੇ ਕਾਫ਼ੀ ਖਾਲੀ ਜਗ੍ਹਾ ਨਹੀਂ ਹੈ। ਕੁਝ ਜਗ੍ਹਾ ਖਾਲੀ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku ਸੇਵਾ ਦੀ ਇਜਾਜ਼ਤ ਨਹੀਂ ਦਿੱਤੀ ਗਈ ਹੈ। ਕਿਰਪਾ ਕਰਕੇ Shizuku ਐਪ ਵਿੱਚ ਚੈੱਕ ਕਰੋ</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku ਇੰਸਟਾਲ ਨਹੀਂ ਹੋਇਆ ਜਾਪਦਾ</string>
+    <string name="error_shizuku_not_granted">Shizuku ਇਜਾਜ਼ਤ ਗੁੰਮ ਹੈ</string>
+    <string name="error_shizuku_not_installed">Shizuku ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ</string>
+    <string name="open_shizuku">Shizuku ਖੋਲ੍ਹੋ</string>
+    <string name="switch_to_default_installer">ਡਿਫ਼ਾਲਟ \'ਤੇ ਸਵਿਚ ਕਰੋ</string>
+    <string name="label_targets_sdk">ਟਾਰਗੈੱਟ: ਐਂਡਰੌਇਡ %s</string>
+    <string name="label_unknown_sdk">ਅਗਿਆਤ (%d)</string>
 </resources>
