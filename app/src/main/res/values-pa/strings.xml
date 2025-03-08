@@ -220,4 +220,5 @@
     <string name="installation_failed">ਇੰਸਟਾਲੇਸ਼ਨ ਅਸਫਲ ਰਹੀ</string>
     <string name="ignore_signature_summary">LSPosed ਉਪਭੋਗਤਾਵਾਂ ਜਾਂ ਉੱਨਤ ਉਪਭੋਗਤਾਵਾਂ ਲਈ, apk ਸਥਾਪਤ ਕਰਨ ਵੇਲੇ ਹਸਤਾਖਰਾਂ ਦੀ ਤਸਦੀਕ ਨੂੰ ਅਣਡਿੱਠ ਕਰੋ</string>
     <string name="installation_failed_DESC">%s ਨੂੰ ਇੰਸਟਾਲ ਕਰਨਾ ਅਸਫਲ ਰਿਹਾ</string>
+    <string name="error_shizuku_service_unavailable">ਸ਼ਿਜ਼ੁਕੂ ਨਹੀਂ ਚਲ ਰਹੀ</string>
 </resources>
