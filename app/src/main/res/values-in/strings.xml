@@ -219,4 +219,15 @@
     <string name="ignore_signature_summary">*Peringatan* Abaikan verifikasi tanda tangan ketika memasang apk, untuk pengguna LSPosed atau pengguna ahli</string>
     <string name="insufficient_storage_DESC">Tidak cukup ruang kosong pada perangkat untuk memasang aplikasi ini. Coba bersihkan berkas atau aplikasi</string>
     <string name="insufficient_storage">Ruang Tidak Cukup</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku tampaknya tidak terinstal</string>
+    <string name="switch_to_default_installer">Beralih ke Default</string>
+    <string name="open_shizuku">Buka Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Izin layanan Shizuku tidak diberikan. Silakan cek di Aplikasi Shizuku</string>
+    <string name="error_shizuku_service_unavailable">Shizuku Tidak Berjalan</string>
+    <string name="error_shizuku_not_running_DESC">Layanan Shizuku tidak berjalan. Silakan periksa di Aplikasi Shizuku</string>
+    <string name="error_shizuku_not_granted">Izin Shizuku Hilang</string>
+    <string name="error_shizuku_not_installed">Shizuku Tidak Terinstal</string>
+    <string name="label_open_video">video</string>
+    <string name="label_targets_sdk">Target: Android %s</string>
+    <string name="label_unknown_sdk">Tidak diketahui (%d)</string>
 </resources>
