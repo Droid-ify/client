@@ -222,4 +222,15 @@
     <string name="ignore_signature">Ignorer Signatur</string>
     <string name="insufficient_storage">Utilstrækkelig plads</string>
     <string name="insufficient_storage_DESC">Enheden har ikke nok ledig plads til at installere denne applikation. Prøv at frigøre noget plads</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku-tjenesten kører ikke. Tjek venligst i Shizuku-appen</string>
+    <string name="error_shizuku_not_granted">Shizuku-tilladelse mangler</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku-tilladelse er ikke givet. Tjek venligst i Shizuku-appen</string>
+    <string name="error_shizuku_not_installed">Shizuku ikke installeret</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku ser ikke ud til at være installeret</string>
+    <string name="label_targets_sdk">Mål: Android %s</string>
+    <string name="open_shizuku">Åbn Shizuku</string>
+    <string name="label_unknown_sdk">Ukendt (%d)</string>
+    <string name="switch_to_default_installer">Skift til standard</string>
+    <string name="label_open_video">Video</string>
+    <string name="error_shizuku_service_unavailable">Shizuku kører ikke</string>
 </resources>
