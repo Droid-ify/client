@@ -257,14 +257,14 @@ data class Repository(
                 name = "Threema Libre",
                 description = "The official repository for Threema Libre. R" +
                     "equires Threema Shop license. Threema Libre is an open" +
-                    "-source messanger focused on security and privacy.",
+                    "-source messenger focused on security and privacy.",
                 fingerprint = "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E"
             ),
             defaultRepository(
                 address = "https://fdroid.getsession.org/fdroid/repo",
                 name = "Session",
                 description = "The official repository for Session. Session" +
-                    " is an open-source messanger focused on security and privacy.",
+                    " is an open-source messenger focused on security and privacy.",
                 fingerprint = "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6"
             ),
             defaultRepository(
