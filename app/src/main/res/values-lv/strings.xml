@@ -24,8 +24,8 @@
     <string name="already_exists">Jau eksistē</string>
     <string name="always">Vienmēr</string>
     <string name="amoled">Melns</string>
-    <string name="anti_features">Pretīpašības</string>
-    <string name="application">Aplikācija</string>
+    <string name="anti_features">Nevēlamās, privātuma aizskarošās funkcijas</string>
+    <string name="application">Lietotne</string>
     <string name="application_not_found">Šo lietotni nevarēja atrast</string>
     <string name="author_email">Autora e-pasts</string>
     <string name="author_website">Autora vietne</string>
@@ -35,7 +35,7 @@
     <string name="changelog">Izmaiņu žurnāls</string>
     <string name="changes">Izmaiņas</string>
     <string name="checking_repository">Notiek repozitorijas pārbaude…</string>
-    <string name="compiled_for_debugging">Sastādīts atkļūdošanai</string>
+    <string name="compiled_for_debugging">Kompilēts priekš atkļūdošanas mērķiem</string>
     <string name="confirmation">Apstiprinājums</string>
     <string name="connecting">Notiek savienojuma izveide…</string>
     <string name="contains_non_free_media">Satur nebrīvus medijus</string>
@@ -204,7 +204,7 @@
     <string name="import_repos_title">Importēt repozitorijus</string>
     <string name="import_repos_DESC">Importēt visus repozitorijus no faila</string>
     <string name="export_repos_title">Eksportēt repozitorijus</string>
-    <string name="error_shizuku_service_unavailable">Shizuku nav palaists</string>
+    <string name="error_shizuku_service_unavailable">Shizuku pakalpojums nav palaists</string>
     <string name="error_shizuku_not_running_DESC">Shizuku pakalpojums nedarbojas. Lūdzu, pārbaudiet vai tas ir palaists Shizuku lietotnē</string>
     <string name="home_screen_swiping_DESC">Ļauj lietotājam mainīt sadaļas sākuma ekrānā pavelkot ar pirkstu pa kreisi vai labi</string>
     <string name="error_shizuku_not_granted">Trūkst Shizuku atļauja</string>
@@ -224,4 +224,16 @@
     <string name="socket_error_DESC">Serveris nevarēja nodrošināt jaunu paketi.</string>
     <string name="connection_error_DESC">Nevarēja izveidot savienojumu ar serveri</string>
     <string name="repository_not_found">Sekojošais repozitorijs netika atrasts</string>
+    <string name="shizuku_not_alive">Shizuku nav palaists</string>
+    <string name="open_shizuku">Atvērt Shizuku</string>
+    <string name="proxy_port_error_not_int">Starpniekservera ports var būt tikai vesels skaitlis</string>
+    <string name="require_background_access">Nepieciešama fona piekļuve</string>
+    <string name="require_background_access_DESC">Ir nepieciešama fona piekļuves atļauja, lai fona sinhronizācija darbotos korekti</string>
+    <string name="special_credits">Īpašs paldies</string>
+    <string name="switch_to_default_installer">Izmantot noklusējuma uzstādītāju</string>
+    <string name="ignore_signature">Ignorēt parakstu</string>
+    <string name="contains_nsfw">Satur darba vietai nepiemērotu saturu</string>
+    <string name="label_open_video">Video</string>
+    <string name="label_targets_sdk">Mērķa OS: Android %s</string>
+    <string name="label_unknown_sdk">Nezināms (%d)</string>
 </resources>
