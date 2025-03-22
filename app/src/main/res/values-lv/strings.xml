@@ -19,14 +19,14 @@
     <string name="validation_index_error_DESC">Indeksu nevarēja apstiprināt.</string>
     <string name="add_repository">Pievienot repozitoriju</string>
     <string name="address">Adrese</string>
-    <string name="all_applications">Visas aplikācijas</string>
-    <string name="all_applications_up_to_date">Visas jūsu aplikācijas ir atjauninātas</string>
+    <string name="all_applications">Visas lietotnes</string>
+    <string name="all_applications_up_to_date">Visas lietotnes ir atjauninātas</string>
     <string name="already_exists">Jau eksistē</string>
     <string name="always">Vienmēr</string>
     <string name="amoled">Melns</string>
     <string name="anti_features">Pretīpašības</string>
     <string name="application">Aplikācija</string>
-    <string name="application_not_found">Nevarēja atrast šo aplikāciju</string>
+    <string name="application_not_found">Šo lietotni nevarēja atrast</string>
     <string name="author_email">Autora e-pasts</string>
     <string name="author_website">Autora vietne</string>
     <string name="available">Izpētīt</string>
@@ -34,7 +34,7 @@
     <string name="cancel">Atcelt</string>
     <string name="changelog">Izmaiņu žurnāls</string>
     <string name="changes">Izmaiņas</string>
-    <string name="checking_repository">Notiek repozitorija pārbaude…</string>
+    <string name="checking_repository">Notiek repozitorijas pārbaude…</string>
     <string name="compiled_for_debugging">Sastādīts atkļūdošanai</string>
     <string name="confirmation">Apstiprinājums</string>
     <string name="connecting">Notiek savienojuma izveide…</string>
@@ -72,7 +72,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">Jūsu %1$s platforma netiek atbalstīta. Atbalstītās platformas: %2$s.</string>
     <string name="incompatible_version">Nesaderīga versija</string>
     <string name="incompatible_versions">Nesaderīgas versijas</string>
-    <string name="incompatible_versions_summary">Rādīt aplikācijas versijas, kas nav saderīgas ar ierīci</string>
+    <string name="incompatible_versions_summary">Rādīt lietotnes versijas, kas nav saderīgas ar ierīci</string>
     <string name="incompatible_with_FORMAT">Nesaderīgs ar %s</string>
     <string name="install">Uzstādīt</string>
     <string name="installer">Uzstādītājs</string>
@@ -94,18 +94,18 @@
     <string name="links">Saites</string>
     <string name="name">Vārds</string>
     <string name="never">Nekad</string>
-    <string name="new_updates_available">Pieejamas jaunas aplikācijas versijas</string>
+    <string name="new_updates_available">Pieejamas jaunas lietotnes versijas</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="zero">%d aplikācijām ir jaunas versijas.</item>
-        <item quantity="one">%d aplikācijai ir jauna versija.</item>
-        <item quantity="other">%d aplikācijām ir jaunas versijas.</item>
+        <item quantity="zero">%d lietotnēm ir jauna versija.</item>
+        <item quantity="one">%d lietotnei ir jauna versija.</item>
+        <item quantity="other">%d lietotnēm ir jauna versija.</item>
     </plurals>
-    <string name="no_applications_available">Nav pieejamu aplikāciju</string>
+    <string name="no_applications_available">Nav pieejama neviena lietotne</string>
     <string name="no_applications_installed">Nav uzstādīta neviena lietotne</string>
-    <string name="no_matching_applications_found">Nevarēja atrast nevienu šādu aplikāciju</string>
+    <string name="no_matching_applications_found">Nevarēja atrast nevienu šādu lietotni</string>
     <string name="no_proxy">Nav starpniekservera</string>
     <string name="notify_about_updates">Paziņot par jaunām aplikāciju versijām</string>
-    <string name="number_of_applications">Aplikāciju skaits</string>
+    <string name="number_of_applications">Lietotņu skaits</string>
     <string name="ok">Labi</string>
     <string name="only_compatible_with_FORMAT">Saderīgs tikai ar %s</string>
     <string name="only_on_wifi">Tikai Wi-Fi tīklā</string>
@@ -126,9 +126,9 @@
     <string name="proxy_host">Starpniekservera saimniekdators</string>
     <string name="proxy_port">Starpniekservera ports</string>
     <string name="proxy_type">Starpniekservera veids</string>
-    <string name="repositories">Repozitorijas</string>
+    <string name="repositories">Repozitoriji</string>
     <string name="repository">Repozitorijs</string>
-    <string name="repository_unsigned_DESC">Neparakstīts. Nevarēja pārbaudīt lietojumprogrammu sarakstu. Esiet piesardzīgs, lejupielādējot lietojumprogrammas no neparakstītām repozitorijiem.</string>
+    <string name="repository_unsigned_DESC">Neparakstīts. Nevarēja pārbaudīt lietotnes sarakstu. Esiet piesardzīgi, lejupielādējot lietotnes no neparakstītiem repozitorijiem.</string>
     <string name="saving_details">Notiek informācijas saglabāšana…</string>
     <string name="select_mirror">Izvēlieties spoguli</string>
     <string name="share">Dalīties</string>
@@ -172,7 +172,7 @@
     <string name="update_all">Atjaunināt visu</string>
     <string name="action_failed">Darbība neizdevās</string>
     <string name="cant_edit_sync_DESC">Nevar rediģēt repozitoriju, jo tas pašlaik tiek sinhronizēts.</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">APK dzēšanas intervāls</string>
     <string name="could_not_download_FORMAT">Nevarēja lejupielādēt %s</string>
     <string name="delete_repository_DESC">Vai dzēst repozitoriju\?</string>
     <string name="details">Sīkāka informācija</string>
@@ -206,7 +206,7 @@
     <string name="export_repos_title">Eksportēt repozitorijus</string>
     <string name="error_shizuku_service_unavailable">Shizuku nav palaists</string>
     <string name="error_shizuku_not_running_DESC">Shizuku pakalpojums nedarbojas. Lūdzu, pārbaudiet vai tas ir palaists Shizuku lietotnē</string>
-    <string name="home_screen_swiping_DESC">Atļauj lietotājam pārvilkt starp lapām sākuma ekrānā</string>
+    <string name="home_screen_swiping_DESC">Ļauj lietotājam mainīt sadaļas sākuma ekrānā pavelkot ar pirkstu pa kreisi vai labi</string>
     <string name="error_shizuku_not_granted">Trūkst Shizuku atļauja</string>
     <string name="error_shizuku_not_granted_DESC">Shizuku pakalpojuma atļauja nav piešķirta. Lūdzu, pārbaudiet Shizuku lietotnē</string>
     <string name="error_shizuku_not_installed">Shizuku nav uzstādīts</string>
@@ -219,4 +219,9 @@
     <string name="uninstalled_application">Noņemts</string>
     <string name="uninstalled_application_DESC">%s noņemts</string>
     <string name="ignore_signature_summary">*Uzmanību* Ignorēt paraksta verifikāciju, uzstādot APK, LSPosed vai pieredzējušiem lietotājiem</string>
+    <string name="home_screen_swiping">Sākuma ekrāna vilkšana</string>
+    <string name="has_tethered_network">Saistīts ar noteiktu tīkla pakalpojumu</string>
+    <string name="socket_error_DESC">Serveris nevarēja nodrošināt jaunu paketi.</string>
+    <string name="connection_error_DESC">Nevarēja izveidot savienojumu ar serveri</string>
+    <string name="repository_not_found">Sekojošais repozitorijs netika atrasts</string>
 </resources>
