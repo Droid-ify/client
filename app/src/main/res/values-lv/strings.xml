@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="incompatible_signature_DESC">Šī versija ir parakstīta ar citu sertifikātu, nevis jūsu ierīcē instalēto. Vispirms atinstalējiet to.</string>
-    <string name="install_types">Instalēšanas veidi</string>
+    <string name="incompatible_signature_DESC">Šī versija ir parakstīta ar citu sertifikātu nekā tā, kas uzstādīta jūsu ierīcē. Vispirms noņemiet to.</string>
+    <string name="install_types">Uzstādīšanas veidi</string>
     <string name="notify_about_updates_summary">Rādīt paziņojumu, kad ir pieejamas jaunas versijas</string>
     <string name="invalid_address">Nederīga adrese</string>
     <string name="invalid_fingerprint_format">Nederīgs pirkstu nospiedumu formāts</string>
@@ -74,9 +74,9 @@
     <string name="incompatible_versions">Nesaderīgas versijas</string>
     <string name="incompatible_versions_summary">Rādīt aplikācijas versijas, kas nav saderīgas ar ierīci</string>
     <string name="incompatible_with_FORMAT">Nesaderīgs ar %s</string>
-    <string name="install">Instalēt</string>
-    <string name="installer">Instalētājs</string>
-    <string name="legacy_installer">Mantotais instalētājs</string>
+    <string name="install">Uzstādīt</string>
+    <string name="installer">Uzstādītājs</string>
+    <string name="legacy_installer">Vecā uzstādīšanas metode</string>
     <string name="session_installer">Sesijas instalētājs</string>
     <string name="root_installer">Sakņu instalētājs</string>
     <string name="shizuku_installer">Shizuku instalētājs</string>
@@ -176,14 +176,14 @@
     <string name="could_not_download_FORMAT">Nevarēja lejupielādēt %s</string>
     <string name="delete_repository_DESC">Vai dzēst repozitoriju\?</string>
     <string name="details">Sīkāka informācija</string>
-    <string name="incompatible_older_DESC">Šī versija ir vecāka par jūsu ierīcē instalēto. Vispirms atinstalējiet to.</string>
+    <string name="incompatible_older_DESC">Šī versija ir vecāka par jūsu ierīcē uzstādīto. Vispirms noņemiet to. Jeb izmantojiet lietotņu pārvaldnieku ar \"Downgrade\" uzstādīšanas funkciju, lai saglabātu esošos datus.</string>
     <string name="file_format_error_DESC">Nederīgs faila formāts.</string>
     <string name="has_advertising">Ir reklāmas</string>
     <string name="http_proxy">HTTP starpniekserveris</string>
     <string name="ignore_all_updates">Ignorēt visas jaunās versijas</string>
     <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
     <string name="auto_update">Automātiski atjaunināt lietotnes</string>
-    <string name="auto_update_apps">Mēģiniet automātiski instalēt atjauninājumus</string>
+    <string name="auto_update_apps">Mēģiniet automātiski uzstādīt atjauninājumus</string>
     <string name="installing">Instalēšana</string>
     <string name="waiting_to_start_installation">Gaida instalēšanas sākšanu…</string>
     <string name="favourites">Izlase</string>
@@ -204,4 +204,13 @@
     <string name="import_repos_title">Importēt repozitorijus</string>
     <string name="import_repos_DESC">Importēt visus repozitorijus no faila</string>
     <string name="export_repos_title">Eksportēt repozitorijus</string>
+    <string name="error_shizuku_service_unavailable">Shizuku nav palaists</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku pakalpojums nedarbojas. Lūdzu, pārbaudiet vai tas ir palaists Shizuku lietotnē</string>
+    <string name="home_screen_swiping_DESC">Atļauj lietotājam pārvilkt starp lapām sākuma ekrānā</string>
+    <string name="error_shizuku_not_granted">Trūkst Shizuku atļauja</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku pakalpojuma atļauja nav piešķirta. Lūdzu, pārbaudiet Shizuku lietotnē</string>
+    <string name="error_shizuku_not_installed">Shizuku nav uzstādīts</string>
+    <string name="error_shizuku_not_installed_DESC">Laikam, ka Shizuku nav uzstādīts</string>
+    <string name="insufficient_storage">Nepietiek uzglabāšanas vietas</string>
+    <string name="insufficient_storage_DESC">Jūsu ierīcē nav pietiekami daudz brīvas vietas, lai uzstādītu šo lietotni. Mēģiniet atbrīvot vietu</string>
 </resources>
