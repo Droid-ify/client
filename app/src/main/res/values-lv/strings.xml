@@ -77,10 +77,10 @@
     <string name="install">Uzstādīt</string>
     <string name="installer">Uzstādītājs</string>
     <string name="legacy_installer">Vecā uzstādīšanas metode</string>
-    <string name="session_installer">Sesijas instalētājs</string>
-    <string name="root_installer">Sakņu instalētājs</string>
-    <string name="shizuku_installer">Shizuku instalētājs</string>
-    <string name="installed">Instalēts</string>
+    <string name="session_installer">Sesijas uzstādīšana</string>
+    <string name="root_installer">Ar root piekļuves tiesībām uzstādīšana</string>
+    <string name="shizuku_installer">Izmantojot Shizuku uzstādīšana</string>
+    <string name="installed">Uzstādīts</string>
     <string name="integrity_check_error_DESC">Nevarēja pārbaudīt integritāti.</string>
     <string name="invalid_metadata_error_DESC">Nederīgi metadati.</string>
     <string name="invalid_permissions_error_DESC">Nederīgas atļaujas.</string>
@@ -101,7 +101,7 @@
         <item quantity="other">%d aplikācijām ir jaunas versijas.</item>
     </plurals>
     <string name="no_applications_available">Nav pieejamu aplikāciju</string>
-    <string name="no_applications_installed">Nav instalētas aplikācijas</string>
+    <string name="no_applications_installed">Nav uzstādīta neviena lietotne</string>
     <string name="no_matching_applications_found">Nevarēja atrast nevienu šādu aplikāciju</string>
     <string name="no_proxy">Nav starpniekservera</string>
     <string name="notify_about_updates">Paziņot par jaunām aplikāciju versijām</string>
@@ -145,16 +145,16 @@
     <string name="syncing">Sinhronizē</string>
     <string name="syncing_FORMAT">Notiek %s sinhronizēšana…</string>
     <string name="system">Sistēma</string>
-    <string name="tap_to_install_DESC">Pieskarieties, lai instalētu.</string>
+    <string name="tap_to_install_DESC">Pieskarieties, lai uzstādītu.</string>
     <string name="theme">Tēma</string>
     <string name="themes">Tēmas</string>
     <string name="tracks_or_reports_your_activity">Izseko vai ziņo par jūsu aktivitātēm</string>
-    <string name="uninstall">Atinstalēt</string>
+    <string name="uninstall">Noņemt</string>
     <string name="unknown">Nezināms</string>
     <string name="unknown_error_DESC">Nezināma kļūda.</string>
     <string name="unknown_FORMAT">Nezināms: %s</string>
     <string name="unstable_updates">Nestabili atjauninājumi</string>
-    <string name="unstable_updates_summary">Ieteikt instalēt nestabilas versijas</string>
+    <string name="unstable_updates_summary">Ieteikt uzstādīt nestabilas versijas</string>
     <string name="update">Atjaunināt</string>
     <string name="updates">Atjauninājumi</string>
     <string name="upstream_source_code_is_not_free">Augšējā avota kods nav bezmaksas</string>
@@ -184,8 +184,8 @@
     <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
     <string name="auto_update">Automātiski atjaunināt lietotnes</string>
     <string name="auto_update_apps">Mēģiniet automātiski uzstādīt atjauninājumus</string>
-    <string name="installing">Instalēšana</string>
-    <string name="waiting_to_start_installation">Gaida instalēšanas sākšanu…</string>
+    <string name="installing">Uzstādīšana</string>
+    <string name="waiting_to_start_installation">Gaida uzstādīšanas sākšanu…</string>
     <string name="favourites">Izlase</string>
     <string name="enable_repo">Iespējot repozitoriju</string>
     <string name="force_clean_up">Piespiedu tīrīšana</string>
@@ -213,4 +213,10 @@
     <string name="error_shizuku_not_installed_DESC">Laikam, ka Shizuku nav uzstādīts</string>
     <string name="insufficient_storage">Nepietiek uzglabāšanas vietas</string>
     <string name="insufficient_storage_DESC">Jūsu ierīcē nav pietiekami daudz brīvas vietas, lai uzstādītu šo lietotni. Mēģiniet atbrīvot vietu</string>
+    <string name="shizuku_not_installed">Shizuku nav uzstādīts⁣</string>
+    <string name="installation_failed">Uzstādīšana neizdevās</string>
+    <string name="installation_failed_DESC">Neizdevās uzstādīt %s</string>
+    <string name="uninstalled_application">Noņemts</string>
+    <string name="uninstalled_application_DESC">%s noņemts</string>
+    <string name="ignore_signature_summary">*Uzmanību* Ignorēt paraksta verifikāciju, uzstādot APK, LSPosed vai pieredzējušiem lietotājiem</string>
 </resources>
