@@ -232,4 +232,5 @@
     <string name="insufficient_storage_DESC">Seadmes pole selle rakenduse paigaldamiseks piisavalt vaba ruumi. Proovi ruumi vabastada</string>
     <string name="waiting_to_start_download">Allalaadimise alustamise ootel…</string>
     <string name="prefs_language_title">Keel</string>
+    <string name="updates">Uendused</string>
 </resources>
