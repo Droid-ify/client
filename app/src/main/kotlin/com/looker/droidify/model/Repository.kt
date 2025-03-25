@@ -413,7 +413,7 @@ data class Repository(
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
             ),
             defaultRepository(
-                address = "https://raw.githubusercontent.com/johnbetaro/fdroid/main/fdroid/repo",
+                address = "https://raw.githubusercontent.com/celecoxib/fdroid/main/fdroid/repo",
                 name = "Signal AMOLED",
                 description = "A fork of Signal private messenger that replaces the classic " +
                     "dark theme with AMOLED black theme.",       
