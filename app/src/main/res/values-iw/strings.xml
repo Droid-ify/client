@@ -15,7 +15,7 @@
     <string name="changelog">יומן שינויים</string>
     <string name="changes">שינויים</string>
     <string name="checking_repository">בודק מאגר…</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">מרווח ניקוי APK</string>
     <string name="confirmation">אישורים</string>
     <string name="could_not_download_FORMAT">לא ניתן היה להוריד את %s</string>
     <string name="could_not_sync_FORMAT">לא ניתן היה לסנכרן את %s</string>
@@ -198,7 +198,7 @@
     <string name="auto_update_apps">נסה להתקין עדכונים באופן אוטומטי</string>
     <string name="has_non_free_components">בעל רכיבים לא חופשיים</string>
     <string name="shizuku_not_alive">שיזוקו לא פועל</string>
-    <string name="shizuku_not_installed">Shizuku לא מותקן</string>
+    <string name="shizuku_not_installed">Shizuku לא הותקן</string>
     <string name="repository_not_found">המאגר לא נמצא</string>
     <string name="uninstalled_application_DESC">ההתקנה של %s הוסרה</string>
     <string name="installation_failed">ההתקנה נכשלה</string>
@@ -228,4 +228,15 @@
     <string name="insufficient_storage_DESC">אין מספיק מקום פנוי במכשיר להתקנת יישום זה. נסה לפנות קצת מקום</string>
     <string name="require_background_access_DESC">נדרשת גישת רקע כדי להפעיל את סנכרון הרקע כראוי</string>
     <string name="require_background_access">דרוש גישה ברקע</string>
+    <string name="label_open_video">וידיאו</string>
+    <string name="label_targets_sdk">יעדים: אנדרואיד %s</string>
+    <string name="error_shizuku_service_unavailable">Shizuku לא פועל</string>
+    <string name="error_shizuku_not_running_DESC">שירות Shizuku אינו פועל. אנא בדוק באפליקציית Shizuku</string>
+    <string name="error_shizuku_not_granted">חסר הרשאת שימוש ב- Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">לא ניתנה הרשאה לשירות Shizuku. אנא בדוק באפליקציית Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku לא מותקן</string>
+    <string name="error_shizuku_not_installed_DESC">נראה כי Shizuku לא מותקן</string>
+    <string name="open_shizuku">פתח את Shizuku</string>
+    <string name="switch_to_default_installer">עבור לברירת מחדל</string>
+    <string name="label_unknown_sdk">לא ידוע (%d)</string>
 </resources>
