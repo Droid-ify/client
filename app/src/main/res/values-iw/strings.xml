@@ -51,7 +51,7 @@
     <string name="launch">פתח</string>
     <string name="license">רשיון</string>
     <string name="license_FORMAT">%s רשיון</string>
-    <string name="light">מואר</string>
+    <string name="light">בהיר</string>
     <string name="link_copied_to_clipboard">הקישור הועתק ללוח</string>
     <string name="links">קישורים</string>
     <string name="merging_FORMAT">ממזג %s</string>
@@ -105,8 +105,8 @@
     <string name="syncing_FORMAT">מסנכרן את %s…</string>
     <string name="system">מערכת</string>
     <string name="tap_to_install_DESC">הקש כדי להתקין.</string>
-    <string name="theme">ערכת נושא</string>
-    <string name="themes">ערכות נושא</string>
+    <string name="theme">עיצוב</string>
+    <string name="themes">עיצובים</string>
     <string name="tracks_or_reports_your_activity">עוקב או מדווח על הפעילות שלך</string>
     <string name="unknown">לא ידוע</string>
     <string name="upstream_source_code_is_not_free">קוד המקור המלא אינו חינמי</string>
@@ -156,7 +156,7 @@
     <string name="show_older_versions">הצג גירסאות ישנות</string>
     <string name="version">גירסא</string>
     <string name="network_error_DESC">שגיאת רשת</string>
-    <string name="never">לעולם לא</string>
+    <string name="never">אף פעם</string>
     <string name="settings">הגדרות</string>
     <string name="proxy">‌פרוקסי</string>
     <string name="recently_updated">עודכן לאחרונה</string>
@@ -186,7 +186,7 @@
     <string name="show_less">הצג פחות</string>
     <string name="io_error_DESC">לא ניתן לבצע פעולות מסוימות.</string>
     <string name="installing">התקנה</string>
-    <string name="material_you">חומר אתה</string>
+    <string name="material_you">Material You</string>
     <string name="material_you_desc">השתמש בחומר אתה נושא צבע</string>
     <string name="waiting_to_start_installation">מחכה להתחיל בהתקנה …</string>
     <string name="favourites">מועדפים</string>
