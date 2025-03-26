@@ -411,6 +411,13 @@ data class Repository(
                     "Cromite is a Chromium fork based on Bromite with " +
                     "built-in support for ad blocking and an eye for privacy.",
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+            ),
+            defaultRepository(
+                address = "https://raw.githubusercontent.com/celecoxib/fdroid/main/fdroid/repo",
+                name = "Signal AMOLED",
+                description = "A fork of Signal private messenger that replaces the classic " +
+                    "dark theme with AMOLED black theme.",       
+                fingerprint = "FF6DB32F3101A544F8EF715A24CDA2EF536DBDD3AAD3826C51AC6CA1C05B2007"
             )
         )
     }
