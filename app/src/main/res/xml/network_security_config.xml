@@ -7,6 +7,10 @@
             <certificates src="system" />
             <!-- Additionally trust user added CAs -->
             <certificates src="user" />
+
+            <!-- Necessary for Android 7.0 and older -->
+            <certificates src="@raw/isrgrootx1" />
+            <certificates src="@raw/isrgrootx2" />
         </trust-anchors>
     </base-config>
 </network-security-config>
