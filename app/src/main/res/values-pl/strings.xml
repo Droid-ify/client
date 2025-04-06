@@ -27,7 +27,7 @@
     <string name="already_exists">Już istnieje</string>
     <string name="unknown">Nieznany</string>
     <string name="themes">Motywy</string>
-    <string name="tap_to_install_DESC">Stuknij , aby zainstalować.</string>
+    <string name="tap_to_install_DESC">Stuknij, aby zainstalować.</string>
     <string name="sync_repositories_automatically">Automatyczna synchronizacja repozytoriów</string>
     <string name="syncing">Synchronizacja</string>
     <string name="syncing_FORMAT">Synchronizacja %s…</string>
