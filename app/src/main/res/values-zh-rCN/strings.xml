@@ -222,4 +222,12 @@
     <string name="error_shizuku_service_unavailable">Shizuku 未运行</string>
     <string name="switch_to_default_installer">切换至默认</string>
     <string name="label_open_video">视频</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku 服务未运行。请在 Shizuku 应用中检查</string>
+    <string name="error_shizuku_not_granted">缺少 Shizuku 权限</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku 服务权限未授予。请在 Shizuku 应用中检查</string>
+    <string name="open_shizuku">打开 Shizuku</string>
+    <string name="label_targets_sdk">目标：Android %s</string>
+    <string name="label_unknown_sdk">未知 (%d)</string>
+    <string name="error_shizuku_not_installed">Shizuku 未安装</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku 似乎未安装</string>
 </resources>
