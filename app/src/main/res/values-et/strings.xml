@@ -55,8 +55,8 @@
     <string name="has_non_free_components">Omab mittevabu komponente</string>
     <string name="has_security_vulnerabilities">Omab turvaauke</string>
     <string name="has_tethered_network">Seotud teatud võrguteenusega</string>
-    <string name="home_screen_swiping">Avakuva pühkimine</string>
-    <string name="home_screen_swiping_DESC">Luba kasutajal avakuval pühkides lehti vahetada</string>
+    <string name="home_screen_swiping">Avakuval nipsamine</string>
+    <string name="home_screen_swiping_DESC">Luba kasutajal avakuval nipsates lehti vahetada</string>
     <plurals name="hours">
         <item quantity="one">tund</item>
         <item quantity="other">tundi</item>
