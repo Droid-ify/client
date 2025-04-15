@@ -133,8 +133,8 @@
     <string name="repository_not_found">Järgnevat hoidlat ei leitud</string>
     <string name="repository_unreachable">Hoidla on kättesaamatu</string>
     <string name="requires_FORMAT">Nõuab %s</string>
-    <string name="require_background_access">Nõua taustal juurdepääsu</string>
-    <string name="require_background_access_DESC">Taustal sünkroonimise korralikuks käitamiseks tuleb anda taustal juurdepääs</string>
+    <string name="require_background_access">Küsi taustal töötamise luba</string>
+    <string name="require_background_access_DESC">Taustal sünkroonimise õnnestumiseks tuleb lubada taustal töötamine</string>
     <string name="save">Salvesta</string>
     <string name="saving_details">Üksikasjade salvestamine…</string>
     <string name="settings">Seaded</string>
