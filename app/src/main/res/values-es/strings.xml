@@ -225,4 +225,15 @@
     <string name="uninstalled_application">Desinstalada</string>
     <string name="insufficient_storage">Espacio insuficiente</string>
     <string name="insufficient_storage_DESC">No hay suficiente espacio libre en el dispositivo para instalar esta aplicación. Intente liberar algo de espacio</string>
+    <string name="error_shizuku_not_granted_DESC">No se permitió el permiso del servicio de Shizuku. Por favor revisa la app de Shizuku</string>
+    <string name="error_shizuku_service_unavailable">Shizuku no está ejecutando</string>
+    <string name="error_shizuku_not_running_DESC">El servicio de Shizuku no está corriendo. Por favor revisa la app de Shizuku</string>
+    <string name="error_shizuku_not_granted">Falta permiso de Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku no está instalado</string>
+    <string name="error_shizuku_not_installed_DESC">Al parecer Shizuku no está instalado</string>
+    <string name="open_shizuku">Abrir Shizuku</string>
+    <string name="switch_to_default_installer">Cambiar a Predeterminado</string>
+    <string name="label_open_video">Video</string>
+    <string name="label_targets_sdk">Objetivo: Android %s</string>
+    <string name="label_unknown_sdk">Desconocido (%d)</string>
 </resources>
