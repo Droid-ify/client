@@ -209,7 +209,7 @@ data class Repository(
                 name = "Kali Nethunter",
                 description = "Kali Nethunter's official selection of original b" +
                     "inaries.",
-                fingerprint = "7E418D34C3AD4F3C37D7E6B0FACE13332364459C862134EB099A3BDA2CCF4494"
+                fingerprint = "FE7A23DFC003A1CF2D2ADD2469B9C0C49B206BA5DC9EDD6563B3B7EB6A8F5FAB"
             ),
             defaultRepository(
                 address = "https://secfirst.org/fdroid/repo",
