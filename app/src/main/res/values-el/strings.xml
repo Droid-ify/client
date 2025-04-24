@@ -220,4 +220,17 @@
     <string name="uninstalled_application_DESC">Το %s απεγκαταστάθηκε</string>
     <string name="ignore_signature">Αγνόησή Υπογραφής</string>
     <string name="ignore_signature_summary">Αγνοήστε την επαλήθευση υπογραφής κατά την εγκατάσταση apk, για χρήστες με LSP ή προχωρημένους χρήστες</string>
+    <string name="error_shizuku_not_granted_DESC">Η άδεια λειτουργίας της υπηρεσίας Shizuku δεν έχει παραχωρηθεί. Ελέγξτε την εφαρμογή Shizuku</string>
+    <string name="error_shizuku_not_installed">Το Shizuku δεν έχει εγκατασταθεί</string>
+    <string name="open_shizuku">Άνοιγμα Shizuku</string>
+    <string name="label_unknown_sdk">Άγνωστο (%d)</string>
+    <string name="label_open_video">Βίντεο</string>
+    <string name="switch_to_default_installer">Μετάβαση στην Προεπιλογή</string>
+    <string name="insufficient_storage">Ανεπαρκής Χώρος</string>
+    <string name="error_shizuku_not_installed_DESC">Το Shizuku δεν φαίνεται να είναι εγκατεστημένο</string>
+    <string name="error_shizuku_service_unavailable">Δεν είναι σε λειτουργία το Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">Η υπηρεσία Shizuku δεν λειτουργεί. Ελέγξτε την εφαρμογή Shizuku</string>
+    <string name="error_shizuku_not_granted">Λείπει η άδεια Shizuku</string>
+    <string name="insufficient_storage_DESC">Δεν υπάρχει αρκετός ελεύθερος χώρος στη συσκευή για την εγκατάσταση αυτής της εφαρμογής. Προσπαθήστε να ελευθερώσετε και να καθαρίσετε λίγο χώρο</string>
+    <string name="label_targets_sdk">Στόχοι: Android %s</string>
 </resources>
