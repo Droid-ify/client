@@ -81,7 +81,7 @@
     <string name="http_proxy">HTTP பதிலாள்</string>
     <string name="ignore_all_updates">அனைத்து புதிய பதிப்புகளையும் புறக்கணிக்கவும்</string>
     <string name="ignore_this_update">இந்த பதிப்பை புறக்கணிக்கவும்</string>
-    <string name="incompatible_api_DESC_FORMAT">உங்கள் %1$s (API பதிப்பு %2 $ D) ஆதரிக்கப்படவில்லை. %3$s</string>
+    <string name="incompatible_api_DESC_FORMAT">உங்கள் %1$s (API பதிப்பு %2$d) ஆதரிக்கப்படவில்லை. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">மேக்ச் பநிஇ பதிப்பு %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">மின் பநிஇ பதிப்பு %d.</string>
     <string name="incompatible_features_DESC">காணாமல் போன நற்பொருத்தங்கள்.</string>
