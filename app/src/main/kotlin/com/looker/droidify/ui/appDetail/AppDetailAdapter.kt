@@ -558,6 +558,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val signature = itemView.findViewById<TextView>(R.id.signature)!!
         val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
         val targetSdk = itemView.findViewById<TextView>(R.id.target_sdk)!!
+        val minSdk = itemView.findViewById<TextView>(R.id.min_sdk)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(
@@ -1721,6 +1722,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         ),
                     )
                     text = context.getString(stringRes.label_targets_sdk, sdkVersion)
+                }
+                with(holder.minSdk) {
+                    val sdkVersion = sdkName.getOrDefault(
+                        item.release.minSdkVersion,
+                        context.getString(
+                            stringRes.label_unknown_sdk,
+                            item.release.minSdkVersion,
+                        ),
+                    )
+                    text = context.getString(stringRes.label_minimum_sdk, sdkVersion)
                 }
                 val enabled = status == Status.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }
