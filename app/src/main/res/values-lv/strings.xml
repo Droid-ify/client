@@ -24,11 +24,11 @@
     <string name="already_exists">Jau eksistē</string>
     <string name="always">Vienmēr</string>
     <string name="amoled">Melns</string>
-    <string name="anti_features">Nevēlamās, privātuma aizskarošās funkcijas</string>
+    <string name="anti_features">Nevēlamas, privātuma aizskarošas funkcijas</string>
     <string name="application">Lietotne</string>
     <string name="application_not_found">Šo lietotni nevarēja atrast</string>
-    <string name="author_email">Autora e-pasts</string>
-    <string name="author_website">Autora vietne</string>
+    <string name="author_email">Izstrādāja e-pasts</string>
+    <string name="author_website">Izstrādāja vietne</string>
     <string name="available">Izpētīt</string>
     <string name="bug_tracker">Kļūdu izsekotājs</string>
     <string name="cancel">Atcelt</string>
