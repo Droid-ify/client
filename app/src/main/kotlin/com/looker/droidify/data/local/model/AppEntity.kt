@@ -84,6 +84,11 @@ data class AppEntityRelations(
         entityColumn = "appId",
     )
     val versions: List<VersionEntity>?,
+    @Relation(
+        parentColumn = "packageName",
+        entityColumn = "packageName",
+    )
+    val installed: InstalledEntity?,
 )
 
 fun MetadataV2.appEntity(

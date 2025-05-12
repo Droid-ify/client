@@ -47,12 +47,6 @@ data class AntiFeatureRepoRelation(
             parentColumns = ["id"],
             onDelete = ForeignKey.CASCADE,
         ),
-        ForeignKey(
-            entity = AntiFeatureEntity::class,
-            childColumns = ["tag"],
-            parentColumns = ["tag"],
-            onDelete = ForeignKey.CASCADE,
-        )
     ],
 )
 data class AntiFeatureAppRelation(
