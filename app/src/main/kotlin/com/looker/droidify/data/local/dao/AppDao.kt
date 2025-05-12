@@ -2,16 +2,122 @@ package com.looker.droidify.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.room.Transaction
+import androidx.sqlite.db.SimpleSQLiteQuery
+import com.looker.droidify.data.local.model.AntiFeatureAppRelation
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AppEntityRelations
+import com.looker.droidify.data.local.model.CategoryAppRelation
+import com.looker.droidify.data.local.model.VersionEntity
+import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.sync.v2.model.DefaultName
+import com.looker.droidify.sync.v2.model.Tag
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface AppDao {
 
-    @Query("SELECT * FROM app")
-    fun stream(): Flow<List<AppEntity>>
+    @RawQuery(observedEntities = [
+        AppEntity::class,
+        VersionEntity::class,
+        CategoryAppRelation::class,
+        AntiFeatureAppRelation::class,
+    ])
+    fun _rawQueryAppEntities(query: SimpleSQLiteQuery): Flow<List<AppEntity>>
+
+    /**
+     * @param category: get by default name and use the boolean to ignore the app category
+     * @param antiFeature: get by tag and use the boolean to ignore the anti feature
+     *
+     * Add `canUpdate` and `isInstalled` is the next layer
+     * */
+    fun stream(
+        sortOrder: SortOrder,
+        searchQuery: String?,
+        repoId: Int?,
+        category: Pair<DefaultName, Boolean>?,
+        antiFeature: Pair<Tag, Boolean>?,
+    ): Flow<List<AppEntity>> {
+        val args = arrayListOf<Any?>()
+
+        val query = buildString(1024) {
+            append("SELECT app.* FROM app")
+            append(" LEFT JOIN version ON app.id = version.appId")
+            append(" LEFT JOIN category_app_relation ON app.id = category_app_relation.appId")
+            append(" LEFT JOIN anti_feature_app_relation ON app.id = anti_feature_app_relation.appId")
+            append(" WHERE 1")
+            if (repoId != null) {
+                append(" AND app.repoId = ?")
+                args.add(repoId)
+            }
+
+            if (category != null) {
+                val (name, hide) = category
+                if (!hide) {
+                    append(" AND category_app_relation.defaultName = ?")
+                } else {
+                    append(" AND category_app_relation.defaultName != ?")
+                }
+                args.add(name)
+            }
+
+            if (antiFeature != null) {
+                val (tag, hide) = antiFeature
+                if (!hide) {
+                    append(" AND anti_feature_app_relation.tag = ?")
+                } else {
+                    append(" AND anti_feature_app_relation.tag != ?")
+                }
+                args.add(tag)
+            }
+
+            if (searchQuery != null) {
+                val searchPattern = "%${searchQuery}%"
+                append(" AND (app.name LIKE ? OR app.summary LIKE ? OR app.packageName LIKE ? OR app.description LIKE ?)")
+                args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
+
+                append(" ORDER BY ")
+                // Weighting: name > summary > packageName > description
+                append("(CASE WHEN app.name LIKE ? THEN 4 ELSE 0 END) + ")
+                append("(CASE WHEN app.summary LIKE ? THEN 3 ELSE 0 END) + ")
+                append("(CASE WHEN app.packageName LIKE ? THEN 2 ELSE 0 END) + ")
+                append("(CASE WHEN app.description LIKE ? THEN 1 ELSE 0 END) DESC, ")
+                args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
+            }
+
+            if (searchQuery == null) {
+                append(" ORDER BY ")
+            }
+
+            when (sortOrder) {
+                SortOrder.UPDATED -> append("app,lastUpdated DESC, ")
+                SortOrder.ADDED -> append("app.added DESC, ")
+                SortOrder.SIZE -> append("version.apk_size DESC, ")
+                SortOrder.NAME -> Unit
+            }
+            append("app.name COLLATE LOCALIZED ASC")
+        }
+
+        return _rawQueryAppEntities(SimpleSQLiteQuery(query, args.toTypedArray()))
+    }
+
+    @Query(
+        """
+        SELECT app.*
+        FROM app
+        LEFT JOIN installed
+        ON app.packageName = installed.packageName
+        LEFT JOIN version
+        ON version.appId = app.id
+        WHERE installed.packageName IS NOT NULL
+        ORDER BY
+        CASE WHEN version.versionCode > installed.versionCode THEN 1 ELSE 2 END,
+        app.lastUpdated DESC,
+        app.name COLLATE LOCALIZED ASC
+        """,
+    )
+    fun installedStream(): Flow<List<AppEntity>>
 
     @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")
