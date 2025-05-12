@@ -722,7 +722,7 @@ object Database {
             when (order) {
                 SortOrder.UPDATED -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
                 SortOrder.ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
-                SortOrder.NAME -> Unit
+                else -> Unit
             }::class
             builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 

@@ -4,5 +4,8 @@ package com.looker.droidify.datastore.model
 enum class SortOrder {
     UPDATED,
     ADDED,
-    NAME
+    NAME,
+    SIZE,
 }
+
+fun supportedSortOrders(): List<SortOrder> = listOf(SortOrder.UPDATED, SortOrder.ADDED, SortOrder.NAME)

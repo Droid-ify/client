@@ -92,7 +92,7 @@ fun Context?.sortOrderName(sortOrder: SortOrder) = this?.let {
         SortOrder.UPDATED -> getString(stringRes.recently_updated)
         SortOrder.ADDED -> getString(stringRes.whats_new)
         SortOrder.NAME -> getString(stringRes.name)
-// 		SortOrder.SIZE -> getString(stringRes.size)
+ 		SortOrder.SIZE -> getString(stringRes.size)
     }
 } ?: ""
 
