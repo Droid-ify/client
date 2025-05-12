@@ -3,6 +3,7 @@ package com.looker.droidify.data.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import com.looker.droidify.sync.v2.model.AntiFeatureReason
 import com.looker.droidify.sync.v2.model.AntiFeatureV2
 import com.looker.droidify.sync.v2.model.Tag
 
@@ -34,6 +35,31 @@ data class AntiFeatureRepoRelation(
     @ColumnInfo("id")
     val repoId: Int,
     val tag: Tag,
+)
+
+@Entity(
+    tableName = "anti_features_app_relation",
+    primaryKeys = ["tag", "appId", "versionCode"],
+    foreignKeys = [
+        ForeignKey(
+            entity = AppEntity::class,
+            childColumns = ["appId"],
+            parentColumns = ["id"],
+            onDelete = ForeignKey.CASCADE,
+        ),
+        ForeignKey(
+            entity = AntiFeatureEntity::class,
+            childColumns = ["tag"],
+            parentColumns = ["tag"],
+            onDelete = ForeignKey.CASCADE,
+        )
+    ],
+)
+data class AntiFeatureAppRelation(
+    val tag: Tag,
+    val reason: AntiFeatureReason,
+    val appId: Int,
+    val versionCode: Long,
 )
 
 fun AntiFeatureV2.antiFeatureEntity(

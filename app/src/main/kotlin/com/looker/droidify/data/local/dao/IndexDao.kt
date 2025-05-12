@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.looker.droidify.data.local.model.AntiFeatureEntity
+import com.looker.droidify.data.local.model.AntiFeatureAppRelation
 import com.looker.droidify.data.local.model.AntiFeatureRepoRelation
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AuthorEntity
@@ -77,8 +78,10 @@ interface IndexDao {
                     authorId = authorId,
                 ),
             ).toInt().takeIf { it > 0 } ?: appIdByPackageName(packageName)
+            val versions = packages.versionEntities(appId)
+            insertVersions(versions.keys.toList())
+            insertAntiFeatureAppRelation(versions.values.flatten())
             val appCategories = packages.metadata.categories.map { CategoryAppRelation(appId, it) }
-            insertVersions(packages.versionEntities(appId))
             insertCategoryAppRelation(appCategories)
             metadata.linkEntity(appId)?.let { insertLink(it) }
             metadata.screenshots?.localizedScreenshots(appId)?.let { insertScreenshots(it) }
@@ -134,5 +137,8 @@ interface IndexDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCategoryAppRelation(crossRef: List<CategoryAppRelation>)
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAntiFeatureAppRelation(crossRef: List<AntiFeatureAppRelation>)
 
 }

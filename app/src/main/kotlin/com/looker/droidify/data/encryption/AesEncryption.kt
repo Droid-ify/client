@@ -1,73 +1,52 @@
+@file:OptIn(ExperimentalEncodingApi::class)
+
 package com.looker.droidify.data.encryption
 
 import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
-import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.io.encoding.Base64
 import kotlin.io.encoding.ExperimentalEncodingApi
 
 private const val KEY_SIZE = 256
-private const val KEY_ARRAY_SIZE = KEY_SIZE / 8
 private const val IV_SIZE = 16
 private const val ALGORITHM = "AES"
 private const val TRANSFORMATION = "AES/CBC/PKCS5Padding"
 
 @JvmInline
-value class Key(val bytes: ByteArray) {
+value class Key(val secretKey: ByteArray) {
 
-    val secretKey: SecretKey
-        get() = SecretKeySpec(bytes.copyOfRange(0, KEY_ARRAY_SIZE), ALGORITHM)
+    val spec: SecretKeySpec
+        get() = SecretKeySpec(secretKey, ALGORITHM)
 
-    val iv: IvParameterSpec
-        get() = IvParameterSpec(bytes.copyOfRange(KEY_ARRAY_SIZE, KEY_ARRAY_SIZE + IV_SIZE))
-
-    @OptIn(ExperimentalEncodingApi::class)
-    override fun toString(): String {
-        return Base64.encode(bytes)
+    fun encrypt(input: String): Pair<Encrypted, ByteArray> {
+        val iv = generateIV()
+        val ivSpec = IvParameterSpec(iv)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.ENCRYPT_MODE, spec, ivSpec)
+        val encrypted = cipher.doFinal(input.toByteArray())
+        return Encrypted(Base64.encode(encrypted)) to iv
     }
 
 }
 
-@OptIn(ExperimentalEncodingApi::class)
-fun Key(input: String): Key = Key(Base64.decode(input))
-
-@OptIn(ExperimentalEncodingApi::class)
-fun encrypt(
-    input: String,
-    key: Key,
-): String {
-    val cipher = Cipher.getInstance(TRANSFORMATION)
-    cipher.init(Cipher.ENCRYPT_MODE, key.secretKey, key.iv)
-    val encrypted = cipher.doFinal(input.toByteArray())
-    return Base64.encode(encrypted)
+/**
+ * Before encrypting we convert it to a base64 string
+ * */
+@JvmInline
+value class Encrypted(val value: String) {
+    fun decrypt(key: Key, iv: ByteArray): String {
+        val iv = IvParameterSpec(iv)
+        val cipher = Cipher.getInstance(TRANSFORMATION)
+        cipher.init(Cipher.DECRYPT_MODE, key.spec, iv)
+        val decrypted = cipher.doFinal(Base64.decode(value))
+        return String(decrypted)
+    }
 }
 
-@OptIn(ExperimentalEncodingApi::class)
-fun decrypt(
-    input: String,
-    key: Key,
-): String {
-    val cipher = Cipher.getInstance(TRANSFORMATION)
-    cipher.init(Cipher.DECRYPT_MODE, key.secretKey, key.iv)
-    val decrypted = cipher.doFinal(Base64.decode(input))
-    return String(decrypted)
-}
-
-fun generateKey(): Key {
-    val secretKey = generateSecretKey()
-    val iv = generateIV()
-    return Key(
-        ByteArray(KEY_ARRAY_SIZE + IV_SIZE) {
-            if (it < KEY_ARRAY_SIZE) secretKey[it]
-            else iv[it - KEY_ARRAY_SIZE]
-        },
-    )
-}
-
-private fun generateSecretKey(): ByteArray {
+fun generateSecretKey(): ByteArray {
     return with(KeyGenerator.getInstance(ALGORITHM)) {
         init(KEY_SIZE)
         generateKey().encoded
@@ -75,7 +54,7 @@ private fun generateSecretKey(): ByteArray {
 }
 
 private fun generateIV(): ByteArray {
-    val iv = ByteArray(16)
+    val iv = ByteArray(IV_SIZE)
     val secureRandom = SecureRandom()
     secureRandom.nextBytes(iv)
     return iv

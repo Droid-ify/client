@@ -6,13 +6,11 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.looker.droidify.sync.v2.model.AntiFeatureReason
 import com.looker.droidify.sync.v2.model.ApkFileV2
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.PermissionV2
-import com.looker.droidify.sync.v2.model.Tag
 
 @Entity(
     tableName = "version",
@@ -42,13 +40,12 @@ data class VersionEntity(
     val nativeCode: List<String>,
     val permissions: List<PermissionV2>,
     val permissionsSdk23: List<PermissionV2>,
-    val antiFeature: Map<Tag, AntiFeatureReason>,
     val appId: Int,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 )
 
-fun PackageV2.versionEntities(appId: Int): List<VersionEntity> {
+fun PackageV2.versionEntities(appId: Int): Map<VersionEntity, List<AntiFeatureAppRelation>> {
     return versions.map { (_, version) ->
         VersionEntity(
             added = version.added,
@@ -64,8 +61,14 @@ fun PackageV2.versionEntities(appId: Int): List<VersionEntity> {
             nativeCode = version.manifest.nativecode,
             permissions = version.manifest.usesPermission,
             permissionsSdk23 = version.manifest.usesPermissionSdk23,
-            antiFeature = version.antiFeatures,
             appId = appId,
-        )
-    }
+        ) to version.antiFeatures.map { (tag, reason) ->
+            AntiFeatureAppRelation(
+                tag = tag,
+                reason = reason,
+                appId = appId,
+                versionCode = version.manifest.versionCode,
+            )
+        }
+    }.toMap()
 }
