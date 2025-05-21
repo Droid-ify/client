@@ -14,6 +14,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.SortOrder
@@ -85,6 +86,16 @@ class PreferenceSettingsRepository(
     override suspend fun setInstallerType(installerType: InstallerType) =
         INSTALLER_TYPE.update(installerType.name)
 
+    override suspend fun setLegacyInstallerComponent(component: LegacyInstallerComponent?) {
+        if (component == null) {
+            LEGACY_INSTALLER_COMPONENT_CLASS.update("")
+            LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
+            return
+        }
+        LEGACY_INSTALLER_COMPONENT_CLASS.update(component.clazz)
+        LEGACY_INSTALLER_COMPONENT_ACTIVITY.update(component.activity)
+    }
+
     override suspend fun setAutoUpdate(allow: Boolean) =
         AUTO_UPDATE.update(allow)
 
@@ -125,6 +136,12 @@ class PreferenceSettingsRepository(
     private fun mapSettings(preferences: Preferences): Settings {
         val installerType =
             InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
+        val legacyInstallerComponent =
+            preferences[LEGACY_INSTALLER_COMPONENT_CLASS]?.takeIf { it.isNotBlank() }?.let { cls ->
+                preferences[LEGACY_INSTALLER_COMPONENT_ACTIVITY]?.takeIf { it.isNotBlank() }?.let { act ->
+                    LegacyInstallerComponent(cls, act)
+                }
+            }
 
         val language = preferences[LANGUAGE] ?: "system"
         val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
@@ -154,6 +171,7 @@ class PreferenceSettingsRepository(
             theme = theme,
             dynamicTheme = dynamicTheme,
             installerType = installerType,
+            legacyInstallerComponent = legacyInstallerComponent,
             autoUpdate = autoUpdate,
             autoSync = autoSync,
             sortOrder = sortOrder,
@@ -185,6 +203,8 @@ class PreferenceSettingsRepository(
         val LAST_CLEAN_UP = longPreferencesKey("key_last_clean_up_time")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
+        val LEGACY_INSTALLER_COMPONENT_CLASS = stringPreferencesKey("key_legacy_installer_component_class")
+        val LEGACY_INSTALLER_COMPONENT_ACTIVITY = stringPreferencesKey("key_legacy_installer_component_activity")
 
         // Enums
         val THEME = stringPreferencesKey("key_theme")
@@ -200,6 +220,8 @@ class PreferenceSettingsRepository(
             set(UNSTABLE_UPDATES, settings.unstableUpdate)
             set(THEME, settings.theme.name)
             set(DYNAMIC_THEME, settings.dynamicTheme)
+            settings.legacyInstallerComponent?.let { set(LEGACY_INSTALLER_COMPONENT_CLASS, it.clazz) }
+            settings.legacyInstallerComponent?.let { set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, it.activity) }
             set(INSTALLER_TYPE, settings.installerType.name)
             set(AUTO_UPDATE, settings.autoUpdate)
             set(AUTO_SYNC, settings.autoSync.name)
