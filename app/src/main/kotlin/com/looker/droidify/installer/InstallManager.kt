@@ -32,7 +32,7 @@ import kotlinx.coroutines.sync.withLock
 
 class InstallManager(
     private val context: Context,
-    settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository
 ) {
 
     private val installItems = Channel<InstallItem>()
@@ -115,7 +115,7 @@ class InstallManager(
     private suspend fun setInstaller(installerType: InstallerType) {
         lock.withLock {
             _installer = when (installerType) {
-                InstallerType.LEGACY -> LegacyInstaller(context)
+                InstallerType.LEGACY -> LegacyInstaller(context, settingsRepository)
                 InstallerType.SESSION -> SessionInstaller(context)
                 InstallerType.SHIZUKU -> ShizukuInstaller(context)
                 InstallerType.ROOT -> RootInstaller(context)
