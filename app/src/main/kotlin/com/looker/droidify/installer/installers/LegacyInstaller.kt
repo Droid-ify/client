@@ -5,8 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.util.AndroidRuntimeException
 import androidx.core.net.toUri
+import com.looker.droidify.R
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
@@ -18,8 +20,10 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
-class LegacyInstaller(private val context: Context,
-                      private val settingsRepository: SettingsRepository) : Installer {
+class LegacyInstaller(
+    private val context: Context,
+    private val settingsRepository: SettingsRepository
+) : Installer {
 
     companion object {
         private const val APK_MIME = "application/vnd.android.package-archive"
@@ -38,10 +42,23 @@ class LegacyInstaller(private val context: Context,
         val comp = settingsRepository.get { legacyInstallerComponent }.firstOrNull()
 
         return suspendCancellableCoroutine { cont ->
-            val installIntent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
+            val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
                 setDataAndType(fileUri, APK_MIME)
                 flags = installFlag
-                component = comp?.let { ComponentName(it.clazz, it.activity) }
+                when (comp) {
+                    is LegacyInstallerComponent.Component -> {
+                        component = ComponentName(comp.clazz, comp.activity)
+                    }
+                    else -> {
+                        // For Unspecified and AlwaysChoose, don't set component
+                    }
+                }
+            }
+
+            val installIntent = when (comp) {
+                LegacyInstallerComponent.AlwaysChoose -> Intent.createChooser(intent, context.getString(
+                    R.string.select_installer))
+                else -> intent
             }
 
             try {

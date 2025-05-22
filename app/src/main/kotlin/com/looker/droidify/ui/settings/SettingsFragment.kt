@@ -238,13 +238,19 @@ class SettingsFragment : Fragment() {
                 titleText = getString(R.string.legacyInstallerComponent),
                 setting = viewModel.getSetting { legacyInstallerComponent },
                 map = {
-                    it?.let { component ->
+                    when (it) {
+                        is LegacyInstallerComponent.Component -> {
+                            val component = it
                         val appLabel = runCatching {
                             val info = pm.getApplicationInfo(component.clazz, 0)
                             pm.getApplicationLabel(info).toString()
                         }.getOrElse { component.clazz }
                         "$appLabel (${component.activity})"
-                    } ?: getString(R.string.unspecified)
+                        }
+                        LegacyInstallerComponent.Unspecified -> getString(R.string.unspecified)
+                        LegacyInstallerComponent.AlwaysChoose -> getString(R.string.always_choose)
+                        null -> getString(R.string.unspecified)
+                    }
                 },
             ) { component, valueToString ->
                 val installerOptions = run {
@@ -253,15 +259,18 @@ class SettingsFragment : Fragment() {
                         setDataAndType(contentProtocol.toUri(), "application/vnd.android.package-archive")
                     }
                     val activities = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-                    listOf<LegacyInstallerComponent?>(null) + activities.map {
-                        LegacyInstallerComponent(
+                    listOf(
+                        LegacyInstallerComponent.Unspecified,
+                        LegacyInstallerComponent.AlwaysChoose
+                    ) + activities.map {
+                        LegacyInstallerComponent.Component(
                             clazz = it.activityInfo.packageName,
                             activity = it.activityInfo.name,
                         )
                     }
                 }
                 addSingleCorrectDialog(
-                    initialValue = component,
+                    initialValue = component ?: LegacyInstallerComponent.Unspecified,
                     values = installerOptions,
                     title = R.string.legacyInstallerComponent,
                     iconRes = R.drawable.ic_apk_install,

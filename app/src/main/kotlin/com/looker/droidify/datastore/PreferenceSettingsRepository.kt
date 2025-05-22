@@ -87,13 +87,28 @@ class PreferenceSettingsRepository(
         INSTALLER_TYPE.update(installerType.name)
 
     override suspend fun setLegacyInstallerComponent(component: LegacyInstallerComponent?) {
-        if (component == null) {
-            LEGACY_INSTALLER_COMPONENT_CLASS.update("")
-            LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
-            return
+        when (component) {
+            null -> {
+                LEGACY_INSTALLER_COMPONENT_TYPE.update("")
+                LEGACY_INSTALLER_COMPONENT_CLASS.update("")
+                LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
+            }
+            is LegacyInstallerComponent.Component -> {
+                LEGACY_INSTALLER_COMPONENT_TYPE.update("component")
+                LEGACY_INSTALLER_COMPONENT_CLASS.update(component.clazz)
+                LEGACY_INSTALLER_COMPONENT_ACTIVITY.update(component.activity)
+            }
+            LegacyInstallerComponent.Unspecified -> {
+                LEGACY_INSTALLER_COMPONENT_TYPE.update("unspecified")
+                LEGACY_INSTALLER_COMPONENT_CLASS.update("")
+                LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
+            }
+            LegacyInstallerComponent.AlwaysChoose -> {
+                LEGACY_INSTALLER_COMPONENT_TYPE.update("always_choose")
+                LEGACY_INSTALLER_COMPONENT_CLASS.update("")
+                LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
+            }
         }
-        LEGACY_INSTALLER_COMPONENT_CLASS.update(component.clazz)
-        LEGACY_INSTALLER_COMPONENT_ACTIVITY.update(component.activity)
     }
 
     override suspend fun setAutoUpdate(allow: Boolean) =
@@ -136,12 +151,18 @@ class PreferenceSettingsRepository(
     private fun mapSettings(preferences: Preferences): Settings {
         val installerType =
             InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
-        val legacyInstallerComponent =
-            preferences[LEGACY_INSTALLER_COMPONENT_CLASS]?.takeIf { it.isNotBlank() }?.let { cls ->
-                preferences[LEGACY_INSTALLER_COMPONENT_ACTIVITY]?.takeIf { it.isNotBlank() }?.let { act ->
-                    LegacyInstallerComponent(cls, act)
+        val legacyInstallerComponent = when (preferences[LEGACY_INSTALLER_COMPONENT_TYPE]) {
+            "component" -> {
+                preferences[LEGACY_INSTALLER_COMPONENT_CLASS]?.takeIf { it.isNotBlank() }?.let { cls ->
+                    preferences[LEGACY_INSTALLER_COMPONENT_ACTIVITY]?.takeIf { it.isNotBlank() }?.let { act ->
+                        LegacyInstallerComponent.Component(cls, act)
+                    }
                 }
             }
+            "unspecified" -> LegacyInstallerComponent.Unspecified
+            "always_choose" -> LegacyInstallerComponent.AlwaysChoose
+            else -> null
+        }
 
         val language = preferences[LANGUAGE] ?: "system"
         val incompatibleVersions = preferences[INCOMPATIBLE_VERSIONS] ?: false
@@ -205,6 +226,7 @@ class PreferenceSettingsRepository(
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
         val LEGACY_INSTALLER_COMPONENT_CLASS = stringPreferencesKey("key_legacy_installer_component_class")
         val LEGACY_INSTALLER_COMPONENT_ACTIVITY = stringPreferencesKey("key_legacy_installer_component_activity")
+        val LEGACY_INSTALLER_COMPONENT_TYPE = stringPreferencesKey("key_legacy_installer_component_type")
 
         // Enums
         val THEME = stringPreferencesKey("key_theme")
@@ -220,8 +242,28 @@ class PreferenceSettingsRepository(
             set(UNSTABLE_UPDATES, settings.unstableUpdate)
             set(THEME, settings.theme.name)
             set(DYNAMIC_THEME, settings.dynamicTheme)
-            settings.legacyInstallerComponent?.let { set(LEGACY_INSTALLER_COMPONENT_CLASS, it.clazz) }
-            settings.legacyInstallerComponent?.let { set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, it.activity) }
+            when (settings.legacyInstallerComponent) {
+                is LegacyInstallerComponent.Component -> {
+                    set(LEGACY_INSTALLER_COMPONENT_TYPE, "component")
+                    set(LEGACY_INSTALLER_COMPONENT_CLASS, settings.legacyInstallerComponent.clazz)
+                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, settings.legacyInstallerComponent.activity)
+                }
+                LegacyInstallerComponent.Unspecified -> {
+                    set(LEGACY_INSTALLER_COMPONENT_TYPE, "unspecified")
+                    set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
+                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
+                }
+                LegacyInstallerComponent.AlwaysChoose -> {
+                    set(LEGACY_INSTALLER_COMPONENT_TYPE, "always_choose")
+                    set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
+                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
+                }
+                null -> {
+                    set(LEGACY_INSTALLER_COMPONENT_TYPE, "")
+                    set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
+                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
+                }
+            }
             set(INSTALLER_TYPE, settings.installerType.name)
             set(AUTO_UPDATE, settings.autoUpdate)
             set(AUTO_SYNC, settings.autoSync.name)

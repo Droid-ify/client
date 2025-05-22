@@ -241,4 +241,6 @@
     <string name="label_open_video">Video</string>
     <string name="label_targets_sdk">Targets: Android %s</string>
     <string name="label_unknown_sdk">Unknown (%d)</string>
+    <string name="always_choose">Always Choose</string>
+    <string name="select_installer">Select installer</string>
 </resources>
