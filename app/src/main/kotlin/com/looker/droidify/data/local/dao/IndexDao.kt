@@ -5,8 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
-import com.looker.droidify.data.local.model.AntiFeatureEntity
+import androidx.room.Update
 import com.looker.droidify.data.local.model.AntiFeatureAppRelation
+import com.looker.droidify.data.local.model.AntiFeatureEntity
 import com.looker.droidify.data.local.model.AntiFeatureRepoRelation
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AuthorEntity
@@ -43,12 +44,12 @@ interface IndexDao {
         index: IndexV2,
         expectedRepoId: Int = 0,
     ) {
-        val repoId = insertRepo(
+        val repoId = upsertRepo(
             index.repo.repoEntity(
                 id = expectedRepoId,
                 fingerprint = fingerprint,
             ),
-        ).toInt()
+        )
         val antiFeatures = index.repo.antiFeatures.flatMap { (tag, feature) ->
             feature.antiFeatureEntity(tag)
         }
@@ -66,18 +67,14 @@ interface IndexDao {
         index.packages.forEach { (packageName, packages) ->
             val metadata = packages.metadata
             val author = metadata.authorEntity()
-            val authorId = insertAuthor(author).toInt().takeIf { it > 0 } ?: authorId(
-                email = author.email,
-                name = author.name,
-                website = author.website,
-            )
-            val appId = insertApp(
+            val authorId = upsertAuthor(author)
+            val appId = appIdByPackageName(repoId, packageName) ?: insertApp(
                 appEntity = metadata.appEntity(
                     packageName = packageName,
                     repoId = repoId,
                     authorId = authorId,
                 ),
-            ).toInt().takeIf { it > 0 } ?: appIdByPackageName(packageName)
+            ).toInt()
             val versions = packages.versionEntities(appId)
             insertVersions(versions.keys.toList())
             insertAntiFeatureAppRelation(versions.values.flatten())
@@ -90,8 +87,21 @@ interface IndexDao {
         }
     }
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertRepo(repoEntity: RepoEntity): Long
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateRepo(repoEntity: RepoEntity): Int
+
+    @Transaction
+    suspend fun upsertRepo(repoEntity: RepoEntity): Int {
+        val id = insertRepo(repoEntity)
+        return if (id == -1L) {
+            updateRepo(repoEntity)
+        } else {
+            id.toInt()
+        }
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMirror(mirrors: List<MirrorEntity>)
@@ -111,14 +121,41 @@ interface IndexDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertApp(appEntity: AppEntity): Long
 
-    @Query("SELECT id FROM app WHERE packageName = :packageName")
-    suspend fun appIdByPackageName(packageName: String): Int
+    @Query("SELECT id FROM app WHERE packageName = :packageName AND repoId = :repoId LIMIT 1")
+    suspend fun appIdByPackageName(repoId: Int, packageName: String): Int?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAuthor(authorEntity: AuthorEntity): Long
 
-    @Query("SELECT id FROM author WHERE email = :email AND name = :name AND website = :website")
-    suspend fun authorId(email: String?, name: String?, website: String?): Int
+    @Query(
+        """
+        SELECT id FROM author
+        WHERE
+            (:email IS NULL AND email IS NULL OR email = :email) AND
+            (:name IS NULL AND name IS NULL OR name = :name COLLATE NOCASE) AND
+            (:website IS NULL AND website IS NULL OR website = :website COLLATE NOCASE)
+        LIMIT 1
+        """,
+    )
+    suspend fun authorId(
+        email: String?,
+        name: String?,
+        website: String?,
+    ): Int?
+
+    @Transaction
+    suspend fun upsertAuthor(authorEntity: AuthorEntity): Int {
+        val id = insertAuthor(authorEntity)
+        return if (id == -1L) {
+            authorId(
+                email = authorEntity.email,
+                name = authorEntity.name,
+                website = authorEntity.website,
+            )!!.toInt()
+        } else {
+            id.toInt()
+        }
+    }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertScreenshots(screenshotEntity: List<ScreenshotEntity>)
