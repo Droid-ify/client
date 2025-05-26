@@ -2,6 +2,7 @@ package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import com.looker.droidify.data.encryption.Encrypted
 
@@ -12,8 +13,7 @@ import com.looker.droidify.data.encryption.Encrypted
             entity = RepoEntity::class,
             childColumns = ["repoId"],
             parentColumns = ["id"],
-//            Handles in dao
-//            onDelete = CASCADE,
+            onDelete = CASCADE,
         ),
     ],
 )
