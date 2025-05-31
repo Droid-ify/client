@@ -2,6 +2,7 @@ package com.looker.droidify.ui.settings
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -36,6 +37,7 @@ import com.looker.droidify.datastore.extension.themeName
 import com.looker.droidify.datastore.extension.toTime
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.utility.common.SdkCheck
@@ -53,6 +55,7 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import com.google.android.material.R as MaterialR
+import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -230,6 +233,56 @@ class SettingsFragment : Fragment() {
                     onClick = { viewModel.setInstaller(requireContext(), it) }
                 )
             }
+            val pm = requireContext().packageManager
+            legacyInstallerComponent.connect(
+                titleText = getString(R.string.legacyInstallerComponent),
+                setting = viewModel.getSetting { legacyInstallerComponent },
+                map = {
+                    when (it) {
+                        is LegacyInstallerComponent.Component -> {
+                            val component = it
+                        val appLabel = runCatching {
+                            val info = pm.getApplicationInfo(component.clazz, 0)
+                            pm.getApplicationLabel(info).toString()
+                        }.getOrElse { component.clazz }
+                        "$appLabel (${component.activity})"
+                        }
+                        LegacyInstallerComponent.Unspecified -> getString(R.string.unspecified)
+                        LegacyInstallerComponent.AlwaysChoose -> getString(R.string.always_choose)
+                        null -> getString(R.string.unspecified)
+                    }
+                },
+            ) { component, valueToString ->
+                val installerOptions = run {
+                    var contentProtocol = "content://"
+                    val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
+                        setDataAndType(contentProtocol.toUri(), "application/vnd.android.package-archive")
+                    }
+                    val activities = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                    listOf(
+                        LegacyInstallerComponent.Unspecified,
+                        LegacyInstallerComponent.AlwaysChoose
+                    ) + activities.map {
+                        LegacyInstallerComponent.Component(
+                            clazz = it.activityInfo.packageName,
+                            activity = it.activityInfo.name,
+                        )
+                    }
+                }
+                addSingleCorrectDialog(
+                    initialValue = component ?: LegacyInstallerComponent.Unspecified,
+                    values = installerOptions,
+                    title = R.string.legacyInstallerComponent,
+                    iconRes = R.drawable.ic_apk_install,
+                    valueToString = valueToString,
+                    onClick = { viewModel.setLegacyInstallerComponentComponent(it) },
+                )
+            }
+            incompatibleUpdates.connect(
+                titleText = getString(R.string.incompatible_versions),
+                contentText = getString(R.string.incompatible_versions_summary),
+                setting = viewModel.getInitialSetting { incompatibleVersions },
+            )
             proxyType.connect(
                 titleText = getString(R.string.proxy_type),
                 setting = viewModel.getSetting { proxy.type },
@@ -389,6 +442,9 @@ class SettingsFragment : Fragment() {
             proxyHost.root.isVisible = allowProxies
             proxyPort.root.isVisible = allowProxies
             forceCleanUp.root.isVisible = settings.cleanUpInterval == Duration.INFINITE
+
+            val useLegacyInstaller = settings.installerType == InstallerType.LEGACY
+            legacyInstallerComponent.root.isVisible = useLegacyInstaller
         }
     }
 

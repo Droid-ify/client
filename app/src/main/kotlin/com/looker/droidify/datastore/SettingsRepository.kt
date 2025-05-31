@@ -3,6 +3,7 @@ package com.looker.droidify.datastore
 import android.net.Uri
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
@@ -36,6 +37,8 @@ interface SettingsRepository {
     suspend fun setDynamicTheme(enable: Boolean)
 
     suspend fun setInstallerType(installerType: InstallerType)
+
+    suspend fun setLegacyInstallerComponent(component: LegacyInstallerComponent?)
 
     suspend fun setAutoUpdate(allow: Boolean)
 
