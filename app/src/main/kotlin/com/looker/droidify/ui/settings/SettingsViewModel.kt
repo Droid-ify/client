@@ -17,6 +17,7 @@ import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.InstallerType.ROOT
 import com.looker.droidify.datastore.model.InstallerType.SHIZUKU
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.installer.installers.isMagiskGranted
@@ -188,6 +189,12 @@ class SettingsViewModel
                     settingsRepository.setInstallerType(installerType)
                 }
             }
+        }
+    }
+
+    fun setLegacyInstallerComponentComponent(component: LegacyInstallerComponent?) {
+        viewModelScope.launch {
+            settingsRepository.setLegacyInstallerComponent(component)
         }
     }
 

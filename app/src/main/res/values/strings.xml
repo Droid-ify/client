@@ -103,12 +103,15 @@
     <string name="install">Install</string>
     <string name="install_types">Installation Types</string>
     <string name="installer">Installer</string>
+    <string name="legacyInstallerComponent">Legacy Installer Component</string>
+    <string name="unspecified">Unspecified</string>
     <string name="insufficient_storage">Insufficient Space</string>
     <string name="insufficient_storage_DESC">There is not enough free space on the device to install this application. Try clearing some space</string>
     <string name="legacy_installer">Legacy Installer</string>
     <string name="session_installer">Session Installer</string>
     <string name="root_installer">Root Installer</string>
     <string name="shizuku_installer">Shizuku Installer</string>
+    <string name="shizuku_legacy_installer">Shizuku Legacy Installer</string>
     <string name="shizuku_not_alive">Shizuku is not running</string>
     <string name="shizuku_not_installed">Shizuku is not installed</string>
     <string name="installed">Installed</string>
@@ -238,4 +241,6 @@
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Unknown (%d)</string>
     <string name="label_sdk_version">Targets: Android %1$s | Minimum: Android %2$s</string>
+    <string name="always_choose">Always Choose</string>
+    <string name="select_installer">Select installer</string>
 </resources>
