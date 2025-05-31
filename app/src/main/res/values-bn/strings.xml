@@ -231,6 +231,5 @@
     <string name="require_background_access_DESC">পটভূমি অনুমোদন প্রয়োজন পটভূমি সিঙ্কের জন্য</string>
     <string name="repository_not_found">এই ভাণ্ডারগুলো পাওয়া যায়নি</string>
     <string name="switch_to_default_installer">সহজাতে পরিবর্তন করো</string>
-    <string name="label_targets_sdk">লক্ষ্য: অ্যান্ড্রয়েড %s</string>
     <string name="label_unknown_sdk">অজানা (%d)</string>
 </resources>

@@ -222,7 +222,6 @@
     <string name="ignore_signature_summary">*Внимание* Игнорирайте проверката на подписа при инсталиране на APK за LSPosed потребители или напреднали потребители</string>
     <string name="insufficient_storage">Недостатъчно място</string>
     <string name="insufficient_storage_DESC">Няма достатъчно свободно място на устройството за инсталиране на това приложение. Опитайте да освободите малко място</string>
-    <string name="label_targets_sdk">Цели: Android %s</string>
     <string name="error_shizuku_not_installed">Shizuku Не е инсталиран</string>
     <string name="label_open_video">Видео</string>
     <string name="switch_to_default_installer">Превключване към подразбиране</string>

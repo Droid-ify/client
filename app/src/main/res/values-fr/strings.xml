@@ -233,7 +233,6 @@
     <string name="error_shizuku_not_installed_DESC">Shizuku ne semble pas être installé</string>
     <string name="open_shizuku">Ouvrir Shizuku</string>
     <string name="label_open_video">Vidéo</string>
-    <string name="label_targets_sdk">Cible : Android %s</string>
     <string name="label_unknown_sdk">Inconnu (%d)</string>
     <string name="switch_to_default_installer">Rétablir par défaut</string>
 </resources>

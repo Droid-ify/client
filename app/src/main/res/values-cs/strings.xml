@@ -235,5 +235,4 @@
     <string name="error_shizuku_not_installed">Shizuku není nainstalováno</string>
     <string name="label_open_video">Video</string>
     <string name="open_shizuku">Otevřít Shizuku</string>
-    <string name="label_targets_sdk">Cíle: Android %s</string>
 </resources>

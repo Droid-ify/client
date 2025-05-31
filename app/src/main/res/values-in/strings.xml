@@ -228,6 +228,5 @@
     <string name="error_shizuku_not_granted">Izin Shizuku Hilang</string>
     <string name="error_shizuku_not_installed">Shizuku Tidak Terinstal</string>
     <string name="label_open_video">video</string>
-    <string name="label_targets_sdk">Target: Android %s</string>
     <string name="label_unknown_sdk">Tidak diketahui (%d)</string>
 </resources>

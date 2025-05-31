@@ -230,7 +230,6 @@
     <string name="error_shizuku_not_installed">Shizuku није инсталиран</string>
     <string name="error_shizuku_not_installed_DESC">Изгледа да Shizuku није инсталиран</string>
     <string name="label_open_video">Видео снимак</string>
-    <string name="label_targets_sdk">Циља: Android %s</string>
     <string name="label_unknown_sdk">Непознато (%d)</string>
     <string name="error_shizuku_not_running_DESC">Услуга Shizuku није покренута. Проверите у апликацији Shizuku</string>
     <string name="open_shizuku">Отвори Shizuku</string>

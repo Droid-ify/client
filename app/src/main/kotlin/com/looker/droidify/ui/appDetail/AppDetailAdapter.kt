@@ -557,7 +557,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val size = itemView.findViewById<TextView>(R.id.size)!!
         val signature = itemView.findViewById<TextView>(R.id.signature)!!
         val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
-        val targetSdk = itemView.findViewById<TextView>(R.id.target_sdk)!!
+        val sdkVer = itemView.findViewById<TextView>(R.id.sdk_ver)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(
@@ -569,7 +569,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 size,
                 signature,
                 compatibility,
-                targetSdk,
+                sdkVer,
             )
     }
 
@@ -1712,15 +1712,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         )
                     }
                 }
-                with(holder.targetSdk) {
-                    val sdkVersion = sdkName.getOrDefault(
+                with(holder.sdkVer) {
+                    val targetSdkVersion = sdkName.getOrDefault(
                         item.release.targetSdkVersion,
                         context.getString(
                             stringRes.label_unknown_sdk,
                             item.release.targetSdkVersion,
                         ),
                     )
-                    text = context.getString(stringRes.label_targets_sdk, sdkVersion)
+                    val minSdkVersion = sdkName.getOrDefault(
+                        item.release.minSdkVersion,
+                        context.getString(
+                            stringRes.label_unknown_sdk,
+                            item.release.minSdkVersion,
+                        ),
+                    )
+                    text = context.getString(stringRes.label_sdk_version, targetSdkVersion, minSdkVersion)
                 }
                 val enabled = status == Status.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }

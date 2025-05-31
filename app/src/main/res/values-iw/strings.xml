@@ -228,7 +228,6 @@
     <string name="require_background_access_DESC">נדרשת גישת רקע כדי להפעיל את סנכרון הרקע כראוי</string>
     <string name="require_background_access">דרוש גישה ברקע</string>
     <string name="label_open_video">וידיאו</string>
-    <string name="label_targets_sdk">יעדים: אנדרואיד %s</string>
     <string name="error_shizuku_service_unavailable">Shizuku לא פועל</string>
     <string name="error_shizuku_not_running_DESC">שירות Shizuku אינו פועל. אנא בדוק באפליקציית Shizuku</string>
     <string name="error_shizuku_not_granted">חסר הרשאת שימוש ב- Shizuku</string>

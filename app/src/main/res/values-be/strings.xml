@@ -235,7 +235,6 @@
     <string name="insufficient_storage">Не хапае месца</string>
     <string name="insufficient_storage_DESC">На вашай прыладзе не хапае памяці для ўсталявання гэтай праграмы. Паспрабуйце вызваліць крыху месца</string>
     <string name="open_shizuku">Адкрыць Shizuku</string>
-    <string name="label_targets_sdk">Цэль: Android %s</string>
     <string name="switch_to_default_installer">Пераключыцца на стандартны</string>
     <string name="label_open_video">Відэа</string>
 </resources>
