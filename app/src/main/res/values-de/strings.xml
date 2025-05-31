@@ -232,5 +232,4 @@
     <string name="error_shizuku_not_running_DESC">Der Shizuku-Dienst läuft nicht. Bitte in der Shizuku-App prüfen</string>
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Unbekannt (%d)</string>
-    <string name="label_targets_sdk">Gedacht für: Android %s</string>
 </resources>

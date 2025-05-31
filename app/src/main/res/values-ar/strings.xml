@@ -241,7 +241,6 @@
     <string name="label_unknown_sdk">غير معروف (%d)</string>
     <string name="error_shizuku_not_installed">Shizuku غير مثبت</string>
     <string name="error_shizuku_not_running_DESC">خدمة Shizuku لا تعمل. يُرجى التحقق من تطبيق Shizuku</string>
-    <string name="label_targets_sdk">يستهدف: أندرويد %s</string>
     <string name="label_open_video">فيديو</string>
     <string name="error_shizuku_service_unavailable">Shizuku لا يعمل</string>
     <string name="switch_to_default_installer">بدّل إلى الافتراضي</string>

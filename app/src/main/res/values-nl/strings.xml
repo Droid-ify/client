@@ -231,6 +231,5 @@
     <string name="switch_to_default_installer">Overschakelen naar standaard</string>
     <string name="label_open_video">Video</string>
     <string name="error_shizuku_not_installed_DESC">Het lijkt erop dat Shizuku niet is geïnstalleerd</string>
-    <string name="label_targets_sdk">Doel: Android %s</string>
     <string name="label_unknown_sdk">Onbekend (%d)</string>
 </resources>

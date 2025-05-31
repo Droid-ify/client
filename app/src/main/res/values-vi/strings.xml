@@ -227,6 +227,5 @@
     <string name="insufficient_storage">Không đủ không gian</string>
     <string name="open_shizuku">Mở Shizuku</string>
     <string name="switch_to_default_installer">Chuyển sang mặc định</string>
-    <string name="label_targets_sdk">Mục tiêu: Android %s</string>
     <string name="label_unknown_sdk">Không rõ (%d)</string>
 </resources>

@@ -228,6 +228,5 @@
     <string name="open_shizuku">開啟 Shizuku</string>
     <string name="switch_to_default_installer">切換到預設</string>
     <string name="label_open_video">影片</string>
-    <string name="label_targets_sdk">目標：Android %s</string>
     <string name="label_unknown_sdk">未知 (%d)</string>
 </resources>

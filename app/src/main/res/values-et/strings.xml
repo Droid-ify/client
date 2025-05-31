@@ -224,7 +224,6 @@
     <string name="website">Veebileht</string>
     <string name="update_all">Uuenda kõik</string>
     <string name="label_open_video">Video</string>
-    <string name="label_targets_sdk">Eesmärgid: Android %s</string>
     <string name="label_unknown_sdk">Tundmatu (%d)</string>
     <string name="show_less">Näita vähem</string>
     <string name="prefs_personalization">Kohandamine</string>

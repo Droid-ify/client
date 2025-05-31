@@ -231,6 +231,5 @@
     <string name="error_shizuku_not_installed">Shizuku ਇੰਸਟਾਲ ਨਹੀਂ ਹੈ</string>
     <string name="open_shizuku">Shizuku ਖੋਲ੍ਹੋ</string>
     <string name="switch_to_default_installer">ਡਿਫ਼ਾਲਟ \'ਤੇ ਸਵਿਚ ਕਰੋ</string>
-    <string name="label_targets_sdk">ਟਾਰਗੈੱਟ: ਐਂਡਰੌਇਡ %s</string>
     <string name="label_unknown_sdk">ਅਗਿਆਤ (%d)</string>
 </resources>

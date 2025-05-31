@@ -229,5 +229,4 @@
     <string name="ignore_signature">서명 무시</string>
     <string name="ignore_signature_summary">서명 검증을 무시하고 APK 파일을 설치합니다. LSPosed 사용자 및 고급 사용자용 기능입니다.</string>
     <string name="label_open_video">동영상</string>
-    <string name="label_targets_sdk">대상 버전: Android %s</string>
 </resources>

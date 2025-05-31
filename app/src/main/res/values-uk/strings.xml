@@ -238,5 +238,4 @@
     <string name="switch_to_default_installer">Перемкнутися на типовий режим</string>
     <string name="label_unknown_sdk">Невідомий (%d)</string>
     <string name="label_open_video">Відео</string>
-    <string name="label_targets_sdk">Цілі: Android %s</string>
 </resources>

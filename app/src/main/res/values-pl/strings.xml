@@ -238,5 +238,4 @@
     <string name="label_unknown_sdk">Nieznany (%d)</string>
     <string name="error_shizuku_not_installed">Shizuku nie jest zainstalowane</string>
     <string name="label_open_video">Wideo</string>
-    <string name="label_targets_sdk">Cele: Android %s</string>
 </resources>

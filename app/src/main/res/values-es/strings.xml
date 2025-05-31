@@ -234,6 +234,5 @@
     <string name="open_shizuku">Abrir Shizuku</string>
     <string name="switch_to_default_installer">Cambiar a Predeterminado</string>
     <string name="label_open_video">Video</string>
-    <string name="label_targets_sdk">Objetivo: Android %s</string>
     <string name="label_unknown_sdk">Desconocido (%d)</string>
 </resources>

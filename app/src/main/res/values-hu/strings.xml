@@ -225,7 +225,6 @@
     <string name="error_shizuku_not_installed_DESC">Úgy tűnik a Shizuku nincs telepítve</string>
     <string name="error_shizuku_not_installed">Shizuku nincs telepítve</string>
     <string name="error_shizuku_not_running_DESC">A Shizuku szolgáltatás nem fut. Kérem ellenőrizze a Shizuku appon belül</string>
-    <string name="label_targets_sdk">Célok: Android %s</string>
     <string name="insufficient_storage_DESC">Nincs elég szabad hely az eszközön az applikáció telepítéséhez. Próbáljon meg területet felszabadítani</string>
     <string name="error_shizuku_service_unavailable">A Shizuku nem fut</string>
     <string name="label_unknown_sdk">Ismeretlen (%d)</string>

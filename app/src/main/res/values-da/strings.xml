@@ -227,7 +227,6 @@
     <string name="error_shizuku_not_granted_DESC">Shizuku-tilladelse er ikke givet. Tjek venligst i Shizuku-appen</string>
     <string name="error_shizuku_not_installed">Shizuku ikke installeret</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku ser ikke ud til at være installeret</string>
-    <string name="label_targets_sdk">Mål: Android %s</string>
     <string name="open_shizuku">Åbn Shizuku</string>
     <string name="label_unknown_sdk">Ukendt (%d)</string>
     <string name="switch_to_default_installer">Skift til standard</string>

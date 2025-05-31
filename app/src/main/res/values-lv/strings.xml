@@ -234,6 +234,5 @@
     <string name="ignore_signature">Ignorēt parakstu</string>
     <string name="contains_nsfw">Satur darba vietai nepiemērotu saturu</string>
     <string name="label_open_video">Video</string>
-    <string name="label_targets_sdk">Mērķa OS: Android %s</string>
     <string name="label_unknown_sdk">Nezināms (%d)</string>
 </resources>
