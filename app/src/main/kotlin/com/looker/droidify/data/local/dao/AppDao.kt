@@ -18,67 +18,129 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface AppDao {
 
-    @RawQuery(observedEntities = [
-        AppEntity::class,
-        VersionEntity::class,
-        CategoryAppRelation::class,
-        AntiFeatureAppRelation::class,
-    ])
-    fun _rawQueryAppEntities(query: SimpleSQLiteQuery): Flow<List<AppEntity>>
+    @RawQuery(
+        observedEntities = [
+            AppEntity::class,
+            VersionEntity::class,
+            CategoryAppRelation::class,
+            AntiFeatureAppRelation::class,
+        ],
+    )
+    fun _rawStreamAppEntities(query: SimpleSQLiteQuery): Flow<List<AppEntity>>
 
-    /**
-     * @param category: get by default name and use the boolean to ignore the app category
-     * @param antiFeature: get by tag and use the boolean to ignore the anti feature
-     *
-     * Add `canUpdate` and `isInstalled` is the next layer
-     * */
+    @RawQuery
+    suspend fun _rawQueryAppEntities(query: SimpleSQLiteQuery): List<AppEntity>
+
     fun stream(
+        sortOrder: SortOrder,
+        searchQuery: String? = null,
+        repoId: Int? = null,
+        categoriesToInclude: List<DefaultName>? = null,
+        categoriesToExclude: List<DefaultName>? = null,
+        antiFeaturesToInclude: List<Tag>? = null,
+        antiFeaturesToExclude: List<Tag>? = null,
+    ): Flow<List<AppEntity>> = _rawStreamAppEntities(
+        searchQuery(
+            sortOrder = sortOrder,
+            searchQuery = searchQuery,
+            repoId = repoId,
+            categoriesToInclude = categoriesToInclude,
+            categoriesToExclude = categoriesToExclude,
+            antiFeaturesToInclude = antiFeaturesToInclude,
+            antiFeaturesToExclude = antiFeaturesToExclude,
+        ),
+    )
+
+    suspend fun query(
+        sortOrder: SortOrder,
+        searchQuery: String? = null,
+        repoId: Int? = null,
+        categoriesToInclude: List<DefaultName>? = null,
+        categoriesToExclude: List<DefaultName>? = null,
+        antiFeaturesToInclude: List<Tag>? = null,
+        antiFeaturesToExclude: List<Tag>? = null,
+    ): List<AppEntity> = _rawQueryAppEntities(
+        searchQuery(
+            sortOrder = sortOrder,
+            searchQuery = searchQuery,
+            repoId = repoId,
+            categoriesToInclude = categoriesToInclude,
+            categoriesToExclude = categoriesToExclude,
+            antiFeaturesToInclude = antiFeaturesToInclude,
+            antiFeaturesToExclude = antiFeaturesToExclude,
+        ),
+    )
+
+    private fun searchQuery(
         sortOrder: SortOrder,
         searchQuery: String?,
         repoId: Int?,
-        category: Pair<DefaultName, Boolean>?,
-        antiFeature: Pair<Tag, Boolean>?,
-    ): Flow<List<AppEntity>> {
+        categoriesToInclude: List<DefaultName>?,
+        categoriesToExclude: List<DefaultName>?,
+        antiFeaturesToInclude: List<Tag>?,
+        antiFeaturesToExclude: List<Tag>?,
+    ): SimpleSQLiteQuery {
         val args = arrayListOf<Any?>()
 
         val query = buildString(1024) {
-            append("SELECT app.* FROM app")
+            append("SELECT DISTINCT app.* FROM app")
             append(" LEFT JOIN version ON app.id = version.appId")
-            append(" LEFT JOIN category_app_relation ON app.id = category_app_relation.appId")
-            append(" LEFT JOIN anti_feature_app_relation ON app.id = anti_feature_app_relation.appId")
+            append(" LEFT JOIN category_app_relation ON app.id = category_app_relation.id")
+            append(" LEFT JOIN anti_features_app_relation ON app.id = anti_features_app_relation.appId")
             append(" WHERE 1")
+
             if (repoId != null) {
                 append(" AND app.repoId = ?")
                 args.add(repoId)
             }
 
-            if (category != null) {
-                val (name, hide) = category
-                if (!hide) {
-                    append(" AND category_app_relation.defaultName = ?")
-                } else {
-                    append(" AND category_app_relation.defaultName != ?")
-                }
-                args.add(name)
+            if (categoriesToInclude != null) {
+                append(" AND category_app_relation.defaultName IN (")
+                append(categoriesToInclude.joinToString(", ") { "?" })
+                append(")")
+                args.addAll(categoriesToInclude)
             }
 
-            if (antiFeature != null) {
-                val (tag, hide) = antiFeature
-                if (!hide) {
-                    append(" AND anti_feature_app_relation.tag = ?")
-                } else {
-                    append(" AND anti_feature_app_relation.tag != ?")
-                }
-                args.add(tag)
+            if (categoriesToExclude != null) {
+                append(" AND category_app_relation.defaultName NOT IN (")
+                append(categoriesToExclude.joinToString(", ") { "?" })
+                append(")")
+                args.addAll(categoriesToExclude)
+            }
+
+            if (antiFeaturesToInclude != null) {
+                append(" AND anti_features_app_relation.tag IN (")
+                append(antiFeaturesToInclude.joinToString(", ") { "?" })
+                append(")")
+                args.addAll(antiFeaturesToInclude)
+            }
+
+            if (antiFeaturesToExclude != null) {
+                append(" AND anti_features_app_relation.tag NOT IN (")
+                append(antiFeaturesToExclude.joinToString(", ") { "?" })
+                append(")")
+                args.addAll(antiFeaturesToExclude)
             }
 
             if (searchQuery != null) {
                 val searchPattern = "%${searchQuery}%"
-                append(" AND (app.name LIKE ? OR app.summary LIKE ? OR app.packageName LIKE ? OR app.description LIKE ?)")
+                append(
+                    """
+                    AND (
+                        app.name LIKE ?
+                        OR app.summary LIKE ?
+                        OR app.packageName LIKE ?
+                        OR app.description LIKE ?
+                    )""",
+                )
                 args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
+            }
 
-                append(" ORDER BY ")
-                // Weighting: name > summary > packageName > description
+            append(" ORDER BY ")
+
+            // Weighting: name > summary > packageName > description
+            if (searchQuery != null) {
+                val searchPattern = "%${searchQuery}%"
                 append("(CASE WHEN app.name LIKE ? THEN 4 ELSE 0 END) + ")
                 append("(CASE WHEN app.summary LIKE ? THEN 3 ELSE 0 END) + ")
                 append("(CASE WHEN app.packageName LIKE ? THEN 2 ELSE 0 END) + ")
@@ -86,12 +148,8 @@ interface AppDao {
                 args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
             }
 
-            if (searchQuery == null) {
-                append(" ORDER BY ")
-            }
-
             when (sortOrder) {
-                SortOrder.UPDATED -> append("app,lastUpdated DESC, ")
+                SortOrder.UPDATED -> append("app.lastUpdated DESC, ")
                 SortOrder.ADDED -> append("app.added DESC, ")
                 SortOrder.SIZE -> append("version.apk_size DESC, ")
                 SortOrder.NAME -> Unit
@@ -99,7 +157,7 @@ interface AppDao {
             append("app.name COLLATE LOCALIZED ASC")
         }
 
-        return _rawQueryAppEntities(SimpleSQLiteQuery(query, args.toTypedArray()))
+        return SimpleSQLiteQuery(query, args.toTypedArray())
     }
 
     @Query(

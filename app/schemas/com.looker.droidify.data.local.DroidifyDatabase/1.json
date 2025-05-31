@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "099d07ab258fe12cb0a660545bd36e63",
+    "identityHash": "e64dac21017b34894f6d9d7890184178",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -142,7 +142,7 @@
       },
       {
         "tableName": "authentication",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` TEXT NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE NO ACTION )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` TEXT NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "password",
@@ -179,7 +179,7 @@
         "foreignKeys": [
           {
             "table": "repository",
-            "onDelete": "NO ACTION",
+            "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
               "repoId"
@@ -1078,7 +1078,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '099d07ab258fe12cb0a660545bd36e63')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e64dac21017b34894f6d9d7890184178')"
     ]
   }
 }

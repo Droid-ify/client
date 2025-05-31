@@ -3,32 +3,25 @@ package com.looker.droidify
 import android.content.Context
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.IndexDao
-import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.domain.model.VersionInfo
-import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.index.RepositoryUpdater.IndexType
 import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
 import com.looker.droidify.sync.common.JsonParser
-import com.looker.droidify.sync.common.assets
-import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.model.IndexV2
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
-import java.io.File
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 @HiltAndroidTest
 class RoomTesting {
@@ -53,98 +46,60 @@ class RoomTesting {
     @Before
     fun before() = runTest {
         hiltRule.inject()
-        setupLegacy()
+        launch {
+            val izzy = izzyLegacy.toRepo(1)
+            val izzyFile = FakeDownloader.downloadIndex(context, izzy, "i2", "index-v2.json")
+            val izzyIndex =
+                JsonParser.decodeFromString<IndexV2>(izzyFile.readBytes().decodeToString())
+            indexDao.insertIndex(
+                fingerprint = izzy.fingerprint!!,
+                index = izzyIndex,
+                expectedRepoId = izzy.id,
+            )
+        }
+//        launch {
+//            val fdroid = fdroidLegacy.toRepo(2)
+//            val fdroidFile =
+//                FakeDownloader.downloadIndex(context, fdroid, "f2", "fdroid-index-v2.json")
+//            val fdroidIndex =
+//                JsonParser.decodeFromString<IndexV2>(fdroidFile.readBytes().decodeToString())
+//            indexDao.insertIndex(
+//                fingerprint = fdroid.fingerprint!!,
+//                index = fdroidIndex,
+//                expectedRepoId = fdroid.id,
+//            )
+//        }
     }
 
     @Test
-    fun roomBenchmark() = runTest {
-        val izzy = izzyLegacy.toRepo(1)
-        val insert = benchmark(1) {
-            val v2File = FakeDownloader
-                .downloadIndex(context, izzy, "izzy-v2", "index-v2.json")
-            measureTimeMillis {
-                val index = JsonParser.decodeFromString<IndexV2>(
-                    v2File.readBytes().decodeToString(),
-                )
-                indexDao.insertIndex(
-                    fingerprint = izzy.fingerprint!!,
-                    index = index,
-                    expectedRepoId = izzy.id,
-                )
-            }
+    fun sortOrderTest() = runTest {
+        val lastUpdatedQuery = appDao.query(sortOrder = SortOrder.UPDATED)
+        var previousUpdated = Long.MAX_VALUE
+        lastUpdatedQuery.forEach {
+            println("Previous: $previousUpdated, Current: ${it.lastUpdated}")
+            assertTrue(it.lastUpdated <= previousUpdated)
+            previousUpdated = it.lastUpdated
         }
-        val fdroid = fdroidLegacy.toRepo(2)
-        val insertFDroid = benchmark(1) {
-            val v2File = FakeDownloader
-                .downloadIndex(context, fdroid, "fdroid-v2", "fdroid-index-v2.json")
-            measureTimeMillis {
-                val index = JsonParser.decodeFromString<IndexV2>(
-                    v2File.readBytes().decodeToString(),
-                )
-                indexDao.insertIndex(
-                    fingerprint = fdroid.fingerprint!!,
-                    index = index,
-                    expectedRepoId = fdroid.id,
-                )
-            }
+
+        val addedQuery = appDao.query(sortOrder = SortOrder.ADDED)
+        var previousAdded = Long.MAX_VALUE
+        addedQuery.forEach {
+            println("Previous: $previousAdded, Current: ${it.added}")
+            assertTrue(it.added <= previousAdded)
+            previousAdded = it.added
         }
-        val query = appDao.queryAppEntity("com.looker.droidify")
-        println(query.first().joinToString("\n"))
-        println(insert)
-        println(insertFDroid)
     }
 
     @Test
-    fun legacyBenchmark() {
-        val insert = benchmark(1) {
-            val createFile = File.createTempFile("index", "entry")
-            val mergerFile = File.createTempFile("index", "merger")
-            val jarStream = assets("izzy_index_v1.jar")
-            jarStream.copyTo(createFile.outputStream())
-            measureTimeMillis {
-                RepositoryUpdater.processFile(
-                    context = context,
-                    repository = izzyLegacy,
-                    indexType = IndexType.INDEX_V1,
-                    unstable = false,
-                    file = createFile,
-                    mergerFile = mergerFile,
-                    lastModified = "",
-                    entityTag = "",
-                    callback = { _, _, _ -> },
-                )
-                createFile.delete()
-                mergerFile.delete()
-            }
-        }
-        val insertFDroid = benchmark(1) {
-            val createFile = File.createTempFile("index", "entry")
-            val mergerFile = File.createTempFile("index", "merger")
-            val jarStream = assets("fdroid_index_v1.jar")
-            jarStream.copyTo(createFile.outputStream())
-            measureTimeMillis {
-                RepositoryUpdater.processFile(
-                    context = context,
-                    repository = fdroidLegacy,
-                    indexType = IndexType.INDEX_V1,
-                    unstable = false,
-                    file = createFile,
-                    mergerFile = mergerFile,
-                    lastModified = "",
-                    entityTag = "",
-                    callback = { _, _, _ -> },
-                )
-                createFile.delete()
-                mergerFile.delete()
-            }
-        }
-        println(insert)
-        println(insertFDroid)
-    }
-
-    private fun setupLegacy() {
-        Database.init(context)
-        RepositoryUpdater.init(CoroutineScope(Dispatchers.Default), FakeDownloader)
+    fun categoryTest() = runTest {
+        val categoryQuery = appDao.query(
+            sortOrder = SortOrder.UPDATED,
+            categoriesToInclude = listOf("Games", "Food"),
+        )
+        val nonCategoryQuery = appDao.query(
+            sortOrder = SortOrder.UPDATED,
+            categoriesToExclude = listOf("Games", "Food"),
+        )
     }
 }
 
