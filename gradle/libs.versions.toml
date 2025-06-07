@@ -31,7 +31,7 @@ libsu = "6.0.0"
 room = "2.7.1"
 shizuku = "13.0.0"
 image-viewer = "v1.0.1"
-junit-jupiter = "5.12.0"
+junit-jupiter = "5.13.1"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
