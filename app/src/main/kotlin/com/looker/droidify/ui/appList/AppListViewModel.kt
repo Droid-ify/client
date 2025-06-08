@@ -30,7 +30,7 @@ class AppListViewModel
     settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
-    private val skipSignatureStream = settingsRepository
+    val skipSignatureStream = settingsRepository
         .get { ignoreSignature }
         .asStateFlow(false)
 

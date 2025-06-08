@@ -147,6 +147,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                         updateRequest()
                     }
                 }
+                launch {
+                    viewModel.skipSignatureStream.collect {
+                        updateRequest()
+                    }
+                }
             }
         }
     }
