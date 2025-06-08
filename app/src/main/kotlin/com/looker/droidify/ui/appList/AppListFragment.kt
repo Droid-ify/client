@@ -45,12 +45,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     enum class Source(
         val titleResId: Int,
         val sections: Boolean,
-        val order: Boolean,
         val updateAll: Boolean,
     ) {
-        AVAILABLE(stringRes.available, true, true, false),
-        INSTALLED(stringRes.installed, false, true, false),
-        UPDATES(stringRes.updates, false, false, true)
+        AVAILABLE(stringRes.available, true, false),
+        INSTALLED(stringRes.installed, false, false),
+        UPDATES(stringRes.updates, false, true)
     }
 
     constructor(source: Source) : this() {
@@ -134,7 +133,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         super.onViewCreated(view, savedInstanceState)
         layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
 
-        updateRequest()
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 launch {
