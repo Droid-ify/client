@@ -1,12 +1,11 @@
 package com.looker.droidify.sync.v2
 
 import android.content.Context
-import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.Syncable
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.common.ENTRY_V2_NAME
 import com.looker.droidify.sync.common.INDEX_V2_NAME
 import com.looker.droidify.sync.common.IndexJarValidator
@@ -15,7 +14,9 @@ import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.IndexV2Diff
+import com.looker.droidify.utility.common.cache.Cache
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -51,7 +52,7 @@ class EntrySyncable(
                 context = context,
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/$ENTRY_V2_NAME",
-                fileName = ENTRY_V2_NAME
+                fileName = ENTRY_V2_NAME,
             )
             val (fingerprint, entry) = parser.parse(jar, repo)
             jar.delete()
@@ -61,7 +62,6 @@ class EntrySyncable(
             val indexPath = repo.address.removeSuffix("/") + index.name
             val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$INDEX_V2_NAME")
             val indexV2 = if (index != entry.index && indexFile.exists()) {
-                // example https://apt.izzysoft.de/fdroid/repo/diff/1725372028000.json
                 val diffFile = downloader.downloadIndex(
                     context = context,
                     repo = repo,
@@ -69,16 +69,11 @@ class EntrySyncable(
                     fileName = "diff_${repo.versionInfo.timestamp}.json",
                     diff = true,
                 )
-                // TODO: Maybe parse in parallel
-                diffParser.parse(diffFile, repo).second.let {
+                val diff = async { diffParser.parse(diffFile, repo).second }
+                val oldIndex = async { indexParser.parse(indexFile, repo).second }
+                diff.await().patchInto(oldIndex.await()) { index ->
                     diffFile.delete()
-                    it.patchInto(
-                        indexParser.parse(
-                            indexFile,
-                            repo
-                        ).second) { index ->
-                        Json.encodeToStream(index, indexFile.outputStream())
-                    }
+                    Json.encodeToStream(index, indexFile.outputStream())
                 }
             } else {
                 // example https://apt.izzysoft.de/fdroid/repo/index-v2.json

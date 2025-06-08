@@ -9,6 +9,7 @@ import io.ktor.client.plugins.SocketTimeoutException
 import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
@@ -32,19 +33,19 @@ class KtorDownloaderTest {
 
     private val downloader = KtorDownloader(engine, dispatcher)
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `head call success`() = runTest(dispatcher) {
         val response = downloader.headCall("https://success.com")
         assertIs<NetworkResponse.Success>(response)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `head call if path not found`() = runTest(dispatcher) {
         val response = downloader.headCall("https://notfound.com")
         assertIs<NetworkResponse.Error.Http>(response)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to file success`() = runTest(dispatcher) {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
@@ -55,7 +56,7 @@ class KtorDownloaderTest {
         assertEquals("success", file.readText())
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to read-only file`() = runTest(dispatcher) {
         val file = File.createTempFile("test", "success")
         file.setReadOnly()
@@ -66,7 +67,7 @@ class KtorDownloaderTest {
         assertIs<NetworkResponse.Error.IO>(response)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to file with slow connection`() = runTest(dispatcher) {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
@@ -76,7 +77,7 @@ class KtorDownloaderTest {
         assertIs<NetworkResponse.Error.ConnectionTimeout>(response)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to file with socket error`() = runTest(dispatcher) {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
@@ -86,7 +87,7 @@ class KtorDownloaderTest {
         assertIs<NetworkResponse.Error.SocketTimeout>(response)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to file if not modifier`() = runTest(dispatcher) {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
@@ -100,7 +101,7 @@ class KtorDownloaderTest {
         assertEquals("", file.readText())
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun `save text to file with wrong authentication`() =
         runTest(dispatcher) {
             val file = File.createTempFile("test", "success")

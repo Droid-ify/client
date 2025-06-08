@@ -7,6 +7,7 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
@@ -20,7 +21,9 @@ import javax.inject.Inject
 @HiltViewModel
 class TabsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val savedStateHandle: SavedStateHandle
+    private val indexDao: IndexDao,
+    private val syncable: Syncable<IndexV2>,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val currentSection =
@@ -37,7 +40,7 @@ class TabsViewModel @Inject constructor(
     val sections =
         combine(
             Database.CategoryAdapter.getAllStream(),
-            Database.RepositoryAdapter.getEnabledStream()
+            Database.RepositoryAdapter.getEnabledStream(),
         ) { categories, repos ->
             val productCategories = categories
                 .asSequence()
@@ -77,6 +80,30 @@ class TabsViewModel @Inject constructor(
     fun setSortOrder(sortOrder: SortOrder) {
         viewModelScope.launch {
             settingsRepository.setSortOrder(sortOrder)
+        }
+    }
+
+    private fun calcBackAction(
+        currentSection: ProductItem.Section,
+        isSearchActionItemExpanded: Boolean,
+        showSections: Boolean,
+    ): BackAction {
+        return when {
+            currentSection != ProductItem.Section.All -> {
+                BackAction.ProductAll
+            }
+
+            isSearchActionItemExpanded -> {
+                BackAction.CollapseSearchView
+            }
+
+            showSections -> {
+                BackAction.HideSections
+            }
+
+            else -> {
+                BackAction.None
+            }
         }
     }
 

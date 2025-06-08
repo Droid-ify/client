@@ -20,8 +20,8 @@ android {
         applicationId = "com.looker.droidify"
         versionCode = 650
         versionName = latestVersionName
-        vectorDrawables.useSupportLibrary = false
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
     compileOptions {
@@ -40,15 +40,13 @@ android {
         )
     }
 
-    androidResources {
-        generateLocaleConfig = true
+    ksp {
+        arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
     }
 
-    sourceSets.forEach { source ->
-        val javaDir = source.java.srcDirs.find { it.name == "java" }
-        source.java {
-            srcDir(File(javaDir?.parentFile, "kotlin"))
-        }
+    androidResources {
+        generateLocaleConfig = true
     }
 
     buildTypes {
@@ -130,19 +128,17 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.datetime)
 
-    implementation(libs.coroutines.core)
-    implementation(libs.coroutines.android)
-    implementation(libs.coroutines.guava)
+    implementation(libs.bundles.coroutines)
 
     implementation(libs.libsu.core)
-    implementation(libs.shizuku.api)
-    api(libs.shizuku.provider)
+    implementation(libs.bundles.shizuku)
 
     implementation(libs.jackson.core)
     implementation(libs.serialization)
 
-    implementation(libs.ktor.core)
-    implementation(libs.ktor.okhttp)
+    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.room)
+    ksp(libs.room.compiler)
 
     implementation(libs.work.ktx)
 
@@ -155,8 +151,10 @@ dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
     testRuntimeOnly(libs.junit.platform)
-    androidTestImplementation(platform(libs.junit.bom))
+    androidTestImplementation(libs.hilt.test)
+    androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
+    kspAndroidTest(libs.hilt.compiler)
 
 //    debugImplementation(libs.leakcanary)
 }

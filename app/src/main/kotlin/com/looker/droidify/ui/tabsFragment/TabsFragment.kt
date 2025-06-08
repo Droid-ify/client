@@ -31,6 +31,7 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
+import com.looker.droidify.datastore.model.supportedSortOrders
 import com.looker.droidify.datastore.extension.sortOrderName
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
@@ -212,7 +213,7 @@ class TabsFragment : ScreenFragment() {
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sort))
                 .let { menu ->
                     menu.item.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                    val menuItems = SortOrder.entries.map { sortOrder ->
+                    val menuItems = supportedSortOrders().map { sortOrder ->
                         menu.add(context.sortOrderName(sortOrder))
                             .setOnMenuItemClickListener {
                                 viewModel.setSortOrder(sortOrder)
@@ -224,9 +225,7 @@ class TabsFragment : ScreenFragment() {
                 }
 
             favouritesItem = add(1, 0, 0, stringRes.favourites)
-                .setIcon(
-                    toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked)
-                )
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked))
                 .setOnMenuItemClickListener {
                     view.post { mainActivity.navigateFavourites() }
                     true

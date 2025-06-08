@@ -80,17 +80,17 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     override fun onCreate() {
         super.onCreate()
 
-        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
+//        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
-        RepositoryUpdater.init(appScope, downloader)
+//        RepositoryUpdater.init(appScope, downloader)
         listenApplications()
         checkLanguage()
         updatePreference()
         appScope.launch { installer() }
 
-        if (databaseUpdated) forceSyncAll()
+//        if (databaseUpdated) forceSyncAll()
     }
 
     override fun onTerminate() {
@@ -107,7 +107,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                     addAction(Intent.ACTION_PACKAGE_ADDED)
                     addAction(Intent.ACTION_PACKAGE_REMOVED)
                     addDataScheme("package")
-                }
+                },
             )
             val installedItems =
                 packageManager.getInstalledPackagesCompat()
@@ -200,7 +200,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 periodMillis = period,
                 networkType = syncConditions.toJobNetworkType(),
                 isCharging = syncConditions.pluggedIn,
-                isBatteryLow = syncConditions.batteryNotLow
+                isBatteryLow = syncConditions.batteryNotLow,
             )
             jobScheduler?.schedule(job)
         }
@@ -212,10 +212,13 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
             }
         }
-        Connection(SyncService::class.java, onBind = { connection, binder ->
-            binder.sync(SyncService.SyncRequest.FORCE)
-            connection.unbind(this)
-        }).bind(this)
+        Connection(
+            SyncService::class.java,
+            onBind = { connection, binder ->
+                binder.sync(SyncService.SyncRequest.FORCE)
+                connection.unbind(this)
+            },
+        ).bind(this)
     }
 
     class BootReceiver : BroadcastReceiver() {
@@ -256,12 +259,12 @@ fun strictThreadPolicy() {
             .detectNetwork()
             .detectUnbufferedIo()
             .penaltyLog()
-            .build()
+            .build(),
     )
     StrictMode.setVmPolicy(
         StrictMode.VmPolicy.Builder()
             .detectAll()
             .penaltyLog()
-            .build()
+            .build(),
     )
 }

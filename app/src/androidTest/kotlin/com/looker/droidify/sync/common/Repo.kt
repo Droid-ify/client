@@ -6,7 +6,7 @@ import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.domain.model.VersionInfo
 
 val Izzy = Repo(
-    id = 1L,
+    id = 1,
     enabled = true,
     address = "https://apt.izzysoft.de/fdroid/repo",
     name = "IzzyOnDroid F-Droid Repo",
@@ -15,6 +15,4 @@ val Izzy = Repo(
     authentication = Authentication("", ""),
     versionInfo = VersionInfo(0L, null),
     mirrors = emptyList(),
-    antiFeatures = emptyList(),
-    categories = emptyList(),
 )

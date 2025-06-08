@@ -607,6 +607,19 @@ object Database {
             .map { getUpdates(skipSignatureCheck) }
             .flowOn(Dispatchers.IO)
 
+        fun getAll(): List<Product> {
+            return db.query(
+                Schema.Product.name,
+                columns = arrayOf(
+                    Schema.Product.ROW_REPOSITORY_ID,
+                    Schema.Product.ROW_DESCRIPTION,
+                    Schema.Product.ROW_DATA,
+                ),
+                selection = null,
+                signal = null,
+            ).use { it.asSequence().map(::transform).toList() }
+        }
+
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {
             return db.query(
                 Schema.Product.name,
@@ -719,7 +732,7 @@ object Database {
             when (order) {
                 SortOrder.UPDATED -> builder += "product.${Schema.Product.ROW_UPDATED} DESC,"
                 SortOrder.ADDED -> builder += "product.${Schema.Product.ROW_ADDED} DESC,"
-                SortOrder.NAME -> Unit
+                else -> Unit
             }::class
             builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 

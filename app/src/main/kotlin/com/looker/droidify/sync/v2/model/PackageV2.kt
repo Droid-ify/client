@@ -23,7 +23,7 @@ data class PackageV2Diff(
             added = metadata?.added ?: 0L,
             lastUpdated = metadata?.lastUpdated ?: 0L,
             name = metadata?.name
-                ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap(),
+                ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap() ?: emptyMap(),
             summary = metadata?.summary
                 ?.mapNotNull { (key, value) -> value?.let { key to value } }?.toMap(),
             description = metadata?.description
@@ -116,7 +116,7 @@ data class PackageV2Diff(
 
 @Serializable
 data class MetadataV2(
-    val name: LocalizedString? = null,
+    val name: LocalizedString,
     val summary: LocalizedString? = null,
     val description: LocalizedString? = null,
     val icon: LocalizedIcon? = null,
@@ -129,7 +129,7 @@ data class MetadataV2(
     val bitcoin: String? = null,
     val categories: List<String> = emptyList(),
     val changelog: String? = null,
-    val donate: List<String> = emptyList(),
+    val donate: List<String>? = null,
     val featureGraphic: LocalizedIcon? = null,
     val flattrID: String? = null,
     val issueTracker: String? = null,
@@ -183,25 +183,25 @@ data class MetadataV2Diff(
 @Serializable
 data class VersionV2(
     val added: Long,
-    val file: FileV2,
+    val file: ApkFileV2,
     val src: FileV2? = null,
     val whatsNew: LocalizedString = emptyMap(),
     val manifest: ManifestV2,
-    val antiFeatures: Map<String, LocalizedString> = emptyMap(),
+    val antiFeatures: Map<Tag, AntiFeatureReason> = emptyMap(),
 )
 
 @Serializable
 data class VersionV2Diff(
     val added: Long? = null,
-    val file: FileV2? = null,
+    val file: ApkFileV2? = null,
     val src: FileV2? = null,
     val whatsNew: LocalizedString? = null,
     val manifest: ManifestV2? = null,
-    val antiFeatures: Map<String, LocalizedString>? = null,
+    val antiFeatures: Map<Tag, AntiFeatureReason>? = null,
 ) {
     fun toVersion() = VersionV2(
         added = added ?: 0,
-        file = file ?: FileV2(""),
+        file = file ?: ApkFileV2("", "", -1L),
         src = src ?: FileV2(""),
         whatsNew = whatsNew ?: emptyMap(),
         manifest = manifest ?: ManifestV2(

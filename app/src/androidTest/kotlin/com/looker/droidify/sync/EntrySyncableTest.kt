@@ -44,7 +44,7 @@ class EntrySyncableTest {
     @OptIn(ExperimentalSerializationApi::class)
     @Before
     fun before() {
-        context = InstrumentationRegistry.getInstrumentation().context
+        context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
         validator = IndexJarValidator(dispatcher)
         parser = EntryParser(dispatcher, JsonParser, validator)

@@ -4,12 +4,18 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
+import com.looker.droidify.database.Database
+import com.looker.droidify.index.RepositoryUpdater.IndexType
 import com.looker.droidify.model.Repository
+import com.looker.droidify.sync.FakeDownloader
+import com.looker.droidify.sync.common.assets
+import com.looker.droidify.sync.common.benchmark
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
-import kotlin.math.sqrt
 import kotlin.system.measureTimeMillis
 
 @RunWith(AndroidJUnit4::class)
@@ -21,7 +27,9 @@ class RepositoryUpdaterTest {
 
     @Before
     fun setup() {
-        context = InstrumentationRegistry.getInstrumentation().context
+        context = InstrumentationRegistry.getInstrumentation().targetContext
+        Database.init(context)
+        RepositoryUpdater.init(CoroutineScope(Dispatchers.Default), FakeDownloader)
         repository = Repository(
             id = 15,
             address = "https://apt.izzysoft.de/fdroid/repo",
@@ -41,13 +49,14 @@ class RepositoryUpdaterTest {
 
     @Test
     fun processFile() {
-        testRepetition(1) {
+        val output = benchmark(1) {
             val createFile = File.createTempFile("index", "entry")
             val mergerFile = File.createTempFile("index", "merger")
             val jarStream = context.resources.assets.open("index-v1.jar")
             jarStream.copyTo(createFile.outputStream())
             process(createFile, mergerFile)
         }
+        println(output)
     }
 
     private fun process(file: File, merger: File) = measureTimeMillis {
@@ -65,28 +74,4 @@ class RepositoryUpdaterTest {
             },
         )
     }
-
-    private inline fun testRepetition(repetition: Int, block: () -> Long) {
-        val times = (1..repetition).map {
-            System.gc()
-            System.runFinalization()
-            block().toDouble()
-        }
-        val meanAndDeviation = times.culledMeanAndDeviation()
-        println(times)
-        println("${meanAndDeviation.first} ± ${meanAndDeviation.second}")
-    }
 }
-
-private fun List<Double>.culledMeanAndDeviation(): Pair<Double, Double> = when {
-    isEmpty() -> Double.NaN to Double.NaN
-    size == 1 || size == 2 -> this.meanAndDeviation()
-    else -> sorted().subList(1, size - 1).meanAndDeviation()
-}
-
-private fun List<Double>.meanAndDeviation(): Pair<Double, Double> {
-    val mean = average()
-    return mean to sqrt(fold(0.0) { acc, value -> acc + (value - mean).squared() } / size)
-}
-
-private fun Double.squared() = this * this

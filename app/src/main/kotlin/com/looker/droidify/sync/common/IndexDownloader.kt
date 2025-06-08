@@ -1,9 +1,9 @@
 package com.looker.droidify.sync.common
 
 import android.content.Context
-import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.utility.common.cache.Cache
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -16,23 +16,25 @@ suspend fun Downloader.downloadIndex(
     url: String,
     diff: Boolean = false,
 ): File = withContext(Dispatchers.IO) {
-    val tempFile = Cache.getIndexFile(context, "repo_${repo.id}_$fileName")
+    val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$fileName")
     downloadToFile(
         url = url,
-        target = tempFile,
+        target = indexFile,
         headers = {
             if (repo.shouldAuthenticate) {
-                authentication(
-                    repo.authentication.username,
-                    repo.authentication.password
-                )
+                with(requireNotNull(repo.authentication)) {
+                    authentication(
+                        username = username,
+                        password = password,
+                    )
+                }
             }
             if (repo.versionInfo.timestamp > 0L && !diff) {
                 ifModifiedSince(Date(repo.versionInfo.timestamp))
             }
-        }
+        },
     )
-    tempFile
+    indexFile
 }
 
 const val INDEX_V1_NAME = "index-v1.jar"
