@@ -66,13 +66,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     constructor(packageName: String, repoAddress: String? = null) : this() {
         arguments = bundleOf(
             ARG_PACKAGE_NAME to packageName,
-            ARG_REPO_ADDRESS to repoAddress
+            ARG_REPO_ADDRESS to repoAddress,
         )
     }
 
     private enum class Action(
         val id: Int,
-        val adapterAction: AppDetailAdapter.Action
+        val adapterAction: AppDetailAdapter.Action,
     ) {
         INSTALL(1, AppDetailAdapter.Action.INSTALL),
         UPDATE(2, AppDetailAdapter.Action.UPDATE),
@@ -85,7 +85,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private class Installed(
         val installedItem: InstalledItem,
         val isSystem: Boolean,
-        val launcherActivities: List<Pair<String, String>>
+        val launcherActivities: List<Pair<String, String>>,
     )
 
     private val viewModel: AppDetailViewModel by viewModels()
@@ -109,7 +109,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             lifecycleScope.launch {
                 binder.downloadState.collect(::updateDownloadState)
             }
-        }
+        },
     )
 
     @SuppressLint("RestrictedApi")
@@ -138,7 +138,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 this.layoutManager = LinearLayoutManager(
                     context,
                     LinearLayoutManager.VERTICAL,
-                    false
+                    false,
                 )
                 isMotionEventSplittingEnabled = false
                 isVerticalScrollBarEnabled = false
@@ -151,7 +151,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
                 recyclerView = this
                 systemBarsPadding(includeFab = false)
-            }
+            },
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -188,7 +188,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                             products = products,
                             installedItem = state.installedItem,
                             isFavourite = state.isFavourite,
-                            allowIncompatibleVersion = state.allowIncompatibleVersions
+                            allowIncompatibleVersion = state.allowIncompatibleVersions,
                         )
                         updateButtons()
                     }
@@ -226,7 +226,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun updateButtons(
-        preference: ProductPreference = ProductPreferences[viewModel.packageName]
+        preference: ProductPreference = ProductPreferences[viewModel.packageName],
     ) {
         val installed = installed
         val product = products.findSuggested(installed?.installedItem)?.first
@@ -278,7 +278,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private fun updateToolbarButtons(
         isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager)
-            .findFirstVisibleItemPosition() == 0
+            .findFirstVisibleItemPosition() == 0,
     ) {
         toolbar.title = if (isActionVisible) {
             getString(stringRes.application)
@@ -324,7 +324,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting
                 is DownloadService.State.Downloading -> AppDetailAdapter.Status.Downloading(
                     state.currentItem.read,
-                    state.currentItem.total
+                    state.currentItem.total,
                 )
 
                 else -> AppDetailAdapter.Status.Idle
@@ -340,7 +340,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         if (state.currentItem is DownloadService.State.Success && isResumed) {
             viewModel.installPackage(
                 state.currentItem.packageName,
-                state.currentItem.release.cacheFileName
+                state.currentItem.release.cacheFileName,
             )
         }
     }
@@ -348,7 +348,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     override fun onActionClick(action: AppDetailAdapter.Action) {
         when (action) {
             AppDetailAdapter.Action.INSTALL,
-            AppDetailAdapter.Action.UPDATE -> {
+            AppDetailAdapter.Action.UPDATE,
+                -> {
                 if (Cache.getEmptySpace(requireContext()) < products.first().first.releases.first().size) {
                     MessageDialog(Message.InsufficientStorage).show(childFragmentManager)
                     return
@@ -375,7 +376,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 if (launcherActivities.size >= 2) {
                     LaunchDialog(launcherActivities).show(
                         childFragmentManager,
-                        LaunchDialog::class.java.name
+                        LaunchDialog::class.java.name,
                     )
                 } else {
                     launcherActivities.firstOrNull()?.let { startLauncherActivity(it.first) }
@@ -386,8 +387,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 startActivity(
                     Intent(
                         Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        "package:${viewModel.packageName}".toUri()
-                    )
+                        "package:${viewModel.packageName}".toUri(),
+                    ),
                 )
             }
 
@@ -405,18 +406,17 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             AppDetailAdapter.Action.SHARE -> {
                 val repo = products[0].second
                 val address = when {
-                    repo.name == "F-Droid" ->
-                        "https://f-droid.org/packages/" +
-                            "${viewModel.packageName}/"
+                    "https://f-droid.org/repo" in repo.mirrors ->
+                        "https://f-droid.org/packages/${viewModel.packageName}/"
 
-                    "IzzyOnDroid" in repo.name -> {
+                    "https://f-droid.org/archive/repo" in repo.mirrors ->
+                        "https://f-droid.org/packages/${viewModel.packageName}/"
+
+                    "https://apt.izzysoft.de/fdroid/repo" in repo.mirrors ->
                         "https://apt.izzysoft.de/fdroid/index/apk/${viewModel.packageName}"
-                    }
 
-                    else -> {
-                        "https://droidify.eu.org/app/?id=" +
-                            "${viewModel.packageName}&repo_address=${repo.address}"
-                    }
+                    else ->
+                        "https://droidify.eu.org/app/?id=${viewModel.packageName}&repo_address=${repo.address}"
                 }
                 val sendIntent = Intent(Intent.ACTION_SEND)
                     .putExtra(Intent.EXTRA_TEXT, address)
@@ -436,7 +436,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 Intent(Intent.ACTION_MAIN)
                     .addCategory(Intent.CATEGORY_LAUNCHER)
                     .setComponent(ComponentName(viewModel.packageName, name))
-                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -464,7 +464,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     val screenshotUrl = current.url(
                         context = requireContext(),
                         repository = productRepository.second,
-                        packageName = viewModel.packageName
+                        packageName = viewModel.packageName,
                     )
                     view.load(screenshotUrl) {
                         allowHardware(false)
@@ -484,8 +484,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                         release.incompatibilities,
                         release.platforms,
                         release.minSdkVersion,
-                        release.maxSdkVersion
-                    )
+                        release.maxSdkVersion,
+                    ),
                 ).show(childFragmentManager)
             }
 
@@ -524,7 +524,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 productRepository.first.name,
                 productRepository.second,
                 release,
-                installedItem != null
+                installedItem != null,
             )
         }
     }
