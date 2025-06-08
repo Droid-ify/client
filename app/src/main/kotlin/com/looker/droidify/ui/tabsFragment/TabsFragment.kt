@@ -31,9 +31,9 @@ import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.droidify.R
 import com.looker.droidify.databinding.TabsToolbarBinding
-import com.looker.droidify.datastore.model.supportedSortOrders
 import com.looker.droidify.datastore.extension.sortOrderName
 import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.datastore.model.supportedSortOrders
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -45,8 +45,8 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.sdkAbove
-import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.extension.mainActivity
+import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.DividerConfiguration
 import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
@@ -122,7 +122,7 @@ class TabsFragment : ScreenFragment() {
                 val source = AppListFragment.Source.entries[it.currentItem]
                 updateUpdateNotificationBlocker(source)
             }
-        }
+        },
     )
 
     private var sectionsAnimator: ValueAnimator? = null
@@ -161,20 +161,22 @@ class TabsFragment : ScreenFragment() {
         val searchView = FocusSearchView(toolbar.context).apply {
             maxWidth = Int.MAX_VALUE
             queryHint = getString(stringRes.search)
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    clearFocus()
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (isResumed) {
-                        searchQuery = newText.orEmpty()
-                        productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+            setOnQueryTextListener(
+                object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        clearFocus()
+                        return true
                     }
-                    return true
-                }
-            })
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        if (isResumed) {
+                            searchQuery = newText.orEmpty()
+                            productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+                        }
+                        return true
+                    }
+                },
+            )
         }
 
         toolbar.menu.apply {
@@ -188,19 +190,21 @@ class TabsFragment : ScreenFragment() {
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_search))
                 .setActionView(searchView)
                 .setShowAsActionFlags(
-                    MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+                    MenuItem.SHOW_AS_ACTION_ALWAYS or MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW,
                 )
-                .setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                    override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                        viewModel.isSearchActionItemExpanded.value = true
-                        return true
-                    }
+                .setOnActionExpandListener(
+                    object : MenuItem.OnActionExpandListener {
+                        override fun onMenuItemActionExpand(item: MenuItem): Boolean {
+                            viewModel.isSearchActionItemExpanded.value = true
+                            return true
+                        }
 
-                    override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                        viewModel.isSearchActionItemExpanded.value = false
-                        return true
-                    }
-                })
+                        override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+                            viewModel.isSearchActionItemExpanded.value = false
+                            return true
+                        }
+                    },
+                )
 
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sync))
@@ -261,7 +265,7 @@ class TabsFragment : ScreenFragment() {
             adapter = object : FragmentStateAdapter(this@TabsFragment) {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
                 override fun createFragment(position: Int): Fragment = AppListFragment(
-                    AppListFragment.Source.entries[position]
+                    AppListFragment.Source.entries[position],
                 )
             }
             content.addView(this)
@@ -320,7 +324,7 @@ class TabsFragment : ScreenFragment() {
 
         val backgroundPath = ShapeAppearanceModel.builder()
             .setAllCornerSizes(
-                context?.resources?.getDimension(R.dimen.shape_large_corner) ?: 0F
+                context?.resources?.getDimension(R.dimen.shape_large_corner) ?: 0F,
             )
             .build()
         val sectionBackground = MaterialShapeDrawable(backgroundPath)
@@ -448,7 +452,7 @@ class TabsFragment : ScreenFragment() {
             val viewPager = viewPager
             viewPager?.setCurrentItem(
                 AppListFragment.Source.UPDATES.ordinal,
-                allowSmooth && viewPager.isLaidOut
+                allowSmooth && viewPager.isLaidOut,
             )
         } else {
             needSelectUpdates = true
@@ -460,7 +464,7 @@ class TabsFragment : ScreenFragment() {
     }
 
     private fun updateSections(
-        sectionsList: List<ProductItem.Section>
+        sectionsList: List<ProductItem.Section>,
     ) {
         sectionsAdapter?.sections = sectionsList
         layout?.run {
@@ -517,7 +521,7 @@ class TabsFragment : ScreenFragment() {
         override fun onPageScrolled(
             position: Int,
             positionOffset: Float,
-            positionOffsetPixels: Int
+            positionOffsetPixels: Int,
         ) {
             val layout = layout!!
             val fromSections = AppListFragment.Source.entries[position].sections
@@ -546,15 +550,9 @@ class TabsFragment : ScreenFragment() {
             val source = AppListFragment.Source.entries[position]
             updateUpdateNotificationBlocker(source)
             sortOrderMenu!!.first.apply {
-                isVisible = source.order
                 setShowAsActionFlags(
-                    if (!source.order ||
-                        resources.configuration.screenWidthDp >= 300
-                    ) {
-                        MenuItem.SHOW_AS_ACTION_ALWAYS
-                    } else {
-                        0
-                    }
+                    if (resources.configuration.screenWidthDp >= 300) MenuItem.SHOW_AS_ACTION_ALWAYS
+                    else 0,
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
@@ -575,7 +573,7 @@ class TabsFragment : ScreenFragment() {
     }
 
     private class SectionsAdapter(
-        private val onClick: (ProductItem.Section) -> Unit
+        private val onClick: (ProductItem.Section) -> Unit,
     ) : StableRecyclerAdapter<SectionsAdapter.ViewType, RecyclerView.ViewHolder>() {
         enum class ViewType { SECTION }
 
@@ -589,13 +587,13 @@ class TabsFragment : ScreenFragment() {
                     setPadding(16.dp, 0, 16.dp, 0)
                     layoutParams = FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT,
-                        FrameLayout.LayoutParams.MATCH_PARENT
+                        FrameLayout.LayoutParams.MATCH_PARENT,
                     )
                 }
                 with(itemView as FrameLayout) {
                     layoutParams = RecyclerView.LayoutParams(
                         RecyclerView.LayoutParams.MATCH_PARENT,
-                        48.dp
+                        48.dp,
                     )
                     background = context.selectableBackground
                     addView(title)
@@ -612,7 +610,7 @@ class TabsFragment : ScreenFragment() {
         fun configureDivider(
             context: Context,
             position: Int,
-            configuration: DividerConfiguration
+            configuration: DividerConfiguration,
         ) {
             val currentSection = sections[position]
             val nextSection = sections.getOrNull(position + 1)
@@ -623,7 +621,7 @@ class TabsFragment : ScreenFragment() {
                         needDivider = true,
                         toTop = false,
                         paddingStart = padding,
-                        paddingEnd = padding
+                        paddingEnd = padding,
                     )
                 }
 
@@ -632,7 +630,7 @@ class TabsFragment : ScreenFragment() {
                         needDivider = false,
                         toTop = false,
                         paddingStart = 0,
-                        paddingEnd = 0
+                        paddingEnd = 0,
                     )
                 }
             }
@@ -647,7 +645,7 @@ class TabsFragment : ScreenFragment() {
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
-            viewType: ViewType
+            viewType: ViewType,
         ): RecyclerView.ViewHolder {
             return SectionViewHolder(parent.context).apply {
                 itemView.setOnClickListener { onClick(sections[absoluteAdapterPosition]) }
@@ -677,7 +675,7 @@ class TabsFragment : ScreenFragment() {
             }
             holder.title.text = when (section) {
                 is ProductItem.Section.All -> holder.itemView.resources.getString(
-                    stringRes.all_applications
+                    stringRes.all_applications,
                 )
 
                 is ProductItem.Section.Category -> section.name
