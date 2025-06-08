@@ -16,9 +16,9 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -30,13 +30,31 @@ class AppListViewModel
     settingsRepository: SettingsRepository,
 ) : ViewModel() {
 
-    val skipSignatureStream = settingsRepository
+    private val skipSignatureStream = settingsRepository
         .get { ignoreSignature }
         .asStateFlow(false)
 
-    val sortOrderFlow = settingsRepository
+    private val sortOrderFlow = settingsRepository
         .get { sortOrder }
         .asStateFlow(SortOrder.UPDATED)
+
+    private val sections = MutableStateFlow<ProductItem.Section>(All)
+
+    val searchQuery = MutableStateFlow("")
+
+    val state = combine(
+        skipSignatureStream,
+        sortOrderFlow,
+        sections,
+        searchQuery,
+    ) { skipSignature, sortOrder, section, query ->
+        AppListState(
+            searchQuery = query,
+            sections = section,
+            skipSignatureCheck = skipSignature,
+            sortOrder = sortOrder,
+        )
+    }.asStateFlow(AppListState())
 
     val reposStream = Database.RepositoryAdapter
         .getAllStream()
@@ -48,10 +66,6 @@ class AppListViewModel
             .getUpdatesStream(skip)
             .map { it.isNotEmpty() }
     }.asStateFlow(false)
-
-    private val sections = MutableStateFlow<ProductItem.Section>(All)
-
-    val searchQuery = MutableStateFlow("")
 
     val syncConnection = Connection(SyncService::class.java)
 
@@ -84,21 +98,22 @@ class AppListViewModel
         }
     }
 
-    fun setSection(newSection: ProductItem.Section, perform: () -> Unit) {
+    fun setSection(newSection: ProductItem.Section) {
         viewModelScope.launch {
-            if (newSection != sections.value) {
-                sections.emit(newSection)
-                launch(Dispatchers.Main) { perform() }
-            }
+            sections.emit(newSection)
         }
     }
 
-    fun setSearchQuery(newSearchQuery: String, perform: () -> Unit) {
+    fun setSearchQuery(newSearchQuery: String) {
         viewModelScope.launch {
-            if (newSearchQuery != searchQuery.value) {
-                searchQuery.emit(newSearchQuery)
-                launch(Dispatchers.Main) { perform() }
-            }
+            searchQuery.emit(newSearchQuery)
         }
     }
 }
+
+data class AppListState(
+    val searchQuery: String = "",
+    val sections: ProductItem.Section = All,
+    val skipSignatureCheck: Boolean = false,
+    val sortOrder: SortOrder = SortOrder.UPDATED,
+)

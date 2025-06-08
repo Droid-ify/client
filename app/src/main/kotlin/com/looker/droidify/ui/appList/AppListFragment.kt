@@ -141,12 +141,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                     }
                 }
                 launch {
-                    viewModel.sortOrderFlow.collect {
-                        updateRequest()
-                    }
-                }
-                launch {
-                    viewModel.skipSignatureStream.collect {
+                    viewModel.state.collect {
                         updateRequest()
                     }
                 }
@@ -188,16 +183,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
-    internal fun setSearchQuery(searchQuery: String) {
-        viewModel.setSearchQuery(searchQuery) {
-            updateRequest()
-        }
+    fun setSearchQuery(searchQuery: String) {
+        viewModel.setSearchQuery(searchQuery)
     }
 
-    internal fun setSection(section: ProductItem.Section) {
-        viewModel.setSection(section) {
-            updateRequest()
-        }
+    fun setSection(section: ProductItem.Section) {
+        viewModel.setSection(section)
     }
 
     private fun updateRequest() {
