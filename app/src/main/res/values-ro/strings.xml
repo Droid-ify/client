@@ -26,11 +26,8 @@
     <string name="repository_unsigned_DESC">Nesemnat. Nu se poate verifica lista de aplicații. Ai grijă când descarci aplicații din depozite nesemnate.</string>
     <string name="save">Salvează</string>
     <string name="saving_details">Se salvează detalii…</string>
-    <string name="screenshots">Capturi de ecran</string>
     <string name="signature_FORMAT">Semnătură %s</string>
-    <string name="unsigned">Nesemnat</string>
     <string name="username">Nume de utilizator</string>
-    <string name="new_applications">Aplicații noi</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">Aplicația %d are o nouă versiune.</item>
         <item quantity="few">%d aplicații cu versiuni noi.</item>
@@ -44,8 +41,6 @@
     <string name="address">Adresă</string>
     <string name="all_applications">Toate aplicațiile</string>
     <string name="all_applications_up_to_date">Toate aplicațiile tale sunt la zi</string>
-    <string name="allow_collapsing_toolbar">Permiteți extinderea barei superioare a aplicației</string>
-    <string name="allow_collapsing_toolbar_DESC">Permiteți ca bara superioară a aplicației să se extindă și să se prăbușească</string>
     <string name="already_exists">Există deja</string>
     <string name="amoled">Negru</string>
     <string name="anti_features">Funcții-Anti</string>
@@ -112,8 +107,6 @@
     <string name="invalid_permissions_error_DESC">Permisiuni invalide.</string>
     <string name="link_copied_to_clipboard">Link copiat în clipboard</string>
     <string name="links">Link-uri</string>
-    <string name="list_animation">Listă de Animații</string>
-    <string name="list_animation_description">Afișează lista de animații pe pagina principală</string>
     <string name="material_you">Material tu</string>
     <string name="material_you_desc">Folosește tema de culoare Material You</string>
     <string name="name">Nume</string>
@@ -122,7 +115,6 @@
     <string name="new_updates_available">Noi versiuni de aplicații disponibile</string>
     <string name="no_applications_available">Nicio aplicație disponibilă</string>
     <string name="no_description_available_DESC">Nicio descriere disponibilă</string>
-    <string name="no_internet">Nu ai conexiune la internet</string>
     <string name="no_proxy">Fără proxy</string>
     <string name="notify_about_updates">Notifică despre noi versiuni ale aplicațiilor</string>
     <string name="number_of_applications">Număr de aplicații</string>
@@ -147,11 +139,8 @@
     <string name="recently_updated">Actualizat recent</string>
     <string name="repositories">Depozite</string>
     <string name="repository">Depozit</string>
-    <string name="repository_not_used_DESC">Acest depozit nu a fost utilizat încă. Activează-l pentru a vedea aplicațiile din el.</string>
     <string name="repository_unreachable">Depozit inaccesibil</string>
     <string name="requires_FORMAT">Necesită %s</string>
-    <string name="root_permission">Instalare silențioasă</string>
-    <string name="root_permission_description">Acordă permisiunea root pentru instalații silențioase</string>
     <string name="proxy">Proxy</string>
     <string name="search">Caută</string>
     <string name="select_mirror">Selectează o oglindă</string>
@@ -171,7 +160,6 @@
     <string name="syncing_FORMAT">Se sincronizează %s…</string>
     <string name="system">Sistem</string>
     <string name="tap_to_install_DESC">Apasă pentru a instala.</string>
-    <string name="target">Țintă</string>
     <string name="theme">Temă</string>
     <string name="themes">Teme</string>
     <string name="uninstall">Dezinstalează</string>
@@ -180,7 +168,6 @@
     <string name="unknown_FORMAT">Necunoscut: %s</string>
     <string name="unstable_updates">Actualizări instabile</string>
     <string name="unstable_updates_summary">Sugerează instalarea de versiuni instabile</string>
-    <string name="unverified">Neverificat</string>
     <string name="update">Actualizează</string>
     <string name="updates">Actualizări</string>
     <string name="upstream_source_code_is_not_free">Codul sursă din amonte nu este gratuit</string>
@@ -195,21 +182,15 @@
     <string name="website">Site</string>
     <string name="prefs_personalization">Personalizare</string>
     <string name="show_less">Arată mai puțin</string>
-    <string name="latest">Ultima</string>
-    <string name="explore">Explorează</string>
     <string name="update_all">Actualizează tot</string>
-    <string name="installed_applications">Aplicații instalate</string>
-    <string name="sort_filter">Sortează și filtrează</string>
     <string name="always">Întotdeauna</string>
     <string name="available">Explorează</string>
     <string name="cant_edit_sync_DESC">Nu se poate edita depozitul când se sincronizează acum.</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">Confirmație</string>
     <string name="connecting">Se conectează…</string>
     <string name="could_not_download_FORMAT">Nu se poate descărca %s</string>
     <string name="auto_update">Actualizare automată a aplicațiilor</string>
     <string name="waiting_to_start_installation">Se așteaptă începerea instalării…</string>
     <string name="auto_update_apps">Încercați să instalați actualizările automat</string>
-    <string name="restart_app">Reporniți Droid-ify pentru a vedea modificările</string>
     <string name="installing">Instalarea</string>
 </resources>

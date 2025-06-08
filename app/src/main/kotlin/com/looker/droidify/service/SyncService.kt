@@ -22,7 +22,6 @@ import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.datastore.SettingsRepository
@@ -53,6 +52,8 @@ import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import com.looker.droidify.R
+import kotlinx.coroutines.FlowPreview
+import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -69,15 +70,16 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         private const val MAX_UPDATE_NOTIFICATION = 5
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
-        private val syncState = MutableSharedFlow<State>()
+        val syncState = MutableSharedFlow<State>()
     }
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
     sealed class State(val name: String) {
-        data class Connecting(val appName: String) : State(appName)
-        data class Syncing(
+        class Connecting(appName: String) : State(appName)
+
+        class Syncing(
             val appName: String,
             val stage: RepositoryUpdater.Stage,
             val read: DataSize,
@@ -85,6 +87,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         ) : State(appName)
 
         data object Finish : State("")
+
+        val progress: Int
+            get() = when (this) {
+                is Connecting -> Int.MIN_VALUE
+                Finish -> Int.MAX_VALUE
+                is Syncing -> when(stage) {
+                    RepositoryUpdater.Stage.DOWNLOAD -> ((read percentBy total) * 0.4F).roundToInt()
+                    RepositoryUpdater.Stage.PROCESS -> 50
+                    RepositoryUpdater.Stage.MERGE -> 75
+                    RepositoryUpdater.Stage.COMMIT -> 90
+                }
+            }
     }
 
     private class Task(val repositoryId: Long, val manual: Boolean)
@@ -145,7 +159,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         suspend fun updateAllApps() {
-            updateAllAppsInternal()
+            val skipSignature = settingsRepository.getInitial().ignoreSignature
+            updateAllAppsInternal(skipSignature)
         }
 
         fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -198,6 +213,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private val binder = Binder()
     override fun onBind(intent: Intent): Binder = binder
 
+    @OptIn(FlowPreview::class)
     override fun onCreate() {
         super.onCreate()
 
@@ -389,7 +405,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     handleUpdates(
                         hasUpdates = hasUpdates,
                         notifyUpdates = setting.notifyUpdate,
-                        autoUpdate = setting.autoUpdate
+                        autoUpdate = setting.autoUpdate,
+                        skipSignature = setting.ignoreSignature,
                     )
                 }
             }
@@ -470,7 +487,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private suspend fun handleUpdates(
         hasUpdates: Boolean,
         notifyUpdates: Boolean,
-        autoUpdate: Boolean
+        autoUpdate: Boolean,
+        skipSignature: Boolean,
     ) {
         try {
             if (!hasUpdates) {
@@ -481,15 +499,16 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 return
             }
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-            val updates = Database.ProductAdapter.getUpdates()
+            val updates = Database.ProductAdapter.getUpdates(skipSignature)
             if (!blocked && updates.isNotEmpty()) {
                 if (notifyUpdates) displayUpdatesNotification(updates)
-                if (autoUpdate) updateAllAppsInternal()
+                if (autoUpdate) updateAllAppsInternal(skipSignature)
             }
             handleUpdates(
                 hasUpdates = false,
                 notifyUpdates = notifyUpdates,
-                autoUpdate = autoUpdate
+                autoUpdate = autoUpdate,
+                skipSignature = skipSignature,
             )
         } finally {
             withContext(NonCancellable) {
@@ -499,10 +518,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
-    private suspend fun updateAllAppsInternal() {
-        log("Check Running", "Syncing")
+    private suspend fun updateAllAppsInternal(skipSignature: Boolean) {
         Database.ProductAdapter
-            .getUpdates()
+            .getUpdates(skipSignature)
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {

@@ -15,7 +15,6 @@
     <string name="compiled_for_debugging">Gecompileerd voor foutopsporing</string>
     <string name="confirmation">Bevestiging</string>
     <string name="update">Bijwerken</string>
-    <string name="unverified">Niet geverifieerd</string>
     <string name="username">Gebruikersnaam</string>
     <string name="upstream_source_code_is_not_free">De upstream-broncode is niet vrij</string>
     <string name="waiting_to_start_download">Wachten op download…</string>
@@ -36,15 +35,14 @@
     <string name="unstable_updates_summary">Installatie van instabiele versies voorstellen</string>
     <string name="validation_index_error_DESC">De index kon niet worden gevalideerd.</string>
     <string name="unknown_FORMAT">Onbekend: %s</string>
-    <string name="unsigned">Niet ondertekend</string>
     <string name="unstable_updates">Instabiele updates</string>
-    <string name="bug_tracker">Foutenregistratie (bug tracker)</string>
-    <string name="connecting">Verbinden maken…</string>
+    <string name="bug_tracker">Bugtracker</string>
+    <string name="connecting">Verbinden…</string>
     <string name="contains_non_free_media">Bevat niet-vrije media</string>
     <string name="could_not_download_FORMAT">Kan %s niet downloaden</string>
     <string name="could_not_sync_FORMAT">Kan %s niet synchroniseren</string>
     <string name="could_not_validate_FORMAT">Kan %s niet valideren</string>
-    <string name="credits">Dankbetuigingen</string>
+    <string name="credits">Credits</string>
     <string name="dark">Donker</string>
     <string name="delete">Verwijderen</string>
     <string name="delete_repository_DESC">Opslagplaats verwijderen\?</string>
@@ -81,8 +79,7 @@
     <string name="license">Licentie</string>
     <string name="license_FORMAT">%s-licentie</string>
     <string name="light">Licht</string>
-    <string name="link_copied_to_clipboard">Koppeling gekopieerd</string>
-    <string name="list_animation">Animaties weergegeven</string>
+    <string name="link_copied_to_clipboard">Link gekopieerd</string>
     <string name="merging_FORMAT">%s samenvoegen</string>
     <string name="never">Nooit</string>
     <string name="new_updates_available">Nieuwe versies van apps beschikbaar</string>
@@ -109,10 +106,8 @@
     <string name="repositories">Opslagplaatsen</string>
     <string name="repository">Opslagplaats</string>
     <string name="requires_FORMAT">Vereist %s</string>
-    <string name="root_permission_description">Root-rechten verlenen voor stille installaties</string>
     <string name="save">Opslaan</string>
     <string name="saving_details">Details opslaan…</string>
-    <string name="screenshots">Schermopnamen</string>
     <string name="share">Delen</string>
     <string name="show_more">Meer tonen</string>
     <string name="signature_FORMAT">Handtekening %s</string>
@@ -127,7 +122,6 @@
     <string name="syncing_FORMAT">%s synchroniseren…</string>
     <string name="system">Systeem</string>
     <string name="tap_to_install_DESC">Tik om te installeren.</string>
-    <string name="target">Doel</string>
     <string name="tracks_or_reports_your_activity">Volgt of rapporteert jouw activiteit</string>
     <string name="uninstall">Verwijderen</string>
     <string name="unknown">Onbekend</string>
@@ -135,7 +129,6 @@
     <string name="prefs_language_title">Taal</string>
     <string name="prefs_personalization">Personalisatie</string>
     <string name="show_less">Minder tonen</string>
-    <string name="installed_applications">Geïnstalleerde applicaties</string>
     <string name="donate">Doneren</string>
     <string name="edit_repository">Opslagplaats bewerken</string>
     <string name="file_format_error_DESC">Ongeldig bestandstype.</string>
@@ -146,7 +139,6 @@
         <item quantity="one">%d app heeft een nieuwe versie.</item>
         <item quantity="other">%d apps hebben nieuwe versies.</item>
     </plurals>
-    <string name="list_animation_description">Lijstanimatie weergeven op de hoofdpagina</string>
     <string name="no_matching_applications_found">Kan dergelijke applicaties niet vinden</string>
     <string name="plus_more_FORMAT">+%d meer</string>
     <string name="settings">Instellingen</string>
@@ -156,7 +148,6 @@
     <string name="network_error_DESC">Netwerkfout</string>
     <string name="open_DESC_FORMAT">%s openen\?</string>
     <string name="proxy_port">Proxy-poort</string>
-    <string name="root_permission">Stille installatie</string>
     <string name="provided_by_FORMAT">Geleverd door %s</string>
     <string name="promotes_non_free_software">Bevordert niet-vrije software</string>
     <string name="proxy">Proxy</string>
@@ -164,15 +155,10 @@
     <string name="skip">Overslaan</string>
     <string name="repository_unsigned_DESC">Niet ondertekend. Kan de app-lijst niet verifiëren. Wees voorzichtig met het installeren van apps van niet ondertekende opslagplaatsen.</string>
     <string name="themes">Thema\'s</string>
-    <string name="explore">Verkennen</string>
-    <string name="sort_filter">Sorteren &amp; filteren</string>
     <string name="search">Zoeken</string>
     <string name="sync_repositories_automatically">Opslagplaatsen automatisch synchroniseren</string>
     <string name="theme">Thema</string>
-    <string name="latest">Nieuwste</string>
-    <string name="new_applications">Nieuwe apps</string>
     <string name="update_all">Alles bijwerken</string>
-    <string name="repository_not_used_DESC">Deze opslagplaats is nog niet gebruikt. Schakel het in om de applicaties erin te bekijken.</string>
     <string name="invalid_username_format">Ongeldig gebruikersnaamformaat</string>
     <string name="select_mirror">Kies een mirror</string>
     <string name="downloading_FORMAT">%s downloaden…</string>
@@ -183,7 +169,6 @@
     <string name="legacy_installer">Verouderde installatie</string>
     <string name="session_installer">Sessie-installatie</string>
     <string name="cleanup_title">APK-opschoningsinterval</string>
-    <string name="cleanup_description">Periode om gedownloade bestanden te controleren en te verwijderen</string>
     <plurals name="hours">
         <item quantity="one">Uur</item>
         <item quantity="other">Uren</item>
@@ -192,14 +177,10 @@
         <item quantity="one">Dag</item>
         <item quantity="other">Dagen</item>
     </plurals>
-    <string name="no_internet">Geen internetverbinding</string>
     <string name="only_on_wifi_with_charging">Alleen bij Wi-Fi &amp; Opladen</string>
     <string name="io_error_DESC">Kan bepaalde acties niet uitvoeren.</string>
-    <string name="allow_collapsing_toolbar">Uitbreiding van topbalk toestaan</string>
-    <string name="allow_collapsing_toolbar_DESC">Toestaan dat de topbalk kan uitbreiden en inklappen</string>
     <string name="auto_update">Apps automatisch bijwerken</string>
     <string name="installing">Installeren</string>
-    <string name="restart_app">Start Droid-ify opnieuw om de wijzigingen te zien</string>
     <string name="favourites">Favorieten</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Material You kleurenthema gebruiken</string>
@@ -212,7 +193,6 @@
     <string name="socket_error_DESC">Server heeft geen nieuw pakket geleverd.</string>
     <string name="connection_error_DESC">Kan geen verbinding maken met server</string>
     <string name="has_non_free_components">Bevat niet-vrije onderdelen</string>
-    <string name="label_copy">Kopiëren</string>
     <string name="proxy_port_error_not_int">Proxy-poort moet een getal zijn</string>
     <string name="export_repos_DESC">Alle opslagplaatsen exporteren naar bestand</string>
     <string name="require_background_access_DESC">Achtergrondtoegang is vereist om achtergrondsynchronisatie uit te voeren</string>
@@ -222,8 +202,8 @@
     <string name="repository_not_found">De volgende opslagplaats is niet gevonden</string>
     <string name="home_screen_swiping_DESC">Laat de gebruiker vegen tussen pagina\'s in het startscherm</string>
     <string name="home_screen_swiping">Startscherm vegen</string>
-    <string name="cannot_open_link">Kan koppeling niet openen</string>
-    <string name="import_export">Import/export</string>
+    <string name="cannot_open_link">Kan link niet openen</string>
+    <string name="import_export">Importeren/Exporteren</string>
     <string name="import_settings_title">Instellingen importeren</string>
     <string name="import_settings_DESC">Instellingen en favorieten importeren vanuit bestand</string>
     <string name="export_settings_title">Instellingen exporteren</string>
@@ -242,9 +222,14 @@
     <string name="installation_failed">Installatie mislukt</string>
     <string name="insufficient_storage">Onvoldoende ruimte</string>
     <string name="insufficient_storage_DESC">Er is niet genoeg vrije ruimte op het apparaat om deze applicatie te installeren. Probeer wat ruimte vrij te maken</string>
-    <string name="error_shizuku_not_running_DESC">De Shizuku-service is niet actief. Controleer a.u.b. de Shizuku-app</string>
+    <string name="error_shizuku_not_running_DESC">De Shizuku-service is niet actief. Controleer de Shizuku-app</string>
     <string name="error_shizuku_service_unavailable">Shizuku is niet actief</string>
     <string name="error_shizuku_not_granted">Shizuku-toestemming ontbreekt</string>
     <string name="error_shizuku_not_granted_DESC">Toestemming Shizuku-service is niet verleend. Controleer a.u.b. de Shizuku-app</string>
     <string name="error_shizuku_not_installed">Shizuku niet geïnstalleerd</string>
+    <string name="open_shizuku">Shizuku openen</string>
+    <string name="switch_to_default_installer">Overschakelen naar standaard</string>
+    <string name="label_open_video">Video</string>
+    <string name="error_shizuku_not_installed_DESC">Het lijkt erop dat Shizuku niet is geïnstalleerd</string>
+    <string name="label_unknown_sdk">Onbekend (%d)</string>
 </resources>

@@ -12,28 +12,29 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     sealed class Request {
         internal abstract val id: Int
 
-        data class ProductsAvailable(
+        class Available(
             val searchQuery: String,
             val section: ProductItem.Section,
-            val order: SortOrder
+            val order: SortOrder,
         ) : Request() {
             override val id: Int
                 get() = 1
         }
 
-        data class ProductsInstalled(
+        class Installed(
             val searchQuery: String,
             val section: ProductItem.Section,
-            val order: SortOrder
+            val order: SortOrder,
         ) : Request() {
             override val id: Int
                 get() = 2
         }
 
-        data class ProductsUpdates(
+        class Updates(
             val searchQuery: String,
             val section: ProductItem.Section,
-            val order: SortOrder
+            val order: SortOrder,
+            val skipSignatureCheck: Boolean,
         ) : Request() {
             override val id: Int
                 get() = 3
@@ -52,7 +53,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private data class ActiveRequest(
         val request: Request,
         val callback: Callback?,
-        val cursor: Cursor?
+        val cursor: Cursor?,
     )
 
     init {
@@ -93,7 +94,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         val request = activeRequests[id]!!.request
         return QueryLoader(requireContext()) {
             when (request) {
-                is Request.ProductsAvailable ->
+                is Request.Available ->
                     Database.ProductAdapter
                         .query(
                             installed = false,
@@ -101,10 +102,10 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             searchQuery = request.searchQuery,
                             section = request.section,
                             order = request.order,
-                            signal = it
+                            signal = it,
                         )
 
-                is Request.ProductsInstalled ->
+                is Request.Installed ->
                     Database.ProductAdapter
                         .query(
                             installed = true,
@@ -112,10 +113,10 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             searchQuery = request.searchQuery,
                             section = request.section,
                             order = request.order,
-                            signal = it
+                            signal = it,
                         )
 
-                is Request.ProductsUpdates ->
+                is Request.Updates ->
                     Database.ProductAdapter
                         .query(
                             installed = true,
@@ -123,7 +124,8 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             searchQuery = request.searchQuery,
                             section = request.section,
                             order = request.order,
-                            signal = it
+                            signal = it,
+                            skipSignatureCheck = request.skipSignatureCheck,
                         )
 
                 is Request.Repositories -> Database.RepositoryAdapter.query(it)

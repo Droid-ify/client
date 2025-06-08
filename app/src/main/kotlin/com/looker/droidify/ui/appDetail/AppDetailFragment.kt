@@ -1,5 +1,6 @@
 package com.looker.droidify.ui.appDetail
 
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Intent
@@ -8,7 +9,6 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -20,16 +20,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
-import coil.load
+import coil3.load
+import coil3.request.allowHardware
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.droidify.utility.common.cache.Cache
-import com.looker.droidify.utility.common.extension.getLauncherActivities
-import com.looker.droidify.utility.common.extension.getMutatedIcon
-import com.looker.droidify.utility.common.extension.isFirstItemVisible
-import com.looker.droidify.utility.common.extension.isSystemApplication
-import com.looker.droidify.utility.common.extension.systemBarsPadding
-import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.installer.installers.launchShizuku
+import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.installer.model.isCancellable
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductPreference
@@ -43,11 +40,15 @@ import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE_NAME
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_REPO_ADDRESS
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.getLauncherActivities
+import com.looker.droidify.utility.common.extension.getMutatedIcon
+import com.looker.droidify.utility.common.extension.isFirstItemVisible
+import com.looker.droidify.utility.common.extension.isSystemApplication
+import com.looker.droidify.utility.common.extension.systemBarsPadding
+import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.droidify.installer.installers.launchShizuku
-import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.model.isCancellable
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -89,6 +90,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private val viewModel: AppDetailViewModel by viewModels()
 
+    @SuppressLint("RestrictedApi")
     private var layoutManagerState: LinearLayoutManager.SavedState? = null
 
     private var actions = Pair(emptySet<Action>(), null as Action?)
@@ -99,6 +101,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private var recyclerView: RecyclerView? = null
     private var detailAdapter: AppDetailAdapter? = null
+    private var imageViewer: StfalconImageViewer.Builder<Product.Screenshot>? = null
 
     private val downloadConnection = Connection(
         serviceClass = DownloadService::class.java,
@@ -109,11 +112,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         }
     )
 
+    @SuppressLint("RestrictedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         detailAdapter = AppDetailAdapter(this@AppDetailFragment)
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.menu.apply {
             Action.entries.forEach { action ->
                 add(0, action.id, 0, action.adapterAction.titleResId)
@@ -205,10 +209,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         super.onDestroyView()
         recyclerView = null
         detailAdapter = null
+        imageViewer = null
 
         downloadConnection.unbind(requireContext())
     }
 
+    @SuppressLint("RestrictedApi")
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
@@ -446,20 +452,27 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             .show(childFragmentManager)
     }
 
-    override fun onScreenshotClick(screenshot: Product.Screenshot, parentView: ImageView) {
-        val product = products
-            .firstOrNull { (product, _) ->
-                product.screenshots.find { it === screenshot }?.identifier != null
+    override fun onScreenshotClick(position: Int) {
+        if (imageViewer == null) {
+            val productRepository = products.findSuggested(installed?.installedItem) ?: return
+            val screenshots = productRepository.first.screenshots.mapNotNull {
+                if (it.type == Product.Screenshot.Type.VIDEO) null
+                else it
             }
-            ?: return
-        val screenshots = product.first.screenshots
-        val position = screenshots.indexOfFirst { screenshot.identifier == it.identifier }
-        StfalconImageViewer
-            .Builder(context, screenshots) { view, current ->
-                view.load(current.url(product.second, viewModel.packageName))
-            }
-            .withStartPosition(position)
-            .show()
+            imageViewer = StfalconImageViewer
+                .Builder(context, screenshots) { view, current ->
+                    val screenshotUrl = current.url(
+                        context = requireContext(),
+                        repository = productRepository.second,
+                        packageName = viewModel.packageName
+                    )
+                    view.load(screenshotUrl) {
+                        allowHardware(false)
+                    }
+                }
+        }
+        imageViewer?.withStartPosition(position)
+        imageViewer?.show()
     }
 
     override fun onReleaseClick(release: Release) {
@@ -517,7 +530,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onRequestAddRepository(address: String) {
-        screenActivity.navigateAddRepository(address)
+        mainActivity.navigateAddRepository(address)
     }
 
     override fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean {

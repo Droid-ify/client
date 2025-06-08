@@ -4,7 +4,6 @@
     <string name="address">Alamat</string>
     <string name="all_applications">Kabéh aplikasi</string>
     <string name="all_applications_up_to_date">Kabéh aplikasi geus alanyar</string>
-    <string name="allow_collapsing_toolbar">Idin Luhur Bar Aplikasi keur Ngaluas</string>
     <string name="already_exists">Enggeus aya</string>
     <string name="always">Salawasna</string>
     <string name="amoled">Hideung</string>
@@ -15,7 +14,6 @@
     <string name="auto_update_apps">Nyoba masang otomatis panganyarna</string>
     <string name="cannot_open_link">Teu bisa Muka Link</string>
     <string name="changelog">Parubahan</string>
-    <string name="cleanup_description">Jadwal ngecék jeung ngahapus file download-an</string>
     <string name="confirmation">Konfirmasi</string>
     <string name="could_not_download_FORMAT">Teu bisa ngadownload %s</string>
     <string name="could_not_validate_FORMAT">Teu bisa validasi %s</string>
@@ -44,7 +42,6 @@
     <string name="uninstalled_application_DESC">%s geus dihapus</string>
     <string name="invalid_fingerprint_format">Format sidik teu valid</string>
     <string name="io_error_DESC">Teu bisa ngalakukeun aksi tangtu.</string>
-    <string name="label_copy">Nyalin</string>
     <string name="light">Caang</string>
     <string name="material_you_desc">Paké warna téma material you</string>
     <string name="network_error_DESC">Jaringan error</string>
@@ -70,8 +67,6 @@
     <string name="recently_updated">Anyar cikénéh</string>
     <string name="repository_unsigned_DESC">Teu katanda. Teu bisa verifikasi daptar aplikasi. Kahadé ngadownload aplikasi tina repositori teu katanda.</string>
     <string name="require_background_access">Ngabutuhkeun Aksés Latar Tukang</string>
-    <string name="restart_app">Buka deui Droid-ify keur nempo parobahan</string>
-    <string name="root_permission_description">Idinkeun idin root keur masang jempé</string>
     <string name="save">Simpen</string>
     <string name="saving_details">Nyimpen jéntréna…</string>
     <string name="select_mirror">Pilih cadangan</string>
@@ -84,9 +79,7 @@
     <string name="themes">Téma</string>
     <string name="uninstall">Undeur</string>
     <string name="unknown_FORMAT">Teu dipikanyaho: %s</string>
-    <string name="unsigned">Teu ditanda</string>
     <string name="unstable_updates_summary">Saran panasaran vérsi teu stabil</string>
-    <string name="unverified">Teu diverifikasi</string>
     <string name="update">Anyar</string>
     <string name="updates">Anyar</string>
     <string name="username">Username</string>
@@ -94,12 +87,9 @@
     <string name="version_FORMAT">Vérsi %s</string>
     <string name="waiting_to_start_installation">Nungguan ngamimitian pamasangan…</string>
     <string name="show_less">Tempo saeutik</string>
-    <string name="latest">Pandeuri</string>
     <string name="update_all">Anyarkeun kabéh</string>
-    <string name="sort_filter">Urutan &amp; Filter</string>
     <string name="action_failed">Tindakan teu waras</string>
     <string name="contains_nsfw">Ngayaan teu aman keur jalanna kontén</string>
-    <string name="allow_collapsing_toolbar_DESC">Idinkeun luhur bar aplikasi keur ngaluas jeung nutup</string>
     <string name="anti_features">Anti fitur</string>
     <string name="application">Aplikasi</string>
     <string name="available">Jalajah</string>
@@ -172,8 +162,6 @@
     <string name="license_FORMAT">Lisénsi %s</string>
     <string name="link_copied_to_clipboard">Link disalin</string>
     <string name="links">Link</string>
-    <string name="list_animation">Daptar Animasi</string>
-    <string name="list_animation_description">Témbongkeun daptar animasi di kaca utama</string>
     <string name="material_you">Material You</string>
     <string name="merging_FORMAT">Ngahijikeun %s</string>
     <string name="name">Ngaran</string>
@@ -184,7 +172,6 @@
     <string name="no_applications_available">Euweuh aplikasi</string>
     <string name="no_description_available_DESC">Euweuh pedaran</string>
     <string name="no_applications_installed">Euweuh aplikasi nu kapasang</string>
-    <string name="no_internet">Anjeun euweuh konéksi internét</string>
     <string name="number_of_applications">Nomber aplikasi</string>
     <string name="notify_about_updates">Béjaan mun aya panganyarna</string>
     <string name="only_on_wifi_with_charging">Ngan maké Wi-Fi &amp; Dicas</string>
@@ -196,20 +183,16 @@
     <string name="promotes_non_free_network_services">Ngenalkeun layanan jaringan teu gratis</string>
     <string name="provided_by_FORMAT">Disadiaan ku %s</string>
     <string name="proxy_port">Port proxy</string>
-    <string name="repository_not_used_DESC">Repositori ieu can dipaké. Ngaktifkeun ieu keur nempo eusi aplikasina.</string>
     <string name="repository_not_found">Repositori ieu teu kapanggih</string>
     <string name="suggested">Disarankeun</string>
     <string name="repository_unreachable">Repositori teu kahontal</string>
     <string name="requires_FORMAT">Ngabutuhkeun %s</string>
-    <string name="root_permission">Masang Jempé</string>
     <string name="source_code_no_longer_available">Kodeu sumber geus euweuh</string>
-    <string name="screenshots">Tangkepan layar</string>
     <string name="special_credits">Kredit Khusus</string>
     <string name="sync_repositories">Sinkron repositori</string>
     <string name="require_background_access_DESC">Aksés Latar Tukang dibutuhkeun keur sinkronisasi di latar tukang lancar</string>
     <string name="sync_repositories_automatically">Sinkron repositori otomatis</string>
     <string name="syncing_FORMAT">Nyingkronkeun %s…</string>
-    <string name="target">Targét</string>
     <string name="search">Téang</string>
     <string name="signature_FORMAT">Tandatangan %s</string>
     <string name="system">Sistem</string>
@@ -234,7 +217,4 @@
     <string name="website">Web</string>
     <string name="prefs_language_title">Basa</string>
     <string name="prefs_personalization">Panampilan</string>
-    <string name="explore">Jalajah</string>
-    <string name="installed_applications">Aplikasi nu kapasang</string>
-    <string name="new_applications">Aplikasi anyar</string>
 </resources>

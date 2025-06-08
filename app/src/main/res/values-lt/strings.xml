@@ -24,13 +24,8 @@
     <string name="save">Išsaugoti</string>
     <string name="show_older_versions">Rodyti senesnes versijas</string>
     <string name="source_code">Pirminis kodas</string>
-    <string name="unsigned">Nepasirašyta</string>
     <string name="versions">Versijos</string>
-    <string name="latest">Naujausia</string>
     <string name="update_all">Atnaujinti viską</string>
-    <string name="installed_applications">Įdiegtos programėlės</string>
-    <string name="sort_filter">Rūšiavimas ir filtravimas</string>
-    <string name="new_applications">Naujos programėlės</string>
     <string name="show_more">Rodyti daugiau</string>
     <string name="signed_using_unsafe_algorithm">Pasirašyta naudojant nesaugų algoritmą</string>
     <string name="share">Dalintis</string>
@@ -52,7 +47,6 @@
     <string name="unknown_FORMAT">Nežinoma: %s</string>
     <string name="unstable_updates">Nestabilūs atnaujinimai</string>
     <string name="unstable_updates_summary">Siūlyti įdiegti nestabilias versijas</string>
-    <string name="unverified">Nepatvirtinta</string>
     <string name="update">Atnaujinti</string>
     <string name="username_missing">Trūksta vartotojo vardo</string>
     <string name="validation_index_error_DESC">Indekso patvirtinti nepavyko.</string>
@@ -76,7 +70,6 @@
     <string name="parsing_index_error_DESC">Nepavyko išanalizuoti indekso failo.</string>
     <string name="processing_FORMAT">Apdorojama %1$s…</string>
     <string name="project_website">Projekto svetainė</string>
-    <string name="screenshots">Ekrano nuotraukos</string>
     <string name="always">Visada</string>
     <string name="bug_tracker">Klaidų sekiklis</string>
     <string name="confirmation">Patvirtinimas</string>
@@ -92,8 +85,6 @@
     <string name="permissions">Leidimai</string>
     <string name="settings">Nustatymai</string>
     <string name="recently_updated">Neseniai atnaujinta</string>
-    <string name="root_permission">Tylusis diegimas</string>
-    <string name="root_permission_description">Suteikti šakninį leidimą tyliajam diegimui</string>
     <string name="downloaded_FORMAT">Atsisiųsta %s</string>
     <string name="open_DESC_FORMAT">Atidaryti %s\?</string>
     <string name="password">Slaptažodis</string>
@@ -137,8 +128,6 @@
     <string name="license_FORMAT">%s licencija</string>
     <string name="light">Šviesi</string>
     <string name="links">Nuorodos</string>
-    <string name="list_animation">Sąrašo animacijos</string>
-    <string name="list_animation_description">Rodyti sąrašo animaciją pagrindiniame puslapyje</string>
     <string name="merging_FORMAT">Sujungiama %s</string>
     <string name="name">Pavadinimas</string>
     <string name="network_error_DESC">Tinklo klaida</string>
@@ -159,12 +148,10 @@
     <string name="sync_repositories_automatically">Automatiškai sinchronizuoti repozitorijas</string>
     <string name="tap_to_install_DESC">Bakstelėkite, kad įdiegtumėte.</string>
     <string name="repositories">Repozitorijos</string>
-    <string name="repository_not_used_DESC">Ši repozitorija dar nebuvo naudojama. Įjunkite ją, kad peržiūrėtumėte joje esančias programėles.</string>
     <string name="requires_FORMAT">Reikalauja %s</string>
     <string name="compiled_for_debugging">Parengta derinimui</string>
     <string name="credits">Padėkos</string>
     <string name="contains_non_free_media">Turi ne „libre“ medijos</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="edit_repository">Redaguoti repozitoriją</string>
     <string name="fingerprint">Pirštų atspaudai</string>
     <string name="has_non_free_dependencies">Turi ne „libre“ priklausomybių</string>
@@ -192,18 +179,12 @@
     <string name="promotes_non_free_software">Skatina ne „libre“ programinę įrangą</string>
     <string name="select_mirror">Pasirinkite alternatyvų šaltinį</string>
     <string name="socks_proxy">SOCKS įgaliotasis serveris</string>
-    <string name="target">Tikslas</string>
     <string name="upstream_source_code_is_not_free">Pradinis pirminis kodas nėra visiškai „libre“</string>
-    <string name="explore">Naršyti</string>
     <string name="proxy_type">Įgaliotojo serverio tipas</string>
     <string name="io_error_DESC">Nepavyko atlikti tam tikrų veiksmų.</string>
-    <string name="no_internet">Neturite interneto ryšio</string>
-    <string name="allow_collapsing_toolbar">Leisti viršutinei programėlių juostai išsiskleisti</string>
-    <string name="allow_collapsing_toolbar_DESC">Leisti viršutinei programėlių juostai išsiskleisti ir susiskleisti</string>
     <string name="auto_update">Automatinis programų atnaujinimas</string>
     <string name="auto_update_apps">Pabandykite automatiškai įdiegti naujinimus</string>
     <string name="installing">Diegimas</string>
-    <string name="restart_app">Iš naujo paleiskite Droid-ify, kad pamatytumėte pakeitimus</string>
     <string name="waiting_to_start_installation">Laukiama, kol bus pradėtas diegimas…</string>
     <string name="favourites">Mėgstamiausi</string>
     <string name="repository_unreachable">Saugykla nepasiekiama</string>
@@ -224,7 +205,6 @@
     <string name="socket_error_DESC">Serveriui nepavyko pateikti naujo paketo.</string>
     <string name="connection_error_DESC">Nepavyko prisijungti prie serverio</string>
     <string name="special_credits">Specialūs kreditai</string>
-    <string name="label_copy">Kopijuoti</string>
     <string name="cannot_open_link">Negalima atidaryti nuorodos</string>
     <string name="import_export">Importuoti/eksportuoti</string>
     <string name="import_settings_title">Importuoti nustatymus</string>

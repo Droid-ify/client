@@ -1,4 +1,4 @@
-package com.looker.core.common.extension
+package com.looker.droidify.utility.common.extension
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonGenerator

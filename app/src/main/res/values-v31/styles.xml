@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <style name="Theme.Main.DynamicLight" parent="Theme.Main.Light">
         <item name="colorPrimary">@android:color/system_accent1_600</item>

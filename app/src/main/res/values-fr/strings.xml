@@ -61,7 +61,6 @@
     <string name="source_code">Code source</string>
     <string name="size">Taille</string>
     <string name="skip">Ignorer</string>
-    <string name="screenshots">Captures d’écran</string>
     <string name="search">Chercher</string>
     <string name="select_mirror">Sélectionnez un miroir</string>
     <string name="share">Partager</string>
@@ -81,7 +80,6 @@
     <string name="website">Site internet</string>
     <string name="update">Mettre à jour</string>
     <string name="updates">Mises à jour</string>
-    <string name="unverified">Non vérifié</string>
     <string name="unknown_FORMAT">Inconnu : %s</string>
     <string name="unknown_error_DESC">Erreur inconnue.</string>
     <string name="add_repository">Ajouter un dépôt</string>
@@ -98,7 +96,6 @@
     <string name="uninstall">Désinstaller</string>
     <string name="could_not_validate_FORMAT">Impossible de valider %s</string>
     <string name="system">Système</string>
-    <string name="target">Cible</string>
     <string name="password_missing">Mot de passe manquant</string>
     <string name="credits">Crédits</string>
     <string name="themes">Thèmes</string>
@@ -116,7 +113,6 @@
     <string name="incompatible_features_DESC">Fonctionnalités manquantes.</string>
     <string name="incompatible_older_DESC">Cette version est plus ancienne que celle qui est installée sur votre appareil. Désinstallez-la d’abord.</string>
     <string name="notify_about_updates_summary">Afficher une notification quand de nouvelles versions sont disponibles</string>
-    <string name="repository_not_used_DESC">Ce dépôt n’a pas encore été utilisé. Activez-le pour voir les applications qu’il contient.</string>
     <string name="no_applications_installed">Aucune application installée</string>
     <string name="repository_unsigned_DESC">Non signé. Impossible de vérifier la liste d’applis. Soyez prudents lorsque vous téléchargez des applis de dépôts non signés.</string>
     <string name="has_non_free_dependencies">Dépend d’applications qui ne sont pas libres</string>
@@ -143,8 +139,6 @@
     <string name="proxy_host">Adresse du proxy</string>
     <string name="proxy_port">Port du proxy</string>
     <string name="proxy_type">Type de proxy</string>
-    <string name="root_permission">Installation silencieuse</string>
-    <string name="root_permission_description">Autoriser la permission de l’utilisateur root pour les installations silencieuses</string>
     <string name="show_older_versions">Afficher les versions plus anciennes</string>
     <string name="signature_FORMAT">Signature %s</string>
     <string name="signed_using_unsafe_algorithm">Signé avec un algorithme qui n’est pas sécurisé</string>
@@ -152,7 +146,6 @@
     <string name="sync_repositories_automatically">Synchroniser les dépôts automatiquement</string>
     <string name="syncing">Synchronisation en cours</string>
     <string name="syncing_FORMAT">Synchronisation de %s en cours…</string>
-    <string name="unsigned">Non-signé</string>
     <string name="unstable_updates">Mises à jour instables</string>
     <string name="upstream_source_code_is_not_free">Le code source n’est pas entièrement libre</string>
     <string name="username">Nom d’utilisateur</string>
@@ -161,30 +154,22 @@
     <string name="incompatible_api_DESC_FORMAT">Votre %1$s (API version %2$d) n’est pas pris en charge. %3$s</string>
     <string name="integrity_check_error_DESC">Impossible de vérifier l’intégrité.</string>
     <string name="invalid_fingerprint_format">Format d’empreinte digitale non valide</string>
-    <string name="list_animation">Animations de listes</string>
     <string name="processing_FORMAT">Traitement de %1$s…</string>
     <string name="parsing_index_error_DESC">Impossible d’analyser le fichier d’index.</string>
     <string name="merging_FORMAT">Fusionner %s</string>
-    <string name="list_animation_description">Afficher l’animation de la liste sur la page principale</string>
     <string name="sorting_order">Ordre de tri</string>
     <string name="requires_FORMAT">Requiert %s</string>
     <string name="unstable_updates_summary">Suggérer l’installation de versions instables</string>
     <string name="prefs_language_title">Langue</string>
     <string name="prefs_personalization">Personnalisation</string>
     <string name="show_less">Afficher moins</string>
-    <string name="latest">Le plus récent</string>
-    <string name="sort_filter">Trier et filtrer</string>
-    <string name="new_applications">Nouvelles applications</string>
-    <string name="explore">Explorer</string>
     <string name="update_all">Tout mettre à jour</string>
-    <string name="installed_applications">Applications installées</string>
     <string name="session_installer">Installateur de session</string>
     <string name="legacy_installer">Installateur hérité</string>
     <string name="installer">Installateur</string>
     <string name="root_installer">Installateur racine</string>
     <string name="shizuku_installer">Installateur Shizuku</string>
     <string name="cleanup_title">Intervalle de nettoyage des APK</string>
-    <string name="cleanup_description">Période de vérification et de suppression des fichiers téléchargés</string>
     <plurals name="days">
         <item quantity="one">Jour</item>
         <item quantity="many">Jours</item>
@@ -197,9 +182,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Uniquement sur Wi-Fi et charge</string>
     <string name="io_error_DESC">Impossible d’effectuer certaines actions.</string>
-    <string name="no_internet">Vous n’avez pas de connexion internet</string>
-    <string name="allow_collapsing_toolbar_DESC">Autoriser l\'expansion et la réduction de la barre supérieure de l\'appli</string>
-    <string name="allow_collapsing_toolbar">Autoriser l\'expansion de la barre supérieure de l\'appli</string>
     <string name="material_you_desc">Utiliser le thème couleur Material You</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Favoris</string>
@@ -208,7 +190,6 @@
     <string name="force_clean_up_DESC">Nettoyer les fichiers redondants</string>
     <string name="enable_repo">Activer le dépôt</string>
     <string name="installing">Installation</string>
-    <string name="restart_app">Redémarrez Droid-ify pour voir les changements</string>
     <string name="waiting_to_start_installation">En attente du démarrage de l\'installation…</string>
     <string name="auto_update">Mise à jour automatique des applis</string>
     <string name="auto_update_apps">Essayez d\'installer les mises à jour automatiquement</string>
@@ -221,7 +202,6 @@
     <string name="special_credits">Crédits spéciaux</string>
     <string name="home_screen_swiping">Balayage de l\'écran d\'accueil</string>
     <string name="home_screen_swiping_DESC">Permettre à l\'utilisateur de passer d\'une page à l\'autre dans l\'écran d\'accueil</string>
-    <string name="label_copy">Copier</string>
     <string name="repository_not_found">Le dépôt suivant n\'a pas été trouvé</string>
     <string name="proxy_port_error_not_int">Le port proxy ne peut être qu\'un entier</string>
     <string name="import_settings_title">Importer les paramètres</string>
@@ -245,4 +225,14 @@
     <string name="ignore_signature_summary">*Attention* Ignorer la vérification de la signature lors de l\'installation de l\'APK, pour les utilisateurs de LSPosed ou les utilisateurs avancés</string>
     <string name="insufficient_storage">Espace insuffisant</string>
     <string name="insufficient_storage_DESC">Il n\'y a pas assez d\'espace libre sur l\'appareil pour installer cette application. Essayez de libérer de l\'espace</string>
+    <string name="error_shizuku_not_running_DESC">Le service Shizuku n\'est pas démarré. Merci de le vérifier dans l\'appli Shizuku</string>
+    <string name="error_shizuku_service_unavailable">Shizuku Non Démarré</string>
+    <string name="error_shizuku_not_granted">Permission Shizuku Manquante</string>
+    <string name="error_shizuku_not_granted_DESC">La permission du service Shizuku n\'est pas accordée. Merci de la vérifier via l\'appli Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku Non Installé</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku ne semble pas être installé</string>
+    <string name="open_shizuku">Ouvrir Shizuku</string>
+    <string name="label_open_video">Vidéo</string>
+    <string name="label_unknown_sdk">Inconnu (%d)</string>
+    <string name="switch_to_default_installer">Rétablir par défaut</string>
 </resources>

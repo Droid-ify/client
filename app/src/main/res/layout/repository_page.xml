@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="20dp">
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/repo_switch"
@@ -65,9 +66,4 @@
             android:text="@string/delete"
             android:textColor="?colorOnError" />
     </LinearLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"/>
-
 </LinearLayout>

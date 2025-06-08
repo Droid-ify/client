@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/video_button"
+    style="?materialIconButtonFilledTonalStyle"
+    android:text="@string/label_open_video"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:paddingHorizontal="24dp"
+    app:icon="@drawable/ic_video"
+    app:iconGravity="textTop"
+    app:iconPadding="6dp"
+    app:iconSize="24dp" />
+

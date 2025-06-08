@@ -136,7 +136,7 @@ internal class KtorDownloader(
 
 private const val CONNECTION_TIMEOUT = 30_000L
 private const val SOCKET_TIMEOUT = 15_000L
-private const val USER_AGENT = "Droid-ify, ${BuildConfig.VERSION_NAME}"
+private const val USER_AGENT = "Droid-ify/${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
 
 private fun HttpClientConfig<*>.userAgentConfig() = install(UserAgent) {
     agent = USER_AGENT

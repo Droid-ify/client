@@ -20,7 +20,7 @@ import com.looker.droidify.installer.model.InstallState
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-internal class SessionInstaller(private val context: Context) : Installer {
+class SessionInstaller(private val context: Context) : Installer {
 
     private val installer = context.packageManager.packageInstaller
     private val intent = Intent(context, SessionInstallerReceiver::class.java)

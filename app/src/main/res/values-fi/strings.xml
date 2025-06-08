@@ -72,8 +72,6 @@
     <string name="light">Vaalea</string>
     <string name="link_copied_to_clipboard">Linkki kopioitu</string>
     <string name="links">Linkit</string>
-    <string name="list_animation">Luettelon animaatiot</string>
-    <string name="list_animation_description">Näytä luettelon animaatio pääsivulla</string>
     <string name="merging_FORMAT">Yhdistetään %s</string>
     <string name="name">Nimi</string>
     <string name="network_error_DESC">Verkkovirhe</string>
@@ -95,11 +93,8 @@
     <string name="repositories">Ohjelmavarastot</string>
     <string name="repository">Ohjelmavarasto</string>
     <string name="requires_FORMAT">Vaatii %s</string>
-    <string name="root_permission">Hiljainen asennus</string>
-    <string name="root_permission_description">Salli pääkäyttäjän oikeudet hiljaisiin asennuksiin</string>
     <string name="save">Tallenna</string>
     <string name="saving_details">Tallennetaan tietoja…</string>
-    <string name="screenshots">Kuvakaappaukset</string>
     <string name="only_on_wifi">Vain Wi-Fi verkossa</string>
     <string name="open_DESC_FORMAT">Avaa %s\?</string>
     <string name="other">Muut</string>
@@ -127,9 +122,7 @@
     <string name="unknown">Tuntematon</string>
     <string name="unknown_error_DESC">Tuntematon virhe.</string>
     <string name="unknown_FORMAT">Tuntematon: %s</string>
-    <string name="unsigned">Allekirjoittamaton</string>
     <string name="unstable_updates">Epävakaat päivitykset</string>
-    <string name="unverified">Vahvistamaton</string>
     <string name="upstream_source_code_is_not_free">Alkuperäinen lähdekoodi ei ole vapaa</string>
     <string name="website">Verkkosivusto</string>
     <string name="whats_new">Mitä uutta</string>
@@ -151,13 +144,11 @@
     <string name="syncing_FORMAT">Synkronoidaan %s…</string>
     <string name="themes">Teemat</string>
     <string name="theme">Teema</string>
-    <string name="target">Kohde</string>
     <string name="tap_to_install_DESC">Napauta asentaaksesi.</string>
     <string name="system">Järjestelmä</string>
     <string name="update">Päivitys</string>
     <string name="updates">Päivitykset</string>
     <string name="promotes_non_free_software">Edistää ei-vapaita ohjelmia</string>
-    <string name="repository_not_used_DESC">Tätä ohjelmavarastoa ei ole vielä käytetty. Ota se käyttöön nähdäksesi siinä olevat sovellukset.</string>
     <string name="proxy">Välityspalvelin</string>
     <string name="repository_unsigned_DESC">Allekirjoittamaton. Sovellusluetteloa ei voitu tarkistaa. Ole varovainen ladatessasi sovelluksia allekirjoittamattomista arkistoista.</string>
     <string name="version_FORMAT">Versio %s</string>
@@ -171,19 +162,13 @@
     <string name="prefs_personalization">Mukauttaminen</string>
     <string name="prefs_language_title">Kieli</string>
     <string name="show_less">Näytä vähemmän</string>
-    <string name="latest">Uusimmat</string>
-    <string name="explore">Tutustu</string>
     <string name="update_all">Päivitä kaikki</string>
-    <string name="installed_applications">Asennetut sovellukset</string>
-    <string name="new_applications">Uudet sovellukset</string>
-    <string name="sort_filter">Lajittele ja suodata</string>
     <string name="installer">Asentaja</string>
     <string name="legacy_installer">Vanha asentaja</string>
     <string name="session_installer">Sessioasentaja</string>
     <string name="root_installer">Root-asentaja</string>
     <string name="shizuku_installer">Shizuku-asentaja</string>
     <string name="cleanup_title">APK:n puhdistusväli</string>
-    <string name="cleanup_description">Aika ladattujen tiedostojen tarkistamiseen ja poistamiseen</string>
     <plurals name="days">
         <item quantity="one">Päivä</item>
         <item quantity="other">Päivää</item>
@@ -194,9 +179,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Vain Wi-Fi verkossa latauksessa ollessa</string>
     <string name="io_error_DESC">Tiettyjä toimia ei voida suorittaa.</string>
-    <string name="allow_collapsing_toolbar">Salli yläosan sovelluspalkin laajeneminen</string>
-    <string name="allow_collapsing_toolbar_DESC">Salli yläosan sovelluspalkin laajentua ja tiivistyä</string>
-    <string name="no_internet">Ei internet yhteyttä</string>
     <string name="favourites">Suosikit</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Käytä Material You -väriteemaa</string>
@@ -205,7 +187,6 @@
     <string name="force_clean_up_DESC">Puhdistaa tarpeettomat tiedostot</string>
     <string name="repository_unreachable">Ohjelmavarasto ei ole tavoitettavissa</string>
     <string name="installing">Asentaa</string>
-    <string name="restart_app">Käynnistä Droid-ify uudelleen nähdäksesi muutokset</string>
     <string name="waiting_to_start_installation">Odotetaan asennuksen aloittamista…</string>
     <string name="auto_update">Päivitä sovelluksia automaattisesti</string>
     <string name="auto_update_apps">Yritä asentaa päivitykset automaattisesti</string>
@@ -215,7 +196,6 @@
     <string name="shizuku_not_alive">Shizuku ei ole käynnissä</string>
     <string name="connection_error_DESC">Palvelimeen ei saatu yhteyttä</string>
     <string name="socket_error_DESC">Palvelin ei pystynyt toimittamaan uutta pakettia.</string>
-    <string name="label_copy">Kopioi</string>
     <string name="proxy_port_error_not_int">Välityspalvelimen portti voi olla vain kokonaisluku</string>
     <string name="home_screen_swiping_DESC">Salli käyttäjän pyyhkäistä sivujen välillä aloitusnäytössä</string>
     <string name="repository_not_found">Seuraavaa ohjelmavarastoa ei löytynyt</string>

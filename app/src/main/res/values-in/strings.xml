@@ -58,8 +58,6 @@
     <string name="launch">Luncurkan</string>
     <string name="license">Lisensi</string>
     <string name="incompatible_versions_summary">Tampilkan versi aplikasi yang tidak kompatibel dengan perangkatmu</string>
-    <string name="list_animation">Animasi Daftar</string>
-    <string name="list_animation_description">Tampilkan animasi daftar pada halaman utama</string>
     <string name="merging_FORMAT">Menggabungkan %s</string>
     <string name="name">Nama</string>
     <string name="never">Tidak pernah</string>
@@ -96,13 +94,9 @@
     <string name="recently_updated">Baru-baru ini diperbarui</string>
     <string name="repositories">Repositori</string>
     <string name="repository">Repositori</string>
-    <string name="repository_not_used_DESC">Repositori ini belum digunakan. Aktifkan untuk melihat aplikasi yang tersedia.</string>
     <string name="repository_unsigned_DESC">Tanpa tanda tangan. Tidak bisa memverifikasi daftar aplikasi. Hati-hati saat mengunduh aplikasi dari repositori tanpa tanda tangan.</string>
     <string name="requires_FORMAT">Membutuhkan %s</string>
-    <string name="root_permission">Pasang Diam-diam</string>
-    <string name="root_permission_description">Izinkan akses root untuk pemasangan secara diam-diam</string>
     <string name="save">Simpan</string>
-    <string name="screenshots">Tangkapan Layar</string>
     <string name="signature_FORMAT">Tanda tangan %s</string>
     <string name="size">Ukuran</string>
     <string name="skip">Lewati</string>
@@ -117,10 +111,8 @@
     <string name="unknown">Tidak diketahui</string>
     <string name="unknown_error_DESC">Galat tidak diketahui.</string>
     <string name="unknown_FORMAT">Tidak diketahui: %s</string>
-    <string name="unsigned">Tanpa tanda tangan</string>
     <string name="unstable_updates">Pembaruan tidak stabil</string>
     <string name="unstable_updates_summary">Sarankan memasang versi tidak stabil</string>
-    <string name="unverified">Tidak terverifikasi</string>
     <string name="updates">Pembaruan</string>
     <string name="upstream_source_code_is_not_free">Kode sumber upstream tidak bebas</string>
     <string name="username">Nama pengguna</string>
@@ -133,9 +125,6 @@
     <string name="add_repository">Tambah repositori</string>
     <string name="address">Alamat</string>
     <string name="always">Selalu</string>
-    <string name="latest">Terbaru</string>
-    <string name="sort_filter">Urutan &amp; Filter</string>
-    <string name="new_applications">Aplikasi baru</string>
     <string name="application_not_found">Tidak bisa menemukan aplikasi tersebut</string>
     <string name="confirmation">Konfirmasi</string>
     <string name="could_not_validate_FORMAT">Tidak bisa memvalidasi %s</string>
@@ -165,20 +154,17 @@
     <string name="syncing_FORMAT">Menyinkronkan %s…</string>
     <string name="sync_repositories_automatically">Sinkron repositori secara otomatis</string>
     <string name="tap_to_install_DESC">Ketuk untuk pasang.</string>
-    <string name="target">Sasaran</string>
     <string name="uninstall">Copot</string>
     <string name="theme">Tema</string>
     <string name="themes">Tema</string>
     <string name="tracks_or_reports_your_activity">Melacak atau melaporkan aktivitas Anda</string>
     <string name="show_less">Tampilkan Sedikit</string>
-    <string name="explore">Jelajahi</string>
     <string name="version">Versi</string>
     <string name="version_FORMAT">Versi %s</string>
     <string name="waiting_to_start_download">Menunggu memulai mengunduh…</string>
     <string name="prefs_personalization">Personalisasi</string>
     <string name="versions">Versi</string>
     <string name="update_all">Perbarui semua</string>
-    <string name="installed_applications">Aplikasi terpasang</string>
     <plurals name="days">
         <item quantity="other">Hari</item>
     </plurals>
@@ -188,11 +174,7 @@
     <string name="only_on_wifi_with_charging">Hanya pada Wi-Fi &amp; Mengisi Daya</string>
     <string name="compiled_for_debugging">Dikompilasi untuk debugging</string>
     <string name="io_error_DESC">Tidak bisa melaksanakan tindakan tertentu.</string>
-    <string name="no_internet">Kamu tidak memiliki akses internet</string>
-    <string name="allow_collapsing_toolbar">Izinkan Bilah Atas Apl untuk Diperluas</string>
-    <string name="allow_collapsing_toolbar_DESC">Izinkan bilah atas aplikasi untuk diperluas dan dikecilkan</string>
     <string name="cleanup_title">Interval pembersihan APK</string>
-    <string name="cleanup_description">Interval pengecekan dan penghapusan berkas terunduh</string>
     <string name="downloaded_FORMAT">%s Terdownload</string>
     <string name="favourites">Favorit</string>
     <string name="material_you">Material You</string>
@@ -205,7 +187,6 @@
     <string name="waiting_to_start_installation">Menunggu untuk memulai pemasangan…</string>
     <string name="auto_update">Perbarui aplikasi secara otomatis</string>
     <string name="auto_update_apps">Cobalah untuk menginstal pembaruan secara otomatis</string>
-    <string name="restart_app">Ulang Droid-ify untuk melihat perubahan</string>
     <string name="has_non_free_components">Memiliki komponen tidak terbuka</string>
     <string name="socket_error_DESC">Server gagal menyediakan paket baru.</string>
     <string name="connection_error_DESC">Tidak dapat terhubung ke server</string>
@@ -215,7 +196,6 @@
     <string name="home_screen_swiping_DESC">Izinkan pengguna menggeser antar halaman di layar beranda</string>
     <string name="special_credits">Kredit Spesial</string>
     <string name="shizuku_not_installed">Shizuku tidak terpasang</string>
-    <string name="label_copy">Salin</string>
     <string name="proxy_port_error_not_int">Porta proksi harus bilangan bulat</string>
     <string name="repository_not_found">Repositori berikut tidak ditemukan</string>
     <string name="import_settings_title">Impor Pengaturan</string>
@@ -239,4 +219,14 @@
     <string name="ignore_signature_summary">*Peringatan* Abaikan verifikasi tanda tangan ketika memasang apk, untuk pengguna LSPosed atau pengguna ahli</string>
     <string name="insufficient_storage_DESC">Tidak cukup ruang kosong pada perangkat untuk memasang aplikasi ini. Coba bersihkan berkas atau aplikasi</string>
     <string name="insufficient_storage">Ruang Tidak Cukup</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku tampaknya tidak terinstal</string>
+    <string name="switch_to_default_installer">Beralih ke Default</string>
+    <string name="open_shizuku">Buka Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Izin layanan Shizuku tidak diberikan. Silakan cek di Aplikasi Shizuku</string>
+    <string name="error_shizuku_service_unavailable">Shizuku Tidak Berjalan</string>
+    <string name="error_shizuku_not_running_DESC">Layanan Shizuku tidak berjalan. Silakan periksa di Aplikasi Shizuku</string>
+    <string name="error_shizuku_not_granted">Izin Shizuku Hilang</string>
+    <string name="error_shizuku_not_installed">Shizuku Tidak Terinstal</string>
+    <string name="label_open_video">video</string>
+    <string name="label_unknown_sdk">Tidak diketahui (%d)</string>
 </resources>

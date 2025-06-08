@@ -78,8 +78,6 @@
     <string name="license">Licence</string>
     <string name="license_FORMAT">%s licence</string>
     <string name="links">Odkazy</string>
-    <string name="list_animation">List Animací</string>
-    <string name="list_animation_description">Zobrazit animaci listu na hlavní stránce</string>
     <string name="merging_FORMAT">Slučování %s</string>
     <string name="name">Název</string>
     <string name="network_error_DESC">Chyba sítě</string>
@@ -110,14 +108,10 @@
     <string name="promotes_non_free_software">Propaguje ne-svobodný software</string>
     <string name="provided_by_FORMAT">Poskytuje %s</string>
     <string name="proxy">Proxy</string>
-    <string name="repository_not_used_DESC">Tento zdroj zatím použit. Zapněte jej pro zobrazení aplikací na něm.</string>
     <string name="repository_unsigned_DESC">Nepodepsáno. Nezdařilo se ověřit seznam aplikací. Buďte opatrní při stahování aplikací z nepodepsaných zdrojů.</string>
     <string name="requires_FORMAT">Vyžaduje %s</string>
-    <string name="root_permission">Tichá instalace</string>
-    <string name="root_permission_description">Povolit root oprávnění pro tiché instalace</string>
     <string name="save">Uložit</string>
     <string name="saving_details">Ukládám detaily…</string>
-    <string name="screenshots">Snímky obrazovky</string>
     <string name="search">Hledat</string>
     <string name="share">Sdílet</string>
     <string name="show_more">Zobrazit více</string>
@@ -137,7 +131,6 @@
     <string name="syncing_FORMAT">Synchronizuji %s…</string>
     <string name="system">Systém</string>
     <string name="tap_to_install_DESC">Klikněte pro instalaci.</string>
-    <string name="target">Cíl</string>
     <string name="theme">Téma</string>
     <string name="themes">Témata</string>
     <string name="tracks_or_reports_your_activity">Sleduje nebo hlásí vaší aktivitu</string>
@@ -145,9 +138,7 @@
     <string name="unknown">Neznámé</string>
     <string name="unknown_error_DESC">Neznámá chyba.</string>
     <string name="unknown_FORMAT">Neznámé: %s</string>
-    <string name="unsigned">Nepodepsáno</string>
     <string name="unstable_updates">Nestabilní aktualizace</string>
-    <string name="unverified">Neověřeno</string>
     <string name="update">Aktualizovat</string>
     <string name="updates">Aktualizace</string>
     <string name="upstream_source_code_is_not_free">Originální zdrojový kód není svobodný</string>
@@ -163,12 +154,7 @@
     <string name="prefs_language_title">Jazyk</string>
     <string name="prefs_personalization">Personalizace</string>
     <string name="show_less">Zobrazit méně</string>
-    <string name="latest">Nejnovější</string>
-    <string name="explore">Prozkoumat</string>
     <string name="update_all">Aktualizovat vše</string>
-    <string name="installed_applications">Instalované aplikace</string>
-    <string name="sort_filter">Třídit &amp; Filtrovat</string>
-    <string name="new_applications">Nové aplikace</string>
     <string name="action_failed">Akce se nezdařila</string>
     <string name="all_applications">Všechny aplikace</string>
     <string name="amoled">Černá</string>
@@ -194,12 +180,8 @@
         <item quantity="other">hodin</item>
     </plurals>
     <string name="cleanup_title">Interval čištění APK</string>
-    <string name="cleanup_description">Období pro kontrolu a odstranění stažených souborů</string>
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi a při nabíjení</string>
     <string name="io_error_DESC">Nepodařilo se vykonat některé akce.</string>
-    <string name="no_internet">Nejste připojeni k internetu</string>
-    <string name="allow_collapsing_toolbar">Povolení rozšíření horního panelu aplikací</string>
-    <string name="allow_collapsing_toolbar_DESC">Povolení rozbalování a sbalování horního panelu aplikace</string>
     <string name="material_you_desc">Použít barevný motiv Material You</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Oblíbené</string>
@@ -207,7 +189,6 @@
     <string name="force_clean_up">Vynutit vyčištění</string>
     <string name="repository_unreachable">Repozitář nedostupný</string>
     <string name="enable_repo">Povolit repozitář</string>
-    <string name="restart_app">Pro zobrazení změn restartujte Droid-ify</string>
     <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
     <string name="installing">Instalace</string>
     <string name="auto_update">Automatická aktualizace aplikací</string>
@@ -221,7 +202,6 @@
     <string name="special_credits">Speciální poděkování</string>
     <string name="home_screen_swiping">Posouvání na domovské stránce</string>
     <string name="home_screen_swiping_DESC">Umožnit uživateli posouvat mezi stránkami na domovské stránce</string>
-    <string name="label_copy">Kopírovat</string>
     <string name="repository_not_found">Následující repozitář nebyl nalezen</string>
     <string name="proxy_port_error_not_int">Port proxy smí být pouze celé číslo</string>
     <string name="import_settings_title">Importovat nastavení</string>
@@ -245,4 +225,14 @@
     <string name="uninstalled_application">Odinstalováno</string>
     <string name="insufficient_storage">Nedostatek místa</string>
     <string name="insufficient_storage_DESC">Na zařízení není dostatek místa k instalaci této aplikace. Zkuste uvolnit trochu místa</string>
+    <string name="error_shizuku_service_unavailable">Shizuku není spuštěno</string>
+    <string name="error_shizuku_not_granted">Chybějící oprávnění Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Nebylo uděleno oprávnění ke službě Shizuku. Zkontrolujte prosím aplikaci Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Aplikace Shizuku nejspíše není nainstalována</string>
+    <string name="switch_to_default_installer">Přepnout na výchozí</string>
+    <string name="label_unknown_sdk">Neznámé (%d)</string>
+    <string name="error_shizuku_not_running_DESC">Služba Shizuku není spuštěna. Zkontrolujte prosím aplikaci Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku není nainstalováno</string>
+    <string name="label_open_video">Video</string>
+    <string name="open_shizuku">Otevřít Shizuku</string>
 </resources>

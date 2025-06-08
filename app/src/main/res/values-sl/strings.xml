@@ -45,7 +45,6 @@
     <string name="invalid_signature_error_DESC">Neveljaven podpis.</string>
     <string name="launch">Zaženi</string>
     <string name="light">Svetlo</string>
-    <string name="list_animation_description">Prikaži animacijo seznama na glavni strani</string>
     <string name="new_updates_available">Na voljo so nove posodobitve</string>
     <string name="never">Nikoli</string>
     <string name="network_error_DESC">Napaka omrežja</string>
@@ -66,18 +65,14 @@
     <string name="proxy">Proksi</string>
     <string name="repositories">Skladišča</string>
     <string name="requires_FORMAT">Potrebuje %s</string>
-    <string name="root_permission">Tiha namestitev</string>
     <string name="save">Shrani</string>
     <string name="saving_details">Shranjevanje podrobnosti …</string>
-    <string name="screenshots">Posnetki zaslona</string>
     <string name="skip">Preskoči</string>
     <string name="suggested">Predlagano</string>
     <string name="syncing">Sinhronizacija</string>
     <string name="themes">Teme</string>
-    <string name="target">Tarča</string>
     <string name="unknown">Neznano</string>
     <string name="uninstall">Odstrani</string>
-    <string name="unsigned">Nepodpisan</string>
     <string name="update">Posodobitev</string>
     <string name="version">Različica</string>
     <string name="versions">Različice</string>
@@ -110,7 +105,6 @@
     <string name="source_code">Izvorna koda</string>
     <string name="sync_repositories">Sinhroniziraj skladišča</string>
     <string name="sync_repositories_automatically">Avtomatično sinhroniziraj skladišča</string>
-    <string name="repository_not_used_DESC">To skladišče še ni bilo uporabljeno. Aktivirajte ga, da vidite aplikacije, ki jih vsebuje.</string>
     <string name="signature_FORMAT">Podpis %s</string>
     <string name="has_non_free_dependencies">Vsebuje neproste odvisnosti</string>
     <string name="incompatible_version">Nezdružljiva različica</string>
@@ -126,7 +120,6 @@
     <string name="share">Deli</string>
     <string name="show_more">Pokaži več</string>
     <string name="show_older_versions">Pokaži starelše različice</string>
-    <string name="unverified">Nepreverjeno</string>
     <string name="username_missing">Manjka uporabniško ime</string>
     <string name="edit_repository">Uredi skladišče</string>
     <string name="file_format_error_DESC">Neveljavna oblika datoteke.</string>
@@ -148,7 +141,6 @@
     <string name="repository_unsigned_DESC">Ni podpisano. Seznama prijav ni bilo mogoče preveriti. Bodite previdni pri prenašanju aplikacij iz nepodpisanih skladišč.</string>
     <string name="unstable_updates_summary">Predlagajte namestitev nestabilnih posodobitev</string>
     <string name="unstable_updates">Nestabilne posodobitve</string>
-    <string name="root_permission_description">Dovolite korenske pravice za tihe namestitve</string>
     <string name="proxy_host">Proksi gostitelj</string>
     <string name="tap_to_install_DESC">Tapnite za namestitev.</string>
     <string name="tracks_or_reports_your_activity">Sledi ali beleži vašo dejavnost</string>
@@ -165,7 +157,6 @@
     </plurals>
     <string name="signed_using_unsafe_algorithm">Podpisano z nevarnim algoritmom</string>
     <string name="select_mirror">Izberite ogledalo</string>
-    <string name="list_animation">Prikaži animacije</string>
     <string name="links">Povezave</string>
     <string name="merging_FORMAT">Spajanje %s</string>
     <string name="name">Ime</string>
@@ -173,12 +164,7 @@
     <string name="prefs_language_title">Jezik</string>
     <string name="prefs_personalization">Personalizacija</string>
     <string name="show_less">Pokaži manj</string>
-    <string name="latest">Najnovejše</string>
-    <string name="explore">Razišči</string>
     <string name="update_all">Posodobi vse</string>
-    <string name="installed_applications">Nameščene aplikacije</string>
-    <string name="sort_filter">Razvrsti in filtriraj</string>
-    <string name="new_applications">Nove aplikacije</string>
     <plurals name="days">
         <item quantity="one">Dan</item>
         <item quantity="two">Dneva</item>
@@ -193,16 +179,12 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Samo med polnjenjem in aktiviranim Wi-Fi-jem</string>
     <string name="installer">Namestitveni program</string>
-    <string name="cleanup_description">Časovno obdobje za preverjanje in odstranitev prenesenih datotek</string>
     <string name="cleanup_title">Interval čiščenja APK datotek</string>
     <string name="root_installer">Korenski namestitveni program</string>
     <string name="legacy_installer">Stari namestitveni program</string>
     <string name="session_installer">Sejni namestitveni program</string>
     <string name="shizuku_installer">Shizuku namestitveni program</string>
     <string name="io_error_DESC">Določenih dejanj ni mogoče izvesti.</string>
-    <string name="no_internet">Nimate internetne povezave</string>
-    <string name="allow_collapsing_toolbar">Dovoli razširitev zgornje vrstice aplikacij</string>
-    <string name="allow_collapsing_toolbar_DESC">Dovoli razširitev in strnitev zgornje vrstice aplikacij</string>
     <string name="favourites">Priljubljene</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Uporabite barvno shemo Material You</string>
@@ -211,7 +193,6 @@
     <string name="enable_repo">Aktiviraj skladišče</string>
     <string name="force_clean_up_DESC">Odstrani podvojene datoteke</string>
     <string name="installing">Nameščanje</string>
-    <string name="restart_app">Znova zaženite Droid-ify, da vidite spremembe</string>
     <string name="waiting_to_start_installation">Čakanje na začetek namestitve …</string>
     <string name="auto_update">Samodejno posodobite aplikacije</string>
     <string name="auto_update_apps">Poskusite samodejno namestiti posodobitve</string>

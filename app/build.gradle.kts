@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.6.4"
+    val latestVersionName = "0.6.5"
     namespace = "com.looker.droidify"
     buildToolsVersion = "35.0.0"
     compileSdk = 35
@@ -18,7 +18,7 @@ android {
         minSdk = 23
         targetSdk = 35
         applicationId = "com.looker.droidify"
-        versionCode = 640
+        versionCode = 650
         versionName = latestVersionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
@@ -32,7 +32,12 @@ android {
 
     kotlinOptions {
         jvmTarget = "17"
-        freeCompilerArgs = listOf("-Xcontext-receivers")
+        freeCompilerArgs = listOf(
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.coroutines.FlowPreview",
+            "-Xcontext-receivers"
+        )
     }
 
     ksp {
@@ -45,11 +50,11 @@ android {
     }
 
     buildTypes {
-        getByName("debug") {
+        debug {
             applicationIdSuffix = ".debug"
             resValue("string", "application_name", "Droid-ify-Debug")
         }
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             resValue("string", "application_name", "Droid-ify")
@@ -79,13 +84,26 @@ android {
     }
     packaging {
         resources {
-            excludes += listOf("/DebugProbesKt.bin")
+            excludes += listOf(
+                "/DebugProbesKt.bin",
+                "/kotlin/**.kotlin_builtins",
+                "/kotlin/**.kotlin_metadata",
+                "/META-INF/**.kotlin_module",
+                "/META-INF/**.pro",
+                "/META-INF/**.version",
+                "/META-INF/{AL2.0,LGPL2.1,LICENSE*}",
+                "/META-INF/versions/9/previous-**.bin",
+            )
         }
     }
     buildFeatures {
         resValues = true
         viewBinding = true
         buildConfig = true
+    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
@@ -102,7 +120,7 @@ dependencies {
     implementation(libs.sqlite.ktx)
 
     implementation(libs.image.viewer)
-    implementation(libs.coil.kt)
+    implementation(libs.bundles.coil)
 
     implementation(libs.datastore.core)
     implementation(libs.datastore.proto)

@@ -12,8 +12,6 @@
     <string name="address">முகவரி</string>
     <string name="all_applications">அனைத்து பயன்பாடுகளும்</string>
     <string name="all_applications_up_to_date">உங்கள் பயன்பாடுகள் அனைத்தும் புதுப்பித்தவை</string>
-    <string name="allow_collapsing_toolbar">சிறந்த பயன்பாட்டு பட்டியை விரிவாக்க அனுமதிக்கவும்</string>
-    <string name="allow_collapsing_toolbar_DESC">டாப் ஆப் பட்டியை விரிவுபடுத்தவும் சரிவதற்கும் அனுமதிக்கவும்</string>
     <string name="already_exists">ஏற்கனவே உள்ளது</string>
     <string name="always">எப்போதும்</string>
     <string name="amoled">கருப்பு</string>
@@ -30,7 +28,6 @@
     <string name="changes">மாற்றங்கள்</string>
     <string name="checking_repository">களஞ்சியத்தை சரிபார்க்கிறது…</string>
     <string name="cleanup_title">APK தூய்மைப்படுத்தும் இடைவெளி</string>
-    <string name="cleanup_description">பதிவிறக்கம் செய்யப்பட்ட கோப்புகளை சரிபார்த்து அகற்ற வேண்டிய காலம்</string>
     <string name="compiled_for_debugging">பிழைத்திருத்தத்திற்காக தொகுக்கப்பட்டது</string>
     <string name="confirmation">உறுதிப்படுத்தல்</string>
     <string name="connecting">இணைத்தல்…</string>
@@ -84,7 +81,7 @@
     <string name="http_proxy">HTTP பதிலாள்</string>
     <string name="ignore_all_updates">அனைத்து புதிய பதிப்புகளையும் புறக்கணிக்கவும்</string>
     <string name="ignore_this_update">இந்த பதிப்பை புறக்கணிக்கவும்</string>
-    <string name="incompatible_api_DESC_FORMAT">உங்கள் %1$s (API பதிப்பு %2 $ D) ஆதரிக்கப்படவில்லை. %3$s</string>
+    <string name="incompatible_api_DESC_FORMAT">உங்கள் %1$s (API பதிப்பு %2$d) ஆதரிக்கப்படவில்லை. %3$s</string>
     <string name="incompatible_api_max_DESC_FORMAT">மேக்ச் பநிஇ பதிப்பு %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">மின் பநிஇ பதிப்பு %d.</string>
     <string name="incompatible_features_DESC">காணாமல் போன நற்பொருத்தங்கள்.</string>
@@ -118,15 +115,12 @@
     <string name="invalid_signature_error_DESC">தவறான கையொப்பம்.</string>
     <string name="invalid_username_format">தவறான பயனர்பெயர் வடிவம்</string>
     <string name="io_error_DESC">சில செயல்களைச் செய்ய முடியவில்லை.</string>
-    <string name="label_copy">நகலெடு</string>
     <string name="launch">ஏவுதல்</string>
     <string name="license">உரிமம்</string>
     <string name="light">ஒளி</string>
     <string name="license_FORMAT">%s உரிமம்</string>
     <string name="link_copied_to_clipboard">இணைப்பு நகலெடுக்கப்பட்டது</string>
     <string name="links">இணைப்புகள்</string>
-    <string name="list_animation">பட்டியல் அனிமேசன்கள்</string>
-    <string name="list_animation_description">முதன்மையான பக்கத்தில் பட்டியல் அனிமேசனைக் காட்டு</string>
     <string name="material_you">பொருள் நீங்கள்</string>
     <string name="material_you_desc">நீங்கள் வண்ண கருப்பொருளைப் பயன்படுத்தவும்</string>
     <string name="merging_FORMAT">இணைத்தல் %s</string>
@@ -141,7 +135,6 @@
     <string name="no_applications_available">கிடைக்கக்கூடிய பயன்பாடுகள் இல்லை</string>
     <string name="no_applications_installed">நிறுவப்பட்ட பயன்பாடுகள் இல்லை</string>
     <string name="no_description_available_DESC">எந்த விளக்கமும் கிடைக்கவில்லை</string>
-    <string name="no_internet">உங்களுக்கு இணைய இணைப்பு இல்லை</string>
     <string name="no_matching_applications_found">அத்தகைய பயன்பாடுகளை கண்டுபிடிக்க முடியவில்லை</string>
     <string name="no_proxy">பதிலாள் இல்லை</string>
     <string name="notify_about_updates">புதுப்பிப்புகளுக்கு அறிவிக்கவும்</string>
@@ -171,19 +164,14 @@
     <string name="recently_updated">அண்மைக் காலத்தில் புதுப்பிக்கப்பட்டது</string>
     <string name="repositories">களஞ்சியங்கள்</string>
     <string name="repository">களஞ்சியம்</string>
-    <string name="repository_not_used_DESC">இந்த களஞ்சியம் இன்னும் பயன்படுத்தப்படவில்லை. அதில் உள்ள பயன்பாடுகளைக் காண அதை இயக்கவும்.</string>
     <string name="repository_not_found">பின்வரும் களஞ்சியம் கிடைக்கவில்லை</string>
     <string name="repository_unsigned_DESC">கையொப்பமிடாத. பயன்பாட்டு பட்டியலை சரிபார்க்க முடியவில்லை. கையொப்பமிடப்படாத களஞ்சியங்களிலிருந்து விண்ணப்பங்களை பதிவிறக்குவதில் கவனமாக இருங்கள்.</string>
     <string name="repository_unreachable">களஞ்சியம் அணுக முடியாதது</string>
     <string name="requires_FORMAT">%s தேவை</string>
     <string name="require_background_access">பின்னணி அணுகல் தேவை</string>
     <string name="require_background_access_DESC">பின்னணி ஒத்திசைவை சரியாக இயக்க பின்னணி அணுகல் தேவை</string>
-    <string name="restart_app">மாற்றங்களைக் காண டிரயோடு-ஐடியை மறுதொடக்கம் செய்யுங்கள்</string>
-    <string name="root_permission">அமைதியான நிறுவல்</string>
-    <string name="root_permission_description">அமைதியான நிறுவல்களுக்கு ரூட் இசைவு அனுமதிக்கவும்</string>
     <string name="save">சேமி</string>
     <string name="saving_details">விவரங்களைச் சேமிக்கிறது…</string>
-    <string name="screenshots">திரைக்காட்சிகள்</string>
     <string name="search">தேடல்</string>
     <string name="select_mirror">ஒரு கண்ணாடியைத் தேர்ந்தெடுக்கவும்</string>
     <string name="settings">அமைப்புகள்</string>
@@ -206,7 +194,6 @@
     <string name="syncing_FORMAT">%s ஒத்திசைத்தல்…</string>
     <string name="system">மண்டலம்</string>
     <string name="tap_to_install_DESC">நிறுவ தட்டவும்.</string>
-    <string name="target">இலக்கு</string>
     <string name="theme">கருப்பொருள்</string>
     <string name="themes">கருப்பொருள்கள்</string>
     <string name="tracks_or_reports_your_activity">உங்கள் செயல்பாட்டைக் கண்காணிக்கிறது அல்லது தெரிவிக்கிறது</string>
@@ -214,12 +201,10 @@
     <string name="unknown">தெரியவில்லை</string>
     <string name="unknown_error_DESC">தெரியாத பிழை.</string>
     <string name="unknown_FORMAT">தெரியவில்லை: %s</string>
-    <string name="unsigned">கையொப்பமிடாத</string>
     <string name="unstable_updates">நிலையற்ற புதுப்பிப்புகள்</string>
     <string name="unstable_updates_summary">நிலையற்ற பதிப்புகளை நிறுவ பரிந்துரைக்கவும்</string>
     <string name="ignore_signature">கையொப்பத்தை புறக்கணிக்கவும்</string>
     <string name="ignore_signature_summary">APK ஐ நிறுவும் போது கையொப்ப சரிபார்ப்பை புறக்கணிக்கவும், பயனர்கள் அல்லது மேம்பட்ட பயனர்களுக்கு</string>
-    <string name="unverified">சரிபார்க்கப்படாதது</string>
     <string name="update">புதுப்பிப்பு</string>
     <string name="updates">புதுப்பிப்புகள்</string>
     <string name="upstream_source_code_is_not_free">மேலோடை மூலக் குறியீடு இலவசம் அல்ல</string>
@@ -233,11 +218,6 @@
     <string name="prefs_language_title">மொழி</string>
     <string name="prefs_personalization">தனிப்பயனாக்கம்</string>
     <string name="show_less">குறைவாகக் காட்டு</string>
-    <string name="latest">அண்மைக் கால</string>
-    <string name="explore">ஆராயுங்கள்</string>
     <string name="update_all">அனைத்தையும் புதுப்பிக்கவும்</string>
-    <string name="installed_applications">நிறுவப்பட்ட பயன்பாடுகள்</string>
-    <string name="sort_filter">வரிசைப்படுத்துதல் &amp; வடிகட்டி</string>
-    <string name="new_applications">புதிய பயன்பாடுகள்</string>
     <string name="contains_nsfw">வேலை உள்ளடக்கத்திற்கு பாதுகாப்பாக இல்லை</string>
 </resources>

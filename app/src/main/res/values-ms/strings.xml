@@ -4,8 +4,6 @@
     <string name="add_repository">Tambah repositori</string>
     <string name="address">Alamat</string>
     <string name="all_applications_up_to_date">Semua aplikasi anda adalah terkini</string>
-    <string name="allow_collapsing_toolbar">Benarkan Bar Apl Dikembangkan</string>
-    <string name="allow_collapsing_toolbar_DESC">Benarkan Bar Apl Dikembangkan dan Turun</string>
     <string name="already_exists">Telah wujud</string>
     <string name="always">Selalu</string>
     <string name="amoled">Hitam</string>
@@ -69,15 +67,12 @@
     <string name="invalid_address">Alamat tidak sah</string>
     <string name="invalid_fingerprint_format">Format cap jari tidak sah</string>
     <string name="invalid_metadata_error_DESC">Metadata tidak sah.</string>
-    <string name="label_copy">Salin</string>
     <string name="launch">Lancarkan</string>
     <string name="license">Lesen</string>
     <string name="license_FORMAT">%s lesen</string>
     <string name="light">Cerah</string>
     <string name="link_copied_to_clipboard">Pautan disalin</string>
     <string name="links">Pautan</string>
-    <string name="list_animation">Senaraikan Animasi</string>
-    <string name="list_animation_description">Tunjukkan animasi senarai pada halaman utama</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Guna tema warna material you</string>
     <string name="merging_FORMAT">Menggabungkan %s</string>
@@ -88,7 +83,6 @@
     <string name="no_applications_available">Tiada aplikasi tersedia</string>
     <string name="no_applications_installed">Tiada aplikasi yang dipasang</string>
     <string name="no_description_available_DESC">Tiada deskripsi tersedia</string>
-    <string name="no_internet">Anda tiada sambungan internet</string>
     <string name="no_matching_applications_found">Tidak dapat mencari sebarang aplikasi sedemikian</string>
     <string name="no_proxy">Tiada proksi</string>
     <string name="notify_about_updates">Maklumkan untuk kemas kini</string>
@@ -114,13 +108,9 @@
     <string name="repositories">Repositori</string>
     <string name="repository">Repositori</string>
     <string name="save">Simpan</string>
-    <string name="screenshots">Tangkapan skrin</string>
     <string name="share">Kongsi</string>
     <string name="size">Saiz</string>
     <string name="special_credits">Kredit Istimewa</string>
-    <string name="installed_applications">Aplikasi yang dipasang</string>
-    <string name="sort_filter">Isi &amp; Tapis</string>
-    <string name="new_applications">Aplikasi baharu</string>
     <string name="contains_nsfw">Mengandungi tidak selamat untuk kandungan kerja</string>
     <string name="all_applications">Semua aplikasi</string>
     <string name="anti_features">Anti-ciri</string>
@@ -128,7 +118,6 @@
     <string name="cannot_open_link">Tidak boleh membuka pautan</string>
     <string name="changelog">Log perubahan</string>
     <string name="checking_repository">Menyemak repositori…</string>
-    <string name="cleanup_description">Tempoh untuk menyemak dan mengalih keluar fail yang dimuat turun</string>
     <string name="connecting">Menyambungkan…</string>
     <string name="could_not_download_FORMAT">Gagal muat turun %s</string>
     <string name="cant_edit_sync_DESC">Tidak dapat mengedit repositori kerana ia sedang disegerakkan sekarang.</string>
@@ -170,14 +159,10 @@
     <string name="only_on_wifi">Hanya pada Wi-Fi</string>
     <string name="promotes_non_free_network_services">Mempromosikan perkhidmatan rangkaian bukan percuma</string>
     <string name="promotes_non_free_software">Mempromosikan perisian bukan percuma</string>
-    <string name="repository_not_used_DESC">Repositori ini belum digunakan lagi. Buka untuk melihat aplikasi di dalamnya.</string>
     <string name="repository_not_found">Repositori berikut tidak ditemui</string>
     <string name="repository_unsigned_DESC">Tidak ditandatangani. Tidak dapat mengesahkan senarai permohonan. Berhati-hati memuat turun aplikasi dari repositori yang tidak ditandatangani.</string>
     <string name="repository_unreachable">Repositori tidak dapat dicapai</string>
     <string name="requires_FORMAT">Memerlukan %s</string>
-    <string name="restart_app">Mulakan semula Droid-ify untuk melihat perubahan</string>
-    <string name="root_permission">Pasang Senyap</string>
-    <string name="root_permission_description">Benarkan kebenaran root untuk pemasangan senyap</string>
     <string name="saving_details">Menyimpan butiran…</string>
     <string name="settings">Aturan</string>
     <string name="show_more">TUnjukkan lagi</string>
@@ -199,7 +184,6 @@
     <string name="syncing_FORMAT">Menyegerakan %s…</string>
     <string name="system">SIstem</string>
     <string name="tap_to_install_DESC">Ketik untuk memasang.</string>
-    <string name="target">Sasaran</string>
     <string name="theme">Tema</string>
     <string name="tracks_or_reports_your_activity">Menjejaki atau melaporkan aktiviti anda</string>
     <string name="prefs_language_title">Bahasa</string>
@@ -208,9 +192,7 @@
     <string name="unknown_error_DESC">Ralat tidak diketahui.</string>
     <string name="unstable_updates">Kemas kini yang tidak stabil</string>
     <string name="unknown_FORMAT">Tidak diketahui: %s</string>
-    <string name="unsigned">Tidak ditandatangani</string>
     <string name="unstable_updates_summary">Cadangkan memasang versi yang tidak stabil</string>
-    <string name="unverified">Tidak disahkan</string>
     <string name="update">Kemas kini</string>
     <string name="updates">Kemas kini</string>
     <string name="upstream_source_code_is_not_free">Kod sumber huluan tidak percuma</string>
@@ -226,7 +208,5 @@
     <string name="website">Laman web</string>
     <string name="prefs_personalization">Pemperibadian</string>
     <string name="show_less">Tunjukkan Kurang</string>
-    <string name="latest">Terbaharu</string>
-    <string name="explore">Teroka</string>
     <string name="update_all">Kemaskini semua</string>
 </resources>

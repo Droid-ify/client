@@ -16,7 +16,7 @@ import kotlin.test.assertIs
 
 class KtorDownloaderTest {
 
-    private val engine = MockEngine.Companion { request ->
+    private val engine = MockEngine { request ->
         when (request.url.host) {
             "success.com" -> respondOk("success")
             "notfound.com" -> respondError(HttpStatusCode.Companion.NotFound)

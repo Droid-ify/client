@@ -15,7 +15,7 @@ data class Repository(
     val entityTag: String,
     val updated: Long,
     val timestamp: Long,
-    val authentication: String
+    val authentication: String,
 ) {
 
     fun edit(address: String, fingerprint: String, authentication: String): Repository {
@@ -38,7 +38,7 @@ data class Repository(
         version: Int,
         lastModified: String,
         entityTag: String,
-        timestamp: Long
+        timestamp: Long,
     ): Repository {
         return copy(
             mirrors = mirrors,
@@ -62,7 +62,7 @@ data class Repository(
         fun newRepository(
             address: String,
             fingerprint: String,
-            authentication: String
+            authentication: String,
         ): Repository {
             val name = try {
                 URL(address).let { "${it.host}${it.path}" }
@@ -79,7 +79,7 @@ data class Repository(
             version: Int = 21,
             enabled: Boolean = false,
             fingerprint: String,
-            authentication: String = ""
+            authentication: String = "",
         ): Repository {
             return Repository(
                 -1, address, emptyList(), name, description, version, enabled,
@@ -151,14 +151,6 @@ data class Repository(
                 fingerprint = "2581BA7B32D3AB443180C4087CAB6A7E8FB258D3A6E98870ECB3C675E4D64489"
             ),
             defaultRepository(
-                address = "https://fdroid.bromite.org/fdroid/repo",
-                name = "Bromite",
-                description = "The official repository for Bromite. " +
-                    "Bromite is a Chromium with ad blocking and enhanced p" +
-                    "rivacy.",
-                fingerprint = "E1EE5CD076D7B0DC84CB2B45FB78B86DF2EB39A3B6C56BA3DC292A5E0C3B9504"
-            ),
-            defaultRepository(
                 address = "https://molly.im/fdroid/foss/fdroid/repo",
                 name = "Molly",
                 description = "The official repository for Molly. " +
@@ -217,7 +209,7 @@ data class Repository(
                 name = "Kali Nethunter",
                 description = "Kali Nethunter's official selection of original b" +
                     "inaries.",
-                fingerprint = "7E418D34C3AD4F3C37D7E6B0FACE13332364459C862134EB099A3BDA2CCF4494"
+                fingerprint = "FE7A23DFC003A1CF2D2ADD2469B9C0C49B206BA5DC9EDD6563B3B7EB6A8F5FAB"
             ),
             defaultRepository(
                 address = "https://secfirst.org/fdroid/repo",
@@ -265,14 +257,14 @@ data class Repository(
                 name = "Threema Libre",
                 description = "The official repository for Threema Libre. R" +
                     "equires Threema Shop license. Threema Libre is an open" +
-                    "-source messanger focused on security and privacy.",
+                    "-source messenger focused on security and privacy.",
                 fingerprint = "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E"
             ),
             defaultRepository(
                 address = "https://fdroid.getsession.org/fdroid/repo",
                 name = "Session",
                 description = "The official repository for Session. Session" +
-                    " is an open-source messanger focused on security and privacy.",
+                    " is an open-source messenger focused on security and privacy.",
                 fingerprint = "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6"
             ),
             defaultRepository(
@@ -398,7 +390,7 @@ data class Repository(
             ),
         )
 
-        val newlyAdded = listOf<Repository>(
+        val newlyAdded: List<Repository> = listOf(
             defaultRepository(
                 address = "https://fdroid.ironfoxoss.org/fdroid/repo",
                 name = "IronFox",
@@ -412,6 +404,14 @@ data class Repository(
                 description = "The official repository for Total Commander",
                 fingerprint = "3576596CECDD70488D61CFD90799A49B7FFD26A81A8FEF1BADEC88D069FA72C1"
             ),
+            defaultRepository(
+                address = "https://www.cromite.org/fdroid/repo",
+                name = "Cromite",
+                description = "The official repository for Cromite. " +
+                    "Cromite is a Chromium fork based on Bromite with " +
+                    "built-in support for ad blocking and an eye for privacy.",
+                fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+            )
         )
     }
 }

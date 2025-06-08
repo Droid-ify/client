@@ -3,11 +3,11 @@ package com.looker.droidify.utility.serialization
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core.common.extension.collectNotNull
-import com.looker.core.common.extension.collectNotNullStrings
-import com.looker.core.common.extension.forEachKey
-import com.looker.core.common.extension.writeArray
-import com.looker.core.common.extension.writeDictionary
+import com.looker.droidify.utility.common.extension.collectNotNull
+import com.looker.droidify.utility.common.extension.collectNotNullStrings
+import com.looker.droidify.utility.common.extension.forEachKey
+import com.looker.droidify.utility.common.extension.writeArray
+import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 
@@ -51,11 +51,6 @@ fun Product.serialize(generator: JsonGenerator) {
                     is Product.Donate.Litecoin -> {
                         writeStringField(TYPE, DONATION_LITECOIN)
                         writeStringField(ADDRESS, it.address)
-                    }
-
-                    is Product.Donate.Flattr -> {
-                        writeStringField(TYPE, DONATION_FLATTR)
-                        writeStringField(ID, it.id)
                     }
 
                     is Product.Donate.Liberapay -> {
@@ -149,7 +144,6 @@ fun JsonParser.product(): Product {
                     DONATION_EMPTY -> Product.Donate.Regular(url)
                     DONATION_BITCOIN -> Product.Donate.Bitcoin(address)
                     DONATION_LITECOIN -> Product.Donate.Litecoin(address)
-                    DONATION_FLATTR -> Product.Donate.Flattr(id)
                     DONATION_LIBERAPAY -> Product.Donate.Liberapay(id)
                     DONATION_OPENCOLLECTIVE -> Product.Donate.OpenCollective(id)
                     else -> null
@@ -243,6 +237,5 @@ private const val KEY_EMPTY = ""
 private const val DONATION_EMPTY = ""
 private const val DONATION_BITCOIN = "bitcoin"
 private const val DONATION_LITECOIN = "litecoin"
-private const val DONATION_FLATTR = "flattr"
 private const val DONATION_LIBERAPAY = "liberapay"
 private const val DONATION_OPENCOLLECTIVE = "openCollective"

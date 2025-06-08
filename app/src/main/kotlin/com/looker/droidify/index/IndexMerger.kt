@@ -3,10 +3,10 @@ package com.looker.droidify.index
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.core.common.extension.Json
+import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.asSequence
-import com.looker.core.common.extension.collectNotNull
-import com.looker.core.common.extension.writeDictionary
+import com.looker.droidify.utility.common.extension.collectNotNull
+import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import com.looker.droidify.utility.serialization.product
@@ -82,9 +82,9 @@ class IndexMerger(file: File) : Closeable {
         closeTransaction()
         db.rawQuery(
             """SELECT product.description, product.data AS pd, releases.data AS rd FROM product
-      LEFT JOIN releases ON product.package_name = releases.package_name""",
+          LEFT JOIN releases ON product.package_name = releases.package_name""",
             null
-        )?.use { cursor ->
+        ).use { cursor ->
             cursor.asSequence().map { currentCursor ->
                 val description = currentCursor.getString(0)
                 val product = Json.factory.createParser(currentCursor.getBlob(1)).use {

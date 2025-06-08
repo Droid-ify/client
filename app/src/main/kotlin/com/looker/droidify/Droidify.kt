@@ -13,10 +13,14 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.NetworkType
-import coil.ImageLoader
-import coil.ImageLoaderFactory
-import coil.disk.DiskCache
-import coil.memory.MemoryCache
+import coil3.ImageLoader
+import coil3.PlatformContext
+import coil3.SingletonImageLoader
+import coil3.asImage
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
@@ -35,6 +39,7 @@ import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.getDrawableCompat
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
 import com.looker.droidify.utility.common.extension.jobScheduler
 import com.looker.droidify.utility.common.log
@@ -55,7 +60,7 @@ import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
 
 @HiltAndroidApp
-class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
+class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
 
     private val parentJob = SupervisorJob()
     private val appScope = CoroutineScope(Dispatchers.Default + parentJob)
@@ -221,9 +226,14 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         override fun onReceive(context: Context, intent: Intent) = Unit
     }
 
-    override fun newImageLoader(): ImageLoader {
-        val memoryCache = MemoryCache.Builder(this)
-            .maxSizePercent(0.25)
+    override val workManagerConfiguration: Configuration
+        get() = Configuration.Builder()
+            .setWorkerFactory(workerFactory)
+            .build()
+
+    override fun newImageLoader(context: PlatformContext): ImageLoader {
+        val memoryCache = MemoryCache.Builder()
+            .maxSizePercent(context, 0.25)
             .build()
 
         val diskCache = DiskCache.Builder()
@@ -234,15 +244,10 @@ class Droidify : Application(), ImageLoaderFactory, Configuration.Provider {
         return ImageLoader.Builder(this)
             .memoryCache(memoryCache)
             .diskCache(diskCache)
-            .error(R.drawable.ic_cannot_load)
+            .error(getDrawableCompat(R.drawable.ic_cannot_load).asImage())
             .crossfade(350)
             .build()
     }
-
-    override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory)
-            .build()
 }
 
 @RequiresApi(Build.VERSION_CODES.O)

@@ -54,10 +54,7 @@
     <string name="proxy_port">Cổng Proxy</string>
     <string name="repository">Kho</string>
     <string name="requires_FORMAT">Yêu cầu %s</string>
-    <string name="root_permission">Cài đặt nền</string>
-    <string name="root_permission_description">Cho phép quyền root để cài đặt nền</string>
     <string name="save">Lưu</string>
-    <string name="screenshots">Ảnh chụp màn hình</string>
     <string name="select_mirror">Chọn một mirror</string>
     <string name="signature_FORMAT">Chữ kí %s</string>
     <string name="signed_using_unsafe_algorithm">Đã ký bằng thuật toán không an toàn</string>
@@ -68,13 +65,10 @@
     <string name="sync_repositories">Đồng bộ kho</string>
     <string name="syncing">Đang đồng bộ</string>
     <string name="syncing_FORMAT">Đang đồng bộ %s…</string>
-    <string name="target">Đích</string>
     <string name="theme">Chủ đề</string>
     <string name="themes">Các chủ đề</string>
     <string name="tracks_or_reports_your_activity">Theo dõi hoặc báo cáo hoạt động của bạn</string>
     <string name="unknown_FORMAT">Không rõ: %s</string>
-    <string name="unsigned">Chưa kí</string>
-    <string name="unverified">Chưa xác minh</string>
     <string name="update">Cập nhật</string>
     <string name="updates">Cập nhật</string>
     <string name="upstream_source_code_is_not_free">Mã nguồn ngược dòng không tự do</string>
@@ -86,12 +80,7 @@
     <string name="cancel">Hủy</string>
     <string name="has_non_free_dependencies">Phụ thuộc cái không tự do</string>
     <string name="website">Trang web</string>
-    <string name="latest">Mới nhất</string>
-    <string name="explore">Khám phá</string>
     <string name="update_all">Cập nhật tất cả</string>
-    <string name="installed_applications">Ứng dụng đã cài đặt</string>
-    <string name="sort_filter">Sắp xếp &amp; Lọc</string>
-    <string name="new_applications">Ứng dụng mới</string>
     <string name="cant_edit_sync_DESC">Không thể chỉnh sửa kho khi đang đồng bộ.</string>
     <string name="add_repository">Thêm kho lưu trữ</string>
     <string name="application_not_found">Không tìm thấy ứng dụng</string>
@@ -121,7 +110,6 @@
     <string name="license_FORMAT">Giấy phép %s</string>
     <string name="invalid_fingerprint_format">Sai định dạng fingerprint</string>
     <string name="link_copied_to_clipboard">Đã sao chép liên kết</string>
-    <string name="list_animation_description">Hiện hiệu ứng danh sách trên trang chính</string>
     <string name="network_error_DESC">Lỗi mạng</string>
     <string name="invalid_address">Sai địa chỉ</string>
     <string name="invalid_metadata_error_DESC">Dữ liệu không hợp lệ.</string>
@@ -131,7 +119,6 @@
     <string name="launch">Mở</string>
     <string name="license">Giấy phép</string>
     <string name="links">Liên kết</string>
-    <string name="list_animation">Hiệu ứng danh sách</string>
     <string name="no_description_available_DESC">Không có mô tả</string>
     <string name="repositories">Các kho</string>
     <string name="search">Tìm kiếm</string>
@@ -152,7 +139,6 @@
     <string name="processing_FORMAT">Đang xử lý %1$s…</string>
     <string name="proxy_type">Loại Proxy</string>
     <string name="promotes_non_free_network_services">Quảng cáo các dịch vụ mạng không tự do</string>
-    <string name="repository_not_used_DESC">Kho này vẫn chưa được sử dụng. Bật nó lên để xem các ứng dụng trong đó.</string>
     <string name="show_older_versions">Hiện phiên bản cũ</string>
     <string name="repository_unsigned_DESC">Chưa kí. Không thể xác minh danh sách ứng dụng. Cận thẩn với kho chưa kí.</string>
     <string name="show_more">Hiện thêm</string>
@@ -177,7 +163,6 @@
     <string name="show_less">Ẩn bớt</string>
     <string name="all_applications">Tất cả ứng dụng</string>
     <string name="cleanup_title">Khoảng thời gian dọn dẹp APK</string>
-    <string name="cleanup_description">Khoảng thời gian kiểm tra và xóa các tệp đã tải xuống</string>
     <plurals name="days">
         <item quantity="other">Ngày</item>
     </plurals>
@@ -188,11 +173,8 @@
     <string name="legacy_installer">Trình cài đặt cũ</string>
     <string name="session_installer">Trình cài đặt phiên</string>
     <string name="root_installer">Trình cài đặt Root</string>
-    <string name="allow_collapsing_toolbar">Cho phép mở rộng thanh công cụ</string>
-    <string name="allow_collapsing_toolbar_DESC">Cho phép thanh công cụ mở rộng và thu hẹp</string>
     <string name="io_error_DESC">Không thể thực hiện một số hành động nhất định.</string>
     <string name="shizuku_installer">Trình cài đặt Shizuku</string>
-    <string name="no_internet">Bạn không có kết nối internet</string>
     <string name="only_on_wifi_with_charging">Chỉ trên wifi và sạc</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Sử dụng chủ đề màu Material You</string>
@@ -205,14 +187,12 @@
     <string name="force_clean_up_DESC">Dọn dẹp các tệp dư thừa</string>
     <string name="repository_unreachable">Kho lưu trữ không thể truy cập</string>
     <string name="enable_repo">Kích hoạt kho lưu trữ</string>
-    <string name="restart_app">Khởi động lại Droid-ify để xem thay đổi</string>
     <string name="home_screen_swiping">Vuốt màn hình chính</string>
     <string name="contains_nsfw">Chứa nội dung không an toàn cho công việc</string>
     <string name="has_non_free_components">Có các thành phần không tự do</string>
     <string name="shizuku_not_alive">Shizuku không chạy</string>
     <string name="connection_error_DESC">Không thể kết nối tới máy chủ</string>
     <string name="socket_error_DESC">Máy chủ không cung cấp được gói mới.</string>
-    <string name="label_copy">Sao chép</string>
     <string name="proxy_port_error_not_int">Cổng Proxy chỉ có thể là số nguyên</string>
     <string name="home_screen_swiping_DESC">Cho phép người dùng vuốt giữa các trang trong màn hình chính</string>
     <string name="repository_not_found">Không tìm thấy kho lưu trữ sau</string>
@@ -237,4 +217,15 @@
     <string name="ignore_signature">Bỏ qua chữ ký</string>
     <string name="uninstalled_application_DESC">%s đã được gỡ cài đặt</string>
     <string name="ignore_signature_summary">Bỏ qua xác minh chữ ký khi cài đặt apk, đối với người dùng LSPosed hoặc người dùng nâng cao</string>
+    <string name="error_shizuku_not_running_DESC">Dịch vụ Shizuku không hoạt động. Vui lòng kiểm tra trong Ứng dụng Shizuku</string>
+    <string name="insufficient_storage_DESC">Không có đủ dung lượng trống trên thiết bị để cài đặt ứng dụng này. Hãy thử xóa bớt dung lượng</string>
+    <string name="error_shizuku_not_installed">Shizuku Không Được Cài Đặt</string>
+    <string name="error_shizuku_service_unavailable">Shizuku Không Chạy</string>
+    <string name="error_shizuku_not_granted">Thiếu quyền Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Quyền dịch vụ Shizuku không được cấp. Vui lòng kiểm tra trong Ứng dụng Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku có vẻ như chưa được cài đặt</string>
+    <string name="insufficient_storage">Không đủ không gian</string>
+    <string name="open_shizuku">Mở Shizuku</string>
+    <string name="switch_to_default_installer">Chuyển sang mặc định</string>
+    <string name="label_unknown_sdk">Không rõ (%d)</string>
 </resources>

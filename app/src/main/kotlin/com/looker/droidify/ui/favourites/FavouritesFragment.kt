@@ -15,7 +15,7 @@ import com.looker.droidify.R
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.database.Database
 import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -43,7 +43,7 @@ class FavouritesFragment : ScreenFragment() {
                     isVerticalScrollBarEnabled = false
                     setHasFixedSize(true)
                     recyclerViewAdapter =
-                        FavouriteFragmentAdapter { screenActivity.navigateProduct(it) }
+                        FavouriteFragmentAdapter { mainActivity.navigateProduct(it) }
                     this.adapter = recyclerViewAdapter
                     systemBarsPadding(includeFab = false)
                     recyclerView = this
@@ -74,6 +74,6 @@ class FavouritesFragment : ScreenFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
     }
 }

@@ -14,6 +14,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,24 +29,24 @@ import com.google.android.material.elevation.SurfaceColors
 import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
+import com.looker.droidify.R
+import com.looker.droidify.databinding.TabsToolbarBinding
+import com.looker.droidify.datastore.model.supportedSortOrders
+import com.looker.droidify.datastore.extension.sortOrderName
+import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.service.Connection
+import com.looker.droidify.service.SyncService
+import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.ui.appList.AppListFragment
 import com.looker.droidify.utility.common.device.Huawei
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.sdkAbove
-import com.looker.droidify.datastore.extension.sortOrderName
-import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.R
-import com.looker.droidify.databinding.TabsToolbarBinding
-import com.looker.droidify.datastore.model.supportedSortOrders
-import com.looker.droidify.model.ProductItem
-import com.looker.droidify.service.Connection
-import com.looker.droidify.service.SyncService
-import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.ui.appList.AppListFragment
 import com.looker.droidify.utility.extension.resources.sizeScaled
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.DividerConfiguration
 import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
@@ -152,7 +153,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(R.string.application_name)
         // Move focus from SearchView to Toolbar
         toolbar.isFocusable = true
@@ -204,7 +205,7 @@ class TabsFragment : ScreenFragment() {
             syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sync))
                 .setOnMenuItemClickListener {
-                    viewModel.sync()
+                    syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
                     true
                 }
 
@@ -226,19 +227,19 @@ class TabsFragment : ScreenFragment() {
             favouritesItem = add(1, 0, 0, stringRes.favourites)
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_favourite_checked))
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigateFavourites() }
+                    view.post { mainActivity.navigateFavourites() }
                     true
                 }
 
             add(1, 0, 0, stringRes.repositories)
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigateRepositories() }
+                    view.post { mainActivity.navigateRepositories() }
                     true
                 }
 
             add(1, 0, 0, stringRes.settings)
                 .setOnMenuItemClickListener {
-                    view.post { screenActivity.navigatePreferences() }
+                    view.post { mainActivity.navigatePreferences() }
                     true
                 }
         }
@@ -293,6 +294,25 @@ class TabsFragment : ScreenFragment() {
                 launch {
                     viewModel.backAction.collect {
                         onBackPressedCallback?.isEnabled = it != BackAction.None
+                    }
+                }
+                launch {
+                    SyncService.syncState.collect {
+                        when (it) {
+                            is SyncService.State.Connecting -> {
+                                tabsBinding.syncState.isVisible = true
+                                tabsBinding.syncState.isIndeterminate = true
+                            }
+
+                            SyncService.State.Finish -> {
+                                tabsBinding.syncState.isGone = true
+                            }
+
+                            is SyncService.State.Syncing -> {
+                                tabsBinding.syncState.isVisible = true
+                                tabsBinding.syncState.setProgressCompat(it.progress, true)
+                            }
+                        }
                     }
                 }
             }

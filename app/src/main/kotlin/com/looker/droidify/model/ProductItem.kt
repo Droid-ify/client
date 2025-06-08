@@ -18,16 +18,16 @@ data class ProductItem(
     var canUpdate: Boolean,
     var matchRank: Int
 ) {
-    sealed class Section : Parcelable {
+    sealed interface Section : Parcelable {
 
         @Parcelize
-        data object All : Section()
+        object All : Section
 
         @Parcelize
-        data class Category(val name: String) : Section()
+        class Category(val name: String) : Section
 
         @Parcelize
-        data class Repository(val id: Long, val name: String) : Section()
+        class Repository(val id: Long, val name: String) : Section
     }
 
     private val supportedDpi = intArrayOf(120, 160, 240, 320, 480, 640)

@@ -77,8 +77,6 @@
     <string name="light">Claro</string>
     <string name="link_copied_to_clipboard">Link copiado</string>
     <string name="links">Links</string>
-    <string name="list_animation">Animação da lista</string>
-    <string name="list_animation_description">Mostrar a animação da lista na página principal</string>
     <string name="merging_FORMAT">Incorporando %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Erro da rede</string>
@@ -120,14 +118,10 @@
     <string name="recently_updated">Atualização recente</string>
     <string name="repositories">Repositórios</string>
     <string name="repository">Repositório</string>
-    <string name="repository_not_used_DESC">Este repositório ainda não foi usado. Ative-o para visualizar os aplicativos nele.</string>
     <string name="repository_unsigned_DESC">Sem assinatura. Não foi possível verificar a lista de aplicativos. Tenha cuidado ao baixar aplicativos de repositórios não assinados.</string>
     <string name="requires_FORMAT">Requer %s</string>
-    <string name="root_permission">Instalação Silenciosa</string>
-    <string name="root_permission_description">Permitir acesso root para instalações silenciosas</string>
     <string name="save">Salvar</string>
     <string name="saving_details">Salvando detalhes…</string>
-    <string name="screenshots">Capturas de tela</string>
     <string name="search">Pesquisar</string>
     <string name="select_mirror">Selecione um mirror</string>
     <string name="share">Compartilhar</string>
@@ -148,7 +142,6 @@
     <string name="syncing_FORMAT">Sincronizando %s…</string>
     <string name="system">Seguir o do sistema</string>
     <string name="tap_to_install_DESC">Toque para instalar.</string>
-    <string name="target">Meta</string>
     <string name="theme">Tema</string>
     <string name="themes">Temas</string>
     <string name="tracks_or_reports_your_activity">Rastreia ou relata sua atividade</string>
@@ -156,10 +149,8 @@
     <string name="unknown">Desconhecido</string>
     <string name="unknown_error_DESC">Error desconhecido.</string>
     <string name="unknown_FORMAT">Desconhecido: %s</string>
-    <string name="unsigned">Sem assinatura</string>
     <string name="unstable_updates">Atualizações instáveis</string>
     <string name="unstable_updates_summary">Sugerir instalar versões instáveis</string>
-    <string name="unverified">Não verificado</string>
     <string name="update">Atualizar</string>
     <string name="updates">Atualizações</string>
     <string name="upstream_source_code_is_not_free">O código-fonte upstream não é gratuito</string>
@@ -175,19 +166,13 @@
     <string name="prefs_language_title">Idioma</string>
     <string name="prefs_personalization">Personalização</string>
     <string name="show_less">Mostrar Menos</string>
-    <string name="installed_applications">Aplicativos instalados</string>
-    <string name="latest">Mais recentes</string>
-    <string name="explore">Explorar</string>
     <string name="update_all">Atualizar tudo</string>
-    <string name="sort_filter">Ordenar e Filtrar</string>
-    <string name="new_applications">Novos aplicativos</string>
     <string name="installer">Instalador</string>
     <string name="legacy_installer">Instalador antigo</string>
     <string name="shizuku_installer">Instalador Shizuku</string>
     <string name="root_installer">Instalador root</string>
     <string name="session_installer">Instalador de sessão</string>
     <string name="cleanup_title">Intervalo de limpeza do APK</string>
-    <string name="cleanup_description">Período para verificar e remover arquivos baixados</string>
     <plurals name="days">
         <item quantity="one">Dia</item>
         <item quantity="many">Dias</item>
@@ -200,9 +185,6 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Apenas no Wi-Fi e Carregando</string>
     <string name="io_error_DESC">Incapaz de executar certas ações.</string>
-    <string name="no_internet">Você não tem conexão com a internet</string>
-    <string name="allow_collapsing_toolbar_DESC">Permite que a barra de aplicativos superior seja expandida e recolhida</string>
-    <string name="allow_collapsing_toolbar">Permitir que a Barra Superior de Aplicativos se Expanda</string>
     <string name="material_you_desc">Use o tema de material you cores</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Favoritos</string>
@@ -211,7 +193,6 @@
     <string name="repository_unreachable">Repositório inacessível</string>
     <string name="enable_repo">Ativar o repositório</string>
     <string name="installing">Instalando</string>
-    <string name="restart_app">Reinicie o Droid-ify para ver as alterações</string>
     <string name="waiting_to_start_installation">Aguardando para iniciar a instalação…</string>
     <string name="auto_update">Atualizar aplicativos automaticamente</string>
     <string name="auto_update_apps">Tente instalar atualizações automaticamente</string>
@@ -224,7 +205,6 @@
     <string name="contains_nsfw">Contém conteúdo não apropriado para menores de 18 anos</string>
     <string name="shizuku_not_alive">Shizuku não está em execução</string>
     <string name="import_settings_DESC">Importar configurações e favoritos de um arquivo</string>
-    <string name="label_copy">Copiar</string>
     <string name="export_settings_title">Exportar configurações</string>
     <string name="proxy_port_error_not_int">A Porta Proxy deve ser um inteiro</string>
     <string name="export_repos_DESC">Exportar todos os repositórios para um arquivo</string>

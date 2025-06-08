@@ -13,7 +13,6 @@
     <string name="auto_update_apps">Subukang awtomatikong mag-install ng mga update</string>
     <string name="could_not_download_FORMAT">Hindi ma-download ang %s</string>
     <string name="could_not_validate_FORMAT">Hindi ma-validate ang %s</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="ignore_this_update">Huwag pansinin ang bersyon na ito</string>
     <string name="incompatible_features_DESC">Mga nawawalang feature.</string>
     <string name="incompatible_api_DESC_FORMAT">Ang iyong %1$s (bersyon ng API %2$d) ay hindi suportado. %3$s</string>
@@ -28,7 +27,6 @@
     <string name="invalid_fingerprint_format">Di-wastong format ng fingerprint</string>
     <string name="invalid_metadata_error_DESC">Di-wastong metadata.</string>
     <string name="invalid_signature_error_DESC">Di-wastong lagda.</string>
-    <string name="list_animation_description">Ipakita ang animation ng listahan sa pangunahing pahina</string>
     <string name="merging_FORMAT">Pinagsasama ang %s</string>
     <string name="name">Pangalan</string>
     <string name="no_applications_available">Walang magagamit na mga application</string>
@@ -55,7 +53,6 @@
         <item quantity="one">May bagong bersyon ang %d application.</item>
         <item quantity="other">%d application na may mga bagong bersyon.</item>
     </plurals>
-    <string name="no_internet">Wala kang koneksyon sa internet</string>
     <string name="no_description_available_DESC">Walang available na paglalarawan</string>
     <string name="no_matching_applications_found">Hindi mahanap ang anumang ganoong mga application</string>
     <string name="no_proxy">Walang proxy</string>
@@ -112,10 +109,7 @@
     <string name="network_error_DESC">Error sa network</string>
     <string name="link_copied_to_clipboard">Nakopya ang link sa clipboard</string>
     <string name="links">Mga link</string>
-    <string name="list_animation">Listahan ng mga animation</string>
     <string name="io_error_DESC">Hindi magawa ang ilang partikular na pagkilos.</string>
-    <string name="allow_collapsing_toolbar">Payagan ang Nangungunang App Bar na Palawakin</string>
-    <string name="allow_collapsing_toolbar_DESC">Payagan ang nangungunang app bar na lumawak at bumagsak</string>
     <string name="has_non_free_dependencies">May mga hindi libreng dependencies</string>
     <string name="has_security_vulnerabilities">May mga kahinaan sa seguridad</string>
     <string name="http_proxy">HTTP proxy</string>
@@ -144,7 +138,6 @@
     <string name="number_of_applications">Bilang ng mga aplikasyon</string>
     <string name="promotes_non_free_network_services">Nagtataguyod ng mga serbisyo na hindi libre sa network</string>
     <string name="proxy_type">Uri ng proxy</string>
-    <string name="restart_app">I-restart ang Droid-ify para makita ang mga pagbabago</string>
     <string name="show_more">Magpakita ng higit pa</string>
     <string name="signed_using_unsafe_algorithm">Nilagdaan gamit ang hindi ligtas na algorithm</string>
     <string name="sorting_order">Pag-uuri ng pagkakasunud-sunod</string>
@@ -152,7 +145,6 @@
     <string name="syncing_FORMAT">Sini-sync ang %s…</string>
     <string name="tap_to_install_DESC">I-tap para i-install.</string>
     <string name="unknown_FORMAT">Hindi alam: %s</string>
-    <string name="unsigned">Hindi nakapirma</string>
     <string name="unstable_updates">Mga hindi matatag na update</string>
     <string name="waiting_to_start_installation">Naghihintay upang simulan ang pag-install…</string>
     <string name="website">Website</string>
@@ -161,15 +153,11 @@
     <string name="requires_FORMAT">Nangangailangan ng %s</string>
     <string name="syncing">Nagsi-sync</string>
     <string name="share">Ibahagi</string>
-    <string name="root_permission">Tahimik na Pag-install</string>
     <string name="source_code">Source code</string>
     <string name="system">Sistema</string>
     <string name="theme">Tema</string>
     <string name="settings">Mga setting</string>
-    <string name="repository_not_used_DESC">Hindi pa nagagamit ang repositoryong ito. I-on ito para tingnan ang mga application sa loob nito.</string>
     <string name="repository_unsigned_DESC">Hindi nakapirma. Hindi ma-verify ang listahan ng aplikasyon. Mag-ingat sa pag-download ng mga application mula sa mga hindi naka-sign na repository.</string>
-    <string name="root_permission_description">Payagan ang pahintulot sa ugat para sa mga tahimik na pag-install</string>
-    <string name="screenshots">Mga screenshot</string>
     <string name="repository_unreachable">Hindi maabot ang repository</string>
     <string name="search">Maghanap</string>
     <string name="select_mirror">Pumili ng salamin</string>
@@ -180,7 +168,6 @@
     <string name="unknown">Hindi kilala</string>
     <string name="unknown_error_DESC">Hindi kilalang error.</string>
     <string name="unstable_updates_summary">Magmungkahi ng pag-install ng mga hindi matatag na bersyon</string>
-    <string name="unverified">Hindi na-verify</string>
     <string name="update">Update</string>
     <string name="updates">Mga update</string>
     <string name="upstream_source_code_is_not_free">Ang upstream source code ay hindi libre</string>
@@ -191,9 +178,7 @@
     <string name="version_FORMAT">Bersyon %s</string>
     <string name="versions">Mga bersyon</string>
     <string name="show_less">Magpakita ng Mas Kaunti</string>
-    <string name="latest">Pinakabago</string>
     <string name="save">I-save</string>
-    <string name="new_applications">Mga bagong application</string>
     <string name="saving_details">Sine-save ang mga detalye…</string>
     <string name="sync_repositories">I-sync ang mga repository</string>
     <string name="sync_repositories_automatically">Awtomatikong i-sync ang mga repositoryo</string>
@@ -203,10 +188,6 @@
     <string name="themes">Mga tema</string>
     <string name="waiting_to_start_download">Naghihintay upang simulan ang pag-download…</string>
     <string name="whats_new">Anong bago</string>
-    <string name="explore">Galugarin</string>
     <string name="update_all">Update lahat</string>
-    <string name="installed_applications">Mga naka-install na application</string>
-    <string name="sort_filter">Pagbukud-bukurin at Salain</string>
     <string name="suggested">Iminungkahi</string>
-    <string name="target">Pantarget</string>
 </resources>

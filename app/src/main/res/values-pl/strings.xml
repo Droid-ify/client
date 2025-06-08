@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="amoled">Czarny</string>
-    <string name="target">Tarcza</string>
     <string name="version">Wersja</string>
     <string name="validation_index_error_DESC">Indeks nie mógł zostać zatwierdzony.</string>
     <string name="website">Strona</string>
@@ -9,12 +8,10 @@
     <string name="version_FORMAT">Wersja %s</string>
     <string name="username_missing">Brak nazwy użytkownika</string>
     <string name="waiting_to_start_download">Oczekiwanie na rozpoczęcie pobierania…</string>
-    <string name="unverified">Niezweryfikowany</string>
     <string name="username">Nazwa użytkownika</string>
     <string name="updates">Aktualizacje</string>
     <string name="unstable_updates_summary">Sugeruj instalację niestabilnych wersji</string>
     <string name="unstable_updates">Niestabilne aktualizacje</string>
-    <string name="unsigned">Nieoznaczony</string>
     <string name="unknown_error_DESC">Nieznany błąd.</string>
     <string name="uninstall">Odinstaluj</string>
     <string name="tracks_or_reports_your_activity">Śledzenie lub raportowanie aktywności użytkownika</string>
@@ -30,7 +27,7 @@
     <string name="already_exists">Już istnieje</string>
     <string name="unknown">Nieznany</string>
     <string name="themes">Motywy</string>
-    <string name="tap_to_install_DESC">Stuknij , aby zainstalować.</string>
+    <string name="tap_to_install_DESC">Stuknij, aby zainstalować.</string>
     <string name="sync_repositories_automatically">Automatyczna synchronizacja repozytoriów</string>
     <string name="syncing">Synchronizacja</string>
     <string name="syncing_FORMAT">Synchronizacja %s…</string>
@@ -52,9 +49,7 @@
     <string name="proxy_type">Typ proxy</string>
     <string name="repository">Repozytorium</string>
     <string name="recently_updated">Ostatnio uaktualnione</string>
-    <string name="root_permission">Cicha instalacja</string>
     <string name="requires_FORMAT">Wymaga %s</string>
-    <string name="screenshots">Zrzuty ekranu</string>
     <string name="source_code">Kod źródłowy</string>
     <string name="sorting_order">Porządek sortowania</string>
     <string name="socks_proxy">Proxy SOCKS</string>
@@ -96,7 +91,6 @@
     <string name="incompatible_older_DESC">Ta wersja jest starsza niż ta zainstalowana na Twoim urządzeniu. Odinstaluj ją najpierw.</string>
     <string name="incompatible_platforms_DESC_FORMAT">Twoja platforma %1$s nie jest obsługiwana. Obsługiwane platformy: %2$s.</string>
     <string name="light">Jasny</string>
-    <string name="list_animation">Animacje listy</string>
     <string name="merging_FORMAT">Łączenie %s</string>
     <string name="no_applications_available">Brak dostępnych aplikacji</string>
     <string name="no_matching_applications_found">Nie znaleziono pasujących aplikacji</string>
@@ -121,7 +115,6 @@
     <string name="launch">Uruchom</string>
     <string name="license">Licencja</string>
     <string name="link_copied_to_clipboard">Skopiowano link</string>
-    <string name="list_animation_description">Włącz animację listy na stronie głównej</string>
     <string name="name">Według nazwy</string>
     <string name="network_error_DESC">Błąd sieci</string>
     <string name="never">Nigdy</string>
@@ -141,7 +134,6 @@
     <string name="integrity_check_error_DESC">Nie można sprawdzić spójności.</string>
     <string name="signature_FORMAT">Podpis %s</string>
     <string name="share">Udostępnij</string>
-    <string name="repository_not_used_DESC">To repozytorium nie jest jeszcze używane. Musisz je włączyć, aby zobaczyć aplikacje, które udostępnia.</string>
     <string name="ok">OK</string>
     <string name="invalid_permissions_error_DESC">Nieprawidłowe uprawnienia.</string>
     <string name="incompatible_versions">Niekompatybilne wersje</string>
@@ -156,7 +148,6 @@
         <item quantity="many">%d nowych aktualizacji.</item>
         <item quantity="other">%d nowych aktualizacji.</item>
     </plurals>
-    <string name="root_permission_description">Zezwól na uprawnienia roota dla cichych instalacji</string>
     <string name="repositories">Repozytoria</string>
     <string name="incompatible_with_FORMAT">Niekompatybilne z %s</string>
     <string name="install">Zainstaluj</string>
@@ -173,19 +164,13 @@
     <string name="prefs_language_title">Język</string>
     <string name="prefs_personalization">Personalizacja</string>
     <string name="show_less">Pokaż mniej</string>
-    <string name="installed_applications">Zainstalowane aplikacje</string>
-    <string name="sort_filter">Sortowanie i filtrowanie</string>
-    <string name="new_applications">Nowe aplikacje</string>
     <string name="installer">Instalator</string>
     <string name="legacy_installer">Native (starszy)</string>
     <string name="session_installer">Session (nowszy)</string>
     <string name="root_installer">ROOT</string>
     <string name="shizuku_installer">Shizuku</string>
-    <string name="latest">Najnowsza</string>
-    <string name="explore">Poznaj</string>
     <string name="update_all">Aktualizuj wszystkie</string>
     <string name="cleanup_title">Interwał oczyszczania plików apk</string>
-    <string name="cleanup_description">Okres sprawdzania i usuwania pobranych plików</string>
     <plurals name="days">
         <item quantity="one">dzień</item>
         <item quantity="few">dni</item>
@@ -200,14 +185,10 @@
         <item quantity="other">godzin</item>
     </plurals>
     <string name="io_error_DESC">Nie można wykonać niektórych działań.</string>
-    <string name="no_internet">Nie masz połączenia z internetem</string>
-    <string name="allow_collapsing_toolbar">Rozwijalny górny pasek aplikacji</string>
-    <string name="allow_collapsing_toolbar_DESC">Zezwalaj na rozwijanie i zwijanie górnego paska aplikacji</string>
     <string name="material_you_desc">Motyw kolorystyczny Material You</string>
     <string name="material_you">Silnik motywu Monet</string>
     <string name="enable_repo">Włącz repozytorium</string>
     <string name="installing">Instalowanie</string>
-    <string name="restart_app">Uruchom Droid-ify ponownie, aby zastosować zmiany</string>
     <string name="waiting_to_start_installation">Oczekiwanie na rozpoczęcie instalacji…</string>
     <string name="favourites">Ulubione</string>
     <string name="force_clean_up">Wymuś oczyszczenie</string>
@@ -224,7 +205,6 @@
     <string name="connection_error_DESC">Nie udało się połączyć z serwerem</string>
     <string name="home_screen_swiping">Przewijanie ekranu głównego</string>
     <string name="home_screen_swiping_DESC">Pozwala użytkownikowi na przesuwanie palcem między stronami na ekranie głównym</string>
-    <string name="label_copy">Kopiuj</string>
     <string name="proxy_port_error_not_int">Port proxy może być tylko liczbą naturalną</string>
     <string name="repository_not_found">Nie znaleziono następującego repozytorium</string>
     <string name="import_settings_title">Przywróć ustawienia</string>
@@ -248,4 +228,14 @@
     <string name="ignore_signature_summary">*Uwaga* Ignorowanie weryfikacji podpisu podczas instalacji apk, dla użytkowników LSPosed lub zaawansowanych użytkowników</string>
     <string name="insufficient_storage">Za mało miejsca</string>
     <string name="insufficient_storage_DESC">Nie można zainstalować aplikacji z powodu małej ilości miejsca na urządzeniu. Zwolnij trochę miejsca</string>
+    <string name="error_shizuku_service_unavailable">Shizuku nie działa</string>
+    <string name="error_shizuku_not_running_DESC">Usługa Shizuku nie działa, sprawdź aplikację Shizuku</string>
+    <string name="error_shizuku_not_granted">Brak uprawnienia Shizuku</string>
+    <string name="error_shizuku_not_granted_DESC">Nie przyznano uprawnienia usługi Shizuku. Sprawdź w aplikacji Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Wygląda na to, że Shizuku nie jest zainstalowane</string>
+    <string name="open_shizuku">Otwórz Shizuku</string>
+    <string name="switch_to_default_installer">Przełącz na domyślny</string>
+    <string name="label_unknown_sdk">Nieznany (%d)</string>
+    <string name="error_shizuku_not_installed">Shizuku nie jest zainstalowane</string>
+    <string name="label_open_video">Wideo</string>
 </resources>

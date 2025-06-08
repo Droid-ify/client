@@ -3,6 +3,7 @@ package com.looker.droidify.datastore
 import androidx.datastore.core.Serializer
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
@@ -29,6 +30,7 @@ data class Settings(
     val theme: Theme = Theme.SYSTEM,
     val dynamicTheme: Boolean = false,
     val installerType: InstallerType = InstallerType.Default,
+    val legacyInstallerComponent: LegacyInstallerComponent? = null,
     val autoUpdate: Boolean = false,
     val autoSync: AutoSync = AutoSync.WIFI_ONLY,
     val sortOrder: SortOrder = SortOrder.UPDATED,

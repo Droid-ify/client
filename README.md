@@ -7,7 +7,7 @@
 [![Github Downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
 [![Github Latest](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
 [![FDroid Latest](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23f5ad64&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
-
+</div>
 <div align="left">
 
 ## Features
@@ -22,8 +22,10 @@
 <img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
 
 ## Building and Installing
+
 1. **Install Android Studio**:
-    - Download and install [Android Studio](https://developer.android.com/studio) on your computer if you haven't already.
+    - Download and install [Android Studio](https://developer.android.com/studio) on your computer
+      if you haven't already.
 
 2. **Clone the Repository**:
     - Open Android Studio and select "Project from Version Control."
@@ -48,6 +50,7 @@
 - Your PR will undergo review
 
 ## Translations
+
 [![Translation status](https://hosted.weblate.org/widgets/droidify/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/droidify/?utm_source=widget)
 
 ## License
@@ -67,3 +70,5 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ```
+
+</div>

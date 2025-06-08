@@ -13,7 +13,6 @@
     <string name="changes">Cambios</string>
     <string name="checking_repository">Comprobando o repositorio…</string>
     <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="compiled_for_debugging">Compilado para a depuración</string>
     <string name="confirmation">Confirmación</string>
     <string name="connecting">Conectando…</string>
@@ -38,8 +37,6 @@
     <string name="light">Claro</string>
     <string name="link_copied_to_clipboard">A ligazón copiouse no portapapeis</string>
     <string name="links">Ligazóns</string>
-    <string name="list_animation">Lista de animacións</string>
-    <string name="list_animation_description">Mostra a animación da lista na páxina principal</string>
     <string name="merging_FORMAT">Fusionando %s</string>
     <string name="name">Nome</string>
     <string name="network_error_DESC">Erro na rede</string>
@@ -74,9 +71,7 @@
     <string name="recently_updated">Actualizado recentemente</string>
     <string name="repositories">Repositorios</string>
     <string name="repository">Repositorio</string>
-    <string name="repository_not_used_DESC">Este repositorio aínda non se utilizou. Accéndeo para ver as aplicacións nel.</string>
     <string name="requires_FORMAT">Require %s</string>
-    <string name="screenshots">Capturas de pantalla</string>
     <string name="search">Procurar</string>
     <string name="select_mirror">Seleccione un espello</string>
     <string name="share">Compartir</string>
@@ -91,7 +86,6 @@
     <string name="sync_repositories_automatically">Sincronizar repositorios automaticamente</string>
     <string name="syncing">Sincronización</string>
     <string name="system">Sistema</string>
-    <string name="target">Obxectivo</string>
     <string name="theme">Tema</string>
     <string name="themes">Temas</string>
     <string name="tracks_or_reports_your_activity">Rastrexa ou informa da túa actividade</string>
@@ -100,7 +94,6 @@
     <string name="unknown_error_DESC">Erro descoñecido.</string>
     <string name="unknown_FORMAT">Descoñecido: %s</string>
     <string name="unstable_updates">Actualizacións inestables</string>
-    <string name="unverified">Sen verificar</string>
     <string name="update">Actualizar</string>
     <string name="updates">Actualizacións</string>
     <string name="upstream_source_code_is_not_free">O código fonte non é ceibe</string>
@@ -114,12 +107,7 @@
     <string name="prefs_language_title">Lingua</string>
     <string name="prefs_personalization">Personalización</string>
     <string name="show_less">Mostrar menos</string>
-    <string name="latest">Derradeiro</string>
-    <string name="explore">Explora</string>
     <string name="update_all">Actualiza todo</string>
-    <string name="installed_applications">Aplicacións instaladas</string>
-    <string name="sort_filter">Ordear e filtrar</string>
-    <string name="new_applications">Novas aplicacións</string>
     <string name="all_applications">Todas as aplicacións</string>
     <string name="amoled">Negro</string>
     <string name="already_exists">Xa existe</string>
@@ -178,8 +166,6 @@
     <string name="only_on_wifi">Só con wifi</string>
     <string name="only_on_wifi_with_charging">Só con wifi e carga</string>
     <string name="proxy">Proxy</string>
-    <string name="root_permission">Instalación silenciosa</string>
-    <string name="root_permission_description">Permitir permiso de root para instalacións silenciosas</string>
     <string name="repository_unsigned_DESC">Sen asinar. Non se puido verificar a lista de solicitudes. Teña coidado ao descargar aplicacións desde repositorios sen asinar.</string>
     <string name="save">Gardar</string>
     <string name="sorting_order">Orde de clasificación</string>
@@ -189,14 +175,10 @@
     <string name="show_older_versions">Mostrar versións antigas</string>
     <string name="source_code">Código fonte</string>
     <string name="tap_to_install_DESC">Preme para instalar.</string>
-    <string name="unsigned">Sen asinar</string>
     <string name="unstable_updates_summary">Suxire instalar versións inestables</string>
     <string name="validation_index_error_DESC">Non se puido validar o índice.</string>
     <string name="version">Versión</string>
     <string name="io_error_DESC">Non se poden realizar determinadas accións.</string>
-    <string name="no_internet">Non tes conexión a internet</string>
-    <string name="allow_collapsing_toolbar">Permitir ca barra das aplicacións superior se amplíe</string>
-    <string name="allow_collapsing_toolbar_DESC">Permitir cas barras das aplicacións superior se amplíe e contraiga</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Usalo material que coloree o tema</string>
     <string name="favourites">Favoritas</string>
@@ -205,7 +187,6 @@
     <string name="force_clean_up">Forzala limpeza</string>
     <string name="enable_repo">Activalo repositorio</string>
     <string name="installing">Instalando</string>
-    <string name="restart_app">Reinicia Droid-ify para velos cambios</string>
     <string name="waiting_to_start_installation">Agardando para iniciala instalación…</string>
     <string name="auto_update">Actualizacións automática das aplicacións</string>
     <string name="auto_update_apps">Tenta instalar actualizacións automaticamente</string>

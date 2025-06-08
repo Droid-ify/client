@@ -30,14 +30,12 @@
     <string name="incompatible_api_DESC_FORMAT">Ваш %1$s (верзија API-ја %2$d) није подржан. %3$s</string>
     <string name="only_on_wifi">Само на Wi-Fi мрежи</string>
     <string name="password">Лозинка</string>
-    <string name="unsigned">Непотписано</string>
     <string name="cleanup_title">Интервал чишћења APK-а</string>
     <string name="repository_unsigned_DESC">Непотписано. Није могуће проверити листу апликација. Будите пажљиви при преузимању апликација из непотписаних репозиторијума.</string>
     <string name="contains_nsfw">Садржи садржај који није безбедан за рад</string>
     <string name="select_mirror">Изаберите резервни извор</string>
     <string name="has_non_free_components">Има неслободне компоненте</string>
     <string name="promotes_non_free_network_services">Промовише неслободне мрежне услуге</string>
-    <string name="list_animation_description">Приказује анимацију листе на главној страници</string>
     <string name="syncing_FORMAT">Синхронизација %s…</string>
     <string name="favourites">Омиљено</string>
     <string name="tracks_or_reports_your_activity">Прати или пријављује вашу активност</string>
@@ -50,11 +48,9 @@
     <string name="waiting_to_start_download">Чека се почетак преузимања…</string>
     <string name="auto_update_apps">Покушајте да аутоматски инсталирате ажурирања</string>
     <string name="downloading">Преузимање</string>
-    <string name="explore">Истражи</string>
     <string name="notify_about_updates_summary">Приказује обавештење када су нове верзије доступне</string>
     <string name="suggested">Предложено</string>
     <string name="permissions">Дозволе</string>
-    <string name="sort_filter">Сортирај и филтрирај</string>
     <string name="open_DESC_FORMAT">Отворити %s\?</string>
     <string name="validation_index_error_DESC">Није могуће потврдити индекс.</string>
     <string name="new_updates_available">Доступне су нове верзије апликација</string>
@@ -72,7 +68,6 @@
     <string name="installing">Инсталирање</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s није подржана. Подржане платформе: %2$s.</string>
     <string name="repository_unreachable">Репозиторијум је недоступан</string>
-    <string name="restart_app">Рестартујте Droid-ify да бисте видели промене</string>
     <string name="username_missing">Недостаје корисничко име</string>
     <string name="connecting">Повезивање…</string>
     <string name="update">Ажурирање</string>
@@ -85,7 +80,6 @@
     <string name="password_missing">Недостаје лозинка</string>
     <string name="description">Опис</string>
     <string name="material_you">Material You</string>
-    <string name="target">Циљ</string>
     <string name="waiting_to_start_installation">Чека се почетак инсталације…</string>
     <string name="installed">Инсталирано</string>
     <string name="name">Назив</string>
@@ -96,7 +90,6 @@
     <string name="version_FORMAT">Верзија %s</string>
     <string name="light">Светла</string>
     <string name="all_applications">Све апликације</string>
-    <string name="installed_applications">Инсталиране апликације</string>
     <string name="proxy_port">Порт проксија</string>
     <string name="requires_FORMAT">Захтева %s</string>
     <string name="delete">Избриши</string>
@@ -114,10 +107,7 @@
     <string name="link_copied_to_clipboard">Линк је копиран</string>
     <string name="processing_FORMAT">Обрада %1$s…</string>
     <string name="shizuku_installer">Програм за инсталацију „Shizuku“</string>
-    <string name="new_applications">Нове апликације</string>
-    <string name="label_copy">Копирај</string>
     <string name="uninstall">Деинсталирај</string>
-    <string name="no_internet">Немате интернет везу</string>
     <string name="skip">Прескочи</string>
     <string name="downloaded_FORMAT">Преузета је апликација %s</string>
     <string name="cant_edit_sync_DESC">Није могуће изменити репозиторијум, јер се тренутно синхронизује.</string>
@@ -127,7 +117,6 @@
     <string name="network_error_DESC">Мрежна грешка</string>
     <string name="license">Лиценца</string>
     <string name="auto_update">Аутоматско ажурирање апликација</string>
-    <string name="screenshots">Снимци екрана</string>
     <string name="recently_updated">Недавно ажурирано</string>
     <string name="already_exists">Већ постоји</string>
     <string name="author_website">Веб-сајт аутора</string>
@@ -135,12 +124,10 @@
     <string name="edit_repository">Измени репозиторијум</string>
     <string name="sorting_order">Редослед сортирања</string>
     <string name="ignore_this_update">Занемари ову верзију</string>
-    <string name="unverified">Неверификовано</string>
     <string name="http_proxy">HTTP прокси</string>
     <string name="application">Апликација</string>
     <string name="always">Увек</string>
     <string name="address">Адреса</string>
-    <string name="root_permission">Тиха инсталација</string>
     <string name="no_description_available_DESC">Опис није доступан</string>
     <string name="invalid_fingerprint_format">Неважећи формат отиска прста</string>
     <string name="saving_details">Чување детаља…</string>
@@ -165,7 +152,6 @@
     <string name="search">Претрага</string>
     <string name="unknown_error_DESC">Непозната грешка.</string>
     <string name="themes">Теме</string>
-    <string name="list_animation">Анимације листе</string>
     <string name="file_format_error_DESC">Неважећи формат фајла.</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d апликација има нову верзију.</item>
@@ -179,15 +165,12 @@
     <string name="project_website">Веб-сајт пројекта</string>
     <string name="donate">Донација</string>
     <string name="add_repository">Додај репозиторијум</string>
-    <string name="allow_collapsing_toolbar">Дозволи да се горња трака апликације прошири</string>
     <string name="could_not_validate_FORMAT">Није могуће потврдити %s</string>
     <string name="available">Истражи</string>
     <string name="show_less">Прикажи мање</string>
     <string name="never">Никада</string>
     <string name="no_matching_applications_found">Није могуће пронаћи ниједну такву апликацију</string>
     <string name="incompatible_api_min_DESC_FORMAT">Минимална верзија API-ја је %d.</string>
-    <string name="allow_collapsing_toolbar_DESC">Дозволите да се горња трака апликације прошири и скупи</string>
-    <string name="cleanup_description">Период за проверу и уклањање преузетих фајлова</string>
     <string name="settings">Подешавања</string>
     <string name="invalid_address">Неважећа адреса</string>
     <string name="upstream_source_code_is_not_free">Оригинални изворни кôд није слободан</string>
@@ -196,7 +179,6 @@
     <string name="checking_repository">Провера репозиторијума…</string>
     <string name="versions">Верзије</string>
     <string name="incompatible_api_max_DESC_FORMAT">Максимална верзија API-ја је %d.</string>
-    <string name="repository_not_used_DESC">Овај репозиторијум још није коришћен. Укључите га да бисте видели апликације у њему.</string>
     <string name="parsing_index_error_DESC">Није могуће рашчланити фајл индекса.</string>
     <string name="install">Инсталирај</string>
     <string name="system">Системски</string>
@@ -218,10 +200,8 @@
     <string name="integrity_check_error_DESC">Није могуће проверити интегритет.</string>
     <string name="application_not_found">Није могуће пронаћи ту апликацију</string>
     <string name="proxy">Прокси</string>
-    <string name="latest">Најновије</string>
     <string name="credits">Заслуге</string>
     <string name="repositories">Репозиторијуми</string>
-    <string name="root_permission_description">Дозволите root дозволу за тихе инсталације</string>
     <string name="compiled_for_debugging">Састављено за отклањање грешака</string>
     <string name="unknown_FORMAT">Непознато: %s</string>
     <string name="import_settings_title">Увоз подешавања</string>
@@ -245,4 +225,14 @@
     <string name="ignore_signature_summary">Упозорење: Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
     <string name="insufficient_storage">Недовољно меморије</string>
     <string name="insufficient_storage_DESC">Нема довољно слободног меморијског простора на уређају за инсталирање ове апликације. Покушајте да ослободите мало простора</string>
+    <string name="error_shizuku_service_unavailable">Shizuku није покренут</string>
+    <string name="error_shizuku_not_granted_DESC">Дозвола за услугу Shizuku није дата. Проверите у апликацији Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku није инсталиран</string>
+    <string name="error_shizuku_not_installed_DESC">Изгледа да Shizuku није инсталиран</string>
+    <string name="label_open_video">Видео снимак</string>
+    <string name="label_unknown_sdk">Непознато (%d)</string>
+    <string name="error_shizuku_not_running_DESC">Услуга Shizuku није покренута. Проверите у апликацији Shizuku</string>
+    <string name="open_shizuku">Отвори Shizuku</string>
+    <string name="error_shizuku_not_granted">Недостаје дозвола за Shizuku</string>
+    <string name="switch_to_default_installer">Промени на подразумевани</string>
 </resources>

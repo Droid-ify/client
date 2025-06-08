@@ -2,16 +2,13 @@
 <resources>
     <string name="repository_unsigned_DESC">Osignerad. Det gick inte att verifiera applikationslistan. Var försiktig när du laddar ner applikationer från osignerade arkiv.</string>
     <string name="requires_FORMAT">Kräver %s</string>
-    <string name="root_permission">Tyst installation</string>
     <string name="save">Spara</string>
-    <string name="screenshots">Skärmdumpar</string>
     <string name="select_mirror">Välj en mirror</string>
     <string name="signature_FORMAT">Signatur %s</string>
     <string name="source_code">Källkod</string>
     <string name="syncing">Synkroniseras</string>
     <string name="sync_repositories">Synkronisera arkiv</string>
     <string name="syncing_FORMAT">Synkroniserar %s…</string>
-    <string name="sort_filter">Sortera &amp; Filtrera</string>
     <string name="sync_repositories_automatically">Synkronisera arkiv automatiskt</string>
     <string name="tap_to_install_DESC">Tryck för att installera.</string>
     <string name="themes">Teman</string>
@@ -21,7 +18,6 @@
     <string name="version">Version</string>
     <string name="prefs_personalization">Personalisering</string>
     <string name="show_less">Visa mindre</string>
-    <string name="latest">Senast</string>
     <string name="unstable_updates">Instabila uppdateringar</string>
     <string name="update">Uppdatera</string>
     <string name="versions">Versioner</string>
@@ -36,7 +32,6 @@
     <string name="light">Ljus</string>
     <string name="link_copied_to_clipboard">Länken har kopierats</string>
     <string name="links">Länkar</string>
-    <string name="list_animation">Listanimationer</string>
     <string name="invalid_fingerprint_format">Ogiltigt fingeravtrycksformat</string>
     <string name="invalid_permissions_error_DESC">Ogiltiga behörigheter.</string>
     <string name="invalid_signature_error_DESC">Ogiltig signatur.</string>
@@ -52,7 +47,6 @@
         <item quantity="one">%d applikation har en ny version.</item>
         <item quantity="other">%d applikationer med nya versioner.</item>
     </plurals>
-    <string name="no_internet">Du har ingen internetanslutning</string>
     <string name="no_proxy">Ingen proxy</string>
     <string name="only_compatible_with_FORMAT">Endast kompatibel med %s</string>
     <string name="number_of_applications">Antal applikationer</string>
@@ -85,7 +79,6 @@
     <string name="sorting_order">Sorteringsordning</string>
     <string name="repositories">Arkiv</string>
     <string name="repository">Arkiv</string>
-    <string name="repository_not_used_DESC">Det här arkivet har inte använts ännu. Slå på den för att se applikationerna i den.</string>
     <string name="action_failed">Åtgärd misslyckades</string>
     <string name="add_repository">Lägg till arkiv</string>
     <string name="address">Adress</string>
@@ -103,7 +96,6 @@
     <string name="changelog">Ändringslogg</string>
     <string name="checking_repository">Kontrollerar arkivet …</string>
     <string name="cleanup_title">APK cleanup interval</string>
-    <string name="cleanup_description">Period to check and remove downloaded files</string>
     <string name="confirmation">Bekräftelse</string>
     <string name="contains_non_free_media">Innehåller icke-fria media</string>
     <string name="could_not_download_FORMAT">Kunde inte ladda ner %s</string>
@@ -127,32 +119,23 @@
     <string name="no_applications_installed">Inga installerade applikationer</string>
     <string name="only_on_wifi_with_charging">Endast på Wi-Fi och laddning</string>
     <string name="password_missing">Lösenord saknas</string>
-    <string name="root_permission_description">Tillåt rotbehörighet för tysta installationer</string>
     <string name="signed_using_unsafe_algorithm">Signerad med en osäker algoritm</string>
     <string name="theme">Tema</string>
     <string name="tracks_or_reports_your_activity">Spårar eller rapporterar din aktivitet</string>
-    <string name="unsigned">Osignerad</string>
     <string name="unstable_updates_summary">Föreslå att du installerar instabila versioner</string>
-    <string name="unverified">Ej verifierad</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="waiting_to_start_download">Väntar på att börja ladda ner…</string>
     <string name="website">Hemsida</string>
-    <string name="explore">Utforska</string>
     <string name="update_all">Uppdatera alla</string>
-    <string name="installed_applications">Installerade applikationer</string>
-    <string name="new_applications">Nya applikationer</string>
     <string name="permissions">Behörigheter</string>
     <string name="plus_more_FORMAT">+%d till</string>
     <string name="updates">Uppdateringar</string>
     <string name="all_applications_up_to_date">Alla dina applikationer är uppdaterade</string>
-    <string name="allow_collapsing_toolbar">Låt toppverktygsfältet expandera</string>
-    <string name="allow_collapsing_toolbar_DESC">Låt toppverktygsfältet expandera och dras ihop</string>
     <string name="donate">Donera</string>
     <string name="installer">Installerare</string>
     <string name="already_exists">Existerar redan</string>
     <string name="io_error_DESC">Det går inte att utföra vissa åtgärder.</string>
     <string name="license_FORMAT">%s licens</string>
-    <string name="list_animation_description">Visa listanimering på huvudsidan</string>
     <string name="ok">Okej</string>
     <string name="open_DESC_FORMAT">Öppna %s\?</string>
     <string name="saving_details">Sparar detaljer…</string>
@@ -197,7 +180,6 @@
     <string name="network_error_DESC">Nätverksfel</string>
     <string name="installed">Installerad</string>
     <string name="system">System</string>
-    <string name="target">Mål</string>
     <string name="unknown">Okänd</string>
     <string name="favourites">Favoriter</string>
     <string name="force_clean_up_DESC">Rensar upp överflödiga filer</string>
@@ -205,7 +187,6 @@
     <string name="force_clean_up">Tvinga städning</string>
     <string name="enable_repo">Aktivera arkivet</string>
     <string name="installing">Installerar</string>
-    <string name="restart_app">Starta om Droid-ify för att se ändringarna</string>
     <string name="waiting_to_start_installation">Väntar på att starta installationen…</string>
     <string name="auto_update">Uppdatera appar automatiskt</string>
     <string name="auto_update_apps">Försök att installera uppdateringar automatiskt</string>
@@ -218,7 +199,6 @@
     <string name="home_screen_swiping">Svep på hemskärmen</string>
     <string name="home_screen_swiping_DESC">Tillåt användare att svepa mellan sidor på hemskärmen</string>
     <string name="special_credits">Särskilda tack</string>
-    <string name="label_copy">Kopiera</string>
     <string name="import_settings_title">Importera inställningar</string>
     <string name="import_export">Import/Export</string>
     <string name="import_settings_DESC">Importera inställningar och favoriter från fil</string>

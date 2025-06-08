@@ -145,6 +145,9 @@
             <include
                 android:id="@+id/installer"
                 layout="@layout/enum_type" />
+            <include
+                android:id="@+id/legacy_installer_component"
+                layout="@layout/enum_type" />
 
             <TextView
                 android:layout_width="match_parent"

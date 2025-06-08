@@ -3,17 +3,12 @@ package com.looker.droidify.ui.tabsFragment
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.data.local.dao.IndexDao
-import com.looker.droidify.data.local.model.RepoEntity
-import com.looker.droidify.data.local.model.toRepo
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.model.ProductItem
-import com.looker.droidify.sync.Syncable
-import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -68,9 +63,15 @@ class TabsViewModel @Inject constructor(
     val backAction = combine(
         currentSection,
         isSearchActionItemExpanded,
-        showSections,
-        ::calcBackAction,
-    ).asStateFlow(BackAction.None)
+        showSections
+    ) { currentSection, isSearchActionItemExpanded, showSections ->
+        when {
+            currentSection != ProductItem.Section.All -> BackAction.ProductAll
+            isSearchActionItemExpanded -> BackAction.CollapseSearchView
+            showSections -> BackAction.HideSections
+            else -> BackAction.None
+        }
+    }.asStateFlow(BackAction.None)
 
     fun setSection(section: ProductItem.Section) {
         savedStateHandle[STATE_SECTION] = section
@@ -79,33 +80,6 @@ class TabsViewModel @Inject constructor(
     fun setSortOrder(sortOrder: SortOrder) {
         viewModelScope.launch {
             settingsRepository.setSortOrder(sortOrder)
-        }
-    }
-
-    fun sync() {
-        viewModelScope.launch {
-            val repo = RepoEntity(
-                id = 1,
-                address = "https://apt.izzysoft.de/fdroid/repo",
-                name = mapOf("en-US" to "IzzyOnDroid F-Droid Repo"),
-                description = emptyMap(),
-                fingerprint = Fingerprint("3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A"),
-                timestamp = 0L,
-                icon = emptyMap(),
-            )
-            val (_, index) = syncable.sync(
-                repo.toRepo(
-                    locale = "en-US",
-                    mirrors = emptyList(),
-                    enabled = true,
-                ),
-            )
-            requireNotNull(index)
-            indexDao.insertIndex(
-                fingerprint = repo.fingerprint,
-                index = index,
-                expectedRepoId = repo.id,
-            )
         }
     }
 

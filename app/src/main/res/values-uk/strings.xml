@@ -62,8 +62,6 @@
     <string name="license_FORMAT">Ліцензія %s</string>
     <string name="link_copied_to_clipboard">Посилання скопійовано</string>
     <string name="links">Посилання</string>
-    <string name="list_animation">Анімації списків</string>
-    <string name="list_animation_description">Показувати анімації списку на головній сторінці</string>
     <string name="merging_FORMAT">Злиття %s</string>
     <string name="name">Ім’я</string>
     <string name="network_error_DESC">Помилка мережі</string>
@@ -91,9 +89,7 @@
     <string name="proxy_port">Порт проксі</string>
     <string name="proxy_type">Тип проксі</string>
     <string name="recently_updated">Нещодавно оновлено</string>
-    <string name="repository_not_used_DESC">Цей репозиторій ще не використовувався. Увімкніть його, щоб переглянути застосунки у ньому.</string>
     <string name="requires_FORMAT">Потребує %s</string>
-    <string name="root_permission">Тихе встановлення</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d застосунок має нову версію.</item>
         <item quantity="few">%d застосунки мають нову версію.</item>
@@ -101,10 +97,8 @@
         <item quantity="other">%d застосунків мають нову версію.</item>
     </plurals>
     <string name="prefs_personalization">Персоналізація</string>
-    <string name="root_permission_description">Надайте root дозволи для увімкнення тихого встановлення</string>
     <string name="save">Зберегти</string>
     <string name="saving_details">Збереження даних…</string>
-    <string name="screenshots">Скриншоти</string>
     <string name="search">Пошук</string>
     <string name="show_older_versions">Показати старіші версії</string>
     <string name="signed_using_unsafe_algorithm">Підписаний за допомогою небезпечного алгоритму</string>
@@ -125,10 +119,8 @@
     <string name="unknown">Невідомо</string>
     <string name="unknown_error_DESC">Невідома помилка.</string>
     <string name="unknown_FORMAT">Невідомо: %s</string>
-    <string name="unsigned">Не підписаний</string>
     <string name="unstable_updates">Нестабільні оновлення</string>
     <string name="unstable_updates_summary">Пропонувати встановити нестабільні версії</string>
-    <string name="unverified">Не перевірений</string>
     <string name="update">Оновити</string>
     <string name="updates">Оновлення</string>
     <string name="upstream_source_code_is_not_free">Вихідний код батьківського застосунку не відкритий</string>
@@ -169,16 +161,10 @@
     <string name="source_code_no_longer_available">Вихідний код більше не доступний</string>
     <string name="system">Як у системі</string>
     <string name="tap_to_install_DESC">Натисніть, щоб встановити.</string>
-    <string name="target">Цільовий</string>
     <string name="version">Версія</string>
     <string name="waiting_to_start_download">Очікування завантаження…</string>
     <string name="show_less">Показати менше</string>
-    <string name="latest">Останні</string>
-    <string name="explore">Огляд</string>
     <string name="update_all">Оновити все</string>
-    <string name="installed_applications">Встановлені застосунки</string>
-    <string name="sort_filter">Сортувати та фільтрувати</string>
-    <string name="new_applications">Нові застосунки</string>
     <string name="legacy_installer">Застарілий інсталятор</string>
     <string name="installer">Інсталятор</string>
     <string name="root_installer">Root інсталятор</string>
@@ -198,11 +184,7 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Лише через Wi-Fi під час зарядки</string>
     <string name="cleanup_title">Періодичність очищення APK</string>
-    <string name="cleanup_description">Період для перевірки та видалення завантажених файлів</string>
     <string name="io_error_DESC">Неможливо виконати певні дії.</string>
-    <string name="allow_collapsing_toolbar">Дозволити розширення верхньої панелі застосунку</string>
-    <string name="allow_collapsing_toolbar_DESC">Дозволити верхній панелі застосунку розгортатися та згортатися</string>
-    <string name="no_internet">У вас немає підключення до Інтернету</string>
     <string name="material_you">Material You</string>
     <string name="material_you_desc">Використовувати кольорову тему Material You</string>
     <string name="favourites">Обране</string>
@@ -212,7 +194,6 @@
     <string name="auto_update">Автооновлення застосунків</string>
     <string name="auto_update_apps">Намагатися встановити оновлення автоматично</string>
     <string name="installing">Встановлення</string>
-    <string name="restart_app">Перезапустіть Droid-ify, щоб побачити зміни</string>
     <string name="enable_repo">Увімкнути репозиторій</string>
     <string name="waiting_to_start_installation">Очікування початку встановлення…</string>
     <string name="has_non_free_components">Містить невільні компоненти</string>
@@ -221,7 +202,6 @@
     <string name="shizuku_not_alive">Shizuku не працює</string>
     <string name="connection_error_DESC">Не вдалося з’єднатися з сервером</string>
     <string name="socket_error_DESC">Сервер не зміг надати новий пакунок.</string>
-    <string name="label_copy">Копіювати</string>
     <string name="proxy_port_error_not_int">Порт проксі може бути тільки цілим числом</string>
     <string name="home_screen_swiping_DESC">Дозволити користувачу перегортати сторінки на головному екрані за допомогою свайпів</string>
     <string name="repository_not_found">Наступний репозиторій не знайдено</string>
@@ -256,4 +236,6 @@
     <string name="error_shizuku_not_installed_DESC">Shizuku, здається, не встановлено</string>
     <string name="open_shizuku">Відкрити Shizuku</string>
     <string name="switch_to_default_installer">Перемкнутися на типовий режим</string>
+    <string name="label_unknown_sdk">Невідомий (%d)</string>
+    <string name="label_open_video">Відео</string>
 </resources>

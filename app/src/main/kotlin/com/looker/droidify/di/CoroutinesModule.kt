@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package com.looker.droidify.di
 
 import dagger.Module

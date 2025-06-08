@@ -29,14 +29,12 @@
     <string name="incompatible_api_DESC_FORMAT">Via %1$s (API-versio %2$d) ne estas subtenata. %3$s</string>
     <string name="only_on_wifi">Nur sur Wi-Fi</string>
     <string name="password">Pasvorto</string>
-    <string name="unsigned">Nesubskribita</string>
     <string name="cleanup_title">Intervalo de purigado de APK</string>
     <string name="repository_unsigned_DESC">Nesubskribita. Ne eblis kontroli la aplikliston. Atentu elŝutante aplikaĵojn el nesubskribitaj deponejoj.</string>
     <string name="contains_nsfw">Enhavas enhavon ne taŭgan por laboro</string>
     <string name="select_mirror">Elekti spegulon</string>
     <string name="has_non_free_components">Havas neliberajn komponantojn</string>
     <string name="promotes_non_free_network_services">Promocias ne-liberajn retservojn</string>
-    <string name="list_animation_description">Montri listanimacion sur la ĉefpaĝo</string>
     <string name="syncing_FORMAT">Sinkroniganta %s…</string>
     <string name="favourites">Favoratoj</string>
     <string name="tracks_or_reports_your_activity">Spuras aŭ raportas vian agadon</string>
@@ -49,11 +47,9 @@
     <string name="waiting_to_start_download">Atendante komenci elŝuton…</string>
     <string name="auto_update_apps">Provi instali ĝisdatigojn aŭtomate</string>
     <string name="downloading">Elŝutanta</string>
-    <string name="explore">Esplori</string>
     <string name="notify_about_updates_summary">Montri sciigon kiam novaj versioj estas disponebla</string>
     <string name="suggested">Sugestita</string>
     <string name="permissions">Permesoj</string>
-    <string name="sort_filter">Ordigi ⳤ Filtri</string>
     <string name="open_DESC_FORMAT">Ĉu malfermi %s\?</string>
     <string name="validation_index_error_DESC">Indekso ne povis esti validigita.</string>
     <string name="new_updates_available">Novaj versioj de aplikaĵoj disponeblaj</string>
@@ -70,7 +66,6 @@
     <string name="installing">Instalante</string>
     <string name="incompatible_platforms_DESC_FORMAT">Via %1$s platformo ne estas subtenata. Subtenataj platformoj: %2$s.</string>
     <string name="repository_unreachable">Deponejo neatingebla</string>
-    <string name="restart_app">Rekomenci Droid-ify por vidi ŝanĝojn</string>
     <string name="username_missing">Uzantnomo mankas</string>
     <string name="connecting">Konektanta…</string>
     <string name="update">Ĝisdatigi</string>
@@ -83,7 +78,6 @@
     <string name="password_missing">Pasvorto mankas</string>
     <string name="description">Priskribo</string>
     <string name="material_you">Material You</string>
-    <string name="target">Celo</string>
     <string name="waiting_to_start_installation">Atendante komenci instaladon…</string>
     <string name="installed">Instalita</string>
     <string name="name">Nomo</string>
@@ -94,7 +88,6 @@
     <string name="version_FORMAT">Versio %s</string>
     <string name="light">Hela</string>
     <string name="all_applications">Ĉiuj aplikaĵoj</string>
-    <string name="installed_applications">Instalitaj aplikaĵoj</string>
     <string name="proxy_port">Prokura haveno</string>
     <string name="requires_FORMAT">Postulas %s</string>
     <string name="delete">Forigi</string>
@@ -112,10 +105,7 @@
     <string name="link_copied_to_clipboard">Ligilo kopiita</string>
     <string name="processing_FORMAT">Prilaboranta %1$s…</string>
     <string name="shizuku_installer">Shizuku Instalilo</string>
-    <string name="new_applications">Novaj aplikaĵoj</string>
-    <string name="label_copy">Kopii</string>
     <string name="uninstall">Malinstali</string>
-    <string name="no_internet">Vi ne havas interretan konekton</string>
     <string name="skip">Preterpasi</string>
     <string name="downloaded_FORMAT">Elŝutis %s</string>
     <string name="cant_edit_sync_DESC">Ne povas redakti deponejon ĉar ĝi nun sinkronigas.</string>
@@ -125,7 +115,6 @@
     <string name="network_error_DESC">Reteraro</string>
     <string name="license">Licenco</string>
     <string name="auto_update">Aŭtomate ĝisdatigi aplikaĵoj</string>
-    <string name="screenshots">Ekrankopioj</string>
     <string name="recently_updated">Lastatempe ĝisdatigita</string>
     <string name="already_exists">Jam ekzistas</string>
     <string name="author_website">Aŭtora retejo</string>
@@ -133,12 +122,10 @@
     <string name="edit_repository">Redakti deponejon</string>
     <string name="sorting_order">Ordo de ordigo</string>
     <string name="ignore_this_update">Ignori ĉi tiun version</string>
-    <string name="unverified">Nekontrolita</string>
     <string name="http_proxy">HTTP prokurilo</string>
     <string name="application">Aplikaĵo</string>
     <string name="always">Ĉiam</string>
     <string name="address">Adreso</string>
-    <string name="root_permission">Silenta Instalo</string>
     <string name="no_description_available_DESC">Neniu priskribo disponebla</string>
     <string name="invalid_fingerprint_format">Nevalida fingrospura formato</string>
     <string name="saving_details">Konservanta detalojn…</string>
@@ -163,7 +150,6 @@
     <string name="search">Serĉi</string>
     <string name="unknown_error_DESC">Nekonata eraro.</string>
     <string name="themes">Haŭtoj</string>
-    <string name="list_animation">Enlistigi Animacioj</string>
     <string name="file_format_error_DESC">Nevalida dosierformato.</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d aplikaĵo havas novan version.</item>
@@ -176,15 +162,12 @@
     <string name="project_website">Projekto retejo</string>
     <string name="donate">Donaci</string>
     <string name="add_repository">Aldoni deponejo</string>
-    <string name="allow_collapsing_toolbar">Permesi al Supra Aplika Breto Etendi</string>
     <string name="could_not_validate_FORMAT">Ne eblis validigi %s</string>
     <string name="available">Esplori</string>
     <string name="show_less">Montri Malpli</string>
     <string name="never">Neniam</string>
     <string name="no_matching_applications_found">Ne povis trovi tiajn aplikaĵojn</string>
     <string name="incompatible_api_min_DESC_FORMAT">La minimuma API-versio estas %d.</string>
-    <string name="allow_collapsing_toolbar_DESC">Permesi al supra aplika breto etendi kaj maletendi</string>
-    <string name="cleanup_description">Periodo por kontroli kaj forigi elŝutitajn dosierojn</string>
     <string name="settings">Agordoj</string>
     <string name="invalid_address">Nevalida adreso</string>
     <string name="upstream_source_code_is_not_free">La kontraŭflua fontkodo ne estas libera</string>
@@ -193,7 +176,6 @@
     <string name="checking_repository">Kontrolanta deponejon…</string>
     <string name="versions">Versioj</string>
     <string name="incompatible_api_max_DESC_FORMAT">La maksimuma API-versio estas %d.</string>
-    <string name="repository_not_used_DESC">Ĉi tiu deponejo ankoraŭ ne estis uzata. Ŝaltu ĝin por vidi la aplikaĵojn en ĝi.</string>
     <string name="parsing_index_error_DESC">Ne eblis analizi la indeksan dosieron.</string>
     <string name="install">Instali</string>
     <string name="system">Sistemo</string>
@@ -215,10 +197,8 @@
     <string name="integrity_check_error_DESC">Ne eblis kontroli integrecon.</string>
     <string name="application_not_found">Ne eblis trovi tiun aplikaĵon</string>
     <string name="proxy">Prokurilo</string>
-    <string name="latest">Plej lasta</string>
     <string name="credits">Kreditoj</string>
     <string name="repositories">Deponejoj</string>
-    <string name="root_permission_description">Permesi radikan permeson por silenta instalo</string>
     <string name="compiled_for_debugging">Kompilita por sencimigado</string>
     <string name="unknown_FORMAT">Nekonata: %s</string>
     <string name="import_settings_title">Importi Agordojn</string>

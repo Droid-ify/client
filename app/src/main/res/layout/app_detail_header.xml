@@ -90,7 +90,6 @@
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider1"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="12dp" />
@@ -120,7 +119,6 @@
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider2"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="12dp" />

@@ -40,7 +40,7 @@ import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import coil3.load
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.imageview.ShapeableImageView
@@ -56,6 +56,7 @@ import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.percentBy
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.copyToClipboard
@@ -69,6 +70,7 @@ import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.open
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
 import com.looker.droidify.utility.common.nullIfEmpty
+import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
@@ -101,7 +103,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onFavouriteClicked()
         fun onPreferenceChanged(preference: ProductPreference)
         fun onPermissionsClick(group: String?, permissions: List<String>)
-        fun onScreenshotClick(screenshot: Product.Screenshot, parentView: ImageView)
+        fun onScreenshotClick(position: Int)
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
@@ -313,7 +315,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         is Product.Donate.Regular -> drawableRes.ic_donate
                         is Product.Donate.Bitcoin -> drawableRes.ic_donate_bitcoin
                         is Product.Donate.Litecoin -> drawableRes.ic_donate_litecoin
-                        is Product.Donate.Flattr -> drawableRes.ic_donate_flattr
                         is Product.Donate.Liberapay -> drawableRes.ic_donate_liberapay
                         is Product.Donate.OpenCollective -> drawableRes.ic_donate_opencollective
                     }
@@ -322,7 +323,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.Regular -> context.getString(stringRes.website)
                     is Product.Donate.Bitcoin -> "Bitcoin"
                     is Product.Donate.Litecoin -> "Litecoin"
-                    is Product.Donate.Flattr -> "Flattr"
                     is Product.Donate.Liberapay -> "Liberapay"
                     is Product.Donate.OpenCollective -> "Open Collective"
                 }
@@ -331,12 +331,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.Regular -> Uri.parse(donate.url)
                     is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
                     is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
-                    is Product.Donate.Flattr -> Uri.parse(
-                        "https://flattr.com/thing/${donate.id}"
-                    )
-
                     is Product.Donate.Liberapay -> Uri.parse(
-                        "https://liberapay.com/~${donate.id}"
+                        "https://liberapay.com/${donate.id}"
                     )
 
                     is Product.Donate.OpenCollective -> Uri.parse(
@@ -561,6 +557,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val size = itemView.findViewById<TextView>(R.id.size)!!
         val signature = itemView.findViewById<TextView>(R.id.signature)!!
         val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
+        val sdkVer = itemView.findViewById<TextView>(R.id.sdk_ver)!!
 
         val statefulViews: Sequence<View>
             get() = sequenceOf(
@@ -571,7 +568,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 added,
                 size,
                 signature,
-                compatibility
+                compatibility,
+                sdkVer,
             )
     }
 
@@ -1365,12 +1363,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             )
                             holder.progress.isIndeterminate = status.total == null
                             if (status.total != null) {
-                                holder.progress.progress =
-                                    (
-                                        holder.progress.max.toFloat() *
-                                            status.read.value /
-                                            status.total.value
-                                        ).roundToInt()
+                                holder.progress.setProgressCompat(
+                                    status.read.value percentBy status.total.value,
+                                    true
+                                )
                             }
                         }
 
@@ -1430,17 +1426,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as ScreenShotViewHolder
                 item as Item.ScreenshotItem
                 holder.screenshotsRecycler.run {
+                    setHasFixedSize(true)
                     isNestedScrollingEnabled = false
                     clipToPadding = false
                     setPadding(8.dp, 8.dp, 8.dp, 8.dp)
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter =
-                        ScreenshotsAdapter { screenshot, view ->
-                            callbacks.onScreenshotClick(screenshot, view)
-                        }.apply {
-                            setScreenshots(item.repository, item.packageName, item.screenshots)
-                        }
+                    adapter = ScreenshotsAdapter(callbacks::onScreenshotClick).apply {
+                        setScreenshots(item.repository, item.packageName, item.screenshots)
+                    }
                 }
             }
 
@@ -1626,7 +1620,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder.version.text =
                     context.getString(stringRes.version_FORMAT, item.release.version)
 
-                holder.status.apply {
+                with(holder.status) {
                     isVisible = installed || suggested
                     setText(
                         when {
@@ -1637,14 +1631,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     )
                     background = context.corneredBackground
                     setPadding(15, 15, 15, 15)
-                    val (background, foreground) = if (installed) {
-                        MaterialR.attr.colorSecondaryContainer to MaterialR.attr.colorOnSecondaryContainer
+                    if (installed) {
+                        backgroundTintList =
+                            context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
                     } else {
-                        MaterialR.attr.colorPrimaryContainer to MaterialR.attr.colorOnPrimaryContainer
+                        backgroundTintList =
+                            context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
                     }
-                    backgroundTintList =
-                        context.getColorFromAttr(background)
-                    setTextColor(context.getColorFromAttr(foreground))
                 }
                 holder.source.text =
                     context.getString(stringRes.provided_by_FORMAT, item.repository.name)
@@ -1688,35 +1683,51 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     }
                     holder.signature.text = builder
                 }
-                holder.compatibility.isVisible = incompatibility != null || singlePlatform != null
-                if (incompatibility != null) {
-                    holder.compatibility.setTextColor(
-                        context.getColorFromAttr(MaterialR.attr.colorError)
-                    )
-                    holder.compatibility.text = when (incompatibility) {
-                        is Release.Incompatibility.MinSdk,
-                        is Release.Incompatibility.MaxSdk
-                            -> context.getString(
-                            stringRes.incompatible_with_FORMAT,
-                            Android.name
-                        )
+                with(holder.compatibility) {
+                    isVisible = incompatibility != null || singlePlatform != null
+                    if (incompatibility != null) {
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorError))
+                        text = when (incompatibility) {
+                            is Release.Incompatibility.MinSdk,
+                            is Release.Incompatibility.MaxSdk -> context.getString(
+                                stringRes.incompatible_with_FORMAT,
+                                Android.name
+                            )
 
-                        is Release.Incompatibility.Platform -> context.getString(
-                            stringRes.incompatible_with_FORMAT,
-                            Android.primaryPlatform ?: context.getString(stringRes.unknown)
-                        )
+                            is Release.Incompatibility.Platform -> context.getString(
+                                stringRes.incompatible_with_FORMAT,
+                                Android.primaryPlatform ?: context.getString(stringRes.unknown)
+                            )
 
-                        is Release.Incompatibility.Feature -> context.getString(
-                            stringRes.requires_FORMAT,
-                            incompatibility.feature
+                            is Release.Incompatibility.Feature -> context.getString(
+                                stringRes.requires_FORMAT,
+                                incompatibility.feature
+                            )
+                        }
+                    } else if (singlePlatform != null) {
+                        setTextColor(context.getColorFromAttr(android.R.attr.textColorSecondary))
+                        text = context.getString(
+                            stringRes.only_compatible_with_FORMAT,
+                            singlePlatform,
                         )
                     }
-                } else if (singlePlatform != null) {
-                    holder.compatibility.setTextColor(
-                        context.getColorFromAttr(android.R.attr.textColorSecondary)
+                }
+                with(holder.sdkVer) {
+                    val targetSdkVersion = sdkName.getOrDefault(
+                        item.release.targetSdkVersion,
+                        context.getString(
+                            stringRes.label_unknown_sdk,
+                            item.release.targetSdkVersion,
+                        ),
                     )
-                    holder.compatibility.text =
-                        context.getString(stringRes.only_compatible_with_FORMAT, singlePlatform)
+                    val minSdkVersion = sdkName.getOrDefault(
+                        item.release.minSdkVersion,
+                        context.getString(
+                            stringRes.label_unknown_sdk,
+                            item.release.minSdkVersion,
+                        ),
+                    )
+                    text = context.getString(stringRes.label_sdk_version, targetSdkVersion, minSdkVersion)
                 }
                 val enabled = status == Status.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }

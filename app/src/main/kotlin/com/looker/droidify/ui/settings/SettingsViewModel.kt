@@ -7,35 +7,35 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.looker.droidify.R
+import com.looker.droidify.database.Database
+import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.datastore.model.InstallerType
-import com.looker.droidify.datastore.model.InstallerType.*
+import com.looker.droidify.datastore.model.InstallerType.ROOT
+import com.looker.droidify.datastore.model.InstallerType.SHIZUKU
+import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
-import com.looker.droidify.database.Database
-import com.looker.droidify.database.RepositoryExporter
-import com.looker.droidify.work.CleanUpWorker
 import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
 import com.looker.droidify.installer.installers.requestPermissionListener
+import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.time.Duration
-import com.looker.droidify.R
 
 @HiltViewModel
 class SettingsViewModel
@@ -49,8 +49,8 @@ class SettingsViewModel
     }
     val settingsFlow get() = settingsRepository.data
 
-    private val _backgroundTask = MutableStateFlow(false)
-    val backgroundTask = _backgroundTask.asStateFlow()
+    var isBackgroundAllowed = true
+        private set
 
     private val _snackbarStringId = MutableSharedFlow<Int>()
     val snackbarStringId = _snackbarStringId.asSharedFlow()
@@ -59,10 +59,8 @@ class SettingsViewModel
 
     fun <T> getInitialSetting(block: Settings.() -> T): Flow<T> = initialSetting.map { it.block() }
 
-    fun allowBackground() {
-        viewModelScope.launch {
-            _backgroundTask.emit(true)
-        }
+    fun toggleBackgroundAccess(enable: Boolean) {
+        isBackgroundAllowed = enable
     }
 
     fun setLanguage(language: String) {
@@ -172,7 +170,7 @@ class SettingsViewModel
                         } else if (isShizukuGranted()) {
                             settingsRepository.setInstallerType(installerType)
                         } else if (!isShizukuGranted()) {
-                            if(requestPermissionListener()) {
+                            if (requestPermissionListener()) {
                                 settingsRepository.setInstallerType(installerType)
                             }
                         }
@@ -191,6 +189,12 @@ class SettingsViewModel
                     settingsRepository.setInstallerType(installerType)
                 }
             }
+        }
+    }
+
+    fun setLegacyInstallerComponentComponent(component: LegacyInstallerComponent?) {
+        viewModelScope.launch {
+            settingsRepository.setLegacyInstallerComponent(component)
         }
     }
 

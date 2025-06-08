@@ -22,7 +22,7 @@ import com.looker.droidify.databinding.RepositoryPageBinding
 import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
-import com.looker.droidify.utility.extension.screenActivity
+import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -53,7 +53,7 @@ class RepositoryFragment() : ScreenFragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = RepositoryPageBinding.inflate(inflater, container, false)
         viewModel.bindService(requireContext())
-        screenActivity.onToolbarCreated(toolbar)
+        mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(stringRes.repository)
         val scroll = NestedScrollView(binding.root.context)
         scroll.addView(binding.root)
@@ -149,7 +149,7 @@ class RepositoryFragment() : ScreenFragment() {
             }
 
             editRepoButton.setOnClickListener {
-                screenActivity.navigateEditRepository(viewModel.id)
+                mainActivity.navigateEditRepository(viewModel.id)
             }
 
             deleteRepoButton.setOnClickListener {
