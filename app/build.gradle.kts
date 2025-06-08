@@ -36,7 +36,7 @@ android {
             "-opt-in=kotlin.RequiresOptIn",
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
             "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-Xcontext-receivers"
+            "-Xcontext-receivers",
         )
     }
 
@@ -60,7 +60,7 @@ android {
             resValue("string", "application_name", "Droid-ify")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard.pro"
+                "proguard.pro",
             )
         }
         create("alpha") {
@@ -69,7 +69,7 @@ android {
             resValue("string", "application_name", "Droid-ify Alpha")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard.pro"
+                "proguard.pro",
             )
             isDebuggable = true
             isMinifyEnabled = true
@@ -78,7 +78,7 @@ android {
             buildConfigField(
                 type = "String",
                 name = "VERSION_NAME",
-                value = "\"v$latestVersionName\""
+                value = "\"v$latestVersionName\"",
             )
         }
     }
@@ -160,7 +160,8 @@ dependencies {
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs
-task("detectAndroidLocals") {
+// in /res are (almost) all languages that have a translated string is saved. this is safer and saves some time
+tasks.register("detectAndroidLocals") {
     val langsList: MutableSet<String> = HashSet()
 
     // in /res are (almost) all languages that have a translated string is saved. this is safer and saves some time

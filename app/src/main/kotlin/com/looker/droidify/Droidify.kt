@@ -84,13 +84,13 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
-//        RepositoryUpdater.init(appScope, downloader)
+        RepositoryUpdater.init(appScope, downloader)
         listenApplications()
         checkLanguage()
         updatePreference()
         appScope.launch { installer() }
 
-//        if (databaseUpdated) forceSyncAll()
+        if (databaseUpdated) forceSyncAll()
     }
 
     override fun onTerminate() {

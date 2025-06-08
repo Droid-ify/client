@@ -37,7 +37,7 @@ class PreferenceSettingsRepository(
     override val data: Flow<Settings> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.e("TAG", "Error reading preferences.", exception)
+                Log.e("PreferencesSettingsRepository", "Error reading preferences.", exception)
             } else {
                 throw exception
             }

@@ -7,7 +7,6 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
@@ -21,8 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TabsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val indexDao: IndexDao,
-    private val syncable: Syncable<IndexV2>,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -63,7 +60,7 @@ class TabsViewModel @Inject constructor(
     val backAction = combine(
         currentSection,
         isSearchActionItemExpanded,
-        showSections
+        showSections,
     ) { currentSection, isSearchActionItemExpanded, showSections ->
         when {
             currentSection != ProductItem.Section.All -> BackAction.ProductAll
