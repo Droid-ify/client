@@ -191,12 +191,6 @@ data class Repository(
                 fingerprint = "C44D58B4547DE5096138CB0B34A1CC99DAB3B4274412ED753FCCBFC11DC1B7B6"
             ),
             defaultRepository(
-                address = "https://divestos.org/fdroid/official",
-                name = "Divest OS Repo",
-                description = "The official Divest OS F-Droid repository.",
-                fingerprint = "E4BE8D6ABFA4D9D4FEEF03CDDA7FF62A73FD64B75566F6DD4E5E577550BE8467"
-            ),
-            defaultRepository(
                 address = "https://fdroid.fedilab.app/repo",
                 name = "Fedilab",
                 description = "The official repository for Fedilab. Fedilab is a " +
@@ -312,13 +306,6 @@ data class Repository(
                 name = "Cryptomator",
                 description = "No Description",
                 fingerprint = "f7c3ec3b0d588d3cb52983e9eb1a7421c93d4339a286398e71d7b651e8d8ecdd"
-            ),
-            defaultRepository(
-                address = "https://divestos.org/apks/unofficial/fdroid/repo",
-                name = "DivestOS Unofficial",
-                description = "This repository contains unofficial builds of open source apps" +
-                    " that are not included in the other repos.",
-                fingerprint = "a18cdb92f40ebfbbf778a54fd12dbd74d90f1490cb9ef2cc6c7e682dd556855d"
             ),
             defaultRepository(
                 address = "https://cdn.kde.org/android/stable-releases/fdroid/repo",
