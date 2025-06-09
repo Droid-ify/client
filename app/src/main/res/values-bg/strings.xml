@@ -232,4 +232,10 @@
     <string name="error_shizuku_not_installed_DESC">Shizuku изглежда не е инсталиран</string>
     <string name="error_shizuku_service_unavailable">Shizuku Не работи</string>
     <string name="label_unknown_sdk">Неизвестен (%d)</string>
+    <string name="legacyInstallerComponent">Компонент на наследен инсталатор</string>
+    <string name="unspecified">Неопределен</string>
+    <string name="shizuku_legacy_installer">Shizuku наследен инсталатор</string>
+    <string name="always_choose">Винаги избирай</string>
+    <string name="select_installer">Изберете инсталатор</string>
+    <string name="label_sdk_version">Цели: Android %1$s | Минимум: Android %2$s</string>
 </resources>
