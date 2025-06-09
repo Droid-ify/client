@@ -386,7 +386,7 @@ data class Repository(
                 address = "https://fdroid.i2pd.xyz/fdroid/repo/",
                 name = "PurpleI2P F-Droid repository",
                 description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
-                fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
+                fingerprint = "2B9564B0895EEAC039E854C6B065291B01E6A9CA02939CEDD0D35CF44BEE78E0"
             ),
         )
 
