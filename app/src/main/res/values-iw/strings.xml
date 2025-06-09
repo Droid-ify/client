@@ -237,4 +237,7 @@
     <string name="open_shizuku">פתח את שיזוקו</string>
     <string name="switch_to_default_installer">עבור לברירת מחדל</string>
     <string name="label_unknown_sdk">לא ידוע (%d)</string>
+    <string name="legacyInstallerComponent">רכיב מתקין מדור קודם</string>
+    <string name="unspecified">לא צוין</string>
+    <string name="label_sdk_version">יעדים: אנדרואיד %1$s | מינימום: אנדרואיד %2$s</string>
 </resources>
