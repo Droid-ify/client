@@ -235,4 +235,10 @@
     <string name="error_shizuku_not_installed">Shizuku není nainstalováno</string>
     <string name="label_open_video">Video</string>
     <string name="open_shizuku">Otevřít Shizuku</string>
+    <string name="always_choose">Vždy se zeptat</string>
+    <string name="select_installer">Vyberte instalátor</string>
+    <string name="shizuku_legacy_installer">Starý instalátor Shizuku</string>
+    <string name="legacyInstallerComponent">Komponenta starého instalátoru</string>
+    <string name="label_sdk_version">Cíl: Android %1$s | Minimum: Android %2$s</string>
+    <string name="unspecified">Nespecifikováno</string>
 </resources>
