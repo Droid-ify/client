@@ -229,4 +229,10 @@
     <string name="switch_to_default_installer">切換到預設</string>
     <string name="label_open_video">影片</string>
     <string name="label_unknown_sdk">未知 (%d)</string>
+    <string name="unspecified">未指定</string>
+    <string name="legacyInstallerComponent">舊版安裝程式元件</string>
+    <string name="always_choose">一律詢問</string>
+    <string name="select_installer">選擇安裝程式</string>
+    <string name="shizuku_legacy_installer">Shizuku 舊版安裝程式</string>
+    <string name="label_sdk_version">目標：Android %1$s | 最低要求：Android %2$s</string>
 </resources>

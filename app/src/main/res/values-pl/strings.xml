@@ -238,4 +238,10 @@
     <string name="label_unknown_sdk">Nieznany (%d)</string>
     <string name="error_shizuku_not_installed">Shizuku nie jest zainstalowane</string>
     <string name="label_open_video">Wideo</string>
+    <string name="unspecified">Nieokreślony</string>
+    <string name="legacyInstallerComponent">Starszy komponent instalatora</string>
+    <string name="shizuku_legacy_installer">Instalator Shizuku Legacy</string>
+    <string name="always_choose">Zawsze wybieraj</string>
+    <string name="select_installer">Wybór instalatora</string>
+    <string name="label_sdk_version">Cele: Android %1$s | Minimum: Android %2$s</string>
 </resources>
