@@ -235,4 +235,5 @@
     <string name="switch_to_default_installer">Cambiar a Predeterminado</string>
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Desconocido (%d)</string>
+    <string name="legacyInstallerComponent">Componente instalador heredado</string>
 </resources>
