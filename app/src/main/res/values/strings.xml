@@ -63,7 +63,7 @@
     <string name="import_repos_DESC">Import repositories from a file</string>
     <string name="export_repos_title">Export repositories</string>
     <string name="export_repos_DESC">Export repositories to a file</string>
-    <string name="enable_repo">Enable the repository</string>
+    <string name="enable_repo">Enable repository</string>
     <string name="favourites">Favourites</string>
     <string name="file_format_error_DESC">Invalid file format</string>
     <string name="fingerprint">Fingerprint</string>
@@ -155,7 +155,7 @@
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Only compatible with %s</string>
     <string name="only_on_wifi">Only on Wi-Fi</string>
-    <string name="only_on_wifi_with_charging">Only on Wi-Fi &amp; when charging</string>
+    <string name="only_on_wifi_with_charging">Only on Wi-Fi when charging</string>
     <string name="open_DESC_FORMAT">Open %s?</string>
     <string name="open_shizuku">Open Shizuku</string>
     <string name="other">Other</string>
