@@ -19,7 +19,7 @@
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Cancel</string>
     <string name="cannot_open_link">Cannot open link</string>
-    <string name="cant_edit_sync_DESC">Cannot edit repository since it is syncing right now</string>
+    <string name="cant_edit_sync_DESC">Cannot edit repository while it is syncing</string>
     <string name="changelog">Changelog</string>
     <string name="changes">Changes</string>
     <string name="checking_repository">Checking repository…</string>
@@ -34,8 +34,8 @@
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
     <plurals name="days">
-        <item quantity="one">Day</item>
-        <item quantity="other">Days</item>
+        <item quantity="one">day</item>
+        <item quantity="other">days</item>
     </plurals>
     <string name="delete">Delete</string>
     <string name="delete_repository_DESC">Delete the repository?</string>
@@ -45,7 +45,7 @@
     <string name="downloaded_FORMAT">Downloaded %s</string>
     <string name="downloading">Downloading</string>
     <string name="downloading_FORMAT">Downloading %s…</string>
-    <string name="edit_repository">Edit repository</string>
+    <string name="edit_repository">Edit</string>
 
     <string name="error_shizuku_service_unavailable">Shizuku/Sui service is not running</string>
     <string name="error_shizuku_not_running_DESC">The Shizuku/Sui service is not running</string>
@@ -72,8 +72,8 @@
     <string name="has_advertising">Contains advertising</string>
     <string name="has_non_free_dependencies">Depends on other non-free apps</string>
     <string name="has_non_free_components">Has non-free components</string>
-    <string name="has_security_vulnerabilities">Has security vulnerabilities</string>
-    <string name="has_tethered_network">Bound to a certain network service</string>
+    <string name="has_security_vulnerabilities">Has known security vulnerabilities</string>
+    <string name="has_tethered_network">Bound to a certain instance of a network service</string>
     <string name="home_screen_swiping">Page swiping</string>
     <string name="home_screen_swiping_DESC">Swipe left or right to change the page</string>
     <plurals name="hours">
@@ -105,12 +105,12 @@
     <string name="legacyInstallerComponent">Legacy installer component</string>
     <string name="unspecified">Unspecified</string>
     <string name="insufficient_storage">Insufficient space</string>
-    <string name="insufficient_storage_DESC">There is not enough free space on the device to install this app/string>
+    <string name="insufficient_storage_DESC">There is not enough free space to install this app/string>
     <string name="legacy_installer">Legacy installer</string>
     <string name="session_installer">Session installer</string>
     <string name="root_installer">Root installer</string>
     <string name="shizuku_installer">Shizuku/Sui installer</string>
-    <string name="shizuku_legacy_installer">Shizuku legacy installer</string>
+    <string name="shizuku_legacy_installer">Shizuku/Sui legacy installer</string>
     <string name="shizuku_not_alive">Shizuku/Sui is not running</string>
     <string name="shizuku_not_installed">Shizuku/Sui is not installed</string>
     <string name="installed">Installed</string>
@@ -151,7 +151,7 @@
     <string name="no_proxy">No proxy</string>
     <string name="notify_about_updates">Notify for updates</string>
     <string name="notify_about_updates_summary">Show a notification when new versions are available</string>
-    <string name="number_of_applications">Number of applications</string>
+    <string name="number_of_applications">Number of apps</string>
     <string name="ok">OK</string>
     <string name="only_compatible_with_FORMAT">Only compatible with %s</string>
     <string name="only_on_wifi">Only on Wi-Fi</string>
@@ -181,8 +181,8 @@
     <string name="repository_unsigned_DESC">No signature found. Could not verify the application list</string>
     <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>
-    <string name="require_background_access">Require Background Access</string>
-    <string name="require_background_access_DESC">Background Access is required to properly run background sync</string>
+    <string name="require_background_access">Disable battery optimizations</string>
+    <string name="require_background_access_DESC">Disabling battery optimizations is required to properly run background sync</string>
     <string name="save">Save</string>
     <string name="saving_details">Saving details…</string>
     <string name="search">Search</string>
@@ -199,7 +199,7 @@
     <string name="sorting_order">Sorting order</string>
     <string name="source_code">Source code</string>
     <string name="source_code_no_longer_available">Source code no longer available</string>
-    <string name="special_credits">Special Credits</string>
+    <string name="special_credits">Special credits</string>
     <string name="suggested">Suggested</string>
     <string name="switch_to_default_installer">Switch to default</string>
     <string name="sync_repositories">Sync repositories</string>
