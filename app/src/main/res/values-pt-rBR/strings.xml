@@ -226,4 +226,22 @@
     <string name="uninstalled_application_DESC">%s foi desinstalado</string>
     <string name="ignore_signature_summary">Ignore a verificação de assinatura ao instalar o apk, para usuários LSPosed ou usuários avançados</string>
     <string name="ignore_signature">Ignorar Assinatura</string>
+    <string name="open_shizuku">Abrir Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">Serviço Shizuku não está em execução. Verifique no App Shizuku</string>
+    <string name="insufficient_storage_DESC">Não há espaço livre disponível no dispositivo para instalar este aplicativo. Tente liberar algum espaço</string>
+    <string name="error_shizuku_service_unavailable">Shizuku não está em execução.</string>
+    <string name="error_shizuku_not_granted">Permissão do Shizuku Ausente</string>
+    <string name="error_shizuku_not_granted_DESC">Permissão do serviço Shizuku ausente. Verifique no App Shizuku</string>
+    <string name="error_shizuku_not_installed">Shizuku não está instalado</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku aparenta não estar instalado</string>
+    <string name="insufficient_storage">Espaço insuficiente</string>
+    <string name="switch_to_default_installer">Alternar para Padrão</string>
+    <string name="legacyInstallerComponent">Componente de Instalador Legado</string>
+    <string name="unspecified">Não especificado</string>
+    <string name="shizuku_legacy_installer">Instalador Legado do Shizuku</string>
+    <string name="label_open_video">Vídeo</string>
+    <string name="label_unknown_sdk">Desconhecido (%d)</string>
+    <string name="always_choose">Escolher Sempre</string>
+    <string name="select_installer">Selecionar instalador</string>
+    <string name="label_sdk_version">Alvos: Android %1$s | Mínimo: Android %2$s</string>
 </resources>
