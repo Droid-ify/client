@@ -236,4 +236,9 @@
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Desconocido (%d)</string>
     <string name="legacyInstallerComponent">Componente instalador heredado</string>
+    <string name="unspecified">No especificado</string>
+    <string name="shizuku_legacy_installer">Instalador de Shizuku Legacy</string>
+    <string name="always_choose">Siempre elegir</string>
+    <string name="select_installer">Seleccionar el instalador</string>
+    <string name="label_sdk_version">Objetivos: Android %1$s | Minimo: Android %2$s</string>
 </resources>
