@@ -36,7 +36,7 @@ class DatabaseHelper(context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Add newly added repositories when database version is upgraded
+        db.removeRepositories()
         db.addNewlyAddedRepositories()
         this.updated = true
     }
@@ -99,6 +99,55 @@ class DatabaseHelper(context: Context) :
             transaction {
                 reposToAdd.forEach { repo ->
                     RepositoryAdapter.put(repo, database = this)
+                }
+            }
+        }
+    }
+
+    private fun SQLiteDatabase.removeRepositories() {
+        // Remove repositories that are in the toRemove list
+        val reposToRemove = Repository.toRemove
+        if (reposToRemove.isEmpty()) return
+
+        // Get all repositories with their IDs and addresses
+        val existingRepos = query(
+            Schema.Repository.name,
+            columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DATA),
+            selection = null,
+            signal = null,
+        ).use { cursor ->
+            cursor.asSequence().mapNotNull {
+                val idIndex = it.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
+                val dataIndex = it.getColumnIndexOrThrow(Schema.Repository.ROW_DATA)
+                val id = it.getLong(idIndex)
+                val data = it.getBlob(dataIndex)
+
+                try {
+                    val repo = data.jsonParse { json -> json.repository() }
+                    id to repo.address
+                } catch (_: Exception) {
+                    null
+                }
+            }.toMap()
+        }
+
+        // Find repositories to remove
+        val reposToRemoveIds = existingRepos.filter { (_, address) ->
+            address in reposToRemove
+        }.keys
+
+        if (reposToRemoveIds.isNotEmpty()) {
+            transaction {
+                reposToRemoveIds.forEach { repoId ->
+                    // Directly update the database to mark repository as deleted
+                    update(
+                        Schema.Repository.name,
+                        android.content.ContentValues().apply {
+                            put(Schema.Repository.ROW_DELETED, 1)
+                        },
+                        "${Schema.Repository.ROW_ID} = ?",
+                        arrayOf(repoId.toString())
+                    )
                 }
             }
         }

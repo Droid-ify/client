@@ -413,5 +413,10 @@ data class Repository(
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
             )
         )
+
+        val toRemove: List<String> = listOf(
+            // Add repository addresses that should be removed during database upgrades and remove them from the lists above
+            // Example: "https://example.com/fdroid/repo"
+        )
     }
 }
