@@ -76,11 +76,11 @@
     <string name="incompatible_with_FORMAT">Nesaderīgs ar %s</string>
     <string name="install">Uzstādīt</string>
     <string name="installer">Uzstādītājs</string>
-    <string name="legacy_installer">Vecā uzstādīšanas metode</string>
+    <string name="legacy_installer">Novecojušā uzstādīšanas metode</string>
     <string name="session_installer">Sesijas uzstādīšana</string>
     <string name="root_installer">Ar root piekļuves tiesībām uzstādīšana</string>
     <string name="shizuku_installer">Izmantojot Shizuku uzstādīšana</string>
-    <string name="installed">Uzstādīts</string>
+    <string name="installed">Uzstādītās</string>
     <string name="integrity_check_error_DESC">Nevarēja pārbaudīt integritāti.</string>
     <string name="invalid_metadata_error_DESC">Nederīgi metadati.</string>
     <string name="invalid_permissions_error_DESC">Nederīgas atļaujas.</string>
@@ -183,8 +183,8 @@
     <string name="ignore_all_updates">Ignorēt visas jaunās versijas</string>
     <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
     <string name="auto_update">Automātiski atjaunināt lietotnes</string>
-    <string name="auto_update_apps">Mēģiniet automātiski uzstādīt atjauninājumus</string>
-    <string name="installing">Uzstādīšana</string>
+    <string name="auto_update_apps">Mēģina automātiski uzstādīt atjauninājumus</string>
+    <string name="installing">Uzstāda</string>
     <string name="waiting_to_start_installation">Gaida uzstādīšanas sākšanu…</string>
     <string name="favourites">Iecienītākie</string>
     <string name="enable_repo">Iespējot repozitoriju</string>
@@ -214,7 +214,7 @@
     <string name="insufficient_storage">Nepietiek uzglabāšanas vietas</string>
     <string name="insufficient_storage_DESC">Jūsu ierīcē nav pietiekami daudz brīvas vietas, lai uzstādītu šo lietotni. Mēģiniet atbrīvot vietu</string>
     <string name="shizuku_not_installed">Shizuku nav uzstādīts⁣</string>
-    <string name="installation_failed">Uzstādīšana neizdevās</string>
+    <string name="installation_failed">Neizdevās uzstādīt</string>
     <string name="installation_failed_DESC">Neizdevās uzstādīt %s</string>
     <string name="uninstalled_application">Noņemts</string>
     <string name="uninstalled_application_DESC">%s noņemts</string>
@@ -235,4 +235,10 @@
     <string name="contains_nsfw">Satur darba vietai nepiemērotu saturu</string>
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Nezināms (%d)</string>
+    <string name="unspecified">Nenorādīts</string>
+    <string name="always_choose">Vienmēr jautāt atlasīt</string>
+    <string name="shizuku_legacy_installer">Shizuku novecojušais uzstādītājs</string>
+    <string name="select_installer">Atlasīt uzstādītāju</string>
+    <string name="label_sdk_version">Mērķa SDK versija: Android %1$s | Minimālā SDK versija: Android %2$s</string>
+    <string name="legacyInstallerComponent">Novecojušais uzstādītāja komponents</string>
 </resources>

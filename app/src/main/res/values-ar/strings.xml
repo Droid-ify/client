@@ -244,4 +244,10 @@
     <string name="label_open_video">فيديو</string>
     <string name="error_shizuku_service_unavailable">Shizuku لا يعمل</string>
     <string name="switch_to_default_installer">بدّل إلى الافتراضي</string>
+    <string name="unspecified">غير محدد</string>
+    <string name="legacyInstallerComponent">مكون المثبت القديم</string>
+    <string name="shizuku_legacy_installer">أداة تثبيت شيزوكو العتيقة</string>
+    <string name="always_choose">اختر دائمًا</string>
+    <string name="select_installer">اختيار المثبت</string>
+    <string name="label_sdk_version">الأهداف: أندرويد %1$s |الحد الأدنى: أندرويد %2$s</string>
 </resources>

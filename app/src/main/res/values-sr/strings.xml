@@ -235,4 +235,10 @@
     <string name="open_shizuku">Отвори Shizuku</string>
     <string name="error_shizuku_not_granted">Недостаје дозвола за Shizuku</string>
     <string name="switch_to_default_installer">Промени на подразумевани</string>
+    <string name="legacyInstallerComponent">Компонента застарелог програма за инсталацију</string>
+    <string name="unspecified">Неодређено</string>
+    <string name="shizuku_legacy_installer">Застарели програм за инсталацију Shizuku</string>
+    <string name="always_choose">Увек изабери</string>
+    <string name="select_installer">Избор програма за инсталацију</string>
+    <string name="label_sdk_version">Циља: Android %1$s | Минимум: Android %2$s</string>
 </resources>
