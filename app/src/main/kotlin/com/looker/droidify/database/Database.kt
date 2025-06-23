@@ -9,7 +9,8 @@ import android.os.CancellationSignal
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.BuildConfig
+import com.looker.droidify.database.table.DatabaseHelper
+import com.looker.droidify.database.table.Table
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
@@ -20,7 +21,6 @@ import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.droidify.utility.common.extension.firstOrNull
 import com.looker.droidify.utility.common.extension.parseDictionary
 import com.looker.droidify.utility.common.extension.writeDictionary
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
@@ -44,52 +44,15 @@ import kotlin.collections.set
 
 object Database {
     fun init(context: Context): Boolean {
-        val helper = Helper(context)
+        val helper = DatabaseHelper(context)
         db = helper.writableDatabase
-        if (helper.created) {
-            for (repository in Repository.defaultRepositories.sortedBy { it.name }) {
-                RepositoryAdapter.put(repository)
-            }
-        }
         RepositoryAdapter.removeDuplicates()
         return helper.created || helper.updated
     }
 
     private lateinit var db: SQLiteDatabase
 
-    private interface Table {
-        val memory: Boolean
-        val innerName: String
-        val createTable: String
-        val createIndex: String?
-            get() = null
-
-        val databasePrefix: String
-            get() = if (memory) "memory." else ""
-
-        val name: String
-            get() = "$databasePrefix$innerName"
-
-        fun formatCreateTable(name: String): String {
-            return buildString(128) {
-                append("CREATE TABLE ")
-                append(name)
-                append(" (")
-                trimAndJoin(createTable)
-                append(")")
-            }
-        }
-
-        val createIndexPairFormatted: Pair<String, String>?
-            get() = createIndex?.let {
-                Pair(
-                    "CREATE INDEX ${innerName}_index ON $innerName ($it)",
-                    "CREATE INDEX ${name}_index ON $innerName ($it)",
-                )
-            }
-    }
-
-    private object Schema {
+    object Schema {
         object Repository : Table {
             const val ROW_ID = "_id"
             const val ROW_ENABLED = "enabled"
@@ -190,126 +153,6 @@ object Database {
         }
     }
 
-    private class Helper(context: Context) : SQLiteOpenHelper(context, "droidify", null, 5) {
-        var created = false
-            private set
-        var updated = false
-            private set
-
-        override fun onCreate(db: SQLiteDatabase) = Unit
-        override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) =
-            onVersionChange(db)
-
-        override fun onDowngrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) =
-            onVersionChange(db)
-
-        private fun onVersionChange(db: SQLiteDatabase) {
-            handleTables(db, true, Schema.Product, Schema.Category)
-            addRepos(db, Repository.newlyAdded)
-            this.updated = true
-        }
-
-        override fun onOpen(db: SQLiteDatabase) {
-            val create = handleTables(db, false, Schema.Repository)
-            val updated = handleTables(db, create, Schema.Product, Schema.Category)
-            db.execSQL("ATTACH DATABASE ':memory:' AS memory")
-            handleTables(db, false, Schema.Installed, Schema.Lock)
-            handleIndexes(
-                db,
-                Schema.Repository,
-                Schema.Product,
-                Schema.Category,
-                Schema.Installed,
-                Schema.Lock,
-            )
-            dropOldTables(db, Schema.Repository, Schema.Product, Schema.Category)
-            this.created = this.created || create
-            this.updated = this.updated || create || updated
-        }
-    }
-
-    private fun handleTables(db: SQLiteDatabase, recreate: Boolean, vararg tables: Table): Boolean {
-        val shouldRecreate = recreate || tables.any { table ->
-            val sql = db.query(
-                "${table.databasePrefix}sqlite_master",
-                columns = arrayOf("sql"),
-                selection = Pair("type = ? AND name = ?", arrayOf("table", table.innerName)),
-            ).use { it.firstOrNull()?.getString(0) }.orEmpty()
-            table.formatCreateTable(table.innerName) != sql
-        }
-        return shouldRecreate && run {
-            val shouldVacuum = tables.map {
-                db.execSQL("DROP TABLE IF EXISTS ${it.name}")
-                db.execSQL(it.formatCreateTable(it.name))
-                !it.memory
-            }
-            if (shouldVacuum.any { it } && !db.inTransaction()) {
-                db.execSQL("VACUUM")
-            }
-            true
-        }
-    }
-
-    private fun addRepos(db: SQLiteDatabase, repos: List<Repository>) {
-        if (BuildConfig.DEBUG) {
-            log("Add Repos: $repos", "RepositoryAdapter")
-        }
-        if (repos.isEmpty()) return
-        db.transaction {
-            repos.forEach {
-                RepositoryAdapter.put(it, database = this)
-            }
-        }
-    }
-
-    private fun handleIndexes(db: SQLiteDatabase, vararg tables: Table) {
-        val shouldVacuum = tables.map { table ->
-            val sqls = db.query(
-                "${table.databasePrefix}sqlite_master",
-                columns = arrayOf("name", "sql"),
-                selection = Pair("type = ? AND tbl_name = ?", arrayOf("index", table.innerName)),
-            )
-                .use { cursor ->
-                    cursor.asSequence()
-                        .mapNotNull { it.getString(1)?.let { sql -> Pair(it.getString(0), sql) } }
-                        .toList()
-                }
-                .filter { !it.first.startsWith("sqlite_") }
-            val createIndexes = table.createIndexPairFormatted?.let { listOf(it) }.orEmpty()
-            createIndexes.map { it.first } != sqls.map { it.second } && run {
-                for (name in sqls.map { it.first }) {
-                    db.execSQL("DROP INDEX IF EXISTS $name")
-                }
-                for (createIndexPair in createIndexes) {
-                    db.execSQL(createIndexPair.second)
-                }
-                !table.memory
-            }
-        }
-        if (shouldVacuum.any { it } && !db.inTransaction()) {
-            db.execSQL("VACUUM")
-        }
-    }
-
-    private fun dropOldTables(db: SQLiteDatabase, vararg neededTables: Table) {
-        val tables = db.query(
-            "sqlite_master",
-            columns = arrayOf("name"),
-            selection = Pair("type = ?", arrayOf("table")),
-        )
-            .use { cursor -> cursor.asSequence().mapNotNull { it.getString(0) }.toList() }
-            .filter { !it.startsWith("sqlite_") && !it.startsWith("android_") }
-            .toSet() - neededTables.mapNotNull { if (it.memory) null else it.name }.toSet()
-        if (tables.isNotEmpty()) {
-            for (table in tables) {
-                db.execSQL("DROP TABLE IF EXISTS $table")
-            }
-            if (!db.inTransaction()) {
-                db.execSQL("VACUUM")
-            }
-        }
-    }
-
     sealed class Subject {
         data object Repositories : Subject()
         data class Repository(val id: Long) : Subject()
@@ -364,7 +207,7 @@ object Database {
         }
     }
 
-    private fun SQLiteDatabase.query(
+    fun SQLiteDatabase.query(
         table: String,
         columns: Array<String>? = null,
         selection: Pair<String, Array<String>>? = null,
