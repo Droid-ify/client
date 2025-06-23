@@ -172,13 +172,6 @@ data class Repository(
                 fingerprint = "573258C84E149B5F4D9299E7434B2B69A8410372921D4AE586BA91EC767892CC"
             ),
             defaultRepository(
-                address = "https://fdroid.libretro.com/repo",
-                name = "LibRetro",
-                description = "The official canary repository for this great" +
-                    " retro emulators hub.",
-                fingerprint = "3F05B24D497515F31FEAB421297C79B19552C5C81186B3750B7C131EF41D733D"
-            ),
-            defaultRepository(
                 address = "https://cdn.kde.org/android/fdroid/repo",
                 name = "KDE Android",
                 description = "The official nightly repository for KDE Android apps.",
@@ -210,13 +203,6 @@ data class Repository(
                 description = "Kali Nethunter's official selection of original b" +
                     "inaries.",
                 fingerprint = "FE7A23DFC003A1CF2D2ADD2469B9C0C49B206BA5DC9EDD6563B3B7EB6A8F5FAB"
-            ),
-            defaultRepository(
-                address = "https://secfirst.org/fdroid/repo",
-                name = "Umbrella",
-                description = "The official repository for Umbrella. Umbrella is" +
-                    " a collection of security advices, tutorials, tools etc.",
-                fingerprint = "39EB57052F8D684514176819D1645F6A0A7BD943DBC31AB101949006AC0BC228"
             ),
             defaultRepository(
                 address = "https://thecapslock.gitlab.io/fdroid-patched-apps/fdroid/repo",
@@ -417,6 +403,8 @@ data class Repository(
         val toRemove: List<String> = listOf(
             // Add repository addresses that should be removed during database upgrades and remove them from the lists above
             // Example: "https://example.com/fdroid/repo"
+            "https://secfirst.org/fdroid/repo",
+            "https://fdroid.libretro.com/repo"
         )
     }
 }
