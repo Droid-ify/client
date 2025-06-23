@@ -27,6 +27,7 @@ import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.utility.common.extension.clipboardManager
+import com.looker.droidify.utility.common.extension.exceptCancellation
 import com.looker.droidify.utility.common.extension.get
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
@@ -136,7 +137,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 Selection.setSelection(
                     text,
                     realPosition(outputString, inputStart),
-                    realPosition(outputString, inputEnd)
+                    realPosition(outputString, inputEnd),
                 )
             }
         }
@@ -155,7 +156,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     Pair(
                         uri.buildUpon().path(uri.path?.pathCropped).query(null).fragment(null)
                             .build().toString(),
-                        fingerprintText
+                        fingerprintText,
                     )
                 } catch (e: Exception) {
                     Pair(null, null)
@@ -171,7 +172,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     setEndIconOnClickListener {
                         SelectMirrorDialog(mirrors).show(
                             childFragmentManager,
-                            SelectMirrorDialog::class.java.name
+                            SelectMirrorDialog::class.java.name,
                         )
                     }
                 }
@@ -189,7 +190,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                         if (index >= 0) {
                             Pair(
                                 it.substring(0, index),
-                                it.substring(index + 1)
+                                it.substring(index + 1),
                             )
                         } else {
                             null
@@ -319,7 +320,7 @@ class EditRepositoryFragment() : ScreenFragment() {
             return if (endsWith != null) {
                 cropped.substring(
                     0,
-                    cropped.length - endsWith.length - 1
+                    cropped.length - endsWith.length - 1,
                 )
             } else {
                 cropped
@@ -330,12 +331,12 @@ class EditRepositoryFragment() : ScreenFragment() {
         val uri = try {
             val uri = URI(address)
             if (uri.isAbsolute) uri.normalize() else null
-        } catch (e: URISyntaxException) {
+        } catch (_: URISyntaxException) {
             return null
         }
         return try {
             uri?.toURL()?.toURI()?.toString()?.removeSuffix("/")
-        } catch (e: URISyntaxException) {
+        } catch (_: URISyntaxException) {
             null
         }
     }
@@ -346,7 +347,10 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     private fun onSaveRepositoryClick(check: Boolean) {
         if (!checkInProgress) {
-            val address = normalizeAddress(binding.address.text.toString())!!
+            val address = normalizeAddress(binding.address.text.toString()) ?: kotlin.run {
+                failedAddressCheck()
+                return
+            }
             val fingerprint = binding.fingerprint.text.toString().replace(" ", "")
             val username = binding.username.text.toString().nullIfEmpty()
             val password = binding.password.text.toString().nullIfEmpty()
@@ -354,7 +358,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                 password?.let { p ->
                     Base64.encodeToString(
                         "$u:$p".toByteArray(Charset.defaultCharset()),
-                        Base64.NO_WRAP
+                        Base64.NO_WRAP,
                     )
                 }
             }?.let { "Basic $it" }.orEmpty()
@@ -364,7 +368,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     val resultAddress = try {
                         checkAddress(address, authentication)
                     } catch (e: Exception) {
-                        e.printStackTrace()
+                        e.exceptCancellation()
                         failedAddressCheck()
                         null
                     }
@@ -378,7 +382,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                         onSaveRepositoryProceedInvalidate(
                             resultAddress,
                             fingerprint,
-                            authentication
+                            authentication,
                         )
                     } else {
                         invalidateState()
@@ -393,7 +397,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     private suspend fun checkAddress(
         rawAddress: String,
-        authentication: String
+        authentication: String,
     ): String? = coroutineScope {
         checkInProgress = true
         invalidateState()
@@ -403,7 +407,7 @@ class EditRepositoryFragment() : ScreenFragment() {
             .forEach { address ->
                 val response = downloader.headCall(
                     url = "$address/index-v1.jar",
-                    headers = { authentication(authentication) }
+                    headers = { authentication(authentication) },
                 )
                 if (response is NetworkResponse.Success) return@coroutineScope address
             }
@@ -413,7 +417,7 @@ class EditRepositoryFragment() : ScreenFragment() {
     private fun onSaveRepositoryProceedInvalidate(
         address: String,
         fingerprint: String,
-        authentication: String
+        authentication: String,
     ) {
         val binder = syncConnection.binder
         if (binder != null) {
@@ -442,7 +446,7 @@ class EditRepositoryFragment() : ScreenFragment() {
         Snackbar.make(
             requireView(),
             R.string.repository_unreachable,
-            Snackbar.LENGTH_SHORT
+            Snackbar.LENGTH_SHORT,
         ).show()
     }
 
