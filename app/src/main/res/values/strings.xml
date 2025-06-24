@@ -11,8 +11,8 @@
     <string name="anti_features">Anti-features</string>
     <string name="application">App</string>
     <string name="application_not_found">App wasn\'t found</string>
-    <string name="author_email">Email</string>
-    <string name="author_website">Website</string>
+    <string name="author_email">Author email</string>
+    <string name="author_website">Author website</string>
     <string name="auto_update">Auto-update apps</string>
     <string name="auto_update_apps">Install updates automatically</string>
     <string name="available">Explore</string>
@@ -231,7 +231,7 @@
     <string name="waiting_to_start_download">Waiting to start download…</string>
     <string name="waiting_to_start_installation">Waiting to start installation…</string>
     <string name="whats_new">What\'s new</string>
-    <string name="website">Website</string>
+    <string name="website">Project website</string>
     <string name="prefs_language_title">Language</string>
     <string name="prefs_personalization">Personalization</string>
     <string name="show_less">Show less</string>
