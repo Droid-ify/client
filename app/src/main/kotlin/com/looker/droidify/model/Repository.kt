@@ -137,9 +137,9 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://microg.org/fdroid/repo",
-                name = "MicroG Project",
-                description = "The official repository for MicroG." +
-                    " MicroG is a lightweight open-source implementation" +
+                name = "microG Project",
+                description = "The official repository for microG." +
+                    " microG is a lightweight open source implementation" +
                     " of Google Play Services.",
                 fingerprint = "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165"
             ),
