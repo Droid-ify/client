@@ -193,7 +193,7 @@ data class Repository(
                 address = "https://fdroid.fedilab.app/repo",
                 name = "Fedilab",
                 description = "The official repository for Fedilab. Fedilab is a " +
-                    "multi-accounts client for Mastodon, Peertube, and other free" +
+                    "multi-accounts client for Mastodon, PeerTube, and other free" +
                     " software social networks.",
                 fingerprint = "11F0A69910A4280E2CD3CCC3146337D006BE539B18E1A9FEACE15FF757A94FEB"
             ),
