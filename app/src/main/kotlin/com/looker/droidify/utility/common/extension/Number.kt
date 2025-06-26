@@ -12,6 +12,6 @@ val Number.dpToPx
         Resources.getSystem().displayMetrics
     )
 
-context(View)
+context(view: View)
 val Int.dp: Int
-    get() = (this * resources.displayMetrics.density).roundToInt()
+    get() = (this * view.resources.displayMetrics.density).roundToInt()

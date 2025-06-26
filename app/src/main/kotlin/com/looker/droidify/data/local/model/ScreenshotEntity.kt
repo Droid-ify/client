@@ -24,7 +24,7 @@ import com.looker.droidify.sync.v2.model.ScreenshotsV2
 )
 data class ScreenshotEntity(
     val path: String,
-    @ScreenshotType
+    @param:ScreenshotType
     val type: Int,
     val locale: String,
     val appId: Int,
