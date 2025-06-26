@@ -48,7 +48,7 @@
     <string name="new_updates_available">Neue Versionen von Apps verfügbar</string>
     <string name="never">Nie</string>
     <string name="network_error_DESC">Netzwerkfehler</string>
-    <string name="notify_about_updates">Update-Benachrichtigungen</string>
+    <string name="notify_about_updates">Benachrichtigung über Aktualisierungen</string>
     <string name="no_description_available_DESC">Keine Beschreibung vorhanden</string>
     <string name="no_matching_applications_found">Keine derartigen Apps auffindbar</string>
     <string name="no_applications_installed">Keine installierten Apps</string>
@@ -172,10 +172,10 @@
         <item quantity="other">Stunden</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Nur mit WLAN während des Aufladens</string>
-    <string name="installer">Installationsmethode</string>
+    <string name="installer">Installation</string>
     <string name="cleanup_title">APK-Bereinigungsintervall</string>
     <string name="root_installer">Root-Installation</string>
-    <string name="legacy_installer">Alte Installationsmethode</string>
+    <string name="legacy_installer">Legacy-Installation</string>
     <string name="session_installer">Sitzungsinstallation</string>
     <string name="shizuku_installer">Shizuku-Installation</string>
     <string name="io_error_DESC">Bestimmte Aktionen können nicht durchgeführt werden.</string>
@@ -232,4 +232,9 @@
     <string name="error_shizuku_not_running_DESC">Der Shizuku-Dienst läuft nicht. Bitte in der Shizuku-App prüfen</string>
     <string name="label_open_video">Video</string>
     <string name="label_unknown_sdk">Unbekannt (%d)</string>
+    <string name="unspecified">Nicht spezifiziert</string>
+    <string name="shizuku_legacy_installer">Shizuku Lagacy-Installation</string>
+    <string name="legacyInstallerComponent">Legacy-Installationskomponente</string>
+    <string name="always_choose">Immer Wählen</string>
+    <string name="label_sdk_version">Zielversion: Android %1$s | Minimum: Android %2$s</string>
 </resources>
