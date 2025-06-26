@@ -232,4 +232,10 @@
     <string name="error_shizuku_not_running_DESC">Η υπηρεσία Shizuku δεν λειτουργεί. Ελέγξτε την εφαρμογή Shizuku</string>
     <string name="error_shizuku_not_granted">Λείπει η άδεια Shizuku</string>
     <string name="insufficient_storage_DESC">Δεν υπάρχει αρκετός ελεύθερος χώρος στη συσκευή για την εγκατάσταση αυτής της εφαρμογής. Προσπαθήστε να ελευθερώσετε και να καθαρίσετε λίγο χώρο</string>
+    <string name="unspecified">Απροσδιόριστο</string>
+    <string name="legacyInstallerComponent">Εξάρτημα Απαρχαιωμένου Εγκαταστάτη</string>
+    <string name="shizuku_legacy_installer">Απαρχαιωμένος Εγκαταστάτης Shizuku</string>
+    <string name="always_choose">Πάντα Επιλογή</string>
+    <string name="select_installer">Επιλέξτε εγκαταστάτη</string>
+    <string name="label_sdk_version">Στοχεύει: Android %1$s | Ελάχιστο: Android %2$s</string>
 </resources>
