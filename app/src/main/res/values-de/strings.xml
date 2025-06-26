@@ -73,7 +73,7 @@
     <string name="themes">Designs</string>
     <string name="unknown">Unbekannt</string>
     <string name="uninstall">Deinstallieren</string>
-    <string name="update">Aktualisierung</string>
+    <string name="update">Aktualisieren</string>
     <string name="version">Version</string>
     <string name="versions">Versionen</string>
     <string name="whats_new">Neu hinzugefügt</string>
@@ -113,7 +113,7 @@
     <string name="ignore_all_updates">Alle neuen Versionen ignorieren</string>
     <string name="ignore_this_update">Diese Version ignorieren</string>
     <string name="size">Größe</string>
-    <string name="updates">Updates</string>
+    <string name="updates">Aktualisierungen</string>
     <string name="username">Benutzername</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="downloading">Wird heruntergeladen …</string>
