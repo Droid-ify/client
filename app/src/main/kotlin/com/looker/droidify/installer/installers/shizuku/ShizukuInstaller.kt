@@ -1,14 +1,14 @@
 package com.looker.droidify.installer.installers.shizuku
 
 import android.content.Context
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.cache.Cache
-import com.looker.droidify.utility.common.extension.size
 import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.uninstallPackage
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.size
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.BufferedReader
 import java.io.InputStream
@@ -21,13 +21,14 @@ class ShizukuInstaller(private val context: Context) : Installer {
     }
 
     override suspend fun install(
-        installItem: InstallItem
+        installItem: InstallItem,
     ): InstallState = suspendCancellableCoroutine { cont ->
         var sessionId: String? = null
         val file = Cache.getReleaseFile(context, installItem.installFileName)
         val packageName = installItem.packageName.name
         try {
-            val fileSize = file.size ?: run {
+            val fileSize = file.length()
+            if (fileSize == 0L) {
                 cont.cancel()
                 error("File is not valid: Size ${file.size}")
             }
@@ -43,26 +44,26 @@ class ShizukuInstaller(private val context: Context) : Installer {
                 sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
                     ?: run {
                         cont.cancel()
-                        throw RuntimeException("Failed to create install session")
+                        error("Failed to create install session")
                     }
                 if (cont.isCompleted) return@suspendCancellableCoroutine
 
                 val writeResult = exec("pm install-write -S $fileSize $sessionId base -", it)
                 if (writeResult.resultCode != 0) {
                     cont.cancel()
-                    throw RuntimeException("Failed to write APK to session $sessionId")
+                    error("Failed to write APK to session $sessionId")
                 }
                 if (cont.isCompleted) return@suspendCancellableCoroutine
 
                 val commitResult = exec("pm install-commit $sessionId")
                 if (commitResult.resultCode != 0) {
                     cont.cancel()
-                    throw RuntimeException("Failed to commit install session $sessionId")
+                    error("Failed to commit install session $sessionId")
                 }
                 if (cont.isCompleted) return@suspendCancellableCoroutine
                 cont.resume(InstallState.Installed)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             if (sessionId != null) exec("pm install-abandon $sessionId")
             cont.resume(InstallState.Failed)
         }
@@ -71,7 +72,7 @@ class ShizukuInstaller(private val context: Context) : Installer {
     override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
 
-    override fun close() {}
+    override fun close() = Unit
 
     private data class ShellResult(val resultCode: Int, val out: String)
 

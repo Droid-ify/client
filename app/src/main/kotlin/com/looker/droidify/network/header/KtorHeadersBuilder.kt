@@ -8,7 +8,7 @@ import java.util.Locale
 import java.util.TimeZone
 
 internal class KtorHeadersBuilder(
-    private val builder: io.ktor.http.HeadersBuilder
+    private val builder: io.ktor.http.HeadersBuilder,
 ) : HeadersBuilder {
 
     override fun String.headsWith(value: Any?) {
@@ -38,8 +38,7 @@ internal class KtorHeadersBuilder(
         HttpHeaders.Authorization headsWith base64
     }
 
-    override fun inRange(start: Number?, end: Number?) {
-        if (start == null) return
+    override fun inRange(start: Long, end: Long?) {
         val valueString = if (end != null) "bytes=$start-$end" else "bytes=$start-"
         HttpHeaders.Range headsWith valueString
     }
