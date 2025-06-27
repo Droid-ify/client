@@ -391,7 +391,9 @@ data class Repository(
             // Add repository addresses that should be removed during database upgrades and remove them from the lists above
             // Example: "https://example.com/fdroid/repo"
             "https://secfirst.org/fdroid/repo",
-            "https://fdroid.libretro.com/repo"
+            "https://fdroid.libretro.com/repo",
+            "https://divestos.org/apks/unofficial/fdroid/repo",
+            "https://divestos.org/fdroid/official"
         )
     }
 }
