@@ -397,6 +397,24 @@ data class Repository(
                     "Cromite is a Chromium fork based on Bromite with " +
                     "built-in support for ad blocking and an eye for privacy.",
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-release.s3.brave.com/fdroid/repo",
+                name = "Brave Release",
+                description = "The official repository for Brave Release. ",
+                fingerprint = "3C60DE135AA19EC949E998469C908F7171885C1E2805F39EB403DDB0F37B4BD2"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-beta.s3.brave.com/fdroid/repo",
+                name = "Brave Beta",
+                description = "The official repository for Brave Beta. ",
+                fingerprint = "C4675F87E60D58CECBECD884E43C4A089F2A3FDF58CAF823609B809AC1F90FAE"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-nightly.s3.brave.com/fdroid/repo",
+                name = "Brave Nightly",
+                description = "The official repository for Brave Nightly. ",
+                fingerprint = "1735E2323FDE104A74F16D31C062DF75C30E79A706292FABEA1F94E6AF06EE62"
             )
         )
 
