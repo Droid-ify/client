@@ -19,7 +19,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.flatMapConcat
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -43,15 +43,13 @@ class AppListViewModel
     val searchQuery = MutableStateFlow("")
 
     val state = combine(
-        skipSignatureStream,
         sortOrderFlow,
         sections,
         searchQuery,
-    ) { skipSignature, sortOrder, section, query ->
+    ) { sortOrder, section, query ->
         AppListState(
             searchQuery = query,
             sections = section,
-            skipSignatureCheck = skipSignature,
             sortOrder = sortOrder,
         )
     }.asStateFlow(AppListState())
@@ -61,7 +59,7 @@ class AppListViewModel
         .asStateFlow(emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val showUpdateAllButton = skipSignatureStream.flatMapConcat { skip ->
+    val showUpdateAllButton = skipSignatureStream.flatMapLatest { skip ->
         Database.ProductAdapter
             .getUpdatesStream(skip)
             .map { it.isNotEmpty() }
@@ -93,7 +91,6 @@ class AppListViewModel
                 searchQuery = searchQuery.value,
                 section = sections.value,
                 order = sortOrderFlow.value,
-                skipSignatureCheck = skipSignatureStream.value,
             )
         }
     }
@@ -114,6 +111,5 @@ class AppListViewModel
 data class AppListState(
     val searchQuery: String = "",
     val sections: ProductItem.Section = All,
-    val skipSignatureCheck: Boolean = false,
     val sortOrder: SortOrder = SortOrder.UPDATED,
 )

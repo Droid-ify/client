@@ -232,4 +232,8 @@
     <string name="switch_to_default_installer">Skift til standard</string>
     <string name="label_open_video">Video</string>
     <string name="error_shizuku_service_unavailable">Shizuku kører ikke</string>
+    <string name="always_choose">Vælg altid</string>
+    <string name="select_installer">Vælg installationsprogram</string>
+    <string name="unspecified">Uspecificeret</string>
+    <string name="label_sdk_version">Mål: Android %1$s | Minimum: Android %2$s</string>
 </resources>

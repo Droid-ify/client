@@ -5,44 +5,45 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
+import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
-    sealed class Request {
-        internal abstract val id: Int
+
+    @Inject
+    lateinit var settingsRepository: SettingsRepository
+
+    sealed interface Request {
+        val id: Int
 
         class Available(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
-        ) : Request() {
-            override val id: Int
-                get() = 1
-        }
+            override val id: Int = 1,
+        ) : Request
 
         class Installed(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
-        ) : Request() {
-            override val id: Int
-                get() = 2
-        }
+            override val id: Int = 2,
+        ) : Request
 
         class Updates(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
-            val skipSignatureCheck: Boolean,
-        ) : Request() {
-            override val id: Int
-                get() = 3
-        }
+            override val id: Int = 3,
+        ) : Request
 
-        object Repositories : Request() {
-            override val id: Int
-                get() = 4
+        object Repositories : Request {
+            override val id = 4
         }
     }
 
@@ -93,6 +94,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val request = activeRequests[id]!!.request
         return QueryLoader(requireContext()) {
+            val settings = runBlocking { settingsRepository.getInitial() }
             when (request) {
                 is Request.Available ->
                     Database.ProductAdapter
@@ -103,6 +105,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = request.section,
                             order = request.order,
                             signal = it,
+                            skipSignatureCheck = settings.ignoreSignature,
                         )
 
                 is Request.Installed ->
@@ -114,6 +117,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = request.section,
                             order = request.order,
                             signal = it,
+                            skipSignatureCheck = settings.ignoreSignature,
                         )
 
                 is Request.Updates ->
@@ -125,7 +129,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = request.section,
                             order = request.order,
                             signal = it,
-                            skipSignatureCheck = request.skipSignatureCheck,
+                            skipSignatureCheck = settings.ignoreSignature,
                         )
 
                 is Request.Repositories -> Database.RepositoryAdapter.query(it)

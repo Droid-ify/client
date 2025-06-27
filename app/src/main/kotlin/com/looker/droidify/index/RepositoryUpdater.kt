@@ -1,7 +1,7 @@
 package com.looker.droidify.index
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import com.looker.droidify.database.Database
 import com.looker.droidify.domain.model.fingerprint
 import com.looker.droidify.model.Product
@@ -15,10 +15,13 @@ import com.looker.droidify.utility.common.extension.toFormattedString
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.security.CodeSigner
 import java.security.cert.Certificate
@@ -33,7 +36,7 @@ object RepositoryUpdater {
     // TODO Add support for Index-V2 and also cleanup everything here
     enum class IndexType(
         val jarName: String,
-        val contentName: String
+        val contentName: String,
     ) {
         INDEX_V1("index-v1.jar", "index-v1.json")
     }
@@ -51,7 +54,7 @@ object RepositoryUpdater {
 
         constructor(errorType: ErrorType, message: String, cause: Exception) : super(
             message,
-            cause
+            cause,
         ) {
             this.errorType = errorType
         }
@@ -89,13 +92,13 @@ object RepositoryUpdater {
         context: Context,
         repository: Repository,
         unstable: Boolean,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ) = update(
         context = context,
         repository = repository,
         unstable = unstable,
         indexTypes = listOf(IndexType.INDEX_V1),
-        callback = callback
+        callback = callback,
     )
 
     private suspend fun update(
@@ -103,7 +106,7 @@ object RepositoryUpdater {
         repository: Repository,
         unstable: Boolean,
         indexTypes: List<IndexType>,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Result<Boolean> = withContext(Dispatchers.IO) {
         val indexType = indexTypes[0]
         when (val request = downloadIndex(context, repository, indexType, callback)) {
@@ -120,14 +123,14 @@ object RepositoryUpdater {
                         repository = repository,
                         indexTypes = indexTypes.subList(1, indexTypes.size),
                         unstable = unstable,
-                        callback = callback
+                        callback = callback,
                     )
                 } else {
                     Result.Error(
                         UpdateException(
                             ErrorType.HTTP,
-                            "Invalid response: HTTP ${result.statusCode}"
-                        )
+                            "Invalid response: HTTP ${result.statusCode}",
+                        ),
                     )
                 }
             }
@@ -146,7 +149,7 @@ object RepositoryUpdater {
                             file = request.data.file,
                             lastModified = request.data.lastModified,
                             entityTag = request.data.entityTag,
-                            callback = callback
+                            callback = callback,
                         )
                         Result.Success(isFileParsedSuccessfully)
                     } catch (e: UpdateException) {
@@ -161,20 +164,20 @@ object RepositoryUpdater {
         context: Context,
         repository: Repository,
         indexType: IndexType,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Result<IndexFile> = withContext(Dispatchers.IO) {
         val file = Cache.getTemporaryFile(context)
         val result = downloader.downloadToFile(
-            url = Uri.parse(repository.address).buildUpon()
+            url = repository.address.toUri().buildUpon()
                 .appendPath(indexType.jarName).build().toString(),
             target = file,
             headers = {
                 ifModifiedSince(repository.lastModified)
                 etag(repository.entityTag)
                 authentication(repository.authentication)
-            }
+            },
         ) { read, total ->
-            callback(Stage.DOWNLOAD, read.value, total.value.takeIf { it != 0L })
+            callback(Stage.DOWNLOAD, read.value, total?.value)
         }
 
         when (result) {
@@ -185,8 +188,8 @@ object RepositoryUpdater {
                         lastModified = result.lastModified?.toFormattedString() ?: "",
                         entityTag = result.etag ?: "",
                         statusCode = result.statusCode,
-                        file = file
-                    )
+                        file = file,
+                    ),
                 )
             }
 
@@ -203,8 +206,8 @@ object RepositoryUpdater {
                         Result.Error(
                             UpdateException(
                                 errorType = errorType,
-                                message = "Failed with Status: ${result.statusCode}"
-                            )
+                                message = "Failed with Status: ${result.statusCode}",
+                            ),
                         )
                     }
 
@@ -228,7 +231,7 @@ object RepositoryUpdater {
         mergerFile: File = Cache.getTemporaryFile(context),
         lastModified: String,
         entityTag: String,
-        callback: (Stage, Long, Long?) -> Unit
+        callback: (Stage, Long, Long?) -> Unit,
     ): Boolean {
         var rollback = true
         return synchronized(updaterLock) {
@@ -258,7 +261,7 @@ object RepositoryUpdater {
                                         name: String,
                                         description: String,
                                         version: Int,
-                                        timestamp: Long
+                                        timestamp: Long,
                                     ) {
                                         changedRepository = repository.update(
                                             mirrors,
@@ -267,7 +270,7 @@ object RepositoryUpdater {
                                             version,
                                             lastModified,
                                             entityTag,
-                                            timestamp
+                                            timestamp,
                                         )
                                     }
 
@@ -284,7 +287,7 @@ object RepositoryUpdater {
 
                                     override fun onReleases(
                                         packageName: String,
-                                        releases: List<Release>
+                                        releases: List<Release>,
                                     ) {
                                         if (Thread.interrupted()) {
                                             throw InterruptedException()
@@ -295,7 +298,7 @@ object RepositoryUpdater {
                                             unmergedReleases.clear()
                                         }
                                     }
-                                }
+                                },
                             )
 
                             if (Thread.interrupted()) {
@@ -318,11 +321,11 @@ object RepositoryUpdater {
                                 callback(
                                     Stage.MERGE,
                                     progress.toLong(),
-                                    totalCount.toLong()
+                                    totalCount.toLong(),
                                 )
                                 Database.UpdaterAdapter.putTemporary(
                                     products
-                                        .map { transformProduct(it, features, unstable) }
+                                        .map { transformProduct(it, features, unstable) },
                                 )
                             }
                         }
@@ -336,7 +339,7 @@ object RepositoryUpdater {
                     throw UpdateException(
                         ErrorType.VALIDATION,
                         "New index is older than current index:" +
-                            " ${workRepository.timestamp} < ${repository.timestamp}"
+                            " ${workRepository.timestamp} < ${repository.timestamp}",
                     )
                 }
 
@@ -349,13 +352,13 @@ object RepositoryUpdater {
 
                 val commitRepository = if (!workRepository.fingerprint.equals(
                         fingerprint,
-                        ignoreCase = true
+                        ignoreCase = true,
                     )
                 ) {
                     if (workRepository.fingerprint.isNotEmpty()) {
                         throw UpdateException(
                             ErrorType.VALIDATION,
-                            "Certificate fingerprints do not match"
+                            "Certificate fingerprints do not match",
                         )
                     }
 
@@ -391,7 +394,7 @@ object RepositoryUpdater {
         get() = codeSigners?.singleOrNull()
             ?: throw UpdateException(
                 ErrorType.VALIDATION,
-                "index.jar must be signed by a single code signer"
+                "index.jar must be signed by a single code signer",
             )
 
     @get:Throws(UpdateException::class)
@@ -399,13 +402,13 @@ object RepositoryUpdater {
         get() = signerCertPath?.certificates?.singleOrNull()
             ?: throw UpdateException(
                 ErrorType.VALIDATION,
-                "index.jar code signer should have only one certificate"
+                "index.jar code signer should have only one certificate",
             )
 
     private fun transformProduct(
         product: Product,
         features: Set<String>,
-        unstable: Boolean
+        unstable: Boolean,
     ): Product {
         val releasePairs = product.releases
             .distinctBy { it.identifier }
@@ -445,7 +448,7 @@ object RepositoryUpdater {
                     selected = firstSelected?.let {
                         it.first.versionCode == release.versionCode &&
                             it.second == incompatibilities
-                    } ?: false
+                    } ?: false,
                 )
             }
         return product.copy(releases = releases)
@@ -457,5 +460,5 @@ data class IndexFile(
     val lastModified: String,
     val entityTag: String,
     val statusCode: Int,
-    val file: File
+    val file: File,
 )

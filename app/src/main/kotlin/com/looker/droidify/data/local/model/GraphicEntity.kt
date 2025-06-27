@@ -22,7 +22,7 @@ import com.looker.droidify.sync.v2.model.MetadataV2
     ],
 )
 data class GraphicEntity(
-    @GraphicType
+    @param:GraphicType
     val type: Int,
     val url: String,
     val locale: String,

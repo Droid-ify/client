@@ -5,7 +5,6 @@ import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.header.KtorHeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.network.validation.ValidationException
-import com.looker.droidify.utility.common.extension.size
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
 import io.ktor.client.engine.HttpClientEngine
@@ -51,12 +50,9 @@ internal class KtorDownloader(
 
     override suspend fun headCall(
         url: String,
-        headers: HeadersBuilder.() -> Unit
+        headers: HeadersBuilder.() -> Unit,
     ): NetworkResponse {
-        val headRequest = createRequest(
-            url = url,
-            headers = headers
-        )
+        val headRequest = request(url, headers = headers)
         return client.head(headRequest).asNetworkResponse()
     }
 
@@ -65,18 +61,18 @@ internal class KtorDownloader(
         target: File,
         validator: FileValidator?,
         headers: HeadersBuilder.() -> Unit,
-        block: ProgressListener?
+        block: ProgressListener?,
     ): NetworkResponse = withContext(dispatcher) {
         try {
-            val request = createRequest(
+            val fileSize = target.length()
+            val request = request(
                 url = url,
-                headers = {
-                    inRange(target.size)
-                    headers()
-                },
-                fileSize = target.size,
-                block = block
-            )
+                fileSize = fileSize,
+                block = block,
+            ) {
+                inRange(fileSize)
+                headers()
+            }
             client.prepareGet(request).execute { response ->
                 val networkResponse = response.asNetworkResponse()
                 if (networkResponse !is NetworkResponse.Success) {
@@ -97,37 +93,34 @@ internal class KtorDownloader(
         } catch (e: ValidationException) {
             target.delete()
             NetworkResponse.Error.Validation(e)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            if (e is CancellationException) throw e
             NetworkResponse.Error.Unknown(e)
         }
     }
 
     private fun client(
-        engine: HttpClientEngine = OkHttp.create()
-    ): HttpClient {
-        return HttpClient(engine) {
-            userAgentConfig()
-            timeoutConfig()
-        }
+        engine: HttpClientEngine = OkHttp.create(),
+    ) = HttpClient(engine) {
+        userAgentConfig()
+        timeoutConfig()
     }
 
 
-    private fun createRequest(
+    private fun request(
         url: String,
+        fileSize: Long = 0L,
+        block: ProgressListener? = null,
         headers: HeadersBuilder.() -> Unit,
-        fileSize: Long? = null,
-        block: ProgressListener? = null
     ) = request {
         url(url)
-        this.headers {
-            KtorHeadersBuilder(this).headers()
-        }
-        onDownload { read, total ->
-            if (block != null) {
+        headers { KtorHeadersBuilder(this).headers() }
+        if (block != null) {
+            onDownload { read, total ->
                 block(
-                    DataSize(read + (fileSize ?: 0L)),
-                    DataSize((total ?: 0L) + (fileSize ?: 0L))
+                    DataSize(read + fileSize),
+                    total?.let { DataSize(total + fileSize) },
                 )
             }
         }

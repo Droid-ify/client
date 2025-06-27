@@ -72,7 +72,7 @@ data class Repository(
             return defaultRepository(address, name, "", 0, true, fingerprint, authentication)
         }
 
-        private fun defaultRepository(
+        fun defaultRepository(
             address: String,
             name: String,
             description: String,
@@ -137,9 +137,9 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://microg.org/fdroid/repo",
-                name = "MicroG Project",
-                description = "The official repository for MicroG." +
-                    " MicroG is a lightweight open-source implementation" +
+                name = "microG Project",
+                description = "The official repository for microG." +
+                    " microG is a lightweight open source implementation" +
                     " of Google Play Services.",
                 fingerprint = "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165"
             ),
@@ -172,13 +172,6 @@ data class Repository(
                 fingerprint = "573258C84E149B5F4D9299E7434B2B69A8410372921D4AE586BA91EC767892CC"
             ),
             defaultRepository(
-                address = "https://fdroid.libretro.com/repo",
-                name = "LibRetro",
-                description = "The official canary repository for this great" +
-                    " retro emulators hub.",
-                fingerprint = "3F05B24D497515F31FEAB421297C79B19552C5C81186B3750B7C131EF41D733D"
-            ),
-            defaultRepository(
                 address = "https://cdn.kde.org/android/fdroid/repo",
                 name = "KDE Android",
                 description = "The official nightly repository for KDE Android apps.",
@@ -194,7 +187,7 @@ data class Repository(
                 address = "https://fdroid.fedilab.app/repo",
                 name = "Fedilab",
                 description = "The official repository for Fedilab. Fedilab is a " +
-                    "multi-accounts client for Mastodon, Peertube, and other free" +
+                    "multi-accounts client for Mastodon, PeerTube, and other free" +
                     " software social networks.",
                 fingerprint = "11F0A69910A4280E2CD3CCC3146337D006BE539B18E1A9FEACE15FF757A94FEB"
             ),
@@ -204,13 +197,6 @@ data class Repository(
                 description = "Kali Nethunter's official selection of original b" +
                     "inaries.",
                 fingerprint = "FE7A23DFC003A1CF2D2ADD2469B9C0C49B206BA5DC9EDD6563B3B7EB6A8F5FAB"
-            ),
-            defaultRepository(
-                address = "https://secfirst.org/fdroid/repo",
-                name = "Umbrella",
-                description = "The official repository for Umbrella. Umbrella is" +
-                    " a collection of security advices, tutorials, tools etc.",
-                fingerprint = "39EB57052F8D684514176819D1645F6A0A7BD943DBC31AB101949006AC0BC228"
             ),
             defaultRepository(
                 address = "https://thecapslock.gitlab.io/fdroid-patched-apps/fdroid/repo",
@@ -399,6 +385,13 @@ data class Repository(
                     "built-in support for ad blocking and an eye for privacy.",
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
             )
+        )
+
+        val toRemove: List<String> = listOf(
+            // Add repository addresses that should be removed during database upgrades and remove them from the lists above
+            // Example: "https://example.com/fdroid/repo"
+            "https://secfirst.org/fdroid/repo",
+            "https://fdroid.libretro.com/repo"
         )
     }
 }

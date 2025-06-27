@@ -27,6 +27,22 @@ fun ByteArray.hex(): String = joinToString(separator = "") { byte ->
 fun Fingerprint.formattedString(): String = value.windowed(2, 2, false)
     .take(FINGERPRINT_LENGTH / 2).joinToString(separator = " ") { it.uppercase(Locale.US) }
 
+fun String.fingerprint(): Fingerprint = Fingerprint(
+    MessageDigest.getInstance("SHA-256")
+        .digest(
+            this
+                .chunked(2)
+                .mapNotNull { byteStr ->
+                    try {
+                        byteStr.toInt(16).toByte()
+                    } catch (_: NumberFormatException) {
+                        null
+                    }
+                }
+                .toByteArray(),
+        ).hex(),
+)
+
 fun Certificate.fingerprint(): Fingerprint {
     val bytes = encoded
     return if (bytes.size >= 256) {

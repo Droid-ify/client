@@ -1,4 +1,6 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.android.application)
@@ -24,29 +26,22 @@ android {
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        isCoreLibraryDesugaringEnabled = true
-    }
+    compileOptions.isCoreLibraryDesugaringEnabled = true
+    kotlinOptions.freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-parameters")
+    androidResources.generateLocaleConfig = true
 
-    kotlinOptions {
-        jvmTarget = "17"
-        freeCompilerArgs = listOf(
-            "-opt-in=kotlin.RequiresOptIn",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-opt-in=kotlinx.coroutines.FlowPreview",
-            "-Xcontext-receivers",
-        )
+    kotlin {
+        jvmToolchain(17)
+        compilerOptions {
+            languageVersion.set(KotlinVersion.KOTLIN_2_2)
+            apiVersion.set(KotlinVersion.KOTLIN_2_2)
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
         arg("room.generateKotlin", "true")
-    }
-
-    androidResources {
-        generateLocaleConfig = true
     }
 
     buildTypes {
@@ -161,7 +156,7 @@ dependencies {
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs
 // in /res are (almost) all languages that have a translated string is saved. this is safer and saves some time
-tasks.register("detectAndroidLocals") {
+task("detectAndroidLocals") {
     val langsList: MutableSet<String> = HashSet()
 
     // in /res are (almost) all languages that have a translated string is saved. this is safer and saves some time

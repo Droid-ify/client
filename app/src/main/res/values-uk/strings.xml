@@ -238,4 +238,10 @@
     <string name="switch_to_default_installer">Перемкнутися на типовий режим</string>
     <string name="label_unknown_sdk">Невідомий (%d)</string>
     <string name="label_open_video">Відео</string>
+    <string name="always_choose">Завжди вибирай</string>
+    <string name="shizuku_legacy_installer">Shizuku Legacy Installer\'</string>
+    <string name="select_installer">Виберіть інсталятора</string>
+    <string name="legacyInstallerComponent">Компонент застарілого інсталятора</string>
+    <string name="unspecified">Невизначено</string>
+    <string name="label_sdk_version">Цілі: Android %1$s | Мінімум: Android %2$s</string>
 </resources>

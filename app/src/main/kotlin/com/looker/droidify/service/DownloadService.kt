@@ -74,7 +74,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         data object Idle : State("")
         data class Connecting(val name: String) : State(name)
         data class Downloading(val name: String, val read: DataSize, val total: DataSize?) : State(
-            name
+            name,
         )
 
         data class Error(val name: String) : State(name)
@@ -84,7 +84,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     data class DownloadState(
         val currentItem: State = State.Idle,
-        val queue: List<String> = emptyList()
+        val queue: List<String> = emptyList(),
     ) {
         infix fun isDownloading(packageName: String): Boolean =
             currentItem.packageName == packageName && (
@@ -108,7 +108,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         val release: Release,
         val url: String,
         val authentication: String,
-        val isUpdate: Boolean = false
+        val isUpdate: Boolean = false,
     ) {
         val notificationTag: String
             get() = "download-$packageName"
@@ -129,7 +129,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             name: String,
             repository: Repository,
             release: Release,
-            isUpdate: Boolean = false
+            isUpdate: Boolean = false,
         ) {
             val task = Task(
                 packageName = packageName,
@@ -137,7 +137,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 release = release,
                 url = release.getDownloadUrl(repository),
                 authentication = repository.authentication,
-                isUpdate = isUpdate
+                isUpdate = isUpdate,
             )
             if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
                 lifecycleScope.launch { publishSuccess(task) }
@@ -147,7 +147,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             cancelCurrentTask(packageName)
             notificationManager?.cancel(
                 task.notificationTag,
-                Constants.NOTIFICATION_ID_DOWNLOADING
+                Constants.NOTIFICATION_ID_DOWNLOADING,
             )
             tasks += task
             if (currentTask == null) {
@@ -174,7 +174,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         )
         createNotificationChannel(
             id = NOTIFICATION_CHANNEL_INSTALL,
-            name = getString(stringRes.install)
+            name = getString(stringRes.install),
         )
 
         lifecycleScope.launch {
@@ -250,13 +250,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .setOnlyAlertOnce(true)
                 .setContentIntent(intent)
                 .errorNotificationContent(task, errorType)
-                .build()
+                .build(),
         )
     }
 
     private fun NotificationCompat.Builder.errorNotificationContent(
         task: Task,
-        errorType: ErrorType
+        errorType: ErrorType,
     ): NotificationCompat.Builder {
         val title = if (errorType is ErrorType.Validation) {
             stringRes.could_not_validate_FORMAT
@@ -325,8 +325,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     this,
                     0,
                     Intent(this, this::class.java).setAction(ACTION_CANCEL),
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                ),
             )
     }
 
@@ -337,7 +337,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             ?.let { notification ->
                 startForeground(
                     Constants.NOTIFICATION_ID_DOWNLOADING,
-                    notification.build()
+                    notification.build(),
                 )
             } ?: run {
             log("Invalid Download State: $state", "DownloadService", Log.ERROR)
@@ -345,7 +345,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     }
 
     private fun NotificationCompat.Builder.downloadingNotificationContent(
-        state: State
+        state: State,
     ): NotificationCompat.Builder? {
         return when (state) {
             is State.Connecting -> {
@@ -403,19 +403,19 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     private fun CoroutineScope.downloadFile(
         task: Task,
-        target: File
+        target: File,
     ) = launch {
         try {
             val releaseValidator = ReleaseFileValidator(
                 context = this@DownloadService,
                 packageName = task.packageName,
-                release = task.release
+                release = task.release,
             )
             val response = downloader.downloadToFile(
                 url = task.url,
                 target = target,
                 validator = releaseValidator,
-                headers = { authentication(task.authentication) }
+                headers = { if (task.authentication.isNotEmpty()) authentication(task.authentication) },
             ) { read, total ->
                 yield()
                 updateCurrentState(State.Downloading(task.packageName, read, total))
@@ -425,7 +425,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 is NetworkResponse.Success -> {
                     val releaseFile = Cache.getReleaseFile(
                         this@DownloadService,
-                        task.release.cacheFileName
+                        task.release.cacheFileName,
                     )
                     target.renameTo(releaseFile)
                     publishSuccess(task)
@@ -438,7 +438,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         is NetworkResponse.Error.IO -> ErrorType.IO
                         is NetworkResponse.Error.SocketTimeout -> ErrorType.SocketTimeout
                         is NetworkResponse.Error.Validation -> ErrorType.Validation(
-                            response.exception
+                            response.exception,
                         )
 
                         else -> ErrorType.Http

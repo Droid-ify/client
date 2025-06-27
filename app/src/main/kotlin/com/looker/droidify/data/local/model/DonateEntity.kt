@@ -22,7 +22,7 @@ import com.looker.droidify.sync.v2.model.MetadataV2
     ],
 )
 data class DonateEntity(
-    @DonationType
+    @param:DonationType
     val type: Int,
     val value: String,
     val appId: Int,

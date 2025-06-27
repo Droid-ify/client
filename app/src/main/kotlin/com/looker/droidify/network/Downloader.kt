@@ -23,4 +23,4 @@ interface Downloader {
     ): NetworkResponse
 }
 
-typealias ProgressListener = suspend (bytesReceived: DataSize, contentLength: DataSize) -> Unit
+typealias ProgressListener = suspend (bytesReceived: DataSize, contentLength: DataSize?) -> Unit
