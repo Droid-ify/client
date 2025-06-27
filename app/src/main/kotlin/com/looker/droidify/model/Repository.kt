@@ -137,9 +137,9 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://microg.org/fdroid/repo",
-                name = "MicroG Project",
-                description = "The official repository for MicroG." +
-                    " MicroG is a lightweight open-source implementation" +
+                name = "microG Project",
+                description = "The official repository for microG." +
+                    " microG is a lightweight open source implementation" +
                     " of Google Play Services.",
                 fingerprint = "9BD06727E62796C0130EB6DAB39B73157451582CBD138E86C468ACC395D14165"
             ),
@@ -193,7 +193,7 @@ data class Repository(
                 address = "https://fdroid.fedilab.app/repo",
                 name = "Fedilab",
                 description = "The official repository for Fedilab. Fedilab is a " +
-                    "multi-accounts client for Mastodon, Peertube, and other free" +
+                    "multi-accounts client for Mastodon, PeerTube, and other free" +
                     " software social networks.",
                 fingerprint = "11F0A69910A4280E2CD3CCC3146337D006BE539B18E1A9FEACE15FF757A94FEB"
             ),
