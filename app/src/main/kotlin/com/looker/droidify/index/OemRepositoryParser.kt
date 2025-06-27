@@ -8,6 +8,9 @@ import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.InputStream
 
+/**
+ * Direct copy of implementation from https://github.com/NeoApplications/Neo-Store/blob/master/src/main/kotlin/com/machiav3lli/fdroid/data/database/entity/Repository.kt
+ * */
 object OemRepositoryParser {
 
     private val rootDirs = arrayOf("/system", "/product", "/vendor", "/odm", "/oem")
