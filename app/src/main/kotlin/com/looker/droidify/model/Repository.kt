@@ -72,7 +72,7 @@ data class Repository(
             return defaultRepository(address, name, "", 0, true, fingerprint, authentication)
         }
 
-        private fun defaultRepository(
+        fun defaultRepository(
             address: String,
             name: String,
             description: String,
