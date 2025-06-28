@@ -4,22 +4,23 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.domain.model.toPackageName
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.database.Database
-import com.looker.droidify.model.InstalledItem
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.Repository
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.isSuiAvailable
 import com.looker.droidify.installer.installers.requestPermissionListener
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.installFrom
+import com.looker.droidify.model.InstalledItem
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Repository
+import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -73,7 +74,7 @@ class AppDetailViewModel @Inject constructor(
         val isSelected =
             runBlocking { settingsRepository.getInitial().installerType == InstallerType.SHIZUKU }
         if (!isSelected) return null
-        val isAlive = isShizukuAlive()
+        val isAlive = isShizukuAlive() || isSuiAvailable()
         val isGranted = if (isAlive) {
             if (isShizukuGranted()) {
                 true

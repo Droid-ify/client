@@ -20,6 +20,7 @@ import com.looker.droidify.datastore.model.InstallerType.SHIZUKU
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
+import com.looker.droidify.installer.installers.initSui
 import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
@@ -41,7 +42,7 @@ import kotlin.time.Duration
 class SettingsViewModel
 @Inject constructor(
     private val settingsRepository: SettingsRepository,
-    private val repositoryExporter: RepositoryExporter
+    private val repositoryExporter: RepositoryExporter,
 ) : ViewModel() {
 
     private val initialSetting = flow {
@@ -163,7 +164,7 @@ class SettingsViewModel
         viewModelScope.launch {
             when (installerType) {
                 SHIZUKU -> {
-                    if (isShizukuInstalled(context)) {
+                    if (isShizukuInstalled(context) || initSui(context)) {
                         if (!isShizukuAlive()) {
                             createSnackbar(R.string.shizuku_not_alive)
                             return@launch
@@ -234,12 +235,12 @@ class SettingsViewModel
 private fun String.toLocale(): Locale = when {
     contains("-r") -> Locale(
         substring(0, 2),
-        substring(4)
+        substring(4),
     )
 
     contains("_") -> Locale(
         substring(0, 2),
-        substring(3)
+        substring(3),
     )
 
     else -> Locale(this)
