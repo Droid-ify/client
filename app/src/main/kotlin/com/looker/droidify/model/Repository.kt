@@ -406,13 +406,13 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://brave-browser-apk-beta.s3.brave.com/fdroid/repo",
-                name = "Brave Beta",
+                name = "Brave Browser Beta",
                 description = "The official repository for Brave Beta releases. ",
                 fingerprint = "C4675F87E60D58CECBECD884E43C4A089F2A3FDF58CAF823609B809AC1F90FAE"
             ),
             defaultRepository(
                 address = "https://brave-browser-apk-nightly.s3.brave.com/fdroid/repo",
-                name = "Brave Nightly",
+                name = "Brave Browser Nightly",
                 description = "The official repository for Brave Nightly releases. ",
                 fingerprint = "1735E2323FDE104A74F16D31C062DF75C30E79A706292FABEA1F94E6AF06EE62"
             )
