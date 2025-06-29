@@ -34,7 +34,7 @@ import javax.inject.Inject
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val packageName: String = requireNotNull(savedStateHandle[ARG_PACKAGE_NAME])
@@ -53,7 +53,7 @@ class AppDetailViewModel @Inject constructor(
             Database.RepositoryAdapter.getAllStream(),
             Database.InstalledAdapter.getStream(packageName),
             repoAddress,
-            flow { emit(settingsRepository.getInitial()) }
+            flow { emit(settingsRepository.getInitial()) },
         ) { products, repositories, installedItem, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
@@ -66,7 +66,7 @@ class AppDetailViewModel @Inject constructor(
                 isFavourite = packageName in initialSettings.favouriteApps,
                 allowIncompatibleVersions = initialSettings.incompatibleVersions,
                 isSelf = packageName == BuildConfig.APPLICATION_ID,
-                addressIfUnavailable = suggestedAddress
+                addressIfUnavailable = suggestedAddress,
             )
         }.asStateFlow(AppDetailUiState())
 
@@ -74,7 +74,10 @@ class AppDetailViewModel @Inject constructor(
         val isSelected =
             runBlocking { settingsRepository.getInitial().installerType == InstallerType.SHIZUKU }
         if (!isSelected) return null
-        val isAlive = isShizukuAlive() || isSuiAvailable()
+        val isAlive = isShizukuAlive()
+        val isSuiAvailable = isSuiAvailable()
+        if (isSuiAvailable) return null
+
         val isGranted = if (isAlive) {
             if (isShizukuGranted()) {
                 true
@@ -145,5 +148,5 @@ data class AppDetailUiState(
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,
     val allowIncompatibleVersions: Boolean = false,
-    val addressIfUnavailable: String? = null
+    val addressIfUnavailable: String? = null,
 )
