@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -55,7 +56,6 @@ import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import com.google.android.material.R as MaterialR
-import androidx.core.net.toUri
 
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
@@ -117,7 +117,7 @@ class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = SettingsPageBinding.inflate(inflater, container, false)
         binding.nestedScrollView.systemBarsPadding()
@@ -131,42 +131,42 @@ class SettingsFragment : Fragment() {
             dynamicTheme.connect(
                 titleText = getString(R.string.material_you),
                 contentText = getString(R.string.material_you_desc),
-                setting = viewModel.getInitialSetting { dynamicTheme }
+                setting = viewModel.getInitialSetting { dynamicTheme },
             )
             homeScreenSwiping.connect(
                 titleText = getString(R.string.home_screen_swiping),
                 contentText = getString(R.string.home_screen_swiping_DESC),
-                setting = viewModel.getInitialSetting { homeScreenSwiping }
+                setting = viewModel.getInitialSetting { homeScreenSwiping },
             )
             autoUpdate.connect(
                 titleText = getString(R.string.auto_update),
                 contentText = getString(R.string.auto_update_apps),
-                setting = viewModel.getInitialSetting { autoUpdate }
+                setting = viewModel.getInitialSetting { autoUpdate },
             )
             notifyUpdates.connect(
                 titleText = getString(R.string.notify_about_updates),
                 contentText = getString(R.string.notify_about_updates_summary),
-                setting = viewModel.getInitialSetting { notifyUpdate }
+                setting = viewModel.getInitialSetting { notifyUpdate },
             )
             unstableUpdates.connect(
                 titleText = getString(R.string.unstable_updates),
                 contentText = getString(R.string.unstable_updates_summary),
-                setting = viewModel.getInitialSetting { unstableUpdate }
+                setting = viewModel.getInitialSetting { unstableUpdate },
             )
             ignoreSignature.connect(
                 titleText = getString(R.string.ignore_signature),
                 contentText = getString(R.string.ignore_signature_summary),
-                setting = viewModel.getInitialSetting { ignoreSignature }
+                setting = viewModel.getInitialSetting { ignoreSignature },
             )
             incompatibleUpdates.connect(
                 titleText = getString(R.string.incompatible_versions),
                 contentText = getString(R.string.incompatible_versions_summary),
-                setting = viewModel.getInitialSetting { incompatibleVersions }
+                setting = viewModel.getInitialSetting { incompatibleVersions },
             )
             language.connect(
                 titleText = getString(R.string.prefs_language_title),
                 map = { translateLocale(getLocaleOfCode(it)) },
-                setting = viewModel.getSetting { language }
+                setting = viewModel.getSetting { language },
             ) { selectedLocale, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = selectedLocale,
@@ -174,13 +174,13 @@ class SettingsFragment : Fragment() {
                     title = R.string.prefs_language_title,
                     iconRes = R.drawable.ic_language,
                     valueToString = valueToString,
-                    onClick = viewModel::setLanguage
+                    onClick = viewModel::setLanguage,
                 )
             }
             theme.connect(
                 titleText = getString(R.string.theme),
                 setting = viewModel.getSetting { theme },
-                map = { themeName(it) }
+                map = { themeName(it) },
             ) { theme, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = theme,
@@ -188,13 +188,13 @@ class SettingsFragment : Fragment() {
                     title = R.string.themes,
                     iconRes = R.drawable.ic_themes,
                     valueToString = valueToString,
-                    onClick = viewModel::setTheme
+                    onClick = viewModel::setTheme,
                 )
             }
             cleanUp.connect(
                 titleText = getString(R.string.cleanup_title),
                 setting = viewModel.getSetting { cleanUpInterval },
-                map = { toTime(it) }
+                map = { toTime(it) },
             ) { duration, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = duration,
@@ -202,13 +202,13 @@ class SettingsFragment : Fragment() {
                     title = R.string.cleanup_title,
                     iconRes = R.drawable.ic_time,
                     valueToString = valueToString,
-                    onClick = viewModel::setCleanUpInterval
+                    onClick = viewModel::setCleanUpInterval,
                 )
             }
             autoSync.connect(
                 titleText = getString(R.string.sync_repositories_automatically),
                 setting = viewModel.getSetting { autoSync },
-                map = { autoSyncName(it) }
+                map = { autoSyncName(it) },
             ) { autoSync, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = autoSync,
@@ -216,13 +216,13 @@ class SettingsFragment : Fragment() {
                     title = R.string.sync_repositories_automatically,
                     iconRes = R.drawable.ic_sync_type,
                     valueToString = valueToString,
-                    onClick = viewModel::setAutoSync
+                    onClick = viewModel::setAutoSync,
                 )
             }
             installer.connect(
                 titleText = getString(R.string.installer),
                 setting = viewModel.getSetting { installerType },
-                map = { installerName(it) }
+                map = { installerName(it) },
             ) { installerType, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = installerType,
@@ -230,7 +230,7 @@ class SettingsFragment : Fragment() {
                     title = R.string.installer,
                     iconRes = R.drawable.ic_apk_install,
                     valueToString = valueToString,
-                    onClick = { viewModel.setInstaller(requireContext(), it) }
+                    onClick = { viewModel.setInstaller(requireContext(), it) },
                 )
             }
             val pm = requireContext().packageManager
@@ -241,12 +241,13 @@ class SettingsFragment : Fragment() {
                     when (it) {
                         is LegacyInstallerComponent.Component -> {
                             val component = it
-                        val appLabel = runCatching {
-                            val info = pm.getApplicationInfo(component.clazz, 0)
-                            pm.getApplicationLabel(info).toString()
-                        }.getOrElse { component.clazz }
-                        "$appLabel (${component.activity})"
+                            val appLabel = runCatching {
+                                val info = pm.getApplicationInfo(component.clazz, 0)
+                                pm.getApplicationLabel(info).toString()
+                            }.getOrElse { component.clazz }
+                            "$appLabel (${component.activity})"
                         }
+
                         LegacyInstallerComponent.Unspecified -> getString(R.string.unspecified)
                         LegacyInstallerComponent.AlwaysChoose -> getString(R.string.always_choose)
                         null -> getString(R.string.unspecified)
@@ -256,12 +257,16 @@ class SettingsFragment : Fragment() {
                 val installerOptions = run {
                     var contentProtocol = "content://"
                     val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
-                        setDataAndType(contentProtocol.toUri(), "application/vnd.android.package-archive")
+                        setDataAndType(
+                            contentProtocol.toUri(),
+                            "application/vnd.android.package-archive",
+                        )
                     }
-                    val activities = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+                    val activities =
+                        pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
                     listOf(
                         LegacyInstallerComponent.Unspecified,
-                        LegacyInstallerComponent.AlwaysChoose
+                        LegacyInstallerComponent.AlwaysChoose,
                     ) + activities.map {
                         LegacyInstallerComponent.Component(
                             clazz = it.activityInfo.packageName,
@@ -286,7 +291,7 @@ class SettingsFragment : Fragment() {
             proxyType.connect(
                 titleText = getString(R.string.proxy_type),
                 setting = viewModel.getSetting { proxy.type },
-                map = { proxyName(it) }
+                map = { proxyName(it) },
             ) { proxyType, valueToString ->
                 addSingleCorrectDialog(
                     initialValue = proxyType,
@@ -294,29 +299,29 @@ class SettingsFragment : Fragment() {
                     title = R.string.proxy_type,
                     iconRes = R.drawable.ic_proxy,
                     valueToString = valueToString,
-                    onClick = viewModel::setProxyType
+                    onClick = viewModel::setProxyType,
                 )
             }
             proxyHost.connect(
                 titleText = getString(R.string.proxy_host),
                 setting = viewModel.getSetting { proxy.host },
-                map = { it }
+                map = { it },
             ) { host, _ ->
                 addEditTextDialog(
                     initialValue = host,
                     title = R.string.proxy_host,
-                    onFinish = viewModel::setProxyHost
+                    onFinish = viewModel::setProxyHost,
                 )
             }
             proxyPort.connect(
                 titleText = getString(R.string.proxy_port),
                 setting = viewModel.getSetting { proxy.port },
-                map = { it.toString() }
+                map = { it.toString() },
             ) { port, _ ->
                 addEditTextDialog(
                     initialValue = port.toString(),
                     title = R.string.proxy_port,
-                    onFinish = viewModel::setProxyPort
+                    onFinish = viewModel::setProxyPort,
                 )
             }
 
@@ -340,15 +345,15 @@ class SettingsFragment : Fragment() {
             allowBackgroundWork.root.setBackgroundColor(
                 requireContext()
                     .getColorFromAttr(MaterialR.attr.colorErrorContainer)
-                    .defaultColor
+                    .defaultColor,
             )
             allowBackgroundWork.title.setTextColor(
                 requireContext()
-                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
+                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer),
             )
             allowBackgroundWork.content.setTextColor(
                 requireContext()
-                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
+                    .getColorFromAttr(MaterialR.attr.colorOnErrorContainer),
             )
             creditFoxy.title.text = getString(R.string.special_credits)
             creditFoxy.content.text = FOXY_DROID_TITLE
@@ -460,7 +465,7 @@ class SettingsFragment : Fragment() {
                     (
                         if (country?.isNotEmpty() == true && country.compareTo(
                                 language.toString(),
-                                true
+                                true,
                             ) != 0
                         ) {
                             "($country)"
@@ -493,12 +498,12 @@ class SettingsFragment : Fragment() {
 
         localeCode.contains("-r") -> Locale(
             localeCode.substring(0, 2),
-            localeCode.substring(4)
+            localeCode.substring(4),
         )
 
         localeCode.contains("_") -> Locale(
             localeCode.substring(0, 2),
-            localeCode.substring(3)
+            localeCode.substring(3),
         )
 
         localeCode == "system" -> null
@@ -509,7 +514,7 @@ class SettingsFragment : Fragment() {
         titleText: String,
         setting: Flow<T>,
         map: Context.(T) -> String,
-        dialog: View.(T, valueToString: Context.(T) -> String) -> AlertDialog
+        dialog: View.(T, valueToString: Context.(T) -> String) -> AlertDialog,
     ) {
         title.text = titleText
         viewLifecycleOwner.lifecycleScope.launch {
@@ -529,7 +534,7 @@ class SettingsFragment : Fragment() {
     private fun SwitchTypeBinding.connect(
         titleText: String,
         contentText: String,
-        setting: Flow<Boolean>
+        setting: Flow<Boolean>,
     ) {
         title.text = titleText
         content.text = contentText
@@ -551,13 +556,13 @@ class SettingsFragment : Fragment() {
         @StringRes title: Int,
         @DrawableRes iconRes: Int,
         onClick: (T) -> Unit,
-        valueToString: Context.(T) -> String
+        valueToString: Context.(T) -> String,
     ) = MaterialAlertDialogBuilder(context)
         .setTitle(title)
         .setIcon(iconRes)
         .setSingleChoiceItems(
             values.map { context.valueToString(it) }.toTypedArray(),
-            values.indexOf(initialValue)
+            values.indexOf(initialValue),
         ) { dialog, newValue ->
             dialog.dismiss()
             post {
@@ -570,7 +575,7 @@ class SettingsFragment : Fragment() {
     private fun View.addEditTextDialog(
         initialValue: String,
         @StringRes title: Int,
-        onFinish: (String) -> Unit
+        onFinish: (String) -> Unit,
     ): AlertDialog {
         val scroll = NestedScrollView(context)
         val customEditText = TextInputEditText(context)
@@ -584,7 +589,7 @@ class SettingsFragment : Fragment() {
         scroll.addView(
             customEditText,
             ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
+            ViewGroup.LayoutParams.WRAP_CONTENT,
         )
         return MaterialAlertDialogBuilder(context)
             .setTitle(title)
@@ -596,7 +601,7 @@ class SettingsFragment : Fragment() {
             .create()
             .apply {
                 window!!.setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE,
                 )
             }
     }
