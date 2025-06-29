@@ -222,4 +222,18 @@
     <string name="require_background_access">Vaadi taustakäyttöä</string>
     <string name="insufficient_storage">Riittämätön tila</string>
     <string name="insufficient_storage_DESC">Laitteessa ei ole tarpeeksi vapaata tilaa tämän sovelluksen asentamiseen. Yritä vapauttaa tilaa</string>
+    <string name="error_shizuku_service_unavailable">Shizuku ei ole käynnissä</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku-palvelu ei ole käynnissä. Varmista tila Shizuku-sovelluksessa</string>
+    <string name="error_shizuku_not_granted">Shizuku-käyttöoikeus puuttuu</string>
+    <string name="error_shizuku_not_granted_DESC">Käyttöoikeutta Shizukuun ei ole myönnetty. Varmista asia Shizuku-sovelluksessa</string>
+    <string name="error_shizuku_not_installed">Shizuku ei ole asennettuna</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku ei näytä olevan asennettuna</string>
+    <string name="unspecified">Määrittämätön</string>
+    <string name="open_shizuku">Avaa Shizuku</string>
+    <string name="switch_to_default_installer">Vaihda oletukseen</string>
+    <string name="label_open_video">Video</string>
+    <string name="label_unknown_sdk">Tuntematon (%d)</string>
+    <string name="label_sdk_version">Kohteet: Android %1$s | Vähintään: Android %2$s</string>
+    <string name="always_choose">Valitse aina</string>
+    <string name="select_installer">Valitse asentaja</string>
 </resources>
