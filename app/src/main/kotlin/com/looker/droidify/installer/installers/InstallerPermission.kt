@@ -18,6 +18,7 @@ private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263
 fun launchShizuku(context: Context) {
     val activities =
         context.packageManager.getLauncherActivities(ShizukuProvider.MANAGER_APPLICATION_ID)
+    if (activities.isEmpty()) return
     val intent = intent(Intent.ACTION_MAIN) {
         addCategory(Intent.CATEGORY_LAUNCHER)
         setComponent(
