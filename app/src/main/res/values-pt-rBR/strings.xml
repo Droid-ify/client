@@ -51,12 +51,9 @@
     <string name="incompatible_api_max_DESC_FORMAT">A versão máxima da API é %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">A versão mínima da API é %d.</string>
     <string name="incompatible_features_DESC">Funcionalidades que estão faltando.</string>
-    <string name="incompatible_older_DESC">Esta versão é mais antiga que a instalada no seu dispositivo.
-    Desinstale a primeiro.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Sua %1$s plataforma não é suportada.
-    Plataformas suportadas: %2$s.</string>
-    <string name="incompatible_signature_DESC">Esta versão é assinada com um certificado diferente do que está
-    instalado no seu dispositivo. Desinstale-a primeiro.</string>
+    <string name="incompatible_older_DESC">Esta versão é mais antiga que a instalada no seu dispositivo. Desinstale a primeiro.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Sua %1$s plataforma não é suportada. Plataformas suportadas: %2$s.</string>
+    <string name="incompatible_signature_DESC">Esta versão é assinada com um certificado diferente do que está instalado no seu dispositivo. Desinstale-a primeiro.</string>
     <string name="incompatible_version">Versão incompatível</string>
     <string name="incompatible_versions">Versões incompatíveis</string>
     <string name="incompatible_versions_summary">Mostrar versões do aplicativo incompatíveis com o dispositivo</string>
