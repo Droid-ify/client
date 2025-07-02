@@ -138,13 +138,13 @@
     <string name="syncing">Sincronizando</string>
     <string name="syncing_FORMAT">Sincronizando %s…</string>
     <string name="system">Seguir o do sistema</string>
-    <string name="tap_to_install_DESC">Toque para instalar.</string>
+    <string name="tap_to_install_DESC">Toque para instalar</string>
     <string name="theme">Tema</string>
     <string name="themes">Temas</string>
     <string name="tracks_or_reports_your_activity">Rastreia ou relata sua atividade</string>
     <string name="uninstall">Desinstalar</string>
     <string name="unknown">Desconhecido</string>
-    <string name="unknown_error_DESC">Error desconhecido.</string>
+    <string name="unknown_error_DESC">Error desconhecido</string>
     <string name="unknown_FORMAT">Desconhecido: %s</string>
     <string name="unstable_updates">Atualizações instáveis</string>
     <string name="unstable_updates_summary">Sugerir instalar versões instáveis</string>
@@ -216,7 +216,7 @@
     <string name="cannot_open_link">Não foi possível abrir o link</string>
     <string name="has_tethered_network">Depende de uma determinada instância de um serviço de rede</string>
     <string name="require_background_access_DESC">É necessário desativar as otimizações de bateria para que a sincronização em segundo plano funcione corretamente</string>
-    <string name="require_background_access">Desativar otimizações de bateria</string>
+    <string name="require_background_access">Desativar as otimizações de bateria</string>
     <string name="installation_failed">Falha na instalação</string>
     <string name="installation_failed_DESC">Falha ao instalar %s</string>
     <string name="uninstalled_application">Desinstalado</string>
