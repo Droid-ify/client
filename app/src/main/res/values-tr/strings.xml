@@ -52,8 +52,7 @@
     <string name="incompatible_api_min_DESC_FORMAT">En düşük API sürümü %d.</string>
     <string name="incompatible_features_DESC">Özellikleri eksik.</string>
     <string name="incompatible_older_DESC">Bu sürüm aygıtınızda kurulu olandan daha eski. Önce onu kaldırın.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s platformunuz desteklenmemektedir.
-    Desteklenen platformlar: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s platformunuz desteklenmemektedir. Desteklenen platformlar: %2$s.</string>
     <string name="incompatible_signature_DESC">Bu sürüm aygıtınızda kurulu olan sürümden farklı bir sertifika ile imzalanmış. Önce onu kaldırın.</string>
     <string name="incompatible_version">Uyumsuz sürüm</string>
     <string name="incompatible_versions">Uyumsuz sürümler</string>
