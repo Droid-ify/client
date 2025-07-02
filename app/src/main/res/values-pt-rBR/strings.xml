@@ -10,13 +10,13 @@
     <string name="amoled">Preto</string>
     <string name="anti_features">Características indesejadas</string>
     <string name="application">Aplicativo</string>
-    <string name="application_not_found">Não foi possível encontrar esse aplicativo</string>
+    <string name="application_not_found">O aplicativo não foi encontrado</string>
     <string name="author_email">E-mail do autor</string>
     <string name="author_website">Página do autor</string>
     <string name="available">Explorar</string>
     <string name="bug_tracker">Rastreador de erros</string>
     <string name="cancel">Cancelar</string>
-    <string name="cant_edit_sync_DESC">Não é possível editar o repositório pois ele está sincronizando no momento.</string>
+    <string name="cant_edit_sync_DESC">Não é possível editar o repositório enquanto está sincronizando</string>
     <string name="changelog">Lista de mudanças</string>
     <string name="changes">Mudanças</string>
     <string name="checking_repository">Checando o repositório…</string>
@@ -37,7 +37,7 @@
     <string name="downloaded_FORMAT">Baixado %s</string>
     <string name="downloading">Baixando</string>
     <string name="downloading_FORMAT">Baixando %s…</string>
-    <string name="edit_repository">Editar repositório</string>
+    <string name="edit_repository">Editar</string>
     <string name="file_format_error_DESC">Formato de arquivo inválido.</string>
     <string name="fingerprint">Fingerprint</string>
     <string name="has_advertising">Contém anúncio</string>
@@ -171,9 +171,9 @@
     <string name="session_installer">Instalador de sessão</string>
     <string name="cleanup_title">Intervalo de limpeza do APK</string>
     <plurals name="days">
-        <item quantity="one">Dia</item>
-        <item quantity="many">Dias</item>
-        <item quantity="other">Dias</item>
+        <item quantity="one">dia</item>
+        <item quantity="many">dias</item>
+        <item quantity="other">dias</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Hora</item>
@@ -192,7 +192,7 @@
     <string name="installing">Instalando</string>
     <string name="waiting_to_start_installation">Aguardando para iniciar a instalação…</string>
     <string name="auto_update">Atualizar aplicativos automaticamente</string>
-    <string name="auto_update_apps">Tente instalar atualizações automaticamente</string>
+    <string name="auto_update_apps">Instalar atualizações automaticamente</string>
     <string name="has_non_free_components">Possui componentes não livres</string>
     <string name="socket_error_DESC">O servidor não conseguiu fornecer o novo pacote.</string>
     <string name="connection_error_DESC">Não foi possível conectar ao servidor</string>
