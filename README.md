@@ -36,7 +36,7 @@
     - Select "Create New Keystore" and enter the required information, including a password.
     - Wait for the build process to finish.
 
-## To-do
+## TODO
 
 - [ ] Add support for `index-v2`
 - [ ] Add detekt code analysis
