@@ -3,13 +3,13 @@
     <string name="action_failed">Неуспешна операция</string>
     <string name="add_repository">Добави хранилище</string>
     <string name="address">Адрес</string>
-    <string name="all_applications">Всички Приложения</string>
+    <string name="all_applications">Всички приложения</string>
     <string name="all_applications_up_to_date">Всички приложения са актуални</string>
     <string name="already_exists">Вече съществува</string>
     <string name="always">Винаги</string>
     <string name="amoled">Чернa</string>
     <string name="application">Приложение</string>
-    <string name="application_not_found">Приложението не може да бъде намерено</string>
+    <string name="application_not_found">Приложението не беше намерено</string>
     <string name="author_email">Ел. поща на автора</string>
     <string name="available">Налични</string>
     <string name="bug_tracker">Тракер за грешки</string>
@@ -21,7 +21,7 @@
     <string name="connecting">Свързване…</string>
     <string name="contains_non_free_media">Съдържа несвободна медия</string>
     <string name="could_not_sync_FORMAT">Неуспешно синхронизиране на %s</string>
-    <string name="could_not_validate_FORMAT">Неуспешна валидиция на %s</string>
+    <string name="could_not_validate_FORMAT">Неуспешна валидация на %s</string>
     <string name="credits">Доброволци</string>
     <string name="delete">Изтрий</string>
     <string name="delete_repository_DESC">Изтриване на хранилището\?</string>
@@ -31,7 +31,7 @@
     <string name="downloaded_FORMAT">Изтегли се %s</string>
     <string name="downloading">Изтегля се</string>
     <string name="downloading_FORMAT">Изтегля се %s…</string>
-    <string name="edit_repository">Редактирай</string>
+    <string name="edit_repository">Редактиране</string>
     <string name="has_advertising">Има реклами</string>
     <string name="has_security_vulnerabilities">Има уязвимости в сигурността</string>
     <string name="http_error_DESC">Невалиден отговор от сървъра.</string>
@@ -169,8 +169,8 @@
     <string name="root_installer">Root Инсталатор</string>
     <string name="shizuku_installer">Shizuku Инсталатор</string>
     <plurals name="days">
-        <item quantity="one">Ден</item>
-        <item quantity="other">Дни</item>
+        <item quantity="one">ден</item>
+        <item quantity="other">дни</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Само при Wi-Fi и зареждане</string>
     <string name="cleanup_title">Интервал за почистване на APK</string>
@@ -183,7 +183,7 @@
     <string name="material_you">Material You</string>
     <string name="auto_update">Автоматично актуализиране на приложения</string>
     <string name="installing">Инсталиране</string>
-    <string name="auto_update_apps">Опитайте се да инсталирате актуализации автоматично</string>
+    <string name="auto_update_apps">Автоматично инсталиране на актуализации</string>
     <string name="waiting_to_start_installation">Изчакване за стартиране на инсталацията…</string>
     <string name="favourites">Любими</string>
     <string name="enable_repo">Активирай хранилището</string>
