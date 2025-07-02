@@ -8,7 +8,7 @@
     <string name="no_applications_available">Немає доступних застосунків</string>
     <string name="no_matching_applications_found">Не вдалося знайти жодного подібного застосунку</string>
     <string name="incompatible_features_DESC">Функції відсутні.</string>
-    <string name="all_applications">Всі застосунки</string>
+    <string name="all_applications">All apps</string>
     <string name="cancel">Скасувати</string>
     <string name="changes">Зміни</string>
     <string name="checking_repository">Перевірка репозиторія…</string>
