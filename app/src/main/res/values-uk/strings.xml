@@ -3,7 +3,7 @@
     <string name="details">Деталі</string>
     <string name="invalid_signature_error_DESC">Недійсна сигнатура.</string>
     <string name="invalid_permissions_error_DESC">Недійсні дозволи.</string>
-    <string name="could_not_validate_FORMAT">Couldn\'t validate %s</string>
+    <string name="could_not_validate_FORMAT">Не вдалося перевірити %s</string>
     <string name="incompatible_signature_DESC">Ця версія підписана іншим сертифікатом, що відрізняється від того, що встановлений на вашому пристрої. Спершу видаліть встановлену.</string>
     <string name="no_applications_available">Немає доступних застосунків</string>
     <string name="no_matching_applications_found">Не вдалося знайти жодного подібного застосунку</string>
@@ -37,7 +37,7 @@
     <string name="downloaded_FORMAT">Завантажено %s</string>
     <string name="downloading">Завантаження</string>
     <string name="downloading_FORMAT">Завантаження %s…</string>
-    <string name="edit_repository">Редагувати репозиторій</string>
+    <string name="edit_repository">Редагувати</string>
     <string name="file_format_error_DESC">Недійсний формат файлу.</string>
     <string name="has_advertising">Містить рекламу</string>
     <string name="has_non_free_dependencies">Містить невільні залежності</string>
@@ -228,12 +228,12 @@
     <string name="uninstalled_application">Видалено</string>
     <string name="insufficient_storage">Недостатньо місця</string>
     <string name="insufficient_storage_DESC">На пристрої недостатньо вільного місця для встановлення цієї програми. Спробуйте звільнити місце</string>
-    <string name="error_shizuku_not_running_DESC">Сервіс Shizuku не працює. Перевірте його в застосунку Shizuku</string>
-    <string name="error_shizuku_service_unavailable">Shizuku не запускається</string>
-    <string name="error_shizuku_not_granted">Shizuku не надано дозвіл</string>
-    <string name="error_shizuku_not_granted_DESC">Не надано дозвіл на використання сервісу Shizuku. Перевірте це в застосунку Shizuku</string>
-    <string name="error_shizuku_not_installed">Shizuku не встановлено</string>
-    <string name="error_shizuku_not_installed_DESC">Shizuku, здається, не встановлено</string>
+    <string name="error_shizuku_not_running_DESC">Сервіс Shizuku/Sui не працює</string>
+    <string name="error_shizuku_service_unavailable">Сервіс Shizuku/Sui не працює</string>
+    <string name="error_shizuku_not_granted">Дозвіл Shizuku/Sui не надано</string>
+    <string name="error_shizuku_not_granted_DESC">Дозвіл Shizuku/Sui не надано</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui не встановлено</string>
+    <string name="error_shizuku_not_installed_DESC">Шизуку/Суй не встановлено</string>
     <string name="open_shizuku">Відкрити Shizuku</string>
     <string name="switch_to_default_installer">Перемкнутися на типовий режим</string>
     <string name="label_unknown_sdk">Невідомий (%d)</string>
