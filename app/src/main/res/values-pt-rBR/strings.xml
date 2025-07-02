@@ -61,11 +61,11 @@
     <string name="install">Instalar</string>
     <string name="install_types">Instalação</string>
     <string name="installed">Instalado</string>
-    <string name="integrity_check_error_DESC">Não foi possível verificar a integridade.</string>
+    <string name="integrity_check_error_DESC">Não foi possível verificar a integridade</string>
     <string name="invalid_address">Endereço inválido</string>
     <string name="invalid_fingerprint_format">Formato de fingerprint inválido</string>
-    <string name="invalid_metadata_error_DESC">Metadado inválido.</string>
-    <string name="invalid_permissions_error_DESC">Permissão inválida.</string>
+    <string name="invalid_metadata_error_DESC">Metadado inválido</string>
+    <string name="invalid_permissions_error_DESC">Permissão inválida</string>
     <string name="invalid_signature_error_DESC">Assinatura inválida.</string>
     <string name="invalid_username_format">Formato de nome do usuário inválido</string>
     <string name="launch">Abrir</string>
@@ -166,7 +166,7 @@
     <string name="update_all">Atualizar tudo</string>
     <string name="installer">Instalador</string>
     <string name="legacy_installer">Instalador antigo</string>
-    <string name="shizuku_installer">Instalador Shizuku</string>
+    <string name="shizuku_installer">Instalador Shizuku/Sui</string>
     <string name="root_installer">Instalador root</string>
     <string name="session_installer">Instalador de sessão</string>
     <string name="cleanup_title">Intervalo de limpeza do APK</string>
@@ -200,7 +200,7 @@
     <string name="home_screen_swiping">Deslizamento de página</string>
     <string name="import_settings_title">Importar favoritos e configurações</string>
     <string name="contains_nsfw">Contém conteúdo não apropriado para menores de 18 anos</string>
-    <string name="shizuku_not_alive">Shizuku não está em execução</string>
+    <string name="shizuku_not_alive">Shizuku/Sui não está em execução</string>
     <string name="import_settings_DESC">Importar configurações e favoritos de um arquivo</string>
     <string name="export_settings_title">Exportar favoritos e configurações</string>
     <string name="proxy_port_error_not_int">A Porta Proxy deve ser um inteiro</string>
@@ -212,7 +212,7 @@
     <string name="import_repos_DESC">Importar repositórios de um arquivo</string>
     <string name="repository_not_found">O seguinte repositório não foi encontrado</string>
     <string name="special_credits">Créditos especiais</string>
-    <string name="shizuku_not_installed">Shizuku não está instalado</string>
+    <string name="shizuku_not_installed">Shizuku/Sui não está instalado</string>
     <string name="cannot_open_link">Não foi possível abrir o link</string>
     <string name="has_tethered_network">Depende de uma determinada instância de um serviço de rede</string>
     <string name="require_background_access_DESC">O acesso em segundo plano é necessário para executar corretamente a sincronização em segundo plano</string>
@@ -233,9 +233,9 @@
     <string name="error_shizuku_not_installed_DESC">Shizuku/Sui não está instalado</string>
     <string name="insufficient_storage">Espaço insuficiente</string>
     <string name="switch_to_default_installer">Alternar para Padrão</string>
-    <string name="legacyInstallerComponent">Componente de instalador legado</string>
+    <string name="legacyInstallerComponent">Componente de instalador antigo</string>
     <string name="unspecified">Não especificado</string>
-    <string name="shizuku_legacy_installer">Instalador Legado do Shizuku</string>
+    <string name="shizuku_legacy_installer">Instalador antigo do Shizuku/Sui</string>
     <string name="label_open_video">Vídeo</string>
     <string name="label_unknown_sdk">Desconhecido (%d)</string>
     <string name="always_choose">Escolher Sempre</string>
