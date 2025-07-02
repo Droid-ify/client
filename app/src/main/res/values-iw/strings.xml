@@ -22,7 +22,6 @@
     <plurals name="days">
         <item quantity="one">יום</item>
         <item quantity="two">ימים</item>
-        <item quantity="many">יום</item>
         <item quantity="other">ימים</item>
     </plurals>
     <string name="delete">מחק</string>
@@ -134,7 +133,6 @@
     <plurals name="hours">
         <item quantity="one">שעה</item>
         <item quantity="two">שעות</item>
-        <item quantity="many">שעה</item>
         <item quantity="other">שעות</item>
     </plurals>
     <string name="ignore_all_updates">התעלם מכל הגרסאות החדשות</string>
