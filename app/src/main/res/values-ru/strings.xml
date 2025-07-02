@@ -52,8 +52,7 @@
     <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API - %d.</string>
     <string name="incompatible_features_DESC">Отсутствующие функции.</string>
     <string name="incompatible_older_DESC">Эта версия старше той, которая установлена на вашем устройстве. Сначала удалите её.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не поддерживается.
-Поддерживаемые платформы: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s не поддерживается. Поддерживаемые платформы: %2$s.</string>
     <string name="incompatible_signature_DESC">Эта версия подписана сертификатом, отличным от установленной на вашем устройстве. Сначала удалите её.</string>
     <string name="incompatible_version">Несовместимая версия</string>
     <string name="incompatible_versions">Несовместимые версии</string>
