@@ -230,7 +230,7 @@
     <string name="error_shizuku_not_granted">Липсва разрешение за Shizuku</string>
     <string name="error_shizuku_not_granted_DESC">Разрешение за услугата Shizuku не е предоставено. Моля, проверете в приложението Shizuku</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku изглежда не е инсталиран</string>
-    <string name="error_shizuku_service_unavailable">Shizuku Не работи</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui услугатане работи</string>
     <string name="label_unknown_sdk">Неизвестен (%d)</string>
     <string name="legacyInstallerComponent">Компонент на наследен инсталатор</string>
     <string name="unspecified">Неопределен</string>
