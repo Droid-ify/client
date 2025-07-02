@@ -51,8 +51,7 @@
     <string name="incompatible_api_max_DESC_FORMAT">La versione massima API è %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">La versione minima API è %d.</string>
     <string name="incompatible_features_DESC">Caratteristiche mancanti.</string>
-    <string name="incompatible_older_DESC">Questa versione è più vecchia di quella installata su questo dispositivo.
-    Elimina prima quella.</string>
+    <string name="incompatible_older_DESC">Questa versione è più vecchia di quella installata su questo dispositivo. Elimina prima quella.</string>
     <string name="incompatible_platforms_DESC_FORMAT">La piattaforma %1$s non è supportata. Piattaforme supportate: %2$s.</string>
     <string name="incompatible_signature_DESC">Questa versione ha una firma diversa da quella installata sul proprio dispositivo. Disinstalla prima quella.</string>
     <string name="incompatible_version">Versione non compatibile</string>
