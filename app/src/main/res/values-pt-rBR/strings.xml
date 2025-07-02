@@ -65,8 +65,8 @@
     <string name="invalid_address">Endereço inválido</string>
     <string name="invalid_fingerprint_format">Formato de fingerprint inválido</string>
     <string name="invalid_metadata_error_DESC">Metadado inválido</string>
-    <string name="invalid_permissions_error_DESC">Permissão inválida</string>
-    <string name="invalid_signature_error_DESC">Assinatura inválida.</string>
+    <string name="invalid_permissions_error_DESC">Permissões inválidas</string>
+    <string name="invalid_signature_error_DESC">Assinatura inválida</string>
     <string name="invalid_username_format">Formato de nome do usuário inválido</string>
     <string name="launch">Abrir</string>
     <string name="license">Licença</string>
@@ -78,11 +78,11 @@
     <string name="name">Nome</string>
     <string name="network_error_DESC">Erro da rede</string>
     <string name="never">Nunca</string>
-    <string name="new_updates_available">Novas versões de aplicativos disponíveis</string>
+    <string name="new_updates_available">Novas atualizações disponíveis</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d aplicativo tem uma nova versão.</item>
-        <item quantity="many">%d aplicativos possuem novas versões.</item>
-        <item quantity="other">%d aplicativos possuem novas versões.</item>
+        <item quantity="one">%d aplicativo tem atualizações disponíveis</item>
+        <item quantity="many">%d aplicativos tem atualizações disponíveis</item>
+        <item quantity="other">%d aplicativos tem atualizações disponíveis</item>
     </plurals>
     <string name="no_applications_available">Nenhum aplicativo disponível</string>
     <string name="no_applications_installed">Nenhum aplicativo instalado</string>
@@ -181,8 +181,8 @@
         <item quantity="other">horas</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Apenas no Wi-Fi e Carregando</string>
-    <string name="io_error_DESC">Incapaz de executar certas ações.</string>
-    <string name="material_you_desc">Use o tema de material you cores</string>
+    <string name="io_error_DESC">Incapaz de executar certas ações</string>
+    <string name="material_you_desc">Usar cores do Material You</string>
     <string name="material_you">Material You</string>
     <string name="favourites">Favoritos</string>
     <string name="force_clean_up">Forçar limpeza</string>
