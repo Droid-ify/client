@@ -118,7 +118,7 @@
     <string name="has_non_free_dependencies">Dépend d’applications qui ne sont pas libres</string>
     <string name="incompatible_api_max_DESC_FORMAT">La version maximale de l’API est %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">La version minimale de l’API est %d.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Votre plateforme %1$s n’est pas prise en charge. Plateformes prises en charge : %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Votre plateforme %1$s n’est pas prise en charge. Plateformes prises en charge : %2$s.</string>
     <string name="incompatible_signature_DESC">Cette version est signée avec un certificat différent de celle installée sur votre appareil. Désinstallez-la d’abord.</string>
     <string name="incompatible_with_FORMAT">Incompatible avec %s</string>
     <string name="install_types">Types d’installation</string>
