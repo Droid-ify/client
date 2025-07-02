@@ -16,7 +16,7 @@
     <string name="available">Обзор</string>
     <string name="bug_tracker">Трекер ошибок</string>
     <string name="cancel">Отмена</string>
-    <string name="cant_edit_sync_DESC">Нельзя редактировать репозиторий во время синхронизации.</string>
+    <string name="cant_edit_sync_DESC">Нельзя редактировать репозиторий во время синхронизации</string>
     <string name="changelog">Список изменений</string>
     <string name="changes">Изменения</string>
     <string name="checking_repository">Проверка репозитория…</string>
@@ -48,8 +48,8 @@
     <string name="ignore_all_updates">Игнорировать новые версии</string>
     <string name="ignore_this_update">Игнорировать эту версию</string>
     <string name="incompatible_api_DESC_FORMAT">Ваш %1$s (версия API %2$d) не поддерживается. %3$s</string>
-    <string name="incompatible_api_max_DESC_FORMAT">Максимальная версия API - %d.</string>
-    <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API - %d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Максимальная версия API - %d</string>
+    <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API - %d</string>
     <string name="incompatible_features_DESC">Отсутствующие функции</string>
     <string name="incompatible_older_DESC">Эта версия старше, чем установленная на вашем устройстве</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ваша архитектура %1$s не поддерживается. Поддерживаемые архитектуры: %2$s.</string>
@@ -154,13 +154,13 @@
     <string name="upstream_source_code_is_not_free">Вышестоящий исходный код несвободен</string>
     <string name="username">Имя пользователя</string>
     <string name="username_missing">Имя пользователя отсутствует</string>
-    <string name="validation_index_error_DESC">Индекс не может быть проверен.</string>
+    <string name="validation_index_error_DESC">Индекс не может быть проверен</string>
     <string name="version">Версия</string>
     <string name="version_FORMAT">Версия %s</string>
     <string name="versions">Версии</string>
     <string name="waiting_to_start_download">Ожидание скачивания…</string>
     <string name="whats_new">Что нового</string>
-    <string name="website">Сайт</string>
+    <string name="website">Сайт проекта</string>
     <string name="prefs_language_title">Язык</string>
     <string name="prefs_personalization">Персонализация</string>
     <string name="show_less">Показать меньше</string>
@@ -220,7 +220,7 @@
     <string name="has_tethered_network">Зависит от определённой сетевой службы</string>
     <string name="require_background_access_DESC">Для правильной работы фоновой синхронизации необходимо отключить оптимизацию батареи</string>
     <string name="require_background_access">Отключить оптимизацию батареи</string>
-    <string name="ignore_signature">Игнорировать проверку подписи</string>
+    <string name="ignore_signature">Не проверять подпись</string>
     <string name="ignore_signature_summary">Не выполнять проверку подписи при установке приложения</string>
     <string name="installation_failed">Установка не выполнена</string>
     <string name="uninstalled_application_DESC">%s удалено</string>
