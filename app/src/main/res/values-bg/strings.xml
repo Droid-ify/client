@@ -78,7 +78,7 @@
     <string name="recently_updated">Наскоро обновени</string>
     <string name="repositories">Хранилища</string>
     <string name="repository">Хранилище</string>
-    <string name="repository_unsigned_DESC">Не е намерен подпис. Не можа да се провери списъкът с приложения.</string>
+    <string name="repository_unsigned_DESC">Не е намерен подпис. Не можа да се провери списъкът с приложения</string>
     <string name="requires_FORMAT">Изисква %s</string>
     <string name="save">Запази</string>
     <string name="saving_details">Запазване на подробности…</string>
