@@ -48,8 +48,8 @@
     <string name="install_types">Инсталиране</string>
     <string name="installed">Инсталирани</string>
     <string name="invalid_address">Невалиден адрес</string>
-    <string name="invalid_permissions_error_DESC">Невалидни разрешения.</string>
-    <string name="invalid_signature_error_DESC">Невалиден подпис.</string>
+    <string name="invalid_permissions_error_DESC">Невалидни разрешения</string>
+    <string name="invalid_signature_error_DESC">Невалиден подпис</string>
     <string name="launch">Стартирай</string>
     <string name="license">Лиценз</string>
     <string name="license_FORMAT">%s лиценз</string>
@@ -68,7 +68,7 @@
     <string name="only_on_wifi">Само при Wi-Fi</string>
     <string name="open_DESC_FORMAT">Отвори %s\?</string>
     <string name="other">Други</string>
-    <string name="parsing_index_error_DESC">Не може да се прочете индекс файла.</string>
+    <string name="parsing_index_error_DESC">Не можа да се анализира индексният файл</string>
     <string name="password">Парола</string>
     <string name="password_missing">Липсваща парола</string>
     <string name="proxy">Прокси</string>
@@ -125,25 +125,25 @@
     <string name="unstable_updates">Нестабилни актуализации</string>
     <string name="incompatible_signature_DESC">Тази версия е подписана с различен подпис от инсталирания на вашето устройство.</string>
     <string name="incompatible_versions_summary">Показване на версии, несъвместими с устройството</string>
-    <string name="integrity_check_error_DESC">Не може да се провери целостта.</string>
-    <string name="invalid_metadata_error_DESC">Невалидни метаданни.</string>
+    <string name="integrity_check_error_DESC">Не може да се провери целостта</string>
+    <string name="invalid_metadata_error_DESC">Невалидни метаданни</string>
     <string name="plus_more_FORMAT">+%d повече</string>
     <string name="promotes_non_free_network_services">Насърчава несвободни мрежови услуги</string>
     <string name="search">Търсене</string>
     <string name="link_copied_to_clipboard">Линкът е копиран</string>
-    <string name="new_updates_available">Налични нови версии на приложението</string>
+    <string name="new_updates_available">Налични са нови актуализации</string>
     <string name="no_applications_available">Няма налични приложения</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d приложение има нова версия.</item>
-        <item quantity="other">%d приложения имат нова версия.</item>
+        <item quantity="one">%d приложението има налични актуализации</item>
+        <item quantity="other">%d приложенията имат налични актуализации</item>
     </plurals>
     <string name="settings">Настройки</string>
-    <string name="no_matching_applications_found">Не могат да бъдат намерени такива приложения</string>
-    <string name="notify_about_updates_summary">Покажи известие, при налични нови версии</string>
+    <string name="no_matching_applications_found">Няма резултати</string>
+    <string name="notify_about_updates_summary">Показване на известие, когато е налична нова версия на приложение</string>
     <string name="only_compatible_with_FORMAT">Съвместим само с %s</string>
     <string name="permissions">Разрешения</string>
     <string name="processing_FORMAT">Обработка на %1$s…</string>
-    <string name="project_website">Уебстраница на проекта</string>
+    <string name="project_website">Уебстраница</string>
     <string name="promotes_non_free_software">Насърчава несвободен софтуер</string>
     <string name="provided_by_FORMAT">Предоставено от %s</string>
     <string name="themes">Теми</string>
@@ -165,7 +165,7 @@
     <string name="prefs_personalization">Персонализация</string>
     <string name="installer">Инсталатор</string>
     <string name="legacy_installer">Наследен инсталатор</string>
-    <string name="session_installer">Сесия инсталатор</string>
+    <string name="session_installer">Session инсталатор</string>
     <string name="root_installer">Root инсталатор</string>
     <string name="shizuku_installer">Shizuku/Sui инсталатор</string>
     <plurals name="days">
@@ -178,8 +178,8 @@
         <item quantity="one">час</item>
         <item quantity="other">часа</item>
     </plurals>
-    <string name="io_error_DESC">Невъзможност за извършване на определени действия.</string>
-    <string name="material_you_desc">Използвайте material you цветова тема</string>
+    <string name="io_error_DESC">Невъзможност за извършване на определени действия</string>
+    <string name="material_you_desc">Използване на Material You цветове</string>
     <string name="material_you">Material You</string>
     <string name="auto_update">Автоматично актуализиране на приложения</string>
     <string name="installing">Инсталиране</string>
@@ -195,7 +195,7 @@
     <string name="connection_error_DESC">Неуспешно свързване със сървъра</string>
     <string name="home_screen_swiping">Плъзгане на страница</string>
     <string name="contains_nsfw">Съдържа неподходящо за работа съдържание</string>
-    <string name="shizuku_not_alive">Shizuku не работи</string>
+    <string name="shizuku_not_alive">Shizuku/Sui не работи</string>
     <string name="proxy_port_error_not_int">Прокси портът може да бъде само цяло число</string>
     <string name="home_screen_swiping_DESC">Плъзнете наляво или надясно, за да превключите страницата</string>
     <string name="repository_not_found">Следното хранилище не бе намерено</string>
@@ -234,7 +234,7 @@
     <string name="label_unknown_sdk">Неизвестен (%d)</string>
     <string name="legacyInstallerComponent">Компонент на наследен инсталатор</string>
     <string name="unspecified">Неопределен</string>
-    <string name="shizuku_legacy_installer">Shizuku наследен инсталатор</string>
+    <string name="shizuku_legacy_installer">Shizuku/Sui наследен инсталатор</string>
     <string name="always_choose">Винаги избирай</string>
     <string name="select_installer">Изберете инсталатор</string>
     <string name="label_sdk_version">Цели: Android %1$s | Минимум: Android %2$s</string>
