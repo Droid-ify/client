@@ -80,9 +80,9 @@
     <string name="never">Nunca</string>
     <string name="new_updates_available">Novas atualizações disponíveis</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d aplicativo tem atualizações disponíveis</item>
-        <item quantity="many">%d aplicativos tem atualizações disponíveis</item>
-        <item quantity="other">%d aplicativos tem atualizações disponíveis</item>
+        <item quantity="one">%d app tem atualizações disponíveis</item>
+        <item quantity="many">%d apps tem atualizações disponíveis</item>
+        <item quantity="other">%d apps tem atualizações disponíveis</item>
     </plurals>
     <string name="no_applications_available">Nenhum aplicativo disponível</string>
     <string name="no_applications_installed">Nenhum aplicativo instalado</string>
