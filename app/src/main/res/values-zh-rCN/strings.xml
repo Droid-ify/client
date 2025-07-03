@@ -177,7 +177,7 @@
     </plurals>
     <string name="io_error_DESC">无法执行某些操作。</string>
     <string name="auto_update">自动更新应用</string>
-    <string name="auto_update_apps">尝试自动安装更新</string>
+    <string name="auto_update_apps">自动安装更新</string>
     <string name="installing">正在安装</string>
     <string name="favourites">收藏夹</string>
     <string name="material_you_desc">使用 Material You 配色</string>
