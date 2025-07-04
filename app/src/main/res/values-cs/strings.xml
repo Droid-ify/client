@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="add_repository">Přidat zdroj</string>
+    <string name="add_repository">Přidat repozitář</string>
     <string name="address">Adresa</string>
     <string name="all_applications_up_to_date">Všechny vaše aplikace jsou aktuální</string>
     <string name="application_not_found">Aplikace nebyla nalezena</string>
@@ -21,17 +21,17 @@
     <string name="project_website">Web projektu</string>
     <string name="proxy_host">Hostitel proxy</string>
     <string name="recently_updated">Nedávno aktualizované</string>
-    <string name="repository">Zdroj</string>
+    <string name="repository">Repozitář</string>
     <string name="proxy_port">Port proxy</string>
     <string name="proxy_type">Typ proxy</string>
     <string name="repositories">Zdroje</string>
     <string name="anti_features">Anti-funkce</string>
     <string name="already_exists">Již existuje</string>
     <string name="always">Vždy</string>
-    <string name="cant_edit_sync_DESC">Nezdařilo se upravit zdroj protože se právě synchronizuje.</string>
+    <string name="cant_edit_sync_DESC">Repozitář nemůžete upravit, protože se právě synchronizuje</string>
     <string name="changes">Změny</string>
     <string name="changelog">Seznam změn</string>
-    <string name="checking_repository">Kontroluji zdroj…</string>
+    <string name="checking_repository">Kontroluji repozitář…</string>
     <string name="confirmation">Potvrzení</string>
     <string name="connecting">Spojuji…</string>
     <string name="contains_non_free_media">Obsahuje ne-svobodná média</string>
@@ -39,15 +39,15 @@
     <string name="could_not_sync_FORMAT">Nepodařilo se synchronizovat %s</string>
     <string name="could_not_validate_FORMAT">Nepodařilo se ověřit %s</string>
     <string name="dark">Tmavé</string>
-    <string name="delete">Smazat</string>
-    <string name="delete_repository_DESC">Smazat zdroj\?</string>
+    <string name="delete">Odstranit</string>
+    <string name="delete_repository_DESC">Odstranit repozitář?</string>
     <string name="description">Popis</string>
     <string name="details">Detaily</string>
     <string name="donate">Přispět</string>
     <string name="downloaded_FORMAT">Staženo %s</string>
     <string name="downloading">Stahuji</string>
     <string name="downloading_FORMAT">Stahuji %s…</string>
-    <string name="edit_repository">Upravit zdroj</string>
+    <string name="edit_repository">Upravit</string>
     <string name="file_format_error_DESC">Neplatný formát souboru.</string>
     <string name="fingerprint">Otisk prstu</string>
     <string name="has_advertising">Obsahuje reklamy</string>
@@ -202,7 +202,7 @@
     <string name="special_credits">Speciální poděkování</string>
     <string name="home_screen_swiping">Posouvání na domovské stránce</string>
     <string name="home_screen_swiping_DESC">Umožnit uživateli posouvat mezi stránkami na domovské stránce</string>
-    <string name="repository_not_found">Následující repozitář nebyl nalezen</string>
+    <string name="repository_not_found">Repozitář nebyl nalezen</string>
     <string name="proxy_port_error_not_int">Port proxy smí být pouze celé číslo</string>
     <string name="import_settings_title">Importovat nastavení</string>
     <string name="import_export">Import/export</string>
@@ -213,7 +213,7 @@
     <string name="export_settings_DESC">Exportovat nastavení a oblíbené do souboru</string>
     <string name="export_repos_title">Exportovat repozitáře</string>
     <string name="import_repos_DESC">Importovat všechny repozitáře ze souboru</string>
-    <string name="cannot_open_link">Nelze otevřít odkaz</string>
+    <string name="cannot_open_link">Odkaz se nepodařilo otevřít</string>
     <string name="has_tethered_network">Připojeno k určité síťové službě</string>
     <string name="require_background_access_DESC">Přístup na pozadí je vyžadován pro správné spuštění synchronizace na pozadí</string>
     <string name="require_background_access">Vyžadovat přístup na pozadí</string>
@@ -225,13 +225,13 @@
     <string name="uninstalled_application">Odinstalováno</string>
     <string name="insufficient_storage">Nedostatek místa</string>
     <string name="insufficient_storage_DESC">Na zařízení není dostatek místa k instalaci této aplikace. Zkuste uvolnit trochu místa</string>
-    <string name="error_shizuku_service_unavailable">Shizuku není spuštěno</string>
-    <string name="error_shizuku_not_granted">Chybějící oprávnění Shizuku</string>
+    <string name="error_shizuku_service_unavailable">Služba Shizuku/Sui není spuštěna</string>
+    <string name="error_shizuku_not_granted">Nebylo uděleno oprávnění Shizuku/Sui</string>
     <string name="error_shizuku_not_granted_DESC">Nebylo uděleno oprávnění ke službě Shizuku. Zkontrolujte prosím aplikaci Shizuku</string>
     <string name="error_shizuku_not_installed_DESC">Aplikace Shizuku nejspíše není nainstalována</string>
     <string name="switch_to_default_installer">Přepnout na výchozí</string>
     <string name="label_unknown_sdk">Neznámé (%d)</string>
-    <string name="error_shizuku_not_running_DESC">Služba Shizuku není spuštěna. Zkontrolujte prosím aplikaci Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">Služba Shizuku/Sui není spuštěna</string>
     <string name="error_shizuku_not_installed">Shizuku není nainstalováno</string>
     <string name="label_open_video">Video</string>
     <string name="open_shizuku">Otevřít Shizuku</string>
