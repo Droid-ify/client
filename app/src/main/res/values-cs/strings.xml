@@ -48,11 +48,11 @@
     <string name="downloading">Stahuji</string>
     <string name="downloading_FORMAT">Stahuji %s…</string>
     <string name="edit_repository">Upravit</string>
-    <string name="file_format_error_DESC">Neplatný formát souboru.</string>
+    <string name="file_format_error_DESC">Neplatný formát souboru</string>
     <string name="fingerprint">Otisk prstu</string>
     <string name="has_advertising">Obsahuje reklamy</string>
-    <string name="has_non_free_dependencies">Obsahuje nesvobodné závislosti</string>
-    <string name="has_security_vulnerabilities">Obsahuje bezpečnostní zranitelnosti</string>
+    <string name="has_non_free_dependencies">Závisí na jiných nesvobodných aplikacích</string>
+    <string name="has_security_vulnerabilities">Obsahuje známé bezpečnostní zranitelnosti</string>
     <string name="http_error_DESC">Neplatná odpověď serveru.</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Ignorovat všechny nové verze</string>
@@ -208,7 +208,7 @@
     <string name="import_export">Záloha a obnovení</string>
     <string name="import_settings_DESC">Importovat nastavení a oblíbené ze souboru</string>
     <string name="export_settings_title">Exportovat oblíbené a nastavení</string>
-    <string name="export_repos_DESC">Exportovat všechny repozitáře do souboru</string>
+    <string name="export_repos_DESC">Exportovat repozitáře do souboru</string>
     <string name="import_repos_title">Importovat repozitáře</string>
     <string name="export_settings_DESC">Exportovat nastavení a oblíbené do souboru</string>
     <string name="export_repos_title">Exportovat repozitáře</string>
