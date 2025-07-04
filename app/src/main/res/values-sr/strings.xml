@@ -48,7 +48,7 @@
     <string name="waiting_to_start_download">Чека се почетак преузимања…</string>
     <string name="auto_update_apps">Покушајте да аутоматски инсталирате ажурирања</string>
     <string name="downloading">Преузимање</string>
-    <string name="notify_about_updates_summary">Приказује обавештење када је нова верзија апликације доступне</string>
+    <string name="notify_about_updates_summary">Приказује обавештење када је нова верзија апликације доступна</string>
     <string name="suggested">Предложено</string>
     <string name="permissions">Дозволе</string>
     <string name="open_DESC_FORMAT">Отворити %s\?</string>
