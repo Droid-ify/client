@@ -195,7 +195,7 @@
     <string name="shizuku_not_installed">Shizuku није инсталиран</string>
     <string name="unstable_updates">Нестабилна ажурирања</string>
     <string name="proxy_host">Хост проксија</string>
-    <string name="ignore_all_updates">Занемари све нове верзије</string>
+    <string name="ignore_all_updates">Занемари нове верзије</string>
     <string name="downloading_FORMAT">Преузимање %s…</string>
     <string name="integrity_check_error_DESC">Није могуће проверити интегритет.</string>
     <string name="application_not_found">Није могуће пронаћи ту апликацију</string>
