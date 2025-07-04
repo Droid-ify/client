@@ -208,11 +208,11 @@
     <string name="import_export">Резервна копија и враћање података</string>
     <string name="import_settings_DESC">Увезите подешавања и омиљене из фајла</string>
     <string name="export_settings_title">Извоз омиљених и подешавања</string>
-    <string name="export_repos_DESC">Извезите све репозиторијуме у фајл</string>
+    <string name="export_repos_DESC">Извезите репозиторијуме у фајл</string>
     <string name="import_repos_title">Увоз репозиторијума</string>
     <string name="export_settings_DESC">Извезите подешавања и омиљене у фајл</string>
     <string name="export_repos_title">Извоз репозиторијума</string>
-    <string name="import_repos_DESC">Увезите све репозиторијуме из фајла</string>
+    <string name="import_repos_DESC">Увезите репозиторијуме из фајла</string>
     <string name="cannot_open_link">Није могуће отворити линк</string>
     <string name="has_tethered_network">Везано за одређену мрежну услугу</string>
     <string name="require_background_access_DESC">Позадински приступ је неопходан за правилно покретање позадинске синхронизације</string>
