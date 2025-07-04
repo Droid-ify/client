@@ -3,7 +3,7 @@
     <string name="add_repository">Přidat zdroj</string>
     <string name="address">Adresa</string>
     <string name="all_applications_up_to_date">Všechny vaše aplikace jsou aktuální</string>
-    <string name="application_not_found">Nezdařilo se najít tuto aplikaci</string>
+    <string name="application_not_found">Aplikace nebyla nalezena</string>
     <string name="available">Procházet</string>
     <string name="bug_tracker">Sledování chyb</string>
     <string name="cancel">Zrušit</string>
@@ -191,8 +191,8 @@
     <string name="enable_repo">Povolit repozitář</string>
     <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
     <string name="installing">Instalace</string>
-    <string name="auto_update">Automatická aktualizace aplikací</string>
-    <string name="auto_update_apps">Pokusit se automaticky nainstalovat aktualizace</string>
+    <string name="auto_update">Automaticky aktualizovat aplikace</string>
+    <string name="auto_update_apps">Automaticky nainstalovat aktualizace</string>
     <string name="has_non_free_components">Obsahuje nesvobodné součásti</string>
     <string name="socket_error_DESC">Server neodeslal nový paket.</string>
     <string name="connection_error_DESC">Nepodařilo se připojit k serveru</string>
