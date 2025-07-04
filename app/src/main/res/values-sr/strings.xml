@@ -106,7 +106,7 @@
     <string name="signature_FORMAT">Потпис %s</string>
     <string name="link_copied_to_clipboard">Линк је копиран</string>
     <string name="processing_FORMAT">Обрада %1$s…</string>
-    <string name="shizuku_installer">Програм за инсталацију „Shizuku“</string>
+    <string name="shizuku_installer">Програм за инсталацију „Shizuku/Sui“</string>
     <string name="uninstall">Деинсталирај</string>
     <string name="skip">Прескочи</string>
     <string name="downloaded_FORMAT">Преузета је апликација %s</string>
@@ -237,7 +237,7 @@
     <string name="switch_to_default_installer">Промени на подразумевани</string>
     <string name="legacyInstallerComponent">Компонента застарелог програма за инсталацију</string>
     <string name="unspecified">Неодређено</string>
-    <string name="shizuku_legacy_installer">Застарели програм за инсталацију Shizuku</string>
+    <string name="shizuku_legacy_installer">Застарели програм за инсталацију „Shizuku/Sui“</string>
     <string name="always_choose">Увек изабери</string>
     <string name="select_installer">Избор програма за инсталацију</string>
     <string name="label_sdk_version">Циља: Android %1$s | Минимум: Android %2$s</string>
