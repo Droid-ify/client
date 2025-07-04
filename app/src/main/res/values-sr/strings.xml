@@ -20,7 +20,7 @@
     <string name="home_screen_swiping">Превлачење странице</string>
     <string name="incompatible_older_DESC">Ова верзија је старија од верзије инсталиране на вашем уређају</string>
     <string name="material_you_desc">Користите Material You боје</string>
-    <string name="only_on_wifi_with_charging">Само на Wi-Fi мрежи и током пуњења</string>
+    <string name="only_on_wifi_with_charging">Само на Wi-Fi мрежи током пуњења</string>
     <string name="sync_repositories">Синхронизуј репозиторијуме</string>
     <string name="root_installer">Програм за инсталацију „Root“</string>
     <string name="action_failed">Радња није успела</string>
