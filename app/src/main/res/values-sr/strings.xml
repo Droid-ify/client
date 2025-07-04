@@ -32,7 +32,7 @@
     <string name="password">Лозинка</string>
     <string name="cleanup_title">Интервал чишћења APK-а</string>
     <string name="repository_unsigned_DESC">Није пронађен потпис. Није могуће проверити листу апликација.</string>
-    <string name="contains_nsfw">Садржи садржај који није безбедан за рад</string>
+    <string name="contains_nsfw">Садржи садржај који није безбедан за рад (NSFW садржај)</string>
     <string name="select_mirror">Изаберите резервни извор</string>
     <string name="has_non_free_components">Има неслободне компоненте</string>
     <string name="promotes_non_free_network_services">Промовише или у потпуности зависи од неслободне мрежне услуге</string>
@@ -40,7 +40,7 @@
     <string name="favourites">Омиљено</string>
     <string name="tracks_or_reports_your_activity">Прати или пријављује вашу активност</string>
     <string name="invalid_signature_error_DESC">Неважећи потпис</string>
-    <string name="website">Веб-сајт</string>
+    <string name="website">Веб-сајт пројекта</string>
     <string name="no_applications_installed">Нема инсталираних апликација</string>
     <string name="anti_features">Непоуздане функције</string>
     <string name="http_error_DESC">Неважећи одговор сервера</string>
