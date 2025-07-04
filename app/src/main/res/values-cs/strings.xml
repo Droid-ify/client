@@ -192,7 +192,7 @@
     <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
     <string name="installing">Instalace</string>
     <string name="auto_update">Automaticky aktualizovat aplikace</string>
-    <string name="auto_update_apps">Automaticky nainstalovat aktualizace</string>
+    <string name="auto_update_apps">Automaticky instalovat aktualizace</string>
     <string name="has_non_free_components">Obsahuje nesvobodné součásti</string>
     <string name="socket_error_DESC">Server neodeslal nový paket.</string>
     <string name="connection_error_DESC">Nepodařilo se připojit k serveru</string>
