@@ -13,12 +13,12 @@
     </plurals>
     <string name="could_not_download_FORMAT">Није могуће преузети %s</string>
     <string name="source_code_no_longer_available">Изворни кôд више није доступан</string>
-    <string name="incompatible_signature_DESC">Ова верзија је потписана другачијим сертификатом од верзије која је инсталирана на вашем уређају. Прво то деинсталирајте.</string>
+    <string name="incompatible_signature_DESC">Ова верзија је потписана другачијим потписом од оног који је инсталиран на вашем уређају</string>
     <string name="save">Сачувај</string>
     <string name="sync_repositories_automatically">Аутоматска синхронизација репозиторијума</string>
     <string name="update_all">Ажурирај све</string>
     <string name="home_screen_swiping">Превлачење странице</string>
-    <string name="incompatible_older_DESC">Ова верзија је старија од верзије инсталиране на вашем уређају. Прво то деинсталирајте.</string>
+    <string name="incompatible_older_DESC">Ова верзија је старија од верзије инсталиране на вашем уређају</string>
     <string name="material_you_desc">Користите Material You тему боја</string>
     <string name="only_on_wifi_with_charging">Само на Wi-Fi мрежи и током пуњења</string>
     <string name="sync_repositories">Синхронизуј репозиторијуме</string>
@@ -66,13 +66,13 @@
     </plurals>
     <string name="could_not_sync_FORMAT">Није могуће синхронизовати %s</string>
     <string name="installing">Инсталирање</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Ваша платформа %1$s није подржана. Подржане платформе: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Ваша архитектура %1$s није подржана. Подржане архитектуре: %2$s.</string>
     <string name="repository_unreachable">Репозиторијум је недоступан</string>
     <string name="username_missing">Недостаје корисничко име</string>
     <string name="connecting">Повезивање…</string>
     <string name="update">Ажурирање</string>
     <string name="show_more">Прикажи више</string>
-    <string name="incompatible_features_DESC">Недостају функције.</string>
+    <string name="incompatible_features_DESC">Недостају функције</string>
     <string name="no_applications_available">Нема доступних апликација</string>
     <string name="force_clean_up">Присилно чишћење</string>
     <string name="theme">Тема</string>
@@ -147,7 +147,7 @@
     <string name="amoled">Црна</string>
     <string name="syncing">Синхронизација</string>
     <string name="prefs_language_title">Језик</string>
-    <string name="install_types">Врсте инсталације</string>
+    <string name="install_types">Инсталација</string>
     <string name="legacy_installer">Програм за инсталацију „Застарело“</string>
     <string name="search">Претрага</string>
     <string name="unknown_error_DESC">Непозната грешка.</string>
@@ -224,7 +224,7 @@
     <string name="ignore_signature">Занемари потпис</string>
     <string name="ignore_signature_summary">Упозорење: Занемарите верификацију потписа када инсталирате apk, за LSPosed кориснике или напредне кориснике</string>
     <string name="insufficient_storage">Недовољно меморије</string>
-    <string name="insufficient_storage_DESC">Нема довољно слободног меморијског простора на уређају за инсталирање ове апликације. Покушајте да ослободите мало простора</string>
+    <string name="insufficient_storage_DESC">Нема довољно слободног меморијског простора за инсталирање ове апликације</string>
     <string name="error_shizuku_service_unavailable">Shizuku није покренут</string>
     <string name="error_shizuku_not_granted_DESC">Дозвола за услугу Shizuku није дата. Проверите у апликацији Shizuku</string>
     <string name="error_shizuku_not_installed">Shizuku није инсталиран</string>
