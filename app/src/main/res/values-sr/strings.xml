@@ -17,7 +17,7 @@
     <string name="save">Сачувај</string>
     <string name="sync_repositories_automatically">Аутоматска синхронизација репозиторијума</string>
     <string name="update_all">Ажурирај све</string>
-    <string name="home_screen_swiping">Превлачење почетног екрана</string>
+    <string name="home_screen_swiping">Превлачење странице</string>
     <string name="incompatible_older_DESC">Ова верзија је старија од верзије инсталиране на вашем уређају. Прво то деинсталирајте.</string>
     <string name="material_you_desc">Користите Material You тему боја</string>
     <string name="only_on_wifi_with_charging">Само на Wi-Fi мрежи и током пуњења</string>
@@ -43,7 +43,7 @@
     <string name="website">Веб-сајт</string>
     <string name="no_applications_installed">Нема инсталираних апликација</string>
     <string name="anti_features">Непоуздане функције</string>
-    <string name="http_error_DESC">Неважећи одговор сервера.</string>
+    <string name="http_error_DESC">Неважећи одговор сервера</string>
     <string name="merging_FORMAT">Спајање %s</string>
     <string name="waiting_to_start_download">Чека се почетак преузимања…</string>
     <string name="auto_update_apps">Покушајте да аутоматски инсталирате ажурирања</string>
@@ -55,7 +55,7 @@
     <string name="validation_index_error_DESC">Није могуће потврдити индекс.</string>
     <string name="new_updates_available">Доступне су нове верзије апликација</string>
     <string name="all_applications_up_to_date">Све ваше апликације су ажуриране</string>
-    <string name="has_non_free_dependencies">Има неслободне зависности</string>
+    <string name="has_non_free_dependencies">Зависи од других апликација које нису бесплатне</string>
     <string name="changelog">Евиденција промена</string>
     <string name="shizuku_not_alive">Shizuku није покренут</string>
     <string name="unknown">Непознато</string>
@@ -95,13 +95,13 @@
     <string name="delete">Избриши</string>
     <string name="repository">Репозиторијум</string>
     <string name="only_compatible_with_FORMAT">Компатибилно само са %s</string>
-    <string name="socket_error_DESC">Сервер није успео да обезбеди нови пакет.</string>
+    <string name="socket_error_DESC">Сервер није успео да обезбеди нови пакет</string>
     <string name="unstable_updates_summary">Предлаже инсталирање нестабилних верзија</string>
     <string name="version">Верзија</string>
     <string name="ok">У реду</string>
     <string name="io_error_DESC">Није могуће извршити одређене радње.</string>
     <string name="prefs_personalization">Персонализација</string>
-    <string name="has_security_vulnerabilities">Има безбедносне пропусте</string>
+    <string name="has_security_vulnerabilities">Има познате безбедносне пропусте</string>
     <string name="other">Остало</string>
     <string name="signature_FORMAT">Потпис %s</string>
     <string name="link_copied_to_clipboard">Линк је копиран</string>
@@ -132,7 +132,7 @@
     <string name="invalid_fingerprint_format">Неважећи формат отиска прста</string>
     <string name="saving_details">Чување детаља…</string>
     <string name="links">Линкови</string>
-    <string name="has_advertising">Има огласе</string>
+    <string name="has_advertising">Садржи огласе</string>
     <string name="dark">Тамна</string>
     <string name="whats_new">Шта је ново</string>
     <string name="tap_to_install_DESC">Додирните да бисте инсталирали.</string>
@@ -152,13 +152,13 @@
     <string name="search">Претрага</string>
     <string name="unknown_error_DESC">Непозната грешка.</string>
     <string name="themes">Теме</string>
-    <string name="file_format_error_DESC">Неважећи формат фајла.</string>
+    <string name="file_format_error_DESC">Неважећи формат фајла</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d апликација има нову верзију.</item>
         <item quantity="few">%d апликације имају нове верзије.</item>
         <item quantity="other">%d апликација има нове верзије.</item>
     </plurals>
-    <string name="home_screen_swiping_DESC">Дозвољава кориснику да прелази између страница на почетном екрану</string>
+    <string name="home_screen_swiping_DESC">Превуците прстом лево или десно да бисте пребацили страницу</string>
     <string name="proxy_type">Врста проксија</string>
     <string name="delete_repository_DESC">Избрисати репозиторијум\?</string>
     <string name="enable_repo">Омогући репозиторијум</string>
@@ -214,7 +214,7 @@
     <string name="export_repos_title">Извоз репозиторијума</string>
     <string name="import_repos_DESC">Увезите репозиторијуме из фајла</string>
     <string name="cannot_open_link">Није могуће отворити линк</string>
-    <string name="has_tethered_network">Везано за одређену мрежну услугу</string>
+    <string name="has_tethered_network">Зависи од одређене инстанце мрежне услуге</string>
     <string name="require_background_access_DESC">Позадински приступ је неопходан за правилно покретање позадинске синхронизације</string>
     <string name="require_background_access">Захтева позадински приступ</string>
     <string name="uninstalled_application">Деинсталирано</string>
