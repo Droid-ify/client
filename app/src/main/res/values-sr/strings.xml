@@ -204,10 +204,10 @@
     <string name="repositories">Репозиторијуми</string>
     <string name="compiled_for_debugging">Састављено за отклањање грешака</string>
     <string name="unknown_FORMAT">Непознато: %s</string>
-    <string name="import_settings_title">Увоз подешавања</string>
-    <string name="import_export">Увоз/Извоз</string>
+    <string name="import_settings_title">Увоз омиљених и подешавања</string>
+    <string name="import_export">Резервна копија и враћање података</string>
     <string name="import_settings_DESC">Увезите подешавања и омиљене из фајла</string>
-    <string name="export_settings_title">Извоз подешавања</string>
+    <string name="export_settings_title">Извоз омиљених и подешавања</string>
     <string name="export_repos_DESC">Извезите све репозиторијуме у фајл</string>
     <string name="import_repos_title">Увоз репозиторијума</string>
     <string name="export_settings_DESC">Извезите подешавања и омиљене у фајл</string>
@@ -228,7 +228,7 @@
     <string name="error_shizuku_service_unavailable">Shizuku није покренут</string>
     <string name="error_shizuku_not_granted_DESC">Дозвола за услугу Shizuku није дата. Проверите у апликацији Shizuku</string>
     <string name="error_shizuku_not_installed">Shizuku није инсталиран</string>
-    <string name="error_shizuku_not_installed_DESC">Изгледа да Shizuku није инсталиран</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku није инсталиран</string>
     <string name="label_open_video">Видео снимак</string>
     <string name="label_unknown_sdk">Непознато (%d)</string>
     <string name="error_shizuku_not_running_DESC">Услуга Shizuku није покренута. Проверите у апликацији Shizuku</string>
