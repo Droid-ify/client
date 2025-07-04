@@ -60,7 +60,7 @@
     <string name="downloaded_FORMAT">已下載 %s</string>
     <string name="downloading">下載中</string>
     <string name="downloading_FORMAT">正在下載 %s……</string>
-    <string name="edit_repository">編輯儲存庫</string>
+    <string name="edit_repository">編輯</string>
     <string name="file_format_error_DESC">檔案格式無效。</string>
     <string name="fingerprint">指紋</string>
     <string name="has_advertising">包含廣告</string>
@@ -184,7 +184,7 @@
     <string name="enable_repo">啟用存儲庫</string>
     <string name="force_clean_up">強迫清理</string>
     <string name="auto_update">自動更新程式</string>
-    <string name="auto_update_apps">嘗試自動安裝更新</string>
+    <string name="auto_update_apps">自動安裝更新</string>
     <string name="installing">安裝</string>
     <string name="waiting_to_start_installation">等待開始安裝…</string>
     <string name="has_non_free_components">具有非自由元件</string>
@@ -217,10 +217,10 @@
     <string name="uninstalled_application_DESC">%s 已被解除安裝</string>
     <string name="ignore_signature">忽略簽章</string>
     <string name="ignore_signature_summary">安裝 apk 時忽略簽章驗證，適用於 LSPosed 或進階使用者</string>
-    <string name="error_shizuku_service_unavailable">Shizuku 未運行</string>
-    <string name="error_shizuku_not_running_DESC">Shizuku 服務未運行，請在 Shizuku App 中檢查。</string>
-    <string name="error_shizuku_not_granted">缺少 Shizuku 權限</string>
-    <string name="error_shizuku_not_granted_DESC">未授予 Shizuku 服務權限，請在 Shizuku App 中檢查。</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui 服務未運行</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku/Sui 服務未運行。</string>
+    <string name="error_shizuku_not_granted">缺少 Shizuku/Sui 權限</string>
+    <string name="error_shizuku_not_granted_DESC">未授予 Shizuku/Sui 服務權限</string>
     <string name="error_shizuku_not_installed">未安裝 Shizuku</string>
     <string name="error_shizuku_not_installed_DESC">似乎沒有安裝 Shizuku</string>
     <string name="insufficient_storage">空間不足</string>
