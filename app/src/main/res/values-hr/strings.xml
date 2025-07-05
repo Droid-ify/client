@@ -60,7 +60,7 @@
     <string name="author_website">Web stranica autora</string>
     <string name="bug_tracker">Alat za praćenje grešaka</string>
     <string name="cancel">Otkaži</string>
-    <string name="cant_edit_sync_DESC">Nije moguće urediti repozitorij jer je u tijeku njegova sinkronizacija.</string>
+    <string name="cant_edit_sync_DESC">Nije moguće urediti repozitorij dok se sinkronizira</string>
     <string name="changelog">Popis promjena</string>
     <string name="changes">Promjene</string>
     <string name="checking_repository">Provjeravam repozitorij…</string>
