@@ -71,7 +71,7 @@
     <string name="notify_about_updates">Powiadamiaj o aktualizacjach</string>
     <string name="downloaded_FORMAT">Pobrano %s</string>
     <string name="downloading">Pobieranie</string>
-    <string name="edit_repository">Edytuj repozytorium</string>
+    <string name="edit_repository">Edytuj</string>
     <string name="has_security_vulnerabilities">Posiada luki w zabezpieczeniach</string>
     <string name="incompatible_api_DESC_FORMAT">Twój %1$s (wersja API %2$d) nie jest obsługiwany. %3$s</string>
     <string name="available">Przeglądaj</string>
@@ -84,7 +84,7 @@
     <string name="no_applications_installed">Brak zainstalowanych aplikacji</string>
     <string name="signed_using_unsafe_algorithm">Podpisane przy użyciu niebezpiecznego algorytmu</string>
     <string name="application">Aplikacja</string>
-    <string name="cant_edit_sync_DESC">Nie można edytować repozytorium, ponieważ jest ono w tej chwili synchronizowane.</string>
+    <string name="cant_edit_sync_DESC">Nie można edytować repozytorium podczas synchronizacji</string>
     <string name="changelog">Lista zmian</string>
     <string name="dark">Ciemny</string>
     <string name="incompatible_features_DESC">Brakujące funkcje.</string>
@@ -194,7 +194,7 @@
     <string name="force_clean_up">Wymuś oczyszczenie</string>
     <string name="repository_unreachable">Repozytorium nieosiągalne</string>
     <string name="auto_update">Aktualizuj aplikacje automatycznie</string>
-    <string name="auto_update_apps">Spróbuj zainstalować aktualizacje automatycznie</string>
+    <string name="auto_update_apps">Instaluj aktualizacje automatycznie</string>
     <string name="force_clean_up_DESC">Czyści zbędne pliki</string>
     <string name="has_non_free_components">Posiada niewolne komponenty</string>
     <string name="shizuku_not_alive">Shizuku nie działa</string>
@@ -208,7 +208,7 @@
     <string name="proxy_port_error_not_int">Port proxy może być tylko liczbą naturalną</string>
     <string name="repository_not_found">Nie znaleziono następującego repozytorium</string>
     <string name="import_settings_title">Przywróć ustawienia</string>
-    <string name="import_export">Import/Eksport</string>
+    <string name="import_export">GKopia zapasowa i przywracanie</string>
     <string name="import_settings_DESC">Przywróć ustawienia i ulubione z pliku</string>
     <string name="export_settings_title">Eksportuj ustawienia</string>
     <string name="export_repos_DESC">Zapisz wszystkie repozytoria do pliku</string>
@@ -228,15 +228,15 @@
     <string name="ignore_signature_summary">*Uwaga* Ignorowanie weryfikacji podpisu podczas instalacji apk, dla użytkowników LSPosed lub zaawansowanych użytkowników</string>
     <string name="insufficient_storage">Za mało miejsca</string>
     <string name="insufficient_storage_DESC">Nie można zainstalować aplikacji z powodu małej ilości miejsca na urządzeniu. Zwolnij trochę miejsca</string>
-    <string name="error_shizuku_service_unavailable">Shizuku nie działa</string>
-    <string name="error_shizuku_not_running_DESC">Usługa Shizuku nie działa, sprawdź aplikację Shizuku</string>
-    <string name="error_shizuku_not_granted">Brak uprawnienia Shizuku</string>
-    <string name="error_shizuku_not_granted_DESC">Nie przyznano uprawnienia usługi Shizuku. Sprawdź w aplikacji Shizuku</string>
-    <string name="error_shizuku_not_installed_DESC">Wygląda na to, że Shizuku nie jest zainstalowane</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui nie działa</string>
+    <string name="error_shizuku_not_running_DESC">Usługa Shizuku/Sui nie jest uruchomiona</string>
+    <string name="error_shizuku_not_granted">Brak przyznanych uprawnień Shizuku/Sui</string>
+    <string name="error_shizuku_not_granted_DESC">Nie przyznano uprawnienia Shizuku/Sui</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku/Sui nie jest zainstalowane</string>
     <string name="open_shizuku">Otwórz Shizuku</string>
     <string name="switch_to_default_installer">Przełącz na domyślny</string>
     <string name="label_unknown_sdk">Nieznany (%d)</string>
-    <string name="error_shizuku_not_installed">Shizuku nie jest zainstalowane</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui nie jest zainstalowane</string>
     <string name="label_open_video">Wideo</string>
     <string name="unspecified">Nieokreślony</string>
     <string name="legacyInstallerComponent">Starszy komponent instalatora</string>
