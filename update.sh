@@ -26,7 +26,7 @@ done
 
 # Validate version format
 if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
-  echo "Invalid version format. Please use X.Y.Z or X.Y.Z.W"
+  echo "Invalid version format. Please use -v=X.Y.Z or --version=X.Y.Z.W"
   exit 1
 fi
 
