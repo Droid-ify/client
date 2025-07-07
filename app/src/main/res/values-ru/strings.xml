@@ -52,7 +52,7 @@
     <string name="incompatible_api_min_DESC_FORMAT">Минимальная версия API - %d</string>
     <string name="incompatible_features_DESC">Отсутствующие функции</string>
     <string name="incompatible_older_DESC">Эта версия старше, чем установленная на вашем устройстве</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Ваша архитектура %1$s не поддерживается. Поддерживаемые архитектуры: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Ваша архитектура %1$s не поддерживается. Поддерживаемые архитектуры: %2$s</string>
     <string name="incompatible_signature_DESC">Эта версия подписана подписью, отличающейся от установленной на вашем устройстве</string>
     <string name="incompatible_version">Несовместимая версия</string>
     <string name="incompatible_versions">Несовместимые версии</string>
