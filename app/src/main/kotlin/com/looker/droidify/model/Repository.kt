@@ -129,9 +129,9 @@ data class Repository(
                 name = "IzzyOnDroid F-Droid Repo",
                 description = "This is a repository of apps to be used with" +
                     " F-Droid the original application developers, taken" +
-                    " from the resp. repositories (mostly GitHub). At thi" +
+                    " from the responsible repositories. At thi" +
                     "s moment I cannot give guarantees on regular updates" +
-                    " for all of them, though most are checked multiple times a week ",
+                    " for all of them, though most are checked multiple times a week.",
                 enabled = true,
                 fingerprint = "3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A"
             ),
@@ -161,7 +161,7 @@ data class Repository(
                 address = "https://archive.newpipe.net/fdroid/repo",
                 name = "NewPipe",
                 description = "The official repository for NewPipe." +
-                    " NewPipe is a lightweight client for Youtube, PeerTube" +
+                    " NewPipe is a lightweight client for YouTube, PeerTube" +
                     ", Soundcloud, etc.",
                 fingerprint = "E2402C78F9B97C6C89E97DB914A2751FDA1D02FE2039CC0897A462BDB57E7501"
             ),
@@ -186,7 +186,7 @@ data class Repository(
             defaultRepository(
                 address = "https://divestos.org/fdroid/official",
                 name = "Divest OS Repo",
-                description = "The official Divest OS F-Droid repository.",
+                description = "The official DivestOS F-Droid repository.",
                 fingerprint = "E4BE8D6ABFA4D9D4FEEF03CDDA7FF62A73FD64B75566F6DD4E5E577550BE8467"
             ),
             defaultRepository(
@@ -208,7 +208,7 @@ data class Repository(
                 address = "https://thecapslock.gitlab.io/fdroid-patched-apps/fdroid/repo",
                 name = "Patched Apps",
                 description = "A collection of patched applications to provid" +
-                    "e better compatibility, privacy etc..",
+                    "e better compatibility, privacy etc.",
                 fingerprint = "313D9E6E789FF4E8E2D687AAE31EEF576050003ED67963301821AC6D3763E3AC"
             ),
             defaultRepository(
@@ -250,7 +250,7 @@ data class Repository(
                 address = "https://fdroid.getsession.org/fdroid/repo",
                 name = "Session",
                 description = "The official repository for Session. Session" +
-                    " is an open-source messenger focused on security and privacy.",
+                    " is an open source messenger focused on security and privacy.",
                 fingerprint = "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6"
             ),
             defaultRepository(
@@ -364,7 +364,7 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://f5a.torus.icu/fdroid/repo",
-                name = "Fcitx 5 For Android F-Droid Repo",
+                name = "Fcitx5 for Android F-Droid Repo",
                 description = "Out-of-tree fcitx5-android plugins.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
