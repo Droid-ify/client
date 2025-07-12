@@ -14,7 +14,7 @@
     <string name="available">Εξερευνήστε</string>
     <string name="bug_tracker">Ινχηλάτης προβλημάτων</string>
     <string name="cancel">Ακύρωση</string>
-    <string name="cant_edit_sync_DESC">Δεν μπορείτε να τροποποιήσετε το αποθετήριο καθώς συγχρονίζεται.</string>
+    <string name="cant_edit_sync_DESC">Δεν μπορείτε να τροποποιήσετε το αποθετήριο καθώς συγχρονίζεται</string>
     <string name="changelog">Κατάλογος αλλαγών</string>
     <string name="changes">Αλλαγές</string>
     <string name="checking_repository">Έλεγχος αποθετηρίου…</string>
@@ -34,7 +34,7 @@
     <string name="downloaded_FORMAT">Έγινε λήψη %s</string>
     <string name="downloading">Γίνεται λήψη</string>
     <string name="downloading_FORMAT">Γίνεται λήψη %s…</string>
-    <string name="edit_repository">Επεξεργασία αποθετηρίου</string>
+    <string name="edit_repository">Επεξεργασία</string>
     <string name="file_format_error_DESC">Μη έγκυρος τύπος αρχείου.</string>
     <string name="fingerprint">Αποτύπωμα</string>
     <string name="has_advertising">Περιέχει διαφημίσεις</string>
@@ -170,8 +170,8 @@
     <string name="update_all">Ενημέρωση όλων</string>
     <string name="cleanup_title">APK cleanup interval</string>
     <plurals name="days">
-        <item quantity="one">Ημέρα</item>
-        <item quantity="other">Ημέρες</item>
+        <item quantity="one">ημέρα</item>
+        <item quantity="other">ημέρες</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Ώρα</item>
@@ -202,7 +202,7 @@
     <string name="repository_not_found">Το παρακάτω αποθετήριο δεν βρέθηκε</string>
     <string name="proxy_port_error_not_int">Η θύρα Proxy μπορεί να είναι μόνο Ακέραιος</string>
     <string name="import_settings_title">Εισαγωγή Ρυθμίσεων</string>
-    <string name="import_export">Εισαγωγή/Εξαγωγή</string>
+    <string name="import_export">Αντίγραφο ασφ/Επαναφορά</string>
     <string name="import_settings_DESC">Εισαγωγή ρυθμίσεων και αγαπημένων από το αρχείο</string>
     <string name="export_settings_title">Εξαγωγή Ρυθμίσεων</string>
     <string name="export_repos_DESC">Εξαγωγή όλων των αποθετηρίων σε αρχείο</string>
@@ -220,17 +220,17 @@
     <string name="uninstalled_application_DESC">Το %s απεγκαταστάθηκε</string>
     <string name="ignore_signature">Αγνόησή Υπογραφής</string>
     <string name="ignore_signature_summary">Αγνοήστε την επαλήθευση υπογραφής κατά την εγκατάσταση apk, για χρήστες με LSP ή προχωρημένους χρήστες</string>
-    <string name="error_shizuku_not_granted_DESC">Η άδεια λειτουργίας της υπηρεσίας Shizuku δεν έχει παραχωρηθεί. Ελέγξτε την εφαρμογή Shizuku</string>
-    <string name="error_shizuku_not_installed">Το Shizuku δεν έχει εγκατασταθεί</string>
+    <string name="error_shizuku_not_granted_DESC">Η άδεια λειτουργίας της υπηρεσίας Shizuku/Sui δεν έχει παραχωρηθεί</string>
+    <string name="error_shizuku_not_installed">Το Shizuku/Sui δεν έχει εγκατασταθεί</string>
     <string name="open_shizuku">Άνοιγμα Shizuku</string>
     <string name="label_unknown_sdk">Άγνωστο (%d)</string>
     <string name="label_open_video">Βίντεο</string>
     <string name="switch_to_default_installer">Μετάβαση στην Προεπιλογή</string>
     <string name="insufficient_storage">Ανεπαρκής Χώρος</string>
-    <string name="error_shizuku_not_installed_DESC">Το Shizuku δεν φαίνεται να είναι εγκατεστημένο</string>
-    <string name="error_shizuku_service_unavailable">Δεν είναι σε λειτουργία το Shizuku</string>
-    <string name="error_shizuku_not_running_DESC">Η υπηρεσία Shizuku δεν λειτουργεί. Ελέγξτε την εφαρμογή Shizuku</string>
-    <string name="error_shizuku_not_granted">Λείπει η άδεια Shizuku</string>
+    <string name="error_shizuku_not_installed_DESC">Το Shizuku/Sui δεν είναι εγκατεστημένο</string>
+    <string name="error_shizuku_service_unavailable">Δεν εκτελείται το Shizuku/Sui</string>
+    <string name="error_shizuku_not_running_DESC">Η υπηρεσία Shizuku/Sui δεν λειτουργεί</string>
+    <string name="error_shizuku_not_granted">Λείπει η άδεια Shizuku/Sui</string>
     <string name="insufficient_storage_DESC">Δεν υπάρχει αρκετός ελεύθερος χώρος στη συσκευή για την εγκατάσταση αυτής της εφαρμογής. Προσπαθήστε να ελευθερώσετε και να καθαρίσετε λίγο χώρο</string>
     <string name="unspecified">Απροσδιόριστο</string>
     <string name="legacyInstallerComponent">Εξάρτημα Απαρχαιωμένου Εγκαταστάτη</string>
