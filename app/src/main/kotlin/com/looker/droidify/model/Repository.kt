@@ -184,12 +184,6 @@ data class Repository(
                 fingerprint = "C44D58B4547DE5096138CB0B34A1CC99DAB3B4274412ED753FCCBFC11DC1B7B6"
             ),
             defaultRepository(
-                address = "https://divestos.org/fdroid/official",
-                name = "DivestOS repository",
-                description = "The official DivestOS F-Droid repository.",
-                fingerprint = "E4BE8D6ABFA4D9D4FEEF03CDDA7FF62A73FD64B75566F6DD4E5E577550BE8467"
-            ),
-            defaultRepository(
                 address = "https://fdroid.fedilab.app/repo",
                 name = "Fedilab",
                 description = "The official repository for Fedilab. Fedilab is a " +
@@ -300,13 +294,6 @@ data class Repository(
                 fingerprint = "f7c3ec3b0d588d3cb52983e9eb1a7421c93d4339a286398e71d7b651e8d8ecdd"
             ),
             defaultRepository(
-                address = "https://divestos.org/apks/unofficial/fdroid/repo",
-                name = "DivestOS Unofficial",
-                description = "This repository contains unofficial builds of open source apps" +
-                    " that are not included in the other repositories.",
-                fingerprint = "a18cdb92f40ebfbbf778a54fd12dbd74d90f1490cb9ef2cc6c7e682dd556855d"
-            ),
-            defaultRepository(
                 address = "https://cdn.kde.org/android/stable-releases/fdroid/repo",
                 name = "KDE Stables",
                 description = "This repository contains unofficial builds of open source apps" +
@@ -372,7 +359,7 @@ data class Repository(
                 address = "https://fdroid.i2pd.xyz/fdroid/repo/",
                 name = "PurpleI2P F-Droid repository",
                 description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
-                fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
+                fingerprint = "2B9564B0895EEAC039E854C6B065291B01E6A9CA02939CEDD0D35CF44BEE78E0"
             ),
         )
 
@@ -422,7 +409,9 @@ data class Repository(
             // Add repository addresses that should be removed during database upgrades and remove them from the lists above
             // Example: "https://example.com/fdroid/repo"
             "https://secfirst.org/fdroid/repo",
-            "https://fdroid.libretro.com/repo"
+            "https://fdroid.libretro.com/repo",
+            "https://divestos.org/apks/unofficial/fdroid/repo",
+            "https://divestos.org/fdroid/official"
         )
     }
 }
