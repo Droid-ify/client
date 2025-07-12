@@ -216,7 +216,7 @@
     <string name="error_shizuku_not_granted_DESC">Shizuku 서비스 권한이 허용되어 있지 않습니다. Shizuku 앱에서 확인해 보세요.</string>
     <string name="uninstalled_application_DESC">%s 앱을 제거했습니다.</string>
     <string name="installation_failed_DESC">%s 앱을 설치하지 못했습니다.</string>
-    <string name="error_shizuku_service_unavailable">Shizkuku가 실행 중이 아님</string>
+    <string name="error_shizuku_service_unavailable">Shizkuku가 실행중 아님</string>
     <string name="error_shizuku_not_running_DESC">Shizuku 서비스가 실행 중이 아닙니다. Shizuku 앱에서 확인해 보세요.</string>
     <string name="error_shizuku_not_granted">Shizuku 권한 필요</string>
     <string name="error_shizuku_not_installed">Shizuku가 설치되어 있지 않음</string>
