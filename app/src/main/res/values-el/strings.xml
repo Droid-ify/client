@@ -148,8 +148,8 @@
     <string name="website">Ιστοσελίδα</string>
     <string name="has_security_vulnerabilities">Έχει γνωστές ευπάθειες ασφαλείας</string>
     <string name="incompatible_api_DESC_FORMAT">Το %1$s σας (έκδοση API %2$d) δεν υποστηρίζεται. %3$s</string>
-    <string name="incompatible_older_DESC">Αυτή η έκδοση είναι παλαιότερη από αυτήν που είναι εγκατεστημένη στη συσκευή σας</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Η %1$s πλατφόρμα σας δεν υποστηρίζεται. Υποστηριζόμενες πλατφόρμες: %2$s.</string>
+    <string name="incompatible_older_DESC">Αυτή η έκδοση είναι παλαιότερη απ\' αυτήν που \'ναι εγκατεστημένη στη συσκευή σας</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Η αρχιτεκτονική σας %1$s δεν υποστηρίζεται. Υποστηριζόμενες αρχιτεκτονικές: %2$s.</string>
     <string name="action_failed">Η ενέργεια απέτυχε</string>
     <string name="incompatible_signature_DESC">Αυτή η έκδοση είναι υπογεγραμμένη με ένα διαφορετικό πιστοποιητικό από αυτή που είναι εγκατεστημένη στη συσκευή σας. Απεγκαταστήστε εκείνη πρώτα.</string>
     <string name="integrity_check_error_DESC">Αδυναμία ελέγχου ακεραιότητας.</string>
