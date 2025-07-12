@@ -5,8 +5,10 @@ import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.droidifyDatabase
+import com.looker.droidify.domain.PrivacyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,4 +50,16 @@ object DatabaseModule {
     fun provideIndexDao(
         db: DroidifyDatabase,
     ): IndexDao = db.indexDao()
+
+    @Singleton
+    @Provides
+    fun provideRBLogDao(
+        db: DroidifyDatabase,
+    ): RBLogDao = db.rbLogDao()
+
+    @Singleton
+    @Provides
+    fun providePrivacyRepository(
+        rblDao: RBLogDao,
+    ): PrivacyRepository = PrivacyRepository(rblDao)
 }

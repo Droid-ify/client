@@ -2,6 +2,7 @@ package com.looker.droidify.di
 
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.KtorDownloader
+import com.looker.droidify.network.RBLogAPI
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +25,7 @@ object NetworkModule {
         dispatcher = dispatcher,
     )
 
+    @Singleton
+    @Provides
+    fun provideRBLogAPI(): RBLogAPI = RBLogAPI()
 }

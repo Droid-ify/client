@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local
 
 import android.content.Context
+import androidx.room.AutoMigration
 import androidx.room.BuiltInTypeConverters
 import androidx.room.Database
 import androidx.room.Room
@@ -12,6 +13,7 @@ import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureAppRelation
 import com.looker.droidify.data.local.model.AntiFeatureEntity
@@ -27,6 +29,7 @@ import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.InstalledEntity
 import com.looker.droidify.data.local.model.LinksEntity
 import com.looker.droidify.data.local.model.MirrorEntity
+import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.ScreenshotEntity
 import com.looker.droidify.data.local.model.VersionEntity
@@ -50,8 +53,16 @@ import com.looker.droidify.data.local.model.VersionEntity
         RepoEntity::class,
         ScreenshotEntity::class,
         VersionEntity::class,
+        RBLogEntity::class,
     ],
-    version = 1,
+    version = 2,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(
+            from = 1,
+            to = 2,
+        ),
+    ],
 )
 @TypeConverters(
     PermissionConverter::class,
@@ -63,6 +74,7 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun repoDao(): RepoDao
     abstract fun authDao(): AuthDao
     abstract fun indexDao(): IndexDao
+    abstract fun rbLogDao(): RBLogDao
 }
 
 fun droidifyDatabase(context: Context): DroidifyDatabase = Room
