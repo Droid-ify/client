@@ -9,12 +9,12 @@
     <string name="anti_features">Ανεπιθύμητα χαρακτηριστικά</string>
     <string name="application">Εφαρμογή</string>
     <string name="application_not_found">Η εφαρμογή δε βρέθηκε</string>
-    <string name="author_email">Διεύθυνση ηλεκτρονικού ταχυδρομείου συντάκτη</string>
+    <string name="author_email">Διεύθυνση email συντάκτη</string>
     <string name="author_website">Ιστοσελίδα συντάκτη</string>
     <string name="available">Εξερευνήστε</string>
     <string name="bug_tracker">Ινχηλάτης προβλημάτων</string>
     <string name="cancel">Ακύρωση</string>
-    <string name="cant_edit_sync_DESC">Δεν μπορείτε να τροποποιήσετε το αποθετήριο καθώς συγχρονίζεται αυτή τη στιγμή.</string>
+    <string name="cant_edit_sync_DESC">Δεν μπορείτε να τροποποιήσετε το αποθετήριο καθώς συγχρονίζεται.</string>
     <string name="changelog">Κατάλογος αλλαγών</string>
     <string name="changes">Αλλαγές</string>
     <string name="checking_repository">Έλεγχος αποθετηρίου…</string>
@@ -189,7 +189,7 @@
     <string name="installing">Εγκατάσταση</string>
     <string name="waiting_to_start_installation">Αναμονή για έναρξη εγκατάστασης…</string>
     <string name="auto_update">Αυτόματη ενημέρωση εφαρμογών</string>
-    <string name="auto_update_apps">Προσπαθήστε να εγκαταστήσετε αυτόματα ενημερώσεις</string>
+    <string name="auto_update_apps">Εγκαταστήσετε αυτόματα ενημερώσεις</string>
     <string name="has_non_free_components">Διαθέτει μη-ελεύθερα στοιχεία</string>
     <string name="socket_error_DESC">Ο διακομιστής απέτυχε να παράσχει νέο πακέτο.</string>
     <string name="connection_error_DESC">Δε μπόρεσε να συνδεθεί με τον διακομιστή</string>
@@ -211,7 +211,7 @@
     <string name="export_repos_title">Εξαγωγή Αποθετηρίων</string>
     <string name="import_repos_DESC">Εισαγωγή όλων των αποθετηρίων από το αρχείο</string>
     <string name="has_tethered_network">Δεσμευμένο σε μια συγκεκριμένη υπηρεσία δικτύου</string>
-    <string name="cannot_open_link">Δεν είναι δυνατό το άνοιγμα του συνδέσμου</string>
+    <string name="cannot_open_link">Δεν είναι δυνατό το άνοιγμα συνδέσμου</string>
     <string name="require_background_access">Απαιτείται πρόσβαση στο παρασκήνιο</string>
     <string name="require_background_access_DESC">Απαιτείται πρόσβαση στο παρασκήνιο για τη σωστή εκτέλεση του συγχρονισμού παρασκηνίου</string>
     <string name="installation_failed">Η εγκατάσταση απέτυχε</string>
