@@ -107,7 +107,7 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://guardianproject.info/fdroid/repo",
-                name = "Guardian Project Official Releases",
+                name = "Guardian Project official releases",
                 description = "The official repository of The Guardian " +
                     "Project apps for use with the F-Droid client. Appl" +
                     "ications in this repository are official binaries " +
@@ -126,12 +126,12 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://apt.izzysoft.de/fdroid/repo",
-                name = "IzzyOnDroid F-Droid Repo",
+                name = "IzzyOnDroid F-Droid repository",
                 description = "This is a repository of apps to be used with" +
                     " F-Droid the original application developers, taken" +
-                    " from the resp. repositories (mostly GitHub). At thi" +
+                    " from the responsible repositories. At thi" +
                     "s moment I cannot give guarantees on regular updates" +
-                    " for all of them, though most are checked multiple times a week ",
+                    " for all of them, though most are checked multiple times a week.",
                 enabled = true,
                 fingerprint = "3BF0D6ABFEAE2F401707B6D966BE743BF0EEE49C2561B9BA39073711F628937A"
             ),
@@ -161,7 +161,7 @@ data class Repository(
                 address = "https://archive.newpipe.net/fdroid/repo",
                 name = "NewPipe",
                 description = "The official repository for NewPipe." +
-                    " NewPipe is a lightweight client for Youtube, PeerTube" +
+                    " NewPipe is a lightweight client for YouTube, PeerTube" +
                     ", Soundcloud, etc.",
                 fingerprint = "E2402C78F9B97C6C89E97DB914A2751FDA1D02FE2039CC0897A462BDB57E7501"
             ),
@@ -179,7 +179,7 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://calyxos.gitlab.io/calyx-fdroid-repo/fdroid/repo",
-                name = "Calyx OS Repo",
+                name = "CalyxOS repository",
                 description = "The official Calyx Labs F-Droid repository.",
                 fingerprint = "C44D58B4547DE5096138CB0B34A1CC99DAB3B4274412ED753FCCBFC11DC1B7B6"
             ),
@@ -202,7 +202,7 @@ data class Repository(
                 address = "https://thecapslock.gitlab.io/fdroid-patched-apps/fdroid/repo",
                 name = "Patched Apps",
                 description = "A collection of patched applications to provid" +
-                    "e better compatibility, privacy etc..",
+                    "e better compatibility, privacy etc.",
                 fingerprint = "313D9E6E789FF4E8E2D687AAE31EEF576050003ED67963301821AC6D3763E3AC"
             ),
             defaultRepository(
@@ -237,14 +237,14 @@ data class Repository(
                 name = "Threema Libre",
                 description = "The official repository for Threema Libre. R" +
                     "equires Threema Shop license. Threema Libre is an open" +
-                    "-source messenger focused on security and privacy.",
+                    "source messenger focused on security and privacy.",
                 fingerprint = "5734E753899B25775D90FE85362A49866E05AC4F83C05BEF5A92880D2910639E"
             ),
             defaultRepository(
                 address = "https://fdroid.getsession.org/fdroid/repo",
                 name = "Session",
                 description = "The official repository for Session. Session" +
-                    " is an open-source messenger focused on security and privacy.",
+                    " is an open source messenger focused on security and privacy.",
                 fingerprint = "DB0E5297EB65CC22D6BD93C869943BDCFCB6A07DC69A48A0DD8C7BA698EC04E6"
             ),
             defaultRepository(
@@ -283,21 +283,21 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://s2.spiritcroc.de/testing/fdroid/repo",
-                name = "SpiritCroc.de Test Builds",
-                description = "SpiritCroc.de Test Builds",
+                name = "SpiritCroc.de test builds",
+                description = "SpiritCroc.de test builds",
                 fingerprint = "52d03f2fab785573bb295c7ab270695e3a1bdd2adc6a6de8713250b33f231225"
             ),
             defaultRepository(
                 address = "https://static.cryptomator.org/android/fdroid/repo",
                 name = "Cryptomator",
-                description = "No Description",
+                description = "No description.",
                 fingerprint = "f7c3ec3b0d588d3cb52983e9eb1a7421c93d4339a286398e71d7b651e8d8ecdd"
             ),
             defaultRepository(
                 address = "https://cdn.kde.org/android/stable-releases/fdroid/repo",
                 name = "KDE Stables",
                 description = "This repository contains unofficial builds of open source apps" +
-                    " that are not included in the other repos.",
+                    " that are not included in the other repositories.",
                 fingerprint = "13784ba6c80ff4e2181e55c56f961eed5844cea16870d3b38d58780b85e1158f"
             ),
             defaultRepository(
@@ -309,7 +309,7 @@ data class Repository(
             ),
             defaultRepository(
                 address = "https://app.simplex.chat/fdroid/repo",
-                name = "SimpleX Chat F-Droid",
+                name = "SimpleX Chat",
                 description = "SimpleX Chat official F-Droid repository.",
                 fingerprint = "9F358FF284D1F71656A2BFAF0E005DEAE6AA14143720E089F11FF2DDCFEB01BA"
             ),
@@ -322,7 +322,7 @@ data class Repository(
             defaultRepository(
                 address = "https://fdroid.cakelabs.com/fdroid/repo",
                 name = "Cake Labs",
-                description = "Cake Labs official F-Droid repository for Cake Wallet and Monero.com",
+                description = "Cake Labs official F-Droid repository for Cake Wallet and Monero.com.",
                 fingerprint = "EA44EFAEE0B641EE7A032D397D5D976F9C4E5E1ED26E11C75702D064E55F8755"
             ),
             defaultRepository(
@@ -334,24 +334,24 @@ data class Repository(
             defaultRepository(
                 address = "https://fdroid.mm20.de/repo",
                 name = "MM20 Apps",
-                description = "Apps developed and distributed by MM20",
+                description = "Apps developed and distributed by MM20.",
                 fingerprint = "156FBAB952F6996415F198F3F29628D24B30E725B0F07A2B49C3A9B5161EEE1A"
             ),
             defaultRepository(
                 address = "https://breezy-weather.github.io/fdroid-repo/fdroid/repo",
                 name = "Breezy Weather",
-                description = "The F-Droid repository for Breezy Weather",
+                description = "The F-Droid repository for Breezy Weather.",
                 fingerprint = "3480A7BB2A296D8F98CB90D2309199B5B9519C1B31978DBCD877ADB102AF35EE"
             ),
             defaultRepository(
                 address = "https://gh.artemchep.com/keyguard-repo-fdroid/repo",
                 name = "Keyguard Project",
-                description = "Mirrors artifacts available on https://github.com/AChep/keyguard-app/releases",
+                description = "Mirrors artifacts available on https://github.com/AChep/keyguard-app/releases.",
                 fingerprint = "03941CE79B081666609C8A48AB6E46774263F6FC0BBF1FA046CCFFC60EA643BC"
             ),
             defaultRepository(
                 address = "https://f5a.torus.icu/fdroid/repo",
-                name = "Fcitx 5 For Android F-Droid Repo",
+                name = "Fcitx5 for Android F-Droid Repo",
                 description = "Out-of-tree fcitx5-android plugins.",
                 fingerprint = "5D87CE1FAD3772425C2A7ED987A57595A20B07543B9595A7FD2CED25DFF3CF12"
             ),
@@ -384,6 +384,24 @@ data class Repository(
                     "Cromite is a Chromium fork based on Bromite with " +
                     "built-in support for ad blocking and an eye for privacy.",
                 fingerprint = "49F37E74DEE483DCA2B991334FB5A0200787430D0B5F9A783DD5F13695E9517B"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-release.s3.brave.com/fdroid/repo",
+                name = "Brave Browser",
+                description = "The official repository for Brave Stable releases.",
+                fingerprint = "3C60DE135AA19EC949E998469C908F7171885C1E2805F39EB403DDB0F37B4BD2"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-beta.s3.brave.com/fdroid/repo",
+                name = "Brave Browser Beta",
+                description = "The official repository for Brave Beta releases. ",
+                fingerprint = "C4675F87E60D58CECBECD884E43C4A089F2A3FDF58CAF823609B809AC1F90FAE"
+            ),
+            defaultRepository(
+                address = "https://brave-browser-apk-nightly.s3.brave.com/fdroid/repo",
+                name = "Brave Browser Nightly",
+                description = "The official repository for Brave Nightly releases. ",
+                fingerprint = "1735E2323FDE104A74F16D31C062DF75C30E79A706292FABEA1F94E6AF06EE62"
             )
         )
 

@@ -57,10 +57,6 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         val cursor: Cursor?,
     )
 
-    init {
-        retainInstance = true
-    }
-
     private val activeRequests = mutableMapOf<Int, ActiveRequest>()
 
     fun attach(callback: Callback, request: Request) {

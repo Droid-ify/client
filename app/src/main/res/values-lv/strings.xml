@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="incompatible_signature_DESC">Šī versija ir parakstīta ar citu sertifikātu nekā tā, kas uzstādīta jūsu ierīcē. Vispirms noņemiet to.</string>
-    <string name="install_types">Uzstādīšanas veidi</string>
+    <string name="incompatible_signature_DESC">Šī versija ir parakstīta ar citu parakstu nekā tā, kas uzstādīta jūsu ierīcē</string>
+    <string name="install_types">Uzstādīšana</string>
     <string name="notify_about_updates_summary">Rādīt paziņojumu, kad ir pieejamas jaunas versijas</string>
     <string name="invalid_address">Nederīga adrese</string>
     <string name="invalid_fingerprint_format">Nederīgs pirkstu nospiedumu formāts</string>
@@ -69,7 +69,7 @@
     <string name="incompatible_api_max_DESC_FORMAT">Maksimālā API versija ir %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">Minimālā API versija ir %d.</string>
     <string name="incompatible_features_DESC">Trūkst funkcijas.</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Jūsu %1$s platforma netiek atbalstīta. Atbalstītās platformas: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">Jūsu %1$s arhitektūra netiek atbalstīta. Atbalstītās arhitektūras: %2$s</string>
     <string name="incompatible_version">Nesaderīga versija</string>
     <string name="incompatible_versions">Nesaderīgas versijas</string>
     <string name="incompatible_versions_summary">Rādīt lietotnes versijas, kas nav saderīgas ar ierīci</string>
@@ -144,14 +144,14 @@
     <string name="sync_repositories_automatically">Automātiski sinhronizēt repozitorijus</string>
     <string name="syncing">Sinhronizē</string>
     <string name="syncing_FORMAT">Notiek %s sinhronizēšana…</string>
-    <string name="system">Sistēma</string>
-    <string name="tap_to_install_DESC">Pieskarieties, lai uzstādītu.</string>
-    <string name="theme">Tēma</string>
-    <string name="themes">Tēmas</string>
+    <string name="system">Sistēmas</string>
+    <string name="tap_to_install_DESC">Pieskarieties, lai uzstādītu</string>
+    <string name="theme">Motīvs</string>
+    <string name="themes">Atlasiet motīvu</string>
     <string name="tracks_or_reports_your_activity">Izseko vai ziņo par jūsu aktivitātēm</string>
     <string name="uninstall">Noņemt</string>
     <string name="unknown">Nezināms</string>
-    <string name="unknown_error_DESC">Nezināma kļūda.</string>
+    <string name="unknown_error_DESC">Nezināma kļūda</string>
     <string name="unknown_FORMAT">Nezināms: %s</string>
     <string name="unstable_updates">Nestabili atjauninājumi</string>
     <string name="unstable_updates_summary">Ieteikt uzstādīt nestabilas versijas</string>
@@ -177,13 +177,13 @@
     <string name="delete_repository_DESC">Vai dzēst repozitoriju\?</string>
     <string name="details">Sīkāka informācija</string>
     <string name="incompatible_older_DESC">Šī versija ir vecāka par jūsu ierīcē uzstādīto. Vispirms noņemiet to. Jeb izmantojiet lietotņu pārvaldnieku ar \"Downgrade\" uzstādīšanas funkciju, lai saglabātu esošos datus.</string>
-    <string name="file_format_error_DESC">Nederīgs datnes formāts.</string>
+    <string name="file_format_error_DESC">Nederīgs datnes formāts</string>
     <string name="has_advertising">Ir reklāmas</string>
     <string name="http_proxy">HTTP starpniekserveris</string>
     <string name="ignore_all_updates">Ignorēt visas jaunās versijas</string>
     <string name="io_error_DESC">Nespēj veikt noteiktas darbības.</string>
     <string name="auto_update">Automātiski atjaunināt lietotnes</string>
-    <string name="auto_update_apps">Mēģina automātiski uzstādīt atjauninājumus</string>
+    <string name="auto_update_apps">Automātiski uzstādīt atjauninājumus</string>
     <string name="installing">Uzstāda</string>
     <string name="waiting_to_start_installation">Gaida uzstādīšanas sākšanu…</string>
     <string name="favourites">Iecienītākie</string>
@@ -209,10 +209,10 @@
     <string name="home_screen_swiping_DESC">Ļauj lietotājam mainīt sadaļas sākuma ekrānā pavelkot ar pirkstu pa kreisi vai labi</string>
     <string name="error_shizuku_not_granted">Trūkst Shizuku atļauja</string>
     <string name="error_shizuku_not_granted_DESC">Shizuku pakalpojuma atļauja nav piešķirta. Lūdzu, pārbaudiet Shizuku lietotnē</string>
-    <string name="error_shizuku_not_installed">Shizuku nav uzstādīts</string>
-    <string name="error_shizuku_not_installed_DESC">Laikam, ka Shizuku nav uzstādīts</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui nav uzstādīts</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku/Sui nav uzstādīts</string>
     <string name="insufficient_storage">Nepietiek uzglabāšanas vietas</string>
-    <string name="insufficient_storage_DESC">Jūsu ierīcē nav pietiekami daudz brīvas vietas, lai uzstādītu šo lietotni. Mēģiniet atbrīvot vietu</string>
+    <string name="insufficient_storage_DESC">Nav pietiekami daudz brīvas vietas, lai uzstādītu šo lietotni</string>
     <string name="shizuku_not_installed">Shizuku nav uzstādīts⁣</string>
     <string name="installation_failed">Neizdevās uzstādīt</string>
     <string name="installation_failed_DESC">Neizdevās uzstādīt %s</string>
@@ -220,7 +220,7 @@
     <string name="uninstalled_application_DESC">%s noņemts</string>
     <string name="ignore_signature_summary">*Uzmanību* Ignorēt paraksta verifikāciju, uzstādot APK, LSPosed vai pieredzējušiem lietotājiem</string>
     <string name="home_screen_swiping">Sākuma ekrāna vilkšana</string>
-    <string name="has_tethered_network">Saistīts ar noteiktu tīkla pakalpojumu</string>
+    <string name="has_tethered_network">Atkarīga no konkrēta tīkla pakalpojuma</string>
     <string name="socket_error_DESC">Serveris nevarēja nodrošināt jaunu paketi.</string>
     <string name="connection_error_DESC">Nevarēja izveidot savienojumu ar serveri</string>
     <string name="repository_not_found">Sekojošais repozitorijs netika atrasts</string>

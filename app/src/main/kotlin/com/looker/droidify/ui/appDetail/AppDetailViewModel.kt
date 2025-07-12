@@ -4,22 +4,23 @@ import android.content.Context
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.domain.model.toPackageName
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.database.Database
-import com.looker.droidify.model.InstalledItem
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.Repository
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.isSuiAvailable
 import com.looker.droidify.installer.installers.requestPermissionListener
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.installFrom
+import com.looker.droidify.model.InstalledItem
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Repository
+import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -33,7 +34,7 @@ import javax.inject.Inject
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val packageName: String = requireNotNull(savedStateHandle[ARG_PACKAGE_NAME])
@@ -52,7 +53,7 @@ class AppDetailViewModel @Inject constructor(
             Database.RepositoryAdapter.getAllStream(),
             Database.InstalledAdapter.getStream(packageName),
             repoAddress,
-            flow { emit(settingsRepository.getInitial()) }
+            flow { emit(settingsRepository.getInitial()) },
         ) { products, repositories, installedItem, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
@@ -65,7 +66,7 @@ class AppDetailViewModel @Inject constructor(
                 isFavourite = packageName in initialSettings.favouriteApps,
                 allowIncompatibleVersions = initialSettings.incompatibleVersions,
                 isSelf = packageName == BuildConfig.APPLICATION_ID,
-                addressIfUnavailable = suggestedAddress
+                addressIfUnavailable = suggestedAddress,
             )
         }.asStateFlow(AppDetailUiState())
 
@@ -74,6 +75,9 @@ class AppDetailViewModel @Inject constructor(
             runBlocking { settingsRepository.getInitial().installerType == InstallerType.SHIZUKU }
         if (!isSelected) return null
         val isAlive = isShizukuAlive()
+        val isSuiAvailable = isSuiAvailable()
+        if (isSuiAvailable) return null
+
         val isGranted = if (isAlive) {
             if (isShizukuGranted()) {
                 true
@@ -144,5 +148,5 @@ data class AppDetailUiState(
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,
     val allowIncompatibleVersions: Boolean = false,
-    val addressIfUnavailable: String? = null
+    val addressIfUnavailable: String? = null,
 )

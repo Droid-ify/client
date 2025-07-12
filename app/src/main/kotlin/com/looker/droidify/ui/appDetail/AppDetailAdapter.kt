@@ -75,7 +75,6 @@ import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.StableRecyclerAdapter
-import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
@@ -87,10 +86,13 @@ import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
 
+@OptIn(ExperimentalTime::class)
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
 

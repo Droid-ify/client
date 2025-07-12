@@ -14,13 +14,6 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.looker.droidify.utility.common.DeeplinkType
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.deeplinkType
-import com.looker.droidify.utility.common.extension.homeAsUp
-import com.looker.droidify.utility.common.extension.inputManager
-import com.looker.droidify.utility.common.getInstallPackageName
-import com.looker.droidify.utility.common.requestNotificationPermission
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.extension.getThemeRes
@@ -34,6 +27,13 @@ import com.looker.droidify.ui.repository.RepositoriesFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabsFragment.TabsFragment
+import com.looker.droidify.utility.common.DeeplinkType
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.deeplinkType
+import com.looker.droidify.utility.common.extension.homeAsUp
+import com.looker.droidify.utility.common.extension.inputManager
+import com.looker.droidify.utility.common.getInstallPackageName
+import com.looker.droidify.utility.common.requestNotificationPermission
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
     @Parcelize
     private class FragmentStackItem(
-        val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?
+        val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?,
     ) : Parcelable
 
     lateinit var cursorOwner: CursorOwner
@@ -87,24 +87,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun collectChange() {
-        val hiltEntryPoint = EntryPointAccessors.fromApplication(
-            this, CustomUserRepositoryInjector::class.java
-        )
+        val hiltEntryPoint =
+            EntryPointAccessors.fromApplication(this, CustomUserRepositoryInjector::class.java)
         val newSettings = hiltEntryPoint.settingsRepository().get { theme to dynamicTheme }
         runBlocking {
             val theme = newSettings.first()
             setTheme(
                 resources.configuration.getThemeRes(
-                    theme = theme.first, dynamicTheme = theme.second
-                )
+                    theme = theme.first,
+                    dynamicTheme = theme.second,
+                ),
             )
         }
         lifecycleScope.launch {
             newSettings.drop(1).collect { themeAndDynamic ->
                 setTheme(
                     resources.configuration.getThemeRes(
-                        theme = themeAndDynamic.first, dynamicTheme = themeAndDynamic.second
-                    )
+                        theme = themeAndDynamic.first,
+                        dynamicTheme = themeAndDynamic.second,
+                    ),
                 )
                 recreate()
             }
@@ -116,9 +117,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val rootView = FrameLayout(this).apply { id = R.id.main_content }
         addContentView(
-            rootView, ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
-            )
+            rootView,
+            ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+            ),
         )
 
         requestNotificationPermission(request = notificationPermission::launch)
@@ -188,7 +191,7 @@ class MainActivity : AppCompatActivity() {
             if (open != null) {
                 setCustomAnimations(
                     if (open) R.animator.slide_in else 0,
-                    if (open) R.animator.slide_in_keep else R.animator.slide_out
+                    if (open) R.animator.slide_in_keep else R.animator.slide_out,
                 )
             }
             setReorderingAllowed(true)
@@ -202,8 +205,8 @@ class MainActivity : AppCompatActivity() {
                 FragmentStackItem(
                     it::class.java.name,
                     it.arguments,
-                    supportFragmentManager.saveFragmentInstanceState(it)
-                )
+                    supportFragmentManager.saveFragmentInstanceState(it),
+                ),
             )
         }
         replaceFragment(fragment, true)

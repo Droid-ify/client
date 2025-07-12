@@ -37,6 +37,7 @@
     <string name="has_security_vulnerabilities">Té vulnerabilitats de seguretat</string>
     <plurals name="hours">
         <item quantity="one">Hora</item>
+        <item quantity="many"></item>
         <item quantity="other">Hores</item>
     </plurals>
     <string name="http_error_DESC">Resposta de servidor nul.</string>
@@ -168,6 +169,7 @@
     <string name="never">Mai</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d l\'aplicació té una versió nova.</item>
+        <item quantity="many"></item>
         <item quantity="other">%d aplicacions amb versions noves.</item>
     </plurals>
     <string name="no_applications_available">Cap aplicació disponible</string>

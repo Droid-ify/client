@@ -16,7 +16,7 @@
     <string name="available">探索</string>
     <string name="bug_tracker">错误追踪器</string>
     <string name="cancel">取消</string>
-    <string name="cant_edit_sync_DESC">存储库正在同步时无法编辑。</string>
+    <string name="cant_edit_sync_DESC">存储库正在同步时无法编辑</string>
     <string name="changelog">更新日志</string>
     <string name="changes">更新内容</string>
     <string name="checking_repository">检查存储库…</string>
@@ -37,7 +37,7 @@
     <string name="downloaded_FORMAT">已下载 %s</string>
     <string name="downloading">下载中</string>
     <string name="downloading_FORMAT">正在下载 %s…</string>
-    <string name="edit_repository">编辑存储库</string>
+    <string name="edit_repository">编辑</string>
     <string name="file_format_error_DESC">文件格式无效。</string>
     <string name="fingerprint">指纹</string>
     <string name="has_advertising">包含广告</string>
@@ -177,7 +177,7 @@
     </plurals>
     <string name="io_error_DESC">无法执行某些操作。</string>
     <string name="auto_update">自动更新应用</string>
-    <string name="auto_update_apps">尝试自动安装更新</string>
+    <string name="auto_update_apps">自动安装更新</string>
     <string name="installing">正在安装</string>
     <string name="favourites">收藏夹</string>
     <string name="material_you_desc">使用 Material You 配色</string>
@@ -219,15 +219,15 @@
     <string name="ignore_signature">忽略签名</string>
     <string name="insufficient_storage">空间不足</string>
     <string name="insufficient_storage_DESC">设备上没有足够的可用空间来安装此应用程序。 尝试清理一些空间</string>
-    <string name="error_shizuku_service_unavailable">Shizuku 未运行</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui 服务未运行</string>
     <string name="switch_to_default_installer">切换至默认</string>
     <string name="label_open_video">视频</string>
-    <string name="error_shizuku_not_running_DESC">Shizuku 服务未运行。请在 Shizuku 应用中检查</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku/Sui 服务未运行</string>
     <string name="error_shizuku_not_granted">缺少 Shizuku 权限</string>
     <string name="error_shizuku_not_granted_DESC">Shizuku 服务权限未授予。请在 Shizuku 应用中检查</string>
     <string name="open_shizuku">打开 Shizuku</string>
     <string name="label_unknown_sdk">未知 (%d)</string>
-    <string name="error_shizuku_not_installed">Shizuku 未安装</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui 未安装</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku 似乎未安装</string>
     <string name="always_choose">始终选择</string>
     <string name="select_installer">选择安装程序</string>
