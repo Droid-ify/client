@@ -85,7 +85,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val appName: String,
             val stage: RepositoryUpdater.Stage,
             val read: DataSize,
-            val total: DataSize?
+            val total: DataSize?,
         ) : State(appName)
 
         data object Finish : State("")
@@ -93,12 +93,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val progress: Int
             get() = when (this) {
                 is Connecting -> Int.MIN_VALUE
-                Finish -> Int.MAX_VALUE
-                is Syncing -> when(stage) {
+                Finish        -> Int.MAX_VALUE
+                is Syncing    -> when (stage) {
                     RepositoryUpdater.Stage.DOWNLOAD -> ((read percentBy total) * 0.4F).roundToInt()
-                    RepositoryUpdater.Stage.PROCESS -> 50
-                    RepositoryUpdater.Stage.MERGE -> 75
-                    RepositoryUpdater.Stage.COMMIT -> 90
+                    RepositoryUpdater.Stage.PROCESS  -> 50
+                    RepositoryUpdater.Stage.MERGE    -> 75
+                    RepositoryUpdater.Stage.COMMIT   -> 90
                 }
             }
     }
@@ -108,7 +108,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val task: Task?,
         val job: CoroutinesJob,
         val hasUpdates: Boolean,
-        val lastState: State
+        val lastState: State,
     )
 
     private enum class Started { NO, AUTO, MANUAL }
@@ -281,14 +281,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val description = getString(
             when (exception) {
                 is RepositoryUpdater.UpdateException -> when (exception.errorType) {
-                    RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
-                    RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
+                    RepositoryUpdater.ErrorType.NETWORK    -> stringRes.network_error_DESC
+                    RepositoryUpdater.ErrorType.HTTP       -> stringRes.http_error_DESC
                     RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
-                    RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
+                    RepositoryUpdater.ErrorType.PARSING    -> stringRes.parsing_index_error_DESC
                 }
 
-                else -> stringRes.unknown_error_DESC
-            }
+                else                                 -> stringRes.unknown_error_DESC
+            },
         )
         notificationManager?.notify(
             "repository-${repository.id}",
@@ -298,11 +298,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 .setSmallIcon(AndroidR.drawable.stat_sys_warning)
                 .setColor(
                     ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
+                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor,
                 )
                 .setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
                 .setContentText(description)
-                .build()
+                .build(),
         )
     }
 
@@ -312,7 +312,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             .setSmallIcon(R.drawable.ic_sync)
             .setColor(
                 ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                    .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
+                    .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor,
             )
             .addAction(
                 0,
@@ -321,8 +321,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     this,
                     0,
                     Intent(this, this::class.java).setAction(ACTION_CANCEL),
-                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                )
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                ),
             )
     }
 
@@ -340,7 +340,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 setProgress(0, 0, true)
                             }
 
-                            is State.Syncing -> {
+                            is State.Syncing    -> {
                                 when (state.stage) {
                                     RepositoryUpdater.Stage.DOWNLOAD -> {
                                         if (state.total != null) {
@@ -348,7 +348,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                             setProgress(
                                                 MAX_PROGRESS,
                                                 state.read percentBy state.total,
-                                                false
+                                                false,
                                             )
                                         } else {
                                             setContentText(state.read.toString())
@@ -356,39 +356,39 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         }
                                     }
 
-                                    RepositoryUpdater.Stage.PROCESS -> {
+                                    RepositoryUpdater.Stage.PROCESS  -> {
                                         val progress = (state.read percentBy state.total)
                                             .takeIf { it != -1 }
                                         setContentText(
                                             getString(
                                                 stringRes.processing_FORMAT,
-                                                "${progress ?: 0}%"
-                                            )
+                                                "${progress ?: 0}%",
+                                            ),
                                         )
                                         setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
                                     }
 
-                                    RepositoryUpdater.Stage.MERGE -> {
+                                    RepositoryUpdater.Stage.MERGE    -> {
                                         val progress = (state.read percentBy state.total)
                                         setContentText(
                                             getString(
                                                 stringRes.merging_FORMAT,
-                                                "${state.read.value} / ${state.total?.value ?: state.read.value}"
-                                            )
+                                                "${state.read.value} / ${state.total?.value ?: state.read.value}",
+                                            ),
                                         )
                                         setProgress(MAX_PROGRESS, progress, false)
                                     }
 
-                                    RepositoryUpdater.Stage.COMMIT -> {
+                                    RepositoryUpdater.Stage.COMMIT   -> {
                                         setContentText(getString(stringRes.saving_details))
                                         setProgress(0, 0, true)
                                     }
                                 }
                             }
 
-                            is State.Finish -> {}
+                            is State.Finish     -> {}
                         }
-                    }.build()
+                    }.build(),
                 )
             }
         }
@@ -441,7 +441,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 task = task,
                 repository = repository,
                 hasUpdates = hasUpdates,
-                unstableUpdates = unstableUpdates
+                unstableUpdates = unstableUpdates,
             )
             currentTask = CurrentTask(task, downloadJob, hasUpdates, initialState)
         }
@@ -451,14 +451,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         task: Task,
         repository: Repository,
         hasUpdates: Boolean,
-        unstableUpdates: Boolean
+        unstableUpdates: Boolean,
     ): CoroutinesJob = launch(Dispatchers.Default) {
         var passedHasUpdates = hasUpdates
         try {
             val response = RepositoryUpdater.update(
                 this@SyncService,
                 repository,
-                unstableUpdates
+                unstableUpdates,
             ) { stage, progress, total ->
                 launch {
                     syncState.emit(
@@ -466,13 +466,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                             appName = repository.name,
                             stage = stage,
                             read = DataSize(progress),
-                            total = total?.let { DataSize(it) }
-                        )
+                            total = total?.let { DataSize(it) },
+                        ),
                     )
                 }
             }
             passedHasUpdates = when (response) {
-                is Result.Error -> {
+                is Result.Error   -> {
                     response.exception?.let {
                         it.printStackTrace()
                         if (task.manual) showNotificationError(repository, it as Exception)
@@ -541,7 +541,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 downloadConnection.startUpdate(
                     installItem.packageName,
                     installItem,
-                    productRepo
+                    productRepo,
                 )
             }
     }
@@ -557,12 +557,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     resources.getQuantityString(
                         R.plurals.new_updates_DESC_FORMAT,
                         productItems.size,
-                        productItems.size
-                    )
+                        productItems.size,
+                    ),
                 )
                 .setColor(
                     ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor
+                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor,
                 )
                 .setContentIntent(
                     PendingIntent.getActivity(
@@ -570,8 +570,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                         0,
                         Intent(this, MainActivity::class.java)
                             .setAction(MainActivity.ACTION_UPDATES),
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
+                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+                    ),
                 )
                 .setStyle(
                     NotificationCompat.InboxStyle().also {
@@ -581,7 +581,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 ForegroundColorSpan(Color.BLACK),
                                 0,
                                 builder.length,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
                             )
                             builder.append(' ').append(productItem.version)
                             it.addLine(builder)
@@ -590,7 +590,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                             val summary =
                                 getString(
                                     stringRes.plus_more_FORMAT,
-                                    productItems.size - MAX_UPDATE_NOTIFICATION
+                                    productItems.size - MAX_UPDATE_NOTIFICATION,
                                 )
                             if (SdkCheck.isNougat) {
                                 it.addLine(summary)
@@ -598,9 +598,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 it.setSummaryText(summary)
                             }
                         }
-                    }
+                    },
                 )
-                .build()
+                .build(),
         )
     }
 
@@ -609,27 +609,31 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         private val jobScope = CoroutineScope(Dispatchers.Default)
         private var syncParams: JobParameters? = null
         private val syncConnection =
-            Connection(SyncService::class.java, onBind = { connection, binder ->
-                jobScope.launch {
-                    binder.state.filter { it is State.Finish }.collect {
-                        val params = syncParams
-                        if (params != null) {
-                            syncParams = null
-                            connection.unbind(this@Job)
-                            jobFinished(params, false)
+            Connection(
+                SyncService::class.java,
+                onBind = { connection, binder ->
+                    jobScope.launch {
+                        binder.state.filter { it is State.Finish }.collect {
+                            val params = syncParams
+                            if (params != null) {
+                                syncParams = null
+                                connection.unbind(this@Job)
+                                jobFinished(params, false)
+                            }
                         }
                     }
-                }
-                binder.sync(SyncRequest.AUTO)
-            }, onUnbind = { _, binder ->
-                binder.cancelAuto()
-                jobScope.cancel()
-                val params = syncParams
-                if (params != null) {
-                    syncParams = null
-                    jobFinished(params, true)
-                }
-            })
+                    binder.sync(SyncRequest.AUTO)
+                },
+                onUnbind = { _, binder ->
+                    binder.cancelAuto()
+                    jobScope.cancel()
+                    val params = syncParams
+                    if (params != null) {
+                        syncParams = null
+                        jobFinished(params, true)
+                    }
+                },
+            )
 
         override fun onStartJob(params: JobParameters): Boolean {
             syncParams = params
@@ -651,10 +655,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 periodMillis: Long,
                 networkType: Int,
                 isCharging: Boolean,
-                isBatteryLow: Boolean
+                isBatteryLow: Boolean,
             ): JobInfo = JobInfo.Builder(
                 Constants.JOB_ID_SYNC,
-                ComponentName(context, Job::class.java)
+                ComponentName(context, Job::class.java),
             ).apply {
                 setRequiredNetworkType(networkType)
                 sdkAbove(sdk = Build.VERSION_CODES.O) {
