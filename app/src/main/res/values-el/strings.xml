@@ -163,9 +163,9 @@
     <string name="prefs_language_title">Γλώσσα</string>
     <string name="installer">Πρόγραμμα Εγκατάστασης</string>
     <string name="legacy_installer">Παλιό πρόγραμμα εγκατάστασης</string>
-    <string name="session_installer">Εκαταστάστης συνεδρίας</string>
-    <string name="root_installer">Πρόγραμμα Εγκατάστασης Root</string>
-    <string name="shizuku_installer">Πρόγραμμα Εγκατάστασης Shizuku</string>
+    <string name="session_installer">Πρόγραμα εκατάστασης συνεδρίας</string>
+    <string name="root_installer">Πρόγραμμα εγκατάστασης root</string>
+    <string name="shizuku_installer">Πρόγραμμα Εγκατάστασης Shizuku/Sui</string>
     <string name="show_less">Εμφάνιση Λιγότερων</string>
     <string name="update_all">Ενημέρωση όλων</string>
     <string name="cleanup_title">APK cleanup interval</string>
@@ -234,7 +234,7 @@
     <string name="insufficient_storage_DESC">Δεν υπάρχει αρκετός ελεύθερος χώρος για την εγκατάσταση αυτής της εφαρμογής</string>
     <string name="unspecified">Απροσδιόριστο</string>
     <string name="legacyInstallerComponent">Εξάρτημα απαρχαιωμένου εγκαταστάτη</string>
-    <string name="shizuku_legacy_installer">Απαρχαιωμένος Εγκαταστάτης Shizuku</string>
+    <string name="shizuku_legacy_installer">Απαρχαιωμένος Εγκαταστάτης Shizuku/Sui</string>
     <string name="always_choose">Πάντα Επιλογή</string>
     <string name="select_installer">Επιλέξτε εγκαταστάτη</string>
     <string name="label_sdk_version">Στοχεύει: Android %1$s | Ελάχιστο: Android %2$s</string>
