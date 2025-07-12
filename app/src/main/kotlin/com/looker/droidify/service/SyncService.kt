@@ -15,6 +15,16 @@ import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import com.looker.droidify.BuildConfig
+import com.looker.droidify.MainActivity
+import com.looker.droidify.R
+import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.index.RepositoryUpdater
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
+import com.looker.droidify.network.DataSize
+import com.looker.droidify.network.percentBy
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.createNotificationChannel
@@ -24,19 +34,12 @@ import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
-import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.BuildConfig
-import com.looker.droidify.MainActivity
-import com.looker.droidify.database.Database
-import com.looker.droidify.index.RepositoryUpdater
-import com.looker.droidify.model.ProductItem
-import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.extension.startUpdate
-import com.looker.droidify.network.DataSize
-import com.looker.droidify.network.percentBy
+import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -51,8 +54,6 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import com.looker.droidify.R
-import kotlinx.coroutines.FlowPreview
 import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
@@ -63,6 +64,7 @@ import kotlinx.coroutines.Job as CoroutinesJob
 class SyncService : ConnectionService<SyncService.Binder>() {
 
     companion object {
+        const val RB_LOGS_SYNC = -23L
         private const val MAX_PROGRESS = 100
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
@@ -149,7 +151,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         fun sync(request: SyncRequest) {
             val ids = Database.RepositoryAdapter.getAll()
                 .asSequence().filter { it.enabled }.map { it.id }.toList()
-            sync(ids, request)
+            sync(ids + RB_LOGS_SYNC, request)
         }
 
         fun sync(repository: Repository) {
@@ -413,6 +415,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             return
         }
         val task = tasks.removeAt(0)
+        when (task.repositoryId) {
+            RB_LOGS_SYNC -> return RBLogWorker.fetchRBLogs(applicationContext)
+            else         -> {}
+        }
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
         val lastStarted = started
