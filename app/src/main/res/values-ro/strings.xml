@@ -18,7 +18,7 @@
     <string name="session_installer">Instalator cu sesiune</string>
     <string name="integrity_check_error_DESC">Nu s-a putut verifica integritatea</string>
     <string name="license_FORMAT">Licență %s</string>
-    <string name="invalid_username_format">Format invalid al numelui de utilizator</string>
+    <string name="invalid_username_format">Format nevalid al numelui de utilizator</string>
     <string name="no_applications_installed">Nicio aplicație instalată</string>
     <string name="no_matching_applications_found">Niciun rezultat</string>
     <string name="parsing_index_error_DESC">Nu s-a putut analiza fișierul index</string>
@@ -42,7 +42,7 @@
     <string name="all_applications">Toate aplicațiile</string>
     <string name="all_applications_up_to_date">Toate aplicațiile tale sunt la zi</string>
     <string name="already_exists">Există deja</string>
-    <string name="amoled">Negru</string>
+    <string name="amoled">Neagră</string>
     <string name="anti_features">Funcții-anti</string>
     <string name="application">Aplicație</string>
     <string name="application_not_found">Aplicația nu a fost găsită</string>
@@ -63,7 +63,7 @@
     <plurals name="days">
         <item quantity="one">zi</item>
         <item quantity="few">zile</item>
-        <item quantity="other">zile</item>
+        <item quantity="other">de zile</item>
     </plurals>
     <string name="edit_repository">Editează</string>
     <string name="enable_repo">Activează depozitul</string>
@@ -97,20 +97,20 @@
     <string name="root_installer">Instalator prin root</string>
     <string name="shizuku_installer">Instalator Shizuku/Sui</string>
     <string name="installed">Instalat</string>
-    <string name="invalid_address">Adresă invalidă</string>
-    <string name="invalid_fingerprint_format">Format de amprentă invalid</string>
+    <string name="invalid_address">Adresă nevalidă</string>
+    <string name="invalid_fingerprint_format">Format de amprentă nevalid</string>
     <string name="invalid_metadata_error_DESC">Metadate nevalide</string>
     <string name="invalid_signature_error_DESC">Semnătură nevalidă</string>
     <string name="io_error_DESC">Imposibil de a efectua anumite acțiuni</string>
     <string name="launch">Lansează</string>
     <string name="license">Licență</string>
     <string name="invalid_permissions_error_DESC">Permisiuni nevalide</string>
-    <string name="link_copied_to_clipboard">Link copiat în clipboard</string>
+    <string name="link_copied_to_clipboard">Link copiat</string>
     <string name="links">Link-uri</string>
-    <string name="material_you">Material tu</string>
+    <string name="material_you">Material You</string>
     <string name="material_you_desc">Folosește culorile Material You</string>
     <string name="name">Nume</string>
-    <string name="network_error_DESC">Eroare de Rețea</string>
+    <string name="network_error_DESC">Eroare de rețea</string>
     <string name="never">Niciodată</string>
     <string name="new_updates_available">Noi actualizări disponibile</string>
     <string name="no_applications_available">Nicio aplicație disponibilă</string>
@@ -124,7 +124,7 @@
     <string name="open_DESC_FORMAT">Deschizi %s\?</string>
     <string name="other">Altele</string>
     <string name="password">Parolă</string>
-    <string name="password_missing">Lipsește o parolă</string>
+    <string name="password_missing">Lipsește parola</string>
     <string name="permissions">Permisiuni</string>
     <string name="plus_more_FORMAT">Încă +%d</string>
     <string name="settings">Setări</string>
@@ -143,7 +143,7 @@
     <string name="requires_FORMAT">Necesită %s</string>
     <string name="proxy">Proxy</string>
     <string name="search">Caută</string>
-    <string name="select_mirror">Selectează o oglindă</string>
+    <string name="select_mirror">Selectează un mirror</string>
     <string name="share">Distribuie</string>
     <string name="show_more">Arată mai multe</string>
     <string name="show_older_versions">Arată versiuni vechi</string>
@@ -197,7 +197,7 @@
     <string name="export_settings_title">Exportă favoritele și setările</string>
     <string name="insufficient_storage_DESC">Nu există suficient spațiu suficient pentru a instala această aplicație</string>
     <string name="insufficient_storage">Spațiu insuficient</string>
-    <string name="installation_failed_DESC">Nu s-a putut instalat %s</string>
+    <string name="installation_failed_DESC">Nu s-a putut instala %s</string>
     <string name="connection_error_DESC">Nu s-a putut conecta la server</string>
     <string name="error_shizuku_not_running_DESC">Serviciul Shizuku/Sui nu rulează</string>
     <string name="error_shizuku_not_granted_DESC">Permisiunea serviciului Shizuku/Sui nu a fost acordată</string>
@@ -230,7 +230,7 @@
     <string name="label_sdk_version">Țintește: Android %1$s | Minim: Android %2$s</string>
     <string name="home_screen_swiping">Glisare pagini</string>
     <string name="uninstalled_application_DESC">%s a fost dezinstalat</string>
-    <string name="uninstalled_application">Neinstalat</string>
+    <string name="uninstalled_application">Dezinstalat</string>
     <string name="import_export">Backup și restaurare</string>
     <string name="error_shizuku_not_installed">Shizuku/Sui nu este instalat</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku/Sui nu este instalat</string>
