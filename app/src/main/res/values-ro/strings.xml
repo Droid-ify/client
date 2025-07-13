@@ -20,8 +20,8 @@
     <string name="license_FORMAT">Licență %s</string>
     <string name="invalid_username_format">Format invalid al numelui de utilizator</string>
     <string name="no_applications_installed">Nicio aplicație instalată</string>
-    <string name="no_matching_applications_found">Nu s-a putut găsi astfel de aplicații</string>
-    <string name="parsing_index_error_DESC">Nu s-a putut analiza fișierul index.</string>
+    <string name="no_matching_applications_found">Niciun rezultat</string>
+    <string name="parsing_index_error_DESC">Nu s-a putut analiza fișierul index</string>
     <string name="proxy_host">Host proxy</string>
     <string name="repository_unsigned_DESC">Nesemnat. Nu se poate verifica lista de aplicații. Ai grijă când descarci aplicații din depozite nesemnate.</string>
     <string name="save">Salvează</string>
@@ -29,13 +29,13 @@
     <string name="signature_FORMAT">Semnătură %s</string>
     <string name="username">Nume de utilizator</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">Aplicația %d are o actualizări disponibile</item>
+        <item quantity="one">Aplicația %d are actualizări disponibile</item>
         <item quantity="few">%d aplicații au actualizări disponibile</item>
         <item quantity="other">%d de aplicații au actualizări disponibile</item>
     </plurals>
     <string name="socks_proxy">Proxy SOCKS</string>
     <string name="tracks_or_reports_your_activity">Urmărește sau raportează activitatea ta</string>
-    <string name="notify_about_updates_summary">Arată o notificare când versiunile noi sunt disponibile</string>
+    <string name="notify_about_updates_summary">Arată o notificare când o nouă versiune a aplicației este disponibilă</string>
     <string name="action_failed">Acțiune eșuată</string>
     <string name="add_repository">Adaugă depozit</string>
     <string name="address">Adresă</string>
@@ -120,7 +120,7 @@
     <string name="number_of_applications">Număr de aplicații</string>
     <string name="only_compatible_with_FORMAT">Compatibil numai cu %s</string>
     <string name="only_on_wifi">Numai pe Wi-Fi</string>
-    <string name="only_on_wifi_with_charging">Numai pe Wi-Fi și Încărcare</string>
+    <string name="only_on_wifi_with_charging">Numai pe Wi-Fi în timpul încărcării</string>
     <string name="open_DESC_FORMAT">Deschizi %s\?</string>
     <string name="other">Altele</string>
     <string name="password">Parolă</string>
@@ -130,7 +130,7 @@
     <string name="settings">Setări</string>
     <string name="ok">OK</string>
     <string name="processing_FORMAT">Se procesează %1$s…</string>
-    <string name="project_website">Site-ul proiectului</string>
+    <string name="project_website">Website</string>
     <string name="promotes_non_free_network_services">Promovează servicii de rețea care nu sunt la liber</string>
     <string name="promotes_non_free_software">Promovează software care nu este la liber</string>
     <string name="provided_by_FORMAT">Furnizat de %s</string>
