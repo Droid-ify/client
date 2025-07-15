@@ -91,15 +91,15 @@
     <string name="application">Ứng dụng</string>
     <string name="changes">Thay đổi</string>
     <string name="contains_non_free_media">Chứa phương tiện không tự do</string>
-    <string name="file_format_error_DESC">Định dạng sai.</string>
+    <string name="file_format_error_DESC">Định dạng sai</string>
     <string name="delete">Xóa</string>
     <string name="donate">Ủng hộ</string>
     <string name="downloading_FORMAT">Đang tải về %s…</string>
     <string name="has_security_vulnerabilities">Có lỗ hổng bảo mật</string>
     <string name="downloaded_FORMAT">Đã tải về %s</string>
-    <string name="http_error_DESC">Máy chủ không phản hồi.</string>
+    <string name="http_error_DESC">Máy chủ không phản hồi</string>
     <string name="ignore_this_update">Bỏ qua phiên bản này</string>
-    <string name="incompatible_api_max_DESC_FORMAT">Phiên vản API tối đa là %d.</string>
+    <string name="incompatible_api_max_DESC_FORMAT">Phiên vản API tối đa là %d</string>
     <string name="incompatible_features_DESC">Tính năng bị thiếu.</string>
     <string name="incompatible_with_FORMAT">Không tương thích với %s</string>
     <string name="incompatible_older_DESC">Phiên bản này cũ hơn phiên bản được cài đặt trên thiết bị của bạn</string>
@@ -192,7 +192,7 @@
     <string name="has_non_free_components">Có các thành phần không tự do</string>
     <string name="shizuku_not_alive">Shizuku/Sui không chạy</string>
     <string name="connection_error_DESC">Không thể kết nối tới máy chủ</string>
-    <string name="socket_error_DESC">Máy chủ không cung cấp được gói mới.</string>
+    <string name="socket_error_DESC">Máy chủ không cung cấp được gói mới</string>
     <string name="proxy_port_error_not_int">Cổng Proxy chỉ có thể là số nguyên</string>
     <string name="home_screen_swiping_DESC">Cho phép người dùng vuốt trái/phải để chuyển trang</string>
     <string name="repository_not_found">Không tìm thấy kho lưu trữ sau</string>
