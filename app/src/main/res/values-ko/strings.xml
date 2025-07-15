@@ -88,7 +88,7 @@
     <string name="add_repository">저장소 추가</string>
     <string name="address">주소</string>
     <string name="all_applications">모든 앱</string>
-    <string name="all_applications_up_to_date">모든 앱들이 최신 버전입니다.</string>
+    <string name="all_applications_up_to_date">모든 앱이 최신 버전입니다.</string>
     <string name="already_exists">이미 존재함</string>
     <string name="always">항상</string>
     <string name="amoled">블랙</string>
@@ -161,7 +161,7 @@
     <string name="whats_new">새로 등록된 앱</string>
     <string name="waiting_to_start_download">다운로드 시작 대기 중…</string>
     <string name="website">웹사이트</string>
-    <string name="project_website">웹사이트</string>
+    <string name="project_website">프로젝트 웹사이트</string>
     <string name="promotes_non_free_network_services">무료가 아닌 네트워크 서비스 홍보</string>
     <string name="provided_by_FORMAT">%s 제공</string>
     <string name="proxy_host">프록시 호스트</string>
@@ -178,7 +178,7 @@
     <string name="password_missing">비밀번호 누락</string>
     <string name="proxy">프록시</string>
     <string name="syncing_FORMAT">%s 동기화 중…</string>
-    <string name="repository_unsigned_DESC">서명되지 않았습니다. 애플리케이션 목록을 확인하지 못했습니다. 서명되지 않은 저장소에서 애플리케이션을 다운로드할 때는 주의하세요.</string>
+    <string name="repository_unsigned_DESC">서명되지 않았습니다. 앱 목록을 확인하지 못했습니다. 서명되지 않은 저장소에서 앱 다운로드할 때는 주의하세요.</string>
     <string name="sync_repositories">저장소 동기화</string>
     <string name="system">시스템</string>
     <string name="parsing_index_error_DESC">색인 파일 구문을 분석하지 못했습니다.</string>
