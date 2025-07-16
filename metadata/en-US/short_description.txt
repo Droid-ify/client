@@ -1,1 +1,1 @@
-Material-ify with Droid-ify.
+Clutterfree F-Droid client

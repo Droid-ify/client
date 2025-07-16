@@ -1,31 +1,10 @@
-A quick material F-Droid client
-
 Features:
+• Browse and install apps from F-Droid repositories
+• Automatic app updates in the background 
+• Multiple installation methods (Session, Root, Shizuku)
+• Add custom repositories with one tap
+• Works completely offline after initial sync
 
-* Material F-Droid style
-* No cards or inappropriate animations
-* Fast repository syncing
-* Standard Android components and minimal dependencies
+Available in 63 languages including English, German, French, Spanish, and Chinese.
 
-Available in:
-
-- Brazillian Portugese
-- English
-- Finnish
-- French
-- German
-- Greek
-- Hungarian
-- Italian
-- Norwegian Bokmål
-- Peninsular Arabic
-- Polish
-- Russian
-- Simplified Chinese
-- Spanish
-- Turkish
-
-A direct adaptation/modification of Foxy-Droid
-
-Copylefted libre software, licensed GPLv3+. \
-Use, study, change, and share; with all.
+Copylefted libre software, licensed GPLv3+.
