@@ -2,51 +2,36 @@
 
 <img width="" src="metadata/en-US/images/featureGraphic.png" alt="Droid-ify" align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
-[![GitHub license](https://img.shields.io/github/license/Iamlooker/Droid-ify?color=%2364f573&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/blob/master/COPYING)
-[![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
-[![GitHub latest release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23f5ad64&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
-[![F-Droid latest release](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23f5ad64&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
+> **Clutterfree F-Droid client**
+
+[![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
+[![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
+[![GitHub latest release](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[![F-Droid latest release](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
 </div>
 <div align="left">
 
 ## Features
 
-* Clean Material 3 design
-* Fast repository syncing
-* Smooth user experience
-* Feature-rich
+* Browse and install apps from F-Droid repositories
+* Automatic app updates in the background
+* Multiple installation methods (Session, Root, Shizuku)
+* Add custom repositories with one tap
+* Works completely offline after initial sync
 
 ## Screenshots
 
 <img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
 
-## Building and installing
+## Get Started
 
-1. **Install Android Studio**:
-    - Download and install [Android Studio](https://developer.android.com/studio) on your computer
-      if you haven't already.
+**📥 Download**: [GitHub Releases](https://github.com/Iamlooker/Droid-ify/releases/latest) • [F-Droid](https://f-droid.org/packages/com.looker.droidify)
 
-2. **Clone the repository**:
-    - Open Android Studio and select "Project from Version Control."
-    - Paste the link to this repository to clone it to your local machine.
-
-3. **Build the APK**:
-    - In Android Studio, navigate to `Build > APK`.
-    - Select "Create New Keystore" and enter the required information, including a password.
-    - Wait for the build process to finish.
-
-## TODO
-
-- [ ] Add support for `index-v2`
-- [ ] Add detekt code analysis
+**🔧 Build**: See [Building Guide](docs/BUILDING.md) for development setup
 
 ## Contributing
 
-- Pick any issue you would like to resolve
-- Fork the project
-- Open a pull request
-- Your pull request will undergo review
+**🤝 Want to help?** Check out our [Contributing Guide](CONTRIBUTING.md)
 
 ## Translations
 
