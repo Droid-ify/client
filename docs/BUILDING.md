@@ -1,4 +1,4 @@
-# �� Building Droid-ify
+# Building Droid-ify
 
 Simple guide to build Droid-ify from source.
 
