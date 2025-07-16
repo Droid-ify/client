@@ -132,11 +132,19 @@ Located in `database/`, provides backward compatibility:
 Primary network component for HTTP operations:
 
 ```kotlin
-class KtorDownloader @Inject constructor(
-    private val client: HttpClient
-) : Downloader {
-    suspend fun downloadIndex(...)
-    suspend fun downloadFile(...)
+interface Downloader {
+    suspend fun headCall(
+        url: String,
+        headers: HeadersBuilder.() -> Unit = {}
+    ): NetworkResponse
+
+    suspend fun downloadToFile(
+        url: String,
+        target: File,
+        validator: FileValidator? = null,
+        headers: HeadersBuilder.() -> Unit = {},
+        block: ProgressListener? = null
+    ): NetworkResponse
 }
 ```
 
@@ -241,38 +249,6 @@ class PreferenceSettingsRepository @Inject constructor(
 - Network and proxy settings
 - Language and localization
 
-## 🔧 Dependency Injection
-
-### Hilt Modules
-
-#### DatabaseModule
-Provides database-related dependencies:
-```kotlin
-@Module
-@InstallIn(SingletonComponent::class)
-object DatabaseModule {
-    @Provides @Singleton
-    fun provideDatabase(context: Context): DroidifyDatabase
-    
-    @Provides @Singleton  
-    fun provideAppDao(db: DroidifyDatabase): AppDao
-}
-```
-
-#### NetworkModule
-Configures network components:
-```kotlin
-@Module
-@InstallIn(SingletonComponent::class)
-object NetworkModule {
-    @Provides @Singleton
-    fun provideHttpClient(): HttpClient
-    
-    @Provides @Singleton
-    fun provideDownloader(client: HttpClient): Downloader
-}
-```
-
 ## 🎨 UI Architecture
 
 ### Fragment-Based Navigation
@@ -305,24 +281,6 @@ All APK downloads undergo cryptographic verification:
 - Proxy support for enhanced privacy
 - Network security configuration
 
-## ⚡ Performance Optimizations
-
-### Database Performance
-- Efficient queries with proper indexing
-- Background thread operations
-- Connection pooling and caching
-
-### Network Performance  
-- HTTP/2 support with connection multiplexing
-- Intelligent caching strategies
-- Resume-capable downloads
-- Parallel repository synchronization
-
-### Memory Management
-- Image loading optimization with Coil
-- Proper lifecycle management
-- Memory leak prevention
-
 ## 🧪 Testing Strategy
 
 ### Unit Tests
@@ -340,28 +298,13 @@ All APK downloads undergo cryptographic verification:
 - User flow validation
 - Accessibility testing
 
-## 📊 Monitoring & Debugging
-
-### Logging
-Structured logging throughout the application:
-```kotlin
-private val log = LoggerFactory.getLogger(ClassName::class.java)
-log.info("Operation completed successfully")
-```
-
-### Performance Monitoring
-- Database query performance tracking
-- Network request monitoring  
-- Installation success/failure rates
-
 ## 🔄 Future Architecture Plans
 
 ### Planned Improvements
 1. **Jetpack Compose Migration**: Modern UI framework
-2. **Modularization**: Feature-based modules
-3. **Index V2 Support**: Enhanced repository format
-4. **Improved Testing**: Comprehensive test coverage
-5. **Performance Analytics**: Better monitoring tools
+2. **Index V2 Support**: Enhanced repository format
+3. **Improved Testing**: Comprehensive test coverage
+4. **Code Analysis**: Static code analysis with Detekt
 
 ### Technical Debt
 - Legacy database migration completion
