@@ -93,12 +93,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val progress: Int
             get() = when (this) {
                 is Connecting -> Int.MIN_VALUE
-                Finish        -> Int.MAX_VALUE
-                is Syncing    -> when (stage) {
+                Finish -> Int.MAX_VALUE
+                is Syncing -> when (stage) {
                     RepositoryUpdater.Stage.DOWNLOAD -> ((read percentBy total) * 0.4F).roundToInt()
-                    RepositoryUpdater.Stage.PROCESS  -> 50
-                    RepositoryUpdater.Stage.MERGE    -> 75
-                    RepositoryUpdater.Stage.COMMIT   -> 90
+                    RepositoryUpdater.Stage.PROCESS -> 50
+                    RepositoryUpdater.Stage.MERGE -> 75
+                    RepositoryUpdater.Stage.COMMIT -> 90
                 }
             }
     }
@@ -281,13 +281,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val description = getString(
             when (exception) {
                 is RepositoryUpdater.UpdateException -> when (exception.errorType) {
-                    RepositoryUpdater.ErrorType.NETWORK    -> stringRes.network_error_DESC
-                    RepositoryUpdater.ErrorType.HTTP       -> stringRes.http_error_DESC
+                    RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
+                    RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
                     RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
-                    RepositoryUpdater.ErrorType.PARSING    -> stringRes.parsing_index_error_DESC
+                    RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
                 }
 
-                else                                 -> stringRes.unknown_error_DESC
+                else -> stringRes.unknown_error_DESC
             },
         )
         notificationManager?.notify(
@@ -340,7 +340,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 setProgress(0, 0, true)
                             }
 
-                            is State.Syncing    -> {
+                            is State.Syncing -> {
                                 when (state.stage) {
                                     RepositoryUpdater.Stage.DOWNLOAD -> {
                                         if (state.total != null) {
@@ -356,7 +356,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         }
                                     }
 
-                                    RepositoryUpdater.Stage.PROCESS  -> {
+                                    RepositoryUpdater.Stage.PROCESS -> {
                                         val progress = (state.read percentBy state.total)
                                             .takeIf { it != -1 }
                                         setContentText(
@@ -368,7 +368,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
                                     }
 
-                                    RepositoryUpdater.Stage.MERGE    -> {
+                                    RepositoryUpdater.Stage.MERGE -> {
                                         val progress = (state.read percentBy state.total)
                                         setContentText(
                                             getString(
@@ -379,14 +379,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         setProgress(MAX_PROGRESS, progress, false)
                                     }
 
-                                    RepositoryUpdater.Stage.COMMIT   -> {
+                                    RepositoryUpdater.Stage.COMMIT -> {
                                         setContentText(getString(stringRes.saving_details))
                                         setProgress(0, 0, true)
                                     }
                                 }
                             }
 
-                            is State.Finish     -> {}
+                            is State.Finish -> {}
                         }
                     }.build(),
                 )
@@ -417,7 +417,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val task = tasks.removeAt(0)
         when (task.repositoryId) {
             RB_LOGS_SYNC -> return RBLogWorker.fetchRBLogs(applicationContext)
-            else         -> {}
+            else -> {}
         }
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
@@ -472,7 +472,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 }
             }
             passedHasUpdates = when (response) {
-                is Result.Error   -> {
+                is Result.Error -> {
                     response.exception?.let {
                         it.printStackTrace()
                         if (task.manual) showNotificationError(repository, it as Exception)
