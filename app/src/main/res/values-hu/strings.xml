@@ -32,7 +32,7 @@
     <string name="available">Böngészés</string>
     <string name="bug_tracker">Hibakövető</string>
     <string name="cancel">Mégse</string>
-    <string name="cant_edit_sync_DESC">A tároló most nem szerkeszthető, mert épp szinkronizál.</string>
+    <string name="cant_edit_sync_DESC">A tároló szinkronizáció közben nem szerkeszthető</string>
     <string name="changelog">Változásnapló</string>
     <string name="changes">Változások</string>
     <string name="compiled_for_debugging">Hibakereséshez fordítva</string>
@@ -48,7 +48,7 @@
     <string name="details">Részletek</string>
     <string name="downloaded_FORMAT">%s letöltve</string>
     <string name="downloading">Letöltés</string>
-    <string name="edit_repository">Tároló szerkesztése</string>
+    <string name="edit_repository">Szerkesztés</string>
     <string name="fingerprint">Ujjlenyomat</string>
     <string name="has_advertising">Reklámot tartalmaz</string>
     <string name="has_non_free_dependencies">Nem-szabad elemei vannak</string>
@@ -176,10 +176,10 @@
     </plurals>
     <plurals name="days">
         <item quantity="one">nap</item>
-        <item quantity="other">nap</item>
+        <item quantity="other">napok</item>
     </plurals>
     <string name="io_error_DESC">Bizonyos műveleteket nem lehet végrehajtani.</string>
-    <string name="auto_update_apps">Próbálja automatikusan telepíteni a frissítéseket</string>
+    <string name="auto_update_apps">Telepítse automatikusan a frissítéseket</string>
     <string name="installing">Telepítés alatt</string>
     <string name="waiting_to_start_installation">Várakozás a telepítés megkezdésére …</string>
     <string name="favourites">Kedvencek</string>
