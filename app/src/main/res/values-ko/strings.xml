@@ -2,7 +2,7 @@
 <resources>
     <string name="auto_update">앱 자동 업데이트</string>
     <string name="auto_update_apps">자동으로 업데이트 설치 시도</string>
-    <string name="incompatible_older_DESC">이 버전은 기기에 설치된 버전보다 이전 버전입니다. 먼저 제거하십시오.</string>
+    <string name="incompatible_older_DESC">이 버전은 기기에 설치된 버전보다 이전 버전입니다. 먼저 앱을 제거하세요.</string>
     <string name="incompatible_version">호환되지 않는 버전</string>
     <string name="incompatible_versions">호환되지 않는 버전</string>
     <string name="install_types">설치 유형</string>
@@ -15,10 +15,10 @@
     <string name="merging_FORMAT">%s 병합</string>
     <string name="never">사용 안 함</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="other">%d개 애플리케이션을 업데이트할 수 있습니다.</item>
+        <item quantity="other">%d개 앱을 업데이트할 수 있습니다.</item>
     </plurals>
-    <string name="no_applications_available">사용 가능한 애플리케이션 없음</string>
-    <string name="no_applications_installed">설치된 애플리케이션 없음</string>
+    <string name="no_applications_available">사용 가능한 앱이 없음</string>
+    <string name="no_applications_installed">설치된 앱이 없음</string>
     <string name="network_error_DESC">네트워크 오류</string>
     <string name="http_proxy">HTTP 프록시</string>
     <string name="ignore_all_updates">모든 새 버전 무시</string>
@@ -49,16 +49,16 @@
     <string name="incompatible_features_DESC">기능이 없습니다.</string>
     <string name="incompatible_api_max_DESC_FORMAT">최대 API 버전은 %d입니다.</string>
     <string name="incompatible_api_min_DESC_FORMAT">최소 API 버전은 %d입니다.</string>
-    <string name="incompatible_signature_DESC">이 버전은 기기에 설치된 것과 다른 인증서로 서명되었습니다. 먼저 제거하십시오.</string>
-    <string name="incompatible_versions_summary">기기와 호환되지 않는 애플리케이션 버전 표시</string>
+    <string name="incompatible_signature_DESC">이 버전은 기기에 설치된 것과 다른 인증서로 서명되었습니다. 먼저 제거하세요</string>
+    <string name="incompatible_versions_summary">기기와 호환되지 않는 앱 버전 표시</string>
     <string name="installer">설치 관리자</string>
     <string name="session_installer">세션 설치 관리자</string>
     <string name="root_installer">루트 설치 관리자</string>
     <string name="invalid_username_format">잘못된 사용자 이름 형식</string>
     <string name="material_you_desc">Material You 색상 테마 사용</string>
-    <string name="new_updates_available">새로운 버전의 애플리케이션 사용 가능</string>
+    <string name="new_updates_available">새로운 버전의 앱 사용 가능</string>
     <string name="no_description_available_DESC">가능한 설명이 없습니다</string>
-    <string name="no_matching_applications_found">지원하는 애플리케이션을 찾지 못했습니다.</string>
+    <string name="no_matching_applications_found">지원하는 앱을 찾지 못했습니다.</string>
     <plurals name="days">
         <item quantity="other">일</item>
     </plurals>
@@ -87,14 +87,14 @@
     <string name="action_failed">작업 실패</string>
     <string name="add_repository">저장소 추가</string>
     <string name="address">주소</string>
-    <string name="all_applications">모든 애플리케이션</string>
-    <string name="all_applications_up_to_date">모든 애플리케이션이 최신 버전입니다.</string>
+    <string name="all_applications">모든 앱</string>
+    <string name="all_applications_up_to_date">모든 앱이 최신 버전입니다.</string>
     <string name="already_exists">이미 존재함</string>
     <string name="always">항상</string>
     <string name="amoled">블랙</string>
     <string name="anti_features">안티 기능</string>
-    <string name="application">애플리케이션</string>
-    <string name="application_not_found">해당 애플리케이션을 찾지 못했습니다.</string>
+    <string name="application">앱</string>
+    <string name="application_not_found">해당 앱을 찾지 못했습니다.</string>
     <string name="cant_edit_sync_DESC">지금은 동기화 중이므로 저장소를 편집할 수 없습니다.</string>
     <string name="changelog">변경 사항</string>
     <string name="changes">변경 사항</string>
@@ -178,7 +178,7 @@
     <string name="password_missing">비밀번호 누락</string>
     <string name="proxy">프록시</string>
     <string name="syncing_FORMAT">%s 동기화 중…</string>
-    <string name="repository_unsigned_DESC">서명되지 않았습니다. 애플리케이션 목록을 확인하지 못했습니다. 서명되지 않은 저장소에서 애플리케이션을 다운로드할 때는 주의하세요.</string>
+    <string name="repository_unsigned_DESC">서명되지 않았습니다. 앱 목록을 확인하지 못했습니다. 서명되지 않은 저장소에서 앱 다운로드할 때는 주의하세요.</string>
     <string name="sync_repositories">저장소 동기화</string>
     <string name="system">시스템</string>
     <string name="parsing_index_error_DESC">색인 파일 구문을 분석하지 못했습니다.</string>
@@ -216,17 +216,18 @@
     <string name="error_shizuku_not_granted_DESC">Shizuku 서비스 권한이 허용되어 있지 않습니다. Shizuku 앱에서 확인해 보세요.</string>
     <string name="uninstalled_application_DESC">%s 앱을 제거했습니다.</string>
     <string name="installation_failed_DESC">%s 앱을 설치하지 못했습니다.</string>
-    <string name="error_shizuku_service_unavailable">Shizkuku가 실행 중이 아님</string>
+    <string name="error_shizuku_service_unavailable">Shizkuku가 실행중 아님</string>
     <string name="error_shizuku_not_running_DESC">Shizuku 서비스가 실행 중이 아닙니다. Shizuku 앱에서 확인해 보세요.</string>
     <string name="error_shizuku_not_granted">Shizuku 권한 필요</string>
     <string name="error_shizuku_not_installed">Shizuku가 설치되어 있지 않음</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku가 설치되어 있지 않은 것 같습니다.</string>
     <string name="installation_failed">설치 실패</string>
-    <string name="insufficient_storage">저장 공간 부족</string>
-    <string name="insufficient_storage_DESC">이 애플리케이션을 설치할 저장 공간이 부족합니다.</string>
+    <string name="insufficient_storage">저장공간 부족함</string>
+    <string name="insufficient_storage_DESC">이 앱을 설치할 저장공간이 부족합니다.</string>
     <string name="open_shizuku">Shizuku 열기</string>
     <string name="switch_to_default_installer">기본 설치 관리자로 전환</string>
     <string name="ignore_signature">서명 무시</string>
     <string name="ignore_signature_summary">서명 검증을 무시하고 APK 파일을 설치합니다. LSPosed 사용자 및 고급 사용자용 기능입니다.</string>
     <string name="label_open_video">동영상</string>
+    <string name="shizuku_legacy_installer">Shizuku 레거시 설치관리자</string>
 </resources>
