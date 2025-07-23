@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e64dac21017b34894f6d9d7890184178",
+    "identityHash": "7e79a80c511686b3c0c965ef14dbc7f1",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -11,8 +11,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
@@ -23,8 +22,7 @@
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "locale",
@@ -45,9 +43,7 @@
             "tag",
             "locale"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "anti_features_app_relation",
@@ -86,7 +82,6 @@
             "versionCode"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "app",
@@ -125,7 +120,6 @@
             "tag"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -175,7 +169,6 @@
             "repoId"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -197,20 +190,17 @@
           {
             "fieldPath": "email",
             "columnName": "email",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "website",
             "columnName": "website",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "id",
@@ -237,8 +227,7 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_author_email_name_website` ON `${TABLE_NAME}` (`email`, `name`, `website`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "app",
@@ -259,8 +248,7 @@
           {
             "fieldPath": "license",
             "columnName": "license",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
@@ -271,26 +259,22 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "preferredSigner",
             "columnName": "preferredSigner",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "summary",
             "columnName": "summary",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "packageName",
@@ -394,8 +378,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
@@ -406,8 +389,7 @@
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "locale",
@@ -439,8 +421,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_category_defaultName` ON `${TABLE_NAME}` (`defaultName`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "category_app_relation",
@@ -466,7 +447,6 @@
             "defaultName"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "app",
@@ -505,7 +485,6 @@
             "defaultName"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -672,9 +651,7 @@
           "columnNames": [
             "packageName"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "link",
@@ -683,32 +660,27 @@
           {
             "fieldPath": "changelog",
             "columnName": "changelog",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "issueTracker",
             "columnName": "issueTracker",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "translation",
             "columnName": "translation",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sourceCode",
             "columnName": "sourceCode",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "webSite",
             "columnName": "webSite",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "appId",
@@ -723,7 +695,6 @@
             "appId"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "app",
@@ -751,8 +722,7 @@
           {
             "fieldPath": "countryCode",
             "columnName": "countryCode",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "isPrimary",
@@ -811,8 +781,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "address",
@@ -856,9 +825,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "screenshot",
@@ -955,8 +922,7 @@
           {
             "fieldPath": "maxSdkVersion",
             "columnName": "maxSdkVersion",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "minSdkVersion",
@@ -1027,20 +993,17 @@
           {
             "fieldPath": "src.name",
             "columnName": "src_name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "src.sha256",
             "columnName": "src_sha256",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "src.size",
             "columnName": "src_size",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -1073,12 +1036,124 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "rblog",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hash` TEXT NOT NULL, `repository` TEXT NOT NULL, `apk_url` TEXT NOT NULL, `packageName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `versionName` TEXT NOT NULL, `tag` TEXT NOT NULL, `commit` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `reproducible` INTEGER, `error` TEXT, PRIMARY KEY(`hash`, `packageName`, `timestamp`))",
+        "fields": [
+          {
+            "fieldPath": "hash",
+            "columnName": "hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repository",
+            "columnName": "repository",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apk_url",
+            "columnName": "apk_url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "appid",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version_code",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "version_name",
+            "columnName": "versionName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commit",
+            "columnName": "commit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reproducible",
+            "columnName": "reproducible",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "hash",
+            "packageName",
+            "timestamp"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_rblog_hash_packageName_timestamp",
+            "unique": true,
+            "columnNames": [
+              "hash",
+              "packageName",
+              "timestamp"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_rblog_hash_packageName_timestamp` ON `${TABLE_NAME}` (`hash`, `packageName`, `timestamp`)"
+          },
+          {
+            "name": "index_rblog_packageName_versionCode_reproducible",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "versionCode",
+              "reproducible"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rblog_packageName_versionCode_reproducible` ON `${TABLE_NAME}` (`packageName`, `versionCode`, `reproducible`)"
+          },
+          {
+            "name": "index_rblog_packageName_hash_reproducible",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "hash",
+              "reproducible"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rblog_packageName_hash_reproducible` ON `${TABLE_NAME}` (`packageName`, `hash`, `reproducible`)"
+          }
+        ]
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e64dac21017b34894f6d9d7890184178')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e79a80c511686b3c0c965ef14dbc7f1')"
     ]
   }
 }
