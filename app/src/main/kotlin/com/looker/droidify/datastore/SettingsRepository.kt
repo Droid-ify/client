@@ -59,6 +59,12 @@ interface SettingsRepository {
     suspend fun setHomeScreenSwiping(value: Boolean)
 
     suspend fun toggleFavourites(packageName: String)
+
+    suspend fun setRepoEnabled(repoId: Int, enabled: Boolean)
+
+    fun getEnabledRepoIds(): Flow<Set<Int>>
+
+    suspend fun isRepoEnabled(repoId: Int): Boolean
 }
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {

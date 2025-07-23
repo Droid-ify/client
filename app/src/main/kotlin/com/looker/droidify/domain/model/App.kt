@@ -4,14 +4,14 @@ data class App(
     val repoId: Long,
     val appId: Long,
     val categories: List<String>,
-    val links: Links,
+    val links: Links?,
     val metadata: Metadata,
     val author: Author?,
-    val screenshots: Screenshots,
-    val graphics: Graphics,
-    val donation: Donation,
+    val screenshots: Screenshots?,
+    val graphics: Graphics?,
+    val donation: Donation?,
     val preferredSigner: String = "",
-    val packages: List<Package>
+    val packages: List<Package>?
 )
 
 data class Author(

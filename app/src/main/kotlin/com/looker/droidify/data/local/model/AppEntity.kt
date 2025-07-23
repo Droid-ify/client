@@ -8,9 +8,15 @@ import androidx.room.Index
 import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
+import com.looker.droidify.domain.model.App
+import com.looker.droidify.domain.model.Donation
+import com.looker.droidify.domain.model.Metadata
+import com.looker.droidify.domain.model.PackageName
+import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.MetadataV2
+import com.looker.droidify.sync.v2.model.localizedValue
 
 @Entity(
     tableName = "app",
@@ -108,3 +114,40 @@ fun MetadataV2.appEntity(
     authorId = authorId,
     repoId = repoId,
 )
+
+fun AppEntity.toMetadata(locale: String, versions: List<VersionEntity>?): Metadata {
+    val appName = name.localizedValue(locale) ?: "Unknown"
+    val appSummary = summary?.localizedValue(locale) ?: ""
+    val appDescription = description?.localizedValue(locale) ?: ""
+    val iconUrl = icon?.localizedValue(locale)?.name ?: ""
+
+    return Metadata(
+        name = appName,
+        packageName = PackageName(packageName),
+        added = added,
+        description = appDescription,
+        icon = iconUrl,
+        lastUpdated = lastUpdated,
+        license = license ?: "Unknown",
+        suggestedVersionCode = versions?.maxByOrNull { it.versionCode }?.versionCode ?: 0,
+        suggestedVersionName = versions?.maxByOrNull { it.versionCode }?.versionName ?: "",
+        summary = appSummary,
+    )
+}
+
+fun AppEntityRelations.toApp(locale: String): App {
+    val mappedDonation = Donation()
+    return App(
+        repoId = app.repoId.toLong(),
+        appId = app.id.toLong(),
+        categories = categories.map<CategoryEntity, DefaultName> { it.defaultName },
+        links = links?.toLinks(),
+        metadata = app.toMetadata(locale, versions),
+        author = author.toAuthor(),
+        screenshots = screenshots?.toScreenshots(locale),
+        graphics = graphics?.toGraphics(locale),
+        donation = mappedDonation,
+        preferredSigner = app.preferredSigner ?: "",
+        packages = versions?.toPackages(locale, installed),
+    )
+}

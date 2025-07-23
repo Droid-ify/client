@@ -46,13 +46,14 @@ fun MetadataV2.localizedGraphics(appId: Int): List<GraphicEntity>? {
     }.ifEmpty { null }
 }
 
-fun List<GraphicEntity>.toGraphics(): Graphics {
+fun List<GraphicEntity>.toGraphics(locale: String): Graphics {
     var featureGraphic: String? = null
     var promoGraphic: String? = null
     var tvBanner: String? = null
     var video: String? = null
 
     for (entity in this) {
+        if (entity.locale != locale) continue
         when (entity.type) {
             FEATURE_GRAPHIC -> featureGraphic = entity.url
             PROMO_GRAPHIC -> promoGraphic = entity.url

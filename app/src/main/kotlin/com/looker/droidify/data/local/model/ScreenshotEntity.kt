@@ -56,14 +56,14 @@ fun ScreenshotsV2.localizedScreenshots(appId: Int): List<ScreenshotEntity> {
     return screenshots
 }
 
-fun List<ScreenshotEntity>.toScreenshots(): Screenshots {
+fun List<ScreenshotEntity>.toScreenshots(locale: String): Screenshots {
     val phone = mutableListOf<String>()
     val sevenInch = mutableListOf<String>()
     val tenInch = mutableListOf<String>()
     val wear = mutableListOf<String>()
     val tv = mutableListOf<String>()
-    for (index in this.indices) {
-        val entity = get(index)
+    for (entity in this) {
+        if (entity.locale != locale) continue
         when (entity.type) {
             PHONE -> phone.add(entity.path)
             SEVEN_INCH -> sevenInch.add(entity.path)
