@@ -8,8 +8,6 @@ interface Syncable<T> {
 
     val parser: Parser<T>
 
-    suspend fun sync(
-        repo: Repo,
-    ): Pair<Fingerprint, IndexV2?>
+    suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?>?
 
 }

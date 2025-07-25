@@ -177,6 +177,12 @@ interface AppDao {
     )
     fun installedStream(): Flow<List<AppEntity>>
 
+    @Query("SELECT versionCode FROM version WHERE appId = :appId ORDER BY versionCode DESC LIMIT 1")
+    suspend fun suggestedVersionCode(appId: Int): Long
+
+    @Query("SELECT versionName FROM version WHERE appId = :appId ORDER BY versionCode DESC LIMIT 1")
+    suspend fun suggestedVersionName(appId: Int): String
+
     @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")
     fun queryAppEntity(packageName: String): Flow<List<AppEntityRelations>>

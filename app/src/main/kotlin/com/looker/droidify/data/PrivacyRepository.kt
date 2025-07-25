@@ -1,4 +1,4 @@
-package com.looker.droidify.domain
+package com.looker.droidify.data
 
 import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.model.RBLogEntity

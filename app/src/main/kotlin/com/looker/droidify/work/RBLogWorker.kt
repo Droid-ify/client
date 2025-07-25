@@ -9,7 +9,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import com.looker.droidify.domain.PrivacyRepository
+import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.network.RBLogAPI
 import com.looker.droidify.network.toLogs
 import dagger.assisted.Assisted

@@ -9,6 +9,7 @@ import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.looker.droidify.domain.model.App
+import com.looker.droidify.domain.model.AppMinimal
 import com.looker.droidify.domain.model.Donation
 import com.looker.droidify.domain.model.Metadata
 import com.looker.droidify.domain.model.PackageName
@@ -132,6 +133,16 @@ fun AppEntity.toMetadata(locale: String, versions: List<VersionEntity>?): Metada
         suggestedVersionCode = versions?.maxByOrNull { it.versionCode }?.versionCode ?: 0,
         suggestedVersionName = versions?.maxByOrNull { it.versionCode }?.versionName ?: "",
         summary = appSummary,
+    )
+}
+
+fun AppEntity.toAppMinimal(locale: String, suggestedVersion: String): AppMinimal {
+    return AppMinimal(
+        appId = id.toLong(),
+        name = name.localizedValue(locale) ?: "Unknown",
+        summary = summary?.localizedValue(locale) ?: "",
+        icon = icon?.localizedValue(locale)?.name ?: "",
+        suggestedVersion = suggestedVersion,
     )
 }
 

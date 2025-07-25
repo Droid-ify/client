@@ -1,4 +1,4 @@
-package com.looker.droidify.domain
+package com.looker.droidify.data
 
 import com.looker.droidify.domain.model.Repo
 import kotlinx.coroutines.flow.Flow
@@ -9,7 +9,7 @@ interface RepoRepository {
 
     fun getRepos(): Flow<List<Repo>>
 
-    suspend fun updateRepo(repo: Repo)
+    fun getEnabledRepos(): Flow<List<Repo>>
 
     suspend fun enableRepository(repo: Repo, enable: Boolean)
 

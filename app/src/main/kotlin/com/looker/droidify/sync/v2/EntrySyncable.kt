@@ -45,7 +45,7 @@ class EntrySyncable(
     )
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> =
+    override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?>? =
         withContext(dispatcher) {
             // example https://apt.izzysoft.de/fdroid/repo/entry.json
             val jar = downloader.downloadIndex(
@@ -54,6 +54,7 @@ class EntrySyncable(
                 url = repo.address.removeSuffix("/") + "/$ENTRY_V2_NAME",
                 fileName = ENTRY_V2_NAME,
             )
+            if (jar.length() == 0L) return@withContext null
             val (fingerprint, entry) = parser.parse(jar, repo)
             jar.delete()
             val index = entry.getDiff(repo.versionInfo.timestamp)
