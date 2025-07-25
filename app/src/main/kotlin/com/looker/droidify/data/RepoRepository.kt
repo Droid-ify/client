@@ -11,6 +11,13 @@ interface RepoRepository {
 
     fun getEnabledRepos(): Flow<List<Repo>>
 
+    suspend fun insertRepo(
+        address: String,
+        fingerprint: String?,
+        username: String?,
+        password: String?,
+    )
+
     suspend fun enableRepository(repo: Repo, enable: Boolean)
 
     suspend fun sync(repo: Repo): Boolean

@@ -2,12 +2,18 @@ package com.looker.droidify.data.local.repos
 
 import android.content.Context
 import com.looker.droidify.data.RepoRepository
+import com.looker.droidify.data.encryption.Key
+import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.data.local.model.AuthenticationEntity
+import com.looker.droidify.data.local.model.RepoEntity
+import com.looker.droidify.data.local.model.toAuthentication
 import com.looker.droidify.data.local.model.toRepo
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.di.IoDispatcher
+import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.v1.V1Syncable
@@ -26,6 +32,7 @@ class LocalRepoRepository(
     @ApplicationContext context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,
     private val repoDao: RepoDao,
+    private val authDao: AuthDao,
     private val indexDao: IndexDao,
     private val settingsRepository: SettingsRepository,
 ) : RepoRepository {
@@ -44,13 +51,20 @@ class LocalRepoRepository(
 
     private val settings = settingsRepository.data
     private val locale = settings.map { it.language }
+    private val key = Key() // TODO: Get from settings
 
     override suspend fun getRepo(id: Long): Repo? {
         val repoId = id.toInt()
         val repoEntity = repoDao.repo(repoId).first()
+        val auth = authDao.authFor(repoId)?.toAuthentication(key)
         val enabled = repoId in settings.first().enabledRepoIds
         val mirrors = getMirrors(repoId)
-        return repoEntity.toRepo(locale.first(), mirrors, enabled)
+        return repoEntity.toRepo(
+            locale = locale.first(),
+            mirrors = mirrors,
+            enabled = enabled,
+            authentication = auth,
+        )
     }
 
     override fun getRepos(): Flow<List<Repo>> = combine(
@@ -59,13 +73,47 @@ class LocalRepoRepository(
     ) { repos, enabledIds ->
         repos.map { repoEntity ->
             val mirrors = getMirrors(repoEntity.id)
-            repoEntity.toRepo(locale.first(), mirrors, repoEntity.id in enabledIds)
+            val auth = authDao.authFor(repoEntity.id)?.toAuthentication(key)
+            repoEntity.toRepo(
+                locale = locale.first(),
+                mirrors = mirrors,
+                enabled = repoEntity.id in enabledIds,
+                authentication = auth,
+            )
         }
     }
 
     override fun getEnabledRepos(): Flow<List<Repo>> = settingsRepository
         .get { enabledRepoIds }
         .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId.toLong()) } }
+
+    override suspend fun insertRepo(
+        address: String,
+        fingerprint: String?,
+        username: String?,
+        password: String?,
+    ) {
+        val id = indexDao.insertRepo(
+            RepoEntity(
+                address = address,
+                fingerprint = Fingerprint(fingerprint.orEmpty()),
+                icon = null,
+                name = mapOf("en-US" to address),
+                description = mapOf("en-US" to address),
+                timestamp = System.currentTimeMillis(),
+            ),
+        )
+        if (password != null && username != null) {
+            val (encrypted, iv) = key.encrypt(password)
+            val authEntity = AuthenticationEntity(
+                password = encrypted,
+                username = username,
+                initializationVector = iv,
+                repoId = id.toInt(),
+            )
+            authDao.insert(authEntity)
+        }
+    }
 
     override suspend fun enableRepository(repo: Repo, enable: Boolean) {
         settingsRepository.setRepoEnabled(repo.id, enable)

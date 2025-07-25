@@ -32,6 +32,13 @@ value class Key(val secretKey: ByteArray) {
 
 }
 
+fun Key() = Key(
+    with(KeyGenerator.getInstance(ALGORITHM)) {
+        init(KEY_SIZE)
+        generateKey().encoded
+    }
+)
+
 /**
  * Before encrypting we convert it to a base64 string
  * */
@@ -43,13 +50,6 @@ value class Encrypted(val value: String) {
         cipher.init(Cipher.DECRYPT_MODE, key.spec, iv)
         val decrypted = cipher.doFinal(Base64.decode(value))
         return String(decrypted)
-    }
-}
-
-fun generateSecretKey(): ByteArray {
-    return with(KeyGenerator.getInstance(ALGORITHM)) {
-        init(KEY_SIZE)
-        generateKey().encoded
     }
 }
 

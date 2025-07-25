@@ -4,15 +4,16 @@ import com.looker.droidify.domain.model.Fingerprint
 import com.looker.droidify.domain.model.check
 import com.looker.droidify.domain.model.fingerprint
 import com.looker.droidify.network.validation.invalid
+import com.looker.droidify.sync.IndexValidator
 import com.looker.droidify.sync.utils.certificate
 import com.looker.droidify.sync.utils.codeSigner
+import java.util.jar.JarEntry
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import java.util.jar.JarEntry
 
 class IndexJarValidator(
     private val dispatcher: CoroutineDispatcher
-) : com.looker.droidify.sync.IndexValidator {
+) : IndexValidator {
     override suspend fun validate(
         jarEntry: JarEntry,
         expectedFingerprint: Fingerprint?
@@ -27,6 +28,7 @@ class IndexJarValidator(
         } catch (e: IllegalArgumentException) {
             invalid(e.message ?: "Error creating Fingerprint object")
         }
+        if (!fingerprint.isValid) invalid("Invalid Fingerprint: $fingerprint")
         if (expectedFingerprint == null) {
             fingerprint
         } else {

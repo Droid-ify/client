@@ -40,7 +40,7 @@ fun RepoEntity.toRepo(
     locale: String,
     mirrors: List<String>,
     enabled: Boolean,
-    authentication: Authentication? = null,
+    authentication: Authentication?,
 ) = Repo(
     name = name.localizedValue(locale) ?: "Unknown",
     description = description.localizedValue(locale) ?: "Unknown",

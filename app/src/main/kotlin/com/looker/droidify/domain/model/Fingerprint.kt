@@ -2,13 +2,13 @@ package com.looker.droidify.domain.model
 
 import java.security.MessageDigest
 import java.security.cert.Certificate
-import java.util.Locale
+import java.util.*
 
 @JvmInline
 value class Fingerprint(val value: String) {
-    init {
-        require(value.isNotBlank() && value.length == FINGERPRINT_LENGTH) { "Invalid Fingerprint: $value" }
-    }
+
+    val isValid: Boolean
+        get() = value.isNotBlank() && value.length == FINGERPRINT_LENGTH
 
     override fun toString(): String = value
 }
