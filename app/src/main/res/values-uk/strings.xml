@@ -12,7 +12,7 @@
     <string name="cancel">Скасувати</string>
     <string name="changes">Зміни</string>
     <string name="checking_repository">Перевірка репозиторія…</string>
-    <string name="application">Додаток</string>
+    <string name="application">Застосунок</string>
     <string name="always">Завжди</string>
     <string name="action_failed">Дія не вдалася</string>
     <string name="add_repository">Додати репозиторій</string>
@@ -132,7 +132,7 @@
     <string name="whats_new">Що нового</string>
     <string name="website">Вебсайт проєкту</string>
     <string name="prefs_language_title">Мова</string>
-    <string name="application_not_found">Додаток не знайдено</string>
+    <string name="application_not_found">Застосунок не знайдено</string>
     <string name="confirmation">Підтвердження</string>
     <string name="could_not_sync_FORMAT">Не вдалося синхронізувати %s</string>
     <string name="credits">Подяки</string>
