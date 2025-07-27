@@ -6,6 +6,8 @@ This document provides an in-depth overview of Droid-ify's technical architectur
 
 Droid-ify is built using modern Android development practices with a focus on maintainability, testability, and performance. The app follows Clean Architecture principles with clear separation of concerns.
 
+Droid-ify is transitioning to a new architecture. This document outlines the current and future architecture, as well as common components that will be shared between both.
+
 ## 🎯 Architecture Principles
 
 ### Clean Architecture
@@ -19,13 +21,99 @@ Droid-ify is built using modern Android development practices with a focus on ma
 - **Dependency Injection**: Hilt for managing dependencies
 - **MVVM**: Model-View-ViewModel for UI layer
 
+## 🔄 Architecture Transition
+
+### Future Architecture (Will Replace Current Implementation)
+
+#### 1. `data/*`
+- Contains both the data layer and domain layer of the application
+- Uses Room for database operations
+- Contains domain models and business logic
+- Clean data classes without framework dependencies
+- Uses Kotlin value classes for type safety (e.g., `Fingerprint`, `PackageName`, `Platforms`)
+- Organized into:
+  - `data/local/model` - Entity classes for database tables
+  - `data/local/dao` - DAO interfaces for database operations
+  - `data/local/converters` - Type converters for Room
+  - `data/encryption` - Encryption utilities for secure data storage
+  - `data/model` - Domain models like App, Package, Repo, etc.
+  - Domain repositories directly in `data/` (e.g., `PrivacyRepository.kt`, `AppRepository.kt`)
+
+#### 2. `sync/*`
+- Handles data synchronization with remote repositories
+- Supports multiple versions of the sync protocol (v1, v2)
+- Organized into:
+  - `sync/v1` - Models and parsers for version 1 of the sync protocol
+  - `sync/v2` - Models and parsers for version 2 of the sync protocol
+  - `sync/common` - Common utilities for both versions
+  - `sync/utils` - Utility classes for sync operations
+
+### Common Components (Shared Between Current and Future)
+
+#### 1. `work/*`
+- Uses Android's WorkManager for background tasks
+- Contains workers for specific tasks:
+  - `RBLogWorker` - Handles RBLog operations (privacy tracking)
+  - `CleanUpWorker` - Cleans up resources
+- Uses Hilt's `@AssistedInject` for dependency injection
+
+#### 2. `network/*`
+- Handles network operations
+- Uses Ktor for HTTP requests
+- Organized into:
+  - `NetworkResponse.kt` - Sealed classes for representing network responses
+  - `KtorDownloader.kt` - Downloader implementation using Ktor
+  - `network/header` - Utilities for handling HTTP headers
+  - `network/validation` - Validation utilities for network responses
+
+#### 3. `installer/*`
+- Handles app installation
+- Implements multiple installation methods using the strategy pattern
+- Organized into:
+  - `installer/installers/session` - Uses Android's PackageInstaller session API
+  - `installer/installers/root` - Uses root access for installation
+  - `installer/installers/shizuku` - Uses Shizuku for installation
+  - `installer/model` - Models for installation state and items
+
+#### 4. `di/*`
+- Handles dependency injection using Hilt
+- Contains modules for different components:
+  - `CoroutinesModule.kt` - Provides coroutine dispatchers and scopes
+  - `DatabaseModule.kt` - Provides database-related dependencies
+  - `DatastoreModule.kt` - Provides datastore-related dependencies
+  - `InstallModule.kt` - Provides installer-related dependencies
+  - `NetworkModule.kt` - Provides network-related dependencies
+  - `SyncableModule.kt` - Provides sync-related dependencies
+
+#### 5. `datastore/*`
+- Uses Android's Jetpack DataStore for storing preferences and settings
+- Organized into:
+  - `datastore/model` - Models for settings (InstallerType, ProxyPreference, SortOrder, Theme, etc.)
+  - `datastore/exporter` - Utilities for exporting settings
+  - `datastore/migration` - Migration utilities for older storage mechanisms
+  - `PreferenceSettingsRepository.kt` - Repository for accessing and modifying settings
+
+### Current Architecture (Will Be Replaced)
+
+#### 1. `model/*`
+- Contains current domain models
+- Will be replaced by `data/model/*`
+
+#### 2. `database/*`
+- Contains current database implementation using SQLite directly
+- Will be replaced by `data/local/*` using Room
+
 ## 🏛️ Project Structure
 
 ```
 app/src/main/kotlin/com/looker/droidify/
-├── 📁 data/                    # Data Layer
+├── 📁 data/                    # Data & Domain Layer
 │   ├── local/                  # Local data sources (Room)
-│   └── encryption/             # Data encryption utilities
+│   ├── encryption/             # Data encryption utilities
+│   ├── model/                  # Domain models
+│   ├── AppRepository.kt        # App data repository
+│   ├── PrivacyRepository.kt    # Privacy data repository
+│   └── RepoRepository.kt       # Repository data repository
 ├── 📁 database/                # Legacy database components
 │   ├── table/                  # Database table definitions
 │   └── ...                     # Database helpers and adapters
@@ -37,10 +125,6 @@ app/src/main/kotlin/com/looker/droidify/
 │   ├── CoroutinesModule.kt     # Coroutine scope providers
 │   ├── DatabaseModule.kt       # Database dependencies
 │   └── DatastoreModule.kt      # DataStore dependencies
-├── 📁 domain/                  # Domain Layer
-│   ├── model/                  # Domain models
-│   ├── AppRepository.kt        # App data repository interface
-│   └── RepoRepository.kt       # Repository data interface
 ├── 📁 installer/               # Installation Management
 │   ├── installers/             # Different installer implementations
 │   ├── model/                  # Installation models
@@ -287,6 +371,8 @@ All APK downloads undergo cryptographic verification:
 - Repository pattern testing
 - Business logic validation
 - Utility function testing
+- Encryption Tests: Verify encryption and decryption functionality
+- Index Values Tests: Verify index values for sync operations
 
 ### Integration Tests
 - Database migration testing
@@ -297,6 +383,79 @@ All APK downloads undergo cryptographic verification:
 - Fragment interaction testing
 - User flow validation
 - Accessibility testing
+
+## 🧰 Code Style and Conventions
+
+### Kotlin Features
+
+1. **Value Classes**: Used for type safety (e.g., `Fingerprint`, `PackageName`, `Platforms`)
+   ```kotlin
+   value class PackageName(val name: String)
+   ```
+
+2. **Sealed Classes**: Used for representing a restricted class hierarchy
+   ```kotlin
+   sealed class NetworkResponse {
+       data class Success(val data: ByteArray) : NetworkResponse()
+       sealed class Error : NetworkResponse()
+   }
+   ```
+
+3. **Data Classes**: Used for models
+   ```kotlin
+   data class App(
+       val packageName: PackageName,
+       val name: String,
+       // ...
+   )
+   ```
+
+### Architecture Patterns
+
+1. **Repository Pattern**: Used for data access
+   ```kotlin
+   class PrivacyRepository(val rbDao: RBLogDao) {
+       // Methods for accessing and modifying privacy data
+   }
+   ```
+
+2. **Strategy Pattern**: Used for different implementation strategies (e.g., installers)
+   ```kotlin
+   interface Installer {
+       // Common installer methods
+   }
+
+   class SessionInstaller(private val context: Context) : Installer {
+       // Session-specific implementation
+   }
+
+   class RootInstaller(private val context: Context) : Installer {
+       // Root-specific implementation
+   }
+   ```
+
+3. **Dependency Injection**: Used with Hilt for managing dependencies
+   ```kotlin
+   @Module
+   @InstallIn(SingletonComponent::class)
+   object DatabaseModule {
+       @Provides
+       @Singleton
+       fun provideDatabase(context: Context): DroidifyDatabase {
+           // Database initialization
+       }
+   }
+   ```
+
+## 📝 Important Notes
+
+1. When adding new features, follow the future architecture pattern (data/sync) rather than the current one.
+2. Use Room for database operations instead of direct SQLite access.
+3. Implement proper error handling for network operations using the `NetworkResponse` sealed class.
+4. Use Hilt for dependency injection throughout the application.
+5. Prefer Kotlin's value classes for type safety when appropriate.
+6. Follow the existing code style and naming conventions.
+7. Write unit tests for critical components.
 
 ## 🔄 Future Architecture Plans
 
@@ -314,4 +473,4 @@ All APK downloads undergo cryptographic verification:
 
 ---
 
-*This document is a living guide that evolves with the codebase. For questions or clarifications, please refer to the code comments or open a discussion.* 
+*This document is a living guide that evolves with the codebase. For questions or clarifications, please refer to the code comments or open a discussion.*

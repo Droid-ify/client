@@ -30,7 +30,7 @@ Improve README, guides, and code comments
 ## 🚀 Getting Started
 
 1. **Fork and clone** the repository
-2. **Set up environment** following [Building from Source](docs/BUILDING.md)
+2. **Set up environment** following [Building from Source](docs/building.md)
 3. **Create a branch** for your contribution
 4. **Make changes** following our guidelines
 5. **Test thoroughly** on different Android versions
@@ -62,7 +62,7 @@ Use [Conventional Commits](https://www.conventionalcommits.org/) format:
 
 **Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
 
-**Branch naming**: 
+**Branch naming**:
 - `feature/description`
 - `fix/description`
 - `docs/description`

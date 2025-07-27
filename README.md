@@ -27,7 +27,7 @@
 
 **📥 Download**: [GitHub Releases](https://github.com/Iamlooker/Droid-ify/releases/latest) • [F-Droid](https://f-droid.org/packages/com.looker.droidify)
 
-**🔧 Build**: See [Building Guide](docs/BUILDING.md) for development setup
+**🔧 Build**: See [Building Guide](docs/building.md) for development setup
 
 ## Contributing
 
