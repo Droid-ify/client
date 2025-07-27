@@ -18,11 +18,11 @@ This document contains a prioritized list of actionable improvement tasks for th
 ## UI Improvements
 
 ### Migration
-- [ ] Scrap the old ui/ package and start from scratch
-- [ ] Migrate to Jetpack Compose
+- [x] Scrap the old ui/ package and start from scratch
+- [x] Migrate to Jetpack Compose
 
 ### Jetpack Compose Migration
-- [ ] Create design system with Material 3 components
+- [x] Create design system with Material 3 components
 - [ ] Migrate screens one by one, starting with simpler screens
 - [ ] Implement proper state management with ViewModels
 - [ ] Ensure accessibility compliance in Compose UI

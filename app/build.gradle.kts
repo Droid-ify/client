@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
 }
 
 android {
@@ -36,6 +37,7 @@ android {
             languageVersion.set(KotlinVersion.KOTLIN_2_2)
             apiVersion.set(KotlinVersion.KOTLIN_2_2)
             jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.add("-Xopt-in=kotlin.RequiresOptIn")
         }
     }
 
@@ -92,6 +94,7 @@ android {
         }
     }
     buildFeatures {
+        compose = true
         resValues = true
         viewBinding = true
         buildConfig = true
@@ -142,6 +145,12 @@ dependencies {
     implementation(libs.hilt.ext.work)
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.ext.compiler)
+
+    // Compose dependencies
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.debug)
+    androidTestImplementation(libs.compose.ui.test.junit4)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)

@@ -31,8 +31,11 @@ room = "2.7.2"
 shizuku = "13.0.0"
 image-viewer = "1.0.1"
 junit-jupiter = "5.13.4"
-robolectric = "4.11.1"
+robolectric = "4.15.1"
 arch-core-testing = "2.2.0"
+compose-bom = "2025.07.00"
+compose-activity = "1.10.1"
+compose-navigation = "2.9.2"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -89,6 +92,20 @@ junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
 
+# Compose dependencies
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-ui = { group = "androidx.compose.ui", name = "ui" }
+compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
+compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }
+compose-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
@@ -96,6 +113,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
 room = ["room-runtime", "room-ktx"]
@@ -105,3 +123,5 @@ coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
 coil = ["coil-core", "coil-network"]
 test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "coroutines-test", "kotlin-test"]
+compose = ["compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "compose-activity", "compose-navigation", "compose-hilt-navigation", "compose-lifecycle-viewmodel"]
+compose-debug = ["compose-ui-tooling", "compose-ui-test-manifest"]
