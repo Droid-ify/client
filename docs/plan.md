@@ -23,11 +23,7 @@ This document outlines a comprehensive improvement plan for the Droid-ify projec
 **Current State:** The codebase has begun implementing Clean Architecture principles but still has some mixed responsibilities across layers.
 
 **Proposed Changes:**
-- Enforce strict layer separation (data, domain, presentation)
-- Create proper domain models with mappers to/from data layer entities
-- Implement use cases for all major features
-- Move business logic from UI components to the domain layer
-- Add repository interfaces in the domain layer with implementations in the data layer
+- No changes for now
 
 **Rationale:** Clean Architecture will make the codebase more maintainable, testable, and adaptable to change. By properly separating concerns, we can modify one layer without affecting others, making future enhancements easier.
 

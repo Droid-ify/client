@@ -10,13 +10,6 @@ This document contains a prioritized list of actionable improvement tasks for th
 - [x] Remove deprecated database classes and methods after migration
 - [x] Update documentation to reflect new database architecture
 
-### Clean Architecture Implementation
-- [ ] Enforce strict layer separation (data, domain, presentation)
-- [ ] Move business logic from UI components to domain layer
-- [ ] Create proper domain models with mappers to/from data layer entities
-- [ ] Implement use cases for all major features
-- [ ] Add repository interfaces in domain layer with implementations in data layer
-
 ### Sync System Enhancement
 - [ ] Complete Index V2 implementation
 - [ ] Implement incremental sync for better performance
