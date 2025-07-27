@@ -93,15 +93,15 @@ Droid-ify is transitioning to a new architecture. This document outlines the cur
   - `datastore/migration` - Migration utilities for older storage mechanisms
   - `PreferenceSettingsRepository.kt` - Repository for accessing and modifying settings
 
-### Current Architecture (Will Be Replaced)
+### Legacy Architecture (Replaced)
 
 #### 1. `model/*`
-- Contains current domain models
-- Will be replaced by `data/model/*`
+- Contains legacy domain models
+- Being replaced by `data/model/*`
 
-#### 2. `database/*`
-- Contains current database implementation using SQLite directly
-- Will be replaced by `data/local/*` using Room
+#### 2. `database/*` (Removed)
+- Contained legacy database implementation using SQLite directly
+- Has been replaced by `data/local/*` using Room
 
 ## 🏛️ Project Structure
 
@@ -109,14 +109,16 @@ Droid-ify is transitioning to a new architecture. This document outlines the cur
 app/src/main/kotlin/com/looker/droidify/
 ├── 📁 data/                    # Data & Domain Layer
 │   ├── local/                  # Local data sources (Room)
+│   │   ├── dao/                # Data Access Objects
+│   │   ├── model/              # Entity classes
+│   │   ├── converters/         # Type converters
+│   │   └── repos/              # Repository implementations
 │   ├── encryption/             # Data encryption utilities
 │   ├── model/                  # Domain models
-│   ├── AppRepository.kt        # App data repository
-│   ├── PrivacyRepository.kt    # Privacy data repository
-│   └── RepoRepository.kt       # Repository data repository
-├── 📁 database/                # Legacy database components
-│   ├── table/                  # Database table definitions
-│   └── ...                     # Database helpers and adapters
+│   ├── AppRepository.kt        # App data repository interface
+│   ├── InstalledRepository.kt  # Installed apps repository interface
+│   ├── PrivacyRepository.kt    # Privacy data repository interface
+│   └── RepoRepository.kt       # Repository data repository interface
 ├── 📁 datastore/               # DataStore preferences
 │   ├── extension/              # DataStore extensions
 │   ├── migration/              # Settings migration
@@ -184,17 +186,37 @@ graph TD
 
 ### Database Layer
 
-#### Room Database (New)
-Located in `data/local/`, provides modern database abstraction:
+#### Room Database
+Located in `data/local/`, provides type-safe database abstraction:
 
 ```kotlin
 @Database(
+    version = 1,
+    exportSchema = true,
     entities = [
+        AntiFeatureEntity::class,
+        AntiFeatureAppRelation::class,
+        AntiFeatureRepoRelation::class,
+        AuthenticationEntity::class,
+        AuthorEntity::class,
         AppEntity::class,
+        CategoryEntity::class,
+        CategoryAppRelation::class,
+        CategoryRepoRelation::class,
+        DonateEntity::class,
+        GraphicEntity::class,
+        InstalledEntity::class,
+        LinksEntity::class,
+        MirrorEntity::class,
         RepoEntity::class,
-        // ... other entities
+        ScreenshotEntity::class,
+        VersionEntity::class,
+        RBLogEntity::class,
     ],
-    version = 2
+)
+@TypeConverters(
+    PermissionConverter::class,
+    Converters::class,
 )
 abstract class DroidifyDatabase : RoomDatabase()
 ```
@@ -204,11 +226,29 @@ abstract class DroidifyDatabase : RoomDatabase()
 - `RepoDao`: Repository configuration and state
 - `AuthDao`: Authentication credentials
 - `IndexDao`: Repository index processing
+- `InstalledDao`: Installed applications information
+- `RBLogDao`: Privacy tracking data
 
-#### Legacy Database
-Located in `database/`, provides backward compatibility:
-- `Database.kt`: Main database interface
-- Table adapters for ProductAdapter, RepositoryAdapter, etc.
+The database is initialized with proper configuration for performance:
+
+```kotlin
+fun droidifyDatabase(context: Context): DroidifyDatabase = Room
+    .databaseBuilder(
+        context = context,
+        klass = DroidifyDatabase::class.java,
+        name = "droidify_room",
+    )
+    .addCallback(
+        object : RoomDatabase.Callback() {
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
+                db.query("PRAGMA synchronous = OFF")
+                db.query("PRAGMA journal_mode = WAL")
+            }
+        },
+    )
+    .build()
+```
 
 ### Network Layer
 
@@ -449,8 +489,8 @@ All APK downloads undergo cryptographic verification:
 
 ## 📝 Important Notes
 
-1. When adding new features, follow the future architecture pattern (data/sync) rather than the current one.
-2. Use Room for database operations instead of direct SQLite access.
+1. When adding new features, follow the architecture pattern (data/sync) with proper separation of concerns.
+2. Use Room for all database operations.
 3. Implement proper error handling for network operations using the `NetworkResponse` sealed class.
 4. Use Hilt for dependency injection throughout the application.
 5. Prefer Kotlin's value classes for type safety when appropriate.
@@ -466,7 +506,7 @@ All APK downloads undergo cryptographic verification:
 4. **Code Analysis**: Static code analysis with Detekt
 
 ### Technical Debt
-- Legacy database migration completion
+- Complete Clean Architecture implementation
 - Code duplication elimination
 - Dependency updates and modernization
 - Documentation improvements
