@@ -1,14 +1,10 @@
 package com.looker.droidify.installer
 
 import android.content.Context
-import com.looker.droidify.utility.common.extension.addAndCompute
-import com.looker.droidify.utility.common.extension.filter
-import com.looker.droidify.utility.common.extension.notificationManager
-import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.LegacyInstaller
 import com.looker.droidify.installer.installers.root.RootInstaller
@@ -19,6 +15,10 @@ import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.notification.createInstallNotification
 import com.looker.droidify.installer.notification.installNotification
 import com.looker.droidify.installer.notification.removeInstallNotification
+import com.looker.droidify.utility.common.extension.addAndCompute
+import com.looker.droidify.utility.common.extension.filter
+import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.updateAsMutable
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach

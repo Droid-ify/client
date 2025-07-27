@@ -32,7 +32,7 @@ import com.looker.droidify.data.local.model.localizedScreenshots
 import com.looker.droidify.data.local.model.mirrorEntity
 import com.looker.droidify.data.local.model.repoEntity
 import com.looker.droidify.data.local.model.versionEntities
-import com.looker.droidify.domain.model.Fingerprint
+import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.sync.v2.model.IndexV2
 
 @Dao

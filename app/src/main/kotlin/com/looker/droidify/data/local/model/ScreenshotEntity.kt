@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import com.looker.droidify.domain.model.Screenshots
+import com.looker.droidify.data.model.Screenshots
 import com.looker.droidify.sync.v2.model.LocalizedFiles
 import com.looker.droidify.sync.v2.model.ScreenshotsV2
 

@@ -1,4 +1,4 @@
-package com.looker.droidify.domain.model
+package com.looker.droidify.data.model
 
 interface DataFile {
     val name: String

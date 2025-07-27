@@ -1,9 +1,9 @@
 package com.looker.droidify.data
 
+import com.looker.droidify.data.model.App
+import com.looker.droidify.data.model.AppMinimal
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.domain.model.App
-import com.looker.droidify.domain.model.AppMinimal
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
 import kotlinx.coroutines.flow.Flow

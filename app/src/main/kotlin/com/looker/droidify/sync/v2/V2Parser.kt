@@ -1,13 +1,13 @@
 package com.looker.droidify.sync.v2
 
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.v2.model.IndexV2
+import java.io.File
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
-import java.io.File
 
 class V2Parser(
     private val dispatcher: CoroutineDispatcher,

@@ -6,18 +6,18 @@ import android.content.Intent
 import android.util.AndroidRuntimeException
 import androidx.core.net.toUri
 import com.looker.droidify.R
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.intent
+import kotlin.coroutines.resume
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
 class LegacyInstaller(

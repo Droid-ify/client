@@ -3,10 +3,10 @@ package com.looker.droidify
 import android.content.Context
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.VersionInfo
 import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.domain.model.VersionInfo
 import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
 import com.looker.droidify.sync.common.JsonParser
@@ -15,13 +15,13 @@ import com.looker.droidify.sync.v2.model.IndexV2
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
+import javax.inject.Inject
+import kotlin.test.Test
+import kotlin.test.assertTrue
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
-import javax.inject.Inject
-import kotlin.test.Test
-import kotlin.test.assertTrue
 
 @HiltAndroidTest
 class RoomTesting {

@@ -1,8 +1,8 @@
 package com.looker.droidify.sync.common
 
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.check
-import com.looker.droidify.domain.model.fingerprint
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.check
+import com.looker.droidify.data.model.fingerprint
 import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.IndexValidator
 import com.looker.droidify.sync.utils.certificate

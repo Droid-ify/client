@@ -10,11 +10,11 @@ import com.looker.droidify.data.local.model.AuthenticationEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.toAuthentication
 import com.looker.droidify.data.local.model.toRepo
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.di.IoDispatcher
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v2.EntrySyncable

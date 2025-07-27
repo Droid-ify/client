@@ -2,10 +2,10 @@ package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.looker.droidify.domain.model.Authentication
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.domain.model.VersionInfo
+import com.looker.droidify.data.model.Authentication
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.VersionInfo
 import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.RepoV2

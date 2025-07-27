@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalEncodingApi::class)
-
 package com.looker.droidify.data.encryption
 
 import java.security.SecureRandom
@@ -8,7 +6,6 @@ import javax.crypto.KeyGenerator
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 private const val KEY_SIZE = 256
 private const val IV_SIZE = 16
@@ -36,7 +33,7 @@ fun Key() = Key(
     with(KeyGenerator.getInstance(ALGORITHM)) {
         init(KEY_SIZE)
         generateKey().encoded
-    }
+    },
 )
 
 /**

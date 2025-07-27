@@ -8,11 +8,11 @@ import androidx.room.Index
 import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
-import com.looker.droidify.domain.model.App
-import com.looker.droidify.domain.model.AppMinimal
-import com.looker.droidify.domain.model.Donation
-import com.looker.droidify.domain.model.Metadata
-import com.looker.droidify.domain.model.PackageName
+import com.looker.droidify.data.model.App
+import com.looker.droidify.data.model.AppMinimal
+import com.looker.droidify.data.model.Donation
+import com.looker.droidify.data.model.Metadata
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString

@@ -6,7 +6,7 @@ import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import com.looker.droidify.data.encryption.Encrypted
 import com.looker.droidify.data.encryption.Key
-import com.looker.droidify.domain.model.Authentication
+import com.looker.droidify.data.model.Authentication
 
 @Entity(
     tableName = "authentication",

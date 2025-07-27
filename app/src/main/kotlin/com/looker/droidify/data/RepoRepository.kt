@@ -1,6 +1,6 @@
 package com.looker.droidify.data
 
-import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.data.model.Repo
 import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {

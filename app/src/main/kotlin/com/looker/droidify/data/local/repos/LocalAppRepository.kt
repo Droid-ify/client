@@ -4,12 +4,12 @@ import com.looker.droidify.data.AppRepository
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.model.toApp
 import com.looker.droidify.data.local.model.toAppMinimal
+import com.looker.droidify.data.model.App
+import com.looker.droidify.data.model.AppMinimal
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.domain.model.App
-import com.looker.droidify.domain.model.AppMinimal
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
 import kotlinx.coroutines.flow.Flow
