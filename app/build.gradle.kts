@@ -145,6 +145,11 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
+    testImplementation(libs.room.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.arch.core.testing)
+    testImplementation(libs.test.core)
+    testImplementation(libs.test.core.ktx)
     testRuntimeOnly(libs.junit.platform)
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)

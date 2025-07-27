@@ -13,6 +13,7 @@ sqlite = "2.5.2"
 test-ext = "1.2.1"
 test-rules = "1.6.1"
 test-runner = "1.6.2"
+test-core = "1.6.1"
 work = "2.10.2"
 coil = "3.3.0"
 leakcanary = "2.14"
@@ -30,6 +31,8 @@ room = "2.7.2"
 shizuku = "13.0.0"
 image-viewer = "1.0.1"
 junit-jupiter = "5.13.4"
+robolectric = "4.11.1"
+arch-core-testing = "2.2.0"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -47,6 +50,8 @@ sqlite-ktx = { group = "androidx.sqlite", name = "sqlite-ktx", version.ref = "sq
 test-ext = { group = "androidx.test.ext", name = "junit-ktx", version.ref = "test-ext" }
 test-rules = { group = "androidx.test", name = "rules", version.ref = "test-rules" }
 test-runner = { group = "androidx.test", name = "runner", version.ref = "test-runner" }
+test-core = { group = "androidx.test", name = "core", version.ref = "test-core" }
+test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "test-core" }
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
 coil-core = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
@@ -81,6 +86,8 @@ image-viewer = { module = "com.github.stfalcon-studio:StfalconImageViewer", vers
 junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit-jupiter" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
+arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

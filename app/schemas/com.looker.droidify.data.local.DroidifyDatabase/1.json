@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7e79a80c511686b3c0c965ef14dbc7f1",
+    "identityHash": "b634b332a94e2b4ca14d38d1fb4bcef4",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -136,7 +136,7 @@
       },
       {
         "tableName": "authentication",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` TEXT NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` BLOB NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "password",
@@ -153,7 +153,7 @@
           {
             "fieldPath": "initializationVector",
             "columnName": "initializationVector",
-            "affinity": "TEXT",
+            "affinity": "BLOB",
             "notNull": true
           },
           {
@@ -619,29 +619,29 @@
       },
       {
         "tableName": "installed",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionCode` TEXT NOT NULL, `versionName` TEXT NOT NULL, `signature` TEXT NOT NULL, `packageName` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `version` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `signature` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
         "fields": [
           {
-            "fieldPath": "versionCode",
-            "columnName": "versionCode",
+            "fieldPath": "packageName",
+            "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "versionName",
-            "columnName": "versionName",
+            "fieldPath": "version",
+            "columnName": "version",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "signature",
             "columnName": "signature",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "packageName",
-            "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -1039,7 +1039,7 @@
       },
       {
         "tableName": "rblog",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hash` TEXT NOT NULL, `repository` TEXT NOT NULL, `apk_url` TEXT NOT NULL, `packageName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `versionName` TEXT NOT NULL, `tag` TEXT NOT NULL, `commit` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `reproducible` INTEGER, `error` TEXT, PRIMARY KEY(`hash`, `packageName`, `timestamp`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hash` TEXT NOT NULL, `repository` TEXT NOT NULL, `apkUrl` TEXT NOT NULL, `packageName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `versionName` TEXT NOT NULL, `tag` TEXT NOT NULL, `commit` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `reproducible` INTEGER, `error` TEXT, PRIMARY KEY(`hash`, `packageName`, `timestamp`))",
         "fields": [
           {
             "fieldPath": "hash",
@@ -1054,25 +1054,25 @@
             "notNull": true
           },
           {
-            "fieldPath": "apk_url",
-            "columnName": "apk_url",
+            "fieldPath": "apkUrl",
+            "columnName": "apkUrl",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "appid",
+            "fieldPath": "packageName",
             "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "version_code",
+            "fieldPath": "versionCode",
             "columnName": "versionCode",
             "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "version_name",
+            "fieldPath": "versionName",
             "columnName": "versionName",
             "affinity": "TEXT",
             "notNull": true
@@ -1153,7 +1153,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e79a80c511686b3c0c965ef14dbc7f1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b634b332a94e2b4ca14d38d1fb4bcef4')"
     ]
   }
 }
