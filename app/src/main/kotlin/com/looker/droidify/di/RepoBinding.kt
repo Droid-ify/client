@@ -1,8 +1,10 @@
 package com.looker.droidify.di
 
 import com.looker.droidify.data.AppRepository
+import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.local.repos.LocalAppRepository
+import com.looker.droidify.data.local.repos.LocalInstalledRepository
 import com.looker.droidify.data.local.repos.LocalRepoRepository
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,5 +20,8 @@ abstract class RepoBinding {
 
     @Singleton
     abstract fun bindRepoRepository(local: LocalRepoRepository): RepoRepository
+
+    @Singleton
+    abstract fun bindInstalledRepository(local: LocalInstalledRepository): InstalledRepository
 
 }

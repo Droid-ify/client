@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
+import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
@@ -34,6 +35,7 @@ import kotlinx.coroutines.runBlocking
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
+    installedRepository: InstalledRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -51,7 +53,7 @@ class AppDetailViewModel @Inject constructor(
         combine(
             Database.ProductAdapter.getStream(packageName),
             Database.RepositoryAdapter.getAllStream(),
-            Database.InstalledAdapter.getStream(packageName),
+            installedRepository.getStream(packageName),
             repoAddress,
             flow { emit(settingsRepository.getInitial()) },
         ) { products, repositories, installedItem, suggestedAddress, initialSettings ->

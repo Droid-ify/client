@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
+import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.index.RepositoryUpdater
@@ -37,6 +38,9 @@ import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.ref.WeakReference
+import javax.inject.Inject
+import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -52,9 +56,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.lang.ref.WeakReference
-import javax.inject.Inject
-import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -77,6 +78,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var installedRepository: InstalledRepository
 
     sealed class State(val name: String) {
         class Connecting(appName: String) : State(appName)
@@ -530,7 +534,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
-                Database.InstalledAdapter.get(it.packageName, null) to
+                installedRepository.get(it.packageName) to
                     Database.RepositoryAdapter.get(it.repositoryId)
             }
             .filter { it.first != null && it.second != null }

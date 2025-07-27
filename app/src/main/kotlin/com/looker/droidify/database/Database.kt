@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteOpenHelper
 import android.os.CancellationSignal
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
@@ -12,7 +11,6 @@ import com.fasterxml.jackson.core.JsonParser
 import com.looker.droidify.database.table.DatabaseHelper
 import com.looker.droidify.database.table.Table
 import com.looker.droidify.datastore.model.SortOrder
-import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
@@ -25,6 +23,7 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
+import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -37,10 +36,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
-import kotlin.collections.component1
-import kotlin.collections.component2
-import kotlin.collections.set
 
 object Database {
     fun init(context: Context): Boolean {
@@ -649,72 +644,7 @@ object Database {
         }
     }
 
-    object InstalledAdapter {
-
-        fun getStream(packageName: String): Flow<InstalledItem?> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            .map { get(packageName, null) }
-            .flowOn(Dispatchers.IO)
-
-        fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
-            return db.query(
-                Schema.Installed.name,
-                columns = arrayOf(
-                    Schema.Installed.ROW_PACKAGE_NAME,
-                    Schema.Installed.ROW_VERSION,
-                    Schema.Installed.ROW_VERSION_CODE,
-                    Schema.Installed.ROW_SIGNATURE,
-                ),
-                selection = Pair("${Schema.Installed.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-                signal = signal,
-            ).use { it.firstOrNull()?.let(::transform) }
-        }
-
-        private fun put(installedItem: InstalledItem, notify: Boolean) {
-            db.insertOrReplace(
-                true,
-                Schema.Installed.name,
-                ContentValues().apply {
-                    put(Schema.Installed.ROW_PACKAGE_NAME, installedItem.packageName)
-                    put(Schema.Installed.ROW_VERSION, installedItem.version)
-                    put(Schema.Installed.ROW_VERSION_CODE, installedItem.versionCode)
-                    put(Schema.Installed.ROW_SIGNATURE, installedItem.signature)
-                },
-            )
-            if (notify) {
-                notifyChanged(Subject.Products)
-            }
-        }
-
-        fun put(installedItem: InstalledItem) = put(installedItem, true)
-
-        fun putAll(installedItems: List<InstalledItem>) {
-            db.transaction {
-                db.delete(Schema.Installed.name, null, null)
-                installedItems.forEach { put(it, false) }
-            }
-        }
-
-        fun delete(packageName: String) {
-            val count = db.delete(
-                Schema.Installed.name,
-                "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                arrayOf(packageName),
-            )
-            if (count > 0) {
-                notifyChanged(Subject.Products)
-            }
-        }
-
-        private fun transform(cursor: Cursor): InstalledItem {
-            return InstalledItem(
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE)),
-            )
-        }
-    }
+    // InstalledAdapter has been replaced by InstalledRepository
 
     object LockAdapter {
         private fun put(lock: Pair<String, Long>, notify: Boolean) {
