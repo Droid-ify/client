@@ -21,8 +21,8 @@ import kotlinx.coroutines.withContext
 
 @HiltWorker
 class RBLogWorker @AssistedInject constructor(
-    @Assisted params: WorkerParameters,
     @Assisted private val context: Context,
+    @Assisted params: WorkerParameters,
     private val privacyRepository: PrivacyRepository,
     private val downloader: Downloader,
 ) : CoroutineWorker(context, params) {

@@ -18,6 +18,7 @@ import kotlin.system.measureTimeMillis
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import kotlin.test.fail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -82,7 +83,7 @@ class EntrySyncableTest {
     @Test
     fun check_if_patch_applies() = runTest(dispatcher) {
         // Downloads old index file as the index file does not exist
-        val (fingerprint1, index1) = syncable.sync(repo)
+        val (fingerprint1, index1) = syncable.sync(repo) ?: fail("Result should not be null")
         assert(index1 != null)
         // Downloads the diff as the index file exists and is older than entry version
         val (fingerprint2, index2) = syncable.sync(
@@ -91,7 +92,7 @@ class EntrySyncableTest {
                     timestamp = index1!!.repo.timestamp
                 )
             )
-        )
+        ) ?: fail("Result should not be null")
         assert(index2 != null)
         // Does not download anything
         val (fingerprint3, index3) = syncable.sync(
@@ -100,7 +101,7 @@ class EntrySyncableTest {
                     timestamp = index2!!.repo.timestamp
                 )
             )
-        )
+        ) ?: fail("Result should not be null")
         assert(index3 == null)
 
         // Check if all the packages are same

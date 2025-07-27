@@ -86,7 +86,7 @@ fun List<VersionEntity>.toPackages(
 ) = map { version ->
     Package(
         id = version.id.toLong(),
-        installed = installed != null && installed.versionCode.toLongOrNull() == version.versionCode,
+        installed = installed != null && installed.versionCode == version.versionCode,
         added = version.added,
         apk = ApkFile(
             name = version.apk.name,

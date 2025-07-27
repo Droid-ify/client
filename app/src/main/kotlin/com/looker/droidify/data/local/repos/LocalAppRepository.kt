@@ -12,11 +12,12 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
-class LocalAppRepository(
+class LocalAppRepository @Inject constructor(
     private val appDao: AppDao,
     private val settingsRepository: SettingsRepository,
 ) : AppRepository {

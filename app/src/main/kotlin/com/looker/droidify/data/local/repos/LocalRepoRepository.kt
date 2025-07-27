@@ -19,6 +19,7 @@ import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v2.EntrySyncable
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -27,7 +28,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
-class LocalRepoRepository(
+class LocalRepoRepository @Inject constructor(
     downloader: Downloader,
     @ApplicationContext context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,

@@ -6,22 +6,22 @@ import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.local.repos.LocalAppRepository
 import com.looker.droidify.data.local.repos.LocalInstalledRepository
 import com.looker.droidify.data.local.repos.LocalRepoRepository
+import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepoBinding {
 
-    @Singleton
+    @Binds
     abstract fun bindAppRepository(local: LocalAppRepository): AppRepository
 
-    @Singleton
+    @Binds
     abstract fun bindRepoRepository(local: LocalRepoRepository): RepoRepository
 
-    @Singleton
+    @Binds
     abstract fun bindInstalledRepository(local: LocalInstalledRepository): InstalledRepository
 
 }

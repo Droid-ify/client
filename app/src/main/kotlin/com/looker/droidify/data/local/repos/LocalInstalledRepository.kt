@@ -6,7 +6,6 @@ import com.looker.droidify.data.local.model.toDomain
 import com.looker.droidify.data.local.model.toEntity
 import com.looker.droidify.model.InstalledItem
 import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.map
  * Implementation of [InstalledRepository] that uses Room database.
  * @param installedDao The DAO for installed applications.
  */
-@Singleton
 class LocalInstalledRepository @Inject constructor(
     private val installedDao: InstalledDao
 ) : InstalledRepository {
