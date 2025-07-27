@@ -11,6 +11,10 @@ import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.RepoV2
 import com.looker.droidify.sync.v2.model.localizedValue
 
+/**
+ * `enabled` flag will be kept in datastore and will be updated there only
+ * `deleted` is not needed as we will delete all required data when deleting repo or disabling it
+ * */
 @Entity(tableName = "repository")
 data class RepoEntity(
     val icon: LocalizedIcon?,
