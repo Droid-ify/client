@@ -11,6 +11,7 @@ import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureAppRelation
@@ -66,6 +67,7 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun authDao(): AuthDao
     abstract fun indexDao(): IndexDao
     abstract fun rbLogDao(): RBLogDao
+    abstract fun installedDao(): InstalledDao
 }
 
 fun droidifyDatabase(context: Context): DroidifyDatabase = Room
