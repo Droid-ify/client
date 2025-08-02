@@ -2,10 +2,10 @@
 <resources>
     <string name="action_failed">عملیات ناموفق بود</string>
     <string name="add_repository">افزودن مخزن</string>
-    <string name="address">آدرس</string>
-    <string name="all_applications">تمام کاره ها</string>
-    <string name="all_applications_up_to_date">تمام کاره‌های شما به‌روز هستند</string>
-    <string name="already_exists">از قبل وجود دارد</string>
+    <string name="address">نشانی</string>
+    <string name="all_applications">همه‌ی برنامه‌ها</string>
+    <string name="all_applications_up_to_date">همه‌ی برنامه‌های شما به‌روز هستند</string>
+    <string name="already_exists">از پیش وجود دارد</string>
     <string name="amoled">سیاه</string>
     <string name="application">کاره</string>
     <string name="application_not_found">کاره یافت نشد</string>
@@ -43,7 +43,7 @@
     <string name="incompatible_api_max_DESC_FORMAT">حداکثر نسخهAPI اینه %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">حداقل نسخهAPI اینه %d.</string>
     <string name="incompatible_features_DESC">قابلیت‌هایی را ندارد.</string>
-    <string name="incompatible_older_DESC">این نسخه قدیمی‌تر از اونی که روی دستگاه شما نصب هست. اول اونو پاک کن.</string>
+    <string name="incompatible_older_DESC">این نسخه قدیمی‌تر از اونی که روی دستگاه شما نصب هست. نخست آن را پاک کن.</string>
     <string name="incompatible_signature_DESC">این نسخه نسبت به نسخه‌ای که در دستگاه شما نصب شده با کلید متفاوتی امضاء شده. اول اونو پاک کن.</string>
     <string name="install_types">انواع نصب</string>
     <string name="install">نصب</string>
