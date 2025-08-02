@@ -149,7 +149,6 @@ dependencies {
     implementation(platform(libs.compose.bom))
     implementation(libs.bundles.compose)
     debugImplementation(libs.bundles.compose.debug)
-    androidTestImplementation(libs.compose.ui.test.junit4)
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)

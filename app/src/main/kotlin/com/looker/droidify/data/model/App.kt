@@ -77,6 +77,7 @@ data class Screenshots(
 @Immutable
 data class AppMinimal(
     val appId: Long,
+    val packageName: PackageName,
     val name: String,
     val summary: String,
     val icon: FilePath?,
@@ -89,6 +90,7 @@ data class AppMinimal(
 
 fun App.minimal() = AppMinimal(
     appId = appId,
+    packageName = metadata.packageName,
     name = metadata.name,
     summary = metadata.summary,
     icon = metadata.icon,

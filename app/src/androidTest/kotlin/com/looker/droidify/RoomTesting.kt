@@ -113,4 +113,5 @@ private fun Repository.toRepo(id: Int) = Repo(
     authentication = null,
     versionInfo = VersionInfo(timestamp, entityTag),
     mirrors = emptyList(),
+    icon = null,
 )

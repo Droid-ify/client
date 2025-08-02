@@ -58,18 +58,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.looker.droidify.R
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.sync.v2.model.DefaultName
-import com.looker.droidify.utility.common.log
 
 @Composable
 fun AppListScreen(
-    viewModel: AppListViewModel = viewModel(),
+    viewModel: AppListViewModel,
+    onAppClick: (String) -> Unit,
 ) {
-    val apps by viewModel.apps.collectAsStateWithLifecycle()
+    val apps by viewModel.appsState.collectAsStateWithLifecycle()
     val selectedCategories by viewModel.selectedCategories.collectAsState()
 
     val availableCategories by viewModel.categories.collectAsStateWithLifecycle()
@@ -101,7 +100,7 @@ fun AppListScreen(
         ) { app ->
             AppItem(
                 app = app,
-                onClick = { log(app.icon?.path, "app") },
+                onClick = { onAppClick(app.packageName.name) },
                 modifier = Modifier.animateItem(),
             )
         }

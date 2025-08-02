@@ -17,7 +17,6 @@ import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.localizedValue
-import com.looker.droidify.utility.common.log
 
 @Entity(
     tableName = "app",
@@ -121,7 +120,11 @@ fun MetadataV2.appEntity(
     repoId = repoId,
 )
 
-fun AppEntity.toMetadata(locale: String, baseAddress: String, versions: List<VersionEntity>?): Metadata {
+fun AppEntity.toMetadata(
+    locale: String,
+    baseAddress: String,
+    versions: List<VersionEntity>?,
+): Metadata {
     val appName = name.localizedValue(locale) ?: "Unknown"
     val appSummary = summary?.localizedValue(locale) ?: ""
     val appDescription = description?.localizedValue(locale) ?: ""
@@ -142,19 +145,18 @@ fun AppEntity.toMetadata(locale: String, baseAddress: String, versions: List<Ver
     )
 }
 
-fun AppEntity.toAppMinimal(locale: String, baseAddress: String, suggestedVersion: String): AppMinimal {
-    if (packageName == "io.github.deprec8.enigmadroid") {
-        log(icon, "app")
-    }
-    return AppMinimal(
-        appId = id.toLong(),
-        name = name.localizedValue(locale) ?: "Unknown",
-        summary = summary?.localizedValue(locale) ?: "",
-        // TODO:
-        icon = FilePath(baseAddress, icon?.localizedValue(locale)?.name),
-        suggestedVersion = suggestedVersion,
-    )
-}
+fun AppEntity.toAppMinimal(
+    locale: String,
+    baseAddress: String,
+    suggestedVersion: String,
+) = AppMinimal(
+    appId = id.toLong(),
+    name = name.localizedValue(locale) ?: "Unknown",
+    summary = summary?.localizedValue(locale) ?: "",
+    icon = FilePath(baseAddress, icon?.localizedValue(locale)?.name),
+    suggestedVersion = suggestedVersion,
+    packageName = PackageName(packageName),
+)
 
 fun AppEntityRelations.toApp(
     locale: String,

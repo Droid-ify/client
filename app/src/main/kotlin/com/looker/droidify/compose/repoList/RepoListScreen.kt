@@ -26,20 +26,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.utility.common.log
 
 @Composable
 fun RepoListScreen(
-    viewModel: RepoListViewModel = viewModel(),
+    viewModel: RepoListViewModel,
+    onRepoClick: (Int) -> Unit,
 ) {
     val repos by viewModel.stream.collectAsStateWithLifecycle()
     LazyColumn {
         items(repos) { repo ->
             RepoItem(
-                onClick = { log(repo.icon?.path, "repo") },
+                onClick = { onRepoClick(repo.id) },
                 onToggle = { viewModel.toggleRepo(repo) },
                 repo = repo,
             )
