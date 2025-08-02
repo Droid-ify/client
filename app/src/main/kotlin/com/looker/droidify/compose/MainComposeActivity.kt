@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +12,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.looker.droidify.compose.appDetail.navigation.appDetail
 import com.looker.droidify.compose.appDetail.navigation.navigateToAppDetail
-import com.looker.droidify.compose.appList.navigation.AppList
 import com.looker.droidify.compose.appList.navigation.appList
 import com.looker.droidify.compose.repoDetail.navigation.navigateToRepoDetail
 import com.looker.droidify.compose.repoDetail.navigation.repoDetail
 import com.looker.droidify.compose.repoEdit.navigation.navigateToRepoEdit
 import com.looker.droidify.compose.repoEdit.navigation.repoEdit
+import com.looker.droidify.compose.repoList.navigation.RepoList
 import com.looker.droidify.compose.repoList.navigation.repoList
 import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
@@ -50,10 +49,10 @@ class MainComposeActivity : ComponentActivity() {
                 val navController = rememberNavController()
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    innerPadding
                     NavHost(
                         navController = navController,
-                        startDestination = AppList,
-                        modifier = Modifier.padding(innerPadding),
+                        startDestination = RepoList,
                     ) {
                         appList(
                             onAppClick = { packageName ->
@@ -78,12 +77,7 @@ class MainComposeActivity : ComponentActivity() {
                             },
                         )
 
-                        repoEdit(
-                            onBackClick = { navController.popBackStack() },
-                            onSaveClick = { repoId ->
-                                navController.navigateToRepoDetail(repoId)
-                            },
-                        )
+                        repoEdit(onBackClick = { navController.popBackStack() })
 
                         settings(
                             onBackClick = { navController.popBackStack() },

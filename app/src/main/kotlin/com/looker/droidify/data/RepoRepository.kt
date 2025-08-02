@@ -7,6 +7,8 @@ interface RepoRepository {
 
     suspend fun getRepo(id: Int): Repo?
 
+    fun repo(id: Int): Flow<Repo?>
+
     suspend fun deleteRepo(id: Int)
 
     val repos: Flow<List<Repo>>

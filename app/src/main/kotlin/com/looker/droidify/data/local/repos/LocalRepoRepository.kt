@@ -67,6 +67,18 @@ class LocalRepoRepository @Inject constructor(
         )
     }
 
+    override fun repo(id: Int): Flow<Repo?> = repoDao.repo(id).map {
+        val auth = authDao.authFor(id)?.toAuthentication(key)
+        val enabled = id in settings.first().enabledRepoIds
+        val mirrors = getMirrors(id)
+        it?.toRepo(
+            locale = locale.first(),
+            mirrors = mirrors,
+            enabled = enabled,
+            authentication = auth,
+        )
+    }
+
     override suspend fun deleteRepo(id: Int) {
         repoDao.delete(id)
     }
