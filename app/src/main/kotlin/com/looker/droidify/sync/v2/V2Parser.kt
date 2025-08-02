@@ -4,6 +4,7 @@ import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.v2.model.IndexV2
+import com.looker.droidify.utility.common.log
 import java.io.File
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -18,6 +19,7 @@ class V2Parser(
         file: File,
         repo: Repo,
     ): Pair<Fingerprint, IndexV2> = withContext(dispatcher) {
+        log("Parsing v2 index", "Syncable")
         requireNotNull(repo.fingerprint) {
             "Fingerprint should not be null if index v2 is being fetched"
         } to json.decodeFromString(file.readBytes().decodeToString())

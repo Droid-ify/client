@@ -58,6 +58,7 @@ test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "tes
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
 coil-core = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
+coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -120,7 +121,7 @@ room = ["room-runtime", "room-ktx"]
 shizuku = ["shizuku-provider", "shizuku-api"]
 ktor = ["ktor-core", "ktor-okhttp"]
 coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
-coil = ["coil-core", "coil-network"]
+coil = ["coil-core", "coil-compose", "coil-network"]
 test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "coroutines-test", "kotlin-test"]
 compose = ["compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "compose-activity", "compose-navigation", "compose-hilt-navigation", "compose-lifecycle-viewmodel"]

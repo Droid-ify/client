@@ -2,6 +2,7 @@ package com.looker.droidify.data.local.repos
 
 import com.looker.droidify.data.AppRepository
 import com.looker.droidify.data.local.dao.AppDao
+import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.toApp
 import com.looker.droidify.data.local.model.toAppMinimal
 import com.looker.droidify.data.model.App
@@ -12,19 +13,22 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
+import com.looker.droidify.utility.common.log
 import javax.inject.Inject
+import kotlin.time.measureTimedValue
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 
 class LocalAppRepository @Inject constructor(
     private val appDao: AppDao,
+    private val repoDao: RepoDao,
     private val settingsRepository: SettingsRepository,
 ) : AppRepository {
 
     private val locale = settingsRepository.get { language }
 
-    override fun apps(
+    override suspend fun apps(
         sortOrder: SortOrder,
         searchQuery: String?,
         repoId: Int?,
@@ -32,27 +36,39 @@ class LocalAppRepository @Inject constructor(
         categoriesToExclude: List<DefaultName>?,
         antiFeaturesToInclude: List<Tag>?,
         antiFeaturesToExclude: List<Tag>?,
-    ): Flow<List<AppMinimal>> = appDao.stream(
-        sortOrder = sortOrder,
-        searchQuery = searchQuery,
-        repoId = repoId,
-        categoriesToInclude = categoriesToInclude,
-        categoriesToExclude = categoriesToExclude,
-        antiFeaturesToInclude = antiFeaturesToInclude,
-        antiFeaturesToExclude = antiFeaturesToExclude,
-    ).map { apps ->
-        apps.map { app ->
-            app.toAppMinimal(
-                locale = locale.first(),
-                suggestedVersion = appDao.suggestedVersionName(app.id),
-            )
+    ): List<AppMinimal> {
+        val timedValue = measureTimedValue {
+            appDao.query(
+                sortOrder = sortOrder,
+                searchQuery = searchQuery?.ifEmpty { null },
+                repoId = repoId,
+                categoriesToInclude = categoriesToInclude?.ifEmpty { null },
+                categoriesToExclude = categoriesToExclude?.ifEmpty { null },
+                antiFeaturesToInclude = antiFeaturesToInclude?.ifEmpty { null },
+                antiFeaturesToExclude = antiFeaturesToExclude?.ifEmpty { null },
+            ).map { app ->
+                val repo = repoDao.getRepo(app.repoId)!!
+                app.toAppMinimal(
+                    locale = locale.first(),
+                    baseAddress = repo.address,
+                    suggestedVersion = appDao.suggestedVersionName(app.id),
+                )
+            }
         }
+        log("apps() took ${timedValue.duration}", "RoomQuery")
+        return timedValue.value
     }
+
+    override val categories: Flow<List<DefaultName>>
+        get() = repoDao.categories().map { it.map { category -> category.defaultName } }
 
     override fun getApp(packageName: PackageName): Flow<List<App>> {
         return appDao.queryAppEntity(packageName.name)
             .map { appEntityRelations ->
-                appEntityRelations.map { it.toApp(locale.first()) }
+                appEntityRelations.map {
+                    val repo = repoDao.getRepo(it.app.repoId)!!
+                    it.toApp(locale.first(), repo)
+                }
             }
     }
 

@@ -10,14 +10,14 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.AppMinimal
-import com.looker.droidify.data.model.Donation
+import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Metadata
 import com.looker.droidify.data.model.PackageName
-import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.LocalizedIcon
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.localizedValue
+import com.looker.droidify.utility.common.log
 
 @Entity(
     tableName = "app",
@@ -80,6 +80,11 @@ data class AppEntityRelations(
         parentColumn = "id",
         entityColumn = "appId",
     )
+    val donation: List<DonateEntity>?,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
     val graphics: List<GraphicEntity>?,
     @Relation(
         parentColumn = "id",
@@ -116,49 +121,54 @@ fun MetadataV2.appEntity(
     repoId = repoId,
 )
 
-fun AppEntity.toMetadata(locale: String, versions: List<VersionEntity>?): Metadata {
+fun AppEntity.toMetadata(locale: String, baseAddress: String, versions: List<VersionEntity>?): Metadata {
     val appName = name.localizedValue(locale) ?: "Unknown"
     val appSummary = summary?.localizedValue(locale) ?: ""
     val appDescription = description?.localizedValue(locale) ?: ""
     val iconUrl = icon?.localizedValue(locale)?.name ?: ""
+    val suggestedVersion = versions?.maxByOrNull { it.versionCode }
 
     return Metadata(
         name = appName,
         packageName = PackageName(packageName),
         added = added,
         description = appDescription,
-        icon = iconUrl,
+        icon = FilePath(baseAddress, iconUrl),
         lastUpdated = lastUpdated,
         license = license ?: "Unknown",
-        suggestedVersionCode = versions?.maxByOrNull { it.versionCode }?.versionCode ?: 0,
-        suggestedVersionName = versions?.maxByOrNull { it.versionCode }?.versionName ?: "",
+        suggestedVersionCode = suggestedVersion?.versionCode ?: 0,
+        suggestedVersionName = suggestedVersion?.versionName ?: "",
         summary = appSummary,
     )
 }
 
-fun AppEntity.toAppMinimal(locale: String, suggestedVersion: String): AppMinimal {
+fun AppEntity.toAppMinimal(locale: String, baseAddress: String, suggestedVersion: String): AppMinimal {
+    if (packageName == "io.github.deprec8.enigmadroid") {
+        log(icon, "app")
+    }
     return AppMinimal(
         appId = id.toLong(),
         name = name.localizedValue(locale) ?: "Unknown",
         summary = summary?.localizedValue(locale) ?: "",
-        icon = icon?.localizedValue(locale)?.name ?: "",
+        // TODO:
+        icon = FilePath(baseAddress, icon?.localizedValue(locale)?.name),
         suggestedVersion = suggestedVersion,
     )
 }
 
-fun AppEntityRelations.toApp(locale: String): App {
-    val mappedDonation = Donation()
-    return App(
-        repoId = app.repoId.toLong(),
-        appId = app.id.toLong(),
-        categories = categories.map<CategoryEntity, DefaultName> { it.defaultName },
-        links = links?.toLinks(),
-        metadata = app.toMetadata(locale, versions),
-        author = author.toAuthor(),
-        screenshots = screenshots?.toScreenshots(locale),
-        graphics = graphics?.toGraphics(locale),
-        donation = mappedDonation,
-        preferredSigner = app.preferredSigner ?: "",
-        packages = versions?.toPackages(locale, installed),
-    )
-}
+fun AppEntityRelations.toApp(
+    locale: String,
+    repo: RepoEntity,
+) = App(
+    repoId = app.repoId.toLong(),
+    appId = app.id.toLong(),
+    categories = categories.map { it.defaultName },
+    links = links?.toLinks(),
+    metadata = app.toMetadata(locale, repo.address, versions),
+    author = author.toAuthor(),
+    screenshots = screenshots?.toScreenshots(locale, repo.address),
+    graphics = graphics?.toGraphics(locale, repo.address),
+    donation = donation?.toDonation(),
+    preferredSigner = app.preferredSigner ?: "",
+    packages = versions?.toPackages(locale, installed),
+)

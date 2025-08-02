@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -15,174 +15,170 @@
     <uses-permission android:name="android.permission.ENFORCE_UPDATE_OWNERSHIP" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+            android:name="android.permission.QUERY_ALL_PACKAGES"
+            tools:ignore="QueryAllPackagesPermission" />
 
     <uses-feature
-        android:name="android.software.leanback"
-        android:required="false" />
+            android:name="android.software.leanback"
+            android:required="false" />
     <uses-feature
-        android:name="android.hardware.touchscreen"
-        android:required="false" />
+            android:name="android.hardware.touchscreen"
+            android:required="false" />
 
     <application
-        android:name=".Droidify"
-        android:allowBackup="true"
-        android:banner="@drawable/tv_banner"
-        android:enableOnBackInvokedCallback="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/application_name"
-        android:networkSecurityConfig="@xml/network_security_config"
-        android:supportsRtl="true"
-        android:theme="@style/MainTheme"
-        tools:ignore="UnusedAttribute">
-
-        <receiver
-            android:name=".Droidify$BootReceiver"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-
-        </receiver>
-
+            android:name=".Droidify"
+            android:allowBackup="false"
+            android:banner="@drawable/tv_banner"
+            android:enableOnBackInvokedCallback="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/application_name"
+            android:networkSecurityConfig="@xml/network_security_config"
+            android:supportsRtl="true"
+            android:theme="@style/MainTheme"
+            tools:ignore="UnusedAttribute">
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.SHOW_APP_INFO" />
-            </intent-filter>
+                android:name=".compose.MainComposeActivity"
+                android:exported="true"
+                android:label="@string/title_activity_main_compose">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="fdroid.app" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="details"
-                    android:scheme="market" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="f-droid.org" />
-                <data android:host="www.f-droid.org" />
-                <data android:host="staging.f-droid.org" />
-                <data android:pathPattern="/app/.*" />
-                <data android:pathPattern="/packages/.*" />
-                <data android:pathPattern="/.*/packages/.*" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="apt.izzysoft.de" />
-                <data android:pathPattern="/fdroid/index/apk/.*" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="https" />
-                <data android:host="droidify.eu.org" />
-                <data android:pathPattern="/app/.*" />
-            </intent-filter>
-
-            <!--Adding repo with special url-->
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="fdroidrepo" />
-                <data android:scheme="fdroidrepos" />
-            </intent-filter>
-
         </activity>
 
-        <service
-            android:name=".service.SyncService"
-            android:foregroundServiceType="dataSync" />
+        <receiver
+                android:name=".Droidify$BootReceiver"
+                android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+<!--        <activity-->
+<!--                android:name=".MainActivity"-->
+<!--                android:exported="true"-->
+<!--                android:windowSoftInputMode="adjustResize">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.SHOW_APP_INFO" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="fdroid.app" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data-->
+<!--                        android:host="details"-->
+<!--                        android:scheme="market" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="http" />-->
+<!--                <data android:scheme="https" />-->
+<!--                <data android:host="f-droid.org" />-->
+<!--                <data android:host="www.f-droid.org" />-->
+<!--                <data android:host="staging.f-droid.org" />-->
+<!--                <data android:pathPattern="/app/.*" />-->
+<!--                <data android:pathPattern="/packages/.*" />-->
+<!--                <data android:pathPattern="/.*/packages/.*" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="http" />-->
+<!--                <data android:scheme="https" />-->
+<!--                <data android:host="apt.izzysoft.de" />-->
+<!--                <data android:pathPattern="/fdroid/index/apk/.*" />-->
+<!--            </intent-filter>-->
+<!--            <intent-filter android:autoVerify="true">-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="https" />-->
+<!--                <data android:host="droidify.eu.org" />-->
+<!--                <data android:pathPattern="/app/.*" />-->
+<!--            </intent-filter>-->
+
+<!--            &lt;!&ndash; Adding repo with special url &ndash;&gt;-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--                <category android:name="android.intent.category.BROWSABLE" />-->
+
+<!--                <data android:scheme="fdroidrepo" />-->
+<!--                <data android:scheme="fdroidrepos" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
 
         <service
-            android:name=".service.SyncService$Job"
-            android:exported="false"
-            android:permission="android.permission.BIND_JOB_SERVICE" />
-
+                android:name=".service.SyncService"
+                android:foregroundServiceType="dataSync" />
         <service
-            android:name=".service.DownloadService"
-            android:foregroundServiceType="dataSync" />
+                android:name=".service.SyncService$Job"
+                android:exported="false"
+                android:permission="android.permission.BIND_JOB_SERVICE" />
+        <service
+                android:name=".service.DownloadService"
+                android:foregroundServiceType="dataSync" />
 
         <receiver
-            android:name=".installer.installers.session.SessionInstallerReceiver"
-            android:exported="false" />
+                android:name=".installer.installers.session.SessionInstallerReceiver"
+                android:exported="false" />
 
         <service
-            android:name="androidx.work.impl.foreground.SystemForegroundService"
-            android:foregroundServiceType="dataSync"
-            tools:node="merge" />
-
+                android:name="androidx.work.impl.foreground.SystemForegroundService"
+                android:foregroundServiceType="dataSync"
+                tools:node="merge" />
         <service
-            android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
-            android:enabled="false"
-            android:exported="false">
+                android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
+                android:enabled="false"
+                android:exported="false">
             <meta-data
-                android:name="autoStoreLocales"
-                android:value="true" />
+                    android:name="autoStoreLocales"
+                    android:value="true" />
         </service>
 
         <provider
-            android:name="rikka.shizuku.ShizukuProvider"
-            android:authorities="${applicationId}.shizuku"
-            android:enabled="true"
-            android:exported="true"
-            android:multiprocess="false"
-            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
-
+                android:name="rikka.shizuku.ShizukuProvider"
+                android:authorities="${applicationId}.shizuku"
+                android:enabled="true"
+                android:exported="true"
+                android:multiprocess="false"
+                android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
         <provider
-            android:name=".utility.common.cache.Cache$Provider"
-            android:authorities="${applicationId}.provider.cache"
-            android:exported="false"
-            android:grantUriPermissions="true" />
-
+                android:name=".utility.common.cache.Cache$Provider"
+                android:authorities="${applicationId}.provider.cache"
+                android:exported="false"
+                android:grantUriPermissions="true" />
         <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            tools:node="remove" />
-
+                android:name="androidx.startup.InitializationProvider"
+                android:authorities="${applicationId}.androidx-startup"
+                tools:node="remove" />
     </application>
 
 </manifest>

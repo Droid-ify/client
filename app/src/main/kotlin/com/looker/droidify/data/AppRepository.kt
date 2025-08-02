@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface AppRepository {
 
-    fun apps(
+    suspend fun apps(
         sortOrder: SortOrder,
         searchQuery: String? = null,
         repoId: Int? = null,
@@ -18,7 +18,9 @@ interface AppRepository {
         categoriesToExclude: List<DefaultName>? = null,
         antiFeaturesToInclude: List<Tag>? = null,
         antiFeaturesToExclude: List<Tag>? = null,
-    ) : Flow<List<AppMinimal>>
+    ) : List<AppMinimal>
+
+    val categories: Flow<List<DefaultName>>
 
     fun getApp(packageName: PackageName): Flow<List<App>>
 

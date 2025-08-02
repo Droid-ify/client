@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
+import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Screenshots
 import com.looker.droidify.sync.v2.model.LocalizedFiles
 import com.looker.droidify.sync.v2.model.ScreenshotsV2
@@ -56,20 +57,23 @@ fun ScreenshotsV2.localizedScreenshots(appId: Int): List<ScreenshotEntity> {
     return screenshots
 }
 
-fun List<ScreenshotEntity>.toScreenshots(locale: String): Screenshots {
-    val phone = mutableListOf<String>()
-    val sevenInch = mutableListOf<String>()
-    val tenInch = mutableListOf<String>()
-    val wear = mutableListOf<String>()
-    val tv = mutableListOf<String>()
+fun List<ScreenshotEntity>.toScreenshots(locale: String, baseAddress: String): Screenshots {
+    val phone = mutableListOf<FilePath>()
+    val sevenInch = mutableListOf<FilePath>()
+    val tenInch = mutableListOf<FilePath>()
+    val wear = mutableListOf<FilePath>()
+    val tv = mutableListOf<FilePath>()
     for (entity in this) {
         if (entity.locale != locale) continue
-        when (entity.type) {
-            PHONE -> phone.add(entity.path)
-            SEVEN_INCH -> sevenInch.add(entity.path)
-            TEN_INCH -> tenInch.add(entity.path)
-            TV -> tv.add(entity.path)
-            WEAR -> wear.add(entity.path)
+        val path = FilePath(baseAddress, entity.path)
+        if (path != null) {
+            when (entity.type) {
+                PHONE -> phone.add(path)
+                SEVEN_INCH -> sevenInch.add(path)
+                TEN_INCH -> tenInch.add(path)
+                TV -> tv.add(path)
+                WEAR -> wear.add(path)
+            }
         }
     }
 

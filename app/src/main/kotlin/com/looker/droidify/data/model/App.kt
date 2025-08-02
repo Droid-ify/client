@@ -1,5 +1,8 @@
 package com.looker.droidify.data.model
 
+import androidx.compose.runtime.Immutable
+
+@Immutable
 data class App(
     val repoId: Long,
     val appId: Long,
@@ -11,9 +14,10 @@ data class App(
     val graphics: Graphics?,
     val donation: Donation?,
     val preferredSigner: String = "",
-    val packages: List<Package>?
+    val packages: List<Package>?,
 )
 
+@Immutable
 data class Author(
     val id: Int,
     val name: String?,
@@ -31,13 +35,15 @@ data class Donation(
     val liberapayId: String? = null,
 )
 
+@Immutable
 data class Graphics(
-    val featureGraphic: String? = null,
-    val promoGraphic: String? = null,
-    val tvBanner: String? = null,
-    val video: String? = null,
+    val featureGraphic: FilePath? = null,
+    val promoGraphic: FilePath? = null,
+    val tvBanner: FilePath? = null,
+    val video: FilePath? = null,
 )
 
+@Immutable
 data class Links(
     val changelog: String? = null,
     val issueTracker: String? = null,
@@ -46,34 +52,40 @@ data class Links(
     val webSite: String? = null,
 )
 
+@Immutable
 data class Metadata(
     val name: String,
     val packageName: PackageName,
     val added: Long,
     val description: String,
-    val icon: String,
+    val icon: FilePath?,
     val lastUpdated: Long,
     val license: String,
     val suggestedVersionCode: Long,
     val suggestedVersionName: String,
-    val summary: String
+    val summary: String,
 )
 
 data class Screenshots(
-    val phone: List<String> = emptyList(),
-    val sevenInch: List<String> = emptyList(),
-    val tenInch: List<String> = emptyList(),
-    val tv: List<String> = emptyList(),
-    val wear: List<String> = emptyList()
+    val phone: List<FilePath> = emptyList(),
+    val sevenInch: List<FilePath> = emptyList(),
+    val tenInch: List<FilePath> = emptyList(),
+    val tv: List<FilePath> = emptyList(),
+    val wear: List<FilePath> = emptyList(),
 )
 
+@Immutable
 data class AppMinimal(
     val appId: Long,
     val name: String,
     val summary: String,
-    val icon: String,
+    val icon: FilePath?,
     val suggestedVersion: String,
-)
+) {
+    val fallbackIcon: FilePath? = icon?.path?.let {  current ->
+        FilePath(current.substringBeforeLast("/") + "/icon.png")
+    }
+}
 
 fun App.minimal() = AppMinimal(
     appId = appId,

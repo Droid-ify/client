@@ -3,6 +3,7 @@ package com.looker.droidify.data.local.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.looker.droidify.data.model.Authentication
+import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.data.model.VersionInfo
@@ -19,6 +20,7 @@ import com.looker.droidify.sync.v2.model.localizedValue
 data class RepoEntity(
     val icon: LocalizedIcon?,
     val address: String,
+    val webBaseUrl: String?,
     val name: LocalizedString,
     val description: LocalizedString,
     val fingerprint: Fingerprint,
@@ -38,6 +40,7 @@ fun RepoV2.repoEntity(
     description = description,
     timestamp = timestamp,
     fingerprint = fingerprint,
+    webBaseUrl = webBaseUrl,
 )
 
 fun RepoEntity.toRepo(
@@ -46,6 +49,7 @@ fun RepoEntity.toRepo(
     enabled: Boolean,
     authentication: Authentication?,
 ) = Repo(
+    icon = FilePath(address, icon?.localizedValue(locale)?.name),
     name = name.localizedValue(locale) ?: "Unknown",
     description = description.localizedValue(locale) ?: "Unknown",
     fingerprint = fingerprint,

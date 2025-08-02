@@ -44,6 +44,12 @@ interface IndexDao {
         index: IndexV2,
         expectedRepoId: Int = 0,
     ) {
+        logQuery(
+            "fingerprint" to fingerprint,
+            "expectedRepoId" to expectedRepoId,
+            "repo" to index.repo.name["en-US"],
+            "no of apps to add" to index.packages.size,
+        )
         val repoId = upsertRepo(
             index.repo.repoEntity(
                 id = expectedRepoId,
@@ -91,13 +97,13 @@ interface IndexDao {
     suspend fun insertRepo(repoEntity: RepoEntity): Long
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateRepo(repoEntity: RepoEntity): Int
+    suspend fun updateRepo(repoEntity: RepoEntity)
 
     @Transaction
     suspend fun upsertRepo(repoEntity: RepoEntity): Int {
         val id = insertRepo(repoEntity)
         return if (id == -1L) {
-            updateRepo(repoEntity)
+            repoEntity.also { updateRepo(it) }.id
         } else {
             id.toInt()
         }
@@ -151,7 +157,7 @@ interface IndexDao {
                 email = authorEntity.email,
                 name = authorEntity.name,
                 website = authorEntity.website,
-            )!!.toInt()
+            )!!
         } else {
             id.toInt()
         }

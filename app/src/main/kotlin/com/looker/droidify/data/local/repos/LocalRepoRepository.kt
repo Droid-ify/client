@@ -54,12 +54,11 @@ class LocalRepoRepository @Inject constructor(
     private val locale = settings.map { it.language }
     private val key = Key() // TODO: Get from settings
 
-    override suspend fun getRepo(id: Long): Repo? {
-        val repoId = id.toInt()
-        val repoEntity = repoDao.repo(repoId).first()
-        val auth = authDao.authFor(repoId)?.toAuthentication(key)
-        val enabled = repoId in settings.first().enabledRepoIds
-        val mirrors = getMirrors(repoId)
+    override suspend fun getRepo(id: Int): Repo? {
+        val repoEntity = repoDao.getRepo(id) ?: return null
+        val auth = authDao.authFor(id)?.toAuthentication(key)
+        val enabled = id in settings.first().enabledRepoIds
+        val mirrors = getMirrors(id)
         return repoEntity.toRepo(
             locale = locale.first(),
             mirrors = mirrors,
@@ -68,7 +67,11 @@ class LocalRepoRepository @Inject constructor(
         )
     }
 
-    override fun getRepos(): Flow<List<Repo>> = combine(
+    override suspend fun deleteRepo(id: Int) {
+        repoDao.delete(id)
+    }
+
+    override val repos: Flow<List<Repo>> = combine(
         repoDao.stream(),
         settings.map { it.enabledRepoIds },
     ) { repos, enabledIds ->
@@ -86,7 +89,7 @@ class LocalRepoRepository @Inject constructor(
 
     override fun getEnabledRepos(): Flow<List<Repo>> = settingsRepository
         .get { enabledRepoIds }
-        .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId.toLong()) } }
+        .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId) } }
 
     override suspend fun insertRepo(
         address: String,
@@ -100,8 +103,9 @@ class LocalRepoRepository @Inject constructor(
                 fingerprint = Fingerprint(fingerprint.orEmpty()),
                 icon = null,
                 name = mapOf("en-US" to address),
-                description = mapOf("en-US" to address),
-                timestamp = System.currentTimeMillis(),
+                description = mapOf("en-US" to "unsynced...."),
+                timestamp = 0L,
+                webBaseUrl = address,
             ),
         )
         if (password != null && username != null) {

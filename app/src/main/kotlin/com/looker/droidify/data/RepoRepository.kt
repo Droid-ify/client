@@ -5,9 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 interface RepoRepository {
 
-    suspend fun getRepo(id: Long): Repo?
+    suspend fun getRepo(id: Int): Repo?
 
-    fun getRepos(): Flow<List<Repo>>
+    suspend fun deleteRepo(id: Int)
+
+    val repos: Flow<List<Repo>>
 
     fun getEnabledRepos(): Flow<List<Repo>>
 

@@ -84,9 +84,15 @@ interface AppDao {
 
         val query = buildString(1024) {
             append("SELECT DISTINCT app.* FROM app")
-            append(" LEFT JOIN version ON app.id = version.appId")
-            append(" LEFT JOIN category_app_relation ON app.id = category_app_relation.id")
-            append(" LEFT JOIN anti_features_app_relation ON app.id = anti_features_app_relation.appId")
+            if (sortOrder == SortOrder.SIZE) {
+                append(" LEFT JOIN version ON app.id = version.appId")
+            }
+            if (categoriesToInclude != null || categoriesToExclude != null) {
+                append(" LEFT JOIN category_app_relation ON app.id = category_app_relation.id")
+            }
+            if (antiFeaturesToExclude != null || antiFeaturesToInclude != null) {
+                append(" LEFT JOIN anti_features_app_relation ON app.id = anti_features_app_relation.appId")
+            }
             append(" WHERE 1")
 
             if (repoId != null) {
