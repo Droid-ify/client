@@ -202,6 +202,12 @@
     <string name="special_credits">Special credits</string>
     <string name="suggested">Suggested</string>
     <string name="switch_to_default_installer">Switch to default</string>
+
+    <string name="repository_not_synced_or_enabled">Repository neither enabled nor synced</string>
+    <string name="action_sync_repo">Sync</string>
+    <string name="action_enable_repo">Enable</string>
+    <string name="repository_not_found_by_id">Repository not found</string>
+
     <string name="sync_repositories">Sync repositories</string>
     <string name="sync_repositories_automatically">Sync repositories automatically</string>
     <string name="syncing">Syncing</string>

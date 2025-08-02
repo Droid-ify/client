@@ -9,7 +9,7 @@ data class Repo(
     val description: String,
     val fingerprint: Fingerprint?,
     val authentication: Authentication?,
-    val versionInfo: VersionInfo,
+    val versionInfo: VersionInfo?,
     val mirrors: List<String>,
 ) {
     val shouldAuthenticate = authentication != null

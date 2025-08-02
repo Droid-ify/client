@@ -24,7 +24,7 @@ data class RepoEntity(
     val name: LocalizedString,
     val description: LocalizedString,
     val fingerprint: Fingerprint,
-    val timestamp: Long,
+    val timestamp: Long?,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 )
@@ -56,7 +56,7 @@ fun RepoEntity.toRepo(
     authentication = authentication,
     enabled = enabled,
     address = address,
-    versionInfo = VersionInfo(timestamp = timestamp, etag = null),
+    versionInfo = timestamp?.let { VersionInfo(timestamp = it, etag = null) },
     mirrors = mirrors,
     id = id,
 )

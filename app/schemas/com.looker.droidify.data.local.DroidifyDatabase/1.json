@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b7487bca9152ceb602f7ff4975812577",
+    "identityHash": "0ae8c83fda46a4eee241c268d67a5dae",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -776,7 +776,7 @@
       },
       {
         "tableName": "repository",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `webBaseUrl` TEXT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `webBaseUrl` TEXT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
             "fieldPath": "icon",
@@ -815,8 +815,7 @@
           {
             "fieldPath": "timestamp",
             "columnName": "timestamp",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "id",
@@ -1158,7 +1157,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b7487bca9152ceb602f7ff4975812577')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0ae8c83fda46a4eee241c268d67a5dae')"
     ]
   }
 }

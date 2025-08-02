@@ -67,14 +67,16 @@ class LocalRepoRepository @Inject constructor(
         )
     }
 
-    override fun repo(id: Int): Flow<Repo?> = repoDao.repo(id).map {
+    override fun repo(id: Int): Flow<Repo?> = combine(
+        repoDao.repo(id),
+        settings.map { it.enabledRepoIds },
+    ) { repo, enabled ->
         val auth = authDao.authFor(id)?.toAuthentication(key)
-        val enabled = id in settings.first().enabledRepoIds
         val mirrors = getMirrors(id)
-        it?.toRepo(
+        repo?.toRepo(
             locale = locale.first(),
             mirrors = mirrors,
-            enabled = enabled,
+            enabled = repo.id in enabled,
             authentication = auth,
         )
     }
@@ -116,7 +118,7 @@ class LocalRepoRepository @Inject constructor(
                 icon = null,
                 name = mapOf("en-US" to address),
                 description = mapOf("en-US" to "unsynced...."),
-                timestamp = 0L,
+                timestamp = null,
                 webBaseUrl = address,
             ),
         )

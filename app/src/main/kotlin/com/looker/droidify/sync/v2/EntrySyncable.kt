@@ -57,7 +57,7 @@ class EntrySyncable(
         if (jar.length() == 0L) return@withContext null
         val (fingerprint, entry) = parser.parse(jar, repo)
         jar.delete()
-        val index = entry.getDiff(repo.versionInfo.timestamp)
+        val index = entry.getDiff(repo.versionInfo?.timestamp)
         // Already latest
             ?: return@withContext fingerprint to null
         val indexPath = repo.address.removeSuffix("/") + index.name
@@ -67,7 +67,7 @@ class EntrySyncable(
                 context = context,
                 repo = repo,
                 url = indexPath,
-                fileName = "diff_${repo.versionInfo.timestamp}.json",
+                fileName = "diff_${repo.versionInfo?.timestamp}.json",
                 diff = true,
             )
             val diff = async { diffParser.parse(diffFile, repo).second }

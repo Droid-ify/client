@@ -29,7 +29,7 @@ suspend fun Downloader.downloadIndex(
                     )
                 }
             }
-            if (repo.versionInfo.timestamp > 0L && !diff) {
+            if (repo.versionInfo != null && repo.versionInfo.timestamp > 0L && !diff) {
                 ifModifiedSince(Date(repo.versionInfo.timestamp))
             }
         },
