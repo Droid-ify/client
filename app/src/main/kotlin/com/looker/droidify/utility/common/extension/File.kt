@@ -7,9 +7,11 @@ import java.io.File
 val File.size: Long?
     get() = if (exists()) length().takeIf { it > 0L } else null
 
-inline fun Context.tempFile(block: (file: File) -> Unit) {
-    Cache.getTemporaryFile(this).also { file ->
+inline fun <T> Context.tempFile(block: (file: File) -> T): T {
+    val file = Cache.getTemporaryFile(this)
+    return try {
         block(file)
+    } finally {
         file.delete()
     }
 }
