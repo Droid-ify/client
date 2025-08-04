@@ -56,9 +56,9 @@
 
     <string name="import_export">Backup and restore</string>
     <string name="import_settings_title">Import favourites and settings</string>
-    <string name="import_settings_DESC">Import settings and favorites from a file</string>
+    <string name="import_settings_DESC">Import settings and favourites from a file</string>
     <string name="export_settings_title">Export favourites and settings</string>
-    <string name="export_settings_DESC">Export settings and favorites to a file</string>
+    <string name="export_settings_DESC">Export settings and favourites to a file</string>
     <string name="import_repos_title">Import repositories</string>
     <string name="import_repos_DESC">Import repositories from a file</string>
     <string name="export_repos_title">Export repositories</string>
