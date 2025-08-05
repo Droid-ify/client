@@ -101,6 +101,14 @@ class LocalRepoRepository @Inject constructor(
         }
     }
 
+    override val addresses: Flow<Set<String>>
+        get() = combine(
+            repoDao.stream(),
+            repoDao.mirrors(),
+        ) { repos, mirrors ->
+            repos.map { it.address }.toSet() + mirrors.map { it.url }
+        }
+
     override fun getEnabledRepos(): Flow<List<Repo>> = settingsRepository
         .get { enabledRepoIds }
         .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId) } }

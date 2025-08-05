@@ -13,6 +13,8 @@ interface RepoRepository {
 
     val repos: Flow<List<Repo>>
 
+    val addresses: Flow<Set<String>>
+
     fun getEnabledRepos(): Flow<List<Repo>>
 
     suspend fun insertRepo(

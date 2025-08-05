@@ -5,7 +5,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.data.RepoRepository
-import com.looker.droidify.data.model.Authentication
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.utility.common.extension.asStateFlow
@@ -17,7 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -35,63 +34,36 @@ class RepoEditViewModel @Inject constructor(
     private val _repoId = MutableStateFlow<Int?>(null)
     val repoId: StateFlow<Int?> = _repoId
 
-    private val _addressError = MutableStateFlow<String?>(null)
-    val addressError: StateFlow<String?> = _addressError
-
-    private val _fingerprintError = MutableStateFlow<String?>(null)
-    val fingerprintError: StateFlow<String?> = _fingerprintError
-
-    private val _usernamePasswordError = MutableStateFlow<String?>(null)
-    val usernamePasswordError: StateFlow<String?> = _usernamePasswordError
+    private val _syncError = MutableStateFlow<RepoEditErrorState?>(null)
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    private val _takenAddresses = MutableStateFlow<Set<String>>(emptySet())
-    private val takenAddresses: StateFlow<Set<String>> = _takenAddresses
+    private val takenAddresses: StateFlow<Set<String>> = repoRepository.addresses.map {
+        it.map { address -> stripPathSuffix(address) }.toSet()
+    }.asStateFlow(emptySet())
 
     private val addressFlow = snapshotFlow { addressState.text.toString() }
     private val fingerprintFlow = snapshotFlow { fingerprintState.text.toString() }
     private val usernameFlow = snapshotFlow { usernameState.text.toString() }
     private val passwordFlow = snapshotFlow { passwordState.text.toString() }
 
-    val isFormValid = combine(
-        addressError,
-        fingerprintError,
-        usernamePasswordError,
-        isLoading
-    ) { addressError, fingerprintError, usernamePasswordError, isLoading ->
-        addressError == null && fingerprintError == null && usernamePasswordError == null && !isLoading
-    }.asStateFlow(false)
+    val errorState = combine(
+        addressFlow,
+        fingerprintFlow,
+        usernameFlow,
+        passwordFlow,
+        _syncError,
+    ) { address, fingerprint, username, password, syncError ->
+        RepoEditErrorState(
+            addressError = addressError(address) ?: syncError?.addressError,
+            fingerprintError = fingerprintError(fingerprint) ?: syncError?.fingerprintError,
+            usernameError = usernameError(username, password) ?: syncError?.usernameError,
+            passwordError = passwordError(username, password) ?: syncError?.passwordError,
+        )
+    }.asStateFlow(RepoEditErrorState())
 
     private val addressSuffixes = arrayOf("fdroid/repo", "repo")
-
-    init {
-        viewModelScope.launch {
-            val repos = repoRepository.repos.first()
-            _takenAddresses.value = repos
-                .filter { it.id != _repoId.value }
-                .flatMap { listOf(it.address) + it.mirrors }
-                .map { it.withoutKnownPath }
-                .toSet()
-        }
-
-        viewModelScope.launch {
-            addressFlow.collect { validateAddress() }
-        }
-
-        viewModelScope.launch {
-            fingerprintFlow.collect { validateFingerprint() }
-        }
-
-        viewModelScope.launch {
-            combine(usernameFlow, passwordFlow) { username, password ->
-                Pair(username, password)
-            }.collect { (username, password) ->
-                validateUsernamePassword(username, password)
-            }
-        }
-    }
 
     fun loadRepo(repoId: Int) {
         viewModelScope.launch {
@@ -113,10 +85,7 @@ class RepoEditViewModel @Inject constructor(
     fun saveRepository(skipCheck: Boolean = false) {
         if (_isLoading.value) return
 
-        val address = normalizeAddress(addressState.text.toString()) ?: run {
-            _addressError.value = "Invalid address"
-            return
-        }
+        val address = addressState.text.toString()
         val fingerprint = fingerprintState.text.toString().replace(" ", "")
         val username = usernameState.text.toString().takeIf { it.isNotEmpty() }
         val password = passwordState.text.toString().takeIf { it.isNotEmpty() }
@@ -132,7 +101,7 @@ class RepoEditViewModel @Inject constructor(
         address: String,
         fingerprint: String,
         username: String?,
-        password: String?
+        password: String?,
     ) {
         viewModelScope.launch {
             _isLoading.value = true
@@ -141,10 +110,11 @@ class RepoEditViewModel @Inject constructor(
                 if (resultAddress != null) {
                     saveRepositoryToDatabase(resultAddress, fingerprint, username, password)
                 } else {
-                    _addressError.value = "Repository unreachable"
+                    _syncError.value = _syncError.value.copy(addressError = "Repository not found")
                 }
             } catch (e: Exception) {
-                _addressError.value = "Error checking repository: ${e.message}"
+                _syncError.value =
+                    _syncError.value.copy(addressError = "Error checking repository: ${e.message}")
             } finally {
                 _isLoading.value = false
             }
@@ -154,14 +124,9 @@ class RepoEditViewModel @Inject constructor(
     private suspend fun checkAddress(
         rawAddress: String,
         username: String?,
-        password: String?
+        password: String?,
     ): String? = withContext(Dispatchers.IO) {
         val allAddresses = addressSuffixes.map { "$rawAddress/$it" } + rawAddress
-        val authentication = if (username != null && password != null) {
-            Authentication(username, password)
-        } else {
-            null
-        }
 
         allAddresses
             .sortedBy { it.length }
@@ -169,8 +134,8 @@ class RepoEditViewModel @Inject constructor(
                 val response = downloader.headCall(
                     url = "$address/index-v1.jar",
                     headers = {
-                        authentication?.let {
-                            authentication("Basic ${encodeCredentials(it.username, it.password)}")
+                        if (username != null && password != null) {
+                            authentication(username, password)
                         }
                     },
                 )
@@ -183,49 +148,45 @@ class RepoEditViewModel @Inject constructor(
         address: String,
         fingerprint: String,
         username: String?,
-        password: String?
+        password: String?,
     ) {
         viewModelScope.launch {
-            try {
-                repoRepository.insertRepo(
-                    address = address,
-                    fingerprint = if (fingerprint.isNotEmpty()) fingerprint else null,
-                    username = username,
-                    password = password
-                )
-            } catch (e: Exception) {
-                // Handle error
-            }
+            repoRepository.insertRepo(
+                address = address,
+                fingerprint = fingerprint.ifEmpty { null },
+                username = username,
+                password = password,
+            )
         }
     }
 
-    private fun validateAddress() {
-        val addressText = addressState.text.toString()
-        val normalizedAddress = normalizeAddress(addressText)
-
-        _addressError.value = when {
+    private fun addressError(address: String): String? {
+        val normalizedAddress = normalizeAddress(address)
+        return when {
             normalizedAddress == null -> "Invalid address"
-            normalizedAddress.withoutKnownPath in takenAddresses.value -> "Address already exists"
+            stripPathSuffix(normalizedAddress) in takenAddresses.value -> "Address already exists"
             else -> null
         }
     }
 
-    private fun validateFingerprint() {
-        val fingerprint = fingerprintState.text.toString().replace(" ", "")
-        _fingerprintError.value = if (fingerprint.isNotEmpty() && fingerprint.length != 64) {
+    private fun fingerprintError(fingerprint: String): String? {
+        val fin = fingerprint.replace(" ", "")
+        return if (fin.isNotEmpty() && fin.length != 64) {
             "Invalid fingerprint format"
         } else {
             null
         }
     }
 
-    private fun validateUsernamePassword(username: String, password: String) {
-        _usernamePasswordError.value = when {
-            username.contains(':') -> "Username cannot contain ':'"
-            username.isEmpty() && password.isNotEmpty() -> "Username is required"
-            username.isNotEmpty() && password.isEmpty() -> "Password is required"
-            else -> null
-        }
+    private fun usernameError(username: String, password: String): String? = when {
+        username.contains(':') -> "Username cannot contain ':'"
+        username.isEmpty() && password.isNotEmpty() -> "Username is required"
+        else -> null
+    }
+
+    private fun passwordError(username: String, password: String): String? = when {
+        username.isNotEmpty() && password.isEmpty() -> "Password is required"
+        else -> null
     }
 
     private fun normalizeAddress(address: String): String? {
@@ -249,34 +210,42 @@ class RepoEditViewModel @Inject constructor(
             .joinToString(separator = " ")
     }
 
-    private fun encodeCredentials(username: String, password: String): String {
-        val credentials = "$username:$password"
-        return android.util.Base64.encodeToString(
-            credentials.toByteArray(),
-            android.util.Base64.NO_WRAP
-        )
+    private fun stripPathSuffix(address: String): String {
+        val cropped = address.removeSuffix("/")
+        val endsWith = addressSuffixes
+            .sortedByDescending { it.length }
+            .find { cropped.endsWith("/$it") }
+        return if (endsWith != null) {
+            cropped.substring(
+                0,
+                cropped.length - endsWith.length - 1,
+            )
+        } else {
+            cropped
+        }
     }
-
-    private val String.pathCropped: String
-        get() {
-            val index = indexOfLast { it != '/' }
-            return if (index >= 0 && index < length - 1) substring(0, index + 1) else this
-        }
-
-    private val String.withoutKnownPath: String
-        get() {
-            val cropped = pathCropped
-            val endsWith =
-                addressSuffixes.asSequence()
-                    .sortedByDescending { it.length }
-                    .find { cropped.endsWith("/$it") }
-            return if (endsWith != null) {
-                cropped.substring(
-                    0,
-                    cropped.length - endsWith.length - 1,
-                )
-            } else {
-                cropped
-            }
-        }
 }
+
+class RepoEditErrorState(
+    val addressError: String? = null,
+    val fingerprintError: String? = null,
+    val usernameError: String? = null,
+    val passwordError: String? = null,
+) {
+    val hasError: Boolean =
+        (addressError != null) || (fingerprintError != null) || (usernameError != null) || (passwordError != null)
+
+}
+
+private fun RepoEditErrorState?.copy(
+    addressError: String? = null,
+    fingerprintError: String? = null,
+    usernameError: String? = null,
+    passwordError: String? = null,
+) = RepoEditErrorState(
+    addressError = addressError ?: this?.addressError,
+    fingerprintError = fingerprintError ?: this?.fingerprintError,
+    usernameError = usernameError ?: this?.usernameError,
+    passwordError = passwordError ?: this?.passwordError,
+)
+

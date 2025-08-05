@@ -29,6 +29,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,13 +47,11 @@ import com.looker.droidify.R
 fun RepoEditScreen(
     repoId: Int?,
     onBackClick: () -> Unit,
-    viewModel: RepoEditViewModel = hiltViewModel()
+    viewModel: RepoEditViewModel = hiltViewModel(),
 ) {
-    val isFormValid by viewModel.isFormValid.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
-    val addressError by viewModel.addressError.collectAsState()
-    val fingerprintError by viewModel.fingerprintError.collectAsState()
-    val usernamePasswordError by viewModel.usernamePasswordError.collectAsState()
+    val errorState by viewModel.errorState.collectAsState()
+    val isFormValid by remember { derivedStateOf { errorState?.hasError == false } }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -67,105 +66,93 @@ fun RepoEditScreen(
                     Text(
                         text = stringResource(
                             if (repoId != null) R.string.edit_repository
-                            else R.string.add_repository
-                        )
+                            else R.string.add_repository,
+                        ),
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
                 },
                 actions = {
                     IconButton(
                         onClick = { viewModel.saveRepository() },
-                        enabled = isFormValid
+                        enabled = isFormValid,
                     ) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = null
+                            contentDescription = null,
                         )
                     }
-                }
+                },
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) }
+        snackbarHost = { SnackbarHost(snackbarHostState) },
     ) { paddingValues ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
+                .padding(paddingValues),
         ) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(rememberScrollState()),
             ) {
-                // Address field
+                val hasAddressError by remember { derivedStateOf { errorState?.addressError != null } }
                 OutlinedTextField(
                     value = viewModel.addressState.text.toString(),
                     onValueChange = { viewModel.addressState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.address)) },
-                    isError = addressError != null,
-                    supportingText = { addressError?.let { Text(it) } },
+                    isError = hasAddressError,
+                    supportingText = { errorState?.addressError?.let { Text(it) } },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Fingerprint field
+                val hasFingerprintError by remember { derivedStateOf { errorState?.fingerprintError != null } }
                 OutlinedTextField(
                     value = viewModel.fingerprintState.text.toString(),
                     onValueChange = { viewModel.fingerprintState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.fingerprint)) },
-                    isError = fingerprintError != null,
-                    supportingText = { fingerprintError?.let { Text(it) } },
-                    modifier = Modifier.fillMaxWidth()
+                    isError = hasFingerprintError,
+                    supportingText = { errorState?.fingerprintError?.let { Text(it) } },
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Username field
+                val hasUsernameError by remember { derivedStateOf { errorState?.usernameError != null } }
                 OutlinedTextField(
                     value = viewModel.usernameState.text.toString(),
                     onValueChange = { viewModel.usernameState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.username)) },
-                    isError = usernamePasswordError?.contains("Username") == true,
-                    supportingText = {
-                        usernamePasswordError?.let { error ->
-                            if (error.contains("Username")) {
-                                Text(error)
-                            }
-                        }
-                    },
+                    isError = hasUsernameError,
+                    supportingText = { errorState?.usernameError?.let { Text(it) } },
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // Password field
+                val hasPasswordError by remember { derivedStateOf { errorState?.passwordError != null } }
                 OutlinedTextField(
                     value = viewModel.passwordState.text.toString(),
                     onValueChange = { viewModel.passwordState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.password)) },
-                    isError = usernamePasswordError?.contains("Password") == true,
-                    supportingText = {
-                        usernamePasswordError?.let { error ->
-                            if (error.contains("Password")) {
-                                Text(error)
-                            }
-                        }
-                    },
+                    isError = hasPasswordError,
+                    supportingText = { errorState?.passwordError?.let { Text(it) } },
                     visualTransformation = PasswordVisualTransformation(),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     singleLine = true,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -174,7 +161,7 @@ fun RepoEditScreen(
                 Button(
                     onClick = { viewModel.saveRepository(skipCheck = true) },
                     enabled = isFormValid || isLoading,
-                    modifier = Modifier.align(Alignment.End)
+                    modifier = Modifier.align(Alignment.End),
                 ) {
                     Text(stringResource(R.string.skip))
                 }
@@ -183,20 +170,20 @@ fun RepoEditScreen(
             // Loading overlay
             AnimatedVisibility(
                 visible = isLoading,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(Color.Black.copy(alpha = 0.5f)),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         CircularProgressIndicator()
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             text = stringResource(R.string.checking_repository),
-                            color = Color.White
+                            color = Color.White,
                         )
                     }
                 }

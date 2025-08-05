@@ -35,6 +35,9 @@ interface RepoDao {
     @Query("SELECT * FROM mirror WHERE repoId = :repoId")
     suspend fun mirrors(repoId: Int): List<MirrorEntity>
 
+    @Query("SELECT * FROM mirror")
+    fun mirrors(): Flow<List<MirrorEntity>>
+
     @Query("DELETE FROM repository WHERE id = :id")
     suspend fun delete(id: Int)
 
