@@ -2,7 +2,7 @@ package com.looker.droidify.data.local.repos
 
 import android.content.Context
 import com.looker.droidify.data.RepoRepository
-import com.looker.droidify.data.encryption.Key
+import com.looker.droidify.data.encryption.EncryptionStorage
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
@@ -29,6 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
 class LocalRepoRepository @Inject constructor(
+    encryptionStorage: EncryptionStorage,
     downloader: Downloader,
     @ApplicationContext context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,
@@ -51,11 +52,12 @@ class LocalRepoRepository @Inject constructor(
     )
 
     private val settings = settingsRepository.data
+    private val keyStream = encryptionStorage.key
     private val locale = settings.map { it.language }
-    private val key = Key() // TODO: Get from settings
 
     override suspend fun getRepo(id: Int): Repo? {
         val repoEntity = repoDao.getRepo(id) ?: return null
+        val key = keyStream.first()
         val auth = authDao.authFor(id)?.toAuthentication(key)
         val enabled = id in settings.first().enabledRepoIds
         val mirrors = getMirrors(id)
@@ -70,7 +72,8 @@ class LocalRepoRepository @Inject constructor(
     override fun repo(id: Int): Flow<Repo?> = combine(
         repoDao.repo(id),
         settings.map { it.enabledRepoIds },
-    ) { repo, enabled ->
+        keyStream,
+    ) { repo, enabled, key ->
         val auth = authDao.authFor(id)?.toAuthentication(key)
         val mirrors = getMirrors(id)
         repo?.toRepo(
@@ -88,7 +91,8 @@ class LocalRepoRepository @Inject constructor(
     override val repos: Flow<List<Repo>> = combine(
         repoDao.stream(),
         settings.map { it.enabledRepoIds },
-    ) { repos, enabledIds ->
+        keyStream,
+    ) { repos, enabledIds, key ->
         repos.map { repoEntity ->
             val mirrors = getMirrors(repoEntity.id)
             val auth = authDao.authFor(repoEntity.id)?.toAuthentication(key)
@@ -131,6 +135,7 @@ class LocalRepoRepository @Inject constructor(
             ),
         )
         if (password != null && username != null) {
+            val key = keyStream.first()
             val (encrypted, iv) = key.encrypt(password)
             val authEntity = AuthenticationEntity(
                 password = encrypted,
