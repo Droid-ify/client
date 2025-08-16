@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.MapInfo
 import androidx.room.Query
 import com.looker.droidify.data.local.model.CategoryEntity
 import com.looker.droidify.data.local.model.MirrorEntity
@@ -18,6 +19,10 @@ interface RepoDao {
 
     @Query("SELECT * FROM repository WHERE id = :repoId")
     suspend fun getRepo(repoId: Int): RepoEntity?
+
+    @MapInfo(keyColumn = "id")
+    @Query("SELECT * FROM repository WHERE id IN (:ids)")
+    suspend fun getReposByIds(ids: List<Int>): Map<Int, RepoEntity>
 
     @Query("SELECT * FROM category GROUP BY category.defaultName")
     fun categories(): Flow<List<CategoryEntity>>

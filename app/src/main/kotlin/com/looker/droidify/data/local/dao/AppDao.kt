@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local.dao
 
 import androidx.room.Dao
+import androidx.room.MapInfo
 import androidx.room.Query
 import androidx.room.RawQuery
 import androidx.room.Transaction
@@ -14,6 +15,12 @@ import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
 import kotlinx.coroutines.flow.Flow
+
+// DTO for batch fetching suggested version names per app
+ data class VersionNameRow(
+     val appId: Int,
+     val versionName: String,
+ )
 
 @Dao
 interface AppDao {
@@ -188,6 +195,22 @@ interface AppDao {
 
     @Query("SELECT versionName FROM version WHERE appId = :appId ORDER BY versionCode DESC LIMIT 1")
     suspend fun suggestedVersionName(appId: Int): String
+
+    // Batch fetch suggested (max versionCode) versionName for multiple appIds
+    @MapInfo(keyColumn = "appId", valueColumn = "versionName")
+    @Query(
+        """
+        SELECT v.appId AS appId, v.versionName AS versionName
+        FROM version v
+        JOIN (
+          SELECT appId, MAX(versionCode) AS maxCode
+          FROM version
+          WHERE appId IN (:appIds)
+          GROUP BY appId
+        ) mv ON v.appId = mv.appId AND v.versionCode = mv.maxCode
+        """
+    )
+    suspend fun suggestedVersionNames(appIds: List<Int>): Map<Int, String?>
 
     @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")

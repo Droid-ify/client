@@ -156,9 +156,7 @@ class LocalRepoRepository @Inject constructor(
         if (enable) {
             SyncWorker.syncRepo(context, repo.id)
         } else {
-            // Repo disabled: reset version info and remove cached indexes and apps
             repoDao.resetTimestamp(repo.id)
-            // Delete all cached index files for this repo (v1/v2/diff)
             runCatching {
                 val indexDir = File(context.cacheDir, "index")
                 if (indexDir.exists()) {

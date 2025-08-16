@@ -38,7 +38,7 @@ class LocalAppRepository @Inject constructor(
         antiFeaturesToExclude: List<Tag>?,
     ): List<AppMinimal> {
         val timedValue = measureTimedValue {
-            appDao.query(
+            val apps = appDao.query(
                 sortOrder = sortOrder,
                 searchQuery = searchQuery?.ifEmpty { null },
                 repoId = repoId,
@@ -46,12 +46,23 @@ class LocalAppRepository @Inject constructor(
                 categoriesToExclude = categoriesToExclude?.ifEmpty { null },
                 antiFeaturesToInclude = antiFeaturesToInclude?.ifEmpty { null },
                 antiFeaturesToExclude = antiFeaturesToExclude?.ifEmpty { null },
-            ).map { app ->
-                val repo = repoDao.getRepo(app.repoId)!!
+            )
+
+            if (apps.isEmpty()) return@measureTimedValue emptyList<AppMinimal>()
+
+            val repoIds = apps.map { it.repoId }.distinct()
+            val repos: Map<Int, com.looker.droidify.data.local.model.RepoEntity> = repoDao.getReposByIds(repoIds)
+
+            val appIds = apps.map { it.id }.distinct()
+            val versions: Map<Int, String?> = appDao.suggestedVersionNames(appIds)
+
+            val currentLocale = locale.first()
+            apps.map { app ->
+                val repo = repos[app.repoId]!!
                 app.toAppMinimal(
-                    locale = locale.first(),
+                    locale = currentLocale,
                     baseAddress = repo.address,
-                    suggestedVersion = appDao.suggestedVersionName(app.id),
+                    suggestedVersion = versions[app.id].orEmpty(),
                 )
             }
         }
