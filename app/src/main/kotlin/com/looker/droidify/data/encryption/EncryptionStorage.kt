@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
@@ -25,9 +26,9 @@ class EncryptionStorage(
                 val bytes = preferences[KEY] ?: error("No secret key found in storage")
                 Key(bytes)
             }
+            .catch {}
             .distinctUntilChanged()
             .flowOn(dispatcher)
-
     }
 
     suspend fun set(key: Key) {
