@@ -20,9 +20,9 @@ interface RepoDao {
     @Query("SELECT * FROM repository WHERE id = :repoId")
     suspend fun getRepo(repoId: Int): RepoEntity?
 
-    @MapInfo(keyColumn = "id")
-    @Query("SELECT * FROM repository WHERE id IN (:ids)")
-    suspend fun getReposByIds(ids: List<Int>): Map<Int, RepoEntity>
+    @MapInfo(keyColumn = "id", valueColumn = "address")
+    @Query("SELECT id, address FROM repository WHERE id IN (:ids)")
+    suspend fun getAddressByIds(ids: List<Int>): Map<Int, String>
 
     @Query("SELECT * FROM category GROUP BY category.defaultName")
     fun categories(): Flow<List<CategoryEntity>>

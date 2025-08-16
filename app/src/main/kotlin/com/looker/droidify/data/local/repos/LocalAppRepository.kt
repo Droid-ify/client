@@ -3,7 +3,6 @@ package com.looker.droidify.data.local.repos
 import com.looker.droidify.data.AppRepository
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.RepoDao
-import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.toApp
 import com.looker.droidify.data.local.model.toAppMinimal
 import com.looker.droidify.data.model.App
@@ -17,9 +16,11 @@ import com.looker.droidify.sync.v2.model.Tag
 import com.looker.droidify.utility.common.log
 import javax.inject.Inject
 import kotlin.time.measureTimedValue
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class LocalAppRepository @Inject constructor(
     private val appDao: AppDao,
@@ -37,7 +38,7 @@ class LocalAppRepository @Inject constructor(
         categoriesToExclude: List<DefaultName>?,
         antiFeaturesToInclude: List<Tag>?,
         antiFeaturesToExclude: List<Tag>?,
-    ): List<AppMinimal> {
+    ): List<AppMinimal> = withContext(Dispatchers.Default) {
         val timedValue = measureTimedValue {
             val apps = appDao.query(
                 sortOrder = sortOrder,
@@ -52,23 +53,23 @@ class LocalAppRepository @Inject constructor(
             if (apps.isEmpty()) return@measureTimedValue emptyList()
 
             val repoIds = apps.map { it.repoId }.distinct()
-            val repos: Map<Int, RepoEntity> = repoDao.getReposByIds(repoIds)
-
             val appIds = apps.map { it.id }
-            val versions: Map<Int, String> = appDao.suggestedVersionNames(appIds)
+
+            val addresses = repoDao.getAddressByIds(repoIds)
+            val versions = appDao.suggestedVersionNames(appIds)
 
             val currentLocale = locale.first()
             apps.map { app ->
-                val repo = repos[app.repoId]!!
+                val address = addresses[app.repoId]!!
                 app.toAppMinimal(
                     locale = currentLocale,
-                    baseAddress = repo.address,
+                    baseAddress = address,
                     suggestedVersion = versions[app.id] ?: "",
                 )
             }
         }
         log("apps() took ${timedValue.duration}", "RoomQuery")
-        return timedValue.value
+        timedValue.value
     }
 
     override val categories: Flow<List<DefaultName>>
