@@ -3,6 +3,7 @@ package com.looker.droidify.compose.settings.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import com.looker.droidify.compose.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
@@ -10,7 +11,10 @@ import kotlinx.serialization.Serializable
 object Settings
 
 fun NavController.navigateToSettings() {
-    this.navigate(Settings)
+    this.navigate(Settings, navOptions {
+        launchSingleTop = true
+        restoreState = true
+    })
 }
 
 fun NavGraphBuilder.settings(

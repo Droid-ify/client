@@ -3,6 +3,7 @@ package com.looker.droidify.compose.repoEdit.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import androidx.navigation.navOptions
 import androidx.navigation.toRoute
 import com.looker.droidify.compose.repoEdit.RepoEditScreen
 import kotlinx.serialization.Serializable
@@ -11,7 +12,9 @@ import kotlinx.serialization.Serializable
 data class RepoEdit(val repoId: Int? = null)
 
 fun NavController.navigateToRepoEdit(repoId: Int? = null) {
-    this.navigate(RepoEdit(repoId))
+    this.navigate(RepoEdit(repoId), navOptions {
+        launchSingleTop = true
+    })
 }
 
 fun NavGraphBuilder.repoEdit(
