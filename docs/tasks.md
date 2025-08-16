@@ -30,8 +30,8 @@ This document contains a prioritized list of actionable improvement tasks for th
   - [x] AppListFragment -> AppListScreen
   - [x] AppDetailFragment -> AppDetailScreen
   - [x] SettingsFragment -> SettingScreen
-  - [ ] FavouritesFragment -> AppListScreen (Favourites filter)
-  - [ ] TabsFragment -> Compose Home/Tabs container
+  - [x] FavouritesFragment -> AppListScreen (Favourites filter)
+  - [x] TabsFragment -> Compose Home/Tabs container
 
 ### Navigation Enhancement
 - [x] Implement Jetpack Navigation component

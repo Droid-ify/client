@@ -99,6 +99,14 @@ fun AppListScreen(
         ) {
             stickyHeader {
                 Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+                        val favSelected by viewModel.favouritesOnly.collectAsStateWithLifecycle()
+                        FilterChip(
+                            selected = favSelected,
+                            onClick = { viewModel.toggleFavouritesOnly() },
+                            label = { Text("Favourites") },
+                        )
+                    }
                     CategoriesList(availableCategories) { category ->
                         CategoryChip(
                             category = category,
