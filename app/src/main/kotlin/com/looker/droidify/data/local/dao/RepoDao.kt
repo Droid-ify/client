@@ -38,6 +38,9 @@ interface RepoDao {
     @Query("SELECT * FROM mirror")
     fun mirrors(): Flow<List<MirrorEntity>>
 
+    @Query("UPDATE repository SET timestamp = NULL WHERE id = :id")
+    suspend fun resetTimestamp(id: Int)
+
     @Query("DELETE FROM repository WHERE id = :id")
     suspend fun delete(id: Int)
 

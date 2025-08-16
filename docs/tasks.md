@@ -44,7 +44,6 @@ This document contains a prioritized list of actionable improvement tasks for th
 ## Performance Improvements
 
 ### App Startup Optimization
-- [ ] Optimize database queries during startup
 - [ ] Optimize database queries overall
 - [ ] Implement lazy initialization for non-critical components
 - [ ] Implement proper dependency injection with Hilt scopes

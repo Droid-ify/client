@@ -3,6 +3,7 @@ package com.looker.droidify.data.local.repos
 import android.content.Context
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.encryption.EncryptionStorage
+import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
@@ -18,7 +19,9 @@ import com.looker.droidify.di.IoDispatcher
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v2.EntrySyncable
+import com.looker.droidify.work.SyncWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
+import java.io.File
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -31,12 +34,13 @@ import kotlinx.coroutines.supervisorScope
 class LocalRepoRepository @Inject constructor(
     encryptionStorage: EncryptionStorage,
     downloader: Downloader,
-    @ApplicationContext context: Context,
+    @ApplicationContext private val context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,
     private val repoDao: RepoDao,
     private val authDao: AuthDao,
     private val indexDao: IndexDao,
     private val settingsRepository: SettingsRepository,
+    private val appDao: AppDao,
 ) : RepoRepository {
 
     private val v2Syncable = EntrySyncable(
@@ -149,7 +153,24 @@ class LocalRepoRepository @Inject constructor(
 
     override suspend fun enableRepository(repo: Repo, enable: Boolean) {
         settingsRepository.setRepoEnabled(repo.id, enable)
-        if (enable) sync(repo)
+        if (enable) {
+            SyncWorker.syncRepo(context, repo.id)
+        } else {
+            // Repo disabled: reset version info and remove cached indexes and apps
+            repoDao.resetTimestamp(repo.id)
+            // Delete all cached index files for this repo (v1/v2/diff)
+            runCatching {
+                val indexDir = File(context.cacheDir, "index")
+                if (indexDir.exists()) {
+                    indexDir.listFiles()?.forEach { file ->
+                        if (file.name.startsWith("repo_${repo.id}_")) {
+                            file.delete()
+                        }
+                    }
+                }
+            }
+            appDao.deleteByRepoId(repo.id)
+        }
     }
 
     override suspend fun sync(repo: Repo): Boolean {

@@ -198,4 +198,7 @@ interface AppDao {
 
     @Query("DELETE FROM app WHERE id = :id")
     suspend fun delete(id: Int)
+
+    @Query("DELETE FROM app WHERE repoId = :repoId")
+    suspend fun deleteByRepoId(repoId: Int)
 }
