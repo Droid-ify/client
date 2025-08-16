@@ -3,6 +3,7 @@ package com.looker.droidify.data.local.repos
 import com.looker.droidify.data.AppRepository
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.toApp
 import com.looker.droidify.data.local.model.toAppMinimal
 import com.looker.droidify.data.model.App
@@ -51,9 +52,9 @@ class LocalAppRepository @Inject constructor(
             if (apps.isEmpty()) return@measureTimedValue emptyList()
 
             val repoIds = apps.map { it.repoId }.distinct()
-            val repos: Map<Int, com.looker.droidify.data.local.model.RepoEntity> = repoDao.getReposByIds(repoIds)
+            val repos: Map<Int, RepoEntity> = repoDao.getReposByIds(repoIds)
 
-            val appIds = apps.map { it.id }.distinct()
+            val appIds = apps.map { it.id }
             val versions: Map<Int, String> = appDao.suggestedVersionNames(appIds)
 
             val currentLocale = locale.first()
