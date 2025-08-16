@@ -1,6 +1,8 @@
 package com.looker.droidify.compose.appDetail
 
 import android.content.res.Configuration
+import android.text.method.LinkMovementMethod
+import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,7 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -32,16 +36,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.looker.droidify.R
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
+import com.looker.droidify.data.model.Html
+import com.looker.droidify.utility.text.format
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -75,7 +83,8 @@ fun AppDetailScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
+                .verticalScroll(rememberScrollState()),
         ) {
             HeaderSection(
                 app = app,
@@ -95,7 +104,7 @@ fun AppDetailScreen(
                 }
                 if (screenshots.isNotEmpty()) {
                     Spacer(modifier = Modifier.height(16.dp))
-                    ScreenshotsRow(screenshots = app.screenshots?.phone ?: emptyList())
+                    ScreenshotsRow(screenshots = screenshots)
                 }
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -107,10 +116,7 @@ fun AppDetailScreen(
 
                 if (app.metadata.description.isNotBlank()) {
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = app.metadata.description,
-                        style = MaterialTheme.typography.bodyLarge,
-                    )
+                    HtmlText(html = app.metadata.description)
                 }
 
                 if (app.categories.isNotEmpty()) {
@@ -127,6 +133,27 @@ fun AppDetailScreen(
             }
         }
     }
+}
+
+@Composable
+private fun HtmlText(
+    html: Html,
+) {
+    val colors = MaterialTheme.colorScheme
+    val textColor = colors.onSurface.toArgb()
+    val linkColor = colors.primary.toArgb()
+    AndroidView(
+        factory = { context ->
+            TextView(context).apply {
+                movementMethod = LinkMovementMethod.getInstance()
+                setTextColor(textColor)
+                setLinkTextColor(linkColor)
+            }
+        },
+        update = { tv ->
+            tv.text = html.format()
+        }
+    )
 }
 
 @Composable

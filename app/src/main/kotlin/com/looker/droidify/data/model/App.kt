@@ -57,7 +57,7 @@ data class Metadata(
     val name: String,
     val packageName: PackageName,
     val added: Long,
-    val description: String,
+    val description: Html,
     val icon: FilePath?,
     val lastUpdated: Long,
     val license: String,

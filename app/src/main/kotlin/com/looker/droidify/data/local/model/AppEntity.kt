@@ -11,6 +11,7 @@ import androidx.room.Relation
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.data.model.FilePath
+import com.looker.droidify.data.model.Html
 import com.looker.droidify.data.model.Metadata
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.sync.v2.model.LocalizedIcon
@@ -135,7 +136,7 @@ fun AppEntity.toMetadata(
         name = appName,
         packageName = PackageName(packageName),
         added = added,
-        description = appDescription,
+        description = Html(appDescription),
         icon = FilePath(baseAddress, iconUrl),
         lastUpdated = lastUpdated,
         license = license ?: "Unknown",

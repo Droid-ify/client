@@ -15,13 +15,9 @@ import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
-import android.text.style.BulletSpan
-import android.text.style.ClickableSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
-import android.text.style.URLSpan
-import android.text.util.Linkify
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -33,10 +29,8 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -74,20 +68,20 @@ import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.text.formatHtml
 import com.looker.droidify.widget.StableRecyclerAdapter
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.parcelize.Parcelize
-import java.lang.ref.WeakReference
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.Locale
+import java.util.*
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.parcelize.Parcelize
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
@@ -1748,67 +1742,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     }
 
     private fun formatHtml(text: String): SpannableStringBuilder {
-        val html = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        val builder = run {
-            val builder = SpannableStringBuilder(html)
-            val last = builder.indexOfLast { it != '\n' }
-            val first = builder.indexOfFirst { it != '\n' }
-            if (last >= 0) {
-                builder.delete(last + 1, builder.length)
+        // Delegate to shared HtmlFormatter; route URL clicks through adapter callbacks
+        return formatHtml(text) { url ->
+            val uri = try {
+                Uri.parse(url)
+            } catch (_: Exception) {
+                null
             }
-            if (first in 1 until last) {
-                builder.delete(0, first - 1)
+            if (uri != null) {
+                callbacks.onUriClick(uri, true)
             }
-            generateSequence(builder) {
-                val index = it.indexOf("\n\n\n")
-                if (index >= 0) it.delete(index, index + 1) else null
-            }.last()
         }
-        LinkifyCompat.addLinks(builder, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
-        val urlSpans = builder
-            .getSpans(0, builder.length, URLSpan::class.java)
-            .orEmpty()
-        for (span in urlSpans) {
-            val start = builder.getSpanStart(span)
-            val end = builder.getSpanEnd(span)
-            val flags = builder.getSpanFlags(span)
-            builder.removeSpan(span)
-            builder.setSpan(LinkSpan(span.url, this), start, end, flags)
-        }
-        val bulletSpans = builder
-            .getSpans(0, builder.length, BulletSpan::class.java)
-            .orEmpty()
-            .asSequence().map { Pair(it, builder.getSpanStart(it)) }
-            .sortedByDescending { it.second }
-        for (spanPair in bulletSpans) {
-            val (span, start) = spanPair
-            builder.removeSpan(span)
-            builder.insert(start, "\u2022 ")
-        }
-        return builder
     }
 
     private fun copyLinkToClipboard(view: View, link: String) {
         view.context.copyToClipboard(link)
         Snackbar.make(view, stringRes.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
-    }
-
-    private class LinkSpan(private val url: String, productAdapter: AppDetailAdapter) :
-        ClickableSpan() {
-        private val productAdapterReference = WeakReference(productAdapter)
-
-        override fun onClick(view: View) {
-            val productAdapter = productAdapterReference.get()
-            val uri = try {
-                Uri.parse(url)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-            if (productAdapter != null && uri != null) {
-                productAdapter.callbacks.onUriClick(uri, true)
-            }
-        }
     }
 
     private class DotSpan : ReplacementSpan() {

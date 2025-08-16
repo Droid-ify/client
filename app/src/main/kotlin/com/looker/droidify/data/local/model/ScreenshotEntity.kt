@@ -63,8 +63,23 @@ fun List<ScreenshotEntity>.toScreenshots(locale: String, baseAddress: String): S
     val tenInch = mutableListOf<FilePath>()
     val wear = mutableListOf<FilePath>()
     val tv = mutableListOf<FilePath>()
+
+    if (isEmpty()) return Screenshots()
+
+    val requestedLang = locale.substringBefore('-')
+    val localesAvailable = map { it.locale }.toSet()
+
+    val chosenLocale = when {
+        localesAvailable.contains(locale) -> locale
+        localesAvailable.any { it.substringBefore('-') == requestedLang } ->
+            localesAvailable.first { it.substringBefore('-') == requestedLang }
+        else -> localesAvailable.firstOrNull()
+    }
+
+    if (chosenLocale == null) return Screenshots()
+
     for (entity in this) {
-        if (entity.locale != locale) continue
+        if (entity.locale != chosenLocale) continue
         val path = FilePath(baseAddress, entity.path)
         if (path != null) {
             when (entity.type) {
