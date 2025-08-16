@@ -14,6 +14,7 @@ This document contains a prioritized list of actionable improvement tasks for th
 - [x] Complete Index V2 implementation
 - [x] Implement incremental sync for better performance
 - [x] Add comprehensive tests for both V1 and V2 implementations
+- [x] Add WorkManager-based SyncWorker for manual and periodic sync
 
 ## UI Improvements
 
@@ -23,7 +24,7 @@ This document contains a prioritized list of actionable improvement tasks for th
 
 ### Jetpack Compose Migration
 - [x] Create design system with Material 3 components
-- [ ] Screen-by-screen migration status
+- [x] Screen-by-screen migration status
   - [x] RepositoriesFragment -> RepoListScreen
   - [x] RepositoryFragment -> RepoDetailScreen
   - [x] EditRepositoryFragment -> RepoEditScreen
@@ -46,7 +47,6 @@ This document contains a prioritized list of actionable improvement tasks for th
 - [ ] Optimize database queries during startup
 - [ ] Optimize database queries overall
 - [ ] Implement lazy initialization for non-critical components
-- [ ] Add startup tracing to identify bottlenecks
 - [ ] Implement proper dependency injection with Hilt scopes
 - [ ] Add performance tests for startup time
 
