@@ -48,13 +48,13 @@ class LocalAppRepository @Inject constructor(
                 antiFeaturesToExclude = antiFeaturesToExclude?.ifEmpty { null },
             )
 
-            if (apps.isEmpty()) return@measureTimedValue emptyList<AppMinimal>()
+            if (apps.isEmpty()) return@measureTimedValue emptyList()
 
             val repoIds = apps.map { it.repoId }.distinct()
             val repos: Map<Int, com.looker.droidify.data.local.model.RepoEntity> = repoDao.getReposByIds(repoIds)
 
             val appIds = apps.map { it.id }.distinct()
-            val versions: Map<Int, String?> = appDao.suggestedVersionNames(appIds)
+            val versions: Map<Int, String> = appDao.suggestedVersionNames(appIds)
 
             val currentLocale = locale.first()
             apps.map { app ->
@@ -62,7 +62,7 @@ class LocalAppRepository @Inject constructor(
                 app.toAppMinimal(
                     locale = currentLocale,
                     baseAddress = repo.address,
-                    suggestedVersion = versions[app.id].orEmpty(),
+                    suggestedVersion = versions[app.id] ?: "",
                 )
             }
         }

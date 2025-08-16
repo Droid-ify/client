@@ -210,7 +210,7 @@ interface AppDao {
         ) mv ON v.appId = mv.appId AND v.versionCode = mv.maxCode
         """
     )
-    suspend fun suggestedVersionNames(appIds: List<Int>): Map<Int, String?>
+    suspend fun suggestedVersionNames(appIds: List<Int>): Map<Int, String>
 
     @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")

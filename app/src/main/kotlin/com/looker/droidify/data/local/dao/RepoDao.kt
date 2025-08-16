@@ -28,6 +28,7 @@ interface RepoDao {
     fun categories(): Flow<List<CategoryEntity>>
 
     // Query category entity using CategoryRepoRelation class
+    @androidx.room.RewriteQueriesToDropUnusedColumns
     @Query(
         """
         SELECT * FROM category
