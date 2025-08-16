@@ -15,4 +15,5 @@ val Izzy = Repo(
     authentication = Authentication("", ""),
     versionInfo = VersionInfo(0L, null),
     mirrors = emptyList(),
+    icon = null,
 )
