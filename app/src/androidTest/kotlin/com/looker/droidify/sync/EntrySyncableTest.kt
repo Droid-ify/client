@@ -88,7 +88,7 @@ class EntrySyncableTest {
         // Downloads the diff as the index file exists and is older than entry version
         val (fingerprint2, index2) = syncable.sync(
             repo.copy(
-                versionInfo = repo.versionInfo.copy(
+                versionInfo = repo.versionInfo?.copy(
                     timestamp = index1!!.repo.timestamp
                 )
             )
@@ -97,7 +97,7 @@ class EntrySyncableTest {
         // Does not download anything
         val (fingerprint3, index3) = syncable.sync(
             repo.copy(
-                versionInfo = repo.versionInfo.copy(
+                versionInfo = repo.versionInfo?.copy(
                     timestamp = index2!!.repo.timestamp
                 )
             )
@@ -105,23 +105,23 @@ class EntrySyncableTest {
         assert(index3 == null)
 
         // Check if all the packages are same
-        assertContentEquals(newIndex.packages.keys.sorted(), index2.packages.keys.sorted())
+        assertContentEquals(newIndex.packages.keys.sorted(), index2?.packages?.keys?.sorted())
         // Check if all the version hashes are same
         assertContentEquals(
             newIndex.packages.values.flatMap { it.versions.keys }.sorted(),
-            index2.packages.values.flatMap { it.versions.keys }.sorted(),
+            index2?.packages?.values?.flatMap { it.versions.keys }?.sorted(),
         )
 
         // Check if repo antifeatures are same
         assertContentEquals(
             newIndex.repo.antiFeatures.keys.sorted(),
-            index2.repo.antiFeatures.keys.sorted()
+            index2?.repo?.antiFeatures?.keys?.sorted()
         )
 
         // Check if repo categories are same
         assertContentEquals(
             newIndex.repo.categories.keys.sorted(),
-            index2.repo.categories.keys.sorted()
+            index2?.repo?.categories?.keys?.sorted()
         )
 
         assertEquals(fingerprint1, fingerprint2)

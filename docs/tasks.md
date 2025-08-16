@@ -23,9 +23,15 @@ This document contains a prioritized list of actionable improvement tasks for th
 
 ### Jetpack Compose Migration
 - [x] Create design system with Material 3 components
-- [ ] Migrate screens one by one, starting with simpler screens
-- [ ] Implement proper state management with ViewModels
-- [ ] Ensure accessibility compliance in Compose UI
+- [ ] Screen-by-screen migration status
+  - [x] RepositoriesFragment -> RepoListScreen
+  - [x] RepositoryFragment -> RepoDetailScreen
+  - [x] EditRepositoryFragment -> RepoEditScreen
+  - [x] AppListFragment -> AppListScreen
+  - [ ] AppDetailFragment -> AppDetailScreen
+  - [ ] SettingsFragment -> SettingScreen
+  - [ ] FavouritesFragment -> AppListScreen (Favourites filter)
+  - [ ] TabsFragment -> Compose Home/Tabs container
 
 ### Navigation Enhancement
 - [ ] Implement Jetpack Navigation component
