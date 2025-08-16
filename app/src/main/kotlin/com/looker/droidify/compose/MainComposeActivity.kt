@@ -13,12 +13,16 @@ import androidx.navigation.compose.rememberNavController
 import com.looker.droidify.compose.appDetail.navigation.appDetail
 import com.looker.droidify.compose.appDetail.navigation.navigateToAppDetail
 import com.looker.droidify.compose.appList.navigation.appList
+import com.looker.droidify.compose.appList.navigation.navigateToAppList
+import com.looker.droidify.compose.home.navigation.Home
+import com.looker.droidify.compose.home.navigation.home
 import com.looker.droidify.compose.repoDetail.navigation.navigateToRepoDetail
 import com.looker.droidify.compose.repoDetail.navigation.repoDetail
 import com.looker.droidify.compose.repoEdit.navigation.navigateToRepoEdit
 import com.looker.droidify.compose.repoEdit.navigation.repoEdit
-import com.looker.droidify.compose.repoList.navigation.RepoList
+import com.looker.droidify.compose.repoList.navigation.navigateToRepoList
 import com.looker.droidify.compose.repoList.navigation.repoList
+import com.looker.droidify.compose.settings.navigation.navigateToSettings
 import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.data.RepoRepository
@@ -52,8 +56,13 @@ class MainComposeActivity : ComponentActivity() {
                     innerPadding
                     NavHost(
                         navController = navController,
-                        startDestination = RepoList,
+                        startDestination = Home,
                     ) {
+                        home(
+                            onNavigateToApps = { navController.navigateToAppList() },
+                            onNavigateToRepos = { navController.navigateToRepoList() },
+                            onNavigateToSettings = { navController.navigateToSettings() },
+                        )
                         appList(
                             onAppClick = { packageName ->
                                 navController.navigateToAppDetail(packageName)
