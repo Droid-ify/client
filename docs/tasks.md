@@ -28,7 +28,7 @@ This document contains a prioritized list of actionable improvement tasks for th
   - [x] RepositoryFragment -> RepoDetailScreen
   - [x] EditRepositoryFragment -> RepoEditScreen
   - [x] AppListFragment -> AppListScreen
-  - [ ] AppDetailFragment -> AppDetailScreen
+  - [x] AppDetailFragment -> AppDetailScreen
   - [ ] SettingsFragment -> SettingScreen
   - [ ] FavouritesFragment -> AppListScreen (Favourites filter)
   - [ ] TabsFragment -> Compose Home/Tabs container
