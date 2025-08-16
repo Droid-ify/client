@@ -12,9 +12,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.looker.droidify.compose.appDetail.navigation.appDetail
 import com.looker.droidify.compose.appDetail.navigation.navigateToAppDetail
+import com.looker.droidify.compose.appList.navigation.AppList
 import com.looker.droidify.compose.appList.navigation.appList
 import com.looker.droidify.compose.appList.navigation.navigateToAppList
-import com.looker.droidify.compose.home.navigation.Home
 import com.looker.droidify.compose.home.navigation.home
 import com.looker.droidify.compose.repoDetail.navigation.navigateToRepoDetail
 import com.looker.droidify.compose.repoDetail.navigation.repoDetail
@@ -56,7 +56,7 @@ class MainComposeActivity : ComponentActivity() {
                     innerPadding
                     NavHost(
                         navController = navController,
-                        startDestination = Home,
+                        startDestination = AppList,
                     ) {
                         home(
                             onNavigateToApps = { navController.navigateToAppList() },
@@ -67,6 +67,8 @@ class MainComposeActivity : ComponentActivity() {
                             onAppClick = { packageName ->
                                 navController.navigateToAppDetail(packageName)
                             },
+                            onNavigateToRepos = { navController.navigateToRepoList() },
+                            onNavigateToSettings = { navController.navigateToSettings() },
                         )
 
                         repoList(

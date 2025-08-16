@@ -21,9 +21,16 @@ fun NavController.navigateToAppList() {
 
 fun NavGraphBuilder.appList(
     onAppClick: (String) -> Unit = { _ -> },
+    onNavigateToRepos: () -> Unit,
+    onNavigateToSettings: () -> Unit,
 ) {
     composable<AppList> {
         val viewModel: AppListViewModel = hiltViewModel()
-        AppListScreen(onAppClick = onAppClick, viewModel = viewModel)
+        AppListScreen(
+            onAppClick = onAppClick,
+            viewModel = viewModel,
+            onNavigateToRepos = onNavigateToRepos,
+            onNavigateToSettings = onNavigateToSettings,
+        )
     }
 }

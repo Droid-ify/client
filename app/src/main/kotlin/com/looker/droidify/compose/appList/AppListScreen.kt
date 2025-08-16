@@ -16,15 +16,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,12 +32,20 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -67,6 +72,8 @@ import com.looker.droidify.sync.v2.model.DefaultName
 fun AppListScreen(
     viewModel: AppListViewModel,
     onAppClick: (String) -> Unit,
+    onNavigateToRepos: () -> Unit,
+    onNavigateToSettings: () -> Unit,
 ) {
     val apps by viewModel.appsState.collectAsStateWithLifecycle()
     val selectedCategories by viewModel.selectedCategories.collectAsState()
@@ -77,32 +84,40 @@ fun AppListScreen(
     LaunchedEffect(apps) {
         listState.animateScrollToItem(0)
     }
-
-    LazyColumn(
-        state = listState,
-        modifier = Modifier.padding(WindowInsets.statusBars.asPaddingValues()),
+    Scaffold(
+        topBar = {
+            AppListTopBar(
+                onNavigateToRepos = onNavigateToRepos,
+                onNavigateToSettings = onNavigateToSettings,
+                title = { SearchBar(viewModel.searchQuery) },
+            )
+        }
     ) {
-        stickyHeader {
-            Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                SearchBar(viewModel.searchQuery)
-                CategoriesList(availableCategories) { category ->
-                    CategoryChip(
-                        category = category,
-                        selected = category in selectedCategories,
-                        onToggle = { viewModel.toggleCategory(category) },
-                    )
+        LazyColumn(
+            state = listState,
+            modifier = Modifier.padding(it),
+        ) {
+            stickyHeader {
+                Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                    CategoriesList(availableCategories) { category ->
+                        CategoryChip(
+                            category = category,
+                            selected = category in selectedCategories,
+                            onToggle = { viewModel.toggleCategory(category) },
+                        )
+                    }
                 }
             }
-        }
-        items(
-            items = apps,
-            key = { it.appId },
-        ) { app ->
-            AppItem(
-                app = app,
-                onClick = { onAppClick(app.packageName.name) },
-                modifier = Modifier.animateItem(),
-            )
+            items(
+                items = apps,
+                key = { it.appId },
+            ) { app ->
+                AppItem(
+                    app = app,
+                    onClick = { onAppClick(app.packageName.name) },
+                    modifier = Modifier.animateItem(),
+                )
+            }
         }
     }
 }
@@ -178,6 +193,40 @@ fun CategoriesList(
             content(category)
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AppListTopBar(
+    onNavigateToRepos: () -> Unit,
+    onNavigateToSettings: () -> Unit,
+    title: @Composable () -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    TopAppBar(
+        title = title,
+        actions = {
+            IconButton(onClick = { expanded = true }) {
+                Icon(Icons.Filled.MoreVert, contentDescription = "More")
+            }
+            DropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+                DropdownMenuItem(
+                    text = { Text("Repositories") },
+                    onClick = {
+                        expanded = false
+                        onNavigateToRepos()
+                    },
+                )
+                DropdownMenuItem(
+                    text = { Text("Settings") },
+                    onClick = {
+                        expanded = false
+                        onNavigateToSettings()
+                    },
+                )
+            }
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
