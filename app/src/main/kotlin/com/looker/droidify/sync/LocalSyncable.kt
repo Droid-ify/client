@@ -18,7 +18,11 @@ class LocalSyncable(
     override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> {
         val file = Cache.getTemporaryFile(context).apply {
             outputStream().use {
-                it.write(context.assets.open("izzy_index_v2.json").readBytes())
+                if (repo.id == 5) {
+                    it.write(context.assets.open("izzy_index_v2.json").readBytes())
+                } else {
+                    it.write(context.assets.open("fdroid_index_v2.json").readBytes())
+                }
             }
         }
         return parser.parse(file, repo)
