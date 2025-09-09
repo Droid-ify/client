@@ -59,11 +59,17 @@ class LocalAppRepository @Inject constructor(
 
             val currentLocale = locale.first()
             apps.map { app ->
+                val name = appDao.name(app.id, currentLocale) ?: "Unknown"
+                val summary = appDao.summary(app.id, currentLocale) ?: ""
+                val icon = appDao.icon(app.id, currentLocale)
+
                 val address = addresses[app.repoId]!!
                 app.toAppMinimal(
-                    locale = currentLocale,
                     baseAddress = address,
                     suggestedVersion = versions[app.id] ?: "",
+                    name = name,
+                    summary = summary,
+                    icon = icon?.icon?.name,
                 )
             }
         }

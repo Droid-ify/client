@@ -7,10 +7,7 @@ import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.data.model.VersionInfo
-import com.looker.droidify.sync.v2.model.LocalizedIcon
-import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.RepoV2
-import com.looker.droidify.sync.v2.model.localizedValue
 
 /**
  * `enabled` flag will be kept in datastore and will be updated there only
@@ -18,11 +15,8 @@ import com.looker.droidify.sync.v2.model.localizedValue
  * */
 @Entity(tableName = "repository")
 data class RepoEntity(
-    val icon: LocalizedIcon?,
     val address: String,
     val webBaseUrl: String?,
-    val name: LocalizedString,
-    val description: LocalizedString,
     val fingerprint: Fingerprint,
     val timestamp: Long?,
     @PrimaryKey(autoGenerate = true)
@@ -34,24 +28,23 @@ fun RepoV2.repoEntity(
     fingerprint: Fingerprint,
 ) = RepoEntity(
     id = id,
-    icon = icon,
     address = address,
-    name = name,
-    description = description,
     timestamp = timestamp,
     fingerprint = fingerprint,
     webBaseUrl = webBaseUrl,
 )
 
 fun RepoEntity.toRepo(
-    locale: String,
+    name: String,
+    description: String,
+    icon: String?,
     mirrors: List<String>,
     enabled: Boolean,
     authentication: Authentication?,
 ) = Repo(
-    icon = FilePath(address, icon?.localizedValue(locale)?.name),
-    name = name.localizedValue(locale) ?: "Unknown",
-    description = description.localizedValue(locale) ?: "Unknown",
+    icon = FilePath(address, icon),
+    name = name,
+    description = description,
     fingerprint = fingerprint,
     authentication = authentication,
     enabled = enabled,

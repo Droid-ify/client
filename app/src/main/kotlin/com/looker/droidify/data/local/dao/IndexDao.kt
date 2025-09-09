@@ -17,6 +17,13 @@ import com.looker.droidify.data.local.model.CategoryRepoRelation
 import com.looker.droidify.data.local.model.DonateEntity
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.LinksEntity
+import com.looker.droidify.data.local.model.LocalizedAppDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedAppIconEntity
+import com.looker.droidify.data.local.model.LocalizedAppNameEntity
+import com.looker.droidify.data.local.model.LocalizedAppSummaryEntity
+import com.looker.droidify.data.local.model.LocalizedRepoDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedRepoIconEntity
+import com.looker.droidify.data.local.model.LocalizedRepoNameEntity
 import com.looker.droidify.data.local.model.MirrorEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.ScreenshotEntity
@@ -34,6 +41,8 @@ import com.looker.droidify.data.local.model.repoEntity
 import com.looker.droidify.data.local.model.versionEntities
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.sync.v2.model.IndexV2
+import com.looker.droidify.sync.v2.model.LocalizedIcon
+import com.looker.droidify.sync.v2.model.LocalizedString
 
 @Dao
 interface IndexDao {
@@ -51,10 +60,7 @@ interface IndexDao {
             "no of apps to add" to index.packages.size,
         )
         val repoId = upsertRepo(
-            index.repo.repoEntity(
-                id = expectedRepoId,
-                fingerprint = fingerprint,
-            ),
+            index.repo.repoEntity(id = expectedRepoId, fingerprint = fingerprint),
         )
         val antiFeatures = index.repo.antiFeatures.flatMap { (tag, feature) ->
             feature.antiFeatureEntity(tag)
@@ -65,6 +71,9 @@ interface IndexDao {
         val antiFeatureRepoRelations = antiFeatures.map { AntiFeatureRepoRelation(repoId, it.tag) }
         val categoryRepoRelations = categories.map { CategoryRepoRelation(repoId, it.defaultName) }
         val mirrors = index.repo.mirrors.map { it.mirrorEntity(repoId) }
+        insertLocalizedRepoNames(index.repo.name.localizedRepoName(repoId))
+        insertLocalizedRepoDescription(index.repo.description.localizedRepoDescription(repoId))
+        index.repo.icon?.localizedRepoIcon(repoId)?.let { insertLocalizedRepoIcons(it) }
         insertAntiFeatures(antiFeatures)
         insertAntiFeatureRepoRelation(antiFeatureRepoRelations)
         insertCategories(categories)
@@ -86,6 +95,10 @@ interface IndexDao {
             insertAntiFeatureAppRelation(versions.values.flatten())
             val appCategories = packages.metadata.categories.map { CategoryAppRelation(appId, it) }
             insertCategoryAppRelation(appCategories)
+            insertLocalizedAppNames(metadata.name.localizedAppName(appId))
+            metadata.summary?.localizedAppSummary(appId)?.let { insertLocalizedAppSummaries(it) }
+            metadata.description?.localizedAppDescription(appId)?.let { insertLocalizedAppDescriptions(it) }
+            metadata.icon?.localizedAppIcon(appId)?.let { insertLocalizedAppIcons(it) }
             metadata.linkEntity(appId)?.let { insertLink(it) }
             metadata.screenshots?.localizedScreenshots(appId)?.let { insertScreenshots(it) }
             metadata.localizedGraphics(appId)?.let { insertGraphics(it) }
@@ -184,4 +197,46 @@ interface IndexDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAntiFeatureAppRelation(crossRef: List<AntiFeatureAppRelation>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedRepoNames(names: List<LocalizedRepoNameEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedRepoDescription(descriptions: List<LocalizedRepoDescriptionEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedRepoIcons(icons: List<LocalizedRepoIconEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedAppNames(names: List<LocalizedAppNameEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedAppSummaries(summaries: List<LocalizedAppSummaryEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedAppDescriptions(descriptions: List<LocalizedAppDescriptionEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocalizedAppIcons(icons: List<LocalizedAppIconEntity>)
+
 }
+
+fun LocalizedString.localizedRepoName(repoId: Int) =
+    map { LocalizedRepoNameEntity(repoId, it.key, it.value) }
+
+fun LocalizedString.localizedRepoDescription(repoId: Int) =
+    map { LocalizedRepoDescriptionEntity(repoId, it.key, it.value) }
+
+fun LocalizedIcon.localizedRepoIcon(repoId: Int) =
+    map { LocalizedRepoIconEntity(repoId, it.key, it.value) }
+
+fun LocalizedString.localizedAppName(appId: Int) =
+    map { LocalizedAppNameEntity(appId, it.key, it.value) }
+
+fun LocalizedString.localizedAppSummary(appId: Int) =
+    map { LocalizedAppSummaryEntity(appId, it.key, it.value) }
+
+fun LocalizedString.localizedAppDescription(appId: Int) =
+    map { LocalizedAppDescriptionEntity(appId, it.key, it.value) }
+
+fun LocalizedIcon.localizedAppIcon(appId: Int) =
+    map { LocalizedAppIconEntity(appId, it.key, it.value) }

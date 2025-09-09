@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.MapInfo
 import androidx.room.Query
 import com.looker.droidify.data.local.model.CategoryEntity
+import com.looker.droidify.data.local.model.LocalizedRepoIconEntity
 import com.looker.droidify.data.local.model.MirrorEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import kotlinx.coroutines.flow.Flow
@@ -49,5 +50,14 @@ interface RepoDao {
 
     @Query("DELETE FROM repository WHERE id = :id")
     suspend fun delete(id: Int)
+
+    @Query("SELECT name FROM localized_repo_name WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun name(id: Int, locale: String): String?
+
+    @Query("SELECT description FROM localized_repo_description WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun description(id: Int, locale: String): String?
+
+    @Query("SELECT * FROM localized_repo_icon WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun icon(id: Int, locale: String): LocalizedRepoIconEntity?
 
 }

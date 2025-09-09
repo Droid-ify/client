@@ -10,6 +10,7 @@ import com.looker.droidify.data.local.model.AntiFeatureAppRelation
 import com.looker.droidify.data.local.model.AppEntity
 import com.looker.droidify.data.local.model.AppEntityRelations
 import com.looker.droidify.data.local.model.CategoryAppRelation
+import com.looker.droidify.data.local.model.LocalizedAppIconEntity
 import com.looker.droidify.data.local.model.VersionEntity
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
@@ -143,13 +144,13 @@ interface AppDao {
                 append(
                     """
                     AND (
-                        app.name LIKE ?
-                        OR app.summary LIKE ?
+//                        app.name LIKE ?
+//                        OR app.summary LIKE ?
                         OR app.packageName LIKE ?
-                        OR app.description LIKE ?
+//                        OR app.description LIKE ?
                     )""",
                 )
-                args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
+                args.addAll(listOf(searchPattern))
             }
 
             append(" ORDER BY ")
@@ -157,20 +158,20 @@ interface AppDao {
             // Weighting: name > summary > packageName > description
             if (searchQuery != null) {
                 val searchPattern = "%${searchQuery}%"
-                append("(CASE WHEN app.name LIKE ? THEN 4 ELSE 0 END) + ")
-                append("(CASE WHEN app.summary LIKE ? THEN 3 ELSE 0 END) + ")
+//                append("(CASE WHEN app.name LIKE ? THEN 4 ELSE 0 END) + ")
+//                append("(CASE WHEN app.summary LIKE ? THEN 3 ELSE 0 END) + ")
                 append("(CASE WHEN app.packageName LIKE ? THEN 2 ELSE 0 END) + ")
-                append("(CASE WHEN app.description LIKE ? THEN 1 ELSE 0 END) DESC, ")
-                args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
+//                append("(CASE WHEN app.description LIKE ? THEN 1 ELSE 0 END) DESC, ")
+                args.addAll(listOf(searchPattern))
             }
 
             when (sortOrder) {
-                SortOrder.UPDATED -> append("app.lastUpdated DESC, ")
-                SortOrder.ADDED -> append("app.added DESC, ")
-                SortOrder.SIZE -> append("version.apk_size DESC, ")
+                SortOrder.UPDATED -> append("app.lastUpdated DESC")
+                SortOrder.ADDED -> append("app.added DESC")
+                SortOrder.SIZE -> append("version.apk_size DESC")
                 SortOrder.NAME -> Unit
             }
-            append("app.name COLLATE LOCALIZED ASC")
+//            append(", app.name COLLATE LOCALIZED ASC")
         }
 
         return SimpleSQLiteQuery(query, args.toTypedArray())
@@ -187,8 +188,7 @@ interface AppDao {
         WHERE installed.packageName IS NOT NULL
         ORDER BY
         CASE WHEN version.versionCode > installed.versionCode THEN 1 ELSE 2 END,
-        app.lastUpdated DESC,
-        app.name COLLATE LOCALIZED ASC
+        app.lastUpdated DESC
         """,
     )
     fun installedStream(): Flow<List<AppEntity>>
@@ -222,4 +222,16 @@ interface AppDao {
 
     @Query("DELETE FROM app WHERE repoId = :repoId")
     suspend fun deleteByRepoId(repoId: Int)
+
+    @Query("SELECT name FROM localized_app_name WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun name(id: Int, locale: String): String?
+
+    @Query("SELECT summary FROM localized_app_summary WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun summary(id: Int, locale: String): String?
+
+    @Query("SELECT description FROM localized_app_description WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun description(id: Int, locale: String): String?
+
+    @Query("SELECT * FROM localized_app_icon WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
+    suspend fun icon(id: Int, locale: String): LocalizedAppIconEntity?
 }

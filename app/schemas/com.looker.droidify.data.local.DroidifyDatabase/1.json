@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "0ae8c83fda46a4eee241c268d67a5dae",
+    "identityHash": "ba4a6b4aa2ca83bc9703e00f54034fca",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -231,7 +231,7 @@
       },
       {
         "tableName": "app",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `name` TEXT NOT NULL, `icon` TEXT, `preferredSigner` TEXT, `summary` TEXT, `description` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `preferredSigner` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "added",
@@ -251,29 +251,8 @@
             "affinity": "TEXT"
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "icon",
-            "columnName": "icon",
-            "affinity": "TEXT"
-          },
-          {
             "fieldPath": "preferredSigner",
             "columnName": "preferredSigner",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "summary",
-            "columnName": "summary",
-            "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
             "affinity": "TEXT"
           },
           {
@@ -776,13 +755,8 @@
       },
       {
         "tableName": "repository",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `webBaseUrl` TEXT, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`address` TEXT NOT NULL, `webBaseUrl` TEXT, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
-          {
-            "fieldPath": "icon",
-            "columnName": "icon",
-            "affinity": "TEXT"
-          },
           {
             "fieldPath": "address",
             "columnName": "address",
@@ -793,18 +767,6 @@
             "fieldPath": "webBaseUrl",
             "columnName": "webBaseUrl",
             "affinity": "TEXT"
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
           },
           {
             "fieldPath": "fingerprint",
@@ -1153,11 +1115,479 @@
             "createSql": "CREATE INDEX IF NOT EXISTS `index_rblog_packageName_hash_reproducible` ON `${TABLE_NAME}` (`packageName`, `hash`, `reproducible`)"
           }
         ]
+      },
+      {
+        "tableName": "localized_app_name",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_name_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_name_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_name_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_name_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_summary",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `summary` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_summary_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_summary_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_summary_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_summary_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_description",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_description_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_description_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_description_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_description_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_icon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `icon_name` TEXT NOT NULL, `icon_sha256` TEXT, `icon_size` INTEGER, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.name",
+            "columnName": "icon_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.sha256",
+            "columnName": "icon_sha256",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon.size",
+            "columnName": "icon_size",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_icon_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_icon_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_icon_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_icon_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_name",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_name_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_name_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_name_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_name_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_description",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_description_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_description_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_description_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_description_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_icon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `icon_name` TEXT NOT NULL, `icon_sha256` TEXT, `icon_size` INTEGER, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.name",
+            "columnName": "icon_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.sha256",
+            "columnName": "icon_sha256",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon.size",
+            "columnName": "icon_size",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_icon_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_icon_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_icon_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_icon_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '0ae8c83fda46a4eee241c268d67a5dae')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ba4a6b4aa2ca83bc9703e00f54034fca')"
     ]
   }
 }

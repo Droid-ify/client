@@ -68,13 +68,19 @@ class LocalRepoRepository @Inject constructor(
         val repoEntity = repoDao.getRepo(id) ?: return null
         val key = keyStream.first()
         val auth = authDao.authFor(id)?.toAuthentication(key)
+        val currentLocale = locale.first()
         val enabled = id in settings.first().enabledRepoIds
         val mirrors = getMirrors(id)
+        val name = repoDao.name(id, currentLocale) ?: "Unknown"
+        val description = repoDao.description(id, currentLocale) ?: "..."
+        val icon = repoDao.icon(id, currentLocale)?.icon?.name
         return repoEntity.toRepo(
-            locale = locale.first(),
             mirrors = mirrors,
             enabled = enabled,
             authentication = auth,
+            name = name,
+            description = description,
+            icon = icon,
         )
     }
 
@@ -85,11 +91,17 @@ class LocalRepoRepository @Inject constructor(
     ) { repo, enabled, key ->
         val auth = authDao.authFor(id)?.toAuthentication(key)
         val mirrors = getMirrors(id)
+        val currentLocale = locale.first()
+        val name = repoDao.name(id, currentLocale) ?: "Unknown"
+        val description = repoDao.description(id, currentLocale) ?: "..."
+        val icon = repoDao.icon(id, currentLocale)?.icon?.name
         repo?.toRepo(
-            locale = locale.first(),
             mirrors = mirrors,
             enabled = repo.id in enabled,
             authentication = auth,
+            name = name,
+            description = description,
+            icon = icon,
         )
     }
 
@@ -100,16 +112,19 @@ class LocalRepoRepository @Inject constructor(
     override val repos: Flow<List<Repo>> = combine(
         repoDao.stream(),
         settings.map { it.enabledRepoIds },
-        keyStream,
-    ) { repos, enabledIds, key ->
+    ) { repos, enabledIds ->
+        val currentLocale = locale.first()
         repos.map { repoEntity ->
-            val mirrors = getMirrors(repoEntity.id)
-            val auth = authDao.authFor(repoEntity.id)?.toAuthentication(key)
+            val name = repoDao.name(repoEntity.id, currentLocale) ?: "Unknown"
+            val description = repoDao.description(repoEntity.id, currentLocale) ?: "..."
+            val icon = repoDao.icon(repoEntity.id, currentLocale)?.icon?.name
             repoEntity.toRepo(
-                locale = locale.first(),
-                mirrors = mirrors,
+                mirrors = emptyList(),
+                authentication = null,
                 enabled = repoEntity.id in enabledIds,
-                authentication = auth,
+                name = name,
+                description = description,
+                icon = icon,
             )
         }
     }
@@ -136,9 +151,6 @@ class LocalRepoRepository @Inject constructor(
             RepoEntity(
                 address = address,
                 fingerprint = Fingerprint(fingerprint.orEmpty()),
-                icon = null,
-                name = mapOf("en-US" to address),
-                description = mapOf("en-US" to "unsynced...."),
                 timestamp = null,
                 webBaseUrl = address,
             ),

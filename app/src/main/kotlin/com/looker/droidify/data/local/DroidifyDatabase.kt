@@ -27,6 +27,13 @@ import com.looker.droidify.data.local.model.DonateEntity
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.InstalledEntity
 import com.looker.droidify.data.local.model.LinksEntity
+import com.looker.droidify.data.local.model.LocalizedAppDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedAppIconEntity
+import com.looker.droidify.data.local.model.LocalizedAppNameEntity
+import com.looker.droidify.data.local.model.LocalizedAppSummaryEntity
+import com.looker.droidify.data.local.model.LocalizedRepoDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedRepoIconEntity
+import com.looker.droidify.data.local.model.LocalizedRepoNameEntity
 import com.looker.droidify.data.local.model.MirrorEntity
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.RepoEntity
@@ -55,6 +62,14 @@ import com.looker.droidify.data.local.model.VersionEntity
         ScreenshotEntity::class,
         VersionEntity::class,
         RBLogEntity::class,
+        // Localized Data
+        LocalizedAppNameEntity::class,
+        LocalizedAppSummaryEntity::class,
+        LocalizedAppDescriptionEntity::class,
+        LocalizedAppIconEntity::class,
+        LocalizedRepoNameEntity::class,
+        LocalizedRepoDescriptionEntity::class,
+        LocalizedRepoIconEntity::class,
     ],
 )
 @TypeConverters(

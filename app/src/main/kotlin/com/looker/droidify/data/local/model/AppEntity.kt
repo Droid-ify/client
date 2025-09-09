@@ -14,10 +14,7 @@ import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
 import com.looker.droidify.data.model.Metadata
 import com.looker.droidify.data.model.PackageName
-import com.looker.droidify.sync.v2.model.LocalizedIcon
-import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.MetadataV2
-import com.looker.droidify.sync.v2.model.localizedValue
 
 @Entity(
     tableName = "app",
@@ -46,11 +43,7 @@ data class AppEntity(
     val added: Long,
     val lastUpdated: Long,
     val license: String?,
-    val name: LocalizedString,
-    val icon: LocalizedIcon?,
     val preferredSigner: String?,
-    val summary: LocalizedString?,
-    val description: LocalizedString?,
     val packageName: String,
     val authorId: Int,
     val repoId: Int,
@@ -65,6 +58,26 @@ data class AppEntityRelations(
         entityColumn = "id",
     )
     val author: AuthorEntity,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
+    val names: List<LocalizedAppNameEntity>,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
+    val summaries: List<LocalizedAppSummaryEntity>,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
+    val descriptions: List<LocalizedAppDescriptionEntity>,
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "appId",
+    )
+    val icons: List<LocalizedAppIconEntity>,
     @Relation(
         parentColumn = "id",
         entityColumn = "appId",
@@ -111,25 +124,20 @@ fun MetadataV2.appEntity(
     added = added,
     lastUpdated = lastUpdated,
     license = license,
-    name = name,
-    icon = icon,
     preferredSigner = preferredSigner,
-    summary = summary,
-    description = description,
     packageName = packageName,
     authorId = authorId,
     repoId = repoId,
 )
 
-fun AppEntity.toMetadata(
-    locale: String,
+private fun AppEntity.toMetadata(
+    appName: String,
+    appSummary: String,
+    appDescription: String,
+    iconUrl: String?,
     baseAddress: String,
     versions: List<VersionEntity>?,
 ): Metadata {
-    val appName = name.localizedValue(locale) ?: "Unknown"
-    val appSummary = summary?.localizedValue(locale) ?: ""
-    val appDescription = description?.localizedValue(locale) ?: ""
-    val iconUrl = icon?.localizedValue(locale)?.name ?: ""
     val suggestedVersion = versions?.maxByOrNull { it.versionCode }
 
     return Metadata(
@@ -147,14 +155,16 @@ fun AppEntity.toMetadata(
 }
 
 fun AppEntity.toAppMinimal(
-    locale: String,
+    name: String,
+    summary: String,
+    icon: String?,
     baseAddress: String,
     suggestedVersion: String,
 ) = AppMinimal(
     appId = id.toLong(),
-    name = name.localizedValue(locale) ?: "Unknown",
-    summary = summary?.localizedValue(locale) ?: "",
-    icon = FilePath(baseAddress, icon?.localizedValue(locale)?.name),
+    name = name,
+    summary = summary,
+    icon = FilePath(baseAddress, icon),
     suggestedVersion = suggestedVersion,
     packageName = PackageName(packageName),
 )
@@ -167,7 +177,14 @@ fun AppEntityRelations.toApp(
     appId = app.id.toLong(),
     categories = categories.map { it.defaultName },
     links = links?.toLinks(),
-    metadata = app.toMetadata(locale, repo.address, versions),
+    metadata = app.toMetadata(
+        baseAddress = repo.address,
+        versions = versions,
+        iconUrl = icons.find { it.locale == locale }?.icon?.name,
+        appName = names.find { it.locale == locale }?.name ?: "Unknown",
+        appSummary = summaries.find { it.locale == locale }?.summary ?: "Unknown",
+        appDescription = descriptions.find { it.locale == locale }?.description ?: "Unknown",
+    ),
     author = author.toAuthor(),
     screenshots = screenshots?.toScreenshots(locale, repo.address),
     graphics = graphics?.toGraphics(locale, repo.address),
