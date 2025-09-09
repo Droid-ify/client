@@ -53,10 +53,9 @@ class LocalAppRepository @Inject constructor(
             if (apps.isEmpty()) return@measureTimedValue emptyList()
 
             val repoIds = apps.map { it.repoId }.distinct()
-            val appIds = apps.map { it.id }
 
             val addresses = repoDao.getAddressByIds(repoIds)
-            val versions = appDao.suggestedVersionNames(appIds)
+            val versions = appDao.suggestedVersionNamesAll()
 
             val currentLocale = locale.first()
             apps.map { app ->

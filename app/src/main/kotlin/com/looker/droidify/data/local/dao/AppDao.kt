@@ -16,12 +16,6 @@ import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
 import kotlinx.coroutines.flow.Flow
 
-// DTO for batch fetching suggested version names per app
- data class VersionNameRow(
-     val appId: Int,
-     val versionName: String,
- )
-
 @Dao
 interface AppDao {
 
@@ -87,6 +81,15 @@ interface AppDao {
         antiFeaturesToInclude: List<Tag>?,
         antiFeaturesToExclude: List<Tag>?,
     ): SimpleSQLiteQuery {
+        logQuery(
+            "sortOrder" to sortOrder,
+            "searchQuery" to searchQuery,
+            "repoId" to repoId,
+            "categoriesToInclude" to categoriesToInclude,
+            "categoriesToExclude" to categoriesToExclude,
+            "antiFeaturesToInclude" to antiFeaturesToInclude,
+            "antiFeaturesToExclude" to antiFeaturesToExclude,
+        )
         val args = arrayListOf<Any?>()
 
         val query = buildString(1024) {
@@ -200,17 +203,12 @@ interface AppDao {
     @MapInfo(keyColumn = "appId", valueColumn = "versionName")
     @Query(
         """
-        SELECT v.appId AS appId, v.versionName AS versionName
+        SELECT v.appId AS appId, MAX(v.versionName) AS versionName
         FROM version v
-        JOIN (
-          SELECT appId, MAX(versionCode) AS maxCode
-          FROM version
-          WHERE appId IN (:appIds)
-          GROUP BY appId
-        ) mv ON v.appId = mv.appId AND v.versionCode = mv.maxCode
+        GROUP BY appId
         """
     )
-    suspend fun suggestedVersionNames(appIds: List<Int>): Map<Int, String>
+    suspend fun suggestedVersionNamesAll(): Map<Int, String>
 
     @Transaction
     @Query("SELECT * FROM app WHERE packageName = :packageName")

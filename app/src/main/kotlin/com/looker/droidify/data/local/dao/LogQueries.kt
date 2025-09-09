@@ -7,8 +7,9 @@ fun logQuery(vararg param: Pair<String, Any?>) {
     }
     val message = buildString {
         append("(")
-        param.forEach { (key, value) ->
-            append("$key: $value, ")
+        param.forEachIndexed { index, (key, value) ->
+            append("$key: $value")
+            if (index != param.lastIndex) append(", ")
         }
         append(")")
     }
