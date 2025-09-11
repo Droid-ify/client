@@ -232,4 +232,7 @@
     <string name="waiting_to_start_download">Allalaadimise alustamise ootel…</string>
     <string name="prefs_language_title">Keel</string>
     <string name="updates">Uuendused</string>
+    <string name="unspecified">Määramata</string>
+    <string name="always_choose">Vali alati</string>
+    <string name="select_installer">Vali paigaldaja</string>
 </resources>
