@@ -199,12 +199,12 @@
     <string name="incompatible_with_FORMAT">Ei ühildu rakendusega %s</string>
     <string name="install">Paigalda</string>
     <string name="install_types">Paigalduse tüübid</string>
-    <string name="installer">Paigaldaja</string>
+    <string name="installer">Installija</string>
     <string name="insufficient_storage">Ruumi napib</string>
-    <string name="legacy_installer">Vana paigaldaja</string>
-    <string name="session_installer">Seansi paigaldaja</string>
-    <string name="shizuku_installer">Shizuku paigaldaja</string>
-    <string name="root_installer">Root-paigaldaja</string>
+    <string name="legacy_installer">Pärandinstallija</string>
+    <string name="session_installer">Seansiinstallija</string>
+    <string name="shizuku_installer">Shizuku installija</string>
+    <string name="root_installer">Root-installija</string>
     <string name="shizuku_not_alive">Shizuku ei tööta</string>
     <string name="shizuku_not_installed">Shizuku pole paigaldatud</string>
     <string name="installed">Paigaldatud</string>
@@ -234,5 +234,7 @@
     <string name="updates">Uuendused</string>
     <string name="unspecified">Määramata</string>
     <string name="always_choose">Vali alati</string>
-    <string name="select_installer">Vali paigaldaja</string>
+    <string name="select_installer">Vali installija</string>
+    <string name="legacyInstallerComponent">Pärandinstallija komponent</string>
+    <string name="shizuku_legacy_installer">Shizuku/Sui pärandinstallija</string>
 </resources>
