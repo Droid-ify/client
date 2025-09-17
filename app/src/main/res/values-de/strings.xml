@@ -237,4 +237,5 @@
     <string name="legacyInstallerComponent">Legacy-Installationskomponente</string>
     <string name="always_choose">Immer wählen</string>
     <string name="label_sdk_version">Zielversion: Android %1$s | Minimum: Android %2$s</string>
+    <string name="select_installer">Installationsmethode wählen</string>
 </resources>
