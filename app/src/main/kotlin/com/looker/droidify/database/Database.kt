@@ -476,6 +476,21 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
+        fun getArchivedApp(packageName: String): List<Product> {
+            return db.query(
+                Schema.Product.name,
+                columns = arrayOf(
+                    Schema.Product.ROW_REPOSITORY_ID,
+                    Schema.Product.ROW_DESCRIPTION,
+                    Schema.Product.ROW_DATA,
+                    Schema.Product.ROW_COMPATIBLE,
+                    Schema.Product.ROW_SIGNATURES,
+                    Schema.Product.ROW_VERSION_CODE,
+                ),
+                selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
+            ).use { it.asSequence().map(::transform).toList() }
+        }
+
         fun getCountStream(repositoryId: Long): Flow<Int> = flowOf(Unit)
             .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
             .map { getCount(repositoryId) }
