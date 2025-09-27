@@ -37,7 +37,7 @@ import kotlinx.coroutines.supervisorScope
 class LocalRepoRepository @Inject constructor(
     encryptionStorage: EncryptionStorage,
     downloader: Downloader,
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,
     private val repoDao: RepoDao,
     private val authDao: AuthDao,
@@ -71,7 +71,7 @@ class LocalRepoRepository @Inject constructor(
         val currentLocale = locale.first()
         val enabled = id in settings.first().enabledRepoIds
         val mirrors = getMirrors(id)
-        val name = repoDao.name(id, currentLocale) ?: "Unknown"
+        val name = repoDao.name(id, currentLocale) ?: repoEntity.address
         val description = repoDao.description(id, currentLocale) ?: "..."
         val icon = repoDao.icon(id, currentLocale)?.icon?.name
         return repoEntity.toRepo(
@@ -92,7 +92,7 @@ class LocalRepoRepository @Inject constructor(
         val auth = authDao.authFor(id)?.toAuthentication(key)
         val mirrors = getMirrors(id)
         val currentLocale = locale.first()
-        val name = repoDao.name(id, currentLocale) ?: "Unknown"
+        val name = repoDao.name(id, currentLocale) ?: repo?.address ?: "Unknown"
         val description = repoDao.description(id, currentLocale) ?: "..."
         val icon = repoDao.icon(id, currentLocale)?.icon?.name
         repo?.toRepo(
@@ -115,7 +115,7 @@ class LocalRepoRepository @Inject constructor(
     ) { repos, enabledIds ->
         val currentLocale = locale.first()
         repos.map { repoEntity ->
-            val name = repoDao.name(repoEntity.id, currentLocale) ?: "Unknown"
+            val name = repoDao.name(repoEntity.id, currentLocale) ?: repoEntity.address
             val description = repoDao.description(repoEntity.id, currentLocale) ?: "..."
             val icon = repoDao.icon(repoEntity.id, currentLocale)?.icon?.name
             repoEntity.toRepo(
