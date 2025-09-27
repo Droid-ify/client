@@ -13,16 +13,6 @@ typealias Tag = String
 
 typealias AntiFeatureReason = LocalizedString
 
-fun Map<String, Any>?.localesSize(): Int? = this?.keys?.size
-
-fun Map<String, Any>?.locales(): List<String> = buildList {
-    if (!isNullOrEmpty()) {
-        for (locale in this@locales!!.keys) {
-            add(locale)
-        }
-    }
-}
-
 fun <T> Map<String, T>?.localizedValue(locale: String): T? {
     if (isNullOrEmpty()) return null
     val localeList = LocaleListCompat.forLanguageTags(locale)

@@ -79,7 +79,7 @@ data class AppMinimal(
     val appId: Long,
     val packageName: PackageName,
     val name: String,
-    val summary: String,
+    val summary: String?,
     val icon: FilePath?,
     val suggestedVersion: String,
 ) {

@@ -9,7 +9,6 @@ import androidx.room.Junction
 import androidx.room.PrimaryKey
 import androidx.room.Relation
 import com.looker.droidify.data.model.App
-import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
 import com.looker.droidify.data.model.Metadata
@@ -154,21 +153,6 @@ private fun AppEntity.toMetadata(
     )
 }
 
-fun AppEntity.toAppMinimal(
-    name: String,
-    summary: String,
-    icon: String?,
-    baseAddress: String,
-    suggestedVersion: String,
-) = AppMinimal(
-    appId = id.toLong(),
-    name = name,
-    summary = summary,
-    icon = FilePath(baseAddress, icon),
-    suggestedVersion = suggestedVersion,
-    packageName = PackageName(packageName),
-)
-
 fun AppEntityRelations.toApp(
     locale: String,
     repo: RepoEntity,
@@ -180,10 +164,10 @@ fun AppEntityRelations.toApp(
     metadata = app.toMetadata(
         baseAddress = repo.address,
         versions = versions,
-        iconUrl = icons.find { it.locale == locale }?.icon?.name,
-        appName = names.find { it.locale == locale }?.name ?: "Unknown",
-        appSummary = summaries.find { it.locale == locale }?.summary ?: "Unknown",
-        appDescription = descriptions.find { it.locale == locale }?.description ?: "Unknown",
+        iconUrl = icons.findLocale(locale).icon.name,
+        appName = names.findLocale(locale).name,
+        appSummary = summaries.findLocale(locale).summary,
+        appDescription = descriptions.findLocale(locale).description,
     ),
     author = author.toAuthor(),
     screenshots = screenshots?.toScreenshots(locale, repo.address),

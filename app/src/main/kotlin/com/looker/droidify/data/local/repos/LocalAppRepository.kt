@@ -4,7 +4,6 @@ import com.looker.droidify.data.AppRepository
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.toApp
-import com.looker.droidify.data.local.model.toAppMinimal
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.data.model.PackageName
@@ -40,7 +39,8 @@ class LocalAppRepository @Inject constructor(
         antiFeaturesToExclude: List<Tag>?,
     ): List<AppMinimal> = withContext(Dispatchers.Default) {
         val timedValue = measureTimedValue {
-            val apps = appDao.query(
+            val currentLocale = locale.first()
+            appDao.query(
                 sortOrder = sortOrder,
                 searchQuery = searchQuery?.ifEmpty { null },
                 repoId = repoId,
@@ -48,30 +48,8 @@ class LocalAppRepository @Inject constructor(
                 categoriesToExclude = categoriesToExclude?.ifEmpty { null },
                 antiFeaturesToInclude = antiFeaturesToInclude?.ifEmpty { null },
                 antiFeaturesToExclude = antiFeaturesToExclude?.ifEmpty { null },
+                locale = currentLocale,
             )
-
-            if (apps.isEmpty()) return@measureTimedValue emptyList()
-
-            val repoIds = apps.map { it.repoId }.distinct()
-
-            val addresses = repoDao.getAddressByIds(repoIds)
-            val versions = appDao.suggestedVersionNamesAll()
-
-            val currentLocale = locale.first()
-            apps.map { app ->
-                val name = appDao.name(app.id, currentLocale) ?: "Unknown"
-                val summary = appDao.summary(app.id, currentLocale) ?: ""
-                val icon = appDao.icon(app.id, currentLocale)
-
-                val address = addresses[app.repoId]!!
-                app.toAppMinimal(
-                    baseAddress = address,
-                    suggestedVersion = versions[app.id] ?: "",
-                    name = name,
-                    summary = summary,
-                    icon = icon?.icon?.name,
-                )
-            }
         }
         log("apps() took ${timedValue.duration}", "RoomQuery")
         timedValue.value

@@ -21,10 +21,10 @@ import com.looker.droidify.sync.v2.model.FileV2
     ],
 )
 data class LocalizedAppNameEntity(
-    val appId: Int,
-    val locale: String,
+    override val appId: Int,
+    override val locale: String,
     val name: String,
-)
+) : LocalizedEntityData
 
 @Entity(
     tableName = "localized_app_summary",
@@ -40,10 +40,10 @@ data class LocalizedAppNameEntity(
     ],
 )
 data class LocalizedAppSummaryEntity(
-    val appId: Int,
-    val locale: String,
+    override val appId: Int,
+    override val locale: String,
     val summary: String,
-)
+) : LocalizedEntityData
 
 @Entity(
     tableName = "localized_app_description",
@@ -59,10 +59,10 @@ data class LocalizedAppSummaryEntity(
     ],
 )
 data class LocalizedAppDescriptionEntity(
-    val appId: Int,
-    val locale: String,
+    override val appId: Int,
+    override val locale: String,
     val description: String,
-)
+) : LocalizedEntityData
 
 @Entity(
     tableName = "localized_app_icon",
@@ -78,8 +78,25 @@ data class LocalizedAppDescriptionEntity(
     ],
 )
 data class LocalizedAppIconEntity(
-    val appId: Int,
-    val locale: String,
+    override val appId: Int,
+    override val locale: String,
     @Embedded(prefix = "icon_")
     val icon: FileV2,
-)
+) : LocalizedEntityData
+
+sealed interface LocalizedEntityData {
+    val appId: Int
+    val locale: String
+}
+
+fun <T : LocalizedEntityData> List<T>.findLocale(locale: String): T {
+    require(isNotEmpty()) { "List of localized data cannot be empty" }
+    var bestMatch: T? = null
+    var englishMatch: T? = null
+    for (i in indices) {
+        val l = get(i).locale
+        if (l == locale || l.startsWith(locale)) bestMatch = this[i]
+        if (l == "en-US" || l == "en") englishMatch = this[i]
+    }
+    return bestMatch ?: englishMatch ?: first()
+}

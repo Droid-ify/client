@@ -310,13 +310,15 @@ private fun AppItem(
                         .padding(horizontal = 8.dp, vertical = 4.dp),
                 )
             }
-            Text(
-                text = app.summary,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            app.summary?.let {
+                Text(
+                    text = it,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
         Spacer(modifier = Modifier.size(12.dp))
     }
