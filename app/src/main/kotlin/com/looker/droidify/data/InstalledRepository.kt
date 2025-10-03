@@ -1,50 +1,46 @@
 package com.looker.droidify.data
 
+import com.looker.droidify.data.local.dao.InstalledDao
+import com.looker.droidify.data.local.model.toDomain
+import com.looker.droidify.data.local.model.toEntity
 import com.looker.droidify.model.InstalledItem
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 /**
- * Repository interface for installed applications.
- * Provides methods to interact with installed applications data.
+ * Implementation of [InstalledRepository] that uses Room database.
+ * @param installedDao The DAO for installed applications.
  */
-interface InstalledRepository {
+class InstalledRepository @Inject constructor(
+    private val installedDao: InstalledDao,
+) {
 
-    /**
-     * Get an installed app by package name as a Flow.
-     * @param packageName The package name of the app.
-     * @return A Flow emitting the installed app or null if not found.
-     */
-    fun getStream(packageName: String): Flow<InstalledItem?>
+    fun getStream(packageName: String): Flow<InstalledItem?> {
+        return installedDao.stream(packageName).map { entity ->
+            entity?.toDomain()
+        }
+    }
 
-    /**
-     * Get all installed apps as a Flow.
-     * @return A Flow emitting a list of all installed apps.
-     */
-    fun getAllStream(): Flow<List<InstalledItem>>
+    fun getAllStream(): Flow<List<InstalledItem>> {
+        return installedDao.streamAll().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
 
-    /**
-     * Get an installed app by package name.
-     * @param packageName The package name of the app.
-     * @return The installed app or null if not found.
-     */
-    suspend fun get(packageName: String): InstalledItem?
+    suspend fun get(packageName: String): InstalledItem? {
+        return installedDao.get(packageName)?.toDomain()
+    }
 
-    /**
-     * Insert or update an installed app.
-     * @param installedItem The installed app to insert or update.
-     */
-    suspend fun put(installedItem: InstalledItem)
+    suspend fun put(installedItem: InstalledItem) {
+        installedDao.insert(installedItem.toEntity())
+    }
 
-    /**
-     * Replace all installed apps with a new list.
-     * @param installedItems The new list of installed apps.
-     */
-    suspend fun putAll(installedItems: List<InstalledItem>)
+    suspend fun putAll(installedItems: List<InstalledItem>) {
+        installedDao.replaceAll(installedItems.map { it.toEntity() })
+    }
 
-    /**
-     * Delete an installed app by package name.
-     * @param packageName The package name of the app to delete.
-     * @return The number of rows affected.
-     */
-    suspend fun delete(packageName: String): Int
+    suspend fun delete(packageName: String): Int {
+        return installedDao.delete(packageName)
+    }
 }
