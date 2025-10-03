@@ -89,7 +89,7 @@ class V1SyncableTest {
         }
         val output2 = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
+                v2Parser.parse(
                     file = v2File,
                     repo = repo,
                 )
@@ -210,7 +210,7 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
     assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
     assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
-    assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
+    assertContentEquals(expectedMetaData.donate, foundMetadata.donate?.ifEmpty { null })
     // Source
     assertEquals(expectedMetaData.translation, foundMetadata.translation)
     assertEquals(expectedMetaData.issueTracker, foundMetadata.issueTracker)
