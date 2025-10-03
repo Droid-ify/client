@@ -168,7 +168,7 @@
     <string name="shizuku_installer">Πρόγραμμα Εγκατάστασης Shizuku/Sui</string>
     <string name="show_less">Εμφάνιση λιγότερων</string>
     <string name="update_all">Ενημέρωση όλων</string>
-    <string name="cleanup_title">APK cleanup interval</string>
+    <string name="cleanup_title">Διάστημα διαγραφής APK</string>
     <plurals name="days">
         <item quantity="one">ημέρα</item>
         <item quantity="other">ημέρες</item>
