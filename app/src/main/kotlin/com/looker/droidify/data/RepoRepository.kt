@@ -19,12 +19,10 @@ import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.LocalSyncable
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v2.EntrySyncable
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.work.SyncWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import javax.inject.Inject
-import kotlin.time.measureTime
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -190,14 +188,11 @@ class RepoRepository @Inject constructor(
     suspend fun sync(repo: Repo): Boolean {
         val (fingerprint, index) = localSyncable.sync(repo)
         return if (index != null) {
-            val time = measureTime {
-                indexDao.insertIndex(
-                    fingerprint = fingerprint,
-                    index = index,
-                    expectedRepoId = repo.id,
-                )
-            }
-            log("sync() took $time", "RoomQuery")
+            indexDao.insertIndex(
+                fingerprint = fingerprint,
+                index = index,
+                expectedRepoId = repo.id,
+            )
             true
         } else false
     }
