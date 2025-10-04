@@ -35,7 +35,7 @@ android {
         compilerOptions {
             languageVersion.set(KotlinVersion.KOTLIN_2_2)
             apiVersion.set(KotlinVersion.KOTLIN_2_2)
-            freeCompilerArgs.add("-Xopt-in=kotlin.RequiresOptIn")
+            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
             freeCompilerArgs.add("-Xcontext-parameters")
         }
     }

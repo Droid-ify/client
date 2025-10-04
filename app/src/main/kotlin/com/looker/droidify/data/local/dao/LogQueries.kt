@@ -6,12 +6,11 @@ fun logQuery(vararg param: Pair<String, Any?>) {
     param.forEach { (key, value) ->
     }
     val message = buildString {
-        append("(")
+        appendLine("(")
         param.forEachIndexed { index, (key, value) ->
-            append("$key: $value")
-            if (index != param.lastIndex) append(", ")
+            appendLine("\t$key: $value,")
         }
-        append(")")
+        appendLine(")")
     }
     Log.d("RoomQuery", message)
 }
