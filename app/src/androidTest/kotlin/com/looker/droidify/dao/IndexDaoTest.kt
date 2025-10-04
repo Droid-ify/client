@@ -47,7 +47,7 @@ class IndexDaoTest {
     fun setUp() {
         hiltRule.inject()
         dispatcher = StandardTestDispatcher()
-        index = JsonParser.decodeFromStream<IndexV2>(assets("fdroid_index_v2.json"))
+        index = JsonParser.decodeFromStream<IndexV2>(assets("izzy_index_v2.json"))
     }
 
     @Test
