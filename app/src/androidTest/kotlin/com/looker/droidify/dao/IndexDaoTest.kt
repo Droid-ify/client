@@ -64,22 +64,4 @@ class IndexDaoTest {
             }
         println(output)
     }
-
-    @Test
-    fun benchmark_insert_update_existing() = runTest(dispatcher, timeout = 5.minutes) {
-        // Seed once so subsequent calls behave like an update/upsert on existing data
-        database.clearAllTables()
-        dao.insertIndex(fingerprint, index)
-
-        val output =
-            benchmark(5, extraMessage = "IndexDao.insertIndex – existing DB (upsert/update)") {
-                measureTimeMillis {
-                    dao.insertIndex(
-                        fingerprint = fingerprint,
-                        index = index,
-                    )
-                }
-            }
-        println(output)
-    }
 }
