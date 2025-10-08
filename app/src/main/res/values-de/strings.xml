@@ -81,7 +81,7 @@
     <string name="validation_index_error_DESC">Index konnte nicht überprüft werden</string>
     <string name="website">Projektwebseite</string>
     <string name="changes">Änderungen</string>
-    <string name="author_email">Autoren E-Mail</string>
+    <string name="author_email">Autoren-E-Mail</string>
     <string name="could_not_download_FORMAT">%s konnte nicht heruntergeladen werden</string>
     <string name="author_website">Website</string>
     <string name="delete">Löschen</string>
@@ -92,7 +92,7 @@
     <string name="license_FORMAT">%s-Lizenz</string>
     <string name="link_copied_to_clipboard">Link kopiert</string>
     <string name="project_website">Webseite</string>
-    <string name="proxy_type">Proxy-Art</string>
+    <string name="proxy_type">Proxytyprt</string>
     <string name="repository">Paketquelle</string>
     <string name="parsing_index_error_DESC">Indexdatei konnte nicht geparst werden</string>
     <string name="password">Passwort</string>
@@ -141,10 +141,10 @@
     <string name="repository_unsigned_DESC">Keine Signatur gefunden. Die App-Liste konnte nicht verifiziert werden</string>
     <string name="unstable_updates_summary">Installation von instabilen Versionen vorschlagen</string>
     <string name="unstable_updates">Instabile Updates</string>
-    <string name="proxy_host">Proxy-Host</string>
+    <string name="proxy_host">Proxyhost</string>
     <string name="tap_to_install_DESC">Zum Installieren tippen</string>
     <string name="tracks_or_reports_your_activity">Verfolgt oder versendet deine Aktivitäten</string>
-    <string name="proxy_port">Proxy-Port</string>
+    <string name="proxy_port">Proxyport</string>
     <string name="search">Suchen</string>
     <string name="sorting_order">Sortierreihenfolge</string>
     <string name="socks_proxy">SOCKS-Proxy</string>
