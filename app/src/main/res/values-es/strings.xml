@@ -171,9 +171,9 @@
     <string name="shizuku_installer">Instalador de Shizuku</string>
     <string name="cleanup_title">Intervalo de limpieza de APKs</string>
     <plurals name="days">
-        <item quantity="one">Día</item>
-        <item quantity="many">Días</item>
-        <item quantity="other">Días</item>
+        <item quantity="one">día</item>
+        <item quantity="many">días</item>
+        <item quantity="other">días</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Hora</item>
