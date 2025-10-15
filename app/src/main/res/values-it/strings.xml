@@ -235,4 +235,6 @@
     <string name="open_shizuku">Apri Shizuku</string>
     <string name="switch_to_default_installer">Passa al predefinito</string>
     <string name="label_unknown_sdk">Sconosciuto (%d)</string>
+    <string name="unspecified">Non specificato</string>
+    <string name="select_installer">Seleziona installatore</string>
 </resources>

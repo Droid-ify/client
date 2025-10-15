@@ -171,9 +171,9 @@
     <string name="shizuku_installer">Instalador de Shizuku</string>
     <string name="cleanup_title">Intervalo de limpieza de APKs</string>
     <plurals name="days">
-        <item quantity="one">Día</item>
-        <item quantity="many">Días</item>
-        <item quantity="other">Días</item>
+        <item quantity="one">día</item>
+        <item quantity="many">días</item>
+        <item quantity="other">días</item>
     </plurals>
     <plurals name="hours">
         <item quantity="one">Hora</item>
@@ -204,7 +204,7 @@
     <string name="home_screen_swiping_DESC">Permitir al usuario pasar de una página a otra en la pantalla de inicio</string>
     <string name="repository_not_found">No pudimos encontrar el siguiente repositorio</string>
     <string name="proxy_port_error_not_int">El puerto del proxy sólo puede ser un número entero</string>
-    <string name="import_settings_title">Importar configuración</string>
+    <string name="import_settings_title">Importar configuración y favoritos</string>
     <string name="import_export">Importar/Exportar</string>
     <string name="import_settings_DESC">Importar los ajustes y los favoritos desde un archivo</string>
     <string name="export_settings_title">Exportar ajustes</string>
@@ -227,10 +227,10 @@
     <string name="insufficient_storage_DESC">No hay suficiente espacio libre en el dispositivo para instalar esta aplicación. Intente liberar algo de espacio</string>
     <string name="error_shizuku_not_granted_DESC">No se permitió el permiso del servicio de Shizuku. Por favor revisa la app de Shizuku</string>
     <string name="error_shizuku_service_unavailable">Shizuku no está ejecutando</string>
-    <string name="error_shizuku_not_running_DESC">El servicio de Shizuku no está corriendo. Por favor revisa la app de Shizuku</string>
+    <string name="error_shizuku_not_running_DESC">El servicio de Shizuku no está funcionando. Por favor revisa la app de Shizuku</string>
     <string name="error_shizuku_not_granted">Falta permiso de Shizuku</string>
     <string name="error_shizuku_not_installed">Shizuku no está instalado</string>
-    <string name="error_shizuku_not_installed_DESC">Al parecer Shizuku no está instalado</string>
+    <string name="error_shizuku_not_installed_DESC">Al parecer, Shizuku no se encuentra instalado</string>
     <string name="open_shizuku">Abrir Shizuku</string>
     <string name="switch_to_default_installer">Cambiar a Predeterminado</string>
     <string name="label_open_video">Video</string>
