@@ -27,7 +27,7 @@ class SettingsExporter(
     override suspend fun export(item: Settings, target: Uri) {
         scope.launch(ioDispatcher) {
             try {
-                context.contentResolver.openOutputStream(target).use {
+                context.contentResolver.openOutputStream(target, "wt").use {
                     if (it != null) json.encodeToStream(item, it)
                 }
             } catch (e: SerializationException) {
