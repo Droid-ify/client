@@ -183,6 +183,14 @@
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
 
+        <receiver
+            android:name=".receivers.UnarchivePackageReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.UNARCHIVE_PACKAGE" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

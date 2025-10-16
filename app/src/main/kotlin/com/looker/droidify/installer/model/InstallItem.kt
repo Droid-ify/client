@@ -5,7 +5,8 @@ import com.looker.droidify.domain.model.toPackageName
 
 class InstallItem(
     val packageName: PackageName,
-    val installFileName: String
+    val installFileName: String,
+    val unarchiveId: Int? = null
 )
 
 infix fun String.installFrom(fileName: String) = InstallItem(this.toPackageName(), fileName)

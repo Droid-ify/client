@@ -43,6 +43,10 @@ class SessionInstaller(private val context: Context) : Installer {
         installItem: InstallItem
     ): InstallState = suspendCancellableCoroutine { cont ->
         val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM && installItem.unarchiveId != null) {
+            sessionParams.setUnarchiveId(installItem.unarchiveId)
+        }
+
         val id = installer.createSession(sessionParams)
         val installerCallback = object : PackageInstaller.SessionCallback() {
             override fun onCreated(sessionId: Int) {}
