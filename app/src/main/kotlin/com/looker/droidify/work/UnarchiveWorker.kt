@@ -29,12 +29,10 @@ import com.looker.droidify.utility.common.extension.calculateHash
 import com.looker.droidify.utility.common.extension.singleSignature
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltWorker
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)

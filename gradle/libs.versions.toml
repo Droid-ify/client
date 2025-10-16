@@ -103,6 +103,7 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 # TODO check https://developer.android.com/develop/ui/compose/graphics/images/material the icons library shouldn't be used anymore
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
+compose-icons = { group = "androidx.compose.material", name = "material-icons-core" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }
