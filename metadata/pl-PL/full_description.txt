@@ -1,0 +1,10 @@
+Funkcje:
+• Przeglądanie i instalacja aplikacji z repozytoriów F-Droid
+• Automatyczne aktualizacje aplikacji w tle
+• Wiele metod instalacji (Session, Root, Shizuku)
+• Dodawanie niestandardowych repozytoriów jednym dotknięciem
+• Działanie całkowicie offline po początkowej synchronizacji
+
+Dostępny w 63 językach, w tym angielskim, niemieckim, francuskim, hiszpańskim i chińskim.
+
+Wolne oprogramowanie na licencji GPLv3+.

@@ -31,7 +31,7 @@ class RepositoryExporter @Inject constructor(
 ) : Exporter<List<Repository>> {
     override suspend fun export(item: List<Repository>, target: Uri) {
         scope.launch(ioDispatcher) {
-            val stream = context.contentResolver.openOutputStream(target)
+            val stream = context.contentResolver.openOutputStream(target, "wt")
             Json.factory.createGenerator(stream).use { generator ->
                 generator.writeDictionary {
                     writeArray("repositories") {
