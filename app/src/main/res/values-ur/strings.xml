@@ -1,2 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="action_failed">کارروائی ناکام ہوگئی</string>
+    <string name="add_repository">ذخیرہ شامل کریں</string>
+    <string name="address">پتہ</string>
+    <string name="all_applications">تمام ایپس</string>
+    <string name="all_applications_up_to_date">آپ کی تمام ایپس اپ ٹو ڈیٹ ہیں</string>
+    <string name="already_exists">پہلے سے موجود ہے</string>
+    <string name="always">ہمیشہ</string>
+    <string name="amoled">سیاہ</string>
+    <string name="anti_features">مخالف خصوصیات</string>
+    <string name="application">ایپ</string>
+    <string name="application_not_found">ایپ نہیں ملی</string>
+    <string name="author_email">مصنف کا ای میل</string>
+    <string name="author_website">مصنف کی ویب سائٹ</string>
+    <string name="auto_update">خودکار اپ ڈیٹ ایپس</string>
+    <string name="auto_update_apps">اپ ڈیٹس خود بخود انسٹال کریں</string>
+    <string name="available">دریافت کریں</string>
+    <string name="bug_tracker">بگ ٹریکر</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="cannot_open_link">لنک نہیں کھول سکتا</string>
+    <string name="cant_edit_sync_DESC">مطابقت پذیری کے دوران ذخیرہ میں ترمیم نہیں کی جا سکتی</string>
+    <string name="changelog">چینج لاگ</string>
+    <string name="changes">تبدیلیاں</string>
+    <string name="checking_repository">ذخیرہ کی جانچ ہو رہی ہے…</string>
+    <string name="cleanup_title">APK کلین اپ وقفہ</string>
+    <string name="compiled_for_debugging">ڈیبگنگ کے لیے مرتب کیا گیا</string>
+    <string name="confirmation">تصدیق</string>
+    <string name="connecting">منسلک ہو رہا ہے…</string>
+    <string name="contains_non_free_media">غیر آزاد میڈیا پر مشتمل ہے</string>
+    <string name="could_not_download_FORMAT">%s کو ڈاؤن لوڈ نہیں کیا جا سکا</string>
+    <string name="could_not_sync_FORMAT">%s کی مطابقت پذیری نہیں ہو سکی</string>
+    <string name="could_not_validate_FORMAT">%s کی توثیق نہیں ہو سکی</string>
+    <string name="credits">کریڈٹس</string>
+    <string name="dark">اندھیرا</string>
+    <plurals name="days">
+        <item quantity="one">دن</item>
+        <item quantity="other">دنوں</item>
+    </plurals>
+    <string name="delete">Delete</string>
+    <string name="delete_repository_DESC">ذخیرہ کو حذف کریں؟</string>
+    <string name="description">تفصیل</string>
+    <string name="details">تفصیلات</string>
+    <string name="donate">عطیہ کریں</string>
+    <string name="downloaded_FORMAT">ڈاؤن لوڈ کیا گیا %s</string>
+    <string name="downloading">ڈاؤن لوڈ ہو رہا ہے</string>
+    <string name="downloading_FORMAT">%s ڈاؤن لوڈ ہو رہا ہے…</string>
+    <string name="edit_repository">ترمیم کریں</string>
+    <string name="error_shizuku_service_unavailable">شِزُوکو/سُوئی سروس چل نہیں رہی</string>
+    <string name="error_shizuku_not_running_DESC">شِزُوکو/سُوئی سروس چل نہیں رہی</string>
+</resources>
