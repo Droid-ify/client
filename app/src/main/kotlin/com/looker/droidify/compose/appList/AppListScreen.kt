@@ -34,6 +34,7 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -214,6 +215,11 @@ private fun AppListTopBar(
     TopAppBar(
         title = title,
         actions = {
+            IconButton(onClick = {
+                // TODO
+            }) {
+                Icon(Icons.Filled.Refresh, contentDescription = "More")
+            }
             IconButton(onClick = { expanded = true }) {
                 Icon(Icons.Filled.MoreVert, contentDescription = "More")
             }
