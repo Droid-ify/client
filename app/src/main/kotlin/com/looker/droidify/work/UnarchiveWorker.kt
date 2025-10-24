@@ -16,9 +16,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.model.Product
