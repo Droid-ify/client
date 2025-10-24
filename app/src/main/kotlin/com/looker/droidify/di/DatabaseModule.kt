@@ -5,6 +5,8 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
+import com.looker.droidify.data.local.dao.DownloadStatsDao
+import com.looker.droidify.data.local.dao.DownloadStatsFileDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
@@ -66,7 +68,21 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideDownloadStatsDao(
+        db: DroidifyDatabase,
+    ): DownloadStatsDao = db.downloadStatsDao()
+
+    @Singleton
+    @Provides
+    fun provideDownloadStatsFileDao(
+        db: DroidifyDatabase,
+    ): DownloadStatsFileDao = db.downloadStatsFileDao()
+
+    @Singleton
+    @Provides
     fun providePrivacyRepository(
         rblDao: RBLogDao,
-    ): PrivacyRepository = PrivacyRepository(rblDao)
+        downloadStatsDao: DownloadStatsDao,
+        downloadStatsFileDao: DownloadStatsFileDao,
+    ): PrivacyRepository = PrivacyRepository(rblDao, downloadStatsDao, downloadStatsFileDao)
 }
