@@ -146,9 +146,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     private enum class SectionType(
         val titleResId: Int,
-        val colorAttrResId: Int = MaterialR.attr.colorPrimary
+        val colorAttrResId: Int = MaterialR.attr.colorPrimaryContainer
     ) {
-        ANTI_FEATURES(stringRes.anti_features, MaterialR.attr.colorError),
+        ANTI_FEATURES(stringRes.anti_features, MaterialR.attr.colorErrorContainer),
         CHANGES(stringRes.changes),
         LINKS(stringRes.links),
         DONATE(stringRes.donate),
@@ -428,10 +428,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.action)!!
 
-        val actionTintNormal = button.context.getColorFromAttr(MaterialR.attr.colorPrimary)
-        val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimary)
-        val actionTintCancel = button.context.getColorFromAttr(MaterialR.attr.colorError)
-        val actionTintOnCancel = button.context.getColorFromAttr(MaterialR.attr.colorOnError)
+        val actionTintNormal = button.context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+        val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer)
+        val actionTintCancel = button.context.getColorFromAttr(MaterialR.attr.colorErrorContainer)
+        val actionTintOnCancel = button.context.getColorFromAttr(MaterialR.attr.colorOnErrorContainer)
         val actionTintDisabled = button.context.getColorFromAttr(MaterialR.attr.colorOutline)
         val actionTintOnDisabled = button.context.getColorFromAttr(android.R.attr.colorBackground)
 
@@ -596,7 +596,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 with(title) {
                     gravity = Gravity.CENTER
                     typeface = TypefaceExtra.medium
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer))
                     setTextSizeScaled(20)
                     setText(stringRes.application_not_found)
                     setPadding(0, 12.dp, 0, 12.dp)
@@ -635,7 +635,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 with(repoTitle) {
                     gravity = Gravity.CENTER
                     typeface = TypefaceExtra.medium
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer))
                     setTextSizeScaled(20)
                     setPadding(0, 0, 0, 12.dp)
                 }
@@ -651,8 +651,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     icon = context.open
                     setText(stringRes.add_repository)
                     setBackgroundColor(context.getColor(android.R.color.transparent))
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
-                    iconTint = context.getColorFromAttr(MaterialR.attr.colorPrimary)
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer))
+                    iconTint = context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
                 }
                 addView(
                     title,
@@ -1682,7 +1682,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 with(holder.compatibility) {
                     isVisible = incompatibility != null || singlePlatform != null
                     if (incompatibility != null) {
-                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorError))
+                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorErrorContainer))
                         text = when (incompatibility) {
                             is Release.Incompatibility.MinSdk,
                             is Release.Incompatibility.MaxSdk -> context.getString(

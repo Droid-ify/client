@@ -123,7 +123,7 @@ class RepositoryFragment() : ScreenFragment() {
                         builder.setSpan(
                             ForegroundColorSpan(
                                 requireContext()
-                                    .getColorFromAttr(MaterialR.attr.colorError)
+                                    .getColorFromAttr(MaterialR.attr.colorErrorContainer)
                                     .defaultColor
                             ),
                             0,

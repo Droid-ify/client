@@ -36,6 +36,7 @@ import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
 import java.lang.ref.WeakReference
@@ -66,6 +67,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     companion object {
         const val RB_LOGS_SYNC = -23L
+        const val DOWNLOAD_STATS_SYNC = -24L
         private const val MAX_PROGRESS = 100
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
@@ -155,7 +157,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         fun sync(request: SyncRequest) {
             val ids = Database.RepositoryAdapter.getAll()
                 .asSequence().filter { it.enabled }.map { it.id }.toList()
-            sync(ids + RB_LOGS_SYNC, request)
+            sync(ids + RB_LOGS_SYNC + DOWNLOAD_STATS_SYNC, request)
         }
 
         fun sync(repository: Repository) {
@@ -421,6 +423,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val task = tasks.removeAt(0)
         when (task.repositoryId) {
             RB_LOGS_SYNC -> return RBLogWorker.fetchRBLogs(applicationContext)
+            DOWNLOAD_STATS_SYNC -> return DownloadStatsWorker.fetchDownloadStats(applicationContext)
             else -> {}
         }
         val repository = Database.RepositoryAdapter.get(task.repositoryId)

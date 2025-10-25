@@ -16,7 +16,7 @@ android {
     val latestVersionName = "0.6.6"
     namespace = "com.looker.droidify"
     buildToolsVersion = "35.0.0"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 23
         targetSdk = 35
