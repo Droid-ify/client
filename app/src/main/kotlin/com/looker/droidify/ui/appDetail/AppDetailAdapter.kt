@@ -46,6 +46,9 @@ import com.looker.droidify.R
 import com.looker.droidify.compose.appDetail.ReleaseItem
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.Reproducible
+import com.looker.droidify.data.local.model.toReproducible
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductPreference
@@ -349,7 +352,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             val repository: Repository,
             val release: Release,
             val selectedRepository: Boolean,
-            val showSignature: Boolean
+            val showSignature: Boolean,
+            val reproducible: Reproducible,
         ) : Item() {
             override val descriptor: String
                 get() = "release.${repository.id}.${release.identifier}"
@@ -678,6 +682,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         packageName: String,
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
+        rblogs: List<RBLogEntity>,
         installedItem: InstalledItem?,
         isFavourite: Boolean,
         allowIncompatibleVersion: Boolean
@@ -1003,7 +1008,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     repository = repository,
                     release = release,
                     selectedRepository = repository.id == productRepository.second.id,
-                    showSignature = release.versionCode in versionsWithMultiSignature
+                    showSignature = release.versionCode in versionsWithMultiSignature,
+                    reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
                 )
             }
             .sortedByDescending { it.release.versionCode }
