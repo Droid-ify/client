@@ -1585,6 +1585,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             release = item.release,
                             repository = item.repository,
                             installedItem = installedItem,
+                            reproducible = item.reproducible,
                             showSignature = item.showSignature,
                             suggested = item.release.incompatibilities.isEmpty() &&
                                 item.release.selected &&
@@ -1596,7 +1597,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                                     holder.itemView,
                                     item.release.getDownloadUrl(item.repository)
                                 )
-                            }
+                            },
                         )
                     }
                 }

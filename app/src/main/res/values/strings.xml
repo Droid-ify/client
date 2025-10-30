@@ -249,4 +249,5 @@
     <string name="always_choose">Always choose</string>
     <string name="select_installer">Select installer</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Reproducible build badge</string>
 </resources>

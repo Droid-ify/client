@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.GppBad
+import androidx.compose.material.icons.outlined.GppGood
+import androidx.compose.material.icons.outlined.GppMaybe
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -29,6 +35,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.looker.droidify.R
+import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
@@ -50,12 +57,13 @@ fun ReleaseItem(
     release: Release,
     repository: Repository,
     installedItem: InstalledItem?,
+    reproducible: Reproducible,
     showSignature: Boolean,
     suggested: Boolean,
     enabled: Boolean,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
     val incompatibility = remember(release) { release.incompatibilities.firstOrNull() }
@@ -157,6 +165,19 @@ fun ReleaseItem(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                if (reproducible != Reproducible.NO_DATA) Icon(
+                    imageVector = when (reproducible) {
+                        Reproducible.TRUE  -> Icons.Outlined.GppGood
+                        Reproducible.FALSE -> Icons.Outlined.GppBad
+                        else               -> Icons.Outlined.GppMaybe // Reproducible.UNKNOWN
+                    },
+                    contentDescription = stringResource(id = R.string.rb_badge),
+                    tint = when (reproducible) {
+                        Reproducible.TRUE  -> Color.Green
+                        Reproducible.FALSE -> Color.Red
+                        else               -> Color.Yellow//Warning
+                    }
+                )
                 Text(
                     text = stringResource(R.string.provided_by_FORMAT, repository.name),
                     style = MaterialTheme.typography.bodyMedium,
