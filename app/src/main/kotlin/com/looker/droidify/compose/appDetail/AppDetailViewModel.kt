@@ -21,15 +21,10 @@ class AppDetailViewModel @Inject constructor(
         "Required argument 'packageName' was not found in SavedStateHandle"
     }
 
-    val state: StateFlow<AppDetailUiState> = appRepository
+    val state: StateFlow<App?> = appRepository
         .getApp(PackageName(packageName))
         .map { apps ->
-            val suggested = apps.maxByOrNull { it.metadata.suggestedVersionCode }
-            AppDetailUiState(app = suggested)
+            apps.maxBy { it.metadata.suggestedVersionCode }
         }
-        .asStateFlow(AppDetailUiState())
+        .asStateFlow(null)
 }
-
-data class AppDetailUiState(
-    val app: App? = null,
-)

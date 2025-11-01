@@ -1,5 +1,6 @@
 package com.looker.droidify.compose.settings.navigation
 
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -21,6 +22,6 @@ fun NavGraphBuilder.settings(
     onBackClick: () -> Unit,
 ) {
     composable<Settings> {
-        SettingsScreen(onBackClick = onBackClick)
+        SettingsScreen(onBackClick = onBackClick, viewModel = hiltViewModel())
     }
 }

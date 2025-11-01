@@ -1,5 +1,6 @@
 package com.looker.droidify.compose.appDetail.navigation
 
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
@@ -22,6 +23,10 @@ fun NavGraphBuilder.appDetail(
 ) {
     composable<AppDetail> { backStackEntry ->
         val appDetail = backStackEntry.toRoute<AppDetail>()
-        AppDetailScreen(packageName = appDetail.packageName, onBack = onBackClick)
+        AppDetailScreen(
+            packageName = appDetail.packageName,
+            onBackClick = onBackClick,
+            viewModel = hiltViewModel(),
+        )
     }
 }

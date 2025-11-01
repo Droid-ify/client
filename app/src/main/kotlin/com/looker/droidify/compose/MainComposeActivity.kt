@@ -72,9 +72,8 @@ class MainComposeActivity : ComponentActivity() {
                         )
 
                         repoList(
-                            onRepoClick = { repoId ->
-                                navController.navigateToRepoDetail(repoId)
-                            },
+                            onRepoClick = { repoId -> navController.navigateToRepoDetail(repoId) },
+                            onBackClick = { navController.popBackStack() }
                         )
 
                         appDetail(

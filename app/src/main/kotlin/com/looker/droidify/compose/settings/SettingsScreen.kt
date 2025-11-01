@@ -16,13 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -40,11 +36,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.looker.droidify.R
+import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.extension.autoSyncName
 import com.looker.droidify.datastore.extension.installerName
@@ -66,8 +62,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
+    viewModel: SettingsViewModel,
     onBackClick: () -> Unit,
-    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val context = LocalContext.current
@@ -86,18 +82,8 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(
-                        text = context.getString(R.string.settings),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
+                title = { Text(text = stringResource(R.string.settings)) },
+                navigationIcon = { BackButton(onBackClick) },
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -116,7 +102,8 @@ fun SettingsScreen(
 
             is SettingUiState.Success -> {
                 val settings = state.settings
-                val showBatteryBanner = !context.isIgnoreBatteryEnabled() && settings.autoSync != AutoSync.NEVER
+                val showBatteryBanner =
+                    !context.isIgnoreBatteryEnabled() && settings.autoSync != AutoSync.NEVER
 
                 Column(
                     modifier = Modifier
@@ -188,20 +175,20 @@ private fun SettingsContent(
     Column {
         // Language
         SettingRow(
-            title = context.getString(R.string.prefs_language_title),
+            title = stringResource(R.string.prefs_language_title),
             value = settings.language,
             onClick = { showLanguageDialog = true }
         )
         // Theme
         SettingRow(
-            title = context.getString(R.string.theme),
+            title = stringResource(R.string.theme),
             value = context.themeName(settings.theme),
             onClick = { showThemeDialog = true }
         )
         // Dynamic theme (visible on SnowCake+)
         if (com.looker.droidify.utility.common.SdkCheck.isSnowCake) {
             SettingRow(
-                title = context.getString(R.string.material_you),
+                title = stringResource(R.string.material_you),
                 value = null,
                 onClick = {},
                 switchChecked = settings.dynamicTheme,
@@ -210,7 +197,7 @@ private fun SettingsContent(
         }
         // Home screen swiping
         SettingRow(
-            title = context.getString(R.string.home_screen_swiping),
+            title = stringResource(R.string.home_screen_swiping),
             value = null,
             onClick = {},
             switchChecked = settings.homeScreenSwiping,
@@ -218,7 +205,7 @@ private fun SettingsContent(
         )
         // Notify updates
         SettingRow(
-            title = context.getString(R.string.notify_about_updates),
+            title = stringResource(R.string.notify_about_updates),
             value = null,
             onClick = {},
             switchChecked = settings.notifyUpdate,
@@ -226,7 +213,7 @@ private fun SettingsContent(
         )
         // Auto update
         SettingRow(
-            title = context.getString(R.string.auto_update),
+            title = stringResource(R.string.auto_update),
             value = null,
             onClick = {},
             switchChecked = settings.autoUpdate,
@@ -234,7 +221,7 @@ private fun SettingsContent(
         )
         // Unstable updates
         SettingRow(
-            title = context.getString(R.string.unstable_updates),
+            title = stringResource(R.string.unstable_updates),
             value = null,
             onClick = {},
             switchChecked = settings.unstableUpdate,
@@ -242,7 +229,7 @@ private fun SettingsContent(
         )
         // Ignore signature
         SettingRow(
-            title = context.getString(R.string.ignore_signature),
+            title = stringResource(R.string.ignore_signature),
             value = null,
             onClick = {},
             switchChecked = settings.ignoreSignature,
@@ -250,7 +237,7 @@ private fun SettingsContent(
         )
         // Incompatible versions
         SettingRow(
-            title = context.getString(R.string.incompatible_versions),
+            title = stringResource(R.string.incompatible_versions),
             value = null,
             onClick = {},
             switchChecked = settings.incompatibleVersions,
@@ -258,27 +245,27 @@ private fun SettingsContent(
         )
         // Cleanup interval
         SettingRow(
-            title = context.getString(R.string.cleanup_title),
+            title = stringResource(R.string.cleanup_title),
             value = context.toTime(settings.cleanUpInterval),
             onClick = { showCleanupDialog = true }
         )
         // Force cleanup (visible when interval is INFINITE)
         if (settings.cleanUpInterval == Duration.INFINITE) {
             SettingRow(
-                title = context.getString(R.string.force_clean_up),
-                value = context.getString(R.string.force_clean_up_DESC),
+                title = stringResource(R.string.force_clean_up),
+                value = stringResource(R.string.force_clean_up_DESC),
                 onClick = { viewModel.forceCleanup(context) }
             )
         }
         // Auto sync
         SettingRow(
-            title = context.getString(R.string.sync_repositories_automatically),
+            title = stringResource(R.string.sync_repositories_automatically),
             value = context.autoSyncName(settings.autoSync),
             onClick = { showAutoSyncDialog = true }
         )
         // Installer
         SettingRow(
-            title = context.getString(R.string.installer),
+            title = stringResource(R.string.installer),
             value = context.installerName(settings.installerType),
             onClick = { showInstallerDialog = true }
         )
@@ -286,32 +273,32 @@ private fun SettingsContent(
         val useLegacyInstaller = settings.installerType == InstallerType.LEGACY
         if (useLegacyInstaller) {
             SettingRow(
-                title = context.getString(R.string.legacyInstallerComponent),
+                title = stringResource(R.string.legacyInstallerComponent),
                 value = settings.legacyInstallerComponent?.let {
                     when (it) {
-                        is LegacyInstallerComponent.Component -> "${'$'}{it.clazz} (${ '$' }{it.activity})"
-                        LegacyInstallerComponent.Unspecified -> context.getString(R.string.unspecified)
-                        LegacyInstallerComponent.AlwaysChoose -> context.getString(R.string.always_choose)
+                        is LegacyInstallerComponent.Component -> "${'$'}{it.clazz} (${'$'}{it.activity})"
+                        LegacyInstallerComponent.Unspecified -> stringResource(R.string.unspecified)
+                        LegacyInstallerComponent.AlwaysChoose -> stringResource(R.string.always_choose)
                     }
-                } ?: context.getString(R.string.unspecified),
+                } ?: stringResource(R.string.unspecified),
                 onClick = { showLegacyInstallerDialog = true }
             )
         }
         // Proxy type
         val allowProxies = settings.proxy.type != ProxyType.DIRECT
         SettingRow(
-            title = context.getString(R.string.proxy_type),
+            title = stringResource(R.string.proxy_type),
             value = context.proxyName(settings.proxy.type),
             onClick = { showProxyTypeDialog = true }
         )
         if (allowProxies) {
             SettingRow(
-                title = context.getString(R.string.proxy_host),
+                title = stringResource(R.string.proxy_host),
                 value = settings.proxy.host,
                 onClick = { showProxyHostDialog = true }
             )
             SettingRow(
-                title = context.getString(R.string.proxy_port),
+                title = stringResource(R.string.proxy_port),
                 value = settings.proxy.port.toString(),
                 onClick = { showProxyPortDialog = true }
             )
@@ -343,19 +330,19 @@ private fun SettingsContent(
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = { importSettingsLauncher.launch(arrayOf("application/json")) }) {
-                Text(text = context.getString(R.string.import_settings_title))
+                Text(text = stringResource(R.string.import_settings_title))
             }
             Button(onClick = { exportSettingsLauncher.launch("droidify_settings") }) {
-                Text(text = context.getString(R.string.export_settings_title))
+                Text(text = stringResource(R.string.export_settings_title))
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
             Button(onClick = { importReposLauncher.launch(arrayOf("application/json")) }) {
-                Text(text = context.getString(R.string.import_repos_title))
+                Text(text = stringResource(R.string.import_repos_title))
             }
             Button(onClick = { exportReposLauncher.launch("droidify_repos") }) {
-                Text(text = context.getString(R.string.export_repos_title))
+                Text(text = stringResource(R.string.export_repos_title))
             }
         }
 
@@ -363,11 +350,16 @@ private fun SettingsContent(
 
         // Credits and about
         SettingRow(
-            title = context.getString(R.string.special_credits),
+            title = stringResource(R.string.special_credits),
             value = "FoxyDroid",
             onClick = {
                 runCatching {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kitsunyan/foxy-droid")))
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/kitsunyan/foxy-droid")
+                        )
+                    )
                 }.onFailure { viewModel.createSnackbar(R.string.cannot_open_link) }
             }
         )
@@ -376,7 +368,12 @@ private fun SettingsContent(
             value = com.looker.droidify.BuildConfig.VERSION_NAME,
             onClick = {
                 runCatching {
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/Droid-ify/client")))
+                    context.startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/Droid-ify/client")
+                        )
+                    )
                 }.onFailure { viewModel.createSnackbar(R.string.cannot_open_link) }
             }
         )
@@ -386,9 +383,10 @@ private fun SettingsContent(
 
     // Language dialog
     if (showLanguageDialog) {
-        val localeCodes = com.looker.droidify.BuildConfig.DETECTED_LOCALES.toList().toMutableList().apply { add(0, "system") }
+        val localeCodes = com.looker.droidify.BuildConfig.DETECTED_LOCALES.toList().toMutableList()
+            .apply { add(0, "system") }
         SingleChoiceDialog(
-            title = context.getString(R.string.prefs_language_title),
+            title = stringResource(R.string.prefs_language_title),
             items = localeCodes,
             selectedIndex = localeCodes.indexOf(settings.language),
             itemText = { code ->
@@ -407,7 +405,7 @@ private fun SettingsContent(
     if (showThemeDialog) {
         val values = Theme.entries
         SingleChoiceDialog(
-            title = context.getString(R.string.themes),
+            title = stringResource(R.string.themes),
             items = values,
             selectedIndex = values.indexOf(settings.theme),
             itemText = { context.themeName(it) },
@@ -423,7 +421,7 @@ private fun SettingsContent(
     if (showCleanupDialog) {
         val durations = listOf(6.hours, 12.hours, 18.hours, 1.days, 2.days, Duration.INFINITE)
         SingleChoiceDialog(
-            title = context.getString(R.string.cleanup_title),
+            title = stringResource(R.string.cleanup_title),
             items = durations,
             selectedIndex = durations.indexOfFirst { it == settings.cleanUpInterval },
             itemText = { context.toTime(it) },
@@ -439,7 +437,7 @@ private fun SettingsContent(
     if (showAutoSyncDialog) {
         val values = AutoSync.entries
         SingleChoiceDialog(
-            title = context.getString(R.string.sync_repositories_automatically),
+            title = stringResource(R.string.sync_repositories_automatically),
             items = values,
             selectedIndex = values.indexOf(settings.autoSync),
             itemText = { context.autoSyncName(it) },
@@ -455,7 +453,7 @@ private fun SettingsContent(
     if (showInstallerDialog) {
         val values = InstallerType.entries
         SingleChoiceDialog(
-            title = context.getString(R.string.installer),
+            title = stringResource(R.string.installer),
             items = values,
             selectedIndex = values.indexOf(settings.installerType),
             itemText = { context.installerName(it) },
@@ -471,7 +469,7 @@ private fun SettingsContent(
     if (showProxyTypeDialog) {
         val values = ProxyType.entries
         SingleChoiceDialog(
-            title = context.getString(R.string.proxy_type),
+            title = stringResource(R.string.proxy_type),
             items = values,
             selectedIndex = values.indexOf(settings.proxy.type),
             itemText = { context.proxyName(it) },
@@ -490,7 +488,8 @@ private fun SettingsContent(
             data = Uri.parse("content://")
             type = "application/vnd.android.package-archive"
         }
-        val activities = pm.queryIntentActivities(intent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
+        val activities =
+            pm.queryIntentActivities(intent, android.content.pm.PackageManager.MATCH_DEFAULT_ONLY)
         val options: List<LegacyInstallerComponent> = listOf(
             LegacyInstallerComponent.Unspecified,
             LegacyInstallerComponent.AlwaysChoose,
@@ -501,12 +500,14 @@ private fun SettingsContent(
             )
         }
         SingleChoiceDialog(
-            title = context.getString(R.string.legacyInstallerComponent),
+            title = stringResource(R.string.legacyInstallerComponent),
             items = options,
-            selectedIndex = options.indexOf(settings.legacyInstallerComponent ?: LegacyInstallerComponent.Unspecified),
+            selectedIndex = options.indexOf(
+                settings.legacyInstallerComponent ?: LegacyInstallerComponent.Unspecified
+            ),
             itemText = {
                 when (it) {
-                    is LegacyInstallerComponent.Component -> "${'$'}{it.clazz} (${ '$' }{it.activity})"
+                    is LegacyInstallerComponent.Component -> "${'$'}{it.clazz} (${'$'}{it.activity})"
                     LegacyInstallerComponent.Unspecified -> context.getString(R.string.unspecified)
                     LegacyInstallerComponent.AlwaysChoose -> context.getString(R.string.always_choose)
                 }
@@ -522,7 +523,7 @@ private fun SettingsContent(
     // Proxy host input dialog
     if (showProxyHostDialog) {
         TextFieldDialog(
-            title = context.getString(R.string.proxy_host),
+            title = stringResource(R.string.proxy_host),
             initial = settings.proxy.host,
             onDismiss = { showProxyHostDialog = false },
             onConfirm = { text ->
@@ -534,7 +535,7 @@ private fun SettingsContent(
     // Proxy port input dialog
     if (showProxyPortDialog) {
         TextFieldDialog(
-            title = context.getString(R.string.proxy_port),
+            title = stringResource(R.string.proxy_port),
             initial = settings.proxy.port.toString(),
             onDismiss = { showProxyPortDialog = false },
             onConfirm = { text ->
@@ -554,7 +555,14 @@ private fun <T> SingleChoiceDialog(
     onDismiss: () -> Unit,
     onConfirm: (Int) -> Unit,
 ) {
-    var currentIndex by rememberSaveable { mutableStateOf(selectedIndex.coerceIn(0, items.lastIndex.coerceAtLeast(0))) }
+    var currentIndex by rememberSaveable {
+        mutableStateOf(
+            selectedIndex.coerceIn(
+                0,
+                items.lastIndex.coerceAtLeast(0)
+            )
+        )
+    }
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = title) },

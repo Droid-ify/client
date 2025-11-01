@@ -1,6 +1,5 @@
 package com.looker.droidify.compose.appDetail
 
-import android.content.res.Configuration
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.compose.foundation.Image
@@ -19,13 +18,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -39,13 +34,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import com.looker.droidify.R
+import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
@@ -55,81 +49,76 @@ import com.looker.droidify.utility.text.format
 @Composable
 fun AppDetailScreen(
     packageName: String,
-    onBack: () -> Unit = {},
-    viewModel: AppDetailViewModel = hiltViewModel(),
+    onBackClick: () -> Unit,
+    viewModel: AppDetailViewModel,
 ) {
-    val uiState by viewModel.state.collectAsStateWithLifecycle()
-    val app = uiState.app
+    val app by viewModel.state.collectAsStateWithLifecycle()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = app?.metadata?.name ?: packageName,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Back")
-                    }
-                },
-            )
-        },
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()),
-        ) {
-            HeaderSection(
-                app = app,
-                packageName = packageName,
-                isInstalled = app?.packages?.any { it.installed } == true,
-            )
+    if (app != null) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = {
+                        if (app?.metadata?.name != null) {
+                            Text(text = app?.metadata?.name ?: packageName)
+                        }
+                    },
+                    navigationIcon = { BackButton(onBackClick) },
+                )
+            },
+        ) { padding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
+            ) {
+                HeaderSection(
+                    app = app,
+                    packageName = packageName,
+                    isInstalled = app?.packages?.any { it.installed } == true,
+                )
 
-            if (app != null) {
-                val screenshots: List<FilePath> = remember(app.screenshots) {
-                    buildList {
-                        app.screenshots?.phone?.let { addAll(it) }
-                        app.screenshots?.sevenInch?.let { addAll(it) }
-                        app.screenshots?.tenInch?.let { addAll(it) }
-                        app.screenshots?.tv?.let { addAll(it) }
-                        app.screenshots?.wear?.let { addAll(it) }
+                if (app != null) {
+                    val screenshots: List<FilePath> = remember(app!!.screenshots) {
+                        buildList {
+                            app!!.screenshots?.phone?.let { addAll(it) }
+                            app!!.screenshots?.sevenInch?.let { addAll(it) }
+                            app!!.screenshots?.tenInch?.let { addAll(it) }
+                            app!!.screenshots?.tv?.let { addAll(it) }
+                            app!!.screenshots?.wear?.let { addAll(it) }
+                        }
                     }
-                }
-                if (screenshots.isNotEmpty()) {
+                    if (screenshots.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        ScreenshotsRow(screenshots = screenshots)
+                    }
+
                     Spacer(modifier = Modifier.height(16.dp))
-                    ScreenshotsRow(screenshots = screenshots)
-                }
+                    Text(
+                        text = app!!.metadata.summary,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
 
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    text = app.metadata.summary,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                    if (app!!.metadata.description.isNotBlank()) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        HtmlText(html = app!!.metadata.description)
+                    }
 
-                if (app.metadata.description.isNotBlank()) {
-                    Spacer(modifier = Modifier.height(12.dp))
-                    HtmlText(html = app.metadata.description)
+                    if (app!!.categories.isNotEmpty()) {
+                        Spacer(modifier = Modifier.height(12.dp))
+                        CategoriesRow(categories = app!!.categories)
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        text = "App details not available.",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
                 }
-
-                if (app.categories.isNotEmpty()) {
-                    Spacer(modifier = Modifier.height(12.dp))
-                    CategoriesRow(categories = app.categories)
-                }
-            } else {
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = "App details not available.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
             }
         }
     }
@@ -248,11 +237,4 @@ private fun CategoriesRow(categories: List<String>) {
             )
         }
     }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-private fun PreviewAppDetail() {
-    // Preview placeholder; actual screen uses ViewModel
-    AppDetailScreen(packageName = "com.example.app")
 }
