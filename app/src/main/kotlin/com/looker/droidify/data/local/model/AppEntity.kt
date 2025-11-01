@@ -164,7 +164,7 @@ fun AppEntityRelations.toApp(
     metadata = app.toMetadata(
         baseAddress = repo.address,
         versions = versions,
-        iconUrl = icons.findLocale(locale).icon.name,
+        iconUrl = icons.ifEmpty { null }?.findLocale(locale)?.icon?.name,
         appName = names.findLocale(locale).name,
         appSummary = summaries.findLocale(locale).summary,
         appDescription = descriptions.findLocale(locale).description,
