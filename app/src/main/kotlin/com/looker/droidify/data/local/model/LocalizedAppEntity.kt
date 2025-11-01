@@ -89,22 +89,15 @@ sealed interface LocalizedEntityData {
     val locale: String
 }
 
-// FIXME: This is a garbage algorithm
-fun List<CategoryEntity>.filterLocalized(locale: String): List<CategoryEntity> =
-    filter { it.locale == locale }.ifEmpty {
-        filter { it.locale == "en-US" }.ifEmpty {
-            filter { it.locale == "en" }
-        }
-    }
-
 fun <T : LocalizedEntityData> List<T>.findLocale(locale: String): T {
     require(isNotEmpty()) { "List of localized data cannot be empty" }
     var bestMatch: T? = null
     var englishMatch: T? = null
     for (i in indices) {
-        val l = get(i).locale
-        if (l == locale || l.startsWith(locale)) bestMatch = this[i]
-        if (l == "en-US" || l == "en") englishMatch = this[i]
+        val match = get(i)
+        val l = match.locale
+        if (l == locale || l.startsWith(locale)) bestMatch = match
+        if (l == "en-US" || l == "en") englishMatch = match
     }
     return bestMatch ?: englishMatch ?: first()
 }

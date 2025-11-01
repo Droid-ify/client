@@ -69,3 +69,11 @@ fun CategoryV2.categoryEntity(
         )
     }
 }
+
+// FIXME: This is a garbage algorithm
+fun List<CategoryEntity>.filterLocalized(locale: String): List<CategoryEntity> =
+    filter { it.locale == locale }.ifEmpty {
+        filter { it.locale == "en-US" }.ifEmpty {
+            filter { it.locale == "en" }
+        }
+    }
