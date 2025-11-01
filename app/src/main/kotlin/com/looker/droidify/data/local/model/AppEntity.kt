@@ -159,7 +159,7 @@ fun AppEntityRelations.toApp(
 ) = App(
     repoId = app.repoId.toLong(),
     appId = app.id.toLong(),
-    categories = categories.map { it.defaultName },
+    categories = categories.filterLocalized(locale).map { it.defaultName },
     links = links?.toLinks(),
     metadata = app.toMetadata(
         baseAddress = repo.address,
