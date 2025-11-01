@@ -34,7 +34,6 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -93,14 +92,18 @@ fun AppListScreen(
                 title = { SearchBar(viewModel.searchQuery) },
             )
         }
-    ) {
+    ) { contentPadding ->
         LazyColumn(
             state = listState,
-            modifier = Modifier.padding(it),
+            contentPadding = contentPadding,
         ) {
             stickyHeader {
                 Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
-                    Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                    ) {
                         val favSelected by viewModel.favouritesOnly.collectAsStateWithLifecycle()
                         FilterChip(
                             selected = favSelected,
@@ -215,11 +218,6 @@ private fun AppListTopBar(
     TopAppBar(
         title = title,
         actions = {
-            IconButton(onClick = {
-                // TODO
-            }) {
-                Icon(Icons.Filled.Refresh, contentDescription = "More")
-            }
             IconButton(onClick = { expanded = true }) {
                 Icon(Icons.Filled.MoreVert, contentDescription = "More")
             }
@@ -263,7 +261,6 @@ private fun AppItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var icon by remember { mutableStateOf(app.icon?.path) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -274,7 +271,8 @@ private fun AppItem(
             .then(modifier),
     ) {
         Spacer(modifier = Modifier.size(12.dp))
-        if (app.icon != null) {
+        var icon by remember { mutableStateOf(app.icon?.path) }
+        if (icon != null) {
             AsyncImage(
                 model = icon,
                 onError = { icon = app.fallbackIcon?.path },
