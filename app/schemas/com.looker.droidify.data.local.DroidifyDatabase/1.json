@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "ba4a6b4aa2ca83bc9703e00f54034fca",
+    "identityHash": "904fbd9630f9dc9a96122aa4f2cc8513",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -1117,6 +1117,169 @@
         ]
       },
       {
+        "tableName": "downloadStats",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `date` INTEGER NOT NULL, `client` TEXT NOT NULL, `source` TEXT NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`packageName`, `date`, `client`, `source`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "client",
+            "columnName": "client",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName",
+            "date",
+            "client",
+            "source"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_downloadStats_packageName_date_client_source",
+            "unique": true,
+            "columnNames": [
+              "packageName",
+              "date",
+              "client",
+              "source"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_downloadStats_packageName_date_client_source` ON `${TABLE_NAME}` (`packageName`, `date`, `client`, `source`)"
+          },
+          {
+            "name": "index_downloadStats_packageName_date",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_packageName_date` ON `${TABLE_NAME}` (`packageName`, `date`)"
+          },
+          {
+            "name": "index_downloadStats_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          },
+          {
+            "name": "index_downloadStats_client",
+            "unique": false,
+            "columnNames": [
+              "client"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_client` ON `${TABLE_NAME}` (`client`)"
+          },
+          {
+            "name": "index_downloadStats_date",
+            "unique": false,
+            "columnNames": [
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_date` ON `${TABLE_NAME}` (`date`)"
+          }
+        ]
+      },
+      {
+        "tableName": "DownloadStatsFile",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fileName` TEXT NOT NULL, `lastModified` TEXT NOT NULL, `lastFetched` INTEGER NOT NULL, `fetchSuccess` INTEGER NOT NULL, `fileSize` INTEGER, `recordsCount` INTEGER, PRIMARY KEY(`fileName`))",
+        "fields": [
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetched",
+            "columnName": "lastFetched",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fetchSuccess",
+            "columnName": "fetchSuccess",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileSize",
+            "columnName": "fileSize",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recordsCount",
+            "columnName": "recordsCount",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fileName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DownloadStatsFile_fileName",
+            "unique": true,
+            "columnNames": [
+              "fileName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_DownloadStatsFile_fileName` ON `${TABLE_NAME}` (`fileName`)"
+          },
+          {
+            "name": "index_DownloadStatsFile_fileName_lastModified",
+            "unique": false,
+            "columnNames": [
+              "fileName",
+              "lastModified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DownloadStatsFile_fileName_lastModified` ON `${TABLE_NAME}` (`fileName`, `lastModified`)"
+          }
+        ]
+      },
+      {
         "tableName": "localized_app_name",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
@@ -1587,7 +1750,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ba4a6b4aa2ca83bc9703e00f54034fca')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '904fbd9630f9dc9a96122aa4f2cc8513')"
     ]
   }
 }
