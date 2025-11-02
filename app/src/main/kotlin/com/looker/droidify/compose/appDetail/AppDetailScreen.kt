@@ -1,5 +1,6 @@
 package com.looker.droidify.compose.appDetail
 
+import android.text.TextUtils.TruncateAt.END
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
 import androidx.compose.foundation.Image
@@ -27,12 +28,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -71,13 +75,13 @@ fun AppDetailScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(padding)
-                    .padding(horizontal = 16.dp)
                     .verticalScroll(rememberScrollState()),
             ) {
                 HeaderSection(
                     app = app,
                     packageName = packageName,
                     isInstalled = app?.packages?.any { it.installed } == true,
+                    modifier = Modifier.padding(horizontal = 16.dp)
                 )
 
                 if (app != null) {
@@ -99,12 +103,30 @@ fun AppDetailScreen(
                     Text(
                         text = app!!.metadata.summary,
                         style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
 
                     if (app!!.metadata.description.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        HtmlText(html = app!!.metadata.description)
+                        var isExpanded by remember { mutableStateOf(false) }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        HtmlText(
+                            html = app!!.metadata.description,
+                            maxLines = if (isExpanded) Int.MAX_VALUE else 8,
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                        )
+
+                        Button(
+                            onClick = { isExpanded = !isExpanded },
+                            modifier = Modifier.align(Alignment.CenterHorizontally)
+                        ) {
+                            if (isExpanded) {
+                                Text(text = "Less")
+                            } else {
+                                Text(text = "More")
+                            }
+                        }
                     }
 
                     if (app!!.categories.isNotEmpty()) {
@@ -127,6 +149,8 @@ fun AppDetailScreen(
 @Composable
 private fun HtmlText(
     html: Html,
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     val colors = MaterialTheme.colorScheme
     val textColor = colors.onSurface.toArgb()
@@ -135,13 +159,18 @@ private fun HtmlText(
         factory = { context ->
             TextView(context).apply {
                 movementMethod = LinkMovementMethod.getInstance()
+                linksClickable = true
+
                 setTextColor(textColor)
                 setLinkTextColor(linkColor)
             }
         },
         update = { tv ->
+            tv.ellipsize = END
+            tv.maxLines = maxLines
             tv.text = html.format()
-        }
+        },
+        modifier = modifier,
     )
 }
 
@@ -150,8 +179,9 @@ private fun HeaderSection(
     app: App?,
     packageName: String,
     isInstalled: Boolean,
+    modifier: Modifier = Modifier,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         val iconUrl = app?.metadata?.icon?.path
         if (!iconUrl.isNullOrBlank()) {
             AsyncImage(
@@ -205,7 +235,7 @@ private fun HeaderSection(
 @Composable
 private fun ScreenshotsRow(screenshots: List<FilePath>) {
     LazyRow(
-        contentPadding = PaddingValues(horizontal = 0.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -225,6 +255,7 @@ private fun ScreenshotsRow(screenshots: List<FilePath>) {
 @Composable
 private fun CategoriesRow(categories: List<String>) {
     LazyRow(
+        contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth(),
     ) {

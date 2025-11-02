@@ -21,11 +21,12 @@ import com.looker.droidify.data.model.toCompat
  * - Replaces BulletSpan occurrences with a plain "• " bullet character
  */
 fun Html.format(
-    onUrlClick: ((String) -> Unit)? = null,
+    onUrlClick: ((String) -> Unit)? = null, // FIXME: Remove once legacy is removed
 ): SpannableStringBuilder {
-    val html = this.toCompat()
+    if (!isValid) return SpannableStringBuilder(toString())
+
     val builder = run {
-        val builder = SpannableStringBuilder(html)
+        val builder = SpannableStringBuilder(toCompat())
         val last = builder.indexOfLast { it != '\n' }
         val first = builder.indexOfFirst { it != '\n' }
         if (last >= 0) {
@@ -39,10 +40,9 @@ fun Html.format(
             if (index >= 0) it.delete(index, index + 1) else null
         }.last()
     }
-    // Add auto links
+
     LinkifyCompat.addLinks(builder, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
 
-    // Replace URLSpans with ClickableSpan if consumer provided a click handler
     if (onUrlClick != null) {
         val urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java).orEmpty()
         for (span in urlSpans) {
@@ -59,7 +59,6 @@ fun Html.format(
         }
     }
 
-    // Replace BulletSpan styling with bullet characters to keep consistency across renderers
     val bulletSpans = builder
         .getSpans(0, builder.length, BulletSpan::class.java)
         .orEmpty()
