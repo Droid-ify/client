@@ -2,9 +2,12 @@ package com.looker.droidify.compose.appDetail
 
 import android.text.TextUtils.TruncateAt.END
 import android.text.method.LinkMovementMethod
+import android.text.util.Linkify
 import android.widget.TextView
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,40 +17,45 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.text.util.LinkifyCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import coil3.compose.AsyncImagePainter
+import coil3.compose.rememberAsyncImagePainter
 import com.looker.droidify.R
 import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
-import com.looker.droidify.utility.text.format
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -99,7 +107,11 @@ fun AppDetailScreen(
                         ScreenshotsRow(screenshots = screenshots)
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    if (app!!.categories.isNotEmpty()) {
+                        CategoriesRow(categories = app!!.categories)
+                    }
+
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = app!!.metadata.summary,
                         style = MaterialTheme.typography.bodyMedium,
@@ -109,29 +121,12 @@ fun AppDetailScreen(
                     )
 
                     if (app!!.metadata.description.isNotBlank()) {
-                        var isExpanded by remember { mutableStateOf(false) }
                         Spacer(modifier = Modifier.height(8.dp))
+                        // TODO: Html is not formatted
                         HtmlText(
                             html = app!!.metadata.description,
-                            maxLines = if (isExpanded) Int.MAX_VALUE else 8,
                             modifier = Modifier.padding(horizontal = 16.dp),
                         )
-
-                        Button(
-                            onClick = { isExpanded = !isExpanded },
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        ) {
-                            if (isExpanded) {
-                                Text(text = "Less")
-                            } else {
-                                Text(text = "More")
-                            }
-                        }
-                    }
-
-                    if (app!!.categories.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(12.dp))
-                        CategoriesRow(categories = app!!.categories)
                     }
                 } else {
                     Spacer(modifier = Modifier.height(24.dp))
@@ -168,7 +163,8 @@ private fun HtmlText(
         update = { tv ->
             tv.ellipsize = END
             tv.maxLines = maxLines
-            tv.text = html.format()
+            tv.text = html
+            LinkifyCompat.addLinks(tv, Linkify.ALL)
         },
         modifier = modifier,
     )
@@ -236,17 +232,40 @@ private fun HeaderSection(
 private fun ScreenshotsRow(screenshots: List<FilePath>) {
     LazyRow(
         contentPadding = PaddingValues(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        items(screenshots, key = { it.path }) { ss ->
-            AsyncImage(
-                model = ss.path,
-                contentDescription = null,
+        items(screenshots, key = { it.path }) { file ->
+            val painter = rememberAsyncImagePainter(file.path)
+            val imageState by painter.state.collectAsStateWithLifecycle()
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .height(220.dp)
-                    .clip(RoundedCornerShape(12.dp)),
-            )
+                    .height(180.dp)
+                    .widthIn(min = 90.dp)
+                    .clip(MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.surfaceContainer)
+            ) {
+                when (imageState) {
+                    is AsyncImagePainter.State.Error -> {
+                        Icon(
+                            imageVector = Icons.Default.ErrorOutline,
+                            contentDescription = null,
+                        )
+                    }
+
+                    is AsyncImagePainter.State.Success -> {
+                        Image(
+                            painter = painter,
+                            contentDescription = "screenshot",
+                            modifier = Modifier.height(200.dp),
+                            contentScale = ContentScale.FillHeight
+                        )
+                    }
+
+                    else -> {}
+                }
+            }
         }
     }
 }
@@ -263,7 +282,7 @@ private fun CategoriesRow(categories: List<String>) {
             FilterChip(
                 selected = false,
                 onClick = { },
-                enabled = false,
+                enabled = true,
                 label = { Text(cat) },
             )
         }
