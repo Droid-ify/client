@@ -56,6 +56,7 @@ import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
+import com.looker.droidify.data.model.toAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -122,9 +123,9 @@ fun AppDetailScreen(
 
                     if (app!!.metadata.description.isNotBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
-                        // TODO: Html is not formatted
-                        HtmlText(
-                            html = app!!.metadata.description,
+                        Text(
+                            text = app!!.metadata.description.toAnnotatedString(),
+                            style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(horizontal = 16.dp),
                         )
                     }
