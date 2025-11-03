@@ -261,7 +261,7 @@ fun LocalizedString.localizedRepoName(repoId: Int) =
     map { LocalizedRepoNameEntity(repoId, it.key, it.value) }
 
 fun LocalizedString.localizedRepoDescription(repoId: Int) =
-    map { LocalizedRepoDescriptionEntity(repoId, it.key, it.value) }
+    map { LocalizedRepoDescriptionEntity(repoId, it.key, it.value.replace("\n", "<br/>")) }
 
 fun LocalizedIcon.localizedRepoIcon(repoId: Int) =
     map { LocalizedRepoIconEntity(repoId, it.key, it.value) }
@@ -273,7 +273,7 @@ fun LocalizedString.localizedAppSummary(appId: Int) =
     map { LocalizedAppSummaryEntity(appId, it.key, it.value) }
 
 fun LocalizedString.localizedAppDescription(appId: Int) =
-    map { LocalizedAppDescriptionEntity(appId, it.key, it.value) }
+    map { LocalizedAppDescriptionEntity(appId, it.key, it.value.replace("\n", "<br/>")) }
 
 fun LocalizedIcon.localizedAppIcon(appId: Int) =
     map { LocalizedAppIconEntity(appId, it.key, it.value) }
