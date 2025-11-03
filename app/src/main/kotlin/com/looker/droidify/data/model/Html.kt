@@ -2,6 +2,7 @@ package com.looker.droidify.data.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.core.text.HtmlCompat
 
@@ -17,6 +18,9 @@ value class Html(val raw: String) : CharSequence {
         raw.subSequence(startIndex, endIndex)
 
     override fun toString(): String = raw
+
+    val isPlainText: Boolean
+        get() = !raw.contains(htmlRegex)
 
     val isValid: Boolean
         get() = raw.contains(htmlRegex)
@@ -36,6 +40,8 @@ value class Html(val raw: String) : CharSequence {
     }
 }
 
+fun Html.toCompat(flags: Int = HtmlCompat.FROM_HTML_MODE_LEGACY) = HtmlCompat.fromHtml(raw, flags)
+
 /**
  * Add formatter which supports:
  *
@@ -44,6 +50,8 @@ value class Html(val raw: String) : CharSequence {
  *
  * */
 fun Html.toAnnotatedString(
+    style: SpanStyle,
+    linkStyle: SpanStyle,
     onUrlClick: (url: String) -> Unit = {},
     onEmailClick: (email: String) -> Unit = {},
 ): AnnotatedString {
@@ -51,5 +59,3 @@ fun Html.toAnnotatedString(
         append(raw)
     }
 }
-
-fun Html.toCompat(flags: Int = HtmlCompat.FROM_HTML_MODE_LEGACY) = HtmlCompat.fromHtml(raw, flags)
