@@ -8,7 +8,6 @@ import android.text.util.Linkify
 import android.view.View
 import androidx.core.text.util.LinkifyCompat
 import com.looker.droidify.data.model.Html
-import com.looker.droidify.data.model.toCompat
 
 /**
  * Formats an HTML string into a styled [SpannableStringBuilder].
@@ -23,10 +22,10 @@ import com.looker.droidify.data.model.toCompat
 fun Html.format(
     onUrlClick: ((String) -> Unit)? = null, // FIXME: Remove once legacy is removed
 ): SpannableStringBuilder {
-    if (!isValid) return SpannableStringBuilder(toString())
+    if (isPlainText) return SpannableStringBuilder(toString())
 
     val builder = run {
-        val builder = SpannableStringBuilder(toCompat())
+        val builder = SpannableStringBuilder(toSpanned())
         val last = builder.indexOfLast { it != '\n' }
         val first = builder.indexOfFirst { it != '\n' }
         if (last >= 0) {
@@ -74,5 +73,5 @@ fun Html.format(
 
 fun formatHtml(
     html: String,
-    onUrlClick: ((String) -> Unit)?
+    onUrlClick: ((String) -> Unit)?,
 ): SpannableStringBuilder = Html(html).format(onUrlClick)

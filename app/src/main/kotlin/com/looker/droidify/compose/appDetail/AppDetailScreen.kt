@@ -41,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -56,7 +57,7 @@ import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Html
-import com.looker.droidify.data.model.toAnnotatedString
+import com.looker.droidify.utility.text.toAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -123,8 +124,11 @@ fun AppDetailScreen(
 
                     if (app!!.metadata.description.isNotBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
+                        val handler = LocalUriHandler.current
                         Text(
-                            text = app!!.metadata.description.toAnnotatedString(),
+                            text = app!!.metadata.description.toAnnotatedString(
+                                onUrlClick = { handler.openUri(it) }
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.padding(horizontal = 16.dp),
                         )
@@ -209,7 +213,7 @@ private fun HeaderSection(
             val version = app?.metadata?.suggestedVersionName?.takeIf { it.isNotBlank() } ?: ""
             if (version.isNotEmpty()) {
                 Text(
-                    text = "Version $version",
+                    text = "Version: $version",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
