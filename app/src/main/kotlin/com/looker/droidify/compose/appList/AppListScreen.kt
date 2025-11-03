@@ -47,7 +47,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -64,7 +63,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import com.looker.droidify.R
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.sync.v2.model.DefaultName
 
@@ -81,9 +79,6 @@ fun AppListScreen(
     val availableCategories by viewModel.categories.collectAsStateWithLifecycle()
     val listState = rememberLazyListState()
 
-    LaunchedEffect(apps) {
-        listState.animateScrollToItem(0)
-    }
     Scaffold(
         topBar = {
             AppListTopBar(
@@ -283,14 +278,22 @@ private fun AppItem(
                     .clip(MaterialTheme.shapes.small),
             )
         } else {
-            Image(
-                painter = painterResource(R.drawable.ic_cannot_load),
-                contentDescription = null,
+            Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxHeight()
                     .aspectRatio(1F, true)
-                    .clip(MaterialTheme.shapes.medium),
-            )
+                    .background(
+                        color = MaterialTheme.colorScheme.surfaceContainerLow,
+                        shape = MaterialTheme.shapes.small
+                    ),
+            ) {
+                Image(
+                    painter = painterResource(android.R.mipmap.sym_def_app_icon),
+                    contentDescription = null,
+                    modifier = Modifier.padding(8.dp),
+                )
+            }
         }
         Spacer(modifier = Modifier.size(12.dp))
         Column(modifier = Modifier.weight(1F)) {
