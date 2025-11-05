@@ -1,5 +1,7 @@
 package com.looker.droidify.data.model
 
+import com.looker.droidify.network.DataSize
+
 data class Package(
     val id: Long,
     val installed: Boolean,
@@ -15,7 +17,7 @@ data class Package(
 data class ApkFile(
     override val name: String,
     override val hash: String,
-    override val size: Long
+    override val size: DataSize
 ) : DataFile
 
 data class Manifest(

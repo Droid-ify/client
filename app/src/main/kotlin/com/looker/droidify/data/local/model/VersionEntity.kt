@@ -12,6 +12,7 @@ import com.looker.droidify.data.model.Package
 import com.looker.droidify.data.model.Permission
 import com.looker.droidify.data.model.Platforms
 import com.looker.droidify.data.model.SDKs
+import com.looker.droidify.network.DataSize
 import com.looker.droidify.sync.v2.model.ApkFileV2
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.LocalizedString
@@ -91,7 +92,7 @@ fun List<VersionEntity>.toPackages(
         apk = ApkFile(
             name = version.apk.name,
             hash = version.apk.sha256,
-            size = version.apk.size,
+            size = DataSize(version.apk.size),
         ),
         platforms = Platforms(version.nativeCode),
         features = version.features,
