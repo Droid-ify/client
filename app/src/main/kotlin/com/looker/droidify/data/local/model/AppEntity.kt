@@ -164,10 +164,10 @@ fun AppEntityRelations.toApp(
     metadata = app.toMetadata(
         baseAddress = repo.address,
         versions = versions,
-        iconUrl = icons.ifEmpty { null }?.findLocale(locale)?.icon?.name,
         appName = names.findLocale(locale).name,
-        appSummary = summaries.findLocale(locale).summary,
-        appDescription = descriptions.findLocale(locale).description,
+        appDescription = if (descriptions.isEmpty()) "" else descriptions.findLocale(locale).description,
+        iconUrl = icons.ifEmpty { null }?.findLocale(locale)?.icon?.name,
+        appSummary = if (summaries.isEmpty()) "" else summaries.findLocale(locale).summary,
     ),
     author = author.toAuthor(),
     screenshots = screenshots?.toScreenshots(locale, repo.address),

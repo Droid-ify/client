@@ -114,13 +114,15 @@ fun AppDetailScreen(
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = app!!.metadata.summary,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
+                    if (app!!.metadata.summary.isNotBlank()) {
+                        Text(
+                            text = app!!.metadata.summary,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        )
+                    }
 
                     if (app!!.metadata.description.isNotBlank()) {
                         Spacer(modifier = Modifier.height(8.dp))
