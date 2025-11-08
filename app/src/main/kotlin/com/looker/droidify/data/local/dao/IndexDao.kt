@@ -56,64 +56,97 @@ interface IndexDao {
     ) {
         val repo = index.repo.repoEntity(id = expectedRepoId, fingerprint = fingerprint)
         val repoId = upsertRepo(repo)
+        insertRepoScopeData(repoId, index)
 
-        val antiFeatures = index.repo.antiFeatures.flatMap { (tag, feature) ->
-            feature.antiFeatureEntity(tag)
-        }
-        val antiFeatureRepoRelations = antiFeatures.map { AntiFeatureRepoRelation(repoId, it.tag) }
-        insertAntiFeatures(antiFeatures)
-        insertAntiFeatureRepoRelation(antiFeatureRepoRelations)
+        val packageEntries = index.packages.entries.toList()
 
-        val categories = index.repo.categories.flatMap { (defaultName, category) ->
-            category.categoryEntity(defaultName)
-        }
-        val categoryRepoRelations = categories.map { CategoryRepoRelation(repoId, it.defaultName) }
-        insertCategories(categories)
-        insertCategoryRepoRelation(categoryRepoRelations)
+        val authorIdsByAuthor = mutableMapOf<AuthorEntity, Int>()
+        packageEntries.asSequence()
+            .map { it.value.metadata.authorEntity() }
+            .distinct()
+            .forEach { author ->
+                val id = upsertAuthor(author)
+                authorIdsByAuthor[author] = id
+            }
 
-        val mirrors = index.repo.mirrors.map { it.mirrorEntity(repoId) }
-        insertMirror(mirrors)
-
-        insertLocalizedRepoData(
-            names = index.repo.name.localizedRepoName(repoId),
-            descriptions = index.repo.description.localizedRepoDescription(repoId),
-            icons = index.repo.icon?.localizedRepoIcon(repoId),
-        )
-
-        index.packages.forEach { (packageName, packages) ->
-            val metadata = packages.metadata
-            val author = metadata.authorEntity()
-            val authorId = upsertAuthor(author)
-
-            val appEntity = packages.metadata.appEntity(
+        val appEntities = packageEntries.map { (packageName, packages) ->
+            val authorId = authorIdsByAuthor[packages.metadata.authorEntity()]!!
+            packages.metadata.appEntity(
                 packageName = packageName,
                 repoId = repoId,
                 authorId = authorId,
             )
-
-            val existingAppId = appIdByPackageName(repoId, packageName)
-            if (existingAppId != null) upsertApp(appEntity)
-
-            val appId = existingAppId ?: insertApp(appEntity).toInt()
-            val versions = packages.versionEntities(appId)
-            insertVersions(versions.keys.toList())
-            insertAntiFeatureAppRelation(versions.values.flatten())
-
-            val appCategories = metadata.categories.map { CategoryAppRelation(appId, it) }
-            insertCategoryAppRelation(appCategories)
-
-            insertLocalizedAppData(
-                names = metadata.name.localizedAppName(appId),
-                summaries = metadata.summary?.localizedAppSummary(appId),
-                descriptions = metadata.description?.localizedAppDescription(appId),
-                icons = metadata.icon?.localizedAppIcon(appId),
-            )
-
-            metadata.linkEntity(appId)?.let { insertLink(it) }
-            metadata.screenshots?.localizedScreenshots(appId)?.let { insertScreenshots(it) }
-            metadata.localizedGraphics(appId)?.let { insertGraphics(it) }
-            metadata.donateEntity(appId)?.let { insertDonate(it) }
         }
+
+        val packageNames = packageEntries.map { it.key }
+        val existing = appIdsByPackageNames(repoId, packageNames)
+        val existingIdByPackage = mutableMapOf<String, Int>().apply {
+            existing.forEach { put(it.packageName, it.id) }
+        }
+
+        val toUpdate = appEntities.filter { existingIdByPackage.containsKey(it.packageName) }
+        val toInsert = appEntities.filter { !existingIdByPackage.containsKey(it.packageName) }
+
+        if (toUpdate.isNotEmpty()) upsertApps(toUpdate)
+        val insertedIds: Map<String, Int> = if (toInsert.isNotEmpty()) {
+            val result = insertApps(toInsert)
+            toInsert.mapIndexed { idx, entity -> entity.packageName to result[idx].toInt() }.toMap()
+        } else emptyMap()
+
+        val appIdByPackage: Map<String, Int> = existingIdByPackage + insertedIds
+
+        val allVersions = mutableListOf<VersionEntity>()
+        val allAntiFeatureAppRelations = mutableListOf<AntiFeatureAppRelation>()
+        val allCategoryAppRelations = mutableListOf<CategoryAppRelation>()
+
+        val allAppNames = mutableListOf<LocalizedAppNameEntity>()
+        val allAppSummaries = mutableListOf<LocalizedAppSummaryEntity>()
+        val allAppDescriptions = mutableListOf<LocalizedAppDescriptionEntity>()
+        val allAppIcons = mutableListOf<LocalizedAppIconEntity>()
+
+        val allLinks = mutableListOf<LinksEntity>()
+        val allScreenshots = mutableListOf<ScreenshotEntity>()
+        val allGraphics = mutableListOf<GraphicEntity>()
+        val allDonations = mutableListOf<DonateEntity>()
+
+        packageEntries.forEach { (packageName, packages) ->
+            val appId = appIdByPackage.getValue(packageName)
+            val metadata = packages.metadata
+
+            val versionsMap = packages.versionEntities(appId)
+            allVersions += versionsMap.keys
+            allAntiFeatureAppRelations += versionsMap.values.flatten()
+
+            allCategoryAppRelations += metadata.categories.map { CategoryAppRelation(appId, it) }
+
+            allAppNames += metadata.name.localizedAppName(appId)
+            metadata.summary?.localizedAppSummary(appId)?.let { allAppSummaries += it }
+            metadata.description?.localizedAppDescription(appId)?.let { allAppDescriptions += it }
+            metadata.icon?.localizedAppIcon(appId)?.let { allAppIcons += it }
+
+            metadata.linkEntity(appId)?.let { allLinks += it }
+            metadata.screenshots?.localizedScreenshots(appId)?.let { allScreenshots += it }
+            metadata.localizedGraphics(appId)?.let { allGraphics += it }
+            metadata.donateEntity(appId)?.let { allDonations += it }
+        }
+
+        if (allVersions.isNotEmpty()) insertVersions(allVersions)
+        if (allAntiFeatureAppRelations.isNotEmpty()) insertAntiFeatureAppRelation(
+            allAntiFeatureAppRelations
+        )
+        if (allCategoryAppRelations.isNotEmpty()) insertCategoryAppRelation(allCategoryAppRelations)
+
+        insertLocalizedAppData(
+            names = allAppNames,
+            summaries = allAppSummaries.ifEmpty { null },
+            descriptions = allAppDescriptions.ifEmpty { null },
+            icons = allAppIcons.ifEmpty { null },
+        )
+
+        if (allLinks.isNotEmpty()) insertLinks(allLinks)
+        if (allScreenshots.isNotEmpty()) insertScreenshots(allScreenshots)
+        if (allGraphics.isNotEmpty()) insertGraphics(allGraphics)
+        if (allDonations.isNotEmpty()) insertDonate(allDonations)
     }
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -150,11 +183,20 @@ interface IndexDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertApp(appEntity: AppEntity): Long
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertApps(apps: List<AppEntity>): List<Long>
+
     @Upsert
     suspend fun upsertApp(appEntity: AppEntity)
 
+    @Upsert
+    suspend fun upsertApps(apps: List<AppEntity>)
+
     @Query("SELECT id FROM app WHERE packageName = :packageName AND repoId = :repoId LIMIT 1")
     suspend fun appIdByPackageName(repoId: Int, packageName: String): Int?
+
+    @Query("SELECT id, packageName FROM app WHERE repoId = :repoId AND packageName IN (:packageNames)")
+    suspend fun appIdsByPackageNames(repoId: Int, packageNames: List<String>): List<AppIdPackage>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAuthor(authorEntity: AuthorEntity): Long
@@ -255,6 +297,36 @@ interface IndexDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLocalizedAppIcons(icons: List<LocalizedAppIconEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLinks(links: List<LinksEntity>)
+
+    @Transaction
+    suspend fun insertRepoScopeData(repoId: Int, index: IndexV2) {
+        val antiFeatures = index.repo.antiFeatures.flatMap { (tag, feature) ->
+            feature.antiFeatureEntity(tag)
+        }
+        val antiFeatureRepoRelations = antiFeatures.map { AntiFeatureRepoRelation(repoId, it.tag) }
+        if (antiFeatures.isNotEmpty()) insertAntiFeatures(antiFeatures)
+        if (antiFeatureRepoRelations.isNotEmpty()) insertAntiFeatureRepoRelation(
+            antiFeatureRepoRelations
+        )
+
+        val categories = index.repo.categories.flatMap { (defaultName, category) ->
+            category.categoryEntity(defaultName)
+        }
+        val categoryRepoRelations = categories.map { CategoryRepoRelation(repoId, it.defaultName) }
+        if (categories.isNotEmpty()) insertCategories(categories)
+        if (categoryRepoRelations.isNotEmpty()) insertCategoryRepoRelation(categoryRepoRelations)
+
+        val mirrors = index.repo.mirrors.map { it.mirrorEntity(repoId) }
+        if (mirrors.isNotEmpty()) insertMirror(mirrors)
+
+        insertLocalizedRepoData(
+            names = index.repo.name.localizedRepoName(repoId),
+            descriptions = index.repo.description.localizedRepoDescription(repoId),
+            icons = index.repo.icon?.localizedRepoIcon(repoId),
+        )
+    }
 }
 
 fun LocalizedString.localizedRepoName(repoId: Int) =
@@ -277,3 +349,8 @@ fun LocalizedString.localizedAppDescription(appId: Int) =
 
 fun LocalizedIcon.localizedAppIcon(appId: Int) =
     map { LocalizedAppIconEntity(appId, it.key, it.value) }
+
+data class AppIdPackage(
+    val id: Int,
+    val packageName: String,
+)
