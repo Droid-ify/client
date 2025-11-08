@@ -56,7 +56,7 @@ class V1SyncableTest {
     @Test
     fun benchmark_sync_v1() = runTest(dispatcher) {
         val output = benchmark(10) {
-            measureTimeMillis { syncable.sync(repo) }
+            measureTimeMillis { syncable.sync(repo) { /* no-op */ } }
         }
         println(output)
     }

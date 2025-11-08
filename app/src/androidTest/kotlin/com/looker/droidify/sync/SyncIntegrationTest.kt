@@ -3,6 +3,7 @@ package com.looker.droidify.sync
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.data.model.VersionInfo
 import com.looker.droidify.sync.common.IndexJarValidator
@@ -32,6 +33,21 @@ import org.junit.runner.RunWith
  */
 @RunWith(AndroidJUnit4::class)
 class SyncIntegrationTest {
+
+    private suspend fun <T> syncAndGet(
+        syncable: Syncable<T>,
+        repo: Repo,
+    ): Pair<Fingerprint, IndexV2?>? {
+        var finger: Fingerprint? = null
+        var index: IndexV2? = null
+        syncable.sync(repo) { state ->
+            if (state is SyncState.JsonParsing.Success) {
+                finger = state.fingerprint
+                index = state.index
+            }
+        }
+        return finger?.let { it to index }
+    }
 
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var context: Context
@@ -63,7 +79,7 @@ class SyncIntegrationTest {
     @Test
     fun v1ToV2Conversion() = runTest(dispatcher) {
         // Sync with V1 - this internally converts V1 to V2
-        val v1Result = v1Syncable.sync(repo)
+        val v1Result = syncAndGet(v1Syncable, repo)
         assertNotNull(v1Result, "V1 sync should return a valid result")
         val (_, convertedV2Index) = v1Result
 
@@ -88,20 +104,20 @@ class SyncIntegrationTest {
     @Test
     fun dataConsistencyBetweenV1AndV2() = runTest(dispatcher) {
         // First sync with V1
-        val v1Result = v1Syncable.sync(repo)
+        val v1Result = syncAndGet(v1Syncable, repo)
         assertNotNull(v1Result, "V1 sync should return a valid result")
         val (_, v1ConvertedIndex) = v1Result
 
         // Then sync with V2
-        val v2Result = entrySyncable.sync(repo)
+        val v2Result = syncAndGet(entrySyncable, repo)
         assertNotNull(v2Result, "V2 sync should return a valid result")
         val (_, v2Index) = v2Result
         assertNotNull(v2Index, "V2 index should not be null")
 
         // Verify that a significant number of packages from V1 exist in V2
         // Note: The actual content might differ due to updates or implementation differences
-        val v1Packages = v1ConvertedIndex!!.packages.keys
-        val v2Packages = v2Index!!.packages.keys
+        val v1Packages = requireNotNull(v1ConvertedIndex).packages.keys
+        val v2Packages = requireNotNull(v2Index).packages.keys
         val commonPackages = v1Packages.intersect(v2Packages)
 
         // Calculate the percentage of V1 packages that exist in V2
@@ -125,9 +141,9 @@ class SyncIntegrationTest {
     @Test
     fun incrementalSyncV2() = runTest(dispatcher) {
         // First sync to get the initial state
-        val initialResult = entrySyncable.sync(repo)
-        assertNotNull(initialResult, "Initial sync should return a valid result")
-        val (initialFingerprint, initialIndex) = initialResult
+        val initial = syncAndGet(entrySyncable, repo)
+        assertNotNull(initial, "Initial sync should return a valid result")
+        val (initialFingerprint, initialIndex) = initial
         assertNotNull(initialIndex, "Initial index should not be null")
 
         // Update the repo's timestamp to the initial index timestamp
@@ -136,9 +152,9 @@ class SyncIntegrationTest {
         )
 
         // Sync again with the updated timestamp
-        val incrementalResult = entrySyncable.sync(updatedRepo)
-        assertNotNull(incrementalResult, "Incremental sync should return a valid result")
-        val (incrementalFingerprint, incrementalIndex) = incrementalResult
+        val incremental = syncAndGet(entrySyncable, updatedRepo)
+        assertNotNull(incremental, "Incremental sync should return a valid result")
+        val (incrementalFingerprint, incrementalIndex) = incremental
 
         // The incremental sync should either return null for the index (no changes)
         // or return only the changes since the last sync

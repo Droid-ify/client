@@ -186,15 +186,29 @@ class RepoRepository @Inject constructor(
     }
 
     suspend fun sync(repo: Repo): Boolean {
-        val (fingerprint, index) = localSyncable.sync(repo)
-        return if (index != null) {
+        var success = false
+        var parsedFingerprint: com.looker.droidify.data.model.Fingerprint? = null
+        var parsedIndex: com.looker.droidify.sync.v2.model.IndexV2? = null
+        localSyncable.sync(repo) { state ->
+            when (state) {
+                is com.looker.droidify.sync.SyncState.JsonParsing.Success -> {
+                    parsedFingerprint = state.fingerprint
+                    parsedIndex = state.index
+                }
+                else -> Unit
+            }
+        }
+        val index = parsedIndex
+        val fingerprint = parsedFingerprint
+        if (index != null && fingerprint != null) {
             indexDao.insertIndex(
                 fingerprint = fingerprint,
                 index = index,
                 expectedRepoId = repo.id,
             )
-            true
-        } else false
+            success = true
+        }
+        return success
     }
 
     suspend fun syncAll(): Boolean = supervisorScope {

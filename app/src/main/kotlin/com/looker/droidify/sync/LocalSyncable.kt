@@ -1,7 +1,6 @@
 package com.looker.droidify.sync
 
 import android.content.Context
-import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.v2.V2Parser
@@ -15,16 +14,22 @@ class LocalSyncable(
     override val parser: Parser<IndexV2>
         get() = V2Parser(Dispatchers.IO, JsonParser)
 
-    override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> {
-        val file = Cache.getTemporaryFile(context).apply {
-            outputStream().use {
-                if (repo.id == 5) {
-                    it.write(context.assets.open("izzy_index_v2.json").readBytes())
-                } else {
-                    it.write(context.assets.open("fdroid_index_v2.json").readBytes())
+    override suspend fun sync(repo: Repo, block: (SyncState) -> Unit) {
+        try {
+            val file = Cache.getTemporaryFile(context).apply {
+                outputStream().use {
+                    block(SyncState.IndexDownload.Success(repo.id))
+                    if (repo.id == 5) {
+                        it.write(context.assets.open("izzy_index_v2.json").readBytes())
+                    } else {
+                        it.write(context.assets.open("fdroid_index_v2.json").readBytes())
+                    }
                 }
             }
+            val (fingerprint, index) = parser.parse(file, repo)
+            block(SyncState.JsonParsing.Success(repo.id, fingerprint, index))
+        } catch (t: Throwable) {
+            block(SyncState.JsonParsing.Failure(repo.id, t))
         }
-        return parser.parse(file, repo)
     }
 }

@@ -96,7 +96,7 @@ class SyncWorker @AssistedInject constructor(
         val repoId = if (inputData.hasKeyWithValueOfType(KEY_REPO_ID, Int::class.java)) {
             inputData.getInt(KEY_REPO_ID, -1).takeIf { it >= 0 }
         } else null
-        return@withContext try {
+        try {
             val success = if (repoId != null) {
                 val repo = repoRepository.getRepo(repoId)
                 if (repo != null) {
