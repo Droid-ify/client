@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "904fbd9630f9dc9a96122aa4f2cc8513",
+    "identityHash": "e5e1974eda2fbb01c5aa7a7350760675",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -82,6 +82,17 @@
             "versionCode"
           ]
         },
+        "indices": [
+          {
+            "name": "index_anti_features_app_relation_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_features_app_relation_appId` ON `${TABLE_NAME}` (`appId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -426,6 +437,17 @@
             "defaultName"
           ]
         },
+        "indices": [
+          {
+            "name": "index_category_app_relation_defaultName",
+            "unique": false,
+            "columnNames": [
+              "defaultName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_category_app_relation_defaultName` ON `${TABLE_NAME}` (`defaultName`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -580,6 +602,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
+          },
+          {
+            "name": "index_graphic_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -841,6 +872,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
+          },
+          {
+            "name": "index_screenshot_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -987,6 +1027,16 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_version_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_version_appId_versionCode",
+            "unique": true,
+            "columnNames": [
+              "appId",
+              "versionCode"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_version_appId_versionCode` ON `${TABLE_NAME}` (`appId`, `versionCode`)"
           }
         ],
         "foreignKeys": [
@@ -1750,7 +1800,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '904fbd9630f9dc9a96122aa4f2cc8513')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5e1974eda2fbb01c5aa7a7350760675')"
     ]
   }
 }

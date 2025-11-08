@@ -22,7 +22,10 @@ import com.looker.droidify.sync.v2.model.localizedValue
 
 @Entity(
     tableName = "version",
-    indices = [Index("appId")],
+    indices = [
+        Index("appId"),
+        Index(value = ["appId", "versionCode"], unique = true),
+    ],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,

@@ -41,6 +41,7 @@ data class CategoryRepoRelation(
 @Entity(
     tableName = "category_app_relation",
     primaryKeys = ["id", "defaultName"],
+    indices = [Index("defaultName")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,

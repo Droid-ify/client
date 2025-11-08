@@ -12,7 +12,7 @@ import com.looker.droidify.sync.v2.model.MetadataV2
 @Entity(
     tableName = "graphic",
     primaryKeys = ["type", "locale", "appId"],
-    indices = [Index("appId", "locale")],
+    indices = [Index("appId", "locale"), Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,

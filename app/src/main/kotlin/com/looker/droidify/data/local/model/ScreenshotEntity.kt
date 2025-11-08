@@ -13,7 +13,7 @@ import com.looker.droidify.sync.v2.model.ScreenshotsV2
 @Entity(
     tableName = "screenshot",
     primaryKeys = ["path", "type", "locale", "appId"],
-    indices = [Index("appId", "locale")],
+    indices = [Index("appId", "locale"), Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
