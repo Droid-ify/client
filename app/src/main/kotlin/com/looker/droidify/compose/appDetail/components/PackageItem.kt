@@ -24,6 +24,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.looker.droidify.R
 import com.looker.droidify.data.model.Package
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.utility.common.sdkName
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -33,6 +34,7 @@ import java.time.format.FormatStyle
 @Composable
 fun PackageItem(
     item: Package,
+    repo: Repo,
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -64,6 +66,11 @@ fun PackageItem(
                     )
                     label()
                 }
+                Text(
+                    text = stringResource(R.string.provided_by_FORMAT, repo.name),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.outline,
+                )
                 Text(
                     text = stringResource(
                         R.string.label_sdk_version,

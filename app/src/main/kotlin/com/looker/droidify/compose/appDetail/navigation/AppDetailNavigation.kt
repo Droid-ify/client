@@ -5,7 +5,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navOptions
-import androidx.navigation.toRoute
 import com.looker.droidify.compose.appDetail.AppDetailScreen
 import kotlinx.serialization.Serializable
 
@@ -21,10 +20,8 @@ fun NavController.navigateToAppDetail(packageName: String) {
 fun NavGraphBuilder.appDetail(
     onBackClick: () -> Unit,
 ) {
-    composable<AppDetail> { backStackEntry ->
-        val appDetail = backStackEntry.toRoute<AppDetail>()
+    composable<AppDetail> {
         AppDetailScreen(
-            packageName = appDetail.packageName,
             onBackClick = onBackClick,
             viewModel = hiltViewModel(),
         )

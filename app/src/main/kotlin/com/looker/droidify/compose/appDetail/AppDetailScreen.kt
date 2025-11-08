@@ -1,9 +1,5 @@
 package com.looker.droidify.compose.appDetail
 
-import android.text.TextUtils.TruncateAt.END
-import android.text.method.LinkMovementMethod
-import android.text.util.Linkify
-import android.widget.TextView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
@@ -40,7 +37,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
@@ -48,8 +44,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.text.util.LinkifyCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
@@ -59,163 +53,164 @@ import com.looker.droidify.compose.appDetail.components.PackageItem
 import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
-import com.looker.droidify.data.model.Html
+import com.looker.droidify.data.model.Package
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.utility.text.toAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppDetailScreen(
-    packageName: String,
     onBackClick: () -> Unit,
     viewModel: AppDetailViewModel,
 ) {
     val app by viewModel.state.collectAsStateWithLifecycle()
 
-    if (app != null) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        if (app?.metadata?.name != null) {
-                            Text(text = app?.metadata?.name ?: packageName)
-                        }
-                    },
-                    navigationIcon = { BackButton(onBackClick) },
-                )
-            },
-        ) { padding ->
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding)
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                HeaderSection(
-                    app = app,
-                    packageName = packageName,
-                    isInstalled = app?.packages?.any { it.installed } == true,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-
-                if (app != null) {
-                    val screenshots: List<FilePath> = remember(app!!.screenshots) {
-                        buildList {
-                            app!!.screenshots?.phone?.let { addAll(it) }
-                            app!!.screenshots?.sevenInch?.let { addAll(it) }
-                            app!!.screenshots?.tenInch?.let { addAll(it) }
-                            app!!.screenshots?.tv?.let { addAll(it) }
-                            app!!.screenshots?.wear?.let { addAll(it) }
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    when (app) {
+                        AppDetailState.Loading -> Text(stringResource(R.string.application))
+                        is AppDetailState.Error -> {}
+                        is AppDetailState.Success -> {
+                            val app = (app as AppDetailState.Success).app
+                            Text(text = app.metadata.name)
                         }
                     }
-                    if (screenshots.isNotEmpty()) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        ScreenshotsRow(screenshots = screenshots)
-                    }
-
-                    if (app!!.categories.isNotEmpty()) {
-                        CategoriesRow(categories = app!!.categories)
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-                    if (app!!.metadata.summary.isNotBlank()) {
-                        Text(
-                            text = app!!.metadata.summary,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 16.dp)
-                        )
-                    }
-
-                    if (app!!.metadata.description.isNotBlank()) {
-                        Spacer(modifier = Modifier.height(8.dp))
-                        val handler = LocalUriHandler.current
-                        Text(
-                            text = app!!.metadata.description.toAnnotatedString(
-                                onUrlClick = { handler.openUri(it) }
-                            ),
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                        )
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    val suggestedVersion = app!!.metadata.suggestedVersionCode
-                    app!!.packages?.forEach {
-                        val isSuggested = it.manifest.versionCode == suggestedVersion
-                        PackageItem(
-                            item = it,
-                            onClick = {},
-                            onLongClick = {},
-                            backgroundColor = if (isSuggested) MaterialTheme.colorScheme.surfaceContainerHigh
-                            else MaterialTheme.colorScheme.surface
-                        ) {
-                            if (isSuggested) {
-                                Text(
-                                    text = stringResource(R.string.suggested).uppercase(),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onTertiaryContainer,
-                                    modifier = Modifier
-                                        .background(
-                                            MaterialTheme.colorScheme.tertiaryContainer,
-                                            shape = CircleShape
-                                        )
-                                        .padding(horizontal = 8.dp, vertical = 6.dp)
-                                )
-                            } else if (it.installed) {
-                                Text(
-                                    text = stringResource(R.string.suggested).uppercase(),
-                                    style = MaterialTheme.typography.labelMedium,
-                                    color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                    modifier = Modifier
-                                        .background(
-                                            MaterialTheme.colorScheme.secondaryContainer,
-                                            shape = CircleShape
-                                        )
-                                        .padding(horizontal = 8.dp, vertical = 6.dp)
-                                )
-                            }
-                        }
-                    }
-                } else {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Text(
-                        text = "App details not available.",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
+                },
+                navigationIcon = { BackButton(onBackClick) },
+            )
+        },
+    ) { padding ->
+        when (app) {
+            AppDetailState.Loading -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
                 }
+            }
+
+            is AppDetailState.Error -> {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(text = (app as AppDetailState.Error).message)
+                }
+            }
+
+            is AppDetailState.Success -> {
+                AppDetail(
+                    app = (app as AppDetailState.Success).app,
+                    packages = (app as AppDetailState.Success).packages,
+                    modifier = Modifier.padding(padding),
+                )
             }
         }
     }
 }
 
 @Composable
-private fun HtmlText(
-    html: Html,
+private fun AppDetail(
+    app: App,
+    packages: List<Pair<Package, Repo>>,
     modifier: Modifier = Modifier,
-    maxLines: Int = Int.MAX_VALUE,
 ) {
-    val colors = MaterialTheme.colorScheme
-    val textColor = colors.onSurface.toArgb()
-    val linkColor = colors.primary.toArgb()
-    AndroidView(
-        factory = { context ->
-            TextView(context).apply {
-                movementMethod = LinkMovementMethod.getInstance()
-                linksClickable = true
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .then(modifier)
+    ) {
+        HeaderSection(
+            app = app,
+            packageName = app.metadata.packageName.name,
+            isInstalled = app.packages?.any { it.installed } == true,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
 
-                setTextColor(textColor)
-                setLinkTextColor(linkColor)
+        val screenshots: List<FilePath> = remember(app.screenshots) {
+            buildList {
+                app.screenshots?.phone?.let { addAll(it) }
+                app.screenshots?.sevenInch?.let { addAll(it) }
+                app.screenshots?.tenInch?.let { addAll(it) }
+                app.screenshots?.tv?.let { addAll(it) }
+                app.screenshots?.wear?.let { addAll(it) }
             }
-        },
-        update = { tv ->
-            tv.ellipsize = END
-            tv.maxLines = maxLines
-            tv.text = html
-            LinkifyCompat.addLinks(tv, Linkify.ALL)
-        },
-        modifier = modifier,
-    )
+        }
+        if (screenshots.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(16.dp))
+            ScreenshotsRow(screenshots = screenshots)
+        }
+
+        if (app.categories.isNotEmpty()) {
+            CategoriesRow(categories = app.categories)
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+        if (app.metadata.summary.isNotBlank()) {
+            Text(
+                text = app.metadata.summary,
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
+
+        if (app.metadata.description.isNotBlank()) {
+            Spacer(modifier = Modifier.height(8.dp))
+            val handler = LocalUriHandler.current
+            Text(
+                text = app.metadata.description.toAnnotatedString(
+                    onUrlClick = { handler.openUri(it) }
+                ),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(horizontal = 16.dp),
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        val suggestedVersion = app.metadata.suggestedVersionCode
+        packages.forEach { (pkg, repo) ->
+            val isSuggested = pkg.manifest.versionCode == suggestedVersion
+            PackageItem(
+                item = pkg,
+                repo = repo,
+                onClick = {},
+                onLongClick = {},
+                backgroundColor = if (isSuggested) MaterialTheme.colorScheme.surfaceContainerHigh
+                else MaterialTheme.colorScheme.surface
+            ) {
+                if (isSuggested) {
+                    Text(
+                        text = stringResource(R.string.suggested).uppercase(),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        modifier = Modifier
+                            .background(
+                                MaterialTheme.colorScheme.tertiaryContainer,
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 8.dp, vertical = 6.dp)
+                    )
+                } else if (pkg.installed) {
+                    Text(
+                        text = stringResource(R.string.suggested).uppercase(),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier
+                            .background(
+                                MaterialTheme.colorScheme.secondaryContainer,
+                                shape = CircleShape
+                            )
+                            .padding(horizontal = 8.dp, vertical = 6.dp)
+                    )
+                }
+            }
+        }
+    }
 }
 
 @Composable
