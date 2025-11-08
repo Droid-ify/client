@@ -67,7 +67,6 @@ interface AppDao {
         )
     }
 
-    // Projection row for AppMinimal construction
     data class AppMinimalRow(
         val appId: Int,
         val packageName: String,
@@ -81,7 +80,6 @@ interface AppDao {
     @RawQuery
     suspend fun _rawQueryAppMinimal(query: SimpleSQLiteQuery): List<AppMinimalRow>
 
-    // Build query for AppMinimal with localization and repo address
     private fun searchQueryMinimal(
         sortOrder: SortOrder,
         searchQuery: String?,
@@ -197,9 +195,10 @@ interface AppDao {
                 )
                 args.addAll(listOf(searchPattern, searchPattern, searchPattern, searchPattern))
             }
+            append(" GROUP BY app.packageName")
 
             append(" ORDER BY ")
-            
+
             if (searchQuery != null) {
                 val searchPattern = "%${searchQuery}%"
                 append("(CASE WHEN COALESCE(n_loc.name, n_en.name) LIKE ? THEN 4 ELSE 0 END) + ")
