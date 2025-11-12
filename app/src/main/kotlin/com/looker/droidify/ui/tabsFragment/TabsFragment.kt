@@ -454,6 +454,8 @@ class TabsFragment : ScreenFragment() {
                 AppListFragment.Source.UPDATES.ordinal,
                 allowSmooth && viewPager.isLaidOut,
             )
+            // Force the Updates fragment to re-attach its cursor/loader so data is fresh
+            productFragments.find { it.source == AppListFragment.Source.UPDATES }?.updateRequest()
         } else {
             needSelectUpdates = true
         }
