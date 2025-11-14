@@ -411,7 +411,7 @@ class TabsFragment : ScreenFragment() {
 
         (searchMenuItem?.actionView as FocusSearchView).allowFocus = true
         if (needSelectUpdates) {
-            needSelectUpdates = false
+            // don't clear the flag here - let selectUpdatesInternal / pageChangeCallback manage it
             selectUpdatesInternal(false)
         }
     }
@@ -448,14 +448,21 @@ class TabsFragment : ScreenFragment() {
     }
 
     private fun selectUpdatesInternal(allowSmooth: Boolean) {
-        if (view != null) {
-            val viewPager = viewPager
-            viewPager?.setCurrentItem(
+        val vp = viewPager
+        if (view != null && vp != null) {
+            vp.setCurrentItem(
                 AppListFragment.Source.UPDATES.ordinal,
-                allowSmooth && viewPager.isLaidOut,
+                allowSmooth && vp.isLaidOut,
             )
-            // Force the Updates fragment to re-attach its cursor/loader so data is fresh
-            productFragments.find { it.source == AppListFragment.Source.UPDATES }?.updateRequest()
+            // Try to find the Updates fragment now; if it's not created yet, defer the update request
+            val updatesFrag = productFragments.find { it.source == AppListFragment.Source.UPDATES }
+            if (updatesFrag != null) {
+                updatesFrag.updateRequest()
+                needSelectUpdates = false
+            } else {
+                // wait until fragment is created/attached; pageChangeCallback will trigger the request
+                needSelectUpdates = true
+            }
         } else {
             needSelectUpdates = true
         }
@@ -558,6 +565,13 @@ class TabsFragment : ScreenFragment() {
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+
+            // If we were waiting for the Updates fragment to be created, trigger its refresh now
+            if (position == AppListFragment.Source.UPDATES.ordinal && needSelectUpdates) {
+                productFragments.find { it.source == AppListFragment.Source.UPDATES }?.updateRequest()
+                needSelectUpdates = false
+            }
+
             if (showSections && !source.sections) {
                 showSections = false
             }
