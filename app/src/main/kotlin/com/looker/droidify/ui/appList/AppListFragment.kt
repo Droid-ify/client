@@ -191,7 +191,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         viewModel.setSection(section)
     }
 
-    private fun updateRequest() {
+    fun updateRequest() {
         if (view != null) {
             mainActivity.cursorOwner.attach(this, viewModel.request(source))
         }
