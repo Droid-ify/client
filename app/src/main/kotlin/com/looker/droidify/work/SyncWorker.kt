@@ -1,7 +1,10 @@
 package com.looker.droidify.work
 
 import android.content.Context
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -9,12 +12,15 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.ExistingWorkPolicy
+import androidx.work.ForegroundInfo
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.looker.droidify.R
 import com.looker.droidify.data.RepoRepository
+import com.looker.droidify.utility.common.createNotificationChannel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
@@ -54,11 +60,13 @@ class SyncWorker @AssistedInject constructor(
                 .addTag(TAG)
                 .build()
 
-            WorkManager.getInstance(context).enqueueUniqueWork(
-                "$TAG.user",
-                ExistingWorkPolicy.KEEP,
-                request,
-            )
+            WorkManager
+                .getInstance(context)
+                .enqueueUniqueWork(
+                    uniqueWorkName = "$TAG.user",
+                    existingWorkPolicy = ExistingWorkPolicy.KEEP,
+                    request = request,
+                )
             Log.i(TAG, "User sync enqueued (repoId=$repoId)")
         }
 
@@ -77,11 +85,13 @@ class SyncWorker @AssistedInject constructor(
                 .addTag(TAG)
                 .build()
 
-            WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                TAG,
-                ExistingPeriodicWorkPolicy.UPDATE,
-                request,
-            )
+            WorkManager
+                .getInstance(context)
+                .enqueueUniquePeriodicWork(
+                    uniqueWorkName = TAG,
+                    existingPeriodicWorkPolicy = ExistingPeriodicWorkPolicy.UPDATE,
+                    request = request,
+                )
             Log.i(TAG, "Periodic sync scheduled every $repeatInterval")
         }
 
@@ -100,6 +110,7 @@ class SyncWorker @AssistedInject constructor(
             val success = if (repoId != null) {
                 val repo = repoRepository.getRepo(repoId)
                 if (repo != null) {
+                    setForeground(createForegroundInfo(repo.name, 0))
                     repoRepository.sync(repo)
                 } else {
                     Log.w(TAG, "Repo not found for id=$repoId; falling back to syncAll")
@@ -118,6 +129,36 @@ class SyncWorker @AssistedInject constructor(
         } catch (t: Throwable) {
             Log.e(TAG, "Sync failed with exception", t)
             Result.retry()
+        }
+    }
+
+    private fun createForegroundInfo(name: String, percent: Int): ForegroundInfo {
+        val id = "sync_channel"
+        val title = "Syncing: $name"
+        val cancel = applicationContext.getString(R.string.cancel)
+        val intent = WorkManager
+            .getInstance(applicationContext)
+            .createCancelPendingIntent(getId())
+
+        applicationContext.createNotificationChannel(
+            id = id,
+            name = "Sync channel",
+            showBadge = true,
+        )
+
+        val notification = NotificationCompat.Builder(applicationContext, id)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setProgress(100, percent, percent == -1)
+            .setSmallIcon(R.drawable.ic_sync)
+            .setOngoing(true)
+            .addAction(android.R.drawable.ic_delete, cancel, intent)
+            .build()
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            ForegroundInfo(124, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            ForegroundInfo(124, notification)
         }
     }
 }

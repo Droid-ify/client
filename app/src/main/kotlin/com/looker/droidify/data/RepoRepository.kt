@@ -17,8 +17,10 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.di.IoDispatcher
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.LocalSyncable
+import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v2.EntrySyncable
+import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.work.SyncWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
@@ -187,26 +189,25 @@ class RepoRepository @Inject constructor(
 
     suspend fun sync(repo: Repo): Boolean {
         var success = false
-        var parsedFingerprint: com.looker.droidify.data.model.Fingerprint? = null
-        var parsedIndex: com.looker.droidify.sync.v2.model.IndexV2? = null
+        var parsedFingerprint: Fingerprint? = null
+        var parsedIndex: IndexV2? = null
         localSyncable.sync(repo) { state ->
             when (state) {
-                is com.looker.droidify.sync.SyncState.JsonParsing.Success -> {
+                is SyncState.JsonParsing.Success -> {
                     parsedFingerprint = state.fingerprint
                     parsedIndex = state.index
+                    success = true
                 }
+
                 else -> Unit
             }
         }
-        val index = parsedIndex
-        val fingerprint = parsedFingerprint
-        if (index != null && fingerprint != null) {
+        if (parsedIndex != null && parsedFingerprint != null) {
             indexDao.insertIndex(
-                fingerprint = fingerprint,
-                index = index,
+                fingerprint = parsedFingerprint,
+                index = parsedIndex!!,
                 expectedRepoId = repo.id,
             )
-            success = true
         }
         return success
     }
