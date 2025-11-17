@@ -21,8 +21,6 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          submodules: true
 
       - name: Validate Gradle Wrapper
         uses: gradle/actions/setup-gradle@v4
@@ -62,7 +60,7 @@ jobs:
         id: extract_version
         run: |
           VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
-          echo "::set-output name=version_code::$VERSION_CODE"
+          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
           echo "Version Code: $VERSION_CODE"
 
       - name: Read Changelog
@@ -70,10 +68,9 @@ jobs:
         run: |
           CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
           if [[ -f "$CHANGELOG_PATH" ]]; then
-            CHANGELOG=$(cat "$CHANGELOG_PATH")
-            echo "::set-output name=changelog::$CHANGELOG"
+            echo "changelog=$(cat "$CHANGELOG_PATH")" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=changelog::No changelog found for this version."
+            echo "changelog=" >> $GITHUB_OUTPUT
             echo "No changelog found at: $CHANGELOG_PATH"
           fi
 
@@ -81,12 +78,14 @@ jobs:
         name: Create Release
         id: publish_release
         with:
-          body: ${{ steps.read_changelog.outputs.changelog }}
           tag_name: ${{ github.ref }}
           name: Release ${{ github.ref }}
+          body: ${{ steps.read_changelog.outputs.changelog }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
-          draft: true
+          generate_release_notes: true
+          make_latest: true
           prerelease: false
+          draft: true
 
       - uses: actions/upload-artifact@v4
         with:

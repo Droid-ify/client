@@ -11,7 +11,7 @@
 </div>
 <div align="left">
 
-## Features
+<img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
 
 * Browse and install apps from F-Droid repositories
 * Automatic app updates in the background
@@ -19,25 +19,29 @@
 * Add custom repositories with one tap
 * Works completely offline after initial sync
 
-## Screenshots
+### Get Started
 
-<img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
+**Download**: [GitHub Releases](https://github.com/Iamlooker/Droid-ify/releases/latest) • [F-Droid](https://f-droid.org/packages/com.looker.droidify)
 
-## Get Started
+**Signature:**
+```
+ED:88:59:C5:5A:F3:11:16:26:58:B9:4A:F9:82:B9:F0:91:DC:D2:76:28:D4:DE:34:86:D1:21:7E:BF:3C:99:35
+```
 
-**📥 Download**: [GitHub Releases](https://github.com/Iamlooker/Droid-ify/releases/latest) • [F-Droid](https://f-droid.org/packages/com.looker.droidify)
+> [!IMPORTANT]
+> Signature for older versions on F-Droid might be different
 
-**🔧 Build**: See [Building Guide](docs/building.md) for development setup
+**Build**: See [Building Guide](docs/building.md) for development setup
 
-## Contributing
+### Contributing
 
-**🤝 Want to help?** Check out our [Contributing Guide](CONTRIBUTING.md)
+**Want to help?** Check out our [Contributing Guide](CONTRIBUTING.md)
 
-## Translations
+### Translations
 
 [![Translation status](https://hosted.weblate.org/widgets/droidify/-/horizontal-auto.svg)](https://hosted.weblate.org/engage/droidify/?utm_source=widget)
 
-## License
+### License
 
 ```
 Droid-ify

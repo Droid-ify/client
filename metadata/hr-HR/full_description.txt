@@ -1,0 +1,10 @@
+Značajke:
+• Pregledavanje i instalacija aplikacija iz F-Droid repozitorija
+• Automatska aktualiziranja aplikacije u pozadini
+• Više načina instalacije (Session, Root, Shizuku)
+• Dodavanje vlastitih repozitorija jednim dodirom
+• Nakon početne sinkronizacije radi potpuno offline
+
+Aplikacija je dostupna na 63 jezika, uključujući engleski, njemački, francuski, španjolski i kineski.
+
+Copyleft libre softver, licenziran pod GPLv3+.
