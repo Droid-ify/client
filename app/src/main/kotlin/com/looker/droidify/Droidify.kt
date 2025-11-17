@@ -92,8 +92,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         checkLanguage()
         updatePreference()
         appScope.launch { installer() }
-
-        if (databaseUpdated) forceSyncAll()
     }
 
     override fun onTerminate() {
