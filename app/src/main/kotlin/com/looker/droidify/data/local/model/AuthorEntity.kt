@@ -3,7 +3,7 @@ package com.looker.droidify.data.local.model
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.looker.droidify.domain.model.Author
+import com.looker.droidify.data.model.Author
 import com.looker.droidify.sync.v2.model.MetadataV2
 
 @Entity(

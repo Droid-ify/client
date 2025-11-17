@@ -1,10 +1,11 @@
 package com.looker.droidify.sync.v2
 
 import android.content.Context
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.percentBy
 import com.looker.droidify.sync.Parser
+import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.ENTRY_V2_NAME
 import com.looker.droidify.sync.common.INDEX_V2_NAME
@@ -45,46 +46,87 @@ class EntrySyncable(
     )
 
     @OptIn(ExperimentalSerializationApi::class)
-    override suspend fun sync(repo: Repo): Pair<Fingerprint, IndexV2?> =
-        withContext(dispatcher) {
-            // example https://apt.izzysoft.de/fdroid/repo/entry.json
+    override suspend fun sync(
+        repo: Repo,
+        block: (SyncState) -> Unit,
+    ) = withContext(dispatcher) {
+        try {
             val jar = downloader.downloadIndex(
                 context = context,
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/$ENTRY_V2_NAME",
                 fileName = ENTRY_V2_NAME,
+                onProgress = { bytes, total ->
+                    val percent = (bytes percentBy total)
+                    block(SyncState.IndexDownload.Progress(repo.id, percent))
+                },
             )
-            val (fingerprint, entry) = parser.parse(jar, repo)
-            jar.delete()
-            val index = entry.getDiff(repo.versionInfo.timestamp)
-            // Already latest
-                ?: return@withContext fingerprint to null
-            val indexPath = repo.address.removeSuffix("/") + index.name
+            if (jar.length() == 0L) {
+                block(SyncState.IndexDownload.Failure(repo.id, IllegalStateException("Empty entry v2 jar")))
+                return@withContext
+            } else {
+                block(SyncState.IndexDownload.Success(repo.id))
+            }
+            val (fingerprint, entry) = try {
+                parser.parse(jar, repo)
+            } catch (t: Throwable) {
+                block(SyncState.JarParsing.Failure(repo.id, t))
+                return@withContext
+            } finally {
+                jar.delete()
+            }
+            block(SyncState.JarParsing.Success(repo.id, fingerprint))
+            val diffRef = entry.getDiff(repo.versionInfo?.timestamp)
+            if (diffRef == null) {
+                block(SyncState.JsonParsing.Success(repo.id, fingerprint, null))
+                return@withContext
+            }
+            val indexPath = repo.address.removeSuffix("/") + diffRef.name
             val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$INDEX_V2_NAME")
-            val indexV2 = if (index != entry.index && indexFile.exists()) {
+            val indexV2 = if (diffRef != entry.index && indexFile.exists()) {
                 val diffFile = downloader.downloadIndex(
                     context = context,
                     repo = repo,
                     url = indexPath,
-                    fileName = "diff_${repo.versionInfo.timestamp}.json",
+                    fileName = "diff_${repo.versionInfo?.timestamp}.json",
                     diff = true,
+                    onProgress = { bytes, total ->
+                        val percent = (bytes percentBy total)
+                        block(SyncState.IndexDownload.Progress(repo.id, percent))
+                    },
                 )
                 val diff = async { diffParser.parse(diffFile, repo).second }
                 val oldIndex = async { indexParser.parse(indexFile, repo).second }
-                diff.await().patchInto(oldIndex.await()) { index ->
-                    diffFile.delete()
-                    Json.encodeToStream(index, indexFile.outputStream())
+                try {
+                    diff.await().patchInto(oldIndex.await()) { index ->
+                        diffFile.delete()
+                        Json.encodeToStream(index, indexFile.outputStream())
+                    }
+                } catch (t: Throwable) {
+                    block(SyncState.JsonParsing.Failure(repo.id, t))
+                    return@withContext
                 }
             } else {
-                // example https://apt.izzysoft.de/fdroid/repo/index-v2.json
                 val newIndexFile = downloader.downloadIndex(
                     context = context,
                     repo = repo,
                     url = indexPath,
                     fileName = INDEX_V2_NAME,
+                    onProgress = { bytes, total ->
+                        val percent = (bytes percentBy total)
+                        block(SyncState.IndexDownload.Progress(repo.id, percent))
+                    },
                 )
-                indexParser.parse(newIndexFile, repo).second
+                try {
+                    indexParser.parse(newIndexFile, repo).second
+                } catch (t: Throwable) {
+                    block(SyncState.JsonParsing.Failure(repo.id, t))
+                    return@withContext
+                }
             }
-            fingerprint to indexV2
+            block(SyncState.JsonParsing.Success(repo.id, fingerprint, indexV2))
+        } catch (t: Throwable) {
+            block(SyncState.IndexDownload.Failure(repo.id, t))
         }
+    }
 }

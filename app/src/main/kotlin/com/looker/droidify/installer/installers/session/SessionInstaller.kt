@@ -9,16 +9,16 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.looker.droidify.data.model.PackageName
+import com.looker.droidify.installer.installers.Installer
+import com.looker.droidify.installer.model.InstallItem
+import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.sdkAbove
-import com.looker.droidify.domain.model.PackageName
-import com.looker.droidify.installer.installers.Installer
-import com.looker.droidify.installer.model.InstallItem
-import com.looker.droidify.installer.model.InstallState
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
+import kotlinx.coroutines.suspendCancellableCoroutine
 
 class SessionInstaller(private val context: Context) : Installer {
 

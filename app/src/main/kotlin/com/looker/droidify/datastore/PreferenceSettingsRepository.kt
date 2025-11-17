@@ -95,16 +95,19 @@ class PreferenceSettingsRepository(
                 LEGACY_INSTALLER_COMPONENT_CLASS.update("")
                 LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
             }
+
             is LegacyInstallerComponent.Component -> {
                 LEGACY_INSTALLER_COMPONENT_TYPE.update("component")
                 LEGACY_INSTALLER_COMPONENT_CLASS.update(component.clazz)
                 LEGACY_INSTALLER_COMPONENT_ACTIVITY.update(component.activity)
             }
+
             LegacyInstallerComponent.Unspecified -> {
                 LEGACY_INSTALLER_COMPONENT_TYPE.update("unspecified")
                 LEGACY_INSTALLER_COMPONENT_CLASS.update("")
                 LEGACY_INSTALLER_COMPONENT_ACTIVITY.update("")
             }
+
             LegacyInstallerComponent.AlwaysChoose -> {
                 LEGACY_INSTALLER_COMPONENT_TYPE.update("always_choose")
                 LEGACY_INSTALLER_COMPONENT_CLASS.update("")
@@ -150,17 +153,38 @@ class PreferenceSettingsRepository(
         }
     }
 
+    override suspend fun setRepoEnabled(repoId: Int, enabled: Boolean) {
+        dataStore.edit { preference ->
+            val currentSet = preference[ENABLED_REPO_IDS] ?: emptySet()
+            val newSet = currentSet.updateAsMutable {
+                if (enabled) add(repoId.toString()) else remove(repoId.toString())
+            }
+            preference[ENABLED_REPO_IDS] = newSet
+        }
+    }
+
+    override fun getEnabledRepoIds(): Flow<Set<Int>> {
+        return data.map { it.enabledRepoIds }
+    }
+
+    override suspend fun isRepoEnabled(repoId: Int): Boolean {
+        return repoId in data.first().enabledRepoIds
+    }
+
     private fun mapSettings(preferences: Preferences): Settings {
         val installerType =
             InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
         val legacyInstallerComponent = when (preferences[LEGACY_INSTALLER_COMPONENT_TYPE]) {
             "component" -> {
-                preferences[LEGACY_INSTALLER_COMPONENT_CLASS]?.takeIf { it.isNotBlank() }?.let { cls ->
-                    preferences[LEGACY_INSTALLER_COMPONENT_ACTIVITY]?.takeIf { it.isNotBlank() }?.let { act ->
-                        LegacyInstallerComponent.Component(cls, act)
+                preferences[LEGACY_INSTALLER_COMPONENT_CLASS]?.takeIf { it.isNotBlank() }
+                    ?.let { cls ->
+                        preferences[LEGACY_INSTALLER_COMPONENT_ACTIVITY]?.takeIf { it.isNotBlank() }
+                            ?.let { act ->
+                                LegacyInstallerComponent.Component(cls, act)
+                            }
                     }
-                }
             }
+
             "unspecified" -> LegacyInstallerComponent.Unspecified
             "always_choose" -> LegacyInstallerComponent.AlwaysChoose
             else -> null
@@ -184,6 +208,8 @@ class PreferenceSettingsRepository(
         val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
         val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
+        val enabledRepoIds =
+            preferences[ENABLED_REPO_IDS]?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
 
         return Settings(
             language = language,
@@ -203,6 +229,7 @@ class PreferenceSettingsRepository(
             lastCleanup = lastCleanup,
             favouriteApps = favouriteApps,
             homeScreenSwiping = homeScreenSwiping,
+            enabledRepoIds = enabledRepoIds,
         )
     }
 
@@ -226,9 +253,13 @@ class PreferenceSettingsRepository(
         val LAST_CLEAN_UP = longPreferencesKey("key_last_clean_up_time")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
-        val LEGACY_INSTALLER_COMPONENT_CLASS = stringPreferencesKey("key_legacy_installer_component_class")
-        val LEGACY_INSTALLER_COMPONENT_ACTIVITY = stringPreferencesKey("key_legacy_installer_component_activity")
-        val LEGACY_INSTALLER_COMPONENT_TYPE = stringPreferencesKey("key_legacy_installer_component_type")
+        val LEGACY_INSTALLER_COMPONENT_CLASS =
+            stringPreferencesKey("key_legacy_installer_component_class")
+        val LEGACY_INSTALLER_COMPONENT_ACTIVITY =
+            stringPreferencesKey("key_legacy_installer_component_activity")
+        val LEGACY_INSTALLER_COMPONENT_TYPE =
+            stringPreferencesKey("key_legacy_installer_component_type")
+        val ENABLED_REPO_IDS = stringSetPreferencesKey("key_enabled_repo_ids")
 
         // Enums
         val THEME = stringPreferencesKey("key_theme")
@@ -248,18 +279,24 @@ class PreferenceSettingsRepository(
                 is LegacyInstallerComponent.Component -> {
                     set(LEGACY_INSTALLER_COMPONENT_TYPE, "component")
                     set(LEGACY_INSTALLER_COMPONENT_CLASS, settings.legacyInstallerComponent.clazz)
-                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, settings.legacyInstallerComponent.activity)
+                    set(
+                        LEGACY_INSTALLER_COMPONENT_ACTIVITY,
+                        settings.legacyInstallerComponent.activity,
+                    )
                 }
+
                 LegacyInstallerComponent.Unspecified -> {
                     set(LEGACY_INSTALLER_COMPONENT_TYPE, "unspecified")
                     set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
                     set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
                 }
+
                 LegacyInstallerComponent.AlwaysChoose -> {
                     set(LEGACY_INSTALLER_COMPONENT_TYPE, "always_choose")
                     set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
                     set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
                 }
+
                 null -> {
                     set(LEGACY_INSTALLER_COMPONENT_TYPE, "")
                     set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
@@ -277,6 +314,7 @@ class PreferenceSettingsRepository(
             set(LAST_CLEAN_UP, settings.lastCleanup?.toEpochMilliseconds() ?: 0L)
             set(FAVOURITE_APPS, settings.favouriteApps)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
+            set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())
             return this.toPreferences()
         }
     }

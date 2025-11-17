@@ -5,13 +5,14 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import com.looker.droidify.domain.model.Graphics
+import com.looker.droidify.data.model.FilePath
+import com.looker.droidify.data.model.Graphics
 import com.looker.droidify.sync.v2.model.MetadataV2
 
 @Entity(
     tableName = "graphic",
     primaryKeys = ["type", "locale", "appId"],
-    indices = [Index("appId", "locale")],
+    indices = [Index("appId", "locale"), Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -46,18 +47,19 @@ fun MetadataV2.localizedGraphics(appId: Int): List<GraphicEntity>? {
     }.ifEmpty { null }
 }
 
-fun List<GraphicEntity>.toGraphics(): Graphics {
-    var featureGraphic: String? = null
-    var promoGraphic: String? = null
-    var tvBanner: String? = null
-    var video: String? = null
+fun List<GraphicEntity>.toGraphics(locale: String, baseAddress: String): Graphics {
+    var featureGraphic: FilePath? = null
+    var promoGraphic: FilePath? = null
+    var tvBanner: FilePath? = null
+    var video: FilePath? = null
 
     for (entity in this) {
+        if (entity.locale != locale) continue
         when (entity.type) {
-            FEATURE_GRAPHIC -> featureGraphic = entity.url
-            PROMO_GRAPHIC -> promoGraphic = entity.url
-            TV_BANNER -> tvBanner = entity.url
-            VIDEO -> video = entity.url
+            FEATURE_GRAPHIC -> featureGraphic = FilePath(baseAddress, entity.url)
+            PROMO_GRAPHIC -> promoGraphic = FilePath(baseAddress, entity.url)
+            TV_BANNER -> tvBanner = FilePath(baseAddress, entity.url)
+            VIDEO -> video = FilePath(baseAddress, entity.url)
         }
     }
     return Graphics(

@@ -6,15 +6,26 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.looker.droidify.data.model.ApkFile
+import com.looker.droidify.data.model.Manifest
+import com.looker.droidify.data.model.Package
+import com.looker.droidify.data.model.Permission
+import com.looker.droidify.data.model.Platforms
+import com.looker.droidify.data.model.SDKs
+import com.looker.droidify.network.DataSize
 import com.looker.droidify.sync.v2.model.ApkFileV2
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.LocalizedString
 import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.PermissionV2
+import com.looker.droidify.sync.v2.model.localizedValue
 
 @Entity(
     tableName = "version",
-    indices = [Index("appId")],
+    indices = [
+        Index("appId"),
+        Index(value = ["appId", "versionCode"], unique = true),
+    ],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -49,7 +60,7 @@ fun PackageV2.versionEntities(appId: Int): Map<VersionEntity, List<AntiFeatureAp
     return versions.map { (_, version) ->
         VersionEntity(
             added = version.added,
-            whatsNew = version.whatsNew,
+            whatsNew = version.whatsNew.mapValues { (locale, value) -> value.replace("\n", "<br/>") },
             versionName = version.manifest.versionName,
             versionCode = version.manifest.versionCode,
             maxSdkVersion = version.manifest.maxSdkVersion,
@@ -71,4 +82,44 @@ fun PackageV2.versionEntities(appId: Int): Map<VersionEntity, List<AntiFeatureAp
             )
         }
     }.toMap()
+}
+
+fun List<VersionEntity>.toPackages(
+    locale: String,
+    installed: InstalledEntity?,
+) = map { version ->
+    Package(
+        id = version.id.toLong(),
+        installed = installed != null && installed.versionCode == version.versionCode,
+        added = version.added,
+        apk = ApkFile(
+            name = version.apk.name,
+            hash = version.apk.sha256,
+            size = DataSize(version.apk.size),
+        ),
+        platforms = Platforms(version.nativeCode),
+        features = version.features,
+        antiFeatures = emptyList(), // This would need to be populated from AntiFeatureAppRelation
+        manifest = Manifest(
+            versionCode = version.versionCode,
+            versionName = version.versionName,
+            usesSDKs = SDKs(
+                min = version.minSdkVersion,
+                max = version.maxSdkVersion ?: -1,
+                target = version.targetSdkVersion,
+            ),
+            signer = emptySet(), // This would need to be populated from somewhere
+            permissions = version.permissions.map {
+                Permission(
+                    name = it.name,
+                    sdKs = SDKs(
+                        min = -1, // PermissionV2 doesn't have minSdkVersion
+                        max = it.maxSdkVersion ?: -1,
+                        target = -1,
+                    ),
+                )
+            },
+        ),
+        whatsNew = version.whatsNew.localizedValue(locale) ?: "",
+    )
 }

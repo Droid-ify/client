@@ -7,6 +7,7 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
@@ -38,9 +39,11 @@ data class Settings(
     val sortOrder: SortOrder = SortOrder.UPDATED,
     val proxy: ProxyPreference = ProxyPreference(),
     val cleanUpInterval: Duration = 12.hours,
+    @Contextual
     val lastCleanup: Instant? = null,
     val favouriteApps: Set<String> = emptySet(),
     val homeScreenSwiping: Boolean = true,
+    val enabledRepoIds: Set<Int> = emptySet(),
 )
 
 @OptIn(ExperimentalSerializationApi::class)

@@ -1,12 +1,12 @@
 package com.looker.droidify.utility.common.signature
 
-import com.looker.droidify.domain.model.hex
+import com.looker.droidify.data.model.hex
 import com.looker.droidify.utility.common.extension.exceptCancellation
+import java.io.File
+import java.security.MessageDigest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.security.MessageDigest
 
 suspend fun File.verifyHash(hash: Hash): Boolean {
     return try {

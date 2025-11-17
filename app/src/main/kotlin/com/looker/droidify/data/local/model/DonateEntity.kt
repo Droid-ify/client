@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import com.looker.droidify.domain.model.Donation
+import com.looker.droidify.data.model.Donation
 import com.looker.droidify.sync.v2.model.MetadataV2
 
 @Entity(

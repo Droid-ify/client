@@ -1,6 +1,6 @@
 package com.looker.droidify.installer.installers
 
-import com.looker.droidify.domain.model.PackageName
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
 

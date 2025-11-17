@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
+import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.index.RepositoryUpdater
@@ -35,8 +36,12 @@ import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.ref.WeakReference
+import javax.inject.Inject
+import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -52,9 +57,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.lang.ref.WeakReference
-import javax.inject.Inject
-import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -65,6 +67,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     companion object {
         const val RB_LOGS_SYNC = -23L
+        const val DOWNLOAD_STATS_SYNC = -24L
         private const val MAX_PROGRESS = 100
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
@@ -77,6 +80,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
+
+    @Inject
+    lateinit var installedRepository: InstalledRepository
 
     sealed class State(val name: String) {
         class Connecting(appName: String) : State(appName)
@@ -93,12 +99,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val progress: Int
             get() = when (this) {
                 is Connecting -> Int.MIN_VALUE
-                Finish        -> Int.MAX_VALUE
-                is Syncing    -> when (stage) {
+                Finish -> Int.MAX_VALUE
+                is Syncing -> when (stage) {
                     RepositoryUpdater.Stage.DOWNLOAD -> ((read percentBy total) * 0.4F).roundToInt()
-                    RepositoryUpdater.Stage.PROCESS  -> 50
-                    RepositoryUpdater.Stage.MERGE    -> 75
-                    RepositoryUpdater.Stage.COMMIT   -> 90
+                    RepositoryUpdater.Stage.PROCESS -> 50
+                    RepositoryUpdater.Stage.MERGE -> 75
+                    RepositoryUpdater.Stage.COMMIT -> 90
                 }
             }
     }
@@ -151,7 +157,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         fun sync(request: SyncRequest) {
             val ids = Database.RepositoryAdapter.getAll()
                 .asSequence().filter { it.enabled }.map { it.id }.toList()
-            sync(ids + RB_LOGS_SYNC, request)
+            sync(ids + RB_LOGS_SYNC + DOWNLOAD_STATS_SYNC, request)
         }
 
         fun sync(repository: Repository) {
@@ -281,13 +287,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val description = getString(
             when (exception) {
                 is RepositoryUpdater.UpdateException -> when (exception.errorType) {
-                    RepositoryUpdater.ErrorType.NETWORK    -> stringRes.network_error_DESC
-                    RepositoryUpdater.ErrorType.HTTP       -> stringRes.http_error_DESC
+                    RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
+                    RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
                     RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
-                    RepositoryUpdater.ErrorType.PARSING    -> stringRes.parsing_index_error_DESC
+                    RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
                 }
 
-                else                                 -> stringRes.unknown_error_DESC
+                else -> stringRes.unknown_error_DESC
             },
         )
         notificationManager?.notify(
@@ -340,7 +346,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                 setProgress(0, 0, true)
                             }
 
-                            is State.Syncing    -> {
+                            is State.Syncing -> {
                                 when (state.stage) {
                                     RepositoryUpdater.Stage.DOWNLOAD -> {
                                         if (state.total != null) {
@@ -356,7 +362,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         }
                                     }
 
-                                    RepositoryUpdater.Stage.PROCESS  -> {
+                                    RepositoryUpdater.Stage.PROCESS -> {
                                         val progress = (state.read percentBy state.total)
                                             .takeIf { it != -1 }
                                         setContentText(
@@ -368,7 +374,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
                                     }
 
-                                    RepositoryUpdater.Stage.MERGE    -> {
+                                    RepositoryUpdater.Stage.MERGE -> {
                                         val progress = (state.read percentBy state.total)
                                         setContentText(
                                             getString(
@@ -379,14 +385,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                                         setProgress(MAX_PROGRESS, progress, false)
                                     }
 
-                                    RepositoryUpdater.Stage.COMMIT   -> {
+                                    RepositoryUpdater.Stage.COMMIT -> {
                                         setContentText(getString(stringRes.saving_details))
                                         setProgress(0, 0, true)
                                     }
                                 }
                             }
 
-                            is State.Finish     -> {}
+                            is State.Finish -> {}
                         }
                     }.build(),
                 )
@@ -417,7 +423,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val task = tasks.removeAt(0)
         when (task.repositoryId) {
             RB_LOGS_SYNC -> return RBLogWorker.fetchRBLogs(applicationContext)
-            else         -> {}
+            DOWNLOAD_STATS_SYNC -> return DownloadStatsWorker.fetchDownloadStats(applicationContext)
+            else -> {}
         }
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
@@ -472,7 +479,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 }
             }
             passedHasUpdates = when (response) {
-                is Result.Error   -> {
+                is Result.Error -> {
                     response.exception?.let {
                         it.printStackTrace()
                         if (task.manual) showNotificationError(repository, it as Exception)
@@ -530,7 +537,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
-                Database.InstalledAdapter.get(it.packageName, null) to
+                installedRepository.get(it.packageName) to
                     Database.RepositoryAdapter.get(it.repositoryId)
             }
             .filter { it.first != null && it.second != null }

@@ -1,0 +1,325 @@
+Project DroidifyDatabase {
+  database_type: "SQLite"
+  note: 'Generated from Room entities (version 1). See app/schemas/.../1.json for authoritative export.'
+}
+
+Table repository {
+  id integer [pk, increment]
+  address text [not null]
+  webBaseUrl text
+  fingerprint text [not null]
+  timestamp integer
+}
+
+Table author {
+  id integer [pk, increment]
+  email text
+  name text
+  website text
+
+  indexes {
+    (email, name, website) [unique]
+  }
+}
+
+Table app {
+  id integer [pk, increment]
+  added integer [not null]
+  lastUpdated integer [not null]
+  license text
+  preferredSigner text
+  packageName text [not null]
+  authorId integer [not null]
+  repoId integer [not null]
+
+  indexes {
+    (authorId)
+    (repoId)
+    (packageName)
+    (packageName, repoId) [unique]
+  }
+}
+
+Table version {
+  id integer [pk, increment]
+  appId integer [not null]
+  versionCode integer [not null]
+  versionName text [not null]
+  added integer [not null]
+  minSdkVersion integer [not null]
+  targetSdkVersion integer [not null]
+  maxSdkVersion integer
+  // apk_* (name, sha256, size, etc.)
+  // src_* (optional embedded file columns)
+  // features, nativeCode, permissions, permissionsSdk23 are stored via converters
+}
+
+Table link {
+  appId integer [pk]
+  changelog text
+  issueTracker text
+  translation text
+  sourceCode text
+  webSite text
+}
+
+Table donate {
+  type integer [not null]
+  appId integer [not null]
+  value text [not null]
+  Note: 'PK is (type, appId)'
+
+  indexes {
+    (appId)
+    (type, appId) [pk]
+  }
+}
+
+Table graphic {
+  type integer [not null]
+  locale text [not null]
+  appId integer [not null]
+  url text [not null]
+  Note: 'PK is (type, locale, appId)'
+
+  indexes {
+    (appId, locale)
+    (type, locale, appId) [pk]
+  }
+}
+
+Table screenshot {
+  path text [not null]
+  type integer [not null]
+  locale text [not null]
+  appId integer [not null]
+  Note: 'PK is (path, type, locale, appId)'
+
+  indexes {
+    (appId, locale)
+    (path, type, locale, appId) [pk]
+  }
+}
+
+Table installed {
+  packageName text [pk]
+  version text [not null]
+  versionCode integer [not null]
+  signature text [not null]
+}
+
+Table rblog {
+  hash text [not null]
+  packageName text [not null]
+  timestamp integer [not null]
+  repository text [not null]
+  apkUrl text [not null]
+  versionCode integer [not null]
+  versionName text [not null]
+  tag text [not null]
+  commit text [not null]
+  reproducible boolean
+  error text
+
+  indexes {
+    (hash, packageName, timestamp) [pk]
+    (hash, packageName, timestamp) [unique]
+    (packageName, versionCode, reproducible)
+    (packageName, hash, reproducible)
+  }
+}
+
+Table mirror {
+  id integer [pk, increment]
+  url text [not null]
+  countryCode text
+  isPrimary boolean [not null]
+  repoId integer [not null]
+
+  indexes {
+    (repoId)
+  }
+}
+
+Table authentication {
+  repoId integer [pk]
+  password text [not null]
+  username text [not null]
+  initializationVector blob [not null]
+}
+
+Table category {
+  defaultName text [not null]
+  locale text [not null]
+  icon text
+  name text [not null]
+  description text
+
+  indexes {
+    (defaultName)
+    (defaultName, locale) [pk]
+  }
+}
+
+Table category_repo_relation {
+  id integer [not null]
+  defaultName text [not null]
+
+  indexes {
+    (id, defaultName) [pk]
+  }
+}
+
+Table category_app_relation {
+  id integer [not null]
+  defaultName text [not null]
+
+  indexes {
+    (id, defaultName) [pk]
+  }
+}
+
+Table anti_feature {
+  tag text [not null]
+  locale text [not null]
+  icon text
+  name text [not null]
+  description text
+
+  indexes {
+    (tag, locale) [pk]
+  }
+}
+
+Table anti_feature_repo_relation {
+  id integer [not null]
+  tag text [not null]
+
+  indexes {
+    (id, tag) [pk]
+  }
+}
+
+Table anti_features_app_relation {
+  tag text [not null]
+  reason text [not null]
+  appId integer [not null]
+  versionCode integer [not null]
+
+  indexes {
+    (tag, appId, versionCode) [pk]
+  }
+}
+
+Table localized_app_name {
+  appId integer [not null]
+  locale text [not null]
+  name text [not null]
+
+  indexes {
+    (appId)
+    (locale)
+    (appId, locale) [pk]
+  }
+}
+
+Table localized_app_summary {
+  appId integer [not null]
+  locale text [not null]
+  summary text [not null]
+
+  indexes {
+    (appId)
+    (locale)
+    (appId, locale) [pk]
+  }
+}
+
+Table localized_app_description {
+  appId integer [not null]
+  locale text [not null]
+  description text [not null]
+
+  indexes {
+    (appId)
+    (locale)
+    (appId, locale) [pk]
+  }
+}
+
+Table localized_app_icon {
+  appId integer [not null]
+  locale text [not null]
+  // icon_* columns from embedded FileV2
+
+  indexes {
+    (appId)
+    (locale)
+    (appId, locale) [pk]
+  }
+}
+
+Table localized_repo_name {
+  repoId integer [not null]
+  locale text [not null]
+  name text [not null]
+
+  indexes {
+    (repoId)
+    (locale)
+    (repoId, locale) [pk]
+  }
+}
+
+Table localized_repo_description {
+  repoId integer [not null]
+  locale text [not null]
+  description text [not null]
+
+  indexes {
+    (repoId)
+    (locale)
+    (repoId, locale) [pk]
+  }
+}
+
+Table localized_repo_icon {
+  repoId integer [not null]
+  locale text [not null]
+  // icon_* columns from embedded FileV2
+
+  indexes {
+    (repoId)
+    (locale)
+    (repoId, locale) [pk]
+  }
+}
+
+// Relationships (foreign keys)
+Ref: app.repoId > repository.id [delete: cascade, update: no action]
+Ref: app.authorId > author.id [delete: cascade, update: no action]
+
+Ref: version.appId > app.id [delete: cascade, update: no action]
+Ref: link.appId > app.id [delete: cascade, update: no action]
+Ref: donate.appId > app.id [delete: cascade, update: no action]
+Ref: graphic.appId > app.id [delete: cascade, update: no action]
+Ref: screenshot.appId > app.id [delete: cascade, update: no action]
+Ref: localized_app_name.appId > app.id [delete: cascade, update: no action]
+Ref: localized_app_summary.appId > app.id [delete: cascade, update: no action]
+Ref: localized_app_description.appId > app.id [delete: cascade, update: no action]
+Ref: localized_app_icon.appId > app.id [delete: cascade, update: no action]
+
+Ref: localized_repo_name.repoId > repository.id [delete: cascade, update: no action]
+Ref: localized_repo_description.repoId > repository.id [delete: cascade, update: no action]
+Ref: localized_repo_icon.repoId > repository.id [delete: cascade, update: no action]
+Ref: authentication.repoId > repository.id [delete: cascade, update: no action]
+Ref: mirror.repoId > repository.id [delete: cascade, update: no action]
+Ref: category_repo_relation.id > repository.id [delete: cascade, update: no action]
+Ref: category_app_relation.id > app.id [delete: cascade, update: no action]
+Ref: anti_feature_repo_relation.id > repository.id [delete: cascade, update: no action]
+Ref: anti_features_app_relation.appId > app.id [delete: cascade, update: no action]
+
+// Known caveats:
+// - category_*_relation tables have no FK to category(defaultName, locale)
+// - anti_feature_*_relation tables have no FK to anti_feature(tag, locale)
+// - anti_features_app_relation keeps versionCode without FK to version

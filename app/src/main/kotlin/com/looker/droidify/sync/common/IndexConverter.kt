@@ -87,6 +87,7 @@ private fun RepoV1.toRepoV2(
             icon = mapOf(V1_LOCALE to FileV2("/icons/category_${name.normalizeName()}.png")),
         )
     },
+    webBaseUrl = address,
 )
 
 private fun String.normalizeName(): String = lowercase().replace(" & ", "_")

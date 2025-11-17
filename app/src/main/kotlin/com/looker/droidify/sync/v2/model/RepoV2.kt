@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RepoV2(
     val address: String,
+    val webBaseUrl: String? = null,
     val icon: LocalizedIcon? = null,
     val name: LocalizedString = emptyMap(),
     val description: LocalizedString = emptyMap(),

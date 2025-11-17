@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e64dac21017b34894f6d9d7890184178",
+    "identityHash": "e5e1974eda2fbb01c5aa7a7350760675",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -11,8 +11,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
@@ -23,8 +22,7 @@
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "locale",
@@ -45,9 +43,7 @@
             "tag",
             "locale"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "anti_features_app_relation",
@@ -86,7 +82,17 @@
             "versionCode"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_anti_features_app_relation_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_features_app_relation_appId` ON `${TABLE_NAME}` (`appId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -125,7 +131,6 @@
             "tag"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -142,7 +147,7 @@
       },
       {
         "tableName": "authentication",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` TEXT NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`password` TEXT NOT NULL, `username` TEXT NOT NULL, `initializationVector` BLOB NOT NULL, `repoId` INTEGER NOT NULL, PRIMARY KEY(`repoId`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "password",
@@ -159,7 +164,7 @@
           {
             "fieldPath": "initializationVector",
             "columnName": "initializationVector",
-            "affinity": "TEXT",
+            "affinity": "BLOB",
             "notNull": true
           },
           {
@@ -175,7 +180,6 @@
             "repoId"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -197,20 +201,17 @@
           {
             "fieldPath": "email",
             "columnName": "email",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "website",
             "columnName": "website",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "id",
@@ -237,12 +238,11 @@
             "orders": [],
             "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_author_email_name_website` ON `${TABLE_NAME}` (`email`, `name`, `website`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "app",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `name` TEXT NOT NULL, `icon` TEXT, `preferredSigner` TEXT, `summary` TEXT, `description` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`added` INTEGER NOT NULL, `lastUpdated` INTEGER NOT NULL, `license` TEXT, `preferredSigner` TEXT, `packageName` TEXT NOT NULL, `authorId` INTEGER NOT NULL, `repoId` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`authorId`) REFERENCES `author`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "added",
@@ -259,38 +259,12 @@
           {
             "fieldPath": "license",
             "columnName": "license",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "icon",
-            "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "preferredSigner",
             "columnName": "preferredSigner",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "summary",
-            "columnName": "summary",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "packageName",
@@ -394,8 +368,7 @@
           {
             "fieldPath": "icon",
             "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "name",
@@ -406,8 +379,7 @@
           {
             "fieldPath": "description",
             "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "locale",
@@ -439,8 +411,7 @@
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_category_defaultName` ON `${TABLE_NAME}` (`defaultName`)"
           }
-        ],
-        "foreignKeys": []
+        ]
       },
       {
         "tableName": "category_app_relation",
@@ -466,7 +437,17 @@
             "defaultName"
           ]
         },
-        "indices": [],
+        "indices": [
+          {
+            "name": "index_category_app_relation_defaultName",
+            "unique": false,
+            "columnNames": [
+              "defaultName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_category_app_relation_defaultName` ON `${TABLE_NAME}` (`defaultName`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -505,7 +486,6 @@
             "defaultName"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "repository",
@@ -622,6 +602,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
+          },
+          {
+            "name": "index_graphic_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_graphic_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -640,29 +629,29 @@
       },
       {
         "tableName": "installed",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`versionCode` TEXT NOT NULL, `versionName` TEXT NOT NULL, `signature` TEXT NOT NULL, `packageName` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `version` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `signature` TEXT NOT NULL, PRIMARY KEY(`packageName`))",
         "fields": [
           {
-            "fieldPath": "versionCode",
-            "columnName": "versionCode",
+            "fieldPath": "packageName",
+            "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "versionName",
-            "columnName": "versionName",
+            "fieldPath": "version",
+            "columnName": "version",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
             "fieldPath": "signature",
             "columnName": "signature",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "packageName",
-            "columnName": "packageName",
             "affinity": "TEXT",
             "notNull": true
           }
@@ -672,9 +661,7 @@
           "columnNames": [
             "packageName"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "link",
@@ -683,32 +670,27 @@
           {
             "fieldPath": "changelog",
             "columnName": "changelog",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "issueTracker",
             "columnName": "issueTracker",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "translation",
             "columnName": "translation",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "sourceCode",
             "columnName": "sourceCode",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "webSite",
             "columnName": "webSite",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "appId",
@@ -723,7 +705,6 @@
             "appId"
           ]
         },
-        "indices": [],
         "foreignKeys": [
           {
             "table": "app",
@@ -751,8 +732,7 @@
           {
             "fieldPath": "countryCode",
             "columnName": "countryCode",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "isPrimary",
@@ -806,14 +786,8 @@
       },
       {
         "tableName": "repository",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`icon` TEXT, `address` TEXT NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`address` TEXT NOT NULL, `webBaseUrl` TEXT, `fingerprint` TEXT NOT NULL, `timestamp` INTEGER, `id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
-          {
-            "fieldPath": "icon",
-            "columnName": "icon",
-            "affinity": "TEXT",
-            "notNull": false
-          },
           {
             "fieldPath": "address",
             "columnName": "address",
@@ -821,16 +795,9 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "description",
-            "columnName": "description",
-            "affinity": "TEXT",
-            "notNull": true
+            "fieldPath": "webBaseUrl",
+            "columnName": "webBaseUrl",
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "fingerprint",
@@ -841,8 +808,7 @@
           {
             "fieldPath": "timestamp",
             "columnName": "timestamp",
-            "affinity": "INTEGER",
-            "notNull": true
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "id",
@@ -856,9 +822,7 @@
           "columnNames": [
             "id"
           ]
-        },
-        "indices": [],
-        "foreignKeys": []
+        }
       },
       {
         "tableName": "screenshot",
@@ -908,6 +872,15 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId_locale` ON `${TABLE_NAME}` (`appId`, `locale`)"
+          },
+          {
+            "name": "index_screenshot_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_screenshot_appId` ON `${TABLE_NAME}` (`appId`)"
           }
         ],
         "foreignKeys": [
@@ -955,8 +928,7 @@
           {
             "fieldPath": "maxSdkVersion",
             "columnName": "maxSdkVersion",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           },
           {
             "fieldPath": "minSdkVersion",
@@ -1027,20 +999,17 @@
           {
             "fieldPath": "src.name",
             "columnName": "src_name",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "src.sha256",
             "columnName": "src_sha256",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "TEXT"
           },
           {
             "fieldPath": "src.size",
             "columnName": "src_size",
-            "affinity": "INTEGER",
-            "notNull": false
+            "affinity": "INTEGER"
           }
         ],
         "primaryKey": {
@@ -1058,6 +1027,16 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_version_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_version_appId_versionCode",
+            "unique": true,
+            "columnNames": [
+              "appId",
+              "versionCode"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_version_appId_versionCode` ON `${TABLE_NAME}` (`appId`, `versionCode`)"
           }
         ],
         "foreignKeys": [
@@ -1073,12 +1052,755 @@
             ]
           }
         ]
+      },
+      {
+        "tableName": "rblog",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`hash` TEXT NOT NULL, `repository` TEXT NOT NULL, `apkUrl` TEXT NOT NULL, `packageName` TEXT NOT NULL, `versionCode` INTEGER NOT NULL, `versionName` TEXT NOT NULL, `tag` TEXT NOT NULL, `commit` TEXT NOT NULL, `timestamp` INTEGER NOT NULL, `reproducible` INTEGER, `error` TEXT, PRIMARY KEY(`hash`, `packageName`, `timestamp`))",
+        "fields": [
+          {
+            "fieldPath": "hash",
+            "columnName": "hash",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "repository",
+            "columnName": "repository",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "apkUrl",
+            "columnName": "apkUrl",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionCode",
+            "columnName": "versionCode",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "versionName",
+            "columnName": "versionName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tag",
+            "columnName": "tag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "commit",
+            "columnName": "commit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timestamp",
+            "columnName": "timestamp",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "reproducible",
+            "columnName": "reproducible",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "error",
+            "columnName": "error",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "hash",
+            "packageName",
+            "timestamp"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_rblog_hash_packageName_timestamp",
+            "unique": true,
+            "columnNames": [
+              "hash",
+              "packageName",
+              "timestamp"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_rblog_hash_packageName_timestamp` ON `${TABLE_NAME}` (`hash`, `packageName`, `timestamp`)"
+          },
+          {
+            "name": "index_rblog_packageName_versionCode_reproducible",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "versionCode",
+              "reproducible"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rblog_packageName_versionCode_reproducible` ON `${TABLE_NAME}` (`packageName`, `versionCode`, `reproducible`)"
+          },
+          {
+            "name": "index_rblog_packageName_hash_reproducible",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "hash",
+              "reproducible"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_rblog_packageName_hash_reproducible` ON `${TABLE_NAME}` (`packageName`, `hash`, `reproducible`)"
+          }
+        ]
+      },
+      {
+        "tableName": "downloadStats",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`packageName` TEXT NOT NULL, `date` INTEGER NOT NULL, `client` TEXT NOT NULL, `source` TEXT NOT NULL, `count` INTEGER NOT NULL, PRIMARY KEY(`packageName`, `date`, `client`, `source`))",
+        "fields": [
+          {
+            "fieldPath": "packageName",
+            "columnName": "packageName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "client",
+            "columnName": "client",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "source",
+            "columnName": "source",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "count",
+            "columnName": "count",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "packageName",
+            "date",
+            "client",
+            "source"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_downloadStats_packageName_date_client_source",
+            "unique": true,
+            "columnNames": [
+              "packageName",
+              "date",
+              "client",
+              "source"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_downloadStats_packageName_date_client_source` ON `${TABLE_NAME}` (`packageName`, `date`, `client`, `source`)"
+          },
+          {
+            "name": "index_downloadStats_packageName_date",
+            "unique": false,
+            "columnNames": [
+              "packageName",
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_packageName_date` ON `${TABLE_NAME}` (`packageName`, `date`)"
+          },
+          {
+            "name": "index_downloadStats_packageName",
+            "unique": false,
+            "columnNames": [
+              "packageName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_packageName` ON `${TABLE_NAME}` (`packageName`)"
+          },
+          {
+            "name": "index_downloadStats_client",
+            "unique": false,
+            "columnNames": [
+              "client"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_client` ON `${TABLE_NAME}` (`client`)"
+          },
+          {
+            "name": "index_downloadStats_date",
+            "unique": false,
+            "columnNames": [
+              "date"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_downloadStats_date` ON `${TABLE_NAME}` (`date`)"
+          }
+        ]
+      },
+      {
+        "tableName": "DownloadStatsFile",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`fileName` TEXT NOT NULL, `lastModified` TEXT NOT NULL, `lastFetched` INTEGER NOT NULL, `fetchSuccess` INTEGER NOT NULL, `fileSize` INTEGER, `recordsCount` INTEGER, PRIMARY KEY(`fileName`))",
+        "fields": [
+          {
+            "fieldPath": "fileName",
+            "columnName": "fileName",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastModified",
+            "columnName": "lastModified",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastFetched",
+            "columnName": "lastFetched",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fetchSuccess",
+            "columnName": "fetchSuccess",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fileSize",
+            "columnName": "fileSize",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "recordsCount",
+            "columnName": "recordsCount",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "fileName"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_DownloadStatsFile_fileName",
+            "unique": true,
+            "columnNames": [
+              "fileName"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_DownloadStatsFile_fileName` ON `${TABLE_NAME}` (`fileName`)"
+          },
+          {
+            "name": "index_DownloadStatsFile_fileName_lastModified",
+            "unique": false,
+            "columnNames": [
+              "fileName",
+              "lastModified"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_DownloadStatsFile_fileName_lastModified` ON `${TABLE_NAME}` (`fileName`, `lastModified`)"
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_name",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_name_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_name_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_name_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_name_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_summary",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `summary` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "summary",
+            "columnName": "summary",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_summary_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_summary_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_summary_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_summary_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_description",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_description_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_description_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_description_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_description_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_app_icon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`appId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `icon_name` TEXT NOT NULL, `icon_sha256` TEXT, `icon_size` INTEGER, PRIMARY KEY(`appId`, `locale`), FOREIGN KEY(`appId`) REFERENCES `app`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "appId",
+            "columnName": "appId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.name",
+            "columnName": "icon_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.sha256",
+            "columnName": "icon_sha256",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon.size",
+            "columnName": "icon_size",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "appId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_app_icon_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_icon_appId` ON `${TABLE_NAME}` (`appId`)"
+          },
+          {
+            "name": "index_localized_app_icon_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_app_icon_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "app",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "appId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_name",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `name` TEXT NOT NULL, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_name_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_name_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_name_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_name_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_description",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `description` TEXT NOT NULL, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_description_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_description_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_description_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_description_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "localized_repo_icon",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`repoId` INTEGER NOT NULL, `locale` TEXT NOT NULL, `icon_name` TEXT NOT NULL, `icon_sha256` TEXT, `icon_size` INTEGER, PRIMARY KEY(`repoId`, `locale`), FOREIGN KEY(`repoId`) REFERENCES `repository`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "repoId",
+            "columnName": "repoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locale",
+            "columnName": "locale",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.name",
+            "columnName": "icon_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "icon.sha256",
+            "columnName": "icon_sha256",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "icon.size",
+            "columnName": "icon_size",
+            "affinity": "INTEGER"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "repoId",
+            "locale"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_localized_repo_icon_repoId",
+            "unique": false,
+            "columnNames": [
+              "repoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_icon_repoId` ON `${TABLE_NAME}` (`repoId`)"
+          },
+          {
+            "name": "index_localized_repo_icon_locale",
+            "unique": false,
+            "columnNames": [
+              "locale"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_localized_repo_icon_locale` ON `${TABLE_NAME}` (`locale`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "repository",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "repoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       }
     ],
-    "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e64dac21017b34894f6d9d7890184178')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e5e1974eda2fbb01c5aa7a7350760675')"
     ]
   }
 }

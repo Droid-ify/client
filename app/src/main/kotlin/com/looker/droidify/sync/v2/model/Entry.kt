@@ -14,7 +14,7 @@ data class Entry(
     val diffs: Map<Long, EntryFile>
 ) {
 
-    fun getDiff(timestamp: Long): EntryFile? {
+    fun getDiff(timestamp: Long?): EntryFile? {
         return if (this.timestamp == timestamp) null
         else diffs[timestamp] ?: index
     }

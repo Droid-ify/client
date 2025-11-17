@@ -12,5 +12,5 @@ interface AuthDao {
     suspend fun insert(authentication: AuthenticationEntity)
 
     @Query("SELECT * FROM authentication WHERE repoId = :repoId")
-    suspend fun getAuthentication(repoId: Int): AuthenticationEntity?
+    suspend fun authFor(repoId: Int): AuthenticationEntity?
 }

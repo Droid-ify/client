@@ -1,12 +1,12 @@
 package com.looker.droidify.index
 
 import android.util.Xml
-import com.looker.droidify.domain.model.fingerprint
+import com.looker.droidify.data.model.fingerprint
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.Repository.Companion.defaultRepository
-import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.InputStream
+import org.xmlpull.v1.XmlPullParser
 
 /**
  * Direct copy of implementation from https://github.com/NeoApplications/Neo-Store/blob/master/src/main/kotlin/com/machiav3lli/fdroid/data/database/entity/Repository.kt
