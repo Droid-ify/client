@@ -187,11 +187,12 @@ class RepoRepository @Inject constructor(
         }
     }
 
-    suspend fun sync(repo: Repo): Boolean {
+    suspend fun sync(repo: Repo, onState: ((SyncState) -> Unit)? = null): Boolean {
         var success = false
         var parsedFingerprint: Fingerprint? = null
         var parsedIndex: IndexV2? = null
-        localSyncable.sync(repo) { state ->
+        v2Syncable.sync(repo) { state ->
+            onState?.invoke(state)
             when (state) {
                 is SyncState.JsonParsing.Success -> {
                     parsedFingerprint = state.fingerprint

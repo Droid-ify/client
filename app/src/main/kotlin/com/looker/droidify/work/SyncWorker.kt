@@ -18,8 +18,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.hasKeyWithValueOfType
 import com.looker.droidify.R
 import com.looker.droidify.data.RepoRepository
+import com.looker.droidify.sync.SyncState
 import com.looker.droidify.utility.common.createNotificationChannel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -35,6 +37,69 @@ class SyncWorker @AssistedInject constructor(
     @Assisted workerParams: WorkerParameters,
     private val repoRepository: RepoRepository,
 ) : CoroutineWorker(context, workerParams) {
+    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        val repoId = if (inputData.hasKeyWithValueOfType<Int>(KEY_REPO_ID)) {
+            inputData.getInt(KEY_REPO_ID, -1).takeIf { it >= 0 }
+        } else null
+        Log.i(TAG, "SyncWorker started (repoId=$repoId)")
+        try {
+            val success = if (repoId != null) {
+                val repo = repoRepository.getRepo(repoId)
+                if (repo != null) {
+                    setForeground(createForegroundInfo(repo.name, -1))
+                    repoRepository.sync(repo) { state ->
+                        val progress=  if (state is SyncState.IndexDownload.Progress) state.progress else -1
+                        setForegroundAsync(createForegroundInfo(repo.name, progress))
+                    }
+                } else {
+                    Log.w(TAG, "Repo not found for id=$repoId; falling back to syncAll")
+                    repoRepository.syncAll()
+                }
+            } else {
+                repoRepository.syncAll()
+            }
+            if (success) {
+                Log.i(TAG, "Sync completed successfully (repoId=$repoId)")
+                Result.success()
+            } else {
+                Log.w(TAG, "Sync reported failure (repoId=$repoId)")
+                Result.retry()
+            }
+        } catch (t: Throwable) {
+            Log.e(TAG, "Sync failed with exception", t)
+            Result.retry()
+        }
+    }
+
+    private fun createForegroundInfo(name: String, percent: Int): ForegroundInfo {
+        val id = "sync_channel"
+        val title = "Syncing: $name"
+        val cancel = applicationContext.getString(R.string.cancel)
+        val intent = WorkManager
+            .getInstance(applicationContext)
+            .createCancelPendingIntent(getId())
+
+        applicationContext.createNotificationChannel(
+            id = id,
+            name = "Sync channel",
+            showBadge = true,
+        )
+
+        val notification = NotificationCompat.Builder(applicationContext, id)
+            .setContentTitle(title)
+            .setTicker(title)
+            .setProgress(100, percent, percent == -1)
+            .setSmallIcon(R.drawable.ic_sync)
+            .setOngoing(true)
+            .addAction(android.R.drawable.ic_delete, cancel, intent)
+            .build()
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            ForegroundInfo(124, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            ForegroundInfo(124, notification)
+        }
+    }
 
     companion object {
         private const val TAG = "SyncWorker"
@@ -99,66 +164,6 @@ class SyncWorker @AssistedInject constructor(
             WorkManager.getInstance(context).cancelUniqueWork(TAG)
             WorkManager.getInstance(context).cancelAllWorkByTag(TAG)
             Log.i(TAG, "All sync work cancelled")
-        }
-    }
-
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        val repoId = if (inputData.hasKeyWithValueOfType(KEY_REPO_ID, Int::class.java)) {
-            inputData.getInt(KEY_REPO_ID, -1).takeIf { it >= 0 }
-        } else null
-        try {
-            val success = if (repoId != null) {
-                val repo = repoRepository.getRepo(repoId)
-                if (repo != null) {
-                    setForeground(createForegroundInfo(repo.name, 0))
-                    repoRepository.sync(repo)
-                } else {
-                    Log.w(TAG, "Repo not found for id=$repoId; falling back to syncAll")
-                    repoRepository.syncAll()
-                }
-            } else {
-                repoRepository.syncAll()
-            }
-            if (success) {
-                Log.i(TAG, "Sync completed successfully (repoId=$repoId)")
-                Result.success()
-            } else {
-                Log.w(TAG, "Sync reported failure (repoId=$repoId)")
-                Result.retry()
-            }
-        } catch (t: Throwable) {
-            Log.e(TAG, "Sync failed with exception", t)
-            Result.retry()
-        }
-    }
-
-    private fun createForegroundInfo(name: String, percent: Int): ForegroundInfo {
-        val id = "sync_channel"
-        val title = "Syncing: $name"
-        val cancel = applicationContext.getString(R.string.cancel)
-        val intent = WorkManager
-            .getInstance(applicationContext)
-            .createCancelPendingIntent(getId())
-
-        applicationContext.createNotificationChannel(
-            id = id,
-            name = "Sync channel",
-            showBadge = true,
-        )
-
-        val notification = NotificationCompat.Builder(applicationContext, id)
-            .setContentTitle(title)
-            .setTicker(title)
-            .setProgress(100, percent, percent == -1)
-            .setSmallIcon(R.drawable.ic_sync)
-            .setOngoing(true)
-            .addAction(android.R.drawable.ic_delete, cancel, intent)
-            .build()
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            ForegroundInfo(124, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
-        } else {
-            ForegroundInfo(124, notification)
         }
     }
 }

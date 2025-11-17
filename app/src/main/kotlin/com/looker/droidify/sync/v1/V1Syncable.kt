@@ -3,6 +3,7 @@ package com.looker.droidify.sync.v1
 import android.content.Context
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.percentBy
 import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
@@ -34,6 +35,10 @@ class V1Syncable(
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/$INDEX_V1_NAME",
                 fileName = INDEX_V1_NAME,
+                onProgress = { bytes, total ->
+                    val percent = (bytes percentBy total)
+                    block(SyncState.IndexDownload.Progress(repo.id, percent))
+                },
             )
             if (jar.length() == 0L) {
                 block(SyncState.IndexDownload.Failure(repo.id, IllegalStateException("Empty v1 index jar")))

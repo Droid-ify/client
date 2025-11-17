@@ -7,6 +7,7 @@ sealed interface SyncState {
     val repoId: Int
 
     sealed interface IndexDownload : SyncState {
+        data class Progress(override val repoId: Int, val progress: Int) : IndexDownload
         data class Success(override val repoId: Int) : IndexDownload
         data class Failure(override val repoId: Int, val error: Throwable) : IndexDownload
     }
