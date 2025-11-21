@@ -48,11 +48,13 @@ android {
         debug {
             applicationIdSuffix = ".debug"
             resValue("string", "application_name", "Droid-ify-Debug")
+            resValue("string", "cleartext_allowed", "true")
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
             resValue("string", "application_name", "Droid-ify")
+            resValue("string", "cleartext_allowed", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
@@ -62,6 +64,7 @@ android {
             initWith(getByName("debug"))
             applicationIdSuffix = ".alpha"
             resValue("string", "application_name", "Droid-ify Alpha")
+            resValue("string", "cleartext_allowed", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
