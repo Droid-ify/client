@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
+    <base-config cleartextTrafficPermitted="@string/cleartext_allowed">
         <trust-anchors>
             <!-- Trust preinstalled CAs -->
             <certificates src="system" />
