@@ -1,0 +1,12 @@
+- Shizuku-Installationsprogramm hinzufügt
+- Mindestversion für Android auf Android 6 erhöht
+- „Weniger anzeigen” korrigiert (#15)
+- Lokalisiertes Datumsformat (#24)
+- UnifiedPush-Repository entfernt (#23)
+- Neuer Appinfo-Header
+- Abgerundete obere Leiste
+- Benachrichtigung öffnet die App-Seite
+- Schlanker Downloader
+- Cache zurückgesetzt, um Daten zu sparen
+- Unterstützung für Edge-to-Edge entfernt (#27)
+- Einige kleinere Verbesserungen

@@ -1,0 +1,50 @@
+- Die App muss neu installiert werden (Sorry, das ist ganz allein meine Schuld)
+- Android 13 wird jetzt unterstützt
+- Android-13-Themen-Symbol hinzugefügt
+- Einige Animationen und andere UI/UX-Änderungen korrigiert
+- Cache-Bereinigung korrigiert
+- Farbe der Navigationsleiste korrigiert
+- „Verfügbar” -> „Entdecken” ersetzt
+- „Quellcode” zum Abschnitt „Links” hinzugefügt
+- Root/Shizuku Installer korrigiert (Der Shizuku Installer ist aktuell sehr fehlerhaft)
+- Willkürlichen Absturz beim Zurückkehren zur App behoben
+- Alefvanoon-Repository entfernt
+- Doppelten Installationshinweis behoben
+- App-Header wird hervorgehoben, wenn die App aktualisiert werden muss
+- Schaltfläche „Nach oben scrollen“ hinzugefügt
+- Sprachen hinzugefügt:
+      Bengalisch
+      Katalanisch
+      Kroatisch
+      Galicisch
+      Hebräisch
+      Japanisch
+      Litauisch
+      Odja
+      Schwedisch
+- Aktualisierte Sprachen:
+      Arabisch
+      Bulgarisch
+      Chinesisch (vereinfacht)
+      Chinesisch (traditionell)
+      Tschechisch
+      Finnisch
+      Französisch
+      Galizisch
+      Deutsch
+      Griechisch
+      Hindi
+      Ungarisch
+      Italienisch
+      Norwegisch Bokmål
+      Persisch
+      Polnisch
+      Portugiesisch
+      Portugiesisch (Brasilien)
+      Russisch
+      Spanisch
+      Tagalog
+      Türkisch
+      Ukrainisch
+- Abhängigkeiten aktualisiert
+- Code bereinigt
