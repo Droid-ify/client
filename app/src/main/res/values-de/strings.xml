@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="add_repository">Paketquelle hinzufügen</string>
-    <string name="all_applications">Alle Anwendungen</string>
-    <string name="all_applications_up_to_date">Alle Anwendungen sind aktuell</string>
+    <string name="all_applications">Alle Apps</string>
+    <string name="all_applications_up_to_date">Alle Apps sind aktuell</string>
     <string name="already_exists">Bereits vorhanden</string>
     <string name="always">Immer</string>
     <string name="address">Adresse</string>
     <string name="action_failed">Vorgang fehlgeschlagen</string>
     <string name="amoled">Schwarz</string>
-    <string name="application">Anwendung</string>
+    <string name="application">App</string>
     <string name="anti_features">Unerwünschte Merkmale</string>
     <string name="available">Entdecken</string>
     <string name="cancel">Abbrechen</string>
-    <string name="application_not_found">Die Anwendung konnte nicht gefunden werden</string>
+    <string name="application_not_found">Die App wurde nicht gefunden</string>
     <string name="bug_tracker">Fehlerverwaltung</string>
     <string name="changelog">Änderungsprotokoll</string>
     <string name="cant_edit_sync_DESC">Paketquelle kann während der Synchronisierung nicht bearbeitet werden</string>
@@ -188,7 +188,7 @@
     <string name="force_clean_up_DESC">Entfernt doppelte Dateien</string>
     <string name="installing">Wird installiert</string>
     <string name="waiting_to_start_installation">Warten auf den Start der Installation …</string>
-    <string name="auto_update">Anwendungen automatisch aktualisieren</string>
+    <string name="auto_update">Apps automatisch aktualisieren</string>
     <string name="auto_update_apps">Updates automatisch installieren</string>
     <string name="has_non_free_components">Enthält nicht-freie Komponenten</string>
     <string name="socket_error_DESC">Server konnte kein neues Paket liefern</string>
