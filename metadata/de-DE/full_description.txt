@@ -1,0 +1,10 @@
+Features:
+• Apps aus F-Droid-Repositorys durchsuchen und installieren
+• Automatische App-Updates im Hintergrund 
+• Zahlreiche Installationsmethoden (Session, Root, Shizuku)
+• Benutzerdefinierte Repositorys mit einem Fingertipp hinzufügen
+• Nach der ersten Synchronisierung vollständig offline nutzbar
+
+Verfügbar in 63 Sprachen, darunter Englisch, Deutsch, Französisch, Spanisch und Chinesisch.
+
+Copylefted-Freie Software, lizenziert unter GPLv3+.
