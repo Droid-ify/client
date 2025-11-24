@@ -92,7 +92,7 @@
     <string name="license_FORMAT">%s-Lizenz</string>
     <string name="link_copied_to_clipboard">Link kopiert</string>
     <string name="project_website">Webseite</string>
-    <string name="proxy_type">Proxytyprt</string>
+    <string name="proxy_type">Proxytyp</string>
     <string name="repository">Paketquelle</string>
     <string name="parsing_index_error_DESC">Indexdatei konnte nicht geparst werden</string>
     <string name="password">Passwort</string>
@@ -106,7 +106,7 @@
     <string name="sync_repositories">Paketquellen synchronisieren</string>
     <string name="sync_repositories_automatically">Paketquellen automatisch synchronisieren</string>
     <string name="signature_FORMAT">Signatur %s</string>
-    <string name="has_non_free_dependencies">Ist Abhängig von anderen nicht freien Anwendungen</string>
+    <string name="has_non_free_dependencies">Ist abhängig von anderen nicht-freien Apps</string>
     <string name="incompatible_version">Inkompatible Version</string>
     <string name="system">System</string>
     <string name="theme">Design</string>
@@ -150,8 +150,8 @@
     <string name="socks_proxy">SOCKS-Proxy</string>
     <string name="no_applications_available">Keine Apps verfügbar</string>
     <plurals name="new_updates_DESC_FORMAT">
-        <item quantity="one">%d App hat eine neue Version</item>
-        <item quantity="other">%d Apps haben eine neue Version</item>
+        <item quantity="one">%d App hat verfügbare Updates</item>
+        <item quantity="other">%d Apps haben verfügbare Updates</item>
     </plurals>
     <string name="signed_using_unsafe_algorithm">Mit einem unsicheren Algorithmus signiert</string>
     <string name="select_mirror">Wähle einen Spiegel</string>
@@ -181,7 +181,7 @@
     <string name="io_error_DESC">Bestimmte Aktionen können nicht ausgeführt werden</string>
     <string name="favourites">Favoriten</string>
     <string name="material_you">Material You</string>
-    <string name="material_you_desc">Material You-Farbschema verwenden</string>
+    <string name="material_you_desc">Material-You-Farbschema verwenden</string>
     <string name="repository_unreachable">Paketquelle unerreichbar</string>
     <string name="force_clean_up">Bereinigung erzwingen</string>
     <string name="enable_repo">Paketquelle aktivieren</string>
@@ -199,7 +199,7 @@
     <string name="home_screen_swiping">Wischgesten</string>
     <string name="home_screen_swiping_DESC">Nach links oder rechts wischen, um die Seite zu wechseln</string>
     <string name="special_credits">Besonderer Dank</string>
-    <string name="proxy_port_error_not_int">Proxy-Port muss eine ganze Zahl sein</string>
+    <string name="proxy_port_error_not_int">Proxyport muss eine ganze Zahl sein</string>
     <string name="repository_not_found">Paketquelle wurde nicht gefunden</string>
     <string name="import_settings_title">Einstellungen und Favoriten importieren</string>
     <string name="import_export">Sicherung und Wiederherstellung</string>
