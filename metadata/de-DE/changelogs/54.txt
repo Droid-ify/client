@@ -1,0 +1,3 @@
+- Absturz beim Zurück von der Einstellungen-Seite behoben
+- Shizuku auf Android 7+ zugelassen
+- Einige Verbesserungen der Benutzeroberfläche auf der Paketquellen-Seite
