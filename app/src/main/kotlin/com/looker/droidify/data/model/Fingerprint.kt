@@ -1,8 +1,11 @@
 package com.looker.droidify.data.model
 
+import com.looker.droidify.sync.utils.certificateOrNull
+import com.looker.droidify.sync.utils.codeSignerOrNull
 import java.security.MessageDigest
 import java.security.cert.Certificate
 import java.util.*
+import java.util.jar.JarEntry
 
 @JvmInline
 value class Fingerprint(val value: String) {
@@ -12,6 +15,19 @@ value class Fingerprint(val value: String) {
 
     override fun toString(): String = value
 }
+
+/**
+ * Creates a [Fingerprint] from a given certificate.
+ *
+ * This function calculates the SHA-256 hash of the certificate's encoded bytes.
+ * It returns an empty fingerprint if the certificate bytes are too small or if
+ * an error occurs during the hashing process.
+ *
+ * @return A [Fingerprint] object representing the SHA-256 hash of the certificate,
+ *         or null on failure or invalid certificate
+ */
+fun Fingerprint(entry: JarEntry): Fingerprint? =
+    entry.codeSignerOrNull?.certificateOrNull?.fingerprint().takeIf { it?.isValid == true }
 
 @Suppress("NOTHING_TO_INLINE")
 inline fun Fingerprint.check(found: Fingerprint): Boolean {

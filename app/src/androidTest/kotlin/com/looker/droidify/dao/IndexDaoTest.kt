@@ -4,8 +4,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.common.Izzy
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.v2.model.IndexV2

@@ -4,14 +4,14 @@ import android.content.Context
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
-import com.looker.droidify.sync.Parser
+import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.ENTRY_V2_NAME
 import com.looker.droidify.sync.common.INDEX_V2_NAME
-import com.looker.droidify.sync.common.IndexJarValidator
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.downloadIndex
+import com.looker.droidify.sync.parseJson
+import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.IndexV2Diff
@@ -28,23 +28,6 @@ class EntrySyncable(
     private val downloader: Downloader,
     private val dispatcher: CoroutineDispatcher,
 ) : Syncable<Entry> {
-    override val parser: Parser<Entry>
-        get() = EntryParser(
-            dispatcher = dispatcher,
-            json = JsonParser,
-            validator = IndexJarValidator(dispatcher),
-        )
-
-    private val indexParser: Parser<IndexV2> = V2Parser(
-        dispatcher = dispatcher,
-        json = JsonParser,
-    )
-
-    private val diffParser: Parser<IndexV2Diff> = DiffParser(
-        dispatcher = dispatcher,
-        json = JsonParser,
-    )
-
     @OptIn(ExperimentalSerializationApi::class)
     override suspend fun sync(
         repo: Repo,
@@ -62,13 +45,18 @@ class EntrySyncable(
                 },
             )
             if (jar.length() == 0L) {
-                block(SyncState.IndexDownload.Failure(repo.id, IllegalStateException("Empty entry v2 jar")))
+                block(
+                    SyncState.IndexDownload.Failure(
+                        repo.id,
+                        IllegalStateException("Empty entry v2 jar")
+                    )
+                )
                 return@withContext
             } else {
                 block(SyncState.IndexDownload.Success(repo.id))
             }
             val (fingerprint, entry) = try {
-                parser.parse(jar, repo)
+                jar.toJarFile().parseJson<Entry>(repo.fingerprint)
             } catch (t: Throwable) {
                 block(SyncState.JarParsing.Failure(repo.id, t))
                 return@withContext
@@ -95,8 +83,12 @@ class EntrySyncable(
                         block(SyncState.IndexDownload.Progress(repo.id, percent))
                     },
                 )
-                val diff = async { diffParser.parse(diffFile, repo).second }
-                val oldIndex = async { indexParser.parse(indexFile, repo).second }
+                val diff = async {
+                    JsonParser.decodeFromString<IndexV2Diff>(diffFile.readBytes().decodeToString())
+                }
+                val oldIndex = async {
+                    JsonParser.decodeFromString<IndexV2>(indexFile.readBytes().decodeToString())
+                }
                 try {
                     diff.await().patchInto(oldIndex.await()) { index ->
                         diffFile.delete()
@@ -118,7 +110,7 @@ class EntrySyncable(
                     },
                 )
                 try {
-                    indexParser.parse(newIndexFile, repo).second
+                    JsonParser.decodeFromString<IndexV2>(newIndexFile.readBytes().decodeToString())
                 } catch (t: Throwable) {
                     block(SyncState.JsonParsing.Failure(repo.id, t))
                     return@withContext

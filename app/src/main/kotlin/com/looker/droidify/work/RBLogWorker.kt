@@ -12,7 +12,7 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.RBData
 import com.looker.droidify.data.local.model.toLogs
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.sync.common.JsonParser
+import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.utility.common.extension.tempFile
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

@@ -4,14 +4,13 @@ import android.content.Context
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
-import com.looker.droidify.sync.Parser
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.INDEX_V1_NAME
-import com.looker.droidify.sync.common.IndexJarValidator
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
+import com.looker.droidify.sync.parseJson
+import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v1.model.IndexV1
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -21,13 +20,6 @@ class V1Syncable(
     private val downloader: Downloader,
     private val dispatcher: CoroutineDispatcher,
 ) : Syncable<IndexV1> {
-    override val parser: Parser<IndexV1>
-        get() = V1Parser(
-            dispatcher = dispatcher,
-            json = JsonParser,
-            validator = IndexJarValidator(dispatcher),
-        )
-
     override suspend fun sync(repo: Repo, block: (SyncState) -> Unit) = withContext(dispatcher) {
         try {
             val jar = downloader.downloadIndex(
@@ -41,14 +33,19 @@ class V1Syncable(
                 },
             )
             if (jar.length() == 0L) {
-                block(SyncState.IndexDownload.Failure(repo.id, IllegalStateException("Empty v1 index jar")))
+                block(
+                    SyncState.IndexDownload.Failure(
+                        repo.id,
+                        IllegalStateException("Empty v1 index jar")
+                    )
+                )
                 return@withContext
             } else {
                 block(SyncState.IndexDownload.Success(repo.id))
             }
             val (fingerprint, indexV1) = try {
-                parser.parse(jar, repo)
-            } catch (t: Throwable) {
+                jar.toJarFile().parseJson<IndexV1>(repo.fingerprint)
+            } catch (t: Exception) {
                 block(SyncState.JarParsing.Failure(repo.id, t))
                 return@withContext
             } finally {

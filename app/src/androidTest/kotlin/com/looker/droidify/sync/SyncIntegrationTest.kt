@@ -6,14 +6,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.data.model.VersionInfo
-import com.looker.droidify.sync.common.IndexJarValidator
 import com.looker.droidify.sync.common.Izzy
-import com.looker.droidify.sync.common.JsonParser
-import com.looker.droidify.sync.v1.V1Parser
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v1.model.IndexV1
 import com.looker.droidify.sync.v2.EntrySyncable
-import com.looker.droidify.sync.v2.V2Parser
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
 import kotlin.test.assertEquals
@@ -53,18 +49,12 @@ class SyncIntegrationTest {
     private lateinit var context: Context
     private lateinit var v1Syncable: Syncable<IndexV1>
     private lateinit var entrySyncable: Syncable<Entry>
-    private lateinit var v1Parser: Parser<IndexV1>
-    private lateinit var v2Parser: Parser<IndexV2>
-    private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
 
     @Before
     fun setup() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
-        validator = IndexJarValidator(dispatcher)
-        v1Parser = V1Parser(dispatcher, JsonParser, validator)
-        v2Parser = V2Parser(dispatcher, JsonParser)
         v1Syncable = V1Syncable(context, FakeDownloader, dispatcher)
         entrySyncable = EntrySyncable(context, FakeDownloader, dispatcher)
 
@@ -130,8 +120,10 @@ class SyncIntegrationTest {
         println("[DEBUG_LOG] Consistency percentage: $consistencyPercentage%")
 
         // Verify that at least 80% of packages are consistent between V1 and V2
-        assertTrue(consistencyPercentage >= 80.0,
-            "At least 80% of packages should be consistent between V1 and V2 indexes (actual: $consistencyPercentage%)")
+        assertTrue(
+            consistencyPercentage >= 80.0,
+            "At least 80% of packages should be consistent between V1 and V2 indexes (actual: $consistencyPercentage%)"
+        )
     }
 
     /**
@@ -148,7 +140,7 @@ class SyncIntegrationTest {
 
         // Update the repo's timestamp to the initial index timestamp
         val updatedRepo = repo.copy(
-            versionInfo = VersionInfo(initialIndex!!.repo.timestamp, null)
+            versionInfo = VersionInfo(initialIndex.repo.timestamp, null)
         )
 
         // Sync again with the updated timestamp

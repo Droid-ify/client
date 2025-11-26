@@ -1,7 +1,7 @@
 package com.looker.droidify.data.local.converters
 
 import androidx.room.TypeConverter
-import com.looker.droidify.sync.common.JsonParser
+import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.v2.model.LocalizedString
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.MapSerializer

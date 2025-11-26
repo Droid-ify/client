@@ -4,16 +4,13 @@ import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.sync.common.IndexJarValidator
 import com.looker.droidify.sync.common.Izzy
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
-import com.looker.droidify.sync.v1.V1Parser
+import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v1.model.IndexV1
-import com.looker.droidify.sync.v2.V2Parser
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.MetadataV2
@@ -37,18 +34,12 @@ class V1SyncableTest {
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var context: Context
     private lateinit var syncable: Syncable<IndexV1>
-    private lateinit var parser: Parser<IndexV1>
-    private lateinit var v2Parser: Parser<IndexV2>
-    private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
 
     @Before
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
-        validator = IndexJarValidator(dispatcher)
-        parser = V1Parser(dispatcher, JsonParser, validator)
-        v2Parser = V2Parser(dispatcher, JsonParser)
         syncable = V1Syncable(context, FakeDownloader, dispatcher)
         repo = Izzy
     }
@@ -66,10 +57,7 @@ class V1SyncableTest {
         val file = FakeDownloader.downloadIndex(context, repo, "izzy", "index-v1.jar")
         val output = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
-                    file = file,
-                    repo = repo
-                )
+                file.toJarFile().parseJson<IndexV1>(repo.fingerprint)
             }
         }
         println(output)
@@ -81,18 +69,12 @@ class V1SyncableTest {
         val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
         val output1 = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
-                    file = v1File,
-                    repo = repo
-                )
+                v1File.toJarFile().parseJson<IndexV1>(repo.fingerprint)
             }
         }
         val output2 = benchmark(10) {
             measureTimeMillis {
-                v2Parser.parse(
-                    file = v2File,
-                    repo = repo,
-                )
+                JsonParser.decodeFromString<IndexV2>(v2File.readBytes().decodeToString())
             }
         }
         println(output1)
@@ -110,8 +92,9 @@ class V1SyncableTest {
             FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2-updated.json")
         val v2FdroidFile =
             FakeDownloader.downloadIndex(context, repo, "fdroid-v2", "fdroid-index-v2.json")
-        val (_, v2Izzy) = v2Parser.parse(v2IzzyFile, repo)
-        val (_, v2Fdroid) = v2Parser.parse(v2FdroidFile, repo)
+        val v2Izzy = JsonParser.decodeFromString<IndexV2>(v2IzzyFile.readBytes().decodeToString())
+        val v2Fdroid =
+            JsonParser.decodeFromString<IndexV2>(v2FdroidFile.readBytes().decodeToString())
 
         val performTest: (PackageV2) -> Unit = { data ->
             print("lib: ")
@@ -145,10 +128,11 @@ class V1SyncableTest {
     ) {
         val fileV1 = FakeDownloader.downloadIndex(context, repo, "data-v1", v1)
         val fileV2 = FakeDownloader.downloadIndex(context, repo, "data-v2", v2)
-        val (fingerV1, foundIndexV1) = parser.parse(fileV1, repo)
-        val (fingerV2, expectedIndex) = v2Parser.parse(fileV2, repo)
+        val (fingerV1, foundIndexV1) = fileV1.toJarFile().parseJson<IndexV1>(repo.fingerprint)
+        val expectedIndex =
+            JsonParser.decodeFromString<IndexV2>(fileV2.readBytes().decodeToString())
         val foundIndex = foundIndexV1.toV2()
-        assertEquals(fingerV2, fingerV1)
+        assertEquals(repo.fingerprint, fingerV1)
         assertNotNull(foundIndex)
         assertNotNull(expectedIndex)
         assertEquals(expectedIndex.repo.timestamp, foundIndex.repo.timestamp)

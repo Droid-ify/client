@@ -5,13 +5,11 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.sync.common.IndexJarValidator
 import com.looker.droidify.sync.common.Izzy
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
-import com.looker.droidify.sync.v2.EntryParser
+import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
@@ -49,8 +47,6 @@ class EntrySyncableTest {
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var context: Context
     private lateinit var syncable: Syncable<Entry>
-    private lateinit var parser: Parser<Entry>
-    private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
     private lateinit var newIndex: IndexV2
 
@@ -63,8 +59,6 @@ class EntrySyncableTest {
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
-        validator = IndexJarValidator(dispatcher)
-        parser = EntryParser(dispatcher, JsonParser, validator)
         syncable = EntrySyncable(context, FakeDownloader, dispatcher)
         newIndex = JsonParser.decodeFromStream<IndexV2>(assets("izzy_index_v2_updated.json"))
         repo = Izzy
@@ -82,15 +76,15 @@ class EntrySyncableTest {
     fun benchmark_entry_parser() = runTest(dispatcher) {
         val output = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
-                    file = FakeDownloader.downloadIndex(
+                FakeDownloader
+                    .downloadIndex(
                         context = context,
                         repo = repo,
                         fileName = "izzy",
                         url = "entry.jar"
-                    ),
-                    repo = repo
-                )
+                    )
+                    .toJarFile()
+                    .parseJson<Entry>(repo.fingerprint)
             }
         }
         println(output)
