@@ -1,0 +1,24 @@
+Hinzugefügt:
+- Fortschrittsbalken bei der Synchronisierung
+- Paketquelle IronFox
+- Video zur Screenshot-Liste
+- Dialogfeld zur Benachrichtigung über Shizuku-Berechtigungsprobleme
+- Ziel-SDK im Release-Eintrag
+
+Behoben:
+- Persistente Installationsbenachrichtigung
+- Parsen des Spendenlinks
+- Updates bei übersprungener Signaturprüfung
+- Beim Hinzufügen einer Paketquelle ein Suffix hinzufügt
+- Screenshots für passwortgeschützte Paketquelle 
+
+Geändert:
+- Shizuku-Berechtigung wird bei Verlust der Berechtigung nicht mehr zurückgesetzt
+- Animation der Fortschrittsanzeige
+
+Verbesserungen:
+- Allgemeine Leistungsverbesserung
+- Benutzeroberfläche zum Bearbeiten von Paketquellen
+
+Entfernt:
+- Nicht verwendete Abhängigkeiten
