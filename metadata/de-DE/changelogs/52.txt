@@ -1,0 +1,34 @@
+## Änderungen an der Benutzeroberfläche
+- Hinzugefügt: Material-You-Unterstützung
+- Hinzugefügt: Edge-to-Edge-Unterstützung (Android 11+)
+- Hinzugefügt: Snackbar, wenn die Adresse ungültig ist
+- Hinzugefügt: Snackbar zum Darstellen der Internetverbindung
+- Hinzugefügt: Indikator für installierte Apps
+- Hinzugefügt: Favoritenliste [Im Menü]
+- Hinzugefügt: App-Leistensteuerung
+- Hinzugefügt: Neues Fehlersymbol
+- Verbessert: Seite „Paketquellendetails“
+- Verbessert: Seite „Paketquellenliste“
+- Behoben: Designwechsel
+- Behoben: App-Leiste scrollt nicht
+- Behoben: Farbe der Navigationsleiste
+
+## Core
+- Hinzugefügt: Favoritenliste im Menü
+- Hinzugefügt: Bereinigungsoption „Nie“
+- Hinzugefügt: Session- und FluffyChat-Paketquelle
+- Entfernt: Einige tote Paketquellen
+- Entfernt: Unterstützung für veraltetes „index.xml“ (aus Sicherheitsgründen)
+- Behoben: Viele Installerfehler
+- Behoben: App in Android TV nicht sichtbar
+- Behoben: Sehr störender willkürlicher Absturz
+- Behoben: Shizuku- und Root-Installer
+
+## Sonstiges
+- Besseres Benachrichtigungssymbol für Installation
+- Bei Klick auf das App-Symbol können Autor und Paketname gewechselt werden
+- Legacy-Installationsprogramm bei erstmaligen MiUi-Benutzern verwenden
+- Shizuku unterstützt nicht länger Versionen vor Android 11
+- Behoben: Installationsdialog nicht sichtbar, wenn die Benachrichtigung angetippt wird
+- Behoben: Absturz bei falscher Paketquellenadresse
+- Behoben: Kein Zurück-Schalter auf der Einstellungsseite

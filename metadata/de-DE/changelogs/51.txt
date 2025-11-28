@@ -1,4 +1,4 @@
-- „Zum Anfang scrollen“ scrollt nun flüssig
+- Scrollen zum Anfang scrollt nun flüssig
 - Einige Sprachen wurden aktualisiert:
 -
     Odja

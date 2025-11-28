@@ -8,7 +8,7 @@
 - „Quellcode” zum Abschnitt „Links” hinzugefügt
 - Root/Shizuku Installer korrigiert (Der Shizuku Installer ist aktuell sehr fehlerhaft)
 - Willkürlichen Absturz beim Zurückkehren zur App behoben
-- Alefvanoon-Repository entfernt
+- Alefvanoon-Paketquelle entfernt
 - Doppelten Installationshinweis behoben
 - App-Header wird hervorgehoben, wenn die App aktualisiert werden muss
 - Schaltfläche „Nach oben scrollen“ hinzugefügt

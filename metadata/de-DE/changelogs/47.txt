@@ -2,7 +2,7 @@
 - Mindestversion für Android auf Android 6 erhöht
 - „Weniger anzeigen” korrigiert (#15)
 - Lokalisiertes Datumsformat (#24)
-- UnifiedPush-Repository entfernt (#23)
+- UnifiedPush-Paketquelle entfernt (#23)
 - Neuer Appinfo-Header
 - Abgerundete obere Leiste
 - Benachrichtigung öffnet die App-Seite

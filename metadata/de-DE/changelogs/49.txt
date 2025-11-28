@@ -1,2 +1,2 @@
-- Merkwürdigen Symbolumwandlung behoben #83
-- Absturzes behoben, wenn das Repository einen beschädigten Index bereitstellt #77
+- Seltsame Symbolumwandlung behoben #83
+- Absturz behoben, wenn die Paketquelle einen beschädigten Index bereitstellt #77
