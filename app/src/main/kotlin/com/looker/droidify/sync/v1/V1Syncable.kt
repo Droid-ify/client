@@ -2,6 +2,7 @@ package com.looker.droidify.sync.v1
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.check
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.sync.SyncState
@@ -9,8 +10,7 @@ import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.INDEX_V1_NAME
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
-import com.looker.droidify.sync.parseJson
-import com.looker.droidify.sync.utils.toJarFile
+import com.looker.droidify.sync.toJarScope
 import com.looker.droidify.sync.v1.model.IndexV1
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
@@ -43,22 +43,32 @@ class V1Syncable(
             } else {
                 block(SyncState.IndexDownload.Success(repo.id))
             }
-            val (fingerprint, indexV1) = try {
-                jar.toJarFile().parseJson<IndexV1>(repo.fingerprint)
-            } catch (t: Exception) {
-                block(SyncState.JarParsing.Failure(repo.id, t))
-                return@withContext
-            } finally {
-                jar.delete()
+            with(jar.toJarScope<IndexV1>()) {
+                when {
+                    fingerprint == null -> block(
+                        SyncState.JarParsing.Failure(
+                            repo.id,
+                            IllegalStateException("Jar entry does not contain a fingerprint")
+                        )
+                    )
+
+                    repo.fingerprint != null && !repo.fingerprint.check(fingerprint!!) -> block(
+                        SyncState.JarParsing.Failure(
+                            repo.id,
+                            IllegalStateException("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $fingerprint")
+                        )
+                    )
+
+                    else -> block(
+                        SyncState.JsonParsing.Success(
+                            repo.id,
+                            fingerprint!!,
+                            json().toV2()
+                        )
+                    )
+                }
             }
-            block(SyncState.JarParsing.Success(repo.id, fingerprint))
-            val indexV2 = try {
-                indexV1.toV2()
-            } catch (t: Throwable) {
-                block(SyncState.JsonParsing.Failure(repo.id, t))
-                return@withContext
-            }
-            block(SyncState.JsonParsing.Success(repo.id, fingerprint, indexV2))
+            jar.delete()
         } catch (t: Throwable) {
             block(SyncState.IndexDownload.Failure(repo.id, t))
         }

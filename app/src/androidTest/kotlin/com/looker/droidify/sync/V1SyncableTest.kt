@@ -8,7 +8,6 @@ import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
-import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v1.model.IndexV1
 import com.looker.droidify.sync.v2.model.FileV2
@@ -57,7 +56,7 @@ class V1SyncableTest {
         val file = FakeDownloader.downloadIndex(context, repo, "izzy", "index-v1.jar")
         val output = benchmark(10) {
             measureTimeMillis {
-                file.toJarFile().parseJson<IndexV1>(repo.fingerprint)
+                with(file.toJarScope<IndexV1>()) { json() }
             }
         }
         println(output)
@@ -69,7 +68,7 @@ class V1SyncableTest {
         val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
         val output1 = benchmark(10) {
             measureTimeMillis {
-                v1File.toJarFile().parseJson<IndexV1>(repo.fingerprint)
+                with(v1File.toJarScope<IndexV1>()) { json() }
             }
         }
         val output2 = benchmark(10) {
@@ -128,11 +127,10 @@ class V1SyncableTest {
     ) {
         val fileV1 = FakeDownloader.downloadIndex(context, repo, "data-v1", v1)
         val fileV2 = FakeDownloader.downloadIndex(context, repo, "data-v2", v2)
-        val (fingerV1, foundIndexV1) = fileV1.toJarFile().parseJson<IndexV1>(repo.fingerprint)
+        val foundIndexV1 = with(fileV1.toJarScope<IndexV1>()) { json() }
         val expectedIndex =
             JsonParser.decodeFromString<IndexV2>(fileV2.readBytes().decodeToString())
         val foundIndex = foundIndexV1.toV2()
-        assertEquals(repo.fingerprint, fingerV1)
         assertNotNull(foundIndex)
         assertNotNull(expectedIndex)
         assertEquals(expectedIndex.repo.timestamp, foundIndex.repo.timestamp)

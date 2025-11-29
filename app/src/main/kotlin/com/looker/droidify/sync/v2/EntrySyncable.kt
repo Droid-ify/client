@@ -2,16 +2,17 @@ package com.looker.droidify.sync.v2
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.check
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
+import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
 import com.looker.droidify.sync.common.ENTRY_V2_NAME
 import com.looker.droidify.sync.common.INDEX_V2_NAME
 import com.looker.droidify.sync.common.downloadIndex
-import com.looker.droidify.sync.parseJson
-import com.looker.droidify.sync.utils.toJarFile
+import com.looker.droidify.sync.toJarScope
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.IndexV2Diff
@@ -56,7 +57,17 @@ class EntrySyncable(
                 block(SyncState.IndexDownload.Success(repo.id))
             }
             val (fingerprint, entry) = try {
-                jar.toJarFile().parseJson<Entry>(repo.fingerprint)
+                with(jar.toJarScope<Entry>()) {
+                    val output = json()
+                    val jarFingerprint = fingerprint
+                        ?: invalid("Jar entry does not contain a fingerprint")
+
+                    if (repo.fingerprint != null && !repo.fingerprint.check(jarFingerprint)) {
+                        invalid("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $jarFingerprint")
+                    }
+
+                    (repo.fingerprint ?: jarFingerprint) to output
+                }
             } catch (t: Throwable) {
                 block(SyncState.JarParsing.Failure(repo.id, t))
                 return@withContext

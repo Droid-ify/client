@@ -5,11 +5,12 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.check
+import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
-import com.looker.droidify.sync.utils.toJarFile
 import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
@@ -75,16 +76,24 @@ class EntrySyncableTest {
     @Test
     fun benchmark_entry_parser() = runTest(dispatcher) {
         val output = benchmark(10) {
+            val file = FakeDownloader.downloadIndex(
+                context = context,
+                repo = repo,
+                fileName = "izzy",
+                url = "entry.jar"
+            )
             measureTimeMillis {
-                FakeDownloader
-                    .downloadIndex(
-                        context = context,
-                        repo = repo,
-                        fileName = "izzy",
-                        url = "entry.jar"
-                    )
-                    .toJarFile()
-                    .parseJson<Entry>(repo.fingerprint)
+                with(file.toJarScope<Entry>()) {
+                    val output = json()
+                    val jarFingerprint =
+                        fingerprint ?: invalid("Jar entry does not contain a fingerprint")
+
+                    if (repo.fingerprint != null && !repo.fingerprint!!.check(jarFingerprint)) {
+                        invalid("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $jarFingerprint")
+                    }
+
+                    (repo.fingerprint ?: jarFingerprint) to output
+                }
             }
         }
         println(output)
