@@ -2,7 +2,6 @@ package com.looker.droidify.sync.v2
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.data.model.check
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.network.validation.invalid
@@ -62,7 +61,7 @@ class EntrySyncable(
                     val jarFingerprint = fingerprint
                         ?: invalid("Jar entry does not contain a fingerprint")
 
-                    if (repo.fingerprint != null && !repo.fingerprint.check(jarFingerprint)) {
+                    if (repo.fingerprint != null && !repo.fingerprint.assert(jarFingerprint)) {
                         invalid("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $jarFingerprint")
                     }
 

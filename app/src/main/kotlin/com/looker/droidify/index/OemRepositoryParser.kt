@@ -1,7 +1,8 @@
 package com.looker.droidify.index
 
 import android.util.Xml
-import com.looker.droidify.data.model.fingerprint
+import com.looker.droidify.data.encryption.sha256
+import com.looker.droidify.data.model.hex
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.Repository.Companion.defaultRepository
 import java.io.File
@@ -48,8 +49,19 @@ object OemRepositoryParser {
             version = xml[3].toInt(),
             enabled = xml[4].toInt() > 0,
             fingerprint = xml[6].let {
-                if (it.length > 32) it.fingerprint().value
-                else it
+                if (it.length > 32) {
+                    val encoded = it
+                        .chunked(2)
+                        .mapNotNull { byteStr ->
+                            try {
+                                byteStr.toInt(16).toByte()
+                            } catch (_: NumberFormatException) {
+                                null
+                            }
+                        }
+                        .toByteArray()
+                    sha256(encoded).hex()
+                } else it
             },
             authentication = "",
         )

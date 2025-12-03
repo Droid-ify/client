@@ -2,7 +2,6 @@ package com.looker.droidify.sync.v1
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.data.model.check
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.sync.SyncState
@@ -52,7 +51,7 @@ class V1Syncable(
                         )
                     )
 
-                    repo.fingerprint != null && !repo.fingerprint.check(fingerprint!!) -> block(
+                    repo.fingerprint != null && !repo.fingerprint.assert(fingerprint!!) -> block(
                         SyncState.JarParsing.Failure(
                             repo.id,
                             IllegalStateException("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $fingerprint")

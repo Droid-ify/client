@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.data.model.check
 import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.assets
@@ -88,7 +87,7 @@ class EntrySyncableTest {
                     val jarFingerprint =
                         fingerprint ?: invalid("Jar entry does not contain a fingerprint")
 
-                    if (repo.fingerprint != null && !repo.fingerprint!!.check(jarFingerprint)) {
+                    if (repo.fingerprint != null && !repo.fingerprint!!.assert(jarFingerprint)) {
                         invalid("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $jarFingerprint")
                     }
 

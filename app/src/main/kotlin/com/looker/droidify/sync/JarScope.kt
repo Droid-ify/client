@@ -1,6 +1,7 @@
 package com.looker.droidify.sync
 
 import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.fingerprint
 import com.looker.droidify.sync.v1.model.IndexV1
 import com.looker.droidify.sync.v2.model.Entry
 import java.io.File
@@ -34,7 +35,7 @@ inline fun <reified T> File.toJarScope(): JarScope<T> = object : JarScope<T> {
 
     override val fingerprint: Fingerprint?
         get() {
-            if (!isFingerprintSet) error("Read the entry before reading fingerprint")
+            require(isFingerprintSet) { "Read the entry before reading fingerprint" }
             return internalFingerprint
         }
 
@@ -44,8 +45,10 @@ inline fun <reified T> File.toJarScope(): JarScope<T> = object : JarScope<T> {
                 JsonParser.decodeFromStream(stream)
             }
         } finally {
-            internalFingerprint = Fingerprint(entry).takeIf { it?.isValid == true}
-            isFingerprintSet = true
+            if (!isFingerprintSet) {
+                internalFingerprint = entry.fingerprint()
+                isFingerprintSet = true
+            }
         }
     }
 }

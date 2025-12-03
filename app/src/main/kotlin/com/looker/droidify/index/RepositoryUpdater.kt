@@ -343,12 +343,11 @@ object RepositoryUpdater {
                     )
                 }
 
-                val fingerprint = indexEntry
-                    .codeSigner
-                    .certificate
-                    .fingerprint()
-                    .toString()
-                    .uppercase()
+                val fingerprint = indexEntry.codeSigner.certificate.fingerprint()?.value?.uppercase()
+                    ?: throw UpdateException(
+                        ErrorType.VALIDATION,
+                        "No or invalid fingerprint found, invalid repo index",
+                    )
 
                 val commitRepository = if (!workRepository.fingerprint.equals(
                         fingerprint,
