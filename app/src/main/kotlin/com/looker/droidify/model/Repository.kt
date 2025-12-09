@@ -396,6 +396,13 @@ data class Repository(
                 name = "Brave Browser Nightly",
                 description = "The official repository for Brave Nightly releases. ",
                 fingerprint = "1735E2323FDE104A74F16D31C062DF75C30E79A706292FABEA1F94E6AF06EE62"
+            ),
+            defaultRepository(
+                address = "https://fdroid.cgeo.org/fdroid/repo",
+                name = "c:geo Mainline",
+                description = "The official repository for c:geo: " +
+                    "An open-source, full-featured, always ready-to-go Geocaching application.",
+                fingerprint = "370BB4D550C391D5DCCB6C81FD82FDA4892964764E085A09B7E075E9BAD5ED98"
             )
         )
 
