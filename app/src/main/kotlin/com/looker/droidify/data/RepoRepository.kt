@@ -7,6 +7,8 @@ import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AuthenticationEntity
+import com.looker.droidify.data.local.model.LocalizedRepoDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedRepoNameEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.toAuthentication
 import com.looker.droidify.data.local.model.toRepo
@@ -71,7 +73,7 @@ class RepoRepository @Inject constructor(
         val enabled = id in settings.first().enabledRepoIds
         val mirrors = getMirrors(id)
         val name = repoDao.name(id, currentLocale) ?: repoEntity.address
-        val description = repoDao.description(id, currentLocale) ?: "..."
+        val description = repoDao.description(id, currentLocale) ?: ""
         val icon = repoDao.icon(id, currentLocale)?.icon?.name
         return repoEntity.toRepo(
             mirrors = mirrors,
@@ -92,7 +94,7 @@ class RepoRepository @Inject constructor(
         val mirrors = getMirrors(id)
         val currentLocale = locale.first()
         val name = repoDao.name(id, currentLocale) ?: repo?.address ?: "Unknown"
-        val description = repoDao.description(id, currentLocale) ?: "..."
+        val description = repoDao.description(id, currentLocale) ?: ""
         val icon = repoDao.icon(id, currentLocale)?.icon?.name
         repo?.toRepo(
             mirrors = mirrors,
@@ -115,7 +117,7 @@ class RepoRepository @Inject constructor(
         val currentLocale = locale.first()
         repos.map { repoEntity ->
             val name = repoDao.name(repoEntity.id, currentLocale) ?: repoEntity.address
-            val description = repoDao.description(repoEntity.id, currentLocale) ?: "..."
+            val description = repoDao.description(repoEntity.id, currentLocale) ?: ""
             val icon = repoDao.icon(repoEntity.id, currentLocale)?.icon?.name
             repoEntity.toRepo(
                 mirrors = emptyList(),
@@ -140,11 +142,19 @@ class RepoRepository @Inject constructor(
         .get { enabledRepoIds }
         .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId) } }
 
+    suspend fun insertRepoData(
+        name: String,
+        description: String,
+    ) {
+    }
+
     suspend fun insertRepo(
         address: String,
         fingerprint: String?,
         username: String?,
         password: String?,
+        name: String? = null,
+        description: String? = null,
     ) {
         val id = indexDao.insertRepo(
             RepoEntity(
@@ -154,6 +164,17 @@ class RepoRepository @Inject constructor(
                 webBaseUrl = address,
             ),
         )
+        if (name != null) {
+            indexDao.insertLocalizedRepoNames(
+                listOf(LocalizedRepoNameEntity(id.toInt(), "en-US", name))
+            )
+        }
+
+        if (description != null) {
+            indexDao.insertLocalizedRepoDescription(
+                listOf(LocalizedRepoDescriptionEntity(id.toInt(), "en-US", description))
+            )
+        }
         if (password != null && username != null) {
             val key = keyStream.first()
             val (encrypted, iv) = key.encrypt(password)
@@ -191,7 +212,7 @@ class RepoRepository @Inject constructor(
         var success = false
         var parsedFingerprint: Fingerprint? = null
         var parsedIndex: IndexV2? = null
-        v2Syncable.sync(repo) { state ->
+        localSyncable.sync(repo) { state ->
             onState?.invoke(state)
             when (state) {
                 is SyncState.JsonParsing.Success -> {

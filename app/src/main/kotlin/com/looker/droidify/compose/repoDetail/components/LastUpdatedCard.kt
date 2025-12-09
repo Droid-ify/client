@@ -30,19 +30,19 @@ import java.util.*
 
 @Composable
 fun LastUpdatedCard(
-    timestamp: Long,
+    timestamp: Long?    ,
     modifier: Modifier = Modifier,
 ) {
     val lastUpdated = remember(timestamp) {
         buildAnnotatedString {
-            append("Last synced: ")
+            append("Last updated: ")
             withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
-                append(formatDate(timestamp))
+                timestamp?.let { append(formatDate(it)) }
             }
         }
     }
 
-    val isToday by remember(timestamp) { derivedStateOf { isToday(timestamp) } }
+    val isToday by remember(timestamp) { derivedStateOf { isToday(timestamp ?: 0) } }
     val transition = updateTransition(isToday)
     val backgroundColor by transition.animateColor {
         if (it) {

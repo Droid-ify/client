@@ -1,5 +1,6 @@
 package com.looker.droidify.compose.repoDetail
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,10 +19,10 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconToggleButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedIconToggleButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -38,6 +39,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -48,11 +50,13 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withLink
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import coil3.compose.AsyncImage
 import com.looker.droidify.R
 import com.looker.droidify.compose.repoDetail.components.LastUpdatedCard
+import com.looker.droidify.compose.repoList.GrayScaleColorFilter
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.utility.text.toAnnotatedString
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -148,6 +152,7 @@ private fun RepoDetails(
         AsyncImage(
             model = repo.icon?.path,
             contentDescription = null,
+            colorFilter = if (repo.enabled) null else GrayScaleColorFilter,
             modifier = Modifier
                 .size(64.dp)
                 .clip(MaterialTheme.shapes.small),
@@ -179,17 +184,26 @@ private fun RepoDetails(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            text = repo.description,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        AnimatedVisibility(repo.description.isNotEmpty()) {
+            val handler = LocalUriHandler.current
+            Column {
+                Text(
+                    text = repo.description.toAnnotatedString(
+                        onUrlClick = { handler.openUri(it) }
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
 
-        Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
 
-        if (repo.versionInfo != null) {
-            LastUpdatedCard(repo.versionInfo.timestamp)
-            Spacer(modifier = Modifier.height(8.dp))
+        AnimatedVisibility(repo.versionInfo != null) {
+            Column {
+                LastUpdatedCard(repo.versionInfo?.timestamp)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
         }
 
         FingerprintCard(
@@ -199,11 +213,11 @@ private fun RepoDetails(
 
         Spacer(Modifier.weight(1F))
 
-        OutlinedIconToggleButton(
+        FilledIconToggleButton(
             checked = repo.enabled,
             onCheckedChange = onToggle,
             modifier = Modifier
-                .size(width = 128.dp, height = 48.dp)
+                .size(128.dp)
                 .align(Alignment.CenterHorizontally),
         ) {
             Icon(

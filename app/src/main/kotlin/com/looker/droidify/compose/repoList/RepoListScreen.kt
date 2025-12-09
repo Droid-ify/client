@@ -26,6 +26,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -34,6 +36,7 @@ import coil3.compose.AsyncImage
 import com.looker.droidify.R
 import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.utility.text.toAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -83,6 +86,7 @@ private fun RepoItem(
         AsyncImage(
             model = repo.icon?.path,
             contentDescription = null,
+            colorFilter = if (repo.enabled) null else GrayScaleColorFilter,
             modifier = Modifier
                 .fillMaxHeight()
                 .aspectRatio(1F, true)
@@ -94,13 +98,15 @@ private fun RepoItem(
                 text = repo.name,
                 maxLines = 1,
             )
-            Text(
-                text = repo.description,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 2,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            if (repo.description.isNotEmpty()) {
+                Text(
+                    text = repo.description.toAnnotatedString { },
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
         }
         Spacer(modifier = Modifier.size(8.dp))
         FilledIconToggleButton(
@@ -112,3 +118,5 @@ private fun RepoItem(
         Spacer(modifier = Modifier.size(16.dp))
     }
 }
+
+val GrayScaleColorFilter = ColorFilter.colorMatrix(ColorMatrix().apply { setToSaturation(0f) })

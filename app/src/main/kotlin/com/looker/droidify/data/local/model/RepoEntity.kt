@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import com.looker.droidify.data.model.Authentication
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Html
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.data.model.VersionInfo
 import com.looker.droidify.sync.v2.model.RepoV2
@@ -44,7 +45,7 @@ fun RepoEntity.toRepo(
 ) = Repo(
     icon = FilePath(address, icon),
     name = name,
-    description = description,
+    description = Html(description),
     fingerprint = fingerprint,
     authentication = authentication,
     enabled = enabled,

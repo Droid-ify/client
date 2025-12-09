@@ -43,7 +43,7 @@ class MainComposeActivity : ComponentActivity() {
         lifecycleScope.launch {
             if (repository.repos.first().isEmpty()) {
                 Repository.defaultRepositories.forEach {
-                    repository.insertRepo(it.address, it.fingerprint, null, null)
+                    repository.insertRepo(it.address, it.fingerprint, null, null, it.name, it.description)
                 }
             }
         }

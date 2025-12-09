@@ -6,7 +6,7 @@ data class Repo(
     val address: String,
     val icon: FilePath?,
     val name: String,
-    val description: String,
+    val description: Html,
     val fingerprint: Fingerprint?,
     val authentication: Authentication?,
     val versionInfo: VersionInfo?,
