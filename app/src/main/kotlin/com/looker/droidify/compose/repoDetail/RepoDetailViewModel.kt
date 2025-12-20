@@ -25,16 +25,6 @@ class RepoDetailViewModel @Inject constructor(
 
     val repo = repoRepository.repo(repoId).asStateFlow(null)
 
-    private val syncConnection = Connection(SyncService::class.java)
-
-    fun bindService(context: Context) {
-        syncConnection.bind(context)
-    }
-
-    fun unbindService(context: Context) {
-        syncConnection.unbind(context)
-    }
-
     fun enableRepository(enable: Boolean) {
         viewModelScope.launch {
             repo.value?.let { repoRepository.enableRepository(it, enable) }
