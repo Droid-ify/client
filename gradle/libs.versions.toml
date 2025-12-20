@@ -1,29 +1,29 @@
 [versions]
 desugaring = "2.1.5"
-agp = "8.13.1"
+agp = "8.13.2"
 material = "1.12.0"
 activity = "1.11.0"
 app-compat = "1.7.1"
 core = "1.17.0"
-datastore = "1.1.7"
+datastore = "1.2.0"
 fragment = "1.8.9"
-lifecycle = "2.9.4"
+lifecycle = "2.10.0"
 recycler-view = "1.4.0"
 sqlite = "2.6.2"
 test-ext = "1.3.0"
 test-rules = "1.7.0"
 test-runner = "1.7.0"
-work = "2.10.5"
+work = "2.11.0"
 coil = "3.3.0"
 leakcanary = "2.14"
 hilt = "2.57.2"
 hiltExt = "1.3.0"
 jackson = "2.20.1"
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 coroutines = "1.10.2"
 datetime = "0.7.1"
 serialization = "1.9.0"
-ksp = "2.2.20-2.0.4"
+ksp = "2.3.4"
 ktor = "3.3.3"
 libsu = "6.0.0"
 room = "2.8.4"
@@ -33,8 +33,7 @@ junit-jupiter = "6.0.1"
 robolectric = "4.16"
 test-core = "1.7.0"
 arch-core-testing = "2.2.0"
-compose-bom = "2025.12.00"
-compose-activity = "1.11.0"
+compose-bom = "2025.12.01"
 compose-navigation = "2.9.6"
 
 [libraries]
@@ -104,7 +103,7 @@ compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 # TODO check https://developer.android.com/develop/ui/compose/graphics/images/material the icons library shouldn't be used anymore
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-icons = { group = "androidx.compose.material", name = "material-icons-core" }
-compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "compose-activity" }
+compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }
 compose-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
