@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
@@ -27,6 +28,7 @@ import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.model.Repository
+import com.looker.droidify.utility.common.requestNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first
@@ -38,6 +40,9 @@ class MainComposeActivity : ComponentActivity() {
     @Inject
     lateinit var repository: RepoRepository
 
+    private val notificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lifecycleScope.launch {
@@ -48,6 +53,7 @@ class MainComposeActivity : ComponentActivity() {
             }
         }
         enableEdgeToEdge()
+        requestNotificationPermission(request = notificationPermission::launch)
         setContent {
             DroidifyTheme {
                 val navController = rememberNavController()
