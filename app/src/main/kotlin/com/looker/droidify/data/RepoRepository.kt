@@ -142,12 +142,6 @@ class RepoRepository @Inject constructor(
         .get { enabledRepoIds }
         .map { ids -> ids.mapNotNull { repoId -> getRepo(repoId) } }
 
-    suspend fun insertRepoData(
-        name: String,
-        description: String,
-    ) {
-    }
-
     suspend fun insertRepo(
         address: String,
         fingerprint: String?,
@@ -212,7 +206,7 @@ class RepoRepository @Inject constructor(
         var success = false
         var parsedFingerprint: Fingerprint? = null
         var parsedIndex: IndexV2? = null
-        localSyncable.sync(repo) { state ->
+        v2Syncable.sync(repo) { state ->
             onState?.invoke(state)
             when (state) {
                 is SyncState.JsonParsing.Success -> {
