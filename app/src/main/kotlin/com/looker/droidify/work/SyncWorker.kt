@@ -25,6 +25,7 @@ import com.looker.droidify.sync.SyncState
 import com.looker.droidify.utility.common.createNotificationChannel
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import io.ktor.client.utils.unwrapCancellationException
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
@@ -48,7 +49,8 @@ class SyncWorker @AssistedInject constructor(
                 if (repo != null) {
                     setForeground(createForegroundInfo(repo.name, -1))
                     repoRepository.sync(repo) { state ->
-                        val progress=  if (state is SyncState.IndexDownload.Progress) state.progress else -1
+                        val progress =
+                            if (state is SyncState.IndexDownload.Progress) state.progress else -1
                         setForegroundAsync(createForegroundInfo(repo.name, progress))
                     }
                 } else {
@@ -66,6 +68,7 @@ class SyncWorker @AssistedInject constructor(
                 Result.retry()
             }
         } catch (t: Throwable) {
+            t.unwrapCancellationException()
             Log.e(TAG, "Sync failed with exception", t)
             Result.retry()
         }
@@ -91,7 +94,7 @@ class SyncWorker @AssistedInject constructor(
             .setProgress(100, percent, percent == -1)
             .setSmallIcon(R.drawable.ic_sync)
             .setOngoing(true)
-            .addAction(android.R.drawable.ic_delete, cancel, intent)
+            .addAction(R.drawable.ic_cancel, cancel, intent)
             .build()
 
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
