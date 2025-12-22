@@ -35,6 +35,7 @@ test-core = "1.7.0"
 arch-core-testing = "2.2.0"
 compose-bom = "2025.12.01"
 compose-navigation = "2.9.6"
+vico = "2.2.1"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -91,6 +92,8 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
 # Compose dependencies
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -118,6 +121,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
+vico = ["vico-compose", "vico-compose-m3"]
 room = ["room-runtime", "room-ktx"]
 shizuku = ["shizuku-provider", "shizuku-api"]
 ktor = ["ktor-core", "ktor-okhttp"]
