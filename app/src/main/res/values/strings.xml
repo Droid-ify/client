@@ -250,4 +250,10 @@
     <string name="select_installer">Select installer</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Reproducible build badge</string>
+    <string name="total_downloads">Total downloads</string>
+    <string name="download_stats">Download Statistics</string>
+    <string name="download_stats_from_izzy">Source: IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">By Client</string>
+    <string name="monthly">Monthly</string>
 </resources>
