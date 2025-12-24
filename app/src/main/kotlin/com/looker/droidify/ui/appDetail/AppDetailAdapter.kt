@@ -46,6 +46,7 @@ import com.looker.droidify.R
 import com.looker.droidify.compose.appDetail.ReleaseItem
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.data.local.model.toReproducible
@@ -134,6 +135,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         LINK,
         PERMISSIONS,
         RELEASE,
+        DOWNLOAD_STATS,
         EMPTY
     }
 
@@ -362,6 +364,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 get() = ViewType.RELEASE
         }
 
+        class DownloadStatsItem(
+            val downloadStats: List<DownloadStats>,
+        ) : Item() {
+            override val descriptor: String
+                get() = "download_stats.${downloadStats.size}"
+
+            override val viewType: ViewType
+                get() = ViewType.DOWNLOAD_STATS
+        }
+
         class EmptyItem(val packageName: String, val repoAddress: String?) : Item() {
             override val descriptor: String
                 get() = "empty"
@@ -553,6 +565,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             get() = itemView as ComposeView
     }
 
+    private class DownloadStatsViewHolder(itemView: ComposeView) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+        }
+
+        val composeView: ComposeView
+            get() = itemView as ComposeView
+    }
+
     private class EmptyViewHolder(context: Context) :
         RecyclerView.ViewHolder(LinearLayout(context)) {
         val packageName = TextView(context)
@@ -683,6 +706,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
         rblogs: List<RBLogEntity>,
+        downloadStats: List<DownloadStats> = emptyList(),
         installedItem: InstalledItem?,
         isFavourite: Boolean,
         allowIncompatibleVersion: Boolean
@@ -862,6 +886,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             } else {
                 items += item
             }
+        }
+
+        if (downloadStats.isNotEmpty()) {
+            items += Item.DownloadStatsItem(downloadStats)
         }
 
         val linkItems = mutableListOf<Item>()
@@ -1205,6 +1233,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
 
             ViewType.RELEASE -> ReleaseViewHolderCompose(
+                ComposeView(parent.context)
+            ).apply {
+                composeView.layoutParams = RecyclerView.LayoutParams(
+                    RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT,
+                )
+            }
+
+            ViewType.DOWNLOAD_STATS -> DownloadStatsViewHolder(
                 ComposeView(parent.context)
             ).apply {
                 composeView.layoutParams = RecyclerView.LayoutParams(
@@ -1598,6 +1635,19 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                                     item.release.getDownloadUrl(item.repository)
                                 )
                             },
+                        )
+                    }
+                }
+            }
+
+            ViewType.DOWNLOAD_STATS -> {
+                holder as DownloadStatsViewHolder
+                item as Item.DownloadStatsItem
+
+                holder.composeView.setContent {
+                    DroidifyTheme {
+                        DownloadStatsSection(
+                            downloadStats = item.downloadStats,
                         )
                     }
                 }
