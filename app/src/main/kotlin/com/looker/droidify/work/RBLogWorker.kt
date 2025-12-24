@@ -29,7 +29,12 @@ class RBLogWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         runCatching {
-            fetchLogs()
+            context.tempFile { target ->
+                downloader.downloadToFile(url = BASE_URL, target = target)
+                val logs: Map<String, List<RBData>> =
+                    JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())
+                privacyRepository.upsertRBLogs(logs.toLogs())
+            }
         }.fold(
             onSuccess = { Result.success() },
             onFailure = {
@@ -37,16 +42,6 @@ class RBLogWorker @AssistedInject constructor(
                 Result.failure()
             },
         )
-    }
-
-    private suspend fun fetchLogs() {
-        withContext(Dispatchers.IO) {
-            context.tempFile { target ->
-                downloader.downloadToFile(url = BASE_URL, target = target)
-                val logs: Map<String, List<RBData>> = JsonParser.decodeFromString(target.readText())
-                privacyRepository.upsertRBLogs(logs.toLogs())
-            }
-        }
     }
 
     companion object {
