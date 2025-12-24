@@ -109,16 +109,6 @@ class DownloadStatsWorker @AssistedInject constructor(
         }
     }
 
-    private suspend fun getExistingModifiedDates(): Map<String, String> =
-        withContext(Dispatchers.IO) {
-            try {
-                privacyRepository.loadDownloadStatsModifiedMap()
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to get existing modified dates", e)
-                emptyMap()
-            }
-        }
-
     companion object {
         private const val TAG = "DownloadStatsWorker"
         private const val BASE_URL =

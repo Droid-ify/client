@@ -6,6 +6,7 @@ import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.DownloadStatsFile
 import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.utility.common.extension.exceptCancellation
 import com.looker.droidify.utility.common.getIsoDateOfMonthsAgo
 import com.looker.droidify.utility.common.isoDateToInt
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,12 @@ class PrivacyRepository(
             .flowOn(cc)
 
     suspend fun loadDownloadStatsModifiedMap(): Map<String, String> =
-        dsFileDao.getLastModifiedDates()
+        try {
+            dsFileDao.getLastModifiedDates()
+        } catch (e: Exception) {
+            e.exceptCancellation()
+            emptyMap()
+        }
 
     suspend fun upsertRBLogs(logs: List<RBLogEntity>) {
         rbDao.upsert(logs)
