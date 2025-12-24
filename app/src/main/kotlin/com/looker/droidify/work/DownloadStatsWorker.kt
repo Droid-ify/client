@@ -21,12 +21,13 @@ import dagger.assisted.AssistedInject
 import io.ktor.http.HttpStatusCode
 import io.ktor.util.cio.readChannel
 import io.ktor.utils.io.jvm.javaio.toInputStream
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.withContext
 import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.incrementAndFetch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
+import kotlinx.coroutines.withContext
 
 @HiltWorker
 class DownloadStatsWorker @AssistedInject constructor(
@@ -51,11 +52,10 @@ class DownloadStatsWorker @AssistedInject constructor(
         )
     }
 
-    // TODO add progress indication
     @OptIn(ExperimentalAtomicApi::class)
     private suspend fun fetchData() {
-        withContext(Dispatchers.IO) {
-            val existingModifiedDates = getExistingModifiedDates()
+        supervisorScope {
+            val existingModifiedDates = privacyRepository.loadDownloadStatsModifiedMap()
             val fileNames = generateMonthlyFileNames()
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
             val successfulResults = AtomicInt(0)
@@ -63,9 +63,10 @@ class DownloadStatsWorker @AssistedInject constructor(
 
             fileNames.forEach { fileName ->
                 context.tempFile { target ->
-                    async {
+                    launch {
+                        Log.i(TAG, "Downloading $fileName")
                         val lastModified = existingModifiedDates[fileName]
-                        downloader.downloadToFile(
+                        val response = downloader.downloadToFile(
                             url = BASE_URL + fileName,
                             target = target,
                             headers = {
@@ -74,17 +75,18 @@ class DownloadStatsWorker @AssistedInject constructor(
                                 }
                             },
                         )
-                    }.await().let {
-                        when {
-                            it is NetworkResponse.Success && it.statusCode != HttpStatusCode.NotModified.value
+                        Log.i(TAG, "Downloaded $fileName")
+                        when (response) {
+                            is NetworkResponse.Success if response.statusCode != HttpStatusCode.NotModified.value
                                 -> {
+                                Log.i(TAG, "Processing $fileName")
                                 successfulResults.incrementAndFetch()
                                 updatedResults.incrementAndFetch()
                                 val downloadStats = DownloadStatsData.fromStream(
                                     target.readChannel().toInputStream(),
                                 ).toDownloadStats()
                                 privacyRepository.upsertDownloadStats(downloadStats)
-                                it.lastModified?.let { lastModified ->
+                                response.lastModified?.let { lastModified ->
                                     privacyRepository.upsertDownloadStatsFile(
                                         fileName = fileName,
                                         lastModified = lastModified.toString(),
@@ -94,24 +96,16 @@ class DownloadStatsWorker @AssistedInject constructor(
                                 Log.d(TAG, "Processed updated file: $fileName")
                             }
 
-                            it is NetworkResponse.Success
-                                -> {
+                            is NetworkResponse.Success -> {
                                 successfulResults.incrementAndFetch()
                                 Log.d(TAG, "File not modified: $fileName")
                             }
 
-                            else -> {
-                                Log.d(TAG, "Failed downloading the file: $fileName")
-                            }
+                            else -> Log.d(TAG, "Failed downloading the file: $fileName")
                         }
                     }
                 }
             }
-            Log.i(
-                TAG,
-                "Fetching download stats summary: ${successfulResults.load()}/${fileNames.size} successful, " +
-                    "${updatedResults.load()} updated, ${fileNames.size - successfulResults.load()} failed",
-            )
         }
     }
 
