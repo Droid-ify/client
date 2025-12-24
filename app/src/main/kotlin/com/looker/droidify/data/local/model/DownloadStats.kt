@@ -3,12 +3,13 @@ package com.looker.droidify.data.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
+import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.utility.common.isoDateToInt
+import java.io.InputStream
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.InputStream
 
 @Entity(
     tableName = "downloadStats",
@@ -51,19 +52,13 @@ data class ClientCounts(
 
 @Serializable
 class DownloadStatsData {
-    fun toJSON() = Json.encodeToString(this)
-
     companion object {
-        private val jsonConfig = Json {
-            ignoreUnknownKeys = true
-            prettyPrint = true
-        }
-
         fun fromJson(json: String) =
-            jsonConfig.decodeFromString<Map<String, Map<String, ClientCounts>>>(json)
+            JsonParser.decodeFromString<Map<String, Map<String, ClientCounts>>>(json)
 
+        @OptIn(ExperimentalSerializationApi::class)
         fun fromStream(inst: InputStream) =
-            jsonConfig.decodeFromStream<Map<String, Map<String, ClientCounts>>>(inst)
+            JsonParser.decodeFromStream<Map<String, Map<String, ClientCounts>>>(inst)
     }
 }
 

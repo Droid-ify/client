@@ -25,7 +25,6 @@ import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
 import kotlin.concurrent.atomics.incrementAndFetch
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.withContext
 
@@ -63,46 +62,44 @@ class DownloadStatsWorker @AssistedInject constructor(
 
             fileNames.forEach { fileName ->
                 context.tempFile { target ->
-                    launch {
-                        Log.i(TAG, "Downloading $fileName")
-                        val lastModified = existingModifiedDates[fileName]
-                        val response = downloader.downloadToFile(
-                            url = BASE_URL + fileName,
-                            target = target,
-                            headers = {
-                                if (!lastModified.isNullOrEmpty()) {
-                                    ifModifiedSince(lastModified)
-                                }
-                            },
-                        )
-                        Log.i(TAG, "Downloaded $fileName")
-                        when (response) {
-                            is NetworkResponse.Success if response.statusCode != HttpStatusCode.NotModified.value
-                                -> {
-                                Log.i(TAG, "Processing $fileName")
-                                successfulResults.incrementAndFetch()
-                                updatedResults.incrementAndFetch()
-                                val downloadStats = DownloadStatsData.fromStream(
-                                    target.readChannel().toInputStream(),
-                                ).toDownloadStats()
-                                privacyRepository.upsertDownloadStats(downloadStats)
-                                response.lastModified?.let { lastModified ->
-                                    privacyRepository.upsertDownloadStatsFile(
-                                        fileName = fileName,
-                                        lastModified = lastModified.toString(),
-                                        recordsCount = downloadStats.size,
-                                    )
-                                }
-                                Log.d(TAG, "Processed updated file: $fileName")
+                    Log.i(TAG, "Downloading $fileName")
+                    val lastModified = existingModifiedDates[fileName]
+                    val response = downloader.downloadToFile(
+                        url = BASE_URL + fileName,
+                        target = target,
+                        headers = {
+                            if (!lastModified.isNullOrEmpty()) {
+                                ifModifiedSince(lastModified)
                             }
-
-                            is NetworkResponse.Success -> {
-                                successfulResults.incrementAndFetch()
-                                Log.d(TAG, "File not modified: $fileName")
+                        },
+                    )
+                    Log.i(TAG, "Downloaded $fileName")
+                    when (response) {
+                        is NetworkResponse.Success if response.statusCode != HttpStatusCode.NotModified.value
+                            -> {
+                            Log.i(TAG, "Processing $fileName")
+                            successfulResults.incrementAndFetch()
+                            updatedResults.incrementAndFetch()
+                            val downloadStats = DownloadStatsData.fromStream(
+                                target.readChannel().toInputStream(),
+                            ).toDownloadStats()
+                            privacyRepository.upsertDownloadStats(downloadStats)
+                            response.lastModified?.let { lastModified ->
+                                privacyRepository.upsertDownloadStatsFile(
+                                    fileName = fileName,
+                                    lastModified = lastModified.toString(),
+                                    recordsCount = downloadStats.size,
+                                )
                             }
-
-                            else -> Log.d(TAG, "Failed downloading the file: $fileName")
+                            Log.d(TAG, "Processed updated file: $fileName")
                         }
+
+                        is NetworkResponse.Success -> {
+                            successfulResults.incrementAndFetch()
+                            Log.d(TAG, "File not modified: $fileName")
+                        }
+
+                        else -> Log.d(TAG, "Failed downloading the file: $fileName")
                     }
                 }
             }
