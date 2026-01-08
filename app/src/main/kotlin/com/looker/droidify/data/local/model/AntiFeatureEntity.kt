@@ -52,6 +52,7 @@ data class AntiFeatureRepoRelation(
 data class AntiFeatureAppRelation(
     val tag: Tag,
     val reason: AntiFeatureReason,
+    @ColumnInfo(index = true)
     val appId: Int,
     val versionCode: Long,
 )

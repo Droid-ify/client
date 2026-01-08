@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "7e79a80c511686b3c0c965ef14dbc7f1",
+    "identityHash": "696d6d9cb2b65906dc4135b5e0f328e4",
     "entities": [
       {
         "tableName": "anti_feature",
@@ -82,6 +82,17 @@
             "versionCode"
           ]
         },
+        "indices": [
+          {
+            "name": "index_anti_features_app_relation_appId",
+            "unique": false,
+            "columnNames": [
+              "appId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_anti_features_app_relation_appId` ON `${TABLE_NAME}` (`appId`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -447,6 +458,17 @@
             "defaultName"
           ]
         },
+        "indices": [
+          {
+            "name": "index_category_app_relation_defaultName",
+            "unique": false,
+            "columnNames": [
+              "defaultName"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_category_app_relation_defaultName` ON `${TABLE_NAME}` (`defaultName`)"
+          }
+        ],
         "foreignKeys": [
           {
             "table": "app",
@@ -1153,7 +1175,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7e79a80c511686b3c0c965ef14dbc7f1')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '696d6d9cb2b65906dc4135b5e0f328e4')"
     ]
   }
 }
