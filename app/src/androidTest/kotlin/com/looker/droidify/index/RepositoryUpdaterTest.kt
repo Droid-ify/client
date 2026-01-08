@@ -5,7 +5,6 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.database.Database
-import com.looker.droidify.index.RepositoryUpdater.IndexType
 import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
 import com.looker.droidify.sync.common.assets
@@ -52,7 +51,7 @@ class RepositoryUpdaterTest {
         val output = benchmark(1) {
             val createFile = File.createTempFile("index", "entry")
             val mergerFile = File.createTempFile("index", "merger")
-            val jarStream = context.resources.assets.open("index-v1.jar")
+            val jarStream = assets("index-v1.jar")
             jarStream.copyTo(createFile.outputStream())
             process(createFile, mergerFile)
         }
