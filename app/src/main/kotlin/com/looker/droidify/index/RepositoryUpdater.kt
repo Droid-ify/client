@@ -262,6 +262,7 @@ object RepositoryUpdater {
                                         description: String,
                                         version: Int,
                                         timestamp: Long,
+                                        icon: String,
                                     ) {
                                         changedRepository = repository.update(
                                             mirrors,
@@ -271,6 +272,7 @@ object RepositoryUpdater {
                                             lastModified,
                                             entityTag,
                                             timestamp,
+                                            icon,
                                         )
                                     }
 

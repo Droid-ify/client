@@ -22,6 +22,7 @@ fun Repository.serialize(generator: JsonGenerator) {
     generator.writeNumberField("updated", updated)
     generator.writeNumberField("timestamp", timestamp)
     generator.writeStringField("authentication", authentication)
+    generator.writeStringField("icon", icon)
 }
 
 fun JsonParser.repository(): Repository {
@@ -38,6 +39,7 @@ fun JsonParser.repository(): Repository {
     var updated = 0L
     var timestamp = 0L
     var authentication = ""
+    var icon = ""
     forEachKey {
         when {
             it.string("id") -> id = valueAsLong
@@ -53,11 +55,12 @@ fun JsonParser.repository(): Repository {
             it.number("updated") -> updated = valueAsLong
             it.number("timestamp") -> timestamp = valueAsLong
             it.string("authentication") -> authentication = valueAsString
+            it.string("icon") -> icon = valueAsString
             else -> skipChildren()
         }
     }
     return Repository(
         id, address, mirrors, name, description, version, enabled, fingerprint,
-        lastModified, entityTag, updated, timestamp, authentication
+        lastModified, entityTag, updated, timestamp, authentication, icon
     )
 }

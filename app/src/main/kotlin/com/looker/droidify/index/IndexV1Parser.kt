@@ -35,7 +35,8 @@ object IndexV1Parser {
             name: String,
             description: String,
             version: Int,
-            timestamp: Long
+            timestamp: Long,
+            icon: String,
         )
 
         fun onProduct(product: Product)
@@ -163,6 +164,7 @@ object IndexV1Parser {
     private const val KEY_REPO_DESC = "description"
     private const val KEY_REPO_VER = "version"
     private const val KEY_REPO_TIME = "timestamp"
+    private const val KEY_REPO_ICON = "icon"
 
     fun parse(repositoryId: Long, inputStream: InputStream, callback: Callback) {
         val jsonParser = Json.factory.createParser(inputStream)
@@ -178,6 +180,7 @@ object IndexV1Parser {
                         var description = ""
                         var version = 0
                         var timestamp = 0L
+                        var icon = ""
                         forEachKey {
                             when {
                                 it.string(KEY_REPO_ADDRESS) -> address = valueAsString
@@ -188,6 +191,7 @@ object IndexV1Parser {
                                 it.string(KEY_REPO_DESC) -> description = valueAsString
                                 it.number(KEY_REPO_VER) -> version = valueAsInt
                                 it.number(KEY_REPO_TIME) -> timestamp = valueAsLong
+                                it.number(KEY_REPO_ICON) -> icon = valueAsString
                                 else -> skipChildren()
                             }
                         }
@@ -203,7 +207,8 @@ object IndexV1Parser {
                             name = name,
                             description = description,
                             version = version,
-                            timestamp = timestamp
+                            timestamp = timestamp,
+                            icon = icon,
                         )
                     }
 

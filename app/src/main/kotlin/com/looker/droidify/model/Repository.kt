@@ -16,6 +16,7 @@ data class Repository(
     val updated: Long,
     val timestamp: Long,
     val authentication: String,
+    val icon: String,
 ) {
 
     fun edit(address: String, fingerprint: String, authentication: String): Repository {
@@ -39,6 +40,7 @@ data class Repository(
         lastModified: String,
         entityTag: String,
         timestamp: Long,
+        icon: String,
     ): Repository {
         return copy(
             mirrors = mirrors,
@@ -48,7 +50,8 @@ data class Repository(
             lastModified = lastModified,
             entityTag = entityTag,
             updated = System.currentTimeMillis(),
-            timestamp = timestamp
+            timestamp = timestamp,
+            icon = icon,
         )
     }
 
@@ -80,10 +83,11 @@ data class Repository(
             enabled: Boolean = false,
             fingerprint: String,
             authentication: String = "",
+            icon: String = "",
         ): Repository {
             return Repository(
                 -1, address, emptyList(), name, description, version, enabled,
-                fingerprint, "", "", 0L, 0L, authentication
+                fingerprint, "", "", 0L, 0L, authentication, icon
             )
         }
 
