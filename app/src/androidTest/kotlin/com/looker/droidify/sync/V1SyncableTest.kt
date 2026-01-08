@@ -29,7 +29,6 @@ import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
@@ -77,27 +76,17 @@ class V1SyncableTest {
     }
 
     @Test
-    fun benchmark_v1_vs_v2_parser() = runTest(dispatcher) {
-        val v1File = FakeDownloader.downloadIndex(context, repo, "izzy-v1", "index-v1.jar")
-        val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
-        val output1 = benchmark(10) {
+    fun benchmark_v2_parser() = runTest(dispatcher) {
+        val file = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
+        val output = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
-                    file = v1File,
-                    repo = repo
-                )
-            }
-        }
-        val output2 = benchmark(10) {
-            measureTimeMillis {
-                parser.parse(
-                    file = v2File,
+                v2Parser.parse(
+                    file = file,
                     repo = repo,
                 )
             }
         }
-        println(output1)
-        println(output2)
+        println(output)
     }
 
     @Test
