@@ -53,6 +53,7 @@ data class CategoryRepoRelation(
 data class CategoryAppRelation(
     @ColumnInfo("id")
     val appId: Int,
+    @ColumnInfo(index = true)
     val defaultName: DefaultName,
 )
 
