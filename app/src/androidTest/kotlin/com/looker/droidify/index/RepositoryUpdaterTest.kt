@@ -44,6 +44,7 @@ class RepositoryUpdaterTest {
             updated = 1735315749835,
             timestamp = 1725352450000,
             authentication = "",
+            icon = "izzy-on-droid.png",
         )
     }
 
