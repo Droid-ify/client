@@ -21,11 +21,12 @@ class V1Parser(
         file: File,
         repo: Repo,
     ): Pair<Fingerprint, IndexV1> = withContext(dispatcher) {
-        val jar = file.toJarFile()
-        val entry = jar.getJarEntry("index-v1.json")
-        val indexString = jar.getInputStream(entry).use {
-            it.readBytes().decodeToString()
+        return@withContext file.toJarFile().use { jar ->
+            val entry = jar.getJarEntry("index-v1.json")
+            val indexString = jar.getInputStream(entry).use {
+                it.readBytes().decodeToString()
+            }
+            validator.validate(entry, repo.fingerprint) to json.decodeFromString(indexString)
         }
-        validator.validate(entry, repo.fingerprint) to json.decodeFromString(indexString)
     }
 }
