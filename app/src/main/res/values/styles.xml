@@ -237,4 +237,9 @@
     <style name="Shape.Medium" parent="ShapeAppearance.Material3.MediumComponent">
         <item name="cornerSize">@dimen/shape_medium_corner</item>
     </style>
+
+    <style name="Shape.Circle" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>

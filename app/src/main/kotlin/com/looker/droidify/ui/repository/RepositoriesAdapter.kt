@@ -1,9 +1,14 @@
 package com.looker.droidify.ui.repository
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
+import com.looker.droidify.R
 import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
@@ -21,6 +26,8 @@ class RepositoriesAdapter(
         val repoName = itemView.repositoryName
         val repoDesc = itemView.repositoryDescription
         val repoState = itemView.repositoryState
+
+        var isChecked = false
     }
 
     override val viewTypeClass: Class<ViewType>
@@ -49,7 +56,8 @@ class RepositoriesAdapter(
                 navigate(getRepository(absoluteAdapterPosition))
             }
 
-            repoState.setOnCheckedChangeListener { _, isChecked ->
+            repoState.setOnClickListener {
+                isChecked = !isChecked
                 onSwitch(getRepository(absoluteAdapterPosition), isChecked)
             }
         }
@@ -61,7 +69,22 @@ class RepositoriesAdapter(
 
         holder.repoName.text = repository.name
         holder.repoDesc.text = repository.description.trim()
-        holder.repoState.isChecked = repository.enabled
+
+        val colorOnSurface = MaterialColors.getColor(
+            holder.itemView, com.google.android.material.R.attr.colorOnSurface, Color.BLACK)
+        val colorSurfaceContainer = MaterialColors.getColor(
+            holder.itemView, com.google.android.material.R.attr.colorSurfaceContainer, Color.WHITE)
+
+        holder.isChecked = repository.enabled
+        if (holder.isChecked) {
+            holder.repoState.setImageResource(R.drawable.ic_check)
+            holder.repoState.imageTintList = ColorStateList.valueOf(colorSurfaceContainer)
+            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorOnSurface)
+        } else {
+            holder.repoState.setImageResource(R.drawable.ic_cancel)
+            holder.repoState.imageTintList = ColorStateList.valueOf(colorOnSurface)
+            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorSurfaceContainer)
+        }
 
         // TODO: fetch repo icon
         holder.repoIcon.setImageIcon(null)
