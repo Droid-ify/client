@@ -27,7 +27,6 @@ android {
     }
 
     compileOptions.isCoreLibraryDesugaringEnabled = true
-    kotlinOptions.freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-parameters")
     androidResources.generateLocaleConfig = true
 
     kotlin {
@@ -36,6 +35,9 @@ android {
             languageVersion.set(KotlinVersion.KOTLIN_2_2)
             apiVersion.set(KotlinVersion.KOTLIN_2_2)
             jvmTarget.set(JvmTarget.JVM_17)
+
+            freeCompilerArgs.add("-Xcontext-parameters")
+            optIn.add("kotlin.RequiresOptIn")
         }
     }
 
