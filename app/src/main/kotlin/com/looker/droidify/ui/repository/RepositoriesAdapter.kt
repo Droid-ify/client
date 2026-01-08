@@ -17,11 +17,10 @@ class RepositoriesAdapter(
 
     private class ViewHolder(itemView: RepositoryItemBinding) :
         RecyclerView.ViewHolder(itemView.root) {
-        val checkMark = itemView.repositoryState
+        val repoIcon = itemView.repositoryIcon
         val repoName = itemView.repositoryName
         val repoDesc = itemView.repositoryDescription
-
-        var isEnabled = true
+        val repoState = itemView.repositoryState
     }
 
     override val viewTypeClass: Class<ViewType>
@@ -46,13 +45,12 @@ class RepositoriesAdapter(
                 false
             )
         ).apply {
-            itemView.setOnLongClickListener {
-                navigate(getRepository(absoluteAdapterPosition))
-                true
-            }
             itemView.setOnClickListener {
-                isEnabled = !isEnabled
-                onSwitch(getRepository(absoluteAdapterPosition), isEnabled)
+                navigate(getRepository(absoluteAdapterPosition))
+            }
+
+            repoState.setOnCheckedChangeListener { _, isChecked ->
+                onSwitch(getRepository(absoluteAdapterPosition), isChecked)
             }
         }
     }
@@ -61,14 +59,12 @@ class RepositoriesAdapter(
         holder as ViewHolder
         val repository = getRepository(position)
 
-        holder.isEnabled = repository.enabled
         holder.repoName.text = repository.name
         holder.repoDesc.text = repository.description.trim()
+        holder.repoState.isChecked = repository.enabled
 
-        if (repository.enabled) {
-            holder.checkMark.visibility = View.VISIBLE
-        } else {
-            holder.checkMark.visibility = View.INVISIBLE
-        }
+        // TODO: fetch repo icon
+        holder.repoIcon.setImageIcon(null)
+        holder.repoIcon.visibility = View.GONE
     }
 }
