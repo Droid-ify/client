@@ -26,12 +26,14 @@ import io.ktor.http.etag
 import io.ktor.http.isSuccess
 import io.ktor.http.lastModified
 import io.ktor.utils.io.jvm.javaio.copyTo
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.net.Proxy
 import kotlin.coroutines.cancellation.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 
 internal class KtorDownloader(
     httpClientEngine: HttpClientEngine,
@@ -63,6 +65,7 @@ internal class KtorDownloader(
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?,
     ): NetworkResponse = withContext(dispatcher) {
+        val output = FileOutputStream(target, true)
         try {
             val fileSize = target.length()
             val request = request(
@@ -78,9 +81,8 @@ internal class KtorDownloader(
                 if (networkResponse !is NetworkResponse.Success) {
                     return@execute networkResponse
                 }
-                target.outputStream().use { output ->
-                    response.bodyAsChannel().copyTo(output)
-                }
+                response.bodyAsChannel().copyTo(output)
+                output.flush()
                 validator?.validate(target)
                 networkResponse
             }
@@ -97,6 +99,11 @@ internal class KtorDownloader(
             throw e
         } catch (e: Exception) {
             NetworkResponse.Error.Unknown(e)
+        } finally {
+            withContext(NonCancellable) {
+                output.close()
+                output.flush()
+            }
         }
     }
 
@@ -106,7 +113,6 @@ internal class KtorDownloader(
         userAgentConfig()
         timeoutConfig()
     }
-
 
     private fun request(
         url: String,
