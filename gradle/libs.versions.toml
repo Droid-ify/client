@@ -2,7 +2,7 @@
 desugaring = "2.1.5"
 agp = "8.13.2"
 material = "1.12.0"
-activity = "1.11.0"
+activity = "1.12.2"
 app-compat = "1.7.1"
 core = "1.17.0"
 datastore = "1.2.0"
