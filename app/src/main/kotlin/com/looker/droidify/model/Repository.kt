@@ -412,6 +412,7 @@ data class Repository(
             "https://fdroid.libretro.com/repo",
             "https://divestos.org/apks/unofficial/fdroid/repo",
             "https://divestos.org/fdroid/official",
+            "https://fdroid.cakelabs.com/fdroid/repo"
         )
     }
 }

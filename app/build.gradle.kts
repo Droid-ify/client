@@ -1,5 +1,6 @@
 import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
@@ -48,12 +49,14 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
-            name("Droid-ify-Debug")
+            resValue("string", "application_name", "Droid-ify-Debug")
+            resValue("string", "cleartext_allowed", "true")
         }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            name("Droid-ify")
+            resValue("string", "application_name", "Droid-ify")
+            resValue("string", "cleartext_allowed", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
@@ -62,7 +65,8 @@ android {
         create("alpha") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".alpha"
-            name("Droid-ify Alpha")
+            resValue("string", "application_name", "Droid-ify Alpha")
+            resValue("string", "cleartext_allowed", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
@@ -187,7 +191,3 @@ task("detectAndroidLocals") {
     android.defaultConfig.buildConfigField("String[]", "DETECTED_LOCALES", langsListString)
 }
 tasks.preBuild.dependsOn("detectAndroidLocals")
-
-fun ApplicationBuildType.name(name: String) {
-    resValue("string", "application_name", name)
-}

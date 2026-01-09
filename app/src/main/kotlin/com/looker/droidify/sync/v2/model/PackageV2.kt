@@ -129,7 +129,7 @@ data class MetadataV2(
     val bitcoin: String? = null,
     val categories: List<String> = emptyList(),
     val changelog: String? = null,
-    val donate: List<String>? = null,
+    val donate: List<String> = emptyList(),
     val featureGraphic: LocalizedIcon? = null,
     val flattrID: String? = null,
     val issueTracker: String? = null,

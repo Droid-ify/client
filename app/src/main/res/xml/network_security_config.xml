@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <network-security-config>
-    <base-config cleartextTrafficPermitted="true">
+    <base-config cleartextTrafficPermitted="@string/cleartext_allowed">
         <trust-anchors>
             <!-- Trust preinstalled CAs -->
             <certificates src="system" />
@@ -9,4 +9,51 @@
             <certificates src="user" />
         </trust-anchors>
     </base-config>
+
+    <!-- cert pinning for domains with Let's Encrypt / ISRG as CA -->
+    <!-- last update: 2025-11-16 -->
+    <!-- https://letsencrypt.org/certificates
+     Intermidiate certs: "Subordinate (Intermediate) CAs" section
+     CAs for subscriber certificates with RSA public keys: R11, R12, R13 ...
+     CAs for subscriber certificates with ECDSA public keys: E7, E8, E9 ...
+     For better compatibility better to add cert pinning on BOTH 'E' and 'R' CA including current and upcoming
+     -->
+    <domain-config cleartextTrafficPermitted="false">
+        <domain includeSubdomains="false">f-droid.org</domain>
+        <domain includeSubdomains="false">guardianproject.info</domain>
+        <domain includeSubdomains="false">apt.izzysoft.de</domain>
+        <domain includeSubdomains="false">app.futo.org</domain>
+        <domain includeSubdomains="false">molly.im</domain>
+        <domain includeSubdomains="false">app.simplex.chat</domain>
+        <domain includeSubdomains="false">briarproject.org</domain>
+        <domain includeSubdomains="false">microg.org</domain>
+        <domain includeSubdomains="false">cdn.kde.org</domain>
+        <!-- expiration = most later expiration for listed down pins -->
+        <pin-set expiration="2028-09-02">
+            <!-- currently used by LE : E7, E8, R12, R13 -->
+            <!-- TODO: expire at 2027-03-12 -->
+            <pin digest="SHA-256">y7xVm0TVJNahMr2sZydE2jQH8SquXV9yLF9seROHHHU=</pin>
+            <pin digest="SHA-256">iFvwVyJSxnQdyaUvUERIf+8qk7gRze3612JMwoO3zdU=</pin>
+            <pin digest="SHA-256">kZwN96eHtZftBWrOZUsd6cA4es80n3NzSk/XtYz2EqQ=</pin>
+            <pin digest="SHA-256">AlSQhgtJirc8ahLyekmtX+Iw+v46yPYRLJt9Cq1GlB0=</pin>
+            <!-- backup used by LE : E9, R14 -->
+            <!-- TODO: expire at 2027-03-12 -->
+            <pin digest="SHA-256">8UQKm3bh5B5TpMtGEym/Yze0GXJr5RPkLhnxxpHF1LI=</pin>
+            <pin digest="SHA-256">8WR6XuPvrFTIkukwWE/keXm3rNHHbBJxvKHFB22GmIg=</pin>
+            <!-- retired BUT valid by LE : E5, E6, R10, R11 -->
+            <!-- TODO: expire at 2027-03-12 -->
+            <pin digest="SHA-256">NYbU7PBwV4y9J67c4guWTki8FJ+uudrXL0a4V4aRcrg=</pin>
+            <pin digest="SHA-256">0Bbh/jEZSKymTy3kTOhsmlHKBB32EDu1KojrP3YfV9c=</pin>
+            <pin digest="SHA-256">K7rZOrXHknnsEhUH8nLL4MZkejquUuIvOIr6tCa0rbo=</pin>
+            <pin digest="SHA-256">bdrBhpj38ffhxpubzkINl0rG+UyossdhcBYj+Zx2fcc=</pin>
+            <!-- upcoming by LE : YE1, YE2, YE3, YR1, YR2, YR3 -->
+            <!-- TODO: expire at 2028-09-02 -->
+            <pin digest="SHA-256">brzvtCELCIZUo4sD/qPX0ccRtPsd3DY6RfmxpOU9oB4=</pin>
+            <pin digest="SHA-256">s/tdAOmUzd8syaTuqfgGvFcn6DzA5Cmb+Vby1ST+U3Y=</pin>
+            <pin digest="SHA-256">ppiiCCS+BOR6GjPE+kiHMb6SAR8jox6QDiyibJwqz84=</pin>
+            <pin digest="SHA-256">LoMHBotttiDko50Gi13uXW71eIy7LAttI+rYT8wXF4w=</pin>
+            <pin digest="SHA-256">nWN7PSep5XDQdge5zK24CnCRXHr3KvzhKEGxsdqCX9E=</pin>
+            <pin digest="SHA-256">UaqofZhLVZrGnpKfiIoCLYMuCJ/026CkErUQG8pLx5k=</pin>
+        </pin-set>
+    </domain-config>
 </network-security-config>
