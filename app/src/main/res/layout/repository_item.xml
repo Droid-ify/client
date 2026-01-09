@@ -1,40 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="12dp"
     android:background="?android:attr/selectableItemBackground"
-    android:paddingHorizontal="@dimen/shape_margin_large"
+    android:minHeight="?listPreferredItemHeight"
     android:orientation="horizontal"
-    android:paddingVertical="12dp">
+    android:paddingVertical="12dp"
+    android:paddingStart="?listPreferredItemPaddingStart"
+    android:paddingEnd="?listPreferredItemPaddingEnd">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/repository_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/shape_margin_large"
-        android:tint="?colorOnSurface"
-        app:srcCompat="@drawable/ic_check" />
+        android:id="@+id/repository_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/shape_margin_medium"
+        tools:src="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/repository_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:textAppearance="?attr/textAppearanceTitleMedium" />
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:text="IzzyOnDroid F-Droid repository" />
 
         <TextView
             android:id="@+id/repository_description"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:maxLines="2"
             android:ellipsize="end"
-            android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="?colorOutline" />
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?colorOutline"
+            tools:text="This is a repository of apps to be used with your F-Droid client. Applications in this repository are official binaries built by the original application developers, taken from their resp. repositories (mostly Github, GitLab, Codeberg). Updates for the apps are usually fetched daily, and you can expect daily index updates." />
     </LinearLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/repository_state"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/shape_margin_medium"
+        android:background="?colorSurfaceContainer"
+        android:tint="?colorOnSurface"
+        app:contentPadding="@dimen/shape_margin_medium"
+        app:shapeAppearanceOverlay="@style/Shape.Circle"
+        app:srcCompat="@drawable/ic_check" />
+
 </LinearLayout>
