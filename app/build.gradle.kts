@@ -36,8 +36,13 @@ android {
         compilerOptions {
             languageVersion.set(KotlinVersion.KOTLIN_2_2)
             apiVersion.set(KotlinVersion.KOTLIN_2_2)
-            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
-            freeCompilerArgs.add("-Xcontext-parameters")
+            jvmTarget.set(JvmTarget.JVM_17)
+
+            freeCompilerArgs.addAll(
+                "-Xannotation-default-target=param-property",
+                "-Xcontext-parameters",
+            )
+            optIn.add("kotlin.RequiresOptIn")
         }
     }
 
