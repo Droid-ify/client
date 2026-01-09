@@ -1,0 +1,24 @@
+Added:
+- Progress Bar on Sync
+- IronFox Repo
+- Video to Screenshots list
+- Dialog to notify shizuku permission issues
+- Target SDK in Release Item
+
+Fixed:
+- Persistent install notification
+- Donation Link Parsing
+- Updates when signature check skipped
+- Adding repository adds a suffix
+- Screenshots for password protected repo
+
+Changed:
+- Shizuku permission no longer reverts on permission loss
+- Progress Bar animation
+
+Improvements:
+- All-around performance improvement
+- Edit Repository UI
+
+Removed:
+- Unused dependencies

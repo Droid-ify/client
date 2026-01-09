@@ -1,0 +1,6 @@
+- More of Material Design 3
+- Fix: Root and default installer
+- Fix: Delete Cached File After Uninstall
+- Fix: Crash on pressing download when offline
+- Update translations of over 17 languages
+- Many small fixes and tweaks…

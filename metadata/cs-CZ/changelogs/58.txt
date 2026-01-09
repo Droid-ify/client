@@ -1,0 +1,14 @@
+## New
+- Downloader Implementation
+- Material You Switches
+- Need restart after setting `Proxy`
+- Padding for Floating Button
+- Localized Metadata for apps (Thanks @BLumia)
+
+## Improved
+- Enabled Repositories at top
+- Responsive "Update All" button
+- Live Installer change
+- Faster page opening
+
+- Many more changes which I forgot

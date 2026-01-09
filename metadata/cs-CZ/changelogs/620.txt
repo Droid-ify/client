@@ -1,0 +1,10 @@
+Added:
+- Ignore battery optimization
+
+Fixed:
+- Auto sync
+- Screenshot size changing
+- Crash on home screen (Thanks to @mosayeb-a)
+
+Changed:
+- Should support reproducible builds now

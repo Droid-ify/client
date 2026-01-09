@@ -1,0 +1,6 @@
+Fixed:
+- Repeated asking for background permission
+
+Changed:
+- Move permission to settings page
+- Don't ask for permission if auto sync is off

@@ -1,0 +1,13 @@
+## Improvements
+
+- Brand new Shizuku Permission Handling
+- Display "NSFW" Anti-feature
+- Faster APK validation
+- Better download-state handling
+- Optimized Layout for Arabic languages
+
+## Fixes
+
+- App not installing **
+
+** Apps were not installing after 20 seconds of wait.

@@ -1,0 +1,50 @@
+- App needs to be reinstalled (This is totally my fault sorry)
+- Android 13 is now supported
+- Add Android 13 Themed icon
+- Fix some animations and other UI/UX changes
+- Fix cache cleanup
+- Fix navigation bar color
+- Replace "Available" -> "Explore"
+- Added "Source code" to `Links` section
+- Fix Root/Shizuku Installer (Shizuku Installer is really buggy for now)
+- Fix the random crash on returning to app
+- Remove Alefvanoon repository
+- Fix double prompt for installation
+- App Header will highlight if the app needs to be updated
+- Add "Scroll to Top" button
+- Added Languages:
+      Bengali
+      Catalan
+      Croatian
+      Galician
+      Hebrew
+      Japanese
+      Lithuanian
+      Odia
+      Swedish
+- Updated Languages:
+      Arabic
+      Bulgarian
+      Chinese (Simplified)
+      Chinese (Traditional)
+      Czech
+      Finnish
+      French
+      Galician
+      German
+      Greek
+      Hindi
+      Hungarian
+      Italian
+      Norwegian Bokmal
+      Persian
+      Polish
+      Portuguese
+      Portuguese (Brazil)
+      Russian
+      Spanish
+      Tagalog
+      Turkish
+      Ukrainian
+- Update dependencies
+- Cleanup some code

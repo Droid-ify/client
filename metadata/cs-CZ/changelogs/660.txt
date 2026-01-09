@@ -1,0 +1,15 @@
+Added:
+- Support for multiple install component for legacy installer
+- Sui Support
+- New Repos
+- Support to open IzzyOnDroid url
+- Support for oem provided repos
+
+Fixed:
+- Ignoring signature caused update issues
+- Crash in Repo Editing screen
+
+Removed:
+- Outdated repos
+
++ many more

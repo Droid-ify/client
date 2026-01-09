@@ -1,0 +1,5 @@
+- New Settings backend (Your old settings would be erased)
+- Add option to add Cleanup duration
+- Fixed blank screenshots
+- Fixed crash on the bottom of the screen
+- Fix `Installed` notification

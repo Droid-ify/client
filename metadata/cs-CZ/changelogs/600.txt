@@ -1,0 +1,16 @@
+Added:
+- Swipe to Return and Animation in Screenshot
+
+Changed:
+- Improve Performance of: Startup, Sync, Installer, Edit Repository
+- Sharing and Uninstalling enabled during Downloads
+- Icon Rounding in Main Screen
+- Remove Subdomain on Sharing
+- Update Theme
+
+Fixed:
+- Lag on Sync
+- Sync Failures
+- Crash on Enabling Repos
+- Scroll State Reset
+- Double Installation
