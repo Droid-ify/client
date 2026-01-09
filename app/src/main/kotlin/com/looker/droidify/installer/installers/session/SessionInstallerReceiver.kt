@@ -86,6 +86,7 @@ class SessionInstallerReceiver : BroadcastReceiver() {
                     val notification = context.createInstallNotification(
                         appName = appName.toString(),
                         state = InstallState.Failed,
+                        isUninstall = isUninstall,
                     ) {
                         setContentText(message)
                     }
