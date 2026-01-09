@@ -5,7 +5,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.RBLogEntity
@@ -38,7 +37,6 @@ import kotlinx.coroutines.runBlocking
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
-    installedRepository: InstalledRepository,
     privacyRepository: PrivacyRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -57,7 +55,7 @@ class AppDetailViewModel @Inject constructor(
         combine(
             Database.ProductAdapter.getStream(packageName),
             Database.RepositoryAdapter.getAllStream(),
-            installedRepository.getStream(packageName),
+            Database.InstalledAdapter.getStream(packageName),
             privacyRepository.getRBLogs(packageName),
             privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,

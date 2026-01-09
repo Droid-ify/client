@@ -18,7 +18,6 @@ import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.R
-import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.index.RepositoryUpdater
@@ -81,9 +80,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
-    @Inject
-    lateinit var installedRepository: InstalledRepository
-
     sealed class State(val name: String) {
         class Connecting(appName: String) : State(appName)
 
@@ -143,7 +139,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val manual = request != SyncRequest.AUTO
             tasks += ids.asSequence().filter {
                 it !in currentIds &&
-                    it != currentTask?.task?.repositoryId
+                        it != currentTask?.task?.repositoryId
             }.map { Task(it, manual) }
             handleNextTask(cancelledTask?.hasUpdates == true)
             if (request != SyncRequest.AUTO && started == Started.AUTO) {
@@ -182,7 +178,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             Database.RepositoryAdapter.put(repository.enable(enabled))
             if (enabled) {
                 val isRepoInTasks = repository.id != currentTask?.task?.repositoryId &&
-                    !tasks.any { it.repositoryId == repository.id }
+                        !tasks.any { it.repositoryId == repository.id }
                 if (isRepoInTasks) {
                     tasks += Task(repository.id, true)
                     handleNextTask(false)
@@ -537,8 +533,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
-                installedRepository.get(it.packageName) to
-                    Database.RepositoryAdapter.get(it.repositoryId)
+                Database.InstalledAdapter.get(it.packageName, null) to
+                        Database.RepositoryAdapter.get(it.repositoryId)
             }
             .filter { it.first != null && it.second != null }
             .forEach { (installItem, repo) ->

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.looker.droidify.database.table.DatabaseHelper
 import com.looker.droidify.database.table.Table
 import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
@@ -306,7 +307,7 @@ object Database {
                 Schema.Repository.name,
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} != 0 AND " +
-                        "${Schema.Repository.ROW_DELETED} == 0",
+                            "${Schema.Repository.ROW_DELETED} == 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -332,7 +333,7 @@ object Database {
                 columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} == 0 OR " +
-                        "${Schema.Repository.ROW_DELETED} != 0",
+                            "${Schema.Repository.ROW_DELETED} != 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -659,7 +660,72 @@ object Database {
         }
     }
 
-    // InstalledAdapter has been replaced by InstalledRepository
+    object InstalledAdapter {
+
+        fun getStream(packageName: String): Flow<InstalledItem?> = flowOf(Unit)
+            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+            .map { get(packageName, null) }
+            .flowOn(Dispatchers.IO)
+
+        fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
+            return db.query(
+                Schema.Installed.name,
+                columns = arrayOf(
+                    Schema.Installed.ROW_PACKAGE_NAME,
+                    Schema.Installed.ROW_VERSION,
+                    Schema.Installed.ROW_VERSION_CODE,
+                    Schema.Installed.ROW_SIGNATURE,
+                ),
+                selection = Pair("${Schema.Installed.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
+                signal = signal,
+            ).use { it.firstOrNull()?.let(::transform) }
+        }
+
+        private fun put(installedItem: InstalledItem, notify: Boolean) {
+            db.insertOrReplace(
+                true,
+                Schema.Installed.name,
+                ContentValues().apply {
+                    put(Schema.Installed.ROW_PACKAGE_NAME, installedItem.packageName)
+                    put(Schema.Installed.ROW_VERSION, installedItem.version)
+                    put(Schema.Installed.ROW_VERSION_CODE, installedItem.versionCode)
+                    put(Schema.Installed.ROW_SIGNATURE, installedItem.signature)
+                },
+            )
+            if (notify) {
+                notifyChanged(Subject.Products)
+            }
+        }
+
+        fun put(installedItem: InstalledItem) = put(installedItem, true)
+
+        fun putAll(installedItems: List<InstalledItem>) {
+            db.transaction {
+                db.delete(Schema.Installed.name, null, null)
+                installedItems.forEach { put(it, false) }
+            }
+        }
+
+        fun delete(packageName: String) {
+            val count = db.delete(
+                Schema.Installed.name,
+                "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
+                arrayOf(packageName),
+            )
+            if (count > 0) {
+                notifyChanged(Subject.Products)
+            }
+        }
+
+        private fun transform(cursor: Cursor): InstalledItem {
+            return InstalledItem(
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)),
+                cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE)),
+            )
+        }
+    }
 
     object LockAdapter {
         private fun put(lock: Pair<String, Long>, notify: Boolean) {
@@ -759,11 +825,11 @@ object Database {
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Product.name} SELECT * " +
-                            "FROM ${Schema.Product.temporaryName}",
+                                "FROM ${Schema.Product.temporaryName}",
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Category.name} SELECT * " +
-                            "FROM ${Schema.Category.temporaryName}",
+                                "FROM ${Schema.Category.temporaryName}",
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")

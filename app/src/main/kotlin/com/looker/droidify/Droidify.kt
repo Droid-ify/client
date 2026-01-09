@@ -22,7 +22,6 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
@@ -77,9 +76,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    @Inject
-    lateinit var installedRepository: InstalledRepository
-
     override fun onCreate() {
         super.onCreate()
 
@@ -105,7 +101,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     private fun listenApplications() {
         appScope.launch(Dispatchers.Default) {
             registerReceiver(
-                InstalledAppReceiver(packageManager, installedRepository),
+                InstalledAppReceiver(packageManager),
                 IntentFilter().apply {
                     addAction(Intent.ACTION_PACKAGE_ADDED)
                     addAction(Intent.ACTION_PACKAGE_REMOVED)
@@ -116,7 +112,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 packageManager.getInstalledPackagesCompat()
                     ?.map { it.toInstalledItem() }
                     ?: return@launch
-            installedRepository.putAll(installedItems)
+            Database.InstalledAdapter.putAll(installedItems)
         }
     }
 

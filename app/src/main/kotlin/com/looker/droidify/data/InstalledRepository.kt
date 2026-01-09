@@ -8,10 +8,6 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-/**
- * Implementation of [InstalledRepository] that uses Room database.
- * @param installedDao The DAO for installed applications.
- */
 class InstalledRepository @Inject constructor(
     private val installedDao: InstalledDao,
 ) {
