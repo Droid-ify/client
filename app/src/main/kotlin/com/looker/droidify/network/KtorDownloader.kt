@@ -73,7 +73,7 @@ internal class KtorDownloader(
                 fileSize = fileSize,
                 block = block,
             ) {
-                inRange(fileSize)
+                if (fileSize > 0) inRange(fileSize)
                 headers()
             }
             client.prepareGet(request).execute { response ->
