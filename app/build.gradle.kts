@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -9,13 +10,14 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
 }
 
 android {
     val latestVersionName = "0.6.6"
     namespace = "com.looker.droidify"
     buildToolsVersion = "35.0.0"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         minSdk = 23
         targetSdk = 35
@@ -27,7 +29,6 @@ android {
     }
 
     compileOptions.isCoreLibraryDesugaringEnabled = true
-    kotlinOptions.freeCompilerArgs = listOf("-opt-in=kotlin.RequiresOptIn", "-Xcontext-parameters")
     androidResources.generateLocaleConfig = true
 
     kotlin {
@@ -35,7 +36,8 @@ android {
         compilerOptions {
             languageVersion.set(KotlinVersion.KOTLIN_2_2)
             apiVersion.set(KotlinVersion.KOTLIN_2_2)
-            jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.add("-opt-in=kotlin.RequiresOptIn")
+            freeCompilerArgs.add("-Xcontext-parameters")
         }
     }
 
@@ -95,6 +97,7 @@ android {
         }
     }
     buildFeatures {
+        compose = true
         resValues = true
         viewBinding = true
         buildConfig = true
@@ -140,14 +143,26 @@ dependencies {
 
     implementation(libs.work.ktx)
 
+    implementation(libs.bundles.vico)
+
     implementation(libs.hilt.core)
     implementation(libs.hilt.android)
     implementation(libs.hilt.ext.work)
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.ext.compiler)
 
+    // Compose dependencies
+    implementation(platform(libs.compose.bom))
+    implementation(libs.bundles.compose)
+    debugImplementation(libs.bundles.compose.debug)
+
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
+    testImplementation(libs.room.test)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.arch.core.testing)
+    testImplementation(libs.test.core)
+    testImplementation(libs.test.core.ktx)
     testRuntimeOnly(libs.junit.platform)
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)

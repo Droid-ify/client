@@ -5,10 +5,14 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
+import com.looker.droidify.data.InstalledRepository
+import com.looker.droidify.data.PrivacyRepository
+import com.looker.droidify.data.local.model.DownloadStats
+import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.InstallerType
-import com.looker.droidify.domain.model.toPackageName
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
@@ -21,19 +25,21 @@ import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
+    installedRepository: InstalledRepository,
+    privacyRepository: PrivacyRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
@@ -51,10 +57,12 @@ class AppDetailViewModel @Inject constructor(
         combine(
             Database.ProductAdapter.getStream(packageName),
             Database.RepositoryAdapter.getAllStream(),
-            Database.InstalledAdapter.getStream(packageName),
+            installedRepository.getStream(packageName),
+            privacyRepository.getRBLogs(packageName),
+            privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,
             flow { emit(settingsRepository.getInitial()) },
-        ) { products, repositories, installedItem, suggestedAddress, initialSettings ->
+        ) { products, repositories, installedItem, rblogs, downloadStats, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
                 idAndRepos[product.repositoryId] != null
@@ -62,6 +70,8 @@ class AppDetailViewModel @Inject constructor(
             AppDetailUiState(
                 products = filteredProducts,
                 repos = repositories,
+                rblogs = rblogs,
+                downloadStats = downloadStats,
                 installedItem = installedItem,
                 isFavourite = packageName in initialSettings.favouriteApps,
                 allowIncompatibleVersions = initialSettings.incompatibleVersions,
@@ -144,6 +154,8 @@ data class ShizukuState(
 data class AppDetailUiState(
     val products: List<Product> = emptyList(),
     val repos: List<Repository> = emptyList(),
+    val rblogs: List<RBLogEntity> = emptyList(),
+    val downloadStats: List<DownloadStats> = emptyList(),
     val installedItem: InstalledItem? = null,
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,

@@ -1,0 +1,9 @@
+💾 Backup Arsenal
+- Unterstützung zum Exportieren/Importieren von Paketquellen und Einstellungen hinzugefügt.
+
+# Verbesserungen
+- Performanz der App-Detailseite.
+
+# Fehlerbehebungen
+- Design wurde beim Start nicht angewendet.
+- Root-Installer hängte sich auf

@@ -202,6 +202,12 @@
     <string name="special_credits">Special credits</string>
     <string name="suggested">Suggested</string>
     <string name="switch_to_default_installer">Switch to default</string>
+
+    <string name="repository_not_synced_or_enabled">Repository neither enabled nor synced</string>
+    <string name="action_sync_repo">Sync</string>
+    <string name="action_enable_repo">Enable</string>
+    <string name="repository_not_found_by_id">Repository not found</string>
+
     <string name="sync_repositories">Sync repositories</string>
     <string name="sync_repositories_automatically">Sync repositories automatically</string>
     <string name="syncing">Syncing</string>
@@ -242,4 +248,12 @@
     <string name="label_sdk_version">Targets: Android %1$s | Minimum: Android %2$s</string>
     <string name="always_choose">Always choose</string>
     <string name="select_installer">Select installer</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Reproducible build badge</string>
+    <string name="total_downloads">Total downloads</string>
+    <string name="download_stats">Download Statistics</string>
+    <string name="download_stats_from_izzy">Source: IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">By Client</string>
+    <string name="monthly">Monthly</string>
 </resources>

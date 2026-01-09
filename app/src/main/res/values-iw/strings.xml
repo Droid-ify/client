@@ -7,7 +7,7 @@
     <string name="always">תמיד</string>
     <string name="amoled">שחור</string>
     <string name="application">יישום</string>
-    <string name="application_not_found">לא ניתן היה למצוא את היישום הזה</string>
+    <string name="application_not_found">היישום לא נמצא</string>
     <string name="author_email">דואר אלקטרוני של היוצר</string>
     <string name="available">עיין</string>
     <string name="bug_tracker">מעקב באגים</string>
@@ -39,9 +39,9 @@
     <string name="incompatible_api_max_DESC_FORMAT">גרסת ה-API המקסימלית היא %d.</string>
     <string name="incompatible_api_min_DESC_FORMAT">גרסת ה-API המינימלית היא %d.</string>
     <string name="incompatible_features_DESC">תכונות חסרות</string>
-    <string name="incompatible_platforms_DESC_FORMAT">פלטפורמת %1$s שלך אינה נתמכת. פלטפורמות נתמכות: %2$s.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">ארכיטקטורת %1$s שלך אינה נתמכת. ארכיטקטורות נתמכות: %2$s</string>
     <string name="install">התקנה</string>
-    <string name="session_installer">מתקין הפעלה</string>
+    <string name="session_installer">סשן מתקין</string>
     <string name="installed">הותקן</string>
     <string name="invalid_metadata_error_DESC">נתוני מטא לא חוקיים</string>
     <string name="invalid_permissions_error_DESC">הרשאות לא חוקיות</string>
@@ -126,7 +126,7 @@
     <string name="credits">קרדיטים</string>
     <string name="downloading_FORMAT">מוריד את %s…</string>
     <string name="fingerprint">טביעת אצבע</string>
-    <string name="has_non_free_dependencies">תלוי בתוספים לא חופשיים</string>
+    <string name="has_non_free_dependencies">תלוי באפליקציות אחרות שאינן חופשיות</string>
     <string name="http_error_DESC">תגובת שרת לא חוקית</string>
     <string name="has_advertising">מכיל פרסומות</string>
     <string name="incompatible_older_DESC">גרסה זו ישנה יותר מזו המותקנת במכשיר שלך</string>
@@ -189,7 +189,7 @@
     <string name="favourites">מועדפים</string>
     <string name="force_clean_up_DESC">מנקה קבצים מיותרים</string>
     <string name="enable_repo">השתמש במאגר</string>
-    <string name="force_clean_up">כפה ניקוי</string>
+    <string name="force_clean_up">ניקוי כפוי</string>
     <string name="repository_unreachable">מאגר בלתי ניתן להשגה</string>
     <string name="auto_update">עדכן אפליקציות אוטומטי</string>
     <string name="auto_update_apps">הורד עדכונים אוטומטית</string>
@@ -207,11 +207,11 @@
     <string name="socket_error_DESC">השרת לא הצליח לספק חבילה חדשה</string>
     <string name="connection_error_DESC">לא היה ניתן להתחבר לשרת</string>
     <string name="has_tethered_network">תלוי בשירות רשת מסוימת</string>
-    <string name="home_screen_swiping_DESC">אפשר למשתמש להחליק בין דפים במסך הבית</string>
+    <string name="home_screen_swiping_DESC">החלק שמאלה או ימינה כדי להחליף עמוד</string>
     <string name="special_credits">קרדיטים מיוחדים</string>
     <string name="contains_nsfw">מכיל תוכן שאינו בטוח (nsfw)</string>
     <string name="export_repos_DESC">ייצא מאגרים לקובץ</string>
-    <string name="home_screen_swiping">החלקה על מסך הבית</string>
+    <string name="home_screen_swiping">החלקה בין דפים</string>
     <string name="proxy_port_error_not_int">יציאת הפרוקסי יכולה להיות רק מספר שלם</string>
     <string name="cannot_open_link">לא ניתן לפתוח קישור</string>
     <string name="import_export">ייבוא/ייצוא</string>

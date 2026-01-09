@@ -1,0 +1,16 @@
+Verbesserungen:
+- Symbole basierend auf der Nutzung verbessert
+- Platzhalter für Screenshots verbessert
+- Verbesserungen am Titel von Link-Elementen
+- Möglichkeit hinzugefügt, durch Klicken auf das gesamte Element umzuschalten
+- Hintergrundaktualisierungen verbessert
+- Symbolen von verschiedenen Mirrors herunterladen
+- Bereinigung nach Änderung des Proxys
+
+Korrekturen:
+- Monet-Design-Umschaltung
+- Screenshot-Größe
+- Tor/Onion-Paketquellen korrigiert
+- Shizuku-Berechtigungsproblem korrigiert
+- Unbegrenzte Wiederherstellung des Installationsprogramms korrigiert
+- Aufrufe von Tor-Paketquellen korrigiert

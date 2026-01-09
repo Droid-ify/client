@@ -1,0 +1,18 @@
+Verbesserungen am Installationsprogramm:
+- Apps lassen sich nun aus der Installationswarteschlange entfernen
+- Bereinigung des Speichers nach dem Verwenden des Installationsprogramms
+
+Verbesserungen:
+- Erstmalig Unterstützung für Android 14 hinzugefügt
+- 11 neue Paketquellen
+- Beim Drücken von Zurück werden die Kategorien vor dem Beenden gelöscht
+- Schnelleres Laden von Symbolen/Screenshots
+- Schnellere Auswahl der Downloaddatei
+
+Korrekturen:
+- Wiederholtes Laden von Bildern
+- Installationsschaltfläche funktionierte beim zweiten Klick nicht
+- Abstürze beim Synchronisieren
+- Abstürze in Verbindung mit dem Systemdienst
+- Performanceverbesserung des App-Detailbildschirms
+- Performanceverbesserung des Startbildschirms

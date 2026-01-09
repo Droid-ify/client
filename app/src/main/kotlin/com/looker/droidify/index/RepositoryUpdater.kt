@@ -2,8 +2,8 @@ package com.looker.droidify.index
 
 import android.content.Context
 import androidx.core.net.toUri
+import com.looker.droidify.data.model.fingerprint
 import com.looker.droidify.database.Database
-import com.looker.droidify.domain.model.fingerprint
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
@@ -15,6 +15,11 @@ import com.looker.droidify.utility.common.extension.toFormattedString
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress
+import java.io.File
+import java.security.CodeSigner
+import java.security.cert.Certificate
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.drop
@@ -22,11 +27,6 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.security.CodeSigner
-import java.security.cert.Certificate
-import java.util.jar.JarEntry
-import java.util.jar.JarFile
 
 object RepositoryUpdater {
     enum class Stage {
@@ -343,12 +343,11 @@ object RepositoryUpdater {
                     )
                 }
 
-                val fingerprint = indexEntry
-                    .codeSigner
-                    .certificate
-                    .fingerprint()
-                    .toString()
-                    .uppercase()
+                val fingerprint = indexEntry.codeSigner.certificate.fingerprint()?.value?.uppercase()
+                    ?: throw UpdateException(
+                        ErrorType.VALIDATION,
+                        "No or invalid fingerprint found, invalid repo index",
+                    )
 
                 val commitRepository = if (!workRepository.fingerprint.equals(
                         fingerprint,

@@ -1,0 +1,14 @@
+### Verbesserungen:
+- App-Größe etwas reduziert
+- Abschalten der Benachrichtigung „Zum Installieren antippen“ ermöglicht
+- Große Kopfzeile entfernt
+- Verbesserte Downloader-Logik
+- Verbesserte Statusbehandlung
+- Shizuku- und Root-Installer verbessert
+
+### Fehlerbehebungen:
+- Absturz im Hintergrund aufgrund des Session-Installers
+- Redundante Anzeige der Schaltfläche „Alle aktualisieren“
+- Überlappende Schaltflächen
+- Sprachänderungsliste
+- Leere Benachrichtigungen

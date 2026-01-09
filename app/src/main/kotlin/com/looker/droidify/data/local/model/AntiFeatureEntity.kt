@@ -3,6 +3,7 @@ package com.looker.droidify.data.local.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import com.looker.droidify.sync.v2.model.AntiFeatureReason
 import com.looker.droidify.sync.v2.model.AntiFeatureV2
 import com.looker.droidify.sync.v2.model.Tag
@@ -40,6 +41,7 @@ data class AntiFeatureRepoRelation(
 @Entity(
     tableName = "anti_features_app_relation",
     primaryKeys = ["tag", "appId", "versionCode"],
+    indices = [Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
