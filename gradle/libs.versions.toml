@@ -29,13 +29,13 @@ libsu = "6.0.0"
 room = "2.8.4"
 shizuku = "13.0.0"
 image-viewer = "1.0.1"
-junit-jupiter = "6.0.1"
+junit-jupiter = "6.0.2"
 robolectric = "4.16"
 test-core = "1.7.0"
 arch-core-testing = "2.2.0"
 compose-bom = "2025.12.01"
 compose-navigation = "2.9.6"
-vico = "2.2.1"
+vico = "2.4.1"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
