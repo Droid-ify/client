@@ -41,6 +41,7 @@ data class CategoryRepoRelation(
 @Entity(
     tableName = "category_app_relation",
     primaryKeys = ["id", "defaultName"],
+    indices = [Index("defaultName")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -69,3 +70,11 @@ fun CategoryV2.categoryEntity(
         )
     }
 }
+
+// FIXME: This is a garbage algorithm
+fun List<CategoryEntity>.filterLocalized(locale: String): List<CategoryEntity> =
+    filter { it.locale == locale }.ifEmpty {
+        filter { it.locale == "en-US" }.ifEmpty {
+            filter { it.locale == "en" }
+        }
+    }

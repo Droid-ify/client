@@ -1,14 +1,17 @@
 package com.looker.droidify.di
 
 import android.content.Context
+import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
+import com.looker.droidify.data.local.dao.DownloadStatsDao
+import com.looker.droidify.data.local.dao.DownloadStatsFileDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.droidifyDatabase
-import com.looker.droidify.domain.PrivacyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,6 +50,12 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideInstallDao(
+        db: DroidifyDatabase,
+    ): InstalledDao = db.installedDao()
+
+    @Singleton
+    @Provides
     fun provideIndexDao(
         db: DroidifyDatabase,
     ): IndexDao = db.indexDao()
@@ -59,7 +68,21 @@ object DatabaseModule {
 
     @Singleton
     @Provides
+    fun provideDownloadStatsDao(
+        db: DroidifyDatabase,
+    ): DownloadStatsDao = db.downloadStatsDao()
+
+    @Singleton
+    @Provides
+    fun provideDownloadStatsFileDao(
+        db: DroidifyDatabase,
+    ): DownloadStatsFileDao = db.downloadStatsFileDao()
+
+    @Singleton
+    @Provides
     fun providePrivacyRepository(
         rblDao: RBLogDao,
-    ): PrivacyRepository = PrivacyRepository(rblDao)
+        downloadStatsDao: DownloadStatsDao,
+        downloadStatsFileDao: DownloadStatsFileDao,
+    ): PrivacyRepository = PrivacyRepository(rblDao, downloadStatsDao, downloadStatsFileDao)
 }

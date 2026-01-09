@@ -5,14 +5,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.Index
-import com.looker.droidify.domain.model.Screenshots
+import com.looker.droidify.data.model.FilePath
+import com.looker.droidify.data.model.Screenshots
 import com.looker.droidify.sync.v2.model.LocalizedFiles
 import com.looker.droidify.sync.v2.model.ScreenshotsV2
 
 @Entity(
     tableName = "screenshot",
     primaryKeys = ["path", "type", "locale", "appId"],
-    indices = [Index("appId", "locale")],
+    indices = [Index("appId", "locale"), Index("appId")],
     foreignKeys = [
         ForeignKey(
             entity = AppEntity::class,
@@ -56,20 +57,38 @@ fun ScreenshotsV2.localizedScreenshots(appId: Int): List<ScreenshotEntity> {
     return screenshots
 }
 
-fun List<ScreenshotEntity>.toScreenshots(): Screenshots {
-    val phone = mutableListOf<String>()
-    val sevenInch = mutableListOf<String>()
-    val tenInch = mutableListOf<String>()
-    val wear = mutableListOf<String>()
-    val tv = mutableListOf<String>()
-    for (index in this.indices) {
-        val entity = get(index)
-        when (entity.type) {
-            PHONE -> phone.add(entity.path)
-            SEVEN_INCH -> sevenInch.add(entity.path)
-            TEN_INCH -> tenInch.add(entity.path)
-            TV -> tv.add(entity.path)
-            WEAR -> wear.add(entity.path)
+fun List<ScreenshotEntity>.toScreenshots(locale: String, baseAddress: String): Screenshots {
+    val phone = mutableListOf<FilePath>()
+    val sevenInch = mutableListOf<FilePath>()
+    val tenInch = mutableListOf<FilePath>()
+    val wear = mutableListOf<FilePath>()
+    val tv = mutableListOf<FilePath>()
+
+    if (isEmpty()) return Screenshots()
+
+    val requestedLang = locale.substringBefore('-')
+    val localesAvailable = map { it.locale }.toSet()
+
+    val chosenLocale = when {
+        localesAvailable.contains(locale) -> locale
+        localesAvailable.any { it.substringBefore('-') == requestedLang } ->
+            localesAvailable.first { it.substringBefore('-') == requestedLang }
+        else -> localesAvailable.firstOrNull()
+    }
+
+    if (chosenLocale == null) return Screenshots()
+
+    for (entity in this) {
+        if (entity.locale != chosenLocale) continue
+        val path = FilePath(baseAddress, entity.path)
+        if (path != null) {
+            when (entity.type) {
+                PHONE -> phone.add(path)
+                SEVEN_INCH -> sevenInch.add(path)
+                TEN_INCH -> tenInch.add(path)
+                TV -> tv.add(path)
+                WEAR -> wear.add(path)
+            }
         }
     }
 

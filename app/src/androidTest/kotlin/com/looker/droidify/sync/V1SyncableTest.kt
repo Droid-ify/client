@@ -3,33 +3,29 @@ package com.looker.droidify.sync
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.sync.common.IndexJarValidator
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.sync.common.Izzy
-import com.looker.droidify.sync.common.JsonParser
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
-import com.looker.droidify.sync.v1.V1Parser
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v1.model.IndexV1
-import com.looker.droidify.sync.v2.V2Parser
 import com.looker.droidify.sync.v2.model.FileV2
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.VersionV2
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.runTest
-import org.junit.Before
-import org.junit.runner.RunWith
 import kotlin.system.measureTimeMillis
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class V1SyncableTest {
@@ -37,18 +33,12 @@ class V1SyncableTest {
     private lateinit var dispatcher: CoroutineDispatcher
     private lateinit var context: Context
     private lateinit var syncable: Syncable<IndexV1>
-    private lateinit var parser: Parser<IndexV1>
-    private lateinit var v2Parser: Parser<IndexV2>
-    private lateinit var validator: IndexValidator
     private lateinit var repo: Repo
 
     @Before
     fun before() {
         context = InstrumentationRegistry.getInstrumentation().targetContext
         dispatcher = StandardTestDispatcher()
-        validator = IndexJarValidator(dispatcher)
-        parser = V1Parser(dispatcher, JsonParser, validator)
-        v2Parser = V2Parser(dispatcher, JsonParser)
         syncable = V1Syncable(context, FakeDownloader, dispatcher)
         repo = Izzy
     }
@@ -56,7 +46,7 @@ class V1SyncableTest {
     @Test
     fun benchmark_sync_v1() = runTest(dispatcher) {
         val output = benchmark(10) {
-            measureTimeMillis { syncable.sync(repo) }
+            measureTimeMillis { syncable.sync(repo) { /* no-op */ } }
         }
         println(output)
     }
@@ -66,27 +56,28 @@ class V1SyncableTest {
         val file = FakeDownloader.downloadIndex(context, repo, "izzy", "index-v1.jar")
         val output = benchmark(10) {
             measureTimeMillis {
-                parser.parse(
-                    file = file,
-                    repo = repo
-                )
+                with(file.toJarScope<IndexV1>()) { json() }
             }
         }
         println(output)
     }
 
     @Test
-    fun benchmark_v2_parser() = runTest(dispatcher) {
-        val file = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
-        val output = benchmark(10) {
+    fun benchmark_v1_vs_v2_parser() = runTest(dispatcher) {
+        val v1File = FakeDownloader.downloadIndex(context, repo, "izzy-v1", "index-v1.jar")
+        val v2File = FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2.json")
+        val output1 = benchmark(10) {
             measureTimeMillis {
-                v2Parser.parse(
-                    file = file,
-                    repo = repo,
-                )
+                with(v1File.toJarScope<IndexV1>()) { json() }
             }
         }
-        println(output)
+        val output2 = benchmark(10) {
+            measureTimeMillis {
+                JsonParser.decodeFromString<IndexV2>(v2File.readBytes().decodeToString())
+            }
+        }
+        println(output1)
+        println(output2)
     }
 
     @Test
@@ -100,8 +91,9 @@ class V1SyncableTest {
             FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2-updated.json")
         val v2FdroidFile =
             FakeDownloader.downloadIndex(context, repo, "fdroid-v2", "fdroid-index-v2.json")
-        val (_, v2Izzy) = v2Parser.parse(v2IzzyFile, repo)
-        val (_, v2Fdroid) = v2Parser.parse(v2FdroidFile, repo)
+        val v2Izzy = JsonParser.decodeFromString<IndexV2>(v2IzzyFile.readBytes().decodeToString())
+        val v2Fdroid =
+            JsonParser.decodeFromString<IndexV2>(v2FdroidFile.readBytes().decodeToString())
 
         val performTest: (PackageV2) -> Unit = { data ->
             print("lib: ")
@@ -135,10 +127,10 @@ class V1SyncableTest {
     ) {
         val fileV1 = FakeDownloader.downloadIndex(context, repo, "data-v1", v1)
         val fileV2 = FakeDownloader.downloadIndex(context, repo, "data-v2", v2)
-        val (fingerV1, foundIndexV1) = parser.parse(fileV1, repo)
-        val (fingerV2, expectedIndex) = v2Parser.parse(fileV2, repo)
+        val foundIndexV1 = with(fileV1.toJarScope<IndexV1>()) { json() }
+        val expectedIndex =
+            JsonParser.decodeFromString<IndexV2>(fileV2.readBytes().decodeToString())
         val foundIndex = foundIndexV1.toV2()
-        assertEquals(fingerV2, fingerV1)
         assertNotNull(foundIndex)
         assertNotNull(expectedIndex)
         assertEquals(expectedIndex.repo.timestamp, foundIndex.repo.timestamp)
@@ -200,7 +192,7 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
     assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
     assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
-    assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
+    assertContentEquals(expectedMetaData.donate, foundMetadata.donate?.ifEmpty { null })
     // Source
     assertEquals(expectedMetaData.translation, foundMetadata.translation)
     assertEquals(expectedMetaData.issueTracker, foundMetadata.issueTracker)

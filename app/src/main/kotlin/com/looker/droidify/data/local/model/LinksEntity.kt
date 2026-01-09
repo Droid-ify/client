@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
-import com.looker.droidify.domain.model.Links
+import com.looker.droidify.data.model.Links
 import com.looker.droidify.sync.v2.model.MetadataV2
 
 @Entity(

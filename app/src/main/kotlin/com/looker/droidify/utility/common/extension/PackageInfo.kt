@@ -5,7 +5,7 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
-import com.looker.droidify.domain.model.hex
+import com.looker.droidify.data.model.hex
 import com.looker.droidify.utility.common.SdkCheck
 import java.security.MessageDigest
 

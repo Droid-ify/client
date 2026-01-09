@@ -1,8 +1,6 @@
 package com.looker.droidify.data.local
 
 import android.content.Context
-import androidx.room.AutoMigration
-import androidx.room.BuiltInTypeConverters
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -12,7 +10,10 @@ import com.looker.droidify.data.local.converters.Converters
 import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
+import com.looker.droidify.data.local.dao.DownloadStatsDao
+import com.looker.droidify.data.local.dao.DownloadStatsFileDao
 import com.looker.droidify.data.local.dao.IndexDao
+import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureAppRelation
@@ -25,9 +26,18 @@ import com.looker.droidify.data.local.model.CategoryAppRelation
 import com.looker.droidify.data.local.model.CategoryEntity
 import com.looker.droidify.data.local.model.CategoryRepoRelation
 import com.looker.droidify.data.local.model.DonateEntity
+import com.looker.droidify.data.local.model.DownloadStats
+import com.looker.droidify.data.local.model.DownloadStatsFile
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.InstalledEntity
 import com.looker.droidify.data.local.model.LinksEntity
+import com.looker.droidify.data.local.model.LocalizedAppDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedAppIconEntity
+import com.looker.droidify.data.local.model.LocalizedAppNameEntity
+import com.looker.droidify.data.local.model.LocalizedAppSummaryEntity
+import com.looker.droidify.data.local.model.LocalizedRepoDescriptionEntity
+import com.looker.droidify.data.local.model.LocalizedRepoIconEntity
+import com.looker.droidify.data.local.model.LocalizedRepoNameEntity
 import com.looker.droidify.data.local.model.MirrorEntity
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.RepoEntity
@@ -35,6 +45,8 @@ import com.looker.droidify.data.local.model.ScreenshotEntity
 import com.looker.droidify.data.local.model.VersionEntity
 
 @Database(
+    version = 1,
+    exportSchema = true,
     entities = [
         AntiFeatureEntity::class,
         AntiFeatureAppRelation::class,
@@ -54,20 +66,21 @@ import com.looker.droidify.data.local.model.VersionEntity
         ScreenshotEntity::class,
         VersionEntity::class,
         RBLogEntity::class,
-    ],
-    version = 2,
-    exportSchema = true,
-    autoMigrations = [
-        AutoMigration(
-            from = 1,
-            to = 2,
-        ),
+        DownloadStats::class,
+        DownloadStatsFile::class,
+        // Localized Data
+        LocalizedAppNameEntity::class,
+        LocalizedAppSummaryEntity::class,
+        LocalizedAppDescriptionEntity::class,
+        LocalizedAppIconEntity::class,
+        LocalizedRepoNameEntity::class,
+        LocalizedRepoDescriptionEntity::class,
+        LocalizedRepoIconEntity::class,
     ],
 )
 @TypeConverters(
     PermissionConverter::class,
     Converters::class,
-    builtInTypeConverters = BuiltInTypeConverters(),
 )
 abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun appDao(): AppDao
@@ -75,6 +88,9 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun authDao(): AuthDao
     abstract fun indexDao(): IndexDao
     abstract fun rbLogDao(): RBLogDao
+    abstract fun downloadStatsDao(): DownloadStatsDao
+    abstract fun downloadStatsFileDao(): DownloadStatsFileDao
+    abstract fun installedDao(): InstalledDao
 }
 
 fun droidifyDatabase(context: Context): DroidifyDatabase = Room

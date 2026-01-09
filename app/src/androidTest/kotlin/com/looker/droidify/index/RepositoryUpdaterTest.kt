@@ -7,15 +7,17 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.database.Database
 import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
-import com.looker.droidify.sync.common.assets
+import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.benchmark
+import com.looker.droidify.sync.common.downloadIndex
+import java.io.File
+import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.io.File
-import kotlin.system.measureTimeMillis
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -47,13 +49,11 @@ class RepositoryUpdaterTest {
     }
 
     @Test
-    fun processFile() {
+    fun processFile() = runTest {
         val output = benchmark(1) {
-            val createFile = File.createTempFile("index", "entry")
             val mergerFile = File.createTempFile("index", "merger")
-            val jarStream = assets("index-v1.jar")
-            jarStream.copyTo(createFile.outputStream())
-            process(createFile, mergerFile)
+            val index = FakeDownloader.downloadIndex(context, Izzy, "index", "index-v1.jar")
+            process(index, mergerFile)
         }
         println(output)
     }

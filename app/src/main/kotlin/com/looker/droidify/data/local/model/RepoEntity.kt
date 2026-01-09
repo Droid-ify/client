@@ -2,23 +2,24 @@ package com.looker.droidify.data.local.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.looker.droidify.domain.model.Authentication
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.domain.model.VersionInfo
-import com.looker.droidify.sync.v2.model.LocalizedIcon
-import com.looker.droidify.sync.v2.model.LocalizedString
+import com.looker.droidify.data.model.Authentication
+import com.looker.droidify.data.model.FilePath
+import com.looker.droidify.data.model.Fingerprint
+import com.looker.droidify.data.model.Html
+import com.looker.droidify.data.model.Repo
+import com.looker.droidify.data.model.VersionInfo
 import com.looker.droidify.sync.v2.model.RepoV2
-import com.looker.droidify.sync.v2.model.localizedValue
 
+/**
+ * `enabled` flag will be kept in datastore and will be updated there only
+ * `deleted` is not needed as we will delete all required data when deleting repo or disabling it
+ * */
 @Entity(tableName = "repository")
 data class RepoEntity(
-    val icon: LocalizedIcon?,
     val address: String,
-    val name: LocalizedString,
-    val description: LocalizedString,
+    val webBaseUrl: String?,
     val fingerprint: Fingerprint,
-    val timestamp: Long,
+    val timestamp: Long?,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 )
@@ -28,27 +29,28 @@ fun RepoV2.repoEntity(
     fingerprint: Fingerprint,
 ) = RepoEntity(
     id = id,
-    icon = icon,
     address = address,
-    name = name,
-    description = description,
     timestamp = timestamp,
     fingerprint = fingerprint,
+    webBaseUrl = webBaseUrl,
 )
 
 fun RepoEntity.toRepo(
-    locale: String,
+    name: String,
+    description: String,
+    icon: String?,
     mirrors: List<String>,
     enabled: Boolean,
-    authentication: Authentication? = null,
+    authentication: Authentication?,
 ) = Repo(
-    name = name.localizedValue(locale) ?: "Unknown",
-    description = description.localizedValue(locale) ?: "Unknown",
+    icon = FilePath(address, icon),
+    name = name,
+    description = Html(description),
     fingerprint = fingerprint,
     authentication = authentication,
     enabled = enabled,
     address = address,
-    versionInfo = VersionInfo(timestamp = timestamp, etag = null),
+    versionInfo = timestamp?.let { VersionInfo(timestamp = it, etag = null) },
     mirrors = mirrors,
     id = id,
 )
