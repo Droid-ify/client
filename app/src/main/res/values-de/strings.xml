@@ -113,7 +113,7 @@
     <string name="ignore_all_updates">Neue Versionen ignorieren</string>
     <string name="ignore_this_update">Diese Version ignorieren</string>
     <string name="size">Größe</string>
-    <string name="updates">Updates</string>
+    <string name="updates">Aktualisierungen</string>
     <string name="username">Benutzername</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="downloading">Lädt herunter</string>
@@ -238,4 +238,7 @@
     <string name="always_choose">Immer wählen</string>
     <string name="label_sdk_version">Zielversion: Android %1$s | Minimum: Android %2$s</string>
     <string name="select_installer">Installationsmethode wählen</string>
+    <string name="monthly">Monatlich</string>
+    <string name="download_stats_from_izzy">Quelle: IzzyOnDroid</string>
+    <string name="download_stats">Download-Statistiken</string>
 </resources>
