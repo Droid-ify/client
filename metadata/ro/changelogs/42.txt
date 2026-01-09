@@ -1,0 +1,6 @@
+- Mai mult Material Design 3
+- Remediat: root și instalatorul implicit
+- Remediat: fișierul din cache șters după dezinstalare
+- Remediat: crash după apăsarea butonului Descărcare în momentul ìn care aplicația este offline
+- Au fost actualizate traducerile a peste 17 limbi
+- Multe corecții și remedieri minore…

@@ -1,0 +1,4 @@
+- Remediat: pictograma substituentă pentru capturile de ecran
+- Remediat: crash ușor la afișarea detaliilor aplicației
+- Remediat: rulează doar o singură instanță pentru instalatorului root
+- Remediat: instalatorul root

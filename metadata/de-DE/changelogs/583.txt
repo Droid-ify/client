@@ -1,0 +1,11 @@
+## Verbesserungen
+- Brandneue Shizuku-Berechtigungsverwaltung
+- Unerwünschtes Merkmal „NSFW” anzeigen
+- Schnellere APK-Validierung
+- Bessere Verwaltung des Download-Status
+- Optimiertes Layout für arabische Sprachen
+
+## Fehlerbehebungen
+- App lässt sich nicht installieren **
+
+** Apps wurden nach 20 Sekunden Wartezeit nicht installiert.

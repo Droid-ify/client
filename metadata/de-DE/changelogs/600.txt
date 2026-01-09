@@ -1,0 +1,16 @@
+Hinzugefügt:
+- Wischgeste für Zurück und Animation im Screenshot
+
+Geändert:
+- Verbesserte Leistung bei: Start, Synchronisierung, Installation, Paketquelle bearbeiten
+- Freigabe und Deinstallation während des Downloads möglich
+- Symbolrundungen im Hauptbildschirm
+- Subdomain bei Freigabe entfernt
+- Design aktualisiert
+
+Behoben:
+- Verzögerung bei der Synchronisierung
+- Synchronisierungsfehler
+- Absturz beim Aktivieren von Paketquellen
+- Zurücksetzen des Scrollzustands
+- Doppelte Installation

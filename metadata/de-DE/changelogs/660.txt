@@ -1,0 +1,15 @@
+Hinzugefügt:
+- Unterstützung für mehrere Installationskomponenten für Legacy-Installationsprogramme
+- Sui-Unterstützung
+- Neue Paketquellen
+- Unterstützung zum Öffnen von IzzyOnDroid-URLs
+- Unterstützung für vom Hersteller bereitgestellte Paketquellen
+
+Behoben:
+- Das Ignorieren von Signaturen führte zu Problemen bei der Aktualisierung
+- Absturz im Bildschirm zur Bearbeitung von Repositorys
+
+Entfernt:
+- Veraltete Paketquellen
+
+und vieles mehr

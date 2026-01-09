@@ -1,0 +1,6 @@
+- Weiteres Material Design 3
+- Fehlerbehebung: Root und Standardinstallationsprogramm
+- Fehlerbehebung: Cache-Datei nach Deinstallation löschen
+- Fehlerbehebung: Absturz beim Drücken von „Download“ im Offline-Modus
+- Aktualisierung der Übersetzungen für über 17 Sprachen
+- Viele kleine Fehlerbehebungen und Optimierungen …

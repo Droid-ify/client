@@ -1,0 +1,5 @@
+- Shizuku wird auf Versionen vor Android 11 nicht mehr abgelehnt
+- Symbole für viele Apps korrigiert
+- Einige Änderungen an der Benutzeroberfläche auf der Paketquellenseite
+- Ein seltsames Verhalten behoben, das durch Material-You-Schalter entsteht
+- Alte Änderungsprotokolle finden sich unter - https://github.com/Iamlooker/Droid-ify/releases/tag/v0.5.2

@@ -1,0 +1,15 @@
+## Neu
+- Downloader implementiert
+- Material-You-Schalter
+- Neustart nach Einstellung von „Proxy“ erforderlich
+- Abstand für schwebende Schaltfläche
+- Lokalisierte Metadaten für Apps (Danke an @BLumia)
+
+## Verbessert
+- Absturz der Favoritenliste
+- Paketquellen oben aktiviert
+- Reagierende Schaltfläche „Alle aktualisieren“
+- Live-Installer geändert
+- Schnelleres Öffnen der Seiten
+
+- Viele weitere Änderungen, die ich vergessen habe

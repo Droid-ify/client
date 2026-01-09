@@ -1,0 +1,12 @@
+- Adaugă instalator Shizuku
+- Mărește versiunea minimă de Android la Android 6
+- Repară "Arată mai puțin" (#15)
+- Format localizat al datei (#24)
+- Elimină depozitul UnifiedPush (#23)
+- Antet nou cu informațiile despre aplicație
+- Bara de deasupra este acum rotunjită
+- Notificarea va deschide pagina aplicației
+- Descărcător lightweight
+- Revenire la cache pentru a salva datele
+- Elimină suportul pentru Edge-to-Edge (#27)
+- Câteva îmbunătățiri minore

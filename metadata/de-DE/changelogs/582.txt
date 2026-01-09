@@ -1,0 +1,5 @@
+## Fehlerbehebungen
+- Zurücksetzen der Kategorie beim Seitenwechsel
+- Absturz durch Proxy-Änderung
+- Absturz beim Aktualisieren aller Apps
+- Absturz unter Android 7

@@ -1,0 +1,10 @@
+Caracteristici:
+• Răsfoiește și instalează aplicații din depozitele F-Droid 
+• Actualizări automate ale aplicațiilor în fundal 
+• Metode de instalare multiple (sesiune, root, Shizuku)
+• Adaugă depozite personalizate cu o singură atingere
+• Funcționează complet offline după sincronizarea inițială
+
+Disponibil în 63 de limbi, inclusiv engleză, germană, franceză, spaniolă și chineză.
+
+Software liber copyleft, licențiat GPLv3+.

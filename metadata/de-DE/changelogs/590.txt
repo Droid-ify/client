@@ -1,0 +1,16 @@
+Brandneues Teilen-Erlebnis:
+- Universelles Teilen mit „droidify.eu.org“
+- Neue Seite für fehlende Apps
+- Hinzufügen fehlender Paketquellen auf der Detailseite
+
+Verbesserungen:
+- Zurück-Symbol zum Screenshot hinzugefügt
+- Datenbankleistung verbessert
+- Performance der Einstellungsseite verbessert
+
+Korrekturen:
+- Absturz beim Validieren
+- Absturz nach Abbruch des Downloads
+- Absturz in Verbindung mit Shizuku
+- Einstellungsschaltfläche korrigiert
+- Aufrufe für leere Symbole korrigiert

@@ -1,0 +1,15 @@
+Verbesserungen:
+- Shizuku-Berechtigungsverwaltung
+- Benutzererkennung mit Root
+- Einstellung hinzugefügt, die das Wischen zwischen Seiten blockiert
+- Droid-ify als letztes in der Liste aktualisieren
+- Verschiedene Änderungen
+
+Fehlerbehebungen:
+- Sui-Berechtigungsverwaltung
+- Anklickbarer Bereich der Kategorie
+- Absturz bereinigen
+- Auswahl der chinesischen Übersetzung
+- Absturz beim Screenshot
+- Bereinigungsintervall
+- Falscher Installationsstatus auf verschiedenen Seiten

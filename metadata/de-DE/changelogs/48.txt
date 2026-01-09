@@ -1,0 +1,5 @@
+- Neues Einstellungen-Backend (die alten Einstellungen werden gelöscht)
+- Neue Option, die eine Bereinigungsdauer hinzufügt
+- Leere Screenshots behoben
+- Absturz am unteren Bildschirmrand behoben
+- „Installiert“-Benachrichtigung behoben

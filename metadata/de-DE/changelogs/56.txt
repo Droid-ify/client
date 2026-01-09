@@ -1,0 +1,10 @@
+Neu: Schaltfläche „Alle aktualisieren“
+Verbessert: Installationsprogramm neu geschrieben
+Verbessert: Apps automatisch installieren, sofern möglich
+Verbessert: Benutzer kann „Zum Installieren antippen“ entfernen
+Verbessert: Farblogik in Material You
+Verbessert: Favoritensymbol
+Behoben: Problem mit der Sortierreihenfolge
+Behoben: Installation mit Root-Installationsprogramm überspringen
+Behoben: Zusammenfassung in der Favoritenliste
+Behoben: Speicherleck
