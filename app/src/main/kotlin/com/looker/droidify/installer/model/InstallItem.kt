@@ -1,7 +1,7 @@
 package com.looker.droidify.installer.model
 
-import com.looker.droidify.domain.model.PackageName
-import com.looker.droidify.domain.model.toPackageName
+import com.looker.droidify.data.model.PackageName
+import com.looker.droidify.data.model.toPackageName
 
 class InstallItem(
     val packageName: PackageName,

@@ -13,15 +13,10 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Parcelable
 import android.text.SpannableStringBuilder
-import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
-import android.text.style.BulletSpan
-import android.text.style.ClickableSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.ReplacementSpan
 import android.text.style.TypefaceSpan
-import android.text.style.URLSpan
-import android.text.util.Linkify
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -32,11 +27,11 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.net.toUri
-import androidx.core.text.HtmlCompat
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import androidx.core.text.util.LinkifyCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -48,7 +43,13 @@ import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.looker.droidify.R
+import com.looker.droidify.compose.appDetail.ReleaseItem
+import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.data.local.model.DownloadStats
+import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.Reproducible
+import com.looker.droidify.data.local.model.toReproducible
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductPreference
@@ -70,24 +71,16 @@ import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.open
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
 import com.looker.droidify.utility.common.nullIfEmpty
-import com.looker.droidify.utility.common.sdkName
-import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
+import com.looker.droidify.utility.text.formatHtml
 import com.looker.droidify.widget.StableRecyclerAdapter
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.parcelize.Parcelize
-import java.lang.ref.WeakReference
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
+import java.util.*
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
+import kotlinx.parcelize.Parcelize
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
@@ -142,6 +135,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         LINK,
         PERMISSIONS,
         RELEASE,
+        DOWNLOAD_STATS,
         EMPTY
     }
 
@@ -360,13 +354,24 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             val repository: Repository,
             val release: Release,
             val selectedRepository: Boolean,
-            val showSignature: Boolean
+            val showSignature: Boolean,
+            val reproducible: Reproducible,
         ) : Item() {
             override val descriptor: String
                 get() = "release.${repository.id}.${release.identifier}"
 
             override val viewType: ViewType
                 get() = ViewType.RELEASE
+        }
+
+        class DownloadStatsItem(
+            val downloadStats: List<DownloadStats>,
+        ) : Item() {
+            override val descriptor: String
+                get() = "download_stats.${downloadStats.size}"
+
+            override val viewType: ViewType
+                get() = ViewType.DOWNLOAD_STATS
         }
 
         class EmptyItem(val packageName: String, val repoAddress: String?) : Item() {
@@ -549,30 +554,26 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         }
     }
 
-    private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dateFormat = DateFormat.getDateFormat(itemView.context)!!
-
-        val version = itemView.findViewById<TextView>(R.id.version)!!
-        val status = itemView.findViewById<TextView>(R.id.installation_status)!!
-        val source = itemView.findViewById<TextView>(R.id.source)!!
-        val added = itemView.findViewById<TextView>(R.id.added)!!
-        val size = itemView.findViewById<TextView>(R.id.size)!!
-        val signature = itemView.findViewById<TextView>(R.id.signature)!!
-        val compatibility = itemView.findViewById<TextView>(R.id.compatibility)!!
-        val sdkVer = itemView.findViewById<TextView>(R.id.sdk_ver)!!
-
-        val statefulViews: Sequence<View>
-            get() = sequenceOf(
-                itemView,
-                version,
-                status,
-                source,
-                added,
-                size,
-                signature,
-                compatibility,
-                sdkVer,
+    private class ReleaseViewHolderCompose(itemView: ComposeView) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
             )
+        }
+
+        val composeView: ComposeView
+            get() = itemView as ComposeView
+    }
+
+    private class DownloadStatsViewHolder(itemView: ComposeView) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setViewCompositionStrategy(
+                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+            )
+        }
+
+        val composeView: ComposeView
+            get() = itemView as ComposeView
     }
 
     private class EmptyViewHolder(context: Context) :
@@ -704,6 +705,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         packageName: String,
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
+        rblogs: List<RBLogEntity>,
+        downloadStats: List<DownloadStats> = emptyList(),
         installedItem: InstalledItem?,
         isFavourite: Boolean,
         allowIncompatibleVersion: Boolean
@@ -885,6 +888,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             }
         }
 
+        if (downloadStats.isNotEmpty()) {
+            items += Item.DownloadStatsItem(downloadStats)
+        }
+
         val linkItems = mutableListOf<Item>()
         with(productRepository.first) {
             source.let { link ->
@@ -1029,7 +1036,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     repository = repository,
                     release = release,
                     selectedRepository = repository.id == productRepository.second.id,
-                    showSignature = release.versionCode in versionsWithMultiSignature
+                    showSignature = release.versionCode in versionsWithMultiSignature,
+                    reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
                 )
             }
             .sortedByDescending { it.release.versionCode }
@@ -1224,19 +1232,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     }
                 }
 
-            ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
-                itemView.setOnClickListener {
-                    val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
-                    callbacks.onReleaseClick(releaseItem.release)
-                }
-                itemView.setOnLongClickListener {
-                    val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
-                    copyLinkToClipboard(
-                        itemView,
-                        releaseItem.release.getDownloadUrl(releaseItem.repository)
-                    )
-                    true
-                }
+            ViewType.RELEASE -> ReleaseViewHolderCompose(
+                ComposeView(parent.context)
+            ).apply {
+                composeView.layoutParams = RecyclerView.LayoutParams(
+                    RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT,
+                )
+            }
+
+            ViewType.DOWNLOAD_STATS -> DownloadStatsViewHolder(
+                ComposeView(parent.context)
+            ).apply {
+                composeView.layoutParams = RecyclerView.LayoutParams(
+                    RecyclerView.LayoutParams.MATCH_PARENT,
+                    RecyclerView.LayoutParams.WRAP_CONTENT,
+                )
             }
 
             ViewType.EMPTY -> EmptyViewHolder(parent.context).apply {
@@ -1600,139 +1611,46 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             }
 
             ViewType.RELEASE -> {
-                holder as ReleaseViewHolder
+                holder as ReleaseViewHolderCompose
                 item as Item.ReleaseItem
-                val incompatibility = item.release.incompatibilities.firstOrNull()
-                val singlePlatform =
-                    if (item.release.platforms.size == 1) item.release.platforms.first() else null
-                val installed = installedItem?.versionCode == item.release.versionCode &&
-                    installedItem?.signature == item.release.signature
-                val suggested =
-                    incompatibility == null && item.release.selected && item.selectedRepository
-
-                if (suggested) {
-                    holder.itemView.apply {
-                        background = context.corneredBackground
-                        backgroundTintList =
-                            holder.itemView.context.getColorFromAttr(MaterialR.attr.colorSurfaceContainerHigh)
-                    }
-                } else {
-                    holder.itemView.background = null
-                }
-                holder.version.text =
-                    context.getString(stringRes.version_FORMAT, item.release.version)
-
-                with(holder.status) {
-                    isVisible = installed || suggested
-                    setText(
-                        when {
-                            installed -> stringRes.installed
-                            suggested -> stringRes.suggested
-                            else -> stringRes.unknown
-                        }
-                    )
-                    background = context.corneredBackground
-                    setPadding(15, 15, 15, 15)
-                    if (installed) {
-                        backgroundTintList =
-                            context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
-                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
-                    } else {
-                        backgroundTintList =
-                            context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
-                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
-                    }
-                }
-                holder.source.text =
-                    context.getString(stringRes.provided_by_FORMAT, item.repository.name)
-                val instant = Instant.fromEpochMilliseconds(item.release.added)
-                // FDroid uses UTC time
-                val date = instant.toLocalDateTime(TimeZone.UTC)
-                val dateFormat = try {
-                    date.toJavaLocalDateTime()
-                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    holder.dateFormat.format(item.release.added)
-                }
-                holder.added.text = dateFormat
-                holder.size.text = DataSize(item.release.size).toString()
-                holder.signature.isVisible =
-                    item.showSignature && item.release.signature.isNotEmpty()
-                if (item.showSignature && item.release.signature.isNotEmpty()) {
-                    val bytes =
-                        item.release.signature
-                            .uppercase(Locale.US)
-                            .windowed(2, 2, false)
-                            .take(8)
-                    val signature = bytes.joinToString(separator = " ")
-                    val builder = SpannableStringBuilder(
-                        context.getString(
-                            stringRes.signature_FORMAT,
-                            signature
-                        )
-                    )
-                    val index = builder.indexOf(signature)
-                    if (index >= 0) {
-                        bytes.forEachIndexed { i, _ ->
-                            builder.setSpan(
-                                TypefaceSpan("monospace"),
-                                index + 3 * i,
-                                index + 3 * i + 2,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
-                    }
-                    holder.signature.text = builder
-                }
-                with(holder.compatibility) {
-                    isVisible = incompatibility != null || singlePlatform != null
-                    if (incompatibility != null) {
-                        setTextColor(context.getColorFromAttr(MaterialR.attr.colorError))
-                        text = when (incompatibility) {
-                            is Release.Incompatibility.MinSdk,
-                            is Release.Incompatibility.MaxSdk -> context.getString(
-                                stringRes.incompatible_with_FORMAT,
-                                Android.name
-                            )
-
-                            is Release.Incompatibility.Platform -> context.getString(
-                                stringRes.incompatible_with_FORMAT,
-                                Android.primaryPlatform ?: context.getString(stringRes.unknown)
-                            )
-
-                            is Release.Incompatibility.Feature -> context.getString(
-                                stringRes.requires_FORMAT,
-                                incompatibility.feature
-                            )
-                        }
-                    } else if (singlePlatform != null) {
-                        setTextColor(context.getColorFromAttr(android.R.attr.textColorSecondary))
-                        text = context.getString(
-                            stringRes.only_compatible_with_FORMAT,
-                            singlePlatform,
-                        )
-                    }
-                }
-                with(holder.sdkVer) {
-                    val targetSdkVersion = sdkName.getOrDefault(
-                        item.release.targetSdkVersion,
-                        context.getString(
-                            stringRes.label_unknown_sdk,
-                            item.release.targetSdkVersion,
-                        ),
-                    )
-                    val minSdkVersion = sdkName.getOrDefault(
-                        item.release.minSdkVersion,
-                        context.getString(
-                            stringRes.label_unknown_sdk,
-                            item.release.minSdkVersion,
-                        ),
-                    )
-                    text = context.getString(stringRes.label_sdk_version, targetSdkVersion, minSdkVersion)
-                }
                 val enabled = status == Status.Idle
-                holder.statefulViews.forEach { it.isEnabled = enabled }
+
+                holder.composeView.setContent {
+                    // TODO fix applying non-system and non-dynamic theming
+                    DroidifyTheme {
+                        ReleaseItem(
+                            release = item.release,
+                            repository = item.repository,
+                            installedItem = installedItem,
+                            reproducible = item.reproducible,
+                            showSignature = item.showSignature,
+                            suggested = item.release.incompatibilities.isEmpty() &&
+                                item.release.selected &&
+                                item.selectedRepository,
+                            enabled = enabled,
+                            onClick = { callbacks.onReleaseClick(item.release) },
+                            onLongClick = {
+                                copyLinkToClipboard(
+                                    holder.itemView,
+                                    item.release.getDownloadUrl(item.repository)
+                                )
+                            },
+                        )
+                    }
+                }
+            }
+
+            ViewType.DOWNLOAD_STATS -> {
+                holder as DownloadStatsViewHolder
+                item as Item.DownloadStatsItem
+
+                holder.composeView.setContent {
+                    DroidifyTheme {
+                        DownloadStatsSection(
+                            downloadStats = item.downloadStats,
+                        )
+                    }
+                }
             }
 
             ViewType.EMPTY -> {
@@ -1748,67 +1666,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     }
 
     private fun formatHtml(text: String): SpannableStringBuilder {
-        val html = HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        val builder = run {
-            val builder = SpannableStringBuilder(html)
-            val last = builder.indexOfLast { it != '\n' }
-            val first = builder.indexOfFirst { it != '\n' }
-            if (last >= 0) {
-                builder.delete(last + 1, builder.length)
+        // Delegate to shared HtmlFormatter; route URL clicks through adapter callbacks
+        return formatHtml(text) { url ->
+            val uri = try {
+                Uri.parse(url)
+            } catch (_: Exception) {
+                null
             }
-            if (first in 1 until last) {
-                builder.delete(0, first - 1)
+            if (uri != null) {
+                callbacks.onUriClick(uri, true)
             }
-            generateSequence(builder) {
-                val index = it.indexOf("\n\n\n")
-                if (index >= 0) it.delete(index, index + 1) else null
-            }.last()
         }
-        LinkifyCompat.addLinks(builder, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
-        val urlSpans = builder
-            .getSpans(0, builder.length, URLSpan::class.java)
-            .orEmpty()
-        for (span in urlSpans) {
-            val start = builder.getSpanStart(span)
-            val end = builder.getSpanEnd(span)
-            val flags = builder.getSpanFlags(span)
-            builder.removeSpan(span)
-            builder.setSpan(LinkSpan(span.url, this), start, end, flags)
-        }
-        val bulletSpans = builder
-            .getSpans(0, builder.length, BulletSpan::class.java)
-            .orEmpty()
-            .asSequence().map { Pair(it, builder.getSpanStart(it)) }
-            .sortedByDescending { it.second }
-        for (spanPair in bulletSpans) {
-            val (span, start) = spanPair
-            builder.removeSpan(span)
-            builder.insert(start, "\u2022 ")
-        }
-        return builder
     }
 
     private fun copyLinkToClipboard(view: View, link: String) {
         view.context.copyToClipboard(link)
         Snackbar.make(view, stringRes.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
-    }
-
-    private class LinkSpan(private val url: String, productAdapter: AppDetailAdapter) :
-        ClickableSpan() {
-        private val productAdapterReference = WeakReference(productAdapter)
-
-        override fun onClick(view: View) {
-            val productAdapter = productAdapterReference.get()
-            val uri = try {
-                Uri.parse(url)
-            } catch (e: Exception) {
-                e.printStackTrace()
-                null
-            }
-            if (productAdapter != null && uri != null) {
-                productAdapter.callbacks.onUriClick(uri, true)
-            }
-        }
     }
 
     private class DotSpan : ReplacementSpan() {

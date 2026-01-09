@@ -1,0 +1,6 @@
+- Scrollen zum Anfang scrollt nun flüssig
+- Einige Sprachen wurden aktualisiert:
+-
+    Odja
+    Japanisch
+    Kroatisch

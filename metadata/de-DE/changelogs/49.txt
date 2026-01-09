@@ -1,0 +1,2 @@
+- Seltsame Symbolumwandlung behoben #83
+- Absturz behoben, wenn die Paketquelle einen beschädigten Index bereitstellt #77

@@ -1,0 +1,6 @@
+Behoben:
+- Wiederholte Abfrage der Hintergrundberechtigung
+
+Geändert:
+- Berechtigung auf die Einstellungsseite verschoben
+- Keine Berechtigung abfragen, wenn automatische Synchronisierung deaktiviert ist

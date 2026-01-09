@@ -1,7 +1,6 @@
 package com.looker.droidify.encryption
 
 import com.looker.droidify.data.encryption.Key
-import com.looker.droidify.data.encryption.generateSecretKey
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -9,8 +8,8 @@ import kotlin.test.assertNotEquals
 
 class EncryptionTest {
 
-    private val secretKey = Key(generateSecretKey())
-    private val fakeKey = Key(generateSecretKey())
+    private val secretKey = Key()
+    private val fakeKey = Key()
 
     private val testString = "This is a test string"
 

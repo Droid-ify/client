@@ -1,0 +1,10 @@
+Hinzugefügt:
+- Batterieoptimierung ignorieren
+
+Behoben:
+- Automatische Synchronisierung
+- Änderung der Screenshotgröße
+- Absturz auf dem Startbildschirm (Danke an @mosayeb-a)
+
+Geändert:
+- Reproduzierbare Builds sollten nun unterstützt werden

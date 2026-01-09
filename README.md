@@ -31,7 +31,7 @@ ED:88:59:C5:5A:F3:11:16:26:58:B9:4A:F9:82:B9:F0:91:DC:D2:76:28:D4:DE:34:86:D1:21
 > [!IMPORTANT]
 > Signature for older versions on F-Droid might be different
 
-**Build**: See [Building Guide](docs/BUILDING.md) for development setup
+**Build**: See [Building Guide](docs/building.md) for development setup
 
 ### Contributing
 

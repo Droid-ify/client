@@ -1,15 +1,7 @@
 package com.looker.droidify.sync
 
-import com.looker.droidify.domain.model.Fingerprint
-import com.looker.droidify.domain.model.Repo
-import com.looker.droidify.sync.v2.model.IndexV2
+import com.looker.droidify.data.model.Repo
 
 interface Syncable<T> {
-
-    val parser: Parser<T>
-
-    suspend fun sync(
-        repo: Repo,
-    ): Pair<Fingerprint, IndexV2?>
-
+    suspend fun sync(repo: Repo, block: (SyncState) -> Unit)
 }

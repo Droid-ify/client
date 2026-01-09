@@ -22,6 +22,7 @@ import coil3.disk.directory
 import coil3.memory.MemoryCache
 import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.data.InstalledRepository
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
@@ -37,7 +38,6 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.sync.SyncPreference
 import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.common.Constants
-import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.getDrawableCompat
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
@@ -46,6 +46,11 @@ import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
+import java.net.InetSocketAddress
+import java.net.Proxy
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.INFINITE
+import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -53,11 +58,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
-import java.net.InetSocketAddress
-import java.net.Proxy
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.hours
 
 @HiltAndroidApp
 class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
@@ -76,6 +76,9 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    @Inject
+    lateinit var installedRepository: InstalledRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -102,7 +105,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     private fun listenApplications() {
         appScope.launch(Dispatchers.Default) {
             registerReceiver(
-                InstalledAppReceiver(packageManager),
+                InstalledAppReceiver(packageManager, installedRepository),
                 IntentFilter().apply {
                     addAction(Intent.ACTION_PACKAGE_ADDED)
                     addAction(Intent.ACTION_PACKAGE_REMOVED)
@@ -113,7 +116,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 packageManager.getInstalledPackagesCompat()
                     ?.map { it.toInstalledItem() }
                     ?: return@launch
-            Database.InstalledAdapter.putAll(installedItems)
+            installedRepository.putAll(installedItems)
         }
     }
 

@@ -5,6 +5,8 @@ import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
 import androidx.room.PrimaryKey
 import com.looker.droidify.data.encryption.Encrypted
+import com.looker.droidify.data.encryption.Key
+import com.looker.droidify.data.model.Authentication
 
 @Entity(
     tableName = "authentication",
@@ -17,10 +19,15 @@ import com.looker.droidify.data.encryption.Encrypted
         ),
     ],
 )
-data class AuthenticationEntity(
+class AuthenticationEntity(
     val password: Encrypted,
     val username: String,
-    val initializationVector: String,
+    val initializationVector: ByteArray,
     @PrimaryKey
     val repoId: Int,
+)
+
+fun AuthenticationEntity.toAuthentication(key: Key) = Authentication(
+    password = password.decrypt(key, initializationVector),
+    username = username,
 )

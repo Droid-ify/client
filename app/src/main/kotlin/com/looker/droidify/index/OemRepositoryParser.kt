@@ -1,12 +1,13 @@
 package com.looker.droidify.index
 
 import android.util.Xml
-import com.looker.droidify.domain.model.fingerprint
+import com.looker.droidify.data.encryption.sha256
+import com.looker.droidify.data.model.hex
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.Repository.Companion.defaultRepository
-import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.InputStream
+import org.xmlpull.v1.XmlPullParser
 
 /**
  * Direct copy of implementation from https://github.com/NeoApplications/Neo-Store/blob/master/src/main/kotlin/com/machiav3lli/fdroid/data/database/entity/Repository.kt
@@ -48,8 +49,19 @@ object OemRepositoryParser {
             version = xml[3].toInt(),
             enabled = xml[4].toInt() > 0,
             fingerprint = xml[6].let {
-                if (it.length > 32) it.fingerprint().value
-                else it
+                if (it.length > 32) {
+                    val encoded = it
+                        .chunked(2)
+                        .mapNotNull { byteStr ->
+                            try {
+                                byteStr.toInt(16).toByte()
+                            } catch (_: NumberFormatException) {
+                                null
+                            }
+                        }
+                        .toByteArray()
+                    sha256(encoded).hex()
+                } else it
             },
             authentication = "",
         )

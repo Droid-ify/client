@@ -16,9 +16,9 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.domain.model.PackageName
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.model.Product
@@ -29,12 +29,10 @@ import com.looker.droidify.utility.common.extension.calculateHash
 import com.looker.droidify.utility.common.extension.singleSignature
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 @HiltWorker
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)

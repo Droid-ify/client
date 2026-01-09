@@ -1,13 +1,15 @@
 package com.looker.droidify.sync.common
 
 import android.content.Context
-import com.looker.droidify.domain.model.Repo
+import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
+import com.looker.droidify.network.ProgressListener
 import com.looker.droidify.utility.common.cache.Cache
+
+import java.io.File
+import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.Date
 
 suspend fun Downloader.downloadIndex(
     context: Context,
@@ -15,11 +17,13 @@ suspend fun Downloader.downloadIndex(
     fileName: String,
     url: String,
     diff: Boolean = false,
+    onProgress: ProgressListener? = null,
 ): File = withContext(Dispatchers.IO) {
     val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$fileName")
     downloadToFile(
         url = url,
         target = indexFile,
+        block = onProgress,
         headers = {
             if (repo.shouldAuthenticate) {
                 with(requireNotNull(repo.authentication)) {
@@ -29,7 +33,7 @@ suspend fun Downloader.downloadIndex(
                     )
                 }
             }
-            if (repo.versionInfo.timestamp > 0L && !diff) {
+            if (repo.versionInfo != null && repo.versionInfo.timestamp > 0L && !diff) {
                 ifModifiedSince(Date(repo.versionInfo.timestamp))
             }
         },

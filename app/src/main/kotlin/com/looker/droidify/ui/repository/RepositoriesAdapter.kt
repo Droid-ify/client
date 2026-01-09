@@ -1,9 +1,14 @@
 package com.looker.droidify.ui.repository
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
+import com.looker.droidify.R
 import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
@@ -17,11 +22,12 @@ class RepositoriesAdapter(
 
     private class ViewHolder(itemView: RepositoryItemBinding) :
         RecyclerView.ViewHolder(itemView.root) {
-        val checkMark = itemView.repositoryState
+        val repoIcon = itemView.repositoryIcon
         val repoName = itemView.repositoryName
         val repoDesc = itemView.repositoryDescription
+        val repoState = itemView.repositoryState
 
-        var isEnabled = true
+        var isChecked = false
     }
 
     override val viewTypeClass: Class<ViewType>
@@ -46,13 +52,13 @@ class RepositoriesAdapter(
                 false
             )
         ).apply {
-            itemView.setOnLongClickListener {
-                navigate(getRepository(absoluteAdapterPosition))
-                true
-            }
             itemView.setOnClickListener {
-                isEnabled = !isEnabled
-                onSwitch(getRepository(absoluteAdapterPosition), isEnabled)
+                navigate(getRepository(absoluteAdapterPosition))
+            }
+
+            repoState.setOnClickListener {
+                isChecked = !isChecked
+                onSwitch(getRepository(absoluteAdapterPosition), isChecked)
             }
         }
     }
@@ -61,14 +67,27 @@ class RepositoriesAdapter(
         holder as ViewHolder
         val repository = getRepository(position)
 
-        holder.isEnabled = repository.enabled
         holder.repoName.text = repository.name
         holder.repoDesc.text = repository.description.trim()
 
-        if (repository.enabled) {
-            holder.checkMark.visibility = View.VISIBLE
+        val colorOnSurface = MaterialColors.getColor(
+            holder.itemView, com.google.android.material.R.attr.colorOnSurface, Color.BLACK)
+        val colorSurfaceContainer = MaterialColors.getColor(
+            holder.itemView, com.google.android.material.R.attr.colorSurfaceContainer, Color.WHITE)
+
+        holder.isChecked = repository.enabled
+        if (holder.isChecked) {
+            holder.repoState.setImageResource(R.drawable.ic_check)
+            holder.repoState.imageTintList = ColorStateList.valueOf(colorSurfaceContainer)
+            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorOnSurface)
         } else {
-            holder.checkMark.visibility = View.INVISIBLE
+            holder.repoState.setImageResource(R.drawable.ic_cancel)
+            holder.repoState.imageTintList = ColorStateList.valueOf(colorOnSurface)
+            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorSurfaceContainer)
         }
+
+        // TODO: fetch repo icon
+        holder.repoIcon.setImageIcon(null)
+        holder.repoIcon.visibility = View.GONE
     }
 }

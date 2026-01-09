@@ -1,0 +1,28 @@
+Hinzugefügt:
+- Dialogfeld zur Anzeige bei geringem Speicherplatz (Download wird blockiert)
+- UserAgent für Paketquellen-Entwickler
+- Mehrere neue Paketquellen
+- Option zum Ignorieren der Signaturüberprüfung der App (Warnung)
+- Unterstützung für prädiktives Zurück (Dank an @First Last)
+- Bessere RTL-Unterstützung
+- Möglichkeit, App-Informationen aus den Android-Einstellungen zu öffnen (Dank an @jonas-w)
+- Bildercache wird nach 7 Tagen gelöscht
+
+Behoben:
+- Dialog für Hintergrundzugriff erschien erneut
+- Erweitern von Screenshot-Container
+- Einige Textausrichtungen
+- 0B/0B-Synchronisierungsbenachrichtigung
+- Automatische Aktualisierung funktionierte nicht bei deaktivierten Benachrichtigungen
+
+Geändert:
+- Ziel-SDK 34 -> 35
+- Migration zu Preferences Datastore (erleichtert das Hinzufügen neuer Einstellungen)
+- Verbesserte Installationsbenachrichtigungen
+
+Entfernt:
+- Screenshot-Übergänge
+
+Verbesserungen:
+- Download-Performance
+- Performance des Shizuku-Installationsprogramms
