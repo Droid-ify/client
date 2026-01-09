@@ -1,0 +1,6 @@
+- Scroll to Top will scroll smoothly
+- Some languages have been updated
+-
+    Odia
+    Japanese
+    Croatian

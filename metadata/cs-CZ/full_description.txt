@@ -1,0 +1,10 @@
+Funkce:
+• Procházejte a instalujte aplikace z repozitářů F-Droid
+• Automatické aktualizace aplikací na pozadí
+• Několik způsobů instalace (relace, root, Shizuku)
+• Přidání vlastních repozitářů jedním klepnutím
+• Po prvotní synchronizaci funguje kompletně offline
+
+Dostupné v 63 jazycích včetně češtiny, angličtiny, němčiny, francouzštiny a španělštiny.
+
+Copyleftovaný svobodný software, licence GPLv3+.

@@ -1,0 +1,2 @@
+- Fix weird icon transformation #83
+- Fix crash if the repository provides a corrupt index #77

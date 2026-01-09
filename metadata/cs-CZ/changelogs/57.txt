@@ -1,0 +1,14 @@
+### Improvements:
+- Reduce app size a little
+- Allow removal of `Tap to Install` notification
+- Remove Large header
+- Better downloader logic
+- Better State handling
+- Improve Shizuku and Root Installer
+
+### Fixes:
+- Background crash due to session installer
+- Redundant `Update All` button visibility
+- Overlapping buttons
+- Language changelist
+- Empty Notifications

@@ -1,0 +1,15 @@
+Improvements:
+- Shizuku permission handling
+- User detection with root
+- Add setting to block swiping between pages
+- Update Droid-ify last in list
+- Misc. changes
+
+Fixes:
+- Sui permission handling
+- Category clickable area
+- Cleanup crash
+- Chinese translation selection
+- Crash on screenshot
+- Cleanup interval
+- False install state on different pages

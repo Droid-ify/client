@@ -1,0 +1,5 @@
+- Shizuku is not deprecated on pre-Android 11
+- Fix icons for many apps
+- Some UI changes to repository page
+- Fix a weird behaviour caused by Material You switch
+- Check out old changelog at - https://github.com/Iamlooker/Droid-ify/releases/tag/v0.5.2

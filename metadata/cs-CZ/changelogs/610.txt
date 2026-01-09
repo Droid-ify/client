@@ -1,0 +1,4 @@
+Fixed:
+- Startup Crash
+
+This is a hotfix, check previous changelog here: https://github.com/Droid-ify/client/releases/tag/v0.6.0
