@@ -14,8 +14,6 @@ import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.installFrom
-import com.looker.droidify.installer.notification.createInstallNotification
-import com.looker.droidify.installer.notification.installNotification
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
@@ -34,7 +32,11 @@ import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.extension.toPendingIntent
 import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.utility.common.log
+import com.looker.droidify.utility.notifications.createInstallNotification
+import com.looker.droidify.utility.notifications.installNotification
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,8 +50,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
-import java.io.File
-import javax.inject.Inject
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint

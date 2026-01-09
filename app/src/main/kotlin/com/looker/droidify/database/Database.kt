@@ -667,19 +667,23 @@ object Database {
             .map { get(packageName, null) }
             .flowOn(Dispatchers.IO)
 
-        fun get(packageName: String, signal: CancellationSignal?): InstalledItem? {
-            return db.query(
-                Schema.Installed.name,
-                columns = arrayOf(
-                    Schema.Installed.ROW_PACKAGE_NAME,
-                    Schema.Installed.ROW_VERSION,
-                    Schema.Installed.ROW_VERSION_CODE,
-                    Schema.Installed.ROW_SIGNATURE,
-                ),
-                selection = Pair("${Schema.Installed.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-                signal = signal,
-            ).use { it.firstOrNull()?.let(::transform) }
-        }
+        suspend fun get(packageName: String, signal: CancellationSignal?): InstalledItem? =
+            withContext(Dispatchers.IO) {
+                db.query(
+                    Schema.Installed.name,
+                    columns = arrayOf(
+                        Schema.Installed.ROW_PACKAGE_NAME,
+                        Schema.Installed.ROW_VERSION,
+                        Schema.Installed.ROW_VERSION_CODE,
+                        Schema.Installed.ROW_SIGNATURE,
+                    ),
+                    selection = Pair(
+                        "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
+                        arrayOf(packageName)
+                    ),
+                    signal = signal,
+                ).use { it.firstOrNull()?.let(::transform) }
+            }
 
         private fun put(installedItem: InstalledItem, notify: Boolean) {
             db.insertOrReplace(

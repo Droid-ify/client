@@ -1,14 +1,14 @@
-package com.looker.droidify.installer.notification
+package com.looker.droidify.utility.notifications
 
 import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import android.graphics.Color
 import androidx.core.app.NotificationCompat
+import com.looker.droidify.R
+import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_ID_INSTALL
-import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.R
 
 fun NotificationManager.installNotification(
     packageName: String,
@@ -27,7 +27,7 @@ fun NotificationManager.removeInstallNotification(
     cancel(installTag(packageName), NOTIFICATION_ID_INSTALL)
 }
 
-fun installTag(name: String): String = "install-${name.trim().replace(' ', '_')}"
+private fun installTag(name: String): String = "install-${name.trim().replace(' ', '_')}"
 
 private const val SUCCESS_TIMEOUT = 5_000L
 

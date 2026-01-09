@@ -8,15 +8,11 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
-import android.text.SpannableStringBuilder
-import android.text.style.ForegroundColorSpan
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
-import com.looker.droidify.MainActivity
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
@@ -35,6 +31,7 @@ import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
@@ -71,10 +68,12 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
 
-        private const val MAX_UPDATE_NOTIFICATION = 5
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
         val syncState = MutableSharedFlow<State>()
+
+        var autoUpdating = false
+        var autoUpdateStartedFor: List<String> = emptyList()
     }
 
     @Inject
@@ -132,6 +131,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             get() = syncState.asSharedFlow()
 
         private fun sync(ids: List<Long>, request: SyncRequest) {
+            lifecycleScope.launch {
+                handleUpdates(hasUpdates = true, notifyUpdates = true, autoUpdate = true, skipSignature = false)
+            }
+            return
             val cancelledTask =
                 cancelCurrentTask { request == SyncRequest.FORCE && it.task?.repositoryId in ids }
             cancelTasks { !it.manual && it.repositoryId in ids }
@@ -151,9 +154,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         fun sync(request: SyncRequest) {
-            val ids = Database.RepositoryAdapter.getAll()
-                .asSequence().filter { it.enabled }.map { it.id }.toList()
-            sync(ids + RB_LOGS_SYNC + DOWNLOAD_STATS_SYNC, request)
+            sync(
+                request = request,
+                ids = Database.RepositoryAdapter
+                    .getAll()
+                    .filter { it.enabled }
+                    .map { it.id }
+            )
         }
 
         fun sync(repository: Repository) {
@@ -164,7 +171,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
         suspend fun updateAllApps() {
             val skipSignature = settingsRepository.getInitial().ignoreSignature
-            updateAllAppsInternal(skipSignature)
+            val updates = Database.ProductAdapter.getUpdates(skipSignature)
+            updateAllAppsInternal(updates)
         }
 
         fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -493,7 +501,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
-    private suspend fun handleUpdates(
+    suspend fun handleUpdates(
         hasUpdates: Boolean,
         notifyUpdates: Boolean,
         autoUpdate: Boolean,
@@ -510,8 +518,17 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates(skipSignature)
             if (!blocked && updates.isNotEmpty()) {
-                if (notifyUpdates) displayUpdatesNotification(updates)
-                if (autoUpdate) updateAllAppsInternal(skipSignature)
+                if (notifyUpdates) {
+                    notificationManager?.notify(
+                        Constants.NOTIFICATION_ID_UPDATES,
+                        updatesAvailableNotification(this, updates),
+                    )
+                }
+                if (autoUpdate) {
+                    autoUpdating = true
+                    autoUpdateStartedFor = updates.map { it.packageName }
+                    updateAllAppsInternal(updates)
+                }
             }
             handleUpdates(
                 hasUpdates = false,
@@ -527,9 +544,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
-    private suspend fun updateAllAppsInternal(skipSignature: Boolean) {
-        Database.ProductAdapter
-            .getUpdates(skipSignature)
+    private suspend fun updateAllAppsInternal(updates: List<ProductItem>) {
+        updates
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
@@ -547,64 +563,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     productRepo,
                 )
             }
-    }
-
-    private fun displayUpdatesNotification(productItems: List<ProductItem>) {
-        notificationManager?.notify(
-            Constants.NOTIFICATION_ID_UPDATES,
-            NotificationCompat
-                .Builder(this, Constants.NOTIFICATION_CHANNEL_UPDATES)
-                .setSmallIcon(R.drawable.ic_new_releases)
-                .setContentTitle(getString(stringRes.new_updates_available))
-                .setContentText(
-                    resources.getQuantityString(
-                        R.plurals.new_updates_DESC_FORMAT,
-                        productItems.size,
-                        productItems.size,
-                    ),
-                )
-                .setColor(
-                    ContextThemeWrapper(this, styleRes.Theme_Main_Light)
-                        .getColorFromAttr(AndroidR.attr.colorPrimary).defaultColor,
-                )
-                .setContentIntent(
-                    PendingIntent.getActivity(
-                        this,
-                        0,
-                        Intent(this, MainActivity::class.java)
-                            .setAction(MainActivity.ACTION_UPDATES),
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
-                    ),
-                )
-                .setStyle(
-                    NotificationCompat.InboxStyle().also {
-                        for (productItem in productItems.take(MAX_UPDATE_NOTIFICATION)) {
-                            val builder = SpannableStringBuilder(productItem.name)
-                            builder.setSpan(
-                                ForegroundColorSpan(Color.BLACK),
-                                0,
-                                builder.length,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
-                            )
-                            builder.append(' ').append(productItem.version)
-                            it.addLine(builder)
-                        }
-                        if (productItems.size > MAX_UPDATE_NOTIFICATION) {
-                            val summary =
-                                getString(
-                                    stringRes.plus_more_FORMAT,
-                                    productItems.size - MAX_UPDATE_NOTIFICATION,
-                                )
-                            if (SdkCheck.isNougat) {
-                                it.addLine(summary)
-                            } else {
-                                it.setSummaryText(summary)
-                            }
-                        }
-                    },
-                )
-                .build(),
-        )
     }
 
     @SuppressLint("SpecifyJobSchedulerIdRange")

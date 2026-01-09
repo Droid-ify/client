@@ -8,13 +8,13 @@ import com.looker.droidify.R
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.notification.createInstallNotification
-import com.looker.droidify.installer.notification.installNotification
-import com.looker.droidify.installer.notification.removeInstallNotification
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.getPackageName
 import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.notifications.createInstallNotification
+import com.looker.droidify.utility.notifications.installNotification
+import com.looker.droidify.utility.notifications.removeInstallNotification
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -72,7 +72,7 @@ class SessionInstallerReceiver : BroadcastReceiver() {
                         setTimeoutAfter(SUCCESS_TIMEOUT)
                     }
                     notificationManager?.installNotification(
-                        packageName = packageName.toString(),
+                        packageName = packageName,
                         notification = notification,
                     )
                 }

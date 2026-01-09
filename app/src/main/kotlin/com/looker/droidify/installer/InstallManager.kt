@@ -2,6 +2,7 @@ package com.looker.droidify.installer
 
 import android.content.Context
 import com.looker.droidify.data.model.PackageName
+import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
@@ -12,19 +13,23 @@ import com.looker.droidify.installer.installers.session.SessionInstaller
 import com.looker.droidify.installer.installers.shizuku.ShizukuInstaller
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.notification.createInstallNotification
-import com.looker.droidify.installer.notification.installNotification
-import com.looker.droidify.installer.notification.removeInstallNotification
+import com.looker.droidify.service.SyncService
+import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.extension.addAndCompute
 import com.looker.droidify.utility.common.extension.filter
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.notifications.createInstallNotification
+import com.looker.droidify.utility.notifications.installNotification
+import com.looker.droidify.utility.notifications.removeInstallNotification
+import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -48,7 +53,9 @@ class InstallManager(
     private val installer: Installer get() = _installer!!
 
     private val lock = Mutex()
+    private val skipSignature = settingsRepository.get { ignoreSignature }
     private val installerPreference = settingsRepository.get { installerType }
+    private val notificationManager by lazy { context.notificationManager }
 
     suspend operator fun invoke() = coroutineScope {
         setupInstaller()
@@ -89,17 +96,30 @@ class InstallManager(
         }.consumeEach { item ->
             if (state.value.containsKey(item.packageName)) {
                 updateState { put(item.packageName, InstallState.Installing) }
-                context.notificationManager?.installNotification(
+                notificationManager?.installNotification(
                     packageName = item.packageName.name,
                     notification = context.createInstallNotification(
                         appName = item.packageName.name,
                         state = InstallState.Installing,
                     )
                 )
-                val success = installer.use {
-                    it.install(item)
+                val success = installer.use { it.install(item) }
+                if (success == InstallState.Installed && SyncService.autoUpdating) {
+                    val updates = Database.ProductAdapter.getUpdates(skipSignature.first())
+                    when {
+                        updates.isEmpty() -> {
+                            SyncService.autoUpdating = false
+                            notificationManager?.cancel(Constants.NOTIFICATION_ID_UPDATES)
+                        }
+                        updates.map { it.packageName } != SyncService.autoUpdateStartedFor -> {
+                            notificationManager?.notify(
+                                Constants.NOTIFICATION_ID_UPDATES,
+                                updatesAvailableNotification(context, updates),
+                            )
+                        }
+                    }
                 }
-                context.notificationManager?.removeInstallNotification(item.packageName.name)
+                notificationManager?.removeInstallNotification(item.packageName.name)
                 updateState { put(item.packageName, success) }
                 currentQueue.remove(item.packageName.name)
             }
