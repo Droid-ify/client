@@ -250,6 +250,8 @@
     <string name="select_installer">Select installer</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Reproducible build badge</string>
+    <string name="rb_badge_info">Green Tick \t -> Verified reproducible build\nRed Tick \t -> Non-reproducible build\nBrown Tick \t -> Unknown state</string>
+    <string name="rb_info">If a build is reproducible, it means the given apk is build from the provided source</string>
     <string name="total_downloads">Total downloads</string>
     <string name="download_stats">Download Statistics</string>
     <string name="download_stats_from_izzy">Source: IzzyOnDroid</string>

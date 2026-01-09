@@ -42,14 +42,14 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
+import java.util.*
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toLocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
-import java.util.Locale
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -72,7 +72,7 @@ fun ReleaseItem(
     }
     val installed = remember(release, installedItem) {
         installedItem?.versionCode == release.versionCode &&
-            installedItem.signature == release.signature
+                installedItem.signature == release.signature
     }
 
     Card(
@@ -167,15 +167,15 @@ fun ReleaseItem(
             ) {
                 if (reproducible != Reproducible.NO_DATA) Icon(
                     imageVector = when (reproducible) {
-                        Reproducible.TRUE  -> Icons.Outlined.GppGood
+                        Reproducible.TRUE -> Icons.Outlined.GppGood
                         Reproducible.FALSE -> Icons.Outlined.GppBad
-                        else               -> Icons.Outlined.GppMaybe // Reproducible.UNKNOWN
+                        else -> Icons.Outlined.GppMaybe // Reproducible.UNKNOWN
                     },
                     contentDescription = stringResource(id = R.string.rb_badge),
                     tint = when (reproducible) {
-                        Reproducible.TRUE  -> Color.Green
+                        Reproducible.TRUE -> Color.Green
                         Reproducible.FALSE -> Color.Red
-                        else               -> Color.Yellow//Warning
+                        else -> Color.Yellow//Warning
                     }
                 )
                 Text(
@@ -230,7 +230,8 @@ fun ReleaseItem(
                     when {
                         incompatibility != null -> when (incompatibility) {
                             is Release.Incompatibility.MinSdk,
-                            is Release.Incompatibility.MaxSdk ->
+                            is Release.Incompatibility.MaxSdk,
+                                ->
                                 context.getString(R.string.incompatible_with_FORMAT, Android.name)
 
                             is Release.Incompatibility.Platform ->

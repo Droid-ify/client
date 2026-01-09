@@ -34,11 +34,19 @@
                     android:textAllCaps="true"
                     android:textAppearance="?textAppearanceLabelLarge" />
 
+                <ImageView
+                    android:id="@+id/rb_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:visibility="gone"
+                    android:contentDescription="@string/rb_badge" />
+
                 <TextView
                     android:id="@+id/installation_status"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:singleLine="true"
                     android:textAllCaps="true"
                     android:textAppearance="?textAppearanceLabelMedium" />
