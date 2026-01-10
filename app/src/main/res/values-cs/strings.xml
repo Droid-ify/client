@@ -255,4 +255,6 @@
     <string name="total">Celkem</string>
     <string name="by_client">Podle klienta</string>
     <string name="monthly">Měsíčně</string>
+    <string name="downloading_rb_logs">Stahování protokolů o reprodukovatelnosti</string>
+    <string name="downloading_download_stats">Stahování statistik o stahování</string>
 </resources>
