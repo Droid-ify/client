@@ -258,4 +258,6 @@
     <string name="total">Всього</string>
     <string name="by_client">Клієнтом</string>
     <string name="monthly">Щомісяця</string>
+    <string name="downloading_rb_logs">Завантаження журналів відтворюваності</string>
+    <string name="downloading_download_stats">Завантаження статистики завантажень</string>
 </resources>
