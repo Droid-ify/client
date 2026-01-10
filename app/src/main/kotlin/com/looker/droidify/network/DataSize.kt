@@ -1,6 +1,6 @@
 package com.looker.droidify.network
 
-import java.util.Locale
+import java.util.*
 
 @JvmInline
 value class DataSize(val value: Long) {
@@ -23,6 +23,11 @@ value class DataSize(val value: Long) {
 }
 
 infix fun DataSize.percentBy(denominator: DataSize?): Int = value percentBy denominator?.value
+
+infix fun Int.percentBy(denominator: Int?): Int {
+    if (denominator == null || denominator < 1) return -1
+    return (this * 100 / denominator)
+}
 
 infix fun Long.percentBy(denominator: Long?): Int {
     if (denominator == null || denominator < 1) return -1

@@ -21,15 +21,16 @@ import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.utility.common.Exporter
 import com.looker.droidify.utility.common.extension.updateAsMutable
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import java.util.*
 import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalTime::class)
 class PreferenceSettingsRepository(
@@ -57,7 +58,7 @@ class PreferenceSettingsRepository(
     override suspend fun import(target: Uri) {
         val importedSettings = exporter.import(target)
         val updatedFavorites = importedSettings.favouriteApps +
-            getInitial().favouriteApps
+                getInitial().favouriteApps
         val updatedSettings = importedSettings.copy(favouriteApps = updatedFavorites)
         dataStore.edit {
             it.setting(updatedSettings)
@@ -140,6 +141,9 @@ class PreferenceSettingsRepository(
     override suspend fun setCleanupInstant() =
         LAST_CLEAN_UP.update(Clock.System.now().toEpochMilliseconds())
 
+    override suspend fun setRbLogLastModified(date: Date) =
+        LAST_RB_FETCH.update(date.time)
+
     override suspend fun setHomeScreenSwiping(value: Boolean) =
         HOME_SCREEN_SWIPING.update(value)
 
@@ -206,6 +210,7 @@ class PreferenceSettingsRepository(
         val proxy = ProxyPreference(type = type, host = host, port = port)
         val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
         val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
+        val lastRbLogFetch = preferences[LAST_RB_FETCH]?.let { Instant.fromEpochMilliseconds(it) }
         val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
         val enabledRepoIds =
@@ -227,6 +232,7 @@ class PreferenceSettingsRepository(
             proxy = proxy,
             cleanUpInterval = cleanUpInterval,
             lastCleanup = lastCleanup,
+            lastRbLogFetch = lastRbLogFetch,
             favouriteApps = favouriteApps,
             homeScreenSwiping = homeScreenSwiping,
             enabledRepoIds = enabledRepoIds,
@@ -251,6 +257,7 @@ class PreferenceSettingsRepository(
         val PROXY_PORT = intPreferencesKey("key_proxy_port")
         val CLEAN_UP_INTERVAL = longPreferencesKey("key_clean_up_interval")
         val LAST_CLEAN_UP = longPreferencesKey("key_last_clean_up_time")
+        val LAST_RB_FETCH = longPreferencesKey("key_last_rb_logs_fetch_time")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
         val LEGACY_INSTALLER_COMPONENT_CLASS =
@@ -312,6 +319,7 @@ class PreferenceSettingsRepository(
             set(PROXY_PORT, settings.proxy.port)
             set(CLEAN_UP_INTERVAL, settings.cleanUpInterval.inWholeHours)
             set(LAST_CLEAN_UP, settings.lastCleanup?.toEpochMilliseconds() ?: 0L)
+            set(LAST_RB_FETCH, settings.lastRbLogFetch?.toEpochMilliseconds() ?: 0L)
             set(FAVOURITE_APPS, settings.favouriteApps)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())

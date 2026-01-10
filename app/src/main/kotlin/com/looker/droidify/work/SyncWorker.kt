@@ -1,8 +1,6 @@
 package com.looker.droidify.work
 
 import android.content.Context
-import android.content.pm.ServiceInfo
-import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.hilt.work.HiltWorker
@@ -23,6 +21,7 @@ import com.looker.droidify.R
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.utility.common.createNotificationChannel
+import com.looker.droidify.utility.common.toForegroundInfo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.ktor.client.utils.unwrapCancellationException
@@ -97,11 +96,7 @@ class SyncWorker @AssistedInject constructor(
             .addAction(R.drawable.ic_cancel, cancel, intent)
             .build()
 
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            ForegroundInfo(124, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
-        } else {
-            ForegroundInfo(124, notification)
-        }
+        return notification.toForegroundInfo(124)
     }
 
     companion object {

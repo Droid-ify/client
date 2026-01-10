@@ -62,8 +62,6 @@ import kotlinx.coroutines.Job as CoroutinesJob
 class SyncService : ConnectionService<SyncService.Binder>() {
 
     companion object {
-        const val RB_LOGS_SYNC = -23L
-        const val DOWNLOAD_STATS_SYNC = -24L
         private const val MAX_PROGRESS = 100
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
@@ -131,10 +129,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             get() = syncState.asSharedFlow()
 
         private fun sync(ids: List<Long>, request: SyncRequest) {
-            lifecycleScope.launch {
-                handleUpdates(hasUpdates = true, notifyUpdates = true, autoUpdate = true, skipSignature = false)
-            }
-            return
             val cancelledTask =
                 cancelCurrentTask { request == SyncRequest.FORCE && it.task?.repositoryId in ids }
             cancelTasks { !it.manual && it.repositoryId in ids }
@@ -154,13 +148,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         fun sync(request: SyncRequest) {
-            sync(
-                request = request,
-                ids = Database.RepositoryAdapter
-                    .getAll()
-                    .filter { it.enabled }
-                    .map { it.id }
-            )
+            RBLogWorker.fetchRBLogs(applicationContext)
+            DownloadStatsWorker.fetchDownloadStats(applicationContext)
+
+            val ids = Database.RepositoryAdapter.getAll()
+                .filter { it.enabled }
+                .map { it.id }
+
+            sync(ids, request)
         }
 
         fun sync(repository: Repository) {
@@ -425,11 +420,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             return
         }
         val task = tasks.removeAt(0)
-        when (task.repositoryId) {
-            RB_LOGS_SYNC -> return RBLogWorker.fetchRBLogs(applicationContext)
-            DOWNLOAD_STATS_SYNC -> return DownloadStatsWorker.fetchDownloadStats(applicationContext)
-            else -> {}
-        }
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
         if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
         val lastStarted = started

@@ -29,7 +29,7 @@ fun NotificationManager.removeInstallNotification(
 
 private fun installTag(name: String): String = "install-${name.trim().replace(' ', '_')}"
 
-private const val SUCCESS_TIMEOUT = 5_000L
+const val SUCCESS_TIMEOUT = 5_000L
 
 fun Context.createInstallNotification(
     appName: String,

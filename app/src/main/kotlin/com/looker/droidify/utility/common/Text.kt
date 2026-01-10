@@ -1,6 +1,8 @@
 package com.looker.droidify.utility.common
 
 import android.util.Log
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 import kotlinx.datetime.DatePeriod
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
@@ -8,8 +10,6 @@ import kotlinx.datetime.minus
 import kotlinx.datetime.plusMonth
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.yearMonth
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
     return if (isNullOrBlank()) null else this
@@ -31,11 +31,11 @@ fun String.isoDateToInt(): Int {
     val parts = split("-")
     return when (parts.size) {
         // YYYY-MM-DD
-        3    -> (parts[0] + parts[1] + parts[2]).toInt()
+        3 -> (parts[0] + parts[1] + parts[2]).toInt()
         // YYYY-MM
-        2    -> (parts[0] + parts[1] + "00").toInt()
+        2 -> (parts[0] + parts[1] + "00").toInt()
         // YYYY
-        1    -> (parts[0] + "0000").toInt()
+        1 -> (parts[0] + "0000").toInt()
         else -> throw IllegalArgumentException("Invalid date format")
     }
 }

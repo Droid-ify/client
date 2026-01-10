@@ -30,7 +30,7 @@ import java.util.*
 
 @Composable
 fun LastUpdatedCard(
-    timestamp: Long?    ,
+    timestamp: Long?,
     modifier: Modifier = Modifier,
 ) {
     val lastUpdated = remember(timestamp) {

@@ -12,6 +12,7 @@ import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.droidifyDatabase
+import com.looker.droidify.datastore.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -84,5 +85,11 @@ object DatabaseModule {
         rblDao: RBLogDao,
         downloadStatsDao: DownloadStatsDao,
         downloadStatsFileDao: DownloadStatsFileDao,
-    ): PrivacyRepository = PrivacyRepository(rblDao, downloadStatsDao, downloadStatsFileDao)
+        settingsRepository: SettingsRepository,
+    ): PrivacyRepository = PrivacyRepository(
+        rbDao = rblDao,
+        downloadStatsDao = downloadStatsDao,
+        dsFileDao = downloadStatsFileDao,
+        settingsRepo = settingsRepository
+    )
 }
