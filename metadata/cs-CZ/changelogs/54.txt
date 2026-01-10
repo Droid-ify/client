@@ -1,0 +1,3 @@
+- Fix the crash when going back from Settings page
+- Allow Shizuku on Android 7+
+- Some UI improvements to Repository page

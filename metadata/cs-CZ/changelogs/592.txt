@@ -1,0 +1,18 @@
+Installer Improvements:
+- You can now remove apps from install queue
+- Cleanup some memory after using installer
+
+Improvements:
+- Add initial support for Android 14
+- Added 11 New Repositories
+- Pressing back will clear categories before exiting
+- Faster Icon/Screenshot loading
+- Faster Selection of Download File
+
+Fixes:
+- Repeated Loading of images
+- Install button not working one second click
+- Crashes with syncing
+- Crashes related to system service
+- Improve performance of App Detail Screen
+- Improve performance of Home Screen

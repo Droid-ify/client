@@ -1,0 +1,4 @@
+- Fix: Screenshot placeholder icon
+- Fix: Soft crash when starting AppDetails
+- Fix: Run only one instance of root installer
+- Fix: Root installer

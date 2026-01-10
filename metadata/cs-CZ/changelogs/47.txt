@@ -1,0 +1,12 @@
+- Add Shizuku Installer
+- Bump Minimum Android Version to Android 6
+- Fix "Show Less" (#15)
+- Localized Date Format (#24)
+- Remove UnifiedPush Repository (#23)
+- New App Info Header
+- Top Bar is rounded
+- Notification will open app page
+- Lightweight Downloader
+- Revert Cache to save data
+- Drop Edge-to-Edge Support (#27)
+- Some minor improvements

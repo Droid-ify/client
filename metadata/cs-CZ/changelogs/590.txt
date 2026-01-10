@@ -1,0 +1,16 @@
+Brand New Sharing Feel:
+- Universal sharing with `droidify.eu.org`
+- New missing app page
+- Add missing repository from the detail page
+
+Improvements:
+- Add back icon to screenshot
+- Improve database performance
+- Improve settings page performance
+
+Fixes:
+- Crash when validating
+- Crash after download cancellation
+- Crash related to Shizuku
+- Fix setting switches
+- Fix calls for empty icons

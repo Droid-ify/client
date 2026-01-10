@@ -241,4 +241,20 @@
     <string name="shizuku_legacy_installer">Instalator Shizuku/Sui legacy</string>
     <string name="legacyInstallerComponent">Componenta de instalare legacy</string>
     <string name="select_installer">Alege instalatorul</string>
+    <string name="repository_not_synced_or_enabled">Depozite care nu sunt activate sau sincronizate</string>
+    <string name="action_sync_repo">Sincronizare</string>
+    <string name="action_enable_repo">Activați</string>
+    <string name="repository_not_found_by_id">Depozitul nu a fost găsit</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Insignă build reproductibil</string>
+    <string name="rb_badge_info">Bifă verde\t\t-&gt; Build reproductibil verificat\nBifă roșie\t\t-&gt; Build nereproductibil\nBifă maro\t\t-&gt; Stare necunoscută</string>
+    <string name="rb_info">Dacă un build este reproductibil, înseamnă că APK-ul primit a fost construit din codul sursă furnizat</string>
+    <string name="total_downloads">Descărcări totale</string>
+    <string name="download_stats">Statistici pentru descărcări</string>
+    <string name="download_stats_from_izzy">Sursă: IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">După client</string>
+    <string name="monthly">Lunare</string>
+    <string name="downloading_rb_logs">Descărcați jurnalele pentru reproductibilitate</string>
+    <string name="downloading_download_stats">Descărcați statisticile pentru descărcări</string>
 </resources>

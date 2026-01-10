@@ -1,0 +1,10 @@
+Add: Update All button
+Improve: Re-wrote installer
+Improve: Auto-Install Apps if possible
+Improve: Allow user to remove `Tap to Install`
+Improve: Color-logic in Material You
+Improve: Favourites Icon
+Fix: Sort-order issue
+Fix: Skipping installation with root installer
+Fix: Summary in Favourites List
+Fix: Memory Leak

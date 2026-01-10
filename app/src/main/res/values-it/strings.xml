@@ -237,4 +237,6 @@
     <string name="label_unknown_sdk">Sconosciuto (%d)</string>
     <string name="unspecified">Non specificato</string>
     <string name="select_installer">Seleziona installatore</string>
+    <string name="download_stats_from_izzy">Fonte: IzzyOnDroid</string>
+    <string name="monthly">Mensile</string>
 </resources>
