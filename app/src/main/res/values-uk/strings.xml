@@ -244,4 +244,18 @@
     <string name="legacyInstallerComponent">Компонент застарілого інсталятора</string>
     <string name="unspecified">Невизначено</string>
     <string name="label_sdk_version">Цілі: Android %1$s | Мінімум: Android %2$s</string>
+    <string name="repository_not_synced_or_enabled">Репозиторій не ввімкнено та не синхронізовано</string>
+    <string name="action_sync_repo">Сихр</string>
+    <string name="action_enable_repo">Увімкнути</string>
+    <string name="repository_not_found_by_id">Репозиторій не знайдено</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Значок відтворюваної збірки</string>
+    <string name="rb_badge_info">Зелена позначка -&gt; Перевірена відтворювана збірка\nЧервона позначка -&gt; Невідтворювана збірка\nКоричнева позначка -&gt; Невідомий стан</string>
+    <string name="rb_info">Якщо збірку можна відтворити, це означає, що даний apk зібрано з наданого вихідного коду</string>
+    <string name="total_downloads">Загальна кількість завантажень</string>
+    <string name="download_stats">Завантажити статистику</string>
+    <string name="download_stats_from_izzy">Джерело: IzzyOnDroid</string>
+    <string name="total">Всього</string>
+    <string name="by_client">Клієнтом</string>
+    <string name="monthly">Щомісяця</string>
 </resources>
