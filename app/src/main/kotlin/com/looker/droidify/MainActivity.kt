@@ -39,12 +39,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Inject
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -264,7 +264,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             Intent.ACTION_VIEW -> {
-                when (val deeplink = intent.deeplinkType) {
+                when (val deeplink = intent.deeplinkType()) {
                     is DeeplinkType.AppDetail -> {
                         val fragment = currentFragment
                         if (fragment !is AppDetailFragment) {
