@@ -47,6 +47,7 @@ import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.isSystemApplication
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.shareUrl
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -417,8 +418,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     "https://apt.izzysoft.de/fdroid/repo" in repo.mirrors ->
                         "https://apt.izzysoft.de/fdroid/index/apk/${viewModel.packageName}"
 
-                    else ->
-                        "https://droidify.eu.org/app/?id=${viewModel.packageName}&repo_address=${repo.address}"
+                    else -> shareUrl(viewModel.packageName, repo.address)
                 }
                 val sendIntent = Intent(Intent.ACTION_SEND)
                     .putExtra(Intent.EXTRA_TEXT, address)

@@ -3,7 +3,12 @@ package com.looker.droidify.utility.common
 import android.content.Intent
 import com.looker.droidify.utility.common.extension.get
 
-private const val PERSONAL_HOST = "droidify.eu.org"
+const val LEGACY_HOST = "droidify.eu.org"
+
+const val PERSONAL_HOST = "droidify.app"
+
+fun shareUrl(packageName: String, repoAddress: String) =
+    "https://droidify.app/app/?id=${packageName}&repo_address=${repoAddress}"
 
 private val httpScheme = arrayOf("http", "https")
 private val fdroidRepoScheme = arrayOf("fdroidrepo", "fdroidrepos")
@@ -43,7 +48,7 @@ val Intent.deeplinkType: DeeplinkType?
 
         data != null && data?.scheme in httpScheme -> {
             when (data?.host) {
-                PERSONAL_HOST -> {
+                PERSONAL_HOST, LEGACY_HOST -> {
                     val repoAddress = data["repo_address"]
                     if (data?.path == "/app/") {
                         val packageName =
