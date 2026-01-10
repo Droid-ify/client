@@ -235,4 +235,15 @@
     <string name="label_sdk_version">Target: Android %1$s | Minimum: Android %2$s</string>
     <string name="always_choose">Selalu pilih</string>
     <string name="select_installer">Pilih pemasang</string>
+    <string name="repository_not_synced_or_enabled">Repositori tidak diaktifkan maupun disinkronkan</string>
+    <string name="action_sync_repo">Sinkronisasi</string>
+    <string name="action_enable_repo">Aktifkan</string>
+    <string name="repository_not_found_by_id">Repositori tidak ditemukan</string>
+    <string name="rb_badge">Lencana build yang dapat direproduksi</string>
+    <string name="rb_badge_info">Centang Hijau -&gt; Versi terverifikasi dan dapat direproduksi\nCentang Merah -&gt; Versi tidak dapat direproduksi\nCentang Cokelat -&gt; Status tidak diketahui</string>
+    <string name="rb_info">Jika suatu build dapat direproduksi, itu berarti apk yang diberikan telah dibuat dari kode sumber yang disediakan.</string>
+    <string name="total_downloads">Total unduhan</string>
+    <string name="download_stats">Statistik Unduhan</string>
+    <string name="download_stats_from_izzy">Sumber: IzzyOnDroid</string>
+    <string name="total">Total</string>
 </resources>
