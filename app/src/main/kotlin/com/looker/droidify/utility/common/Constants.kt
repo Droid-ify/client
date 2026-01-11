@@ -12,9 +12,9 @@ object Constants {
     const val NOTIFICATION_ID_INSTALL = 4
 
     // New
-    const val NOTIFICATION_ID_RB_DOWNLOAD = 4
-    const val NOTIFICATION_ID_STATS_DOWNLOAD = 4
-    const val NOTIFICATION_ID_INDEX_DOWNLOAD = 4
+    const val NOTIFICATION_ID_RB_DOWNLOAD = 5
+    const val NOTIFICATION_ID_STATS_DOWNLOAD = 6
+    const val NOTIFICATION_ID_INDEX_DOWNLOAD = 7
 
     const val JOB_ID_SYNC = 1
 }
