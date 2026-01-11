@@ -240,7 +240,7 @@
     <string name="select_installer">Installationsmethode wählen</string>
     <string name="monthly">Monatlich</string>
     <string name="download_stats_from_izzy">Quelle: IzzyOnDroid</string>
-    <string name="download_stats">Downloadstatistiken</string>
+    <string name="download_stats">Statistiken herunterladen</string>
     <string name="repository_not_synced_or_enabled">Paketquelle weder aktiviert noch synchronisiert</string>
     <string name="action_sync_repo">Synchronisieren</string>
     <string name="action_enable_repo">Aktivieren</string>
