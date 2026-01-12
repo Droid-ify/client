@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.data.PrivacyRepository
-import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
@@ -60,7 +59,7 @@ class AppDetailViewModel @Inject constructor(
             privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,
             flow { emit(settingsRepository.getInitial()) },
-        ) { products, repositories, installedItem, rblogs, downloadStats, suggestedAddress, initialSettings ->
+        ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, initialSettings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
                 idAndRepos[product.repositoryId] != null
@@ -69,7 +68,7 @@ class AppDetailViewModel @Inject constructor(
                 products = filteredProducts,
                 repos = repositories,
                 rblogs = rblogs,
-                downloadStats = downloadStats,
+                downloads = downloads,
                 installedItem = installedItem,
                 isFavourite = packageName in initialSettings.favouriteApps,
                 allowIncompatibleVersions = initialSettings.incompatibleVersions,
@@ -153,7 +152,7 @@ data class AppDetailUiState(
     val products: List<Product> = emptyList(),
     val repos: List<Repository> = emptyList(),
     val rblogs: List<RBLogEntity> = emptyList(),
-    val downloadStats: List<DownloadStats> = emptyList(),
+    val downloads: Long = -1,
     val installedItem: InstalledItem? = null,
     val isSelf: Boolean = false,
     val isFavourite: Boolean = false,

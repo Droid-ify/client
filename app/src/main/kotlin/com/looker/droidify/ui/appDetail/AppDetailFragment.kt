@@ -80,7 +80,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         LAUNCH(3, AppDetailAdapter.Action.LAUNCH),
         DETAILS(4, AppDetailAdapter.Action.DETAILS),
         UNINSTALL(5, AppDetailAdapter.Action.UNINSTALL),
-        SHARE(6, AppDetailAdapter.Action.SHARE)
+        SOURCE(6, AppDetailAdapter.Action.SOURCE),
+        SHARE(7, AppDetailAdapter.Action.SHARE),
     }
 
     private class Installed(
@@ -188,7 +189,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                             suggestedRepo = state.addressIfUnavailable,
                             products = products,
                             rblogs = state.rblogs,
-                            downloadStats = state.downloadStats,
+                            downloads = state.downloads,
                             installedItem = state.installedItem,
                             isFavourite = state.isFavourite,
                             allowIncompatibleVersion = state.allowIncompatibleVersions,
@@ -250,6 +251,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             if (installed != null) add(Action.DETAILS)
             if (canUninstall) add(Action.UNINSTALL)
             add(Action.SHARE)
+            add(Action.SOURCE)
         }
 
         val primaryAction = when {
@@ -424,6 +426,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     .putExtra(Intent.EXTRA_TEXT, address)
                     .setType("text/plain")
                 startActivity(Intent.createChooser(sendIntent, null))
+            }
+
+            AppDetailAdapter.Action.SOURCE -> {
+                val link = products[0].first.source
+                startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
             }
         }
     }

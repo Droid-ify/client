@@ -5,11 +5,11 @@ import android.content.Context
 import android.graphics.Color
 import androidx.core.app.NotificationCompat
 import com.looker.droidify.R
-import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_DOWNLOADING
+import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_SYNCING
 
 fun Context.createDownloadStatsNotification(): Notification {
     return NotificationCompat
-        .Builder(this, NOTIFICATION_CHANNEL_DOWNLOADING)
+        .Builder(this, NOTIFICATION_CHANNEL_SYNCING)
         .apply {
             setOngoing(false)
             setOnlyAlertOnce(true)
@@ -24,7 +24,7 @@ fun Context.createDownloadStatsNotification(): Notification {
 
 fun Context.createRbNotification(): Notification {
     return NotificationCompat
-        .Builder(this, NOTIFICATION_CHANNEL_DOWNLOADING)
+        .Builder(this, NOTIFICATION_CHANNEL_SYNCING)
         .apply {
             setOngoing(false)
             setOnlyAlertOnce(true)

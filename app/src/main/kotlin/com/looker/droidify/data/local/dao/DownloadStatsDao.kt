@@ -1,37 +1,32 @@
 package com.looker.droidify.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
-import androidx.room.Transaction
-import androidx.room.Upsert
 import com.looker.droidify.data.local.model.DownloadStats
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface DownloadStatsDao {
-    @Upsert
-    suspend fun upsert(vararg stats: DownloadStats)
+    @Query(
+        """
+        SELECT (droidify + neoStore + fDroid + fDroidClassic + flicky + unknown)
+        FROM download_stats
+        WHERE packageName = :packageName
+        """
+    )
+    fun total(packageName: String): Flow<Long>
 
-    @Delete
-    suspend fun delete(log: DownloadStats)
+    @Query(
+        """
+        SELECT (droidify + neoStore + fDroid + fDroidClassic + flicky + unknown)
+        FROM download_stats
+        WHERE packageName = :packageName AND timestamp >= :since
+        """
+    )
+    fun totalSince(packageName: String, since: Long): Flow<Long>
 
-    @Query("SELECT COUNT(*) == 0 FROM downloadStats")
-    fun isEmpty(): Boolean
-
-    @Query("SELECT * FROM downloadStats WHERE packageName = :packageName")
-    fun get(packageName: String): List<DownloadStats>
-
-    @Query("SELECT * FROM downloadStats WHERE packageName = :packageName")
-    fun getFlow(packageName: String): Flow<List<DownloadStats>>
-
-    @Query("SELECT * FROM downloadStats WHERE packageName = :packageName AND date >= :since")
-    fun getFlowSince(packageName: String, since: Int): Flow<List<DownloadStats>>
-
-    @Transaction
-    suspend fun multipleUpserts(updates: Collection<DownloadStats>) {
-        updates.forEach { metadata ->
-            upsert(metadata)
-        }
-    }
+    @Insert(onConflict = REPLACE)
+    suspend fun insert(stats: List<DownloadStats>)
 }

@@ -8,8 +8,6 @@ import com.looker.droidify.data.local.model.DownloadStatsFile
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.utility.common.extension.exceptCancellation
-import com.looker.droidify.utility.common.getIsoDateOfMonthsAgo
-import com.looker.droidify.utility.common.isoDateToInt
 import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -26,13 +24,8 @@ class PrivacyRepository(
     fun getRBLogs(packageName: String): Flow<List<RBLogEntity>> = rbDao.getFlow(packageName)
         .flowOn(cc)
 
-    fun getDownloadStats(packageName: String): Flow<List<DownloadStats>> =
-        downloadStatsDao.getFlow(packageName)
-            .flowOn(cc)
-
-    fun getLatestDownloadStats(packageName: String): Flow<List<DownloadStats>> =
-        downloadStatsDao.getFlowSince(packageName, getIsoDateOfMonthsAgo(3).isoDateToInt())
-            .flowOn(cc)
+    fun getLatestDownloadStats(packageName: String): Flow<Long> =
+        downloadStatsDao.total(packageName).flowOn(cc)
 
     suspend fun loadDownloadStatsModifiedMap(): Map<String, String> =
         try {
@@ -47,19 +40,19 @@ class PrivacyRepository(
         rbDao.upsert(logs)
     }
 
-    suspend fun upsertDownloadStats(downloadStats: Collection<DownloadStats>) {
-        downloadStatsDao.multipleUpserts(downloadStats)
+    suspend fun save(downloadStats: List<DownloadStats>) {
+        downloadStatsDao.insert(downloadStats)
     }
 
     suspend fun upsertDownloadStatsFile(
         fileName: String,
-        lastModified: String,
+        lastModified: Date,
         fileSize: Long? = null,
         recordsCount: Int? = null,
     ) {
         val metadata = DownloadStatsFile(
             fileName = fileName,
-            lastModified = lastModified,
+            lastModified = lastModified.toString(),
             lastFetched = System.currentTimeMillis(),
             fetchSuccess = true,
             fileSize = fileSize,

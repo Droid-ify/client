@@ -119,41 +119,34 @@
         </LinearLayout>
 
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/downloads_block_divider"
             android:layout_width="2dp"
             android:layout_height="match_parent"
             android:layout_marginVertical="12dp" />
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/dev_block"
-            style="?attr/materialCardViewElevatedStyle"
+        <LinearLayout
+            android:id="@+id/downloads_block"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Downloads"
+                android:textAppearance="?textAppearanceTitleSmall" />
 
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_source_code"
-                    app:shapeAppearanceOverlay="@style/Shape.Small"
-                    app:srcCompat="@drawable/ic_source_code" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:singleLine="true"
-                    android:text="@string/source_code"
-                    android:textAppearance="?textAppearanceLabelMedium" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
+            <TextView
+                android:id="@+id/downloads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:textAppearance="?textAppearanceBodyMedium" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

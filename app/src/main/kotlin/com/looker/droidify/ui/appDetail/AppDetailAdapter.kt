@@ -2,7 +2,6 @@ package com.looker.droidify.ui.appDetail
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
@@ -28,8 +27,6 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
@@ -39,15 +36,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
+import com.google.android.material.divider.MaterialDivider
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.looker.droidify.R
-import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.data.local.model.toReproducible
@@ -120,7 +115,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         DETAILS(stringRes.details, drawableRes.ic_tune),
         UNINSTALL(stringRes.uninstall, drawableRes.ic_delete),
         CANCEL(stringRes.cancel, drawableRes.ic_cancel),
-        SHARE(stringRes.share, drawableRes.ic_share)
+        SHARE(stringRes.share, drawableRes.ic_share),
+        SOURCE(stringRes.source_code, drawableRes.ic_source_code),
     }
 
     sealed interface Status {
@@ -144,7 +140,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         LINK,
         PERMISSIONS,
         RELEASE,
-        DOWNLOAD_STATS,
         EMPTY
     }
 
@@ -197,6 +192,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         class AppInfoItem(
             val repository: Repository,
             val product: Product,
+            val downloads: Long,
         ) : Item() {
             override val descriptor: String
                 get() = "app_info.${product.name}"
@@ -373,16 +369,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 get() = ViewType.RELEASE
         }
 
-        class DownloadStatsItem(
-            val downloadStats: List<DownloadStats>,
-        ) : Item() {
-            override val descriptor: String
-                get() = "download_stats.${downloadStats.size}"
-
-            override val viewType: ViewType
-                get() = ViewType.DOWNLOAD_STATS
-        }
-
         class EmptyItem(val packageName: String, val repoAddress: String?) : Item() {
             override val descriptor: String
                 get() = "empty"
@@ -435,7 +421,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         val version = itemView.findViewById<TextView>(R.id.version)!!
         val size = itemView.findViewById<TextView>(R.id.size)!!
-        val dev = itemView.findViewById<MaterialCardView>(R.id.dev_block)!!
+        val downloadsBlockDividier = itemView.findViewById<MaterialDivider>(R.id.downloads_block_divider)!!
+        val downloadsBlock = itemView.findViewById<LinearLayout>(R.id.downloads_block)!!
+        val downloads = itemView.findViewById<TextView>(R.id.downloads)!!
 
         val favouriteButton = itemView.findViewById<MaterialButton>(R.id.favourite)!!
     }
@@ -590,18 +578,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             )
     }
 
-    private class DownloadStatsViewHolder(itemView: ComposeView) :
-        RecyclerView.ViewHolder(itemView) {
-        init {
-            itemView.setViewCompositionStrategy(
-                ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
-            )
-        }
-
-        val composeView: ComposeView
-            get() = itemView as ComposeView
-    }
-
     private class EmptyViewHolder(context: Context) :
         RecyclerView.ViewHolder(LinearLayout(context)) {
         val packageName = TextView(context)
@@ -732,7 +708,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
         rblogs: List<RBLogEntity>,
-        downloadStats: List<DownloadStats> = emptyList(),
+        downloads: Long,
         installedItem: InstalledItem?,
         isFavourite: Boolean,
         allowIncompatibleVersion: Boolean,
@@ -750,7 +726,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         items += Item.AppInfoItem(
             productRepository.second,
-            productRepository.first
+            productRepository.first,
+            downloads
         )
 
         items += Item.DownloadStatusItem
@@ -912,10 +889,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             } else {
                 items += item
             }
-        }
-
-        if (downloadStats.isNotEmpty()) {
-            items += Item.DownloadStatsItem(downloadStats)
         }
 
         val linkItems = mutableListOf<Item>()
@@ -1273,15 +1246,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
             }
 
-            ViewType.DOWNLOAD_STATS -> DownloadStatsViewHolder(
-                ComposeView(parent.context)
-            ).apply {
-                composeView.layoutParams = RecyclerView.LayoutParams(
-                    RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.WRAP_CONTENT,
-                )
-            }
-
             ViewType.EMPTY -> EmptyViewHolder(parent.context).apply {
                 copyRepoAddress.setOnClickListener {
                     repoAddress.text?.let { link ->
@@ -1362,19 +1326,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
                 holder.size.text = DataSize(product?.displayRelease?.size ?: 0).toString()
 
-                holder.dev.setOnClickListener {
-                    product?.source?.let { link ->
-                        if (link.isNotEmpty()) {
-                            context.startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
-                        }
-                    }
-                }
-                holder.dev.setOnLongClickListener {
-                    product?.source?.let { link ->
-                        if (link.isNotEmpty()) copyLinkToClipboard(holder.dev, link)
-                    }
-                    true
-                }
+                holder.downloadsBlockDividier.isGone = item.downloads < 1
+                holder.downloadsBlock.isGone = item.downloads < 1
+                holder.downloads.text = item.downloads.toString()
                 holder.favouriteButton.isChecked = isFavourite
             }
 
@@ -1428,7 +1382,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         Status.Idle -> {}
                     }
                 }
-                Unit
             }
 
             ViewType.INSTALL_BUTTON -> {
@@ -1809,19 +1762,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
                 val enabled = status == Status.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }
-            }
-
-            ViewType.DOWNLOAD_STATS -> {
-                holder as DownloadStatsViewHolder
-                item as Item.DownloadStatsItem
-
-                holder.composeView.setContent {
-                    DroidifyTheme {
-                        DownloadStatsSection(
-                            downloadStats = item.downloadStats,
-                        )
-                    }
-                }
             }
 
             ViewType.EMPTY -> {
