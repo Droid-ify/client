@@ -1,0 +1,47 @@
+name: Build Alpha APK
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: "alpha-build"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Build Release APK
+        run: ./gradlew assembleAlpha
+
+      - name: Checks
+        run: find . -type f -name "*.apk"
+
+      - uses: r0adkll/sign-android-release@v1
+        name: Signing APK
+        id: sign_app
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.KEY_BASE64 }}
+          alias: ${{ secrets.KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
+          keyPassword: ${{ secrets.KEYSTORE_PASS }}
+        env:
+          BUILD_TOOLS_VERSION: "36.0.0"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Signed APK
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
