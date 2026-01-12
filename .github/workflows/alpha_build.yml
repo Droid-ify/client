@@ -26,14 +26,11 @@ jobs:
       - name: Build Release APK
         run: ./gradlew assembleAlpha
 
-      - name: Checks
-        run: find . -type f -name "*.apk"
-
       - uses: r0adkll/sign-android-release@v1
         name: Signing APK
         id: sign_app
         with:
-          releaseDirectory: app/build/outputs/apk/release
+          releaseDirectory: app/build/outputs/apk/alpha
           signingKeyBase64: ${{ secrets.KEY_BASE64 }}
           alias: ${{ secrets.KEY_ALIAS }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASS }}
