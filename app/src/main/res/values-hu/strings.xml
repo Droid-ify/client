@@ -238,4 +238,20 @@
     <string name="label_sdk_version">Cél: Android %1$s | Minimális: Android %2$s</string>
     <string name="always_choose">Mindig válasszon</string>
     <string name="select_installer">Telepítő kiválasztása</string>
+    <string name="repository_not_synced_or_enabled">A tároló nincs engedélyezve vagy szinkronizálva</string>
+    <string name="action_sync_repo">Szinkronizálás</string>
+    <string name="action_enable_repo">Engedélyezés</string>
+    <string name="repository_not_found_by_id">Tároló nem található</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Reprodukálható összeállítási jelvény</string>
+    <string name="rb_badge_info">Zöld pipa-&gt; Ellenőrzött, reprodukálható összeállítás\nPiros pipa -&gt; Nem reprodukálható összeállítás\nBarna pipa -&gt; Ismeretlen állapot</string>
+    <string name="rb_info">Ha egy összeállítás reprodukálható, az azt jelenti, hogy az adott apk a megadott forrásból lett összeállítva</string>
+    <string name="total_downloads">Összes letöltés</string>
+    <string name="download_stats">Letöltési statisztikák</string>
+    <string name="download_stats_from_izzy">Forrás: IzzyOnDroid</string>
+    <string name="total">Összesen</string>
+    <string name="by_client">Kliens szerint</string>
+    <string name="monthly">Havi</string>
+    <string name="downloading_rb_logs">Reprodukálhatósági naplók letöltése</string>
+    <string name="downloading_download_stats">Letöltési statisztikák letöltése</string>
 </resources>

@@ -1,0 +1,9 @@
+💾 Backup Arsenal
+- Add support for Exporting/Importing Repos and Settings
+
+# Improvements
+- App details page performance
+
+# Fixes
+- Theme not applying on startup
+- Root Installer stuck

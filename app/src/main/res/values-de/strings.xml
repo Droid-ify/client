@@ -83,7 +83,7 @@
     <string name="changes">Änderungen</string>
     <string name="author_email">Autoren-E-Mail</string>
     <string name="could_not_download_FORMAT">%s konnte nicht heruntergeladen werden</string>
-    <string name="author_website">Website</string>
+    <string name="author_website">Webseite</string>
     <string name="delete">Löschen</string>
     <string name="recently_updated">Kürzlich aktualisiert</string>
     <string name="license">Lizenz</string>
@@ -238,4 +238,19 @@
     <string name="always_choose">Immer wählen</string>
     <string name="label_sdk_version">Zielversion: Android %1$s | Minimum: Android %2$s</string>
     <string name="select_installer">Installationsmethode wählen</string>
+    <string name="monthly">Monatlich</string>
+    <string name="download_stats_from_izzy">Quelle: IzzyOnDroid</string>
+    <string name="download_stats">Statistiken herunterladen</string>
+    <string name="repository_not_synced_or_enabled">Paketquelle weder aktiviert noch synchronisiert</string>
+    <string name="action_sync_repo">Synchronisieren</string>
+    <string name="action_enable_repo">Aktivieren</string>
+    <string name="repository_not_found_by_id">Paketquelle nicht gefunden</string>
+    <string name="total_downloads">Downloads insgesamt</string>
+    <string name="total">Insgesamt</string>
+    <string name="by_client">Nach Client</string>
+    <string name="rb_badge">Reproduzierbares Build-Badge</string>
+    <string name="rb_badge_info">Grünes Häkchen\t-&gt; Verifizierter reproduzierbarer Build\nRotes Häkchen\t-&gt; Nicht reproduzierbarer Build\nBraunes Häkchen\t-&gt; Unbekannter Status</string>
+    <string name="rb_info">Wenn ein Build reproduzierbar ist, bedeutet dies, dass die angegebene APK-Datei aus der bereitgestellten Quelle erstellt wurde</string>
+    <string name="downloading_rb_logs">Reproduzierbarkeitsprotokolle werden heruntergeladen</string>
+    <string name="downloading_download_stats">Downloadstatistiken werden heruntergeladen</string>
 </resources>

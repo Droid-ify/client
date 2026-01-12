@@ -241,4 +241,20 @@
     <string name="legacyInstallerComponent">Komponenta starého instalátoru</string>
     <string name="label_sdk_version">Cíl: Android %1$s | Minimum: Android %2$s</string>
     <string name="unspecified">Nespecifikováno</string>
+    <string name="repository_not_synced_or_enabled">Repozitář není povolen ani synchronizován</string>
+    <string name="action_sync_repo">Synchronizovat</string>
+    <string name="action_enable_repo">Povolit</string>
+    <string name="repository_not_found_by_id">Repozitář nenalezen</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Odznak reprodukovatelného sestavení</string>
+    <string name="rb_badge_info">Zelená fajfka\t-&gt; Ověřené reprodukovatelné sestavení\nČervená fajfka\t-&gt; Nereprodukovatelné sestavení\nHnědá fajfka\t-&gt; Neznámý stav</string>
+    <string name="rb_info">Pokud je sestavení reprodukovatelné, znamená to, že je daný soubor APK sestaven z poskytnutého zdroje</string>
+    <string name="total_downloads">Celkem stažení</string>
+    <string name="download_stats">Statistika stahování</string>
+    <string name="download_stats_from_izzy">Zdroj: IzzyOnDroid</string>
+    <string name="total">Celkem</string>
+    <string name="by_client">Podle klienta</string>
+    <string name="monthly">Měsíčně</string>
+    <string name="downloading_rb_logs">Stahování protokolů o reprodukovatelnosti</string>
+    <string name="downloading_download_stats">Stahování statistik o stahování</string>
 </resources>
