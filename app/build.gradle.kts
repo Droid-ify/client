@@ -161,6 +161,8 @@ dependencies {
     implementation(libs.bundles.compose)
     debugImplementation(libs.bundles.compose.debug)
 
+    implementation(libs.bundles.media3)
+
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.room.test)

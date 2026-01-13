@@ -2,9 +2,11 @@ package com.looker.droidify.ui.appDetail
 
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import coil3.asImage
 import coil3.dispose
@@ -22,13 +24,15 @@ import com.looker.droidify.utility.common.extension.camera
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.layoutInflater
-import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.dimen as dimenRes
 
-class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
+class ScreenshotsAdapter(
+    private val onClick: (position: Int) -> Unit,
+    private val onVideoClick: (videoUri: Uri) -> Unit,
+) :
     StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
     enum class ViewType { SCREENSHOT, VIDEO }
 
@@ -47,7 +51,7 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                 )
                 setOnClickListener {
                     val item = items[absoluteAdapterPosition] as Item.VideoItem
-                    it.context?.openLink(item.videoUrl)
+                    onVideoClick(item.videoUrl.toUri())
                 }
             }
         }

@@ -36,6 +36,7 @@ arch-core-testing = "2.2.0"
 compose-bom = "2025.12.01"
 compose-navigation = "2.9.6"
 vico = "2.4.1"
+media3 = "1.9.0"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -111,6 +112,11 @@ compose-navigation = { group = "androidx.navigation", name = "navigation-compose
 compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }
 compose-lifecycle-viewmodel = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 
+# Media3 dependencies
+media3-datasource-okhttp = { group = "androidx.media3", name = "media3-datasource-okhttp", version.ref = "media3" }
+media3-exoplayer = { group = "androidx.media3", name = "media3-exoplayer", version.ref = "media3" }
+media3-ui = { group = "androidx.media3", name = "media3-ui", version.ref = "media3" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
@@ -131,3 +137,4 @@ test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
 test-android = ["test-runner", "test-rules", "test-ext", "coroutines-test", "kotlin-test"]
 compose = ["compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "compose-material-icons", "compose-activity", "compose-navigation", "compose-hilt-navigation", "compose-lifecycle-viewmodel"]
 compose-debug = ["compose-ui-tooling", "compose-ui-test-manifest"]
+media3 = ["media3-datasource-okhttp", "media3-exoplayer", "media3-ui"]

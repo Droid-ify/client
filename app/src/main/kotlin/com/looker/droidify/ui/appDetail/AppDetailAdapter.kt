@@ -106,6 +106,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
+        fun onVideoClick(videoUri: Uri)
     }
 
     enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
@@ -1430,7 +1431,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     setPadding(8.dp, 8.dp, 8.dp, 8.dp)
                     layoutManager =
                         LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = ScreenshotsAdapter(callbacks::onScreenshotClick).apply {
+                    adapter = ScreenshotsAdapter(
+                        onClick = callbacks::onScreenshotClick,
+                        onVideoClick = callbacks::onVideoClick,
+                    ).apply {
                         setScreenshots(item.repository, item.packageName, item.screenshots)
                     }
                 }

@@ -5,7 +5,6 @@ import android.app.job.JobScheduler
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.PowerManager
@@ -15,7 +14,6 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
-import androidx.core.net.toUri
 import com.looker.droidify.R
 
 inline val Context.clipboardManager: ClipboardManager?
@@ -35,13 +33,6 @@ inline val Context.powerManager: PowerManager?
 
 fun Context.copyToClipboard(clip: String) {
     clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
-}
-
-fun Context.openLink(url: String) {
-    val intent = intent(Intent.ACTION_VIEW) {
-        setData(url.toUri())
-    }
-    startActivity(intent)
 }
 
 val Context.corneredBackground: Drawable

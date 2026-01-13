@@ -557,6 +557,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         }
     }
 
+    override fun onVideoClick(videoUri: Uri) {
+        VideoPlayerDialog.showVideoFromUri(parentFragmentManager, videoUri)
+    }
+
     class LaunchDialog() : DialogFragment() {
         companion object {
             private const val EXTRA_NAMES = "names"
