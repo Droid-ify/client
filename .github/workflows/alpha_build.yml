@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
       packages: write
 
     steps:
@@ -21,9 +21,8 @@ jobs:
         with:
           java-version: 17
           distribution: 'adopt'
-          cache: gradle
 
-      - name: Build Release APK
+      - name: Build Alpha APK
         run: ./gradlew assembleAlpha
 
       - uses: r0adkll/sign-android-release@v1
@@ -40,5 +39,5 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: Signed APK
+          name: alpha
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
