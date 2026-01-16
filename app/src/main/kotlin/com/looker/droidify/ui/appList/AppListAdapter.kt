@@ -13,10 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.google.android.material.imageview.ShapeableImageView
 import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
+import com.looker.droidify.network.percentBy
+import com.looker.droidify.ui.DownloadStatus
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.corneredBackground
 import com.looker.droidify.utility.common.extension.dp
@@ -42,6 +45,7 @@ class AppListAdapter(
         val status = itemView.findViewById<TextView>(R.id.status)!!
         val summary = itemView.findViewById<TextView>(R.id.summary)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
+        val progress = itemView.findViewById<LinearProgressIndicator>(R.id.progress)!!
 
         init {
             itemView.setOnClickListener {
@@ -92,12 +96,35 @@ class AppListAdapter(
     }
 
     private val repositories: HashMap<Long, Repository> = HashMap()
+    private val downloadStatuses: HashMap<String, DownloadStatus> = HashMap()
 
     fun updateRepos(repos: List<Repository>) {
         repos.forEach {
             repositories[it.id] = it
         }
         notifyDataSetChanged()
+    }
+
+    fun updateDownloadStatus(packageName: String, status: DownloadStatus) {
+        val oldStatus = downloadStatuses[packageName]
+        if (oldStatus == status) return
+        if (status == DownloadStatus.Idle) {
+            downloadStatuses.remove(packageName)
+        } else {
+            downloadStatuses[packageName] = status
+        }
+        val position = findPositionByPackageName(packageName)
+        if (position >= 0) {
+            notifyItemChanged(position, status)
+        }
+    }
+
+    private fun findPositionByPackageName(packageName: String): Int {
+        if (isEmpty) return -1
+        for (i in 0 until super.getItemCount()) {
+            if (getPackageName(i) == packageName) return i
+        }
+        return -1
     }
 
     var emptyText: String = ""
@@ -222,6 +249,10 @@ class AppListAdapter(
                 holder.name.isEnabled = enabled
                 holder.status.isEnabled = enabled
                 holder.summary.isEnabled = enabled
+
+                // Bind download status
+                val downloadStatus = downloadStatuses[productItem.packageName] ?: DownloadStatus.Idle
+                bindDownloadStatus(holder, downloadStatus)
             }
 
             ViewType.LOADING -> {
@@ -231,6 +262,56 @@ class AppListAdapter(
             ViewType.EMPTY -> {
                 holder as EmptyViewHolder
                 holder.text.text = emptyText
+            }
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: RecyclerView.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>,
+    ) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            if (holder is ProductViewHolder) {
+                for (payload in payloads) {
+                    if (payload is DownloadStatus) {
+                        bindDownloadStatus(holder, payload)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun bindDownloadStatus(holder: ProductViewHolder, status: DownloadStatus) {
+        when (status) {
+            is DownloadStatus.Idle -> {
+                holder.progress.isVisible = false
+            }
+            is DownloadStatus.Pending,
+            is DownloadStatus.Connecting,
+            is DownloadStatus.PendingInstall -> {
+                holder.progress.isVisible = true
+                holder.progress.isIndeterminate = true
+            }
+            is DownloadStatus.Downloading -> {
+                holder.progress.isVisible = true
+                if (status.total != null) {
+                    val percent = status.read.value percentBy status.total.value
+                    if (percent >= 0) {
+                        holder.progress.isIndeterminate = false
+                        holder.progress.setProgressCompat(percent, true)
+                    } else {
+                        holder.progress.isIndeterminate = true
+                    }
+                } else {
+                    holder.progress.isIndeterminate = true
+                }
+            }
+            is DownloadStatus.Installing -> {
+                holder.progress.isVisible = true
+                holder.progress.isIndeterminate = true
             }
         }
     }

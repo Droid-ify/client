@@ -35,6 +35,7 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
+import com.looker.droidify.ui.DownloadStatus
 import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
@@ -306,9 +307,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     private fun updateInstallState(installerState: InstallState?) {
         val status = when (installerState) {
-            InstallState.Pending -> AppDetailAdapter.Status.PendingInstall
-            InstallState.Installing -> AppDetailAdapter.Status.Installing
-            else -> AppDetailAdapter.Status.Idle
+            InstallState.Pending -> DownloadStatus.PendingInstall
+            InstallState.Installing -> DownloadStatus.Installing
+            else -> DownloadStatus.Idle
         }
         (recyclerView?.adapter as? AppDetailAdapter)?.status = status
         installing = installerState
@@ -322,21 +323,21 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val isCompleted = state isComplete packageName
         val isActive = isPending || isDownloading
         if (isPending) {
-            detailAdapter?.status = AppDetailAdapter.Status.Pending
+            detailAdapter?.status = DownloadStatus.Pending
         }
         if (isDownloading) {
             detailAdapter?.status = when (state.currentItem) {
-                is DownloadService.State.Connecting -> AppDetailAdapter.Status.Connecting
-                is DownloadService.State.Downloading -> AppDetailAdapter.Status.Downloading(
+                is DownloadService.State.Connecting -> DownloadStatus.Connecting
+                is DownloadService.State.Downloading -> DownloadStatus.Downloading(
                     state.currentItem.read,
                     state.currentItem.total,
                 )
 
-                else -> AppDetailAdapter.Status.Idle
+                else -> DownloadStatus.Idle
             }
         }
         if (isCompleted) {
-            detailAdapter?.status = AppDetailAdapter.Status.Idle
+            detailAdapter?.status = DownloadStatus.Idle
         }
         if (this.downloading != isActive) {
             this.downloading = isActive

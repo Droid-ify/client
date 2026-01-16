@@ -54,6 +54,7 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.percentBy
+import com.looker.droidify.ui.DownloadStatus
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.copyToClipboard
@@ -117,15 +118,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         CANCEL(stringRes.cancel, drawableRes.ic_cancel),
         SHARE(stringRes.share, drawableRes.ic_share),
         SOURCE(stringRes.source_code, drawableRes.ic_source_code),
-    }
-
-    sealed interface Status {
-        data object Idle : Status
-        data object Pending : Status
-        data object Connecting : Status
-        data class Downloading(val read: DataSize, val total: DataSize?) : Status
-        data object PendingInstall : Status
-        data object Installing : Status
     }
 
     enum class ViewType {
@@ -1071,7 +1063,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             field = value
         }
 
-    var status: Status = Status.Idle
+    var status: DownloadStatus = DownloadStatus.Idle
         set(value) {
             if (field != value) {
                 val index = items.indexOf(Item.DownloadStatusItem)
@@ -1336,22 +1328,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as DownloadStatusViewHolder
                 item as Item.DownloadStatusItem
                 val status = status
-                holder.itemView.isVisible = status != Status.Idle
-                holder.statusText.isVisible = status != Status.Idle
-                holder.progress.isVisible = status != Status.Idle
-                if (status != Status.Idle) {
+                holder.itemView.isVisible = status != DownloadStatus.Idle
+                holder.statusText.isVisible = status != DownloadStatus.Idle
+                holder.progress.isVisible = status != DownloadStatus.Idle
+                if (status != DownloadStatus.Idle) {
                     when (status) {
-                        is Status.Pending -> {
+                        is DownloadStatus.Pending -> {
                             holder.statusText.setText(stringRes.waiting_to_start_download)
                             holder.progress.isIndeterminate = true
                         }
 
-                        is Status.Connecting -> {
+                        is DownloadStatus.Connecting -> {
                             holder.statusText.setText(stringRes.connecting)
                             holder.progress.isIndeterminate = true
                         }
 
-                        is Status.Downloading -> {
+                        is DownloadStatus.Downloading -> {
                             holder.statusText.text = context.getString(
                                 stringRes.downloading_FORMAT,
                                 if (status.total == null) {
@@ -1369,17 +1361,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             }
                         }
 
-                        Status.Installing -> {
+                        DownloadStatus.Installing -> {
                             holder.statusText.setText(stringRes.installing)
                             holder.progress.isIndeterminate = true
                         }
 
-                        Status.PendingInstall -> {
+                        DownloadStatus.PendingInstall -> {
                             holder.statusText.setText(stringRes.waiting_to_start_installation)
                             holder.progress.isIndeterminate = true
                         }
 
-                        Status.Idle -> {}
+                        DownloadStatus.Idle -> {}
                     }
                 }
             }
@@ -1760,7 +1752,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         minSdkVersion
                     )
                 }
-                val enabled = status == Status.Idle
+                val enabled = status == DownloadStatus.Idle
                 holder.statefulViews.forEach { it.isEnabled = enabled }
             }
 
