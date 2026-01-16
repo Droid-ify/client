@@ -235,4 +235,20 @@
     <string name="unspecified">未指定</string>
     <string name="shizuku_legacy_installer">Shizuku/Sui 旧版安装程序</string>
     <string name="label_sdk_version">目标：Android %1$s | 最低：Android %2$s</string>
+    <string name="repository_not_synced_or_enabled">存储库既未启用也未同步</string>
+    <string name="action_sync_repo">同步</string>
+    <string name="action_enable_repo">启用</string>
+    <string name="repository_not_found_by_id">未找到储存库</string>
+    <string name="title_activity_main_compose">基于Compose的主要活动</string>
+    <string name="rb_badge">可复现构建徽章</string>
+    <string name="rb_badge_info">绿色勾 -&gt; 可验证可重现的构建\n红色勾 -&gt; 不可重现的构建\n棕色勾 -&gt; 状态未知</string>
+    <string name="rb_info">如果一个构建是可复现的，这意味着给定的 APK 是从提供的源代码构建的</string>
+    <string name="total_downloads">总下载量</string>
+    <string name="download_stats">下载统计</string>
+    <string name="download_stats_from_izzy">来源：IzzyOnDroid</string>
+    <string name="total">总计</string>
+    <string name="by_client">按客户端</string>
+    <string name="monthly">每月</string>
+    <string name="downloading_rb_logs">正在下载可复现性日志</string>
+    <string name="downloading_download_stats">正在下载下载统计</string>
 </resources>
