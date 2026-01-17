@@ -15,9 +15,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
+import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.model.ProductItem
+import com.looker.droidify.service.Connection
+import com.looker.droidify.service.DownloadService
+import com.looker.droidify.ui.DownloadStatus
 import com.looker.droidify.utility.common.Scroller
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
@@ -25,6 +30,7 @@ import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
@@ -67,6 +73,19 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
 
+    private val downloadConnection = Connection(
+        serviceClass = DownloadService::class.java,
+        onBind = { _, binder ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                binder.downloadState
+                    .sample(200)
+                    .collect { downloadState ->
+                        updateDownloadState(downloadState)
+                    }
+            }
+        },
+    )
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -77,11 +96,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
         viewModel.syncConnection.bind(requireContext())
+        downloadConnection.bind(requireContext())
 
         recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             isMotionEventSplittingEnabled = false
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
             appListAdapter = AppListAdapter(source, mainActivity::navigateProduct)
             adapter = appListAdapter
@@ -145,7 +165,54 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                         updateRequest()
                     }
                 }
+                // Collect install state updates
+                launch {
+                    viewModel.installStates.collect { installStates ->
+                        updateInstallStates(installStates)
+                    }
+                }
             }
+        }
+    }
+
+    private fun updateDownloadState(downloadState: DownloadService.DownloadState) {
+        val currentItem = downloadState.currentItem
+        val packageName = currentItem.packageName
+
+        // Update status for current downloading item
+        val status = when (currentItem) {
+            is DownloadService.State.Idle -> DownloadStatus.Idle
+            is DownloadService.State.Connecting -> DownloadStatus.Connecting
+            is DownloadService.State.Downloading -> DownloadStatus.Downloading(
+                currentItem.read,
+                currentItem.total
+            )
+            is DownloadService.State.Success,
+            is DownloadService.State.Error,
+            is DownloadService.State.Cancel -> DownloadStatus.Idle
+        }
+
+        if (packageName.isNotEmpty()) {
+            appListAdapter.updateDownloadStatus(packageName, status)
+        }
+
+        // Update status for queued items
+        downloadState.queue.forEach { queuedPackage ->
+            if (queuedPackage.isNotEmpty() && queuedPackage != packageName) {
+                appListAdapter.updateDownloadStatus(queuedPackage, DownloadStatus.Pending)
+            }
+        }
+    }
+
+    private fun updateInstallStates(installStates: Map<PackageName, InstallState>) {
+        installStates.forEach { (packageName, state) ->
+            val status = when (state) {
+                InstallState.Pending -> DownloadStatus.Pending
+                InstallState.Installing -> DownloadStatus.Installing
+                InstallState.Installed,
+                InstallState.Failed -> DownloadStatus.Idle
+            }
+            appListAdapter.updateDownloadStatus(packageName.name, status)
         }
     }
 
@@ -158,6 +225,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.syncConnection.unbind(requireContext())
+        downloadConnection.unbind(requireContext())
         _binding = null
         scroller = null
         mainActivity.cursorOwner.detach(this)

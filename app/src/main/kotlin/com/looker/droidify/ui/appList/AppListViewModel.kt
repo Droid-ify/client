@@ -7,9 +7,12 @@ import com.looker.droidify.database.CursorOwner.Request.Available
 import com.looker.droidify.database.CursorOwner.Request.Installed
 import com.looker.droidify.database.CursorOwner.Request.Updates
 import com.looker.droidify.database.Database
+import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
+import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.ProductItem.Section.All
 import com.looker.droidify.service.Connection
@@ -18,6 +21,7 @@ import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -28,7 +32,10 @@ import javax.inject.Inject
 class AppListViewModel
 @Inject constructor(
     settingsRepository: SettingsRepository,
+    installManager: InstallManager,
 ) : ViewModel() {
+
+    val installStates: StateFlow<Map<PackageName, InstallState>> = installManager.state
 
     private val skipSignatureStream = settingsRepository
         .get { ignoreSignature }
