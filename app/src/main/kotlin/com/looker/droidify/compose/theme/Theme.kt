@@ -241,7 +241,7 @@ private val highContrastDarkColorScheme = darkColorScheme(
 @Composable
 fun DroidifyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable() () -> Unit,
 ) {
     val colorScheme = when {

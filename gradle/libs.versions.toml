@@ -33,7 +33,8 @@ junit-jupiter = "6.0.2"
 robolectric = "4.16"
 test-core = "1.7.0"
 arch-core-testing = "2.2.0"
-compose-bom = "2025.12.01"
+compose-bom = "2026.01.00"
+compose-material = "1.5.0-alpha12"
 compose-navigation = "2.9.6"
 vico = "2.4.1"
 
@@ -102,7 +103,7 @@ compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
+compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material" }
 # TODO check https://developer.android.com/develop/ui/compose/graphics/images/material the icons library shouldn't be used anymore
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
 compose-icons = { group = "androidx.compose.material", name = "material-icons-core" }

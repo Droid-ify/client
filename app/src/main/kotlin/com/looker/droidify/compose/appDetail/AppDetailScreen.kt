@@ -22,11 +22,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ErrorOutline
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.FilledTonalIconToggleButton
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -63,17 +65,17 @@ fun AppDetailScreen(
     onBackClick: () -> Unit,
     viewModel: AppDetailViewModel,
 ) {
-    val app by viewModel.state.collectAsStateWithLifecycle()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    when (app) {
+                    when (state) {
                         AppDetailState.Loading -> Text(stringResource(R.string.application))
                         is AppDetailState.Error -> {}
                         is AppDetailState.Success -> {
-                            val app = (app as AppDetailState.Success).app
+                            val app = (state as AppDetailState.Success).app
                             Text(text = app.metadata.name)
                         }
                     }
@@ -82,7 +84,7 @@ fun AppDetailScreen(
             )
         },
     ) { padding ->
-        when (app) {
+        when (state) {
             AppDetailState.Loading -> {
                 Box(
                     modifier = Modifier.fillMaxSize(),
@@ -97,14 +99,14 @@ fun AppDetailScreen(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(text = (app as AppDetailState.Error).message)
+                    Text(text = (state as AppDetailState.Error).message)
                 }
             }
 
             is AppDetailState.Success -> {
                 AppDetail(
-                    app = (app as AppDetailState.Success).app,
-                    packages = (app as AppDetailState.Success).packages,
+                    app = (state as AppDetailState.Success).app,
+                    packages = (state as AppDetailState.Success).packages,
                     modifier = Modifier.padding(padding),
                 )
             }
@@ -128,6 +130,7 @@ private fun AppDetail(
             app = app,
             packageName = app.metadata.packageName.name,
             isInstalled = app.packages?.any { it.installed } == true,
+            isFavorite = true,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
@@ -146,6 +149,7 @@ private fun AppDetail(
         }
 
         if (app.categories.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(8.dp))
             CategoriesRow(categories = app.categories)
         }
 
@@ -153,7 +157,7 @@ private fun AppDetail(
         if (app.metadata.summary.isNotBlank()) {
             Text(
                 text = app.metadata.summary,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -213,11 +217,13 @@ private fun AppDetail(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 private fun HeaderSection(
     app: App?,
     packageName: String,
     isInstalled: Boolean,
+    isFavorite: Boolean,
     modifier: Modifier = Modifier,
 ) {
     Row(modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -245,7 +251,6 @@ private fun HeaderSection(
             Text(
                 text = app?.metadata?.name ?: packageName,
                 style = MaterialTheme.typography.titleLarge,
-                maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             val version = app?.metadata?.suggestedVersionName?.takeIf { it.isNotBlank() } ?: ""
@@ -265,8 +270,22 @@ private fun HeaderSection(
             )
         }
 
-        Button(onClick = { /* Hook up downloads/installs later */ }) {
-            Text(text = if (isInstalled) "Open" else "Get")
+        FilledTonalIconToggleButton(
+            checked = isFavorite,
+            onCheckedChange = {},
+            modifier = Modifier.size(
+                IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Narrow)
+            )
+        ) {
+            val icon = if (isFavorite) {
+                R.drawable.ic_favourite_checked
+            } else {
+                R.drawable.ic_favourite
+            }
+            Icon(
+                painter = painterResource(icon),
+                contentDescription = null,
+            )
         }
     }
 }
