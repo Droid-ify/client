@@ -132,6 +132,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+        updateRequest()
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
