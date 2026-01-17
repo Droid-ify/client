@@ -241,4 +241,20 @@
     <string name="label_sdk_version">Ciljana inačica: Android %1$s | Minimum: Android %2$s</string>
     <string name="always_choose">Uvijek odaberi</string>
     <string name="select_installer">Odaberi program za instalaciju</string>
+    <string name="repository_not_synced_or_enabled">Repozitorij nije aktiviran niti sinkroniziran</string>
+    <string name="action_sync_repo">Sinkroniziraj</string>
+    <string name="action_enable_repo">Aktiviraj</string>
+    <string name="repository_not_found_by_id">Repozitorij nije pronađen</string>
+    <string name="total_downloads">Ukupna preuzimanja</string>
+    <string name="download_stats">Statistika preuzimanja</string>
+    <string name="download_stats_from_izzy">Izvor: IzzyOnDroid</string>
+    <string name="total">Ukupno</string>
+    <string name="by_client">Po klijentu</string>
+    <string name="monthly">Mjesečno</string>
+    <string name="downloading_rb_logs">Zapisi o reproducibilnosti preuzimanja</string>
+    <string name="downloading_download_stats">Preuzimanje statistike preuzimanja</string>
+    <string name="title_activity_main_compose">Glavna aktivnost sastavljanja</string>
+    <string name="rb_badge">Značka za reproducibilnu izgradnju</string>
+    <string name="rb_badge_info">Zelena kvačica -&gt; Potvrđena reproducibilna izgradnja\nCrvena kvačica -&gt; Nereproducibilna izgradnja\nSmeđa kvačica -&gt; Nepoznato stanje</string>
+    <string name="rb_info">Ako je izgradnja reproducibilna, to znači da je zadani apk izgrađen iz navedenog izvora</string>
 </resources>
