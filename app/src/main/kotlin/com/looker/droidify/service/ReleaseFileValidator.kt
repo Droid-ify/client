@@ -2,27 +2,27 @@ package com.looker.droidify.service
 
 import android.content.Context
 import androidx.annotation.StringRes
+import com.looker.droidify.data.encryption.sha256
+import com.looker.droidify.data.model.hex
+import com.looker.droidify.model.Release
+import com.looker.droidify.network.validation.FileValidator
+import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.utility.common.extension.calculateHash
 import com.looker.droidify.utility.common.extension.getPackageArchiveInfoCompat
 import com.looker.droidify.utility.common.extension.singleSignature
 import com.looker.droidify.utility.common.extension.versionCodeCompat
-import com.looker.droidify.network.validation.FileValidator
-import com.looker.droidify.utility.common.signature.Hash
-import com.looker.droidify.network.validation.invalid
-import com.looker.droidify.utility.common.signature.verifyHash
-import com.looker.droidify.model.Release
 import java.io.File
 import com.looker.droidify.R.string as strings
 
 class ReleaseFileValidator(
     private val context: Context,
     private val packageName: String,
-    private val release: Release
+    private val release: Release,
 ) : FileValidator {
 
     override suspend fun validate(file: File) {
-        val hash = Hash(release.hashType, release.hash)
-        if (!file.verifyHash(hash)) {
+        val checksum = sha256(file).hex()
+        if (checksum.equals(release.hash, ignoreCase = true)) {
             invalid(getString(strings.integrity_check_error_DESC))
         }
         val packageInfo = context.packageManager.getPackageArchiveInfoCompat(file.path)
@@ -39,10 +39,9 @@ class ReleaseFileValidator(
             ?: invalid(getString(strings.invalid_signature_error_DESC))
 
         packageInfo.permissions
-            ?.asSequence()
+            ?.map { it.name }
+            ?.toSet()
             .orEmpty()
-            .map { it.name }
-            .toSet()
             .takeIf { release.permissions.containsAll(it) }
             ?: invalid(getString(strings.invalid_permissions_error_DESC))
     }

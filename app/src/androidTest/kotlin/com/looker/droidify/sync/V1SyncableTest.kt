@@ -86,6 +86,25 @@ class V1SyncableTest {
     }
 
     @Test
+    fun targetPropertyV1Test() = runTest(dispatcher) {
+        val v1IzzyFile =
+            FakeDownloader.downloadIndex(context, repo, "izzy-v1", "index-v1.jar")
+        val v1FdroidFile =
+            FakeDownloader.downloadIndex(context, repo, "fdroid-v1", "fdroid-index-v1.jar")
+
+        val t = with(v1IzzyFile.toJarScope<IndexV1>()) { json() }
+        val set = hashSetOf<String>()
+        t.packages.flatMap { it.value }.forEach {
+            set.add(it.hashType)
+        }
+        val k = with(v1FdroidFile.toJarScope<IndexV1>()) { json() }
+        k.packages.flatMap { it.value }.forEach {
+            set.add(it.hashType)
+        }
+        println("Types: ${set.joinToString()}")
+    }
+
+    @Test
     fun targetPropertyTest() = runTest(dispatcher) {
         val v2IzzyFile =
             FakeDownloader.downloadIndex(context, repo, "izzy-v2", "index-v2-updated.json")
