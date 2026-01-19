@@ -73,10 +73,17 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
 
+    // Track packages with active download/install status for cleanup
+    private val activeDownloadPackages = mutableSetOf<String>()
+    private val activeInstallPackages = mutableSetOf<String>()
+
     private val downloadConnection = Connection(
         serviceClass = DownloadService::class.java,
         onBind = { _, binder ->
             viewLifecycleOwner.lifecycleScope.launch {
+                // Process initial state immediately
+                updateDownloadState(binder.downloadState.value)
+                // Then sample subsequent updates to avoid excessive UI updates
                 binder.downloadState
                     .sample(200)
                     .collect { downloadState ->
@@ -179,6 +186,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         val currentItem = downloadState.currentItem
         val packageName = currentItem.packageName
 
+        // Collect all active packages in this update
+        val currentActivePackages = mutableSetOf<String>()
+
         // Update status for current downloading item
         val status = when (currentItem) {
             is DownloadService.State.Idle -> DownloadStatus.Idle
@@ -194,26 +204,52 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
         if (packageName.isNotEmpty()) {
             appListAdapter.updateDownloadStatus(packageName, status)
+            if (status != DownloadStatus.Idle) {
+                currentActivePackages.add(packageName)
+            }
         }
 
         // Update status for queued items
         downloadState.queue.forEach { queuedPackage ->
             if (queuedPackage.isNotEmpty() && queuedPackage != packageName) {
                 appListAdapter.updateDownloadStatus(queuedPackage, DownloadStatus.Pending)
+                currentActivePackages.add(queuedPackage)
             }
         }
+
+        // Clear status for packages that were active but are no longer
+        val packagesToClean = activeDownloadPackages - currentActivePackages
+        packagesToClean.forEach { pkg ->
+            appListAdapter.updateDownloadStatus(pkg, DownloadStatus.Idle)
+        }
+        activeDownloadPackages.clear()
+        activeDownloadPackages.addAll(currentActivePackages)
     }
 
     private fun updateInstallStates(installStates: Map<PackageName, InstallState>) {
+        // Collect all active packages in this update
+        val currentActivePackages = mutableSetOf<String>()
+
         installStates.forEach { (packageName, state) ->
             val status = when (state) {
-                InstallState.Pending -> DownloadStatus.Pending
+                InstallState.Pending -> DownloadStatus.PendingInstall
                 InstallState.Installing -> DownloadStatus.Installing
                 InstallState.Installed,
                 InstallState.Failed -> DownloadStatus.Idle
             }
-            appListAdapter.updateDownloadStatus(packageName.name, status)
+            appListAdapter.updateInstallStatus(packageName.name, status)
+            if (status != DownloadStatus.Idle) {
+                currentActivePackages.add(packageName.name)
+            }
         }
+
+        // Clear status for packages that were active but are no longer
+        val packagesToClean = activeInstallPackages - currentActivePackages
+        packagesToClean.forEach { pkg ->
+            appListAdapter.updateInstallStatus(pkg, DownloadStatus.Idle)
+        }
+        activeInstallPackages.clear()
+        activeInstallPackages.addAll(currentActivePackages)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

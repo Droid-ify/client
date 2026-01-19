@@ -97,6 +97,7 @@ class AppListAdapter(
 
     private val repositories: HashMap<Long, Repository> = HashMap()
     private val downloadStatuses: HashMap<String, DownloadStatus> = HashMap()
+    private val installStatuses: HashMap<String, DownloadStatus> = HashMap()
 
     fun updateRepos(repos: List<Repository>) {
         repos.forEach {
@@ -113,9 +114,32 @@ class AppListAdapter(
         } else {
             downloadStatuses[packageName] = status
         }
+        notifyStatusChange(packageName)
+    }
+
+    fun updateInstallStatus(packageName: String, status: DownloadStatus) {
+        val oldStatus = installStatuses[packageName]
+        if (oldStatus == status) return
+        if (status == DownloadStatus.Idle) {
+            installStatuses.remove(packageName)
+        } else {
+            installStatuses[packageName] = status
+        }
+        notifyStatusChange(packageName)
+    }
+
+    private fun getEffectiveStatus(packageName: String): DownloadStatus {
+        // Install status takes priority over download status
+        val installStatus = installStatuses[packageName]
+        if (installStatus != null) return installStatus
+        return downloadStatuses[packageName] ?: DownloadStatus.Idle
+    }
+
+    private fun notifyStatusChange(packageName: String) {
         val position = findPositionByPackageName(packageName)
         if (position >= 0) {
-            notifyItemChanged(position, status)
+            val effectiveStatus = getEffectiveStatus(packageName)
+            notifyItemChanged(position, effectiveStatus)
         }
     }
 
@@ -250,9 +274,9 @@ class AppListAdapter(
                 holder.status.isEnabled = enabled
                 holder.summary.isEnabled = enabled
 
-                // Bind download status
-                val downloadStatus = downloadStatuses[productItem.packageName] ?: DownloadStatus.Idle
-                bindDownloadStatus(holder, downloadStatus)
+                // Bind download/install status
+                val effectiveStatus = getEffectiveStatus(productItem.packageName)
+                bindDownloadStatus(holder, effectiveStatus)
             }
 
             ViewType.LOADING -> {
