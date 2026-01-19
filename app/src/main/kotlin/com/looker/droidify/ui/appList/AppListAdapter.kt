@@ -96,7 +96,24 @@ class AppListAdapter(
     }
 
     private val repositories: HashMap<Long, Repository> = HashMap()
+
+    /**
+     * Download status tracking for each package.
+     *
+     * Tracks states: [DownloadStatus.Pending], [DownloadStatus.Connecting], [DownloadStatus.Downloading].
+     * Updated by [AppListFragment.updateDownloadState] from [DownloadService].
+     */
     private val downloadStatuses: HashMap<String, DownloadStatus> = HashMap()
+
+    /**
+     * Install status tracking for each package.
+     *
+     * Tracks states: [DownloadStatus.PendingInstall], [DownloadStatus.Installing].
+     * Updated by [AppListFragment.updateInstallStates] from [InstallManager].
+     *
+     * Kept separate from [downloadStatuses] because install status should take priority
+     * when both are present (e.g., download completes and sets Idle while install is starting).
+     */
     private val installStatuses: HashMap<String, DownloadStatus> = HashMap()
 
     fun updateRepos(repos: List<Repository>) {
@@ -106,6 +123,12 @@ class AppListAdapter(
         notifyDataSetChanged()
     }
 
+    /**
+     * Updates the download status for a package.
+     *
+     * Called from [AppListFragment] when [DownloadService] state changes.
+     * Setting [DownloadStatus.Idle] removes the package from tracking.
+     */
     fun updateDownloadStatus(packageName: String, status: DownloadStatus) {
         val oldStatus = downloadStatuses[packageName]
         if (oldStatus == status) return
@@ -117,6 +140,12 @@ class AppListAdapter(
         notifyStatusChange(packageName)
     }
 
+    /**
+     * Updates the install status for a package.
+     *
+     * Called from [AppListFragment] when [InstallManager] state changes.
+     * Setting [DownloadStatus.Idle] removes the package from tracking.
+     */
     fun updateInstallStatus(packageName: String, status: DownloadStatus) {
         val oldStatus = installStatuses[packageName]
         if (oldStatus == status) return
@@ -128,13 +157,25 @@ class AppListAdapter(
         notifyStatusChange(packageName)
     }
 
+    /**
+     * Returns the effective status for a package, considering both download and install states.
+     *
+     * Install status takes priority over download status. This handles the race condition
+     * where download completes (setting Idle) just as installation begins (setting Installing).
+     * Without this priority, the UI would briefly flash to Idle before showing Installing.
+     */
     private fun getEffectiveStatus(packageName: String): DownloadStatus {
-        // Install status takes priority over download status
         val installStatus = installStatuses[packageName]
         if (installStatus != null) return installStatus
         return downloadStatuses[packageName] ?: DownloadStatus.Idle
     }
 
+    /**
+     * Notifies the RecyclerView of a status change using payload-based partial binding.
+     *
+     * Uses [DownloadStatus] as payload so [onBindViewHolder] can update only the progress
+     * indicator without rebinding the entire item (icon, name, etc.).
+     */
     private fun notifyStatusChange(packageName: String) {
         val position = findPositionByPackageName(packageName)
         if (position >= 0) {
@@ -143,6 +184,11 @@ class AppListAdapter(
         }
     }
 
+    /**
+     * Finds the adapter position for a package by iterating through the cursor.
+     *
+     * @return Position of the package, or -1 if not found in the current list.
+     */
     private fun findPositionByPackageName(packageName: String): Int {
         if (isEmpty) return -1
         for (i in 0 until super.getItemCount()) {

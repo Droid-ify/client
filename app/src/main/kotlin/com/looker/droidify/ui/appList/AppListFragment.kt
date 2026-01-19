@@ -73,17 +73,38 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
 
-    // Track packages with active download/install status for cleanup
+    /**
+     * Tracks packages currently showing download progress.
+     *
+     * Used to detect when packages are no longer in the download queue so their
+     * status can be explicitly cleared. Without this, stale statuses could persist
+     * if a package is removed from the queue without going through normal completion.
+     */
     private val activeDownloadPackages = mutableSetOf<String>()
+
+    /**
+     * Tracks packages currently showing install progress.
+     *
+     * Used to detect when packages are no longer being installed so their
+     * status can be explicitly cleared. This handles edge cases where
+     * [InstallManager] state changes without explicit completion signals.
+     */
     private val activeInstallPackages = mutableSetOf<String>()
 
+    /**
+     * Connection to [DownloadService] for observing download progress.
+     *
+     * On bind:
+     * 1. Immediately processes current state (important for showing status on fragment resume)
+     * 2. Samples subsequent updates at 200ms to avoid excessive UI updates during active downloads
+     */
     private val downloadConnection = Connection(
         serviceClass = DownloadService::class.java,
         onBind = { _, binder ->
             viewLifecycleOwner.lifecycleScope.launch {
-                // Process initial state immediately
+                // Process initial state immediately to show status on fragment resume
                 updateDownloadState(binder.downloadState.value)
-                // Then sample subsequent updates to avoid excessive UI updates
+                // Sample subsequent updates to avoid excessive UI updates during downloads
                 binder.downloadState
                     .sample(200)
                     .collect { downloadState ->
@@ -182,14 +203,26 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
+    /**
+     * Processes download state changes from [DownloadService].
+     *
+     * Maps [DownloadService.State] to [DownloadStatus] and updates the adapter:
+     * - Current item: Connecting/Downloading states, or Idle for completed/failed
+     * - Queued items: All marked as [DownloadStatus.Pending]
+     *
+     * Also handles cleanup of packages no longer in the download state by comparing
+     * against [activeDownloadPackages] from the previous update.
+     *
+     * @param downloadState Current state containing the active download and queue
+     */
     private fun updateDownloadState(downloadState: DownloadService.DownloadState) {
         val currentItem = downloadState.currentItem
         val packageName = currentItem.packageName
 
-        // Collect all active packages in this update
+        // Collect all active packages in this update for cleanup comparison
         val currentActivePackages = mutableSetOf<String>()
 
-        // Update status for current downloading item
+        // Map DownloadService.State to DownloadStatus
         val status = when (currentItem) {
             is DownloadService.State.Idle -> DownloadStatus.Idle
             is DownloadService.State.Connecting -> DownloadStatus.Connecting
@@ -197,6 +230,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 currentItem.read,
                 currentItem.total
             )
+            // Completed states (Success/Error/Cancel) map to Idle - install state will take over
             is DownloadService.State.Success,
             is DownloadService.State.Error,
             is DownloadService.State.Cancel -> DownloadStatus.Idle
@@ -209,7 +243,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             }
         }
 
-        // Update status for queued items
+        // Mark all queued packages as Pending (waiting to download)
         downloadState.queue.forEach { queuedPackage ->
             if (queuedPackage.isNotEmpty() && queuedPackage != packageName) {
                 appListAdapter.updateDownloadStatus(queuedPackage, DownloadStatus.Pending)
@@ -217,7 +251,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             }
         }
 
-        // Clear status for packages that were active but are no longer
+        // Clean up packages that were active in previous update but are no longer
         val packagesToClean = activeDownloadPackages - currentActivePackages
         packagesToClean.forEach { pkg ->
             appListAdapter.updateDownloadStatus(pkg, DownloadStatus.Idle)
@@ -226,14 +260,32 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         activeDownloadPackages.addAll(currentActivePackages)
     }
 
+    /**
+     * Processes install state changes from [InstallManager].
+     *
+     * Maps [InstallState] to [DownloadStatus] and updates the adapter:
+     * - [InstallState.Pending] -> [DownloadStatus.PendingInstall] (waiting for installer)
+     * - [InstallState.Installing] -> [DownloadStatus.Installing] (installer running)
+     * - [InstallState.Installed]/[InstallState.Failed] -> [DownloadStatus.Idle]
+     *
+     * Note: [InstallState.Pending] maps to [DownloadStatus.PendingInstall], NOT [DownloadStatus.Pending].
+     * This distinction is important: Pending = waiting to download, PendingInstall = waiting to install.
+     *
+     * Also handles cleanup of packages no longer in the install state.
+     *
+     * @param installStates Map of package names to their current install state
+     */
     private fun updateInstallStates(installStates: Map<PackageName, InstallState>) {
-        // Collect all active packages in this update
+        // Collect all active packages in this update for cleanup comparison
         val currentActivePackages = mutableSetOf<String>()
 
         installStates.forEach { (packageName, state) ->
+            // Map InstallState to DownloadStatus
             val status = when (state) {
+                // Pending in install queue (download complete, waiting for installer)
                 InstallState.Pending -> DownloadStatus.PendingInstall
                 InstallState.Installing -> DownloadStatus.Installing
+                // Completed states map to Idle
                 InstallState.Installed,
                 InstallState.Failed -> DownloadStatus.Idle
             }
