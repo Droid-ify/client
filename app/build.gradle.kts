@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.internal.tasks.factory.dependsOn
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
@@ -16,11 +15,11 @@ plugins {
 android {
     val latestVersionName = "0.6.6"
     namespace = "com.looker.droidify"
-    buildToolsVersion = "35.0.0"
+    buildToolsVersion = "36.0.0"
     compileSdk = 36
     defaultConfig {
         minSdk = 23
-        targetSdk = 35
+        targetSdk = 36
         applicationId = "com.looker.droidify"
         versionCode = 660
         versionName = latestVersionName
