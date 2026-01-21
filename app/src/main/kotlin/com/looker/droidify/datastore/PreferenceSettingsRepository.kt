@@ -144,6 +144,13 @@ class PreferenceSettingsRepository(
     override suspend fun setRbLogLastModified(date: Date) =
         LAST_RB_FETCH.update(date.time)
 
+    override suspend fun updateLastModifiedDownloadStats(date: Date) {
+        dataStore.edit { pref ->
+            val currentValue = pref[LAST_MODIFIED_DS] ?: 0
+            if (date.time > currentValue) pref[LAST_MODIFIED_DS] = date.time
+        }
+    }
+
     override suspend fun setHomeScreenSwiping(value: Boolean) =
         HOME_SCREEN_SWIPING.update(value)
 
@@ -211,6 +218,7 @@ class PreferenceSettingsRepository(
         val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
         val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
         val lastRbLogFetch = preferences[LAST_RB_FETCH]?.let { Instant.fromEpochMilliseconds(it) }
+        val lastModifiedDownloadStats = preferences[LAST_MODIFIED_DS]?.takeIf { it > 0L }
         val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
         val enabledRepoIds =
@@ -233,6 +241,7 @@ class PreferenceSettingsRepository(
             cleanUpInterval = cleanUpInterval,
             lastCleanup = lastCleanup,
             lastRbLogFetch = lastRbLogFetch,
+            lastModifiedDownloadStats = lastModifiedDownloadStats,
             favouriteApps = favouriteApps,
             homeScreenSwiping = homeScreenSwiping,
             enabledRepoIds = enabledRepoIds,
@@ -258,6 +267,7 @@ class PreferenceSettingsRepository(
         val CLEAN_UP_INTERVAL = longPreferencesKey("key_clean_up_interval")
         val LAST_CLEAN_UP = longPreferencesKey("key_last_clean_up_time")
         val LAST_RB_FETCH = longPreferencesKey("key_last_rb_logs_fetch_time")
+        val LAST_MODIFIED_DS = longPreferencesKey("key_last_modified_download_stats")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
         val LEGACY_INSTALLER_COMPONENT_CLASS =
@@ -320,6 +330,7 @@ class PreferenceSettingsRepository(
             set(CLEAN_UP_INTERVAL, settings.cleanUpInterval.inWholeHours)
             set(LAST_CLEAN_UP, settings.lastCleanup?.toEpochMilliseconds() ?: 0L)
             set(LAST_RB_FETCH, settings.lastRbLogFetch?.toEpochMilliseconds() ?: 0L)
+            set(LAST_MODIFIED_DS, settings.lastModifiedDownloadStats ?: 0L)
             set(FAVOURITE_APPS, settings.favouriteApps)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())

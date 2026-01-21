@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.DownloadStatsData
 import com.looker.droidify.data.local.model.DownloadStatsData.Companion.toEpochMillis
+import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.utility.common.Constants
@@ -41,6 +42,7 @@ class DownloadStatsWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
     private val privacyRepository: PrivacyRepository,
+    private val settingsRepo: SettingsRepository,
     private val downloader: Downloader,
 ) : CoroutineWorker(context, params) {
 
@@ -48,6 +50,11 @@ class DownloadStatsWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
+            setForegroundAsync(
+                context
+                    .createDownloadStatsNotification()
+                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD)
+            )
             fetchData()
             Log.i(TAG, "Successfully processed download stats monthly files")
             Result.success()
@@ -61,8 +68,8 @@ class DownloadStatsWorker @AssistedInject constructor(
     @OptIn(ExperimentalAtomicApi::class)
     private suspend fun fetchData() = withContext(Dispatchers.IO) {
         supervisorScope {
-            val existingModifiedDates = privacyRepository.loadDownloadStatsModifiedMap()
-            val fileNames = ConcurrentLinkedQueue(generateMonthlyFileNames())
+            val lastModified = settingsRepo.getInitial().lastModifiedDownloadStats
+            val fileNames = ConcurrentLinkedQueue(generateMonthlyFileNames(lastModified))
             val successfulResults = AtomicInt(0)
             val updatedResults = AtomicInt(0)
             val calendar = Calendar.getInstance()
@@ -76,22 +83,11 @@ class DownloadStatsWorker @AssistedInject constructor(
                         val target = Cache.getTemporaryFile(context)
 
                         Log.i(TAG, "Downloading $fileName")
-                        val lastModified = existingModifiedDates[fileName]
-                        val response = downloadFile(
-                            fileName = fileName,
-                            target = target,
-                            lastModified = lastModified
-                        )
-                        Log.i(TAG, "Downloaded $fileName")
+                        val response = downloadFile(fileName, target)
+                        Log.i(TAG, "Downloaded $fileName with $response")
 
                         if (response is NetworkResponse.Success) {
                             successfulResults.incrementAndFetch()
-//                            val progress = successfulResults.load() percentBy fileNames.size
-                            setForegroundAsync(
-                                context.createDownloadStatsNotification()
-                                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD)
-                            )
-
                             val isModified = response.statusCode != HttpStatusCode.NotModified.value
                             if (isModified) {
                                 processDownloadStats(
@@ -121,10 +117,8 @@ class DownloadStatsWorker @AssistedInject constructor(
                 .toDownloadStats(fileName.substringBefore('.').toEpochMillis())
         }
         privacyRepository.save(downloadStats)
-        privacyRepository.upsertDownloadStatsFile(
-            fileName = fileName,
-            lastModified = response.lastModified ?: Date(System.currentTimeMillis()),
-            recordsCount = downloadStats.size,
+        settingsRepo.updateLastModifiedDownloadStats(
+            response.lastModified ?: Date(System.currentTimeMillis())
         )
         Log.d(TAG, "Processed updated file: $fileName")
     }
@@ -132,27 +126,16 @@ class DownloadStatsWorker @AssistedInject constructor(
     private suspend fun downloadFile(
         fileName: String,
         target: File,
-        lastModified: String?,
-    ): NetworkResponse {
-        return downloader.downloadToFile(
-            url = IZZY_STATS_MONTHLY + fileName,
-            target = target,
-            headers = {
-                if (!lastModified.isNullOrEmpty()) {
-                    ifModifiedSince(lastModified)
-                }
-            },
-        )
-    }
+    ): NetworkResponse = downloader.downloadToFile(
+        url = IZZY_STATS_MONTHLY + fileName,
+        target = target,
+    )
 
     companion object {
         private const val TAG = "DownloadStatsWorker"
 
         private const val IZZY_STATS_MONTHLY =
-            "https://dlstats.izzyondroid.org/iod-stats-collector/stats/upstream/monthly/"
-
-//        private const val IZZY_STATS_MONTHLY_BY_DAYS =
-//            "https://dlstats.izzyondroid.org/iod-stats-collector/stats/upstream/monthly-in-days/"
+            "https://dlstats.izzyondroid.org/iod-stats-collector/stats/basic/monthly/"
 
         fun fetchDownloadStats(context: Context) {
             val workManager = WorkManager.getInstance(context)

@@ -6,7 +6,6 @@ import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.DownloadStatsDao
-import com.looker.droidify.data.local.dao.DownloadStatsFileDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
@@ -75,21 +74,13 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDownloadStatsFileDao(
-        db: DroidifyDatabase,
-    ): DownloadStatsFileDao = db.downloadStatsFileDao()
-
-    @Singleton
-    @Provides
     fun providePrivacyRepository(
         rblDao: RBLogDao,
         downloadStatsDao: DownloadStatsDao,
-        downloadStatsFileDao: DownloadStatsFileDao,
         settingsRepository: SettingsRepository,
     ): PrivacyRepository = PrivacyRepository(
         rbDao = rblDao,
         downloadStatsDao = downloadStatsDao,
-        dsFileDao = downloadStatsFileDao,
         settingsRepo = settingsRepository
     )
 }

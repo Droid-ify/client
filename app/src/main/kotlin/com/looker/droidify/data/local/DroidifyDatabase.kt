@@ -11,7 +11,6 @@ import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.DownloadStatsDao
-import com.looker.droidify.data.local.dao.DownloadStatsFileDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RBLogDao
@@ -27,7 +26,6 @@ import com.looker.droidify.data.local.model.CategoryEntity
 import com.looker.droidify.data.local.model.CategoryRepoRelation
 import com.looker.droidify.data.local.model.DonateEntity
 import com.looker.droidify.data.local.model.DownloadStats
-import com.looker.droidify.data.local.model.DownloadStatsFile
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.InstalledEntity
 import com.looker.droidify.data.local.model.LinksEntity
@@ -45,7 +43,7 @@ import com.looker.droidify.data.local.model.ScreenshotEntity
 import com.looker.droidify.data.local.model.VersionEntity
 
 @Database(
-    version = 1,
+    version = 2,
     exportSchema = true,
     entities = [
         AntiFeatureEntity::class,
@@ -67,7 +65,6 @@ import com.looker.droidify.data.local.model.VersionEntity
         VersionEntity::class,
         RBLogEntity::class,
         DownloadStats::class,
-        DownloadStatsFile::class,
         // Localized Data
         LocalizedAppNameEntity::class,
         LocalizedAppSummaryEntity::class,
@@ -89,7 +86,6 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun indexDao(): IndexDao
     abstract fun rbLogDao(): RBLogDao
     abstract fun downloadStatsDao(): DownloadStatsDao
-    abstract fun downloadStatsFileDao(): DownloadStatsFileDao
     abstract fun installedDao(): InstalledDao
 }
 
@@ -99,6 +95,7 @@ fun droidifyDatabase(context: Context): DroidifyDatabase = Room
         klass = DroidifyDatabase::class.java,
         name = "droidify_room",
     )
+    .fallbackToDestructiveMigration(true)
     .addCallback(
         object : RoomDatabase.Callback() {
             override fun onOpen(db: SupportSQLiteDatabase) {

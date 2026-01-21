@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface DownloadStatsDao {
     @Query(
         """
-        SELECT (droidify + neoStore + fDroid + fDroidClassic + flicky + unknown)
+        SELECT SUM(downloads)
         FROM download_stats
         WHERE packageName = :packageName
         """
@@ -20,7 +20,7 @@ interface DownloadStatsDao {
 
     @Query(
         """
-        SELECT (droidify + neoStore + fDroid + fDroidClassic + flicky + unknown)
+        SELECT SUM(downloads)
         FROM download_stats
         WHERE packageName = :packageName AND timestamp >= :since
         """
