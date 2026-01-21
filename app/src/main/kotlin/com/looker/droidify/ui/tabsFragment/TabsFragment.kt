@@ -24,6 +24,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -42,6 +43,7 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appList.AppListFragment
+import com.looker.droidify.ui.tabsFragment.TabsFragment.SectionsAdapter.SectionViewHolder
 import com.looker.droidify.utility.common.device.Huawei
 import com.looker.droidify.utility.common.extension.compatPutBoolean
 import com.looker.droidify.utility.common.extension.compatReadBoolean
@@ -53,11 +55,14 @@ import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.widget.DividerConfiguration
+import com.looker.droidify.widget.EnumRecyclerAdapter
 import com.looker.droidify.widget.FocusSearchView
-import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.math.abs
 import kotlin.math.roundToInt
 import com.looker.droidify.R.string as stringRes
@@ -172,7 +177,9 @@ class TabsFragment : ScreenFragment() {
         val viewModel = viewModel
         val tabsBinding = tabsBinding
 
-        val sectionsAdapter = SectionsAdapter {
+        val sectionsAdapter = SectionsAdapter(
+            defaultDispatcher = Dispatchers.Default
+        ) {
             if (showSections) {
                 viewModel.setSection(it)
                 sectionsList?.scrollToPosition(0)
@@ -519,10 +526,10 @@ class TabsFragment : ScreenFragment() {
         sortOrderMenu!!.second[sortOrder.ordinal].isChecked = true
     }
 
-    private fun updateSections(
+    private suspend fun updateSections(
         sectionsList: List<ProductItem.Section>,
     ) {
-        sectionsAdapter?.sections = sectionsList
+        sectionsAdapter?.setItems(sectionsList)
         layout?.run {
             sectionIcon.isVisible = sectionsList.any { it !is ProductItem.Section.All }
             sectionLayout.setOnClickListener { showSections = isVisible && !showSections }
@@ -656,13 +663,25 @@ class TabsFragment : ScreenFragment() {
     }
 
     private class SectionsAdapter(
-        private val onClick: (ProductItem.Section) -> Unit,
-    ) : StableRecyclerAdapter<SectionsAdapter.ViewType, RecyclerView.ViewHolder>() {
+        private val defaultDispatcher: CoroutineDispatcher,
+        private val onClickListener: SectionViewHolder.SectionItemClickListener,
+    ) : EnumRecyclerAdapter<SectionsAdapter.ViewType, SectionViewHolder>() {
         enum class ViewType { SECTION }
 
-        private class SectionViewHolder(context: Context) :
-            RecyclerView.ViewHolder(FrameLayout(context)) {
-            val title: TextView = TextView(context)
+        private class SectionViewHolder(
+            context: Context,
+            private val onClick: SectionItemClickListener,
+        ) : RecyclerView.ViewHolder(FrameLayout(context)), View.OnClickListener {
+
+            fun interface SectionItemClickListener {
+                fun onSectionItemClick(section: ProductItem.Section)
+            }
+
+            private val title: TextView = TextView(context)
+
+            private val margin: Int = itemView.resources.sizeScaled(8)
+
+            private lateinit var section: ProductItem.Section
 
             init {
                 with(title) {
@@ -680,15 +699,57 @@ class TabsFragment : ScreenFragment() {
                     )
                     background = context.selectableBackground
                     addView(title)
+                    setOnClickListener(this@SectionViewHolder)
+                }
+            }
+
+            override fun onClick(v: View?) {
+                if (v == itemView) {
+                    onClick.onSectionItemClick(section)
+                }
+            }
+
+            fun bindSection(
+                section: ProductItem.Section,
+                hasTopMargin: Boolean,
+                hasBottomMargin: Boolean,
+            ) {
+                this.section = section
+
+                val layoutParams = itemView.layoutParams as RecyclerView.LayoutParams
+                layoutParams.topMargin = if (hasTopMargin) {
+                    margin
+                } else {
+                    0
+                }
+                layoutParams.bottomMargin = if (hasBottomMargin) {
+                    margin
+                } else {
+                    0
+                }
+                title.text = when (section) {
+                    is ProductItem.Section.All -> itemView.resources.getString(
+                        stringRes.all_applications,
+                    )
+
+                    is ProductItem.Section.Category -> section.name
+                    is ProductItem.Section.Repository -> section.name
                 }
             }
         }
 
-        var sections: List<ProductItem.Section> = emptyList()
-            set(value) {
-                field = value
-                notifyDataSetChanged()
+        private var sections: List<ProductItem.Section> = emptyList()
+
+        suspend fun setItems(newList: List<ProductItem.Section>) {
+            val oldList = sections
+
+            val diff = withContext(defaultDispatcher) {
+                DiffUtil.calculateDiff(DiffCallback(oldList, newList), true)
             }
+
+            sections = newList
+            diff.dispatchUpdatesTo(this)
+        }
 
         fun configureDivider(
             context: Context,
@@ -723,46 +784,53 @@ class TabsFragment : ScreenFragment() {
             get() = ViewType::class.java
 
         override fun getItemCount(): Int = sections.size
-        override fun getItemDescriptor(position: Int): String = sections[position].toString()
         override fun getItemEnumViewType(position: Int): ViewType = ViewType.SECTION
 
         override fun onCreateViewHolder(
             parent: ViewGroup,
             viewType: ViewType,
-        ): RecyclerView.ViewHolder {
-            return SectionViewHolder(parent.context).apply {
-                itemView.setOnClickListener { onClick(sections[absoluteAdapterPosition]) }
-            }
-        }
+        ): SectionViewHolder = SectionViewHolder(
+            context = parent.context,
+            onClick = onClickListener,
+        )
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            holder as SectionViewHolder
+        override fun onBindViewHolder(holder: SectionViewHolder, position: Int) {
+            val sections = sections
             val section = sections[position]
             val previousSection = sections.getOrNull(position - 1)
             val nextSection = sections.getOrNull(position + 1)
-            val margin = holder.itemView.resources.sizeScaled(8)
-            val layoutParams = holder.itemView.layoutParams as RecyclerView.LayoutParams
-            layoutParams.topMargin = if (previousSection == null ||
-                section.javaClass != previousSection.javaClass
-            ) {
-                margin
-            } else {
-                0
-            }
-            layoutParams.bottomMargin = if (nextSection == null ||
-                section.javaClass != nextSection.javaClass
-            ) {
-                margin
-            } else {
-                0
-            }
-            holder.title.text = when (section) {
-                is ProductItem.Section.All -> holder.itemView.resources.getString(
-                    stringRes.all_applications,
-                )
 
-                is ProductItem.Section.Category -> section.name
-                is ProductItem.Section.Repository -> section.name
+            holder.bindSection(
+                section = section,
+                hasTopMargin = previousSection == null || section.javaClass != previousSection.javaClass,
+                hasBottomMargin = nextSection == null || section.javaClass != nextSection.javaClass,
+            )
+        }
+
+        private class DiffCallback(
+            private val oldList: List<ProductItem.Section>,
+            private val newList: List<ProductItem.Section>,
+        ): DiffUtil.Callback() {
+            override fun getOldListSize(): Int {
+                return oldList.size
+            }
+            override fun getNewListSize(): Int {
+                return newList.size
+            }
+
+            override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                val oldItem = oldList[oldItemPosition]
+                val newItem = newList[newItemPosition]
+
+                if (oldItem is ProductItem.Section.Repository && newItem is ProductItem.Section.Repository) {
+                    return oldItem.id == newItem.id
+                }
+
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                return oldList[oldItemPosition] == newList[newItemPosition]
             }
         }
     }

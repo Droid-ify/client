@@ -32,13 +32,13 @@ data class ProductItem(
     sealed interface Section : Parcelable {
 
         @Parcelize
-        object All : Section
+        data object All : Section
 
         @Parcelize
-        class Category(val name: String) : Section
+        data class Category(val name: String) : Section
 
         @Parcelize
-        class Repository(val id: Long, val name: String) : Section
+        data class Repository(val id: Long, val name: String) : Section
     }
 
     private var deviceDpi: Int = -1
