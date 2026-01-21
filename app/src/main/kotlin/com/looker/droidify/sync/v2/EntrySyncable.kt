@@ -2,7 +2,6 @@ package com.looker.droidify.sync.v2
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.JsonParser
@@ -22,10 +21,11 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
+import okhttp3.OkHttpClient
 
 class EntrySyncable(
     private val context: Context,
-    private val downloader: Downloader,
+    private val httpClient: OkHttpClient,
     private val dispatcher: CoroutineDispatcher,
 ) : Syncable<Entry> {
     @OptIn(ExperimentalSerializationApi::class)
@@ -34,7 +34,7 @@ class EntrySyncable(
         block: (SyncState) -> Unit,
     ) = withContext(dispatcher) {
         try {
-            val jar = downloader.downloadIndex(
+            val jar = httpClient.downloadIndex(
                 context = context,
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/$ENTRY_V2_NAME",
@@ -82,7 +82,7 @@ class EntrySyncable(
             val indexPath = repo.address.removeSuffix("/") + diffRef.name
             val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$INDEX_V2_NAME")
             val indexV2 = if (diffRef != entry.index && indexFile.exists()) {
-                val diffFile = downloader.downloadIndex(
+                val diffFile = httpClient.downloadIndex(
                     context = context,
                     repo = repo,
                     url = indexPath,
@@ -109,7 +109,7 @@ class EntrySyncable(
                     return@withContext
                 }
             } else {
-                val newIndexFile = downloader.downloadIndex(
+                val newIndexFile = httpClient.downloadIndex(
                     context = context,
                     repo = repo,
                     url = indexPath,

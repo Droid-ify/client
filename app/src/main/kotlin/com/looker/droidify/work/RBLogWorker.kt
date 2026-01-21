@@ -11,8 +11,8 @@ import androidx.work.WorkerParameters
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.RBData
 import com.looker.droidify.data.local.model.toLogs
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.get
 import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache
@@ -26,13 +26,14 @@ import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 @HiltWorker
 class RBLogWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
     private val privacyRepository: PrivacyRepository,
-    private val downloader: Downloader,
+    private val httpClient: OkHttpClient,
 ) : CoroutineWorker(context, params) {
 
     @OptIn(ExperimentalTime::class)
@@ -44,7 +45,7 @@ class RBLogWorker @AssistedInject constructor(
 
         val target = Cache.getTemporaryFile(context)
         try {
-            val response = downloader.downloadToFile(url = BASE_URL, target = target)
+            val response = httpClient.get(url = BASE_URL, target = target)
             if (response is NetworkResponse.Success) {
                 val logs: Map<String, List<RBData>> =
                     JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())

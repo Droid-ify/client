@@ -12,8 +12,8 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.DownloadStatsData
 import com.looker.droidify.data.local.model.DownloadStatsData.Companion.toEpochMillis
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.get
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.exceptCancellation
@@ -22,7 +22,6 @@ import com.looker.droidify.utility.common.toForegroundInfo
 import com.looker.droidify.utility.notifications.createDownloadStatsNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.ktor.http.HttpStatusCode
 import java.io.File
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
@@ -36,6 +35,7 @@ import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 @HiltWorker
 class DownloadStatsWorker @AssistedInject constructor(
@@ -43,7 +43,7 @@ class DownloadStatsWorker @AssistedInject constructor(
     @Assisted params: WorkerParameters,
     private val privacyRepository: PrivacyRepository,
     private val settingsRepo: SettingsRepository,
-    private val downloader: Downloader,
+    private val httpClient: OkHttpClient,
 ) : CoroutineWorker(context, params) {
 
     val downloadSemaphores = Semaphore(4)
@@ -88,7 +88,7 @@ class DownloadStatsWorker @AssistedInject constructor(
 
                         if (response is NetworkResponse.Success) {
                             successfulResults.incrementAndFetch()
-                            val isModified = response.statusCode != HttpStatusCode.NotModified.value
+                            val isModified = response.statusCode != 304
                             if (isModified) {
                                 processDownloadStats(
                                     response = response,
@@ -124,7 +124,7 @@ class DownloadStatsWorker @AssistedInject constructor(
     private suspend fun downloadFile(
         fileName: String,
         target: File,
-    ): NetworkResponse = downloader.downloadToFile(
+    ): NetworkResponse = httpClient.get(
         url = IZZY_STATS_MONTHLY + fileName,
         target = target,
     )

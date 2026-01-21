@@ -9,7 +9,7 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.sync.FakeDownloader
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.benchmark
-import com.looker.droidify.sync.common.downloadIndex
+import com.looker.droidify.sync.downloadIndex
 import java.io.File
 import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.CoroutineScope

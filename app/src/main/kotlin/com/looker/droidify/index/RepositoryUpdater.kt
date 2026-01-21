@@ -7,8 +7,11 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.authentication
+import com.looker.droidify.network.etag
+import com.looker.droidify.network.get
+import com.looker.droidify.network.ifModifiedSince
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.toFormattedString
@@ -27,6 +30,7 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 object RepositoryUpdater {
     enum class Stage {
@@ -63,10 +67,10 @@ object RepositoryUpdater {
     private val updaterLock = Any()
     private val cleanupLock = Any()
 
-    private lateinit var downloader: Downloader
+    private lateinit var httpClient: OkHttpClient
 
-    fun init(scope: CoroutineScope, downloader: Downloader) {
-        this.downloader = downloader
+    fun init(scope: CoroutineScope, httpClient: OkHttpClient) {
+        this.httpClient = httpClient
         scope.launch {
             // No need of mutex because it is in same coroutine scope
             var lastDisabled = emptyMap<Long, Boolean>()
@@ -167,18 +171,19 @@ object RepositoryUpdater {
         callback: (Stage, Long, Long?) -> Unit,
     ): Result<IndexFile> = withContext(Dispatchers.IO) {
         val file = Cache.getTemporaryFile(context)
-        val result = downloader.downloadToFile(
+        val result = httpClient.get(
             url = repository.address.toUri().buildUpon()
                 .appendPath(indexType.jarName).build().toString(),
             target = file,
-            headers = {
+            block = {
                 ifModifiedSince(repository.lastModified)
                 etag(repository.entityTag)
                 authentication(repository.authentication)
             },
-        ) { read, total ->
-            callback(Stage.DOWNLOAD, read.value, total?.value)
-        }
+            onProgress = { read, total ->
+                callback(Stage.DOWNLOAD, read.value, total?.value)
+            },
+        )
 
         when (result) {
             is NetworkResponse.Success -> {
@@ -215,8 +220,6 @@ object RepositoryUpdater {
                     is NetworkResponse.Error.IO -> Result.Error(result.exception)
                     is NetworkResponse.Error.SocketTimeout -> Result.Error(result.exception)
                     is NetworkResponse.Error.Unknown -> Result.Error(result.exception)
-                    // TODO: Add Validator
-                    is NetworkResponse.Error.Validation -> Result.Error()
                 }
             }
         }

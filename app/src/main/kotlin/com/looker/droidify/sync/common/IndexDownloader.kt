@@ -2,16 +2,18 @@ package com.looker.droidify.sync.common
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.ProgressListener
+import com.looker.droidify.network.authentication
+import com.looker.droidify.network.get
+import com.looker.droidify.network.ifModifiedSince
 import com.looker.droidify.utility.common.cache.Cache
-
 import java.io.File
 import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
-suspend fun Downloader.downloadIndex(
+suspend fun OkHttpClient.downloadIndex(
     context: Context,
     repo: Repo,
     fileName: String,
@@ -20,11 +22,11 @@ suspend fun Downloader.downloadIndex(
     onProgress: ProgressListener? = null,
 ): File = withContext(Dispatchers.IO) {
     val indexFile = Cache.getIndexFile(context, "repo_${repo.id}_$fileName")
-    downloadToFile(
+    get(
         url = url,
         target = indexFile,
-        block = onProgress,
-        headers = {
+        onProgress = onProgress,
+        block = {
             if (repo.shouldAuthenticate) {
                 with(requireNotNull(repo.authentication)) {
                     authentication(

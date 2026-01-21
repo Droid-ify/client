@@ -17,8 +17,9 @@ import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.authentication
+import com.looker.droidify.network.get
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.network.validation.ValidationException
 import com.looker.droidify.utility.common.Constants
@@ -50,6 +51,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
+import okhttp3.OkHttpClient
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -62,7 +64,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     lateinit var settingsRepository: SettingsRepository
 
     @Inject
-    lateinit var downloader: Downloader
+    lateinit var httpClient: OkHttpClient
 
     private val installerType
         get() = settingsRepository.get { installerType }
@@ -411,14 +413,21 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 packageName = task.packageName,
                 release = task.release,
             )
-            val response = downloader.downloadToFile(
+            val response = httpClient.get(
                 url = task.url,
                 target = target,
-                validator = releaseValidator,
-                headers = { if (task.authentication.isNotEmpty()) authentication(task.authentication) },
-            ) { read, total ->
-                yield()
-                updateCurrentState(State.Downloading(task.packageName, read, total))
+                block = { if (task.authentication.isNotEmpty()) authentication(task.authentication) },
+                onProgress = { read, total ->
+                    yield()
+                    updateCurrentState(State.Downloading(task.packageName, read, total))
+                },
+            )
+
+            try {
+                releaseValidator.validate(target)
+            } catch (e: ValidationException) {
+                showNotificationError(task, ErrorType.Validation(e))
+                return@launch
             }
 
             when (response) {
@@ -437,10 +446,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         is NetworkResponse.Error.ConnectionTimeout -> ErrorType.ConnectionTimeout
                         is NetworkResponse.Error.IO -> ErrorType.IO
                         is NetworkResponse.Error.SocketTimeout -> ErrorType.SocketTimeout
-                        is NetworkResponse.Error.Validation -> ErrorType.Validation(
-                            response.exception,
-                        )
-
                         else -> ErrorType.Http
                     }
                     showNotificationError(task, errorType)

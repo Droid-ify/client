@@ -19,8 +19,9 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.model.Repository
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.authentication
+import com.looker.droidify.network.head
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.Message
@@ -33,17 +34,18 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
 import java.nio.charset.Charset
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.min
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -72,7 +74,7 @@ class EditRepositoryFragment() : ScreenFragment() {
     private var takenAddresses = emptySet<String>()
 
     @Inject
-    lateinit var downloader: Downloader
+    lateinit var httpClient: OkHttpClient
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -397,7 +399,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     private suspend fun checkAddress(
         rawAddress: String,
-        authentication: String,
+        authCredentials: String,
     ): String? = coroutineScope {
         checkInProgress = true
         invalidateState()
@@ -405,9 +407,9 @@ class EditRepositoryFragment() : ScreenFragment() {
         allAddresses
             .sortedBy { it.length }
             .forEach { address ->
-                val response = downloader.headCall(
+                val response = httpClient.head(
                     url = "$address/index-v1.jar",
-                    headers = { authentication(authentication) },
+                    block = { authentication(authCredentials) },
                 )
                 if (response is NetworkResponse.Success) return@coroutineScope address
             }

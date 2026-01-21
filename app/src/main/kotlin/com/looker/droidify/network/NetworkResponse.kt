@@ -1,7 +1,6 @@
 package com.looker.droidify.network
 
-import com.looker.droidify.network.validation.ValidationException
-import java.util.Date
+import java.util.*
 
 sealed interface NetworkResponse {
 
@@ -13,8 +12,6 @@ sealed interface NetworkResponse {
 
         data class IO(val exception: Exception) : Error
 
-        data class Validation(val exception: ValidationException) : Error
-
         data class Unknown(val exception: Exception) : Error
 
         data class Http(val statusCode: Int) : Error
@@ -23,6 +20,8 @@ sealed interface NetworkResponse {
     data class Success(
         val statusCode: Int,
         val lastModified: Date?,
-        val etag: String?
+        val etag: String?,
     ) : NetworkResponse
+
+    val isSuccess: Boolean get() = this is Success
 }

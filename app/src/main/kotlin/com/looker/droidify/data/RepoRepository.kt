@@ -17,7 +17,6 @@ import com.looker.droidify.data.model.Repo
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.di.IoDispatcher
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.sync.LocalSyncable
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.v1.V1Syncable
@@ -34,10 +33,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
+import okhttp3.OkHttpClient
 
 class RepoRepository @Inject constructor(
     encryptionStorage: EncryptionStorage,
-    downloader: Downloader,
+    httpClient: OkHttpClient,
     @param:ApplicationContext private val context: Context,
     @IoDispatcher syncDispatcher: CoroutineDispatcher,
     private val repoDao: RepoDao,
@@ -51,13 +51,13 @@ class RepoRepository @Inject constructor(
 
     private val v2Syncable = EntrySyncable(
         context = context,
-        downloader = downloader,
+        httpClient = httpClient,
         dispatcher = syncDispatcher,
     )
 
     private val v1Syncable = V1Syncable(
         context = context,
-        downloader = downloader,
+        httpClient = httpClient,
         dispatcher = syncDispatcher,
     )
 

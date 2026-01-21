@@ -6,7 +6,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.benchmark
-import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.common.toV2
 import com.looker.droidify.sync.v1.V1Syncable
 import com.looker.droidify.sync.v1.model.IndexV1

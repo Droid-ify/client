@@ -20,17 +20,15 @@ import coil3.asImage
 import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.AutoSync
-import com.looker.droidify.datastore.model.ProxyPreference
-import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.installer.InstallManager
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.receivers.InstalledAppReceiver
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
@@ -41,12 +39,9 @@ import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.getDrawableCompat
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
 import com.looker.droidify.utility.common.extension.jobScheduler
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
-import java.net.InetSocketAddress
-import java.net.Proxy
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
@@ -57,6 +52,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import okhttp3.OkHttpClient
 
 @HiltAndroidApp
 class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
@@ -71,7 +67,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     lateinit var installer: InstallManager
 
     @Inject
-    lateinit var downloader: Downloader
+    lateinit var httpClient: OkHttpClient
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
@@ -83,7 +79,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
-        RepositoryUpdater.init(appScope, downloader)
+        RepositoryUpdater.init(appScope, httpClient)
         listenApplications()
         checkLanguage()
         updatePreference()
@@ -148,34 +144,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                     }
                 }
             }
-            launch {
-                settingsRepository.get { proxy }.collect(::updateProxy)
-            }
         }
-    }
-
-    private fun updateProxy(proxyPreference: ProxyPreference) {
-        val type = proxyPreference.type
-        val host = proxyPreference.host
-        val port = proxyPreference.port
-        val socketAddress = when (type) {
-            ProxyType.DIRECT -> null
-            ProxyType.HTTP, ProxyType.SOCKS -> {
-                try {
-                    InetSocketAddress.createUnresolved(host, port)
-                } catch (e: IllegalArgumentException) {
-                    log(e)
-                    null
-                }
-            }
-        }
-        val androidProxyType = when (type) {
-            ProxyType.DIRECT -> Proxy.Type.DIRECT
-            ProxyType.HTTP -> Proxy.Type.HTTP
-            ProxyType.SOCKS -> Proxy.Type.SOCKS
-        }
-        val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) } ?: Proxy.NO_PROXY
-        downloader.setProxy(determinedProxy)
     }
 
     private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
@@ -243,6 +212,9 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         return ImageLoader.Builder(this)
             .memoryCache(memoryCache)
             .diskCache(diskCache)
+            .components {
+                add(OkHttpNetworkFetcherFactory(callFactory = { httpClient }))
+            }
             .error(getDrawableCompat(R.drawable.ic_cannot_load).asImage())
             .crossfade(350)
             .build()

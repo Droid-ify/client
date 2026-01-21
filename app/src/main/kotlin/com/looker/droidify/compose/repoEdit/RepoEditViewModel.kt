@@ -5,8 +5,9 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.data.RepoRepository
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.authentication
+import com.looker.droidify.network.head
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.net.URI
@@ -19,11 +20,12 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 @HiltViewModel
 class RepoEditViewModel @Inject constructor(
     private val repoRepository: RepoRepository,
-    private val downloader: Downloader,
+    private val httpClient: OkHttpClient,
 ) : ViewModel() {
 
     val addressState = TextFieldState("")
@@ -131,9 +133,9 @@ class RepoEditViewModel @Inject constructor(
         allAddresses
             .sortedBy { it.length }
             .forEach { address ->
-                val response = downloader.headCall(
+                val response = httpClient.head(
                     url = "$address/index-v1.jar",
-                    headers = {
+                    block = {
                         if (username != null && password != null) {
                             authentication(username, password)
                         }

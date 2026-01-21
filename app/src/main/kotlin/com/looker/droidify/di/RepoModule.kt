@@ -11,13 +11,13 @@ import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.network.Downloader
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CoroutineDispatcher
+import okhttp3.OkHttpClient
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -31,12 +31,12 @@ object RepoModule {
         indexDao: IndexDao,
         settingsRepository: SettingsRepository,
         encryptionStorage: EncryptionStorage,
-        downloader: Downloader,
+        httpClient: OkHttpClient,
         @ApplicationContext context: Context,
         @IoDispatcher syncDispatcher: CoroutineDispatcher,
     ): RepoRepository = RepoRepository(
         encryptionStorage = encryptionStorage,
-        downloader = downloader,
+        httpClient = httpClient,
         context = context,
         syncDispatcher = syncDispatcher,
         repoDao = repoDao,

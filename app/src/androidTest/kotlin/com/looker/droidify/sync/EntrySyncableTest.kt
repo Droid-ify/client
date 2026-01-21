@@ -9,7 +9,6 @@ import com.looker.droidify.network.validation.invalid
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.assets
 import com.looker.droidify.sync.common.benchmark
-import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2

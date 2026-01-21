@@ -2,7 +2,6 @@ package com.looker.droidify.sync.v1
 
 import android.content.Context
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.sync.Syncable
@@ -13,15 +12,16 @@ import com.looker.droidify.sync.toJarScope
 import com.looker.droidify.sync.v1.model.IndexV1
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
 
 class V1Syncable(
     private val context: Context,
-    private val downloader: Downloader,
+    private val httpClient: OkHttpClient,
     private val dispatcher: CoroutineDispatcher,
 ) : Syncable<IndexV1> {
     override suspend fun sync(repo: Repo, block: (SyncState) -> Unit) = withContext(dispatcher) {
         try {
-            val jar = downloader.downloadIndex(
+            val jar = httpClient.downloadIndex(
                 context = context,
                 repo = repo,
                 url = repo.address.removeSuffix("/") + "/$INDEX_V1_NAME",
