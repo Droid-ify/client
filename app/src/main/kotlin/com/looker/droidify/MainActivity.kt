@@ -244,10 +244,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleIntent(intent: Intent?) {
         when (intent?.action) {
             ACTION_UPDATES -> {
-                if (currentFragment !is TabsFragment) {
-                    fragmentStack.clear()
-                    replaceFragment(TabsFragment(), true)
-                }
+                navigateToTabsFragment()
                 val tabsFragment = currentFragment as TabsFragment
                 tabsFragment.selectUpdates()
                 backHandler()
@@ -272,6 +269,10 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
 
+                    is DeeplinkType.AppSearch -> {
+                        doSearchInTabsFragment(deeplink.query)
+                    }
+
                     is DeeplinkType.AddRepository -> {
                         navigateAddRepository(repoAddress = deeplink.address)
                     }
@@ -291,6 +292,19 @@ class MainActivity : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun navigateToTabsFragment() {
+        if (currentFragment !is TabsFragment) {
+            fragmentStack.clear()
+            replaceFragment(TabsFragment(), true)
+        }
+    }
+
+    fun doSearchInTabsFragment(query: String) {
+        navigateToTabsFragment()
+        val tabsFragment = currentFragment as TabsFragment
+        tabsFragment.activateSearch(query)
     }
 
     fun navigateFavourites() = pushFragment(FavouritesFragment())

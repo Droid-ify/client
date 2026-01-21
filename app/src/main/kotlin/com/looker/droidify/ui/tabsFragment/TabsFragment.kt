@@ -114,6 +114,7 @@ class TabsFragment : ScreenFragment() {
         }
 
     private var searchQuery = ""
+    private var pendingSearchQuery: String? = null
 
     private val syncConnection = Connection(
         serviceClass = SyncService::class.java,
@@ -145,16 +146,19 @@ class TabsFragment : ScreenFragment() {
         super.onViewCreated(view, savedInstanceState)
         syncConnection.bind(requireContext())
 
-        sectionsAdapter = SectionsAdapter {
+        val viewModel = viewModel
+
+        val sectionsAdapter = SectionsAdapter {
             if (showSections) {
                 viewModel.setSection(it)
                 sectionsList?.scrollToPosition(0)
                 showSections = false
             }
         }
+        this.sectionsAdapter = sectionsAdapter
 
         mainActivity.onToolbarCreated(toolbar)
-        toolbar.title = getString(R.string.application_name)
+        toolbar.title = getString(stringRes.application_name)
         // Move focus from SearchView to Toolbar
         toolbar.isFocusable = true
 
@@ -170,8 +174,7 @@ class TabsFragment : ScreenFragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         if (isResumed) {
-                            searchQuery = newText.orEmpty()
-                            productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+                            setSearchQuery(newText)
                         }
                         return true
                     }
@@ -249,7 +252,7 @@ class TabsFragment : ScreenFragment() {
         }
 
         searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
-        productFragments.forEach { it.setSearchQuery(searchQuery) }
+        setSearchQuery(searchQuery)
 
         val toolbarExtra = fragmentBinding.toolbarExtra
         toolbarExtra.addView(tabsBinding.root)
@@ -266,7 +269,9 @@ class TabsFragment : ScreenFragment() {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
                 override fun createFragment(position: Int): Fragment = AppListFragment(
                     AppListFragment.Source.entries[position],
-                )
+                ).also {
+                    it.setSearchQuery(searchQuery)
+                }
             }
             content.addView(this)
             registerOnPageChangeCallback(pageChangeCallback)
@@ -337,7 +342,7 @@ class TabsFragment : ScreenFragment() {
             isVerticalScrollBarEnabled = false
             setHasFixedSize(true)
             adapter = sectionsAdapter
-            sectionsAdapter?.let { addDivider(it::configureDivider) }
+            addDivider(sectionsAdapter::configureDivider)
             background = sectionBackground
             elevation = 4.dp.toFloat()
             content.addView(this)
@@ -375,6 +380,16 @@ class TabsFragment : ScreenFragment() {
                 viewLifecycleOwner,
                 it,
             )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val psq = pendingSearchQuery
+        if (psq != null) {
+            activateSearch(psq)
+            pendingSearchQuery = null
         }
     }
 
@@ -524,6 +539,26 @@ class TabsFragment : ScreenFragment() {
                 start()
             }
         }
+    }
+
+    fun activateSearch(query: String?) {
+        if (query.isNullOrBlank()) return
+
+        if (isResumed) {
+            val searchMenuItem = searchMenuItem!!
+            searchMenuItem.expandActionView()
+
+            val searchView = searchMenuItem.actionView as FocusSearchView
+            searchView.setQuery(query, true)
+        } else {
+            pendingSearchQuery = query
+        }
+    }
+
+    private fun setSearchQuery(query: String?) {
+        val newSearchQuery = query.orEmpty()
+        searchQuery = newSearchQuery
+        productFragments.forEach { it.setSearchQuery(newSearchQuery) }
     }
 
     private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {

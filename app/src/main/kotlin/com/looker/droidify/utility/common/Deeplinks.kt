@@ -20,55 +20,70 @@ private val supportedExternalHosts = arrayOf(
     "apt.izzysoft.de",
 )
 
-fun Intent.deeplinkType(): DeeplinkType? = when {
-    data?.scheme == "package" || data?.scheme == "fdroid.app" -> {
-        val packageName = data?.schemeSpecificPart?.nullIfEmpty()
-            ?: invalidDeeplink("Invalid packageName: $data")
-        DeeplinkType.AppDetail(packageName)
-    }
+fun Intent.deeplinkType(): DeeplinkType? {
+    val data = data ?: return null
 
-    data?.scheme in fdroidRepoScheme -> {
-        val repoAddress =
-            if (data?.scheme.equals("fdroidrepos")) {
-                dataString!!.replaceFirst("fdroidrepos", "https")
-            } else if (data?.scheme.equals("fdroidrepo")) {
-                dataString!!.replaceFirst("fdroidrepo", "https")
-            } else {
-                invalidDeeplink("No repo address: $data")
-            }
-        DeeplinkType.AddRepository(repoAddress)
-    }
+    return when (data.scheme) {
+        "package",
+        "fdroid.app" -> {
+            val packageName = data.schemeSpecificPart?.nullIfEmpty()
+                ?: invalidDeeplink("Invalid packageName: $data")
+            DeeplinkType.AppDetail(packageName)
+        }
 
-    data?.scheme == "market" && data?.host == "details" -> {
-        val packageName =
-            data["id"]?.nullIfEmpty() ?: invalidDeeplink("Invalid packageName: $data")
-        DeeplinkType.AppDetail(packageName)
-    }
-
-    data != null && data?.scheme in httpScheme -> {
-        when (data?.host) {
-            PERSONAL_HOST, LEGACY_HOST -> {
-                val repoAddress = data["repo_address"]
-                if (data?.path == "/app/") {
-                    val packageName =
-                        data["id"] ?: invalidDeeplink("Invalid packageName: $data")
-                    DeeplinkType.AppDetail(packageName, repoAddress)
-                } else {
-                    invalidDeeplink("Unknown intent path: ${data?.path}, Data: $data")
+        in fdroidRepoScheme -> {
+            val repoAddress = when (data.scheme) {
+                "fdroidrepos" -> {
+                    dataString!!.replaceFirst("fdroidrepos", "https")
+                }
+                "fdroidrepo" -> {
+                    dataString!!.replaceFirst("fdroidrepo", "https")
+                }
+                else -> {
+                    invalidDeeplink("No repo address: $data")
                 }
             }
 
-            in supportedExternalHosts -> {
-                val packageName = data?.lastPathSegment?.nullIfEmpty()
-                    ?: invalidDeeplink("Invalid packageName: $data")
-                DeeplinkType.AppDetail(packageName)
-            }
-
-            else -> null
+            DeeplinkType.AddRepository(repoAddress)
         }
-    }
 
-    else -> null
+        "market" if data.host == "details" -> {
+            val packageName = data["id"]?.nullIfEmpty()
+                ?: invalidDeeplink("Invalid packageName: $data")
+            DeeplinkType.AppDetail(packageName)
+        }
+
+        "market" if data.host == "search" -> {
+            val packageName = data["q"]?.nullIfEmpty()
+                ?: invalidDeeplink("Invalid query: $data")
+            DeeplinkType.AppSearch(packageName)
+        }
+
+        in httpScheme -> {
+            when (data.host) {
+                PERSONAL_HOST,
+                LEGACY_HOST -> {
+                    val repoAddress = data["repo_address"]
+                    if (data.path == "/app/") {
+                        val packageName = data["id"]?.nullIfEmpty()
+                            ?: invalidDeeplink("Invalid packageName: $data")
+                        DeeplinkType.AppDetail(packageName, repoAddress)
+                    } else {
+                        invalidDeeplink("Unknown intent path: ${data.path}, Data: $data")
+                    }
+                }
+
+                in supportedExternalHosts -> {
+                    val packageName = data.lastPathSegment?.nullIfEmpty()
+                        ?: invalidDeeplink("Invalid packageName: $data")
+                    DeeplinkType.AppDetail(packageName)
+                }
+
+                else -> null
+            }
+        }
+        else -> null
+    }
 }
 
 val Intent.getInstallPackageName: String?
@@ -84,4 +99,6 @@ sealed interface DeeplinkType {
     class AddRepository(val address: String) : DeeplinkType
 
     class AppDetail(val packageName: String, val repoAddress: String? = null) : DeeplinkType
+
+    class AppSearch(val query: String) : DeeplinkType
 }
