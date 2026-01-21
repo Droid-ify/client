@@ -1,0 +1,18 @@
+Added:
+- IzzyOnDroid's Download Stats (https://dlstats.izzyondroid.org/)
+- Reproducible build badge
+- Certificate pinning for 9 repositories
+- App unarchiving support
+- `market://` search URI support
+
+Changes:
+- Repo UI to fix UX issues
+- droidify.eu.org is moved to droidify.app
+
+Fixed:
+- Loading in home pages
+- Update notification not going away after auto update
+
+Misc:
+- Repo list changes
+- Bug fixes

@@ -13,7 +13,7 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.6.6"
+    val latestVersionName = "0.6.7"
     namespace = "com.looker.droidify"
     buildToolsVersion = "36.0.0"
     compileSdk = 36
@@ -21,7 +21,7 @@ android {
         minSdk = 23
         targetSdk = 36
         applicationId = "com.looker.droidify"
-        versionCode = 660
+        versionCode = 670
         versionName = latestVersionName
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
