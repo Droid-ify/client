@@ -5,6 +5,7 @@ import androidx.room.Index
 import com.looker.droidify.sync.JsonParser
 import java.io.InputStream
 import java.util.*
+import kotlin.time.ExperimentalTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.decodeFromStream
@@ -40,18 +41,13 @@ class DownloadStatsData(val stats: Map<String, Long>) {
         fun fromStream(inst: InputStream) =
             DownloadStatsData(JsonParser.decodeFromStream<Map<String, Long>>(inst))
 
-        @OptIn(ExperimentalSerializationApi::class)
-        fun byDayFromStream(inst: InputStream) =
-            JsonParser.decodeFromStream<Map<String, DownloadStatsData>>(inst)
-
+        @OptIn(ExperimentalTime::class)
         fun String.toEpochMillis(): Long {
             val parts = split("-")
-            val year = parts[0].toInt()
-            val month = parts.getOrNull(1)?.toInt() ?: 0
+            val year = parts[0].toInt() - 1900
+            val month = (parts.getOrNull(1)?.toInt()?.minus(1)) ?: 0
             val date = parts.getOrNull(2)?.toInt() ?: 1
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month, date)
-            return calendar.timeInMillis
+            return Date(year, month, date, 0, 0, 0).time
         }
     }
 }
