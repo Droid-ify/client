@@ -67,6 +67,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
 
+    private var pendingSearchQuery: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -76,7 +78,14 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
+        val viewModel = viewModel
         viewModel.syncConnection.bind(requireContext())
+
+        val psq = pendingSearchQuery
+        if (psq != null) {
+            viewModel.setSearchQuery(psq)
+            pendingSearchQuery = null
+        }
 
         recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -90,7 +99,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         val fab = binding.scrollUp
         with(fab) {
             if (source.updateAll) {
-                text = getString(R.string.update_all)
+                text = getString(stringRes.update_all)
                 setOnClickListener { viewModel.updateAll() }
                 setIconResource(R.drawable.ic_download)
                 alpha = 1f
@@ -185,7 +194,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     }
 
     fun setSearchQuery(searchQuery: String) {
-        viewModel.setSearchQuery(searchQuery)
+        if (view != null) {
+            viewModel.setSearchQuery(searchQuery)
+        } else {
+            pendingSearchQuery = searchQuery
+        }
     }
 
     fun setSection(section: ProductItem.Section) {
