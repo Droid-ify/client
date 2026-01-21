@@ -22,7 +22,7 @@ class ReleaseFileValidator(
 
     override suspend fun validate(file: File) {
         val checksum = sha256(file).hex()
-        if (checksum.equals(release.hash, ignoreCase = true)) {
+        if (!checksum.equals(release.hash, ignoreCase = true)) {
             invalid(getString(strings.integrity_check_error_DESC))
         }
         val packageInfo = context.packageManager.getPackageArchiveInfoCompat(file.path)
