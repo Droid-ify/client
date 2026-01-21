@@ -117,9 +117,7 @@ class DownloadStatsWorker @AssistedInject constructor(
                 .toDownloadStats(fileName.substringBefore('.').toEpochMillis())
         }
         privacyRepository.save(downloadStats)
-        settingsRepo.updateLastModifiedDownloadStats(
-            response.lastModified ?: Date(System.currentTimeMillis())
-        )
+        settingsRepo.updateLastModifiedDownloadStats(response.lastModified ?: Date())
         Log.d(TAG, "Processed updated file: $fileName")
     }
 

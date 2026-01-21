@@ -49,7 +49,7 @@ class RBLogWorker @AssistedInject constructor(
                 val logs: Map<String, List<RBData>> =
                     JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())
                 privacyRepository.upsertRBLogs(
-                    lastModified = response.lastModified ?: Date(System.currentTimeMillis()),
+                    lastModified = response.lastModified ?: Date(),
                     logs = logs.toLogs()
                 )
             }
