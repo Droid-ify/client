@@ -1,0 +1,18 @@
+Hinzugefügt:
+- IzzyOnDroid-Downloadstatistiken (https://dlstats.izzyondroid.org/)
+- Reproduzierbares Build-Badge
+- Zertifikat-Pinning für 9 Paketquellen
+- Unterstützung für das Entpacken von Apps
+- Unterstützung für die Such-URI „market://“
+
+Änderungen:
+- Paketquellen-Benutzeroberfläche zur Behebung von UX-Problemen
+- droidify.eu.org wurde zu droidify.app verschoben
+
+Behoben:
+- Laden der Startseiten
+- Update-Benachrichtigung verschwindet nach automatischem Update nicht
+
+Sonstiges:
+- Paketquellenliste geändert
+- Fehlerbehebungen
