@@ -91,14 +91,11 @@ class AppListAdapter(
         }
     }
 
-    private val repositories: HashMap<Long, Repository> = HashMap()
-
-    fun updateRepos(repos: List<Repository>) {
-        repos.forEach {
-            repositories[it.id] = it
+    var repositories: Map<Long, Repository> = emptyMap()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
         }
-        notifyDataSetChanged()
-    }
 
     var emptyText: String = ""
         @SuppressLint("NotifyDataSetChanged")
@@ -161,7 +158,7 @@ class AppListAdapter(
                 holder.name.text = productItem.name
                 holder.summary.text = productItem.summary
                 holder.summary.isVisible = productItem.summary.isNotEmpty()
-                    && productItem.name != productItem.summary
+                        && productItem.name != productItem.summary
                 val repository = repositories[productItem.repositoryId]
                 if (repository != null) {
                     val iconUrl = productItem.icon(view = holder.icon, repository = repository)

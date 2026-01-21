@@ -144,10 +144,10 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         updateRequest()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.reposStream.collect { repos ->
-                        appListAdapter.updateRepos(repos)
+                        appListAdapter.repositories = repos.associateBy { it.id }
                     }
                 }
                 launch {

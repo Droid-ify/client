@@ -9,8 +9,8 @@ import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
+import kotlinx.coroutines.runBlocking
 
 @AndroidEntryPoint
 class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
@@ -21,28 +21,28 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     sealed interface Request {
         val id: Int
 
-        class Available(
+        data class Available(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
             override val id: Int = 1,
         ) : Request
 
-        class Installed(
+        data class Installed(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
             override val id: Int = 2,
         ) : Request
 
-        class Updates(
+        data class Updates(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
             override val id: Int = 3,
         ) : Request
 
-        object Repositories : Request {
+        data object Repositories : Request {
             override val id = 4
         }
     }
