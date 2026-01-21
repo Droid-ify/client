@@ -1,0 +1,4 @@
+Fixed:
+- Apk file integrity check failing
+- Download stats data validation
+- Performance in apps list
