@@ -58,7 +58,11 @@ jobs:
         run: |
           CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
           if [[ -f "$CHANGELOG_PATH" ]]; then
-            echo "changelog=$(cat "$CHANGELOG_PATH")" >> $GITHUB_OUTPUT
+            {
+              echo 'changelog<<EOF'
+              cat "$CHANGELOG_PATH"
+              echo 'EOF'
+            } >> $GITHUB_OUTPUT
           else
             echo "changelog=" >> $GITHUB_OUTPUT
             echo "No changelog found at: $CHANGELOG_PATH"
