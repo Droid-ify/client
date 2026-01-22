@@ -9,6 +9,8 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.PowerManager
+import android.view.LayoutInflater
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -32,6 +34,19 @@ inline val Context.notificationManager: NotificationManager?
 
 inline val Context.powerManager: PowerManager?
     get() = getSystemService()
+
+fun Context.getWindowManager(): WindowManager {
+    return getSystemServiceImpl()
+}
+
+inline fun <reified T> Context.getSystemServiceImpl(): T {
+    return getSystemServiceImpl(T::class.java)
+}
+
+@PublishedApi
+internal fun <T> Context.getSystemServiceImpl(clazz: Class<T>): T {
+    return getSystemService(clazz)!!
+}
 
 fun Context.copyToClipboard(clip: String) {
     clipboardManager?.setPrimaryClip(ClipData.newPlainText(null, clip))
@@ -101,3 +116,6 @@ fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {
         typedArray.recycle()
     }
 }
+
+val Context.layoutInflater: LayoutInflater
+    get() = LayoutInflater.from(this)

@@ -262,4 +262,5 @@
     <string name="monthly">Monthly</string>
     <string name="downloading_rb_logs">Downloading reproducibility logs</string>
     <string name="downloading_download_stats">Downloading download stats</string>
+    <string name="downloads">Downloads</string>
 </resources>

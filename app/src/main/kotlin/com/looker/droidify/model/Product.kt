@@ -6,40 +6,95 @@ import com.looker.droidify.utility.common.extension.videoPlaceHolder
 import com.google.android.material.R as MaterialR
 
 data class Product(
+    @JvmField
     var repositoryId: Long,
+    @JvmField
     val packageName: String,
+    @JvmField
     val name: String,
+    @JvmField
     val summary: String,
+    @JvmField
     var description: String,
+    @JvmField
     val whatsNew: String,
+    @JvmField
     val icon: String,
+    @JvmField
     val metadataIcon: String,
+    @JvmField
     val author: Author,
+    @JvmField
     val source: String,
+    @JvmField
     val changelog: String,
+    @JvmField
     val web: String,
+    @JvmField
     val tracker: String,
+    @JvmField
     val added: Long,
+    @JvmField
     val updated: Long,
+    @JvmField
     val suggestedVersionCode: Long,
+    @JvmField
     val categories: List<String>,
+    @JvmField
     val antiFeatures: List<String>,
+    @JvmField
     val licenses: List<String>,
+    @JvmField
     val donates: List<Donate>,
+    @JvmField
     val screenshots: List<Screenshot>,
+    @JvmField
     val releases: List<Release>
 ) {
-    data class Author(val name: String, val email: String, val web: String)
+    data class Author(
+        @JvmField
+        val name: String,
+        @JvmField
+        val email: String,
+        @JvmField
+        val web: String,
+    )
 
     sealed class Donate {
-        data class Regular(val url: String) : Donate()
-        data class Bitcoin(val address: String) : Donate()
-        data class Litecoin(val address: String) : Donate()
-        data class Liberapay(val id: String) : Donate()
-        data class OpenCollective(val id: String) : Donate()
+        data class Regular(
+            @JvmField
+            val url: String
+        ) : Donate()
+
+        data class Bitcoin(
+            @JvmField
+            val address: String
+        ) : Donate()
+
+        data class Litecoin(
+            @JvmField
+            val address: String
+        ) : Donate()
+
+        data class Liberapay(
+            @JvmField
+            val id: String
+        ) : Donate()
+
+        data class OpenCollective(
+            @JvmField
+            val id: String
+        ) : Donate()
     }
 
-    class Screenshot(val locale: String, val type: Type, val path: String) {
+    data class Screenshot(
+        @JvmField
+        val locale: String,
+        @JvmField
+        val type: Type,
+        @JvmField
+        val path: String,
+    ) {
         enum class Type(val jsonName: String) {
             VIDEO("video"),
             PHONE("phone"),
@@ -48,9 +103,6 @@ data class Product(
             WEAR("wear"),
             TV("tv")
         }
-
-        val identifier: String
-            get() = "$locale.${type.name}.$path"
 
         fun url(
             context: Context,
@@ -112,17 +164,3 @@ data class Product(
             installedItem.signature in signatures
     }
 }
-
-fun List<Pair<Product, Repository>>.findSuggested(
-    installedItem: InstalledItem?
-): Pair<Product, Repository>? = maxWithOrNull(
-    compareBy(
-        { (product, _) ->
-            product.compatible &&
-                (installedItem == null || installedItem.signature in product.signatures)
-        },
-        { (product, _) ->
-            product.versionCode
-        }
-    )
-)

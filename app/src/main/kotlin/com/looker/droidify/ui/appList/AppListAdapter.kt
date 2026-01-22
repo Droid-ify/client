@@ -20,13 +20,13 @@ import com.looker.droidify.database.ProductRow
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.ui.appList.AppListAdapter.AppListRowViewHolder
 import com.looker.droidify.utility.common.extension.authentication
+import com.looker.droidify.utility.common.extension.compatRequireViewById
 import com.looker.droidify.utility.common.extension.corneredBackground
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
 import com.looker.droidify.utility.common.log
-import com.looker.droidify.utility.compatRequireViewById
 import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import kotlin.system.measureTimeMillis
 import com.google.android.material.R as MaterialR

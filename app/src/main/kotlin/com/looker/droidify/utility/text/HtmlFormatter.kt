@@ -16,11 +16,11 @@ import com.looker.droidify.data.model.Html
  * - Parses HTML with HtmlCompat.FROM_HTML_MODE_LEGACY
  * - Trims leading/trailing excessive newlines and collapses sequences of 3+ newlines into 2
  * - Linkifies web and email addresses
- * - Optionally replaces URLSpan with a [ClickableSpan] that invokes [onUrlClick]
+ * - Optionally replaces URLSpan with a [ClickableUrlSpan]
  * - Replaces BulletSpan occurrences with a plain "• " bullet character
  */
 fun Html.format(
-    onUrlClick: ((String) -> Unit)? = null, // FIXME: Remove once legacy is removed
+    addClickableUrlSpans: Boolean, // FIXME: Remove once legacy is removed
 ): SpannableStringBuilder {
     if (isPlainText) return SpannableStringBuilder(toString())
 
@@ -42,7 +42,7 @@ fun Html.format(
 
     LinkifyCompat.addLinks(builder, Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES)
 
-    if (onUrlClick != null) {
+    if (addClickableUrlSpans) {
         val urlSpans = builder.getSpans(0, builder.length, URLSpan::class.java).orEmpty()
         for (span in urlSpans) {
             val start = builder.getSpanStart(span)
@@ -50,11 +50,7 @@ fun Html.format(
             val flags = builder.getSpanFlags(span)
             val url = span.url
             builder.removeSpan(span)
-            builder.setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    onUrlClick.invoke(url)
-                }
-            }, start, end, flags)
+            builder.setSpan(ClickableUrlSpan(url), start, end, flags)
         }
     }
 
@@ -71,7 +67,22 @@ fun Html.format(
     return builder
 }
 
+class ClickableUrlSpan(
+    private val url: String,
+): ClickableSpan() {
+
+    interface ClickHandler {
+        fun onUrlClick(url: String)
+    }
+
+    var clickHandler: ClickHandler? = null
+
+    override fun onClick(widget: View) {
+        clickHandler?.onUrlClick(url)
+    }
+}
+
 fun formatHtml(
     html: String,
-    onUrlClick: ((String) -> Unit)?,
-): SpannableStringBuilder = Html(html).format(onUrlClick)
+    addClickableUrlSpans: Boolean,
+): SpannableStringBuilder = Html(html).format(addClickableUrlSpans)

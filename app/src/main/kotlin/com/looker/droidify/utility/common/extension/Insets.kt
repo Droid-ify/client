@@ -35,14 +35,19 @@ fun RecyclerView.systemBarsPadding(
     includeFab: Boolean = true
 ) {
     if (SdkCheck.isR) {
+        val defaultPaddingLeft = paddingLeft
+        val defaultTopPadding = paddingTop
+        val defaultBottomPadding = paddingBottom
+        val defaultRightPadding = paddingRight
+
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
             clipToPadding = false
             val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.updatePadding(
-                if (InsetSides.LEFT in allowedSides) insets.left else 0,
-                if (InsetSides.TOP in allowedSides) insets.top else 0,
-                if (InsetSides.RIGHT in allowedSides) insets.right else 0,
-                if (InsetSides.BOTTOM in allowedSides) {
+                left = defaultPaddingLeft + if (InsetSides.LEFT in allowedSides) insets.left else 0,
+                top = defaultTopPadding + if (InsetSides.TOP in allowedSides) insets.top else 0,
+                right = defaultRightPadding + if (InsetSides.RIGHT in allowedSides) insets.right else 0,
+                bottom = defaultBottomPadding + if (InsetSides.BOTTOM in allowedSides) {
                     insets.bottom + if (includeFab) 88.dp else 0
                 } else {
                     0

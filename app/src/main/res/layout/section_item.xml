@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:viewBindingIgnore="true">
 
     <TextView
         android:id="@+id/title"
@@ -19,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scaleType="center"
-        android:src="@drawable/ic_arrow_down"
+        tools:src="@drawable/ic_arrow_down"
         tools:ignore="ContentDescription" />
 
 </LinearLayout>
