@@ -7,11 +7,11 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
-import java.util.*
-import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import java.util.Date
+import kotlin.time.Duration
 
 interface SettingsRepository {
 
@@ -74,4 +74,8 @@ interface SettingsRepository {
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {
     return data.map(block).distinctUntilChanged()
+}
+
+fun SettingsRepository.ignoreSignatureFlow(): Flow<Boolean> {
+    return data.map { it.ignoreSignature }.distinctUntilChanged()
 }

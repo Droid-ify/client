@@ -14,7 +14,6 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.extension.getThemeRes
 import com.looker.droidify.datastore.get
@@ -39,12 +38,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -66,9 +65,6 @@ class MainActivity : AppCompatActivity() {
     private class FragmentStackItem(
         val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?,
     ) : Parcelable
-
-    lateinit var cursorOwner: CursorOwner
-        private set
 
     private var onBackPressedCallback: OnBackPressedCallback? = null
 
@@ -128,16 +124,6 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addFragmentOnAttachListener { _, _ ->
             hideKeyboard()
-        }
-
-        if (savedInstanceState == null) {
-            cursorOwner = CursorOwner()
-            supportFragmentManager.commit {
-                add(cursorOwner, CursorOwner::class.java.name)
-            }
-        } else {
-            cursorOwner =
-                supportFragmentManager.findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
         }
 
         savedInstanceState?.getParcelableArrayList<FragmentStackItem>(STATE_FRAGMENT_STACK)

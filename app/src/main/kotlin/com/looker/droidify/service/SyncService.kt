@@ -540,7 +540,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
                 Database.InstalledAdapter.get(it.packageName, null) to
-                        Database.RepositoryAdapter.get(it.repositoryId)
+                        Database.RepositoryAdapter.get(it.repoId)
             }
             .filter { it.first != null && it.second != null }
             .forEach { (installItem, repo) ->

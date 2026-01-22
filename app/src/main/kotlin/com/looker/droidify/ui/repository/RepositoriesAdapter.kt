@@ -5,89 +5,129 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import com.looker.droidify.R
 import com.looker.droidify.model.Repository
-import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
-import com.looker.droidify.widget.CursorRecyclerAdapter
+import com.looker.droidify.ui.repository.RepositoriesAdapter.ViewHolder
 
 class RepositoriesAdapter(
-    private val navigate: (Repository) -> Unit,
-    private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean
-) : CursorRecyclerAdapter<RepositoriesAdapter.ViewType, RecyclerView.ViewHolder>() {
-    enum class ViewType { REPOSITORY }
+    private val navigate: RepositoryNavigateListener,
+    private val onSwitch: RepositorySwitchListener
+) : PagingDataAdapter<Repository, ViewHolder>(ItemCallback()) {
 
-    private class ViewHolder(itemView: RepositoryItemBinding) :
-        RecyclerView.ViewHolder(itemView.root) {
-        val repoIcon = itemView.repositoryIcon
-        val repoName = itemView.repositoryName
-        val repoDesc = itemView.repositoryDescription
-        val repoState = itemView.repositoryState
-
-        var isChecked = false
+    fun interface RepositoryNavigateListener {
+        fun onRepositoryNavigate(repository: Repository)
     }
 
-    override val viewTypeClass: Class<ViewType>
-        get() = ViewType::class.java
-
-    override fun getItemEnumViewType(position: Int): ViewType {
-        return ViewType.REPOSITORY
+    fun interface RepositorySwitchListener {
+        fun onRepositorySwitch(repository: Repository, isEnabled: Boolean): Boolean
     }
 
-    private fun getRepository(position: Int): Repository {
-        return Database.RepositoryAdapter.transform(moveTo(position.takeUnless { it < 0 } ?: 0))
+    init {
+        stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: ViewType
-    ): RecyclerView.ViewHolder {
-        return ViewHolder(
-            RepositoryItemBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+    class ViewHolder(
+        binding: RepositoryItemBinding,
+        private val navigate: RepositoryNavigateListener,
+        private val onSwitch: RepositorySwitchListener
+    ) : RecyclerView.ViewHolder(binding.root) {
+        private val repoIcon = binding.repositoryIcon
+        private val repoName = binding.repositoryName
+        private val repoDesc = binding.repositoryDescription
+        private val repoState = binding.repositoryState
+
+        private var isChecked = false
+
+        private val colorOnSurface = ColorStateList.valueOf(
+            MaterialColors.getColor(
+                itemView,
+                com.google.android.material.R.attr.colorOnSurface,
+                Color.BLACK,
             )
-        ).apply {
+        )
+
+        private val colorSurfaceContainer = ColorStateList.valueOf(
+            MaterialColors.getColor(
+                itemView,
+                com.google.android.material.R.attr.colorSurfaceContainer,
+                Color.WHITE,
+            )
+        )
+
+        private lateinit var repository: Repository
+
+        init {
             itemView.setOnClickListener {
-                navigate(getRepository(absoluteAdapterPosition))
+                navigate.onRepositoryNavigate(repository)
             }
 
             repoState.setOnClickListener {
                 isChecked = !isChecked
-                onSwitch(getRepository(absoluteAdapterPosition), isChecked)
+                onSwitch.onRepositorySwitch(repository, isChecked)
             }
+        }
+
+        fun bind(repository: Repository) {
+            this.repository = repository
+
+            repoName.text = repository.name
+            repoDesc.text = repository.description.trim()
+
+            isChecked = repository.enabled
+            val repoState = repoState
+            if (isChecked) {
+                repoState.setImageResource(R.drawable.ic_check)
+                repoState.imageTintList = colorSurfaceContainer
+                repoState.backgroundTintList = colorOnSurface
+            } else {
+                repoState.setImageResource(R.drawable.ic_cancel)
+                repoState.imageTintList = colorOnSurface
+                repoState.backgroundTintList = colorSurfaceContainer
+            }
+
+            // TODO: fetch repo icon
+            repoIcon.setImageIcon(null)
+            repoIcon.visibility = View.GONE
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder as ViewHolder
-        val repository = getRepository(position)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        return ViewHolder(
+            binding = RepositoryItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            ),
+            navigate = navigate,
+            onSwitch = onSwitch,
+        )
+    }
 
-        holder.repoName.text = repository.name
-        holder.repoDesc.text = repository.description.trim()
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.bind(getItem(position)!!)
+    }
 
-        val colorOnSurface = MaterialColors.getColor(
-            holder.itemView, com.google.android.material.R.attr.colorOnSurface, Color.BLACK)
-        val colorSurfaceContainer = MaterialColors.getColor(
-            holder.itemView, com.google.android.material.R.attr.colorSurfaceContainer, Color.WHITE)
-
-        holder.isChecked = repository.enabled
-        if (holder.isChecked) {
-            holder.repoState.setImageResource(R.drawable.ic_check)
-            holder.repoState.imageTintList = ColorStateList.valueOf(colorSurfaceContainer)
-            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorOnSurface)
-        } else {
-            holder.repoState.setImageResource(R.drawable.ic_cancel)
-            holder.repoState.imageTintList = ColorStateList.valueOf(colorOnSurface)
-            holder.repoState.backgroundTintList = ColorStateList.valueOf(colorSurfaceContainer)
+    private class ItemCallback: DiffUtil.ItemCallback<Repository>() {
+        override fun areItemsTheSame(
+            oldItem: Repository,
+            newItem: Repository,
+        ): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        // TODO: fetch repo icon
-        holder.repoIcon.setImageIcon(null)
-        holder.repoIcon.visibility = View.GONE
+        override fun areContentsTheSame(
+            oldItem: Repository,
+            newItem: Repository,
+        ): Boolean {
+            return oldItem == newItem
+        }
     }
 }

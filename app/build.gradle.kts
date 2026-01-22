@@ -116,6 +116,7 @@ dependencies {
     implementation(libs.lifecycle.viewModel)
     implementation(libs.recyclerview)
     implementation(libs.sqlite.ktx)
+    implementation(libs.paging)
 
     implementation(libs.image.viewer)
     implementation(libs.bundles.coil)

@@ -93,17 +93,17 @@ data class Product(
 
     fun item(): ProductItem {
         return ProductItem(
-            repositoryId,
-            packageName,
-            name,
-            summary,
-            icon,
-            metadataIcon,
-            version,
-            "",
-            compatible,
-            false,
-            0
+            repoId = repositoryId,
+            packageName = packageName,
+            name = name,
+            summary = summary,
+            icon = icon,
+            metadataIcon = metadataIcon,
+            version = version,
+            installedVersion = "",
+            compatible = compatible,
+            canUpdate = false,
+            matchRank = 0,
         )
     }
 

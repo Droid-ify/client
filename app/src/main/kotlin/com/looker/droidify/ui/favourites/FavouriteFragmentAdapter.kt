@@ -19,7 +19,7 @@ class FavouriteFragmentAdapter(
     private val onProductClick: (String) -> Unit
 ) : RecyclerView.Adapter<FavouriteFragmentAdapter.ViewHolder>() {
 
-    inner class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val icon = binding.icon
         val name = binding.name
         val summary = binding.summary
@@ -57,7 +57,7 @@ class FavouriteFragmentAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = apps[position].first().item()
-        val repository: Repository? = repositories[item.repositoryId]
+        val repository: Repository? = repositories[item.repoId]
         holder.name.text = item.name
         holder.summary.isVisible = item.summary.isNotEmpty()
         holder.summary.text = item.summary

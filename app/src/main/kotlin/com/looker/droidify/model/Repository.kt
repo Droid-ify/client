@@ -1,20 +1,34 @@
 package com.looker.droidify.model
 
+import android.annotation.SuppressLint
 import java.net.URL
 
 data class Repository(
-    var id: Long,
+    @JvmField
+    val id: Long,
+    @JvmField
     val address: String,
+    @JvmField
     val mirrors: List<String>,
+    @JvmField
     val name: String,
+    @JvmField
     val description: String,
+    @JvmField
     val version: Int,
+    @JvmField
     val enabled: Boolean,
+    @JvmField
     val fingerprint: String,
+    @JvmField
     val lastModified: String,
+    @JvmField
     val entityTag: String,
+    @JvmField
     val updated: Long,
+    @JvmField
     val timestamp: Long,
+    @JvmField
     val authentication: String,
 ) {
 
@@ -66,7 +80,7 @@ data class Repository(
         ): Repository {
             val name = try {
                 URL(address).let { "${it.host}${it.path}" }
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 address
             }
             return defaultRepository(address, name, "", 0, true, fingerprint, authentication)
@@ -87,6 +101,7 @@ data class Repository(
             )
         }
 
+        @SuppressLint("TextConcatSpace")
         val defaultRepositories = listOf(
             defaultRepository(
                 address = "https://f-droid.org/repo",
