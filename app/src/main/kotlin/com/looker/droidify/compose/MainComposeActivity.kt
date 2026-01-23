@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.lifecycleScope
@@ -23,8 +24,6 @@ import com.looker.droidify.compose.repoEdit.navigation.navigateToRepoEdit
 import com.looker.droidify.compose.repoEdit.navigation.repoEdit
 import com.looker.droidify.compose.repoList.navigation.navigateToRepoList
 import com.looker.droidify.compose.repoList.navigation.repoList
-import com.looker.droidify.compose.settings.navigation.navigateToSettings
-import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.model.Repository
@@ -57,24 +56,23 @@ class MainComposeActivity : ComponentActivity() {
         setContent {
             DroidifyTheme {
                 val navController = rememberNavController()
-
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    innerPadding
                     NavHost(
+                        modifier = Modifier.padding(innerPadding),
                         navController = navController,
                         startDestination = AppList,
                     ) {
                         home(
                             onNavigateToApps = { navController.navigateToAppList() },
                             onNavigateToRepos = { navController.navigateToRepoList() },
-                            onNavigateToSettings = { navController.navigateToSettings() },
+                            onNavigateToSettings = {},
                         )
                         appList(
                             onAppClick = { packageName ->
                                 navController.navigateToAppDetail(packageName)
                             },
                             onNavigateToRepos = { navController.navigateToRepoList() },
-                            onNavigateToSettings = { navController.navigateToSettings() },
+                            onNavigateToSettings = {},
                         )
 
                         repoList(
@@ -94,10 +92,6 @@ class MainComposeActivity : ComponentActivity() {
                         )
 
                         repoEdit(onBackClick = { navController.popBackStack() })
-
-                        settings(
-                            onBackClick = { navController.popBackStack() },
-                        )
                     }
                 }
             }
