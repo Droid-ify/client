@@ -57,7 +57,6 @@ fi
 
 # Update the Kotlin file with new version code and name
 sed -i "s/val latestVersionName = \"[^\"]*\"/val latestVersionName = \"$version_name\"/" "$kotlin_file"
-sed -i "s/versionCode = [0-9]*/versionCode = $version_code/" "$kotlin_file"
 
 # Create a changelog file
 mkdir -p "$changelog_directory"
