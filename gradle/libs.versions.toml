@@ -36,7 +36,6 @@ arch-core-testing = "2.2.0"
 compose-bom = "2026.01.00"
 compose-material = "1.5.0-alpha12"
 compose-navigation = "2.9.6"
-vico = "2.4.1"
 
 [libraries]
 desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
@@ -57,7 +56,6 @@ test-runner = { group = "androidx.test", name = "runner", version.ref = "test-ru
 test-core = { group = "androidx.test", name = "core", version.ref = "test-core" }
 test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "test-core" }
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
-work-testing = { group = "androidx.work", name = "work-testing", version.ref = "work" }
 coil-core = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
@@ -93,8 +91,6 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
-vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
-vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
 
 # Compose dependencies
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -106,7 +102,6 @@ compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-mani
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material" }
 # TODO check https://developer.android.com/develop/ui/compose/graphics/images/material the icons library shouldn't be used anymore
 compose-material-icons = { group = "androidx.compose.material", name = "material-icons-extended" }
-compose-icons = { group = "androidx.compose.material", name = "material-icons-core" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity" }
 compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "compose-navigation" }
 compose-hilt-navigation = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltExt" }
@@ -121,7 +116,6 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
-vico = ["vico-compose", "vico-compose-m3"]
 room = ["room-runtime", "room-ktx"]
 shizuku = ["shizuku-provider", "shizuku-api"]
 ktor = ["ktor-core", "ktor-okhttp"]

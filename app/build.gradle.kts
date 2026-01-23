@@ -140,8 +140,6 @@ dependencies {
 
     implementation(libs.work.ktx)
 
-    implementation(libs.bundles.vico)
-
     implementation(libs.hilt.core)
     implementation(libs.hilt.android)
     implementation(libs.hilt.ext.work)
