@@ -241,4 +241,16 @@
     <string name="select_installer">Selecionar instalador</string>
     <string name="error_shizuku_not_installed">Shizuku/Sui não está instalado</string>
     <string name="error_shizuku_not_installed_DESC">Shizuku/Sui não está instalado</string>
+    <string name="repository_not_synced_or_enabled">Repositório não ativado ou sincronizado</string>
+    <string name="action_sync_repo">Sincronizar</string>
+    <string name="action_enable_repo">Ativar</string>
+    <string name="repository_not_found_by_id">Repositório não encontrado</string>
+    <string name="rb_badge">Emblema de compilação reproduzível</string>
+    <string name="total_downloads">Total de descargas</string>
+    <string name="download_stats">Estatísticas de descargas</string>
+    <string name="download_stats_from_izzy">Fonte: IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">Do cliente</string>
+    <string name="monthly">Mensalmente</string>
+    <string name="downloading_download_stats">A descarregar estatísticas</string>
 </resources>
