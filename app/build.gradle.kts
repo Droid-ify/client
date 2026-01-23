@@ -1,10 +1,7 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
@@ -15,35 +12,21 @@ plugins {
 android {
     val latestVersionName = "0.6.8"
     namespace = "com.looker.droidify"
-    buildToolsVersion = "36.0.0"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
+
     defaultConfig {
-        minSdk = 23
-        targetSdk = 36
         applicationId = "com.looker.droidify"
+        minSdk = 23
         versionCode = 680
         versionName = latestVersionName
-        vectorDrawables.useSupportLibrary = true
+
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
     compileOptions.isCoreLibraryDesugaringEnabled = true
     androidResources.generateLocaleConfig = true
-
-    kotlin {
-        jvmToolchain(17)
-        compilerOptions {
-            languageVersion.set(KotlinVersion.KOTLIN_2_2)
-            apiVersion.set(KotlinVersion.KOTLIN_2_2)
-            jvmTarget.set(JvmTarget.JVM_17)
-
-            freeCompilerArgs.addAll(
-                "-Xannotation-default-target=param-property",
-                "-Xcontext-parameters",
-            )
-            optIn.add("kotlin.RequiresOptIn")
-        }
-    }
 
     ksp {
         arg("room.schemaLocation", "$projectDir/schemas")
@@ -51,16 +34,9 @@ android {
     }
 
     buildTypes {
-        debug {
-            applicationIdSuffix = ".debug"
-            resValue("string", "application_name", "Droid-ify-Debug")
-            resValue("string", "cleartext_allowed", "true")
-        }
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            resValue("string", "application_name", "Droid-ify")
-            resValue("string", "cleartext_allowed", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
@@ -69,14 +45,17 @@ android {
         create("alpha") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".alpha"
-            resValue("string", "application_name", "Droid-ify Alpha")
-            resValue("string", "cleartext_allowed", "false")
+            versionNameSuffix = ".a"
+            isMinifyEnabled = true
+            isDebuggable = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
             )
-            isDebuggable = true
-            isMinifyEnabled = true
+        }
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = ".d"
         }
         all {
             buildConfigField(
@@ -86,6 +65,7 @@ android {
             )
         }
     }
+
     packaging {
         resources {
             excludes += listOf(
@@ -100,12 +80,25 @@ android {
             )
         }
     }
+
+    kotlin {
+        compilerOptions {
+            freeCompilerArgs.addAll("-Xcontext-parameters")
+            optIn.add("kotlin.RequiresOptIn")
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     buildFeatures {
         compose = true
-        resValues = true
         viewBinding = true
         buildConfig = true
     }
+
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false

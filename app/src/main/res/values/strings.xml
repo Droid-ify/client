@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="application_name" translatable="false">Droid-ify</string>
+    <string name="cleartext_allowed" translatable="false">false</string>
     <string name="action_failed">Action failed</string>
     <string name="add_repository">Add repository</string>
     <string name="address">Address</string>

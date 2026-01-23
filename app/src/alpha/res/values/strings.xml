@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="application_name" translatable="false">Droid-ify α</string>
+    <string name="cleartext_allowed" translatable="false">false</string>
+</resources>
