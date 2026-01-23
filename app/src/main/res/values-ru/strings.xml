@@ -219,7 +219,7 @@
     <string name="cannot_open_link">Невозможно открыть ссылку</string>
     <string name="has_tethered_network">Зависит от определённой сетевой службы</string>
     <string name="require_background_access_DESC">Для правильной работы фоновой синхронизации необходимо отключить оптимизацию батареи</string>
-    <string name="require_background_access">Отключить оптимизацию батареи</string>
+    <string name="require_background_access">Отключите оптимизацию батареи</string>
     <string name="ignore_signature">Не проверять подпись</string>
     <string name="ignore_signature_summary">Не выполнять проверку подписи при установке приложения</string>
     <string name="installation_failed">Установка не выполнена</string>
@@ -258,6 +258,6 @@
     <string name="total">Всего</string>
     <string name="monthly">За месяц</string>
     <string name="by_client">Клиентом</string>
-    <string name="downloading_rb_logs">Скачивание журналов воспроизводимости</string>
-    <string name="downloading_download_stats">Скачивание статистики скачиваний</string>
+    <string name="downloading_rb_logs">Получение журналов воспроизводимости</string>
+    <string name="downloading_download_stats">Получение статистики скачиваний</string>
 </resources>
