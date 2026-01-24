@@ -13,16 +13,15 @@ open class ScreenFragment : Fragment() {
     val fragmentBinding get() = _fragmentBinding!!
     val toolbar: MaterialToolbar get() = fragmentBinding.toolbar
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _fragmentBinding = FragmentBinding.inflate(layoutInflater)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = fragmentBinding.root
+    ): View {
+        val fragmentBinding = FragmentBinding.inflate(layoutInflater)
+        _fragmentBinding = fragmentBinding
+        return fragmentBinding.root
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
