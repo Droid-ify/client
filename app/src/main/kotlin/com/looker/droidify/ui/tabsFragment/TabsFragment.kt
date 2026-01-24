@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.TextView
@@ -137,6 +138,8 @@ class TabsFragment : ScreenFragment() {
             childFragmentManager.fragments.asSequence().mapNotNull { it as? AppListFragment }
         }
 
+    private var contentOnGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _tabsBinding = TabsToolbarBinding.inflate(layoutInflater)
@@ -147,6 +150,7 @@ class TabsFragment : ScreenFragment() {
         syncConnection.bind(requireContext())
 
         val viewModel = viewModel
+        val tabsBinding = tabsBinding
 
         val sectionsAdapter = SectionsAdapter {
             if (showSections) {
@@ -263,7 +267,7 @@ class TabsFragment : ScreenFragment() {
 
         val content = fragmentBinding.fragmentContent
 
-        viewPager = ViewPager2(content.context).apply {
+        val viewPager = ViewPager2(content.context).apply {
             id = R.id.fragment_pager
             adapter = object : FragmentStateAdapter(this@TabsFragment) {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
@@ -277,12 +281,23 @@ class TabsFragment : ScreenFragment() {
             registerOnPageChangeCallback(pageChangeCallback)
             offscreenPageLimit = 1
         }
+        this.viewPager = viewPager
 
-        viewPager?.let {
-            TabLayoutMediator(layout.tabs, it) { tab, position ->
-                tab.text = getString(AppListFragment.Source.entries[position].titleResId)
-            }.attach()
+        TabLayoutMediator(layout.tabs, viewPager) { tab, position ->
+            tab.text = getString(AppListFragment.Source.entries[position].titleResId)
+        }.attach()
+
+        val onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
+            override fun handleOnBackPressed() {
+                performOnBackPressed()
+            }
+        }.also {
+            requireActivity().onBackPressedDispatcher.addCallback(
+                viewLifecycleOwner,
+                it,
+            )
         }
+        this.onBackPressedCallback = onBackPressedCallback
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -297,12 +312,12 @@ class TabsFragment : ScreenFragment() {
                 }
                 launch {
                     viewModel.allowHomeScreenSwiping.collect {
-                        viewPager?.isUserInputEnabled = it
+                        viewPager.isUserInputEnabled = it
                     }
                 }
                 launch {
                     viewModel.backAction.collect {
-                        onBackPressedCallback?.isEnabled = it != BackAction.None
+                        onBackPressedCallback.isEnabled = it != BackAction.None
                     }
                 }
                 launch {
@@ -353,15 +368,17 @@ class TabsFragment : ScreenFragment() {
         }
         this.sectionsList = sectionsList
 
-        var lastContentHeight = -1
-        content.viewTreeObserver.addOnGlobalLayoutListener {
-            if (this.view != null) {
+        contentOnGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+            private var lastContentHeight = -1
+
+            override fun onGlobalLayout() {
                 val initial = lastContentHeight <= 0
                 val contentHeight = content.height
                 if (lastContentHeight != contentHeight) {
                     lastContentHeight = contentHeight
                     if (initial) {
-                        sectionsList.layoutParams.height = if (showSections) contentHeight else 0
+                        sectionsList.layoutParams.height =
+                            if (showSections) contentHeight else 0
                         sectionsList.isVisible = showSections
                         sectionsList.requestLayout()
                     } else {
@@ -369,17 +386,6 @@ class TabsFragment : ScreenFragment() {
                     }
                 }
             }
-        }
-        onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
-            override fun handleOnBackPressed() {
-                performOnBackPressed()
-            }
-        }
-        onBackPressedCallback?.let {
-            requireActivity().onBackPressedDispatcher.addCallback(
-                viewLifecycleOwner,
-                it,
-            )
         }
     }
 
@@ -391,11 +397,19 @@ class TabsFragment : ScreenFragment() {
             activateSearch(psq)
             pendingSearchQuery = null
         }
+
+        fragmentBinding.fragmentContent.viewTreeObserver.addOnGlobalLayoutListener(contentOnGlobalLayoutListener)
+    }
+
+    override fun onPause() {
+        fragmentBinding.fragmentContent.viewTreeObserver.removeOnGlobalLayoutListener(contentOnGlobalLayoutListener)
+        super.onPause()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
+        contentOnGlobalLayoutListener = null
         favouritesItem = null
         searchMenuItem = null
         sortOrderMenu = null
@@ -526,7 +540,7 @@ class TabsFragment : ScreenFragment() {
                     sectionsList.apply {
                         val height = ((parent as View).height * newValue).toInt()
                         val visible = height > 0
-                        if ((visibility == View.VISIBLE) != visible) isVisible = visible
+                        if (isVisible != visible) isVisible = visible
                         if (layoutParams.height != height) {
                             layoutParams.height = height
                             requestLayout()
