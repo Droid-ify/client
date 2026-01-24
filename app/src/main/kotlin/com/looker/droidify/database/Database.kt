@@ -186,10 +186,11 @@ private class InstalledItemCursorImpl(
 }
 
 object Database {
-    fun init(context: Context): Boolean {
+    fun init(
+        context: Context,
+    ): Boolean {
         val helper = DatabaseHelper(context)
         db = helper.writableDatabase
-        RepositoryAdapter.removeDuplicates()
         return helper.created || helper.updated
     }
 

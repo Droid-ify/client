@@ -45,11 +45,6 @@ import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
-import java.net.InetSocketAddress
-import java.net.Proxy
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -57,12 +52,16 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import java.net.InetSocketAddress
+import java.net.Proxy
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.INFINITE
+import kotlin.time.Duration.Companion.hours
 
 @HiltAndroidApp
 class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
 
-    private val parentJob = SupervisorJob()
-    private val appScope = CoroutineScope(Dispatchers.Default + parentJob)
+    private val appScope: CoroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     @Inject
     lateinit var settingsRepository: SettingsRepository
@@ -99,7 +98,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     }
 
     private fun listenApplications() {
-        appScope.launch(Dispatchers.Default) {
+        appScope.launch {
             registerReceiver(
                 InstalledAppReceiver(packageManager),
                 IntentFilter().apply {
