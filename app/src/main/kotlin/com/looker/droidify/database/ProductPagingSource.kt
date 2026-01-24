@@ -23,6 +23,7 @@ fun createProductPagingSource(
     emptyText: String,
     ioDispatcher: CoroutineDispatcher,
     mainHandler: Handler,
+    lastAccessedKeyCallback: LastAccessedKeyCallback,
 ): PagingSource<Int, AppListRow> {
     val params = ProductPagingSource.ProductPagingSourceParams(
         queryParams = AppListQueryParamsImpl(
@@ -37,6 +38,7 @@ fun createProductPagingSource(
         emptyText = emptyText,
         ioDispatcher = ioDispatcher,
         mainHandler = mainHandler,
+        lastAccessedKeyCallback = lastAccessedKeyCallback,
     )
 
     return ProductPagingSource(
@@ -55,6 +57,10 @@ private class AppListQueryParamsImpl(
     override val sortOrder: SortOrder,
 ) : AppListQueryParams
 
+fun interface LastAccessedKeyCallback {
+    fun invoke(key: Int)
+}
+
 @VisibleForTesting
 class ProductPagingSource(
     params: ProductPagingSourceParams,
@@ -71,6 +77,8 @@ class ProductPagingSource(
         val repositories: List<Repository>,
         @JvmField
         val emptyText: String,
+        @JvmField
+        val lastAccessedKeyCallback: LastAccessedKeyCallback,
         override val ioDispatcher: CoroutineDispatcher,
         override val mainHandler: Handler,
     ): Params
@@ -88,6 +96,8 @@ class ProductPagingSource(
 
     private val updates: Boolean = params.queryParams.updates
 
+    private val lastAccessedKeyCallback: LastAccessedKeyCallback = params.lastAccessedKeyCallback
+
     override suspend fun loadImpl(
         params: LoadParams<Int>,
     ): LoadResult<Int, AppListRow> {
@@ -99,7 +109,7 @@ class ProductPagingSource(
             )
         }
 
-        val offset = params.key ?: 0
+        val offset = params.key?.also { lastAccessedKeyCallback.invoke(it) } ?: 0
         val limit = params.loadSize
 
         val items = createRows(offset, limit)
