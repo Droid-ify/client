@@ -242,7 +242,7 @@
     <string name="select_installer">Выбрать установщик</string>
     <string name="always_choose">Всегда выбирать</string>
     <string name="unspecified">Не определено</string>
-    <string name="legacyInstallerComponent">Устаревший компонент установщика</string>
+    <string name="legacyInstallerComponent">Компонент устаревшего установщика</string>
     <string name="label_sdk_version">Назначение: Android %1$s | Минимум: Android %2$s</string>
     <string name="repository_not_synced_or_enabled">Репозиторий не включён и не синхронизирован</string>
     <string name="action_sync_repo">Синхронизировать</string>
