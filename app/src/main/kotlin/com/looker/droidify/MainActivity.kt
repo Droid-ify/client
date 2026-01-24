@@ -3,7 +3,6 @@ package com.looker.droidify
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.OnBackPressedCallback
@@ -12,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
@@ -44,13 +44,11 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
-        private const val STATE_FRAGMENT_STACK = "fragmentStack"
         const val ACTION_UPDATES = "${BuildConfig.APPLICATION_ID}.intent.action.UPDATES"
         const val ACTION_INSTALL = "${BuildConfig.APPLICATION_ID}.intent.action.INSTALL"
         const val EXTRA_CACHE_FILE_NAME =
@@ -63,17 +61,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var installer: InstallManager
 
-    @Parcelize
-    private class FragmentStackItem(
-        val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?,
-    ) : Parcelable
-
-    private var onBackPressedCallback: OnBackPressedCallback? = null
-
-    private val fragmentStack = mutableListOf<FragmentStackItem>()
-
     private val currentFragment: Fragment?
         get() {
+            val supportFragmentManager = supportFragmentManager
             supportFragmentManager.executePendingTransactions()
             return supportFragmentManager.findFragmentById(R.id.main_content)
         }
@@ -132,46 +122,41 @@ class MainActivity : AppCompatActivity() {
             hideKeyboard()
         }
 
-        savedInstanceState?.getParcelableArrayList<FragmentStackItem>(STATE_FRAGMENT_STACK)
-            ?.let { fragmentStack += it }
         if (savedInstanceState == null) {
             replaceFragment(TabsFragment(), null)
+            val intent = intent
             if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
                 handleIntent(intent)
             }
         }
+
         if (SdkCheck.isR) {
             window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
             window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
-        backHandler()
+
+        setupBackHandler()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        onBackPressedCallback = null
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putParcelableArrayList(STATE_FRAGMENT_STACK, ArrayList(fragmentStack))
-    }
-
-    private fun backHandler() {
-        if (onBackPressedCallback == null) {
-            onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
-                override fun handleOnBackPressed() {
-                    hideKeyboard()
-                    popFragment()
-                }
+    private fun setupBackHandler() {
+        val onBackPressedCallback = object : OnBackPressedCallback(enabled = false) {
+            override fun handleOnBackPressed() {
+                hideKeyboard()
+                popFragment()
             }
-            onBackPressedDispatcher.addCallback(
-                this,
-                onBackPressedCallback!!,
-            )
         }
-        onBackPressedCallback?.isEnabled = fragmentStack.isNotEmpty()
+
+        onBackPressedDispatcher.addCallback(
+            this,
+            onBackPressedCallback,
+        )
+
+        val supportFragmentManager = supportFragmentManager
+        onBackPressedCallback.isEnabled = supportFragmentManager.hasBackStackEntry()
+        supportFragmentManager.addOnBackStackChangedListener {
+            onBackPressedCallback.isEnabled = supportFragmentManager.hasBackStackEntry()
+        }
     }
 
     private fun replaceFragment(fragment: Fragment, open: Boolean?) {
@@ -179,6 +164,7 @@ class MainActivity : AppCompatActivity() {
             currentFragment?.view?.translationZ =
                 (if (open) Int.MIN_VALUE else Int.MAX_VALUE).toFloat()
         }
+
         supportFragmentManager.commit {
             if (open != null) {
                 setCustomAnimations(
@@ -188,33 +174,25 @@ class MainActivity : AppCompatActivity() {
             }
             setReorderingAllowed(true)
             replace(R.id.main_content, fragment)
+
+            if (fragment !is TabsFragment) {
+                addToBackStack(null)
+            }
         }
     }
 
     private fun pushFragment(fragment: Fragment) {
-        currentFragment?.let {
-            fragmentStack.add(
-                FragmentStackItem(
-                    it::class.java.name,
-                    it.arguments,
-                    supportFragmentManager.saveFragmentInstanceState(it),
-                ),
-            )
-        }
         replaceFragment(fragment, true)
-        backHandler()
     }
 
     private fun popFragment(): Boolean {
-        return fragmentStack.isNotEmpty() && run {
-            val stackItem = fragmentStack.removeAt(fragmentStack.size - 1)
-            val fragment = Class.forName(stackItem.className).newInstance() as Fragment
-            stackItem.arguments?.let(fragment::setArguments)
-            stackItem.savedState?.let(fragment::setInitialSavedState)
-            replaceFragment(fragment, false)
-            backHandler()
-            true
+        val supportFragmentManager = supportFragmentManager
+        if (supportFragmentManager.hasBackStackEntry()) {
+            supportFragmentManager.popBackStack()
+            return true
         }
+
+        return false
     }
 
     private fun hideKeyboard() {
@@ -222,7 +200,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     internal fun onToolbarCreated(toolbar: Toolbar) {
-        if (fragmentStack.isNotEmpty()) {
+        if (supportFragmentManager.hasBackStackEntry()) {
             toolbar.navigationIcon = toolbar.context.homeAsUp
             toolbar.setNavigationOnClickListener { onBackPressedDispatcher.onBackPressed() }
         }
@@ -239,7 +217,6 @@ class MainActivity : AppCompatActivity() {
                 navigateToTabsFragment()
                 val tabsFragment = currentFragment as TabsFragment
                 tabsFragment.selectUpdates()
-                backHandler()
             }
 
             ACTION_INSTALL -> {
@@ -281,14 +258,21 @@ class MainActivity : AppCompatActivity() {
                         navigateProduct(packageName)
                     }
                 }
-
             }
         }
     }
 
+    private fun clearFragmentBackStack() {
+        val supportFragmentManager = supportFragmentManager
+        while (supportFragmentManager.hasBackStackEntry()) {
+            supportFragmentManager.popBackStack()
+        }
+    }
+
     private fun navigateToTabsFragment() {
+        clearFragmentBackStack()
+
         if (currentFragment !is TabsFragment) {
-            fragmentStack.clear()
             replaceFragment(TabsFragment(), true)
         }
     }
@@ -313,4 +297,8 @@ class MainActivity : AppCompatActivity() {
 
     fun navigateEditRepository(repositoryId: Long) =
         pushFragment(EditRepositoryFragment(repositoryId, null))
+}
+
+private fun FragmentManager.hasBackStackEntry(): Boolean {
+    return backStackEntryCount > 0
 }
