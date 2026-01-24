@@ -13,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
-import com.looker.droidify.database.AppListRowViewType
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.utility.common.Scroller
@@ -64,8 +63,8 @@ class AppListFragment() : Fragment() {
     val source: Source
         get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var appListAdapter: AppListAdapter
+    private var recyclerView: RecyclerView? = null
+    private var appListAdapter: AppListAdapter? = null
     private var scroller: Scroller? = null
     private var shortAnimationDuration: Int = 0
 
@@ -89,17 +88,21 @@ class AppListFragment() : Fragment() {
             pendingSearchQuery = null
         }
 
-        recyclerView = binding.recyclerView.apply {
+        val appListAdapter = AppListAdapter(requireContext()) {
+            mainActivity.navigateProduct(it)
+        }
+
+        this.appListAdapter = appListAdapter
+
+        val recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
-            recycledViewPool.setMaxRecycledViews(AppListRowViewType.PRODUCT, 30)
-            appListAdapter = AppListAdapter(requireContext()) {
-                mainActivity.navigateProduct(it)
-            }
+            setRecycledViewPool(mainActivity.appListViewPool)
             adapter = appListAdapter
             systemBarsPadding()
         }
+        this.recyclerView = recyclerView
 
         val fab = binding.scrollUp
         with(fab) {
@@ -153,6 +156,9 @@ class AppListFragment() : Fragment() {
     }
 
     override fun onDestroyView() {
+        recyclerView?.adapter = null
+        recyclerView = null
+        appListAdapter = null
         super.onDestroyView()
         viewModel.syncConnection.unbind(requireContext())
         _binding = null

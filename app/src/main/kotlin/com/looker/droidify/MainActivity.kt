@@ -14,6 +14,8 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import com.looker.droidify.database.AppListRowViewType
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.extension.getThemeRes
 import com.looker.droidify.datastore.get
@@ -75,6 +77,10 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.executePendingTransactions()
             return supportFragmentManager.findFragmentById(R.id.main_content)
         }
+
+    val appListViewPool: RecyclerView.RecycledViewPool = RecyclerView.RecycledViewPool().apply {
+        setMaxRecycledViews(AppListRowViewType.PRODUCT, 30)
+    }
 
     @EntryPoint
     @InstallIn(SingletonComponent::class)

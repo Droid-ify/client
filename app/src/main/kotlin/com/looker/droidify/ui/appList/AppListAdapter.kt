@@ -73,7 +73,6 @@ class AppListAdapter(
 
     private class ProductViewHolder(
         private val colors: Colors,
-        private val onClick: ProductItemClickListener,
         itemView: View
     ) : AppListRowViewHolder<ProductRow>(itemView), View.OnClickListener {
         private val name: TextView = itemView.compatRequireViewById(R.id.name)
@@ -82,6 +81,8 @@ class AppListAdapter(
         private val icon: ShapeableImageView = itemView.compatRequireViewById(R.id.icon)
 
         private lateinit var item: ProductItem
+
+        lateinit var onClick: ProductItemClickListener
 
         init {
             itemView.setOnClickListener(this)
@@ -173,7 +174,6 @@ class AppListAdapter(
             AppListRowViewType.PRODUCT -> ProductViewHolder(
                 itemView = parent.inflate(R.layout.product_item),
                 colors = colors,
-                onClick = onClick,
             )
             AppListRowViewType.EMPTY -> EmptyViewHolder(TextView(parent.context))
             else -> throw IllegalArgumentException("Unknown viewType: $viewType")
@@ -190,6 +190,9 @@ class AppListAdapter(
 
     override fun onBindViewHolder(holder: AppListRowViewHolder<AppListRow>, position: Int) {
         holder.bind(requireItem(position))
+        if (holder is ProductViewHolder) {
+            holder.onClick = onClick
+        }
     }
 
     private class ItemCallback: DiffUtil.ItemCallback<AppListRow>() {
