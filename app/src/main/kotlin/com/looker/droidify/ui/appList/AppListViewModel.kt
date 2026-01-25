@@ -82,13 +82,13 @@ class AppListViewModel
 
     private data class AppListParams(
         @JvmField
-        val searchQuery: String = "",
+        val searchQuery: String,
         @JvmField
-        val sections: ProductItem.Section = All,
+        val sections: ProductItem.Section,
         @JvmField
-        val sortOrder: SortOrder = SortOrder.UPDATED,
+        val sortOrder: SortOrder,
         @JvmField
-        val ignoreSignature: Boolean = false,
+        val ignoreSignature: Boolean,
     )
 
     private data class PagerParams(
@@ -131,11 +131,9 @@ class AppListViewModel
             }
         }
 
-        val sortOrderFlow: StateFlow<SortOrder> = settingsRepository
-            .get { sortOrder }
-            .asStateFlow(SortOrder.UPDATED)
+        val sortOrderFlow: Flow<SortOrder> = settingsRepository.get { sortOrder }
 
-        val state: StateFlow<AppListParams> = combine(
+        val state: Flow<AppListParams> = combine(
             sortOrderFlow,
             sections,
             searchQueryFlow.debounce { 200L },
@@ -147,7 +145,7 @@ class AppListViewModel
                 sortOrder = sortOrder,
                 ignoreSignature = ignoreSignature,
             )
-        }.asStateFlow(AppListParams())
+        }.distinctUntilChanged()
 
         val lastAccessedKeyCallback = LastAccessedKeyCallback {
             lastAccessedKey = it
