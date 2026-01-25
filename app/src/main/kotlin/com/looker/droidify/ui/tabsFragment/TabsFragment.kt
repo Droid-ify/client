@@ -16,6 +16,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.forEach
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -42,6 +43,8 @@ import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appList.AppListFragment
 import com.looker.droidify.utility.common.device.Huawei
+import com.looker.droidify.utility.common.extension.compatPutBoolean
+import com.looker.droidify.utility.common.extension.compatReadBoolean
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.selectableBackground
@@ -103,12 +106,15 @@ class TabsFragment : ScreenFragment() {
             if (field != value) {
                 field = value
                 viewModel.showSections.value = value
+
                 val layout = layout
-                layout?.tabs?.let {
-                    (0 until it.childCount)
-                        .forEach { index -> it.getChildAt(index)!!.isEnabled = !value }
+                if (layout != null) {
+                    layout.tabs.forEach { childView ->
+                        childView.isEnabled = !value
+                    }
+                    layout.sectionIcon.scaleY = if (value) -1f else 1f
                 }
-                layout?.sectionIcon?.scaleY = if (value) -1f else 1f
+
                 if (((sectionsList?.parent as? View)?.height ?: 0) > 0) {
                     animateSectionsList()
                 }
@@ -140,6 +146,15 @@ class TabsFragment : ScreenFragment() {
         }
 
     private var contentOnGlobalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (savedInstanceState != null) {
+            searchQuery = savedInstanceState.getString(STATE_SEARCH_QUERY).orEmpty()
+            showSections = savedInstanceState.compatReadBoolean(STATE_SHOW_SECTIONS, false)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -260,15 +275,12 @@ class TabsFragment : ScreenFragment() {
                 }
         }
 
-        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
         setSearchQuery(searchQuery)
 
         val toolbarExtra = fragmentBinding.toolbarExtra
         toolbarExtra.addView(tabsBinding.root)
         val layout = Layout(tabsBinding)
         this.layout = layout
-
-        showSections = (savedInstanceState?.getByte(STATE_SHOW_SECTIONS)?.toInt() ?: 0) != 0
 
         val content = fragmentBinding.fragmentContent
 
@@ -349,9 +361,10 @@ class TabsFragment : ScreenFragment() {
 
         val backgroundPath = ShapeAppearanceModel.builder()
             .setAllCornerSizes(
-                context?.resources?.getDimension(R.dimen.shape_large_corner) ?: 0F,
+                resources.getDimension(R.dimen.shape_large_corner),
             )
             .build()
+
         val sectionBackground = MaterialShapeDrawable(backgroundPath)
         val color = SurfaceColors.SURFACE_3.getColor(requireContext())
         sectionBackground.fillColor = ColorStateList.valueOf(color)
@@ -437,7 +450,7 @@ class TabsFragment : ScreenFragment() {
 
         outState.putBoolean(STATE_SEARCH_FOCUSED, searchMenuItem?.actionView?.hasFocus() == true)
         outState.putString(STATE_SEARCH_QUERY, searchQuery)
-        outState.putByte(STATE_SHOW_SECTIONS, if (showSections) 1 else 0)
+        outState.compatPutBoolean(STATE_SHOW_SECTIONS, showSections)
     }
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
