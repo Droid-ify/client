@@ -1,0 +1,18 @@
+Přidáno:
+- Statistiky stahování IzzyOnDroid (https://dlstats.izzyondroid.org/)
+- Štítek reprodukovatelného sestavení
+- Připnutí certifikátu pro 9 repozitářů
+- Podpora odebrání aplikace z archivu
+- Podpora vyhledávacího URI `market://`
+
+Změny:
+- Opraveny problémy s UX v UI repozitáře
+- droidify.eu.org bylo přesunuto na droidify.app
+
+Opraveno:
+- Načítání domovských stránek
+- Oznámení o aktualizaci nezmizí po automatické aktualizaci
+
+Různé:
+- Změny v seznamu repozitářů
+- Opravy chyb

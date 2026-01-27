@@ -241,4 +241,18 @@
     <string name="shizuku_legacy_installer">מתקין Shizuku/Sui מדור קודם</string>
     <string name="always_choose">תמיד בחר</string>
     <string name="select_installer">בחר מוריד</string>
+    <string name="repository_not_synced_or_enabled">המאגר אינו מופעל ואינו מסונכרן</string>
+    <string name="action_sync_repo">סנכרן</string>
+    <string name="action_enable_repo">הפעל</string>
+    <string name="repository_not_found_by_id">מאגר לא נמצא</string>
+    <string name="rb_badge">תג בנייה ניתן לשחזור</string>
+    <string name="rb_badge_info">סימון ירוק ← בנייה ניתנת לשחזור (מאומתת)↳\nסימון אדום ← בנייה שאינה ניתנת לשחזור↳\nסימון חום ← מצב לא ידוע</string>
+    <string name="rb_info">אם בנייה ניתנת לשחזור, משמעות הדבר היא שה-apk הנתון נבנה מקוד המקור שסופק</string>
+    <string name="total_downloads">סה״כ הורדות</string>
+    <string name="download_stats">סטטיסטיקת הורדות</string>
+    <string name="download_stats_from_izzy">מקור: IzzyOnDroid</string>
+    <string name="total">סה״כ</string>
+    <string name="monthly">חודשי</string>
+    <string name="downloading_rb_logs">מוריד יומני שחזור בנייה</string>
+    <string name="downloading_download_stats">מוריד סטטיסטיקות הורדות</string>
 </resources>
