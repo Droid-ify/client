@@ -21,6 +21,7 @@ class RootInstaller(private val context: Context) : Installer {
         val installCommand = INSTALL_COMMAND.format(
             releaseFile.absolutePath,
             currentUser(),
+            context.packageName,
             releaseFile.length(),
         )
         Shell.cmd(installCommand).submit { shellResult ->
@@ -39,7 +40,7 @@ class RootInstaller(private val context: Context) : Installer {
 
 }
 
-private const val INSTALL_COMMAND = "cat %s | pm install --user %s -t -r -S %s"
+private const val INSTALL_COMMAND = "cat %s | pm install --user %s -i %s -t -r -S %s"
 private const val DELETE_COMMAND = "%s rm %s"
 
 /** Returns the path of either toybox or busybox, or empty string if not found. */
