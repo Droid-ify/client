@@ -6,31 +6,41 @@ import com.looker.droidify.utility.common.extension.dpi
 import kotlinx.parcelize.Parcelize
 
 data class ProductItem(
-    var repositoryId: Long,
-    var packageName: String,
-    var name: String,
-    var summary: String,
+    @JvmField
+    val repoId: Long,
+    @JvmField
+    val packageName: String,
+    @JvmField
+    val name: String,
+    @JvmField
+    val summary: String,
+    @JvmField
     val icon: String,
+    @JvmField
     val metadataIcon: String,
+    @JvmField
     val version: String,
-    var installedVersion: String,
-    var compatible: Boolean,
-    var canUpdate: Boolean,
-    var matchRank: Int
+    @JvmField
+    val installedVersion: String,
+    @JvmField
+    val compatible: Boolean,
+    @JvmField
+    val canUpdate: Boolean,
+    @JvmField
+    val matchRank: Int,
 ) {
     sealed interface Section : Parcelable {
 
         @Parcelize
-        object All : Section
+        data object All : Section
 
         @Parcelize
-        class Category(val name: String) : Section
+        data class Category(val name: String) : Section
 
         @Parcelize
-        class Repository(val id: Long, val name: String) : Section
+        data class Repository(val id: Long, val name: String) : Section
     }
 
-    private val supportedDpi = intArrayOf(120, 160, 240, 320, 480, 640)
     private var deviceDpi: Int = -1
 
     fun icon(
@@ -52,5 +62,9 @@ data class ProductItem(
             return "${repository.address}/$packageName/$metadataIcon"
         }
         return null
+    }
+
+    companion object {
+        private val supportedDpi = intArrayOf(120, 160, 240, 320, 480, 640)
     }
 }

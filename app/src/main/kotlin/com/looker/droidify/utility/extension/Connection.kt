@@ -3,9 +3,9 @@ package com.looker.droidify.utility.extension
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
-import com.looker.droidify.model.findSuggested
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
+import com.looker.droidify.ui.appDetail.findSuggested
 import com.looker.droidify.utility.extension.android.Android
 
 fun Connection<DownloadService.Binder, DownloadService>.startUpdate(

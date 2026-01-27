@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginHorizontal="12dp"
     android:layout_marginTop="12dp"
     android:layout_marginBottom="8dp"
     android:backgroundTint="?colorSurfaceContainer"
-    android:background="@drawable/background_border">
+    android:background="@drawable/background_border"
+    tools:viewBindingIgnore="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/app_icon"
@@ -136,7 +138,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Downloads"
+                android:text="@string/downloads"
                 android:textAppearance="?textAppearanceTitleSmall" />
 
             <TextView

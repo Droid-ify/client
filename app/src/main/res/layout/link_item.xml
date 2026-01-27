@@ -6,7 +6,8 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
     android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:paddingEnd="16dp"
+    tools:viewBindingIgnore="true">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/icon"
