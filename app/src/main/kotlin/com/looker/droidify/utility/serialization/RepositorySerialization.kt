@@ -2,10 +2,10 @@ package com.looker.droidify.utility.serialization
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.collectNotNullStrings
 import com.looker.droidify.utility.common.extension.forEachKey
 import com.looker.droidify.utility.common.extension.writeArray
-import com.looker.droidify.model.Repository
 
 fun Repository.serialize(generator: JsonGenerator) {
     generator.writeNumberField("serialVersion", 1)
@@ -57,7 +57,18 @@ fun JsonParser.repository(): Repository {
         }
     }
     return Repository(
-        id, address, mirrors, name, description, version, enabled, fingerprint,
-        lastModified, entityTag, updated, timestamp, authentication
+        id = id,
+        address = address,
+        mirrors = mirrors,
+        name = name,
+        description = description,
+        version = version,
+        enabled = enabled,
+        fingerprint = fingerprint,
+        lastModified = lastModified,
+        entityTag = entityTag,
+        updated = updated,
+        timestamp = timestamp,
+        authentication = authentication
     )
 }

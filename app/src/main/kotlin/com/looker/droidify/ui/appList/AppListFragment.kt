@@ -1,8 +1,6 @@
 package com.looker.droidify.ui.appList
 
-import android.database.Cursor
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +13,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
-import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.utility.common.Scroller
@@ -25,20 +22,25 @@ import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
-class AppListFragment() : Fragment(), CursorOwner.Callback {
+class AppListFragment() : Fragment() {
 
-    private val viewModel: AppListViewModel by viewModels()
+    private val viewModel: AppListViewModel by viewModels<AppListViewModel>(
+        extrasProducer = {
+            defaultViewModelCreationExtras.withCreationCallback<AppListViewModel.Factory> { factory ->
+                factory.create(source)
+            }
+        }
+    )
 
     private var _binding: RecyclerViewWithFabBinding? = null
     private val binding get() = _binding!!
 
     companion object {
-        private const val STATE_LAYOUT_MANAGER = "layoutManager"
-
         private const val EXTRA_SOURCE = "source"
     }
 
@@ -61,11 +63,10 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     val source: Source
         get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var appListAdapter: AppListAdapter
+    private var recyclerView: RecyclerView? = null
+    private var appListAdapter: AppListAdapter? = null
     private var scroller: Scroller? = null
     private var shortAnimationDuration: Int = 0
-    private var layoutManagerState: Parcelable? = null
 
     private var pendingSearchQuery: String? = null
 
@@ -87,15 +88,22 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             pendingSearchQuery = null
         }
 
-        recyclerView = binding.recyclerView.apply {
+        val appListAdapter = AppListAdapter(requireContext()) {
+            mainActivity.navigateProduct(it)
+        }
+
+        this.appListAdapter = appListAdapter
+
+        val recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             isMotionEventSplittingEnabled = false
             setHasFixedSize(true)
-            recycledViewPool.setMaxRecycledViews(AppListAdapter.ViewType.PRODUCT.ordinal, 30)
-            appListAdapter = AppListAdapter(source, mainActivity::navigateProduct)
+            setRecycledViewPool(mainActivity.appListViewPool)
             adapter = appListAdapter
             systemBarsPadding()
         }
+        this.recyclerView = recyclerView
+
         val fab = binding.scrollUp
         with(fab) {
             if (source.updateAll) {
@@ -135,62 +143,26 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 }
             }
         }
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
-        updateRequest()
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    viewModel.reposStream.collect { repos ->
-                        appListAdapter.repositories = repos.associateBy { it.id }
-                    }
-                }
-                launch {
-                    viewModel.state.collect {
-                        updateRequest()
-                    }
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.listFlow.collect {
+                    appListAdapter.submitData(it)
                 }
             }
         }
-    }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        (layoutManagerState ?: recyclerView.layoutManager?.onSaveInstanceState())
-            ?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
+        return binding.root
     }
 
     override fun onDestroyView() {
+        recyclerView?.adapter = null
+        recyclerView = null
+        appListAdapter = null
         super.onDestroyView()
         viewModel.syncConnection.unbind(requireContext())
         _binding = null
         scroller = null
-        mainActivity.cursorOwner.detach(this)
-    }
-
-    override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-        appListAdapter.cursor = cursor
-        appListAdapter.emptyText = when {
-            cursor == null -> ""
-            viewModel.searchQuery.value.isNotEmpty() -> {
-                getString(stringRes.no_matching_applications_found)
-            }
-
-            else -> when (source) {
-                Source.AVAILABLE -> getString(stringRes.no_applications_available)
-                Source.INSTALLED -> getString(stringRes.no_applications_installed)
-                Source.UPDATES -> getString(stringRes.all_applications_up_to_date)
-            }
-        }
-        layoutManagerState?.let {
-            layoutManagerState = null
-            recyclerView.layoutManager?.onRestoreInstanceState(it)
-        }
     }
 
     fun setSearchQuery(searchQuery: String) {
@@ -207,7 +179,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     fun updateRequest() {
         if (view != null) {
-            mainActivity.cursorOwner.attach(this, viewModel.request(source))
+            viewModel.forceRefresh()
         }
     }
 }

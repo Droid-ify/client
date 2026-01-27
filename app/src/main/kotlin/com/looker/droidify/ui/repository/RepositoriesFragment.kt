@@ -1,27 +1,36 @@
 package com.looker.droidify.ui.repository
 
-import android.database.Cursor
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.looker.droidify.R
-import com.looker.droidify.utility.common.extension.dp
-import com.looker.droidify.utility.common.extension.systemBarsMargin
-import com.looker.droidify.utility.common.extension.systemBarsPadding
-import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.systemBarsMargin
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.addDivider
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
+@AndroidEntryPoint
+class RepositoriesFragment : ScreenFragment() {
+
+    private val viewModel: RepositoriesViewModel by viewModels()
 
     private var _binding: RecyclerViewWithFabBinding? = null
     private val binding get() = _binding!!
+
+    private var reposAdapter: RepositoriesAdapter? = null
 
     private val syncConnection = Connection(SyncService::class.java)
 
@@ -31,7 +40,25 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
+        val binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
+        _binding = binding
+
+        val reposAdapter = RepositoriesAdapter(
+            navigate = { mainActivity.navigateRepository(it.id) }
+        ) { repository, isEnabled ->
+            repository.enabled != isEnabled &&
+                syncConnection.binder?.setEnabled(repository, isEnabled) == true
+        }
+        this.reposAdapter = reposAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.listFlow.collect {
+                    reposAdapter.submitData(it)
+                }
+            }
+        }
+
         val view = fragmentBinding.root.apply {
             binding.scrollUp.apply {
                 setIconResource(R.drawable.ic_add)
@@ -43,12 +70,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                 layoutManager = LinearLayoutManager(context)
                 isMotionEventSplittingEnabled = false
                 setHasFixedSize(true)
-                adapter = RepositoriesAdapter(
-                    navigate = { mainActivity.navigateRepository(it.id) }
-                ) { repository, isEnabled ->
-                    repository.enabled != isEnabled &&
-                        syncConnection.binder?.setEnabled(repository, isEnabled) == true
-                }
+                adapter = reposAdapter
                 addDivider { _, _, configuration ->
                     configuration.set(
                         needDivider = true,
@@ -79,7 +101,6 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         super.onViewCreated(view, savedInstanceState)
 
         syncConnection.bind(requireContext())
-        mainActivity.cursorOwner.attach(this, CursorOwner.Request.Repositories)
         mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(R.string.repositories)
     }
@@ -89,10 +110,5 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
         _binding = null
         syncConnection.unbind(requireContext())
-        mainActivity.cursorOwner.detach(this)
-    }
-
-    override fun onCursorData(request: CursorOwner.Request, cursor: Cursor?) {
-        (binding.recyclerView.adapter as RepositoriesAdapter).cursor = cursor
     }
 }

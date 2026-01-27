@@ -2,12 +2,17 @@ package com.looker.droidify.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.ContentObserver
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.os.CancellationSignal
+import android.os.Handler
+import androidx.annotation.VisibleForTesting
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.looker.droidify.database.Database.Schema
+import com.looker.droidify.database.Database.jsonParse
 import com.looker.droidify.database.table.DatabaseHelper
 import com.looker.droidify.database.table.Table
 import com.looker.droidify.datastore.model.SortOrder
@@ -24,7 +29,6 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -37,6 +41,149 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
+
+interface AppListQueryParams {
+    val installed: Boolean
+    val updates: Boolean
+    val skipSignatureCheck: Boolean
+    val searchQuery: String
+    val section: ProductItem.Section
+    val sortOrder: SortOrder
+}
+
+@VisibleForTesting
+abstract class DbCursorImpl<T>(
+    private val cursor: Cursor,
+): DbCursor<T> {
+
+    final override val count: Int
+        get() = cursor.count
+
+    final override val position: Int
+        get() = cursor.position
+
+    final override fun moveToPosition(position: Int): Boolean = cursor.moveToPosition(position)
+
+    final override fun moveToNext(): Boolean = cursor.moveToNext()
+
+    final override fun readItem(): T = transformItem(cursor)
+
+    protected abstract fun transformItem(cursor: Cursor): T
+
+    final override fun close() {
+        cursor.close()
+    }
+
+    override fun registerOnInvalidatedCallback(handler: Handler, callback: () -> Unit) {
+        val observer = object: ContentObserver(handler) {
+            override fun onChange(selfChange: Boolean) {
+                callback.invoke()
+            }
+        }
+
+        cursor.registerContentObserver(observer)
+    }
+}
+
+interface ProductCursor: DbCursor<Product>
+
+@VisibleForTesting
+class ProductCursorImpl(
+    cursor: Cursor,
+) : DbCursorImpl<Product>(cursor), ProductCursor {
+
+    private val rowDataIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA)
+    private val repositoryIdIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID)
+    private val descriptionIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_DESCRIPTION)
+
+    override fun transformItem(cursor: Cursor): Product {
+
+        return cursor.getBlob(rowDataIndex)
+            .jsonParse {
+                it.product().copy(
+                    repositoryId = cursor.getLong(repositoryIdIndex),
+                    description = cursor.getString(descriptionIndex)
+                )
+            }
+    }
+}
+
+interface ProductItemCursor : DbCursor<ProductItem>
+
+@VisibleForTesting
+class ProductCursorItemImpl(
+    cursor: Cursor,
+) : DbCursorImpl<ProductItem>(cursor), ProductItemCursor {
+
+    private val rowDataItemIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA_ITEM)
+    private val repositoryIdIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID)
+    private val packageNameIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME)
+    private val nameIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_NAME)
+    private val summaryIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_SUMMARY)
+    private val installedVersionIndex = cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)
+    private val compatibleIndex = cursor.getColumnIndexOrThrow(Schema.Product.ROW_COMPATIBLE)
+    private val canUpdateIndex = cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_CAN_UPDATE)
+    private val matchRankIndex = cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_MATCH_RANK)
+
+    override fun transformItem(cursor: Cursor): ProductItem {
+        return cursor.getBlob(rowDataItemIndex)
+            .jsonParse {
+                it.productItem().copy(
+                    repoId = cursor.getLong(repositoryIdIndex),
+                    packageName = cursor.getString(packageNameIndex),
+                    name = cursor.getString(nameIndex),
+                    summary = cursor.getString(summaryIndex),
+                    installedVersion = cursor.getString(installedVersionIndex).orEmpty(),
+                    compatible = cursor.getInt(compatibleIndex) != 0,
+                    canUpdate = cursor.getInt(canUpdateIndex) != 0,
+                    matchRank = cursor.getInt(matchRankIndex),
+                )
+            }
+    }
+}
+
+@VisibleForTesting
+interface RepositoryCursor : DbCursor<Repository>
+
+private class RepositoryCursorImpl(
+    cursor: Cursor
+) : DbCursorImpl<Repository>(cursor), RepositoryCursor {
+
+    private val rowDataIndex = cursor.getColumnIndexOrThrow(Schema.Repository.ROW_DATA)
+    private val rowIdIndex = cursor.getColumnIndexOrThrow(Schema.Repository.ROW_ID)
+
+    override fun transformItem(cursor: Cursor): Repository {
+        return cursor.getBlob(rowDataIndex)
+            .jsonParse {
+                it.repository().copy(
+                    id = cursor.getLong(rowIdIndex)
+                )
+            }
+    }
+}
+
+@VisibleForTesting
+interface InstalledItemCursor: DbCursor<InstalledItem>
+
+private class InstalledItemCursorImpl(
+    cursor: Cursor
+) : DbCursorImpl<InstalledItem>(cursor), InstalledItemCursor {
+
+    private val packageNameIndex = cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)
+    private val versionIndex = cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)
+    private val versionCodeIndex = cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)
+    private val signatureIndex = cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE)
+
+    override fun transformItem(cursor: Cursor): InstalledItem {
+        return InstalledItem(
+            cursor.getString(packageNameIndex),
+            cursor.getString(versionIndex),
+            cursor.getLong(versionCodeIndex),
+            cursor.getString(signatureIndex),
+        )
+    }
+}
 
 object Database {
     fun init(context: Context): Boolean {
@@ -283,13 +430,15 @@ object Database {
             .flowOn(Dispatchers.IO)
 
         fun get(id: Long): Repository? {
-            return db.query(
-                Schema.Repository.name,
-                selection = Pair(
-                    "${Schema.Repository.ROW_ID} = ? AND ${Schema.Repository.ROW_DELETED} == 0",
-                    arrayOf(id.toString()),
-                ),
-            ).use { it.firstOrNull()?.let(::transform) }
+            return RepositoryCursorImpl(
+                db.query(
+                    Schema.Repository.name,
+                    selection = Pair(
+                        "${Schema.Repository.ROW_ID} = ? AND ${Schema.Repository.ROW_DELETED} == 0",
+                        arrayOf(id.toString()),
+                    ),
+                )
+            ).use { it.firstItemOrNull() }
         }
 
         fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
@@ -303,23 +452,27 @@ object Database {
             .flowOn(Dispatchers.IO)
 
         private suspend fun getEnabled(): List<Repository> = withContext(Dispatchers.IO) {
-            db.query(
-                Schema.Repository.name,
-                selection = Pair(
-                    "${Schema.Repository.ROW_ENABLED} != 0 AND " +
+            RepositoryCursorImpl(
+                cursor = db.query(
+                    table = Schema.Repository.name,
+                    selection = Pair(
+                        "${Schema.Repository.ROW_ENABLED} != 0 AND " +
                             "${Schema.Repository.ROW_DELETED} == 0",
-                    emptyArray(),
-                ),
-                signal = null,
-            ).use { it.asSequence().map(::transform).toList() }
+                        emptyArray(),
+                    ),
+                    signal = null,
+                )
+            ).readToListAndClose()
         }
 
         fun getAll(): List<Repository> {
-            return db.query(
-                Schema.Repository.name,
-                selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
-                signal = null,
-            ).use { it.asSequence().map(::transform).toList() }
+            return RepositoryCursorImpl(
+                db.query(
+                    Schema.Repository.name,
+                    selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
+                    signal = null,
+                )
+            ).readToListAndClose()
         }
 
         fun getAllRemovedStream(): Flow<Map<Long, Boolean>> = flowOf(Unit)
@@ -395,23 +548,15 @@ object Database {
             }
         }
 
-        fun query(signal: CancellationSignal?): Cursor {
-            return db.query(
-                Schema.Repository.name,
-                selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
-                orderBy = "${Schema.Repository.ROW_ENABLED} DESC",
-                signal = signal,
-            ).observable(Subject.Repositories)
-        }
-
-        fun transform(cursor: Cursor): Repository {
-            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_DATA))
-                .jsonParse {
-                    it.repository().apply {
-                        this.id =
-                            cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Repository.ROW_ID))
-                    }
-                }
+        fun query(signal: CancellationSignal?): RepositoryCursor {
+            return RepositoryCursorImpl(
+                db.query(
+                    Schema.Repository.name,
+                    selection = Pair("${Schema.Repository.ROW_DELETED} == 0", emptyArray()),
+                    orderBy = "${Schema.Repository.ROW_ENABLED} DESC",
+                    signal = signal,
+                ).observable(Subject.Repositories)
+            )
         }
     }
 
@@ -432,59 +577,74 @@ object Database {
                     section = ProductItem.Section.All,
                     order = SortOrder.NAME,
                     signal = null,
-                ).use {
-                    it.asSequence()
-                        .map(ProductAdapter::transformItem)
-                        .toList()
-                }
+                ).readToListAndClose()
             }
 
-        fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<List<ProductItem>> = flowOf(Unit)
+        suspend fun hasUpdates(skipSignatureCheck: Boolean): Boolean =
+            withContext(Dispatchers.IO) {
+                query(
+                    installed = true,
+                    updates = true,
+                    searchQuery = "",
+                    skipSignatureCheck = skipSignatureCheck,
+                    section = ProductItem.Section.All,
+                    order = SortOrder.NAME,
+                    signal = null,
+                ).use { it.count > 0 }
+            }
+
+        fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<Boolean> = flowOf(Unit)
             .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
             // Crashes due to immediate retrieval of data?
             .onEach { delay(50) }
-            .map { getUpdates(skipSignatureCheck) }
+            .map { hasUpdates(skipSignatureCheck) }
             .flowOn(Dispatchers.IO)
 
         fun getAll(): List<Product> {
-            return db.query(
-                Schema.Product.name,
-                columns = arrayOf(
-                    Schema.Product.ROW_REPOSITORY_ID,
-                    Schema.Product.ROW_DESCRIPTION,
-                    Schema.Product.ROW_DATA,
-                ),
-                selection = null,
-                signal = null,
-            ).use { it.asSequence().map(::transform).toList() }
+            return ProductCursorImpl(
+                db.query(
+                    Schema.Product.name,
+                    columns = arrayOf(
+                        Schema.Product.ROW_REPOSITORY_ID,
+                        Schema.Product.ROW_DESCRIPTION,
+                        Schema.Product.ROW_DATA,
+                    ),
+                    selection = null,
+                    signal = null,
+                )
+            ).readToListAndClose()
         }
 
         fun get(packageName: String, signal: CancellationSignal?): List<Product> {
-            return db.query(
-                Schema.Product.name,
-                columns = arrayOf(
-                    Schema.Product.ROW_REPOSITORY_ID,
-                    Schema.Product.ROW_DESCRIPTION,
-                    Schema.Product.ROW_DATA,
-                ),
-                selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-                signal = signal,
-            ).use { it.asSequence().map(::transform).toList() }
+            return ProductCursorImpl(
+                db.query(
+                    Schema.Product.name,
+                    columns = arrayOf(
+                        Schema.Product.ROW_REPOSITORY_ID,
+                        Schema.Product.ROW_DESCRIPTION,
+                        Schema.Product.ROW_DATA,
+                    ),
+                    selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
+                    signal = signal,
+                )
+            ).readToListAndClose()
         }
 
         fun getArchivedApp(packageName: String): List<Product> {
-            return db.query(
-                Schema.Product.name,
-                columns = arrayOf(
-                    Schema.Product.ROW_REPOSITORY_ID,
-                    Schema.Product.ROW_DESCRIPTION,
-                    Schema.Product.ROW_DATA,
-                    Schema.Product.ROW_COMPATIBLE,
-                    Schema.Product.ROW_SIGNATURES,
-                    Schema.Product.ROW_VERSION_CODE,
-                ),
-                selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
-            ).use { it.asSequence().map(::transform).toList() }
+            return ProductCursorImpl(
+                db.query(
+                    Schema.Product.name,
+                    columns = arrayOf(
+                        Schema.Product.ROW_REPOSITORY_ID,
+                        Schema.Product.ROW_DESCRIPTION,
+                        Schema.Product.ROW_DATA,
+                        Schema.Product.ROW_COMPATIBLE,
+                        Schema.Product.ROW_SIGNATURES,
+                        Schema.Product.ROW_VERSION_CODE,
+                    ),
+                    selection = Pair("${Schema.Product.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
+                )
+            ).readToListAndClose()
         }
 
         fun getCountStream(repositoryId: Long): Flow<Int> = flowOf(Unit)
@@ -504,6 +664,19 @@ object Database {
         }
 
         fun query(
+            params: AppListQueryParams,
+        ): ProductItemCursor {
+            return query(
+                installed = params.installed,
+                updates = params.updates,
+                searchQuery = params.searchQuery,
+                section = params.section,
+                order = params.sortOrder,
+                signal = null,
+            )
+        }
+
+        fun query(
             installed: Boolean,
             updates: Boolean,
             skipSignatureCheck: Boolean = false,
@@ -511,7 +684,7 @@ object Database {
             section: ProductItem.Section,
             order: SortOrder,
             signal: CancellationSignal?,
-        ): Cursor {
+        ): ProductItemCursor {
             val builder = QueryBuilder()
 
             val signatureMatches = if (skipSignatureCheck) "1"
@@ -590,48 +763,7 @@ object Database {
             }::class
             builder += "product.${Schema.Product.ROW_NAME} COLLATE LOCALIZED ASC"
 
-            return builder.query(db, signal).observable(Subject.Products)
-        }
-
-        private fun transform(cursor: Cursor): Product {
-            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA))
-                .jsonParse {
-                    it.product().apply {
-                        this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
-                        this.description = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DESCRIPTION))
-                    }
-                }
-        }
-
-        fun transformPackageName(cursor: Cursor): String {
-            return cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
-        }
-
-        fun transformItem(cursor: Cursor): ProductItem {
-            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA_ITEM))
-                .jsonParse {
-                    it.productItem().apply {
-                        this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
-                        this.packageName = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
-                        this.name = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_NAME))
-                        this.summary = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_SUMMARY))
-                        this.installedVersion = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION))
-                            .orEmpty()
-                        this.compatible = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Product.ROW_COMPATIBLE)) != 0
-                        this.canUpdate = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
-                        this.matchRank = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_MATCH_RANK))
-                    }
-                }
+            return ProductCursorItemImpl(builder.query(db, signal).observable(Subject.Products))
         }
     }
 
@@ -669,20 +801,22 @@ object Database {
 
         suspend fun get(packageName: String, signal: CancellationSignal?): InstalledItem? =
             withContext(Dispatchers.IO) {
-                db.query(
-                    Schema.Installed.name,
-                    columns = arrayOf(
-                        Schema.Installed.ROW_PACKAGE_NAME,
-                        Schema.Installed.ROW_VERSION,
-                        Schema.Installed.ROW_VERSION_CODE,
-                        Schema.Installed.ROW_SIGNATURE,
-                    ),
-                    selection = Pair(
-                        "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                        arrayOf(packageName)
-                    ),
-                    signal = signal,
-                ).use { it.firstOrNull()?.let(::transform) }
+                InstalledItemCursorImpl(
+                    db.query(
+                        Schema.Installed.name,
+                        columns = arrayOf(
+                            Schema.Installed.ROW_PACKAGE_NAME,
+                            Schema.Installed.ROW_VERSION,
+                            Schema.Installed.ROW_VERSION_CODE,
+                            Schema.Installed.ROW_SIGNATURE,
+                        ),
+                        selection = Pair(
+                            "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
+                            arrayOf(packageName)
+                        ),
+                        signal = signal,
+                    )
+                ).use { it.firstItemOrNull() }
             }
 
         private fun put(installedItem: InstalledItem, notify: Boolean) {
@@ -719,15 +853,6 @@ object Database {
             if (count > 0) {
                 notifyChanged(Subject.Products)
             }
-        }
-
-        private fun transform(cursor: Cursor): InstalledItem {
-            return InstalledItem(
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_PACKAGE_NAME)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION)),
-                cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION_CODE)),
-                cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_SIGNATURE)),
-            )
         }
     }
 
