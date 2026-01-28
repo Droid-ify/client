@@ -25,7 +25,6 @@ class ShizukuInstaller(private val context: Context) : Installer {
     ): InstallState = suspendCancellableCoroutine { cont ->
         var sessionId: String? = null
         val file = Cache.getReleaseFile(context, installItem.installFileName)
-        val packageName = installItem.packageName.name
         try {
             val fileSize = file.length()
             if (fileSize == 0L) {
@@ -33,12 +32,13 @@ class ShizukuInstaller(private val context: Context) : Installer {
                 error("File is not valid: Size ${file.size}")
             }
             if (cont.isCompleted) return@suspendCancellableCoroutine
+            val installerPackage = context.packageName
             file.inputStream().use {
                 val createCommand =
                     if (SdkCheck.isNougat) {
-                        "pm install-create --user current -i $packageName -S $fileSize"
+                        "pm install-create --user current -i $installerPackage -S $fileSize"
                     } else {
-                        "pm install-create -i $packageName -S $fileSize"
+                        "pm install-create -i $installerPackage -S $fileSize"
                     }
                 val createResult = exec(createCommand)
                 sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
