@@ -257,7 +257,7 @@
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">شارة البناء المضمون تطابقه</string>
     <string name="rb_badge_info">علامة صح خضراء \t -&gt; أُكِّد أن البناء مضمون تطابقه\nعلامة صح حمراء \t -&gt; البناء غير مضمون تطابقه \nعلامة صح بنية \t -&gt; حالة غير معروفة</string>
-    <string name="rb_info">إذا كان البناء مضمون تطابقه، فهذا يعني أن ملف APK المحدد تم بناؤه من المصدر المقدم</string>
+    <string name="rb_info">إذا كان البناء مضمون تطابقه، فهذا يعني أن ملف apk المحدّد بُنيَ من المصدر المقدم</string>
     <string name="total_downloads">إجمالي التنزيلات</string>
     <string name="download_stats">إحصائيات التنزيلات</string>
     <string name="download_stats_from_izzy">المصدر: IzzyOnDroid</string>
@@ -266,4 +266,7 @@
     <string name="monthly">شهريًا</string>
     <string name="downloading_rb_logs">نزّل سجلات البناء المضمون تطابقه</string>
     <string name="downloading_download_stats">جارِ تنزيل إحصائيات التنزيل</string>
+    <string name="requires_authentication">يتطلب استيثاق؟</string>
+    <string name="force_sync_repositories">اجبر مزامنة المستودعات</string>
+    <string name="copy_error_details">انسخ تفاصيل الخطأ</string>
 </resources>
