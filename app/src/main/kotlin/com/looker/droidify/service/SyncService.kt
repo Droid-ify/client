@@ -21,6 +21,7 @@ import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.percentBy
+import com.looker.droidify.receivers.CopyErrorReceiver
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.createNotificationChannel
@@ -283,20 +284,59 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private fun showNotificationError(repository: Repository, exception: Exception) {
-        val description = getString(
-            when (exception) {
-                is RepositoryUpdater.UpdateException -> when (exception.errorType) {
+        val errorTypeDesc = when (exception) {
+            is RepositoryUpdater.UpdateException -> getString(
+                when (exception.errorType) {
                     RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
                     RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
                     RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
                     RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
-                }
+                },
+            )
 
-                else -> stringRes.unknown_error_DESC
-            },
+            else -> getString(stringRes.unknown_error_DESC)
+        }
+
+        val description = buildString {
+            append(errorTypeDesc)
+            if (!exception.message.isNullOrBlank()) {
+                append(": ")
+                append(exception.message)
+            }
+        }
+
+        val fullErrorDetails = buildString {
+            appendLine("Repository: ${repository.name}")
+            appendLine("Address: ${repository.address}")
+            appendLine("Error Type: $errorTypeDesc")
+            appendLine("Message: ${exception.message ?: "N/A"}")
+            appendLine()
+            appendLine("Stack Trace:")
+            appendLine(exception.stackTraceToString())
+            exception.cause?.let { cause ->
+                appendLine()
+                appendLine("Caused by: ${cause.javaClass.name}: ${cause.message}")
+                appendLine(cause.stackTraceToString())
+            }
+        }
+
+        val notificationTag = "repository-${repository.id}"
+        val copyIntent = Intent(this, CopyErrorReceiver::class.java).apply {
+            action = CopyErrorReceiver.ACTION_COPY_ERROR
+            putExtra(CopyErrorReceiver.EXTRA_ERROR_DETAILS, fullErrorDetails)
+            putExtra(CopyErrorReceiver.EXTRA_NOTIFICATION_TAG, notificationTag)
+            putExtra(CopyErrorReceiver.EXTRA_NOTIFICATION_ID, Constants.NOTIFICATION_ID_SYNCING)
+        }
+
+        val copyPendingIntent = PendingIntent.getBroadcast(
+            this,
+            repository.id.toInt(),
+            copyIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
+
         notificationManager?.notify(
-            "repository-${repository.id}",
+            notificationTag,
             Constants.NOTIFICATION_ID_SYNCING,
             NotificationCompat
                 .Builder(this, Constants.NOTIFICATION_CHANNEL_SYNCING)
@@ -307,6 +347,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 )
                 .setContentTitle(getString(stringRes.could_not_sync_FORMAT, repository.name))
                 .setContentText(description)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(description))
+                .addAction(
+                    0,
+                    getString(stringRes.copy_error_details),
+                    copyPendingIntent,
+                )
+                .setAutoCancel(true)
                 .build(),
         )
     }
@@ -403,14 +450,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         stateNotificationBuilder.setWhen(System.currentTimeMillis())
     }
 
-    private fun handleNextTask(hasUpdates: Boolean) {
+    private fun handleNextTask(isIndexModified: Boolean) {
         if (currentTask != null) return
         if (tasks.isEmpty()) {
             if (started != Started.NO) {
                 lifecycleScope.launch {
                     val setting = settingsRepository.getInitial()
                     handleUpdates(
-                        hasUpdates = hasUpdates,
                         notifyUpdates = setting.notifyUpdate,
                         autoUpdate = setting.autoUpdate,
                         skipSignature = setting.ignoreSignature,
@@ -421,7 +467,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
         val task = tasks.removeAt(0)
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
-        if (repository == null || !repository.enabled) handleNextTask(hasUpdates)
+        if (repository == null || !repository.enabled) handleNextTask(isIndexModified)
         val lastStarted = started
         val newStarted = if (task.manual || lastStarted == Started.MANUAL) {
             Started.MANUAL
@@ -441,20 +487,20 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val downloadJob = downloadFile(
                 task = task,
                 repository = repository,
-                hasUpdates = hasUpdates,
+                isIndexModified = isIndexModified,
                 unstableUpdates = unstableUpdates,
             )
-            currentTask = CurrentTask(task, downloadJob, hasUpdates, initialState)
+            currentTask = CurrentTask(task, downloadJob, isIndexModified, initialState)
         }
     }
 
     private fun CoroutineScope.downloadFile(
         task: Task,
         repository: Repository,
-        hasUpdates: Boolean,
+        isIndexModified: Boolean,
         unstableUpdates: Boolean,
     ): CoroutinesJob = launch(Dispatchers.Default) {
-        var passedHasUpdates = hasUpdates
+        var isNewlyModified = isIndexModified
         try {
             val response = RepositoryUpdater.update(
                 this@SyncService,
@@ -472,41 +518,34 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     )
                 }
             }
-            passedHasUpdates = when (response) {
+            isNewlyModified = when (response) {
                 is Result.Error -> {
                     response.exception?.let {
                         it.printStackTrace()
                         if (task.manual) showNotificationError(repository, it as Exception)
                     }
-                    response.data == true || hasUpdates
+                    response.data == true || isIndexModified
                 }
 
-                is Result.Success -> response.data || hasUpdates
+                is Result.Success -> response.data || isIndexModified
             }
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }
-                handleNextTask(passedHasUpdates)
+                handleNextTask(isNewlyModified)
             }
         }
     }
 
     suspend fun handleUpdates(
-        hasUpdates: Boolean,
         notifyUpdates: Boolean,
         autoUpdate: Boolean,
         skipSignature: Boolean,
     ) {
         try {
-            if (!hasUpdates) {
-                syncState.emit(State.Finish)
-                val needStop = started == Started.MANUAL
-                started = Started.NO
-                if (needStop) stopForegroundCompat()
-                return
-            }
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates(skipSignature)
+
             if (!blocked && updates.isNotEmpty()) {
                 if (notifyUpdates) {
                     notificationManager?.notify(
@@ -520,12 +559,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                     updateAllAppsInternal(updates)
                 }
             }
-            handleUpdates(
-                hasUpdates = false,
-                notifyUpdates = notifyUpdates,
-                autoUpdate = autoUpdate,
-                skipSignature = skipSignature,
-            )
+
+            syncState.emit(State.Finish)
+            val needStop = started == Started.MANUAL
+            started = Started.NO
+            if (needStop) stopForegroundCompat()
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }

@@ -213,6 +213,7 @@
 
     <string name="sync_repositories">Sync repositories</string>
     <string name="force_sync_repositories">Force sync repositories</string>
+    <string name="copy_error_details">Copy error details</string>
     <string name="sync_repositories_automatically">Sync repositories automatically</string>
     <string name="syncing">Syncing</string>
     <string name="syncing_FORMAT">Syncing %s…</string>

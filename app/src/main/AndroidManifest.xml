@@ -172,6 +172,14 @@
             android:name=".installer.installers.session.SessionInstallerReceiver"
             android:exported="false" />
 
+        <receiver
+            android:name=".receivers.CopyErrorReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.looker.droidify.intent.action.COPY_ERROR" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name="androidx.work.impl.foreground.SystemForegroundService"
             android:foregroundServiceType="dataSync"
