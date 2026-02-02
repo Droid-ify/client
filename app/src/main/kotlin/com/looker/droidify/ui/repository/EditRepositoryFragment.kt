@@ -36,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
+import java.net.URLDecoder
 import java.nio.charset.Charset
 import java.util.*
 import javax.inject.Inject
@@ -158,18 +159,7 @@ class EditRepositoryFragment() : ScreenFragment() {
                     context?.clipboardManager?.primaryClip?.takeIf { it.itemCount > 0 }
                         ?.getItemAt(0)?.text?.toString().orEmpty()
                 }
-                val (addressText, fingerprintText) = try {
-                    val uri = URL(text).toString().toUri()
-                    val fingerprintText = uri["fingerprint"]?.nullIfEmpty()
-                        ?: uri["FINGERPRINT"]?.nullIfEmpty()
-                    Pair(
-                        uri.buildUpon().path(uri.path?.pathCropped).query(null).fragment(null)
-                            .build().toString(),
-                        fingerprintText,
-                    )
-                } catch (e: Exception) {
-                    Pair(null, null)
-                }
+                val (addressText, fingerprintText) = parseRepoUrl(text)
                 binding.address.setText(addressText)
                 binding.fingerprint.setText(fingerprintText)
             } else {
@@ -355,6 +345,29 @@ class EditRepositoryFragment() : ScreenFragment() {
             uri?.toURL()?.toURI()?.toString()?.removeSuffix("/")
         } catch (_: Exception) {
             null
+        }
+    }
+
+    private fun parseRepoUrl(text: String): Pair<String?, String?> {
+        return try {
+            val uri = URL(text).toString().toUri()
+            val repoUri = if (uri.host?.contains("fdroid.link") == true && uri.fragment != null) {
+                val decodedFragment = URLDecoder.decode(uri.fragment, "UTF-8")
+                URL(decodedFragment).toString().toUri()
+            } else {
+                uri
+            }
+            val fingerprint = repoUri["fingerprint"]?.nullIfEmpty()
+                ?: repoUri["FINGERPRINT"]?.nullIfEmpty()
+            val address = repoUri.buildUpon()
+                .path(repoUri.path?.pathCropped)
+                .query(null)
+                .fragment(null)
+                .build()
+                .toString()
+            Pair(address, fingerprint)
+        } catch (_: Exception) {
+            Pair(null, null)
         }
     }
 

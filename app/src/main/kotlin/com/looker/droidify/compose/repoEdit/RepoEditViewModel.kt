@@ -2,6 +2,7 @@ package com.looker.droidify.compose.repoEdit
 
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.runtime.snapshotFlow
+import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.data.RepoRepository
@@ -11,6 +12,8 @@ import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.net.URI
 import java.net.URISyntaxException
+import java.net.URL
+import java.net.URLDecoder
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -91,6 +94,35 @@ class RepoEditViewModel @Inject constructor(
         if (!enabled) {
             usernameState.edit { replace(0, length, "") }
             passwordState.edit { replace(0, length, "") }
+        }
+    }
+
+    fun parseAndSetUrl(text: String) {
+        val (address, fingerprint) = parseRepoUrl(text)
+        address?.let { addressState.edit { replace(0, length, it) } }
+        fingerprint?.let { fingerprintState.edit { replace(0, length, formatFingerprint(it)) } }
+    }
+
+    private fun parseRepoUrl(text: String): Pair<String?, String?> {
+        return try {
+            val uri = URL(text).toString().toUri()
+            val repoUri = if (uri.host?.contains("fdroid.link") == true && uri.fragment != null) {
+                val decodedFragment = URLDecoder.decode(uri.fragment, "UTF-8")
+                URL(decodedFragment).toString().toUri()
+            } else {
+                uri
+            }
+            val fingerprint = repoUri.getQueryParameter("fingerprint")?.takeIf { it.isNotEmpty() }
+                ?: repoUri.getQueryParameter("FINGERPRINT")?.takeIf { it.isNotEmpty() }
+            val address = repoUri.buildUpon()
+                .path(repoUri.path?.removeSuffix("/"))
+                .query(null)
+                .fragment(null)
+                .build()
+                .toString()
+            Pair(address, fingerprint)
+        } catch (_: Exception) {
+            Pair(null, null)
         }
     }
 
