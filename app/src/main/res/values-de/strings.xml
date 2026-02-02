@@ -254,4 +254,6 @@
     <string name="downloading_rb_logs">Reproduzierbarkeitsprotokolle werden heruntergeladen</string>
     <string name="downloading_download_stats">Downloadstatistiken werden heruntergeladen</string>
     <string name="requires_authentication">Authentifizierung erforderlich?</string>
+    <string name="copy_error_details">Fehlerdetails kopieren</string>
+    <string name="force_sync_repositories">Paketquellen synchronisieren erzwingen</string>
 </resources>
