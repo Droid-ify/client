@@ -183,6 +183,7 @@
     <string name="repository_unsigned_DESC">No signature found. Couldn\'t verify the app list</string>
     <string name="repository_unreachable">Repository unreachable</string>
     <string name="requires_FORMAT">Requires %s</string>
+    <string name="requires_authentication">Requires authentication?</string>
     <string name="require_background_access">Disable battery optimizations</string>
     <string name="require_background_access_DESC">Disabling battery optimizations is required for the background sync to run properly</string>
     <string name="save">Save</string>

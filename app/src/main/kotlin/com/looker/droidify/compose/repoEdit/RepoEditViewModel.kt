@@ -34,6 +34,9 @@ class RepoEditViewModel @Inject constructor(
     private val _repoId = MutableStateFlow<Int?>(null)
     val repoId: StateFlow<Int?> = _repoId
 
+    private val _authEnabled = MutableStateFlow(false)
+    val authEnabled: StateFlow<Boolean> = _authEnabled
+
     private val _syncError = MutableStateFlow<RepoEditErrorState?>(null)
 
     private val _isLoading = MutableStateFlow(false)
@@ -75,10 +78,19 @@ class RepoEditViewModel @Inject constructor(
                     fingerprintState.edit { this.append(formatFingerprint(fingerprint.value)) }
                 }
                 it.authentication?.let { auth ->
+                    _authEnabled.value = true
                     usernameState.edit { this.append(auth.username) }
                     passwordState.edit { this.append(auth.password) }
                 }
             }
+        }
+    }
+
+    fun setAuthEnabled(enabled: Boolean) {
+        _authEnabled.value = enabled
+        if (!enabled) {
+            usernameState.edit { replace(0, length, "") }
+            passwordState.edit { replace(0, length, "") }
         }
     }
 

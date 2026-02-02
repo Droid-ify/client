@@ -142,6 +142,15 @@ class EditRepositoryFragment() : ScreenFragment() {
             }
         }
 
+        binding.authSwitch.setOnCheckedChangeListener { _, isChecked ->
+            binding.authFields.isVisible = isChecked
+            if (!isChecked) {
+                binding.username.text?.clear()
+                binding.password.text?.clear()
+            }
+            invalidateUsernamePassword()
+        }
+
         if (savedInstanceState == null) {
             val repository = repoId?.let(Database.RepositoryAdapter::get)
             if (repository == null) {
@@ -196,6 +205,9 @@ class EditRepositoryFragment() : ScreenFragment() {
                             null
                         }
                     } ?: Pair(null, null)
+                val hasAuth = !usernameText.isNullOrEmpty() && !passwordText.isNullOrEmpty()
+                binding.authSwitch.isChecked = hasAuth
+                binding.authFields.isVisible = hasAuth
                 binding.username.setText(usernameText)
                 binding.password.setText(passwordText)
             }
@@ -277,6 +289,11 @@ class EditRepositoryFragment() : ScreenFragment() {
     }
 
     private fun invalidateUsernamePassword() {
+        if (!binding.authSwitch.isChecked) {
+            usernamePasswordError = false
+            invalidateState()
+            return
+        }
         val username = binding.username.text.toString()
         val password = binding.password.text.toString()
         val usernameInvalid = username.contains(':')

@@ -2,8 +2,10 @@ package com.looker.droidify.compose.repoEdit
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -51,6 +54,7 @@ fun RepoEditScreen(
 ) {
     val isLoading by viewModel.isLoading.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
+    val authEnabled by viewModel.authEnabled.collectAsState()
     val isFormValid by remember { derivedStateOf { errorState?.hasError == false } }
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -122,31 +126,49 @@ fun RepoEditScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                val hasUsernameError by remember { derivedStateOf { errorState?.usernameError != null } }
-                OutlinedTextField(
-                    value = viewModel.usernameState.text.toString(),
-                    onValueChange = { viewModel.usernameState.edit { replace(0, length, it) } },
-                    label = { Text(stringResource(R.string.username)) },
-                    isError = hasUsernameError,
-                    supportingText = { errorState?.usernameError?.let { Text(it) } },
-                    singleLine = true,
+                Row(
                     modifier = Modifier.fillMaxWidth(),
-                )
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                ) {
+                    Text(stringResource(R.string.requires_authentication))
+                    Switch(
+                        checked = authEnabled,
+                        onCheckedChange = { viewModel.setAuthEnabled(it) },
+                    )
+                }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                AnimatedVisibility(visible = authEnabled) {
+                    Column {
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                val hasPasswordError by remember { derivedStateOf { errorState?.passwordError != null } }
-                OutlinedTextField(
-                    value = viewModel.passwordState.text.toString(),
-                    onValueChange = { viewModel.passwordState.edit { replace(0, length, it) } },
-                    label = { Text(stringResource(R.string.password)) },
-                    isError = hasPasswordError,
-                    supportingText = { errorState?.passwordError?.let { Text(it) } },
-                    visualTransformation = PasswordVisualTransformation(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                    singleLine = true,
-                    modifier = Modifier.fillMaxWidth(),
-                )
+                        val hasUsernameError by remember { derivedStateOf { errorState?.usernameError != null } }
+                        OutlinedTextField(
+                            value = viewModel.usernameState.text.toString(),
+                            onValueChange = { viewModel.usernameState.edit { replace(0, length, it) } },
+                            label = { Text(stringResource(R.string.username)) },
+                            isError = hasUsernameError,
+                            supportingText = { errorState?.usernameError?.let { Text(it) } },
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        val hasPasswordError by remember { derivedStateOf { errorState?.passwordError != null } }
+                        OutlinedTextField(
+                            value = viewModel.passwordState.text.toString(),
+                            onValueChange = { viewModel.passwordState.edit { replace(0, length, it) } },
+                            label = { Text(stringResource(R.string.password)) },
+                            isError = hasPasswordError,
+                            supportingText = { errorState?.passwordError?.let { Text(it) } },
+                            visualTransformation = PasswordVisualTransformation(),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                            singleLine = true,
+                            modifier = Modifier.fillMaxWidth(),
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(24.dp))
 
