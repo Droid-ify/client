@@ -10,7 +10,6 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.net.Uri
-import android.os.Build
 import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
@@ -423,7 +422,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         val version = itemView.findViewById<TextView>(R.id.version)!!
         val size = itemView.findViewById<TextView>(R.id.size)!!
-        val downloadsBlockDividier = itemView.findViewById<MaterialDivider>(R.id.downloads_block_divider)!!
+        val downloadsBlockDividier =
+            itemView.findViewById<MaterialDivider>(R.id.downloads_block_divider)!!
         val downloadsBlock = itemView.findViewById<LinearLayout>(R.id.downloads_block)!!
         val downloads = itemView.findViewById<TextView>(R.id.downloads)!!
 
@@ -1425,15 +1425,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as ScreenShotViewHolder
                 item as Item.ScreenshotItem
                 holder.screenshotsRecycler.run {
-                    setHasFixedSize(true)
-                    isNestedScrollingEnabled = false
-                    clipToPadding = false
-                    setPadding(8.dp, 8.dp, 8.dp, 8.dp)
-                    layoutManager =
-                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                    adapter = ScreenshotsAdapter(callbacks::onScreenshotClick).apply {
-                        setScreenshots(item.repository, item.packageName, item.screenshots)
+                    if (layoutManager == null) {
+                        setHasFixedSize(true)
+                        isNestedScrollingEnabled = false
+                        clipToPadding = false
+                        val padding = 8.dp
+                        setPadding(padding, padding, padding, padding)
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     }
+                    val screenshotsAdapter = (adapter as? ScreenshotsAdapter)
+                        ?: ScreenshotsAdapter(callbacks::onScreenshotClick).also { adapter = it }
+                    screenshotsAdapter.setScreenshots(
+                        item.repository,
+                        item.packageName,
+                        item.screenshots
+                    )
                 }
             }
 
@@ -1468,7 +1475,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
                 if (item.sectionType == SectionType.VERSIONS) {
                     holder.icon.load(R.drawable.ic_question_mark)
-                    TooltipCompat.setTooltipText(holder.icon, context.getString(R.string.rb_badge_info))
+                    TooltipCompat.setTooltipText(
+                        holder.icon,
+                        context.getString(R.string.rb_badge_info)
+                    )
                 }
 
                 val expandable = item.items.isNotEmpty() || item.collapseCount > 0

@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageView.ScaleType
 import androidx.recyclerview.widget.RecyclerView
 import coil3.asImage
 import coil3.dispose
@@ -69,16 +70,24 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
 
         init {
             with(image) {
-                layout(0, 0, 0, 0)
                 shapeAppearanceModel = imageShapeModel
                 background = context.selectableBackground
                 isFocusable = true
+                adjustViewBounds = true
+                scaleType = ScaleType.FIT_CENTER
             }
             with(itemView as FrameLayout) {
-                addView(image)
+                val screenshotHeight = 150.dp
+                addView(
+                    image,
+                    FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.WRAP_CONTENT,
+                        FrameLayout.LayoutParams.MATCH_PARENT,
+                    ),
+                )
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.WRAP_CONTENT,
-                    150.dp,
+                    screenshotHeight,
                 ).apply {
                     marginStart = radius.toInt()
                     marginEnd = radius.toInt()
@@ -106,7 +115,7 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
             if (it.type == Product.Screenshot.Type.VIDEO) Item.VideoItem(it.path)
             else Item.ScreenshotItem(repository, packageName, it)
         }
-        notifyItemRangeInserted(0, screenshots.size)
+        notifyDataSetChanged()
     }
 
     override val viewTypeClass: Class<ViewType> get() = ViewType::class.java
@@ -130,9 +139,10 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                 holder as ScreenshotViewHolder
                 val item = items[position] as Item.ScreenshotItem
                 with(holder.image) {
+                    setImageDrawable(null)
                     load(item.screenshot.url(context, item.repository, item.packageName)) {
                         authentication(item.repository.authentication)
-                        scale(Scale.FILL)
+                        scale(Scale.FIT)
                         placeholder(holder.placeholder)
                         error(holder.placeholder.asImage())
                     }
@@ -145,7 +155,10 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         super.onViewRecycled(holder)
-        if (holder is ScreenshotViewHolder) holder.image.dispose()
+        if (holder is ScreenshotViewHolder) {
+            holder.image.dispose()
+            holder.image.setImageDrawable(null)
+        }
     }
 
     private sealed interface Item {
