@@ -6,5 +6,6 @@
     <item name="fragment_pager" type="id" />
     <item name="main_content" type="id" />
     <item name="toolbar_search" type="id" />
+    <item name="toolbar_sync" type="id" />
 
 </resources>

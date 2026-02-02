@@ -52,9 +52,9 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -209,8 +209,9 @@ class TabsFragment : ScreenFragment() {
                     },
                 )
 
-            syncRepositoriesMenuItem = add(0, 0, 0, stringRes.sync_repositories)
+            syncRepositoriesMenuItem = add(0, R.id.toolbar_sync, 0, stringRes.sync_repositories)
                 .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_sync))
+                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                 .setOnMenuItemClickListener {
                     syncConnection.binder?.sync(SyncService.SyncRequest.MANUAL)
                     true
@@ -249,6 +250,13 @@ class TabsFragment : ScreenFragment() {
                     view.post { mainActivity.navigatePreferences() }
                     true
                 }
+        }
+
+        toolbar.post {
+            toolbar.findViewById<View>(R.id.toolbar_sync)?.setOnLongClickListener {
+                syncConnection.binder?.sync(SyncService.SyncRequest.FORCE)
+                true
+            }
         }
 
         searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
