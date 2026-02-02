@@ -27,6 +27,7 @@
         android:paddingHorizontal="12dp"
         android:textAlignment="center"
         android:textAppearance="?textAppearanceHeadlineMedium"
+        android:textIsSelectable="true"
         app:layout_constraintTop_toBottomOf="@id/app_icon" />
 
     <TextSwitcher
@@ -42,7 +43,8 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="?attr/colorOutline" />
+            android:textColor="?attr/colorOutline"
+            android:textIsSelectable="true" />
 
         <TextView
             android:id="@+id/package_name"
@@ -51,7 +53,8 @@
             android:singleLine="true"
             android:textAlignment="center"
             android:textAppearance="?textAppearanceBodyMedium"
-            android:textColor="?attr/colorOutline" />
+            android:textColor="?attr/colorOutline"
+            android:textIsSelectable="true" />
     </TextSwitcher>
 
 
