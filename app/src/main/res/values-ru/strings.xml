@@ -260,4 +260,7 @@
     <string name="by_client">Клиентом</string>
     <string name="downloading_rb_logs">Получение журналов воспроизводимости</string>
     <string name="downloading_download_stats">Получение статистики скачиваний</string>
+    <string name="requires_authentication">Требуется аутентификация?</string>
+    <string name="force_sync_repositories">Принудительно синхронизировать репозитории</string>
+    <string name="copy_error_details">Копировать данные ошибки</string>
 </resources>
