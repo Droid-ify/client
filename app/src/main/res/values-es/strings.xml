@@ -257,4 +257,7 @@
     <string name="downloading_rb_logs">Descargando registros de reproducibilidad</string>
     <string name="downloading_download_stats">Descargando estadísticas de descargas</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="requires_authentication">¿Requiere autenticación?</string>
+    <string name="force_sync_repositories">Forzar sincronización de repositorios</string>
+    <string name="copy_error_details">Copiar detalles del error</string>
 </resources>
