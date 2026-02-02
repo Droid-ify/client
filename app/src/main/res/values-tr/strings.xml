@@ -254,4 +254,7 @@
     <string name="monthly">Aylık</string>
     <string name="downloading_rb_logs">Tekrarlanabilirlik günlükleri indiriliyor</string>
     <string name="downloading_download_stats">İndirme istatistikleri indiriliyor</string>
+    <string name="requires_authentication">Doğrulama lazımmı?</string>
+    <string name="force_sync_repositories">Depo senkronizasyonunu zorla</string>
+    <string name="copy_error_details">Hata detaylarını kopyala</string>
 </resources>
