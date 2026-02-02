@@ -198,7 +198,7 @@ class RepoEditViewModel @Inject constructor(
         }
         return try {
             uri?.toURL()?.toURI()?.toString()?.removeSuffix("/")
-        } catch (_: URISyntaxException) {
+        } catch (_: Exception) {
             null
         }
     }
