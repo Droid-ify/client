@@ -10,6 +10,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.net.Uri
+import android.os.Build
 import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.format.DateFormat
@@ -27,6 +28,7 @@ import android.widget.TextSwitcher
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
@@ -1467,7 +1469,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
                 if (item.sectionType == SectionType.VERSIONS) {
                     holder.icon.load(R.drawable.ic_question_mark)
-                    holder.icon.tooltipText = context.getString(R.string.rb_badge_info)
+                    TooltipCompat.setTooltipText(holder.icon, context.getString(R.string.rb_badge_info))
                 }
 
                 val expandable = item.items.isNotEmpty() || item.collapseCount > 0

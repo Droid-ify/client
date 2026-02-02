@@ -518,7 +518,7 @@ class SettingsFragment : Fragment() {
     ) {
         title.text = titleText
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 setting.collect {
                     with(root.context) {
                         content.text = map(it)
@@ -541,10 +541,15 @@ class SettingsFragment : Fragment() {
         root.setOnClickListener {
             checked.isChecked = !checked.isChecked
         }
+        var skipAnimation = true
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 setting.collect {
                     checked.isChecked = it
+                    if (skipAnimation) {
+                        checked.jumpDrawablesToCurrentState()
+                        skipAnimation = false
+                    }
                 }
             }
         }
