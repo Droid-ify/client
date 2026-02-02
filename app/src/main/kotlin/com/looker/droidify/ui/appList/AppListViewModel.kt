@@ -16,13 +16,13 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
@@ -83,13 +83,11 @@ class AppListViewModel
 
             AppListFragment.Source.INSTALLED -> Installed(
                 searchQuery = searchQuery.value,
-                section = sections.value,
                 order = sortOrderFlow.value,
             )
 
             AppListFragment.Source.UPDATES -> Updates(
                 searchQuery = searchQuery.value,
-                section = sections.value,
                 order = sortOrderFlow.value,
             )
         }

@@ -30,14 +30,12 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
         data class Installed(
             val searchQuery: String,
-            val section: ProductItem.Section,
             val order: SortOrder,
             override val id: Int = 2,
         ) : Request
 
         data class Updates(
             val searchQuery: String,
-            val section: ProductItem.Section,
             val order: SortOrder,
             override val id: Int = 3,
         ) : Request
@@ -110,7 +108,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             installed = true,
                             updates = false,
                             searchQuery = request.searchQuery,
-                            section = request.section,
+                            section = ProductItem.Section.All,
                             order = request.order,
                             signal = it,
                             skipSignatureCheck = settings.ignoreSignature,
@@ -122,7 +120,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             installed = true,
                             updates = true,
                             searchQuery = request.searchQuery,
-                            section = request.section,
+                            section = ProductItem.Section.All,
                             order = request.order,
                             signal = it,
                             skipSignatureCheck = settings.ignoreSignature,

@@ -21,13 +21,13 @@ data class ProductItem(
     sealed interface Section : Parcelable {
 
         @Parcelize
-        object All : Section
+        data object All : Section
 
         @Parcelize
-        class Category(val name: String) : Section
+        data class Category(val name: String) : Section
 
         @Parcelize
-        class Repository(val id: Long, val name: String) : Section
+        data class Repository(val id: Long, val name: String) : Section
     }
 
     private val supportedDpi = intArrayOf(120, 160, 240, 320, 480, 640)
