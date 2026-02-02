@@ -872,7 +872,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             items += Item.TextItem(TextType.ANTI_FEATURES, antiFeatures)
         }
 
-        val changes = formatHtml(productRepository.first.whatsNew)
+        val changes = productRepository.first.whatsNew
         if (changes.isNotEmpty()) {
             items += Item.SectionItem(SectionType.CHANGES)
             val cropped =

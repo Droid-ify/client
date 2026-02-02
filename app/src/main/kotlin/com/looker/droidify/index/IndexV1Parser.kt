@@ -387,7 +387,7 @@ object IndexV1Parser {
                 "\n",
                 "<br/>"
             )
-        val whatsNew = localizedMap.findLocalizedString("") { it.whatsNew }.replace("\n", "<br/>")
+        val whatsNew = localizedMap.findLocalizedString("") { it.whatsNew }
         val metadataIcon = localizedMap.findLocalizedString("") { it.metadataIcon }.ifEmpty {
             localizedMap.firstNotNullOfOrNull { it.value.metadataIcon }.orEmpty()
         }

@@ -60,7 +60,7 @@ fun PackageV2.versionEntities(appId: Int): Map<VersionEntity, List<AntiFeatureAp
     return versions.map { (_, version) ->
         VersionEntity(
             added = version.added,
-            whatsNew = version.whatsNew.mapValues { (locale, value) -> value.replace("\n", "<br/>") },
+            whatsNew = version.whatsNew,
             versionName = version.manifest.versionName,
             versionCode = version.manifest.versionCode,
             maxSdkVersion = version.manifest.maxSdkVersion,
