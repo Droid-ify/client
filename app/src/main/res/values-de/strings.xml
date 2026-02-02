@@ -253,4 +253,5 @@
     <string name="rb_info">Wenn ein Build reproduzierbar ist, bedeutet dies, dass die angegebene APK-Datei aus der bereitgestellten Quelle erstellt wurde</string>
     <string name="downloading_rb_logs">Reproduzierbarkeitsprotokolle werden heruntergeladen</string>
     <string name="downloading_download_stats">Downloadstatistiken werden heruntergeladen</string>
+    <string name="requires_authentication">Authentifizierung erforderlich?</string>
 </resources>
