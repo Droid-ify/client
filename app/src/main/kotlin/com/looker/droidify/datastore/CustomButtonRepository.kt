@@ -10,7 +10,8 @@ import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -35,7 +36,10 @@ class CustomButtonRepository @Inject constructor(
     private var isLoaded = false
     private val _buttons = MutableStateFlow<List<CustomButton>>(emptyList())
 
-    val buttons: Flow<List<CustomButton>> = _buttons.asStateFlow()
+    val buttons: Flow<List<CustomButton>> = flow {
+        ensureLoaded()
+        emitAll(_buttons)
+    }
 
     suspend fun getButtons(): List<CustomButton> {
         ensureLoaded()
