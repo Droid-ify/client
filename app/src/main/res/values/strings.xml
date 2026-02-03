@@ -281,4 +281,7 @@
     <string name="custom_button_templates">Templates</string>
     <string name="custom_button_icon">Icon</string>
     <string name="custom_button_delete_confirmation">Delete the button \"%1$s\"?</string>
+    <string name="custom_buttons_export">Export buttons</string>
+    <string name="custom_buttons_import">Import buttons</string>
+    <string name="custom_buttons_imported">Custom buttons imported</string>
 </resources>

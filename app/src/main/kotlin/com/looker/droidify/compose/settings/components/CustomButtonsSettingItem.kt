@@ -2,7 +2,7 @@ package com.looker.droidify.compose.settings.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +17,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -48,10 +48,13 @@ fun CustomButtonsSettingItem(
     onAddButton: (CustomButton) -> Unit,
     onUpdateButton: (CustomButton) -> Unit,
     onRemoveButton: (String) -> Unit,
+    onExport: () -> Unit,
+    onImport: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var showEditor by remember { mutableStateOf(false) }
     var editingButton by remember { mutableStateOf<CustomButton?>(null) }
+    var showMenu by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -75,17 +78,48 @@ fun CustomButtonsSettingItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
-            IconButton(
-                onClick = {
-                    editingButton = null
-                    showEditor = true
+            Row {
+                IconButton(
+                    onClick = {
+                        editingButton = null
+                        showEditor = true
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = stringResource(R.string.custom_button_add),
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
                 }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.custom_button_add),
-                    tint = MaterialTheme.colorScheme.primary,
-                )
+                Box {
+                    IconButton(onClick = { showMenu = true }) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false },
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.custom_buttons_export)) },
+                            onClick = {
+                                showMenu = false
+                                onExport()
+                            },
+                            enabled = buttons.isNotEmpty(),
+                        )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.custom_buttons_import)) },
+                            onClick = {
+                                showMenu = false
+                                onImport()
+                            },
+                        )
+                    }
+                }
             }
         }
 
@@ -133,7 +167,6 @@ private fun CustomButtonItem(
     onDelete: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showMenu by remember { mutableStateOf(false) }
     var showDeleteConfirmation by remember { mutableStateOf(false) }
 
     Row(
@@ -141,10 +174,7 @@ private fun CustomButtonItem(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
             .background(MaterialTheme.colorScheme.surfaceContainerHighest)
-            .combinedClickable(
-                onClick = onEdit,
-                onLongClick = { showMenu = true },
-            )
+            .clickable(onClick = onEdit)
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -191,47 +221,11 @@ private fun CustomButtonItem(
         }
 
         Box {
-            IconButton(onClick = { showMenu = true }) {
+            IconButton(onClick = { showDeleteConfirmation = true }) {
                 Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.edit_repository),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(20.dp),
-                )
-            }
-
-            DropdownMenu(
-                expanded = showMenu,
-                onDismissRequest = { showMenu = false },
-            ) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(R.string.custom_button_edit)) },
-                    onClick = {
-                        showMenu = false
-                        onEdit()
-                    },
-                    leadingIcon = {
-                        Icon(Icons.Default.Edit, contentDescription = null)
-                    },
-                )
-                DropdownMenuItem(
-                    text = {
-                        Text(
-                            stringResource(R.string.delete),
-                            color = MaterialTheme.colorScheme.error,
-                        )
-                    },
-                    onClick = {
-                        showMenu = false
-                        showDeleteConfirmation = true
-                    },
-                    leadingIcon = {
-                        Icon(
-                            Icons.Default.Delete,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.error,
-                        )
-                    },
+                    Icons.Default.Delete,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
                 )
             }
         }
@@ -241,7 +235,14 @@ private fun CustomButtonItem(
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = false },
             title = { Text(stringResource(R.string.confirmation)) },
-            text = { Text(stringResource(R.string.custom_button_delete_confirmation, button.label)) },
+            text = {
+                Text(
+                    stringResource(
+                        R.string.custom_button_delete_confirmation,
+                        button.label
+                    )
+                )
+            },
             confirmButton = {
                 TextButton(
                     onClick = {

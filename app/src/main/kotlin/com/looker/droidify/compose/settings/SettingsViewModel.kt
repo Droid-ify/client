@@ -11,6 +11,7 @@ import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
+import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.AutoSync
@@ -36,6 +37,7 @@ import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -44,9 +46,13 @@ import kotlinx.coroutines.launch
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val repositoryExporter: RepositoryExporter,
+    private val customButtonRepository: CustomButtonRepository,
 ) : ViewModel() {
 
     val settings = settingsRepository.data.asStateFlow(Settings())
+
+    val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
+        .asStateFlow(emptyList())
 
     private val _isBackgroundAllowed = MutableStateFlow(true)
     val isBackgroundAllowed = _isBackgroundAllowed.asStateFlow()
@@ -232,19 +238,42 @@ class SettingsViewModel @Inject constructor(
 
     fun addCustomButton(button: CustomButton) {
         viewModelScope.launch {
-            settingsRepository.addCustomButton(button)
+            customButtonRepository.addButton(button)
         }
     }
 
     fun updateCustomButton(button: CustomButton) {
         viewModelScope.launch {
-            settingsRepository.updateCustomButton(button)
+            customButtonRepository.updateButton(button)
         }
     }
 
     fun removeCustomButton(buttonId: String) {
         viewModelScope.launch {
-            settingsRepository.removeCustomButton(buttonId)
+            customButtonRepository.removeButton(buttonId)
+        }
+    }
+
+    fun exportCustomButtons(uri: Uri) {
+        viewModelScope.launch {
+            customButtonRepository.exportToUri(uri).onFailure {
+                showSnackbar(R.string.file_format_error_DESC)
+            }
+        }
+    }
+
+    fun importCustomButtons(uri: Uri) {
+        viewModelScope.launch {
+            customButtonRepository.importFromUri(uri).fold(
+                onSuccess = { count ->
+                    if (count > 0) {
+                        showSnackbar(R.string.custom_buttons_imported)
+                    }
+                },
+                onFailure = {
+                    showSnackbar(R.string.file_format_error_DESC)
+                }
+            )
         }
     }
 

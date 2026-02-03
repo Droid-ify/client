@@ -2,7 +2,6 @@ package com.looker.droidify.datastore
 
 import androidx.datastore.core.Serializer
 import com.looker.droidify.datastore.model.AutoSync
-import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
@@ -49,7 +48,6 @@ data class Settings(
     val homeScreenSwiping: Boolean = true,
     val enabledRepoIds: Set<Int> = emptySet(),
     val deleteApkOnInstall: Boolean = false,
-    val customButtons: List<CustomButton> = emptyList(),
 )
 
 @OptIn(ExperimentalSerializationApi::class)

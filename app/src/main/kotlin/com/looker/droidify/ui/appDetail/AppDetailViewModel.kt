@@ -9,8 +9,8 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.InstallManager
@@ -38,6 +38,7 @@ import kotlinx.coroutines.runBlocking
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
+    private val customButtonRepository: CustomButtonRepository,
     privacyRepository: PrivacyRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -52,8 +53,7 @@ class AppDetailViewModel @Inject constructor(
             stateMap[packageName.toPackageName()]
         }.asStateFlow(null)
 
-    val customButtons: StateFlow<List<CustomButton>> = settingsRepository
-        .get { customButtons }
+    val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
         .asStateFlow(emptyList())
 
     val state =

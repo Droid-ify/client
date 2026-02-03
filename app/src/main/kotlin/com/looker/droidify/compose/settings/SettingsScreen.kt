@@ -50,6 +50,7 @@ import kotlin.time.Duration
 private const val BACKUP_MIME_TYPE = "application/json"
 private const val SETTINGS_BACKUP_NAME = "droidify_settings"
 private const val REPO_BACKUP_NAME = "droidify_repos"
+private const val CUSTOM_BUTTONS_BACKUP_NAME = "custom_buttons"
 
 private const val FOXY_DROID_TITLE = "FoxyDroid"
 private const val FOXY_DROID_URL = "https://github.com/kitsunyan/foxy-droid"
@@ -64,6 +65,7 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
+    val customButtons by viewModel.customButtons.collectAsStateWithLifecycle()
     val isBackgroundAllowed by viewModel.isBackgroundAllowed.collectAsStateWithLifecycle()
 
     val snackbarHostState = remember { SnackbarHostState() }
@@ -105,6 +107,21 @@ fun SettingsScreen(
             viewModel.showSnackbar(R.string.file_format_error_DESC)
         }
     }
+
+    val exportCustomButtonsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
+    ) { uri -> uri?.let { viewModel.exportCustomButtons(it) } }
+
+    val importCustomButtonsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri != null) {
+            viewModel.importCustomButtons(uri)
+        } else {
+            viewModel.showSnackbar(R.string.file_format_error_DESC)
+        }
+    }
+
     val uriHandler = LocalUriHandler.current
 
     Scaffold(
@@ -335,10 +352,12 @@ fun SettingsScreen(
 
             item {
                 CustomButtonsSettingItem(
-                    buttons = settings.customButtons,
+                    buttons = customButtons,
                     onAddButton = viewModel::addCustomButton,
                     onUpdateButton = viewModel::updateCustomButton,
                     onRemoveButton = viewModel::removeCustomButton,
+                    onExport = { exportCustomButtonsLauncher.launch(CUSTOM_BUTTONS_BACKUP_NAME) },
+                    onImport = { importCustomButtonsLauncher.launch(arrayOf(BACKUP_MIME_TYPE)) },
                 )
             }
 
