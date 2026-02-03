@@ -47,6 +47,7 @@ import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.data.local.model.toReproducible
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductPreference
@@ -107,6 +108,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
+        fun onCustomButtonClick(url: String)
     }
 
     enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
@@ -133,6 +135,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         APP_INFO,
         DOWNLOAD_STATUS,
         INSTALL_BUTTON,
+        CUSTOM_BUTTONS,
         SCREENSHOT,
         SWITCH,
         SECTION,
@@ -225,6 +228,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 get() = "screenshot.${screenshots.size}"
             override val viewType: ViewType
                 get() = ViewType.SCREENSHOT
+        }
+
+        class CustomButtonsItem(
+            val buttons: List<CustomButton>,
+            val packageName: String,
+        ) : Item() {
+            override val descriptor: String
+                get() = "custom_buttons.${buttons.size}"
+            override val viewType: ViewType
+                get() = ViewType.CUSTOM_BUTTONS
         }
 
         class SwitchItem(
@@ -454,6 +467,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         RecyclerView.ViewHolder(RecyclerView(context)) {
 
         val screenshotsRecycler: RecyclerView
+            get() = itemView as RecyclerView
+    }
+
+    private class CustomButtonsViewHolder(context: Context) :
+        RecyclerView.ViewHolder(RecyclerView(context)) {
+
+        val buttonsRecycler: RecyclerView
             get() = itemView as RecyclerView
     }
 
@@ -702,6 +722,19 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private val expanded = mutableSetOf<ExpandType>()
     private var product: Product? = null
     private var installedItem: InstalledItem? = null
+    private var customButtons: List<CustomButton> = emptyList()
+
+    fun setCustomButtons(buttons: List<CustomButton>) {
+        if (customButtons != buttons) {
+            customButtons = buttons
+            val index = items.indexOfFirst { it is Item.CustomButtonsItem }
+            if (index >= 0) {
+                val currentItem = items[index] as Item.CustomButtonsItem
+                items[index] = Item.CustomButtonsItem(buttons, currentItem.packageName)
+                notifyItemChanged(index)
+            }
+        }
+    }
 
     fun setProducts(
         context: Context,
@@ -733,6 +766,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         items += Item.DownloadStatusItem
         items += Item.InstallButtonItem
+
+        if (customButtons.isNotEmpty()) {
+            items += Item.CustomButtonsItem(customButtons, packageName)
+        }
 
         if (productRepository.first.screenshots.isNotEmpty()) {
             val screenShotItem = mutableListOf<Item>()
@@ -1109,6 +1146,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             }
 
             ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
+            ViewType.CUSTOM_BUTTONS -> CustomButtonsViewHolder(parent.context)
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[absoluteAdapterPosition] as Item.SwitchItem
@@ -1441,6 +1479,26 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         item.packageName,
                         item.screenshots
                     )
+                }
+            }
+
+            ViewType.CUSTOM_BUTTONS -> {
+                holder as CustomButtonsViewHolder
+                item as Item.CustomButtonsItem
+                holder.buttonsRecycler.run {
+                    if (layoutManager == null) {
+                        setHasFixedSize(true)
+                        isNestedScrollingEnabled = false
+                        clipToPadding = false
+                        val padding = 8.dp
+                        setPadding(padding, 0, padding, padding)
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    }
+                    val buttonsAdapter = (adapter as? CustomButtonsAdapter)
+                        ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
+                            .also { adapter = it }
+                    buttonsAdapter.setButtons(item.buttons, item.packageName)
                 }
             }
 

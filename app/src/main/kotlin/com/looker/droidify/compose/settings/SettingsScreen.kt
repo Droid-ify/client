@@ -30,6 +30,7 @@ import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.compose.settings.SettingsViewModel.Companion.cleanUpIntervals
 import com.looker.droidify.compose.settings.SettingsViewModel.Companion.localeCodesList
 import com.looker.droidify.compose.settings.components.ActionSettingItem
+import com.looker.droidify.compose.settings.components.CustomButtonsSettingItem
 import com.looker.droidify.compose.settings.components.SelectionSettingItem
 import com.looker.droidify.compose.settings.components.SettingHeader
 import com.looker.droidify.compose.settings.components.SwitchSettingItem
@@ -327,6 +328,17 @@ fun SettingsScreen(
                     title = stringResource(R.string.export_repos_title),
                     description = stringResource(R.string.export_repos_DESC),
                     onClick = { exportReposLauncher.launch(REPO_BACKUP_NAME) },
+                )
+            }
+
+            item { SettingHeader(title = stringResource(R.string.custom_buttons_section)) }
+
+            item {
+                CustomButtonsSettingItem(
+                    buttons = settings.customButtons,
+                    onAddButton = viewModel::addCustomButton,
+                    onUpdateButton = viewModel::updateCustomButton,
+                    onRemoveButton = viewModel::removeCustomButton,
                 )
             }
 

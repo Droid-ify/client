@@ -13,6 +13,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
 import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
@@ -31,12 +32,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.builtins.ListSerializer
 
 @OptIn(ExperimentalTime::class)
 class PreferenceSettingsRepository(
     private val dataStore: DataStore<Preferences>,
     private val exporter: Exporter<Settings>,
 ) : SettingsRepository {
+
+    private val json = kotlinx.serialization.json.Json { ignoreUnknownKeys = true }
     override val data: Flow<Settings> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -185,6 +189,61 @@ class PreferenceSettingsRepository(
     override suspend fun setDeleteApkOnInstall(enable: Boolean) =
         DELETE_APK_ON_INSTALL.update(enable)
 
+    override suspend fun addCustomButton(button: CustomButton) {
+        dataStore.edit { preferences ->
+            val currentButtons = preferences.getCustomButtons()
+            val newButtons = currentButtons + button
+            preferences[CUSTOM_BUTTONS] = json.encodeToString(
+                ListSerializer(CustomButton.serializer()),
+                newButtons
+            )
+        }
+    }
+
+    override suspend fun updateCustomButton(button: CustomButton) {
+        dataStore.edit { preferences ->
+            val currentButtons = preferences.getCustomButtons()
+            val newButtons = currentButtons.map { if (it.id == button.id) button else it }
+            preferences[CUSTOM_BUTTONS] = json.encodeToString(
+                ListSerializer(CustomButton.serializer()),
+                newButtons
+            )
+        }
+    }
+
+    override suspend fun removeCustomButton(buttonId: String) {
+        dataStore.edit { preferences ->
+            val currentButtons = preferences.getCustomButtons()
+            val newButtons = currentButtons.filter { it.id != buttonId }
+            preferences[CUSTOM_BUTTONS] = json.encodeToString(
+                ListSerializer(CustomButton.serializer()),
+                newButtons
+            )
+        }
+    }
+
+    override suspend fun reorderCustomButtons(buttons: List<CustomButton>) {
+        dataStore.edit { preferences ->
+            preferences[CUSTOM_BUTTONS] = json.encodeToString(
+                ListSerializer(CustomButton.serializer()),
+                buttons
+            )
+        }
+    }
+
+    override fun getCustomButtons(): Flow<List<CustomButton>> {
+        return data.map { it.customButtons }
+    }
+
+    private fun Preferences.getCustomButtons(): List<CustomButton> {
+        val jsonString = this[CUSTOM_BUTTONS] ?: return emptyList()
+        return try {
+            json.decodeFromString(ListSerializer(CustomButton.serializer()), jsonString)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     private fun mapSettings(preferences: Preferences): Settings {
         val installerType =
             InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
@@ -227,6 +286,7 @@ class PreferenceSettingsRepository(
         val enabledRepoIds =
             preferences[ENABLED_REPO_IDS]?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
         val deleteApkOnInstall = preferences[DELETE_APK_ON_INSTALL] ?: false
+        val customButtons = preferences.getCustomButtons()
 
         return Settings(
             language = language,
@@ -250,6 +310,7 @@ class PreferenceSettingsRepository(
             homeScreenSwiping = homeScreenSwiping,
             enabledRepoIds = enabledRepoIds,
             deleteApkOnInstall = deleteApkOnInstall,
+            customButtons = customButtons,
         )
     }
 
@@ -283,6 +344,7 @@ class PreferenceSettingsRepository(
         val LEGACY_INSTALLER_COMPONENT_TYPE =
             stringPreferencesKey("key_legacy_installer_component_type")
         val ENABLED_REPO_IDS = stringSetPreferencesKey("key_enabled_repo_ids")
+        val CUSTOM_BUTTONS = stringPreferencesKey("key_custom_buttons")
 
         // Enums
         val THEME = stringPreferencesKey("key_theme")
@@ -341,6 +403,15 @@ class PreferenceSettingsRepository(
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())
             set(DELETE_APK_ON_INSTALL, settings.deleteApkOnInstall)
+            if (settings.customButtons.isNotEmpty()) {
+                set(
+                    CUSTOM_BUTTONS,
+                    kotlinx.serialization.json.Json.encodeToString(
+                        ListSerializer(CustomButton.serializer()),
+                        settings.customButtons
+                    )
+                )
+            }
             return this.toPreferences()
         }
     }

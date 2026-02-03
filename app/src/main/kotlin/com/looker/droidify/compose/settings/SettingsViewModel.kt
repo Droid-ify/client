@@ -14,6 +14,7 @@ import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
@@ -226,6 +227,24 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val repos = repositoryExporter.import(uri)
             Database.RepositoryAdapter.importRepos(repos)
+        }
+    }
+
+    fun addCustomButton(button: CustomButton) {
+        viewModelScope.launch {
+            settingsRepository.addCustomButton(button)
+        }
+    }
+
+    fun updateCustomButton(button: CustomButton) {
+        viewModelScope.launch {
+            settingsRepository.updateCustomButton(button)
+        }
+    }
+
+    fun removeCustomButton(buttonId: String) {
+        viewModelScope.launch {
+            settingsRepository.removeCustomButton(buttonId)
         }
     }
 

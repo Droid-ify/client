@@ -267,4 +267,18 @@
     <string name="monthly">Monthly</string>
     <string name="downloading_rb_logs">Downloading reproducibility logs</string>
     <string name="downloading_download_stats">Downloading download stats</string>
+
+    <string name="custom_buttons">Custom buttons</string>
+    <string name="custom_buttons_description">Add quick links to external services in app details</string>
+    <string name="custom_buttons_section">App detail links</string>
+    <string name="custom_button_add">Add button</string>
+    <string name="custom_button_edit">Edit button</string>
+    <string name="custom_button_label">Label</string>
+    <string name="custom_button_label_hint">e.g., Exodus Privacy</string>
+    <string name="custom_button_url">URL template</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Use {{package_name}} as a placeholder for the app\'s package name</string>
+    <string name="custom_button_templates">Templates</string>
+    <string name="custom_button_icon">Icon</string>
+    <string name="custom_button_delete_confirmation">Delete the button \"%1$s\"?</string>
 </resources>

@@ -2,6 +2,7 @@ package com.looker.droidify.datastore
 
 import android.net.Uri
 import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
@@ -72,6 +73,16 @@ interface SettingsRepository {
     suspend fun isRepoEnabled(repoId: Int): Boolean
 
     suspend fun setDeleteApkOnInstall(enable: Boolean)
+
+    suspend fun addCustomButton(button: CustomButton)
+
+    suspend fun updateCustomButton(button: CustomButton)
+
+    suspend fun removeCustomButton(buttonId: String)
+
+    suspend fun reorderCustomButtons(buttons: List<CustomButton>)
+
+    fun getCustomButtons(): Flow<List<CustomButton>>
 }
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {

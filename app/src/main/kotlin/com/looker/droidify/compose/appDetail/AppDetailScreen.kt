@@ -51,12 +51,14 @@ import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.rememberAsyncImagePainter
 import com.looker.droidify.R
+import com.looker.droidify.compose.appDetail.components.CustomButtonsRow
 import com.looker.droidify.compose.appDetail.components.PackageItem
 import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.FilePath
 import com.looker.droidify.data.model.Package
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.utility.text.toAnnotatedString
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,6 +68,8 @@ fun AppDetailScreen(
     viewModel: AppDetailViewModel,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val customButtons by viewModel.customButtons.collectAsStateWithLifecycle()
+    val uriHandler = LocalUriHandler.current
 
     Scaffold(
         topBar = {
@@ -107,6 +111,13 @@ fun AppDetailScreen(
                 AppDetail(
                     app = (state as AppDetailState.Success).app,
                     packages = (state as AppDetailState.Success).packages,
+                    customButtons = customButtons,
+                    onCustomButtonClick = { url ->
+                        try {
+                            uriHandler.openUri(url)
+                        } catch (_: Exception) {
+                        }
+                    },
                     modifier = Modifier.padding(padding),
                 )
             }
@@ -118,6 +129,8 @@ fun AppDetailScreen(
 private fun AppDetail(
     app: App,
     packages: List<Pair<Package, Repo>>,
+    customButtons: List<CustomButton>,
+    onCustomButtonClick: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -133,6 +146,15 @@ private fun AppDetail(
             isFavorite = true,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
+
+        if (customButtons.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomButtonsRow(
+                buttons = customButtons,
+                packageName = app.metadata.packageName.name,
+                onButtonClick = onCustomButtonClick,
+            )
+        }
 
         val screenshots: List<FilePath> = remember(app.screenshots) {
             buildList {
