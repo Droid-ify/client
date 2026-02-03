@@ -70,6 +70,8 @@ interface SettingsRepository {
     fun getEnabledRepoIds(): Flow<Set<Int>>
 
     suspend fun isRepoEnabled(repoId: Int): Boolean
+
+    suspend fun setDeleteApkOnInstall(enable: Boolean)
 }
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {

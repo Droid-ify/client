@@ -148,6 +148,9 @@
             <include
                 android:id="@+id/legacy_installer_component"
                 layout="@layout/enum_type" />
+            <include
+                android:id="@+id/delete_apk_on_install"
+                layout="@layout/switch_type" />
 
             <TextView
                 android:layout_width="match_parent"

@@ -15,6 +15,7 @@ import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.common.Constants
+import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.addAndCompute
 import com.looker.droidify.utility.common.extension.filter
 import com.looker.droidify.utility.common.extension.notificationManager
@@ -55,6 +56,7 @@ class InstallManager(
     private val lock = Mutex()
     private val skipSignature = settingsRepository.get { ignoreSignature }
     private val installerPreference = settingsRepository.get { installerType }
+    private val deleteApkPreference = settingsRepository.get { deleteApkOnInstall }
     private val notificationManager by lazy { context.notificationManager }
 
     suspend operator fun invoke() = coroutineScope {
@@ -104,6 +106,12 @@ class InstallManager(
                     )
                 )
                 val success = installer.use { it.install(item) }
+                if (success == InstallState.Installed) {
+                    if (deleteApkPreference.first()) {
+                        val apkFile = Cache.getReleaseFile(context, item.installFileName)
+                        apkFile.delete()
+                    }
+                }
                 if (success == InstallState.Installed && SyncService.autoUpdating) {
                     val updates = Database.ProductAdapter.getUpdates(skipSignature.first())
                     when {

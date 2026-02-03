@@ -182,6 +182,9 @@ class PreferenceSettingsRepository(
         return repoId in data.first().enabledRepoIds
     }
 
+    override suspend fun setDeleteApkOnInstall(enable: Boolean) =
+        DELETE_APK_ON_INSTALL.update(enable)
+
     private fun mapSettings(preferences: Preferences): Settings {
         val installerType =
             InstallerType.valueOf(preferences[INSTALLER_TYPE] ?: InstallerType.Default.name)
@@ -223,6 +226,7 @@ class PreferenceSettingsRepository(
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
         val enabledRepoIds =
             preferences[ENABLED_REPO_IDS]?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
+        val deleteApkOnInstall = preferences[DELETE_APK_ON_INSTALL] ?: false
 
         return Settings(
             language = language,
@@ -245,6 +249,7 @@ class PreferenceSettingsRepository(
             favouriteApps = favouriteApps,
             homeScreenSwiping = homeScreenSwiping,
             enabledRepoIds = enabledRepoIds,
+            deleteApkOnInstall = deleteApkOnInstall,
         )
     }
 
@@ -270,6 +275,7 @@ class PreferenceSettingsRepository(
         val LAST_MODIFIED_DS = longPreferencesKey("key_last_modified_download_stats")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
+        val DELETE_APK_ON_INSTALL = booleanPreferencesKey("key_delete_apk_on_install")
         val LEGACY_INSTALLER_COMPONENT_CLASS =
             stringPreferencesKey("key_legacy_installer_component_class")
         val LEGACY_INSTALLER_COMPONENT_ACTIVITY =
@@ -334,6 +340,7 @@ class PreferenceSettingsRepository(
             set(FAVOURITE_APPS, settings.favouriteApps)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())
+            set(DELETE_APK_ON_INSTALL, settings.deleteApkOnInstall)
             return this.toPreferences()
         }
     }

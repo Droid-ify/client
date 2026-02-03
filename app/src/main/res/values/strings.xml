@@ -105,6 +105,8 @@
     <string name="install_types">Installation</string>
     <string name="installer">Installer</string>
     <string name="legacyInstallerComponent">Legacy installer component</string>
+    <string name="delete_apk_on_install">Delete APK on install</string>
+    <string name="delete_apk_on_install_summary">Automatically delete APK files after successful installation</string>
     <string name="unspecified">Unspecified</string>
     <string name="insufficient_storage">Insufficient space</string>
     <string name="insufficient_storage_DESC">There isn\'t enough free space to install this app</string>

@@ -28,15 +28,15 @@ import com.looker.droidify.installer.installers.isShizukuInstalled
 import com.looker.droidify.installer.installers.requestPermissionListener
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.*
+import javax.inject.Inject
+import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import java.util.Locale
-import javax.inject.Inject
-import kotlin.time.Duration
 
 @HiltViewModel
 class SettingsViewModel
@@ -196,6 +196,12 @@ class SettingsViewModel
     fun setLegacyInstallerComponentComponent(component: LegacyInstallerComponent?) {
         viewModelScope.launch {
             settingsRepository.setLegacyInstallerComponent(component)
+        }
+    }
+
+    fun setDeleteApkOnInstall(enable: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setDeleteApkOnInstall(enable)
         }
     }
 

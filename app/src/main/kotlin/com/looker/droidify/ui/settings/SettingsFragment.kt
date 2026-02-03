@@ -49,12 +49,12 @@ import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
 import com.looker.droidify.utility.common.requestBatteryFreedom
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
-import java.util.Locale
+import java.util.*
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import com.google.android.material.R as MaterialR
 
 @AndroidEntryPoint
@@ -283,6 +283,11 @@ class SettingsFragment : Fragment() {
                     onClick = { viewModel.setLegacyInstallerComponentComponent(it) },
                 )
             }
+            deleteApkOnInstall.connect(
+                titleText = getString(R.string.delete_apk_on_install),
+                contentText = getString(R.string.delete_apk_on_install_summary),
+                setting = viewModel.getInitialSetting { deleteApkOnInstall },
+            )
             incompatibleUpdates.connect(
                 titleText = getString(R.string.incompatible_versions),
                 contentText = getString(R.string.incompatible_versions_summary),
@@ -412,6 +417,9 @@ class SettingsFragment : Fragment() {
             }
             incompatibleUpdates.checked.setOnCheckedChangeListener { _, checked ->
                 viewModel.setIncompatibleUpdates(checked)
+            }
+            deleteApkOnInstall.checked.setOnCheckedChangeListener { _, checked ->
+                viewModel.setDeleteApkOnInstall(checked)
             }
             forceCleanUp.root.setOnClickListener {
                 viewModel.forceCleanup(it.context)

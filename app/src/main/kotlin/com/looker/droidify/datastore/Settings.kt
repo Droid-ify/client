@@ -47,6 +47,7 @@ data class Settings(
     val favouriteApps: Set<String> = emptySet(),
     val homeScreenSwiping: Boolean = true,
     val enabledRepoIds: Set<Int> = emptySet(),
+    val deleteApkOnInstall: Boolean = false,
 )
 
 @OptIn(ExperimentalSerializationApi::class)
