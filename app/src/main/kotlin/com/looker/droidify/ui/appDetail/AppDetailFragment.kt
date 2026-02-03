@@ -239,7 +239,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val canInstall = product != null && installed == null && compatible
         val canUpdate =
             product != null && compatible && product.canUpdate(installed?.installedItem) &&
-                !preference.shouldIgnoreUpdate(product.versionCode)
+                    !preference.shouldIgnoreUpdate(product.versionCode)
         val canUninstall = product != null && installed != null && !installed.isSystem
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()

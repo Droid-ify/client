@@ -3,9 +3,9 @@ package com.looker.droidify.service
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.core.net.toUri
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
 import com.looker.droidify.datastore.SettingsRepository
@@ -88,16 +88,16 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     ) {
         infix fun isDownloading(packageName: String): Boolean =
             currentItem.packageName == packageName && (
-                currentItem is State.Connecting || currentItem is State.Downloading
-                )
+                    currentItem is State.Connecting || currentItem is State.Downloading
+                    )
 
         infix fun isComplete(packageName: String): Boolean =
             currentItem.packageName == packageName && (
-                currentItem is State.Error ||
-                    currentItem is State.Cancel ||
-                    currentItem is State.Success ||
-                    currentItem is State.Idle
-                )
+                    currentItem is State.Error ||
+                            currentItem is State.Cancel ||
+                            currentItem is State.Success ||
+                            currentItem is State.Idle
+                    )
     }
 
     private val _downloadState = MutableStateFlow(DownloadState())
@@ -236,7 +236,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private fun showNotificationError(task: Task, errorType: ErrorType) {
         val intent = Intent(this, MainActivity::class.java)
             .setAction(Intent.ACTION_VIEW)
-            .setData(Uri.parse("package:${task.packageName}"))
+            .setData("package:${task.packageName}".toUri())
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .toPendingIntent(this)
         notificationManager?.notify(
@@ -277,7 +277,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private fun showNotificationInstall(task: Task) {
         val intent = Intent(this, MainActivity::class.java)
             .setAction(MainActivity.ACTION_INSTALL)
-            .setData(Uri.parse("package:${task.packageName}"))
+            .setData("package:${task.packageName}".toUri())
             .putExtra(MainActivity.EXTRA_CACHE_FILE_NAME, task.release.cacheFileName)
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             .toPendingIntent(this)
@@ -300,8 +300,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         updateCurrentState(State.Success(task.packageName, task.release))
         val autoInstallWithSessionInstaller =
             SdkCheck.canAutoInstall(task.release.targetSdkVersion) &&
-                currentInstaller == InstallerType.SESSION &&
-                task.isUpdate
+                    currentInstaller == InstallerType.SESSION &&
+                    task.isUpdate
 
         showNotificationInstall(task)
         if (currentInstaller == InstallerType.ROOT ||
@@ -397,7 +397,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private fun createNotificationIntent(packageName: String): PendingIntent? =
         Intent(this, MainActivity::class.java)
             .setAction(Intent.ACTION_VIEW)
-            .setData(Uri.parse("package:$packageName"))
+            .setData("package:$packageName".toUri())
             .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             .toPendingIntent(this)
 

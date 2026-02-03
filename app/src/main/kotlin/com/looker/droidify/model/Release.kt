@@ -1,6 +1,6 @@
 package com.looker.droidify.model
 
-import android.net.Uri
+import androidx.core.net.toUri
 
 data class Release(
     val selected: Boolean,
@@ -25,7 +25,7 @@ data class Release(
     val permissions: List<String>,
     val features: List<String>,
     val platforms: List<String>,
-    val incompatibilities: List<Incompatibility>
+    val incompatibilities: List<Incompatibility>,
 ) {
     sealed class Incompatibility {
         object MinSdk : Incompatibility()
@@ -38,7 +38,7 @@ data class Release(
         get() = "$versionCode.$hash"
 
     fun getDownloadUrl(repository: Repository): String {
-        return Uri.parse(repository.address).buildUpon().appendPath(release).build().toString()
+        return repository.address.toUri().buildUpon().appendPath(release).build().toString()
     }
 
     val cacheFileName: String
