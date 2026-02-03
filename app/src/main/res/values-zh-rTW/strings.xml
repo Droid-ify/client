@@ -251,4 +251,7 @@
     <string name="monthly">每月</string>
     <string name="downloading_rb_logs">下載可復現性日誌</string>
     <string name="downloading_download_stats">正在下載下載量統計</string>
+    <string name="requires_authentication">需要身份驗證？</string>
+    <string name="force_sync_repositories">強制同步軟體庫</string>
+    <string name="copy_error_details">複製錯誤詳細資訊</string>
 </resources>
