@@ -254,4 +254,9 @@
     <string name="monthly">Месечно</string>
     <string name="downloading_rb_logs">Изтегляне на регистрационни файлове за възпроизводимост</string>
     <string name="downloading_download_stats">Изтегляне на статистика за изтегляния</string>
+    <string name="delete_apk_on_install">Изтриване на APK при инсталиране</string>
+    <string name="delete_apk_on_install_summary">Автоматично изтриване на APK файлове след успешна инсталация</string>
+    <string name="requires_authentication">Изисква се удостоверяване?</string>
+    <string name="force_sync_repositories">Принудително синхронизиране на хранилища</string>
+    <string name="copy_error_details">Копиране на подробности за грешката</string>
 </resources>
