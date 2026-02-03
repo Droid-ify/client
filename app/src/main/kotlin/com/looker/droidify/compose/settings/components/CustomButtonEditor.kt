@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -225,22 +226,20 @@ private fun IconOption(
     }
 }
 
-@Composable
-fun CustomButtonIcon.toDrawableRes(): Int {
-    return when (this) {
-        CustomButtonIcon.LINK -> R.drawable.ic_public
-        CustomButtonIcon.SEARCH -> R.drawable.ic_search
-        CustomButtonIcon.PRIVACY -> R.drawable.ic_verified
-        CustomButtonIcon.STORE -> R.drawable.ic_download
-        CustomButtonIcon.CODE -> R.drawable.ic_code
-        CustomButtonIcon.DOWNLOAD -> R.drawable.ic_download
-        CustomButtonIcon.SHARE -> R.drawable.ic_share
-        CustomButtonIcon.BUG -> R.drawable.ic_bug_report
-        CustomButtonIcon.INFO -> R.drawable.ic_perm_device_information
-        CustomButtonIcon.EMAIL -> R.drawable.ic_email
-        CustomButtonIcon.PERSON -> R.drawable.ic_person
-        CustomButtonIcon.HISTORY -> R.drawable.ic_history
-        CustomButtonIcon.SETTINGS -> R.drawable.ic_tune
-        CustomButtonIcon.TEXT_ONLY -> R.drawable.ic_public // Fallback, won't be used
-    }
+@Stable
+fun CustomButtonIcon.toDrawableRes(): Int = when (this) {
+    CustomButtonIcon.LINK -> R.drawable.ic_public
+    CustomButtonIcon.SEARCH -> R.drawable.ic_search
+    CustomButtonIcon.PRIVACY -> R.drawable.ic_verified
+    CustomButtonIcon.STORE -> R.drawable.ic_search
+    CustomButtonIcon.CODE -> R.drawable.ic_code
+    CustomButtonIcon.DOWNLOAD -> R.drawable.ic_download
+    CustomButtonIcon.SHARE -> R.drawable.ic_share
+    CustomButtonIcon.BUG -> R.drawable.ic_bug_report
+    CustomButtonIcon.INFO -> R.drawable.ic_perm_device_information
+    CustomButtonIcon.EMAIL -> R.drawable.ic_email
+    CustomButtonIcon.PERSON -> R.drawable.ic_person
+    CustomButtonIcon.HISTORY -> R.drawable.ic_history
+    CustomButtonIcon.SETTINGS -> R.drawable.ic_tune
+    CustomButtonIcon.TEXT_ONLY -> R.drawable.ic_public // Fallback, won't be used
 }

@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.annotation.DrawableRes
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.droidify.R
+import com.looker.droidify.compose.settings.components.toDrawableRes
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.CustomButtonIcon
 import com.looker.droidify.utility.common.extension.dp
@@ -135,7 +134,7 @@ class CustomButtonsAdapter(
             } else {
                 iconView.visibility = View.VISIBLE
                 textView.visibility = View.GONE
-                iconView.setImageResource(with(Companion) { button.icon.toDrawableRes() })
+                iconView.setImageResource(button.icon.toDrawableRes())
             }
 
             labelView.text = button.label
@@ -143,28 +142,6 @@ class CustomButtonsAdapter(
             itemView.setOnClickListener {
                 val resolvedUrl = button.resolveUrl(packageName)
                 onButtonClick(resolvedUrl)
-            }
-        }
-    }
-
-    companion object {
-        @DrawableRes
-        fun CustomButtonIcon.toDrawableRes(): Int {
-            return when (this) {
-                CustomButtonIcon.LINK -> R.drawable.ic_public
-                CustomButtonIcon.SEARCH -> R.drawable.ic_search
-                CustomButtonIcon.PRIVACY -> R.drawable.ic_verified
-                CustomButtonIcon.STORE -> R.drawable.ic_download
-                CustomButtonIcon.CODE -> R.drawable.ic_code
-                CustomButtonIcon.DOWNLOAD -> R.drawable.ic_download
-                CustomButtonIcon.SHARE -> R.drawable.ic_share
-                CustomButtonIcon.BUG -> R.drawable.ic_bug_report
-                CustomButtonIcon.INFO -> R.drawable.ic_perm_device_information
-                CustomButtonIcon.EMAIL -> R.drawable.ic_email
-                CustomButtonIcon.PERSON -> R.drawable.ic_person
-                CustomButtonIcon.HISTORY -> R.drawable.ic_history
-                CustomButtonIcon.SETTINGS -> R.drawable.ic_tune
-                CustomButtonIcon.TEXT_ONLY -> R.drawable.ic_public // Fallback, won't be used
             }
         }
     }
