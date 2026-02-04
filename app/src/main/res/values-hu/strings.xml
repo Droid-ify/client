@@ -257,4 +257,6 @@
     <string name="requires_authentication">Hitelesítés szükséges?</string>
     <string name="force_sync_repositories">Tárolók kényszerített szinkronizálása</string>
     <string name="copy_error_details">Hiba részleteinek másolása</string>
+    <string name="delete_apk_on_install">APK törlése telepítéskor</string>
+    <string name="delete_apk_on_install_summary">APK-fájlok automatikus törlése a sikeres telepítés után</string>
 </resources>
