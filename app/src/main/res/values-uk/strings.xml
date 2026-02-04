@@ -156,7 +156,7 @@
     <string name="password">Пароль</string>
     <string name="processing_FORMAT">Обробка %1$s…</string>
     <string name="repository">Репозиторій</string>
-    <string name="repository_unsigned_DESC">Підпис не знайдено. Не вдалося перевірити список програм.</string>
+    <string name="repository_unsigned_DESC">Підпис не знайдено. Не вдалося перевірити список програм</string>
     <string name="share">Поділитися</string>
     <string name="source_code_no_longer_available">Вихідний код більше не доступний</string>
     <string name="system">Як у системі</string>
@@ -260,4 +260,9 @@
     <string name="monthly">Щомісяця</string>
     <string name="downloading_rb_logs">Завантаження журналів відтворюваності</string>
     <string name="downloading_download_stats">Завантаження статистики завантажень</string>
+    <string name="delete_apk_on_install">Видалити APK при встановленні</string>
+    <string name="delete_apk_on_install_summary">Автоматично видаляти файли APK після успішного їх встановлення</string>
+    <string name="requires_authentication">Потребує автентифікацію?</string>
+    <string name="force_sync_repositories">Примусова синхронізація репозиторіїв</string>
+    <string name="copy_error_details">Копіювати деталі помилки</string>
 </resources>
