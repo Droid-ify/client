@@ -263,4 +263,6 @@
     <string name="requires_authentication">Требуется аутентификация?</string>
     <string name="force_sync_repositories">Принудительно синхронизировать репозитории</string>
     <string name="copy_error_details">Копировать данные ошибки</string>
+    <string name="delete_apk_on_install">Удалять APK после установки</string>
+    <string name="delete_apk_on_install_summary">Автоматически удалять APK-файлы после успешной установки</string>
 </resources>
