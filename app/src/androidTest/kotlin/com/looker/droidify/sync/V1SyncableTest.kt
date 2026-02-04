@@ -16,7 +16,6 @@ import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.VersionV2
 import kotlin.system.measureTimeMillis
-import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -25,6 +24,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -211,7 +211,7 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
     assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
     assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
-    assertContentEquals(expectedMetaData.donate, foundMetadata.donate?.ifEmpty { null })
+    assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
     // Source
     assertEquals(expectedMetaData.translation, foundMetadata.translation)
     assertEquals(expectedMetaData.issueTracker, foundMetadata.issueTracker)

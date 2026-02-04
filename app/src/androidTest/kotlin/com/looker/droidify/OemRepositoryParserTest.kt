@@ -8,9 +8,9 @@ import com.looker.droidify.index.OemRepositoryParser
 import com.looker.droidify.sync.common.assets
 import org.junit.Before
 import org.junit.runner.RunWith
-import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
+import org.junit.Test
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
