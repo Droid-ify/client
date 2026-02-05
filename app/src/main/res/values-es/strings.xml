@@ -260,4 +260,6 @@
     <string name="requires_authentication">¿Requiere autenticación?</string>
     <string name="force_sync_repositories">Forzar sincronización de repositorios</string>
     <string name="copy_error_details">Copiar detalles del error</string>
+    <string name="delete_apk_on_install">Eliminar el APK tras la instalación</string>
+    <string name="delete_apk_on_install_summary">Eliminar automáticamente los archivos APK después de una instalación exitosa</string>
 </resources>
