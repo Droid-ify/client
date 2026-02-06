@@ -53,7 +53,7 @@
     <string name="open_DESC_FORMAT">Ĉu malfermi %s\?</string>
     <string name="validation_index_error_DESC">Indekso ne povis esti validigita.</string>
     <string name="new_updates_available">Novaj versioj de aplikaĵoj disponeblaj</string>
-    <string name="all_applications_up_to_date">Ĉiuj viaj aplikaĵoj estas ĝisdatigitaj</string>
+    <string name="all_applications_up_to_date">Ĉiuj viaj apoj estas ĝisdataj</string>
     <string name="has_non_free_dependencies">Havas neliberajn dependecojn</string>
     <string name="changelog">Ŝanĝprotokolo</string>
     <string name="shizuku_not_alive">Shizuku ne kuras</string>
@@ -87,7 +87,7 @@
     <string name="username">Uzantnomo</string>
     <string name="version_FORMAT">Versio %s</string>
     <string name="light">Hela</string>
-    <string name="all_applications">Ĉiuj aplikaĵoj</string>
+    <string name="all_applications">Ĉiuj apoj</string>
     <string name="proxy_port">Prokura haveno</string>
     <string name="requires_FORMAT">Postulas %s</string>
     <string name="delete">Forigi</string>
