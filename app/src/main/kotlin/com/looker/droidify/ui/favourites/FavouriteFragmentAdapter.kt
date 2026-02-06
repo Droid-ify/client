@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.looker.droidify.databinding.ProductItemBinding
-import com.looker.droidify.model.Product
+import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.corneredBackground
@@ -19,14 +19,14 @@ class FavouriteFragmentAdapter(
     private val onProductClick: (String) -> Unit
 ) : RecyclerView.Adapter<FavouriteFragmentAdapter.ViewHolder>() {
 
-    inner class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val icon = binding.icon
         val name = binding.name
         val summary = binding.summary
         val version = binding.status
     }
 
-    var apps: List<List<Product>> = emptyList()
+    var apps: List<ProductItem> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -47,8 +47,8 @@ class FavouriteFragmentAdapter(
             )
         ).apply {
             itemView.setOnClickListener {
-                if (apps.isNotEmpty() && apps[absoluteAdapterPosition].firstOrNull() != null) {
-                    onProductClick(apps[absoluteAdapterPosition].first().packageName)
+                if (apps.isNotEmpty()) {
+                    onProductClick(apps[absoluteAdapterPosition].packageName)
                 }
             }
         }
@@ -56,20 +56,25 @@ class FavouriteFragmentAdapter(
     override fun getItemCount(): Int = apps.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = apps[position].first().item()
+        val item = apps[position]
+        val context = holder.itemView.context
+        val installedVersion = item.installedVersion.nullIfEmpty()
+
         val repository: Repository? = repositories[item.repositoryId]
         holder.name.text = item.name
         holder.summary.isVisible = item.summary.isNotEmpty()
         holder.summary.text = item.summary
+
         if (repository != null) {
             val iconUrl = item.icon(holder.icon, repository)
             holder.icon.load(iconUrl) {
                 authentication(repository.authentication)
             }
         }
+
         holder.version.apply {
-            text = item.installedVersion.nullIfEmpty() ?: item.version
-            val isInstalled = item.installedVersion.nullIfEmpty() != null
+            text = installedVersion ?: item.version
+            val isInstalled = installedVersion != null
             when {
                 item.canUpdate -> {
                     backgroundTintList =
