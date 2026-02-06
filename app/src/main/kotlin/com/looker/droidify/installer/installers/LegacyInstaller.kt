@@ -84,6 +84,7 @@ class LegacyInstaller(
     override fun close() {}
 }
 
+@Suppress("DEPRECATION")
 suspend fun Context.uninstallPackage(packageName: PackageName) =
     suspendCancellableCoroutine { cont ->
         try {

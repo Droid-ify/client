@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 
 @Singleton
 class CustomButtonRepository @Inject constructor(
-    @ApplicationContext private val context: Context,
+    @param:ApplicationContext private val context: Context,
 ) {
     companion object {
         private const val FILE_NAME = "custom_buttons.json"

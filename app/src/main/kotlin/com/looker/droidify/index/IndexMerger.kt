@@ -3,12 +3,12 @@ package com.looker.droidify.index
 import android.content.ContentValues
 import android.database.sqlite.SQLiteDatabase
 import com.fasterxml.jackson.core.JsonToken
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.droidify.utility.common.extension.collectNotNull
 import com.looker.droidify.utility.common.extension.writeDictionary
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.Release
 import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.release
 import com.looker.droidify.utility.serialization.serialize
@@ -112,6 +112,7 @@ class IndexMerger(file: File) : Closeable {
         db.use { closeTransaction() }
     }
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun SQLiteDatabase.execWithResult(sql: String) {
         rawQuery(sql, null).use { it.count }
     }

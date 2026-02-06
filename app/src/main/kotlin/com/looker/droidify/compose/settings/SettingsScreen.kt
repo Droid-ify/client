@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -533,14 +534,14 @@ private fun Duration.toDisplayString(): String {
     if (this == Duration.INFINITE) return stringResource(R.string.never)
     val hours = inWholeHours.toInt()
     val days = inWholeDays.toInt()
-    val context = LocalContext.current
     return if (hours >= 24) {
-        "$days ${context.resources.getQuantityString(R.plurals.days, days)}"
+        pluralStringResource(R.plurals.days, days)
     } else {
-        "$hours ${context.resources.getQuantityString(R.plurals.hours, hours)}"
+        pluralStringResource(R.plurals.hours, hours)
     }
 }
 
+@Suppress("DEPRECATION")
 private fun Context.getInstallerOptions(): List<LegacyInstallerComponent> {
     val intent = Intent(Intent.ACTION_INSTALL_PACKAGE).apply {
         setDataAndType("content://".toUri(), "application/vnd.android.package-archive")

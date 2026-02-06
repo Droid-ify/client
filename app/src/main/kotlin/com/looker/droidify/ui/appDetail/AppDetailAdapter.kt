@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -28,6 +27,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
@@ -111,7 +111,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onCustomButtonClick(url: String)
     }
 
-    enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
+    enum class Action(@param:StringRes val titleResId: Int, @param:DrawableRes val iconResId: Int) {
         INSTALL(stringRes.install, drawableRes.ic_download),
         UPDATE(stringRes.update, drawableRes.ic_download),
         LAUNCH(stringRes.launch, drawableRes.ic_launch),
@@ -344,18 +344,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.OpenCollective -> "Open Collective"
                 }
 
-                override val uri: Uri? = when (donate) {
-                    is Product.Donate.Regular -> Uri.parse(donate.url)
-                    is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
-                    is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
-                    is Product.Donate.Liberapay -> Uri.parse(
-                        "https://liberapay.com/${donate.id}"
-                    )
-
-                    is Product.Donate.OpenCollective -> Uri.parse(
-                        "https://opencollective.com/${donate.id}"
-                    )
-                }
+                override val uri: Uri = when (donate) {
+                    is Product.Donate.Regular -> donate.url
+                    is Product.Donate.Bitcoin -> "bitcoin:${donate.address}"
+                    is Product.Donate.Litecoin -> "litecoin:${donate.address}"
+                    is Product.Donate.Liberapay -> "https://liberapay.com/${donate.id}"
+                    is Product.Donate.OpenCollective -> "https://opencollective.com/${donate.id}"
+                }.toUri()
             }
         }
 
@@ -404,13 +399,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .let { view.measure(it, it) }
         }
 
+        @Suppress("DEPRECATION")
         fun invalidate(resources: Resources, callback: () -> T): T {
-            val (density, scaledDensity) = resources.displayMetrics.let {
-                Pair(
-                    it.density,
-                    it.scaledDensity
-                )
-            }
+            val metrics = resources.displayMetrics
+            val density = metrics.density
+            val scaledDensity = metrics.scaledDensity
             if (this.density != density || this.scaledDensity != scaledDensity) {
                 this.density = density
                 this.scaledDensity = scaledDensity
@@ -618,11 +611,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 gravity = Gravity.CENTER
                 setPadding(20.dp, 20.dp, 20.dp, 20.dp)
                 val imageView = ImageView(context)
-                val bitmap = Bitmap.createBitmap(
-                    64.dp.dpToPx.roundToInt(),
-                    32.dp.dpToPx.roundToInt(),
-                    Bitmap.Config.ARGB_8888
-                )
+                val bitmap = createBitmap(64.dp.dpToPx.roundToInt(), 32.dp.dpToPx.roundToInt())
                 val canvas = Canvas(bitmap)
                 val title = TextView(context)
                 with(title) {
@@ -857,7 +846,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             return if (length >= 0) subSequence(0, length) else null
         }
 
-        val description = formatHtml(productRepository.first.description).apply {
+        val description = formatHtml(productRepository.first.description) { url ->
+            val uri = try {
+                url.toUri()
+            } catch (_: Exception) {
+                null
+            }
+            if (uri != null) {
+                callbacks.onUriClick(uri, true)
+            }
+        }.apply {
             if (productRepository.first.let { it.summary.isNotEmpty() && it.name != it.summary }) {
                 if (isNotEmpty()) {
                     insert(0, "\n\n")
@@ -946,49 +944,49 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             source.let { link ->
                 if (link.isNotEmpty()) {
                     linkItems += Item.LinkItem.Typed(
-                        LinkType.SOURCE,
-                        "",
-                        link.toUri()
+                        linkType = LinkType.SOURCE,
+                        text = "",
+                        uri = link.toUri()
                     )
                 }
             }
 
             if (author.name.isNotEmpty() || author.web.isNotEmpty()) {
                 linkItems += Item.LinkItem.Typed(
-                    LinkType.AUTHOR,
-                    author.name,
-                    author.web.nullIfEmpty()?.let(Uri::parse)
+                    linkType = LinkType.AUTHOR,
+                    text = author.name,
+                    uri = author.web.nullIfEmpty()?.let(Uri::parse)
                 )
             }
             author.email.nullIfEmpty()?.let {
-                linkItems += Item.LinkItem.Typed(LinkType.EMAIL, "", Uri.parse("mailto:$it"))
+                linkItems += Item.LinkItem.Typed(LinkType.EMAIL, "", "mailto:$it".toUri())
             }
             linkItems += licenses.asSequence().map {
                 Item.LinkItem.Typed(
-                    LinkType.LICENSE,
-                    it,
-                    Uri.parse("https://spdx.org/licenses/$it.html")
+                    linkType = LinkType.LICENSE,
+                    text = it,
+                    uri = "https://spdx.org/licenses/$it.html".toUri()
                 )
             }
             tracker.nullIfEmpty()
-                ?.let { linkItems += Item.LinkItem.Typed(LinkType.TRACKER, "", Uri.parse(it)) }
+                ?.let { linkItems += Item.LinkItem.Typed(LinkType.TRACKER, "", it.toUri()) }
             changelog.nullIfEmpty()?.let {
                 linkItems += Item.LinkItem.Typed(
-                    LinkType.CHANGELOG,
-                    "",
-                    Uri.parse(it)
+                    linkType = LinkType.CHANGELOG,
+                    text = "",
+                    uri = it.toUri()
                 )
             }
             web.nullIfEmpty()
-                ?.let { linkItems += Item.LinkItem.Typed(LinkType.WEB, "", Uri.parse(it)) }
+                ?.let { linkItems += Item.LinkItem.Typed(LinkType.WEB, "", it.toUri()) }
         }
         if (linkItems.isNotEmpty()) {
             if (ExpandType.LINKS in expanded) {
                 items += Item.SectionItem(
-                    SectionType.LINKS,
-                    ExpandType.LINKS,
-                    emptyList(),
-                    linkItems.size
+                    sectionType = SectionType.LINKS,
+                    expandType = ExpandType.LINKS,
+                    items = emptyList(),
+                    collapseCount = linkItems.size
                 )
                 items += linkItems
             } else {
@@ -1023,7 +1021,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .asSequence().mapNotNull {
                     try {
                         packageManager.getPermissionInfo(it, 0)
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         null
                     }
                 }
@@ -1031,7 +1029,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .asSequence().map { (group, permissionInfo) ->
                     val permissionGroupInfo = try {
                         group?.let { packageManager.getPermissionGroupInfo(it, 0) }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         null
                     }
                     Pair(permissionGroupInfo, permissionInfo)
@@ -1858,20 +1856,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     holder.repoTitle.setText(stringRes.repository_not_found)
                     holder.repoAddress.text = item.repoAddress
                 }
-            }
-        }
-    }
-
-    private fun formatHtml(text: String): SpannableStringBuilder {
-        // Delegate to shared HtmlFormatter; route URL clicks through adapter callbacks
-        return formatHtml(text) { url ->
-            val uri = try {
-                Uri.parse(url)
-            } catch (_: Exception) {
-                null
-            }
-            if (uri != null) {
-                callbacks.onUriClick(uri, true)
             }
         }
     }

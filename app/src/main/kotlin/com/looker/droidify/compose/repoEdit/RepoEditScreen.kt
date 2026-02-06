@@ -55,7 +55,7 @@ fun RepoEditScreen(
     val isLoading by viewModel.isLoading.collectAsState()
     val errorState by viewModel.errorState.collectAsState()
     val authEnabled by viewModel.authEnabled.collectAsState()
-    val isFormValid by remember { derivedStateOf { errorState?.hasError == false } }
+    val isFormValid by remember { derivedStateOf { !errorState.hasError } }
 
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -101,26 +101,26 @@ fun RepoEditScreen(
                     .padding(16.dp)
                     .verticalScroll(rememberScrollState()),
             ) {
-                val hasAddressError by remember { derivedStateOf { errorState?.addressError != null } }
+                val hasAddressError by remember { derivedStateOf { errorState.addressError != null } }
                 OutlinedTextField(
                     value = viewModel.addressState.text.toString(),
                     onValueChange = { viewModel.addressState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.address)) },
                     isError = hasAddressError,
-                    supportingText = { errorState?.addressError?.let { Text(it) } },
+                    supportingText = { errorState.addressError?.let { Text(it) } },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                val hasFingerprintError by remember { derivedStateOf { errorState?.fingerprintError != null } }
+                val hasFingerprintError by remember { derivedStateOf { errorState.fingerprintError != null } }
                 OutlinedTextField(
                     value = viewModel.fingerprintState.text.toString(),
                     onValueChange = { viewModel.fingerprintState.edit { replace(0, length, it) } },
                     label = { Text(stringResource(R.string.fingerprint)) },
                     isError = hasFingerprintError,
-                    supportingText = { errorState?.fingerprintError?.let { Text(it) } },
+                    supportingText = { errorState.fingerprintError?.let { Text(it) } },
                     modifier = Modifier.fillMaxWidth(),
                 )
 
@@ -129,7 +129,7 @@ fun RepoEditScreen(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(stringResource(R.string.requires_authentication))
                     Switch(
@@ -142,26 +142,26 @@ fun RepoEditScreen(
                     Column {
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        val hasUsernameError by remember { derivedStateOf { errorState?.usernameError != null } }
+                        val hasUsernameError by remember { derivedStateOf { errorState.usernameError != null } }
                         OutlinedTextField(
                             value = viewModel.usernameState.text.toString(),
                             onValueChange = { viewModel.usernameState.edit { replace(0, length, it) } },
                             label = { Text(stringResource(R.string.username)) },
                             isError = hasUsernameError,
-                            supportingText = { errorState?.usernameError?.let { Text(it) } },
+                            supportingText = { errorState.usernameError?.let { Text(it) } },
                             singleLine = true,
                             modifier = Modifier.fillMaxWidth(),
                         )
 
                         Spacer(modifier = Modifier.height(16.dp))
 
-                        val hasPasswordError by remember { derivedStateOf { errorState?.passwordError != null } }
+                        val hasPasswordError by remember { derivedStateOf { errorState.passwordError != null } }
                         OutlinedTextField(
                             value = viewModel.passwordState.text.toString(),
                             onValueChange = { viewModel.passwordState.edit { replace(0, length, it) } },
                             label = { Text(stringResource(R.string.password)) },
                             isError = hasPasswordError,
-                            supportingText = { errorState?.passwordError?.let { Text(it) } },
+                            supportingText = { errorState.passwordError?.let { Text(it) } },
                             visualTransformation = PasswordVisualTransformation(),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true,
