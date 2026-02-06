@@ -23,14 +23,14 @@ class CustomButtonsAdapter(
 
     private var buttons: List<CustomButton> = emptyList()
     private var packageName: String = ""
-    private var appName: String? = null
-    private var authorName: String? = null
+    private var appName: String = ""
+    private var authorName: String = ""
 
     fun setButtons(
         buttons: List<CustomButton>,
         packageName: String,
-        appName: String? = null,
-        authorName: String? = null,
+        appName: String,
+        authorName: String,
     ) {
         this.buttons = buttons
         this.packageName = packageName
@@ -129,8 +129,8 @@ class CustomButtonsAdapter(
         fun bind(
             button: CustomButton,
             packageName: String,
-            appName: String?,
-            authorName: String?,
+            appName: String,
+            authorName: String,
             onButtonClick: (url: String) -> Unit,
         ) {
             val context = itemView.context

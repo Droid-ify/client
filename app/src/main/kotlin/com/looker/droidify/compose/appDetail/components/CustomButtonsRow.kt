@@ -34,13 +34,11 @@ import com.looker.droidify.datastore.model.CustomButtonIcon
 fun CustomButtonsRow(
     buttons: List<CustomButton>,
     packageName: String,
-    appName: String?,
+    appName: String,
     authorName: String?,
     onButtonClick: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    if (buttons.isEmpty()) return
-
     LazyRow(
         modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
@@ -50,7 +48,7 @@ fun CustomButtonsRow(
             CustomButtonItem(
                 button = button,
                 onClick = {
-                    val resolvedUrl = button.resolveUrl(packageName, appName, authorName)
+                    val resolvedUrl = button.resolveUrl(packageName, appName, authorName ?: "")
                     onButtonClick(resolvedUrl)
                 },
             )

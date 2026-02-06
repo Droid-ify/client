@@ -12,11 +12,11 @@ data class CustomButton(
 ) {
     fun resolveUrl(
         packageName: String,
-        appName: String? = null,
-        authorName: String? = null,
+        appName: String,
+        authorName: String,
     ): String {
-        val encodedAppName = appName?.let { Uri.encode(it) } ?: ""
-        val encodedAuthorName = authorName?.let { Uri.encode(it) } ?: ""
+        val encodedAppName =  Uri.encode(appName)
+        val encodedAuthorName = Uri.encode(authorName)
 
         return urlTemplate
             .replace("{{package_name}}", packageName)

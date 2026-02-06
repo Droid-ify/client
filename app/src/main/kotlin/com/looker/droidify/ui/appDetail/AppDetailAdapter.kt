@@ -233,8 +233,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         class CustomButtonsItem(
             val buttons: List<CustomButton>,
             val packageName: String,
-            val appName: String?,
-            val authorName: String?,
+            val appName: String,
+            val authorName: String,
         ) : Item() {
             override val descriptor: String
                 get() = "custom_buttons.${buttons.size}"
@@ -779,7 +779,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 buttons = customButtons,
                 packageName = packageName,
                 appName = productRepository.first.name,
-                authorName = productRepository.first.author.name.takeIf { it.isNotEmpty() },
+                authorName = productRepository.first.author.name,
             )
         }
 
