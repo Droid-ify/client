@@ -241,4 +241,25 @@
     <string name="always_choose">Siempre elegir</string>
     <string name="select_installer">Seleccionar el instalador</string>
     <string name="label_sdk_version">Objetivos: Android %1$s | Minimo: Android %2$s</string>
+    <string name="repository_not_synced_or_enabled">El repositorio no está ni activado ni sincronizado</string>
+    <string name="action_sync_repo">Sincronizar</string>
+    <string name="action_enable_repo">Activar</string>
+    <string name="repository_not_found_by_id">Repositorio no encontrado</string>
+    <string name="rb_badge">Insignia de construcción reproducible</string>
+    <string name="rb_badge_info">Marca verde \t -&gt; Construcción reproducible verificada\nMarca roja \t -&gt; Construcción no reproducible\nMarca marrón \t -&gt; Estado desconocido</string>
+    <string name="rb_info">Si una compilación es reproducible, significa que la apk dada se compila a partir de la fuente proporcionada</string>
+    <string name="total_downloads">Descargas totales</string>
+    <string name="download_stats">Estadísticas de descarga</string>
+    <string name="download_stats_from_izzy">Fuente: IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">Por Cliente</string>
+    <string name="monthly">Mensual</string>
+    <string name="downloading_rb_logs">Descargando registros de reproducibilidad</string>
+    <string name="downloading_download_stats">Descargando estadísticas de descargas</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="requires_authentication">¿Requiere autenticación?</string>
+    <string name="force_sync_repositories">Forzar sincronización de repositorios</string>
+    <string name="copy_error_details">Copiar detalles del error</string>
+    <string name="delete_apk_on_install">Eliminar el APK tras la instalación</string>
+    <string name="delete_apk_on_install_summary">Eliminar automáticamente los archivos APK después de una instalación exitosa</string>
 </resources>

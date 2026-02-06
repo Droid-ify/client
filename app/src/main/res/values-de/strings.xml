@@ -253,4 +253,9 @@
     <string name="rb_info">Wenn ein Build reproduzierbar ist, bedeutet dies, dass die angegebene APK-Datei aus der bereitgestellten Quelle erstellt wurde</string>
     <string name="downloading_rb_logs">Reproduzierbarkeitsprotokolle werden heruntergeladen</string>
     <string name="downloading_download_stats">Downloadstatistiken werden heruntergeladen</string>
+    <string name="requires_authentication">Authentifizierung erforderlich?</string>
+    <string name="copy_error_details">Fehlerdetails kopieren</string>
+    <string name="force_sync_repositories">Paketquellen synchronisieren erzwingen</string>
+    <string name="delete_apk_on_install_summary">APK-Dateien nach erfolgreicher Installation automatisch löschen</string>
+    <string name="delete_apk_on_install">APK bei der Installation löschen</string>
 </resources>

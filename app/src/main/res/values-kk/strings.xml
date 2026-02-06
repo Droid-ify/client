@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_failed">Әрекет сәтсіз аяқталды</string>
+    <string name="add_repository">Репозиторий қосу</string>
+    <string name="address">Мекенжай</string>
+    <string name="all_applications">Барлық қолданбалар</string>
+    <string name="all_applications_up_to_date">Барлық қолданбаларыңыз жаңартылған</string>
+    <string name="already_exists">Қазірдің өзінде бар</string>
+    <string name="always">Әрқашан</string>
+    <string name="amoled">Қара</string>
+    <string name="anti_features">Жағымсыз мүмкіндіктер</string>
+    <string name="application">Қолданба</string>
+    <string name="application_not_found">Қолданба табылмады</string>
+    <string name="author_email">Автордың электрондық поштасы</string>
+    <string name="author_website">Автордың веб-сайты</string>
+    <string name="auto_update">Қолданбаларды автоматты түрде жаңарту</string>
+    <string name="auto_update_apps">Жаңартуларды автоматты түрде орнату</string>
+    <string name="available">Шолу</string>
+    <string name="bug_tracker">Қате бақылаушы</string>
+    <string name="cancel">Бас тарту</string>
+    <string name="cannot_open_link">Сілтемені ашу мүмкін емес</string>
+    <string name="cant_edit_sync_DESC">Синхрондау кезінде репозиторийді өңдеу мүмкін емес</string>
+    <plurals name="days">
+        <item quantity="one">күн</item>
+        <item quantity="other">күн</item>
+    </plurals>
+    <string name="delete">Жою</string>
+    <string name="delete_repository_DESC">Репозиторийді жою керек пе?</string>
+    <string name="description">Сипаттама</string>
+    <string name="details">Мәліметтер</string>
+    <string name="donate">Қолдау көрсету</string>
+    <string name="downloaded_FORMAT">%s жүктелді</string>
+    <string name="downloading">Жүктелуде</string>
+    <string name="downloading_FORMAT">%s жүктелуде…</string>
+    <string name="edit_repository">Өңдеу</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui қызметі қосулы емес</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku/Sui қызметі жұмыс істеп тұрған жоқ</string>
+    <string name="error_shizuku_not_granted">Shizuku/Sui рұқсаты берілмеген</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku/Sui рұқсаты берілген жоқ</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui орнатылмаған</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku/Sui орнатылған жоқ</string>
+</resources>

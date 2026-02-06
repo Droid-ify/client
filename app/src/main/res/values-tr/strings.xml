@@ -238,4 +238,25 @@
     <string name="label_sdk_version">Hedefler: Android %1$s | En az Android %2$s</string>
     <string name="always_choose">Her zaman seç</string>
     <string name="select_installer">Kurucuyu Seç</string>
+    <string name="repository_not_synced_or_enabled">Depo etkinleştirilmedi ve senkronize edilmedi</string>
+    <string name="action_sync_repo">Senkronize Et</string>
+    <string name="action_enable_repo">Etkinleştir</string>
+    <string name="repository_not_found_by_id">Depo bulunamadı</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge">Tekrarlanabilir build rozeti</string>
+    <string name="rb_badge_info">Yeşil Tik \t -&gt; Doğrulanmış tekrarlanabilir build\nKırmızı Tik \t -&gt; Tekrarlanamayan build\nKahverengi Tik \t -&gt; Bilinmeyen durum</string>
+    <string name="rb_info">Bir build tekrarlanabiliyorsa, bu, verilen apk\'nın sağlanan kaynaktan derlendiği anlamına gelir</string>
+    <string name="total_downloads">Toplam indirme</string>
+    <string name="download_stats">İstatistikleri İndir</string>
+    <string name="download_stats_from_izzy">Kaynak: IzzyOnDroid</string>
+    <string name="total">Toplam</string>
+    <string name="by_client">İstemciye Göre</string>
+    <string name="monthly">Aylık</string>
+    <string name="downloading_rb_logs">Tekrarlanabilirlik günlükleri indiriliyor</string>
+    <string name="downloading_download_stats">İndirme istatistikleri indiriliyor</string>
+    <string name="requires_authentication">Doğrulama lazımmı?</string>
+    <string name="force_sync_repositories">Depo senkronizasyonunu zorla</string>
+    <string name="copy_error_details">Hata detaylarını kopyala</string>
+    <string name="delete_apk_on_install">Yüklendikten sonra APK\'yı sil</string>
+    <string name="delete_apk_on_install_summary">Kurulum başarılı olursa APK dosyalarını otomatik olarak sil</string>
 </resources>

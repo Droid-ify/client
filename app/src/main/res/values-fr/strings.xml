@@ -241,4 +241,20 @@
     <string name="always_choose">Toujours choisir</string>
     <string name="select_installer">Choisir l\'installeur</string>
     <string name="label_sdk_version">Cible : Android %1$s | Minimum : Android %2$s</string>
+    <string name="action_enable_repo">Activer</string>
+    <string name="repository_not_found_by_id">Dépôt introuvable</string>
+    <string name="repository_not_synced_or_enabled">Dépôt non-activé ou non-synchronisé</string>
+    <string name="action_sync_repo">Synchroniser</string>
+    <string name="rb_badge">Badge de build reproductible</string>
+    <string name="rb_badge_info">Coche verte \t -&gt; Build reproductible vérifiée\nCoche rouge \t -&gt; Build non-reproductible\nCoche marron \t -&gt; État inconnu</string>
+    <string name="rb_info">Si une build est reproductible, cela veut dire que l\'APK donné a été build depuis la source fournie</string>
+    <string name="total_downloads">Téléchargements totaux</string>
+    <string name="download_stats">Statistiques de téléchargements</string>
+    <string name="download_stats_from_izzy">Source : IzzyOnDroid</string>
+    <string name="total">Total</string>
+    <string name="by_client">Par le client</string>
+    <string name="monthly">Mensuel</string>
+    <string name="downloading_rb_logs">Téléchargement des logs de reproducibilité</string>
+    <string name="downloading_download_stats">Téléchargement des statistiques de téléchargements</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
 </resources>

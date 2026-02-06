@@ -257,4 +257,9 @@
     <string name="monthly">Měsíčně</string>
     <string name="downloading_rb_logs">Stahování protokolů o reprodukovatelnosti</string>
     <string name="downloading_download_stats">Stahování statistik o stahování</string>
+    <string name="delete_apk_on_install">Smazat APK po instalaci</string>
+    <string name="delete_apk_on_install_summary">Automaticky smazat soubory APK po úspěšné instalaci</string>
+    <string name="requires_authentication">Vyžaduje autentifikaci?</string>
+    <string name="force_sync_repositories">Vynutit synchronizaci repozitářů</string>
+    <string name="copy_error_details">Kopírovat informace o chybě</string>
 </resources>

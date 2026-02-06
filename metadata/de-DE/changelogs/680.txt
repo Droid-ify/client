@@ -1,0 +1,4 @@
+Behoben:
+- Fehler bei der Integrationsüberprüfung von APK-Dateien
+- Überprüfung der Download-Statistikdaten
+- Leistung in der Apps-Liste
