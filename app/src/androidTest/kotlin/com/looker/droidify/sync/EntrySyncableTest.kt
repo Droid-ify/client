@@ -14,7 +14,6 @@ import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
 import kotlin.system.measureTimeMillis
-import kotlin.test.Test
 import kotlin.test.assertContentEquals
 import kotlin.test.assertEquals
 import kotlin.test.fail
@@ -24,6 +23,7 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
 import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
