@@ -198,6 +198,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     }
                 }
                 launch {
+                    viewModel.customButtons.collectLatest { buttons ->
+                        (recyclerView?.adapter as? AppDetailAdapter)?.setCustomButtons(buttons)
+                    }
+                }
+                launch {
                     viewModel.installerState.collect(::updateInstallState)
                 }
                 launch {
@@ -437,6 +442,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
     override fun onFavouriteClicked() {
         viewModel.setFavouriteState()
+    }
+
+    override fun onCustomButtonClick(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
     private fun startLauncherActivity(name: String) {

@@ -34,6 +34,7 @@ import com.looker.droidify.data.model.Html
  * optionally: a + href
  *
  * */
+@Suppress("DEPRECATION")
 fun Html.toAnnotatedString(
     style: SpanStyle = SpanStyle(),
     linkStyle: SpanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline),

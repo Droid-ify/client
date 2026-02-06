@@ -114,9 +114,7 @@ object RepositoryUpdater {
                 val result = request.data
                     ?: return@withContext Result.Error(request.exception, false)
 
-                val file = request.data?.file
-                    ?: return@withContext Result.Error(request.exception, false)
-                file.delete()
+                request.data.file.delete()
                 if (result.statusCode == 404 && indexTypes.isNotEmpty()) {
                     update(
                         context = context,

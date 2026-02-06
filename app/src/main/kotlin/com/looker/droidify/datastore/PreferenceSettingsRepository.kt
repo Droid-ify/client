@@ -37,6 +37,7 @@ class PreferenceSettingsRepository(
     private val dataStore: DataStore<Preferences>,
     private val exporter: Exporter<Settings>,
 ) : SettingsRepository {
+
     override val data: Flow<Settings> = dataStore.data
         .catch { exception ->
             if (exception is IOException) {

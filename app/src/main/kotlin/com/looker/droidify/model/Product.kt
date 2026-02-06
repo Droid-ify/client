@@ -66,7 +66,6 @@ data class Product(
                 Type.LARGE_TABLET -> "tenInchScreenshots"
                 Type.WEAR -> "wearScreenshots"
                 Type.TV -> "tvScreenshots"
-                else -> error("Should not be here, video url already returned")
             }
             return "${repository.address}/$packageName/$locale/$phoneType/$path"
         }
