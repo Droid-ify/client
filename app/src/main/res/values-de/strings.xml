@@ -257,4 +257,5 @@
     <string name="copy_error_details">Fehlerdetails kopieren</string>
     <string name="force_sync_repositories">Paketquellen synchronisieren erzwingen</string>
     <string name="delete_apk_on_install_summary">APK-Dateien nach erfolgreicher Installation automatisch löschen</string>
+    <string name="delete_apk_on_install">APK bei der Installation löschen</string>
 </resources>
