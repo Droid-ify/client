@@ -233,6 +233,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         class CustomButtonsItem(
             val buttons: List<CustomButton>,
             val packageName: String,
+            val appName: String?,
+            val authorName: String?,
         ) : Item() {
             override val descriptor: String
                 get() = "custom_buttons.${buttons.size}"
@@ -730,7 +732,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             val index = items.indexOfFirst { it is Item.CustomButtonsItem }
             if (index >= 0) {
                 val currentItem = items[index] as Item.CustomButtonsItem
-                items[index] = Item.CustomButtonsItem(buttons, currentItem.packageName)
+                items[index] = Item.CustomButtonsItem(
+                    buttons = buttons,
+                    packageName = currentItem.packageName,
+                    appName = currentItem.appName,
+                    authorName = currentItem.authorName,
+                )
                 notifyItemChanged(index)
             }
         }
@@ -768,7 +775,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         items += Item.InstallButtonItem
 
         if (customButtons.isNotEmpty()) {
-            items += Item.CustomButtonsItem(customButtons, packageName)
+            items += Item.CustomButtonsItem(
+                buttons = customButtons,
+                packageName = packageName,
+                appName = productRepository.first.name,
+                authorName = productRepository.first.author.name.takeIf { it.isNotEmpty() },
+            )
         }
 
         if (productRepository.first.screenshots.isNotEmpty()) {
@@ -1498,7 +1510,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     val buttonsAdapter = (adapter as? CustomButtonsAdapter)
                         ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
                             .also { adapter = it }
-                    buttonsAdapter.setButtons(item.buttons, item.packageName)
+                    buttonsAdapter.setButtons(
+                        buttons = item.buttons,
+                        packageName = item.packageName,
+                        appName = item.appName,
+                        authorName = item.authorName,
+                    )
                 }
             }
 

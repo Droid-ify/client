@@ -1,5 +1,6 @@
 package com.looker.droidify.datastore.model
 
+import android.net.Uri
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,10 +10,21 @@ data class CustomButton(
     val urlTemplate: String,
     val icon: CustomButtonIcon = CustomButtonIcon.LINK,
 ) {
-    fun resolveUrl(packageName: String): String {
+    fun resolveUrl(
+        packageName: String,
+        appName: String? = null,
+        authorName: String? = null,
+    ): String {
+        val encodedAppName = appName?.let { Uri.encode(it) } ?: ""
+        val encodedAuthorName = authorName?.let { Uri.encode(it) } ?: ""
+
         return urlTemplate
             .replace("{{package_name}}", packageName)
             .replace("{{ package_name }}", packageName)
+            .replace("{{app_name}}", encodedAppName)
+            .replace("{{ app_name }}", encodedAppName)
+            .replace("{{author_name}}", encodedAuthorName)
+            .replace("{{ author_name }}", encodedAuthorName)
     }
 
     companion object {
@@ -24,10 +36,22 @@ data class CustomButton(
                 icon = CustomButtonIcon.PRIVACY,
             ),
             CustomButton(
+                id = "plexus",
+                label = "Plexus",
+                urlTemplate = "https://plexus.techlore.tech/apps?q={{app_name}}",
+                icon = CustomButtonIcon.PRIVACY,
+            ),
+            CustomButton(
                 id = "playstore",
                 label = "Play Store",
                 urlTemplate = "https://play.google.com/store/apps/details?id={{package_name}}",
                 icon = CustomButtonIcon.STORE,
+            ),
+            CustomButton(
+                id = "alternativeto",
+                label = "AlternativeTo",
+                urlTemplate = "https://alternativeto.net/browse/search/?q={{app_name}}",
+                icon = CustomButtonIcon.SEARCH,
             ),
             CustomButton(
                 id = "apkmirror",

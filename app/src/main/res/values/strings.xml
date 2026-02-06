@@ -277,7 +277,7 @@
     <string name="custom_button_label_hint">e.g., Exodus Privacy</string>
     <string name="custom_button_url">URL template</string>
     <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
-    <string name="custom_button_url_description">Use {{package_name}} as a placeholder for the app\'s package name</string>
+    <string name="custom_button_url_description">Use {{package_name}}, {{app_name}}, or {{author_name}} as placeholders</string>
     <string name="custom_button_templates">Templates</string>
     <string name="custom_button_icon">Icon</string>
     <string name="custom_button_delete_confirmation">Delete the button \"%1$s\"?</string>

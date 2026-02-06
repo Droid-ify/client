@@ -152,6 +152,8 @@ private fun AppDetail(
             CustomButtonsRow(
                 buttons = customButtons,
                 packageName = app.metadata.packageName.name,
+                appName = app.metadata.name,
+                authorName = app.author?.name,
                 onButtonClick = onCustomButtonClick,
             )
         }

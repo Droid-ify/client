@@ -23,10 +23,19 @@ class CustomButtonsAdapter(
 
     private var buttons: List<CustomButton> = emptyList()
     private var packageName: String = ""
+    private var appName: String? = null
+    private var authorName: String? = null
 
-    fun setButtons(buttons: List<CustomButton>, packageName: String) {
+    fun setButtons(
+        buttons: List<CustomButton>,
+        packageName: String,
+        appName: String? = null,
+        authorName: String? = null,
+    ) {
         this.buttons = buttons
         this.packageName = packageName
+        this.appName = appName
+        this.authorName = authorName
         notifyDataSetChanged()
     }
 
@@ -38,7 +47,7 @@ class CustomButtonsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val button = buttons[position]
-        holder.bind(button, packageName, onButtonClick)
+        holder.bind(button, packageName, appName, authorName, onButtonClick)
     }
 
     class ViewHolder(context: android.content.Context) : RecyclerView.ViewHolder(
@@ -120,6 +129,8 @@ class CustomButtonsAdapter(
         fun bind(
             button: CustomButton,
             packageName: String,
+            appName: String?,
+            authorName: String?,
             onButtonClick: (url: String) -> Unit,
         ) {
             val context = itemView.context
@@ -140,7 +151,7 @@ class CustomButtonsAdapter(
             labelView.text = button.label
 
             itemView.setOnClickListener {
-                val resolvedUrl = button.resolveUrl(packageName)
+                val resolvedUrl = button.resolveUrl(packageName, appName, authorName)
                 onButtonClick(resolvedUrl)
             }
         }
