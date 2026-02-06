@@ -8,6 +8,8 @@ import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.Package
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.datastore.CustomButtonRepository
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,12 +21,16 @@ import kotlinx.coroutines.flow.onStart
 class AppDetailViewModel @Inject constructor(
     private val appRepository: AppRepository,
     private val repoRepository: RepoRepository,
+    private val customButtonRepository: CustomButtonRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     val packageName: String = requireNotNull(savedStateHandle["packageName"]) {
         "Required argument 'packageName' was not found in SavedStateHandle"
     }
+
+    val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
+        .asStateFlow(emptyList())
 
     val state: StateFlow<AppDetailState> = appRepository
         .getApp(PackageName(packageName))

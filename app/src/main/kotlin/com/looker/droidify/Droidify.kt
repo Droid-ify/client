@@ -188,11 +188,10 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
             AutoSync.ALWAYS -> SyncPreference(NetworkType.CONNECTED)
             AutoSync.WIFI_ONLY -> SyncPreference(NetworkType.UNMETERED)
             AutoSync.WIFI_PLUGGED_IN -> SyncPreference(NetworkType.UNMETERED, pluggedIn = true)
-            else -> null
         }
         val isCompleted = jobScheduler?.allPendingJobs
             ?.any { it.id == Constants.JOB_ID_SYNC } == false
-        if ((force || isCompleted) && syncConditions != null) {
+        if (force || isCompleted) {
             val period = 12.hours.inWholeMilliseconds
             val job = SyncService.Job.create(
                 context = this,

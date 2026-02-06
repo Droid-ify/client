@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.pm.PermissionGroupInfo
 import android.content.pm.PermissionInfo
 import android.content.res.Resources
-import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Typeface
@@ -28,6 +27,7 @@ import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
@@ -47,6 +47,7 @@ import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.data.local.model.toReproducible
+import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.ProductPreference
@@ -107,9 +108,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
+        fun onCustomButtonClick(url: String)
     }
 
-    enum class Action(@StringRes val titleResId: Int, @DrawableRes val iconResId: Int) {
+    enum class Action(@param:StringRes val titleResId: Int, @param:DrawableRes val iconResId: Int) {
         INSTALL(stringRes.install, drawableRes.ic_download),
         UPDATE(stringRes.update, drawableRes.ic_download),
         LAUNCH(stringRes.launch, drawableRes.ic_launch),
@@ -133,6 +135,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         APP_INFO,
         DOWNLOAD_STATUS,
         INSTALL_BUTTON,
+        CUSTOM_BUTTONS,
         SCREENSHOT,
         SWITCH,
         SECTION,
@@ -225,6 +228,18 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 get() = "screenshot.${screenshots.size}"
             override val viewType: ViewType
                 get() = ViewType.SCREENSHOT
+        }
+
+        class CustomButtonsItem(
+            val buttons: List<CustomButton>,
+            val packageName: String,
+            val appName: String,
+            val authorName: String,
+        ) : Item() {
+            override val descriptor: String
+                get() = "custom_buttons.${buttons.size}"
+            override val viewType: ViewType
+                get() = ViewType.CUSTOM_BUTTONS
         }
 
         class SwitchItem(
@@ -329,18 +344,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     is Product.Donate.OpenCollective -> "Open Collective"
                 }
 
-                override val uri: Uri? = when (donate) {
-                    is Product.Donate.Regular -> Uri.parse(donate.url)
-                    is Product.Donate.Bitcoin -> Uri.parse("bitcoin:${donate.address}")
-                    is Product.Donate.Litecoin -> Uri.parse("litecoin:${donate.address}")
-                    is Product.Donate.Liberapay -> Uri.parse(
-                        "https://liberapay.com/${donate.id}"
-                    )
-
-                    is Product.Donate.OpenCollective -> Uri.parse(
-                        "https://opencollective.com/${donate.id}"
-                    )
-                }
+                override val uri: Uri = when (donate) {
+                    is Product.Donate.Regular -> donate.url
+                    is Product.Donate.Bitcoin -> "bitcoin:${donate.address}"
+                    is Product.Donate.Litecoin -> "litecoin:${donate.address}"
+                    is Product.Donate.Liberapay -> "https://liberapay.com/${donate.id}"
+                    is Product.Donate.OpenCollective -> "https://opencollective.com/${donate.id}"
+                }.toUri()
             }
         }
 
@@ -389,13 +399,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .let { view.measure(it, it) }
         }
 
+        @Suppress("DEPRECATION")
         fun invalidate(resources: Resources, callback: () -> T): T {
-            val (density, scaledDensity) = resources.displayMetrics.let {
-                Pair(
-                    it.density,
-                    it.scaledDensity
-                )
-            }
+            val metrics = resources.displayMetrics
+            val density = metrics.density
+            val scaledDensity = metrics.scaledDensity
             if (this.density != density || this.scaledDensity != scaledDensity) {
                 this.density = density
                 this.scaledDensity = scaledDensity
@@ -454,6 +462,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         RecyclerView.ViewHolder(RecyclerView(context)) {
 
         val screenshotsRecycler: RecyclerView
+            get() = itemView as RecyclerView
+    }
+
+    private class CustomButtonsViewHolder(context: Context) :
+        RecyclerView.ViewHolder(RecyclerView(context)) {
+
+        val buttonsRecycler: RecyclerView
             get() = itemView as RecyclerView
     }
 
@@ -596,11 +611,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 gravity = Gravity.CENTER
                 setPadding(20.dp, 20.dp, 20.dp, 20.dp)
                 val imageView = ImageView(context)
-                val bitmap = Bitmap.createBitmap(
-                    64.dp.dpToPx.roundToInt(),
-                    32.dp.dpToPx.roundToInt(),
-                    Bitmap.Config.ARGB_8888
-                )
+                val bitmap = createBitmap(64.dp.dpToPx.roundToInt(), 32.dp.dpToPx.roundToInt())
                 val canvas = Canvas(bitmap)
                 val title = TextView(context)
                 with(title) {
@@ -702,6 +713,24 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private val expanded = mutableSetOf<ExpandType>()
     private var product: Product? = null
     private var installedItem: InstalledItem? = null
+    private var customButtons: List<CustomButton> = emptyList()
+
+    fun setCustomButtons(buttons: List<CustomButton>) {
+        if (customButtons != buttons) {
+            customButtons = buttons
+            val index = items.indexOfFirst { it is Item.CustomButtonsItem }
+            if (index >= 0) {
+                val currentItem = items[index] as Item.CustomButtonsItem
+                items[index] = Item.CustomButtonsItem(
+                    buttons = buttons,
+                    packageName = currentItem.packageName,
+                    appName = currentItem.appName,
+                    authorName = currentItem.authorName,
+                )
+                notifyItemChanged(index)
+            }
+        }
+    }
 
     fun setProducts(
         context: Context,
@@ -733,6 +762,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         items += Item.DownloadStatusItem
         items += Item.InstallButtonItem
+
+        if (customButtons.isNotEmpty()) {
+            items += Item.CustomButtonsItem(
+                buttons = customButtons,
+                packageName = packageName,
+                appName = productRepository.first.name,
+                authorName = productRepository.first.author.name,
+            )
+        }
 
         if (productRepository.first.screenshots.isNotEmpty()) {
             val screenShotItem = mutableListOf<Item>()
@@ -808,7 +846,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             return if (length >= 0) subSequence(0, length) else null
         }
 
-        val description = formatHtml(productRepository.first.description).apply {
+        val description = formatHtml(productRepository.first.description) { url ->
+            val uri = try {
+                url.toUri()
+            } catch (_: Exception) {
+                null
+            }
+            if (uri != null) {
+                callbacks.onUriClick(uri, true)
+            }
+        }.apply {
             if (productRepository.first.let { it.summary.isNotEmpty() && it.name != it.summary }) {
                 if (isNotEmpty()) {
                     insert(0, "\n\n")
@@ -897,49 +944,49 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             source.let { link ->
                 if (link.isNotEmpty()) {
                     linkItems += Item.LinkItem.Typed(
-                        LinkType.SOURCE,
-                        "",
-                        link.toUri()
+                        linkType = LinkType.SOURCE,
+                        text = "",
+                        uri = link.toUri()
                     )
                 }
             }
 
             if (author.name.isNotEmpty() || author.web.isNotEmpty()) {
                 linkItems += Item.LinkItem.Typed(
-                    LinkType.AUTHOR,
-                    author.name,
-                    author.web.nullIfEmpty()?.let(Uri::parse)
+                    linkType = LinkType.AUTHOR,
+                    text = author.name,
+                    uri = author.web.nullIfEmpty()?.let(Uri::parse)
                 )
             }
             author.email.nullIfEmpty()?.let {
-                linkItems += Item.LinkItem.Typed(LinkType.EMAIL, "", Uri.parse("mailto:$it"))
+                linkItems += Item.LinkItem.Typed(LinkType.EMAIL, "", "mailto:$it".toUri())
             }
             linkItems += licenses.asSequence().map {
                 Item.LinkItem.Typed(
-                    LinkType.LICENSE,
-                    it,
-                    Uri.parse("https://spdx.org/licenses/$it.html")
+                    linkType = LinkType.LICENSE,
+                    text = it,
+                    uri = "https://spdx.org/licenses/$it.html".toUri()
                 )
             }
             tracker.nullIfEmpty()
-                ?.let { linkItems += Item.LinkItem.Typed(LinkType.TRACKER, "", Uri.parse(it)) }
+                ?.let { linkItems += Item.LinkItem.Typed(LinkType.TRACKER, "", it.toUri()) }
             changelog.nullIfEmpty()?.let {
                 linkItems += Item.LinkItem.Typed(
-                    LinkType.CHANGELOG,
-                    "",
-                    Uri.parse(it)
+                    linkType = LinkType.CHANGELOG,
+                    text = "",
+                    uri = it.toUri()
                 )
             }
             web.nullIfEmpty()
-                ?.let { linkItems += Item.LinkItem.Typed(LinkType.WEB, "", Uri.parse(it)) }
+                ?.let { linkItems += Item.LinkItem.Typed(LinkType.WEB, "", it.toUri()) }
         }
         if (linkItems.isNotEmpty()) {
             if (ExpandType.LINKS in expanded) {
                 items += Item.SectionItem(
-                    SectionType.LINKS,
-                    ExpandType.LINKS,
-                    emptyList(),
-                    linkItems.size
+                    sectionType = SectionType.LINKS,
+                    expandType = ExpandType.LINKS,
+                    items = emptyList(),
+                    collapseCount = linkItems.size
                 )
                 items += linkItems
             } else {
@@ -974,7 +1021,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .asSequence().mapNotNull {
                     try {
                         packageManager.getPermissionInfo(it, 0)
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         null
                     }
                 }
@@ -982,7 +1029,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 .asSequence().map { (group, permissionInfo) ->
                     val permissionGroupInfo = try {
                         group?.let { packageManager.getPermissionGroupInfo(it, 0) }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         null
                     }
                     Pair(permissionGroupInfo, permissionInfo)
@@ -1109,6 +1156,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             }
 
             ViewType.SCREENSHOT -> ScreenShotViewHolder(parent.context)
+            ViewType.CUSTOM_BUTTONS -> CustomButtonsViewHolder(parent.context)
             ViewType.SWITCH -> SwitchViewHolder(parent.inflate(R.layout.switch_item)).apply {
                 itemView.setOnClickListener {
                     val switchItem = items[absoluteAdapterPosition] as Item.SwitchItem
@@ -1440,6 +1488,31 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         item.repository,
                         item.packageName,
                         item.screenshots
+                    )
+                }
+            }
+
+            ViewType.CUSTOM_BUTTONS -> {
+                holder as CustomButtonsViewHolder
+                item as Item.CustomButtonsItem
+                holder.buttonsRecycler.run {
+                    if (layoutManager == null) {
+                        setHasFixedSize(true)
+                        isNestedScrollingEnabled = false
+                        clipToPadding = false
+                        val padding = 8.dp
+                        setPadding(padding, 0, padding, padding)
+                        layoutManager =
+                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    }
+                    val buttonsAdapter = (adapter as? CustomButtonsAdapter)
+                        ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
+                            .also { adapter = it }
+                    buttonsAdapter.setButtons(
+                        buttons = item.buttons,
+                        packageName = item.packageName,
+                        appName = item.appName,
+                        authorName = item.authorName,
                     )
                 }
             }
@@ -1783,20 +1856,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     holder.repoTitle.setText(stringRes.repository_not_found)
                     holder.repoAddress.text = item.repoAddress
                 }
-            }
-        }
-    }
-
-    private fun formatHtml(text: String): SpannableStringBuilder {
-        // Delegate to shared HtmlFormatter; route URL clicks through adapter callbacks
-        return formatHtml(text) { url ->
-            val uri = try {
-                Uri.parse(url)
-            } catch (_: Exception) {
-                null
-            }
-            if (uri != null) {
-                callbacks.onUriClick(uri, true)
             }
         }
     }

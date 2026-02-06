@@ -24,6 +24,8 @@ import com.looker.droidify.compose.repoEdit.navigation.navigateToRepoEdit
 import com.looker.droidify.compose.repoEdit.navigation.repoEdit
 import com.looker.droidify.compose.repoList.navigation.navigateToRepoList
 import com.looker.droidify.compose.repoList.navigation.repoList
+import com.looker.droidify.compose.settings.navigation.navigateToSettings
+import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.model.Repository
@@ -65,14 +67,14 @@ class MainComposeActivity : ComponentActivity() {
                         home(
                             onNavigateToApps = { navController.navigateToAppList() },
                             onNavigateToRepos = { navController.navigateToRepoList() },
-                            onNavigateToSettings = {},
+                            onNavigateToSettings = { navController.navigateToSettings() },
                         )
                         appList(
                             onAppClick = { packageName ->
                                 navController.navigateToAppDetail(packageName)
                             },
                             onNavigateToRepos = { navController.navigateToRepoList() },
-                            onNavigateToSettings = {},
+                            onNavigateToSettings = { navController.navigateToSettings() },
                         )
 
                         repoList(
@@ -92,6 +94,8 @@ class MainComposeActivity : ComponentActivity() {
                         )
 
                         repoEdit(onBackClick = { navController.popBackStack() })
+
+                        settings(onBackClick = { navController.popBackStack() })
                     }
                 }
             }
