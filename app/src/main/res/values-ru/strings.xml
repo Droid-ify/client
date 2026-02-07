@@ -185,7 +185,7 @@
     </plurals>
     <string name="only_on_wifi_with_charging">Только по Wi-Fi и на зарядке</string>
     <string name="io_error_DESC">Невозможно выполнить определённые действия</string>
-    <string name="material_you">Material You</string>
+    <string name="material_you">Material You</string>
     <string name="material_you_desc">Использовать цвета Material You</string>
     <string name="favourites">Избранное</string>
     <string name="repository_unreachable">Репозиторий недоступен</string>
@@ -265,4 +265,20 @@
     <string name="copy_error_details">Копировать данные ошибки</string>
     <string name="delete_apk_on_install">Удалять APK после установки</string>
     <string name="delete_apk_on_install_summary">Автоматически удалять APK-файлы после успешной установки</string>
+    <string name="custom_buttons">Пользовательские кнопки</string>
+    <string name="custom_buttons_description">Добавление быстрых ссылок на внешние сервисы в разделе подробных сведений о приложении</string>
+    <string name="custom_buttons_section">Ссылки на подробные сведения о приложении</string>
+    <string name="custom_button_add">Добавить кнопку</string>
+    <string name="custom_button_edit">Изменить кнопку</string>
+    <string name="custom_button_label">Метка</string>
+    <string name="custom_button_label_hint">например, Exodus Privacy</string>
+    <string name="custom_button_url">Шаблон URL</string>
+    <string name="custom_button_url_hint">https://example.ru/{{package_name}}</string>
+    <string name="custom_button_url_description">Используйте заполнители {{package_name}}, {{app_name}} или {{author_name}}</string>
+    <string name="custom_button_templates">Шаблоны</string>
+    <string name="custom_button_icon">Значок</string>
+    <string name="custom_button_delete_confirmation">Удалить кнопку \"%1$s\"?</string>
+    <string name="custom_buttons_export">Экспорт кнопок</string>
+    <string name="custom_buttons_import">Импорт кнопок</string>
+    <string name="custom_buttons_imported">Пользовательские кнопки импортированы</string>
 </resources>
