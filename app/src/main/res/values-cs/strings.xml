@@ -264,4 +264,18 @@
     <string name="copy_error_details">Kopírovat informace o chybě</string>
     <string name="custom_buttons">Vlastní tlačítka</string>
     <string name="custom_buttons_description">Přidat rychlé odkazy na externí služby do podrobností aplikace</string>
+    <string name="custom_buttons_section">Odkazy na podrobnosti aplikací</string>
+    <string name="custom_button_add">Přidat tlačítko</string>
+    <string name="custom_button_edit">Upravit tlačítko</string>
+    <string name="custom_button_label">Popisek</string>
+    <string name="custom_button_label_hint">např. Exodus Privacy</string>
+    <string name="custom_button_url">Šablona URL</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Použijte {{package_name}}, {{app_name}} nebo {{author_name}} jako zástupné řetězce</string>
+    <string name="custom_button_templates">Šablony</string>
+    <string name="custom_button_icon">Ikona</string>
+    <string name="custom_button_delete_confirmation">Odstranit tlačítko „%1$s“?</string>
+    <string name="custom_buttons_export">Exportovat tlačítka</string>
+    <string name="custom_buttons_import">Importovat tlačítka</string>
+    <string name="custom_buttons_imported">Vlastní tlačítka importována</string>
 </resources>
