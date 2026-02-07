@@ -271,4 +271,20 @@
     <string name="copy_error_details">انسخ تفاصيل الخطأ</string>
     <string name="delete_apk_on_install">احذف APK عند التثبيت</string>
     <string name="delete_apk_on_install_summary">احذف ملفات APK تلقائيًا بعد التثبيت الناجح</string>
+    <string name="custom_buttons">أزرار مخصّصة</string>
+    <string name="custom_buttons_description">أضف روابط سريعة لخدمات خارجية في تفاصيل التطبيق</string>
+    <string name="custom_buttons_section">روابط تفاصيل التطبيق</string>
+    <string name="custom_button_label_hint">مثال: Exodus Privacy</string>
+    <string name="custom_button_add">أضف زر</string>
+    <string name="custom_button_edit">عدِّل الزر</string>
+    <string name="custom_button_label">التسمية</string>
+    <string name="custom_button_url">قالب URL</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">استخدم {{package_name}} أو {{app_name}} أو {{author_name}} كنائب نصي</string>
+    <string name="custom_button_templates">القوالب</string>
+    <string name="custom_button_icon">أيقونة</string>
+    <string name="custom_button_delete_confirmation">حذف الزر \"%1$s\"؟</string>
+    <string name="custom_buttons_export">صدِّر الأزرار</string>
+    <string name="custom_buttons_import">استورد أزرار</string>
+    <string name="custom_buttons_imported">استوردت الأزرار المخصّصة</string>
 </resources>
