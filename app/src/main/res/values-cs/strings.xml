@@ -262,4 +262,6 @@
     <string name="requires_authentication">Vyžaduje autentifikaci?</string>
     <string name="force_sync_repositories">Vynutit synchronizaci repozitářů</string>
     <string name="copy_error_details">Kopírovat informace o chybě</string>
+    <string name="custom_buttons">Vlastní tlačítka</string>
+    <string name="custom_buttons_description">Přidat rychlé odkazy na externí služby do podrobností aplikace</string>
 </resources>
