@@ -259,4 +259,20 @@
     <string name="copy_error_details">Hiba részleteinek másolása</string>
     <string name="delete_apk_on_install">APK törlése telepítéskor</string>
     <string name="delete_apk_on_install_summary">APK-fájlok automatikus törlése a sikeres telepítés után</string>
+    <string name="custom_buttons">Egyéni gombok</string>
+    <string name="custom_buttons_description">Gyors hivatkozások hozzáadása külső szolgáltatásokhoz az alkalmazás részleteinél</string>
+    <string name="custom_buttons_section">Alkalmazás részleteinek hivatkozásai</string>
+    <string name="custom_button_add">Gomb hozzáadása</string>
+    <string name="custom_button_edit">Gomb szerkesztése</string>
+    <string name="custom_button_label">Felirat</string>
+    <string name="custom_button_label_hint">például Exodus Privacy</string>
+    <string name="custom_button_url">Webcím sablon</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Használjon {{package_name}}, {{app_name}}, vagy {{author_name}} helyettesítőket</string>
+    <string name="custom_button_templates">Sablonok</string>
+    <string name="custom_button_icon">Ikon</string>
+    <string name="custom_button_delete_confirmation">Törli a következő gombot: „%1$s”?</string>
+    <string name="custom_buttons_export">Gombok exportálása</string>
+    <string name="custom_buttons_import">Gombok importálása</string>
+    <string name="custom_buttons_imported">Egyéni gombok importálva</string>
 </resources>
