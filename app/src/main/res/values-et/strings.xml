@@ -238,4 +238,13 @@
     <string name="legacyInstallerComponent">Pärandinstallija komponent</string>
     <string name="shizuku_legacy_installer">Shizuku/Sui pärandinstallija</string>
     <string name="label_sdk_version">Mõeldud: Android %1$s | Miinimum: Android %2$s</string>
+    <string name="delete_apk_on_install">Kustuta APK installimisel</string>
+    <string name="delete_apk_on_install_summary">Automaatselt kustuta APK failid peale edukat installi</string>
+    <string name="requires_authentication">Nõuab autentimist?</string>
+    <string name="repository_not_synced_or_enabled">Hoidla pole lubatud või sünkitud</string>
+    <string name="action_sync_repo">Sünkrooni</string>
+    <string name="action_enable_repo">Luba</string>
+    <string name="repository_not_found_by_id">Hoidlat ei leitud</string>
+    <string name="force_sync_repositories">Sunni hoidlate sünkroonimine</string>
+    <string name="copy_error_details">Kopeeri errori detailid</string>
 </resources>
