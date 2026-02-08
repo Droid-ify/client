@@ -2,7 +2,6 @@ package com.looker.droidify.ui.appList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.database.CursorOwner.Request.Available
 import com.looker.droidify.database.CursorOwner.Request.Installed
 import com.looker.droidify.database.CursorOwner.Request.Updates
@@ -73,26 +72,6 @@ class AppListViewModel
         }
     }
 
-    fun request(source: AppListFragment.Source): CursorOwner.Request {
-        return when (source) {
-            AppListFragment.Source.AVAILABLE -> Available(
-                searchQuery = searchQuery.value,
-                section = sections.value,
-                order = sortOrderFlow.value,
-            )
-
-            AppListFragment.Source.INSTALLED -> Installed(
-                searchQuery = searchQuery.value,
-                order = sortOrderFlow.value,
-            )
-
-            AppListFragment.Source.UPDATES -> Updates(
-                searchQuery = searchQuery.value,
-                order = sortOrderFlow.value,
-            )
-        }
-    }
-
     fun setSection(newSection: ProductItem.Section) {
         viewModelScope.launch {
             sections.emit(newSection)
@@ -110,4 +89,22 @@ data class AppListState(
     val searchQuery: String = "",
     val sections: ProductItem.Section = All,
     val sortOrder: SortOrder = SortOrder.UPDATED,
-)
+) {
+    fun toRequest(source: AppListFragment.Source) = when(source) {
+        AppListFragment.Source.AVAILABLE -> Available(
+            searchQuery = searchQuery,
+            section = sections,
+            order = sortOrder,
+        )
+
+        AppListFragment.Source.INSTALLED -> Installed(
+            searchQuery = searchQuery,
+            order = sortOrder,
+        )
+
+        AppListFragment.Source.UPDATES -> Updates(
+            searchQuery = searchQuery,
+            order = sortOrder,
+        )
+    }
+}

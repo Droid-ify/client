@@ -477,21 +477,12 @@ class TabsFragment : ScreenFragment() {
     }
 
     private fun selectUpdatesInternal(allowSmooth: Boolean) {
-        val vp = viewPager
-        if (view != null && vp != null) {
-            vp.setCurrentItem(
+        if (view != null) {
+            val viewPager = viewPager
+            viewPager?.setCurrentItem(
                 AppListFragment.Source.UPDATES.ordinal,
-                allowSmooth && vp.isLaidOut,
+                allowSmooth && viewPager.isLaidOut,
             )
-            // Try to find the Updates fragment now; if it's not created yet, defer the update request
-            val updatesFrag = productFragments.find { it.source == AppListFragment.Source.UPDATES }
-            if (updatesFrag != null) {
-                updatesFrag.updateRequest()
-                needSelectUpdates = false
-            } else {
-                // wait until fragment is created/attached; pageChangeCallback will trigger the request
-                needSelectUpdates = true
-            }
         } else {
             needSelectUpdates = true
         }
@@ -614,13 +605,6 @@ class TabsFragment : ScreenFragment() {
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
-
-            // If we were waiting for the Updates fragment to be created, trigger its refresh now
-            if (position == AppListFragment.Source.UPDATES.ordinal && needSelectUpdates) {
-                productFragments.find { it.source == AppListFragment.Source.UPDATES }?.updateRequest()
-                needSelectUpdates = false
-            }
-
             if (showSections && !source.sections) {
                 showSections = false
             }

@@ -58,8 +58,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
-    val source: Source
-        get() = requireArguments().getString(EXTRA_SOURCE)!!.let(Source::valueOf)
+    val source by lazy { Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!) }
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var appListAdapter: AppListAdapter
@@ -141,10 +140,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
-        updateRequest()
-
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
                 launch {
                     viewModel.reposStream.collect { repos ->
                         appListAdapter.repositories = repos.associateBy { it.id }
@@ -152,7 +149,10 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                 }
                 launch {
                     viewModel.state.collect {
-                        updateRequest()
+                        mainActivity.cursorOwner.attach(
+                            callback = this@AppListFragment,
+                            request = it.toRequest(source),
+                        )
                     }
                 }
             }
@@ -203,11 +203,5 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     fun setSection(section: ProductItem.Section) {
         viewModel.setSection(section)
-    }
-
-    fun updateRequest() {
-        if (view != null) {
-            mainActivity.cursorOwner.attach(this, viewModel.request(source))
-        }
     }
 }

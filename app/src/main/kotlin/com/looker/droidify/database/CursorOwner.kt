@@ -18,31 +18,25 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     @Inject
     lateinit var settingsRepository: SettingsRepository
 
-    sealed interface Request {
-        val id: Int
+    sealed class Request(val id: Int) {
 
         data class Available(
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
-            override val id: Int = 1,
-        ) : Request
+        ) : Request(1)
 
         data class Installed(
             val searchQuery: String,
             val order: SortOrder,
-            override val id: Int = 2,
-        ) : Request
+        ) : Request(2)
 
         data class Updates(
             val searchQuery: String,
             val order: SortOrder,
-            override val id: Int = 3,
-        ) : Request
+        ) : Request(3)
 
-        data object Repositories : Request {
-            override val id = 4
-        }
+        data object Repositories : Request(4)
     }
 
     interface Callback {

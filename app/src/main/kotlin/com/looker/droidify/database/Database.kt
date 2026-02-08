@@ -708,6 +708,7 @@ object Database {
                 db.delete(Schema.Installed.name, null, null)
                 installedItems.forEach { put(it, false) }
             }
+            notifyChanged(Subject.Products)
         }
 
         fun delete(packageName: String) {
