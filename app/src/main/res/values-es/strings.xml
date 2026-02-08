@@ -262,4 +262,19 @@
     <string name="copy_error_details">Copiar detalles del error</string>
     <string name="delete_apk_on_install">Eliminar el APK tras la instalación</string>
     <string name="delete_apk_on_install_summary">Eliminar automáticamente los archivos APK después de una instalación exitosa</string>
+    <string name="custom_buttons">Botones personalizados</string>
+    <string name="custom_buttons_description">Añadir enlaces rápidos a servicios externos en detalles de aplicaciones</string>
+    <string name="custom_buttons_section">Links de detalle de app</string>
+    <string name="custom_button_add">Agregar botón</string>
+    <string name="custom_button_edit">Editar botón</string>
+    <string name="custom_button_label">Etiqueta</string>
+    <string name="custom_button_label_hint">Ejemplo: Exodus Privacy</string>
+    <string name="custom_button_url">Plantilla de URL</string>
+    <string name="custom_button_url_description">Use {{package_name}}, {{app_name}}, o {{author_name}} como marcadores de posición</string>
+    <string name="custom_button_templates">Plantillas</string>
+    <string name="custom_button_icon">ícono</string>
+    <string name="custom_button_delete_confirmation">¿Borrar el botón \"%1$s\"?</string>
+    <string name="custom_buttons_export">Exportar botones</string>
+    <string name="custom_buttons_import">Importar botones</string>
+    <string name="custom_buttons_imported">Botones personalizados importados</string>
 </resources>
