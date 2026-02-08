@@ -272,4 +272,6 @@
     <string name="custom_button_delete_confirmation">Die Schaltfläche \"%1$s\" löschen?</string>
     <string name="custom_buttons_export">Schaltflächen exportieren</string>
     <string name="custom_buttons_import">Schaltflächen importieren</string>
+    <string name="custom_buttons">Eigene Schaltflächen</string>
+    <string name="custom_buttons_imported">Eigene Schaltflächen importiert</string>
 </resources>
