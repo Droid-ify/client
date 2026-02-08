@@ -89,14 +89,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/signature"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="?android:attr/textColorSecondary"
-            android:textSize="14sp" />
-
-        <TextView
             android:id="@+id/compatibility"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,6 +102,16 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="?android:attr/textColorSecondary"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/signature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:textColor="?android:attr/textColorSecondary"
+            android:layout_marginTop="4dp"
+            android:typeface="monospace"
             android:textSize="14sp" />
     </LinearLayout>
 

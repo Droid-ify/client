@@ -30,6 +30,7 @@ import com.google.android.material.shape.MaterialShapeDrawable
 import com.google.android.material.shape.ShapeAppearanceModel
 import com.google.android.material.tabs.TabLayoutMediator
 import com.looker.droidify.R
+import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.TabsToolbarBinding
 import com.looker.droidify.datastore.extension.sortOrderName
 import com.looker.droidify.datastore.model.SortOrder
@@ -254,6 +255,11 @@ class TabsFragment : ScreenFragment() {
 
         toolbar.post {
             toolbar.findViewById<View>(R.id.toolbar_sync)?.setOnLongClickListener {
+                Database.RepositoryAdapter.getAll().forEach {
+                    if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
+                        Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
+                    }
+                }
                 syncConnection.binder?.sync(SyncService.SyncRequest.FORCE)
                 true
             }

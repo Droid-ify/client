@@ -1083,7 +1083,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     repository = repository,
                     release = release,
                     selectedRepository = repository.id == productRepository.second.id,
-                    showSignature = release.versionCode in versionsWithMultiSignature,
+                    showSignature = true,
                     reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
                 )
             }
@@ -1772,26 +1772,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         item.release.signature
                             .uppercase(Locale.US)
                             .windowed(2, 2, false)
-                            .take(8)
                     val signature = bytes.joinToString(separator = " ")
-                    val builder = SpannableStringBuilder(
-                        context.getString(
-                            stringRes.signature_FORMAT,
-                            signature
-                        )
-                    )
-                    val index = builder.indexOf(signature)
-                    if (index >= 0) {
-                        bytes.forEachIndexed { i, _ ->
-                            builder.setSpan(
-                                TypefaceSpan("monospace"),
-                                index + 3 * i,
-                                index + 3 * i + 2,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
+                    holder.signature.text = signature
+                    holder.signature.setOnClickListener {
+                        copyLinkToClipboard(it, signature, stringRes.copied_to_clipboard)
                     }
-                    holder.signature.text = builder
                 }
                 with(holder.compatibility) {
                     isVisible = incompatibility != null || singlePlatform != null
@@ -1860,9 +1845,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         }
     }
 
-    private fun copyLinkToClipboard(view: View, link: String) {
+    private fun copyLinkToClipboard(
+        view: View,
+        link: String,
+        snackbarText: Int = stringRes.link_copied_to_clipboard
+    ) {
         view.context.copyToClipboard(link)
-        Snackbar.make(view, stringRes.link_copied_to_clipboard, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view, snackbarText, Snackbar.LENGTH_SHORT).show()
     }
 
     private class DotSpan : ReplacementSpan() {

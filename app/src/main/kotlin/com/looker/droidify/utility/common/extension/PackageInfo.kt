@@ -5,9 +5,9 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
+import com.looker.droidify.data.encryption.sha256
 import com.looker.droidify.data.model.hex
 import com.looker.droidify.utility.common.SdkCheck
-import java.security.MessageDigest
 
 val PackageInfo.singleSignature: Signature?
     get() = if (SdkCheck.isPie) {
@@ -23,9 +23,7 @@ val PackageInfo.singleSignature: Signature?
         signatures?.let { if (it.size == 1) it[0] else null }
     }
 
-fun Signature.calculateHash() = MessageDigest.getInstance("MD5")
-    .digest(toCharsString().toByteArray())
-    .hex()
+fun Signature.calculateHash() = sha256(toCharsString().toByteArray()).hex()
 
 @Suppress("DEPRECATION")
 val PackageInfo.versionCodeCompat: Long

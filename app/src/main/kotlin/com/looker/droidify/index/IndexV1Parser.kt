@@ -5,12 +5,6 @@ import androidx.core.os.ConfigurationCompat.getLocales
 import androidx.core.os.LocaleListCompat
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
-import com.looker.droidify.utility.common.extension.Json
-import com.looker.droidify.utility.common.extension.collectDistinctNotEmptyStrings
-import com.looker.droidify.utility.common.extension.collectNotNull
-import com.looker.droidify.utility.common.extension.forEach
-import com.looker.droidify.utility.common.extension.forEachKey
-import com.looker.droidify.utility.common.extension.illegal
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Product.Donate.Bitcoin
 import com.looker.droidify.model.Product.Donate.Liberapay
@@ -25,6 +19,12 @@ import com.looker.droidify.model.Product.Screenshot.Type.VIDEO
 import com.looker.droidify.model.Product.Screenshot.Type.WEAR
 import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.extension.Json
+import com.looker.droidify.utility.common.extension.collectDistinctNotEmptyStrings
+import com.looker.droidify.utility.common.extension.collectNotNull
+import com.looker.droidify.utility.common.extension.forEach
+import com.looker.droidify.utility.common.extension.forEachKey
+import com.looker.droidify.utility.common.extension.illegal
 import com.looker.droidify.utility.common.nullIfEmpty
 import java.io.InputStream
 
@@ -438,7 +438,7 @@ object IndexV1Parser {
     private const val KEY_RELEASE_APKNAME = "apkName"
     private const val KEY_RELEASE_HASH = "hash"
     private const val KEY_RELEASE_HASHTYPE = "hashType"
-    private const val KEY_RELEASE_SIG = "sig"
+    private const val KEY_RELEASE_SIGNER_SHA256 = "signer"
     private const val KEY_RELEASE_OBBMAINFILE = "obbMainFile"
     private const val KEY_RELEASE_OBBMAINFILESHA256 = "obbMainFileSha256"
     private const val KEY_RELEASE_OBBPATCHFILE = "obbPatchFile"
@@ -481,7 +481,7 @@ object IndexV1Parser {
                 key.string(KEY_RELEASE_APKNAME) -> release = valueAsString
                 key.string(KEY_RELEASE_HASH) -> hash = valueAsString
                 key.string(KEY_RELEASE_HASHTYPE) -> hashTypeCandidate = valueAsString
-                key.string(KEY_RELEASE_SIG) -> signature = valueAsString
+                key.string(KEY_RELEASE_SIGNER_SHA256) -> signature = valueAsString
                 key.string(KEY_RELEASE_OBBMAINFILE) -> obbMain = valueAsString
                 key.string(KEY_RELEASE_OBBMAINFILESHA256) -> obbMainHash = valueAsString
                 key.string(KEY_RELEASE_OBBPATCHFILE) -> obbPatch = valueAsString
