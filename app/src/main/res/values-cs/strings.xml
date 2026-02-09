@@ -278,4 +278,5 @@
     <string name="custom_buttons_export">Exportovat tlačítka</string>
     <string name="custom_buttons_import">Importovat tlačítka</string>
     <string name="custom_buttons_imported">Vlastní tlačítka importována</string>
+    <string name="copied_to_clipboard">Zkopírováno</string>
 </resources>
