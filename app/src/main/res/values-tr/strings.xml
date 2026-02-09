@@ -259,4 +259,7 @@
     <string name="copy_error_details">Hata detaylarını kopyala</string>
     <string name="delete_apk_on_install">Yüklendikten sonra APK\'yı sil</string>
     <string name="delete_apk_on_install_summary">Kurulum başarılı olursa APK dosyalarını otomatik olarak sil</string>
+    <string name="copied_to_clipboard">Kopyalandı</string>
+    <string name="custom_buttons">Özel butonlar</string>
+    <string name="custom_buttons_description">Uygulama detaylarına ekstra servislerin linkini ekleyin</string>
 </resources>
