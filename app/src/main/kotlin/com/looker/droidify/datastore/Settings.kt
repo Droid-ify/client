@@ -41,8 +41,7 @@ data class Settings(
     val cleanUpInterval: Duration = 12.hours,
     @Contextual
     val lastCleanup: Instant? = null,
-    @Contextual
-    val lastRbLogFetch: Instant? = null,
+    val lastRbLogFetch: Long? = null,
     val lastModifiedDownloadStats: Long? = null,
     val favouriteApps: Set<String> = emptySet(),
     val homeScreenSwiping: Boolean = true,

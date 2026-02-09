@@ -221,7 +221,7 @@ class PreferenceSettingsRepository(
         val proxy = ProxyPreference(type = type, host = host, port = port)
         val cleanUpInterval = preferences[CLEAN_UP_INTERVAL]?.hours ?: 12L.hours
         val lastCleanup = preferences[LAST_CLEAN_UP]?.let { Instant.fromEpochMilliseconds(it) }
-        val lastRbLogFetch = preferences[LAST_RB_FETCH]?.let { Instant.fromEpochMilliseconds(it) }
+        val lastRbLogFetch = preferences[LAST_RB_FETCH]
         val lastModifiedDownloadStats = preferences[LAST_MODIFIED_DS]?.takeIf { it > 0L }
         val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
@@ -321,11 +321,7 @@ class PreferenceSettingsRepository(
                     set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
                 }
 
-                null -> {
-                    set(LEGACY_INSTALLER_COMPONENT_TYPE, "")
-                    set(LEGACY_INSTALLER_COMPONENT_CLASS, "")
-                    set(LEGACY_INSTALLER_COMPONENT_ACTIVITY, "")
-                }
+                null -> {}
             }
             set(INSTALLER_TYPE, settings.installerType.name)
             set(AUTO_UPDATE, settings.autoUpdate)
@@ -335,9 +331,9 @@ class PreferenceSettingsRepository(
             set(PROXY_HOST, settings.proxy.host)
             set(PROXY_PORT, settings.proxy.port)
             set(CLEAN_UP_INTERVAL, settings.cleanUpInterval.inWholeHours)
-            set(LAST_CLEAN_UP, settings.lastCleanup?.toEpochMilliseconds() ?: 0L)
-            set(LAST_RB_FETCH, settings.lastRbLogFetch?.toEpochMilliseconds() ?: 0L)
-            set(LAST_MODIFIED_DS, settings.lastModifiedDownloadStats ?: 0L)
+            settings.lastCleanup?.toEpochMilliseconds()?.let { set(LAST_CLEAN_UP, it) }
+            settings.lastRbLogFetch?.let { set(LAST_RB_FETCH, it) }
+            settings.lastModifiedDownloadStats?.let { set(LAST_MODIFIED_DS, it) }
             set(FAVOURITE_APPS, settings.favouriteApps)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())

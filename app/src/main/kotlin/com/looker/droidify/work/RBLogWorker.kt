@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.RBData
 import com.looker.droidify.data.local.model.toLogs
+import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.sync.JsonParser
@@ -32,28 +33,34 @@ class RBLogWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
     private val privacyRepository: PrivacyRepository,
+    private val settingsRepository: SettingsRepository,
     private val downloader: Downloader,
 ) : CoroutineWorker(context, params) {
 
     @OptIn(ExperimentalTime::class)
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        setForegroundAsync(
-            context.createRbNotification()
-                .toForegroundInfo(Constants.NOTIFICATION_ID_RB_DOWNLOAD)
-        )
-
         val target = Cache.getTemporaryFile(context)
         try {
-            val response = downloader.downloadToFile(url = BASE_URL, target = target)
-            if (response is NetworkResponse.Success) {
-                val logs: Map<String, List<RBData>> =
-                    JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())
+            val lastModified = settingsRepository.getInitial().lastRbLogFetch
+            val response = downloader.downloadToFile(
+                url = BASE_URL,
+                target = target,
+                headers = {
+                    if (lastModified != null) ifModifiedSince(Date(lastModified))
+                }
+            )
+            if (response is NetworkResponse.Success && response.statusCode != 304) {
+                setForegroundAsync(
+                    context.createRbNotification()
+                        .toForegroundInfo(Constants.NOTIFICATION_ID_RB_DOWNLOAD)
+                )
+                val logs = JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())
                 privacyRepository.upsertRBLogs(
                     lastModified = response.lastModified ?: Date(),
                     logs = logs.toLogs()
                 )
+                Log.i(TAG, "Fetched, parsed and saved RB Logs")
             }
-            Log.i(TAG, "Fetched and saved RB Logs")
             Result.success()
         } catch (e: Exception) {
             e.exceptCancellation()
