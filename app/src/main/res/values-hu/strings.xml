@@ -275,4 +275,5 @@
     <string name="custom_buttons_export">Gombok exportálása</string>
     <string name="custom_buttons_import">Gombok importálása</string>
     <string name="custom_buttons_imported">Egyéni gombok importálva</string>
+    <string name="copied_to_clipboard">Másolva</string>
 </resources>
