@@ -287,4 +287,5 @@
     <string name="custom_buttons_export">صدِّر الأزرار</string>
     <string name="custom_buttons_import">استورد أزرار</string>
     <string name="custom_buttons_imported">استوردت الأزرار المخصّصة</string>
+    <string name="copied_to_clipboard">نُسخ</string>
 </resources>
