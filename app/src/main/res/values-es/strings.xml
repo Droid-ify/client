@@ -277,4 +277,6 @@
     <string name="custom_buttons_export">Exportar botones</string>
     <string name="custom_buttons_import">Importar botones</string>
     <string name="custom_buttons_imported">Botones personalizados importados</string>
+    <string name="copied_to_clipboard">Copiado</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
 </resources>
