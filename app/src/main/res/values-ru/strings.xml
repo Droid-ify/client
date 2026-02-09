@@ -281,4 +281,5 @@
     <string name="custom_buttons_export">Экспорт кнопок</string>
     <string name="custom_buttons_import">Импорт кнопок</string>
     <string name="custom_buttons_imported">Пользовательские кнопки импортированы</string>
+    <string name="copied_to_clipboard">Скопировано</string>
 </resources>
