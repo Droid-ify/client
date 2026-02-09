@@ -46,7 +46,7 @@ class DownloadStatsWorker @AssistedInject constructor(
     private val downloader: Downloader,
 ) : CoroutineWorker(context, params) {
 
-    val downloadSemaphores = Semaphore(4)
+    val downloadSemaphores = Semaphore(2)
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         try {
