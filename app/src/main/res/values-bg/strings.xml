@@ -259,4 +259,21 @@
     <string name="requires_authentication">Изисква се удостоверяване?</string>
     <string name="force_sync_repositories">Принудително синхронизиране на хранилища</string>
     <string name="copy_error_details">Копиране на подробности за грешката</string>
+    <string name="copied_to_clipboard">Копирано</string>
+    <string name="custom_buttons">Персонализирани бутони</string>
+    <string name="custom_buttons_description">Добавете бързи връзки към външни услуги в подробностите за приложението</string>
+    <string name="custom_buttons_section">Връзки към подробности за приложението</string>
+    <string name="custom_button_add">Добави бутон</string>
+    <string name="custom_button_edit">Редактиране на бутона</string>
+    <string name="custom_button_label">Етикет</string>
+    <string name="custom_button_label_hint">напр., Exodus Privacy</string>
+    <string name="custom_button_url">шаблон за URL адрес</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Използвайте {{package_name}}, {{app_name}} или {{author_name}} като заместители</string>
+    <string name="custom_button_templates">Шаблони</string>
+    <string name="custom_button_icon">Икона</string>
+    <string name="custom_button_delete_confirmation">Да се изтрие ли бутонът „%1$s“?</string>
+    <string name="custom_buttons_export">Бутони за изнасяне</string>
+    <string name="custom_buttons_import">Бутони за внасяне</string>
+    <string name="custom_buttons_imported">Внасяне на персонализирани бутони</string>
 </resources>
