@@ -29,6 +29,7 @@ import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
@@ -456,6 +457,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             if (started != Started.NO) {
                 lifecycleScope.launch {
                     val setting = settingsRepository.getInitial()
+                    log("handleNextTask($isIndexModified)", "SyncService")
                     handleUpdates(
                         notifyUpdates = setting.notifyUpdate,
                         autoUpdate = setting.autoUpdate,
@@ -542,6 +544,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         autoUpdate: Boolean,
         skipSignature: Boolean,
     ) {
+        log("handleUpdates($notifyUpdates, $autoUpdate, $skipSignature)", "SyncService")
         try {
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates(skipSignature)
@@ -573,6 +576,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private suspend fun updateAllAppsInternal(updates: List<ProductItem>) {
+        log("updateAllAppsInternal(${updates.joinToString { it.name }})", "SyncService")
         updates
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
@@ -582,6 +586,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
             .filter { it.first != null && it.second != null }
             .forEach { (installItem, repo) ->
+                log("startUpdate(${installItem}, ${repo?.name})", "SyncService")
                 val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
                     .filter { it.repositoryId == repo!!.id }
                     .map { it to repo!! }
