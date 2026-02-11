@@ -114,7 +114,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             get() = "download-$packageName"
     }
 
-    private data class CurrentTask(val task: Task, val job: Job, val lastState: State)
+    private data class CurrentTask(val task: Task, val lastState: State, val job: Job? = null)
 
     private var started = false
     private val tasks = mutableListOf<Task>()
@@ -218,7 +218,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private fun cancelCurrentTask(packageName: String?) {
         currentTask?.let {
             if (packageName == null || it.task.packageName == packageName) {
-                it.job.cancel()
+                it.job?.cancel()
                 currentTask = null
                 updateCurrentState(State.Cancel(it.task.packageName))
             }
@@ -371,26 +371,26 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     private fun handleDownload() {
         if (currentTask != null) return
-        if (tasks.isEmpty() && started) {
-            started = false
-            stopForegroundCompat()
-            return
-        }
         if (!started) {
             started = true
             startServiceCompat()
         }
-        val task = tasks.removeFirstOrNull() ?: return
+        if (tasks.isEmpty()) {
+            if (started) started = false
+            stopForegroundCompat()
+            return
+        }
+        val task = tasks.removeAt(0)
+        val connectionState = State.Connecting(task.packageName)
+        currentTask = CurrentTask(task, connectionState)
         with(stateNotificationBuilder) {
             setWhen(System.currentTimeMillis())
             setContentIntent(createNotificationIntent(task.packageName))
         }
-        val connectionState = State.Connecting(task.packageName)
-        val partialReleaseFile =
-            Cache.getPartialReleaseFile(this, task.release.cacheFileName)
-        val job = lifecycleScope.downloadFile(task, partialReleaseFile)
-        currentTask = CurrentTask(task, job, connectionState)
         publishForegroundState(true, connectionState)
+        val partialReleaseFile = Cache.getPartialReleaseFile(this, task.release.cacheFileName)
+        val job = lifecycleScope.downloadFile(task, partialReleaseFile)
+        currentTask = currentTask?.copy(job = job)
         updateCurrentState(State.Connecting(task.packageName))
     }
 

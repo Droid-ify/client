@@ -14,7 +14,6 @@ fun Service.startServiceCompat() {
 }
 
 fun Service.stopForegroundCompat(removeNotification: Boolean = true) {
-    @Suppress("DEPRECATION")
     if (SdkCheck.isNougat) {
         stopForeground(
             if (removeNotification) {
@@ -24,6 +23,7 @@ fun Service.stopForegroundCompat(removeNotification: Boolean = true) {
             }
         )
     } else {
+        @Suppress("DEPRECATION")
         stopForeground(removeNotification)
     }
     stopSelf()
