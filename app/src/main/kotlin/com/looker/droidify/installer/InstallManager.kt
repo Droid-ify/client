@@ -83,6 +83,10 @@ class InstallManager(
         updateState { remove(packageName) }
     }
 
+    infix fun setFailed(packageName: PackageName) {
+        updateState { put(packageName, InstallState.Failed) }
+    }
+
     private fun CoroutineScope.setupInstaller() = launch {
         installerPreference.collectLatest(::setInstaller)
     }

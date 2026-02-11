@@ -54,7 +54,9 @@ class SessionInstaller(private val context: Context) : Installer {
             override fun onActiveChanged(sessionId: Int, active: Boolean) {}
             override fun onProgressChanged(sessionId: Int, progress: Float) {}
             override fun onFinished(sessionId: Int, success: Boolean) {
-                if (sessionId == id) cont.resume(InstallState.Installed)
+                if (sessionId == id) cont.resume(
+                    if (success) InstallState.Installed else InstallState.Failed
+                )
             }
         }
         installerCallbacks = installerCallback

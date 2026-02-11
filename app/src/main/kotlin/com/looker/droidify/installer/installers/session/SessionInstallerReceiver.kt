@@ -78,7 +78,8 @@ class SessionInstallerReceiver : BroadcastReceiver() {
                 }
 
                 PackageInstaller.STATUS_FAILURE_ABORTED -> {
-                    installManager.remove(packageName.toPackageName())
+                    notificationManager?.removeInstallNotification(packageName)
+                    installManager.setFailed(packageName.toPackageName())
                 }
 
                 else -> {
