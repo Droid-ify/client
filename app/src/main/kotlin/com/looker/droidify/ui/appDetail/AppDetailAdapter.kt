@@ -1083,7 +1083,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     repository = repository,
                     release = release,
                     selectedRepository = repository.id == productRepository.second.id,
-                    showSignature = true,
+                    showSignature = release.versionCode in versionsWithMultiSignature,
                     reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
                 )
             }

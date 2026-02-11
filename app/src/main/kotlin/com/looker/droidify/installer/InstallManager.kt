@@ -105,14 +105,14 @@ class InstallManager(
                         state = InstallState.Installing,
                     )
                 )
-                val success = installer.use { it.install(item) }
-                if (success == InstallState.Installed) {
+                val result = installer.use { it.install(item) }
+                if (result == InstallState.Installed) {
                     if (deleteApkPreference.first()) {
                         val apkFile = Cache.getReleaseFile(context, item.installFileName)
                         apkFile.delete()
                     }
                 }
-                if (success == InstallState.Installed && SyncService.autoUpdating) {
+                if (result == InstallState.Installed && SyncService.autoUpdating) {
                     val updates = Database.ProductAdapter.getUpdates(skipSignature.first())
                     when {
                         updates.isEmpty() -> {
@@ -128,7 +128,7 @@ class InstallManager(
                     }
                 }
                 notificationManager?.removeInstallNotification(item.packageName.name)
-                updateState { put(item.packageName, success) }
+                updateState { put(item.packageName, result) }
                 currentQueue.remove(item.packageName.name)
             }
         }
