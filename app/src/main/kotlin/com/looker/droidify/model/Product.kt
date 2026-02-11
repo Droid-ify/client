@@ -27,7 +27,7 @@ data class Product(
     val licenses: List<String>,
     val donates: List<Donate>,
     val screenshots: List<Screenshot>,
-    val releases: List<Release>
+    val releases: List<Release>,
 ) {
     data class Author(val name: String, val email: String, val web: String)
 
@@ -55,7 +55,7 @@ data class Product(
         fun url(
             context: Context,
             repository: Repository,
-            packageName: String
+            packageName: String,
         ): Any {
             if (type == Type.VIDEO) return context.videoPlaceHolder.apply {
                 setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurfaceInverse))
@@ -92,33 +92,33 @@ data class Product(
 
     fun item(): ProductItem {
         return ProductItem(
-            repositoryId,
-            packageName,
-            name,
-            summary,
-            icon,
-            metadataIcon,
-            version,
-            "",
-            compatible,
-            false,
-            0
+            repositoryId = repositoryId,
+            packageName = packageName,
+            name = name,
+            summary = summary,
+            icon = icon,
+            metadataIcon = metadataIcon,
+            version = version,
+            installedVersion = "",
+            compatible = compatible,
+            canUpdate = false,
+            matchRank = 0
         )
     }
 
     fun canUpdate(installedItem: InstalledItem?): Boolean {
         return installedItem != null && compatible && versionCode > installedItem.versionCode &&
-            installedItem.signature in signatures
+                installedItem.signature in signatures
     }
 }
 
 fun List<Pair<Product, Repository>>.findSuggested(
-    installedItem: InstalledItem?
+    installedItem: InstalledItem?,
 ): Pair<Product, Repository>? = maxWithOrNull(
     compareBy(
         { (product, _) ->
-            product.compatible &&
-                (installedItem == null || installedItem.signature in product.signatures)
+            val isSameSignature = installedItem == null || installedItem.signature in product.signatures
+            product.compatible && (isSameSignature)
         },
         { (product, _) ->
             product.versionCode

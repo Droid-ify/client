@@ -1,6 +1,6 @@
 package com.looker.droidify.model
 
-class InstalledItem(
+data class InstalledItem(
     val packageName: String,
     val version: String,
     val versionCode: Long,

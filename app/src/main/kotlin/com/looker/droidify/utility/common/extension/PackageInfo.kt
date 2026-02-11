@@ -23,7 +23,7 @@ val PackageInfo.singleSignature: Signature?
         signatures?.let { if (it.size == 1) it[0] else null }
     }
 
-fun Signature.calculateHash() = sha256(toCharsString().toByteArray()).hex()
+fun Signature.calculateHash() = sha256(toByteArray()).hex()
 
 @Suppress("DEPRECATION")
 val PackageInfo.versionCodeCompat: Long
