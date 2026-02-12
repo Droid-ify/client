@@ -5,18 +5,10 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
-import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import kotlinx.coroutines.runBlocking
 
-@AndroidEntryPoint
 class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
-
-    @Inject
-    lateinit var settingsRepository: SettingsRepository
 
     sealed class Request(val id: Int) {
 
@@ -24,16 +16,19 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val searchQuery: String,
             val section: ProductItem.Section,
             val order: SortOrder,
+            val skipSignatureCheck: Boolean = false,
         ) : Request(1)
 
         data class Installed(
             val searchQuery: String,
             val order: SortOrder,
+            val skipSignatureCheck: Boolean = false,
         ) : Request(2)
 
         data class Updates(
             val searchQuery: String,
             val order: SortOrder,
+            val skipSignatureCheck: Boolean = false,
         ) : Request(3)
 
         data object Repositories : Request(4)
@@ -82,7 +77,6 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val request = activeRequests[id]!!.request
         return QueryLoader(requireContext()) {
-            val settings = runBlocking { settingsRepository.getInitial() }
             when (request) {
                 is Request.Available ->
                     Database.ProductAdapter
@@ -93,7 +87,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = request.section,
                             order = request.order,
                             signal = it,
-                            skipSignatureCheck = settings.ignoreSignature,
+                            skipSignatureCheck = request.skipSignatureCheck,
                         )
 
                 is Request.Installed ->
@@ -105,7 +99,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = ProductItem.Section.All,
                             order = request.order,
                             signal = it,
-                            skipSignatureCheck = settings.ignoreSignature,
+                            skipSignatureCheck = request.skipSignatureCheck,
                         )
 
                 is Request.Updates ->
@@ -117,7 +111,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                             section = ProductItem.Section.All,
                             order = request.order,
                             signal = it,
-                            skipSignatureCheck = settings.ignoreSignature,
+                            skipSignatureCheck = request.skipSignatureCheck,
                         )
 
                 is Request.Repositories -> Database.RepositoryAdapter.query(it)

@@ -42,14 +42,16 @@ class AppListViewModel
     val searchQuery = MutableStateFlow("")
 
     val state = combine(
+        skipSignatureStream,
         sortOrderFlow,
         sections,
         searchQuery,
-    ) { sortOrder, section, query ->
+    ) { skipSignature, sortOrder, section, query ->
         AppListState(
             searchQuery = query,
             sections = section,
             sortOrder = sortOrder,
+            skipSignatureCheck = skipSignature,
         )
     }.asStateFlow(AppListState())
 
@@ -89,22 +91,26 @@ data class AppListState(
     val searchQuery: String = "",
     val sections: ProductItem.Section = All,
     val sortOrder: SortOrder = SortOrder.UPDATED,
+    val skipSignatureCheck: Boolean = false,
 ) {
     fun toRequest(source: AppListFragment.Source) = when(source) {
         AppListFragment.Source.AVAILABLE -> Available(
             searchQuery = searchQuery,
             section = sections,
             order = sortOrder,
+            skipSignatureCheck = skipSignatureCheck,
         )
 
         AppListFragment.Source.INSTALLED -> Installed(
             searchQuery = searchQuery,
             order = sortOrder,
+            skipSignatureCheck = skipSignatureCheck,
         )
 
         AppListFragment.Source.UPDATES -> Updates(
             searchQuery = searchQuery,
             order = sortOrder,
+            skipSignatureCheck = skipSignatureCheck,
         )
     }
 }

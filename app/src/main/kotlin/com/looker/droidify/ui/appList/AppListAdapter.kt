@@ -7,12 +7,12 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.google.android.material.imageview.ShapeableImageView
-import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.model.ProductItem
@@ -54,10 +54,8 @@ class AppListAdapter(
         RecyclerView.ViewHolder(FrameLayout(context)) {
         init {
             with(itemView as FrameLayout) {
-                val progressBar = CircularProgressIndicator(context)
-                progressBar.isIndeterminate = true
                 addView(
-                    progressBar,
+                    ProgressBar(context),
                     FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT,
