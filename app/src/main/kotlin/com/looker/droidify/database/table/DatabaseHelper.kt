@@ -65,20 +65,15 @@ class DatabaseHelper(context: Context) :
     }
 
     private fun SQLiteDatabase.addOemRepositories() {
-        transaction {
-            OemRepositoryParser
-                .getSystemDefaultRepos()
-                ?.forEach { repo -> RepositoryAdapter.put(repo, database = this) }
-        }
+        OemRepositoryParser
+            .getSystemDefaultRepos()
+            ?.forEach { repo -> RepositoryAdapter.put(repo, database = this) }
     }
 
     private fun SQLiteDatabase.addDefaultRepositories() {
-        // Add all default repositories for new database
-        transaction {
-            (Repository.defaultRepositories + Repository.newlyAdded)
-                .sortedBy { it.name }
-                .forEach { repo -> RepositoryAdapter.put(repo, database = this) }
-        }
+        (Repository.defaultRepositories + Repository.newRepos())
+            .sortedBy { it.name }
+            .forEach { repo -> RepositoryAdapter.put(repo, database = this) }
     }
 
     private fun SQLiteDatabase.addNewlyAddedRepositories() {
@@ -102,22 +97,20 @@ class DatabaseHelper(context: Context) :
         }
 
         // Only add repositories that don't already exist
-        val reposToAdd = Repository.newlyAdded.filter { repo ->
+        val reposToAdd = Repository.newRepos().filter { repo ->
             repo.address !in existingRepos
         }
 
         if (reposToAdd.isNotEmpty()) {
-            transaction {
-                reposToAdd.forEach { repo ->
-                    RepositoryAdapter.put(repo, database = this)
-                }
+            reposToAdd.forEach { repo ->
+                RepositoryAdapter.put(repo, database = this)
             }
         }
     }
 
     private fun SQLiteDatabase.removeRepositories() {
         // Remove repositories that are in the toRemove list
-        val reposToRemove = Repository.toRemove
+        val reposToRemove = Repository.addressesToRemove()
         if (reposToRemove.isEmpty()) return
 
         // Get all repositories with their IDs and addresses

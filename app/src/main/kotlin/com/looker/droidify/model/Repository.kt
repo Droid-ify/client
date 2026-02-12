@@ -361,9 +361,6 @@ data class Repository(
                 description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team.",
                 fingerprint = "2B9564B0895EEAC039E854C6B065291B01E6A9CA02939CEDD0D35CF44BEE78E0",
             ),
-        )
-
-        val newlyAdded: List<Repository> = listOf(
             defaultRepository(
                 address = "https://fdroid.ironfoxoss.org/fdroid/repo",
                 name = "IronFox",
@@ -405,14 +402,11 @@ data class Repository(
             ),
         )
 
-        val toRemove: List<String> = listOf(
+        fun newRepos(): List<Repository> = listOf()
+
+        fun addressesToRemove(): List<String> = listOf(
             // Add repository addresses that should be removed during database upgrades and remove them from the lists above
             // Example: "https://example.com/fdroid/repo"
-            "https://secfirst.org/fdroid/repo",
-            "https://fdroid.libretro.com/repo",
-            "https://divestos.org/apks/unofficial/fdroid/repo",
-            "https://divestos.org/fdroid/official",
-            "https://fdroid.cakelabs.com/fdroid/repo"
         )
     }
 }
