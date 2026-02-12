@@ -58,8 +58,8 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
-    val source by lazy { Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!) }
 
+    lateinit var source: Source
     private lateinit var recyclerView: RecyclerView
     private lateinit var appListAdapter: AppListAdapter
     private var scroller: Scroller? = null
@@ -73,6 +73,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        source = Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!)
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
 
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
