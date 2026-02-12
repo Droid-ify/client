@@ -1,6 +1,6 @@
 package com.looker.droidify.database.table
 
-import com.looker.droidify.database.trimAndJoin
+import com.looker.droidify.database.QueryBuilder
 
 interface Table {
     val memory: Boolean
@@ -20,7 +20,7 @@ interface Table {
             append("CREATE TABLE ")
             append(name)
             append(" (")
-            trimAndJoin(createTable)
+            append(QueryBuilder.trimQuery(createTable))
             append(")")
         }
     }
