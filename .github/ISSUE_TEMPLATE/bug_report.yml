@@ -1,0 +1,78 @@
+name: Bug Report
+description: Something's broken? Let us know so we can fix it
+title: "[BUG] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Found a bug? We appreciate you taking the time to report it. Before submitting, check if someone else already reported it.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before you submit
+      description: Please tick all that apply — we need these to help you
+      options:
+        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are similar to the feature request I want to file, without success.
+          required: true
+        - label: This issue contains only one bug.
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What's going wrong?
+      description: Describe the bug in your own words
+      placeholder: What happens when you...?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How do we reproduce it?
+      description: Step-by-step so we can see it too
+      placeholder: |
+        1. Open the app and go to...
+        2. Tap on...
+        3. See the error
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: What should have happened instead?
+      placeholder: Normally it would...
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Pictures help a lot — just drag and drop them here
+      placeholder: Add screenshots here
+  - type: input
+    id: device
+    attributes:
+      label: Your phone
+      description: Brand and model
+      placeholder: e.g. Pixel 6
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Android version
+      description: What version of Android are you on?
+      placeholder: e.g. Android 14
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: Droid-ify version
+      description: Check in Settings or About
+      placeholder: e.g. v0.5.1
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: Repos you have added, things you've tried, etc.
+      placeholder: Any other details that might help...

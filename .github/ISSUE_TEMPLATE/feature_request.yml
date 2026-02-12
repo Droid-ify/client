@@ -1,0 +1,47 @@
+name: Feature Request
+description: Have an idea? We'd love to hear it
+title: "[Request] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Got a feature idea? Nice! Before you submit, make sure nobody's suggested it already.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before you submit
+      description: Quick checks — helps us and you
+      options:
+        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are similar to the feature request I want to file, without success.
+          required: true
+        - label: I'm not requesting app support for a specific repo — that's up to repo maintainers
+          required: true
+        - label: I understand this might not get built (Droid-ify is maintained by a single person)
+          required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's the problem?
+      description: What's frustrating or missing for you?
+      placeholder: e.g. I'm always having to... when...
+  - type: textarea
+    id: solution
+    attributes:
+      label: What would help?
+      description: Describe your ideal solution
+      placeholder: It would be great if...
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives?
+      description: Any other ways you've thought of to solve this?
+      placeholder: I also considered...
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: Screenshots, mockups, or extra context — drag and drop images here
+      placeholder: Whatever might help us understand...

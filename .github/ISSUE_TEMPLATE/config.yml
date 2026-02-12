@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Telegram Community
+    url: https://t.me/droidifyc
+    about: Chat with us directly for quick questions, discussions and support
+  - name: Security
+    url: mailto:droidify@proton.me
+    about: Report security vulnerabilities privately (do not create a public issue)

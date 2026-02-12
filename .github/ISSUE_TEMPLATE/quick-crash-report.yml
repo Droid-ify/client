@@ -1,0 +1,66 @@
+name: Quick Crash Report
+description: The app crashed? Report it quickly
+title: "[Crash] "
+labels: ["bug", "urgent"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        App crashed? Bummer. This short form gets your report in fast.
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Before you submit
+      description: Quick checks
+      options:
+        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are similar to the feature request I want to file, without success.
+          required: true
+        - label: I'm on the latest version
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: What were you doing when it crashed?
+      placeholder: I was... and then the app closed
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: How do we trigger it?
+      description: Steps to reproduce
+      placeholder: |
+        1. Open app, go to...
+        2. Tap on...
+        3. Crash
+  - type: input
+    id: device
+    attributes:
+      label: Your phone
+      description: Brand and model
+      placeholder: e.g. Pixel 6
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Android version
+      description: What version of Android?
+      placeholder: e.g. Android 14
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: Droid-ify version
+      description: Check in Settings or About
+      placeholder: e.g. v0.5.1
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Anything else?
+      description: Recent settings changes, repos added, etc.
+      placeholder: Whatever might help...
