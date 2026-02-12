@@ -247,4 +247,5 @@
     <string name="repository_not_found_by_id">Hoidlat ei leitud</string>
     <string name="force_sync_repositories">Sunni hoidlate sünkroonimine</string>
     <string name="copy_error_details">Kopeeri errori detailid</string>
+    <string name="copied_to_clipboard">Kopeeritud</string>
 </resources>
