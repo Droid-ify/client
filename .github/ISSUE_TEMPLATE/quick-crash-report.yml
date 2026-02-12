@@ -1,7 +1,8 @@
 name: Quick Crash Report
 description: The app crashed? Report it quickly
 title: "[Crash] "
-labels: ["bug", "urgent"]
+labels: ["urgent"]
+type: bug
 body:
   - type: markdown
     attributes:
