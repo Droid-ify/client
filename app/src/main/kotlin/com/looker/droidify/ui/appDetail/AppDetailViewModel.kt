@@ -64,8 +64,8 @@ class AppDetailViewModel @Inject constructor(
             privacyRepository.getRBLogs(packageName),
             privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,
-            flow { emit(settingsRepository.getInitial()) },
-        ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, initialSettings ->
+            settingsRepository.data
+        ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, settings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
                 idAndRepos[product.repositoryId] != null
@@ -76,8 +76,8 @@ class AppDetailViewModel @Inject constructor(
                 rblogs = rblogs,
                 downloads = downloads,
                 installedItem = installedItem,
-                isFavourite = packageName in initialSettings.favouriteApps,
-                allowIncompatibleVersions = initialSettings.incompatibleVersions,
+                isFavourite = packageName in settings.favouriteApps,
+                allowIncompatibleVersions = settings.incompatibleVersions,
                 isSelf = packageName == BuildConfig.APPLICATION_ID,
                 addressIfUnavailable = suggestedAddress,
             )
