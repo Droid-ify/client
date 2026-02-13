@@ -7,7 +7,7 @@
     <string name="all_applications_up_to_date">Todas sus aplicaciones están actualizadas</string>
     <string name="already_exists">Ya existe</string>
     <string name="always">Siempre</string>
-    <string name="amoled">Negro (AMOLED)</string>
+    <string name="amoled">Negro</string>
     <string name="anti_features">Anti-funciones</string>
     <string name="application">Aplicación</string>
     <string name="application_not_found">Aplicación no encontrada</string>
@@ -110,7 +110,7 @@
     <string name="recently_updated">Actualizado recientemente</string>
     <string name="repositories">Repositorios</string>
     <string name="repository">Repositorio</string>
-    <string name="repository_unsigned_DESC">Ninguna firma encontrada. No se ha podido verificar la lista de aplicaciones.</string>
+    <string name="repository_unsigned_DESC">Ninguna firma encontrada. No se ha podido verificar la lista de aplicaciones</string>
     <string name="requires_FORMAT">Requiere %s</string>
     <string name="save">Guardar</string>
     <string name="saving_details">Guardando detalles…</string>
@@ -148,7 +148,7 @@
     <string name="upstream_source_code_is_not_free">El código fuente no es libre</string>
     <string name="username">Nombre de usuario</string>
     <string name="username_missing">Falta el nombre de usuario</string>
-    <string name="validation_index_error_DESC">El índice no pudo ser validado.</string>
+    <string name="validation_index_error_DESC">El índice no pudo ser validado</string>
     <string name="version">Versión</string>
     <string name="version_FORMAT">Versión %s</string>
     <string name="versions">Versiones</string>
@@ -262,4 +262,21 @@
     <string name="copy_error_details">Copiar detalles del error</string>
     <string name="delete_apk_on_install">Eliminar el APK tras la instalación</string>
     <string name="delete_apk_on_install_summary">Eliminar automáticamente los archivos APK después de una instalación exitosa</string>
+    <string name="custom_buttons">Botones personalizados</string>
+    <string name="custom_buttons_description">Añadir enlaces rápidos a servicios externos en detalles de aplicaciones</string>
+    <string name="custom_buttons_section">Links de detalle de app</string>
+    <string name="custom_button_add">Agregar botón</string>
+    <string name="custom_button_edit">Editar botón</string>
+    <string name="custom_button_label">Etiqueta</string>
+    <string name="custom_button_label_hint">Ejemplo: Exodus Privacy</string>
+    <string name="custom_button_url">Plantilla de URL</string>
+    <string name="custom_button_url_description">Use {{package_name}}, {{app_name}}, o {{author_name}} como marcadores de posición</string>
+    <string name="custom_button_templates">Plantillas</string>
+    <string name="custom_button_icon">ícono</string>
+    <string name="custom_button_delete_confirmation">¿Borrar el botón \"%1$s\"?</string>
+    <string name="custom_buttons_export">Exportar botones</string>
+    <string name="custom_buttons_import">Importar botones</string>
+    <string name="custom_buttons_imported">Botones personalizados importados</string>
+    <string name="copied_to_clipboard">Copiado</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
 </resources>

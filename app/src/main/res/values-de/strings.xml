@@ -258,4 +258,21 @@
     <string name="force_sync_repositories">Paketquellen synchronisieren erzwingen</string>
     <string name="delete_apk_on_install_summary">APK-Dateien nach erfolgreicher Installation automatisch löschen</string>
     <string name="delete_apk_on_install">APK bei der Installation löschen</string>
+    <string name="custom_buttons_description">Quicklinks zu externen Diensten in App-Details hinzufügen</string>
+    <string name="custom_buttons_section">Appdetaillinks</string>
+    <string name="custom_button_add">Schaltfläche hinzufügen</string>
+    <string name="custom_button_edit">Schaltfläche bearbeiten</string>
+    <string name="custom_button_label">Beschriftung</string>
+    <string name="custom_button_label_hint">z. B. Exodus Privacy</string>
+    <string name="custom_button_url">URL-Vorlage</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">{{package_name}}, {{app_name}} oder {{author_name}} als Platzhalter verwenden</string>
+    <string name="custom_button_templates">Vorlagen</string>
+    <string name="custom_button_icon">Symbol</string>
+    <string name="custom_button_delete_confirmation">Die Schaltfläche \"%1$s\" löschen?</string>
+    <string name="custom_buttons_export">Schaltflächen exportieren</string>
+    <string name="custom_buttons_import">Schaltflächen importieren</string>
+    <string name="custom_buttons">Eigene Schaltflächen</string>
+    <string name="custom_buttons_imported">Eigene Schaltflächen importiert</string>
+    <string name="copied_to_clipboard">Kopiert</string>
 </resources>

@@ -238,4 +238,11 @@
     <string name="label_sdk_version">Mål: Android %1$s | Minimum: Android %2$s</string>
     <string name="always_choose">Välj alltid</string>
     <string name="select_installer">Välj installerare</string>
+    <string name="delete_apk_on_install">Radera APK-filen efter installation</string>
+    <string name="delete_apk_on_install_summary">Ta bort APK-filer automatiskt vid lyckade installationer</string>
+    <string name="requires_authentication">Krävs autentisering?</string>
+    <string name="action_sync_repo">Synkronisera</string>
+    <string name="action_enable_repo">Aktivera</string>
+    <string name="copy_error_details">Kopiera felmeddelandet till urklipp</string>
+    <string name="copied_to_clipboard">Kopierad</string>
 </resources>

@@ -257,4 +257,26 @@
     <string name="downloading_rb_logs">Téléchargement des logs de reproducibilité</string>
     <string name="downloading_download_stats">Téléchargement des statistiques de téléchargements</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="delete_apk_on_install">Supprimer APK après installation</string>
+    <string name="delete_apk_on_install_summary">Supprimer automatiquement les fichiers APK après une installation réussie</string>
+    <string name="requires_authentication">Requiert authentification ?</string>
+    <string name="force_sync_repositories">Synchro forcée des répertoires</string>
+    <string name="copy_error_details">Copier détails de l\'erreur</string>
+    <string name="copied_to_clipboard">Copié</string>
+    <string name="custom_buttons">Boutons personnalisés</string>
+    <string name="custom_buttons_description">Ajouter des liens rapides vers des services externes dans les détails de l\'appli</string>
+    <string name="custom_buttons_section">Liens vers détails de l\'appli</string>
+    <string name="custom_button_add">Ajouter bouton</string>
+    <string name="custom_button_edit">Éditer bouton</string>
+    <string name="custom_button_label">Étiquette</string>
+    <string name="custom_button_label_hint">ex. Exodus Privacy</string>
+    <string name="custom_button_url">Modèle URL</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Utiliser {{package_name}}, {{app_name}}, ou {{author_name}} comme espace réservé</string>
+    <string name="custom_button_templates">Modèles</string>
+    <string name="custom_button_icon">Icône</string>
+    <string name="custom_button_delete_confirmation">Supprimer le bouton \"%1$s\" ?</string>
+    <string name="custom_buttons_export">Exporter boutons</string>
+    <string name="custom_buttons_import">Importer boutons</string>
+    <string name="custom_buttons_imported">Boutons persos importés</string>
 </resources>
