@@ -99,6 +99,12 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     }
 
     private fun listenApplications() {
+        val installedItems = packageManager
+            .getInstalledPackagesCompat()
+            ?.map { it.toInstalledItem() }
+        if (installedItems != null) {
+            Database.InstalledAdapter.putAll(installedItems)
+        }
         appScope.launch(Dispatchers.Default) {
             registerReceiver(
                 InstalledAppReceiver(packageManager),
@@ -108,11 +114,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                     addDataScheme("package")
                 },
             )
-            val installedItems =
-                packageManager.getInstalledPackagesCompat()
-                    ?.map { it.toInstalledItem() }
-                    ?: return@launch
-            Database.InstalledAdapter.putAll(installedItems)
         }
     }
 

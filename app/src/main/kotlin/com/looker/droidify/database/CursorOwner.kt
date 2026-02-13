@@ -7,6 +7,7 @@ import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
+import java.util.concurrent.ConcurrentHashMap
 
 class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -44,7 +45,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         val cursor: Cursor?,
     )
 
-    private val activeRequests = mutableMapOf<Int, ActiveRequest>()
+    private val activeRequests = ConcurrentHashMap<Int, ActiveRequest>()
 
     fun attach(callback: Callback, request: Request) {
         val oldActiveRequest = activeRequests[request.id]

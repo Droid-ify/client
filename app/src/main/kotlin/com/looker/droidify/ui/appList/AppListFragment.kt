@@ -40,6 +40,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
 
         private const val EXTRA_SOURCE = "source"
+        private const val EXTRA_SEARCH_QUERY = "search_query"
     }
 
     enum class Source(
@@ -52,12 +53,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         UPDATES(stringRes.updates, false, true)
     }
 
-    constructor(source: Source) : this() {
+    constructor(source: Source, searchQuery: String?) : this() {
         arguments = Bundle().apply {
             putString(EXTRA_SOURCE, source.name)
+            if (searchQuery != null) putString(EXTRA_SEARCH_QUERY, searchQuery)
         }
     }
-
 
     lateinit var source: Source
     private lateinit var recyclerView: RecyclerView
@@ -65,8 +66,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var scroller: Scroller? = null
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
-
-    private var pendingSearchQuery: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,10 +80,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         val viewModel = viewModel
         viewModel.syncConnection.bind(requireContext())
 
-        val psq = pendingSearchQuery
-        if (psq != null) {
-            viewModel.setSearchQuery(psq)
-            pendingSearchQuery = null
+        val savedSearchQuery = savedInstanceState?.getString(EXTRA_SEARCH_QUERY)
+        if (savedSearchQuery != null) {
+            viewModel.setSearchQuery(savedSearchQuery)
         }
 
         recyclerView = binding.recyclerView.apply {
@@ -146,7 +144,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             request = viewModel.state.value.toRequest(source),
         )
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.CREATED) {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.reposStream.collect { repos ->
                         appListAdapter.repositories = repos.associateBy { it.id }
@@ -201,8 +199,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     fun setSearchQuery(searchQuery: String) {
         if (view != null) {
             viewModel.setSearchQuery(searchQuery)
-        } else {
-            pendingSearchQuery = searchQuery
         }
     }
 

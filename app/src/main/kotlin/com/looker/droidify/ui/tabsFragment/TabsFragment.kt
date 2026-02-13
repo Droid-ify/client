@@ -114,7 +114,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-    private var searchQuery = ""
+    private var searchQuery: String? = null
     private var pendingSearchQuery: String? = null
 
     private val syncConnection = Connection(
@@ -147,16 +147,13 @@ class TabsFragment : ScreenFragment() {
         super.onViewCreated(view, savedInstanceState)
         syncConnection.bind(requireContext())
 
-        val viewModel = viewModel
-
-        val sectionsAdapter = SectionsAdapter {
+        sectionsAdapter = SectionsAdapter {
             if (showSections) {
                 viewModel.setSection(it)
                 sectionsList?.scrollToPosition(0)
                 showSections = false
             }
         }
-        this.sectionsAdapter = sectionsAdapter
 
         mainActivity.onToolbarCreated(toolbar)
         toolbar.title = getString(stringRes.application_name)
@@ -175,7 +172,8 @@ class TabsFragment : ScreenFragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         if (isResumed) {
-                            setSearchQuery(newText)
+                            searchQuery = newText
+                            productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
                         }
                         return true
                     }
@@ -265,8 +263,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
-        setSearchQuery(searchQuery)
+        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY)
 
         val toolbarExtra = fragmentBinding.toolbarExtra
         toolbarExtra.addView(tabsBinding.root)
@@ -282,10 +279,9 @@ class TabsFragment : ScreenFragment() {
             adapter = object : FragmentStateAdapter(this@TabsFragment) {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
                 override fun createFragment(position: Int): Fragment = AppListFragment(
-                    AppListFragment.Source.entries[position],
-                ).also {
-                    it.setSearchQuery(searchQuery)
-                }
+                    source = AppListFragment.Source.entries[position],
+                    searchQuery = searchQuery,
+                )
             }
             content.addView(this)
             registerOnPageChangeCallback(pageChangeCallback)
@@ -356,7 +352,7 @@ class TabsFragment : ScreenFragment() {
             isVerticalScrollBarEnabled = false
             setHasFixedSize(true)
             adapter = sectionsAdapter
-            addDivider(sectionsAdapter::configureDivider)
+            sectionsAdapter?.let { addDivider(it::configureDivider) }
             background = sectionBackground
             elevation = 4.dp.toFloat()
             content.addView(this)
@@ -390,7 +386,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
         onBackPressedCallback?.let {
-            requireActivity().onBackPressedDispatcher.addCallback(
+            mainActivity.onBackPressedDispatcher.addCallback(
                 viewLifecycleOwner,
                 it,
             )
