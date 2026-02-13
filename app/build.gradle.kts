@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.6.9"
+    val latestVersionName = "0.7.0"
     namespace = "com.looker.droidify"
     compileSdk {
         version = release(36)
