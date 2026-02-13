@@ -2,6 +2,10 @@ name: Build Release APK
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
   push:
     tags:
       - '*'
@@ -25,14 +29,8 @@ jobs:
           java-version: 17
           distribution: 'adopt'
 
-      - name: Grant execution permission to Gradle Wrapper
-        run: chmod +x gradlew
-
       - name: Build Release APK
         run: ./gradlew assembleRelease
-
-      - name: Checks
-        run: find . -type f -name "*.apk"
 
       - uses: r0adkll/sign-android-release@v1
         name: Signing APK
@@ -46,20 +44,19 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "36.0.0"
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
+
       - uses: softprops/action-gh-release@v2
         name: Create Release
         id: publish_release
         with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          body: ${{ steps.read_changelog.outputs.changelog }}
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: Release ${{ github.event.inputs.tag || github.ref_name }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
           generate_release_notes: true
           make_latest: true
           prerelease: false
           draft: true
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: release
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}
