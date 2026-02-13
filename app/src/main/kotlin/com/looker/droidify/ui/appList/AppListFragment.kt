@@ -30,12 +30,6 @@ import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
-
-    private val viewModel: AppListViewModel by viewModels()
-
-    private var _binding: RecyclerViewWithFabBinding? = null
-    private val binding get() = _binding!!
-
     companion object {
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
 
@@ -60,7 +54,13 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
-    lateinit var source: Source
+    val source by lazy { Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!) }
+
+    private val viewModel: AppListViewModel by viewModels()
+
+    private var _binding: RecyclerViewWithFabBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var appListAdapter: AppListAdapter
     private var scroller: Scroller? = null
@@ -72,7 +72,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        source = Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!)
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
 
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
