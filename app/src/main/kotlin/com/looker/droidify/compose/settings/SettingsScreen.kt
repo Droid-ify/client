@@ -535,9 +535,9 @@ private fun Duration.toDisplayString(): String {
     val hours = inWholeHours.toInt()
     val days = inWholeDays.toInt()
     return if (hours >= 24) {
-        pluralStringResource(R.plurals.days, days)
+        "$days " + pluralStringResource(R.plurals.days, days)
     } else {
-        pluralStringResource(R.plurals.hours, hours)
+        "$hours " + pluralStringResource(R.plurals.hours, hours)
     }
 }
 
