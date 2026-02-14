@@ -60,7 +60,7 @@ sed -i "s/val latestVersionName = \"[^\"]*\"/val latestVersionName = \"$version_
 
 # Create a changelog file
 mkdir -p "$changelog_directory"
-touch "$changelog_file"
+echo "Full changelog: https://github.com/Droid-ify/client/releases/tag/$git_tag" >> $changelog_file
 
 echo "Version Code: $version_code"
 echo "Version Name: $version_name"
