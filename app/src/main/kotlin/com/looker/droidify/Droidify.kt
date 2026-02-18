@@ -6,9 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
-import android.os.StrictMode
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -19,7 +16,10 @@ import coil3.SingletonImageLoader
 import coil3.asImage
 import coil3.disk.DiskCache
 import coil3.disk.directory
+import coil3.intercept.Interceptor
 import coil3.memory.MemoryCache
+import coil3.request.ImageResult
+import coil3.request.SuccessResult
 import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
@@ -79,8 +79,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     override fun onCreate() {
         super.onCreate()
 
-//        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
-
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
         RepositoryUpdater.init(appScope, downloader)
@@ -105,7 +103,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         if (installedItems != null) {
             Database.InstalledAdapter.putAll(installedItems)
         }
-        appScope.launch(Dispatchers.Default) {
+        appScope.launch {
             registerReceiver(
                 InstalledAppReceiver(packageManager),
                 IntentFilter().apply {
@@ -245,25 +243,21 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
             .diskCache(diskCache)
             .error(getDrawableCompat(R.drawable.ic_cannot_load).asImage())
             .crossfade(350)
+            .components { add(FallbackIconInterceptor()) }
             .build()
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun strictThreadPolicy() {
-    StrictMode.setThreadPolicy(
-        StrictMode.ThreadPolicy.Builder()
-            .detectDiskReads()
-            .detectDiskWrites()
-            .detectNetwork()
-            .detectUnbufferedIo()
-            .penaltyLog()
-            .build(),
-    )
-    StrictMode.setVmPolicy(
-        StrictMode.VmPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .build(),
-    )
+private class FallbackIconInterceptor : Interceptor {
+    override suspend fun intercept(chain: Interceptor.Chain): ImageResult {
+        val request = chain.request
+        val result = chain.proceed()
+
+        if (result is SuccessResult) return result
+
+        val fallbackIconUrl = request.newBuilder()
+            .data((request.data as String).replaceAfterLast('/', "icon.png"))
+            .build()
+        return chain.withRequest(fallbackIconUrl).proceed()
+    }
 }
