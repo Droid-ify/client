@@ -202,8 +202,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ACTION_CANCEL) {
             currentTask?.let { binder.cancel(it.task.packageName) }
+            stopSelf()
+        } else {
+            startForeground(
+                Constants.NOTIFICATION_ID_DOWNLOADING,
+                stateNotificationBuilder
+                    .setContentTitle(getString(stringRes.downloading_FORMAT, ""))
+                    .setContentText(getString(stringRes.connecting))
+                    .setProgress(1, 0, true)
+                    .build(),
+            )
         }
-        return START_NOT_STICKY
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun cancelTasks(packageName: String?) {

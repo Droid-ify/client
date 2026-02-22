@@ -262,8 +262,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             tasks.clear()
             val cancelledTask = cancelCurrentTask { it.task != null }
             handleNextTask(cancelledTask?.hasUpdates == true)
+            stopSelf()
+        } else {
+            startForeground(
+                Constants.NOTIFICATION_ID_SYNCING,
+                stateNotificationBuilder
+                    .setContentTitle(getString(stringRes.syncing_FORMAT, ""))
+                    .setContentText(getString(stringRes.connecting))
+                    .setProgress(0, 0, true)
+                    .build(),
+            )
         }
-        return START_NOT_STICKY
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun cancelTasks(condition: (Task) -> Boolean): Boolean {
