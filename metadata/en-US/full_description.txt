@@ -1,4 +1,5 @@
 Features:
+
 • Browse and install apps from F-Droid repositories
 • Automatic app updates in the background 
 • Multiple installation methods (Session, Root, Shizuku)
