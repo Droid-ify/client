@@ -39,16 +39,12 @@ class AppListViewModel
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 
-    val searchQuery = MutableStateFlow("")
-
     val state = combine(
         skipSignatureStream,
         sortOrderFlow,
         sections,
-        searchQuery,
-    ) { skipSignature, sortOrder, section, query ->
+    ) { skipSignature, sortOrder, section ->
         AppListState(
-            searchQuery = query,
             sections = section,
             sortOrder = sortOrder,
             skipSignatureCheck = skipSignature,
@@ -79,21 +75,14 @@ class AppListViewModel
             sections.emit(newSection)
         }
     }
-
-    fun setSearchQuery(newSearchQuery: String) {
-        viewModelScope.launch {
-            searchQuery.emit(newSearchQuery)
-        }
-    }
 }
 
 data class AppListState(
-    val searchQuery: String = "",
     val sections: ProductItem.Section = All,
     val sortOrder: SortOrder = SortOrder.UPDATED,
     val skipSignatureCheck: Boolean = false,
 ) {
-    fun toRequest(source: AppListFragment.Source) = when(source) {
+    fun toRequest(source: AppListFragment.Source, searchQuery: String) = when (source) {
         AppListFragment.Source.AVAILABLE -> Available(
             searchQuery = searchQuery,
             section = sections,
