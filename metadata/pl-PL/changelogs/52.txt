@@ -1,0 +1,34 @@
+## Zmiany w interfejsie użytkownika
+- Dodano: obsługę Material You
+- Dodano: obsługę Edge-to-Edge (Android 11+)
+- Dodano: pasek Snackbar w przypadku nieprawidłowego adresu
+- Dodano: pasek Snackbar przedstawiający połączenie internetowe
+- Dodano: wskaźnik zainstalowanych aplikacji
+- Dodano: listę ulubionych [W menu]
+- Dodano: Elementy sterujące paska aplikacji
+- Dodano: Nową ikonę błędu
+- Ulepszono: Stronę „Szczegóły repozytorium”
+- Ulepszono: Stronę „Lista repozytoriów”
+- Naprawiono: Zmianę motywu
+- Naprawiono: Brak przewijania paska aplikacji
+- Naprawiono: Kolor paska nawigacyjnego
+
+## Rdzeń aplikacji
+- Dodano: Listę ulubionych w menu
+- Dodano: Opcję czyszczenia „Nigdy”
+- Dodano: Repozytorium Session i FluffyChat
+- Usunięto: Niektóre nieaktywne repozytoria
+- Usunięto: Obsługę starszej wersji „index.xml” (ze względów bezpieczeństwa)
+- Poprawiono: Wiele błędów instalatora
+- Poprawiono: Aplikacja niewidoczna w Android TV
+- Poprawiono: Bardzo irytujące losowe awarie
+- Poprawiono: Instalator Shizuku i Root
+
+## Różne
+- Lepsza ikona powiadomienia o instalacji
+- Kliknij ikonę aplikacji, aby przełączyć nazwę autora i pakietu
+- Użyj starszej wersji instalatora przy pierwszym uruchomieniu MiUi
+- Shizuku przestało obsługiwać wersje starsze niż Android 11
+- Poprawiono: okno dialogowe instalacji nie było widoczne po kliknięciu powiadomienia
+- Poprawiono: awaria przy nieprawidłowym adresie repozytorium
+- Poprawiono: brak przycisku Wstecz na stronie ustawień

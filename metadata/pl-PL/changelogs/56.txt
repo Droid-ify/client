@@ -1,0 +1,10 @@
+Dodano: przycisk „Aktualizuj wszystko”
+Ulepszono: przepisano instalator
+Ulepszono: automatyczna instalacja aplikacji, jeśli to możliwe
+Ulepszono: umożliwiono użytkownikowi usunięcie opcji „Dotknij, aby zainstalować”
+Ulepszono: logika kolorów w Material You
+Ulepszono: ikona ulubionych
+Naprawiono: problem z kolejnością sortowania
+Naprawiono: pomijanie instalacji za pomocą instalatora root
+Naprawiono: podsumowanie na liście ulubionych
+Naprawiono: wyciek pamięci

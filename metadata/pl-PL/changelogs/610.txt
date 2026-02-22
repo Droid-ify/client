@@ -1,0 +1,4 @@
+Naprawiono:
+- Awaria podczas uruchamiania
+
+Jest to poprawka, poprzednie zmiany można sprawdzić tutaj: https://github.com/Droid-ify/client/releases/tag/v0.6.0

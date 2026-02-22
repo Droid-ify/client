@@ -1,0 +1,16 @@
+Ulepszenia:
+- Poprawiono ikony w oparciu o sposób użytkowania.
+- Zastąpiono symbol zastępczy zrzutu ekranu.
+- Poprawiono tytuły elementów linków.
+- Dodano możliwość przełączania przełącznika poprzez kliknięcie całego elementu.
+- Poprawiono aktualizacje w tle.
+- Ładowanie ikon z różnych serwerów lustrzanych.
+- Czyszczenie po zmianie proxy
+
+Poprawki:
+- Przełącznik motywu Monet
+- Rozmiar zrzutu ekranu
+- Poprawka repozytoriów Tor/Onion
+- Poprawka problemu z uprawnieniami Shizuku
+- Poprawka nieograniczonego przywracania instalatora
+- Poprawka wywołań repozytoriów tor

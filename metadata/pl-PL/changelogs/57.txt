@@ -1,0 +1,14 @@
+### Ulepszenia:
+- Nieznaczne zmniejszenie rozmiaru aplikacji
+- Możliwość usunięcia powiadomienia „Naciśnij, aby zainstalować”
+- Usunięcie dużego nagłówka
+- Ulepszona logika pobierania
+- Lepsza obsługa stanu
+- Ulepszenie instalatorów Shizuku i Root
+
+### Poprawki:
+- Awaria w tle spowodowana instalatorem sesji
+- Nadmiarowa widoczność przycisku „Aktualizuj wszystko”
+- Nakładające się przyciski
+- Lista zmian językowych
+- Puste powiadomienia

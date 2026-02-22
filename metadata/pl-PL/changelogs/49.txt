@@ -1,0 +1,2 @@
+- Naprawiono dziwne przekształcenie ikony #83
+- Naprawiono awarię, jeśli repozytorium zawiera uszkodzony indeks #77

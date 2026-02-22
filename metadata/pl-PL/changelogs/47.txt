@@ -1,0 +1,12 @@
+- Dodano instalator Shizuku
+- Minimalna wersja Androida podwyższona do Android 6
+- Naprawiono „Pokaż mniej” (#15)
+- Przetłumaczono format daty (#24)
+- Usunięto repozytorium UnifiedPush (#23)
+- Nowy nagłówek informacji o aplikacji
+- Zaokrąglony pasek górny
+- Powiadomienie otwiera stronę aplikacji
+- Lekki program do pobierania plików
+- Przywrócenie pamięci podręcznej w celu oszczędzania danych
+- Rezygnacja z obsługi funkcji Edge-to-Edge (#27)
+- Kilka drobnych ulepszeń

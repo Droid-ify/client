@@ -1,0 +1,14 @@
+## Nowości
+- Wdrożenie programu do pobierania plików
+- Przełączniki Material You
+- Konieczność ponownego uruchomienia po ustawieniu `Proxy`
+- Wypełnienie dla przycisku pływającego
+- Zlokalizowane metadane dla aplikacji (dzięki @BLumia)
+
+## Ulepszenia
+- Włączone repozytoria u góry
+- Responsywny przycisk „Aktualizuj wszystko”
+- Zmiana instalatora na żywo
+- Szybsze otwieranie stron
+
+- Wiele innych zmian, o których zapomniałem
