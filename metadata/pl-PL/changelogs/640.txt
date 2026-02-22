@@ -1,0 +1,28 @@
+Dodano:
+- Okno dialogowe informujące o niskim poziomie pamięci (blokuje pobieranie)
+- UserAgent dla twórców repozytoriów
+- Wiele nowych repozytoriów
+- Opcja ignorowania weryfikacji podpisu aplikacji (ostrzeżenie)
+- Obsługa funkcji Predictive Back (dzięki @First Last)
+- Lepsza obsługa RTL
+- Możliwość otwarcia informacji o aplikacji z ustawień Androida (podziękowania dla @jonas-w)
+- Pamięć podręczna obrazów jest czyszczona po 7 dniach
+
+Naprawiono:
+- Ponowne pojawianie się okna dialogowego dostępu w tle
+- Rozszerzanie kontenera zrzutów ekranu
+- Niektóre wyrównania tekstu
+- Powiadomienie o synchronizacji 0B/0B
+- Automatyczna aktualizacja nie działa, jeśli powiadomienia są wyłączone
+
+Zmieniono:
+- Docelowy SDK 34 -> 35
+- Migracja do magazynu danych preferencji (eliminuje kłopoty związane z dodawaniem nowych ustawień)
+- Lepsze powiadomienia o instalacji
+
+Usunięto:
+- Przejścia między zrzutami ekranu
+
+Ulepszenia:
+- Wydajność pobierania
+- Wydajność instalatora Shizuku

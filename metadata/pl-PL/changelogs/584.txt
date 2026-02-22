@@ -1,0 +1,15 @@
+Ulepszenia:
+- Obsługa uprawnień Shizuku
+- Wykrywanie użytkownika z uprawnieniami administratora
+- Dodano ustawienie blokujące przechodzenie między stronami
+- Aktualizacja Droid-ify na końcu listy
+- Różne zmiany
+
+Poprawki:
+- Obsługa uprawnień Sui
+- Obszar klikalny kategorii
+- Usunięcie awarii
+- Wybór tłumaczenia chińskiego
+- Awaria podczas robienia zrzutu ekranu
+- Interwał czyszczenia
+- Fałszywy stan instalacji na różnych stronach

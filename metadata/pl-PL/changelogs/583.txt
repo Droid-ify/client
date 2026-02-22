@@ -1,0 +1,13 @@
+## Ulepszenia
+
+- Zupełnie nowe zarządzanie uprawnieniami Shizuku.
+- Wyświetlanie funkcji „NSFW” Anti-feature.
+- Szybsza weryfikacja plików APK.
+- Lepsze zarządzanie stanem pobierania.
+- Zoptymalizowany układ dla języków arabskich.
+
+## Poprawki
+
+- Aplikacja nie instaluje się **
+
+** Aplikacje nie instalowały się po 20 sekundach oczekiwania.

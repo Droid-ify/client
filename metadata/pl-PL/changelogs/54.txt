@@ -1,0 +1,3 @@
+- Naprawiono awarię podczas powrotu ze strony Ustawienia
+- Zezwolono na korzystanie z Shizuku w systemie Android 7+
+- Wprowadzono pewne ulepszenia interfejsu użytkownika na stronie Repozytorium

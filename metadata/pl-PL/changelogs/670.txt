@@ -1,0 +1,18 @@
+Dodano:
+- Statystyki pobierania IzzyOnDroid (https://dlstats.izzyondroid.org/)
+- Odznakę powtarzalnej kompilacji
+- Przypinanie certyfikatów dla 9 repozytoriów
+- Obsługę rozpakowywania aplikacji
+- Obsługę adresu URI wyszukiwania `market://`
+
+Zmiany:
+- Interfejs użytkownika repozytorium w celu naprawienia problemów z UX
+- droidify.eu.org zostało przeniesione do droidify.app
+
+Naprawiono:
+- Ładowanie stron głównych
+- Powiadomienie o aktualizacji nie znikało po automatycznej aktualizacji
+
+Różne:
+- Zmiany w liście repozytoriów
+- Poprawki błędów

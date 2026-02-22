@@ -1,0 +1,16 @@
+Dodano:
+- Przesuń, aby powrócić i animacja na zrzucie ekranu
+
+Zmieniono:
+- Poprawiono wydajność: uruchamiania, synchronizacji, instalatora, edycji repozytorium
+- Udostępnianie i odinstalowywanie możliwe podczas pobierania
+- Zaokrąglenie ikon na ekranie głównym
+- Usunięcie subdomeny podczas udostępniania
+- Aktualizacja motywu
+
+Naprawiono:
+- Opóźnienia podczas synchronizacji
+- Błędy synchronizacji
+- Awaria podczas włączania repozytoriów
+- Reset stanu przewijania
+- Podwójna instalacja

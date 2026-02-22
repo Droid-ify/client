@@ -1,0 +1,16 @@
+Zupełnie nowe wrażenia związane z udostępnianiem:
+- Uniwersalne udostępnianie za pomocą `droidify.eu.org`
+- Nowa strona brakujących aplikacji
+- Dodawanie brakujących repozytoriów ze strony szczegółów
+
+Ulepszenia:
+- Dodanie ikony powrotu do zrzutu ekranu
+- Poprawa wydajności bazy danych
+- Poprawa wydajności strony ustawień
+
+Poprawki:
+- Awaria podczas sprawdzania poprawności
+- Awaria po anulowaniu pobierania
+- Awaria związana z Shizuku
+- Poprawka przełączników ustawień
+- Poprawka wywołań pustych ikon
