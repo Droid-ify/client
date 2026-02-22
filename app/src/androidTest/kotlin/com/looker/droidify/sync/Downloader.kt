@@ -6,17 +6,13 @@ import com.looker.droidify.network.ProgressListener
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.sync.common.assets
+import java.io.File
+import java.io.InputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.InputStream
-import java.net.Proxy
 
 val FakeDownloader = object : Downloader {
-    override fun setProxy(proxy: Proxy) {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun headCall(
         url: String,

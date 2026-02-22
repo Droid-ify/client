@@ -4,11 +4,14 @@ import android.content.Context
 import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
+import com.looker.droidify.data.StringHandler
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
 import com.looker.droidify.datastore.CustomButtonRepository
@@ -47,7 +50,10 @@ class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
     private val repositoryExporter: RepositoryExporter,
     private val customButtonRepository: CustomButtonRepository,
+    private val handler: StringHandler,
 ) : ViewModel() {
+
+    val snackbarHostState = SnackbarHostState()
 
     val settings = settingsRepository.data.asStateFlow(Settings())
 
@@ -57,16 +63,22 @@ class SettingsViewModel @Inject constructor(
     private val _isBackgroundAllowed = MutableStateFlow(true)
     val isBackgroundAllowed = _isBackgroundAllowed.asStateFlow()
 
-    private val _snackbarMessage = Channel<Int>(Channel.BUFFERED)
-    val snackbarMessage = _snackbarMessage.receiveAsFlow()
+    private val _requestRestart = Channel<Unit>(Channel.CONFLATED)
+    val requestRestart = _requestRestart.receiveAsFlow()
 
     fun updateBackgroundAccessState(allowed: Boolean) {
         _isBackgroundAllowed.value = allowed
     }
 
-    fun showSnackbar(@StringRes messageRes: Int) {
+    fun showSnackbar(@StringRes messageRes: Int, @StringRes action: Int? = null) {
         viewModelScope.launch {
-            _snackbarMessage.send(messageRes)
+            val result = snackbarHostState.showSnackbar(
+                handler.getString(messageRes),
+                action?.let { handler.getString(it) },
+            )
+            if (result == SnackbarResult.ActionPerformed) {
+                _requestRestart.send(Unit)
+            }
         }
     }
 
@@ -191,21 +203,25 @@ class SettingsViewModel @Inject constructor(
     fun setProxyType(proxyType: ProxyType) {
         viewModelScope.launch {
             settingsRepository.setProxyType(proxyType)
+            showSnackbar(R.string.proxy_restart_required, R.string.restart)
         }
     }
 
     fun setProxyHost(host: String) {
         viewModelScope.launch {
             settingsRepository.setProxyHost(host)
+            showSnackbar(R.string.proxy_restart_required, R.string.restart)
         }
     }
 
     fun setProxyPort(port: String) {
         viewModelScope.launch {
-            try {
-                settingsRepository.setProxyPort(port.toInt())
-            } catch (_: NumberFormatException) {
+            val portInt = port.toIntOrNull()
+            if (portInt == null) {
                 showSnackbar(R.string.proxy_port_error_not_int)
+            } else {
+                settingsRepository.setProxyPort(portInt)
+                showSnackbar(R.string.proxy_restart_required, R.string.restart)
             }
         }
     }

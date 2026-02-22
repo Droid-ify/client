@@ -174,6 +174,7 @@
     <string name="promotes_non_free_software">Promotes non-free add-ons</string>
     <string name="provided_by_FORMAT">Provided by %s</string>
     <string name="proxy">Proxy</string>
+    <string name="proxy_restart_required">Restart required for changes to take effect.</string>
     <string name="proxy_host">Proxy host</string>
     <string name="proxy_port">Proxy port</string>
     <string name="proxy_port_error_not_int">The proxy port can only be an integer</string>
@@ -181,6 +182,7 @@
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
+    <string name="restart">Restart</string>
     <string name="repository_not_found">The repository wasn\'t found</string>
     <string name="repository_unsigned_DESC">No signature found. Couldn\'t verify the app list</string>
     <string name="repository_unreachable">Repository unreachable</string>
