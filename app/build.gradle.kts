@@ -20,7 +20,7 @@ android {
         applicationId = "com.looker.droidify"
         minSdk = 23
         versionName = latestVersionName
-        versionCode = versionCode(versionName)
+        versionCode = 700
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
@@ -186,18 +186,3 @@ task("detectAndroidLocals") {
     android.defaultConfig.buildConfigField("String[]", "DETECTED_LOCALES", langsListString)
 }
 tasks.preBuild.dependsOn("detectAndroidLocals")
-
-fun versionCode(version: String?): Int? {
-    if (version == null) return null
-    val (major, minor, patch) = version
-        .substringBefore('-')
-        .trim()
-        .split('.')
-        .map { it.toUIntOrNull() }
-
-    require(major != null && minor != null && patch != null) {
-        "Each segment must be within 0..99 for mapping, was: '$version'"
-    }
-
-    return (major * 1000u + minor * 100u + patch * 10u).toInt()
-}
