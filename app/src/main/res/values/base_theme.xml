@@ -4,5 +4,6 @@
         <item name="android:colorBackground">@color/md_theme_l_background</item>
         <item name="colorSurface">?android:attr/colorBackground</item>
         <item name="android:colorPrimaryDark">?android:attr/colorBackground</item>
+        <item name="colorError">#FC3E1B</item>
     </style>
 </resources>
