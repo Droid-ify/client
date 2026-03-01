@@ -65,8 +65,9 @@ internal class KtorDownloader(
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?,
     ): NetworkResponse = withContext(dispatcher) {
-        val output = FileOutputStream(target, true)
+        var output: FileOutputStream? = null
         try {
+            output = FileOutputStream(target, true)
             val fileSize = target.length()
             val request = request(
                 url = url,
@@ -101,8 +102,8 @@ internal class KtorDownloader(
             NetworkResponse.Error.Unknown(e)
         } finally {
             withContext(NonCancellable) {
-                output.close()
-                output.flush()
+                output?.close()
+                output?.flush()
             }
         }
     }
