@@ -25,7 +25,6 @@ android {
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
-    compileOptions.isCoreLibraryDesugaringEnabled = true
     androidResources.generateLocaleConfig = true
 
     ksp {
@@ -89,6 +88,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -102,6 +102,13 @@ android {
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.JETBRAINS)
     }
 }
 
