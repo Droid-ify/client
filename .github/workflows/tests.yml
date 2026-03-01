@@ -1,4 +1,4 @@
-name: Build Debug APK
+name: Unit tests
 
 on:
   push:
