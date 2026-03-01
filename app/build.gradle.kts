@@ -103,6 +103,16 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
 }
 
 java {
@@ -165,7 +175,12 @@ dependencies {
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
     testImplementation(libs.test.core.ktx)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.hilt.test)
     testRuntimeOnly(libs.junit.platform)
+    testRuntimeOnly(libs.junit.vintage.engine)
+    kspTest(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)

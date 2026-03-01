@@ -28,33 +28,22 @@ import org.robolectric.annotation.Config
 @Config(manifest = Config.NONE)
 abstract class BaseDatabaseTest {
 
-    // Rule to make LiveData execute synchronously
     @get:Rule
     val instantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
-
-    // In-memory database for testing
     protected lateinit var database: DroidifyDatabase
-
-    // Test dispatcher for coroutines
     protected val testDispatcher: TestDispatcher = StandardTestDispatcher()
 
     @Before
     fun setupDatabase() {
-        // Set the main dispatcher to the test dispatcher
         Dispatchers.setMain(testDispatcher)
-
-        // Get the application context from Robolectric
         val context = ApplicationProvider.getApplicationContext<Context>()
-
-        // Create an in-memory database for testing
         database = Room.inMemoryDatabaseBuilder(
             context,
             DroidifyDatabase::class.java
         )
-            .allowMainThreadQueries() // Allow queries on the main thread for testing
+            .allowMainThreadQueries()
             .build()
 
-        // Initialize DAOs in subclasses
         initDao()
     }
 
@@ -68,10 +57,7 @@ abstract class BaseDatabaseTest {
 
     @After
     fun tearDown() {
-        // Close the database
         database.close()
-
-        // Reset the main dispatcher
         Dispatchers.resetMain()
     }
 

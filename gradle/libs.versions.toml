@@ -33,8 +33,10 @@ junit-jupiter = "6.0.3"
 robolectric = "4.16.1"
 test-core = "1.7.0"
 arch-core-testing = "2.2.0"
+mockk = "1.14.9"
+turbine = "1.2.1"
 compose-bom = "2026.02.00"
-compose-material = "1.5.0-alpha14"
+compose-material = "1.5.0-alpha15"
 compose-navigation = "2.9.7"
 
 [libraries]
@@ -69,6 +71,7 @@ leakcanary = { group = "com.squareup.leakcanary", name = "leakcanary-android", v
 jackson-core = { group = "com.fasterxml.jackson.core", name = "jackson-core", version.ref = "jackson" }
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-test-junit5 = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit5", version.ref = "kotlin" }
 coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
@@ -91,6 +94,10 @@ junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 arch-core-testing = { group = "androidx.arch.core", name = "core-testing", version.ref = "arch-core-testing" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine" }
 
 # Compose dependencies
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
@@ -121,7 +128,7 @@ shizuku = ["shizuku-provider", "shizuku-api"]
 ktor = ["ktor-core", "ktor-okhttp"]
 coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
 coil = ["coil-core", "coil-compose", "coil-network"]
-test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test"]
+test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test", "kotlin-test-junit5"]
 test-android = ["test-runner", "test-rules", "test-ext", "coroutines-test", "kotlin-test"]
 compose = ["compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "compose-material-icons", "compose-activity", "compose-navigation", "compose-hilt-navigation", "compose-lifecycle-viewmodel"]
 compose-debug = ["compose-ui-tooling", "compose-ui-test-manifest"]
