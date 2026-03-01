@@ -6,6 +6,6 @@
         <item name="android:colorBackground">@color/md_theme_l_background</item>
     </style>
     <style name="MainTheme" parent="Base.MainTheme.Light">
-        <item name="colorError">#FC3E1B</item>
+        <item name="colorError">@color/md_theme_l_error</item>
     </style>
 </resources>
