@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="pitch_black">#000000</color>
-    <color name="colorError"></color>
 
     <color name="md_theme_l_primary">#416835</color>
     <color name="md_theme_l_onPrimary">#FFFFFF</color>
