@@ -2,13 +2,12 @@ name: Unit tests
 
 on:
   push:
-    branches:
-      - 'main'
+    branches: [ "main" ]
     paths-ignore:
       - '**.md'
       - '**.yml'
   pull_request:
-    types: [ opened, reopened, ready_for_review ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:

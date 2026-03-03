@@ -1,5 +1,6 @@
 package com.looker.droidify.network
 
+import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
 import io.ktor.client.engine.mock.respondError
@@ -7,12 +8,12 @@ import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.plugins.ConnectTimeoutException
 import io.ktor.client.plugins.SocketTimeoutException
 import io.ktor.http.HttpStatusCode
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.runTest
-import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.runTest
+import org.junit.jupiter.api.Test
 
 class KtorDownloaderTest {
 
@@ -31,7 +32,8 @@ class KtorDownloaderTest {
 
     private val dispatcher = StandardTestDispatcher()
 
-    private val downloader = KtorDownloader(engine, dispatcher)
+    private val httpClient = HttpClient(engine)
+    private val downloader = KtorDownloader(httpClient, dispatcher)
 
     @Test
     fun `head call success`() = runTest(dispatcher) {

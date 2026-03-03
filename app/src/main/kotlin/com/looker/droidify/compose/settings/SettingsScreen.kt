@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -69,16 +68,8 @@ fun SettingsScreen(
     val customButtons by viewModel.customButtons.collectAsStateWithLifecycle()
     val isBackgroundAllowed by viewModel.isBackgroundAllowed.collectAsStateWithLifecycle()
 
-    val snackbarHostState = remember { SnackbarHostState() }
-
     LaunchedEffect(Unit) {
         viewModel.updateBackgroundAccessState(context.isIgnoreBatteryEnabled())
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.snackbarMessage.collect { messageRes ->
-            snackbarHostState.showSnackbar(context.getString(messageRes))
-        }
     }
 
     val exportSettingsLauncher = rememberLauncherForActivityResult(
@@ -132,7 +123,7 @@ fun SettingsScreen(
                 navigationIcon = { BackButton(onBackClick) },
             )
         },
-        snackbarHost = { SnackbarHost(snackbarHostState) },
+        snackbarHost = { SnackbarHost(viewModel.snackbarHostState) },
     ) { contentPadding ->
         LazyColumn(
             modifier = Modifier
