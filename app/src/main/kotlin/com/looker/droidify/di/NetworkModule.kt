@@ -1,6 +1,7 @@
 package com.looker.droidify.di
 
-import com.looker.droidify.BuildConfig
+import com.looker.droidify.BuildConfig.BUILD_TYPE
+import com.looker.droidify.BuildConfig.VERSION_NAME
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
@@ -29,7 +30,16 @@ object NetworkModule {
     @Provides
     fun provideHttpClient(settingsRepository: SettingsRepository): HttpClient {
         val proxyPreference = runBlocking { settingsRepository.getInitial().proxy }
-        return createKtorHttpClient(proxyPreference.toProxy())
+        val engine = OkHttp.create { proxy = proxyPreference.toProxy() }
+        return HttpClient(engine) {
+            install(UserAgent) {
+                agent = "Droid-ify/${VERSION_NAME}-${BUILD_TYPE}"
+            }
+            install(HttpTimeout) {
+                connectTimeoutMillis = 30_000L
+                socketTimeoutMillis = 15_000L
+            }
+        }
     }
 
     @Singleton
@@ -62,17 +72,4 @@ private fun ProxyPreference.toProxy(): Proxy {
         ProxyType.SOCKS -> Proxy.Type.SOCKS
     }
     return socketAddress?.let { Proxy(androidProxyType, it) } ?: Proxy.NO_PROXY
-}
-
-private fun createKtorHttpClient(proxy: Proxy): HttpClient {
-    val engine = OkHttp.create { this.proxy = proxy }
-    return HttpClient(engine) {
-        install(UserAgent) {
-            agent = "Droid-ify/${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
-        }
-        install(HttpTimeout) {
-            connectTimeoutMillis = 30_000L
-            socketTimeoutMillis = 15_000L
-        }
-    }
 }
