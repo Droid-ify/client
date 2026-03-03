@@ -31,6 +31,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.core.util.TypedValueCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -448,7 +449,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         val actionTintNormal = button.context.getColorFromAttr(android.R.attr.colorPrimary)
         val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimary)
-        val actionTintCancel = button.context.getColorFromAttr(android.R.attr.colorError)
+        val actionTintCancel = button.context.getColorFromAttr(R.attr.colorError)
         val actionTintOnCancel = button.context.getColorFromAttr(MaterialR.attr.colorOnError)
         val actionTintDisabled = button.context.getColorFromAttr(MaterialR.attr.colorOutline)
         val actionTintOnDisabled = button.context.getColorFromAttr(android.R.attr.colorBackground)

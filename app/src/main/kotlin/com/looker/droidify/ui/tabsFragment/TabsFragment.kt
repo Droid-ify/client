@@ -114,7 +114,7 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-    private var searchQuery: String? = null
+    private var searchQuery = ""
     private var pendingSearchQuery: String? = null
 
     private val syncConnection = Connection(
@@ -172,8 +172,7 @@ class TabsFragment : ScreenFragment() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
                         if (isResumed) {
-                            searchQuery = newText
-                            productFragments.forEach { it.setSearchQuery(newText.orEmpty()) }
+                            setSearchQuery(newText)
                         }
                         return true
                     }
@@ -263,7 +262,8 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY)
+        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
+        setSearchQuery(searchQuery)
 
         val toolbarExtra = fragmentBinding.toolbarExtra
         toolbarExtra.addView(tabsBinding.root)
@@ -280,8 +280,7 @@ class TabsFragment : ScreenFragment() {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
                 override fun createFragment(position: Int): Fragment = AppListFragment(
                     source = AppListFragment.Source.entries[position],
-                    searchQuery = searchQuery,
-                )
+                ).also { it.setSearchQuery(searchQuery) }
             }
             content.addView(this)
             registerOnPageChangeCallback(pageChangeCallback)

@@ -20,12 +20,11 @@ android {
         applicationId = "com.looker.droidify"
         minSdk = 23
         versionName = latestVersionName
-        versionCode = versionCode(versionName)
+        versionCode = 700
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
-    compileOptions.isCoreLibraryDesugaringEnabled = true
     androidResources.generateLocaleConfig = true
 
     ksp {
@@ -89,6 +88,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -102,6 +102,23 @@ android {
     dependenciesInfo {
         includeInApk = false
         includeInBundle = false
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.useJUnitPlatform()
+            }
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.JETBRAINS)
     }
 }
 
@@ -158,7 +175,12 @@ dependencies {
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
     testImplementation(libs.test.core.ktx)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.hilt.test)
     testRuntimeOnly(libs.junit.platform)
+    testRuntimeOnly(libs.junit.vintage.engine)
+    kspTest(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
@@ -186,18 +208,3 @@ task("detectAndroidLocals") {
     android.defaultConfig.buildConfigField("String[]", "DETECTED_LOCALES", langsListString)
 }
 tasks.preBuild.dependsOn("detectAndroidLocals")
-
-fun versionCode(version: String?): Int? {
-    if (version == null) return null
-    val (major, minor, patch) = version
-        .substringBefore('-')
-        .trim()
-        .split('.')
-        .map { it.toUIntOrNull() }
-
-    require(major != null && minor != null && patch != null) {
-        "Each segment must be within 0..99 for mapping, was: '$version'"
-    }
-
-    return (major * 1000u + minor * 100u + patch * 10u).toInt()
-}

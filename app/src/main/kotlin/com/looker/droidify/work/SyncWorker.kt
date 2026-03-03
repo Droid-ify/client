@@ -21,10 +21,10 @@ import com.looker.droidify.R
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.utility.common.createNotificationChannel
+import com.looker.droidify.utility.common.extension.exceptCancellation
 import com.looker.droidify.utility.common.toForegroundInfo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.ktor.client.utils.unwrapCancellationException
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
@@ -67,7 +67,7 @@ class SyncWorker @AssistedInject constructor(
                 Result.retry()
             }
         } catch (t: Throwable) {
-            t.unwrapCancellationException()
+            t.exceptCancellation()
             Log.e(TAG, "Sync failed with exception", t)
             Result.retry()
         }

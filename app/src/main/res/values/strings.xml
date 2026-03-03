@@ -244,8 +244,8 @@
     <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
-    <string name="waiting_to_start_download">Waiting to start download…</string>
-    <string name="waiting_to_start_installation">Waiting to start installation…</string>
+    <string name="waiting_to_start_download">Download queued…</string>
+    <string name="waiting_to_start_installation">Installation queued…</string>
     <string name="whats_new">What\'s new</string>
     <string name="website">Project website</string>
     <string name="prefs_language_title">Language</string>
