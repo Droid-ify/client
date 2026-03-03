@@ -182,7 +182,6 @@
     <string name="recently_updated">Recently updated</string>
     <string name="repositories">Repositories</string>
     <string name="repository">Repository</string>
-    <string name="restart">Restart</string>
     <string name="repository_not_found">The repository wasn\'t found</string>
     <string name="repository_unsigned_DESC">No signature found. Couldn\'t verify the app list</string>
     <string name="repository_unreachable">Repository unreachable</string>

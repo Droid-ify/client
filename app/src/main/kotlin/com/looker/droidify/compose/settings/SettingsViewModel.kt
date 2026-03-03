@@ -5,7 +5,6 @@ import android.net.Uri
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,11 +37,9 @@ import javax.inject.Inject
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
 @HiltViewModel
@@ -63,22 +60,13 @@ class SettingsViewModel @Inject constructor(
     private val _isBackgroundAllowed = MutableStateFlow(true)
     val isBackgroundAllowed = _isBackgroundAllowed.asStateFlow()
 
-    private val _requestRestart = Channel<Unit>(Channel.CONFLATED)
-    val requestRestart = _requestRestart.receiveAsFlow()
-
     fun updateBackgroundAccessState(allowed: Boolean) {
         _isBackgroundAllowed.value = allowed
     }
 
-    fun showSnackbar(@StringRes messageRes: Int, @StringRes action: Int? = null) {
+    fun showSnackbar(@StringRes messageRes: Int) {
         viewModelScope.launch {
-            val result = snackbarHostState.showSnackbar(
-                handler.getString(messageRes),
-                action?.let { handler.getString(it) },
-            )
-            if (result == SnackbarResult.ActionPerformed) {
-                _requestRestart.send(Unit)
-            }
+            snackbarHostState.showSnackbar(handler.getString(messageRes))
         }
     }
 
@@ -203,14 +191,14 @@ class SettingsViewModel @Inject constructor(
     fun setProxyType(proxyType: ProxyType) {
         viewModelScope.launch {
             settingsRepository.setProxyType(proxyType)
-            showSnackbar(R.string.proxy_restart_required, R.string.restart)
+            showSnackbar(R.string.proxy_restart_required)
         }
     }
 
     fun setProxyHost(host: String) {
         viewModelScope.launch {
             settingsRepository.setProxyHost(host)
-            showSnackbar(R.string.proxy_restart_required, R.string.restart)
+            showSnackbar(R.string.proxy_restart_required)
         }
     }
 
@@ -221,7 +209,7 @@ class SettingsViewModel @Inject constructor(
                 showSnackbar(R.string.proxy_port_error_not_int)
             } else {
                 settingsRepository.setProxyPort(portInt)
-                showSnackbar(R.string.proxy_restart_required, R.string.restart)
+                showSnackbar(R.string.proxy_restart_required)
             }
         }
     }

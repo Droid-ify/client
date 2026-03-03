@@ -3,7 +3,6 @@ package com.looker.droidify.compose.settings
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
@@ -71,12 +70,6 @@ fun SettingsScreen(
 
     LaunchedEffect(Unit) {
         viewModel.updateBackgroundAccessState(context.isIgnoreBatteryEnabled())
-    }
-
-    LaunchedEffect(Unit) {
-        viewModel.requestRestart.collect {
-            (context as? ComponentActivity)?.recreate()
-        }
     }
 
     val exportSettingsLauncher = rememberLauncherForActivityResult(
