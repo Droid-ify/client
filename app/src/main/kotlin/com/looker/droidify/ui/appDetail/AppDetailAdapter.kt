@@ -446,6 +446,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.action)!!
+        val incompatibleText = itemView.findViewById<TextView>(R.id.incompatible_text)!!
 
         val actionTintNormal = button.context.getColorFromAttr(android.R.attr.colorPrimary)
         val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimary)
@@ -1120,6 +1121,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             field = value
         }
 
+    var isIncompatible: Boolean = false
+        set(value) {
+            if (field != value) {
+                field = value
+                val index = items.indexOf(Item.InstallButtonItem)
+                if (index > 0) notifyItemChanged(index)
+            }
+        }
+
     var status: Status = Status.Idle
         set(value) {
             if (field != value) {
@@ -1437,6 +1447,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             ViewType.INSTALL_BUTTON -> {
                 holder as InstallButtonViewHolder
                 item as Item.InstallButtonItem
+
+                holder.incompatibleText.isVisible = isIncompatible
+
                 val action = action
                 holder.button.apply {
                     isEnabled = action != null

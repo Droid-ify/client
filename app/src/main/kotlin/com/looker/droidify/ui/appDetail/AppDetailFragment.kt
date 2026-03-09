@@ -249,6 +249,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
 
+        val isIncompatible = product != null && installed == null && !compatible
+        (recyclerView?.adapter as? AppDetailAdapter)?.isIncompatible = isIncompatible
+
         val actions = buildSet {
             if (canInstall) add(Action.INSTALL)
             if (canUpdate) add(Action.UPDATE)
