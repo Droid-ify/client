@@ -49,6 +49,10 @@ class DownloadStatsWorker @AssistedInject constructor(
     val downloadSemaphores = Semaphore(2)
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        if (!settingsRepo.getInitial().dlStatsEnabled) {
+            Log.i(TAG, "Download statistics disabled, skipping")
+            return@withContext Result.success()
+        }
         try {
             setForegroundAsync(
                 context

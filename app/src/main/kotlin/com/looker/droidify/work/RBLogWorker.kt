@@ -39,6 +39,10 @@ class RBLogWorker @AssistedInject constructor(
 
     @OptIn(ExperimentalTime::class)
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        if (!settingsRepository.getInitial().rbLogsEnabled) {
+            Log.i(TAG, "Reproducibility logs disabled, skipping")
+            return@withContext Result.success()
+        }
         val target = Cache.getTemporaryFile(context)
         try {
             val lastModified = settingsRepository.getInitial().lastRbLogFetch

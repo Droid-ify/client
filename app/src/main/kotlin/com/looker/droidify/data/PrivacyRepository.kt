@@ -31,4 +31,14 @@ class PrivacyRepository(
     suspend fun save(downloadStats: List<DownloadStats>) {
         downloadStatsDao.insert(downloadStats)
     }
+
+    suspend fun clearDownloadStats() {
+        downloadStatsDao.deleteAll()
+        settingsRepo.clearDownloadStatsLastModified()
+    }
+
+    suspend fun clearRbLogs() {
+        rbDao.deleteAll()
+        settingsRepo.clearRbLogLastModified()
+    }
 }
