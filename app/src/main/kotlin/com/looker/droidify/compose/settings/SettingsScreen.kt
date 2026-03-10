@@ -377,7 +377,7 @@ fun SettingsScreen(
                 ActionSettingItem(
                     title = stringResource(R.string.special_credits),
                     description = FOXY_DROID_TITLE,
-                    onClick = { uriHandler.openUri(FOXY_DROID_URL) },
+                    onClick = { runCatching { uriHandler.openUri(FOXY_DROID_URL) } },
                 )
             }
 
@@ -385,7 +385,7 @@ fun SettingsScreen(
                 ActionSettingItem(
                     title = DROID_IFY_TITLE,
                     description = BuildConfig.VERSION_NAME,
-                    onClick = { uriHandler.openUri(DROID_IFY_URL) },
+                    onClick = { runCatching { uriHandler.openUri(DROID_IFY_URL) } },
                 )
             }
         }
