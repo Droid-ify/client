@@ -1121,7 +1121,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             field = value
         }
 
-    var isIncompatible: Boolean = false
+    var incompatibilityReason: CharSequence? = null
         set(value) {
             if (field != value) {
                 field = value
@@ -1448,7 +1448,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as InstallButtonViewHolder
                 item as Item.InstallButtonItem
 
-                holder.incompatibleText.isVisible = isIncompatible
+                holder.incompatibleText.isVisible = incompatibilityReason != null
+                holder.incompatibleText.text = incompatibilityReason ?: ""
 
                 val action = action
                 holder.button.apply {
