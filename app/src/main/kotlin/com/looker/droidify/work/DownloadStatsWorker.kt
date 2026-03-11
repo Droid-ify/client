@@ -27,15 +27,12 @@ import io.ktor.http.HttpStatusCode
 import java.io.File
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
-import kotlin.concurrent.atomics.incrementAndFetch
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
-import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 
 @HiltWorker
@@ -78,33 +75,37 @@ class DownloadStatsWorker @AssistedInject constructor(
             val fileNames = ConcurrentLinkedQueue(
                 generateMonthlyFileNames(lastModified)
             )
-            val successfulResults = AtomicInt(0)
-            val updatedResults = AtomicInt(0)
 
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
             while (fileNames.isNotEmpty()) {
-                launch {
-                    downloadSemaphores.withPermit {
-                        val fileName = fileNames.poll() ?: return@withPermit
-                        val target = Cache.getTemporaryFile(context)
+                if (downloadSemaphores.tryAcquire()) {
+                    launch {
+                        val fileName = fileNames.poll()
+                        if (fileName == null) {
+                            downloadSemaphores.release()
+                        } else {
+                            val target = Cache.getTemporaryFile(context)
+                            try {
+                                Log.i(TAG, "Downloading $fileName")
+                                val response = downloadFile(fileName, target)
+                                Log.i(TAG, "Downloaded $fileName with $response")
 
-                        Log.i(TAG, "Downloading $fileName")
-                        val response = downloadFile(fileName, target)
-                        Log.i(TAG, "Downloaded $fileName with $response")
-
-                        if (response is NetworkResponse.Success) {
-                            successfulResults.incrementAndFetch()
-                            val isModified = response.statusCode != HttpStatusCode.NotModified.value
-                            if (isModified) {
-                                processDownloadStats(
-                                    response = response,
-                                    fileName = fileName,
-                                    target = target
-                                )
-                                updatedResults.incrementAndFetch()
+                                if (response is NetworkResponse.Success) {
+                                    val isModified =
+                                        response.statusCode != HttpStatusCode.NotModified.value
+                                    if (isModified) {
+                                        processDownloadStats(
+                                            response = response,
+                                            fileName = fileName,
+                                            target = target
+                                        )
+                                    }
+                                }
+                            } finally {
+                                target.delete()
+                                downloadSemaphores.release()
                             }
                         }
-                        target.delete()
                     }
                 }
             }
