@@ -72,6 +72,14 @@ interface SettingsRepository {
     suspend fun isRepoEnabled(repoId: Int): Boolean
 
     suspend fun setDeleteApkOnInstall(enable: Boolean)
+
+    suspend fun setDownloadStatisticsEnabled(enabled: Boolean)
+
+    suspend fun clearDownloadStatsLastModified()
+
+    suspend fun setRBLogsEnabled(enabled: Boolean)
+
+    suspend fun clearRbLogLastModified()
 }
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {

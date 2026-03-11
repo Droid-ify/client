@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
+import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.StringHandler
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
@@ -45,6 +46,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsRepository: SettingsRepository,
+    private val privacyRepository: PrivacyRepository,
     private val repositoryExporter: RepositoryExporter,
     private val customButtonRepository: CustomButtonRepository,
     private val handler: StringHandler,
@@ -185,6 +187,24 @@ class SettingsViewModel @Inject constructor(
     fun setDeleteApkOnInstall(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setDeleteApkOnInstall(enabled)
+        }
+    }
+
+    fun setDownloadStatisticsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setDownloadStatisticsEnabled(enabled)
+            if (!enabled) {
+                privacyRepository.clearDownloadStats()
+            }
+        }
+    }
+
+    fun setReproducibilityLogsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setRBLogsEnabled(enabled)
+            if (!enabled) {
+                privacyRepository.clearRbLogs()
+            }
         }
     }
 

@@ -269,6 +269,9 @@
     <string name="monthly">Monthly</string>
     <string name="downloading_rb_logs">Downloading reproducibility logs</string>
     <string name="downloading_download_stats">Downloading download stats</string>
+    <string name="download_statistics_summary">Fetch and display monthly download counts from IzzyOnDroid. Disabling clears existing download stats.</string>
+    <string name="reproducibility_logs">Reproducibility Logs</string>
+    <string name="reproducibility_logs_summary">Fetch and display reproducible build verification logs from IzzyOnDroid. Disabling clears existing reproducibility logs.</string>
 
     <string name="custom_buttons">Custom buttons</string>
     <string name="custom_buttons_description">Add quick links to external services in app details</string>
