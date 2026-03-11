@@ -2,6 +2,7 @@ package com.looker.droidify.utility.common.extension
 
 import android.app.NotificationManager
 import android.app.job.JobScheduler
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -39,9 +40,22 @@ fun Context.copyToClipboard(clip: String) {
 
 fun Context.openLink(url: String) {
     val intent = intent(Intent.ACTION_VIEW) {
-        setData(url.toUri())
+        data = url.toUri()
     }
-    startActivity(intent)
+    try {
+        startActivity(intent)
+    } catch (_: ActivityNotFoundException) {
+        // If no app found try to force open in browser
+        intent.selector = intent(Intent.ACTION_VIEW) {
+            data = "https://".toUri()
+            addCategory(Intent.CATEGORY_BROWSABLE)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 }
 
 val Context.corneredBackground: Drawable
