@@ -260,23 +260,28 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 incompatibility != null -> {
                     when (incompatibility) {
                         is Release.Incompatibility.MinSdk,
-                        is Release.Incompatibility.MaxSdk -> getString(
+                        is Release.Incompatibility.MaxSdk,
+                            -> getString(
                             stringRes.incompatible_with_FORMAT,
                             name
                         )
+
                         is Release.Incompatibility.Platform -> getString(
                             stringRes.incompatible_with_FORMAT,
                             primaryPlatform ?: getString(stringRes.unknown)
                         )
+
                         is Release.Incompatibility.Feature -> getString(
                             stringRes.requires_FORMAT,
                             incompatibility.feature
                         )
                     }
                 }
+
                 installedItem != null && selectedRelease != null && installedItem.signature != selectedRelease.signature -> {
                     getString(stringRes.incompatible_signature_DESC)
                 }
+
                 else -> null
             }
         } else {
@@ -572,10 +577,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun queueReleaseInstall(release: Release, installedItem: InstalledItem?) {
-        val productRepository =
-            products.asSequence().filter { (product, _) ->
-                product.releases.any { it === release }
-            }.firstOrNull()
+        val productRepository = products.firstOrNull { (product, _) ->
+            product.releases.any { it == release }
+        }
         if (productRepository != null) {
             downloadConnection.binder?.enqueue(
                 viewModel.packageName,
