@@ -11,6 +11,7 @@ import androidx.work.WorkerParameters
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.DownloadStatsData
 import com.looker.droidify.data.local.model.DownloadStatsData.Companion.toEpochMillis
+import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
@@ -49,7 +50,8 @@ class DownloadStatsWorker @AssistedInject constructor(
     val downloadSemaphores = Semaphore(2)
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
-        if (!settingsRepo.getInitial().dlStatsEnabled) {
+        val settings = settingsRepo.getInitial()
+        if (!settings.dlStatsEnabled) {
             Log.i(TAG, "Download statistics disabled, skipping")
             return@withContext Result.success()
         }
@@ -59,7 +61,7 @@ class DownloadStatsWorker @AssistedInject constructor(
                     .createDownloadStatsNotification()
                     .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD)
             )
-            fetchData()
+            fetchData(settings)
             Log.i(TAG, "Successfully processed download stats monthly files")
             Result.success()
         } catch (e: Exception) {
@@ -70,14 +72,14 @@ class DownloadStatsWorker @AssistedInject constructor(
     }
 
     @OptIn(ExperimentalAtomicApi::class)
-    private suspend fun fetchData() = withContext(Dispatchers.IO) {
+    private suspend fun fetchData(settings: Settings) = withContext(Dispatchers.IO) {
         supervisorScope {
-            val lastModified = settingsRepo.getInitial().lastModifiedDownloadStats
-            val fileNames = ConcurrentLinkedQueue(generateMonthlyFileNames(lastModified))
+            val lastModified = settings.lastModifiedDownloadStats
+            val fileNames = ConcurrentLinkedQueue(
+                generateMonthlyFileNames(lastModified)
+            )
             val successfulResults = AtomicInt(0)
             val updatedResults = AtomicInt(0)
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
 
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
             while (fileNames.isNotEmpty()) {
