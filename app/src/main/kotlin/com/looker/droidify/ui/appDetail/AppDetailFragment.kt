@@ -45,6 +45,7 @@ import com.looker.droidify.utility.common.extension.getLauncherActivities
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.isSystemApplication
+import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.utility.common.shareUrl
@@ -246,7 +247,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val canInstall = product != null && installed == null && compatible
         val canUpdate =
             product != null && compatible && product.canUpdate(installed?.installedItem) &&
-                    !preference.shouldIgnoreUpdate(product.versionCode)
+                !preference.shouldIgnoreUpdate(product.versionCode)
         val canUninstall = product != null && installed != null && !installed.isSystem
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
@@ -476,7 +477,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
             AppDetailAdapter.Action.SOURCE -> {
                 val link = products[0].first.source
-                startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
+                context?.openLink(link)
             }
         }
     }
@@ -486,11 +487,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onCustomButtonClick(url: String) {
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
-        } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
-        }
+        context?.openLink(url)
     }
 
     private fun startLauncherActivity(name: String) {

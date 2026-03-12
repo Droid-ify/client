@@ -19,7 +19,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.net.toUri
@@ -42,6 +41,7 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
 import com.looker.droidify.utility.common.requestBatteryFreedom
 import java.util.*
@@ -113,8 +113,6 @@ fun SettingsScreen(
             viewModel.showSnackbar(R.string.file_format_error_DESC)
         }
     }
-
-    val uriHandler = LocalUriHandler.current
 
     Scaffold(
         topBar = {
@@ -377,7 +375,7 @@ fun SettingsScreen(
                 ActionSettingItem(
                     title = stringResource(R.string.special_credits),
                     description = FOXY_DROID_TITLE,
-                    onClick = { uriHandler.openUri(FOXY_DROID_URL) },
+                    onClick = { context.openLink(FOXY_DROID_URL) },
                 )
             }
 
@@ -385,7 +383,7 @@ fun SettingsScreen(
                 ActionSettingItem(
                     title = DROID_IFY_TITLE,
                     description = BuildConfig.VERSION_NAME,
-                    onClick = { uriHandler.openUri(DROID_IFY_URL) },
+                    onClick = { context.openLink(DROID_IFY_URL) },
                 )
             }
         }
@@ -588,7 +586,7 @@ private fun Context.translateLocale(locale: Locale?): String {
         val capitalizedLanguage = language?.replaceFirstChar { it.uppercase(Locale.getDefault()) }
         val countrySuffix = if (country?.isNotEmpty() == true && country.compareTo(
                 language.toString(),
-                ignoreCase = true
+                ignoreCase = true,
             ) != 0
         ) {
             "($country)"
