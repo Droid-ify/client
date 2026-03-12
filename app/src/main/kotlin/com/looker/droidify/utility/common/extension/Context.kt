@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.PowerManager
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -18,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.looker.droidify.R
+import com.looker.droidify.utility.common.log
 
 inline val Context.clipboardManager: ClipboardManager?
     get() = getSystemService()
@@ -45,6 +47,7 @@ fun Context.openLink(url: String) {
     try {
         startActivity(intent)
     } catch (_: ActivityNotFoundException) {
+        log("Failed to find dedicated app for $url, trying browser", "OpenLink", Log.WARN)
         // If no app found try to force open in browser
         intent.selector = intent(Intent.ACTION_VIEW) {
             data = "https://".toUri()

@@ -477,7 +477,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
             AppDetailAdapter.Action.SOURCE -> {
                 val link = products[0].first.source
-                requireContext().openLink(link)
+                context?.openLink(link)
             }
         }
     }
@@ -487,7 +487,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onCustomButtonClick(url: String) {
-        requireContext().openLink(url)
+        context?.openLink(url)
     }
 
     private fun startLauncherActivity(name: String) {
