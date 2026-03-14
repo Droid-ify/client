@@ -14,14 +14,25 @@ import org.xmlpull.v1.XmlPullParser
  * */
 object OemRepositoryParser {
 
-    private val rootDirs = arrayOf("/system", "/product", "/vendor", "/odm", "/oem")
-    private val supportedPackageNames = arrayOf("com.looker.droidify", "org.fdroid.fdroid")
+    private val paths = arrayOf(
+        // Droid-ify specific paths
+        "/system/etc/com.looker.droidify",
+        "/product/etc/com.looker.droidify",
+        "/vendor/etc/com.looker.droidify",
+        "/odm/etc/com.looker.droidify",
+        "/oem/etc/com.looker.droidify",
+        // General paths
+        "/system/etc/org.fdroid.fdroid",
+        "/product/etc/org.fdroid.fdroid",
+        "/vendor/etc/org.fdroid.fdroid",
+        "/odm/etc/org.fdroid.fdroid",
+        "/oem/etc/org.fdroid.fdroid",
+    )
+
     private const val FILE_NAME = "additional_repos.xml"
 
-    fun getSystemDefaultRepos() = rootDirs.flatMap { rootDir ->
-        supportedPackageNames.map { packageName -> "$rootDir/etc/$packageName/$FILE_NAME" }
-    }.flatMap { path ->
-        val file = File(path)
+    fun getSystemDefaultRepos() = paths.flatMap { path ->
+        val file = File(path, FILE_NAME)
         if (file.exists()) parse(file.inputStream()) else emptyList()
     }.takeIf { it.isNotEmpty() }
 
