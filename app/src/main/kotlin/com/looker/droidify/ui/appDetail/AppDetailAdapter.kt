@@ -484,6 +484,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
+        val helpIcon = itemView.findViewById<ShapeableImageView>(R.id.help_icon)!!
     }
 
     private class ExpandViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -1561,14 +1562,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as SectionViewHolder
                 item as Item.SectionItem
 
-                if (item.sectionType == SectionType.VERSIONS) {
-                    holder.icon.load(R.drawable.ic_question_mark)
-                    TooltipCompat.setTooltipText(
-                        holder.icon,
-                        context.getString(R.string.rb_badge_info)
-                    )
-                }
-
                 val expandable = item.items.isNotEmpty() || item.collapseCount > 0
                 holder.itemView.isEnabled = expandable
                 holder.itemView.let {
@@ -1582,7 +1575,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 val color = context.getColorFromAttr(item.sectionType.colorAttrResId)
                 holder.title.setTextColor(color)
                 holder.title.text = context.getString(item.sectionType.titleResId)
-                holder.icon.isVisible = expandable || item.sectionType == SectionType.VERSIONS
+
+                if (item.sectionType == SectionType.VERSIONS) {
+                    holder.helpIcon.isVisible = true
+                    holder.helpIcon.imageTintList = color
+
+                    TooltipCompat.setTooltipText(
+                        holder.helpIcon,
+                        context.getString(R.string.rb_badge_info)
+                    )
+                } else {
+                    holder.helpIcon.isVisible = false
+                    holder.helpIcon.setOnClickListener(null)
+                }
+
+                holder.icon.isVisible = expandable
                 holder.icon.scaleY = if (item.collapseCount > 0) -1f else 1f
                 holder.icon.imageTintList = color
             }
