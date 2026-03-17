@@ -194,6 +194,12 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun setInstallForAllUsers(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsRepository.setInstallForAllUsers(enabled)
+        }
+    }
+
     fun setDownloadStatisticsEnabled(enabled: Boolean) {
         viewModelScope.launch {
             settingsRepository.setDownloadStatisticsEnabled(enabled)

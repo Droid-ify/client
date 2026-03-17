@@ -47,6 +47,7 @@ data class Settings(
     val homeScreenSwiping: Boolean = true,
     val enabledRepoIds: Set<Int> = emptySet(),
     val deleteApkOnInstall: Boolean = false,
+    val installForAllUsers: Boolean = false,
     val dlStatsEnabled: Boolean = true,
     val rbLogsEnabled: Boolean = true,
 )

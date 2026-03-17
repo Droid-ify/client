@@ -297,6 +297,17 @@ fun SettingsScreen(
                 }
             }
 
+            if (settings.installerType == InstallerType.SHIZUKU || settings.installerType == InstallerType.ROOT) {
+                item {
+                    SwitchSettingItem(
+                        title = stringResource(R.string.install_for_all_users),
+                        description = stringResource(R.string.install_for_all_users_summary),
+                        checked = settings.installForAllUsers,
+                        onCheckedChange = viewModel::setInstallForAllUsers,
+                    )
+                }
+            }
+
             item { SettingHeader(title = stringResource(R.string.proxy)) }
 
             item {
