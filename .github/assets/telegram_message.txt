@@ -1,0 +1,3 @@
+Droid-ify ${VERSION_NAME}
+
+${CHANGELOG}
