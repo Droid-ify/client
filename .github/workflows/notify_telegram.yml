@@ -44,4 +44,7 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: html
           message: ${{ steps.message.outputs.content }}
+          photo: metadata/en-US/images/featureGraphic.png
+          disable_web_page_preview: true
