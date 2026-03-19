@@ -286,13 +286,15 @@ fun SettingsScreen(
                 }
             }
 
-            item {
-                SwitchSettingItem(
-                    title = stringResource(R.string.delete_apk_on_install),
-                    description = stringResource(R.string.delete_apk_on_install_summary),
-                    checked = settings.deleteApkOnInstall,
-                    onCheckedChange = viewModel::setDeleteApkOnInstall,
-                )
+            if (settings.installerType != InstallerType.LEGACY) {
+                item {
+                    SwitchSettingItem(
+                        title = stringResource(R.string.delete_apk_on_install),
+                        description = stringResource(R.string.delete_apk_on_install_summary),
+                        checked = settings.deleteApkOnInstall,
+                        onCheckedChange = viewModel::setDeleteApkOnInstall,
+                    )
+                }
             }
 
             item { SettingHeader(title = stringResource(R.string.proxy)) }

@@ -151,6 +151,10 @@ class SettingsViewModel @Inject constructor(
             when (installerType) {
                 InstallerType.SHIZUKU -> handleShizukuInstaller(context, installerType)
                 InstallerType.ROOT -> handleRootInstaller(installerType)
+                InstallerType.LEGACY -> {
+                    settingsRepository.setDeleteApkOnInstall(false)
+                    settingsRepository.setInstallerType(installerType)
+                }
                 else -> settingsRepository.setInstallerType(installerType)
             }
         }
