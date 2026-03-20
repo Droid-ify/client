@@ -110,7 +110,7 @@ class InstallManager(
                     )
                 )
                 val result = installer.use { it.install(item) }
-                if (result == InstallState.Installed) {
+                if (result == InstallState.Installed && installer !is LegacyInstaller) {
                     if (deleteApkPreference.first()) {
                         val apkFile = Cache.getReleaseFile(context, item.installFileName)
                         apkFile.delete()
