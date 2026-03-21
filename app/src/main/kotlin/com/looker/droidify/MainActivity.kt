@@ -22,6 +22,7 @@ import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.ui.appDetail.AppDetailFragment
 import com.looker.droidify.ui.favourites.FavouritesFragment
+import com.looker.droidify.ui.history.AppHistoryFragment
 import com.looker.droidify.ui.repository.EditRepositoryFragment
 import com.looker.droidify.ui.repository.RepositoriesFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
@@ -307,6 +308,7 @@ class MainActivity : AppCompatActivity() {
         tabsFragment.activateSearch(query)
     }
 
+    fun navigateAppHistory() = pushFragment(AppHistoryFragment())
     fun navigateFavourites() = pushFragment(FavouritesFragment())
     fun navigateProduct(packageName: String, repoAddress: String? = null) =
         pushFragment(AppDetailFragment(packageName, repoAddress))

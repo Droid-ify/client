@@ -65,6 +65,8 @@ interface SettingsRepository {
 
     suspend fun toggleFavourites(packageName: String)
 
+    suspend fun addToHistory(packageName: String)
+
     suspend fun setRepoEnabled(repoId: Int, enabled: Boolean)
 
     fun getEnabledRepoIds(): Flow<Set<Int>>
