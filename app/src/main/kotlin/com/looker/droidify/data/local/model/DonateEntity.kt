@@ -42,9 +42,6 @@ fun MetadataV2.donateEntity(appId: Int): List<DonateEntity>? {
         if (openCollective != null) {
             add(DonateEntity(OPEN_COLLECTIVE_ID, openCollective, appId))
         }
-        if (flattrID != null) {
-            add(DonateEntity(FLATTR_ID, flattrID, appId))
-        }
         if (!donate.isNullOrEmpty()) {
             add(DonateEntity(REGULAR, donate.joinToString(STRING_LIST_SEPARATOR), appId))
         }
@@ -60,12 +57,12 @@ fun List<DonateEntity>.toDonation(): Donation {
     var regular: List<String>? = null
     for (entity in this) {
         when (entity.type) {
-            BITCOIN_ADD -> bitcoinAddress = entity.value
-            FLATTR_ID -> flattrId = entity.value
-            LIBERAPAY_ID -> liberapayId = entity.value
-            LITECOIN_ADD -> litecoinAddress = entity.value
+            BITCOIN_ADD        -> bitcoinAddress = entity.value
+            FLATTR_ID          -> flattrId = entity.value
+            LIBERAPAY_ID       -> liberapayId = entity.value
+            LITECOIN_ADD       -> litecoinAddress = entity.value
             OPEN_COLLECTIVE_ID -> openCollectiveId = entity.value
-            REGULAR -> regular = entity.value.split(STRING_LIST_SEPARATOR)
+            REGULAR            -> regular = entity.value.split(STRING_LIST_SEPARATOR)
         }
     }
 
