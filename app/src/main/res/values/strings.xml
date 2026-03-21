@@ -57,14 +57,16 @@
     <string name="error_shizuku_not_installed_DESC">Shizuku/Sui isn\'t installed</string>
 
     <string name="import_export">Backup and restore</string>
-    <string name="import_settings_title">Import favourites and settings</string>
-    <string name="import_settings_DESC">Import settings and favourites from a file</string>
-    <string name="export_settings_title">Export favourites and settings</string>
-    <string name="export_settings_DESC">Export settings and favourites to a file</string>
-    <string name="import_repos_title">Import repositories</string>
-    <string name="import_repos_DESC">Import repositories from a file</string>
-    <string name="export_repos_title">Export repositories</string>
-    <string name="export_repos_DESC">Export repositories to a file</string>
+    <string name="import_data_title">Import data</string>
+    <string name="import_data_DESC">Select what data to import from a file</string>
+    <string name="export_data_title">Export data</string>
+    <string name="export_data_DESC">Select what data to export to a file</string>
+    <string name="import_selected">Import selected</string>
+    <string name="export_selected">Export selected</string>
+    <string name="checkbox_settings">Settings</string>
+    <string name="checkbox_favourites">Favourites</string>
+    <string name="checkbox_history">App History</string>
+    <string name="checkbox_repos">Repositories</string>
     <string name="enable_repo">Enable repository</string>
     <string name="favourites">Favourites</string>
     <string name="app_history">App History</string>
