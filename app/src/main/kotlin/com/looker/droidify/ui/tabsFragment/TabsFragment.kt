@@ -87,6 +87,7 @@ class TabsFragment : ScreenFragment() {
         val sectionIcon = view.sectionIcon
     }
 
+    private var appHistoryItem: MenuItem? = null
     private var favouritesItem: MenuItem? = null
     private var searchMenuItem: MenuItem? = null
     private var sortOrderMenu: Pair<MenuItem, List<MenuItem>>? = null
@@ -228,6 +229,13 @@ class TabsFragment : ScreenFragment() {
                     }
                     menu.setGroupCheckable(0, true, true)
                     Pair(menu.item, menuItems)
+                }
+
+            appHistoryItem = add(1, 0, 0, stringRes.app_history)
+                .setIcon(toolbar.context.getMutatedIcon(R.drawable.ic_history))
+                .setOnMenuItemClickListener {
+                    view.post { mainActivity.navigateAppHistory() }
+                    true
                 }
 
             favouritesItem = add(1, 0, 0, stringRes.favourites)
@@ -405,6 +413,7 @@ class TabsFragment : ScreenFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
+        appHistoryItem = null
         favouritesItem = null
         searchMenuItem = null
         sortOrderMenu = null

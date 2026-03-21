@@ -60,7 +60,12 @@ class PreferenceSettingsRepository(
         val importedSettings = exporter.import(target)
         val updatedFavorites = importedSettings.favouriteApps +
                 getInitial().favouriteApps
-        val updatedSettings = importedSettings.copy(favouriteApps = updatedFavorites)
+        val updatedHistory = importedSettings.installedAppsHistory +
+                getInitial().installedAppsHistory
+        val updatedSettings = importedSettings.copy(
+            favouriteApps = updatedFavorites,
+            installedAppsHistory = updatedHistory
+        )
         dataStore.edit {
             it.setting(updatedSettings)
         }
@@ -165,6 +170,15 @@ class PreferenceSettingsRepository(
         }
     }
 
+    override suspend fun addToHistory(packageName: String) {
+        dataStore.edit { preference ->
+            val currentSet = preference[INSTALLED_APPS_HISTORY] ?: emptySet()
+            val newSet = currentSet.toMutableSet()
+            newSet.add(packageName)
+            preference[INSTALLED_APPS_HISTORY] = newSet
+        }
+    }
+
     override suspend fun setRepoEnabled(repoId: Int, enabled: Boolean) {
         dataStore.edit { preference ->
             val currentSet = preference[ENABLED_REPO_IDS] ?: emptySet()
@@ -242,6 +256,7 @@ class PreferenceSettingsRepository(
         val lastRbLogFetch = preferences[LAST_RB_FETCH]
         val lastModifiedDownloadStats = preferences[LAST_MODIFIED_DS]?.takeIf { it > 0L }
         val favouriteApps = preferences[FAVOURITE_APPS] ?: emptySet()
+        val installedAppsHistory = preferences[INSTALLED_APPS_HISTORY] ?: emptySet()
         val homeScreenSwiping = preferences[HOME_SCREEN_SWIPING] ?: true
         val enabledRepoIds =
             preferences[ENABLED_REPO_IDS]?.mapNotNull { it.toIntOrNull() }?.toSet() ?: emptySet()
@@ -268,6 +283,7 @@ class PreferenceSettingsRepository(
             lastRbLogFetch = lastRbLogFetch,
             lastModifiedDownloadStats = lastModifiedDownloadStats,
             favouriteApps = favouriteApps,
+            installedAppsHistory = installedAppsHistory,
             homeScreenSwiping = homeScreenSwiping,
             enabledRepoIds = enabledRepoIds,
             deleteApkOnInstall = deleteApkOnInstall,
@@ -297,6 +313,7 @@ class PreferenceSettingsRepository(
         val LAST_RB_FETCH = longPreferencesKey("key_last_rb_logs_fetch_time")
         val LAST_MODIFIED_DS = longPreferencesKey("key_last_modified_download_stats")
         val FAVOURITE_APPS = stringSetPreferencesKey("key_favourite_apps")
+        val INSTALLED_APPS_HISTORY = stringSetPreferencesKey("key_installed_apps_history")
         val HOME_SCREEN_SWIPING = booleanPreferencesKey("key_home_swiping")
         val DELETE_APK_ON_INSTALL = booleanPreferencesKey("key_delete_apk_on_install")
         val DOWNLOAD_STATISTICS_ENABLED = booleanPreferencesKey("key_download_statistics_enabled")
@@ -359,6 +376,7 @@ class PreferenceSettingsRepository(
             settings.lastRbLogFetch?.let { set(LAST_RB_FETCH, it) }
             settings.lastModifiedDownloadStats?.let { set(LAST_MODIFIED_DS, it) }
             set(FAVOURITE_APPS, settings.favouriteApps)
+            set(INSTALLED_APPS_HISTORY, settings.installedAppsHistory)
             set(HOME_SCREEN_SWIPING, settings.homeScreenSwiping)
             set(ENABLED_REPO_IDS, settings.enabledRepoIds.map { it.toString() }.toSet())
             set(DELETE_APK_ON_INSTALL, settings.deleteApkOnInstall)
