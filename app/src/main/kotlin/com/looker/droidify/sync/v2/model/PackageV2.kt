@@ -116,12 +116,12 @@ data class PackageV2Diff(
 
 @Serializable
 data class MetadataV2(
-    val name: LocalizedString,
+    val name: LocalizedString? = null,
     val summary: LocalizedString? = null,
     val description: LocalizedString? = null,
     val icon: LocalizedIcon? = null,
     val added: Long,
-    val lastUpdated: Long,
+    val lastUpdated: Long = 0,
     val authorEmail: String? = null,
     val authorName: String? = null,
     val authorPhone: String? = null,

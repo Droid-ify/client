@@ -1,6 +1,7 @@
 package com.looker.droidify.sync.v2
 
 import android.content.Context
+import android.util.Log
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.percentBy
@@ -14,14 +15,11 @@ import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.toJarScope
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
-import com.looker.droidify.sync.v2.model.IndexV2Diff
+import com.looker.droidify.sync.v2.model.IndexV2Merger
 import com.looker.droidify.utility.common.cache.Cache
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToStream
 
 class EntrySyncable(
     private val context: Context,
@@ -93,17 +91,24 @@ class EntrySyncable(
                         block(SyncState.IndexDownload.Progress(repo.id, percent))
                     },
                 )
-                val diff = async {
-                    JsonParser.decodeFromString<IndexV2Diff>(diffFile.readBytes().decodeToString())
-                }
-                val oldIndex = async {
-                    JsonParser.decodeFromString<IndexV2>(indexFile.readBytes().decodeToString())
-                }
                 try {
-                    diff.await().patchInto(oldIndex.await()) { index ->
-                        diffFile.delete()
-                        Json.encodeToStream(index, indexFile.outputStream())
-                    }
+                    indexFile
+                        .takeIf { it.exists() && it.length() > 0 }
+                        ?.let { indexFile ->
+                            IndexV2Merger(indexFile).use { merger ->
+                                merger.processDiff(
+                                    diffFile.inputStream(),
+                                ).let {
+                                    Log.d(
+                                        "EntrySyncable",
+                                        "merged diff file $diffFile, success = $it, indexFile = $indexFile.",
+                                    )
+                                }
+                            }
+                            JsonParser.decodeFromString<IndexV2>(
+                                indexFile.readBytes().decodeToString(),
+                            )
+                        }
                 } catch (t: Throwable) {
                     block(SyncState.JsonParsing.Failure(repo.id, t))
                     return@withContext
