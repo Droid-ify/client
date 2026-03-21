@@ -24,7 +24,6 @@ data class AppV1(
     val categories: List<String> = emptyList(),
     val changelog: String? = null,
     val donate: String? = null,
-    val flattrID: String? = null,
     val issueTracker: String? = null,
     val lastUpdated: Long? = null,
     val liberapay: String? = null,

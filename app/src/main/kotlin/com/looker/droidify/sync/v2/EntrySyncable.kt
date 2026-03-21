@@ -46,8 +46,8 @@ class EntrySyncable(
                 block(
                     SyncState.IndexDownload.Failure(
                         repo.id,
-                        IllegalStateException("Empty entry v2 jar")
-                    )
+                        IllegalStateException("Empty entry v2 jar"),
+                    ),
                 )
                 return@withContext
             } else {
