@@ -1,0 +1,19 @@
+S-a adăugat:
+- Statistici de descărcare pentru IzzyOnDroid (https://dlstats.izzyondroid.org/)
+- Insignă pentru build-uri reproductibile
+- Fixarea certificatelor pentru 9 depozite
+- Suport pentru dezarhivarea aplicațiilor
+- Oprirea căutării pentru URI-ul `market://`
+
+Modificări:
+- Interfața depozitelor (probleme cu UX-ul)
+- droidify.eu.org a fost mutat la droidify.app
+
+
+Remediate:
+- Încărcarea în pagina de pornire
+- Notificările pentru actualizări nedispărând după actualizările automate
+
+Diverse:
+- Modificări ale listei de depozite
+- Remedieri de bug-uri
