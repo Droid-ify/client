@@ -120,7 +120,7 @@ interface IndexDao {
             allCategoryAppRelations += metadata.categories.map { CategoryAppRelation(appId, it) }
 
             allAppNames += metadata.name?.localizedAppName(appId)
-                ?: listOf(LocalizedAppNameEntity(appId, locale = "en", name = packageName))
+                ?: listOf(LocalizedAppNameEntity(appId, locale = "en-US", name = packageName))
             metadata.summary?.localizedAppSummary(appId)?.let { allAppSummaries += it }
             metadata.description?.localizedAppDescription(appId)?.let { allAppDescriptions += it }
             metadata.icon?.localizedAppIcon(appId)?.let { allAppIcons += it }
