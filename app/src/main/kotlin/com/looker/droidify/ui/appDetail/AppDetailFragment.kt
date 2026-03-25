@@ -513,12 +513,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onScreenshotClick(position: Int) {
+        val isRtl = resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
         if (imageViewer == null) {
             val productRepository = products.findSuggested(installed?.installedItem) ?: return
             val screenshots = productRepository.first.screenshots.mapNotNull {
                 if (it.type == Product.Screenshot.Type.VIDEO) null
                 else it
-            }
+            }.let { if (isRtl) it.reversed() else it }
+            val startPosition = if (isRtl) screenshots.size - 1 - position else position
             imageViewer = StfalconImageViewer
                 .Builder(context, screenshots) { view, current ->
                     val screenshotUrl = current.url(
@@ -530,8 +532,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                         allowHardware(false)
                     }
                 }
+            imageViewer?.withStartPosition(startPosition)
+        } else {
+            val productRepository = products.findSuggested(installed?.installedItem) ?: return
+            val screenshotCount = productRepository.first.screenshots.count {
+                it.type != Product.Screenshot.Type.VIDEO
+            }
+            val startPosition = if (isRtl) screenshotCount - 1 - position else position
+            imageViewer?.withStartPosition(startPosition)
         }
-        imageViewer?.withStartPosition(position)
         imageViewer?.show()
     }
 
