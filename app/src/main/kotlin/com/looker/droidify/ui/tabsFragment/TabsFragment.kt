@@ -75,7 +75,6 @@ class TabsFragment : ScreenFragment() {
 
     companion object {
         private const val STATE_SEARCH_FOCUSED = "searchFocused"
-        private const val STATE_SEARCH_QUERY = "searchQuery"
         private const val STATE_SHOW_SECTIONS = "showSections"
     }
 
@@ -114,7 +113,6 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-    private var searchQuery = ""
     private var pendingSearchQuery: String? = null
 
     private val syncConnection = Connection(
@@ -196,12 +194,12 @@ class TabsFragment : ScreenFragment() {
                 .setOnActionExpandListener(
                     object : MenuItem.OnActionExpandListener {
                         override fun onMenuItemActionExpand(item: MenuItem): Boolean {
-                            viewModel.isSearchActionItemExpanded.value = true
+                            viewModel.setSearchActionItemExpanded(true)
                             return true
                         }
 
                         override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
-                            viewModel.isSearchActionItemExpanded.value = false
+                            viewModel.setSearchActionItemExpanded(false)
                             return true
                         }
                     },
@@ -262,8 +260,12 @@ class TabsFragment : ScreenFragment() {
             }
         }
 
-        searchQuery = savedInstanceState?.getString(STATE_SEARCH_QUERY).orEmpty()
-        setSearchQuery(searchQuery)
+        val restoredSearchQuery = viewModel.searchQuery.value
+        setSearchQuery(restoredSearchQuery)
+        searchView.setQuery(restoredSearchQuery, false)
+        if (viewModel.isSearchActionItemExpanded.value) {
+            searchMenuItem?.expandActionView()
+        }
 
         val toolbarExtra = fragmentBinding.toolbarExtra
         toolbarExtra.addView(tabsBinding.root)
@@ -280,7 +282,7 @@ class TabsFragment : ScreenFragment() {
                 override fun getItemCount(): Int = AppListFragment.Source.entries.size
                 override fun createFragment(position: Int): Fragment = AppListFragment(
                     source = AppListFragment.Source.entries[position],
-                ).also { it.setSearchQuery(searchQuery) }
+                ).also { it.setSearchQuery(restoredSearchQuery) }
             }
             content.addView(this)
             registerOnPageChangeCallback(pageChangeCallback)
@@ -426,7 +428,6 @@ class TabsFragment : ScreenFragment() {
         super.onSaveInstanceState(outState)
 
         outState.putBoolean(STATE_SEARCH_FOCUSED, searchMenuItem?.actionView?.hasFocus() == true)
-        outState.putString(STATE_SEARCH_QUERY, searchQuery)
         outState.putByte(STATE_SHOW_SECTIONS, if (showSections) 1 else 0)
     }
 
@@ -557,7 +558,7 @@ class TabsFragment : ScreenFragment() {
 
     private fun setSearchQuery(query: String?) {
         val newSearchQuery = query.orEmpty()
-        searchQuery = newSearchQuery
+        viewModel.setSearchQuery(newSearchQuery)
         productFragments.forEach { it.setSearchQuery(newSearchQuery) }
     }
 

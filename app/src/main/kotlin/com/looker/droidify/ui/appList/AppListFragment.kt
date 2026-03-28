@@ -170,6 +170,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        layoutManagerState = layoutManagerState ?: recyclerView.layoutManager?.onSaveInstanceState()
         viewModel.syncConnection.unbind(requireContext())
         _binding = null
         scroller = null
@@ -197,8 +198,12 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     }
 
     fun setSearchQuery(newSearchQuery: String) {
+        if (searchQuery == newSearchQuery) {
+            return
+        }
+
+        searchQuery = newSearchQuery
         if (view != null) {
-            searchQuery = newSearchQuery
             mainActivity.cursorOwner.attach(
                 callback = this,
                 request = viewModel.state.value.toRequest(source, searchQuery),

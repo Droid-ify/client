@@ -24,7 +24,9 @@ class TabsViewModel @Inject constructor(
 ) : ViewModel() {
 
     val currentSection =
-        savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SECTION, ProductItem.Section.All)
+        savedStateHandle.getStateFlow<ProductItem.Section>(STATE_SELECTED_SECTION, ProductItem.Section.All)
+
+    val searchQuery = savedStateHandle.getStateFlow(STATE_SEARCH_QUERY, "")
 
     val sortOrder = settingsRepository
         .get { sortOrder }
@@ -47,13 +49,14 @@ class TabsViewModel @Inject constructor(
 
             val enabledRepositories = repos
                 .map { ProductItem.Section.Repository(it.id, it.name) }
-            enabledRepositories.ifEmpty { setSection(ProductItem.Section.All) }
             listOf(ProductItem.Section.All) + productCategories + enabledRepositories
         }
             .catch { it.printStackTrace() }
             .asStateFlow(emptyList())
 
-    val isSearchActionItemExpanded = MutableStateFlow(false)
+    val isSearchActionItemExpanded = MutableStateFlow(
+        savedStateHandle[STATE_SEARCH_ACTION_ITEM_EXPANDED] ?: false,
+    )
 
     val showSections = MutableStateFlow(false)
 
@@ -70,8 +73,33 @@ class TabsViewModel @Inject constructor(
         }
     }.asStateFlow(BackAction.None)
 
+    init {
+        viewModelScope.launch {
+            isSearchActionItemExpanded.collect { isExpanded ->
+                savedStateHandle[STATE_SEARCH_ACTION_ITEM_EXPANDED] = isExpanded
+            }
+        }
+        viewModelScope.launch {
+            combine(currentSection, sections) { section, availableSections ->
+                section to availableSections
+            }.collect { (section, availableSections) ->
+                if (availableSections.isNotEmpty() && section !in availableSections) {
+                    setSection(ProductItem.Section.All)
+                }
+            }
+        }
+    }
+
     fun setSection(section: ProductItem.Section) {
-        savedStateHandle[STATE_SECTION] = section
+        savedStateHandle[STATE_SELECTED_SECTION] = section
+    }
+
+    fun setSearchQuery(query: String) {
+        savedStateHandle[STATE_SEARCH_QUERY] = query
+    }
+
+    fun setSearchActionItemExpanded(expanded: Boolean) {
+        isSearchActionItemExpanded.value = expanded
     }
 
     fun setSortOrder(sortOrder: SortOrder) {
@@ -105,6 +133,8 @@ class TabsViewModel @Inject constructor(
     }
 
     companion object {
-        private const val STATE_SECTION = "section"
+        private const val STATE_SELECTED_SECTION = "selected_section"
+        private const val STATE_SEARCH_QUERY = "search_query"
+        private const val STATE_SEARCH_ACTION_ITEM_EXPANDED = "search_action_item_expanded"
     }
 }
