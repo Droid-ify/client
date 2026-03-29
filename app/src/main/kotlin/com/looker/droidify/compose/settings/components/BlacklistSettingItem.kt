@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
@@ -54,6 +56,7 @@ fun BlacklistSettingItem(
     var showEditor by remember { mutableStateOf(false) }
     var editingEntry by remember { mutableStateOf<BlacklistEntry?>(null) }
     var showMenu by remember { mutableStateOf(false) }
+    var showBlacklist by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -121,21 +124,53 @@ fun BlacklistSettingItem(
                 }
             }
         }
-
         if (entries.isNotEmpty()) {
-            Spacer(modifier = Modifier.height(12.dp))
-            entries.forEach { entry ->
-                BlacklistEntryItem(
-                    entry = entry,
-                    onEdit = {
-                        editingEntry = entry
-                        showEditor = true
-                    },
-                    onDelete = { onRemoveEntry(entry.id) },
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(
+                        onClick = { showBlacklist = !showBlacklist },
+                    )
+                    .padding(horizontal = 12.dp, vertical = 10.dp),
+            ) {
+                Text(
+                    text = stringResource(R.string.app_blacklist_showhide, entries.size),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
                 )
-                Spacer(modifier = Modifier.height(8.dp))
+                Icon(
+                    imageVector = if (showBlacklist) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp),
+                )
+            }
+            if (showBlacklist) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp),
+                ) {
+                    entries.forEachIndexed { index, entry ->
+                        BlacklistEntryItem(
+                            entry = entry,
+                            onEdit = {
+                                editingEntry = entry
+                                showEditor = true
+                            },
+                            onDelete = { onRemoveEntry(entry.id) },
+                        )
+                        if (index < entries.lastIndex) {
+                            Spacer(modifier = Modifier.height(6.dp))
+                        }
+                    }
+                }
             }
         }
+
     }
 
     if (showEditor) {

@@ -302,4 +302,5 @@
     <string name="app_blacklist_added">Added to blacklist</string>
     <string name="app_blacklist_already_added">Already in blacklist</string>
     <string name="app_blacklist_imported">Blacklist imported</string>
+    <string name="app_blacklist_showhide">Show/hide list</string>
 </resources>
