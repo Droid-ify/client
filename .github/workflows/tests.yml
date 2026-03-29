@@ -19,3 +19,5 @@ jobs:
 
       - name: Unit tests
         run: ./gradlew :app:testDebugUnitTest --daemon
+        env:
+          GRADLE_OPTS: "-Xmx3g -Xms256m -XX:MaxMetaspaceSize=512m"

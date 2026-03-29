@@ -110,6 +110,8 @@ android {
             isReturnDefaultValues = true
             all {
                 it.useJUnitPlatform()
+                val processor = Runtime.getRuntime().availableProcessors() / 2
+                if (processor > 1) it.maxParallelForks = processor
             }
         }
     }
