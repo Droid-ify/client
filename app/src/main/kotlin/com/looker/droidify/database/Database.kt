@@ -24,7 +24,6 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -37,6 +36,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 object Database {
     fun init(context: Context): Boolean {
@@ -277,10 +277,9 @@ object Database {
             }
         }
 
-        fun getStream(id: Long): Flow<Repository?> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
-            .map { get(id) }
-            .flowOn(Dispatchers.IO)
+        fun getStream(id: Long): Flow<Repository?> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+                .map { get(id) }.flowOn(Dispatchers.IO)
 
         fun get(id: Long): Repository? {
             return db.query(
@@ -292,22 +291,19 @@ object Database {
             ).use { it.firstOrNull()?.let(::transform) }
         }
 
-        fun getAllStream(): Flow<List<Repository>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
-            .map { getAll() }
-            .flowOn(Dispatchers.IO)
+        fun getAllStream(): Flow<List<Repository>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+                .map { getAll() }.flowOn(Dispatchers.IO)
 
-        fun getEnabledStream(): Flow<List<Repository>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
-            .map { getEnabled() }
-            .flowOn(Dispatchers.IO)
+        fun getEnabledStream(): Flow<List<Repository>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+                .map { getEnabled() }.flowOn(Dispatchers.IO)
 
         private suspend fun getEnabled(): List<Repository> = withContext(Dispatchers.IO) {
             db.query(
                 Schema.Repository.name,
                 selection = Pair(
-                    "${Schema.Repository.ROW_ENABLED} != 0 AND " +
-                            "${Schema.Repository.ROW_DELETED} == 0",
+                    "${Schema.Repository.ROW_ENABLED} != 0 AND " + "${Schema.Repository.ROW_DELETED} == 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -322,18 +318,16 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
-        fun getAllRemovedStream(): Flow<Map<Long, Boolean>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
-            .map { getAllDisabledDeleted() }
-            .flowOn(Dispatchers.IO)
+        fun getAllRemovedStream(): Flow<Map<Long, Boolean>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Repositories)) }
+                .map { getAllDisabledDeleted() }.flowOn(Dispatchers.IO)
 
         private fun getAllDisabledDeleted(): Map<Long, Boolean> {
             return db.query(
                 Schema.Repository.name,
                 columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
                 selection = Pair(
-                    "${Schema.Repository.ROW_ENABLED} == 0 OR " +
-                            "${Schema.Repository.ROW_DELETED} != 0",
+                    "${Schema.Repository.ROW_ENABLED} == 0 OR " + "${Schema.Repository.ROW_DELETED} != 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -388,8 +382,7 @@ object Database {
         fun importRepos(list: List<Repository>) {
             db.transaction {
                 val currentAddresses = getAll().map { it.address }
-                val newRepos = list
-                    .filter { it.address !in currentAddresses }
+                val newRepos = list.filter { it.address !in currentAddresses }
                 newRepos.forEach { put(it) }
                 removeDuplicates()
             }
@@ -416,11 +409,14 @@ object Database {
     }
 
     object ProductAdapter {
+        data class BlacklistPattern(
+            val packageLike: String?,
+            val appNameLike: String?,
+        )
 
-        fun getStream(packageName: String): Flow<List<Product>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            .map { get(packageName, null) }
-            .flowOn(Dispatchers.IO)
+        fun getStream(packageName: String): Flow<List<Product>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+                .map { get(packageName, null) }.flowOn(Dispatchers.IO)
 
         suspend fun getUpdates(skipSignatureCheck: Boolean): List<ProductItem> =
             withContext(Dispatchers.IO) {
@@ -433,18 +429,14 @@ object Database {
                     order = SortOrder.NAME,
                     signal = null,
                 ).use {
-                    it.asSequence()
-                        .map(ProductAdapter::transformItem)
-                        .toList()
+                    it.asSequence().map(ProductAdapter::transformItem).toList()
                 }
             }
 
-        fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<List<ProductItem>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            // Crashes due to immediate retrieval of data?
-            .onEach { delay(50) }
-            .map { getUpdates(skipSignatureCheck) }
-            .flowOn(Dispatchers.IO)
+        fun getUpdatesStream(skipSignatureCheck: Boolean): Flow<List<ProductItem>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+                // Crashes due to immediate retrieval of data?
+                .onEach { delay(50) }.map { getUpdates(skipSignatureCheck) }.flowOn(Dispatchers.IO)
 
         fun getAll(): List<Product> {
             return db.query(
@@ -487,10 +479,9 @@ object Database {
             ).use { it.asSequence().map(::transform).toList() }
         }
 
-        fun getCountStream(repositoryId: Long): Flow<Int> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            .map { getCount(repositoryId) }
-            .flowOn(Dispatchers.IO)
+        fun getCountStream(repositoryId: Long): Flow<Int> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+                .map { getCount(repositoryId) }.flowOn(Dispatchers.IO)
 
         private fun getCount(repositoryId: Long): Int {
             return db.query(
@@ -511,6 +502,7 @@ object Database {
             section: ProductItem.Section,
             order: SortOrder,
             signal: CancellationSignal?,
+            blacklistPatterns: List<BlacklistPattern> = emptyList(),
         ): Cursor {
             val builder = QueryBuilder()
 
@@ -572,6 +564,23 @@ object Database {
                 builder += """AND ${Schema.Synthetic.ROW_MATCH_RANK} > 0"""
             }
 
+            if (!updates && blacklistPatterns.isNotEmpty()) {
+                blacklistPatterns.forEach { pattern ->
+                    val conditions = mutableListOf<String>()
+                    pattern.packageLike?.let {
+                        conditions += "product.${Schema.Product.ROW_PACKAGE_NAME} LIKE ? ESCAPE '\\'"
+                        builder %= it
+                    }
+                    pattern.appNameLike?.let {
+                        conditions += "product.${Schema.Product.ROW_NAME} LIKE ? ESCAPE '\\'"
+                        builder %= it
+                    }
+                    if (conditions.isNotEmpty()) {
+                        builder += "AND NOT (${conditions.joinToString(" OR ")})"
+                    }
+                }
+            }
+
             builder += "GROUP BY product.${Schema.Product.ROW_PACKAGE_NAME} HAVING 1"
 
             if (updates) {
@@ -594,15 +603,14 @@ object Database {
         }
 
         private fun transform(cursor: Cursor): Product {
-            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA))
-                .jsonParse {
-                    it.product().apply {
-                        this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
-                        this.description = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DESCRIPTION))
-                    }
+            return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA)).jsonParse {
+                it.product().apply {
+                    this.repositoryId =
+                        cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
+                    this.description =
+                        cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DESCRIPTION))
                 }
+            }
         }
 
         fun transformPackageName(cursor: Cursor): String {
@@ -613,23 +621,23 @@ object Database {
             return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA_ITEM))
                 .jsonParse {
                     it.productItem().apply {
-                        this.repositoryId = cursor
-                            .getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
-                        this.packageName = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
-                        this.name = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_NAME))
-                        this.summary = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_SUMMARY))
-                        this.installedVersion = cursor
-                            .getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION))
-                            .orEmpty()
-                        this.compatible = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Product.ROW_COMPATIBLE)) != 0
-                        this.canUpdate = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
-                        this.matchRank = cursor
-                            .getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_MATCH_RANK))
+                        this.repositoryId =
+                            cursor.getLong(cursor.getColumnIndexOrThrow(Schema.Product.ROW_REPOSITORY_ID))
+                        this.packageName =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_PACKAGE_NAME))
+                        this.name =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_NAME))
+                        this.summary =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Schema.Product.ROW_SUMMARY))
+                        this.installedVersion =
+                            cursor.getString(cursor.getColumnIndexOrThrow(Schema.Installed.ROW_VERSION))
+                                .orEmpty()
+                        this.compatible =
+                            cursor.getInt(cursor.getColumnIndexOrThrow(Schema.Product.ROW_COMPATIBLE)) != 0
+                        this.canUpdate =
+                            cursor.getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_CAN_UPDATE)) != 0
+                        this.matchRank =
+                            cursor.getInt(cursor.getColumnIndexOrThrow(Schema.Synthetic.ROW_MATCH_RANK))
                     }
                 }
         }
@@ -637,10 +645,9 @@ object Database {
 
     object CategoryAdapter {
 
-        fun getAllStream(): Flow<Set<String>> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            .map { getAll() }
-            .flowOn(Dispatchers.IO)
+        fun getAllStream(): Flow<Set<String>> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+                .map { getAll() }.flowOn(Dispatchers.IO)
 
         private suspend fun getAll(): Set<String> = withContext(Dispatchers.IO) {
             val builder = QueryBuilder()
@@ -662,10 +669,9 @@ object Database {
 
     object InstalledAdapter {
 
-        fun getStream(packageName: String): Flow<InstalledItem?> = flowOf(Unit)
-            .onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
-            .map { get(packageName, null) }
-            .flowOn(Dispatchers.IO)
+        fun getStream(packageName: String): Flow<InstalledItem?> =
+            flowOf(Unit).onCompletion { if (it == null) emitAll(flowCollection(Subject.Products)) }
+                .map { get(packageName, null) }.flowOn(Dispatchers.IO)
 
         suspend fun get(packageName: String, signal: CancellationSignal?): InstalledItem? =
             withContext(Dispatchers.IO) {
@@ -679,7 +685,7 @@ object Database {
                     ),
                     selection = Pair(
                         "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                        arrayOf(packageName)
+                        arrayOf(packageName),
                     ),
                     signal = signal,
                 ).use { it.firstOrNull()?.let(::transform) }
@@ -829,12 +835,10 @@ object Database {
                         arrayOf(repository.id.toString()),
                     )
                     db.execSQL(
-                        "INSERT INTO ${Schema.Product.name} SELECT * " +
-                                "FROM ${Schema.Product.temporaryName}",
+                        "INSERT INTO ${Schema.Product.name} SELECT * " + "FROM ${Schema.Product.temporaryName}",
                     )
                     db.execSQL(
-                        "INSERT INTO ${Schema.Category.name} SELECT * " +
-                                "FROM ${Schema.Category.temporaryName}",
+                        "INSERT INTO ${Schema.Category.name} SELECT * " + "FROM ${Schema.Category.temporaryName}",
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")

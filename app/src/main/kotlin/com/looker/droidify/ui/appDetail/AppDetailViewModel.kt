@@ -9,8 +9,10 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.AppBlacklistRepository
 import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.model.BlacklistEntry
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.InstallManager
@@ -27,18 +29,18 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
     private val customButtonRepository: CustomButtonRepository,
+    private val appBlacklistRepository: AppBlacklistRepository,
     privacyRepository: PrivacyRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -48,40 +50,38 @@ class AppDetailViewModel @Inject constructor(
     private val repoAddress: StateFlow<String?> =
         savedStateHandle.getStateFlow(ARG_REPO_ADDRESS, null)
 
-    val installerState: StateFlow<InstallState?> =
-        installer.state.mapNotNull { stateMap ->
-            stateMap[packageName.toPackageName()]
-        }.asStateFlow(null)
+    val installerState: StateFlow<InstallState?> = installer.state.mapNotNull { stateMap ->
+        stateMap[packageName.toPackageName()]
+    }.asStateFlow(null)
 
-    val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
-        .asStateFlow(emptyList())
+    val customButtons: StateFlow<List<CustomButton>> =
+        customButtonRepository.buttons.asStateFlow(emptyList())
 
-    val state =
-        combine(
-            Database.ProductAdapter.getStream(packageName),
-            Database.RepositoryAdapter.getAllStream(),
-            Database.InstalledAdapter.getStream(packageName),
-            privacyRepository.getRBLogs(packageName),
-            privacyRepository.getLatestDownloadStats(packageName),
-            repoAddress,
-            settingsRepository.data
-        ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, settings ->
-            val idAndRepos = repositories.associateBy { it.id }
-            val filteredProducts = products.filter { product ->
-                idAndRepos[product.repositoryId] != null
-            }
-            AppDetailUiState(
-                products = filteredProducts,
-                repos = repositories,
-                rblogs = rblogs,
-                downloads = downloads,
-                installedItem = installedItem,
-                isFavourite = packageName in settings.favouriteApps,
-                allowIncompatibleVersions = settings.incompatibleVersions,
-                isSelf = packageName == BuildConfig.APPLICATION_ID,
-                addressIfUnavailable = suggestedAddress,
-            )
-        }.asStateFlow(AppDetailUiState())
+    val state = combine(
+        Database.ProductAdapter.getStream(packageName),
+        Database.RepositoryAdapter.getAllStream(),
+        Database.InstalledAdapter.getStream(packageName),
+        privacyRepository.getRBLogs(packageName),
+        privacyRepository.getLatestDownloadStats(packageName),
+        repoAddress,
+        settingsRepository.data,
+    ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, settings ->
+        val idAndRepos = repositories.associateBy { it.id }
+        val filteredProducts = products.filter { product ->
+            idAndRepos[product.repositoryId] != null
+        }
+        AppDetailUiState(
+            products = filteredProducts,
+            repos = repositories,
+            rblogs = rblogs,
+            downloads = downloads,
+            installedItem = installedItem,
+            isFavourite = packageName in settings.favouriteApps,
+            allowIncompatibleVersions = settings.incompatibleVersions,
+            isSelf = packageName == BuildConfig.APPLICATION_ID,
+            addressIfUnavailable = suggestedAddress,
+        )
+    }.asStateFlow(AppDetailUiState())
 
     fun shizukuState(context: Context): ShizukuState? {
         val isSelected =
@@ -137,6 +137,15 @@ class AppDetailViewModel @Inject constructor(
         viewModelScope.launch {
             installer remove packageName.toPackageName()
         }
+    }
+
+    suspend fun addToBlacklist(appName: String): Boolean {
+        return appBlacklistRepository.addEntry(
+            BlacklistEntry(
+                packagePattern = packageName,
+                appNamePattern = appName,
+            ),
+        )
     }
 
     companion object {

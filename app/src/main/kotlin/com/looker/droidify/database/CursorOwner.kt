@@ -18,12 +18,14 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val section: ProductItem.Section,
             val order: SortOrder,
             val skipSignatureCheck: Boolean = false,
+            val blacklistPatterns: List<Database.ProductAdapter.BlacklistPattern> = emptyList(),
         ) : Request(1)
 
         data class Installed(
             val searchQuery: String,
             val order: SortOrder,
             val skipSignatureCheck: Boolean = false,
+            val blacklistPatterns: List<Database.ProductAdapter.BlacklistPattern> = emptyList(),
         ) : Request(2)
 
         data class Updates(
@@ -49,9 +51,7 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     fun attach(callback: Callback, request: Request) {
         val oldActiveRequest = activeRequests[request.id]
-        if (oldActiveRequest?.callback != null &&
-            oldActiveRequest.callback != callback && oldActiveRequest.cursor != null
-        ) {
+        if (oldActiveRequest?.callback != null && oldActiveRequest.callback != callback && oldActiveRequest.cursor != null) {
             oldActiveRequest.callback.onCursorData(oldActiveRequest.request, null)
         }
         val cursor = if (oldActiveRequest?.request == request && oldActiveRequest.cursor != null) {
@@ -79,41 +79,37 @@ class CursorOwner : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
         val request = activeRequests[id]!!.request
         return QueryLoader(requireContext()) {
             when (request) {
-                is Request.Available ->
-                    Database.ProductAdapter
-                        .query(
-                            installed = false,
-                            updates = false,
-                            searchQuery = request.searchQuery,
-                            section = request.section,
-                            order = request.order,
-                            signal = it,
-                            skipSignatureCheck = request.skipSignatureCheck,
-                        )
+                is Request.Available -> Database.ProductAdapter.query(
+                    installed = false,
+                    updates = false,
+                    searchQuery = request.searchQuery,
+                    section = request.section,
+                    order = request.order,
+                    signal = it,
+                    skipSignatureCheck = request.skipSignatureCheck,
+                    blacklistPatterns = request.blacklistPatterns,
+                )
 
-                is Request.Installed ->
-                    Database.ProductAdapter
-                        .query(
-                            installed = true,
-                            updates = false,
-                            searchQuery = request.searchQuery,
-                            section = ProductItem.Section.All,
-                            order = request.order,
-                            signal = it,
-                            skipSignatureCheck = request.skipSignatureCheck,
-                        )
+                is Request.Installed -> Database.ProductAdapter.query(
+                    installed = true,
+                    updates = false,
+                    searchQuery = request.searchQuery,
+                    section = ProductItem.Section.All,
+                    order = request.order,
+                    signal = it,
+                    skipSignatureCheck = request.skipSignatureCheck,
+                    blacklistPatterns = request.blacklistPatterns,
+                )
 
-                is Request.Updates ->
-                    Database.ProductAdapter
-                        .query(
-                            installed = true,
-                            updates = true,
-                            searchQuery = request.searchQuery,
-                            section = ProductItem.Section.All,
-                            order = request.order,
-                            signal = it,
-                            skipSignatureCheck = request.skipSignatureCheck,
-                        )
+                is Request.Updates -> Database.ProductAdapter.query(
+                    installed = true,
+                    updates = true,
+                    searchQuery = request.searchQuery,
+                    section = ProductItem.Section.All,
+                    order = request.order,
+                    signal = it,
+                    skipSignatureCheck = request.skipSignatureCheck,
+                )
 
                 is Request.Repositories -> Database.RepositoryAdapter.query(it)
             }

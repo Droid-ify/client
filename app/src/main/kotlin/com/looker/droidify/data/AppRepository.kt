@@ -6,23 +6,26 @@ import com.looker.droidify.data.local.model.toApp
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.data.model.PackageName
+import com.looker.droidify.datastore.AppBlacklistRepository
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
+import com.looker.droidify.datastore.model.BlacklistEntry
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class AppRepository @Inject constructor(
     private val appDao: AppDao,
     private val repoDao: RepoDao,
     private val settingsRepository: SettingsRepository,
+    private val appBlacklistRepository: AppBlacklistRepository,
 ) {
 
     private val localeStream = settingsRepository.get { language }
@@ -37,7 +40,7 @@ class AppRepository @Inject constructor(
         antiFeaturesToExclude: List<Tag>? = null,
     ): List<AppMinimal> = withContext(Dispatchers.Default) {
         val currentLocale = localeStream.first()
-        appDao.query(
+        val queryResult = appDao.query(
             sortOrder = sortOrder,
             searchQuery = searchQuery?.ifEmpty { null },
             repoId = repoId,
@@ -47,6 +50,10 @@ class AppRepository @Inject constructor(
             antiFeaturesToExclude = antiFeaturesToExclude?.ifEmpty { null },
             locale = currentLocale,
         )
+        val blacklistEntries = appBlacklistRepository.getEntries()
+        queryResult.filterNot { app ->
+            isBlacklisted(app.packageName.name, app.name, blacklistEntries)
+        }
     }
 
     val categories: Flow<List<DefaultName>>
@@ -67,5 +74,32 @@ class AppRepository @Inject constructor(
         val wasInFavourites = packageName.name in favourites
         settingsRepository.toggleFavourites(packageName.name)
         return !wasInFavourites
+    }
+
+    private fun isBlacklisted(
+        packageName: String,
+        appName: String,
+        entries: List<BlacklistEntry>,
+    ): Boolean {
+        return entries.any { entry ->
+            (entry.packagePattern.isNotBlank() && wildcardMatch(
+                entry.packagePattern,
+                packageName,
+            )) || (entry.appNamePattern.isNotBlank() && wildcardMatch(
+                entry.appNamePattern,
+                appName,
+            ))
+        }
+    }
+
+    private fun wildcardMatch(pattern: String, value: String): Boolean {
+        val regexPattern = buildString(pattern.length * 2) {
+            append("^")
+            for (char in pattern) {
+                if (char == '*') append(".*") else append(Regex.escape(char.toString()))
+            }
+            append("$")
+        }
+        return Regex(regexPattern, RegexOption.IGNORE_CASE).matches(value)
     }
 }

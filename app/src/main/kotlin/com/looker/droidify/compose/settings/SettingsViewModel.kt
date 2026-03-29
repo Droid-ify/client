@@ -14,10 +14,12 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.StringHandler
 import com.looker.droidify.database.Database
 import com.looker.droidify.database.RepositoryExporter
+import com.looker.droidify.datastore.AppBlacklistRepository
 import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.AutoSync
+import com.looker.droidify.datastore.model.BlacklistEntry
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
@@ -33,15 +35,15 @@ import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
-import javax.inject.Inject
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.days
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.hours
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -49,6 +51,7 @@ class SettingsViewModel @Inject constructor(
     private val privacyRepository: PrivacyRepository,
     private val repositoryExporter: RepositoryExporter,
     private val customButtonRepository: CustomButtonRepository,
+    private val appBlacklistRepository: AppBlacklistRepository,
     private val handler: StringHandler,
 ) : ViewModel() {
 
@@ -56,8 +59,10 @@ class SettingsViewModel @Inject constructor(
 
     val settings = settingsRepository.data.asStateFlow(Settings())
 
-    val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
-        .asStateFlow(emptyList())
+    val customButtons: StateFlow<List<CustomButton>> =
+        customButtonRepository.buttons.asStateFlow(emptyList())
+    val appBlacklist: StateFlow<List<BlacklistEntry>> =
+        appBlacklistRepository.entries.asStateFlow(emptyList())
 
     private val _isBackgroundAllowed = MutableStateFlow(true)
     val isBackgroundAllowed = _isBackgroundAllowed.asStateFlow()
@@ -155,6 +160,7 @@ class SettingsViewModel @Inject constructor(
                     settingsRepository.setDeleteApkOnInstall(false)
                     settingsRepository.setInstallerType(installerType)
                 }
+
                 else -> settingsRepository.setInstallerType(installerType)
             }
         }
@@ -300,7 +306,48 @@ class SettingsViewModel @Inject constructor(
                 },
                 onFailure = {
                     showSnackbar(R.string.file_format_error_DESC)
-                }
+                },
+            )
+        }
+    }
+
+    fun addBlacklistEntry(entry: BlacklistEntry) {
+        viewModelScope.launch {
+            appBlacklistRepository.addEntry(entry)
+        }
+    }
+
+    fun updateBlacklistEntry(entry: BlacklistEntry) {
+        viewModelScope.launch {
+            appBlacklistRepository.updateEntry(entry)
+        }
+    }
+
+    fun removeBlacklistEntry(entryId: String) {
+        viewModelScope.launch {
+            appBlacklistRepository.removeEntry(entryId)
+        }
+    }
+
+    fun exportBlacklist(uri: Uri) {
+        viewModelScope.launch {
+            appBlacklistRepository.exportToUri(uri).onFailure {
+                showSnackbar(R.string.file_format_error_DESC)
+            }
+        }
+    }
+
+    fun importBlacklist(uri: Uri) {
+        viewModelScope.launch {
+            appBlacklistRepository.importFromUri(uri).fold(
+                onSuccess = { count ->
+                    if (count > 0) {
+                        showSnackbar(R.string.app_blacklist_imported)
+                    }
+                },
+                onFailure = {
+                    showSnackbar(R.string.file_format_error_DESC)
+                },
             )
         }
     }
@@ -315,9 +362,8 @@ class SettingsViewModel @Inject constructor(
             Duration.INFINITE,
         )
 
-        val localeCodesList: List<String> = BuildConfig.DETECTED_LOCALES
-            .toList()
-            .updateAsMutable { add(0, "system") }
+        val localeCodesList: List<String> =
+            BuildConfig.DETECTED_LOCALES.toList().updateAsMutable { add(0, "system") }
     }
 }
 
