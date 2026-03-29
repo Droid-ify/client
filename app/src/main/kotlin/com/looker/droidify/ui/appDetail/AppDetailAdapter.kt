@@ -31,7 +31,6 @@ import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import androidx.core.util.TypedValueCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -76,18 +75,18 @@ import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.text.formatHtml
 import com.looker.droidify.widget.StableRecyclerAdapter
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
+import kotlinx.parcelize.Parcelize
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
-import java.util.*
+import java.util.Locale
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.parcelize.Parcelize
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
@@ -113,13 +112,22 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     }
 
     enum class Action(@param:StringRes val titleResId: Int, @param:DrawableRes val iconResId: Int) {
-        INSTALL(stringRes.install, drawableRes.ic_download),
-        UPDATE(stringRes.update, drawableRes.ic_download),
-        LAUNCH(stringRes.launch, drawableRes.ic_launch),
-        DETAILS(stringRes.details, drawableRes.ic_tune),
-        UNINSTALL(stringRes.uninstall, drawableRes.ic_delete),
-        CANCEL(stringRes.cancel, drawableRes.ic_cancel),
-        SHARE(stringRes.share, drawableRes.ic_share),
+        INSTALL(stringRes.install, drawableRes.ic_download), UPDATE(
+            stringRes.update,
+            drawableRes.ic_download,
+        ),
+        LAUNCH(stringRes.launch, drawableRes.ic_launch), DETAILS(
+            stringRes.details,
+            drawableRes.ic_tune,
+        ),
+        UNINSTALL(stringRes.uninstall, drawableRes.ic_delete), CANCEL(
+            stringRes.cancel,
+            drawableRes.ic_cancel,
+        ),
+        BLACKLIST(stringRes.app_blacklist_add, drawableRes.ic_block), SHARE(
+            stringRes.share,
+            drawableRes.ic_share,
+        ),
         SOURCE(stringRes.source_code, drawableRes.ic_source_code),
     }
 
@@ -133,41 +141,29 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     }
 
     enum class ViewType {
-        APP_INFO,
-        DOWNLOAD_STATUS,
-        INSTALL_BUTTON,
-        CUSTOM_BUTTONS,
-        SCREENSHOT,
-        SWITCH,
-        SECTION,
-        EXPAND,
-        TEXT,
-        LINK,
-        PERMISSIONS,
-        RELEASE,
-        EMPTY
+        APP_INFO, DOWNLOAD_STATUS, INSTALL_BUTTON, CUSTOM_BUTTONS, SCREENSHOT, SWITCH, SECTION, EXPAND, TEXT, LINK, PERMISSIONS, RELEASE, EMPTY
     }
 
     private enum class SwitchType(val titleResId: Int) {
-        IGNORE_ALL_UPDATES(stringRes.ignore_all_updates),
-        IGNORE_THIS_UPDATE(stringRes.ignore_this_update)
+        IGNORE_ALL_UPDATES(stringRes.ignore_all_updates), IGNORE_THIS_UPDATE(stringRes.ignore_this_update)
     }
 
     private enum class SectionType(
         val titleResId: Int,
         val colorAttrResId: Int = android.R.attr.colorPrimary,
     ) {
-        ANTI_FEATURES(stringRes.anti_features, android.R.attr.colorError),
-        CHANGES(stringRes.changes),
-        LINKS(stringRes.links),
-        DONATE(stringRes.donate),
-        PERMISSIONS(stringRes.permissions),
+        ANTI_FEATURES(
+            stringRes.anti_features,
+            android.R.attr.colorError,
+        ),
+        CHANGES(stringRes.changes), LINKS(stringRes.links), DONATE(stringRes.donate), PERMISSIONS(
+            stringRes.permissions,
+        ),
         VERSIONS(stringRes.versions)
     }
 
     internal enum class ExpandType {
-        NOTHING, DESCRIPTION, CHANGES,
-        LINKS, DONATES, PERMISSIONS, VERSIONS
+        NOTHING, DESCRIPTION, CHANGES, LINKS, DONATES, PERMISSIONS, VERSIONS
     }
 
     private enum class TextType { DESCRIPTION, ANTI_FEATURES, CHANGES }
@@ -177,16 +173,19 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val titleResId: Int,
         val format: ((Context, String) -> String)? = null,
     ) {
-        SOURCE(drawableRes.ic_code, stringRes.source_code),
-        AUTHOR(drawableRes.ic_person, stringRes.author_website),
-        EMAIL(drawableRes.ic_email, stringRes.author_email),
-        LICENSE(
+        SOURCE(drawableRes.ic_code, stringRes.source_code), AUTHOR(
+            drawableRes.ic_person,
+            stringRes.author_website,
+        ),
+        EMAIL(drawableRes.ic_email, stringRes.author_email), LICENSE(
             drawableRes.ic_copyright,
             stringRes.license,
-            format = { context, text -> context.getString(stringRes.license_FORMAT, text) }
+            format = { context, text -> context.getString(stringRes.license_FORMAT, text) },
         ),
-        TRACKER(drawableRes.ic_bug_report, stringRes.bug_tracker),
-        CHANGELOG(drawableRes.ic_history, stringRes.changelog),
+        TRACKER(drawableRes.ic_bug_report, stringRes.bug_tracker), CHANGELOG(
+            drawableRes.ic_history,
+            stringRes.changelog,
+        ),
         WEB(drawableRes.ic_public, stringRes.project_website)
     }
 
@@ -265,7 +264,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 sectionType,
                 ExpandType.NOTHING,
                 emptyList(),
-                0
+                0,
             )
 
             override val descriptor: String
@@ -360,8 +359,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             val permissions: List<PermissionInfo>,
         ) : Item() {
             override val descriptor: String
-                get() = "permissions.${group?.name}" +
-                        ".${permissions.joinToString(separator = ".") { it.name }}"
+                get() = "permissions.${group?.name}" + ".${permissions.joinToString(separator = ".") { it.name }}"
 
             override val viewType: ViewType
                 get() = ViewType.PERMISSIONS
@@ -491,8 +489,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val button = itemView.findViewById<MaterialButton>(R.id.expand_view_button)!!
     }
 
-    private class TextViewHolder(context: Context) :
-        RecyclerView.ViewHolder(TextView(context)) {
+    private class TextViewHolder(context: Context) : RecyclerView.ViewHolder(TextView(context)) {
         val text: TextView
             get() = itemView as TextView
 
@@ -504,7 +501,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 movementMethod = LinkMovementMethod()
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.WRAP_CONTENT
+                    RecyclerView.LayoutParams.WRAP_CONTENT,
                 )
             }
         }
@@ -535,8 +532,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         init {
             text.typeface = TypefaceExtra.medium
             val margin = measurement.invalidate(itemView.resources) {
-                @SuppressLint("SetTextI18n")
-                text.text = "measure"
+                @SuppressLint("SetTextI18n") text.text = "measure"
                 link.visibility = View.GONE
                 measurement.measure(itemView)
                 ((itemView.measuredHeight - icon.measuredHeight) / 2f).roundToInt()
@@ -558,8 +554,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
         init {
             val margin = measurement.invalidate(itemView.resources) {
-                @SuppressLint("SetTextI18n")
-                text.text = "measure"
+                @SuppressLint("SetTextI18n") text.text = "measure"
                 measurement.measure(itemView)
                 ((itemView.measuredHeight - icon.measuredHeight) / 2f).roundToInt()
             }
@@ -608,7 +603,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             with(itemView as LinearLayout) {
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.MATCH_PARENT
+                    RecyclerView.LayoutParams.MATCH_PARENT,
                 )
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER
@@ -644,14 +639,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     }
                     for (x in 12..(width - 12)) {
                         val yValue =
-                            (
-                                    (
-                                            sin(x * (2f * PI / waveWidth)) *
-                                                    (waveHeight / (2)) +
-                                                    (waveHeight / 2)
-                                            ).toFloat() +
-                                            (0 - (waveHeight / 2))
-                                    ) + height / 2
+                            ((sin(x * (2f * PI / waveWidth)) * (waveHeight / (2)) + (waveHeight / 2)).toFloat() + (0 - (waveHeight / 2))) + height / 2
                         drawPoint(x.toFloat(), yValue, linePaint)
                     }
                 }
@@ -681,32 +669,32 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 addView(
                     title,
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 addView(
                     packageName,
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 addView(
                     imageView,
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 addView(
                     repoTitle,
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 addView(
                     repoAddress,
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 addView(
                     copyRepoAddress,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
             }
         }
@@ -760,7 +748,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         items += Item.AppInfoItem(
             productRepository.second,
             productRepository.first,
-            downloads
+            downloads,
         )
 
         items += Item.DownloadStatusItem
@@ -780,7 +768,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             screenShotItem += Item.ScreenshotItem(
                 productRepository.first.screenshots,
                 packageName,
-                productRepository.second
+                productRepository.second,
             )
             items += screenShotItem
         }
@@ -790,25 +778,28 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 Item.SwitchItem(
                     SwitchType.IGNORE_ALL_UPDATES,
                     packageName,
-                    productRepository.first.versionCode
-                )
+                    productRepository.first.versionCode,
+                ),
             )
             if (productRepository.first.canUpdate(installedItem)) {
                 items.add(
                     Item.SwitchItem(
                         SwitchType.IGNORE_THIS_UPDATE,
                         packageName,
-                        productRepository.first.versionCode
-                    )
+                        productRepository.first.versionCode,
+                    ),
                 )
             }
         }
 
         val textViewHolder = TextViewHolder(context)
-        val textViewWidthSpec = context.resources.displayMetrics.widthPixels
-            .let { View.MeasureSpec.makeMeasureSpec(it, View.MeasureSpec.EXACTLY) }
-        val textViewHeightSpec =
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val textViewWidthSpec = context.resources.displayMetrics.widthPixels.let {
+            View.MeasureSpec.makeMeasureSpec(
+                it,
+                View.MeasureSpec.EXACTLY,
+            )
+        }
+        val textViewHeightSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
 
         fun CharSequence.lineCropped(maxLines: Int, cropLines: Int): CharSequence? {
             assert(cropLines <= maxLines)
@@ -818,7 +809,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 0,
                 0,
                 textViewHolder.text.measuredWidth,
-                textViewHolder.text.measuredHeight
+                textViewHolder.text.measuredHeight,
             )
             val layout = textViewHolder.text.layout
             val cropLineOffset =
@@ -835,16 +826,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             }
             val end = when {
                 cropLineOffset < 0 -> -1
-                paragraphEndLine >= 0 && paragraphEndLine - (cropLines - 1) <= 3 ->
-                    if (paragraphEndIndex < length) paragraphEndIndex else -1
+                paragraphEndLine >= 0 && paragraphEndLine - (cropLines - 1) <= 3 -> if (paragraphEndIndex < length) paragraphEndIndex else -1
 
                 else -> cropLineOffset
             }
             val length = if (end < 0) {
                 -1
             } else {
-                asSequence().take(end)
-                    .indexOfLast { it != '\n' }.let { if (it >= 0) it + 1 else end }
+                asSequence().take(end).indexOfLast { it != '\n' }
+                    .let { if (it >= 0) it + 1 else end }
             }
             return if (length >= 0) subSequence(0, length) else null
         }
@@ -869,7 +859,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         TypefaceSpan("sans-serif-medium"),
                         0,
                         productRepository.first.summary.length,
-                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                 }
             }
@@ -878,7 +868,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             val cropped = if (ExpandType.DESCRIPTION !in expanded) {
                 description.lineCropped(
                     12,
-                    10
+                    10,
                 )
             } else {
                 null
@@ -888,7 +878,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 val croppedItem = Item.TextItem(TextType.DESCRIPTION, cropped)
                 items += listOf(
                     croppedItem,
-                    Item.ExpandItem(ExpandType.DESCRIPTION, true, listOf(item, croppedItem))
+                    Item.ExpandItem(ExpandType.DESCRIPTION, true, listOf(item, croppedItem)),
                 )
             } else {
                 items += item
@@ -924,18 +914,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val changes = productRepository.first.whatsNew
         if (changes.isNotEmpty()) {
             items += Item.SectionItem(SectionType.CHANGES)
-            val cropped =
-                if (ExpandType.CHANGES !in expanded) {
-                    changes.lineCropped(12, 10)
-                } else {
-                    null
-                }
+            val cropped = if (ExpandType.CHANGES !in expanded) {
+                changes.lineCropped(12, 10)
+            } else {
+                null
+            }
             val item = Item.TextItem(TextType.CHANGES, changes)
             if (cropped != null) {
                 val croppedItem = Item.TextItem(TextType.CHANGES, cropped)
                 items += listOf(
                     croppedItem,
-                    Item.ExpandItem(ExpandType.CHANGES, true, listOf(item, croppedItem))
+                    Item.ExpandItem(ExpandType.CHANGES, true, listOf(item, croppedItem)),
                 )
             } else {
                 items += item
@@ -949,7 +938,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     linkItems += Item.LinkItem.Typed(
                         linkType = LinkType.SOURCE,
                         text = "",
-                        uri = link.toUri()
+                        uri = link.toUri(),
                     )
                 }
             }
@@ -958,7 +947,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 linkItems += Item.LinkItem.Typed(
                     linkType = LinkType.AUTHOR,
                     text = author.name,
-                    uri = author.web.nullIfEmpty()?.let(Uri::parse)
+                    uri = author.web.nullIfEmpty()?.let(Uri::parse),
                 )
             }
             author.email.nullIfEmpty()?.let {
@@ -968,7 +957,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 Item.LinkItem.Typed(
                     linkType = LinkType.LICENSE,
                     text = it,
-                    uri = "https://spdx.org/licenses/$it.html".toUri()
+                    uri = "https://spdx.org/licenses/$it.html".toUri(),
                 )
             }
             tracker.nullIfEmpty()
@@ -977,7 +966,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 linkItems += Item.LinkItem.Typed(
                     linkType = LinkType.CHANGELOG,
                     text = "",
-                    uri = it.toUri()
+                    uri = it.toUri(),
                 )
             }
             web.nullIfEmpty()
@@ -989,7 +978,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     sectionType = SectionType.LINKS,
                     expandType = ExpandType.LINKS,
                     items = emptyList(),
-                    collapseCount = linkItems.size
+                    collapseCount = linkItems.size,
                 )
                 items += linkItems
             } else {
@@ -1004,7 +993,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     SectionType.DONATE,
                     ExpandType.DONATES,
                     emptyList(),
-                    donateItems.size
+                    donateItems.size,
                 )
                 items += donateItems
             } else {
@@ -1012,7 +1001,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     SectionType.DONATE,
                     ExpandType.DONATES,
                     donateItems,
-                    0
+                    0,
                 )
             }
         }
@@ -1020,38 +1009,34 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val release = productRepository.first.displayRelease
         if (release != null) {
             val packageManager = context.packageManager
-            val permissions = release.permissions
-                .asSequence().mapNotNull {
-                    try {
-                        packageManager.getPermissionInfo(it, 0)
-                    } catch (_: Exception) {
-                        null
-                    }
+            val permissions = release.permissions.asSequence().mapNotNull {
+                try {
+                    packageManager.getPermissionInfo(it, 0)
+                } catch (_: Exception) {
+                    null
                 }
-                .groupBy(PackageItemResolver::getPermissionGroup)
-                .asSequence().map { (group, permissionInfo) ->
+            }.groupBy(PackageItemResolver::getPermissionGroup).asSequence()
+                .map { (group, permissionInfo) ->
                     val permissionGroupInfo = try {
                         group?.let { packageManager.getPermissionGroupInfo(it, 0) }
                     } catch (_: Exception) {
                         null
                     }
                     Pair(permissionGroupInfo, permissionInfo)
-                }
-                .groupBy({ it.first }, { it.second })
+                }.groupBy({ it.first }, { it.second })
             if (permissions.isNotEmpty()) {
                 val permissionsItems = mutableListOf<Item>()
                 permissionsItems += permissions.asSequence().filter { it.key != null }
                     .map { Item.PermissionsItem(it.key, it.value.flatten()) }
-                permissions.asSequence().find { it.key == null }
-                    ?.let {
-                        permissionsItems += Item.PermissionsItem(null, it.value.flatten())
-                    }
+                permissions.asSequence().find { it.key == null }?.let {
+                    permissionsItems += Item.PermissionsItem(null, it.value.flatten())
+                }
                 if (ExpandType.PERMISSIONS in expanded) {
                     items += Item.SectionItem(
                         SectionType.PERMISSIONS,
                         ExpandType.PERMISSIONS,
                         emptyList(),
-                        permissionsItems.size
+                        permissionsItems.size,
                     )
                     items += permissionsItems
                 } else {
@@ -1059,39 +1044,32 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         SectionType.PERMISSIONS,
                         ExpandType.PERMISSIONS,
                         permissionsItems,
-                        0
+                        0,
                     )
                 }
             }
         }
 
-        val compatibleReleasePairs = products.asSequence()
-            .flatMap { (product, repository) ->
-                product.releases.asSequence()
-                    .filter { allowIncompatibleVersion || it.incompatibilities.isEmpty() }
-                    .map { Pair(it, repository) }
-            }
+        val compatibleReleasePairs = products.asSequence().flatMap { (product, repository) ->
+            product.releases.asSequence()
+                .filter { allowIncompatibleVersion || it.incompatibilities.isEmpty() }
+                .map { Pair(it, repository) }
+        }
 
-        val versionsWithMultiSignature = compatibleReleasePairs
-            .filterNot { release?.signature?.isEmpty() == true }
-            .map { (release, _) -> release.versionCode to release.signature }
-            .distinct()
-            .groupBy { it.first }
-            .filter { (_, entry) -> entry.size >= 2 }
-            .keys
+        val versionsWithMultiSignature =
+            compatibleReleasePairs.filterNot { release?.signature?.isEmpty() == true }
+                .map { (release, _) -> release.versionCode to release.signature }.distinct()
+                .groupBy { it.first }.filter { (_, entry) -> entry.size >= 2 }.keys
 
-        val releaseItems = compatibleReleasePairs
-            .map { (release, repository) ->
-                Item.ReleaseItem(
-                    repository = repository,
-                    release = release,
-                    selectedRepository = repository.id == productRepository.second.id,
-                    showSignature = release.versionCode in versionsWithMultiSignature,
-                    reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
-                )
-            }
-            .sortedByDescending { it.release.versionCode }
-            .toList()
+        val releaseItems = compatibleReleasePairs.map { (release, repository) ->
+            Item.ReleaseItem(
+                repository = repository,
+                release = release,
+                selectedRepository = repository.id == productRepository.second.id,
+                showSignature = release.versionCode in versionsWithMultiSignature,
+                reproducible = rblogs.find { it.hash == release.hash }.toReproducible(),
+            )
+        }.sortedByDescending { it.release.versionCode }.toList()
         if (releaseItems.isNotEmpty()) {
             items += Item.SectionItem(SectionType.VERSIONS)
             if (releaseItems.size > MAX_RELEASE_ITEMS && ExpandType.VERSIONS !in expanded) {
@@ -1099,7 +1077,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 items += Item.ExpandItem(
                     ExpandType.VERSIONS,
                     false,
-                    releaseItems.takeLast(releaseItems.size - MAX_RELEASE_ITEMS)
+                    releaseItems.takeLast(releaseItems.size - MAX_RELEASE_ITEMS),
                 )
             } else {
                 items += releaseItems
@@ -1152,17 +1130,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return when (viewType) {
-            ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.app_detail_header))
-                .apply {
-                    favouriteButton.setOnClickListener { callbacks.onFavouriteClicked() }
-                }
+            ViewType.APP_INFO -> AppInfoViewHolder(parent.inflate(R.layout.app_detail_header)).apply {
+                favouriteButton.setOnClickListener { callbacks.onFavouriteClicked() }
+            }
 
             ViewType.DOWNLOAD_STATUS -> DownloadStatusViewHolder(
-                parent.inflate(R.layout.download_status)
+                parent.inflate(R.layout.download_status),
             )
 
             ViewType.INSTALL_BUTTON -> InstallButtonViewHolder(
-                parent.inflate(R.layout.install_button)
+                parent.inflate(R.layout.install_button),
             ).apply {
                 button.setOnClickListener { action?.let(callbacks::onActionClick) }
             }
@@ -1176,7 +1153,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         SwitchType.IGNORE_ALL_UPDATES -> {
                             ProductPreferences[switchItem.packageName].let {
                                 it.copy(
-                                    ignoreUpdates = !it.ignoreUpdates
+                                    ignoreUpdates = !it.ignoreUpdates,
                                 )
                             }
                         }
@@ -1184,12 +1161,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         SwitchType.IGNORE_THIS_UPDATE -> {
                             ProductPreferences[switchItem.packageName].let {
                                 it.copy(
-                                    ignoreVersionCode =
-                                        if (it.ignoreVersionCode == switchItem.versionCode) {
-                                            0
-                                        } else {
-                                            switchItem.versionCode
-                                        }
+                                    ignoreVersionCode = if (it.ignoreVersionCode == switchItem.versionCode) {
+                                        0
+                                    } else {
+                                        switchItem.versionCode
+                                    },
                                 )
                             }
                         }
@@ -1209,7 +1185,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             sectionItem.sectionType,
                             sectionItem.expandType,
                             emptyList(),
-                            sectionItem.items.size + sectionItem.collapseCount
+                            sectionItem.items.size + sectionItem.collapseCount,
                         )
                         notifyItemChanged(position)
                         items.addAll(position + 1, sectionItem.items)
@@ -1221,7 +1197,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             sectionItem.expandType,
                             items.subList(position + 1, position + 1 + sectionItem.collapseCount)
                                 .toList(),
-                            0
+                            0,
                         )
                         notifyItemChanged(position)
                         repeat(sectionItem.collapseCount) { items.removeAt(position + 1) }
@@ -1230,41 +1206,40 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
             }
 
-            ViewType.EXPAND -> ExpandViewHolder(parent.inflate(R.layout.expand_view_button))
-                .apply {
-                    itemView.setOnClickListener {
-                        val position = absoluteAdapterPosition
-                        val expandItem = items[position] as Item.ExpandItem
-                        if (expandItem.expandType !in expanded) {
-                            expanded += expandItem.expandType
-                            if (expandItem.replace) {
-                                items[position - 1] = expandItem.items[0]
-                                notifyItemRangeChanged(position - 1, 2)
-                            } else {
-                                items.addAll(position, expandItem.items)
-                                if (position > 0) {
-                                    notifyItemRangeInserted(position, expandItem.items.size)
-                                    notifyItemChanged(position + expandItem.items.size)
-                                }
-                            }
+            ViewType.EXPAND -> ExpandViewHolder(parent.inflate(R.layout.expand_view_button)).apply {
+                itemView.setOnClickListener {
+                    val position = absoluteAdapterPosition
+                    val expandItem = items[position] as Item.ExpandItem
+                    if (expandItem.expandType !in expanded) {
+                        expanded += expandItem.expandType
+                        if (expandItem.replace) {
+                            items[position - 1] = expandItem.items[0]
+                            notifyItemRangeChanged(position - 1, 2)
                         } else {
-                            expanded -= expandItem.expandType
-                            if (expandItem.replace) {
-                                items[position - 1] = expandItem.items[1]
-                                notifyItemRangeChanged(position - 1, 2)
-                            } else {
-                                items.removeAll(expandItem.items)
-                                if (position > 0) {
-                                    notifyItemRangeRemoved(
-                                        position - expandItem.items.size,
-                                        expandItem.items.size
-                                    )
-                                    notifyItemChanged(position - expandItem.items.size)
-                                }
+                            items.addAll(position, expandItem.items)
+                            if (position > 0) {
+                                notifyItemRangeInserted(position, expandItem.items.size)
+                                notifyItemChanged(position + expandItem.items.size)
+                            }
+                        }
+                    } else {
+                        expanded -= expandItem.expandType
+                        if (expandItem.replace) {
+                            items[position - 1] = expandItem.items[1]
+                            notifyItemRangeChanged(position - 1, 2)
+                        } else {
+                            items.removeAll(expandItem.items)
+                            if (position > 0) {
+                                notifyItemRangeRemoved(
+                                    position - expandItem.items.size,
+                                    expandItem.items.size,
+                                )
+                                notifyItemChanged(position - expandItem.items.size)
                             }
                         }
                     }
                 }
+            }
 
             ViewType.TEXT -> TextViewHolder(parent.context)
             ViewType.LINK -> LinkViewHolder(parent.inflate(R.layout.link_item)).apply {
@@ -1281,16 +1256,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 }
             }
 
-            ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item))
-                .apply {
-                    itemView.setOnClickListener {
-                        val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
-                        callbacks.onPermissionsClick(
-                            permissionsItem.group?.name,
-                            permissionsItem.permissions.map { it.name }
-                        )
-                    }
+            ViewType.PERMISSIONS -> PermissionsViewHolder(parent.inflate(R.layout.permissions_item)).apply {
+                itemView.setOnClickListener {
+                    val permissionsItem = items[absoluteAdapterPosition] as Item.PermissionsItem
+                    callbacks.onPermissionsClick(
+                        permissionsItem.group?.name,
+                        permissionsItem.permissions.map { it.name },
+                    )
                 }
+            }
 
             ViewType.RELEASE -> ReleaseViewHolder(parent.inflate(R.layout.release_item)).apply {
                 itemView.setOnClickListener {
@@ -1301,7 +1275,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     val releaseItem = items[absoluteAdapterPosition] as Item.ReleaseItem
                     copyLinkToClipboard(
                         itemView,
-                        releaseItem.release.getDownloadUrl(releaseItem.repository)
+                        releaseItem.release.getDownloadUrl(releaseItem.repository),
                     )
                     true
                 }
@@ -1338,15 +1312,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder.icon.load(iconUrl) {
                     authentication(item.repository.authentication)
                 }
-                val authorText =
-                    if (showAuthor) {
-                        buildSpannedString {
-                            append("by ")
-                            bold { append(item.product.author.name) }
-                        }
-                    } else {
-                        buildSpannedString { bold { append(item.product.packageName) } }
+                val authorText = if (showAuthor) {
+                    buildSpannedString {
+                        append("by ")
+                        bold { append(item.product.author.name) }
                     }
+                } else {
+                    buildSpannedString { bold { append(item.product.packageName) } }
+                }
                 holder.authorName.text = authorText
                 holder.packageName.text = authorText
                 if (item.product.author.name.isNotEmpty()) {
@@ -1379,7 +1352,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         if (background != null) {
                             setPadding(0, 0, 0, 0)
                             setTextColor(
-                                context.getColorFromAttr(android.R.attr.colorControlNormal)
+                                context.getColorFromAttr(android.R.attr.colorControlNormal),
                             )
                             background = null
                         }
@@ -1419,13 +1392,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                                     status.read.toString()
                                 } else {
                                     "${status.read} / ${status.total}"
-                                }
+                                },
                             )
                             holder.progress.isIndeterminate = status.total == null
                             if (status.total != null) {
                                 holder.progress.setProgressCompat(
                                     status.read.value percentBy status.total.value,
-                                    true
+                                    true,
                                 )
                             }
                         }
@@ -1463,7 +1436,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                                 holder.actionTintOnCancel
                             } else {
                                 holder.actionTintOnNormal
-                            }
+                            },
                         )
                         backgroundTintList = if (action == Action.CANCEL) {
                             holder.actionTintCancel
@@ -1498,12 +1471,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         layoutManager =
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     }
-                    val screenshotsAdapter = (adapter as? ScreenshotsAdapter)
-                        ?: ScreenshotsAdapter(callbacks::onScreenshotClick).also { adapter = it }
+                    val screenshotsAdapter = (adapter as? ScreenshotsAdapter) ?: ScreenshotsAdapter(
+                        callbacks::onScreenshotClick,
+                    ).also { adapter = it }
                     screenshotsAdapter.setScreenshots(
                         item.repository,
                         item.packageName,
-                        item.screenshots
+                        item.screenshots,
                     )
                 }
             }
@@ -1522,8 +1496,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                     }
                     val buttonsAdapter = (adapter as? CustomButtonsAdapter)
-                        ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
-                            .also { adapter = it }
+                        ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }.also {
+                            adapter = it
+                        }
                     buttonsAdapter.setButtons(
                         buttons = item.buttons,
                         packageName = item.packageName,
@@ -1545,9 +1520,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     SwitchType.IGNORE_THIS_UPDATE -> {
                         val productPreference = ProductPreferences[item.packageName]
                         Pair(
-                            productPreference.ignoreUpdates ||
-                                    productPreference.ignoreVersionCode == item.versionCode,
-                            !productPreference.ignoreUpdates
+                            productPreference.ignoreUpdates || productPreference.ignoreVersionCode == item.versionCode,
+                            !productPreference.ignoreUpdates,
                         )
                     }
                 }
@@ -1569,7 +1543,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         it.paddingLeft,
                         it.paddingTop,
                         it.paddingRight,
-                        if (expandable) it.paddingTop else 0
+                        if (expandable) it.paddingTop else 0,
                     )
                 }
                 val color = context.getColorFromAttr(item.sectionType.colorAttrResId)
@@ -1582,7 +1556,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
                     TooltipCompat.setTooltipText(
                         holder.helpIcon,
-                        context.getString(R.string.rb_badge_info)
+                        context.getString(R.string.rb_badge_info),
                     )
                 } else {
                     holder.helpIcon.isVisible = false
@@ -1646,7 +1620,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         item.group.loadUnbadgedIcon(packageManager)
                     } else {
                         null
-                    } ?: context.getMutatedIcon(drawableRes.ic_perm_device_information)
+                    } ?: context.getMutatedIcon(drawableRes.ic_perm_device_information),
                 )
                 val localCache = PackageItemResolver.LocalCache()
                 val labels = item.permissions.map { permission ->
@@ -1670,40 +1644,38 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     } else {
                         Pair(
                             true,
-                            label.first().uppercaseChar() + label.substring(1, label.length)
+                            label.first().uppercaseChar() + label.substring(1, label.length),
                         )
                     }
                 }
                 val builder = SpannableStringBuilder()
-                (
-                        labels.asSequence().filter { it.first } + labels.asSequence()
-                            .filter { !it.first }
-                        ).forEach {
-                        if (builder.isNotEmpty()) {
-                            builder.append("\n\n")
-                            builder.setSpan(
-                                RelativeSizeSpan(1f / 3f),
-                                builder.length - 2,
-                                builder.length,
-                                SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                            )
-                        }
-                        builder.append(it.second)
-                        if (!it.first) {
-                            // Replace dots with spans to enable word wrap
-                            it.second.asSequence()
-                                .mapIndexedNotNull { index, c -> if (c == '.') index else null }
-                                .map { index -> index + builder.length - it.second.length }
-                                .forEach { index ->
-                                    builder.setSpan(
-                                        DotSpan(),
-                                        index,
-                                        index + 1,
-                                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-                                    )
-                                }
-                        }
+                (labels.asSequence().filter { it.first } + labels.asSequence()
+                    .filter { !it.first }).forEach {
+                    if (builder.isNotEmpty()) {
+                        builder.append("\n\n")
+                        builder.setSpan(
+                            RelativeSizeSpan(1f / 3f),
+                            builder.length - 2,
+                            builder.length,
+                            SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
+                        )
                     }
+                    builder.append(it.second)
+                    if (!it.first) {
+                        // Replace dots with spans to enable word wrap
+                        it.second.asSequence()
+                            .mapIndexedNotNull { index, c -> if (c == '.') index else null }
+                            .map { index -> index + builder.length - it.second.length }
+                            .forEach { index ->
+                                builder.setSpan(
+                                    DotSpan(),
+                                    index,
+                                    index + 1,
+                                    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
+                                )
+                            }
+                    }
+                }
                 holder.text.text = builder
             }
 
@@ -1713,8 +1685,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 val incompatibility = item.release.incompatibilities.firstOrNull()
                 val singlePlatform =
                     if (item.release.platforms.size == 1) item.release.platforms.first() else null
-                val installed = installedItem?.versionCode == item.release.versionCode &&
-                        installedItem?.signature == item.release.signature
+                val installed =
+                    installedItem?.versionCode == item.release.versionCode && installedItem?.signature == item.release.signature
                 val suggested =
                     incompatibility == null && item.release.selected && item.selectedRepository
 
@@ -1737,7 +1709,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             installed -> stringRes.installed
                             suggested -> stringRes.suggested
                             else -> stringRes.unknown
-                        }
+                        },
                     )
                     background = context.corneredBackground
                     setPadding(15, 15, 15, 15)
@@ -1790,10 +1762,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder.signature.isVisible =
                     item.showSignature && item.release.signature.isNotEmpty()
                 if (item.showSignature && item.release.signature.isNotEmpty()) {
-                    val bytes =
-                        item.release.signature
-                            .uppercase(Locale.US)
-                            .windowed(2, 2, false)
+                    val bytes = item.release.signature.uppercase(Locale.US).windowed(2, 2, false)
                     val signature = bytes.joinToString(separator = " ")
                     holder.signature.text = signature
                     holder.signature.setOnClickListener {
@@ -1809,17 +1778,17 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                             is Release.Incompatibility.MaxSdk,
                                 -> context.getString(
                                 stringRes.incompatible_with_FORMAT,
-                                Android.name
+                                Android.name,
                             )
 
                             is Release.Incompatibility.Platform -> context.getString(
                                 stringRes.incompatible_with_FORMAT,
-                                Android.primaryPlatform ?: context.getString(stringRes.unknown)
+                                Android.primaryPlatform ?: context.getString(stringRes.unknown),
                             )
 
                             is Release.Incompatibility.Feature -> context.getString(
                                 stringRes.requires_FORMAT,
-                                incompatibility.feature
+                                incompatibility.feature,
                             )
                         }
                     } else if (singlePlatform != null) {
@@ -1848,7 +1817,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     text = context.getString(
                         stringRes.label_sdk_version,
                         targetSdkVersion,
-                        minSdkVersion
+                        minSdkVersion,
                     )
                 }
                 val enabled = status == Status.Idle
@@ -1870,7 +1839,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private fun copyLinkToClipboard(
         view: View,
         link: String,
-        snackbarText: Int = stringRes.link_copied_to_clipboard
+        snackbarText: Int = stringRes.link_copied_to_clipboard,
     ) {
         view.context.copyToClipboard(link)
         Snackbar.make(view, snackbarText, Snackbar.LENGTH_SHORT).show()

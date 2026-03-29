@@ -289,4 +289,18 @@
     <string name="custom_buttons_export">Export buttons</string>
     <string name="custom_buttons_import">Import buttons</string>
     <string name="custom_buttons_imported">Custom buttons imported</string>
+
+    <string name="app_blacklist_section">App blacklist</string>
+    <string name="app_blacklist_description">Hides apps from all lists and search (excludes updates)</string>
+    <string name="app_blacklist_add">Add blacklist entry</string>
+    <string name="app_blacklist_package_pattern">Package ID pattern</string>
+    <string name="app_blacklist_name_pattern">App name pattern</string>
+    <string name="app_blacklist_pattern_hint">Use * as wildcard</string>
+    <string name="app_blacklist_delete_confirmation">Delete entry?</string>
+    <string name="app_blacklist_export">Export blacklist</string>
+    <string name="app_blacklist_import">Import blacklist</string>
+    <string name="app_blacklist_added">Added to blacklist</string>
+    <string name="app_blacklist_already_added">Already in blacklist</string>
+    <string name="app_blacklist_imported">Blacklist imported</string>
+    <string name="app_blacklist_showhide">Show/hide list</string>
 </resources>

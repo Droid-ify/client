@@ -29,6 +29,7 @@ import com.looker.droidify.compose.components.BackButton
 import com.looker.droidify.compose.settings.SettingsViewModel.Companion.cleanUpIntervals
 import com.looker.droidify.compose.settings.SettingsViewModel.Companion.localeCodesList
 import com.looker.droidify.compose.settings.components.ActionSettingItem
+import com.looker.droidify.compose.settings.components.BlacklistSettingItem
 import com.looker.droidify.compose.settings.components.CustomButtonsSettingItem
 import com.looker.droidify.compose.settings.components.SelectionSettingItem
 import com.looker.droidify.compose.settings.components.SettingHeader
@@ -44,13 +45,14 @@ import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.isIgnoreBatteryEnabled
 import com.looker.droidify.utility.common.requestBatteryFreedom
-import java.util.*
+import java.util.Locale
 import kotlin.time.Duration
 
 private const val BACKUP_MIME_TYPE = "application/json"
 private const val SETTINGS_BACKUP_NAME = "droidify_settings"
 private const val REPO_BACKUP_NAME = "droidify_repos"
 private const val CUSTOM_BUTTONS_BACKUP_NAME = "custom_buttons"
+private const val APP_BLACKLIST_BACKUP_NAME = "app_blacklist"
 
 private const val FOXY_DROID_TITLE = "FoxyDroid"
 private const val FOXY_DROID_URL = "https://github.com/kitsunyan/foxy-droid"
@@ -66,6 +68,7 @@ fun SettingsScreen(
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val customButtons by viewModel.customButtons.collectAsStateWithLifecycle()
+    val appBlacklist by viewModel.appBlacklist.collectAsStateWithLifecycle()
     val isBackgroundAllowed by viewModel.isBackgroundAllowed.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
@@ -109,6 +112,20 @@ fun SettingsScreen(
     ) { uri ->
         if (uri != null) {
             viewModel.importCustomButtons(uri)
+        } else {
+            viewModel.showSnackbar(R.string.file_format_error_DESC)
+        }
+    }
+
+    val exportBlacklistLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
+    ) { uri -> uri?.let { viewModel.exportBlacklist(it) } }
+
+    val importBlacklistLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri != null) {
+            viewModel.importBlacklist(uri)
         } else {
             viewModel.showSnackbar(R.string.file_format_error_DESC)
         }
@@ -368,6 +385,19 @@ fun SettingsScreen(
                     onRemoveButton = viewModel::removeCustomButton,
                     onExport = { exportCustomButtonsLauncher.launch(CUSTOM_BUTTONS_BACKUP_NAME) },
                     onImport = { importCustomButtonsLauncher.launch(arrayOf(BACKUP_MIME_TYPE)) },
+                )
+            }
+
+            item { SettingHeader(title = stringResource(R.string.app_blacklist_section)) }
+
+            item {
+                BlacklistSettingItem(
+                    entries = appBlacklist,
+                    onAddEntry = viewModel::addBlacklistEntry,
+                    onUpdateEntry = viewModel::updateBlacklistEntry,
+                    onRemoveEntry = viewModel::removeBlacklistEntry,
+                    onExport = { exportBlacklistLauncher.launch(APP_BLACKLIST_BACKUP_NAME) },
+                    onImport = { importBlacklistLauncher.launch(arrayOf(BACKUP_MIME_TYPE)) },
                 )
             }
 

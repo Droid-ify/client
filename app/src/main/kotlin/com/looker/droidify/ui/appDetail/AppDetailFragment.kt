@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
@@ -78,13 +79,19 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val id: Int,
         val adapterAction: AppDetailAdapter.Action,
     ) {
-        INSTALL(1, AppDetailAdapter.Action.INSTALL),
-        UPDATE(2, AppDetailAdapter.Action.UPDATE),
-        LAUNCH(3, AppDetailAdapter.Action.LAUNCH),
-        DETAILS(4, AppDetailAdapter.Action.DETAILS),
-        UNINSTALL(5, AppDetailAdapter.Action.UNINSTALL),
-        SOURCE(6, AppDetailAdapter.Action.SOURCE),
-        SHARE(7, AppDetailAdapter.Action.SHARE),
+        INSTALL(1, AppDetailAdapter.Action.INSTALL), UPDATE(
+            2,
+            AppDetailAdapter.Action.UPDATE,
+        ),
+        LAUNCH(3, AppDetailAdapter.Action.LAUNCH), DETAILS(
+            4,
+            AppDetailAdapter.Action.DETAILS,
+        ),
+        UNINSTALL(5, AppDetailAdapter.Action.UNINSTALL), BLACKLIST(
+            6,
+            AppDetailAdapter.Action.BLACKLIST,
+        ),
+        SOURCE(7, AppDetailAdapter.Action.SOURCE), SHARE(8, AppDetailAdapter.Action.SHARE),
     }
 
     private class Installed(
@@ -125,10 +132,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         mainActivity.onToolbarCreated(toolbar)
         toolbar.menu.apply {
             Action.entries.forEach { action ->
-                add(0, action.id, 0, action.adapterAction.titleResId)
-                    .setIcon(toolbar.context.getMutatedIcon(action.adapterAction.iconResId))
-                    .setVisible(false)
-                    .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
+                add(
+                    0,
+                    action.id,
+                    0,
+                    action.adapterAction.titleResId,
+                ).setIcon(toolbar.context.getMutatedIcon(action.adapterAction.iconResId))
+                    .setVisible(false).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)
                     .setOnMenuItemClickListener {
                         onActionClick(action.adapterAction)
                         true
@@ -246,8 +256,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             .let { it != null && it.incompatibilities.isEmpty() }
         val canInstall = product != null && installed == null && compatible
         val canUpdate =
-            product != null && compatible && product.canUpdate(installed?.installedItem) &&
-                !preference.shouldIgnoreUpdate(product.versionCode)
+            product != null && compatible && product.canUpdate(installed?.installedItem) && !preference.shouldIgnoreUpdate(
+                product.versionCode,
+            )
         val canUninstall = product != null && installed != null && !installed.isSystem
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
@@ -264,17 +275,17 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                         is Release.Incompatibility.MaxSdk,
                             -> getString(
                             stringRes.incompatible_with_FORMAT,
-                            name
+                            name,
                         )
 
                         is Release.Incompatibility.Platform -> getString(
                             stringRes.incompatible_with_FORMAT,
-                            primaryPlatform ?: getString(stringRes.unknown)
+                            primaryPlatform ?: getString(stringRes.unknown),
                         )
 
                         is Release.Incompatibility.Feature -> getString(
                             stringRes.requires_FORMAT,
-                            incompatibility.feature
+                            incompatibility.feature,
                         )
                     }
                 }
@@ -297,6 +308,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             if (canLaunch) add(Action.LAUNCH)
             if (installed != null) add(Action.DETAILS)
             if (canUninstall) add(Action.UNINSTALL)
+            add(Action.BLACKLIST)
             add(Action.SHARE)
             add(Action.SOURCE)
         }
@@ -329,8 +341,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun updateToolbarButtons(
-        isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager)
-            .findFirstVisibleItemPosition() == 0,
+        isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() == 0,
     ) {
         toolbar.title = if (isActionVisible) {
             getString(stringRes.application)
@@ -446,6 +457,21 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
             AppDetailAdapter.Action.UNINSTALL -> viewModel.uninstallPackage()
 
+            AppDetailAdapter.Action.BLACKLIST -> {
+                val appName = products.firstOrNull()?.first?.name ?: viewModel.packageName
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val added = viewModel.addToBlacklist(appName)
+                    val messageRes = if (added) {
+                        stringRes.app_blacklist_added
+                    } else {
+                        stringRes.app_blacklist_already_added
+                    }
+                    context?.let {
+                        Toast.makeText(it, getString(messageRes), Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
             AppDetailAdapter.Action.CANCEL -> {
                 val binder = downloadConnection.binder
                 if (installing?.isCancellable == true) {
@@ -458,19 +484,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
             AppDetailAdapter.Action.SHARE -> {
                 val repo = products[0].second
                 val address = when {
-                    "https://f-droid.org/repo" in repo.mirrors ->
-                        "https://f-droid.org/packages/${viewModel.packageName}/"
+                    "https://f-droid.org/repo" in repo.mirrors -> "https://f-droid.org/packages/${viewModel.packageName}/"
 
-                    "https://f-droid.org/archive/repo" in repo.mirrors ->
-                        "https://f-droid.org/packages/${viewModel.packageName}/"
+                    "https://f-droid.org/archive/repo" in repo.mirrors -> "https://f-droid.org/packages/${viewModel.packageName}/"
 
-                    "https://apt.izzysoft.de/fdroid/repo" in repo.mirrors ->
-                        "https://apt.izzysoft.de/fdroid/index/apk/${viewModel.packageName}"
+                    "https://apt.izzysoft.de/fdroid/repo" in repo.mirrors -> "https://apt.izzysoft.de/fdroid/index/apk/${viewModel.packageName}"
 
                     else -> shareUrl(viewModel.packageName, repo.address)
                 }
-                val sendIntent = Intent(Intent.ACTION_SEND)
-                    .putExtra(Intent.EXTRA_TEXT, address)
+                val sendIntent = Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_TEXT, address)
                     .setType("text/plain")
                 startActivity(Intent.createChooser(sendIntent, null))
             }
@@ -493,8 +515,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private fun startLauncherActivity(name: String) {
         try {
             startActivity(
-                Intent(Intent.ACTION_MAIN)
-                    .addCategory(Intent.CATEGORY_LAUNCHER)
+                Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
                     .setComponent(ComponentName(viewModel.packageName, name))
                     .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             )
@@ -508,8 +529,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onPermissionsClick(group: String?, permissions: List<String>) {
-        MessageDialog(Message.Permissions(group, permissions))
-            .show(childFragmentManager)
+        MessageDialog(Message.Permissions(group, permissions)).show(childFragmentManager)
     }
 
     override fun onScreenshotClick(position: Int) {
@@ -519,17 +539,16 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 if (it.type == Product.Screenshot.Type.VIDEO) null
                 else it
             }
-            imageViewer = StfalconImageViewer
-                .Builder(context, screenshots) { view, current ->
-                    val screenshotUrl = current.url(
-                        context = requireContext(),
-                        repository = productRepository.second,
-                        packageName = viewModel.packageName,
-                    )
-                    view.load(screenshotUrl) {
-                        allowHardware(false)
-                    }
+            imageViewer = StfalconImageViewer.Builder(context, screenshots) { view, current ->
+                val screenshotUrl = current.url(
+                    context = requireContext(),
+                    repository = productRepository.second,
+                    packageName = viewModel.packageName,
+                )
+                view.load(screenshotUrl) {
+                    allowHardware(false)
                 }
+            }
         }
         imageViewer?.withStartPosition(position)
         imageViewer?.show()
@@ -623,14 +642,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
             val names = requireArguments().getStringArrayList(EXTRA_NAMES)!!
             val labels = requireArguments().getStringArrayList(EXTRA_LABELS)!!
-            return MaterialAlertDialogBuilder(requireContext())
-                .setTitle(stringRes.launch)
+            return MaterialAlertDialogBuilder(requireContext()).setTitle(stringRes.launch)
                 .setItems(labels.toTypedArray()) { _, position ->
-                    (parentFragment as AppDetailFragment)
-                        .startLauncherActivity(names[position])
-                }
-                .setNegativeButton(stringRes.cancel, null)
-                .create()
+                    (parentFragment as AppDetailFragment).startLauncherActivity(names[position])
+                }.setNegativeButton(stringRes.cancel, null).create()
         }
     }
 }

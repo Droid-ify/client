@@ -10,6 +10,7 @@ import com.looker.droidify.data.local.dao.AuthDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.dao.RepoDao
+import com.looker.droidify.datastore.AppBlacklistRepository
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import dagger.Module
@@ -51,10 +52,12 @@ object RepoModule {
         appDao: AppDao,
         repoDao: RepoDao,
         settingsRepository: SettingsRepository,
+        appBlacklistRepository: AppBlacklistRepository,
     ): AppRepository = AppRepository(
         appDao = appDao,
         repoDao = repoDao,
         settingsRepository = settingsRepository,
+        appBlacklistRepository = appBlacklistRepository,
     )
 
     @Provides
