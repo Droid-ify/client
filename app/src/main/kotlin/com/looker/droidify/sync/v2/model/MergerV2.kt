@@ -18,13 +18,13 @@ import java.io.InputStream
  * Merger for applying JSON Merge Patch (RFC 7386) to IndexV2 instances.
  * Adapted from Neo Store.
  */
+@OptIn(ExperimentalSerializationApi::class)
 class IndexV2Merger(private val baseFile: File) : AutoCloseable {
     private val json = Json {
         ignoreUnknownKeys = true
         explicitNulls = true
     }
 
-    @OptIn(ExperimentalSerializationApi::class)
     fun getCurrentIndex(): IndexV2? = json.decodeFromStream(baseFile.inputStream())
 
     fun processDiff(
@@ -115,7 +115,7 @@ class IndexV2Merger(private val baseFile: File) : AutoCloseable {
 
             when (value) {
                 // Remove null objects
-                is JsonNull   -> {
+                is JsonNull -> {
                     result.remove(key)
                 }
 
@@ -131,7 +131,7 @@ class IndexV2Merger(private val baseFile: File) : AutoCloseable {
                 }
 
                 // Replace primitive values entirely
-                else          -> {
+                else -> {
                     result[key] = value
                 }
             }
