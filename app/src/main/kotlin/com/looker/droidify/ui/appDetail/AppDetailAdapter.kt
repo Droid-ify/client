@@ -157,7 +157,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         val titleResId: Int,
         val colorAttrResId: Int = android.R.attr.colorPrimary,
     ) {
-        ANTI_FEATURES(stringRes.anti_features, android.R.attr.colorError),
+        ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
         CHANGES(stringRes.changes),
         LINKS(stringRes.links),
         DONATE(stringRes.donate),
