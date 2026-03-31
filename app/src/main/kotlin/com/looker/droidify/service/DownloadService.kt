@@ -235,15 +235,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         }
     }
 
-    private sealed interface ErrorType {
-        data object IO : ErrorType
-        data object Http : ErrorType
-        data object SocketTimeout : ErrorType
-        data object ConnectionTimeout : ErrorType
-        class Validation(val exception: ValidationException) : ErrorType
-    }
-
-    private fun showNotificationError(task: Task, errorType: ErrorType) {
+    private fun showNotificationError(task: Task, error: NetworkResponse.Error) {
         val intent = Intent(this, MainActivity::class.java)
             .setAction(Intent.ACTION_VIEW)
             .setData("package:${task.packageName}".toUri())
@@ -259,26 +251,27 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .setColor(Color.GREEN)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(intent)
-                .errorNotificationContent(task, errorType)
+                .errorNotificationContent(task, error)
                 .build(),
         )
     }
 
     private fun NotificationCompat.Builder.errorNotificationContent(
         task: Task,
-        errorType: ErrorType,
+        error: NetworkResponse.Error,
     ): NotificationCompat.Builder {
-        val title = if (errorType is ErrorType.Validation) {
+        val title = if (error is NetworkResponse.Error.Validation) {
             stringRes.could_not_validate_FORMAT
         } else {
             stringRes.could_not_download_FORMAT
         }
-        val description = when (errorType) {
-            ErrorType.ConnectionTimeout -> getString(stringRes.connection_error_DESC)
-            ErrorType.Http -> getString(stringRes.http_error_DESC)
-            ErrorType.IO -> getString(stringRes.io_error_DESC)
-            ErrorType.SocketTimeout -> getString(stringRes.socket_error_DESC)
-            is ErrorType.Validation -> errorType.exception.message
+        val description = when (error) {
+            is NetworkResponse.Error.ConnectionTimeout -> getString(stringRes.connection_error_DESC)
+            is NetworkResponse.Error.Http -> getString(stringRes.http_error_DESC)
+            is NetworkResponse.Error.IO -> getString(stringRes.io_error_DESC)
+            is NetworkResponse.Error.SocketTimeout -> getString(stringRes.socket_error_DESC)
+            is NetworkResponse.Error.Validation -> error.exception.message
+            is NetworkResponse.Error.Unknown -> getString(stringRes.unknown_error_DESC)
         }
         setContentTitle(getString(title, task.name))
         return setContentText(description)
@@ -443,17 +436,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
                 is NetworkResponse.Error -> {
                     updateCurrentState(State.Error(task.packageName))
-                    val errorType = when (response) {
-                        is NetworkResponse.Error.ConnectionTimeout -> ErrorType.ConnectionTimeout
-                        is NetworkResponse.Error.IO -> ErrorType.IO
-                        is NetworkResponse.Error.SocketTimeout -> ErrorType.SocketTimeout
-                        is NetworkResponse.Error.Validation -> ErrorType.Validation(
-                            response.exception,
-                        )
-
-                        else -> ErrorType.Http
-                    }
-                    showNotificationError(task, errorType)
+                    showNotificationError(task, response)
                 }
             }
         } finally {
