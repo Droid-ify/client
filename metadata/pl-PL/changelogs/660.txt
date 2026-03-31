@@ -1,0 +1,15 @@
+Dodano:
+- Obsługa wielu komponentów instalacyjnych dla starszych instalatorów
+- Obsługa Sui
+- Nowe repozytoria
+- Obsługa otwierania adresów URL IzzyOnDroid
+- Obsługa repozytoriów dostarczanych przez producentów OEM
+
+Naprawiono:
+- Ignorowanie podpisu powodowało problemy z aktualizacją
+- Awaria ekranu edycji repozytorium
+
+Usunięto:
+- Nieaktualne repozytoria
+
++ wiele innych

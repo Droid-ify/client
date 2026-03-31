@@ -1,0 +1,5 @@
+## Poprawki
+- Resetowanie kategorii przy zmianie strony
+- Awaria spowodowana zmianą serwera proxy
+- Awaria podczas aktualizacji wszystkich elementów
+- Awaria systemu Android 7

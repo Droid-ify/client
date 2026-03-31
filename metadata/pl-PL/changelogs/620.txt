@@ -1,0 +1,10 @@
+Dodano:
+- Ignorowanie optymalizacji baterii
+
+Naprawiono:
+- Automatyczna synchronizacja
+- Zmiana rozmiaru zrzutu ekranu
+- Awaria na ekranie głównym (podziękowania dla @mosayeb-a)
+
+Zmieniono:
+- Powinno teraz obsługiwać powtarzalne kompilacje

@@ -1,0 +1,19 @@
+Ulepszenia instalatora:
+- Teraz można usuwać aplikacje z kolejki instalacji
+- Czyszczenie pamięci po użyciu instalatora
+
+Ulepszenia:
+- Dodano wstępną obsługę systemu Android 14
+- Dodano 11 nowych repozytoriów
+- Naciśnięcie przycisku Wstecz spowoduje wyczyszczenie kategorii przed zamknięciem
+- Szybsze ładowanie ikon/zrzutów ekranu
+- Szybszy wybór pliku do pobrania
+
+Poprawki:
+- Awaria w systemie Android 14
+- Powtarzające się ładowanie obrazów
+- Przycisk instalacji nie działa po drugim kliknięciu
+- Awarie podczas synchronizacji
+- Awarie związane z usługą systemową
+- Poprawiono wydajność ekranu szczegółów aplikacji
+- Poprawiono wydajność ekranu głównego
