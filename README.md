@@ -1,3 +1,10 @@
+> [!Warning]
+> **Free and Open-Source Android is under threat.**
+>
+> Google will turn Android into a locked-down platform, restricting your essential freedom to install apps of your choice. Make your voice heard
+>
+> [**Keep Android Open**](https://keepandroidopen.org/).
+
 <div align="center">
 
 <img width="" src="metadata/en-US/images/featureGraphic.png" alt="Droid-ify" align="center">
@@ -28,7 +35,7 @@
 ED:88:59:C5:5A:F3:11:16:26:58:B9:4A:F9:82:B9:F0:91:DC:D2:76:28:D4:DE:34:86:D1:21:7E:BF:3C:99:35
 ```
 
-> [!IMPORTANT]
+> [!Note]
 > Signature for older versions on F-Droid might be different
 
 **Build**: See [Building Guide](docs/building.md) for development setup

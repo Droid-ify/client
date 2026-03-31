@@ -6,9 +6,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Build
-import android.os.StrictMode
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
@@ -19,15 +16,17 @@ import coil3.SingletonImageLoader
 import coil3.asImage
 import coil3.disk.DiskCache
 import coil3.disk.directory
+import coil3.intercept.Interceptor
 import coil3.memory.MemoryCache
+import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.request.ImageResult
+import coil3.request.SuccessResult
 import coil3.request.crossfade
 import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.AutoSync
-import com.looker.droidify.datastore.model.ProxyPreference
-import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.network.Downloader
@@ -41,12 +40,10 @@ import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.getDrawableCompat
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
 import com.looker.droidify.utility.common.extension.jobScheduler
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
-import java.net.InetSocketAddress
-import java.net.Proxy
+import io.ktor.client.HttpClient
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.hours
@@ -74,12 +71,13 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     lateinit var downloader: Downloader
 
     @Inject
+    lateinit var httpClient: HttpClient
+
+    @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         super.onCreate()
-
-//        if (BuildConfig.DEBUG && SdkCheck.isOreo) strictThreadPolicy()
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
@@ -105,7 +103,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         if (installedItems != null) {
             Database.InstalledAdapter.putAll(installedItems)
         }
-        appScope.launch(Dispatchers.Default) {
+        appScope.launch {
             registerReceiver(
                 InstalledAppReceiver(packageManager),
                 IntentFilter().apply {
@@ -149,34 +147,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                     }
                 }
             }
-            launch {
-                settingsRepository.get { proxy }.collect(::updateProxy)
-            }
         }
-    }
-
-    private fun updateProxy(proxyPreference: ProxyPreference) {
-        val type = proxyPreference.type
-        val host = proxyPreference.host
-        val port = proxyPreference.port
-        val socketAddress = when (type) {
-            ProxyType.DIRECT -> null
-            ProxyType.HTTP, ProxyType.SOCKS -> {
-                try {
-                    InetSocketAddress.createUnresolved(host, port)
-                } catch (e: IllegalArgumentException) {
-                    log(e)
-                    null
-                }
-            }
-        }
-        val androidProxyType = when (type) {
-            ProxyType.DIRECT -> Proxy.Type.DIRECT
-            ProxyType.HTTP -> Proxy.Type.HTTP
-            ProxyType.SOCKS -> Proxy.Type.SOCKS
-        }
-        val determinedProxy = socketAddress?.let { Proxy(androidProxyType, it) } ?: Proxy.NO_PROXY
-        downloader.setProxy(determinedProxy)
     }
 
     private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
@@ -245,25 +216,24 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
             .diskCache(diskCache)
             .error(getDrawableCompat(R.drawable.ic_cannot_load).asImage())
             .crossfade(350)
+            .components {
+                add(KtorNetworkFetcherFactory(httpClient = { httpClient }))
+                add(FallbackIconInterceptor())
+            }
             .build()
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun strictThreadPolicy() {
-    StrictMode.setThreadPolicy(
-        StrictMode.ThreadPolicy.Builder()
-            .detectDiskReads()
-            .detectDiskWrites()
-            .detectNetwork()
-            .detectUnbufferedIo()
-            .penaltyLog()
-            .build(),
-    )
-    StrictMode.setVmPolicy(
-        StrictMode.VmPolicy.Builder()
-            .detectAll()
-            .penaltyLog()
-            .build(),
-    )
+private class FallbackIconInterceptor : Interceptor {
+    override suspend fun intercept(chain: Interceptor.Chain): ImageResult {
+        val request = chain.request
+        val result = chain.proceed()
+
+        if (result is SuccessResult) return result
+
+        val fallbackIconUrl = request.newBuilder()
+            .data((request.data as String).replaceAfterLast('/', "icon.png"))
+            .build()
+        return chain.withRequest(fallbackIconUrl).proceed()
+    }
 }

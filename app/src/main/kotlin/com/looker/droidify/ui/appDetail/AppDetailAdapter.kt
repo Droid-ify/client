@@ -31,6 +31,7 @@ import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
+import androidx.core.util.TypedValueCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -154,9 +155,9 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     private enum class SectionType(
         val titleResId: Int,
-        val colorAttrResId: Int = MaterialR.attr.colorPrimary,
+        val colorAttrResId: Int = android.R.attr.colorPrimary,
     ) {
-        ANTI_FEATURES(stringRes.anti_features, MaterialR.attr.colorError),
+        ANTI_FEATURES(stringRes.anti_features, R.attr.colorError),
         CHANGES(stringRes.changes),
         LINKS(stringRes.links),
         DONATE(stringRes.donate),
@@ -445,10 +446,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     private class InstallButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val button = itemView.findViewById<MaterialButton>(R.id.action)!!
+        val incompatibleText = itemView.findViewById<TextView>(R.id.incompatible_text)!!
 
-        val actionTintNormal = button.context.getColorFromAttr(MaterialR.attr.colorPrimary)
+        val actionTintNormal = button.context.getColorFromAttr(android.R.attr.colorPrimary)
         val actionTintOnNormal = button.context.getColorFromAttr(MaterialR.attr.colorOnPrimary)
-        val actionTintCancel = button.context.getColorFromAttr(MaterialR.attr.colorError)
+        val actionTintCancel = button.context.getColorFromAttr(R.attr.colorError)
         val actionTintOnCancel = button.context.getColorFromAttr(MaterialR.attr.colorOnError)
         val actionTintDisabled = button.context.getColorFromAttr(MaterialR.attr.colorOutline)
         val actionTintOnDisabled = button.context.getColorFromAttr(android.R.attr.colorBackground)
@@ -482,6 +484,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     private class SectionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title = itemView.findViewById<TextView>(R.id.title)!!
         val icon = itemView.findViewById<ShapeableImageView>(R.id.icon)!!
+        val helpIcon = itemView.findViewById<ShapeableImageView>(R.id.help_icon)!!
     }
 
     private class ExpandViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -617,7 +620,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 with(title) {
                     gravity = Gravity.CENTER
                     typeface = TypefaceExtra.medium
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+                    setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
                     setTextSizeScaled(20)
                     setText(stringRes.application_not_found)
                     setPadding(0, 12.dp, 0, 12.dp)
@@ -656,7 +659,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 with(repoTitle) {
                     gravity = Gravity.CENTER
                     typeface = TypefaceExtra.medium
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
+                    setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
                     setTextSizeScaled(20)
                     setPadding(0, 0, 0, 12.dp)
                 }
@@ -672,8 +675,8 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     icon = context.open
                     setText(stringRes.add_repository)
                     setBackgroundColor(context.getColor(android.R.color.transparent))
-                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorPrimary))
-                    iconTint = context.getColorFromAttr(MaterialR.attr.colorPrimary)
+                    setTextColor(context.getColorFromAttr(android.R.attr.colorPrimary))
+                    iconTint = context.getColorFromAttr(android.R.attr.colorPrimary)
                 }
                 addView(
                     title,
@@ -1119,6 +1122,15 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             field = value
         }
 
+    var incompatibilityReason: CharSequence? = null
+        set(value) {
+            if (field != value) {
+                field = value
+                val index = items.indexOf(Item.InstallButtonItem)
+                if (index > 0) notifyItemChanged(index)
+            }
+        }
+
     var status: Status = Status.Idle
         set(value) {
             if (field != value) {
@@ -1436,6 +1448,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
             ViewType.INSTALL_BUTTON -> {
                 holder as InstallButtonViewHolder
                 item as Item.InstallButtonItem
+
+                holder.incompatibleText.isVisible = incompatibilityReason != null
+                holder.incompatibleText.text = incompatibilityReason ?: ""
+
                 val action = action
                 holder.button.apply {
                     isEnabled = action != null
@@ -1546,14 +1562,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as SectionViewHolder
                 item as Item.SectionItem
 
-                if (item.sectionType == SectionType.VERSIONS) {
-                    holder.icon.load(R.drawable.ic_question_mark)
-                    TooltipCompat.setTooltipText(
-                        holder.icon,
-                        context.getString(R.string.rb_badge_info)
-                    )
-                }
-
                 val expandable = item.items.isNotEmpty() || item.collapseCount > 0
                 holder.itemView.isEnabled = expandable
                 holder.itemView.let {
@@ -1567,7 +1575,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 val color = context.getColorFromAttr(item.sectionType.colorAttrResId)
                 holder.title.setTextColor(color)
                 holder.title.text = context.getString(item.sectionType.titleResId)
-                holder.icon.isVisible = expandable || item.sectionType == SectionType.VERSIONS
+
+                if (item.sectionType == SectionType.VERSIONS) {
+                    holder.helpIcon.isVisible = true
+                    holder.helpIcon.imageTintList = color
+
+                    TooltipCompat.setTooltipText(
+                        holder.helpIcon,
+                        context.getString(R.string.rb_badge_info)
+                    )
+                } else {
+                    holder.helpIcon.isVisible = false
+                    holder.helpIcon.setOnClickListener(null)
+                }
+
+                holder.icon.isVisible = expandable
                 holder.icon.scaleY = if (item.collapseCount > 0) -1f else 1f
                 holder.icon.imageTintList = color
             }

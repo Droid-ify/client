@@ -46,10 +46,11 @@ internal fun IndexV1.toV2(): IndexV2 {
             versions = versions?.associate { packageV1 ->
                 packageV1.hash to packageV1.toVersionV2(
                     whatsNew = whatsNew,
-                    packageAntiFeatures = app.antiFeatures + (packageV1.antiFeatures ?: emptyList())
+                    packageAntiFeatures = app.antiFeatures + (packageV1.antiFeatures
+                        ?: emptyList()),
                 )
             } ?: emptyMap(),
-            metadata = app.toV2(preferredSigner)
+            metadata = app.toV2(preferredSigner),
         )
         packagesV2.putIfAbsent(app.packageName, packageV2)
     }
@@ -57,7 +58,7 @@ internal fun IndexV1.toV2(): IndexV2 {
     return IndexV2(
         repo = repo.toRepoV2(
             categories = categories,
-            antiFeatures = antiFeatures
+            antiFeatures = antiFeatures,
         ),
         packages = packagesV2,
     )
@@ -108,7 +109,6 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     changelog = changelog,
     donate = if (donate != null) listOf(donate) else emptyList(),
     featureGraphic = localized?.localizedIcon(packageName) { it.featureGraphic },
-    flattrID = flattrID,
     issueTracker = issueTracker,
     liberapay = liberapay,
     license = license,
@@ -176,7 +176,7 @@ private fun PackageV1.toVersionV2(
         usesPermission = usesPermission.map { PermissionV2(it.name, it.maxSdk) },
         usesPermissionSdk23 = usesPermission23.map { PermissionV2(it.name, it.maxSdk) },
         features = features?.map { FeatureV2(it) } ?: emptyList(),
-        nativecode = nativeCode ?: emptyList()
+        nativecode = nativeCode ?: emptyList(),
     ),
 )
 
@@ -240,7 +240,7 @@ private inline fun Map<String, Localized>.localizedScreenshots(
 }
 
 private inline fun <K, V, M> Map<K, V>.mapValuesNotNull(
-    block: (Map.Entry<K, V>) -> M?
+    block: (Map.Entry<K, V>) -> M?,
 ): Map<K, M> {
     val map = HashMap<K, M>()
     forEach { entry ->

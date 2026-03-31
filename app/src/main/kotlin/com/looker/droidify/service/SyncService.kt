@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.model.ProductItem
@@ -51,6 +52,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
@@ -129,7 +131,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val state: SharedFlow<State>
             get() = syncState.asSharedFlow()
 
-        private fun sync(ids: List<Long>, request: SyncRequest) {
+        private fun sync(ids: List<Long>, request: SyncRequest, settings: Settings) {
             val cancelledTask =
                 cancelCurrentTask { request == SyncRequest.FORCE && it.task?.repositoryId in ids }
             cancelTasks { !it.manual && it.repositoryId in ids }
@@ -139,7 +141,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 it !in currentIds &&
                         it != currentTask?.task?.repositoryId
             }.map { Task(it, manual) }
-            handleNextTask(cancelledTask?.hasUpdates == true)
+            handleNextTask(cancelledTask?.hasUpdates == true, settings)
             if (request != SyncRequest.AUTO && started == Started.AUTO) {
                 started = Started.MANUAL
                 startServiceCompat()
@@ -149,19 +151,21 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         fun sync(request: SyncRequest) {
-            RBLogWorker.fetchRBLogs(applicationContext)
-            DownloadStatsWorker.fetchDownloadStats(applicationContext)
+            val settings = runBlocking { settingsRepository.getInitial() }
+            if (settings.rbLogsEnabled) RBLogWorker.fetchRBLogs(applicationContext)
+            if (settings.dlStatsEnabled) DownloadStatsWorker.fetchDownloadStats(applicationContext)
 
             val ids = Database.RepositoryAdapter.getAll()
                 .filter { it.enabled }
                 .map { it.id }
 
-            sync(ids, request)
+            sync(ids, request, settings)
         }
 
         fun sync(repository: Repository) {
+            val settings = runBlocking { settingsRepository.getInitial() }
             if (repository.enabled) {
-                sync(listOf(repository.id), SyncRequest.FORCE)
+                sync(listOf(repository.id), SyncRequest.FORCE, settings)
             }
         }
 
@@ -180,19 +184,20 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
         fun setEnabled(repository: Repository, enabled: Boolean): Boolean {
             Database.RepositoryAdapter.put(repository.enable(enabled))
+            val settings = runBlocking { settingsRepository.getInitial() }
             if (enabled) {
                 val isRepoInTasks = repository.id != currentTask?.task?.repositoryId &&
                         !tasks.any { it.repositoryId == repository.id }
                 if (isRepoInTasks) {
                     tasks += Task(repository.id, true)
-                    handleNextTask(false)
+                    handleNextTask(false, settings)
                 }
             } else {
                 cancelTasks { it.repositoryId == repository.id }
                 val cancelledTask = cancelCurrentTask {
                     it.task?.repositoryId == repository.id
                 }
-                handleNextTask(cancelledTask?.hasUpdates == true)
+                handleNextTask(cancelledTask?.hasUpdates == true, settings)
             }
             return true
         }
@@ -211,9 +216,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         fun cancelAuto(): Boolean {
+            val settings = runBlocking { settingsRepository.getInitial() }
             val removed = cancelTasks { !it.manual }
             val currentTask = cancelCurrentTask { it.task?.manual == false }
-            handleNextTask(currentTask?.hasUpdates == true)
+            handleNextTask(currentTask?.hasUpdates == true, settings)
             return removed || currentTask != null
         }
     }
@@ -258,12 +264,23 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        val settings = runBlocking { settingsRepository.getInitial() }
         if (intent?.action == ACTION_CANCEL) {
             tasks.clear()
             val cancelledTask = cancelCurrentTask { it.task != null }
-            handleNextTask(cancelledTask?.hasUpdates == true)
+            handleNextTask(cancelledTask?.hasUpdates == true, settings)
+            stopSelf()
+        } else {
+            startForeground(
+                Constants.NOTIFICATION_ID_SYNCING,
+                stateNotificationBuilder
+                    .setContentTitle(getString(stringRes.syncing_FORMAT, ""))
+                    .setContentText(getString(stringRes.connecting))
+                    .setProgress(0, 0, true)
+                    .build(),
+            )
         }
-        return START_NOT_STICKY
+        return super.onStartCommand(intent, flags, startId)
     }
 
     private fun cancelTasks(condition: (Task) -> Boolean): Boolean {
@@ -450,24 +467,19 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         stateNotificationBuilder.setWhen(System.currentTimeMillis())
     }
 
-    private fun handleNextTask(isIndexModified: Boolean) {
+    private fun handleNextTask(isIndexModified: Boolean, settings: Settings) {
         if (currentTask != null) return
         if (tasks.isEmpty()) {
             if (started != Started.NO) {
                 lifecycleScope.launch {
-                    val setting = settingsRepository.getInitial()
-                    handleUpdates(
-                        notifyUpdates = setting.notifyUpdate,
-                        autoUpdate = setting.autoUpdate,
-                        skipSignature = setting.ignoreSignature,
-                    )
+                    handleUpdates(settings)
                 }
             }
             return
         }
         val task = tasks.removeAt(0)
         val repository = Database.RepositoryAdapter.get(task.repositoryId)
-        if (repository == null || !repository.enabled) handleNextTask(isIndexModified)
+        if (repository == null || !repository.enabled) handleNextTask(isIndexModified, settings)
         val lastStarted = started
         val newStarted = if (task.manual || lastStarted == Started.MANUAL) {
             Started.MANUAL
@@ -482,13 +494,11 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         val initialState = State.Connecting(repository!!.name)
         publishForegroundState(true, initialState)
         lifecycleScope.launch {
-            val unstableUpdates =
-                settingsRepository.getInitial().unstableUpdate
             val downloadJob = downloadFile(
                 task = task,
                 repository = repository,
                 isIndexModified = isIndexModified,
-                unstableUpdates = unstableUpdates,
+                settings = settings
             )
             currentTask = CurrentTask(task, downloadJob, isIndexModified, initialState)
         }
@@ -498,14 +508,14 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         task: Task,
         repository: Repository,
         isIndexModified: Boolean,
-        unstableUpdates: Boolean,
+        settings: Settings,
     ): CoroutinesJob = launch(Dispatchers.Default) {
         var isNewlyModified = isIndexModified
         try {
             val response = RepositoryUpdater.update(
                 this@SyncService,
                 repository,
-                unstableUpdates,
+                settings.unstableUpdate,
             ) { stage, progress, total ->
                 launch {
                     syncState.emit(
@@ -532,28 +542,24 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }
-                handleNextTask(isNewlyModified)
+                handleNextTask(isNewlyModified, settings)
             }
         }
     }
 
-    suspend fun handleUpdates(
-        notifyUpdates: Boolean,
-        autoUpdate: Boolean,
-        skipSignature: Boolean,
-    ) {
+    suspend fun handleUpdates(settings: Settings) {
         try {
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
-            val updates = Database.ProductAdapter.getUpdates(skipSignature)
+            val updates = Database.ProductAdapter.getUpdates(settings.ignoreSignature)
 
             if (!blocked && updates.isNotEmpty()) {
-                if (notifyUpdates) {
+                if (settings.notifyUpdate) {
                     notificationManager?.notify(
                         Constants.NOTIFICATION_ID_UPDATES,
                         updatesAvailableNotification(this, updates),
                     )
                 }
-                if (autoUpdate) {
+                if (settings.autoUpdate) {
                     autoUpdating = true
                     autoUpdateStartedFor = updates.map { it.packageName }
                     updateAllAppsInternal(updates)
@@ -567,7 +573,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }
-                handleNextTask(false)
+                handleNextTask(false, settings)
             }
         }
     }

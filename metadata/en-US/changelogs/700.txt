@@ -1,0 +1,12 @@
+New:
+- BREAKING: SHA256 signature verification
+- Custom Actions
+- Copy error details on sync failure
+- Delete APK after install toggle
+
+Fixed:
+- Stuck "Installing" state & Shizuku installer logic
+- Various crashes
++ more
+
+Full changelog: https://github.com/Droid-ify/client/releases/latest

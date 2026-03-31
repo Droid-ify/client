@@ -3,15 +3,12 @@ package com.looker.droidify.network
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import java.io.File
-import java.net.Proxy
 
 interface Downloader {
 
-    fun setProxy(proxy: Proxy)
-
     suspend fun headCall(
         url: String,
-        headers: HeadersBuilder.() -> Unit = {}
+        headers: HeadersBuilder.() -> Unit = {},
     ): NetworkResponse
 
     suspend fun downloadToFile(
@@ -19,7 +16,7 @@ interface Downloader {
         target: File,
         validator: FileValidator? = null,
         headers: HeadersBuilder.() -> Unit = {},
-        block: ProgressListener? = null
+        block: ProgressListener? = null,
     ): NetworkResponse
 }
 

@@ -29,4 +29,7 @@ interface DownloadStatsDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun insert(stats: List<DownloadStats>)
+
+    @Query("DELETE FROM download_stats")
+    suspend fun deleteAll()
 }

@@ -2,6 +2,10 @@ name: Build Release APK
 
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag (e.g. v1.0.0)'
+        required: true
   push:
     tags:
       - '*'
@@ -20,19 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: gradle/actions/setup-gradle@v4
-      - uses: actions/setup-java@v4
-        with:
-          java-version: 17
-          distribution: 'adopt'
-
-      - name: Grant execution permission to Gradle Wrapper
-        run: chmod +x gradlew
 
       - name: Build Release APK
         run: ./gradlew assembleRelease
-
-      - name: Checks
-        run: find . -type f -name "*.apk"
 
       - uses: r0adkll/sign-android-release@v1
         name: Signing APK
@@ -46,42 +40,19 @@ jobs:
         env:
           BUILD_TOOLS_VERSION: "36.0.0"
 
-      - name: Extract Version Code
-        id: extract_version
-        run: |
-          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
-          echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-          echo "Version Code: $VERSION_CODE"
-
-      - name: Read Changelog
-        id: read_changelog
-        run: |
-          CHANGELOG_PATH="metadata/en-US/changelogs/${{ steps.extract_version.outputs.version_code }}.txt"
-          if [[ -f "$CHANGELOG_PATH" ]]; then
-            {
-              echo 'changelog<<EOF'
-              cat "$CHANGELOG_PATH"
-              echo 'EOF'
-            } >> $GITHUB_OUTPUT
-          else
-            echo "changelog=" >> $GITHUB_OUTPUT
-            echo "No changelog found at: $CHANGELOG_PATH"
-          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
       - uses: softprops/action-gh-release@v2
         name: Create Release
         id: publish_release
         with:
-          tag_name: ${{ github.ref }}
-          name: Release ${{ github.ref }}
-          body: ${{ steps.read_changelog.outputs.changelog }}
+          tag_name: ${{ github.event.inputs.tag || github.ref_name }}
+          name: Release ${{ github.event.inputs.tag || github.ref_name }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
           generate_release_notes: true
           make_latest: true
           prerelease: false
           draft: true
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: release
-          path: ${{steps.sign_app.outputs.signedReleaseFile}}

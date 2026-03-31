@@ -1,18 +1,12 @@
 package com.looker.droidify.network
 
-import com.looker.droidify.BuildConfig
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.header.KtorHeadersBuilder
 import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.network.validation.ValidationException
 import io.ktor.client.HttpClient
-import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.UserAgent
 import io.ktor.client.plugins.onDownload
 import io.ktor.client.request.head
 import io.ktor.client.request.headers
@@ -29,26 +23,15 @@ import io.ktor.utils.io.jvm.javaio.copyTo
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.net.Proxy
 import kotlin.coroutines.cancellation.CancellationException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
 
 internal class KtorDownloader(
-    httpClientEngine: HttpClientEngine,
+    private val client: HttpClient,
     private val dispatcher: CoroutineDispatcher,
 ) : Downloader {
-
-    private var client = client(httpClientEngine)
-        set(newClient) {
-            field.close()
-            field = newClient
-        }
-
-    override fun setProxy(proxy: Proxy) {
-        client = client(OkHttp.create { this.proxy = proxy })
-    }
 
     override suspend fun headCall(
         url: String,
@@ -65,8 +48,9 @@ internal class KtorDownloader(
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?,
     ): NetworkResponse = withContext(dispatcher) {
-        val output = FileOutputStream(target, true)
+        var output: FileOutputStream? = null
         try {
+            output = FileOutputStream(target, true)
             val fileSize = target.length()
             val request = request(
                 url = url,
@@ -101,17 +85,10 @@ internal class KtorDownloader(
             NetworkResponse.Error.Unknown(e)
         } finally {
             withContext(NonCancellable) {
-                output.close()
-                output.flush()
+                output?.close()
+                output?.flush()
             }
         }
-    }
-
-    private fun client(
-        engine: HttpClientEngine = OkHttp.create(),
-    ) = HttpClient(engine) {
-        userAgentConfig()
-        timeoutConfig()
     }
 
     private fun request(
@@ -131,19 +108,6 @@ internal class KtorDownloader(
             }
         }
     }
-}
-
-private const val CONNECTION_TIMEOUT = 30_000L
-private const val SOCKET_TIMEOUT = 15_000L
-private const val USER_AGENT = "Droid-ify/${BuildConfig.VERSION_NAME}-${BuildConfig.BUILD_TYPE}"
-
-private fun HttpClientConfig<*>.userAgentConfig() = install(UserAgent) {
-    agent = USER_AGENT
-}
-
-private fun HttpClientConfig<*>.timeoutConfig() = install(HttpTimeout) {
-    connectTimeoutMillis = CONNECTION_TIMEOUT
-    socketTimeoutMillis = SOCKET_TIMEOUT
 }
 
 private fun HttpResponse.asNetworkResponse(): NetworkResponse =

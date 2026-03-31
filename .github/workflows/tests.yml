@@ -1,0 +1,23 @@
+name: Unit tests
+
+on:
+  push:
+    branches: [ "main" ]
+    paths-ignore:
+      - '**.md'
+      - '**.yml'
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Unit tests
+        run: ./gradlew :app:testDebugUnitTest --daemon
+        env:
+          GRADLE_OPTS: "-Xmx3g -Xms256m -XX:MaxMetaspaceSize=512m"

@@ -30,12 +30,6 @@ import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class AppListFragment() : Fragment(), CursorOwner.Callback {
-
-    private val viewModel: AppListViewModel by viewModels()
-
-    private var _binding: RecyclerViewWithFabBinding? = null
-    private val binding get() = _binding!!
-
     companion object {
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
 
@@ -53,37 +47,40 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         UPDATES(stringRes.updates, false, true)
     }
 
-    constructor(source: Source, searchQuery: String?) : this() {
+    constructor(source: Source) : this() {
         arguments = Bundle().apply {
             putString(EXTRA_SOURCE, source.name)
-            if (searchQuery != null) putString(EXTRA_SEARCH_QUERY, searchQuery)
         }
     }
 
-    lateinit var source: Source
+    val source by lazy { Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!) }
+
+    private val viewModel: AppListViewModel by viewModels()
+
+    private var _binding: RecyclerViewWithFabBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var appListAdapter: AppListAdapter
     private var scroller: Scroller? = null
     private var shortAnimationDuration: Int = 0
     private var layoutManagerState: Parcelable? = null
 
+    private var searchQuery: String = ""
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        source = Source.valueOf(requireArguments().getString(EXTRA_SOURCE)!!)
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
 
         shortAnimationDuration = resources.getInteger(android.R.integer.config_shortAnimTime)
 
+        searchQuery = savedInstanceState?.getString(EXTRA_SEARCH_QUERY).orEmpty()
+
         val viewModel = viewModel
         viewModel.syncConnection.bind(requireContext())
-
-        val savedSearchQuery = savedInstanceState?.getString(EXTRA_SEARCH_QUERY)
-        if (savedSearchQuery != null) {
-            viewModel.setSearchQuery(savedSearchQuery)
-        }
 
         recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -141,7 +138,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
         mainActivity.cursorOwner.attach(
             callback = this,
-            request = viewModel.state.value.toRequest(source),
+            request = viewModel.state.value.toRequest(source, searchQuery),
         )
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -154,7 +151,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
                     viewModel.state.collect {
                         mainActivity.cursorOwner.attach(
                             callback = this@AppListFragment,
-                            request = it.toRequest(source),
+                            request = it.toRequest(source, searchQuery),
                         )
                     }
                 }
@@ -164,8 +161,11 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        (layoutManagerState ?: recyclerView.layoutManager?.onSaveInstanceState())
-            ?.let { outState.putParcelable(STATE_LAYOUT_MANAGER, it) }
+        val managerState = layoutManagerState ?: recyclerView.layoutManager?.onSaveInstanceState()
+        if (managerState != null) {
+            outState.putParcelable(STATE_LAYOUT_MANAGER, managerState)
+        }
+        outState.putString(EXTRA_SEARCH_QUERY, searchQuery)
     }
 
     override fun onDestroyView() {
@@ -180,7 +180,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         appListAdapter.cursor = cursor
         appListAdapter.emptyText = when {
             cursor == null -> ""
-            viewModel.searchQuery.value.isNotEmpty() -> {
+            searchQuery.isNotEmpty() -> {
                 getString(stringRes.no_matching_applications_found)
             }
 
@@ -196,9 +196,13 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
     }
 
-    fun setSearchQuery(searchQuery: String) {
+    fun setSearchQuery(newSearchQuery: String) {
         if (view != null) {
-            viewModel.setSearchQuery(searchQuery)
+            searchQuery = newSearchQuery
+            mainActivity.cursorOwner.attach(
+                callback = this,
+                request = viewModel.state.value.toRequest(source, searchQuery),
+            )
         }
     }
 

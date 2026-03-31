@@ -174,6 +174,7 @@
     <string name="promotes_non_free_software">Promotes non-free add-ons</string>
     <string name="provided_by_FORMAT">Provided by %s</string>
     <string name="proxy">Proxy</string>
+    <string name="proxy_restart_required">Restart required for changes to take effect.</string>
     <string name="proxy_host">Proxy host</string>
     <string name="proxy_port">Proxy port</string>
     <string name="proxy_port_error_not_int">The proxy port can only be an integer</string>
@@ -242,8 +243,8 @@
     <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
-    <string name="waiting_to_start_download">Waiting to start download…</string>
-    <string name="waiting_to_start_installation">Waiting to start installation…</string>
+    <string name="waiting_to_start_download">Download queued…</string>
+    <string name="waiting_to_start_installation">Installation queued…</string>
     <string name="whats_new">What\'s new</string>
     <string name="website">Project website</string>
     <string name="prefs_language_title">Language</string>
@@ -268,6 +269,9 @@
     <string name="monthly">Monthly</string>
     <string name="downloading_rb_logs">Downloading reproducibility logs</string>
     <string name="downloading_download_stats">Downloading download stats</string>
+    <string name="download_statistics_summary">Fetch and display monthly download counts from IzzyOnDroid. Disabling clears existing download stats.</string>
+    <string name="reproducibility_logs">Reproducibility Logs</string>
+    <string name="reproducibility_logs_summary">Fetch and display reproducible build verification logs from IzzyOnDroid. Disabling clears existing reproducibility logs.</string>
 
     <string name="custom_buttons">Custom buttons</string>
     <string name="custom_buttons_description">Add quick links to external services in app details</string>

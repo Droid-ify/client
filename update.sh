@@ -43,24 +43,24 @@ version_code="$((major * 1000 + minor * 100 + release * 10 + patch))"
 # Generate version name
 if [ -z "$patch" ]; then
   version_name="$major.$minor.$release"
-  changelog_file="$changelog_directory/$version_code"
-  git_tag="v$version"
 else
   if [ "$patch" -eq 0 ]; then
     version_name="$major.$minor.$release"
   else
     version_name="$major.$minor.$release Patch $patch"
   fi
-  changelog_file="$changelog_directory/$version_code.txt"
-  git_tag="v$version"
 fi
+changelog_file="$changelog_directory/$version_code.txt"
+git_tag="v$version"
 
 # Update the Kotlin file with new version code and name
+sed -i "s/versionCode = [0-9]*/versionCode = $version_code/" "$kotlin_file"
 sed -i "s/val latestVersionName = \"[^\"]*\"/val latestVersionName = \"$version_name\"/" "$kotlin_file"
 
 # Create a changelog file
 mkdir -p "$changelog_directory"
-touch "$changelog_file"
+git log "$(git describe --tags --abbrev=0)"..HEAD --format="%s: %an" | sed "s/: LooKeR//" >> $changelog_file
+echo "Full changelog: https://github.com/Droid-ify/client/releases/tag/$git_tag" >> $changelog_file
 
 echo "Version Code: $version_code"
 echo "Version Name: $version_name"

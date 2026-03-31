@@ -20,4 +20,7 @@ interface RBLogDao {
 
     @Query("SELECT * FROM rblog WHERE packageName = :packageName")
     fun getFlow(packageName: String): Flow<List<RBLogEntity>>
+
+    @Query("DELETE FROM rblog")
+    suspend fun deleteAll()
 }

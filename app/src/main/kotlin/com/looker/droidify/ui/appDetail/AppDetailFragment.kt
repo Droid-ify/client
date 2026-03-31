@@ -45,9 +45,12 @@ import com.looker.droidify.utility.common.extension.getLauncherActivities
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.isSystemApplication
+import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.common.extension.updateAsMutable
 import com.looker.droidify.utility.common.shareUrl
+import com.looker.droidify.utility.extension.android.Android.name
+import com.looker.droidify.utility.extension.android.Android.primaryPlatform
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
 import com.stfalcon.imageviewer.StfalconImageViewer
@@ -244,10 +247,49 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         val canInstall = product != null && installed == null && compatible
         val canUpdate =
             product != null && compatible && product.canUpdate(installed?.installedItem) &&
-                    !preference.shouldIgnoreUpdate(product.versionCode)
+                !preference.shouldIgnoreUpdate(product.versionCode)
         val canUninstall = product != null && installed != null && !installed.isSystem
         val canLaunch =
             product != null && installed != null && installed.launcherActivities.isNotEmpty()
+
+        val incompatibilityReason = if (product != null) {
+            val selectedRelease = product.selectedReleases.firstOrNull()
+            val incompatibility = selectedRelease?.incompatibilities?.firstOrNull()
+            val installedItem = installed?.installedItem
+
+            when {
+                incompatibility != null -> {
+                    when (incompatibility) {
+                        is Release.Incompatibility.MinSdk,
+                        is Release.Incompatibility.MaxSdk,
+                            -> getString(
+                            stringRes.incompatible_with_FORMAT,
+                            name
+                        )
+
+                        is Release.Incompatibility.Platform -> getString(
+                            stringRes.incompatible_with_FORMAT,
+                            primaryPlatform ?: getString(stringRes.unknown)
+                        )
+
+                        is Release.Incompatibility.Feature -> getString(
+                            stringRes.requires_FORMAT,
+                            incompatibility.feature
+                        )
+                    }
+                }
+
+                installedItem != null && selectedRelease != null && installedItem.signature != selectedRelease.signature -> {
+                    getString(stringRes.incompatible_signature_DESC)
+                }
+
+                else -> null
+            }
+        } else {
+            null
+        }
+
+        (recyclerView?.adapter as? AppDetailAdapter)?.incompatibilityReason = incompatibilityReason
 
         val actions = buildSet {
             if (canInstall) add(Action.INSTALL)
@@ -435,7 +477,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
             AppDetailAdapter.Action.SOURCE -> {
                 val link = products[0].first.source
-                startActivity(Intent(Intent.ACTION_VIEW, link.toUri()))
+                context?.openLink(link)
             }
         }
     }
@@ -445,11 +487,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onCustomButtonClick(url: String) {
-        try {
-            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
-        } catch (e: ActivityNotFoundException) {
-            e.printStackTrace()
-        }
+        context?.openLink(url)
     }
 
     private fun startLauncherActivity(name: String) {
@@ -536,10 +574,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun queueReleaseInstall(release: Release, installedItem: InstalledItem?) {
-        val productRepository =
-            products.asSequence().filter { (product, _) ->
-                product.releases.any { it === release }
-            }.firstOrNull()
+        val productRepository = products.firstOrNull { (product, _) ->
+            product.releases.any { it == release }
+        }
         if (productRepository != null) {
             downloadConnection.binder?.enqueue(
                 viewModel.packageName,
