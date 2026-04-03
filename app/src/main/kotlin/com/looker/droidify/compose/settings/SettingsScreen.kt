@@ -16,7 +16,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
@@ -30,6 +32,7 @@ import com.looker.droidify.compose.settings.SettingsViewModel.Companion.cleanUpI
 import com.looker.droidify.compose.settings.SettingsViewModel.Companion.localeCodesList
 import com.looker.droidify.compose.settings.components.ActionSettingItem
 import com.looker.droidify.compose.settings.components.CustomButtonsSettingItem
+import com.looker.droidify.compose.settings.components.ImportExportDialog
 import com.looker.droidify.compose.settings.components.SelectionSettingItem
 import com.looker.droidify.compose.settings.components.SettingHeader
 import com.looker.droidify.compose.settings.components.SwitchSettingItem
@@ -68,33 +71,56 @@ fun SettingsScreen(
     val customButtons by viewModel.customButtons.collectAsStateWithLifecycle()
     val isBackgroundAllowed by viewModel.isBackgroundAllowed.collectAsStateWithLifecycle()
 
+    var showImportDialog by remember { mutableStateOf(false) }
+    var showExportDialog by remember { mutableStateOf(false) }
+    var importOptions by remember { mutableStateOf(ImportExportOptions()) }
+    var exportOptions by remember { mutableStateOf(ImportExportOptions()) }
+    var pendingExportOptions by remember { mutableStateOf<ImportExportOptions?>(null) }
+    var pendingImportOptions by remember { mutableStateOf<ImportExportOptions?>(null) }
+
     LaunchedEffect(Unit) {
         viewModel.updateBackgroundAccessState(context.isIgnoreBatteryEnabled())
-    }
-
-    val exportSettingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
-    ) { uri -> uri?.let { viewModel.exportSettings(it) } }
-
-    val importSettingsLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.OpenDocument(),
-    ) { uri ->
-        if (uri != null) {
-            viewModel.importSettings(uri)
-        } else {
-            viewModel.showSnackbar(R.string.file_format_error_DESC)
-        }
     }
 
     val exportReposLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
     ) { uri -> uri?.let { viewModel.exportRepos(it) } }
 
+    val exportSettingsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument(BACKUP_MIME_TYPE),
+    ) { uri ->
+        if (uri != null) {
+            viewModel.exportSettings(uri)
+            pendingExportOptions?.let { options ->
+                if (options.repositories) {
+                    exportReposLauncher.launch(REPO_BACKUP_NAME)
+                }
+                pendingExportOptions = null
+            }
+        }
+    }
+
     val importReposLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument(),
     ) { uri ->
         if (uri != null) {
             viewModel.importRepos(uri)
+        } else {
+            viewModel.showSnackbar(R.string.file_format_error_DESC)
+        }
+    }
+
+    val importSettingsLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument(),
+    ) { uri ->
+        if (uri != null) {
+            viewModel.importSettings(uri)
+            pendingImportOptions?.let { options ->
+                if (options.repositories) {
+                    importReposLauncher.launch(arrayOf(BACKUP_MIME_TYPE))
+                }
+                pendingImportOptions = null
+            }
         } else {
             viewModel.showSnackbar(R.string.file_format_error_DESC)
         }
@@ -328,33 +354,17 @@ fun SettingsScreen(
 
             item {
                 ActionSettingItem(
-                    title = stringResource(R.string.import_settings_title),
-                    description = stringResource(R.string.import_settings_DESC),
-                    onClick = { importSettingsLauncher.launch(arrayOf(BACKUP_MIME_TYPE)) },
+                    title = stringResource(R.string.import_data_title),
+                    description = stringResource(R.string.import_data_DESC),
+                    onClick = { showImportDialog = true },
                 )
             }
 
             item {
                 ActionSettingItem(
-                    title = stringResource(R.string.export_settings_title),
-                    description = stringResource(R.string.export_settings_DESC),
-                    onClick = { exportSettingsLauncher.launch(SETTINGS_BACKUP_NAME) },
-                )
-            }
-
-            item {
-                ActionSettingItem(
-                    title = stringResource(R.string.import_repos_title),
-                    description = stringResource(R.string.import_repos_DESC),
-                    onClick = { importReposLauncher.launch(arrayOf(BACKUP_MIME_TYPE)) },
-                )
-            }
-
-            item {
-                ActionSettingItem(
-                    title = stringResource(R.string.export_repos_title),
-                    description = stringResource(R.string.export_repos_DESC),
-                    onClick = { exportReposLauncher.launch(REPO_BACKUP_NAME) },
+                    title = stringResource(R.string.export_data_title),
+                    description = stringResource(R.string.export_data_DESC),
+                    onClick = { showExportDialog = true },
                 )
             }
 
@@ -389,6 +399,34 @@ fun SettingsScreen(
                 )
             }
         }
+    }
+
+    if (showImportDialog) {
+        ImportExportDialog(
+            options = importOptions,
+            onOptionsChange = { importOptions = it },
+            onConfirm = {
+                showImportDialog = false
+                pendingImportOptions = importOptions
+                importSettingsLauncher.launch(arrayOf(BACKUP_MIME_TYPE))
+            },
+            onDismiss = { showImportDialog = false },
+            isImport = true,
+        )
+    }
+
+    if (showExportDialog) {
+        ImportExportDialog(
+            options = exportOptions,
+            onOptionsChange = { exportOptions = it },
+            onConfirm = {
+                showExportDialog = false
+                pendingExportOptions = exportOptions
+                exportSettingsLauncher.launch(SETTINGS_BACKUP_NAME)
+            },
+            onDismiss = { showExportDialog = false },
+            isImport = false,
+        )
     }
 }
 
