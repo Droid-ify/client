@@ -16,14 +16,15 @@ import kotlin.coroutines.resume
 private const val SHIZUKU_PERMISSION_REQUEST_CODE = 87263
 
 fun launchShizuku(context: Context) {
-    val activities =
-        context.packageManager.getLauncherActivities(ShizukuProvider.MANAGER_APPLICATION_ID)
+    val packageName = context.shizukuPackageName()
+        ?: ShizukuProvider.MANAGER_APPLICATION_ID
+    val activities = context.packageManager.getLauncherActivities(packageName)
     if (activities.isEmpty()) return
     val intent = intent(Intent.ACTION_MAIN) {
         addCategory(Intent.CATEGORY_LAUNCHER)
         setComponent(
             ComponentName(
-                ShizukuProvider.MANAGER_APPLICATION_ID,
+                packageName,
                 activities.first().first,
             ),
         )
@@ -36,8 +37,16 @@ fun initSui(context: Context) = Sui.init(context.packageName)
 
 fun isSuiAvailable() = Sui.isSui()
 
+private fun Context.shizukuPermissionInfo() =
+    runCatching {
+        packageManager.getPermissionInfo(ShizukuProvider.PERMISSION, 0)
+    }.getOrNull()
+
+private fun Context.shizukuPackageName() = shizukuPermissionInfo()?.packageName
+
 fun isShizukuInstalled(context: Context) =
-    context.packageManager.getPackageInfoCompat(ShizukuProvider.MANAGER_APPLICATION_ID) != null
+    context.shizukuPermissionInfo() != null ||
+        context.packageManager.getPackageInfoCompat(ShizukuProvider.MANAGER_APPLICATION_ID) != null
 
 fun isShizukuAlive() = Shizuku.pingBinder()
 
