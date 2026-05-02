@@ -31,7 +31,6 @@ import androidx.core.graphics.createBitmap
 import androidx.core.net.toUri
 import androidx.core.text.bold
 import androidx.core.text.buildSpannedString
-import androidx.core.util.TypedValueCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -1489,21 +1488,21 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as ScreenShotViewHolder
                 item as Item.ScreenshotItem
                 holder.screenshotsRecycler.run {
+                    val isRTL = context.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
                     if (layoutManager == null) {
                         setHasFixedSize(true)
                         isNestedScrollingEnabled = false
                         clipToPadding = false
                         val padding = 8.dp
                         setPadding(padding, padding, padding, padding)
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, isRTL)
                     }
                     val screenshotsAdapter = (adapter as? ScreenshotsAdapter)
                         ?: ScreenshotsAdapter(callbacks::onScreenshotClick).also { adapter = it }
                     screenshotsAdapter.setScreenshots(
                         item.repository,
                         item.packageName,
-                        item.screenshots
+                        if (isRTL) item.screenshots.reversed() else item.screenshots
                     )
                 }
             }
