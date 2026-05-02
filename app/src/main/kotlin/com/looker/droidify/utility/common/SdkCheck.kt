@@ -71,5 +71,6 @@ val sdkName by lazy {
         34 to "14",
         35 to "15",
         36 to "16",
+        37 to "17"
     )
 }

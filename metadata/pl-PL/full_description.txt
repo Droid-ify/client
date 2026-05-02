@@ -1,4 +1,5 @@
 Funkcje:
+
 • Przeglądanie i instalacja aplikacji z repozytoriów F-Droid
 • Automatyczne aktualizacje aplikacji w tle
 • Wiele metod instalacji (Session, Root, Shizuku)
