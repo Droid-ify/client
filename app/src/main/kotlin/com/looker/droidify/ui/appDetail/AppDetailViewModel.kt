@@ -29,7 +29,6 @@ import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -123,6 +122,7 @@ class AppDetailViewModel @Inject constructor(
 
     fun installPackage(packageName: String, fileName: String) {
         viewModelScope.launch {
+            settingsRepository.addToHistory(packageName)
             installer install (packageName installFrom fileName)
         }
     }

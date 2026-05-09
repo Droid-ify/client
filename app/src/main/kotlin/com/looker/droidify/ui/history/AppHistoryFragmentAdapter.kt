@@ -1,0 +1,102 @@
+package com.looker.droidify.ui.history
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.RecyclerView
+import coil3.load
+import com.looker.droidify.databinding.ProductItemBinding
+import com.looker.droidify.model.ProductItem
+import com.looker.droidify.model.Repository
+import com.looker.droidify.utility.common.extension.authentication
+import com.looker.droidify.utility.common.extension.corneredBackground
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.nullIfEmpty
+import com.google.android.material.R as MaterialR
+
+class AppHistoryFragmentAdapter(
+    private val onProductClick: (String) -> Unit
+) : RecyclerView.Adapter<AppHistoryFragmentAdapter.ViewHolder>() {
+
+    class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
+        val icon = binding.icon
+        val name = binding.name
+        val summary = binding.summary
+        val version = binding.status
+    }
+
+    var apps: List<ProductItem> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var repositories: Map<Long, Repository> = emptyMap()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
+        ViewHolder(
+            ProductItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        ).apply {
+            itemView.setOnClickListener {
+                if (apps.isNotEmpty()) {
+                    onProductClick(apps[absoluteAdapterPosition].packageName)
+                }
+            }
+        }
+
+    override fun getItemCount(): Int = apps.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = apps[position]
+        val context = holder.itemView.context
+        val installedVersion = item.installedVersion.nullIfEmpty()
+
+        val repository: Repository? = repositories[item.repositoryId]
+        holder.name.text = item.name
+        holder.summary.isVisible = item.summary.isNotEmpty()
+        holder.summary.text = item.summary
+
+        if (repository != null) {
+            val iconUrl = item.icon(holder.icon, repository)
+            holder.icon.load(iconUrl) {
+                authentication(repository.authentication)
+            }
+        }
+
+        holder.version.apply {
+            text = installedVersion ?: item.version
+            val isInstalled = installedVersion != null
+            when {
+                item.canUpdate -> {
+                    backgroundTintList =
+                        context.getColorFromAttr(MaterialR.attr.colorSecondaryContainer)
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnSecondaryContainer))
+                }
+
+                isInstalled -> {
+                    backgroundTintList =
+                        context.getColorFromAttr(MaterialR.attr.colorPrimaryContainer)
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnPrimaryContainer))
+                }
+
+                else -> {
+                    setPadding(0, 0, 0, 0)
+                    setTextColor(context.getColorFromAttr(MaterialR.attr.colorOnBackground))
+                    background = null
+                    return@apply
+                }
+            }
+            background = context.corneredBackground
+            6.dp.let { setPadding(it, it, it, it) }
+        }
+    }
+}

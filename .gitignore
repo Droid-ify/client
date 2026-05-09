@@ -20,3 +20,4 @@ local.properties
 /app/release/
 /app/alpha/
 /.kotlin/
+/gradle/*.properties
