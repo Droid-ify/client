@@ -223,6 +223,7 @@
     <string name="syncing_FORMAT">Syncing %s…</string>
     <string name="system">System</string>
     <string name="tap_to_install_DESC">Tap to install</string>
+    <string name="tap_to_resume_updates">Open the app to resume updates</string>
     <string name="theme">Theme</string>
     <string name="themes">Themes</string>
     <string name="tracks_or_reports_your_activity">Tracks or reports your activity</string>

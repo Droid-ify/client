@@ -28,6 +28,7 @@ import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.startForegroundSafe
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
@@ -116,6 +117,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private enum class Started { NO, AUTO, MANUAL }
 
     private var started = Started.NO
+    private var foregroundFailed = false
     private val tasks = mutableListOf<Task>()
     private var currentTask: CurrentTask? = null
 
@@ -271,14 +273,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             handleNextTask(cancelledTask?.hasUpdates == true, settings)
             stopSelf()
         } else {
-            startForeground(
-                Constants.NOTIFICATION_ID_SYNCING,
-                stateNotificationBuilder
+            val promoted = startForegroundSafe(
+                id = Constants.NOTIFICATION_ID_SYNCING,
+                notification = stateNotificationBuilder
                     .setContentTitle(getString(stringRes.syncing_FORMAT, ""))
                     .setContentText(getString(stringRes.connecting))
                     .setProgress(0, 0, true)
                     .build(),
             )
+            if (!promoted) {
+                handleForegroundDenied()
+                return START_NOT_STICKY
+            }
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -396,12 +402,13 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     }
 
     private fun publishForegroundState(force: Boolean, state: State) {
+        if (foregroundFailed) return
         if (force || currentTask?.lastState != state) {
             currentTask = currentTask?.copy(lastState = state)
             if (started == Started.MANUAL) {
-                startForeground(
-                    Constants.NOTIFICATION_ID_SYNCING,
-                    stateNotificationBuilder.apply {
+                val promoted = startForegroundSafe(
+                    id = Constants.NOTIFICATION_ID_SYNCING,
+                    notification = stateNotificationBuilder.apply {
                         setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
                         when (state) {
                             is State.Connecting -> {
@@ -459,8 +466,18 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                         }
                     }.build(),
                 )
+                if (!promoted) handleForegroundDenied()
             }
         }
+    }
+
+    private fun handleForegroundDenied() {
+        if (foregroundFailed) return
+        foregroundFailed = true
+        cancelTasks { true }
+        cancelCurrentTask { true }
+        started = Started.NO
+        stopForegroundCompat()
     }
 
     private fun handleSetStarted() {
@@ -552,6 +569,10 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val blocked = updateNotificationBlockerFragment?.get()?.isAdded == true
             val updates = Database.ProductAdapter.getUpdates(settings.ignoreSignature)
 
+            val needStop = started == Started.MANUAL
+            started = Started.NO
+            if (needStop) stopForegroundCompat()
+
             if (!blocked && updates.isNotEmpty()) {
                 if (settings.notifyUpdate) {
                     notificationManager?.notify(
@@ -567,9 +588,6 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
 
             syncState.emit(State.Finish)
-            val needStop = started == Started.MANUAL
-            started = Started.NO
-            if (needStop) stopForegroundCompat()
         } finally {
             withContext(NonCancellable) {
                 lock.withLock { currentTask = null }

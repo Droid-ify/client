@@ -20,13 +20,13 @@ import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.percentBy
-import com.looker.droidify.network.validation.ValidationException
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.common.extension.startForegroundSafe
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.extension.toPendingIntent
@@ -88,16 +88,16 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     ) {
         infix fun isDownloading(packageName: String): Boolean =
             currentItem.packageName == packageName && (
-                    currentItem is State.Connecting || currentItem is State.Downloading
-                    )
+                currentItem is State.Connecting || currentItem is State.Downloading
+                )
 
         infix fun isComplete(packageName: String): Boolean =
             currentItem.packageName == packageName && (
-                    currentItem is State.Error ||
-                            currentItem is State.Cancel ||
-                            currentItem is State.Success ||
-                            currentItem is State.Idle
-                    )
+                currentItem is State.Error ||
+                    currentItem is State.Cancel ||
+                    currentItem is State.Success ||
+                    currentItem is State.Idle
+                )
     }
 
     private val _downloadState = MutableStateFlow(DownloadState())
@@ -117,6 +117,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private data class CurrentTask(val task: Task, val lastState: State, val job: Job? = null)
 
     private var started = false
+    private var foregroundFailed = false
     private val tasks = mutableListOf<Task>()
     private var currentTask: CurrentTask? = null
 
@@ -204,14 +205,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             currentTask?.let { binder.cancel(it.task.packageName) }
             stopSelf()
         } else {
-            startForeground(
-                Constants.NOTIFICATION_ID_DOWNLOADING,
-                stateNotificationBuilder
+            val promoted = startForegroundSafe(
+                id = Constants.NOTIFICATION_ID_DOWNLOADING,
+                notification = stateNotificationBuilder
                     .setContentTitle(getString(stringRes.downloading_FORMAT, ""))
                     .setContentText(getString(stringRes.connecting))
                     .setProgress(1, 0, true)
                     .build(),
             )
+            if (!promoted) {
+                handleForegroundDenied()
+                return START_NOT_STICKY
+            }
         }
         return super.onStartCommand(intent, flags, startId)
     }
@@ -303,8 +308,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         updateCurrentState(State.Success(task.packageName, task.release))
         val autoInstallWithSessionInstaller =
             SdkCheck.canAutoInstall(task.release.targetSdkVersion) &&
-                    currentInstaller == InstallerType.SESSION &&
-                    task.isUpdate
+                currentInstaller == InstallerType.SESSION &&
+                task.isUpdate
 
         showNotificationInstall(task)
         if (currentInstaller == InstallerType.ROOT ||
@@ -334,17 +339,48 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     }
 
     private fun publishForegroundState(force: Boolean, state: State) {
+        if (foregroundFailed) return
         if (!force && currentTask == null) return
         currentTask = currentTask!!.copy(lastState = state)
-        stateNotificationBuilder.downloadingNotificationContent(state)
-            ?.let { notification ->
-                startForeground(
-                    Constants.NOTIFICATION_ID_DOWNLOADING,
-                    notification.build(),
-                )
-            } ?: run {
+        val notification = stateNotificationBuilder.downloadingNotificationContent(state)
+        if (notification == null) {
             log("Invalid Download State: $state", "DownloadService", Log.ERROR)
+            return
         }
+
+        val promoted = startForegroundSafe(
+            id = Constants.NOTIFICATION_ID_DOWNLOADING,
+            notification = notification.build(),
+        )
+        if (!promoted) handleForegroundDenied()
+    }
+
+    private fun handleForegroundDenied() {
+        if (foregroundFailed) return
+        foregroundFailed = true
+        notifyUpdatesPending()
+        cancelTasks(null)
+        cancelCurrentTask(null)
+        stopForegroundCompat()
+    }
+
+    private fun notifyUpdatesPending() {
+        notificationManager?.notify(
+            Constants.NOTIFICATION_ID_DOWNLOADING,
+            NotificationCompat
+                .Builder(this, Constants.NOTIFICATION_CHANNEL_DOWNLOADING)
+                .setSmallIcon(android.R.drawable.stat_sys_download)
+                .setColor(Color.GREEN)
+                .setAutoCancel(true)
+                .setContentTitle(getString(stringRes.updates))
+                .setContentText(getString(stringRes.tap_to_resume_updates))
+                .setContentIntent(
+                    Intent(this, MainActivity::class.java)
+                        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        .toPendingIntent(this),
+                )
+                .build(),
+        )
     }
 
     private fun NotificationCompat.Builder.downloadingNotificationContent(
