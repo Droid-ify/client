@@ -1,0 +1,216 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>AnnotationOnSeparateLine:PackageItemResolver.kt$PackageItemResolver$@Suppress("DEPRECATION") Manifest.permission.PROCESS_OUTGOING_CALLS</ID>
+    <ID>ComplexCondition:IndexV1Parser.kt$IndexV1Parser$permission.isNotEmpty() &amp;&amp; SdkCheck.sdk &gt;= minSdk &amp;&amp; ( maxSdk &lt;= 0 || SdkCheck.sdk &lt;= maxSdk )</ID>
+    <ID>CyclomaticComplexMethod:AppDao.kt$AppDao$private fun searchQueryMinimal( sortOrder: SortOrder, searchQuery: String?, repoId: Int?, categoriesToInclude: List&lt;DefaultName&gt;?, categoriesToExclude: List&lt;DefaultName&gt;?, antiFeaturesToInclude: List&lt;Tag&gt;?, antiFeaturesToExclude: List&lt;Tag&gt;?, locale: String, ): SimpleSQLiteQuery</ID>
+    <ID>CyclomaticComplexMethod:AppDetailAdapter.kt$AppDetailAdapter$fun setProducts( context: Context, packageName: String, suggestedRepo: String? = null, products: List&lt;Pair&lt;Product, Repository&gt;&gt;, rblogs: List&lt;RBLogEntity&gt;, downloads: Long, installedItem: InstalledItem?, isFavourite: Boolean, allowIncompatibleVersion: Boolean, )</ID>
+    <ID>CyclomaticComplexMethod:AppDetailAdapter.kt$AppDetailAdapter$override fun onBindViewHolder( holder: RecyclerView.ViewHolder, position: Int, payloads: List&lt;Any&gt;, )</ID>
+    <ID>CyclomaticComplexMethod:AppDetailAdapter.kt$AppDetailAdapter$override fun onCreateViewHolder( parent: ViewGroup, viewType: ViewType, ): RecyclerView.ViewHolder</ID>
+    <ID>CyclomaticComplexMethod:AppDetailFragment.kt$AppDetailFragment$override fun onActionClick(action: AppDetailAdapter.Action)</ID>
+    <ID>CyclomaticComplexMethod:AppDetailFragment.kt$AppDetailFragment$private fun updateButtons( preference: ProductPreference = ProductPreferences[viewModel.packageName], )</ID>
+    <ID>CyclomaticComplexMethod:AppDetailScreen.kt$@Composable private fun AppDetail( app: App, packages: List&lt;Pair&lt;Package, Repo&gt;&gt;, customButtons: List&lt;CustomButton&gt;, onCustomButtonClick: (url: String) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>CyclomaticComplexMethod:AppListAdapter.kt$AppListAdapter$override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)</ID>
+    <ID>CyclomaticComplexMethod:CustomButtonEditor.kt$@Stable fun CustomButtonIcon.toDrawableRes(): Int</ID>
+    <ID>CyclomaticComplexMethod:Deeplinks.kt$fun Intent.deeplinkType(): DeeplinkType?</ID>
+    <ID>CyclomaticComplexMethod:EditRepositoryFragment.kt$EditRepositoryFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>CyclomaticComplexMethod:EntrySyncable.kt$EntrySyncable$@OptIn(ExperimentalSerializationApi::class) override suspend fun sync( repo: Repo, block: (SyncState) -&gt; Unit, )</ID>
+    <ID>CyclomaticComplexMethod:IndexDao.kt$IndexDao$@Transaction suspend fun insertIndex( fingerprint: Fingerprint, index: IndexV2, expectedRepoId: Int = 0, )</ID>
+    <ID>CyclomaticComplexMethod:IndexV1Parser.kt$IndexV1Parser$fun parse(repositoryId: Long, inputStream: InputStream, callback: Callback)</ID>
+    <ID>CyclomaticComplexMethod:IndexV1Parser.kt$IndexV1Parser$private fun JsonParser.parseProduct(repositoryId: Long): Product</ID>
+    <ID>CyclomaticComplexMethod:IndexV1Parser.kt$IndexV1Parser$private fun JsonParser.parseRelease(): Release</ID>
+    <ID>CyclomaticComplexMethod:MainActivity.kt$MainActivity$private fun handleIntent(intent: Intent?)</ID>
+    <ID>CyclomaticComplexMethod:MessageDialog.kt$MessageDialog$override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog</ID>
+    <ID>CyclomaticComplexMethod:PreferenceSettingsRepository.kt$PreferenceSettingsRepository$private fun mapSettings(preferences: Preferences): Settings</ID>
+    <ID>CyclomaticComplexMethod:Preferences.kt$fun Configuration.getThemeRes(theme: Theme, dynamicTheme: Boolean)</ID>
+    <ID>CyclomaticComplexMethod:ProductSerialization.kt$fun JsonParser.product(): Product</ID>
+    <ID>CyclomaticComplexMethod:ReleaseItem.kt$@OptIn(ExperimentalTime::class) @Composable fun ReleaseItem( release: Release, repository: Repository, installedItem: InstalledItem?, reproducible: Reproducible, showSignature: Boolean, suggested: Boolean, enabled: Boolean, onClick: () -&gt; Unit, onLongClick: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>CyclomaticComplexMethod:ReleaseSerialization.kt$fun JsonParser.release(): Release</ID>
+    <ID>CyclomaticComplexMethod:RepositorySerialization.kt$fun JsonParser.repository(): Repository</ID>
+    <ID>CyclomaticComplexMethod:RepositoryUpdater.kt$RepositoryUpdater$fun processFile( context: Context, repository: Repository, indexType: IndexType, unstable: Boolean, file: File, mergerFile: File = Cache.getTemporaryFile(context), lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -&gt; Unit, ): Boolean</ID>
+    <ID>CyclomaticComplexMethod:ScreenshotEntity.kt$fun List&lt;ScreenshotEntity&gt;.toScreenshots(locale: String, baseAddress: String): Screenshots</ID>
+    <ID>CyclomaticComplexMethod:SyncService.kt$SyncService$private fun publishForegroundState(force: Boolean, state: State)</ID>
+    <ID>CyclomaticComplexMethod:TabsFragment.kt$TabsFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>EmptyFunctionBlock:LegacyInstaller.kt$LegacyInstaller${}</ID>
+    <ID>EmptyFunctionBlock:ProtoToPreferenceMigration.kt$ProtoToPreferenceMigration${ }</ID>
+    <ID>EmptyFunctionBlock:RootInstaller.kt$RootInstaller${}</ID>
+    <ID>EmptyFunctionBlock:SessionInstaller.kt$SessionInstaller.&lt;no name provided&gt;${}</ID>
+    <ID>EmptyKtFile:V1Parser.kt$.V1Parser.kt</ID>
+    <ID>ExplicitItLambdaParameter:AppDetailAdapter.kt$AppDetailAdapter${ it -&gt; val transform = permission.name.substring(it.length) if (transform.matches("[A-Z_]+".toRegex())) { transform.split("_") .joinToString(separator = " ") { it.lowercase(Locale.US) } } else { null } }</ID>
+    <ID>Filename:HandlerModule.kt$com.looker.droidify.di.HandlerModule.kt</ID>
+    <ID>Filename:MergerV2.kt$com.looker.droidify.sync.v2.model.MergerV2.kt</ID>
+    <ID>ForEachOnRange:TabsFragment.kt$TabsFragment$0 until it.childCount</ID>
+    <ID>ForbiddenComment:CategoryEntity.kt$// FIXME: This is a garbage algorithm</ID>
+    <ID>ForbiddenComment:HtmlFormatter.kt$// FIXME: Remove once legacy is removed</ID>
+    <ID>ForbiddenComment:RepositoriesAdapter.kt$RepositoriesAdapter$// TODO: fetch repo icon</ID>
+    <ID>FunctionNaming:AesEncryption.kt$fun Key()</ID>
+    <ID>FunctionNaming:AppDao.kt$AppDao$@RawQuery suspend fun _rawQueryAppEntities(query: SimpleSQLiteQuery): List&lt;AppEntity&gt;</ID>
+    <ID>FunctionNaming:AppDao.kt$AppDao$@RawQuery suspend fun _rawQueryAppMinimal(query: SimpleSQLiteQuery): List&lt;AppMinimalRow&gt;</ID>
+    <ID>FunctionNaming:AppDao.kt$AppDao$@RawQuery( observedEntities = [ AppEntity::class, VersionEntity::class, CategoryAppRelation::class, AntiFeatureAppRelation::class, ], ) fun _rawStreamAppEntities(query: SimpleSQLiteQuery): Flow&lt;List&lt;AppEntity&gt;&gt;</ID>
+    <ID>FunctionNaming:FilePath.kt$fun FilePath( baseUrl: String, path: String?, ): FilePath?</ID>
+    <ID>LargeClass:AppDetailAdapter.kt$AppDetailAdapter : StableRecyclerAdapter</ID>
+    <ID>LongMethod:AppDao.kt$AppDao$private fun searchQueryMinimal( sortOrder: SortOrder, searchQuery: String?, repoId: Int?, categoriesToInclude: List&lt;DefaultName&gt;?, categoriesToExclude: List&lt;DefaultName&gt;?, antiFeaturesToInclude: List&lt;Tag&gt;?, antiFeaturesToExclude: List&lt;Tag&gt;?, locale: String, ): SimpleSQLiteQuery</ID>
+    <ID>LongMethod:AppDetailAdapter.kt$AppDetailAdapter$fun setProducts( context: Context, packageName: String, suggestedRepo: String? = null, products: List&lt;Pair&lt;Product, Repository&gt;&gt;, rblogs: List&lt;RBLogEntity&gt;, downloads: Long, installedItem: InstalledItem?, isFavourite: Boolean, allowIncompatibleVersion: Boolean, )</ID>
+    <ID>LongMethod:AppDetailAdapter.kt$AppDetailAdapter$override fun onBindViewHolder( holder: RecyclerView.ViewHolder, position: Int, payloads: List&lt;Any&gt;, )</ID>
+    <ID>LongMethod:AppDetailAdapter.kt$AppDetailAdapter$override fun onCreateViewHolder( parent: ViewGroup, viewType: ViewType, ): RecyclerView.ViewHolder</ID>
+    <ID>LongMethod:AppDetailFragment.kt$AppDetailFragment$@SuppressLint("RestrictedApi") override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:AppDetailScreen.kt$@Composable private fun AppDetail( app: App, packages: List&lt;Pair&lt;Package, Repo&gt;&gt;, customButtons: List&lt;CustomButton&gt;, onCustomButtonClick: (url: String) -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:CustomButtonEditor.kt$@OptIn(ExperimentalLayoutApi::class) @Composable fun CustomButtonEditor( existingButton: CustomButton?, onSave: (CustomButton) -&gt; Unit, onDismiss: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:CustomButtonsSettingItem.kt$@Composable fun CustomButtonsSettingItem( buttons: List&lt;CustomButton&gt;, onAddButton: (CustomButton) -&gt; Unit, onUpdateButton: (CustomButton) -&gt; Unit, onRemoveButton: (String) -&gt; Unit, onExport: () -&gt; Unit, onImport: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:CustomButtonsSettingItem.kt$@OptIn(ExperimentalFoundationApi::class) @Composable private fun CustomButtonItem( button: CustomButton, onEdit: () -&gt; Unit, onDelete: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:EditRepositoryFragment.kt$EditRepositoryFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongMethod:EntrySyncable.kt$EntrySyncable$@OptIn(ExperimentalSerializationApi::class) override suspend fun sync( repo: Repo, block: (SyncState) -&gt; Unit, )</ID>
+    <ID>LongMethod:IndexDao.kt$IndexDao$@Transaction suspend fun insertIndex( fingerprint: Fingerprint, index: IndexV2, expectedRepoId: Int = 0, )</ID>
+    <ID>LongMethod:IndexV1Parser.kt$IndexV1Parser$private fun JsonParser.parseProduct(repositoryId: Long): Product</ID>
+    <ID>LongMethod:IndexV2MergerTest.kt$IndexV2MergerTest$@Test @DisplayName("Should merge simple package addition") fun testSimplePackageAddition()</ID>
+    <ID>LongMethod:MessageDialog.kt$MessageDialog$override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog</ID>
+    <ID>LongMethod:ProductSerialization.kt$fun JsonParser.product(): Product</ID>
+    <ID>LongMethod:ReleaseItem.kt$@OptIn(ExperimentalTime::class) @Composable fun ReleaseItem( release: Release, repository: Repository, installedItem: InstalledItem?, reproducible: Reproducible, showSignature: Boolean, suggested: Boolean, enabled: Boolean, onClick: () -&gt; Unit, onLongClick: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongMethod:ReleaseSerialization.kt$fun JsonParser.release(): Release</ID>
+    <ID>LongMethod:RepoEditScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun RepoEditScreen( repoId: Int?, onBackClick: () -&gt; Unit, viewModel: RepoEditViewModel = hiltViewModel(), )</ID>
+    <ID>LongMethod:RepositoryUpdater.kt$RepositoryUpdater$fun processFile( context: Context, repository: Repository, indexType: IndexType, unstable: Boolean, file: File, mergerFile: File = Cache.getTemporaryFile(context), lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -&gt; Unit, ): Boolean</ID>
+    <ID>LongMethod:SettingsScreen.kt$@OptIn(ExperimentalMaterial3Api::class) @Composable fun SettingsScreen( viewModel: SettingsViewModel, onBackClick: () -&gt; Unit, )</ID>
+    <ID>LongMethod:TabsFragment.kt$TabsFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>LongParameterList:AppDao.kt$AppDao$( sortOrder: SortOrder, searchQuery: String?, repoId: Int?, categoriesToInclude: List&lt;DefaultName&gt;?, categoriesToExclude: List&lt;DefaultName&gt;?, antiFeaturesToInclude: List&lt;Tag&gt;?, antiFeaturesToExclude: List&lt;Tag&gt;?, locale: String, )</ID>
+    <ID>LongParameterList:AppDetailAdapter.kt$AppDetailAdapter$( context: Context, packageName: String, suggestedRepo: String? = null, products: List&lt;Pair&lt;Product, Repository&gt;&gt;, rblogs: List&lt;RBLogEntity&gt;, downloads: Long, installedItem: InstalledItem?, isFavourite: Boolean, allowIncompatibleVersion: Boolean, )</ID>
+    <ID>LongParameterList:RBLogEntity.kt$RBData$( val repository: String, val tag: String, val commit: String, val timestamp: Long, val reproducible: Boolean?, val error: String?, @SerialName("appid") val appId: String, @SerialName("apk_url") val apkUrl: String, @SerialName("version_code") val versionCode: Int, @SerialName("version_name") val versionName: String, )</ID>
+    <ID>LongParameterList:ReleaseItem.kt$( release: Release, repository: Repository, installedItem: InstalledItem?, reproducible: Reproducible, showSignature: Boolean, suggested: Boolean, enabled: Boolean, onClick: () -&gt; Unit, onLongClick: () -&gt; Unit, modifier: Modifier = Modifier, )</ID>
+    <ID>LongParameterList:RepoModule.kt$RepoModule$( repoDao: RepoDao, appDao: AppDao, authDao: AuthDao, indexDao: IndexDao, settingsRepository: SettingsRepository, encryptionStorage: EncryptionStorage, downloader: Downloader, @ApplicationContext context: Context, @IoDispatcher syncDispatcher: CoroutineDispatcher, )</ID>
+    <ID>LongParameterList:RepositoryUpdater.kt$RepositoryUpdater$( context: Context, repository: Repository, indexType: IndexType, unstable: Boolean, file: File, mergerFile: File = Cache.getTemporaryFile(context), lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -&gt; Unit, )</ID>
+    <ID>LoopWithTooManyJumpStatements:AnnotatedString.kt$for</ID>
+    <ID>MatchingDeclarationName:AppDetailNavigation.kt$AppDetail</ID>
+    <ID>MatchingDeclarationName:AppListNavigation.kt$AppList</ID>
+    <ID>MatchingDeclarationName:HandlerModule.kt$HandlersModule</ID>
+    <ID>MatchingDeclarationName:HomeNavigation.kt$Home</ID>
+    <ID>MatchingDeclarationName:MergerV2.kt$IndexV2Merger : AutoCloseable</ID>
+    <ID>MatchingDeclarationName:RepoDetailNavigation.kt$RepoDetail</ID>
+    <ID>MatchingDeclarationName:RepoEditNavigation.kt$RepoEdit</ID>
+    <ID>MatchingDeclarationName:RepoListNavigation.kt$RepoList</ID>
+    <ID>MatchingDeclarationName:Resources.kt$TypefaceExtra</ID>
+    <ID>MatchingDeclarationName:SettingsNavigation.kt$Settings</ID>
+    <ID>MaxLineLength:AppDao.kt$AppDao$"SELECT description FROM localized_app_description WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')"</ID>
+    <ID>MaxLineLength:AppDetailFragment.kt$AppDetailFragment$installedItem != null &amp;&amp; selectedRelease != null &amp;&amp; installedItem.signature != selectedRelease.signature</ID>
+    <ID>MaxLineLength:AppDetailFragment.kt$AppDetailFragment$val</ID>
+    <ID>MaxLineLength:ProtoToPreferenceMigration.kt$ProtoToPreferenceMigration$override suspend</ID>
+    <ID>MaxLineLength:RepoDao.kt$RepoDao$"SELECT description FROM localized_repo_description WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')"</ID>
+    <ID>MaxLineLength:Repository.kt$Repository.Companion$// Add repository addresses that should be removed during database upgrades and remove them from the lists above</ID>
+    <ID>MaxLineLength:Repository.kt$Repository.Companion$description = "This is a repository of PurpleI2P. It contains applications developed and supported by our team."</ID>
+    <ID>MaximumLineLength:AppDao.kt$AppDao$ </ID>
+    <ID>MaximumLineLength:AppDetailFragment.kt$AppDetailFragment$ </ID>
+    <ID>MaximumLineLength:ProtoToPreferenceMigration.kt$ProtoToPreferenceMigration$ </ID>
+    <ID>MaximumLineLength:RepoDao.kt$RepoDao$ </ID>
+    <ID>MaximumLineLength:Repository.kt$Repository.Companion$ </ID>
+    <ID>ModifierMissing:AppDetailScreen.kt$AppDetailScreen</ID>
+    <ID>ModifierMissing:AppListScreen.kt$AppListScreen</ID>
+    <ID>ModifierMissing:HomeScreen.kt$HomeScreen</ID>
+    <ID>ModifierMissing:RepoDetailScreen.kt$RepoDetailScreen</ID>
+    <ID>ModifierMissing:RepoEditScreen.kt$RepoEditScreen</ID>
+    <ID>ModifierMissing:RepoListScreen.kt$RepoListScreen</ID>
+    <ID>ModifierMissing:SettingsScreen.kt$SettingsScreen</ID>
+    <ID>ModifierNotUsedAtRoot:DropdownSettingItem.kt$modifier = modifier .fillMaxWidth() .clickable { onValueSelected(item) expanded = false } .padding(horizontal = 16.dp, vertical = 12.dp)</ID>
+    <ID>NestedBlockDepth:AnnotatedString.kt$@Suppress("DEPRECATION") fun Html.toAnnotatedString( style: SpanStyle = SpanStyle(), linkStyle: SpanStyle = SpanStyle(color = Color.Blue, textDecoration = TextDecoration.Underline), onUrlClick: (url: String) -&gt; Unit = {}, onEmailClick: (email: String) -&gt; Unit = {}, ): AnnotatedString</ID>
+    <ID>NestedBlockDepth:AppDetailAdapter.kt$AppDetailAdapter$override fun onBindViewHolder( holder: RecyclerView.ViewHolder, position: Int, payloads: List&lt;Any&gt;, )</ID>
+    <ID>NestedBlockDepth:AppListAdapter.kt$AppListAdapter$override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)</ID>
+    <ID>NestedBlockDepth:Cache.kt$Cache$private fun cleanupDir(dir: File, duration: Duration)</ID>
+    <ID>NestedBlockDepth:DividerItemDecoration.kt$DividerItemDecoration$override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State)</ID>
+    <ID>NestedBlockDepth:EditRepositoryFragment.kt$EditRepositoryFragment$override fun onViewCreated(view: View, savedInstanceState: Bundle?)</ID>
+    <ID>NestedBlockDepth:IndexV1Parser.kt$IndexV1Parser$private fun JsonParser.collectPermissions(permissions: LinkedHashSet&lt;String&gt;, minSdk: Int)</ID>
+    <ID>NestedBlockDepth:LocalSyncable.kt$LocalSyncable$override suspend fun sync(repo: Repo, block: (SyncState) -&gt; Unit)</ID>
+    <ID>NestedBlockDepth:MessageDialog.kt$MessageDialog$override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog</ID>
+    <ID>NestedBlockDepth:OemRepositoryParser.kt$OemRepositoryParser$fun parse(inputStream: InputStream): List&lt;Repository&gt;</ID>
+    <ID>NestedBlockDepth:PackageItemResolver.kt$PackageItemResolver$private fun load( context: Context, localCache: LocalCache, packageName: String, nonLocalized: CharSequence?, resId: Int, ): CharSequence?</ID>
+    <ID>NestedBlockDepth:RepositoryFragment.kt$RepositoryFragment$private fun setupView(repository: Repository?, appCount: Int)</ID>
+    <ID>ParameterNaming:DropdownSettingItem.kt$onValueSelected</ID>
+    <ID>ParameterNaming:SelectionSettingItem.kt$onValueSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onAutoSyncSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onComponentSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onInstallerSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onIntervalSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onLanguageSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onProxyTypeSelected</ID>
+    <ID>ParameterNaming:SettingsScreen.kt$onThemeSelected</ID>
+    <ID>PrintStackTrace:AppDetailAdapter.kt$AppDetailAdapter$e</ID>
+    <ID>PrintStackTrace:AppDetailFragment.kt$AppDetailFragment$e</ID>
+    <ID>PrintStackTrace:ProductPreferences.kt$ProductPreferences$e</ID>
+    <ID>PrintStackTrace:Settings.kt$SettingsSerializer$e</ID>
+    <ID>SwallowedException:Cache.kt$Cache$e: Exception</ID>
+    <ID>SwallowedException:Huawei.kt$Huawei$e: Exception</ID>
+    <ID>SwallowedException:LegacyInstaller.kt$LegacyInstaller$e: AndroidRuntimeException</ID>
+    <ID>SwallowedException:LegacyInstaller.kt$LegacyInstaller$e: Exception</ID>
+    <ID>SwallowedException:MessageDialog.kt$MessageDialog$e: Exception</ID>
+    <ID>SwallowedException:Miui.kt$Miui$e: Exception</ID>
+    <ID>SwallowedException:PackageInfo.kt$e: Exception</ID>
+    <ID>SwallowedException:PackageInfo.kt$e: PackageManager.NameNotFoundException</ID>
+    <ID>SwallowedException:PackageItemResolver.kt$PackageItemResolver$e: Exception</ID>
+    <ID>SwallowedException:Repository.kt$Repository.Companion$e: Exception</ID>
+    <ID>SwallowedException:SettingsExporter.kt$SettingsExporter$e: IOException</ID>
+    <ID>SwallowedException:SettingsExporter.kt$SettingsExporter$e: SerializationException</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:Cache.kt$Cache$RuntimeException()</ID>
+    <ID>ThrowingExceptionsWithoutMessageOrCause:Cache.kt$Cache.Provider$IllegalArgumentException()</ID>
+    <ID>ThrowsCount:RepositoryUpdater.kt$RepositoryUpdater$fun processFile( context: Context, repository: Repository, indexType: IndexType, unstable: Boolean, file: File, mergerFile: File = Cache.getTemporaryFile(context), lastModified: String, entityTag: String, callback: (Stage, Long, Long?) -&gt; Unit, ): Boolean</ID>
+    <ID>TooGenericExceptionCaught:AppDetailAdapter.kt$AppDetailAdapter$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:AppDetailFragment.kt$AppDetailFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Cache.kt$Cache$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:CleanUpWorker.kt$CleanUpWorker$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:CustomButtonRepository.kt$CustomButtonRepository$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:DownloadStatsWorker.kt$DownloadStatsWorker$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EditRepositoryFragment.kt$EditRepositoryFragment$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:EntrySyncable.kt$EntrySyncable$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:Huawei.kt$Huawei$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:KtorDownloader.kt$KtorDownloader$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LegacyInstaller.kt$LegacyInstaller$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LegacyInstaller.kt$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:LocalSyncable.kt$LocalSyncable$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:MessageDialog.kt$MessageDialog$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Miui.kt$Miui$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PackageInfo.kt$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:PackageItemResolver.kt$PackageItemResolver$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:ProductPreferences.kt$ProductPreferences$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:QueryLoader.kt$QueryLoader$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:RBLogWorker.kt$RBLogWorker$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:RepoEditViewModel.kt$RepoEditViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:Repository.kt$Repository.Companion$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:RepositoryUpdater.kt$RepositoryUpdater$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:SyncWorker.kt$SyncWorker$t: Throwable</ID>
+    <ID>TooGenericExceptionCaught:V1Syncable.kt$V1Syncable$t: Throwable</ID>
+    <ID>TooGenericExceptionThrown:Cache.kt$Cache$throw RuntimeException()</ID>
+    <ID>TooGenericExceptionThrown:MergerV2.kt$IndexV2Merger$throw Exception(it.message.orEmpty(), it)</ID>
+    <ID>TooManyFunctions:AppDao.kt$AppDao</ID>
+    <ID>TooManyFunctions:Cache.kt$Cache</ID>
+    <ID>TooManyFunctions:Database.kt$Database$ProductAdapter</ID>
+    <ID>TooManyFunctions:Database.kt$Database$RepositoryAdapter</ID>
+    <ID>TooManyFunctions:IndexDao.kt$IndexDao</ID>
+    <ID>TooManyFunctions:IndexV1Parser.kt$IndexV1Parser</ID>
+    <ID>TooManyFunctions:MainActivity.kt$MainActivity : AppCompatActivity</ID>
+    <ID>TooManyFunctions:PreferenceSettingsRepository.kt$PreferenceSettingsRepository : SettingsRepository</ID>
+    <ID>TooManyFunctions:RepoDao.kt$RepoDao</ID>
+    <ID>TooManyFunctions:SettingsRepository.kt$SettingsRepository</ID>
+    <ID>TooManyFunctions:SettingsViewModel.kt$SettingsViewModel : ViewModel</ID>
+    <ID>TopLevelPropertyNaming:Html.kt$private const val HtmlEntity = "&amp;[a-zA-Z][a-zA-Z0-9]+;"</ID>
+    <ID>TopLevelPropertyNaming:Html.kt$private const val TagEnd = "\\&lt;/\\w+\\&gt;"</ID>
+    <ID>TopLevelPropertyNaming:Html.kt$private const val TagSelfClosing = "\\&lt;\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\&gt;\\s]+))?)+\\s*|\\s*)/\\&gt;"</ID>
+    <ID>TopLevelPropertyNaming:Html.kt$private const val TagStart = "\\&lt;\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\&gt;\\s]+))?)+\\s*|\\s*)\\&gt;"</ID>
+    <ID>UnstableCollections:AppDetailScreen.kt$List&lt;CustomButton&gt;</ID>
+    <ID>UnstableCollections:AppDetailScreen.kt$List&lt;FilePath&gt;</ID>
+    <ID>UnstableCollections:AppDetailScreen.kt$List&lt;Pair&lt;Package, Repo&gt;&gt;</ID>
+    <ID>UnstableCollections:AppDetailScreen.kt$List&lt;String&gt;</ID>
+    <ID>UnstableCollections:AppListScreen.kt$List&lt;DefaultName&gt;</ID>
+    <ID>UnstableCollections:CustomButtonsRow.kt$List&lt;CustomButton&gt;</ID>
+    <ID>UnstableCollections:CustomButtonsSettingItem.kt$List&lt;CustomButton&gt;</ID>
+    <ID>UnstableCollections:DropdownSettingItem.kt$List&lt;T&gt;</ID>
+    <ID>UnstableCollections:SelectionSettingItem.kt$List&lt;T&gt;</ID>
+    <ID>UnusedParameter:AppDetailScreen.kt$isInstalled: Boolean</ID>
+    <ID>UnusedParameter:AppListScreen.kt$onNavigateToSettings: () -&gt; Unit</ID>
+    <ID>UnusedParameter:IndexV2MergerTest.kt$IndexV2MergerTest$fieldPath: String</ID>
+    <ID>UnusedPrivateMember:TabsViewModel.kt$TabsViewModel$private fun calcBackAction( currentSection: ProductItem.Section, isSearchActionItemExpanded: Boolean, showSections: Boolean, ): BackAction</ID>
+    <ID>UnusedPrivateProperty:RepoRepository.kt$RepoRepository$private val localSyncable = LocalSyncable(context = context)</ID>
+    <ID>UnusedPrivateProperty:RepoRepository.kt$RepoRepository$private val v1Syncable = V1Syncable( context = context, downloader = downloader, dispatcher = syncDispatcher, )</ID>
+    <ID>UnusedPrivateProperty:Theme.kt$private val highContrastDarkColorScheme = darkColorScheme( primary = primaryDarkHighContrast, onPrimary = onPrimaryDarkHighContrast, primaryContainer = primaryContainerDarkHighContrast, onPrimaryContainer = onPrimaryContainerDarkHighContrast, secondary = secondaryDarkHighContrast, onSecondary = onSecondaryDarkHighContrast, secondaryContainer = secondaryContainerDarkHighContrast, onSecondaryContainer = onSecondaryContainerDarkHighContrast, tertiary = tertiaryDarkHighContrast, onTertiary = onTertiaryDarkHighContrast, tertiaryContainer = tertiaryContainerDarkHighContrast, onTertiaryContainer = onTertiaryContainerDarkHighContrast, error = errorDarkHighContrast, onError = onErrorDarkHighContrast, errorContainer = errorContainerDarkHighContrast, onErrorContainer = onErrorContainerDarkHighContrast, background = backgroundDarkHighContrast, onBackground = onBackgroundDarkHighContrast, surface = surfaceDarkHighContrast, onSurface = onSurfaceDarkHighContrast, surfaceVariant = surfaceVariantDarkHighContrast, onSurfaceVariant = onSurfaceVariantDarkHighContrast, outline = outlineDarkHighContrast, outlineVariant = outlineVariantDarkHighContrast, scrim = scrimDarkHighContrast, inverseSurface = inverseSurfaceDarkHighContrast, inverseOnSurface = inverseOnSurfaceDarkHighContrast, inversePrimary = inversePrimaryDarkHighContrast, surfaceDim = surfaceDimDarkHighContrast, surfaceBright = surfaceBrightDarkHighContrast, surfaceContainerLowest = surfaceContainerLowestDarkHighContrast, surfaceContainerLow = surfaceContainerLowDarkHighContrast, surfaceContainer = surfaceContainerDarkHighContrast, surfaceContainerHigh = surfaceContainerHighDarkHighContrast, surfaceContainerHighest = surfaceContainerHighestDarkHighContrast, )</ID>
+    <ID>UnusedPrivateProperty:Theme.kt$private val highContrastLightColorScheme = lightColorScheme( primary = primaryLightHighContrast, onPrimary = onPrimaryLightHighContrast, primaryContainer = primaryContainerLightHighContrast, onPrimaryContainer = onPrimaryContainerLightHighContrast, secondary = secondaryLightHighContrast, onSecondary = onSecondaryLightHighContrast, secondaryContainer = secondaryContainerLightHighContrast, onSecondaryContainer = onSecondaryContainerLightHighContrast, tertiary = tertiaryLightHighContrast, onTertiary = onTertiaryLightHighContrast, tertiaryContainer = tertiaryContainerLightHighContrast, onTertiaryContainer = onTertiaryContainerLightHighContrast, error = errorLightHighContrast, onError = onErrorLightHighContrast, errorContainer = errorContainerLightHighContrast, onErrorContainer = onErrorContainerLightHighContrast, background = backgroundLightHighContrast, onBackground = onBackgroundLightHighContrast, surface = surfaceLightHighContrast, onSurface = onSurfaceLightHighContrast, surfaceVariant = surfaceVariantLightHighContrast, onSurfaceVariant = onSurfaceVariantLightHighContrast, outline = outlineLightHighContrast, outlineVariant = outlineVariantLightHighContrast, scrim = scrimLightHighContrast, inverseSurface = inverseSurfaceLightHighContrast, inverseOnSurface = inverseOnSurfaceLightHighContrast, inversePrimary = inversePrimaryLightHighContrast, surfaceDim = surfaceDimLightHighContrast, surfaceBright = surfaceBrightLightHighContrast, surfaceContainerLowest = surfaceContainerLowestLightHighContrast, surfaceContainerLow = surfaceContainerLowLightHighContrast, surfaceContainer = surfaceContainerLightHighContrast, surfaceContainerHigh = surfaceContainerHighLightHighContrast, surfaceContainerHighest = surfaceContainerHighestLightHighContrast, )</ID>
+    <ID>UnusedPrivateProperty:Theme.kt$private val mediumContrastDarkColorScheme = darkColorScheme( primary = primaryDarkMediumContrast, onPrimary = onPrimaryDarkMediumContrast, primaryContainer = primaryContainerDarkMediumContrast, onPrimaryContainer = onPrimaryContainerDarkMediumContrast, secondary = secondaryDarkMediumContrast, onSecondary = onSecondaryDarkMediumContrast, secondaryContainer = secondaryContainerDarkMediumContrast, onSecondaryContainer = onSecondaryContainerDarkMediumContrast, tertiary = tertiaryDarkMediumContrast, onTertiary = onTertiaryDarkMediumContrast, tertiaryContainer = tertiaryContainerDarkMediumContrast, onTertiaryContainer = onTertiaryContainerDarkMediumContrast, error = errorDarkMediumContrast, onError = onErrorDarkMediumContrast, errorContainer = errorContainerDarkMediumContrast, onErrorContainer = onErrorContainerDarkMediumContrast, background = backgroundDarkMediumContrast, onBackground = onBackgroundDarkMediumContrast, surface = surfaceDarkMediumContrast, onSurface = onSurfaceDarkMediumContrast, surfaceVariant = surfaceVariantDarkMediumContrast, onSurfaceVariant = onSurfaceVariantDarkMediumContrast, outline = outlineDarkMediumContrast, outlineVariant = outlineVariantDarkMediumContrast, scrim = scrimDarkMediumContrast, inverseSurface = inverseSurfaceDarkMediumContrast, inverseOnSurface = inverseOnSurfaceDarkMediumContrast, inversePrimary = inversePrimaryDarkMediumContrast, surfaceDim = surfaceDimDarkMediumContrast, surfaceBright = surfaceBrightDarkMediumContrast, surfaceContainerLowest = surfaceContainerLowestDarkMediumContrast, surfaceContainerLow = surfaceContainerLowDarkMediumContrast, surfaceContainer = surfaceContainerDarkMediumContrast, surfaceContainerHigh = surfaceContainerHighDarkMediumContrast, surfaceContainerHighest = surfaceContainerHighestDarkMediumContrast, )</ID>
+    <ID>UnusedPrivateProperty:Theme.kt$private val mediumContrastLightColorScheme = lightColorScheme( primary = primaryLightMediumContrast, onPrimary = onPrimaryLightMediumContrast, primaryContainer = primaryContainerLightMediumContrast, onPrimaryContainer = onPrimaryContainerLightMediumContrast, secondary = secondaryLightMediumContrast, onSecondary = onSecondaryLightMediumContrast, secondaryContainer = secondaryContainerLightMediumContrast, onSecondaryContainer = onSecondaryContainerLightMediumContrast, tertiary = tertiaryLightMediumContrast, onTertiary = onTertiaryLightMediumContrast, tertiaryContainer = tertiaryContainerLightMediumContrast, onTertiaryContainer = onTertiaryContainerLightMediumContrast, error = errorLightMediumContrast, onError = onErrorLightMediumContrast, errorContainer = errorContainerLightMediumContrast, onErrorContainer = onErrorContainerLightMediumContrast, background = backgroundLightMediumContrast, onBackground = onBackgroundLightMediumContrast, surface = surfaceLightMediumContrast, onSurface = onSurfaceLightMediumContrast, surfaceVariant = surfaceVariantLightMediumContrast, onSurfaceVariant = onSurfaceVariantLightMediumContrast, outline = outlineLightMediumContrast, outlineVariant = outlineVariantLightMediumContrast, scrim = scrimLightMediumContrast, inverseSurface = inverseSurfaceLightMediumContrast, inverseOnSurface = inverseOnSurfaceLightMediumContrast, inversePrimary = inversePrimaryLightMediumContrast, surfaceDim = surfaceDimLightMediumContrast, surfaceBright = surfaceBrightLightMediumContrast, surfaceContainerLowest = surfaceContainerLowestLightMediumContrast, surfaceContainerLow = surfaceContainerLowLightMediumContrast, surfaceContainer = surfaceContainerLightMediumContrast, surfaceContainerHigh = surfaceContainerHighLightMediumContrast, surfaceContainerHighest = surfaceContainerHighestLightMediumContrast, )</ID>
+    <ID>UseCheckOrError:CustomButtonRepository.kt$CustomButtonRepository$throw IllegalStateException("Cannot open input stream")</ID>
+    <ID>UseCheckOrError:CustomButtonRepository.kt$CustomButtonRepository$throw IllegalStateException("Cannot open output stream")</ID>
+  </CurrentIssues>
+</SmellBaseline>
