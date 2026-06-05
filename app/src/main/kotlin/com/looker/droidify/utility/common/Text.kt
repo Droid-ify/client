@@ -1,14 +1,14 @@
 package com.looker.droidify.utility.common
 
 import android.util.Log
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.YearMonth
 import kotlinx.datetime.plusMonth
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.datetime.yearMonth
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
     return if (isNullOrBlank()) null else this

@@ -112,8 +112,8 @@ class InstalledRepositoryTest {
             installedDao.insert(
                 match {
                     it.packageName == "com.example.app" &&
-                            it.version == "2.0.0" &&
-                            it.versionCode == 200L
+                        it.version == "2.0.0" &&
+                        it.versionCode == 200L
                 },
             )
         }

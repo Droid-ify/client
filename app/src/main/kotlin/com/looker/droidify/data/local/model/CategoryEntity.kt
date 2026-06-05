@@ -10,7 +10,7 @@ import com.looker.droidify.sync.v2.model.DefaultName
 @Entity(
     tableName = "category",
     primaryKeys = ["defaultName", "locale"],
-    indices = [Index("defaultName")]
+    indices = [Index("defaultName")],
 )
 data class CategoryEntity(
     val icon: String?,

@@ -83,7 +83,7 @@ data class AppMinimal(
     val icon: FilePath?,
     val suggestedVersion: String,
 ) {
-    val fallbackIcon: FilePath? = icon?.path?.let {  current ->
+    val fallbackIcon: FilePath? = icon?.path?.let { current ->
         FilePath(current.substringBeforeLast("/") + "/icon.png")
     }
 }

@@ -31,5 +31,4 @@ class FavouritesViewModel @Inject constructor(
                     }
                 }
             }.asStateFlow(emptyList())
-
 }

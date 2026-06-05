@@ -16,7 +16,7 @@ data class ProductItem(
     var installedVersion: String,
     var compatible: Boolean,
     var canUpdate: Boolean,
-    var matchRank: Int
+    var matchRank: Int,
 ) {
     sealed interface Section : Parcelable {
 
@@ -35,7 +35,7 @@ data class ProductItem(
 
     fun icon(
         view: View,
-        repository: Repository
+        repository: Repository,
     ): String? {
         if (packageName.isBlank()) return null
         if (icon.isBlank() && metadataIcon.isBlank()) return null

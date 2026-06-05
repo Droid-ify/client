@@ -9,12 +9,12 @@ import com.looker.droidify.datastore.SettingsRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
-import java.util.*
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import java.util.*
 
 class PrivacyRepositoryTest {
 

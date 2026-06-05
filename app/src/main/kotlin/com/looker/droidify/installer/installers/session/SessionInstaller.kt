@@ -17,8 +17,8 @@ import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.sdkAbove
-import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class SessionInstaller(private val context: Context) : Installer {
 
@@ -40,7 +40,7 @@ class SessionInstaller(private val context: Context) : Installer {
     }
 
     override suspend fun install(
-        installItem: InstallItem
+        installItem: InstallItem,
     ): InstallState = suspendCancellableCoroutine { cont ->
         val cacheFile = Cache.getReleaseFile(context, installItem.installFileName)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM && installItem.unarchiveId != null) {
@@ -54,16 +54,18 @@ class SessionInstaller(private val context: Context) : Installer {
             override fun onActiveChanged(sessionId: Int, active: Boolean) {}
             override fun onProgressChanged(sessionId: Int, progress: Float) {}
             override fun onFinished(sessionId: Int, success: Boolean) {
-                if (sessionId == id) cont.resume(
-                    if (success) InstallState.Installed else InstallState.Failed
-                )
+                if (sessionId == id) {
+                    cont.resume(
+                        if (success) InstallState.Installed else InstallState.Failed,
+                    )
+                }
             }
         }
         installerCallbacks = installerCallback
 
         installer.registerSessionCallback(
             installerCallbacks!!,
-            Handler(Looper.getMainLooper())
+            Handler(Looper.getMainLooper()),
         )
 
         val session = installer.openSession(id)

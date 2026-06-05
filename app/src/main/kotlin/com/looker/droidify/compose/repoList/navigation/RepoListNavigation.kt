@@ -12,10 +12,13 @@ import kotlinx.serialization.Serializable
 object RepoList
 
 fun NavController.navigateToRepoList() {
-    this.navigate(RepoList, navOptions {
-        launchSingleTop = true
-        restoreState = true
-    })
+    this.navigate(
+        RepoList,
+        navOptions {
+            launchSingleTop = true
+            restoreState = true
+        },
+    )
 }
 
 fun NavGraphBuilder.repoList(

@@ -8,12 +8,12 @@ import io.ktor.client.engine.mock.respondOk
 import io.ktor.client.plugins.ConnectTimeoutException
 import io.ktor.client.plugins.SocketTimeoutException
 import io.ktor.http.HttpStatusCode
-import java.io.File
-import kotlin.test.assertEquals
-import kotlin.test.assertIs
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
+import java.io.File
+import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class KtorDownloaderTest {
 
@@ -52,7 +52,7 @@ class KtorDownloaderTest {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
             "https://success.com",
-            target = file
+            target = file,
         )
         assertIs<NetworkResponse.Success>(response)
         assertEquals("success", file.readText())
@@ -64,7 +64,7 @@ class KtorDownloaderTest {
         file.setReadOnly()
         val response = downloader.downloadToFile(
             "https://success.com",
-            target = file
+            target = file,
         )
         assertIs<NetworkResponse.Error.IO>(response)
     }
@@ -74,7 +74,7 @@ class KtorDownloaderTest {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
             "https://connection.com",
-            target = file
+            target = file,
         )
         assertIs<NetworkResponse.Error.ConnectionTimeout>(response)
     }
@@ -84,7 +84,7 @@ class KtorDownloaderTest {
         val file = File.createTempFile("test", "success")
         val response = downloader.downloadToFile(
             "https://socket.com",
-            target = file
+            target = file,
         )
         assertIs<NetworkResponse.Error.SocketTimeout>(response)
     }
@@ -97,7 +97,7 @@ class KtorDownloaderTest {
             target = file,
             headers = {
                 ifModifiedSince("")
-            }
+            },
         )
         assertIs<NetworkResponse.Success>(response)
         assertEquals("", file.readText())
@@ -113,9 +113,9 @@ class KtorDownloaderTest {
                 headers = {
                     authentication(
                         "iamlooker",
-                        "sneakypeaky"
+                        "sneakypeaky",
                     )
-                }
+                },
             )
             assertIs<NetworkResponse.Error.Http>(response)
         }

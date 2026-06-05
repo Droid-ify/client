@@ -9,9 +9,7 @@ cd "$(git rev-parse --show-toplevel)"
 echo "[pre-commit] detekt auto-format…"
 ./gradlew -q :app:detektFormat < /dev/null
 
-git diff --cached --name-only --diff-filter=ACM -- '*.kt' '*.kts' | while IFS= read -r f; do
-    [ -f "$f" ] && git add -- "$f"
-done
+git diff --name-only -z -- '*.kt' '*.kts' | xargs -0 -r git add --
 
 echo "[pre-commit] detekt check…"
 if ! ./gradlew -q :app:detekt < /dev/null; then

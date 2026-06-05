@@ -13,10 +13,13 @@ import kotlinx.serialization.Serializable
 object AppList
 
 fun NavController.navigateToAppList() {
-    this.navigate(AppList, navOptions {
-        launchSingleTop = true
-        restoreState = true
-    })
+    this.navigate(
+        AppList,
+        navOptions {
+            launchSingleTop = true
+            restoreState = true
+        },
+    )
 }
 
 fun NavGraphBuilder.appList(

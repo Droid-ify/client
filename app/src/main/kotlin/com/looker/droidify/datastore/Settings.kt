@@ -7,13 +7,6 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
-import kotlin.time.Duration
-import kotlin.time.Duration.Companion.hours
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
@@ -21,6 +14,13 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.json.encodeToStream
+import java.io.IOException
+import java.io.InputStream
+import java.io.OutputStream
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.ExperimentalTime
+import kotlin.time.Instant
 
 @Serializable
 @OptIn(ExperimentalTime::class)

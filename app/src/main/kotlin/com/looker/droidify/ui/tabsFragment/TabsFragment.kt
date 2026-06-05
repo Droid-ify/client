@@ -53,9 +53,9 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
-import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -595,8 +595,11 @@ class TabsFragment : ScreenFragment() {
             updateUpdateNotificationBlocker(source)
             sortOrderMenu!!.first.apply {
                 setShowAsActionFlags(
-                    if (resources.configuration.screenWidthDp >= 300) MenuItem.SHOW_AS_ACTION_ALWAYS
-                    else 0,
+                    if (resources.configuration.screenWidthDp >= 300) {
+                        MenuItem.SHOW_AS_ACTION_ALWAYS
+                    } else {
+                        0
+                    },
                 )
             }
             syncRepositoriesMenuItem!!.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_ALWAYS)

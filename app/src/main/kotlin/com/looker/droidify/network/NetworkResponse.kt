@@ -20,6 +20,6 @@ sealed interface NetworkResponse {
     data class Success(
         val statusCode: Int,
         val lastModified: Date?,
-        val etag: String?
+        val etag: String?,
     ) : NetworkResponse
 }

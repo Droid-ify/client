@@ -11,7 +11,6 @@ import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
+import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(FlowPreview::class)

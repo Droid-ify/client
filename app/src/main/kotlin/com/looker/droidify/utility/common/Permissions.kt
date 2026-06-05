@@ -27,12 +27,12 @@ fun Context.requestBatteryFreedom() {
 
 fun Activity.requestNotificationPermission(
     request: (permission: String) -> Unit,
-    onGranted: () -> Unit = {}
+    onGranted: () -> Unit = {},
 ) {
     when {
         ContextCompat.checkSelfPermission(
             this,
-            Manifest.permission.POST_NOTIFICATIONS
+            Manifest.permission.POST_NOTIFICATIONS,
         ) == PackageManager.PERMISSION_GRANTED -> {
             onGranted()
         }

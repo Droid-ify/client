@@ -32,7 +32,7 @@ object Cache {
     private fun ensureCacheDir(context: Context, name: String): File {
         return File(
             context.cacheDir,
-            name
+            name,
         ).apply { isDirectory || mkdirs() || throw RuntimeException() }
     }
 
@@ -82,7 +82,7 @@ object Cache {
         val file = getReleaseFile(context, cacheFileName)
         val packageInfo = context.packageManager.getPackageInfoCompat(
             packageName = context.packageName,
-            signatureFlag = PackageManager.GET_PROVIDERS
+            signatureFlag = PackageManager.GET_PROVIDERS,
         )
         val authority =
             packageInfo?.providers?.find { it.name == Provider::class.java.name }!!.authority
@@ -166,7 +166,7 @@ object Cache {
             return when (uri.pathSegments?.firstOrNull()) {
                 RELEASE_DIR -> Pair(
                     File(context!!.cacheDir, uri.encodedPath!!),
-                    "application/vnd.android.package-archive"
+                    "application/vnd.android.package-archive",
                 )
 
                 else -> throw SecurityException()
@@ -192,7 +192,7 @@ object Cache {
             }.unzip()
             return MatrixCursor(columns.first.toTypedArray()).apply {
                 addRow(
-                    columns.second.toTypedArray()
+                    columns.second.toTypedArray(),
                 )
             }
         }

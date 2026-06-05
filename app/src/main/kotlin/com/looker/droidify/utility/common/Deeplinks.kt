@@ -8,7 +8,7 @@ const val LEGACY_HOST = "droidify.eu.org"
 const val PERSONAL_HOST = "droidify.app"
 
 fun shareUrl(packageName: String, repoAddress: String) =
-    "https://droidify.app/app/?id=${packageName}&repo_address=${repoAddress}"
+    "https://droidify.app/app/?id=$packageName&repo_address=$repoAddress"
 
 private val httpScheme = arrayOf("http", "https")
 private val fdroidRepoScheme = arrayOf("fdroidrepo", "fdroidrepos")
@@ -25,7 +25,8 @@ fun Intent.deeplinkType(): DeeplinkType? {
 
     return when (data.scheme) {
         "package",
-        "fdroid.app" -> {
+        "fdroid.app",
+        -> {
             val packageName = data.schemeSpecificPart?.nullIfEmpty()
                 ?: invalidDeeplink("Invalid packageName: $data")
             DeeplinkType.AppDetail(packageName)
@@ -62,7 +63,8 @@ fun Intent.deeplinkType(): DeeplinkType? {
         in httpScheme -> {
             when (data.host) {
                 PERSONAL_HOST,
-                LEGACY_HOST -> {
+                LEGACY_HOST,
+                -> {
                     val repoAddress = data["repo_address"]
                     if (data.path == "/app/") {
                         val packageName = data["id"]?.nullIfEmpty()

@@ -81,6 +81,6 @@ object DatabaseModule {
     ): PrivacyRepository = PrivacyRepository(
         rbDao = rblDao,
         downloadStatsDao = downloadStatsDao,
-        settingsRepo = settingsRepository
+        settingsRepo = settingsRepository,
     )
 }

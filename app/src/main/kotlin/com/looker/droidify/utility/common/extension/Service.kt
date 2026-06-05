@@ -22,7 +22,7 @@ fun Service.stopForegroundCompat(removeNotification: Boolean = true) {
                 Service.STOP_FOREGROUND_REMOVE
             } else {
                 Service.STOP_FOREGROUND_DETACH
-            }
+            },
         )
     } else {
         @Suppress("DEPRECATION")

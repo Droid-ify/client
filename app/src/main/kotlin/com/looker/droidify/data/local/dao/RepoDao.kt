@@ -23,7 +23,12 @@ interface RepoDao {
     suspend fun getRepo(repoId: Int): RepoEntity?
 
     @Query("SELECT id, address FROM repository WHERE id IN (:ids)")
-    suspend fun getAddressByIds(ids: List<Int>): Map<@MapColumn("id") Int, @MapColumn("address") String>
+    suspend fun getAddressByIds(ids: List<Int>): Map<
+        @MapColumn("id")
+        Int,
+        @MapColumn("address")
+        String,
+        >
 
     @Query("SELECT * FROM category GROUP BY category.defaultName")
     fun categories(): Flow<List<CategoryEntity>>
@@ -33,7 +38,7 @@ interface RepoDao {
         SELECT * FROM category
         JOIN category_repo_relation ON category.defaultName = category_repo_relation.defaultName
         WHERE category_repo_relation.id = :repoId
-        """
+        """,
     )
     @RewriteQueriesToDropUnusedColumns
     fun categoriesByRepoId(repoId: Int): Flow<List<CategoryEntity>>
@@ -53,10 +58,11 @@ interface RepoDao {
     @Query("SELECT name FROM localized_repo_name WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
     suspend fun name(id: Int, locale: String): String?
 
-    @Query("SELECT description FROM localized_repo_description WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
+    @Query(
+        "SELECT description FROM localized_repo_description WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')",
+    )
     suspend fun description(id: Int, locale: String): String?
 
     @Query("SELECT * FROM localized_repo_icon WHERE repoId = :id AND (locale = :locale OR locale = \'en-US\')")
     suspend fun icon(id: Int, locale: String): LocalizedRepoIconEntity?
-
 }

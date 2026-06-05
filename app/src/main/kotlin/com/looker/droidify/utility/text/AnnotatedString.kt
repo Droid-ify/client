@@ -65,8 +65,8 @@ fun Html.toAnnotatedString(
                         clickable = LinkAnnotation.Clickable(
                             styles = TextLinkStyles(style = linkStyle),
                             tag = url,
-                            linkInteractionListener = { onEmailClick(url.removePrefix("mailto:")) }
-                        )
+                            linkInteractionListener = { onEmailClick(url.removePrefix("mailto:")) },
+                        ),
                     )
                 } else {
                     addLink(
@@ -75,12 +75,11 @@ fun Html.toAnnotatedString(
                         url = LinkAnnotation.Url(
                             styles = TextLinkStyles(style = linkStyle),
                             url = url,
-                            linkInteractionListener = { onUrlClick(url) }
-                        )
+                            linkInteractionListener = { onUrlClick(url) },
+                        ),
                     )
                 }
             }
-
         }
         toAnnotatedString()
     }

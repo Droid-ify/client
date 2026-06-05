@@ -63,5 +63,4 @@ object RepoModule {
     ): InstalledRepository = InstalledRepository(
         installedDao = installedDao,
     )
-
 }

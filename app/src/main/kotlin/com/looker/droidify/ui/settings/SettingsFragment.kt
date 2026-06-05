@@ -42,7 +42,7 @@ class SettingsFragment : Fragment() {
                 }
                 DroidifyTheme(
                     darkTheme = isDarkTheme,
-                    dynamicColor = settings.dynamicTheme
+                    dynamicColor = settings.dynamicTheme,
                 ) {
                     SettingsScreen(
                         viewModel = viewModel,

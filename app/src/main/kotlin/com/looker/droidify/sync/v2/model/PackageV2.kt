@@ -91,7 +91,6 @@ data class SignerV2(
     val hasMultipleSigners: Boolean = false,
 )
 
-
 @Serializable
 data class ScreenshotsV2(
     val phone: LocalizedFiles? = null,
@@ -103,5 +102,4 @@ data class ScreenshotsV2(
 
     val isNull: Boolean =
         phone == null && sevenInch == null && tenInch == null && wear == null && tv == null
-
 }

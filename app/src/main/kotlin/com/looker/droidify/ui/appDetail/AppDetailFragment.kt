@@ -262,19 +262,19 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     when (incompatibility) {
                         is Release.Incompatibility.MinSdk,
                         is Release.Incompatibility.MaxSdk,
-                            -> getString(
+                        -> getString(
                             stringRes.incompatible_with_FORMAT,
-                            name
+                            name,
                         )
 
                         is Release.Incompatibility.Platform -> getString(
                             stringRes.incompatible_with_FORMAT,
-                            primaryPlatform ?: getString(stringRes.unknown)
+                            primaryPlatform ?: getString(stringRes.unknown),
                         )
 
                         is Release.Incompatibility.Feature -> getString(
                             stringRes.requires_FORMAT,
-                            incompatibility.feature
+                            incompatibility.feature,
                         )
                     }
                 }
@@ -401,7 +401,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         when (action) {
             AppDetailAdapter.Action.INSTALL,
             AppDetailAdapter.Action.UPDATE,
-                -> {
+            -> {
                 if (Cache.getEmptySpace(requireContext()) < products.first().first.releases.first().size) {
                     MessageDialog(Message.InsufficientStorage).show(childFragmentManager)
                     return
