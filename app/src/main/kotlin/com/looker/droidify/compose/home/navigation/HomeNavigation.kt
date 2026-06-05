@@ -11,10 +11,13 @@ import kotlinx.serialization.Serializable
 object Home
 
 fun NavController.navigateToHome() {
-    this.navigate(Home, navOptions {
-        launchSingleTop = true
-        restoreState = true
-    })
+    this.navigate(
+        Home,
+        navOptions {
+            launchSingleTop = true
+            restoreState = true
+        },
+    )
 }
 
 fun NavGraphBuilder.home(

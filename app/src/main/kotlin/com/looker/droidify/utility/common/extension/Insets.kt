@@ -14,7 +14,7 @@ import com.looker.droidify.utility.common.SdkCheck
 
 fun View.systemBarsMargin(
     persistentPadding: Int,
-    allowedSides: List<InsetSides> = listOf(InsetSides.LEFT, InsetSides.RIGHT, InsetSides.BOTTOM)
+    allowedSides: List<InsetSides> = listOf(InsetSides.LEFT, InsetSides.RIGHT, InsetSides.BOTTOM),
 ) {
     if (SdkCheck.isR) {
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
@@ -32,7 +32,7 @@ fun View.systemBarsMargin(
 
 fun RecyclerView.systemBarsPadding(
     allowedSides: List<InsetSides> = listOf(InsetSides.LEFT, InsetSides.RIGHT, InsetSides.BOTTOM),
-    includeFab: Boolean = true
+    includeFab: Boolean = true,
 ) {
     if (SdkCheck.isR) {
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
@@ -46,7 +46,7 @@ fun RecyclerView.systemBarsPadding(
                     insets.bottom + if (includeFab) 88.dp else 0
                 } else {
                     0
-                }
+                },
             )
             WindowInsetsCompat.CONSUMED
         }
@@ -54,7 +54,7 @@ fun RecyclerView.systemBarsPadding(
 }
 
 fun NestedScrollView.systemBarsPadding(
-    allowedSides: List<InsetSides> = listOf(InsetSides.LEFT, InsetSides.RIGHT, InsetSides.BOTTOM)
+    allowedSides: List<InsetSides> = listOf(InsetSides.LEFT, InsetSides.RIGHT, InsetSides.BOTTOM),
 ) {
     if (SdkCheck.isR) {
         ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
@@ -64,7 +64,7 @@ fun NestedScrollView.systemBarsPadding(
                 if (InsetSides.LEFT in allowedSides) insets.left else 0,
                 if (InsetSides.TOP in allowedSides) insets.top else 0,
                 if (InsetSides.RIGHT in allowedSides) insets.right else 0,
-                if (InsetSides.BOTTOM in allowedSides) insets.bottom else 0
+                if (InsetSides.BOTTOM in allowedSides) insets.bottom else 0,
             )
             WindowInsetsCompat.CONSUMED
         }
@@ -75,5 +75,5 @@ enum class InsetSides {
     LEFT,
     RIGHT,
     TOP,
-    BOTTOM
+    BOTTOM,
 }

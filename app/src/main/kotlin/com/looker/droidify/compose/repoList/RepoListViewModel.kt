@@ -6,8 +6,8 @@ import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class RepoListViewModel @Inject constructor(

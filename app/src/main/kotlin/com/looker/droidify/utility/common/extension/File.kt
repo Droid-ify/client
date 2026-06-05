@@ -15,4 +15,3 @@ inline fun <T> Context.tempFile(block: (file: File) -> T): T {
         file.delete()
     }
 }
-

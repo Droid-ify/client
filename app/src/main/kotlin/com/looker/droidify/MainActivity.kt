@@ -39,12 +39,12 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Inject
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -64,7 +64,9 @@ class MainActivity : AppCompatActivity() {
 
     @Parcelize
     private class FragmentStackItem(
-        val className: String, val arguments: Bundle?, val savedState: Fragment.SavedState?,
+        val className: String,
+        val arguments: Bundle?,
+        val savedState: Fragment.SavedState?,
     ) : Parcelable
 
     lateinit var cursorOwner: CursorOwner
@@ -289,7 +291,6 @@ class MainActivity : AppCompatActivity() {
                         navigateProduct(packageName)
                     }
                 }
-
             }
         }
     }

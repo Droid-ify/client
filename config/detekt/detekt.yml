@@ -124,6 +124,8 @@ style:
     maxLineLength: 120
 
 naming:
+  MatchingDeclarationName:
+    active: false
   FunctionNaming:
     active: true
     ignoreAnnotated: ['Composable']

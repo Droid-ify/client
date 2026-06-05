@@ -15,13 +15,13 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.looker.droidify.utility.common.extension.getColorFromAttr
-import com.looker.droidify.utility.common.extension.systemBarsPadding
-import com.looker.droidify.model.Repository
 import com.looker.droidify.databinding.RepositoryPageBinding
+import com.looker.droidify.model.Repository
 import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -48,7 +48,7 @@ class RepositoryFragment() : ScreenFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = RepositoryPageBinding.inflate(inflater, container, false)
@@ -124,11 +124,11 @@ class RepositoryFragment() : ScreenFragment() {
                             ForegroundColorSpan(
                                 requireContext()
                                     .getColorFromAttr(MaterialR.attr.colorErrorContainer)
-                                    .defaultColor
+                                    .defaultColor,
                             ),
                             0,
                             builder.length,
-                            SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                            SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
                         )
                         repoFingerprint.text.text = builder
                     }
@@ -136,13 +136,13 @@ class RepositoryFragment() : ScreenFragment() {
                     val fingerprint =
                         SpannableStringBuilder(
                             repository.fingerprint.windowed(2, 2, false)
-                                .take(32).joinToString(separator = " ") { it.uppercase(Locale.US) }
+                                .take(32).joinToString(separator = " ") { it.uppercase(Locale.US) },
                         )
                     fingerprint.setSpan(
                         TypefaceSpan("monospace"),
                         0,
                         fingerprint.length,
-                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+                        SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE,
                     )
                     repoFingerprint.text.text = fingerprint
                 }
@@ -154,7 +154,7 @@ class RepositoryFragment() : ScreenFragment() {
 
             deleteRepoButton.setOnClickListener {
                 MessageDialog(
-                    Message.DeleteRepositoryConfirm
+                    Message.DeleteRepositoryConfirm,
                 ).show(childFragmentManager)
             }
         }
@@ -162,7 +162,7 @@ class RepositoryFragment() : ScreenFragment() {
 
     internal fun onDeleteConfirm() {
         viewModel.deleteRepository(
-            onDelete = { requireActivity().onBackPressedDispatcher.onBackPressed() }
+            onDelete = { requireActivity().onBackPressedDispatcher.onBackPressed() },
         )
     }
 }

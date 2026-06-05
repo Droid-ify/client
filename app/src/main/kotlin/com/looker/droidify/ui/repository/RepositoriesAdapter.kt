@@ -5,18 +5,17 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.color.MaterialColors
 import com.looker.droidify.R
-import com.looker.droidify.model.Repository
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
+import com.looker.droidify.model.Repository
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class RepositoriesAdapter(
     private val navigate: (Repository) -> Unit,
-    private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean
+    private val onSwitch: (repository: Repository, isEnabled: Boolean) -> Boolean,
 ) : CursorRecyclerAdapter<RepositoriesAdapter.ViewType, RecyclerView.ViewHolder>() {
     enum class ViewType { REPOSITORY }
 
@@ -43,14 +42,14 @@ class RepositoriesAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: ViewType
+        viewType: ViewType,
     ): RecyclerView.ViewHolder {
         return ViewHolder(
             RepositoryItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         ).apply {
             itemView.setOnClickListener {
                 navigate(getRepository(absoluteAdapterPosition))
@@ -71,9 +70,15 @@ class RepositoriesAdapter(
         holder.repoDesc.text = repository.description.trim()
 
         val colorOnSurface = MaterialColors.getColor(
-            holder.itemView, com.google.android.material.R.attr.colorOnSurface, Color.BLACK)
+            holder.itemView,
+            com.google.android.material.R.attr.colorOnSurface,
+            Color.BLACK,
+        )
         val colorSurfaceContainer = MaterialColors.getColor(
-            holder.itemView, com.google.android.material.R.attr.colorSurfaceContainer, Color.WHITE)
+            holder.itemView,
+            com.google.android.material.R.attr.colorSurfaceContainer,
+            Color.WHITE,
+        )
 
         holder.isChecked = repository.enabled
         if (holder.isChecked) {

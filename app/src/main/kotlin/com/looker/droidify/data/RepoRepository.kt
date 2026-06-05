@@ -25,8 +25,6 @@ import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.work.SyncWorker
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -34,6 +32,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
+import java.io.File
+import javax.inject.Inject
 
 class RepoRepository @Inject constructor(
     encryptionStorage: EncryptionStorage,
@@ -160,13 +160,13 @@ class RepoRepository @Inject constructor(
         )
         if (name != null) {
             indexDao.insertLocalizedRepoNames(
-                listOf(LocalizedRepoNameEntity(id.toInt(), "en-US", name))
+                listOf(LocalizedRepoNameEntity(id.toInt(), "en-US", name)),
             )
         }
 
         if (description != null) {
             indexDao.insertLocalizedRepoDescription(
-                listOf(LocalizedRepoDescriptionEntity(id.toInt(), "en-US", description))
+                listOf(LocalizedRepoDescriptionEntity(id.toInt(), "en-US", description)),
             )
         }
         if (password != null && username != null) {

@@ -12,10 +12,13 @@ import kotlinx.serialization.Serializable
 object Settings
 
 fun NavController.navigateToSettings() {
-    navigate(Settings, navOptions {
-        launchSingleTop = true
-        restoreState = true
-    })
+    navigate(
+        Settings,
+        navOptions {
+            launchSingleTop = true
+            restoreState = true
+        },
+    )
 }
 
 fun NavGraphBuilder.settings(

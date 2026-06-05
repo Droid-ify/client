@@ -44,7 +44,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     ) {
         AVAILABLE(stringRes.available, true, false),
         INSTALLED(stringRes.installed, false, false),
-        UPDATES(stringRes.updates, false, true)
+        UPDATES(stringRes.updates, false, true),
     }
 
     constructor(source: Source) : this() {

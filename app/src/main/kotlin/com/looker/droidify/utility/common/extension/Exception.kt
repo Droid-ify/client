@@ -7,6 +7,7 @@ inline fun Exception.exceptCancellation() {
     printStackTrace()
     if (this is CancellationException) throw this
 }
+
 @Suppress("NOTHING_TO_INLINE")
 inline fun Throwable.exceptCancellation() {
     printStackTrace()

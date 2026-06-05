@@ -5,7 +5,6 @@ import java.io.File
 interface FileValidator {
 
     suspend fun validate(file: File): ValidationResult
-
 }
 
 sealed interface ValidationResult {

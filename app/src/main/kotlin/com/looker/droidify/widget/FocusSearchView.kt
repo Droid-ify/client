@@ -11,7 +11,7 @@ class FocusSearchView : SearchView {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
-        defStyleAttr
+        defStyleAttr,
     )
 
     var allowFocus = true

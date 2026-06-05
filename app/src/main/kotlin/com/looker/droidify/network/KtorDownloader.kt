@@ -18,13 +18,13 @@ import io.ktor.http.etag
 import io.ktor.http.isSuccess
 import io.ktor.http.lastModified
 import io.ktor.utils.io.jvm.javaio.copyTo
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import kotlin.coroutines.cancellation.CancellationException
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.withContext
 
 internal class KtorDownloader(
     private val client: HttpClient,

@@ -43,9 +43,9 @@ fun PackageManager.isSystemApplication(packageName: String): Boolean = try {
 fun PackageManager.getLauncherActivities(packageName: String): List<Pair<String, String>> {
     return queryIntentActivities(
         Intent(Intent.ACTION_MAIN).addCategory(
-            Intent.CATEGORY_LAUNCHER
+            Intent.CATEGORY_LAUNCHER,
         ),
-        0
+        0,
     )
         .asSequence()
         .mapNotNull { resolveInfo -> resolveInfo.activityInfo }
@@ -65,11 +65,11 @@ fun PackageManager.getLauncherActivities(packageName: String): List<Pair<String,
 }
 
 fun PackageManager.getApplicationInfoCompat(
-    filePath: String
+    filePath: String,
 ): ApplicationInfo = if (SdkCheck.isTiramisu) {
     getApplicationInfo(
         filePath,
-        PackageManager.ApplicationInfoFlags.of(0L)
+        PackageManager.ApplicationInfoFlags.of(0L),
     )
 } else {
     getApplicationInfo(filePath, 0)
@@ -87,12 +87,12 @@ private val signaturesFlagCompat: Int
 
 fun PackageManager.getPackageInfoCompat(
     packageName: String,
-    signatureFlag: Int = signaturesFlagCompat
+    signatureFlag: Int = signaturesFlagCompat,
 ): PackageInfo? = try {
     if (SdkCheck.isTiramisu) {
         getPackageInfo(
             packageName,
-            PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
+            PackageManager.PackageInfoFlags.of(signatureFlag.toLong()),
         )
     } else {
         getPackageInfo(packageName, signatureFlag)
@@ -109,8 +109,8 @@ fun PackageManager.getPackageName(
         getApplicationLabel(
             getApplicationInfo(
                 packageName,
-                PackageManager.GET_META_DATA
-            )
+                PackageManager.GET_META_DATA,
+            ),
         )
     } catch (e: PackageManager.NameNotFoundException) {
         null
@@ -119,12 +119,12 @@ fun PackageManager.getPackageName(
 
 fun PackageManager.getPackageArchiveInfoCompat(
     filePath: String,
-    signatureFlag: Int = signaturesFlagCompat
+    signatureFlag: Int = signaturesFlagCompat,
 ): PackageInfo? = try {
     if (SdkCheck.isTiramisu) {
         getPackageArchiveInfo(
             filePath,
-            PackageManager.PackageInfoFlags.of(signatureFlag.toLong())
+            PackageManager.PackageInfoFlags.of(signatureFlag.toLong()),
         )
     } else {
         getPackageArchiveInfo(filePath, signatureFlag)
@@ -134,7 +134,7 @@ fun PackageManager.getPackageArchiveInfoCompat(
 }
 
 fun PackageManager.getInstalledPackagesCompat(
-    signatureFlag: Int = signaturesFlagCompat
+    signatureFlag: Int = signaturesFlagCompat,
 ): List<PackageInfo>? = try {
     if (SdkCheck.isTiramisu) {
         getInstalledPackages(PackageManager.PackageInfoFlags.of(signatureFlag.toLong()))

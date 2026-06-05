@@ -91,7 +91,9 @@ interface IndexDao {
         val insertedIds: Map<String, Int> = if (toInsert.isNotEmpty()) {
             val result = insertApps(toInsert)
             toInsert.mapIndexed { idx, entity -> entity.packageName to result[idx].toInt() }.toMap()
-        } else emptyMap()
+        } else {
+            emptyMap()
+        }
 
         val appIdByPackage: Map<String, Int> = existingIdByPackage + insertedIds
 
@@ -132,9 +134,11 @@ interface IndexDao {
         }
 
         if (allVersions.isNotEmpty()) insertVersions(allVersions)
-        if (allAntiFeatureAppRelations.isNotEmpty()) insertAntiFeatureAppRelation(
-            allAntiFeatureAppRelations
-        )
+        if (allAntiFeatureAppRelations.isNotEmpty()) {
+            insertAntiFeatureAppRelation(
+                allAntiFeatureAppRelations,
+            )
+        }
         if (allCategoryAppRelations.isNotEmpty()) insertCategoryAppRelation(allCategoryAppRelations)
 
         insertLocalizedAppData(
@@ -308,9 +312,11 @@ interface IndexDao {
         }
         val antiFeatureRepoRelations = antiFeatures.map { AntiFeatureRepoRelation(repoId, it.tag) }
         if (antiFeatures.isNotEmpty()) insertAntiFeatures(antiFeatures)
-        if (antiFeatureRepoRelations.isNotEmpty()) insertAntiFeatureRepoRelation(
-            antiFeatureRepoRelations
-        )
+        if (antiFeatureRepoRelations.isNotEmpty()) {
+            insertAntiFeatureRepoRelation(
+                antiFeatureRepoRelations,
+            )
+        }
 
         val categories = index.repo.categories.flatMap { (defaultName, category) ->
             category.categoryEntity(defaultName)

@@ -12,9 +12,12 @@ import kotlinx.serialization.Serializable
 data class AppDetail(val packageName: String)
 
 fun NavController.navigateToAppDetail(packageName: String) {
-    this.navigate(AppDetail(packageName), navOptions {
-        launchSingleTop = true
-    })
+    this.navigate(
+        AppDetail(packageName),
+        navOptions {
+            launchSingleTop = true
+        },
+    )
 }
 
 fun NavGraphBuilder.appDetail(

@@ -13,10 +13,6 @@ import com.looker.droidify.sync.common.downloadIndex
 import com.looker.droidify.sync.v2.EntrySyncable
 import com.looker.droidify.sync.v2.model.Entry
 import com.looker.droidify.sync.v2.model.IndexV2
-import kotlin.system.measureTimeMillis
-import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
-import kotlin.test.fail
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -25,6 +21,10 @@ import kotlinx.serialization.json.decodeFromStream
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.system.measureTimeMillis
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.fail
 
 @RunWith(AndroidJUnit4::class)
 class EntrySyncableTest {
@@ -79,7 +79,7 @@ class EntrySyncableTest {
                 context = context,
                 repo = repo,
                 fileName = "izzy",
-                url = "entry.jar"
+                url = "entry.jar",
             )
             measureTimeMillis {
                 with(file.toJarScope<Entry>()) {
@@ -108,9 +108,9 @@ class EntrySyncableTest {
             syncable,
             repo.copy(
                 versionInfo = repo.versionInfo?.copy(
-                    timestamp = index1!!.repo.timestamp
-                )
-            )
+                    timestamp = index1!!.repo.timestamp,
+                ),
+            ),
         ) ?: fail("Result should not be null")
         assert(index2 != null)
         val index2NonNull = requireNotNull(index2)
@@ -119,9 +119,9 @@ class EntrySyncableTest {
             syncable,
             repo.copy(
                 versionInfo = repo.versionInfo?.copy(
-                    timestamp = index2NonNull.repo.timestamp
-                )
-            )
+                    timestamp = index2NonNull.repo.timestamp,
+                ),
+            ),
         ) ?: fail("Result should not be null")
         assert(index3 == null)
 
@@ -136,17 +136,16 @@ class EntrySyncableTest {
         // Check if repo antifeatures are same
         assertContentEquals(
             newIndex.repo.antiFeatures.keys.sorted(),
-            index2NonNull.repo.antiFeatures.keys.sorted()
+            index2NonNull.repo.antiFeatures.keys.sorted(),
         )
 
         // Check if repo categories are same
         assertContentEquals(
             newIndex.repo.categories.keys.sorted(),
-            index2NonNull.repo.categories.keys.sorted()
+            index2NonNull.repo.categories.keys.sorted(),
         )
 
         assertEquals(fingerprint1, fingerprint2)
         assertEquals(fingerprint2, fingerprint3)
     }
-
 }

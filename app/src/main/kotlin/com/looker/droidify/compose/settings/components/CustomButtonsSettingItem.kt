@@ -83,7 +83,7 @@ fun CustomButtonsSettingItem(
                     onClick = {
                         editingButton = null
                         showEditor = true
-                    }
+                    },
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
@@ -239,8 +239,8 @@ private fun CustomButtonItem(
                 Text(
                     stringResource(
                         R.string.custom_button_delete_confirmation,
-                        button.label
-                    )
+                        button.label,
+                    ),
                 )
             },
             confirmButton = {
@@ -248,7 +248,7 @@ private fun CustomButtonItem(
                     onClick = {
                         showDeleteConfirmation = false
                         onDelete()
-                    }
+                    },
                 ) {
                     Text(
                         stringResource(R.string.delete),

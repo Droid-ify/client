@@ -69,8 +69,11 @@ fun RepoEditScreen(
                 title = {
                     Text(
                         text = stringResource(
-                            if (repoId != null) R.string.edit_repository
-                            else R.string.add_repository,
+                            if (repoId != null) {
+                                R.string.edit_repository
+                            } else {
+                                R.string.add_repository
+                            },
                         ),
                     )
                 },

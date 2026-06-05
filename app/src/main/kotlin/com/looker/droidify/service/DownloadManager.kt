@@ -12,9 +12,9 @@ import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.utility.common.cache.Cache
-import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import java.util.concurrent.ConcurrentHashMap
 
 private const val MAX_PARALLEL_DOWNLOADS = 1
 

@@ -5,10 +5,10 @@ import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.datastore.SettingsRepository
-import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
+import java.util.*
 
 class PrivacyRepository(
     private val rbDao: RBLogDao,

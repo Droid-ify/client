@@ -38,9 +38,6 @@ import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.ref.WeakReference
-import javax.inject.Inject
-import kotlin.math.roundToInt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -57,6 +54,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import java.lang.ref.WeakReference
+import javax.inject.Inject
+import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -141,7 +141,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val manual = request != SyncRequest.AUTO
             tasks += ids.asSequence().filter {
                 it !in currentIds &&
-                        it != currentTask?.task?.repositoryId
+                    it != currentTask?.task?.repositoryId
             }.map { Task(it, manual) }
             handleNextTask(cancelledTask?.hasUpdates == true, settings)
             if (request != SyncRequest.AUTO && started == Started.AUTO) {
@@ -189,7 +189,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             val settings = runBlocking { settingsRepository.getInitial() }
             if (enabled) {
                 val isRepoInTasks = repository.id != currentTask?.task?.repositoryId &&
-                        !tasks.any { it.repositoryId == repository.id }
+                    !tasks.any { it.repositoryId == repository.id }
                 if (isRepoInTasks) {
                     tasks += Task(repository.id, true)
                     handleNextTask(false, settings)
@@ -515,7 +515,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 task = task,
                 repository = repository,
                 isIndexModified = isIndexModified,
-                settings = settings
+                settings = settings,
             )
             currentTask = CurrentTask(task, downloadJob, isIndexModified, initialState)
         }
@@ -602,7 +602,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             .sortedBy { if (it.packageName == packageName) 1 else -1 }
             .map {
                 Database.InstalledAdapter.get(it.packageName, null) to
-                        Database.RepositoryAdapter.get(it.repositoryId)
+                    Database.RepositoryAdapter.get(it.repositoryId)
             }
             .filter { it.first != null && it.second != null }
             .forEach { (installItem, repo) ->

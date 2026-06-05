@@ -7,7 +7,6 @@ import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.utility.common.Exporter
 import io.mockk.mockk
-import java.io.File
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -22,6 +21,7 @@ import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import java.io.File
 
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
@@ -42,7 +42,7 @@ class PreferenceSettingsRepositoryTest {
         exporter = mockk(relaxed = true)
         val dataStore = PreferenceDataStoreFactory.create(
             scope = testScope,
-            produceFile = { File(tmpFolder.newFolder(), "test_settings.preferences_pb") }
+            produceFile = { File(tmpFolder.newFolder(), "test_settings.preferences_pb") },
         )
         repository = PreferenceSettingsRepository(dataStore, exporter)
     }

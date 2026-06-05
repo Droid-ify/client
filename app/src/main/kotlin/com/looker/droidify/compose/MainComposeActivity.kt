@@ -31,9 +31,9 @@ import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.requestNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainComposeActivity : ComponentActivity() {
@@ -79,7 +79,7 @@ class MainComposeActivity : ComponentActivity() {
 
                         repoList(
                             onRepoClick = { repoId -> navController.navigateToRepoDetail(repoId) },
-                            onBackClick = { navController.popBackStack() }
+                            onBackClick = { navController.popBackStack() },
                         )
 
                         appDetail(

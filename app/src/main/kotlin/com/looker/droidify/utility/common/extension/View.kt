@@ -61,7 +61,7 @@ val View.minDimension: Int
     get() = (
         min(
             layoutParams.width,
-            layoutParams.height
+            layoutParams.height,
         ) / resources.displayMetrics.density
         ).roundToInt()
 

@@ -29,7 +29,7 @@ fun HomeScreen(
             TopAppBar(title = { Text("Droid-ify") })
         },
         bottomBar = {
-            androidx.compose.material3.Surface( tonalElevation = 3.dp ) {
+            androidx.compose.material3.Surface(tonalElevation = 3.dp) {
                 androidx.compose.foundation.layout.Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -41,7 +41,7 @@ fun HomeScreen(
                     androidx.compose.material3.TextButton(onClick = onNavigateToSettings) { Text("Settings") }
                 }
             }
-        }
+        },
     ) { padding ->
         HomeContent(
             paddingValues = padding,

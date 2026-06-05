@@ -12,9 +12,12 @@ import kotlinx.serialization.Serializable
 data class RepoEdit(val repoId: Int? = null)
 
 fun NavController.navigateToRepoEdit(repoId: Int? = null) {
-    this.navigate(RepoEdit(repoId), navOptions {
-        launchSingleTop = true
-    })
+    this.navigate(
+        RepoEdit(repoId),
+        navOptions {
+            launchSingleTop = true
+        },
+    )
 }
 
 fun NavGraphBuilder.repoEdit(
@@ -24,7 +27,7 @@ fun NavGraphBuilder.repoEdit(
         val repoEdit = backStackEntry.toRoute<RepoEdit>()
         RepoEditScreen(
             repoId = repoEdit.repoId,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
         )
     }
 }

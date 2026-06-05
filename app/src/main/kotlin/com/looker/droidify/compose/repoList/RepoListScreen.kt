@@ -52,7 +52,7 @@ fun RepoListScreen(
                 title = { Text(text = stringResource(R.string.repositories)) },
                 navigationIcon = { BackButton(onBackClick) },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(contentPadding = contentPadding) {
             items(repos) { repo ->
