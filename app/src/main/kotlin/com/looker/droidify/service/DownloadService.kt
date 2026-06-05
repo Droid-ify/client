@@ -8,6 +8,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.MainActivity
+import com.looker.droidify.R.string.connection_error_DESC
+import com.looker.droidify.R.string.could_not_download_FORMAT
+import com.looker.droidify.R.string.could_not_validate_FORMAT
+import com.looker.droidify.R.string.http_error_DESC
+import com.looker.droidify.R.string.io_error_DESC
+import com.looker.droidify.R.string.socket_error_DESC
+import com.looker.droidify.R.string.unknown_error_DESC
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
@@ -20,6 +27,7 @@ import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.percentBy
+import com.looker.droidify.network.validation.ValidationResult
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.SdkCheck
@@ -240,7 +248,11 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         }
     }
 
-    private fun showNotificationError(task: Task, error: NetworkResponse.Error) {
+    private fun showErrorNotification(
+        task: Task,
+        titleRes: Int,
+        description: String?,
+    ) {
         val intent = Intent(this, MainActivity::class.java)
             .setAction(Intent.ACTION_VIEW)
             .setData("package:${task.packageName}".toUri())
@@ -256,30 +268,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 .setColor(Color.GREEN)
                 .setOnlyAlertOnce(true)
                 .setContentIntent(intent)
-                .errorNotificationContent(task, error)
+                .setContentTitle(getString(titleRes, task.name))
+                .setContentText(description)
                 .build(),
         )
-    }
-
-    private fun NotificationCompat.Builder.errorNotificationContent(
-        task: Task,
-        error: NetworkResponse.Error,
-    ): NotificationCompat.Builder {
-        val title = if (error is NetworkResponse.Error.Validation) {
-            stringRes.could_not_validate_FORMAT
-        } else {
-            stringRes.could_not_download_FORMAT
-        }
-        val description = when (error) {
-            is NetworkResponse.Error.ConnectionTimeout -> getString(stringRes.connection_error_DESC)
-            is NetworkResponse.Error.Http -> getString(stringRes.http_error_DESC)
-            is NetworkResponse.Error.IO -> getString(stringRes.io_error_DESC)
-            is NetworkResponse.Error.SocketTimeout -> getString(stringRes.socket_error_DESC)
-            is NetworkResponse.Error.Validation -> error.exception.message
-            is NetworkResponse.Error.Unknown -> getString(stringRes.unknown_error_DESC)
-        }
-        setContentTitle(getString(title, task.name))
-        return setContentText(description)
     }
 
     private fun showNotificationInstall(task: Task) {
@@ -445,15 +437,9 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         target: File,
     ) = launch {
         try {
-            val releaseValidator = ReleaseFileValidator(
-                context = this@DownloadService,
-                packageName = task.packageName,
-                release = task.release,
-            )
             val response = downloader.downloadToFile(
                 url = task.url,
                 target = target,
-                validator = releaseValidator,
                 headers = { if (task.authentication.isNotEmpty()) authentication(task.authentication) },
             ) { read, total ->
                 yield()
@@ -462,6 +448,18 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
             when (response) {
                 is NetworkResponse.Success -> {
+                    val releaseValidator = ReleaseFileValidator(
+                        context = this@DownloadService,
+                        packageName = task.packageName,
+                        release = task.release,
+                    )
+                    val result = releaseValidator.validate(target)
+                    if (result is ValidationResult.Invalid) {
+                        target.delete()
+                        updateCurrentState(State.Error(task.packageName))
+                        showErrorNotification(task, could_not_validate_FORMAT, result.message)
+                        return@launch
+                    }
                     val releaseFile = Cache.getReleaseFile(
                         this@DownloadService,
                         task.release.cacheFileName,
@@ -472,7 +470,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
                 is NetworkResponse.Error -> {
                     updateCurrentState(State.Error(task.packageName))
-                    showNotificationError(task, response)
+                    val description = when (response) {
+                        is NetworkResponse.Error.ConnectionTimeout -> connection_error_DESC
+                        is NetworkResponse.Error.Http -> http_error_DESC
+                        is NetworkResponse.Error.IO -> io_error_DESC
+                        is NetworkResponse.Error.SocketTimeout -> socket_error_DESC
+                        is NetworkResponse.Error.Unknown -> unknown_error_DESC
+                    }
+                    showErrorNotification(task, could_not_download_FORMAT, getString(description))
                 }
             }
         } finally {

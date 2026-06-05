@@ -2,8 +2,6 @@ package com.looker.droidify.network
 
 import com.looker.droidify.network.header.HeadersBuilder
 import com.looker.droidify.network.header.KtorHeadersBuilder
-import com.looker.droidify.network.validation.FileValidator
-import com.looker.droidify.network.validation.ValidationException
 import io.ktor.client.HttpClient
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -44,7 +42,6 @@ internal class KtorDownloader(
     override suspend fun downloadToFile(
         url: String,
         target: File,
-        validator: FileValidator?,
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?,
     ): NetworkResponse = withContext(dispatcher) {
@@ -67,7 +64,6 @@ internal class KtorDownloader(
                 }
                 response.bodyAsChannel().copyTo(output)
                 output.flush()
-                validator?.validate(target)
                 networkResponse
             }
         } catch (e: SocketTimeoutException) {
@@ -76,9 +72,6 @@ internal class KtorDownloader(
             NetworkResponse.Error.ConnectionTimeout(e)
         } catch (e: IOException) {
             NetworkResponse.Error.IO(e)
-        } catch (e: ValidationException) {
-            target.delete()
-            NetworkResponse.Error.Validation(e)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

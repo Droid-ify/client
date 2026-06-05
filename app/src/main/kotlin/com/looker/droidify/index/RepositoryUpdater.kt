@@ -213,8 +213,6 @@ object RepositoryUpdater {
                     is NetworkResponse.Error.IO -> Result.Error(result.exception)
                     is NetworkResponse.Error.SocketTimeout -> Result.Error(result.exception)
                     is NetworkResponse.Error.Unknown -> Result.Error(result.exception)
-                    // TODO: Add Validator
-                    is NetworkResponse.Error.Validation -> Result.Error()
                 }
             }
         }

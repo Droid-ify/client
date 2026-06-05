@@ -4,7 +4,6 @@ import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.ProgressListener
 import com.looker.droidify.network.header.HeadersBuilder
-import com.looker.droidify.network.validation.FileValidator
 import com.looker.droidify.sync.common.assets
 import java.io.File
 import java.io.InputStream
@@ -24,7 +23,6 @@ val FakeDownloader = object : Downloader {
     override suspend fun downloadToFile(
         url: String,
         target: File,
-        validator: FileValidator?,
         headers: HeadersBuilder.() -> Unit,
         block: ProgressListener?
     ): NetworkResponse {

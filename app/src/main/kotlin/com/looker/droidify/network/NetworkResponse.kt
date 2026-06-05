@@ -1,6 +1,5 @@
 package com.looker.droidify.network
 
-import com.looker.droidify.network.validation.ValidationException
 import java.util.Date
 
 sealed interface NetworkResponse {
@@ -12,8 +11,6 @@ sealed interface NetworkResponse {
         data class SocketTimeout(val exception: Exception) : Error
 
         data class IO(val exception: Exception) : Error
-
-        data class Validation(val exception: ValidationException) : Error
 
         data class Unknown(val exception: Exception) : Error
 
