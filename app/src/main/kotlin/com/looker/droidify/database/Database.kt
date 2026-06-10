@@ -18,6 +18,8 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.droidify.utility.common.extension.firstOrNull
+import com.looker.droidify.utility.common.extension.gunzipIfNeeded
+import com.looker.droidify.utility.common.extension.gzip
 import com.looker.droidify.utility.common.extension.parseDictionary
 import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.utility.serialization.product
@@ -598,6 +600,7 @@ object Database {
 
         private fun transform(cursor: Cursor): Product {
             return cursor.getBlob(cursor.getColumnIndexOrThrow(Schema.Product.ROW_DATA))
+                .gunzipIfNeeded()
                 .jsonParse {
                     it.product().apply {
                         this.repositoryId = cursor
@@ -796,7 +799,7 @@ object Database {
                             put(Schema.Product.ROW_VERSION_CODE, product.versionCode)
                             put(Schema.Product.ROW_SIGNATURES, signatures)
                             put(Schema.Product.ROW_COMPATIBLE, if (product.compatible) 1 else 0)
-                            put(Schema.Product.ROW_DATA, jsonGenerate(product::serialize))
+                            put(Schema.Product.ROW_DATA, jsonGenerate(product::serialize).gzip())
                             put(
                                 Schema.Product.ROW_DATA_ITEM,
                                 jsonGenerate(product.item()::serialize),

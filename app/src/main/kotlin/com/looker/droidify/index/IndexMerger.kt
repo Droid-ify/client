@@ -8,6 +8,8 @@ import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.asSequence
 import com.looker.droidify.utility.common.extension.collectNotNull
+import com.looker.droidify.utility.common.extension.gunzipIfNeeded
+import com.looker.droidify.utility.common.extension.gzip
 import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.release
@@ -43,7 +45,7 @@ class IndexMerger(file: File) : Closeable {
                 ContentValues().apply {
                     put("package_name", product.packageName)
                     put("description", product.description)
-                    put("data", outputStream.toByteArray())
+                    put("data", outputStream.toByteArray().gzip())
                 },
             )
         }
@@ -65,7 +67,7 @@ class IndexMerger(file: File) : Closeable {
                 null,
                 ContentValues().apply {
                     put("package_name", packageName)
-                    put("data", outputStream.toByteArray())
+                    put("data", outputStream.toByteArray().gzip())
                 },
             )
         }
@@ -87,7 +89,7 @@ class IndexMerger(file: File) : Closeable {
         ).use { cursor ->
             cursor.asSequence().map { currentCursor ->
                 val description = currentCursor.getString(0)
-                val product = Json.factory.createParser(currentCursor.getBlob(1)).use {
+                val product = Json.factory.createParser(currentCursor.getBlob(1).gunzipIfNeeded()).use {
                     it.nextToken()
                     it.product().apply {
                         this.repositoryId = repositoryId
@@ -95,7 +97,7 @@ class IndexMerger(file: File) : Closeable {
                     }
                 }
                 val releases = currentCursor.getBlob(2)?.let { bytes ->
-                    Json.factory.createParser(bytes).use {
+                    Json.factory.createParser(bytes.gunzipIfNeeded()).use {
                         it.nextToken()
                         it.collectNotNull(
                             JsonToken.START_OBJECT,
