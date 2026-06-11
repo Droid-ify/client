@@ -171,6 +171,16 @@
     <string name="session_installer">セッションインストーラー</string>
     <string name="root_installer">Root インストーラー</string>
     <string name="shizuku_installer">Shizuku インストーラー</string>
+    <string name="dhizuku_installer">Dhizuku インストーラー</string>
+    <string name="dhizuku_not_alive">Dhizuku が動作していません</string>
+    <string name="dhizuku_not_installed">Dhizuku はインストールされていません</string>
+    <string name="error_dhizuku_service_unavailable">Dhizuku サービスが動作していません</string>
+    <string name="error_dhizuku_not_running_DESC">Dhizuku サービスが動作していません</string>
+    <string name="error_dhizuku_not_granted">Dhizuku の権限が付与されていません</string>
+    <string name="error_dhizuku_not_granted_DESC">Dhizuku の権限が付与されていません</string>
+    <string name="error_dhizuku_not_installed">Dhizuku がインストールされていません</string>
+    <string name="error_dhizuku_not_installed_DESC">Dhizuku はインストールされていません</string>
+    <string name="open_dhizuku">Dhizuku を開く</string>
     <string name="plus_more_FORMAT">さらに %d 件</string>
     <string name="proxy_host">プロキシホスト</string>
     <string name="proxy_port">プロキシポート</string>
