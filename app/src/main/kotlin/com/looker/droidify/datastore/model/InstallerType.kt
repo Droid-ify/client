@@ -6,6 +6,7 @@ enum class InstallerType {
     LEGACY,
     SESSION,
     SHIZUKU,
+    DHIZUKU,
     ROOT,
     ;
 

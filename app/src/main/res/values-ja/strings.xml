@@ -179,6 +179,7 @@
     <string name="auto_update">アプリの自動更新</string>
     <string name="auto_update_apps">アップデートを自動的にインストールします</string>
     <string name="installing">インストール中</string>
+    <string name="uninstalling">アンインストール中</string>
     <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
     <string name="material_you">Material You</string>
@@ -209,6 +210,7 @@
     <string name="import_repos_DESC">ファイルから全てのリポジトリをインポートする</string>
     <string name="uninstalled_application">アンインストール</string>
     <string name="uninstalled_application_DESC">%s をアンインストールしました</string>
+    <string name="uninstall_application_DESC">「%s」をアンインストールしますか？</string>
     <string name="installation_failed">インストールに失敗しました</string>
     <string name="installation_failed_DESC">%s のインストールに失敗しました</string>
     <string name="ignore_signature_summary">LSPosedユーザー、上級ユーザー向けに、apkをインストールする際の署名の検証を無視します</string>

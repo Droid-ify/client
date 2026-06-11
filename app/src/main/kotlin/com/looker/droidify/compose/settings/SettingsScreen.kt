@@ -482,6 +482,7 @@ private fun InstallerTypeSetting(
                 InstallerType.LEGACY -> stringResource(R.string.legacy_installer)
                 InstallerType.SESSION -> stringResource(R.string.session_installer)
                 InstallerType.SHIZUKU -> stringResource(R.string.shizuku_installer)
+                InstallerType.DHIZUKU -> stringResource(R.string.dhizuku_installer)
                 InstallerType.ROOT -> stringResource(R.string.root_installer)
             }
         },

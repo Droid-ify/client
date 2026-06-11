@@ -17,6 +17,7 @@
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="com.rosan.dhizuku.permission.API" />
 
     <uses-feature
         android:name="android.software.leanback"
@@ -224,5 +225,10 @@
         </receiver>
 
     </application>
+
+    <queries>
+        <package android:name="com.rosan.dhizuku" />
+        <provider android:authorities="com.rosan.dhizuku.server.provider" />
+    </queries>
 
 </manifest>

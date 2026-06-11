@@ -28,6 +28,10 @@ import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuAlive
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuGranted
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuInstalled
+import com.looker.droidify.installer.installers.dhizuku.requestDhizukuPermission
 import com.looker.droidify.installer.installers.requestPermissionListener
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.common.extension.updateAsMutable
@@ -150,6 +154,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             when (installerType) {
                 InstallerType.SHIZUKU -> handleShizukuInstaller(context, installerType)
+                InstallerType.DHIZUKU -> handleDhizukuInstaller(context, installerType)
                 InstallerType.ROOT -> handleRootInstaller(installerType)
                 InstallerType.LEGACY -> {
                     settingsRepository.setDeleteApkOnInstall(false)
@@ -173,6 +178,23 @@ class SettingsViewModel @Inject constructor(
             }
         } else {
             showSnackbar(R.string.shizuku_not_installed)
+        }
+    }
+
+
+    private suspend fun handleDhizukuInstaller(context: Context, installerType: InstallerType) {
+        if (isDhizukuInstalled(context)) {
+            when {
+                !isDhizukuAlive(context) -> showSnackbar(R.string.dhizuku_not_alive)
+                isDhizukuGranted() -> settingsRepository.setInstallerType(installerType)
+                else -> {
+                    if (requestDhizukuPermission(context)) {
+                        settingsRepository.setInstallerType(installerType)
+                    }
+                }
+            }
+        } else {
+            showSnackbar(R.string.dhizuku_not_installed)
         }
     }
 
