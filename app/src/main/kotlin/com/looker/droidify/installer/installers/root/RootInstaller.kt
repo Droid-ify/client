@@ -22,6 +22,7 @@ class RootInstaller(private val context: Context) : Installer {
             releaseFile.absolutePath,
             currentUser(),
             context.packageName,
+            installReasonFlag(),
             releaseFile.length(),
         )
         Shell.cmd(installCommand).submit { shellResult ->
@@ -42,8 +43,17 @@ class RootInstaller(private val context: Context) : Installer {
     override fun close() {}
 }
 
-private const val INSTALL_COMMAND = "cat %s | pm install --user %s -i %s -t -r -S %s"
+private const val INSTALL_COMMAND = "cat %s | pm install --user %s -i %s %s -t -r -S %s"
 private const val DELETE_COMMAND = "%s rm %s"
+
+/**
+ * Marks the install as user-initiated (`INSTALL_REASON_USER` = 4). `pm install` creates a regular
+ * `PackageInstaller` session internally, but defaults its reason to `INSTALL_REASON_UNKNOWN`, and
+ * launchers (e.g. AOSP Launcher3's `SessionCommitReceiver`) only auto-add a home screen icon for
+ * user-initiated sessions. `pm` only knows this option since Android O; the empty string pre-O
+ * leaves a harmless double space in the command.
+ */
+private fun installReasonFlag() = if (SdkCheck.isOreo) "--install-reason 4" else ""
 
 /** Returns the path of either toybox or busybox, or empty string if not found. */
 private fun utilBox(): String {

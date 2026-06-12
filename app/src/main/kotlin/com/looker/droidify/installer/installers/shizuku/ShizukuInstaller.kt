@@ -34,12 +34,17 @@ class ShizukuInstaller(private val context: Context) : Installer {
             if (cont.isCompleted) return@suspendCancellableCoroutine
             val installerPackage = context.packageName
             file.inputStream().use {
-                val createCommand =
-                    if (SdkCheck.isNougat) {
+                // INSTALL_REASON_USER (4): launchers only auto-add a home screen icon for
+                // user-initiated install sessions; `pm` knows the option since Android O.
+                val createCommand = when {
+                    SdkCheck.isOreo ->
+                        "pm install-create --user current -i $installerPackage" +
+                            " --install-reason 4 -S $fileSize"
+                    SdkCheck.isNougat ->
                         "pm install-create --user current -i $installerPackage -S $fileSize"
-                    } else {
+                    else ->
                         "pm install-create -i $installerPackage -S $fileSize"
-                    }
+                }
                 val createResult = exec(createCommand)
                 sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
                     ?: run {
