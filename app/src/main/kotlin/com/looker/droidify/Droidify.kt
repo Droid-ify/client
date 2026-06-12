@@ -90,12 +90,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         if (databaseUpdated) forceSyncAll()
     }
 
-    override fun onTerminate() {
-        super.onTerminate()
-        appScope.cancel("Application Terminated")
-        installer.close()
-    }
-
     private fun listenApplications() {
         val installedItems = packageManager
             .getInstalledPackagesCompat()
