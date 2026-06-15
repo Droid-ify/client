@@ -129,6 +129,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         data class Downloading(val read: DataSize, val total: DataSize?) : Status
         data object PendingInstall : Status
         data object Installing : Status
+        data object Uninstalling : Status
     }
 
     enum class ViewType {
@@ -1112,13 +1113,12 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     var action: Action? = null
         set(value) {
+            if (field == value) return
+            field = value
             val index = items.indexOf(Item.InstallButtonItem)
             val progressBarIndex = items.indexOf(Item.DownloadStatusItem)
-            if (index > 0 && progressBarIndex > 0) {
-                notifyItemChanged(index)
-                notifyItemChanged(progressBarIndex)
-            }
-            field = value
+            if (index >= 0) notifyItemChanged(index)
+            if (progressBarIndex >= 0) notifyItemChanged(progressBarIndex)
         }
 
     var incompatibilityReason: CharSequence? = null
@@ -1132,11 +1132,10 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
     var status: Status = Status.Idle
         set(value) {
-            if (field != value) {
-                val index = items.indexOf(Item.DownloadStatusItem)
-                if (index > 0) notifyItemChanged(index)
-            }
+            if (field == value) return
             field = value
+            val index = items.indexOf(Item.DownloadStatusItem)
+            if (index >= 0) notifyItemChanged(index)
         }
 
     override val viewTypeClass: Class<ViewType>
@@ -1431,6 +1430,11 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
                         Status.Installing -> {
                             holder.statusText.setText(stringRes.installing)
+                            holder.progress.isIndeterminate = true
+                        }
+
+                        Status.Uninstalling -> {
+                            holder.statusText.setText(stringRes.uninstalling)
                             holder.progress.isIndeterminate = true
                         }
 

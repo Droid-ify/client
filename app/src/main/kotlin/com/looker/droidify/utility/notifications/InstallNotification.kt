@@ -71,6 +71,13 @@ fun Context.createInstallNotification(
                             appName
                     }
 
+                    InstallState.Uninstalling -> {
+                        setSmallIcon(R.drawable.ic_delete)
+                        setProgress(-1, -1, true)
+                        getString(R.string.uninstalling) to
+                            appName
+                    }
+
                     InstallState.Installed -> {
                         setTimeoutAfter(SUCCESS_TIMEOUT)
                         setSmallIcon(R.drawable.ic_check)

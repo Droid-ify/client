@@ -119,6 +119,7 @@
     <string name="shizuku_not_installed">Shizuku/Sui isn\'t installed</string>
     <string name="installed">Installed</string>
     <string name="installing">Installing</string>
+    <string name="uninstalling">Uninstalling</string>
     <string name="installation_failed">Installation failed</string>
     <string name="installation_failed_DESC">Failed to install %s</string>
     <string name="uninstalled_application">Uninstalled</string>

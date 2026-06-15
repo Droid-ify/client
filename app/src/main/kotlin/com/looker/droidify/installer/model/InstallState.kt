@@ -1,6 +1,6 @@
 package com.looker.droidify.installer.model
 
-enum class InstallState { Failed, Pending, Installing, Installed }
+enum class InstallState { Failed, Pending, Installing, Uninstalling, Installed }
 
 inline val InstallState.isCancellable: Boolean
     get() = this == InstallState.Pending
