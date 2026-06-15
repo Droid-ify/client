@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         applicationId = "com.looker.droidify"
-        minSdk = 23
+        minSdk = 26
         versionName = latestVersionName
         versionCode = 710
 
@@ -97,6 +97,7 @@ android {
     }
 
     buildFeatures {
+        aidl = true
         compose = true
         viewBinding = true
         buildConfig = true
@@ -200,6 +201,7 @@ dependencies {
 
     implementation(libs.libsu.core)
     implementation(libs.bundles.shizuku)
+    implementation(libs.dhizuku.api)
 
     implementation(libs.jackson.core)
     implementation(libs.serialization)
