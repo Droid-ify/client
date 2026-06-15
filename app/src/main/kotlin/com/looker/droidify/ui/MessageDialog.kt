@@ -12,6 +12,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.model.Release
+import com.looker.droidify.ui.appDetail.AppDetailFragment
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.SdkCheck
@@ -48,6 +49,15 @@ class MessageDialog() : DialogFragment() {
                 dialog.setMessage(stringRes.delete_repository_DESC)
                 dialog.setPositiveButton(stringRes.delete) { _, _ ->
                     (parentFragment as RepositoryFragment).onDeleteConfirm()
+                }
+                dialog.setNegativeButton(stringRes.cancel, null)
+            }
+
+            is Message.UninstallConfirm -> {
+                dialog.setTitle(stringRes.confirmation)
+                dialog.setMessage(getString(stringRes.uninstall_application_DESC, message.appName))
+                dialog.setPositiveButton(stringRes.uninstall) { _, _ ->
+                    (parentFragment as? AppDetailFragment)?.onUninstallConfirm()
                 }
                 dialog.setNegativeButton(stringRes.cancel, null)
             }
@@ -202,6 +212,9 @@ class MessageDialog() : DialogFragment() {
 sealed interface Message : Parcelable {
     @Parcelize
     data object DeleteRepositoryConfirm : Message
+
+    @Parcelize
+    data class UninstallConfirm(val appName: String) : Message
 
     @Parcelize
     data object CantEditSyncing : Message

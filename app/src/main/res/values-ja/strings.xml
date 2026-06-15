@@ -171,6 +171,16 @@
     <string name="session_installer">セッションインストーラー</string>
     <string name="root_installer">Root インストーラー</string>
     <string name="shizuku_installer">Shizuku インストーラー</string>
+    <string name="dhizuku_installer">Dhizuku インストーラー</string>
+    <string name="dhizuku_not_alive">Dhizuku が動作していません</string>
+    <string name="dhizuku_not_installed">Dhizuku はインストールされていません</string>
+    <string name="error_dhizuku_service_unavailable">Dhizuku サービスが動作していません</string>
+    <string name="error_dhizuku_not_running_DESC">Dhizuku サービスが動作していません</string>
+    <string name="error_dhizuku_not_granted">Dhizuku の権限が付与されていません</string>
+    <string name="error_dhizuku_not_granted_DESC">Dhizuku の権限が付与されていません</string>
+    <string name="error_dhizuku_not_installed">Dhizuku がインストールされていません</string>
+    <string name="error_dhizuku_not_installed_DESC">Dhizuku はインストールされていません</string>
+    <string name="open_dhizuku">Dhizuku を開く</string>
     <string name="plus_more_FORMAT">さらに %d 件</string>
     <string name="proxy_host">プロキシホスト</string>
     <string name="proxy_port">プロキシポート</string>
@@ -179,6 +189,7 @@
     <string name="auto_update">アプリの自動更新</string>
     <string name="auto_update_apps">アップデートを自動的にインストールします</string>
     <string name="installing">インストール中</string>
+    <string name="uninstalling">アンインストール中</string>
     <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
     <string name="material_you">Material You</string>
@@ -209,6 +220,7 @@
     <string name="import_repos_DESC">ファイルから全てのリポジトリをインポートする</string>
     <string name="uninstalled_application">アンインストール</string>
     <string name="uninstalled_application_DESC">%s をアンインストールしました</string>
+    <string name="uninstall_application_DESC">「%s」をアンインストールしますか？</string>
     <string name="installation_failed">インストールに失敗しました</string>
     <string name="installation_failed_DESC">%s のインストールに失敗しました</string>
     <string name="ignore_signature_summary">LSPosedユーザー、上級ユーザー向けに、apkをインストールする際の署名の検証を無視します</string>

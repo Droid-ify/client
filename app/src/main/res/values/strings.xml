@@ -115,6 +115,15 @@
     <string name="root_installer">Root installer</string>
     <string name="shizuku_installer">Shizuku/Sui installer</string>
     <string name="dhizuku_installer">Dhizuku installer</string>
+    <string name="dhizuku_not_alive">Dhizuku isn\'t running</string>
+    <string name="dhizuku_not_installed">Dhizuku isn\'t installed</string>
+    <string name="error_dhizuku_service_unavailable">Dhizuku service not running</string>
+    <string name="error_dhizuku_not_running_DESC">The Dhizuku service isn\'t running</string>
+    <string name="error_dhizuku_not_granted">No Dhizuku permission granted</string>
+    <string name="error_dhizuku_not_granted_DESC">The Dhizuku permission hasn\'t been granted</string>
+    <string name="error_dhizuku_not_installed">Dhizuku not installed</string>
+    <string name="error_dhizuku_not_installed_DESC">Dhizuku isn\'t installed</string>
+    <string name="open_dhizuku">Open Dhizuku</string>
     <string name="shizuku_legacy_installer">Shizuku/Sui legacy installer</string>
     <string name="shizuku_not_alive">Shizuku/Sui isn\'t running</string>
     <string name="shizuku_not_installed">Shizuku/Sui isn\'t installed</string>
@@ -125,6 +134,7 @@
     <string name="installation_failed_DESC">Failed to install %s</string>
     <string name="uninstalled_application">Uninstalled</string>
     <string name="uninstalled_application_DESC">%s has been uninstalled</string>
+    <string name="uninstall_application_DESC">Uninstall %s?</string>
     <string name="integrity_check_error_DESC">Couldn\'t check integrity</string>
     <string name="invalid_address">Invalid address</string>
     <string name="invalid_fingerprint_format">Invalid fingerprint format</string>

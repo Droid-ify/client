@@ -18,7 +18,9 @@ import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
 import com.looker.droidify.installer.installers.isSuiAvailable
-import com.looker.droidify.installer.installers.requestPermissionListener
+import com.looker.droidify.installer.installers.dhizuku.ensureDhizukuInstallerReady
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuAlive
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuInstalled
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.model.InstalledItem
@@ -28,7 +30,8 @@ import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -48,9 +51,9 @@ class AppDetailViewModel @Inject constructor(
         savedStateHandle.getStateFlow(ARG_REPO_ADDRESS, null)
 
     val installerState: StateFlow<InstallState?> =
-        installer.state.mapNotNull { stateMap ->
+        installer.state.map { stateMap ->
             stateMap[packageName.toPackageName()]
-        }.asStateFlow(null)
+        }.asStateFlow(null, started = SharingStarted.Eagerly)
 
     val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
         .asStateFlow(emptyList())
@@ -79,6 +82,7 @@ class AppDetailViewModel @Inject constructor(
                 allowIncompatibleVersions = settings.incompatibleVersions,
                 isSelf = packageName == BuildConfig.APPLICATION_ID,
                 addressIfUnavailable = suggestedAddress,
+                installerType = settings.installerType,
             )
         }.asStateFlow(AppDetailUiState())
 
@@ -86,24 +90,49 @@ class AppDetailViewModel @Inject constructor(
         val isSelected =
             runBlocking { settingsRepository.getInitial().installerType == InstallerType.SHIZUKU }
         if (!isSelected) return null
-        val isAlive = isShizukuAlive()
-        val isSuiAvailable = isSuiAvailable()
-        if (isSuiAvailable) return null
+        if (isSuiAvailable()) return null
 
-        val isGranted = if (isAlive) {
-            if (isShizukuGranted()) {
-                true
-            } else {
-                runBlocking { requestPermissionListener() }
-            }
-        } else {
-            false
-        }
+        val installed = isShizukuInstalled(context)
+        val alive = isShizukuAlive()
+        val granted = isShizukuGranted()
+        if (installed && alive && granted) return null
         return ShizukuState(
-            isNotInstalled = !isShizukuInstalled(context),
-            isNotGranted = !isGranted,
-            isNotAlive = !isAlive,
+            isNotInstalled = !installed,
+            isNotAlive = installed && !alive,
+            isNotGranted = alive && !granted,
         )
+    }
+
+    suspend fun prepareDhizuku(context: Context): DhizukuState? {
+        if (settingsRepository.getInitial().installerType != InstallerType.DHIZUKU) return null
+
+        if (!isDhizukuInstalled(context)) {
+            return DhizukuState(
+                isNotInstalled = true,
+                isNotAlive = false,
+                isNotGranted = false,
+            )
+        }
+        if (!ensureDhizukuInstallerReady(context)) {
+            return when {
+                !isDhizukuInstalled(context) -> DhizukuState(
+                    isNotInstalled = true,
+                    isNotAlive = false,
+                    isNotGranted = false,
+                )
+                !isDhizukuAlive(context) -> DhizukuState(
+                    isNotInstalled = false,
+                    isNotAlive = true,
+                    isNotGranted = false,
+                )
+                else -> DhizukuState(
+                    isNotInstalled = false,
+                    isNotAlive = false,
+                    isNotGranted = true,
+                )
+            }
+        }
+        return null
     }
 
     fun setDefaultInstaller() {
@@ -146,6 +175,8 @@ class AppDetailViewModel @Inject constructor(
     }
 }
 
+typealias DhizukuState = ShizukuState
+
 data class ShizukuState(
     val isNotInstalled: Boolean,
     val isNotGranted: Boolean,
@@ -165,4 +196,5 @@ data class AppDetailUiState(
     val isFavourite: Boolean = false,
     val allowIncompatibleVersions: Boolean = false,
     val addressIfUnavailable: String? = null,
+    val installerType: InstallerType = InstallerType.Default,
 )

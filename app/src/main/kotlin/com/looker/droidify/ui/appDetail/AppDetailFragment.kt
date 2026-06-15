@@ -24,7 +24,9 @@ import coil3.load
 import coil3.request.allowHardware
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.looker.droidify.content.ProductPreferences
+import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.installers.launchShizuku
+import com.looker.droidify.installer.installers.dhizuku.launchDhizuku
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.installer.model.isCancellable
 import com.looker.droidify.model.InstalledItem
@@ -35,6 +37,7 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.model.findSuggested
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.DownloadService
+import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.Message
 import com.looker.droidify.ui.MessageDialog
 import com.looker.droidify.ui.ScreenFragment
@@ -65,6 +68,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     companion object {
         private const val STATE_LAYOUT_MANAGER = "layoutManager"
         private const val STATE_ADAPTER = "adapter"
+        private val SILENT_AUTO_INSTALLERS = setOf(
+            InstallerType.DHIZUKU,
+            InstallerType.SHIZUKU,
+            InstallerType.ROOT,
+        )
     }
 
     constructor(packageName: String, repoAddress: String? = null) : this() {
@@ -103,6 +111,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private var installed: Installed? = null
     private var downloading = false
     private var installing: InstallState? = null
+    private var autoInstallTriggeredFor: String? = null
+    private var installerType = InstallerType.Default
+
+    private val isInstallerOperationActive: Boolean
+        get() = installing == InstallState.Installing ||
+            installing == InstallState.Uninstalling ||
+            installing == InstallState.Pending
 
     private var recyclerView: RecyclerView? = null
     private var detailAdapter: AppDetailAdapter? = null
@@ -112,7 +127,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         serviceClass = DownloadService::class.java,
         onBind = { _, binder ->
             lifecycleScope.launch {
-                binder.downloadState.collect(::updateDownloadState)
+                binder.downloadState.collect { refreshDownloadUi(it) }
             }
         },
     )
@@ -170,6 +185,8 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                             recyclerView?.layoutManager!!.onRestoreInstanceState(it)
                         }
                         layoutManagerState = null
+                        installerType = state.installerType
+                        val wasInstalled = installed != null
                         installed = state.installedItem?.let {
                             with(requireContext().packageManager) {
                                 val isSystem = isSystemApplication(viewModel.packageName)
@@ -180,6 +197,15 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                                 }
                                 Installed(it, isSystem, launcherActivities)
                             }
+                        }
+                        if (state.installedItem == null && wasInstalled) {
+                            installing = null
+                            downloading = false
+                            detailAdapter?.status = AppDetailAdapter.Status.Idle
+                        } else if (state.installedItem != null && installing == InstallState.Installing) {
+                            installing = null
+                            downloading = false
+                            detailAdapter?.status = AppDetailAdapter.Status.Idle
                         }
                         val adapter = recyclerView?.adapter as? AppDetailAdapter
 
@@ -209,6 +235,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     viewModel.installerState.collect(::updateInstallState)
                 }
                 launch {
+                    SyncService.updateAllProgress.collect {
+                        refreshDownloadUi()
+                    }
+                }
+                launch {
                     recyclerView?.isFirstItemVisible?.collect(::updateToolbarButtons)
                 }
             }
@@ -224,6 +255,18 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         imageViewer = null
 
         downloadConnection.unbind(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        syncOperationState()
+    }
+
+    private fun syncOperationState() {
+        updateInstallState(viewModel.installerState.value)
+        refreshDownloadUi()
+        clearStaleOperationStatus()
+        updateButtons()
     }
 
     @SuppressLint("RestrictedApi")
@@ -310,7 +353,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         }
 
         val adapterAction = when {
-            installing == InstallState.Installing -> null
+            isInstallerOperationActive && installing != InstallState.Pending -> null
             installing == InstallState.Pending -> AppDetailAdapter.Action.CANCEL
             downloading -> AppDetailAdapter.Action.CANCEL
             else -> primaryAction.adapterAction
@@ -318,11 +361,13 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
 
         (recyclerView?.adapter as? AppDetailAdapter)?.action = adapterAction
 
+        val operationInProgress = downloading || isInstallerOperationActive
         for (action in sequenceOf(
             Action.INSTALL,
             Action.UPDATE,
+            Action.LAUNCH,
         )) {
-            toolbar.menu.findItem(action.id).isEnabled = !downloading
+            toolbar.menu.findItem(action.id).isEnabled = !operationInProgress
         }
         this.actions = Pair(actions, primaryAction)
         updateToolbarButtons()
@@ -352,22 +397,53 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     private fun updateInstallState(installerState: InstallState?) {
+        val updateAllQueued = SyncService.isUpdateAllQueued(viewModel.packageName)
         val status = when (installerState) {
             InstallState.Pending -> AppDetailAdapter.Status.PendingInstall
             InstallState.Installing -> AppDetailAdapter.Status.Installing
-            else -> AppDetailAdapter.Status.Idle
+            InstallState.Uninstalling -> AppDetailAdapter.Status.Uninstalling
+            else -> if (updateAllQueued) {
+                AppDetailAdapter.Status.Pending
+            } else {
+                AppDetailAdapter.Status.Idle
+            }
         }
         (recyclerView?.adapter as? AppDetailAdapter)?.status = status
-        installing = installerState
+        installing = when (installerState) {
+            InstallState.Pending, InstallState.Installing, InstallState.Uninstalling -> installerState
+            else -> null
+        }
+        when {
+            installing != null -> downloading = false
+            updateAllQueued -> downloading = true
+        }
         updateButtons()
     }
 
-    private fun updateDownloadState(state: DownloadService.DownloadState) {
+    private fun clearStaleOperationStatus() {
+        if (isInstallerOperationActive || downloading) return
+        if (SyncService.isUpdateAllQueued(viewModel.packageName)) return
+        when (detailAdapter?.status) {
+            AppDetailAdapter.Status.Installing,
+            AppDetailAdapter.Status.Uninstalling,
+            AppDetailAdapter.Status.PendingInstall,
+            -> detailAdapter?.status = AppDetailAdapter.Status.Idle
+            else -> Unit
+        }
+    }
+
+    private fun refreshDownloadUi(
+        state: DownloadService.DownloadState =
+            downloadConnection.binder?.downloadState?.value ?: DownloadService.DownloadState(),
+    ) {
         val packageName = viewModel.packageName
-        val isPending = packageName in state.queue
+        val updateAllQueued = SyncService.isUpdateAllQueued(packageName)
+        val isPending = packageName in state.queue || updateAllQueued
         val isDownloading = state isDownloading packageName
         val isCompleted = state isComplete packageName
-        val isActive = isPending || isDownloading
+        val downloadSucceeded = state.currentItem is DownloadService.State.Success &&
+            state.currentItem.packageName == packageName
+        val isActive = if (downloadSucceeded) false else isPending || isDownloading
         if (isPending) {
             detailAdapter?.status = AppDetailAdapter.Status.Pending
         }
@@ -382,18 +458,29 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 else -> AppDetailAdapter.Status.Idle
             }
         }
-        if (isCompleted) {
+        if (isCompleted && !updateAllQueued) {
             detailAdapter?.status = AppDetailAdapter.Status.Idle
         }
         if (this.downloading != isActive) {
             this.downloading = isActive
             updateButtons()
         }
+        clearStaleOperationStatus()
         if (state.currentItem is DownloadService.State.Success && isResumed) {
-            viewModel.installPackage(
-                state.currentItem.packageName,
-                state.currentItem.release.cacheFileName,
-            )
+            if (installerType in SILENT_AUTO_INSTALLERS) {
+                return
+            }
+            val success = state.currentItem
+            if (success.packageName == packageName) {
+                val key = "${success.packageName}:${success.release.cacheFileName}"
+                if (autoInstallTriggeredFor != key) {
+                    autoInstallTriggeredFor = key
+                    viewModel.installPackage(
+                        success.packageName,
+                        success.release.cacheFileName,
+                    )
+                }
+            }
         }
     }
 
@@ -416,11 +503,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     ).show()
                     return
                 }
-                downloadConnection.startUpdate(
-                    packageName = viewModel.packageName,
-                    installedItem = installed?.installedItem,
-                    products = products,
-                )
+
+                runAfterDhizukuReady {
+                    downloadConnection.startUpdate(
+                        packageName = viewModel.packageName,
+                        installedItem = installed?.installedItem,
+                        products = products,
+                    )
+                }
             }
 
             AppDetailAdapter.Action.LAUNCH -> {
@@ -444,7 +534,14 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 )
             }
 
-            AppDetailAdapter.Action.UNINSTALL -> viewModel.uninstallPackage()
+            AppDetailAdapter.Action.UNINSTALL -> {
+                if (installerType == InstallerType.DHIZUKU) {
+                    val appName = products.firstOrNull()?.first?.name ?: viewModel.packageName
+                    MessageDialog(Message.UninstallConfirm(appName)).show(childFragmentManager)
+                } else {
+                    viewModel.uninstallPackage()
+                }
+            }
 
             AppDetailAdapter.Action.CANCEL -> {
                 val binder = downloadConnection.binder
@@ -479,6 +576,28 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 val link = products[0].first.source
                 context?.openLink(link)
             }
+        }
+    }
+
+    internal fun onUninstallConfirm() {
+        runAfterDhizukuReady {
+            viewModel.uninstallPackage()
+        }
+    }
+
+    private fun runAfterDhizukuReady(onReady: () -> Unit) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            val dhizukuState = viewModel.prepareDhizuku(requireContext())
+            if (dhizukuState != null) {
+                dhizukuDialog(
+                    context = requireContext(),
+                    dhizukuState = dhizukuState,
+                    openDhizuku = { launchDhizuku(requireContext()) },
+                    switchInstaller = { viewModel.setDefaultInstaller() },
+                ).show()
+                return@launch
+            }
+            onReady()
         }
     }
 
