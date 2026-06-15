@@ -9,6 +9,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
@@ -17,6 +18,8 @@ import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.model.InstallerType
+import com.looker.droidify.installer.installers.dhizuku.ensureDhizukuInstallerReady
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
@@ -31,24 +34,31 @@ import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.startForegroundSafe
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.utility.extension.startUpdateAndAwait
 import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.sample
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
@@ -66,9 +76,12 @@ import kotlinx.coroutines.Job as CoroutinesJob
 class SyncService : ConnectionService<SyncService.Binder>() {
 
     companion object {
+        private const val TAG = "DroidifyUpdateAll"
         private const val MAX_PROGRESS = 100
 
         private const val NOTIFICATION_UPDATE_SAMPLING = 400L
+        private const val DOWNLOAD_BIND_POLL_ATTEMPTS = 30
+        private const val DOWNLOAD_BIND_POLL_DELAY_MS = 100L
 
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
 
@@ -76,6 +89,23 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
         var autoUpdating = false
         var autoUpdateStartedFor: List<String> = emptyList()
+
+        private val _updateAllProgress = MutableStateFlow(UpdateAllProgress())
+        val updateAllProgress = _updateAllProgress.asStateFlow()
+
+        fun isUpdateAllQueued(packageName: String): Boolean =
+            _updateAllProgress.value.isQueued(packageName)
+    }
+
+    data class UpdateAllProgress(
+        val batchPackages: List<String> = emptyList(),
+        val activePackage: String? = null,
+        val completedPackages: Set<String> = emptySet(),
+    ) {
+        fun isQueued(packageName: String): Boolean =
+            packageName in batchPackages &&
+                packageName !in completedPackages &&
+                packageName != activePackage
     }
 
     @Inject
@@ -122,6 +152,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
     private var currentTask: CurrentTask? = null
 
     private var updateNotificationBlockerFragment: WeakReference<Fragment>? = null
+    private var updateAllInProgress = false
 
     private val downloadConnection = Connection(DownloadService::class.java)
     private val lock = Mutex()
@@ -171,10 +202,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
         }
 
-        suspend fun updateAllApps() {
-            val skipSignature = settingsRepository.getInitial().ignoreSignature
-            val updates = Database.ProductAdapter.getUpdates(skipSignature)
-            updateAllAppsInternal(updates)
+        fun updateAllApps() {
+            this@SyncService.launchUpdateAllBatch()
         }
 
         fun setUpdateNotificationBlocker(fragment: Fragment?) {
@@ -583,7 +612,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 if (settings.autoUpdate) {
                     autoUpdating = true
                     autoUpdateStartedFor = updates.map { it.packageName }
-                    updateAllAppsInternal(updates)
+                    withContext(NonCancellable) {
+                        updateAllAppsInternal(updates)
+                    }
                 }
             }
 
@@ -596,25 +627,140 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
+    private fun launchUpdateAllBatch() {
+        if (updateAllInProgress) {
+            log("Update-all already in progress, ignoring duplicate request", TAG, Log.WARN)
+            return
+        }
+        updateAllInProgress = true
+        lifecycleScope.launch {
+            try {
+                withContext(NonCancellable) {
+                    try {
+                        val skipSignature = settingsRepository.getInitial().ignoreSignature
+                        val updates = Database.ProductAdapter.getUpdates(skipSignature)
+                        autoUpdating = true
+                        autoUpdateStartedFor = updates.map { it.packageName }
+                        log("Update-all started: ${updates.size} apps — $autoUpdateStartedFor", TAG)
+                        updateAllAppsInternal(updates)
+                    } catch (e: CancellationException) {
+                        log("Update-all cancelled unexpectedly", TAG, Log.WARN)
+                        throw e
+                    } catch (e: Exception) {
+                        log("Update-all failed: ${e.message}", TAG, Log.ERROR)
+                    }
+                }
+            } finally {
+                updateAllInProgress = false
+            }
+        }
+    }
+
+    private suspend fun ensureDownloadBinder(): DownloadService.Binder? {
+        downloadConnection.binder?.let { return it }
+        log("DownloadService binder missing, re-binding", TAG, Log.WARN)
+        val intent = Intent(this@SyncService, DownloadService::class.java)
+        try {
+            if (SdkCheck.isOreo) {
+                startForegroundService(intent)
+            } else {
+                startService(intent)
+            }
+        } catch (e: Exception) {
+            log("Failed to start DownloadService: ${e.message}", TAG, Log.ERROR)
+        }
+        downloadConnection.bind(this@SyncService)
+        repeat(DOWNLOAD_BIND_POLL_ATTEMPTS) {
+            delay(DOWNLOAD_BIND_POLL_DELAY_MS)
+            downloadConnection.binder?.let { return it }
+        }
+        return downloadConnection.binder
+    }
+
     private suspend fun updateAllAppsInternal(updates: List<ProductItem>) {
-        updates
-            // Update Droid-ify the last
-            .sortedBy { if (it.packageName == packageName) 1 else -1 }
-            .map {
-                Database.InstalledAdapter.get(it.packageName, null) to
-                    Database.RepositoryAdapter.get(it.repositoryId)
+        try {
+            val settings = settingsRepository.getInitial()
+            if (ensureDownloadBinder() == null) {
+                log("Update-all aborted: DownloadService not available", TAG, Log.ERROR)
+                return
             }
-            .filter { it.first != null && it.second != null }
-            .forEach { (installItem, repo) ->
-                val productRepo = Database.ProductAdapter.get(installItem!!.packageName, null)
-                    .filter { it.repositoryId == repo!!.id }
-                    .map { it to repo!! }
-                downloadConnection.startUpdate(
-                    installItem.packageName,
-                    installItem,
-                    productRepo,
-                )
+            if (settings.installerType == InstallerType.DHIZUKU &&
+                !ensureDhizukuInstallerReady(this@SyncService)
+            ) {
+                log("Update-all aborted: Dhizuku not ready", TAG, Log.ERROR)
+                return
             }
+
+            val items = updates
+                // Update Droid-ify the last
+                .sortedBy { if (it.packageName == packageName) 1 else -1 }
+                .map {
+                    Database.InstalledAdapter.get(it.packageName, null) to
+                        Database.RepositoryAdapter.get(it.repositoryId)
+                }
+                .filter { it.first != null && it.second != null }
+
+            _updateAllProgress.value = UpdateAllProgress(
+                batchPackages = items.map { it.first!!.packageName },
+            )
+
+            for ((installItem, repo) in items) {
+                val packageName = installItem!!.packageName
+                _updateAllProgress.update { it.copy(activePackage = packageName) }
+                try {
+                    val productRepo = Database.ProductAdapter.get(packageName, null)
+                        .filter { it.repositoryId == repo!!.id }
+                        .map { it to repo!! }
+                    if (productRepo.isEmpty()) {
+                        log(
+                            "Update-all skipped $packageName: no product for repo ${repo!!.id}",
+                            TAG,
+                            Log.WARN,
+                        )
+                        continue
+                    }
+                    if (ensureDownloadBinder() == null) {
+                        log(
+                            "Update-all skipped $packageName: DownloadService not bound",
+                            TAG,
+                            Log.ERROR,
+                        )
+                        continue
+                    }
+                    if (settings.installerType == InstallerType.DHIZUKU &&
+                        !ensureDhizukuInstallerReady(this@SyncService)
+                    ) {
+                        log(
+                            "Update-all skipped $packageName: Dhizuku not ready",
+                            TAG,
+                            Log.ERROR,
+                        )
+                        continue
+                    }
+                    log("Update-all processing $packageName", TAG)
+                    val success = downloadConnection.startUpdateAndAwait(
+                        packageName,
+                        installItem,
+                        productRepo,
+                    )
+                    log(
+                        "Update-all finished $packageName: success=$success",
+                        TAG,
+                        if (success) Log.DEBUG else Log.WARN,
+                    )
+                } finally {
+                    _updateAllProgress.update {
+                        it.copy(
+                            activePackage = null,
+                            completedPackages = it.completedPackages + packageName,
+                        )
+                    }
+                }
+            }
+            log("Update-all queue drained", TAG)
+        } finally {
+            _updateAllProgress.value = UpdateAllProgress()
+        }
     }
 
     @SuppressLint("SpecifyJobSchedulerIdRange")

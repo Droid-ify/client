@@ -65,9 +65,7 @@ class AppListViewModel
     val syncConnection = Connection(SyncService::class.java)
 
     fun updateAll() {
-        viewModelScope.launch {
-            syncConnection.binder?.updateAllApps()
-        }
+        syncConnection.binder?.updateAllApps()
     }
 
     fun setSection(newSection: ProductItem.Section) {

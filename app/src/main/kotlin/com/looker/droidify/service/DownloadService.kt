@@ -43,8 +43,10 @@ import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.notifications.createInstallNotification
 import com.looker.droidify.utility.notifications.installNotification
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -55,14 +57,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import kotlinx.coroutines.yield
 import java.io.File
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class DownloadService : ConnectionService<DownloadService.Binder>() {
     companion object {
+        private const val TAG = "DroidifyUpdateAll"
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
     }
 
@@ -130,9 +135,46 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private var currentTask: CurrentTask? = null
 
     private val lock = Mutex()
+    private val updateCompletions = ConcurrentHashMap<String, CompletableDeferred<Boolean>>()
 
     inner class Binder : android.os.Binder() {
         val downloadState = _downloadState.asStateFlow()
+
+        suspend fun enqueueAndAwait(
+            packageName: String,
+            name: String,
+            repository: Repository,
+            release: Release,
+            isUpdate: Boolean = false,
+        ): Boolean {
+            val task = Task(
+                packageName = packageName,
+                name = name,
+                release = release,
+                url = release.getDownloadUrl(repository),
+                authentication = repository.authentication,
+                isUpdate = isUpdate,
+            )
+            val deferred = CompletableDeferred<Boolean>()
+            updateCompletions[packageName] = deferred
+            log("enqueueAndAwait: $packageName", TAG)
+            return try {
+                if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
+                    log("Using cached APK for $packageName (await)", TAG)
+                    publishSuccess(task)
+                } else {
+                    enqueueDownload(task)
+                }
+                withContext(NonCancellable) { deferred.await() }
+            } catch (e: Exception) {
+                log("enqueueAndAwait failed: $packageName — ${e.message}", TAG, Log.ERROR)
+                signalUpdateComplete(packageName, false)
+                false
+            } finally {
+                updateCompletions.remove(packageName)
+            }
+        }
+
         fun enqueue(
             packageName: String,
             name: String,
@@ -149,11 +191,17 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 isUpdate = isUpdate,
             )
             if (Cache.getReleaseFile(this@DownloadService, release.cacheFileName).exists()) {
+                log("Using cached APK for $packageName", TAG)
                 lifecycleScope.launch { publishSuccess(task) }
                 return
             }
-            cancelTasks(packageName)
-            cancelCurrentTask(packageName)
+            enqueueDownload(task)
+        }
+
+        private fun enqueueDownload(task: Task) {
+            log("Queued download for ${task.packageName} (pending=${tasks.size})", TAG)
+            cancelTasks(task.packageName)
+            cancelCurrentTask(task.packageName)
             notificationManager?.cancel(
                 task.notificationTag,
                 Constants.NOTIFICATION_ID_DOWNLOADING,
@@ -162,7 +210,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             if (currentTask == null) {
                 handleDownload()
             } else {
-                updateCurrentQueue { add(packageName) }
+                updateCurrentQueue { add(task.packageName) }
             }
         }
 
@@ -298,18 +346,42 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         val currentInstaller = installerType.first()
         updateCurrentQueue { add("") }
         updateCurrentState(State.Success(task.packageName, task.release))
+        log(
+            "Download complete: ${task.packageName}, installer=$currentInstaller, queue=${tasks.size}",
+            TAG,
+        )
         val autoInstallWithSessionInstaller =
             SdkCheck.canAutoInstall(task.release.targetSdkVersion) &&
                 currentInstaller == InstallerType.SESSION &&
                 task.isUpdate
 
         showNotificationInstall(task)
-        if (currentInstaller == InstallerType.ROOT ||
+        val success = if (currentInstaller == InstallerType.ROOT ||
             currentInstaller == InstallerType.SHIZUKU ||
+            currentInstaller == InstallerType.DHIZUKU ||
             autoInstallWithSessionInstaller
         ) {
             val installItem = task.packageName installFrom task.release.cacheFileName
-            installer install installItem
+            val result = withContext(NonCancellable) {
+                installer.installAndAwait(installItem)
+            }
+            log(
+                "Auto-install finished: ${task.packageName} -> $result",
+                TAG,
+                if (result == InstallState.Installed) Log.DEBUG else Log.WARN,
+            )
+            result == InstallState.Installed
+        } else {
+            true
+        }
+        signalUpdateComplete(task.packageName, success)
+    }
+
+    private fun signalUpdateComplete(packageName: String, success: Boolean) {
+        val pending = updateCompletions.remove(packageName)
+        if (pending != null) {
+            log("Update step complete: $packageName success=$success", TAG)
+            pending.complete(success)
         }
     }
 
@@ -436,6 +508,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         task: Task,
         target: File,
     ) = launch {
+        var publishCalled = false
         try {
             val response = downloader.downloadToFile(
                 url = task.url,
@@ -458,6 +531,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         target.delete()
                         updateCurrentState(State.Error(task.packageName))
                         showErrorNotification(task, could_not_validate_FORMAT, result.message)
+                        signalUpdateComplete(task.packageName, false)
                         return@launch
                     }
                     val releaseFile = Cache.getReleaseFile(
@@ -465,6 +539,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         task.release.cacheFileName,
                     )
                     target.renameTo(releaseFile)
+                    publishCalled = true
                     publishSuccess(task)
                 }
 
@@ -478,7 +553,13 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                         is NetworkResponse.Error.Unknown -> unknown_error_DESC
                     }
                     showErrorNotification(task, could_not_download_FORMAT, getString(description))
+                    signalUpdateComplete(task.packageName, false)
                 }
+            }
+        } catch (e: Exception) {
+            log("Download failed: ${task.packageName} — ${e.message}", TAG, Log.ERROR)
+            if (!publishCalled) {
+                signalUpdateComplete(task.packageName, false)
             }
         } finally {
             lock.withLock { currentTask = null }
