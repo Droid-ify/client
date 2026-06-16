@@ -19,7 +19,9 @@ import kotlinx.coroutines.launch
 object ProductPreferences {
     private val defaultProductPreference = ProductPreference(false, 0L)
     private lateinit var preferences: SharedPreferences
-    private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>()
+    private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>(
+        extraBufferCapacity = Int.MAX_VALUE,
+    )
     private val subject = mutableSubject.asSharedFlow()
 
     fun init(context: Context, scope: CoroutineScope) {
