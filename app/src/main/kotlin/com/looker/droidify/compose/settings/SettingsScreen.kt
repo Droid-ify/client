@@ -472,10 +472,14 @@ private fun InstallerTypeSetting(
     selectedInstaller: InstallerType,
     onInstallerSelected: (InstallerType) -> Unit,
 ) {
+    // Dhizuku-API requires API 26+; hide the option entirely on Android 5–7.
+    val installerTypes = remember {
+        InstallerType.entries.filter { it != InstallerType.DHIZUKU || SdkCheck.isOreo }
+    }
     SelectionSettingItem(
         title = stringResource(R.string.installer),
         selectedValue = selectedInstaller,
-        values = InstallerType.entries,
+        values = installerTypes,
         onValueSelected = onInstallerSelected,
         valueToString = { installer ->
             when (installer) {
@@ -483,6 +487,7 @@ private fun InstallerTypeSetting(
                 InstallerType.SESSION -> stringResource(R.string.session_installer)
                 InstallerType.SHIZUKU -> stringResource(R.string.shizuku_installer)
                 InstallerType.ROOT -> stringResource(R.string.root_installer)
+                InstallerType.DHIZUKU -> stringResource(R.string.dhizuku_installer)
             }
         },
     )

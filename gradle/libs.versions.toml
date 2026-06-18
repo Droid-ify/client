@@ -28,6 +28,7 @@ ktor = "3.4.1"
 libsu = "6.0.0"
 room = "2.8.4"
 shizuku = "13.0.0"
+dhizuku = "2.5.4"
 image-viewer = "1.0.1"
 junit-jupiter = "6.0.3"
 robolectric = "4.16.1"
@@ -90,6 +91,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-test = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
 shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
+dhizuku-api = { group = "io.github.iamr0s", name = "Dhizuku-API", version.ref = "dhizuku" }
 image-viewer = { module = "com.github.stfalcon-studio:StfalconImageViewer", version.ref = "image-viewer" }
 junit-bom = { group = "org.junit", name = "junit-bom", version.ref = "junit-jupiter" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }

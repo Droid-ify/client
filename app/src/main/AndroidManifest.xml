@@ -25,6 +25,13 @@
         android:name="android.hardware.touchscreen"
         android:required="false" />
 
+    <!--
+      Dhizuku-API requires minSdk 26; the app supports 23. The Dhizuku installer is gated to
+      API 26+ at runtime (it reports unavailable and falls back below that), so overriding the
+      library's minSdk floor here is safe.
+    -->
+    <uses-sdk tools:overrideLibrary="com.rosan.dhizuku.api" />
+
     <application
         android:name=".Droidify"
         android:allowBackup="true"

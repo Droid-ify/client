@@ -117,6 +117,10 @@
     <string name="shizuku_legacy_installer">Shizuku/Sui legacy installer</string>
     <string name="shizuku_not_alive">Shizuku/Sui isn\'t running</string>
     <string name="shizuku_not_installed">Shizuku/Sui isn\'t installed</string>
+    <string name="dhizuku_installer">Dhizuku installer</string>
+    <string name="dhizuku_not_available">No Dhizuku server available</string>
+    <string name="dhizuku_server_starting">Dhizuku server can take a few seconds to start; please wait</string>
+    <string name="dhizuku_fallback_warning">Dhizuku unavailable — using the default installer</string>
     <string name="installed">Installed</string>
     <string name="installing">Installing</string>
     <string name="installation_failed">Installation failed</string>

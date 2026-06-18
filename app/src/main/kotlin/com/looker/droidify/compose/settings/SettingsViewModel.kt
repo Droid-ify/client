@@ -2,6 +2,7 @@ package com.looker.droidify.compose.settings
 
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.material3.SnackbarHostState
@@ -24,10 +25,14 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.installer.installers.initSui
+import com.looker.droidify.installer.installers.awaitDhizukuAlive
+import com.looker.droidify.installer.installers.isDhizukuAlive
+import com.looker.droidify.installer.installers.isDhizukuGranted
 import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.requestDhizukuPermission
 import com.looker.droidify.installer.installers.requestPermissionListener
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.common.extension.updateAsMutable
@@ -150,6 +155,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             when (installerType) {
                 InstallerType.SHIZUKU -> handleShizukuInstaller(context, installerType)
+                InstallerType.DHIZUKU -> handleDhizukuInstaller(context, installerType)
                 InstallerType.ROOT -> handleRootInstaller(installerType)
                 InstallerType.LEGACY -> {
                     settingsRepository.setDeleteApkOnInstall(false)
@@ -173,6 +179,24 @@ class SettingsViewModel @Inject constructor(
             }
         } else {
             showSnackbar(R.string.shizuku_not_installed)
+        }
+    }
+
+    private suspend fun handleDhizukuInstaller(context: Context, installerType: InstallerType) {
+        // Already paired and reachable — switch silently, without the "please wait" toast.
+        if (isDhizukuAlive(context) && isDhizukuGranted()) {
+            settingsRepository.setInstallerType(installerType)
+            return
+        }
+        // Otherwise the server may need a few seconds to start (cold-start race); tell the user to
+        // wait rather than appearing to hang before we poll/request permission.
+        Toast.makeText(context, R.string.dhizuku_server_starting, Toast.LENGTH_SHORT).show()
+        if (!awaitDhizukuAlive(context)) {
+            showSnackbar(R.string.dhizuku_not_available)
+            return
+        }
+        if (isDhizukuGranted() || requestDhizukuPermission()) {
+            settingsRepository.setInstallerType(installerType)
         }
     }
 

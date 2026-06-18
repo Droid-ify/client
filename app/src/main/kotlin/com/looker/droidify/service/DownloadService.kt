@@ -306,6 +306,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         showNotificationInstall(task)
         if (currentInstaller == InstallerType.ROOT ||
             currentInstaller == InstallerType.SHIZUKU ||
+            currentInstaller == InstallerType.DHIZUKU ||
             autoInstallWithSessionInstaller
         ) {
             val installItem = task.packageName installFrom task.release.cacheFileName

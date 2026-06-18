@@ -7,6 +7,7 @@ enum class InstallerType {
     SESSION,
     SHIZUKU,
     ROOT,
+    DHIZUKU,
     ;
 
     companion object {

@@ -100,6 +100,7 @@ android {
         compose = true
         viewBinding = true
         buildConfig = true
+        aidl = true
     }
 
     dependenciesInfo {
@@ -200,6 +201,7 @@ dependencies {
 
     implementation(libs.libsu.core)
     implementation(libs.bundles.shizuku)
+    implementation(libs.dhizuku.api)
 
     implementation(libs.jackson.core)
     implementation(libs.serialization)
