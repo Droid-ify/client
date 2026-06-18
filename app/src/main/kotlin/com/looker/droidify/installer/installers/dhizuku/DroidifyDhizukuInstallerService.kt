@@ -1,6 +1,7 @@
 package com.looker.droidify.installer.installers.dhizuku
 
 import android.app.PendingIntent
+import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -27,7 +28,6 @@ class DroidifyDhizukuInstallerService @JvmOverloads constructor(
         const val STATUS_PENDING_USER_ACTION_REQUIRED = -2
 
         private const val TAG = "DroidifyDhizuku"
-        private const val DHIZUKU_PACKAGE = "com.rosan.dhizuku"
         private const val INSTALL_TIMEOUT_SECONDS = 120L
         private const val UNINSTALL_TIMEOUT_SECONDS = 30L
         private const val INSTALL_POLL_INTERVAL_MS = 200L
@@ -292,11 +292,12 @@ class DroidifyDhizukuInstallerService @JvmOverloads constructor(
         serviceContext?.let { ctx ->
             return ctx.applicationContext ?: ctx
         }
-        val app = currentApplicationOrNull()
-        if (app?.packageName == DHIZUKU_PACKAGE) {
-            return app.applicationContext ?: app
-        }
-        return null
+        // No service Context was supplied: accept the host process only if it is the active device
+        // owner. Dhizuku loads this service into the device-owner process regardless of which app
+        // provides the server (the standalone Dhizuku app, OwnDroid's built-in server, ...), so
+        // verify ownership instead of matching a hardcoded package name.
+        val app = currentApplicationOrNull() ?: return null
+        return if (isDeviceOwner(app)) app.applicationContext ?: app else null
     }
 
     private fun verifyInstallSucceeded(
@@ -320,6 +321,14 @@ class DroidifyDhizukuInstallerService @JvmOverloads constructor(
             info.versionCode.toLong()
         }
         return installedVersion >= expectedVersionCode
+    }
+
+    private fun isDeviceOwner(ctx: Context): Boolean = try {
+        val dpm = ctx.getSystemService(Context.DEVICE_POLICY_SERVICE) as? DevicePolicyManager
+        dpm?.isDeviceOwnerApp(ctx.packageName) == true
+    } catch (e: Exception) {
+        Log.w(TAG, "Device-owner check failed", e)
+        false
     }
 
     private fun isPackageInstalled(ctx: Context, packageName: String): Boolean =

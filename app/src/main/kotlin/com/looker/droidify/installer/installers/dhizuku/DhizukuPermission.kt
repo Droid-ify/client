@@ -22,8 +22,15 @@ fun isDhizukuInstalled(context: Context): Boolean =
         false
     }
 
+/**
+ * True when a Dhizuku-compatible server is reachable. [Dhizuku.init] resolves the server from the
+ * active device owner's provider rather than a fixed package, so this also matches third-party
+ * servers such as OwnDroid's built-in Dhizuku server — not only the standalone Dhizuku app. Gating
+ * this on [isDhizukuInstalled] (a hardcoded `com.rosan.dhizuku` lookup) would reject those servers
+ * even when they are running, so the install check is intentionally left out here.
+ */
 fun isDhizukuAlive(context: Context): Boolean =
-    isDhizukuInstalled(context) && try {
+    try {
         Dhizuku.init(context)
     } catch (_: Exception) {
         false
