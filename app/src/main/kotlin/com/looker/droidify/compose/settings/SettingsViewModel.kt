@@ -28,6 +28,7 @@ import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
 import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
+import com.looker.droidify.installer.installers.dhizuku.ensureDhizukuAlive
 import com.looker.droidify.installer.installers.dhizuku.isDhizukuAlive
 import com.looker.droidify.installer.installers.dhizuku.isDhizukuGranted
 import com.looker.droidify.installer.installers.dhizuku.isDhizukuInstalled
@@ -183,18 +184,21 @@ class SettingsViewModel @Inject constructor(
 
 
     private suspend fun handleDhizukuInstaller(context: Context, installerType: InstallerType) {
-        if (isDhizukuInstalled(context)) {
-            when {
-                !isDhizukuAlive(context) -> showSnackbar(R.string.dhizuku_not_alive)
-                isDhizukuGranted() -> settingsRepository.setInstallerType(installerType)
-                else -> {
-                    if (requestDhizukuPermission(context)) {
-                        settingsRepository.setInstallerType(installerType)
-                    }
+        if (!isDhizukuInstalled(context) && !isDhizukuAlive(context)) {
+            showSnackbar(R.string.dhizuku_not_installed)
+            return
+        }
+        if (!ensureDhizukuAlive(context)) {
+            showSnackbar(R.string.dhizuku_not_alive)
+            return
+        }
+        when {
+            isDhizukuGranted() -> settingsRepository.setInstallerType(installerType)
+            else -> {
+                if (requestDhizukuPermission(context)) {
+                    settingsRepository.setInstallerType(installerType)
                 }
             }
-        } else {
-            showSnackbar(R.string.dhizuku_not_installed)
         }
     }
 

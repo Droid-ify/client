@@ -106,7 +106,7 @@ class AppDetailViewModel @Inject constructor(
     suspend fun prepareDhizuku(context: Context): DhizukuState? {
         if (settingsRepository.getInitial().installerType != InstallerType.DHIZUKU) return null
 
-        if (!isDhizukuInstalled(context)) {
+        if (!isDhizukuInstalled(context) && !isDhizukuAlive(context)) {
             return DhizukuState(
                 isNotInstalled = true,
                 isNotAlive = false,
@@ -115,11 +115,6 @@ class AppDetailViewModel @Inject constructor(
         }
         if (!ensureDhizukuInstallerReady(context)) {
             return when {
-                !isDhizukuInstalled(context) -> DhizukuState(
-                    isNotInstalled = true,
-                    isNotAlive = false,
-                    isNotGranted = false,
-                )
                 !isDhizukuAlive(context) -> DhizukuState(
                     isNotInstalled = false,
                     isNotAlive = true,
