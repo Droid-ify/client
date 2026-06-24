@@ -4,13 +4,13 @@ import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.data.model.fingerprint
 import com.looker.droidify.sync.v1.model.IndexV1
 import com.looker.droidify.sync.v2.model.Entry
-import java.io.File
-import java.util.jar.JarEntry
-import java.util.jar.JarFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.decodeFromStream
+import java.io.File
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
 
 interface JarScope<out T> {
     val fingerprint: Fingerprint?
@@ -29,7 +29,7 @@ inline fun <reified T> File.toJarScope(): JarScope<T> = object : JarScope<T> {
                 Entry::class -> "entry.json"
                 IndexV1::class -> "index-v1.json"
                 else -> error("Unsupported type for parsing")
-            }
+            },
         )
     }
 

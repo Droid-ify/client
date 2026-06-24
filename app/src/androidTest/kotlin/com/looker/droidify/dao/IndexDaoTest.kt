@@ -11,9 +11,6 @@ import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.v2.model.IndexV2
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import javax.inject.Inject
-import kotlin.system.measureTimeMillis
-import kotlin.time.Duration.Companion.minutes
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
@@ -23,6 +20,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
+import kotlin.system.measureTimeMillis
+import kotlin.time.Duration.Companion.minutes
 
 @HiltAndroidTest
 @RunWith(AndroidJUnit4::class)

@@ -27,12 +27,11 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
@@ -64,7 +63,7 @@ class AppDetailViewModel @Inject constructor(
             privacyRepository.getRBLogs(packageName),
             privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,
-            settingsRepository.data
+            settingsRepository.data,
         ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, settings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
@@ -97,7 +96,9 @@ class AppDetailViewModel @Inject constructor(
             } else {
                 runBlocking { requestPermissionListener() }
             }
-        } else false
+        } else {
+            false
+        }
         return ShizukuState(
             isNotInstalled = !isShizukuInstalled(context),
             isNotGranted = !isGranted,

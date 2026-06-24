@@ -15,14 +15,14 @@ import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.intent
-import kotlin.coroutines.resume
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 @Suppress("DEPRECATION")
 class LegacyInstaller(
     private val context: Context,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
 ) : Installer {
 
     companion object {
@@ -56,8 +56,12 @@ class LegacyInstaller(
             }
 
             val installIntent = when (comp) {
-                LegacyInstallerComponent.AlwaysChoose -> Intent.createChooser(intent, context.getString(
-                    R.string.select_installer))
+                LegacyInstallerComponent.AlwaysChoose -> Intent.createChooser(
+                    intent,
+                    context.getString(
+                        R.string.select_installer,
+                    ),
+                )
                 else -> intent
             }
 
@@ -92,7 +96,7 @@ suspend fun Context.uninstallPackage(packageName: PackageName) =
                 intent(Intent.ACTION_UNINSTALL_PACKAGE) {
                     data = "package:${packageName.name}".toUri()
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                }
+                },
             )
             cont.resume(Unit)
         } catch (e: Exception) {

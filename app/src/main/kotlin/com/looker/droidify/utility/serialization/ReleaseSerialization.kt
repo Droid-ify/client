@@ -3,12 +3,12 @@ package com.looker.droidify.utility.serialization
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
+import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.extension.collectNotNull
 import com.looker.droidify.utility.common.extension.collectNotNullStrings
 import com.looker.droidify.utility.common.extension.forEachKey
 import com.looker.droidify.utility.common.extension.writeArray
 import com.looker.droidify.utility.common.extension.writeDictionary
-import com.looker.droidify.model.Release
 
 fun Release.serialize(generator: JsonGenerator) {
     generator.writeNumberField(SERIALVERSION, 1)
@@ -59,7 +59,6 @@ fun Release.serialize(generator: JsonGenerator) {
         }
     }
 }
-
 
 fun JsonParser.release(): Release {
     var selected = false
@@ -156,7 +155,7 @@ fun JsonParser.release(): Release {
         permissions = permissions,
         features = features,
         platforms = platforms,
-        incompatibilities = incompatibilities
+        incompatibilities = incompatibilities,
     )
 }
 

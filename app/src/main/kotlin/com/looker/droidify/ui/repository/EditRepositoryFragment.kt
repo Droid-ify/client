@@ -33,6 +33,10 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
@@ -41,10 +45,6 @@ import java.nio.charset.Charset
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.min
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint

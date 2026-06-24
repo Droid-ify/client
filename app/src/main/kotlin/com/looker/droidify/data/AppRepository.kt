@@ -11,13 +11,13 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.sync.v2.model.DefaultName
 import com.looker.droidify.sync.v2.model.Tag
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
 class AppRepository @Inject constructor(
     private val appDao: AppDao,

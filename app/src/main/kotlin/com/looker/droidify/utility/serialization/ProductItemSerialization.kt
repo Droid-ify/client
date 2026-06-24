@@ -2,8 +2,8 @@ package com.looker.droidify.utility.serialization
 
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
-import com.looker.droidify.utility.common.extension.forEachKey
 import com.looker.droidify.model.ProductItem
+import com.looker.droidify.utility.common.extension.forEachKey
 
 fun ProductItem.serialize(generator: JsonGenerator) {
     generator.writeNumberField("serialVersion", 1)
@@ -50,6 +50,6 @@ fun JsonParser.productItem(): ProductItem {
     }
     return ProductItem(
         repositoryId, packageName, name, summary, icon, metadataIcon,
-        version, installedVersion, compatible, canUpdate, matchRank
+        version, installedVersion, compatible, canUpdate, matchRank,
     )
 }

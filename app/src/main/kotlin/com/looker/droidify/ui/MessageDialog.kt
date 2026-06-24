@@ -11,11 +11,11 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.looker.droidify.utility.common.SdkCheck
-import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.model.Release
 import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.utility.PackageItemResolver
+import com.looker.droidify.utility.common.SdkCheck
+import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.android.Android
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
@@ -82,7 +82,7 @@ class MessageDialog() : DialogFragment() {
                         PackageItemResolver.loadLabel(
                             requireContext(),
                             localCache,
-                            permissionGroupInfo
+                            permissionGroupInfo,
                         )?.nullIfEmpty()?.let { if (it == message.group) null else it }
                     } catch (e: Exception) {
                         null
@@ -97,7 +97,7 @@ class MessageDialog() : DialogFragment() {
                         PackageItemResolver.loadDescription(
                             requireContext(),
                             localCache,
-                            permissionInfo
+                            permissionInfo,
                         )?.nullIfEmpty()?.let { if (it == permission) null else it }
                             ?: error("Invalid Permission Description")
                     }.onSuccess {
@@ -132,13 +132,13 @@ class MessageDialog() : DialogFragment() {
                     val versionMessage = minSdkVersion?.let {
                         getString(
                             stringRes.incompatible_api_min_DESC_FORMAT,
-                            it
+                            it,
                         )
                     }
                         ?: maxSdkVersion?.let {
                             getString(
                                 stringRes.incompatible_api_max_DESC_FORMAT,
-                                it
+                                it,
                             )
                         }
                     builder.append(
@@ -146,8 +146,8 @@ class MessageDialog() : DialogFragment() {
                             stringRes.incompatible_api_DESC_FORMAT,
                             Android.name,
                             SdkCheck.sdk,
-                            versionMessage.orEmpty()
-                        )
+                            versionMessage.orEmpty(),
+                        ),
                     ).append("\n\n")
                 }
                 if (Release.Incompatibility.Platform in message.incompatibilities) {
@@ -155,8 +155,8 @@ class MessageDialog() : DialogFragment() {
                         getString(
                             stringRes.incompatible_platforms_DESC_FORMAT,
                             Android.primaryPlatform ?: getString(stringRes.unknown),
-                            message.platforms.joinToString(separator = ", ")
-                        )
+                            message.platforms.joinToString(separator = ", "),
+                        ),
                     ).append("\n\n")
                 }
                 val features =
@@ -218,7 +218,7 @@ sealed interface Message : Parcelable {
         val incompatibilities: List<Release.Incompatibility>,
         val platforms: List<String>,
         val minSdkVersion: Int,
-        val maxSdkVersion: Int
+        val maxSdkVersion: Int,
     ) : Message
 
     @Parcelize

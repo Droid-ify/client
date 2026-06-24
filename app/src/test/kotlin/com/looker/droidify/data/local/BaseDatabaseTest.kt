@@ -39,7 +39,7 @@ abstract class BaseDatabaseTest {
         val context = ApplicationProvider.getApplicationContext<Context>()
         database = Room.inMemoryDatabaseBuilder(
             context,
-            DroidifyDatabase::class.java
+            DroidifyDatabase::class.java,
         )
             .allowMainThreadQueries()
             .build()

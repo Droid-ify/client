@@ -178,7 +178,7 @@ private fun RepoDetails(
             Column {
                 Text(
                     text = repo.description.toAnnotatedString(
-                        onUrlClick = { handler.openUri(it) }
+                        onUrlClick = { handler.openUri(it) },
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -211,7 +211,7 @@ private fun RepoDetails(
         ) {
             Icon(
                 imageVector = Icons.Default.Check,
-                contentDescription = null
+                contentDescription = null,
             )
         }
 
@@ -231,7 +231,7 @@ private fun FingerprintCard(
         border = BorderStroke(
             width = 1.dp,
             color = MaterialTheme.colorScheme.surfaceVariant,
-        )
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -270,7 +270,7 @@ private fun DeleteRepositoryDialog(
                         color = MaterialTheme.colorScheme.outlineVariant,
                         shape = CircleShape,
                     )
-                    .padding(12.dp)
+                    .padding(12.dp),
             )
         },
         title = { Text("Delete Repository") },

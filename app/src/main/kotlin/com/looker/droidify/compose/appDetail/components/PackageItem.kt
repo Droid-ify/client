@@ -52,13 +52,13 @@ fun PackageItem(
                 onClick = onClick,
                 onLongClick = onLongClick,
                 role = Role.Button,
-            )
+            ),
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp)) {
             Column(Modifier.weight(1F)) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.version_FORMAT, item.manifest.versionName).uppercase(),
@@ -75,7 +75,7 @@ fun PackageItem(
                     text = stringResource(
                         R.string.label_sdk_version,
                         sdkName[item.manifest.usesSDKs.target]!!,
-                        sdkName[item.manifest.usesSDKs.min]!!
+                        sdkName[item.manifest.usesSDKs.min]!!,
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline,

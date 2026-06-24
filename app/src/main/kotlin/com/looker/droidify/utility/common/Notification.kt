@@ -19,7 +19,7 @@ fun Context.createNotificationChannel(
         val channel = NotificationChannel(
             id,
             name,
-            NotificationManager.IMPORTANCE_LOW
+            NotificationManager.IMPORTANCE_LOW,
         ).apply {
             setDescription(description)
             setShowBadge(showBadge)
@@ -37,4 +37,3 @@ fun Notification.toForegroundInfo(
 } else {
     ForegroundInfo(id, this)
 }
-

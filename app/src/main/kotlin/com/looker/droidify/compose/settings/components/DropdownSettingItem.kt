@@ -38,14 +38,14 @@ fun <T> DropdownSettingItem(
                 .padding(horizontal = 16.dp)
                 .menuAnchor(
                     type = ExposedDropdownMenuAnchorType.PrimaryNotEditable,
-                    enabled = enabled
+                    enabled = enabled,
                 )
-                .padding(vertical = 12.dp)
+                .padding(vertical = 12.dp),
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
             Text(
                 text = valueToString(selectedValue),

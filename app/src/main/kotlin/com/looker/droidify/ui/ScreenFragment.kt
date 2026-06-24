@@ -21,7 +21,7 @@ open class ScreenFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View = fragmentBinding.root
 
     override fun onDestroyView() {

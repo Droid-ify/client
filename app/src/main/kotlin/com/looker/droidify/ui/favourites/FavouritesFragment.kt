@@ -12,9 +12,9 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.R
-import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.database.Database
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -31,7 +31,7 @@ class FavouritesFragment : ScreenFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = fragmentBinding.root.apply {
@@ -47,7 +47,7 @@ class FavouritesFragment : ScreenFragment() {
                     this.adapter = recyclerViewAdapter
                     systemBarsPadding(includeFab = false)
                     recyclerView = this
-                }
+                },
             )
         }
         viewLifecycleOwner.lifecycleScope.launch {

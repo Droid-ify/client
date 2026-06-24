@@ -24,7 +24,6 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -37,6 +36,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 object Database {
     fun init(context: Context): Boolean {
@@ -307,7 +307,7 @@ object Database {
                 Schema.Repository.name,
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} != 0 AND " +
-                            "${Schema.Repository.ROW_DELETED} == 0",
+                        "${Schema.Repository.ROW_DELETED} == 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -333,7 +333,7 @@ object Database {
                 columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} == 0 OR " +
-                            "${Schema.Repository.ROW_DELETED} != 0",
+                        "${Schema.Repository.ROW_DELETED} != 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -514,10 +514,13 @@ object Database {
         ): Cursor {
             val builder = QueryBuilder()
 
-            val signatureMatches = if (skipSignatureCheck) "1"
-            else """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
+            val signatureMatches = if (skipSignatureCheck) {
+                "1"
+            } else {
+                """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
                 product.${Schema.Product.ROW_SIGNATURES} LIKE ('%.' || installed.${Schema.Installed.ROW_SIGNATURE} || '.%') AND
                 product.${Schema.Product.ROW_SIGNATURES} != ''"""
+            }
 
             builder += """SELECT product.rowid AS _id, product.${Schema.Product.ROW_REPOSITORY_ID},
         product.${Schema.Product.ROW_PACKAGE_NAME}, product.${Schema.Product.ROW_NAME},
@@ -679,7 +682,7 @@ object Database {
                     ),
                     selection = Pair(
                         "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                        arrayOf(packageName)
+                        arrayOf(packageName),
                     ),
                     signal = signal,
                 ).use { it.firstOrNull()?.let(::transform) }
@@ -830,11 +833,11 @@ object Database {
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Product.name} SELECT * " +
-                                "FROM ${Schema.Product.temporaryName}",
+                            "FROM ${Schema.Product.temporaryName}",
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Category.name} SELECT * " +
-                                "FROM ${Schema.Category.temporaryName}",
+                            "FROM ${Schema.Category.temporaryName}",
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")

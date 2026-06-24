@@ -7,7 +7,7 @@ import kotlin.math.roundToInt
 class PaddingDrawable(
     drawable: Drawable,
     private val horizontalFactor: Float,
-    private val aspectRatio: Float = 16f / 9f
+    private val aspectRatio: Float = 16f / 9f,
 ) : DrawableWrapper(drawable) {
     override fun getIntrinsicWidth(): Int =
         (horizontalFactor * super.getIntrinsicWidth()).roundToInt()
@@ -24,7 +24,7 @@ class PaddingDrawable(
             bounds.left + left,
             bounds.top + top,
             bounds.left + left + width,
-            bounds.top + top + height
+            bounds.top + top + height,
         )
     }
 }

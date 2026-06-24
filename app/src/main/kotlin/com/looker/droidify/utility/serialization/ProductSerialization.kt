@@ -3,13 +3,13 @@ package com.looker.droidify.utility.serialization
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.core.JsonToken
+import com.looker.droidify.model.Product
+import com.looker.droidify.model.Release
 import com.looker.droidify.utility.common.extension.collectNotNull
 import com.looker.droidify.utility.common.extension.collectNotNullStrings
 import com.looker.droidify.utility.common.extension.forEachKey
 import com.looker.droidify.utility.common.extension.writeArray
 import com.looker.droidify.utility.common.extension.writeDictionary
-import com.looker.droidify.model.Product
-import com.looker.droidify.model.Release
 
 fun Product.serialize(generator: JsonGenerator) {
     generator.writeNumberField(REPOSITORYID, repositoryId)
@@ -197,7 +197,7 @@ fun JsonParser.product(): Product {
         licenses = licenses,
         donates = donates,
         screenshots = screenshots,
-        releases = releases
+        releases = releases,
     )
 }
 

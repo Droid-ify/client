@@ -44,9 +44,6 @@ import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
 import io.ktor.client.HttpClient
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.hours
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -54,6 +51,9 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectIndexed
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.INFINITE
+import kotlin.time.Duration.Companion.hours
 
 @HiltAndroidApp
 class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
@@ -86,14 +86,11 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         checkLanguage()
         updatePreference()
         appScope.launch { installer() }
-
-        if (databaseUpdated) forceSyncAll()
-    }
-
-    override fun onTerminate() {
-        super.onTerminate()
-        appScope.cancel("Application Terminated")
-        installer.close()
+        if (databaseUpdated) {
+            appScope.launch {
+                forceSyncAll()
+            }
+        }
     }
 
     private fun listenApplications() {

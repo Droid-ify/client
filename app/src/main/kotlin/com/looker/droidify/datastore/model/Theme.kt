@@ -5,5 +5,5 @@ enum class Theme {
     SYSTEM_BLACK,
     LIGHT,
     DARK,
-    AMOLED
+    AMOLED,
 }

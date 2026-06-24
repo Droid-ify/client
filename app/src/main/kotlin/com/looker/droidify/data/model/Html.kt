@@ -12,8 +12,8 @@ private const val TagEnd = "\\</\\w+\\>"
 private const val HtmlEntity = "&[a-zA-Z][a-zA-Z0-9]+;"
 
 private val htmlRegex = Regex(
-    pattern = "(${TagStart}.*$TagEnd)|($TagSelfClosing)|($HtmlEntity)",
-    option = RegexOption.DOT_MATCHES_ALL
+    pattern = "($TagStart.*$TagEnd)|($TagSelfClosing)|($HtmlEntity)",
+    option = RegexOption.DOT_MATCHES_ALL,
 )
 
 @JvmInline
@@ -31,5 +31,4 @@ value class Html(val raw: String) : CharSequence {
     override fun subSequence(startIndex: Int, endIndex: Int): CharSequence = raw.subSequence(startIndex, endIndex)
 
     override fun toString(): String = raw
-
 }

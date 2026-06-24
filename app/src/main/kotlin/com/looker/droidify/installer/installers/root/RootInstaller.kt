@@ -9,8 +9,8 @@ import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.topjohnwu.superuser.Shell
-import kotlin.coroutines.resume
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resume
 
 class RootInstaller(private val context: Context) : Installer {
 
@@ -25,8 +25,11 @@ class RootInstaller(private val context: Context) : Installer {
             releaseFile.length(),
         )
         Shell.cmd(installCommand).submit { shellResult ->
-            val result = if (shellResult.isSuccess) InstallState.Installed
-            else InstallState.Failed
+            val result = if (shellResult.isSuccess) {
+                InstallState.Installed
+            } else {
+                InstallState.Failed
+            }
             cont.resume(result)
             val deleteCommand = DELETE_COMMAND.format(utilBox(), releaseFile.absolutePath)
             Shell.cmd(deleteCommand).submit()
@@ -37,7 +40,6 @@ class RootInstaller(private val context: Context) : Installer {
         context.uninstallPackage(packageName)
 
     override fun close() {}
-
 }
 
 private const val INSTALL_COMMAND = "cat %s | pm install --user %s -i %s -t -r -S %s"

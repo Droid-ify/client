@@ -4,7 +4,10 @@ import java.io.File
 
 interface FileValidator {
 
-    @Throws(ValidationException::class)
-    suspend fun validate(file: File)
+    suspend fun validate(file: File): ValidationResult
+}
 
+sealed interface ValidationResult {
+    data object Valid : ValidationResult
+    data class Invalid(val message: String) : ValidationResult
 }
