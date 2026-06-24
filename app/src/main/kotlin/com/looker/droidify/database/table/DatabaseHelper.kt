@@ -53,6 +53,7 @@ class DatabaseHelper(context: Context) :
         // Handle memory tables and indexes
         db.execSQL("ATTACH DATABASE ':memory:' AS memory")
         handleTables(db, Schema.Installed, Schema.Lock)
+        handlePersistentTables(db, Schema.RBLog, Schema.DownloadStats)
         handleIndexes(
             db,
             Schema.Repository,
@@ -60,8 +61,17 @@ class DatabaseHelper(context: Context) :
             Schema.Category,
             Schema.Installed,
             Schema.Lock,
+            Schema.RBLog,
+            Schema.DownloadStats,
         )
-        dropOldTables(db, Schema.Repository, Schema.Product, Schema.Category)
+        dropOldTables(
+            db,
+            Schema.Repository,
+            Schema.Product,
+            Schema.Category,
+            Schema.RBLog,
+            Schema.DownloadStats,
+        )
     }
 
     private fun SQLiteDatabase.addOemRepositories() {
@@ -176,6 +186,26 @@ class DatabaseHelper(context: Context) :
                 db.execSQL("VACUUM")
             }
             true
+        }
+    }
+
+    private fun handlePersistentTables(db: SQLiteDatabase, vararg tables: Table) {
+        var shouldVacuum = false
+        for (table in tables) {
+            val sql = db.query(
+                "sqlite_master",
+                columns = arrayOf("sql"),
+                selection = Pair("type = ? AND name = ?", arrayOf("table", table.innerName)),
+            ).use { it.firstOrNull()?.getString(0) }.orEmpty()
+            // Create when missing; recreate only this table when its schema changed.
+            if (table.formatCreateTable(table.name) != sql) {
+                db.execSQL("DROP TABLE IF EXISTS ${table.name}")
+                db.execSQL(table.formatCreateTable(table.name))
+                shouldVacuum = true
+            }
+        }
+        if (shouldVacuum && !db.inTransaction()) {
+            db.execSQL("VACUUM")
         }
     }
 

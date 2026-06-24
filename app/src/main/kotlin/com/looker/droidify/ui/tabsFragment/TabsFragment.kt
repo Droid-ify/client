@@ -259,7 +259,10 @@ class TabsFragment : ScreenFragment() {
                         Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
                     }
                 }
-                syncConnection.binder?.sync(SyncService.SyncRequest.FORCE)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.resetPrivacyFetchTimestamps()
+                    syncConnection.binder?.sync(SyncService.SyncRequest.FORCE)
+                }
                 true
             }
         }

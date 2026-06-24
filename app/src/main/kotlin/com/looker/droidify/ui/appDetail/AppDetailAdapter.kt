@@ -44,7 +44,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.looker.droidify.R
 import com.looker.droidify.content.ProductPreferences
-import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.RBLog
 import com.looker.droidify.data.local.model.Reproducible
 import com.looker.droidify.data.local.model.toReproducible
 import com.looker.droidify.datastore.model.CustomButton
@@ -739,7 +739,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         packageName: String,
         suggestedRepo: String? = null,
         products: List<Pair<Product, Repository>>,
-        rblogs: List<RBLogEntity>,
+        rblogs: List<RBLog>,
         downloads: Long,
         installedItem: InstalledItem?,
         isFavourite: Boolean,

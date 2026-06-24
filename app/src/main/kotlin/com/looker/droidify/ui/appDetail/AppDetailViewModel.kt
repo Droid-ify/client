@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.data.PrivacyRepository
-import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.RBLog
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.CustomButtonRepository
@@ -158,7 +158,7 @@ data class ShizukuState(
 data class AppDetailUiState(
     val products: List<Product> = emptyList(),
     val repos: List<Repository> = emptyList(),
-    val rblogs: List<RBLogEntity> = emptyList(),
+    val rblogs: List<RBLog> = emptyList(),
     val downloads: Long = -1,
     val installedItem: InstalledItem? = null,
     val isSelf: Boolean = false,

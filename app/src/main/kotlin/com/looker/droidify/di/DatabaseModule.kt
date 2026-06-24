@@ -5,10 +5,8 @@ import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.DroidifyDatabase
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
-import com.looker.droidify.data.local.dao.DownloadStatsDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
-import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.droidifyDatabase
 import com.looker.droidify.datastore.SettingsRepository
@@ -62,25 +60,9 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideRBLogDao(
-        db: DroidifyDatabase,
-    ): RBLogDao = db.rbLogDao()
-
-    @Singleton
-    @Provides
-    fun provideDownloadStatsDao(
-        db: DroidifyDatabase,
-    ): DownloadStatsDao = db.downloadStatsDao()
-
-    @Singleton
-    @Provides
     fun providePrivacyRepository(
-        rblDao: RBLogDao,
-        downloadStatsDao: DownloadStatsDao,
         settingsRepository: SettingsRepository,
     ): PrivacyRepository = PrivacyRepository(
-        rbDao = rblDao,
-        downloadStatsDao = downloadStatsDao,
         settingsRepo = settingsRepository,
     )
 }

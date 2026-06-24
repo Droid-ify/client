@@ -10,10 +10,8 @@ import com.looker.droidify.data.local.converters.Converters
 import com.looker.droidify.data.local.converters.PermissionConverter
 import com.looker.droidify.data.local.dao.AppDao
 import com.looker.droidify.data.local.dao.AuthDao
-import com.looker.droidify.data.local.dao.DownloadStatsDao
 import com.looker.droidify.data.local.dao.IndexDao
 import com.looker.droidify.data.local.dao.InstalledDao
-import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.dao.RepoDao
 import com.looker.droidify.data.local.model.AntiFeatureAppRelation
 import com.looker.droidify.data.local.model.AntiFeatureEntity
@@ -25,7 +23,6 @@ import com.looker.droidify.data.local.model.CategoryAppRelation
 import com.looker.droidify.data.local.model.CategoryEntity
 import com.looker.droidify.data.local.model.CategoryRepoRelation
 import com.looker.droidify.data.local.model.DonateEntity
-import com.looker.droidify.data.local.model.DownloadStats
 import com.looker.droidify.data.local.model.GraphicEntity
 import com.looker.droidify.data.local.model.InstalledEntity
 import com.looker.droidify.data.local.model.LinksEntity
@@ -37,13 +34,12 @@ import com.looker.droidify.data.local.model.LocalizedRepoDescriptionEntity
 import com.looker.droidify.data.local.model.LocalizedRepoIconEntity
 import com.looker.droidify.data.local.model.LocalizedRepoNameEntity
 import com.looker.droidify.data.local.model.MirrorEntity
-import com.looker.droidify.data.local.model.RBLogEntity
 import com.looker.droidify.data.local.model.RepoEntity
 import com.looker.droidify.data.local.model.ScreenshotEntity
 import com.looker.droidify.data.local.model.VersionEntity
 
 @Database(
-    version = 2,
+    version = 3,
     exportSchema = true,
     entities = [
         AntiFeatureEntity::class,
@@ -63,8 +59,6 @@ import com.looker.droidify.data.local.model.VersionEntity
         RepoEntity::class,
         ScreenshotEntity::class,
         VersionEntity::class,
-        RBLogEntity::class,
-        DownloadStats::class,
         // Localized Data
         LocalizedAppNameEntity::class,
         LocalizedAppSummaryEntity::class,
@@ -84,8 +78,6 @@ abstract class DroidifyDatabase : RoomDatabase() {
     abstract fun repoDao(): RepoDao
     abstract fun authDao(): AuthDao
     abstract fun indexDao(): IndexDao
-    abstract fun rbLogDao(): RBLogDao
-    abstract fun downloadStatsDao(): DownloadStatsDao
     abstract fun installedDao(): InstalledDao
 }
 

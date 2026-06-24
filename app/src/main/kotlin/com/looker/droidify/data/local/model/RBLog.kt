@@ -1,20 +1,9 @@
 package com.looker.droidify.data.local.model
 
-import androidx.room.Entity
-import androidx.room.Index
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Entity(
-    tableName = "rblog",
-    primaryKeys = ["hash", "packageName", "timestamp"],
-    indices = [
-        Index(value = ["hash", "packageName", "timestamp"], unique = true),
-        Index(value = ["packageName", "versionCode", "reproducible"]),
-        Index(value = ["packageName", "hash", "reproducible"]),
-    ],
-)
-data class RBLogEntity(
+data class RBLog(
     val hash: String,
     val repository: String,
     val apkUrl: String,
@@ -48,14 +37,14 @@ class RBData(
 
 enum class Reproducible { NO_DATA, UNKNOWN, TRUE, FALSE }
 
-fun RBLogEntity?.toReproducible(): Reproducible = when {
+fun RBLog?.toReproducible(): Reproducible = when {
     this == null -> Reproducible.NO_DATA
     this.reproducible == true -> Reproducible.TRUE
     this.reproducible == false -> Reproducible.FALSE
     else -> Reproducible.UNKNOWN // this.reproducible == null
 }
 
-private fun RBData.toEntity(hash: String): RBLogEntity = RBLogEntity(
+private fun RBData.toEntity(hash: String): RBLog = RBLog(
     hash = hash,
     repository = repository,
     apkUrl = apkUrl,
@@ -69,7 +58,7 @@ private fun RBData.toEntity(hash: String): RBLogEntity = RBLogEntity(
     error = error,
 )
 
-fun Map<String, List<RBData>>.toLogs(): List<RBLogEntity> {
+fun Map<String, List<RBData>>.toLogs(): List<RBLog> {
     return this.flatMap { (hash, data) ->
         data.map { it.toEntity(hash) }
     }

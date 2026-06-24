@@ -80,28 +80,9 @@ class TabsViewModel @Inject constructor(
         }
     }
 
-    private fun calcBackAction(
-        currentSection: ProductItem.Section,
-        isSearchActionItemExpanded: Boolean,
-        showSections: Boolean,
-    ): BackAction {
-        return when {
-            currentSection != ProductItem.Section.All -> {
-                BackAction.ProductAll
-            }
-
-            isSearchActionItemExpanded -> {
-                BackAction.CollapseSearchView
-            }
-
-            showSections -> {
-                BackAction.HideSections
-            }
-
-            else -> {
-                BackAction.None
-            }
-        }
+    suspend fun resetPrivacyFetchTimestamps() {
+        settingsRepository.clearRbLogLastModified()
+        settingsRepository.clearDownloadStatsLastModified()
     }
 
     companion object {
