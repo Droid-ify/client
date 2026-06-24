@@ -16,7 +16,7 @@ import com.looker.droidify.utility.common.nullIfEmpty
 import com.google.android.material.R as MaterialR
 
 class FavouriteFragmentAdapter(
-    private val onProductClick: (String) -> Unit
+    private val onProductClick: (String) -> Unit,
 ) : RecyclerView.Adapter<FavouriteFragmentAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -43,8 +43,8 @@ class FavouriteFragmentAdapter(
             ProductItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
-                false
-            )
+                false,
+            ),
         ).apply {
             itemView.setOnClickListener {
                 if (apps.isNotEmpty()) {

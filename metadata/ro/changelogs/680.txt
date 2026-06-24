@@ -1,0 +1,4 @@
+Remediat:
+- Eșuarea verificări integrității fișierelor .apk
+- Validarea informațiilor despre statisticile de descărcare
+- Performanța în lista de aplicații

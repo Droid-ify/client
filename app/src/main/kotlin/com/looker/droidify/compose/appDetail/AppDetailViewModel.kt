@@ -12,10 +12,10 @@ import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
@@ -46,7 +46,7 @@ class AppDetailViewModel @Inject constructor(
                         } else {
                             emptyList()
                         }
-                    }.sortedByDescending { (pkg, _) -> pkg.manifest.versionCode }
+                    }.sortedByDescending { (pkg, _) -> pkg.manifest.versionCode },
                 )
             }
         }

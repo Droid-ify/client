@@ -54,7 +54,7 @@ class CustomButtonsAdapter(
         LinearLayout(context).apply {
             layoutParams = RecyclerView.LayoutParams(
                 72.dp,
-                RecyclerView.LayoutParams.WRAP_CONTENT
+                RecyclerView.LayoutParams.WRAP_CONTENT,
             )
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER_HORIZONTAL
@@ -67,10 +67,10 @@ class CustomButtonsAdapter(
             context.theme.resolveAttribute(
                 android.R.attr.selectableItemBackground,
                 outValue,
-                true
+                true,
             )
             setBackgroundResource(outValue.resourceId)
-        }
+        },
     ) {
         private val iconContainer: LinearLayout
         private val iconView: ImageView
@@ -101,7 +101,7 @@ class CustomButtonsAdapter(
             textView = TextView(context).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 )
                 gravity = Gravity.CENTER
                 setTextSizeScaled(14)
@@ -112,7 +112,7 @@ class CustomButtonsAdapter(
             labelView = TextView(context).apply {
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 ).apply {
                     topMargin = 4.dp
                 }

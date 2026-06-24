@@ -35,8 +35,8 @@ class V1Syncable(
                 block(
                     SyncState.IndexDownload.Failure(
                         repo.id,
-                        IllegalStateException("Empty v1 index jar")
-                    )
+                        IllegalStateException("Empty v1 index jar"),
+                    ),
                 )
                 return@withContext
             } else {
@@ -47,23 +47,25 @@ class V1Syncable(
                     fingerprint == null -> block(
                         SyncState.JarParsing.Failure(
                             repo.id,
-                            IllegalStateException("Jar entry does not contain a fingerprint")
-                        )
+                            IllegalStateException("Jar entry does not contain a fingerprint"),
+                        ),
                     )
 
                     repo.fingerprint != null && !repo.fingerprint.assert(fingerprint!!) -> block(
                         SyncState.JarParsing.Failure(
                             repo.id,
-                            IllegalStateException("Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $fingerprint")
-                        )
+                            IllegalStateException(
+                                "Expected fingerprint: ${repo.fingerprint}, Actual fingerprint: $fingerprint",
+                            ),
+                        ),
                     )
 
                     else -> block(
                         SyncState.JsonParsing.Success(
                             repo.id,
                             fingerprint!!,
-                            json().toV2()
-                        )
+                            json().toV2(),
+                        ),
                     )
                 }
             }

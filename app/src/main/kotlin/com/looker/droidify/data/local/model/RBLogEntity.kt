@@ -49,10 +49,10 @@ class RBData(
 enum class Reproducible { NO_DATA, UNKNOWN, TRUE, FALSE }
 
 fun RBLogEntity?.toReproducible(): Reproducible = when {
-    this == null               -> Reproducible.NO_DATA
-    this.reproducible == true  -> Reproducible.TRUE
+    this == null -> Reproducible.NO_DATA
+    this.reproducible == true -> Reproducible.TRUE
     this.reproducible == false -> Reproducible.FALSE
-    else                       -> Reproducible.UNKNOWN // this.reproducible == null
+    else -> Reproducible.UNKNOWN // this.reproducible == null
 }
 
 private fun RBData.toEntity(hash: String): RBLogEntity = RBLogEntity(

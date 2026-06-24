@@ -15,7 +15,7 @@ data class CustomButton(
         appName: String,
         authorName: String,
     ): String {
-        val encodedAppName =  Uri.encode(appName)
+        val encodedAppName = Uri.encode(appName)
         val encodedAuthorName = Uri.encode(authorName)
 
         return urlTemplate

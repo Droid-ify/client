@@ -21,16 +21,16 @@ import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.utility.common.Exporter
 import com.looker.droidify.utility.common.extension.updateAsMutable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import java.util.*
 import kotlin.time.Clock
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 
 @OptIn(ExperimentalTime::class)
 class PreferenceSettingsRepository(
@@ -59,7 +59,7 @@ class PreferenceSettingsRepository(
     override suspend fun import(target: Uri) {
         val importedSettings = exporter.import(target)
         val updatedFavorites = importedSettings.favouriteApps +
-                getInitial().favouriteApps
+            getInitial().favouriteApps
         val updatedSettings = importedSettings.copy(favouriteApps = updatedFavorites)
         dataStore.edit {
             it.setting(updatedSettings)

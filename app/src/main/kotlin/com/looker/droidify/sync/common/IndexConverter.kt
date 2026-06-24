@@ -46,8 +46,10 @@ internal fun IndexV1.toV2(): IndexV2 {
             versions = versions?.associate { packageV1 ->
                 packageV1.hash to packageV1.toVersionV2(
                     whatsNew = whatsNew,
-                    packageAntiFeatures = app.antiFeatures + (packageV1.antiFeatures
-                        ?: emptyList()),
+                    packageAntiFeatures = app.antiFeatures + (
+                        packageV1.antiFeatures
+                            ?: emptyList()
+                        ),
                 )
             } ?: emptyMap(),
             metadata = app.toV2(preferredSigner),
@@ -209,7 +211,6 @@ private inline fun Map<String, Localized>.localizedString(
     }.takeIf { it.isNotEmpty() }
 }
 
-
 private inline fun Map<String, Localized>.localizedIcon(
     packageName: String,
     default: String? = null,
@@ -234,8 +235,11 @@ private inline fun Map<String, Localized>.localizedScreenshots(
 ): LocalizedFiles? {
     return mapValuesNotNull { (locale, localized) ->
         val files = block(locale, localized)
-        if (files.isNullOrEmpty()) null
-        else files.map(::FileV2)
+        if (files.isNullOrEmpty()) {
+            null
+        } else {
+            files.map(::FileV2)
+        }
     }.takeIf { it.isNotEmpty() }
 }
 

@@ -5,22 +5,22 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.droidify.utility.common.extension.divider
 import com.looker.droidify.R
+import com.looker.droidify.utility.common.extension.divider
 import kotlin.math.roundToInt
 
 fun RecyclerView.addDivider(
     configure: (
         context: Context,
         position: Int,
-        configuration: DividerConfiguration
-    ) -> Unit
+        configuration: DividerConfiguration,
+    ) -> Unit,
 ) {
     addItemDecoration(
         DividerItemDecoration(
             context = context,
-            configure = configure
-        )
+            configure = configure,
+        ),
     )
 }
 
@@ -33,8 +33,8 @@ private class DividerItemDecoration(
     private val configure: (
         context: Context,
         position: Int,
-        configuration: DividerConfiguration
-    ) -> Unit
+        configuration: DividerConfiguration,
+    ) -> Unit,
 ) : RecyclerView.ItemDecoration() {
 
     private class ConfigurationHolder : DividerConfiguration {
@@ -67,7 +67,7 @@ private class DividerItemDecoration(
         view: View,
         top: Int,
         width: Int,
-        rtl: Boolean
+        rtl: Boolean,
     ) {
         val divider = divider
         val left = if (rtl) configuration.paddingEnd else configuration.paddingStart
@@ -104,7 +104,7 @@ private class DividerItemDecoration(
                             toTopView,
                             bounds.top - divider.intrinsicHeight,
                             parent.width,
-                            rtl
+                            rtl,
                         )
                     } else {
                         parent.getDecoratedBoundsWithMargins(view, bounds)
@@ -114,7 +114,7 @@ private class DividerItemDecoration(
                             view,
                             bounds.bottom - divider.intrinsicHeight,
                             parent.width,
-                            rtl
+                            rtl,
                         )
                     }
                 }
@@ -126,7 +126,7 @@ private class DividerItemDecoration(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
-        state: RecyclerView.State
+        state: RecyclerView.State,
     ) {
         val configuration = view.configuration
         val position = parent.getChildAdapterPosition(view)

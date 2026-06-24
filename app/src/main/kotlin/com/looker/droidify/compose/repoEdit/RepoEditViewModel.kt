@@ -10,11 +10,6 @@ import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.net.URI
-import java.net.URISyntaxException
-import java.net.URL
-import java.net.URLDecoder
-import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,6 +17,11 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URI
+import java.net.URISyntaxException
+import java.net.URL
+import java.net.URLDecoder
+import javax.inject.Inject
 
 @HiltViewModel
 class RepoEditViewModel @Inject constructor(
@@ -278,7 +278,6 @@ class RepoEditErrorState(
 ) {
     val hasError: Boolean =
         (addressError != null) || (fingerprintError != null) || (usernameError != null) || (passwordError != null)
-
 }
 
 private fun RepoEditErrorState?.copy(
@@ -292,4 +291,3 @@ private fun RepoEditErrorState?.copy(
     usernameError = usernameError ?: this?.usernameError,
     passwordError = passwordError ?: this?.passwordError,
 )
-

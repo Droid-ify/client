@@ -5,11 +5,11 @@ package com.looker.droidify.data.model
 import com.looker.droidify.data.encryption.sha256
 import com.looker.droidify.sync.utils.certificateOrNull
 import com.looker.droidify.sync.utils.codeSignerOrNull
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.security.cert.Certificate
 import java.util.*
 import java.util.jar.JarEntry
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @JvmInline
 value class Fingerprint(val value: String) {

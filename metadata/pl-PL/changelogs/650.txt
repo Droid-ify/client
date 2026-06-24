@@ -1,0 +1,24 @@
+Dodano:
+- Pasek postępu synchronizacji
+- Repozytorium IronFox
+- Lista zrzutów ekranu z filmów
+- Okno dialogowe informujące o problemach z uprawnieniami shizuku
+- Docelowy SDK w elemencie wydania
+
+Naprawiono:
+- Trwałe powiadomienie o instalacji
+- Parsowanie linku darowizny
+- Aktualizacje po pominięciu sprawdzania podpisu
+- Dodanie repozytorium powoduje dodanie sufiks
+- Zrzuty ekranu dla repozytorium chronionego hasłem
+
+Zmieniono:
+- Uprawnienia Shizuku nie są już przywracane po utracie uprawnień
+- Animacja paska postępu
+
+Ulepszenia:
+- Ogólna poprawa wydajności
+- Edytuj interfejs użytkownika repozytorium
+
+Usunięto:
+- Nieużywane zależności

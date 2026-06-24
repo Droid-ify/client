@@ -5,7 +5,7 @@ import com.looker.droidify.datastore.Settings
 import kotlinx.coroutines.flow.first
 
 class ProtoToPreferenceMigration(
-    private val oldDataStore: androidx.datastore.core.DataStore<Settings>
+    private val oldDataStore: androidx.datastore.core.DataStore<Settings>,
 ) : androidx.datastore.core.DataMigration<androidx.datastore.preferences.core.Preferences> {
     override suspend fun cleanUp() {
     }

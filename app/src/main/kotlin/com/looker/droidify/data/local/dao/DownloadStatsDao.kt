@@ -14,7 +14,7 @@ interface DownloadStatsDao {
         SELECT SUM(downloads)
         FROM download_stats
         WHERE packageName = :packageName
-        """
+        """,
     )
     fun total(packageName: String): Flow<Long>
 
@@ -23,7 +23,7 @@ interface DownloadStatsDao {
         SELECT SUM(downloads)
         FROM download_stats
         WHERE packageName = :packageName AND timestamp >= :since
-        """
+        """,
     )
     fun totalSince(packageName: String, since: Long): Flow<Long>
 

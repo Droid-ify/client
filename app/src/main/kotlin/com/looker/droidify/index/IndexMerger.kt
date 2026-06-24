@@ -26,7 +26,7 @@ class IndexMerger(file: File) : Closeable {
             "CREATE TABLE product (" +
                 "package_name TEXT PRIMARY KEY," +
                 "description TEXT NOT NULL, " +
-                "data BLOB NOT NULL)"
+                "data BLOB NOT NULL)",
         )
         db.execSQL("CREATE TABLE releases (package_name TEXT PRIMARY KEY, data BLOB NOT NULL)")
         db.beginTransaction()
@@ -44,7 +44,7 @@ class IndexMerger(file: File) : Closeable {
                     put("package_name", product.packageName)
                     put("description", product.description)
                     put("data", outputStream.toByteArray())
-                }
+                },
             )
         }
     }
@@ -66,7 +66,7 @@ class IndexMerger(file: File) : Closeable {
                 ContentValues().apply {
                     put("package_name", packageName)
                     put("data", outputStream.toByteArray())
-                }
+                },
             )
         }
     }
@@ -83,7 +83,7 @@ class IndexMerger(file: File) : Closeable {
         db.rawQuery(
             """SELECT product.description, product.data AS pd, releases.data AS rd FROM product
           LEFT JOIN releases ON product.package_name = releases.package_name""",
-            null
+            null,
         ).use { cursor ->
             cursor.asSequence().map { currentCursor ->
                 val description = currentCursor.getString(0)
@@ -98,7 +98,7 @@ class IndexMerger(file: File) : Closeable {
                     Json.factory.createParser(bytes).use {
                         it.nextToken()
                         it.collectNotNull(
-                            JsonToken.START_OBJECT
+                            JsonToken.START_OBJECT,
                         ) { release() }
                     }
                 }.orEmpty()

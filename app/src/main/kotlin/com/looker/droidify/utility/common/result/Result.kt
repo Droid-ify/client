@@ -5,6 +5,6 @@ sealed interface Result<out T> {
 
     data class Error<T>(
         val exception: Throwable? = null,
-        val data: T? = null
+        val data: T? = null,
     ) : Result<T>
 }

@@ -38,7 +38,7 @@ import kotlinx.coroutines.sync.withLock
 
 class InstallManager(
     private val context: Context,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
 ) {
 
     private val installItems = Channel<InstallItem>()
@@ -107,7 +107,7 @@ class InstallManager(
                     notification = context.createInstallNotification(
                         appName = item.packageName.name,
                         state = InstallState.Installing,
-                    )
+                    ),
                 )
                 val result = installer.use { it.install(item) }
                 if (result == InstallState.Installed && installer !is LegacyInstaller) {

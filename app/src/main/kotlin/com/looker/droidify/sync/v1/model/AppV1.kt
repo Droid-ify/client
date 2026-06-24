@@ -37,4 +37,3 @@ data class AppV1(
     val translation: String? = null,
     val webSite: String? = null,
 )
-

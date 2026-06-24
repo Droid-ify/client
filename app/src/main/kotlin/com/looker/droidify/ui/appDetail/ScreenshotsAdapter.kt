@@ -54,7 +54,6 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
         }
     }
 
-
     private inner class ScreenshotViewHolder(
         context: Context,
     ) : RecyclerView.ViewHolder(FrameLayout(context)) {
@@ -112,8 +111,11 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
     ) {
         items.clear()
         items += screenshots.map {
-            if (it.type == Product.Screenshot.Type.VIDEO) Item.VideoItem(it.path)
-            else Item.ScreenshotItem(repository, packageName, it)
+            if (it.type == Product.Screenshot.Type.VIDEO) {
+                Item.VideoItem(it.path)
+            } else {
+                Item.ScreenshotItem(repository, packageName, it)
+            }
         }
         notifyDataSetChanged()
     }

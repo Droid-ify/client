@@ -18,7 +18,6 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.Database
-import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.model.Product
@@ -39,7 +38,7 @@ import kotlinx.coroutines.withContext
 class UnarchiveWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val installManager: InstallManager
+    private val installManager: InstallManager,
 ) : CoroutineWorker(context, workerParams) {
     companion object {
         private const val TAG = "CleanUpWorker"
@@ -62,7 +61,7 @@ class UnarchiveWorker @AssistedInject constructor(
         context: Context,
         packageName: String,
         product: Product,
-        repository: Repository
+        repository: Repository,
     ): DownloadService.DownloadState {
         lateinit var connection: Connection<DownloadService.Binder, DownloadService>
         val binder = suspendCancellableCoroutine { cont ->
@@ -70,7 +69,7 @@ class UnarchiveWorker @AssistedInject constructor(
                 serviceClass = DownloadService::class.java,
                 onBind = { _, binder ->
                     cont.resume(binder) { cause, _, _ -> connection.unbind(context) }
-                }
+                },
             )
             connection = c
             c.bind(context)
@@ -80,7 +79,7 @@ class UnarchiveWorker @AssistedInject constructor(
             packageName,
             product.name,
             repository,
-            product.releases.first()
+            product.releases.first(),
         )
 
         // Wait until the download completes
@@ -96,7 +95,7 @@ class UnarchiveWorker @AssistedInject constructor(
         val packageManger = applicationContext.packageManager
         val packageInfo = packageManger.getPackageInfo(
             packageName,
-            PackageManager.PackageInfoFlags.of(MATCH_ARCHIVED_PACKAGES)
+            PackageManager.PackageInfoFlags.of(MATCH_ARCHIVED_PACKAGES),
         )
         val sig = packageInfo.singleSignature?.calculateHash()
 
@@ -110,15 +109,15 @@ class UnarchiveWorker @AssistedInject constructor(
         val repository = Database.RepositoryAdapter.get(product.repositoryId)
             ?: return@withContext Result.failure()
 
-
-        val result = downloadProductAndWait(applicationContext,
+        val result = downloadProductAndWait(
+            applicationContext,
             packageName,
             product,
             repository,
         )
 
         if (result.currentItem !is DownloadService.State.Success) {
-            Log.e(TAG, "doWork: failed to download ", )
+            Log.e(TAG, "doWork: failed to download ")
             return@withContext Result.failure()
         }
 
@@ -127,7 +126,7 @@ class UnarchiveWorker @AssistedInject constructor(
                 PackageName(packageName),
                 result.currentItem.release.cacheFileName,
                 unarchiveId,
-            )
+            ),
         )
         Result.success()
     }

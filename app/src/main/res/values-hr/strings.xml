@@ -171,7 +171,7 @@
     <string name="confirmation">Potvrda</string>
     <string name="edit_repository">Uredi</string>
     <string name="delete_repository_DESC">Izbrisati repozitorij\?</string>
-    <string name="ignore_this_update">Zanemariraj ovu inačicu</string>
+    <string name="ignore_this_update">Zanemari ovu inačicu</string>
     <string name="details">Detalji</string>
     <string name="installer">Instalacijski program</string>
     <string name="downloaded_FORMAT">Preuzeto %s</string>
@@ -257,4 +257,26 @@
     <string name="rb_badge">Značka za reproducibilnu izgradnju</string>
     <string name="rb_badge_info">Zelena kvačica -&gt; Potvrđena reproducibilna izgradnja\nCrvena kvačica -&gt; Nereproducibilna izgradnja\nSmeđa kvačica -&gt; Nepoznato stanje</string>
     <string name="rb_info">Ako je izgradnja reproducibilna, to znači da je zadani apk izgrađen iz navedenog izvora</string>
+    <string name="delete_apk_on_install">Izbriši APK nakon instaliranja</string>
+    <string name="delete_apk_on_install_summary">Automatski izbriši APK datoteke nakon uspješnog instaliranja</string>
+    <string name="requires_authentication">Zahtijeva autentifikaciju?</string>
+    <string name="force_sync_repositories">Prisili sinkronizaciju repozitorija</string>
+    <string name="copy_error_details">Kopiraj detalje greške</string>
+    <string name="copied_to_clipboard">Kopirano</string>
+    <string name="custom_buttons">Prilagođeni gumbi</string>
+    <string name="custom_buttons_description">Dodaj brze poveznice na eksterne usluge u detalje aplikacije</string>
+    <string name="custom_buttons_section">Poveznice detalja aplikacije</string>
+    <string name="custom_button_add">Dodaj gumb</string>
+    <string name="custom_button_edit">Uredi gumb</string>
+    <string name="custom_button_label">Oznaka</string>
+    <string name="custom_button_label_hint">npr., Exodus Privacy</string>
+    <string name="custom_button_url">Predložak URL-a</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Koristi {{package_name}}, {{app_name}} ili {{author_name}} kao rezervirana mjesta</string>
+    <string name="custom_button_templates">Predlošci</string>
+    <string name="custom_button_icon">Ikona</string>
+    <string name="custom_button_delete_confirmation">Izbrisati gumb „%1$s”?</string>
+    <string name="custom_buttons_export">Izvezi gumbove</string>
+    <string name="custom_buttons_import">Uvezi gumbove</string>
+    <string name="custom_buttons_imported">Prilagođeni gumbi su uvezeni</string>
 </resources>

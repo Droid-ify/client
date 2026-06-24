@@ -103,8 +103,8 @@ fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_bo
     requireNotNull(
         AppCompatResources.getDrawable(
             this,
-            resId
-        )
+            resId,
+        ),
     ) { "Cannot find drawable, ID: $resId" }
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {

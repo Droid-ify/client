@@ -34,7 +34,7 @@
     <string name="checking_repository">جارٍ التحقق من المستودع…</string>
     <string name="compiled_for_debugging">جُمّع من أجل التصحيح</string>
     <string name="confirmation">تأكيد</string>
-    <string name="connecting">بتصل…</string>
+    <string name="connecting">يتصل…</string>
     <string name="contains_non_free_media">يحتوي على وسائط غير حرة</string>
     <string name="could_not_sync_FORMAT">تعذَّرت مزامنة %s</string>
     <string name="could_not_validate_FORMAT">تعذَّر تحقق %s</string>

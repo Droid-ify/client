@@ -16,18 +16,18 @@ import com.looker.droidify.utility.common.extension.writeDictionary
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class RepositoryExporter @Inject constructor(
     @param:ApplicationContext private val context: Context,
     @param:ApplicationScope private val scope: CoroutineScope,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : Exporter<List<Repository>> {
     override suspend fun export(item: List<Repository>, target: Uri) {
         scope.launch(ioDispatcher) {
@@ -40,7 +40,7 @@ class RepositoryExporter @Inject constructor(
                                 id = -1,
                                 mirrors = if (it.enabled) it.mirrors else emptyList(),
                                 lastModified = "",
-                                entityTag = ""
+                                entityTag = "",
                             )
                         }.forEach { repo ->
                             writeDictionary {

@@ -8,7 +8,7 @@ fun shizukuDialog(
     context: Context,
     shizukuState: ShizukuState,
     openShizuku: () -> Unit,
-    switchInstaller: () -> Unit
+    switchInstaller: () -> Unit,
 ) = with(MaterialAlertDialogBuilder(context)) {
     when {
         shizukuState.isNotAlive -> {

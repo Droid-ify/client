@@ -59,11 +59,11 @@ class AppListAdapter(
                     FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.WRAP_CONTENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT,
-                    ).apply { gravity = Gravity.CENTER }
+                    ).apply { gravity = Gravity.CENTER },
                 )
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.MATCH_PARENT
+                    RecyclerView.LayoutParams.MATCH_PARENT,
                 )
             }
         }
@@ -83,7 +83,7 @@ class AppListAdapter(
                 setTextSizeScaled(20)
                 layoutParams = RecyclerView.LayoutParams(
                     RecyclerView.LayoutParams.MATCH_PARENT,
-                    RecyclerView.LayoutParams.MATCH_PARENT
+                    RecyclerView.LayoutParams.MATCH_PARENT,
                 )
             }
         }
@@ -155,8 +155,8 @@ class AppListAdapter(
                 val productItem = getProductItem(position)
                 holder.name.text = productItem.name
                 holder.summary.text = productItem.summary
-                holder.summary.isVisible = productItem.summary.isNotEmpty()
-                        && productItem.name != productItem.summary
+                holder.summary.isVisible = productItem.summary.isNotEmpty() &&
+                    productItem.name != productItem.summary
                 val repository = repositories[productItem.repositoryId]
                 if (repository != null) {
                     val iconUrl = productItem.icon(view = holder.icon, repository = repository)

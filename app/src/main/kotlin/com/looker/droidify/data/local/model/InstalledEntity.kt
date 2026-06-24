@@ -10,7 +10,7 @@ data class InstalledEntity(
     val packageName: String,
     val version: String,
     val versionCode: Long,
-    val signature: String
+    val signature: String,
 )
 
 /**
@@ -20,7 +20,7 @@ fun InstalledItem.toEntity(): InstalledEntity = InstalledEntity(
     packageName = packageName,
     version = version,
     versionCode = versionCode,
-    signature = signature
+    signature = signature,
 )
 
 /**
@@ -30,5 +30,5 @@ fun InstalledEntity.toDomain(): InstalledItem = InstalledItem(
     packageName = packageName,
     version = version,
     versionCode = versionCode,
-    signature = signature
+    signature = signature,
 )
