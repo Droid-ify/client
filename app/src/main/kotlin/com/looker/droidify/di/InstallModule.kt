@@ -18,6 +18,6 @@ object InstallModule {
     @Provides
     fun providesInstaller(
         @ApplicationContext context: Context,
-        settingsRepository: SettingsRepository
+        settingsRepository: SettingsRepository,
     ): InstallManager = InstallManager(context, settingsRepository)
 }

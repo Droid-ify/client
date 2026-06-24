@@ -4,9 +4,6 @@ import android.content.Context
 import android.net.Uri
 import com.looker.droidify.datastore.model.CustomButton
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.io.File
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,6 +14,9 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import java.io.File
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class CustomButtonRepository @Inject constructor(
@@ -87,7 +87,7 @@ class CustomButtonRepository @Inject constructor(
             val jsonString = inputStream.bufferedReader().use { it.readText() }
             val importedButtons = json.decodeFromString(
                 ListSerializer(CustomButton.serializer()),
-                jsonString
+                jsonString,
             )
             mutex.withLock {
                 ensureLoadedInternal()
@@ -106,7 +106,7 @@ class CustomButtonRepository @Inject constructor(
             ensureLoaded()
             val jsonString = json.encodeToString(
                 ListSerializer(CustomButton.serializer()),
-                _buttons.value
+                _buttons.value,
             )
             context.contentResolver.openOutputStream(uri)?.use { outputStream ->
                 outputStream.write(jsonString.toByteArray())
@@ -122,7 +122,7 @@ class CustomButtonRepository @Inject constructor(
         ensureLoaded()
         json.encodeToString(
             ListSerializer(CustomButton.serializer()),
-            _buttons.value
+            _buttons.value,
         )
     }
 
@@ -150,7 +150,7 @@ class CustomButtonRepository @Inject constructor(
             val jsonString = file.readText()
             json.decodeFromString(
                 ListSerializer(CustomButton.serializer()),
-                jsonString
+                jsonString,
             )
         } catch (e: Exception) {
             e.printStackTrace()
@@ -163,7 +163,7 @@ class CustomButtonRepository @Inject constructor(
             val file = File(context.filesDir, FILE_NAME)
             val jsonString = json.encodeToString(
                 ListSerializer(CustomButton.serializer()),
-                buttons
+                buttons,
             )
             file.writeText(jsonString)
         } catch (e: Exception) {

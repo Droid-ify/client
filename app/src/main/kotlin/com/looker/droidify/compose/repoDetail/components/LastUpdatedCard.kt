@@ -80,7 +80,7 @@ fun LastUpdatedCard(
                 contentDescription = null,
                 modifier = Modifier
                     .size(20.dp)
-                    .padding(end = 4.dp)
+                    .padding(end = 4.dp),
             )
         }
         Text(

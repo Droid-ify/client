@@ -2,8 +2,8 @@ package com.looker.droidify.datastore.exporter
 
 import android.content.Context
 import android.net.Uri
-import com.looker.droidify.utility.common.Exporter
 import com.looker.droidify.datastore.Settings
+import com.looker.droidify.utility.common.Exporter
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
@@ -21,7 +21,7 @@ class SettingsExporter(
     private val context: Context,
     private val scope: CoroutineScope,
     private val ioDispatcher: CoroutineDispatcher,
-    private val json: Json
+    private val json: Json,
 ) : Exporter<Settings> {
 
     override suspend fun export(item: Settings, target: Uri) {

@@ -6,15 +6,15 @@ import kotlinx.serialization.Serializable
 data class ProxyPreference(
     val type: ProxyType = ProxyType.DIRECT,
     val host: String = "localhost",
-    val port: Int = 9050
+    val port: Int = 9050,
 ) {
     fun update(
         newType: ProxyType? = null,
         newHost: String? = null,
-        newPort: Int? = null
+        newPort: Int? = null,
     ): ProxyPreference = copy(
         type = newType ?: type,
         host = newHost ?: host,
-        port = newPort ?: port
+        port = newPort ?: port,
     )
 }

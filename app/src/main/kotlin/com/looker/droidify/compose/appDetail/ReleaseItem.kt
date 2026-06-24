@@ -42,14 +42,14 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toJavaLocalDateTime
+import kotlinx.datetime.toLocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 import kotlin.time.ExperimentalTime
 import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalTime::class)
 @Composable
@@ -72,7 +72,7 @@ fun ReleaseItem(
     }
     val installed = remember(release, installedItem) {
         installedItem?.versionCode == release.versionCode &&
-                installedItem.signature == release.signature
+            installedItem.signature == release.signature
     }
 
     Card(
@@ -82,38 +82,38 @@ fun ReleaseItem(
             .combinedClickable(
                 enabled = enabled,
                 onClick = onClick,
-                onLongClick = onLongClick
+                onLongClick = onLongClick,
             ),
         colors = CardDefaults.cardColors(
             containerColor = if (suggested) {
                 MaterialTheme.colorScheme.surfaceContainerHigh
             } else {
                 MaterialTheme.colorScheme.surface
-            }
-        )
+            },
+        ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             // Version and Status Row
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.Bottom
+                verticalAlignment = Alignment.Bottom,
             ) {
                 Row(
                     modifier = Modifier.weight(1f),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = stringResource(R.string.version_FORMAT, release.version).uppercase(),
                         style = MaterialTheme.typography.labelLarge,
                         maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
                     )
 
                     if (installed || suggested) {
@@ -123,11 +123,11 @@ fun ReleaseItem(
                             } else {
                                 MaterialTheme.colorScheme.primaryContainer
                             },
-                            shape = RoundedCornerShape(12.dp)
+                            shape = RoundedCornerShape(12.dp),
                         ) {
                             Text(
                                 text = stringResource(
-                                    if (installed) R.string.installed else R.string.suggested
+                                    if (installed) R.string.installed else R.string.suggested,
                                 ).uppercase(),
                                 style = MaterialTheme.typography.labelMedium,
                                 color = if (installed) {
@@ -135,7 +135,7 @@ fun ReleaseItem(
                                 } else {
                                     MaterialTheme.colorScheme.onPrimaryContainer
                                 },
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
                             )
                         }
                     }
@@ -156,28 +156,30 @@ fun ReleaseItem(
                     text = dateString,
                     style = MaterialTheme.typography.bodyMedium,
                     fontSize = 14.sp,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
 
             // Source
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
-                if (reproducible != Reproducible.NO_DATA) Icon(
-                    imageVector = when (reproducible) {
-                        Reproducible.TRUE -> Icons.Outlined.GppGood
-                        Reproducible.FALSE -> Icons.Outlined.GppBad
-                        else -> Icons.Outlined.GppMaybe // Reproducible.UNKNOWN
-                    },
-                    contentDescription = stringResource(id = R.string.rb_badge),
-                    tint = when (reproducible) {
-                        Reproducible.TRUE -> Color.Green
-                        Reproducible.FALSE -> Color.Red
-                        else -> Color.Yellow//Warning
-                    }
-                )
+                if (reproducible != Reproducible.NO_DATA) {
+                    Icon(
+                        imageVector = when (reproducible) {
+                            Reproducible.TRUE -> Icons.Outlined.GppGood
+                            Reproducible.FALSE -> Icons.Outlined.GppBad
+                            else -> Icons.Outlined.GppMaybe // Reproducible.UNKNOWN
+                        },
+                        contentDescription = stringResource(id = R.string.rb_badge),
+                        tint = when (reproducible) {
+                            Reproducible.TRUE -> Color.Green
+                            Reproducible.FALSE -> Color.Red
+                            else -> Color.Yellow // Warning
+                        },
+                    )
+                }
                 Text(
                     text = stringResource(R.string.provided_by_FORMAT, repository.name),
                     style = MaterialTheme.typography.bodyMedium,
@@ -185,7 +187,7 @@ fun ReleaseItem(
                     fontSize = 14.sp,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 )
 
                 Spacer(modifier = Modifier.width(16.dp))
@@ -195,7 +197,7 @@ fun ReleaseItem(
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 14.sp,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
 
@@ -220,7 +222,7 @@ fun ReleaseItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 14.sp,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
@@ -231,13 +233,13 @@ fun ReleaseItem(
                         incompatibility != null -> when (incompatibility) {
                             is Release.Incompatibility.MinSdk,
                             is Release.Incompatibility.MaxSdk,
-                                ->
+                            ->
                                 context.getString(R.string.incompatible_with_FORMAT, Android.name)
 
                             is Release.Incompatibility.Platform ->
                                 context.getString(
                                     R.string.incompatible_with_FORMAT,
-                                    Android.primaryPlatform ?: context.getString(R.string.unknown)
+                                    Android.primaryPlatform ?: context.getString(R.string.unknown),
                                 )
 
                             is Release.Incompatibility.Feature ->
@@ -260,7 +262,7 @@ fun ReleaseItem(
                     },
                     fontSize = 14.sp,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
 
@@ -268,11 +270,11 @@ fun ReleaseItem(
             val sdkVersionText = remember(release.targetSdkVersion, release.minSdkVersion) {
                 val targetSdkVersion = sdkName.getOrDefault(
                     release.targetSdkVersion,
-                    context.getString(R.string.label_unknown_sdk, release.targetSdkVersion)
+                    context.getString(R.string.label_unknown_sdk, release.targetSdkVersion),
                 )
                 val minSdkVersion = sdkName.getOrDefault(
                     release.minSdkVersion,
-                    context.getString(R.string.label_unknown_sdk, release.minSdkVersion)
+                    context.getString(R.string.label_unknown_sdk, release.minSdkVersion),
                 )
                 context.getString(R.string.label_sdk_version, targetSdkVersion, minSdkVersion)
             }
@@ -282,7 +284,7 @@ fun ReleaseItem(
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 14.sp,
                 maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                overflow = TextOverflow.Ellipsis,
             )
         }
     }

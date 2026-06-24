@@ -10,20 +10,20 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.utility.common.cache.Cache
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import kotlin.time.Duration
-import kotlin.time.toJavaDuration
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.time.Duration
+import kotlin.time.toJavaDuration
 
 @HiltWorker
 class CleanUpWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val settingsRepository: SettingsRepository
+    private val settingsRepository: SettingsRepository,
 ) : CoroutineWorker(context, workerParams) {
     companion object {
         private const val TAG = "CleanUpWorker"
@@ -41,7 +41,7 @@ class CleanUpWorker @AssistedInject constructor(
             workManager.enqueueUniquePeriodicWork(
                 TAG,
                 ExistingPeriodicWorkPolicy.UPDATE,
-                cleanup
+                cleanup,
             )
             Log.i(TAG, "Periodic work enqueued with duration: $duration")
         }
@@ -54,7 +54,7 @@ class CleanUpWorker @AssistedInject constructor(
             workManager.enqueueUniqueWork(
                 "$TAG.force",
                 ExistingWorkPolicy.KEEP,
-                cleanup
+                cleanup,
             )
             Log.i(TAG, "Forced cleanup enqueued")
         }

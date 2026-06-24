@@ -11,7 +11,7 @@ import com.looker.droidify.utility.extension.android.Android
 fun Connection<DownloadService.Binder, DownloadService>.startUpdate(
     packageName: String,
     installedItem: InstalledItem?,
-    products: List<Pair<Product, Repository>>
+    products: List<Pair<Product, Repository>>,
 ) {
     if (binder == null || products.isEmpty()) return
 
@@ -32,6 +32,6 @@ fun Connection<DownloadService.Binder, DownloadService>.startUpdate(
         name = product.name,
         repository = repository,
         release = selectedRelease,
-        isUpdate = installedItem != null
+        isUpdate = installedItem != null,
     )
 }

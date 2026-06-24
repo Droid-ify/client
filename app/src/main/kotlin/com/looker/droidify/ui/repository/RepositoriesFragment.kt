@@ -7,14 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.looker.droidify.R
-import com.looker.droidify.utility.common.extension.dp
-import com.looker.droidify.utility.common.extension.systemBarsMargin
-import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
+import com.looker.droidify.utility.common.extension.dp
+import com.looker.droidify.utility.common.extension.systemBarsMargin
+import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.addDivider
 
@@ -28,7 +28,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
         _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
@@ -44,7 +44,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                 isMotionEventSplittingEnabled = false
                 setHasFixedSize(true)
                 adapter = RepositoriesAdapter(
-                    navigate = { mainActivity.navigateRepository(it.id) }
+                    navigate = { mainActivity.navigateRepository(it.id) },
                 ) { repository, isEnabled ->
                     repository.enabled != isEnabled &&
                         syncConnection.binder?.setEnabled(repository, isEnabled) == true
@@ -54,7 +54,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                         needDivider = true,
                         toTop = false,
                         paddingStart = 16.dp,
-                        paddingEnd = 16.dp
+                        paddingEnd = 16.dp,
                     )
                 }
                 systemBarsPadding()

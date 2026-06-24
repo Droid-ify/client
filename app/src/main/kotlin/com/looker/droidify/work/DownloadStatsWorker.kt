@@ -24,16 +24,16 @@ import com.looker.droidify.utility.notifications.createDownloadStatsNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import io.ktor.http.HttpStatusCode
-import java.io.File
-import java.util.*
-import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.concurrent.atomics.ExperimentalAtomicApi
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.util.*
+import java.util.concurrent.ConcurrentLinkedQueue
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.time.ExperimentalTime
 
 @HiltWorker
 class DownloadStatsWorker @AssistedInject constructor(
@@ -56,7 +56,7 @@ class DownloadStatsWorker @AssistedInject constructor(
             setForegroundAsync(
                 context
                     .createDownloadStatsNotification()
-                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD)
+                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD),
             )
             fetchData(settings)
             Log.i(TAG, "Successfully processed download stats monthly files")
@@ -73,7 +73,7 @@ class DownloadStatsWorker @AssistedInject constructor(
         supervisorScope {
             val lastModified = settings.lastModifiedDownloadStats
             val fileNames = ConcurrentLinkedQueue(
-                generateMonthlyFileNames(lastModified)
+                generateMonthlyFileNames(lastModified),
             )
 
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
@@ -97,7 +97,7 @@ class DownloadStatsWorker @AssistedInject constructor(
                                         processDownloadStats(
                                             response = response,
                                             fileName = fileName,
-                                            target = target
+                                            target = target,
                                         )
                                     }
                                 }

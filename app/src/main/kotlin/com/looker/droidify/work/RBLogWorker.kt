@@ -22,11 +22,11 @@ import com.looker.droidify.utility.common.toForegroundInfo
 import com.looker.droidify.utility.notifications.createRbNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.util.*
-import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.withContext
+import java.util.*
+import kotlin.time.ExperimentalTime
 
 @HiltWorker
 class RBLogWorker @AssistedInject constructor(
@@ -52,17 +52,17 @@ class RBLogWorker @AssistedInject constructor(
                 target = target,
                 headers = {
                     if (lastModified != null) ifModifiedSince(Date(lastModified))
-                }
+                },
             )
             if (response is NetworkResponse.Success && response.statusCode != 304) {
                 setForegroundAsync(
                     context.createRbNotification()
-                        .toForegroundInfo(Constants.NOTIFICATION_ID_RB_DOWNLOAD)
+                        .toForegroundInfo(Constants.NOTIFICATION_ID_RB_DOWNLOAD),
                 )
                 val logs = JsonParser.decodeFromString<Map<String, List<RBData>>>(target.readText())
                 privacyRepository.upsertRBLogs(
                     lastModified = response.lastModified ?: Date(),
-                    logs = logs.toLogs()
+                    logs = logs.toLogs(),
                 )
                 Log.i(TAG, "Fetched, parsed and saved RB Logs")
             }

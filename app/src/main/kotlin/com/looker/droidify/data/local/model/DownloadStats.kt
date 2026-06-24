@@ -3,17 +3,17 @@ package com.looker.droidify.data.local.model
 import androidx.room.Entity
 import androidx.room.Index
 import com.looker.droidify.sync.JsonParser
-import java.io.InputStream
-import java.util.*
-import kotlin.time.ExperimentalTime
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.decodeFromStream
+import java.io.InputStream
+import java.util.*
+import kotlin.time.ExperimentalTime
 
 @Entity(
     tableName = "download_stats",
     primaryKeys = ["packageName", "source", "timestamp"],
-    indices = [Index("packageName"), Index("timestamp")]
+    indices = [Index("packageName"), Index("timestamp")],
 )
 data class DownloadStats(
     val packageName: String,

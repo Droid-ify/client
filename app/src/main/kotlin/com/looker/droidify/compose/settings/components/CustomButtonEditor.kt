@@ -63,12 +63,12 @@ fun CustomButtonEditor(
                     stringResource(R.string.custom_button_edit)
                 } else {
                     stringResource(R.string.custom_button_add)
-                }
+                },
             )
         },
         text = {
             Column(
-                modifier = Modifier.verticalScroll(rememberScrollState())
+                modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 OutlinedTextField(
                     value = label,
@@ -108,8 +108,11 @@ fun CustomButtonEditor(
                     )
                     TextButton(onClick = { showTemplates = !showTemplates }) {
                         Text(
-                            if (showTemplates) stringResource(R.string.show_less)
-                            else stringResource(R.string.show_more)
+                            if (showTemplates) {
+                                stringResource(R.string.show_less)
+                            } else {
+                                stringResource(R.string.show_more)
+                            },
                         )
                     }
                 }

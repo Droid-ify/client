@@ -17,7 +17,7 @@ fun NotificationManager.installNotification(
     notify(
         installTag(packageName),
         NOTIFICATION_ID_INSTALL,
-        notification
+        notification,
     )
 }
 

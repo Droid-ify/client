@@ -182,7 +182,7 @@ interface AppDao {
             }
 
             if (searchQuery != null) {
-                val searchPattern = "%${searchQuery}%"
+                val searchPattern = "%$searchQuery%"
                 append(
                     """
                      AND (
@@ -200,7 +200,7 @@ interface AppDao {
             append(" ORDER BY ")
 
             if (searchQuery != null) {
-                val searchPattern = "%${searchQuery}%"
+                val searchPattern = "%$searchQuery%"
                 append("(CASE WHEN COALESCE(n_loc.name, n_en.name) LIKE ? THEN 4 ELSE 0 END) + ")
                 append("(CASE WHEN COALESCE(s_loc.summary, s_en.summary) LIKE ? THEN 3 ELSE 0 END) + ")
                 append("(CASE WHEN app.packageName LIKE ? THEN 2 ELSE 0 END) + ")
@@ -248,7 +248,7 @@ interface AppDao {
         SELECT v.appId AS appId, MAX(v.versionName) AS versionName
         FROM version v
         GROUP BY appId
-        """
+        """,
     )
     suspend fun suggestedVersionNamesAll(): Map<Int, String>
 
@@ -271,7 +271,9 @@ interface AppDao {
     @Query("SELECT summary FROM localized_app_summary WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
     suspend fun summary(id: Int, locale: String): String?
 
-    @Query("SELECT description FROM localized_app_description WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")
+    @Query(
+        "SELECT description FROM localized_app_description WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')",
+    )
     suspend fun description(id: Int, locale: String): String?
 
     @Query("SELECT * FROM localized_app_icon WHERE appId = :id AND (locale = :locale OR locale = \'en-US\')")

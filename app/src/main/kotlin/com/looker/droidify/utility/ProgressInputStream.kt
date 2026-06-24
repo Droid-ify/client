@@ -7,7 +7,7 @@ fun InputStream.getProgress(callback: (Long) -> Unit): InputStream =
 
 private class ProgressInputStream(
     private val inputStream: InputStream,
-    private val callback: (Long) -> Unit
+    private val callback: (Long) -> Unit,
 ) : InputStream() {
     private var count = 0L
 

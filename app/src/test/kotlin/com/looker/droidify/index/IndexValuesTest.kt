@@ -4,9 +4,9 @@ import com.looker.droidify.assets
 import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.PackageV2
-import kotlin.test.Test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
+import kotlin.test.Test
 
 class IndexValuesTest {
 

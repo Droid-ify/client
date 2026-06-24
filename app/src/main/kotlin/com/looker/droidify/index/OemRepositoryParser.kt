@@ -5,9 +5,9 @@ import com.looker.droidify.data.encryption.sha256
 import com.looker.droidify.data.model.hex
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.Repository.Companion.defaultRepository
+import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.InputStream
-import org.xmlpull.v1.XmlPullParser
 
 /**
  * Direct copy of implementation from https://github.com/NeoApplications/Neo-Store/blob/master/src/main/kotlin/com/machiav3lli/fdroid/data/database/entity/Repository.kt
@@ -72,7 +72,9 @@ object OemRepositoryParser {
                         }
                         .toByteArray()
                     sha256(encoded).hex()
-                } else it
+                } else {
+                    it
+                }
             },
             authentication = "",
         )

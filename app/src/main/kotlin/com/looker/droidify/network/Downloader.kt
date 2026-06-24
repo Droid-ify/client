@@ -1,7 +1,6 @@
 package com.looker.droidify.network
 
 import com.looker.droidify.network.header.HeadersBuilder
-import com.looker.droidify.network.validation.FileValidator
 import java.io.File
 
 interface Downloader {
@@ -14,7 +13,6 @@ interface Downloader {
     suspend fun downloadToFile(
         url: String,
         target: File,
-        validator: FileValidator? = null,
         headers: HeadersBuilder.() -> Unit = {},
         block: ProgressListener? = null,
     ): NetworkResponse

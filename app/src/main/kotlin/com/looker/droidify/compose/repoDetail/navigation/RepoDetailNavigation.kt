@@ -11,9 +11,12 @@ import kotlinx.serialization.Serializable
 data class RepoDetail(val repoId: Int)
 
 fun NavController.navigateToRepoDetail(repoId: Int) {
-    this.navigate(RepoDetail(repoId), navOptions {
-        launchSingleTop = true
-    })
+    this.navigate(
+        RepoDetail(repoId),
+        navOptions {
+            launchSingleTop = true
+        },
+    )
 }
 
 fun NavGraphBuilder.repoDetail(

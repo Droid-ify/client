@@ -92,7 +92,7 @@ fun AppListScreen(
                     Text("Droid-ify")
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             state = listState,
@@ -103,7 +103,7 @@ fun AppListScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                     ) {
                         val favSelected by viewModel.favouritesOnly.collectAsStateWithLifecycle()
                         FilterChip(
@@ -293,7 +293,7 @@ private fun AppItem(
                     .aspectRatio(1F, true)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceContainerLow,
-                        shape = MaterialTheme.shapes.small
+                        shape = MaterialTheme.shapes.small,
                     ),
             ) {
                 Image(

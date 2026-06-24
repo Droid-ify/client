@@ -20,7 +20,7 @@ sealed class LegacyInstallerComponent {
             newActivity: String? = null,
         ): Component = copy(
             clazz = newClazz ?: clazz,
-            activity = newActivity ?: activity
+            activity = newActivity ?: activity,
         )
     }
 }

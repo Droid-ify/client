@@ -44,7 +44,7 @@ fun ScreenshotsV2.localizedScreenshots(appId: Int): List<ScreenshotEntity> {
                         appId = appId,
                         type = type,
                         path = path,
-                    )
+                    ),
                 )
             }
         }

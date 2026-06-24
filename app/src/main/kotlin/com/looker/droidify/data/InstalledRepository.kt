@@ -4,9 +4,9 @@ import com.looker.droidify.data.local.dao.InstalledDao
 import com.looker.droidify.data.local.model.toDomain
 import com.looker.droidify.data.local.model.toEntity
 import com.looker.droidify.model.InstalledItem
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class InstalledRepository @Inject constructor(
     private val installedDao: InstalledDao,

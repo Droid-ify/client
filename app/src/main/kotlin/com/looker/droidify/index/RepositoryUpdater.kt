@@ -15,11 +15,6 @@ import com.looker.droidify.utility.common.extension.toFormattedString
 import com.looker.droidify.utility.common.result.Result
 import com.looker.droidify.utility.extension.android.Android
 import com.looker.droidify.utility.getProgress
-import java.io.File
-import java.security.CodeSigner
-import java.security.cert.Certificate
-import java.util.jar.JarEntry
-import java.util.jar.JarFile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.drop
@@ -27,6 +22,11 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.security.CodeSigner
+import java.security.cert.Certificate
+import java.util.jar.JarEntry
+import java.util.jar.JarFile
 
 object RepositoryUpdater {
     enum class Stage {
@@ -38,7 +38,7 @@ object RepositoryUpdater {
         val jarName: String,
         val contentName: String,
     ) {
-        INDEX_V1("index-v1.jar", "index-v1.json")
+        INDEX_V1("index-v1.jar", "index-v1.json"),
     }
 
     enum class ErrorType {
@@ -213,8 +213,6 @@ object RepositoryUpdater {
                     is NetworkResponse.Error.IO -> Result.Error(result.exception)
                     is NetworkResponse.Error.SocketTimeout -> Result.Error(result.exception)
                     is NetworkResponse.Error.Unknown -> Result.Error(result.exception)
-                    // TODO: Add Validator
-                    is NetworkResponse.Error.Validation -> Result.Error()
                 }
             }
         }

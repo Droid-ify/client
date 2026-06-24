@@ -16,8 +16,6 @@ import com.looker.droidify.compose.appDetail.navigation.appDetail
 import com.looker.droidify.compose.appDetail.navigation.navigateToAppDetail
 import com.looker.droidify.compose.appList.navigation.AppList
 import com.looker.droidify.compose.appList.navigation.appList
-import com.looker.droidify.compose.appList.navigation.navigateToAppList
-import com.looker.droidify.compose.home.navigation.home
 import com.looker.droidify.compose.repoDetail.navigation.navigateToRepoDetail
 import com.looker.droidify.compose.repoDetail.navigation.repoDetail
 import com.looker.droidify.compose.repoEdit.navigation.navigateToRepoEdit
@@ -31,9 +29,9 @@ import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.requestNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainComposeActivity : ComponentActivity() {
@@ -64,11 +62,6 @@ class MainComposeActivity : ComponentActivity() {
                         navController = navController,
                         startDestination = AppList,
                     ) {
-                        home(
-                            onNavigateToApps = { navController.navigateToAppList() },
-                            onNavigateToRepos = { navController.navigateToRepoList() },
-                            onNavigateToSettings = { navController.navigateToSettings() },
-                        )
                         appList(
                             onAppClick = { packageName ->
                                 navController.navigateToAppDetail(packageName)
@@ -79,7 +72,7 @@ class MainComposeActivity : ComponentActivity() {
 
                         repoList(
                             onRepoClick = { repoId -> navController.navigateToRepoDetail(repoId) },
-                            onBackClick = { navController.popBackStack() }
+                            onBackClick = { navController.popBackStack() },
                         )
 
                         appDetail(

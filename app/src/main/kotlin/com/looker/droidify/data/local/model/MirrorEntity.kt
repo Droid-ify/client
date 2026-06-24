@@ -17,7 +17,7 @@ import com.looker.droidify.sync.v2.model.MirrorV2
             parentColumns = ["id"],
             onDelete = CASCADE,
         ),
-    ]
+    ],
 )
 data class MirrorEntity(
     val url: String,

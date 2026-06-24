@@ -137,14 +137,14 @@ private fun AppDetail(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .then(modifier)
+            .then(modifier),
     ) {
         HeaderSection(
             app = app,
             packageName = app.metadata.packageName.name,
             isInstalled = app.packages?.any { it.installed } == true,
             isFavorite = true,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 16.dp),
         )
 
         if (customButtons.isNotEmpty()) {
@@ -184,7 +184,7 @@ private fun AppDetail(
                 style = MaterialTheme.typography.bodyLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp)
+                modifier = Modifier.padding(horizontal = 16.dp),
             )
         }
 
@@ -193,7 +193,7 @@ private fun AppDetail(
             val handler = LocalUriHandler.current
             Text(
                 text = app.metadata.description.toAnnotatedString(
-                    onUrlClick = { handler.openUri(it) }
+                    onUrlClick = { handler.openUri(it) },
                 ),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -208,8 +208,11 @@ private fun AppDetail(
                 repo = repo,
                 onClick = {},
                 onLongClick = {},
-                backgroundColor = if (isSuggested) MaterialTheme.colorScheme.surfaceContainerHigh
-                else MaterialTheme.colorScheme.surface
+                backgroundColor = if (isSuggested) {
+                    MaterialTheme.colorScheme.surfaceContainerHigh
+                } else {
+                    MaterialTheme.colorScheme.surface
+                },
             ) {
                 if (isSuggested) {
                     Text(
@@ -219,9 +222,9 @@ private fun AppDetail(
                         modifier = Modifier
                             .background(
                                 MaterialTheme.colorScheme.tertiaryContainer,
-                                shape = CircleShape
+                                shape = CircleShape,
                             )
-                            .padding(horizontal = 8.dp, vertical = 6.dp)
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
                     )
                 } else if (pkg.installed) {
                     Text(
@@ -231,9 +234,9 @@ private fun AppDetail(
                         modifier = Modifier
                             .background(
                                 MaterialTheme.colorScheme.secondaryContainer,
-                                shape = CircleShape
+                                shape = CircleShape,
                             )
-                            .padding(horizontal = 8.dp, vertical = 6.dp)
+                            .padding(horizontal = 8.dp, vertical = 6.dp),
                     )
                 }
             }
@@ -298,8 +301,8 @@ private fun HeaderSection(
             checked = isFavorite,
             onCheckedChange = {},
             modifier = Modifier.size(
-                IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Narrow)
-            )
+                IconButtonDefaults.mediumContainerSize(IconButtonDefaults.IconButtonWidthOption.Narrow),
+            ),
         ) {
             val icon = if (isFavorite) {
                 R.drawable.ic_favourite_checked
@@ -330,7 +333,7 @@ private fun ScreenshotsRow(screenshots: List<FilePath>) {
                     .height(180.dp)
                     .widthIn(min = 90.dp)
                     .clip(MaterialTheme.shapes.small)
-                    .background(MaterialTheme.colorScheme.surfaceContainer)
+                    .background(MaterialTheme.colorScheme.surfaceContainer),
             ) {
                 when (imageState) {
                     is AsyncImagePainter.State.Error -> {
@@ -345,7 +348,7 @@ private fun ScreenshotsRow(screenshots: List<FilePath>) {
                             painter = painter,
                             contentDescription = "screenshot",
                             modifier = Modifier.height(200.dp),
-                            contentScale = ContentScale.FillHeight
+                            contentScale = ContentScale.FillHeight,
                         )
                     }
 
