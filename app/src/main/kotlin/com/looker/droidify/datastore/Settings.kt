@@ -42,6 +42,7 @@ data class Settings(
     @Contextual
     val lastCleanup: Instant? = null,
     val lastRbLogFetch: Long? = null,
+    val rbLogMirrorIndex: Int = 0,
     val lastModifiedDownloadStats: Long? = null,
     val favouriteApps: Set<String> = emptySet(),
     val homeScreenSwiping: Boolean = true,

@@ -59,6 +59,8 @@ interface SettingsRepository {
 
     suspend fun setRbLogLastModified(date: Date)
 
+    suspend fun setRbLogMirrorIndex(index: Int)
+
     suspend fun updateLastModifiedDownloadStats(date: Date)
 
     suspend fun setHomeScreenSwiping(value: Boolean)

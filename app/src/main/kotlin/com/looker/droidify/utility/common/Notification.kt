@@ -29,11 +29,8 @@ fun Context.createNotificationChannel(
     }
 }
 
-fun Notification.toForegroundInfo(
-    id: Int,
-    type: Int = ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC,
-) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-    ForegroundInfo(id, this, type)
+fun Notification.toForegroundInfo(id: Int) = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    ForegroundInfo(id, this, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
 } else {
     ForegroundInfo(id, this)
 }
