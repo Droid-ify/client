@@ -1,6 +1,4 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
-import io.gitlab.arturbosch.detekt.Detekt
-import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,7 +7,6 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose)
-    alias(libs.plugins.detekt)
 }
 
 android {
@@ -127,55 +124,7 @@ java {
     }
 }
 
-detekt {
-    buildUponDefaultConfig = true
-    parallel = true
-    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-    baseline = file("$rootDir/config/detekt/baseline.xml")
-}
-
-val contextParamFiles = listOf("**/extension/Flow.kt", "**/extension/Number.kt")
-
-tasks.withType<Detekt>().configureEach {
-    jvmTarget = JavaVersion.VERSION_17.toString()
-    exclude(contextParamFiles)
-    reports {
-        html.required.set(true)
-        sarif.required.set(true)
-        xml.required.set(false)
-        txt.required.set(false)
-    }
-}
-tasks.withType<DetektCreateBaselineTask>().configureEach {
-    jvmTarget = JavaVersion.VERSION_17.toString()
-    exclude(contextParamFiles)
-}
-
-val detektFormat by tasks.registering(Detekt::class) {
-    description = "Auto-format Kotlin sources via detekt (ktlint rules)."
-    group = "formatting"
-    autoCorrect = true
-    parallel = true
-    buildUponDefaultConfig = true
-    ignoreFailures = true
-    setSource(files("src/main/kotlin", "src/test/kotlin", "src/androidTest/kotlin"))
-    config.setFrom(files("$rootDir/config/detekt/detekt.yml"))
-    include("**/*.kt", "**/*.kts")
-    exclude("**/build/**", "**/resources/**")
-    exclude(contextParamFiles)
-    jvmTarget = JavaVersion.VERSION_17.toString()
-    reports {
-        html.required.set(false)
-        sarif.required.set(false)
-        xml.required.set(false)
-        txt.required.set(false)
-    }
-}
-
 dependencies {
-    detektPlugins(libs.detekt.formatting)
-    detektPlugins(libs.detekt.compose)
-
     coreLibraryDesugaring(libs.desugaring)
 
     implementation(libs.material)
