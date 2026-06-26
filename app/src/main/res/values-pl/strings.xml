@@ -256,7 +256,6 @@
     <string name="copied_to_clipboard">Skopiowano</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Odznaka odtwarzalnej kompilacji</string>
-    <string name="rb_badge_info">Zielony znacznik \t -&gt; Zweryfikowana odtwarzalna kompilacja\nCzerwony znacznik \t -&gt; Nieodtwarzalna kompilacja\nBrązowy znacznik \t -&gt; Stan nieznany</string>
     <string name="custom_button_add">Dodaj przycisk</string>
     <string name="custom_button_edit">Edytuj przycisk</string>
     <string name="custom_button_label">Etykieta</string>

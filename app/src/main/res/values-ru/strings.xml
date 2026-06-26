@@ -250,7 +250,6 @@
     <string name="repository_not_found_by_id">Репозиторий не найден</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Значок воспроизводимой сборки</string>
-    <string name="rb_badge_info">Зелёная галочка \t → Проверенно воспроизводимая сборка\nКрасная галочка \t → Невоспроизводимая сборка\nКоричневая галочка \t → Неизвестное состояние</string>
     <string name="rb_info">Воспроизводимая сборка означает, что данный apk-файл собран из предоставленного исходного кода</string>
     <string name="total_downloads">Всего скачиваний</string>
     <string name="download_stats">Статистика скачиваний</string>

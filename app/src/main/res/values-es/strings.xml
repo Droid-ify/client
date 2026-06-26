@@ -246,7 +246,6 @@
     <string name="action_enable_repo">Activar</string>
     <string name="repository_not_found_by_id">Repositorio no encontrado</string>
     <string name="rb_badge">Insignia de construcción reproducible</string>
-    <string name="rb_badge_info">Marca verde \t -&gt; Construcción reproducible verificada\nMarca roja \t -&gt; Construcción no reproducible\nMarca marrón \t -&gt; Estado desconocido</string>
     <string name="rb_info">Si una compilación es reproducible, significa que la apk dada se compila a partir de la fuente proporcionada</string>
     <string name="total_downloads">Descargas totales</string>
     <string name="download_stats">Estadísticas de descarga</string>

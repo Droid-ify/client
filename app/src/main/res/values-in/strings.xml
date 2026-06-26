@@ -240,7 +240,6 @@
     <string name="action_enable_repo">Aktifkan</string>
     <string name="repository_not_found_by_id">Repositori tidak ditemukan</string>
     <string name="rb_badge">Lencana build yang dapat direproduksi</string>
-    <string name="rb_badge_info">Centang Hijau -&gt; Versi terverifikasi dan dapat direproduksi\nCentang Merah -&gt; Versi tidak dapat direproduksi\nCentang Cokelat -&gt; Status tidak diketahui</string>
     <string name="rb_info">Jika suatu build dapat direproduksi, itu berarti apk yang diberikan telah dibuat dari kode sumber yang disediakan</string>
     <string name="total_downloads">Total unduhan</string>
     <string name="download_stats">Statistik Unduhan</string>

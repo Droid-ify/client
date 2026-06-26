@@ -247,7 +247,6 @@
     <string name="repository_not_found_by_id">Depozitul nu a fost găsit</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Insignă build reproductibil</string>
-    <string name="rb_badge_info">Bifă verde\t\t-&gt; Build reproductibil verificat\nBifă roșie\t\t-&gt; Build nereproductibil\nBifă maro\t\t-&gt; Stare necunoscută</string>
     <string name="rb_info">Dacă un build este reproductibil, înseamnă că APK-ul primit a fost construit din codul sursă furnizat</string>
     <string name="total_downloads">Descărcări totale</string>
     <string name="download_stats">Statistici pentru descărcări</string>

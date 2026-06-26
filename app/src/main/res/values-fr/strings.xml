@@ -246,7 +246,6 @@
     <string name="repository_not_synced_or_enabled">Dépôt non-activé ou non-synchronisé</string>
     <string name="action_sync_repo">Synchroniser</string>
     <string name="rb_badge">Badge de build reproductible</string>
-    <string name="rb_badge_info">Coche verte \t -&gt; Build reproductible vérifiée\nCoche rouge \t -&gt; Build non-reproductible\nCoche marron \t -&gt; État inconnu</string>
     <string name="rb_info">Si une build est reproductible, cela veut dire que l\'APK donné a été build depuis la source fournie</string>
     <string name="total_downloads">Téléchargements totaux</string>
     <string name="download_stats">Statistiques de téléchargements</string>

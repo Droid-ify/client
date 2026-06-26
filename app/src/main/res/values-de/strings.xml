@@ -249,7 +249,6 @@
     <string name="total">Insgesamt</string>
     <string name="by_client">Nach Client</string>
     <string name="rb_badge">Reproduzierbares Build-Badge</string>
-    <string name="rb_badge_info">Grünes Häkchen\t-&gt; Verifizierter reproduzierbarer Build\nRotes Häkchen\t-&gt; Nicht reproduzierbarer Build\nBraunes Häkchen\t-&gt; Unbekannter Status</string>
     <string name="rb_info">Wenn ein Build reproduzierbar ist, bedeutet dies, dass die angegebene APK-Datei aus der bereitgestellten Quelle erstellt wurde</string>
     <string name="downloading_rb_logs">Reproduzierbarkeitsprotokolle werden heruntergeladen</string>
     <string name="downloading_download_stats">Downloadstatistiken werden heruntergeladen</string>

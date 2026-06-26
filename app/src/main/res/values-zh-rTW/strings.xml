@@ -241,7 +241,6 @@
     <string name="repository_not_found_by_id">找不到儲存庫</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">可復現建置徽章</string>
-    <string name="rb_badge_info">綠色勾號\t -&gt; 已驗證可復現建置\n紅色勾號\t -&gt; 不可復現的建置\n棕色勾號\t -&gt; 未知狀態</string>
     <string name="rb_info">如果一個建置是可復現的，這代表 apk 是從提供的原始碼建置的</string>
     <string name="total_downloads">總下載</string>
     <string name="download_stats">下載統計</string>

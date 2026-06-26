@@ -250,7 +250,6 @@
     <string name="repository_not_found_by_id">Репозиторій не знайдено</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Значок відтворюваної збірки</string>
-    <string name="rb_badge_info">Зелена позначка -&gt; Перевірена відтворювана збірка\nЧервона позначка -&gt; Невідтворювана збірка\nКоричнева позначка -&gt; Невідомий стан</string>
     <string name="rb_info">Якщо збірку можна відтворити, це означає, що даний apk зібрано з наданого вихідного коду</string>
     <string name="total_downloads">Загальна кількість завантажень</string>
     <string name="download_stats">Завантажити статистику</string>
