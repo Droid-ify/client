@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.7.2"
+    val latestVersionName = "0.7.3"
     namespace = "com.looker.droidify"
     compileSdk {
         version = release(36)
@@ -20,7 +20,7 @@ android {
         applicationId = "com.looker.droidify"
         minSdk = 23
         versionName = latestVersionName
-        versionCode = 720
+        versionCode = 730
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
