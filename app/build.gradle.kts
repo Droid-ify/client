@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose)
+    id("dev.rikka.tools.refine") version "4.4.0"
 }
 
 android {
@@ -187,6 +188,12 @@ dependencies {
     androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
     kspAndroidTest(libs.hilt.compiler)
+
+    // shizuku_apk_installer dependencies
+    implementation("io.github.iamr0s:Dhizuku-API:2.5.4")
+    implementation("dev.rikka.tools.refine:runtime:4.4.0")
+    compileOnly("dev.rikka.hidden:stub:4.4.0")
+    implementation("org.lsposed.hiddenapibypass:hiddenapibypass:6.1")
 
 //    debugImplementation(libs.leakcanary)
 }
