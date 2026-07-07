@@ -10,9 +10,10 @@ internal class KtorHeadersBuilder(
 ) : HeadersBuilder {
 
     override fun String.headsWith(value: Any?) {
-        if (value == null) return
+        val stringValue = value?.toString()
+        if (stringValue.isNullOrBlank()) return
         with(builder) {
-            append(this@headsWith, value.toString())
+            append(this@headsWith, stringValue)
         }
     }
 
