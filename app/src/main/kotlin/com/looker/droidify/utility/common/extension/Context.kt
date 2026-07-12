@@ -84,7 +84,9 @@ val Context.videoPlaceHolder: Drawable
 
 val Context.aspectRatio: Float
     get() = with(resources.displayMetrics) {
-        (heightPixels / widthPixels).toFloat()
+        val longSide = maxOf(widthPixels, heightPixels).toFloat()
+        val shortSide = minOf(widthPixels, heightPixels).toFloat()
+        if (shortSide > 0f) longSide / shortSide else 16f / 9f
     }
 
 fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
