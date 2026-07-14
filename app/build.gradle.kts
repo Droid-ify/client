@@ -41,17 +41,6 @@ android {
                 "proguard.pro",
             )
         }
-        create("alpha") {
-            initWith(getByName("debug"))
-            applicationIdSuffix = ".alpha"
-            versionNameSuffix = ".a"
-            isMinifyEnabled = true
-            isDebuggable = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard.pro",
-            )
-        }
         debug {
             applicationIdSuffix = ".debug"
             versionNameSuffix = ".d"
