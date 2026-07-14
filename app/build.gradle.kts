@@ -138,7 +138,7 @@ dependencies {
     implementation(libs.jackson.core)
     implementation(libs.serialization)
 
-    implementation(libs.bundles.ktor)
+    implementation(libs.okhttp)
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 

@@ -21,6 +21,7 @@ import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.authentication
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.Message
@@ -33,10 +34,6 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.launch
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
@@ -45,6 +42,10 @@ import java.nio.charset.Charset
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.min
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -384,14 +385,12 @@ class EditRepositoryFragment() : ScreenFragment() {
             val fingerprint = binding.fingerprint.text.toString().replace(" ", "")
             val username = binding.username.text.toString().nullIfEmpty()
             val password = binding.password.text.toString().nullIfEmpty()
-            val authentication = username?.let { u ->
-                password?.let { p ->
-                    Base64.encodeToString(
-                        "$u:$p".toByteArray(Charset.defaultCharset()),
-                        Base64.NO_WRAP,
-                    )
-                }
-            }?.let { "Basic $it" }.orEmpty()
+            val authentication = if (username != null && password != null) {
+                "Basic " + Base64.encodeToString(
+                    "$username:$password".toByteArray(Charset.defaultCharset()),
+                    Base64.NO_WRAP,
+                )
+            } else ""
 
             if (check) {
                 checkJob = viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {

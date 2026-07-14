@@ -23,13 +23,13 @@ import com.looker.droidify.utility.common.toForegroundInfo
 import com.looker.droidify.utility.notifications.createDownloadStatsNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.ktor.http.HttpStatusCode
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.net.HttpURLConnection.HTTP_NOT_MODIFIED
 import java.util.*
 import java.util.concurrent.ConcurrentLinkedQueue
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
@@ -92,7 +92,7 @@ class DownloadStatsWorker @AssistedInject constructor(
 
                                 if (response is NetworkResponse.Success) {
                                     val isModified =
-                                        response.statusCode != HttpStatusCode.NotModified.value
+                                        response.statusCode != HTTP_NOT_MODIFIED
                                     if (isModified) {
                                         processDownloadStats(
                                             response = response,

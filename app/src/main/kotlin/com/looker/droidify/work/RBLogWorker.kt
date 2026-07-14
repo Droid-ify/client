@@ -15,6 +15,7 @@ import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.ifModifiedSince
 import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache

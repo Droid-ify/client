@@ -18,7 +18,7 @@ import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.intercept.Interceptor
 import coil3.memory.MemoryCache
-import coil3.network.ktor3.KtorNetworkFetcherFactory
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import coil3.request.ImageResult
 import coil3.request.SuccessResult
 import coil3.request.crossfade
@@ -43,7 +43,7 @@ import com.looker.droidify.utility.common.extension.jobScheduler
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
-import io.ktor.client.HttpClient
+import okhttp3.OkHttpClient
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -71,7 +71,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
     lateinit var downloader: Downloader
 
     @Inject
-    lateinit var httpClient: HttpClient
+    lateinit var httpClient: OkHttpClient
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
@@ -214,7 +214,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
             .error(getDrawableCompat(R.drawable.ic_cannot_load).asImage())
             .crossfade(350)
             .components {
-                add(KtorNetworkFetcherFactory(httpClient = { httpClient }))
+                add(OkHttpNetworkFetcherFactory(callFactory = { httpClient }))
                 add(FallbackIconInterceptor())
             }
             .build()
