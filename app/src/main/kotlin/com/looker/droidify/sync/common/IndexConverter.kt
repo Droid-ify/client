@@ -54,7 +54,7 @@ internal fun IndexV1.toV2(): IndexV2 {
             } ?: emptyMap(),
             metadata = app.toV2(preferredSigner),
         )
-        packagesV2.putIfAbsent(app.packageName, packageV2)
+        if (app.packageName !in packagesV2) packagesV2[app.packageName] = packageV2
     }
 
     return IndexV2(

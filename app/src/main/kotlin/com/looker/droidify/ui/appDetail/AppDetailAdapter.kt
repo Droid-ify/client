@@ -12,7 +12,6 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Parcelable
 import android.text.SpannableStringBuilder
-import android.text.format.DateFormat
 import android.text.method.LinkMovementMethod
 import android.text.style.RelativeSizeSpan
 import android.text.style.ReplacementSpan
@@ -71,6 +70,7 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.inflate
 import com.looker.droidify.utility.common.extension.open
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
+import com.looker.droidify.utility.common.formatDate
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.common.sdkName
 import com.looker.droidify.utility.extension.android.Android
@@ -78,23 +78,15 @@ import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.looker.droidify.utility.extension.resources.sizeScaled
 import com.looker.droidify.utility.text.formatHtml
 import com.looker.droidify.widget.StableRecyclerAdapter
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 import kotlin.math.PI
 import kotlin.math.roundToInt
 import kotlin.math.sin
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toJavaLocalDateTime
-import kotlinx.datetime.toLocalDateTime
 import kotlinx.parcelize.Parcelize
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.drawable as drawableRes
 import com.looker.droidify.R.string as stringRes
 
-@OptIn(ExperimentalTime::class)
 class AppDetailAdapter(private val callbacks: Callbacks) :
     StableRecyclerAdapter<AppDetailAdapter.ViewType, RecyclerView.ViewHolder>() {
 
@@ -574,8 +566,6 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
     }
 
     private class ReleaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dateFormat = DateFormat.getDateFormat(itemView.context)!!
-
         val version = itemView.findViewById<TextView>(R.id.version)!!
         val status = itemView.findViewById<TextView>(R.id.installation_status)!!
         val rbBadge = itemView.findViewById<ImageView>(R.id.rb_badge)!!
@@ -1779,17 +1769,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
 
                 holder.source.text =
                     context.getString(stringRes.provided_by_FORMAT, item.repository.name)
-                val instant = Instant.fromEpochMilliseconds(item.release.added)
-                // FDroid uses UTC time
-                val date = instant.toLocalDateTime(TimeZone.UTC)
-                val dateFormat = try {
-                    date.toJavaLocalDateTime()
-                        .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    holder.dateFormat.format(item.release.added)
-                }
-                holder.added.text = dateFormat
+                holder.added.text = formatDate(item.release.added)
                 holder.size.text = DataSize(item.release.size).toString()
                 holder.signature.isVisible =
                     item.showSignature && item.release.signature.isNotEmpty()
@@ -1835,20 +1815,16 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                     }
                 }
                 with(holder.sdkVer) {
-                    val targetSdkVersion = sdkName.getOrDefault(
-                        item.release.targetSdkVersion,
-                        context.getString(
+                    val targetSdkVersion = sdkName[item.release.targetSdkVersion]
+                        ?: context.getString(
                             stringRes.label_unknown_sdk,
                             item.release.targetSdkVersion,
-                        ),
-                    )
-                    val minSdkVersion = sdkName.getOrDefault(
-                        item.release.minSdkVersion,
-                        context.getString(
+                        )
+                    val minSdkVersion = sdkName[item.release.minSdkVersion]
+                        ?: context.getString(
                             stringRes.label_unknown_sdk,
                             item.release.minSdkVersion,
-                        ),
-                    )
+                        )
                     text = context.getString(
                         stringRes.label_sdk_version,
                         targetSdkVersion,

@@ -88,7 +88,6 @@ android {
     }
 
     compileOptions {
-        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -125,8 +124,6 @@ java {
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugaring)
-
     implementation(libs.material)
     implementation(libs.core.ktx)
     implementation(libs.activity)
@@ -143,7 +140,6 @@ dependencies {
     implementation(libs.datastore.proto)
 
     implementation(libs.kotlin.stdlib)
-    implementation(libs.datetime)
 
     implementation(libs.bundles.coroutines)
 
