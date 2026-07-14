@@ -5,7 +5,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.io.encoding.Base64
 
-fun Headers.Builder.addIfNotBlank(name: String, value: String?): Headers.Builder {
+@Suppress("NOTHING_TO_INLINE")
+inline fun Headers.Builder.addIfNotBlank(name: String, value: String?): Headers.Builder {
     if (!value.isNullOrBlank()) add(name, value)
     return this
 }
