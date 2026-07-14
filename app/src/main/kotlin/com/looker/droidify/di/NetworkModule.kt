@@ -6,20 +6,18 @@ import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.model.ProxyPreference
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.network.Downloader
-import com.looker.droidify.network.KtorDownloader
+import com.looker.droidify.network.OkHttpDownloader
 import com.looker.droidify.utility.common.log
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.HttpClient
-import io.ktor.client.engine.okhttp.OkHttp
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.UserAgent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.runBlocking
+import okhttp3.OkHttpClient
 import java.net.InetSocketAddress
 import java.net.Proxy
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -28,27 +26,30 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(settingsRepository: SettingsRepository): HttpClient {
+    fun provideHttpClient(settingsRepository: SettingsRepository): OkHttpClient {
         val proxyPreference = runBlocking { settingsRepository.getInitial().proxy }
-        val engine = OkHttp.create { proxy = proxyPreference.toProxy() }
-        return HttpClient(engine) {
-            install(UserAgent) {
-                agent = "Droid-ify/${VERSION_NAME}-${BUILD_TYPE}"
+        return OkHttpClient.Builder()
+            .proxy(proxyPreference.toProxy())
+            .connectTimeout(30_000L, TimeUnit.MILLISECONDS)
+            .readTimeout(15_000L, TimeUnit.MILLISECONDS)
+            .writeTimeout(15_000L, TimeUnit.MILLISECONDS)
+            .addInterceptor { chain ->
+                chain.proceed(
+                    chain.request().newBuilder()
+                        .header("User-Agent", "Droid-ify/${VERSION_NAME}-${BUILD_TYPE}")
+                        .build(),
+                )
             }
-            install(HttpTimeout) {
-                connectTimeoutMillis = 30_000L
-                socketTimeoutMillis = 15_000L
-            }
-        }
+            .build()
     }
 
     @Singleton
     @Provides
     fun provideDownloader(
-        httpClient: HttpClient,
+        httpClient: OkHttpClient,
         @IoDispatcher
         dispatcher: CoroutineDispatcher,
-    ): Downloader = KtorDownloader(
+    ): Downloader = OkHttpDownloader(
         client = httpClient,
         dispatcher = dispatcher,
     )

@@ -22,7 +22,7 @@ kotlin = "2.3.10"
 coroutines = "1.10.2"
 serialization = "1.10.0"
 ksp = "2.3.6"
-ktor = "3.4.1"
+okhttp = "5.1.0"
 libsu = "6.0.0"
 room = "2.8.4"
 shizuku = "13.0.0"
@@ -57,7 +57,7 @@ test-core-ktx = { group = "androidx.test", name = "core-ktx", version.ref = "tes
 work-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
 coil-core = { group = "io.coil-kt.coil3", name = "coil", version.ref = "coil" }
 coil-compose = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
-coil-network = { group = "io.coil-kt.coil3", name = "coil-network-ktor3", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-test = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hilt" }
@@ -74,9 +74,8 @@ coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutin
 coroutines-guava = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-guava", version.ref = "coroutines" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "serialization" }
-ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-mock = { group = "io.ktor", name = "ktor-client-mock", version.ref = "ktor" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver3", version.ref = "okhttp" }
 libsu-core = { group = "com.github.topjohnwu.libsu", name = "core", version.ref = "libsu" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
@@ -119,10 +118,9 @@ compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 [bundles]
 room = ["room-runtime", "room-ktx"]
 shizuku = ["shizuku-provider", "shizuku-api"]
-ktor = ["ktor-core", "ktor-okhttp"]
 coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
 coil = ["coil-core", "coil-compose", "coil-network"]
-test-unit = ["junit-jupiter", "ktor-mock", "coroutines-test", "kotlin-test", "kotlin-test-junit5"]
+test-unit = ["junit-jupiter", "okhttp-mockwebserver", "coroutines-test", "kotlin-test", "kotlin-test-junit5"]
 test-android = ["test-runner", "test-rules", "test-ext", "coroutines-test", "kotlin-test"]
 compose = ["compose-ui", "compose-ui-graphics", "compose-ui-tooling-preview", "compose-material3", "compose-activity", "compose-navigation", "compose-hilt-navigation", "compose-lifecycle-viewmodel"]
 compose-debug = ["compose-ui-tooling", "compose-ui-test-manifest"]

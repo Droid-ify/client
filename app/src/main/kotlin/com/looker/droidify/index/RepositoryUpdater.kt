@@ -9,6 +9,9 @@ import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.authentication
+import com.looker.droidify.network.header.etag
+import com.looker.droidify.network.header.ifModifiedSince
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.toFormattedString

@@ -21,6 +21,7 @@ import com.looker.droidify.databinding.EditRepositoryBinding
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.authentication
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.Message

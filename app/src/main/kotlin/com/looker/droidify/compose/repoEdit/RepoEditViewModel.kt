@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.authentication
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

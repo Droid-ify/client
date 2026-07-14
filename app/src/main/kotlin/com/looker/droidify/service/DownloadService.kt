@@ -26,6 +26,7 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
+import com.looker.droidify.network.header.authentication
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.network.validation.ValidationResult
 import com.looker.droidify.utility.common.Constants
