@@ -31,9 +31,10 @@ fun Headers.Builder.authentication(base64: String): Headers.Builder =
 fun Headers.Builder.inRange(start: Long, end: Long? = null): Headers.Builder =
     addIfNotBlank("Range", if (end != null) "bytes=$start-$end" else "bytes=$start-")
 
-private val HTTP_DATE_FORMAT: SimpleDateFormat
-    get() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
+private val HTTP_DATE_FORMAT = object : ThreadLocal<SimpleDateFormat>() {
+    override fun initialValue() = SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US).apply {
         timeZone = TimeZone.getTimeZone("GMT")
     }
+}
 
-private fun Date.toFormattedString(): String = HTTP_DATE_FORMAT.format(this)
+private fun Date.toFormattedString(): String = HTTP_DATE_FORMAT.get()!!.format(this)
