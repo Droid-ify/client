@@ -27,11 +27,6 @@ android {
 
     androidResources.generateLocaleConfig = true
 
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.generateKotlin", "true")
-    }
-
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -69,13 +64,6 @@ android {
         }
     }
 
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.addAll("-Xcontext-parameters")
-            optIn.add("kotlin.RequiresOptIn")
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -102,6 +90,18 @@ android {
                 if (processor > 1) it.maxParallelForks = processor
             }
         }
+    }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.generateKotlin", "true")
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xcontext-parameters")
+        optIn.add("kotlin.RequiresOptIn")
     }
 }
 
