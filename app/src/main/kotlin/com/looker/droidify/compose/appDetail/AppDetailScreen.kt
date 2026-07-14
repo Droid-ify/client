@@ -20,8 +20,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
@@ -338,7 +336,7 @@ private fun ScreenshotsRow(screenshots: List<FilePath>) {
                 when (imageState) {
                     is AsyncImagePainter.State.Error -> {
                         Icon(
-                            imageVector = Icons.Default.ErrorOutline,
+                            painter = painterResource(R.drawable.ic_error),
                             contentDescription = null,
                         )
                     }

@@ -14,10 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,13 +89,13 @@ fun RepoDetailScreen(
                 actions = {
                     IconButton(onClick = { onEditClick(viewModel.repoId) }) {
                         Icon(
-                            imageVector = Icons.Default.Edit,
+                            painter = painterResource(R.drawable.ic_edit),
                             contentDescription = "Edit",
                         )
                     }
                     IconButton(onClick = { showDeleteDialog = true }) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
+                            painter = painterResource(R.drawable.ic_delete),
                             contentDescription = "Delete",
                         )
                     }
@@ -210,7 +206,7 @@ private fun RepoDetails(
                 .align(Alignment.CenterHorizontally),
         ) {
             Icon(
-                imageVector = Icons.Default.Check,
+                painter = painterResource(R.drawable.ic_check),
                 contentDescription = null,
             )
         }

@@ -14,10 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -86,7 +82,7 @@ fun CustomButtonsSettingItem(
                     },
                 ) {
                     Icon(
-                        imageVector = Icons.Default.Add,
+                        painter = painterResource(R.drawable.ic_add),
                         contentDescription = stringResource(R.string.custom_button_add),
                         tint = MaterialTheme.colorScheme.primary,
                     )
@@ -94,7 +90,7 @@ fun CustomButtonsSettingItem(
                 Box {
                     IconButton(onClick = { showMenu = true }) {
                         Icon(
-                            imageVector = Icons.Default.MoreVert,
+                            painter = painterResource(R.drawable.ic_more_vert),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
@@ -223,7 +219,7 @@ private fun CustomButtonItem(
         Box {
             IconButton(onClick = { showDeleteConfirmation = true }) {
                 Icon(
-                    Icons.Default.Delete,
+                    painterResource(R.drawable.ic_delete),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.error,
                 )
