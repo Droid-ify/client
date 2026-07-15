@@ -124,13 +124,13 @@ object IndexV1Parser {
         fallback: String,
         callback: (Localized) -> String,
     ): String {
+        // In index-v1 a top-level name/summary/description overrides all localized values
+        // https://gitlab.com/fdroid/fdroidserver/-/issues/1241
+        // https://github.com/Droid-ify/client/issues/980
+        if (fallback.isNotBlank()) return fallback.trim()
         // @BLumia: it's possible a key of a certain Localized object is empty, so we still need a fallback
-        return (
-            findLocalized { localized -> callback(localized).trim().nullIfEmpty() } ?: findString(
-                fallback,
-                callback,
-            )
-            ).trim()
+        return findLocalized { localized -> callback(localized).trim().nullIfEmpty() }
+            ?: findString("", callback).trim()
     }
 
     internal object DonateComparator : Comparator<Product.Donate> {

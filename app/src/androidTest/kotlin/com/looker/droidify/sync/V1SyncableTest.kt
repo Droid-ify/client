@@ -186,13 +186,9 @@ class V1SyncableTest {
     }
 }
 
-/*
-* Cannot assert following:
-* - `name` => because fdroidserver behaves weirdly
-* */
 private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: MetadataV2) {
     assertEquals(expectedMetaData.preferredSigner, foundMetadata.preferredSigner)
-//    assertLocalizedString(expectedMetaData.name, foundMetadata.name)
+    assertLocalizedString(expectedMetaData.name, foundMetadata.name)
     assertLocalizedString(expectedMetaData.summary, foundMetadata.summary)
     assertLocalizedString(expectedMetaData.description, foundMetadata.description)
     assertContentEquals(expectedMetaData.categories, foundMetadata.categories)
