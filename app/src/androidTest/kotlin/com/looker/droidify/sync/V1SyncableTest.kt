@@ -121,8 +121,6 @@ class V1SyncableTest {
             println(data.metadata.donate)
             print("bit: ")
             println(data.metadata.bitcoin)
-            print("flattr: ")
-            println(data.metadata.flattrID)
             print("Open: ")
             println(data.metadata.openCollective)
             print("LiteCoin: ")
@@ -204,7 +202,6 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     // Donate
     assertEquals(expectedMetaData.bitcoin, foundMetadata.bitcoin)
     assertEquals(expectedMetaData.liberapay, foundMetadata.liberapay)
-    assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
     assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
     assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
     assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
