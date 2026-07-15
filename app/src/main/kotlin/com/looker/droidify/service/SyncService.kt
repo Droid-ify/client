@@ -8,36 +8,44 @@ import android.app.job.JobService
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.view.ContextThemeWrapper
 import androidx.core.app.NotificationCompat
 import androidx.fragment.app.Fragment
+import androidx.work.NetworkType
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
+import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.receivers.CopyErrorReceiver
+import com.looker.droidify.sync.SyncPreference
+import com.looker.droidify.sync.toJobNetworkType
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.getColorFromAttr
+import com.looker.droidify.utility.common.extension.jobScheduler
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.startForegroundSafe
 import com.looker.droidify.utility.common.extension.startServiceCompat
 import com.looker.droidify.utility.common.extension.stopForegroundCompat
 import com.looker.droidify.utility.common.result.Result
-import com.looker.droidify.utility.common.sdkAbove
 import com.looker.droidify.utility.extension.startUpdate
 import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import com.looker.droidify.work.DownloadStatsWorker
 import com.looker.droidify.work.RBLogWorker
 import dagger.hilt.android.AndroidEntryPoint
+import java.lang.ref.WeakReference
+import javax.inject.Inject
+import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.hours
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
@@ -48,15 +56,13 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.lang.ref.WeakReference
-import javax.inject.Inject
-import kotlin.math.roundToInt
 import android.R as AndroidR
 import com.looker.droidify.R.string as stringRes
 import com.looker.droidify.R.style as styleRes
@@ -76,6 +82,21 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
         var autoUpdating = false
         var autoUpdateStartedFor: List<String> = emptyList()
+
+        fun forceSyncAll(context: Context) {
+            Database.RepositoryAdapter.getAll().forEach {
+                if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
+                    Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
+                }
+            }
+            Connection(
+                SyncService::class.java,
+                onBind = { connection, binder ->
+                    binder.sync(SyncRequest.FORCE)
+                    connection.unbind(context)
+                },
+            ).bind(context)
+        }
     }
 
     @Inject
@@ -245,7 +266,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         downloadConnection.bind(this)
         lifecycleScope.launch {
             syncState
-                .sample(NOTIFICATION_UPDATE_SAMPLING)
+                .sample(NOTIFICATION_UPDATE_SAMPLING.milliseconds)
                 .collectLatest {
                     publishForegroundState(false, it)
                 }
@@ -626,7 +647,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
                 SyncService::class.java,
                 onBind = { connection, binder ->
                     jobScope.launch {
-                        binder.state.filter { it is State.Finish }.collect {
+                        binder.state.filterIsInstance<State.Finish>().collect {
                             val params = syncParams
                             if (params != null) {
                                 syncParams = null
@@ -663,28 +684,43 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
 
         companion object {
-            fun create(
-                context: Context,
-                periodMillis: Long,
-                networkType: Int,
-                isCharging: Boolean,
-                isBatteryLow: Boolean,
-            ): JobInfo = JobInfo.Builder(
-                Constants.JOB_ID_SYNC,
-                ComponentName(context, Job::class.java),
-            ).apply {
-                setRequiredNetworkType(networkType)
-                sdkAbove(sdk = Build.VERSION_CODES.O) {
-                    setRequiresCharging(isCharging)
-                    setRequiresBatteryNotLow(isBatteryLow)
-                    setRequiresStorageNotLow(true)
+            fun schedule(context: Context, force: Boolean, autoSync: AutoSync) {
+                val jobScheduler = context.jobScheduler
+                if (autoSync == AutoSync.NEVER) {
+                    jobScheduler?.cancel(Constants.JOB_ID_SYNC)
+                    return
                 }
-                if (SdkCheck.isNougat) {
-                    setPeriodic(periodMillis, JobInfo.getMinFlexMillis())
-                } else {
-                    setPeriodic(periodMillis)
+                val syncConditions = when (autoSync) {
+                    AutoSync.ALWAYS -> SyncPreference(NetworkType.CONNECTED)
+                    AutoSync.WIFI_ONLY -> SyncPreference(NetworkType.UNMETERED)
+                    AutoSync.WIFI_PLUGGED_IN -> SyncPreference(
+                        NetworkType.UNMETERED,
+                        pluggedIn = true,
+                    )
                 }
-            }.build()
+                val isCompleted = jobScheduler?.allPendingJobs
+                    ?.any { it.id == Constants.JOB_ID_SYNC } == false
+                if (force || isCompleted) {
+                    val period = 12.hours.inWholeMilliseconds
+                    val builder = JobInfo.Builder(
+                        Constants.JOB_ID_SYNC,
+                        ComponentName(context, Job::class.java),
+                    )
+
+                    builder.setRequiredNetworkType(syncConditions.toJobNetworkType())
+                    if (SdkCheck.isOreo) {
+                        builder.setRequiresCharging(syncConditions.pluggedIn)
+                        builder.setRequiresBatteryNotLow(syncConditions.batteryNotLow)
+                        builder.setRequiresStorageNotLow(true)
+                    }
+                    if (SdkCheck.isNougat) {
+                        builder.setPeriodic(period, JobInfo.getMinFlexMillis())
+                    } else {
+                        builder.setPeriodic(period)
+                    }
+                    jobScheduler?.schedule(builder.build())
+                }
+            }
         }
     }
 }

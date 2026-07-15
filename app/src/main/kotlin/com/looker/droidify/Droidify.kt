@@ -1,15 +1,11 @@
 package com.looker.droidify
 
-import android.annotation.SuppressLint
 import android.app.Application
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.NetworkType
 import coil3.ImageLoader
 import coil3.PlatformContext
 import coil3.SingletonImageLoader
@@ -26,20 +22,14 @@ import com.looker.droidify.content.ProductPreferences
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
-import com.looker.droidify.datastore.model.AutoSync
 import com.looker.droidify.index.RepositoryUpdater
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.receivers.InstalledAppReceiver
-import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
-import com.looker.droidify.sync.SyncPreference
-import com.looker.droidify.sync.toJobNetworkType
-import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.getDrawableCompat
 import com.looker.droidify.utility.common.extension.getInstalledPackagesCompat
-import com.looker.droidify.utility.common.extension.jobScheduler
 import com.looker.droidify.utility.extension.toInstalledItem
 import com.looker.droidify.work.CleanUpWorker
 import dagger.hilt.android.HiltAndroidApp
@@ -53,7 +43,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.hours
 
 @HiltAndroidApp
 class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Provider {
@@ -88,7 +77,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         appScope.launch { installer() }
         if (databaseUpdated) {
             appScope.launch {
-                forceSyncAll()
+                SyncService.forceSyncAll(applicationContext)
             }
         }
     }
@@ -126,13 +115,13 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
         appScope.launch {
             launch {
                 settingsRepository.get { unstableUpdate }.drop(1).collect {
-                    forceSyncAll()
+                    SyncService.forceSyncAll(applicationContext)
                 }
             }
             launch {
                 settingsRepository.get { autoSync }.collectIndexed { index, syncMode ->
                     // Don't update sync job on initial collect
-                    updateSyncJob(index > 0, syncMode)
+                    SyncService.Job.schedule(applicationContext, index > 0, syncMode)
                 }
             }
             launch {
@@ -145,52 +134,6 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 }
             }
         }
-    }
-
-    private fun updateSyncJob(force: Boolean, autoSync: AutoSync) {
-        if (autoSync == AutoSync.NEVER) {
-            jobScheduler?.cancel(Constants.JOB_ID_SYNC)
-            return
-        }
-        val jobScheduler = jobScheduler
-        val syncConditions = when (autoSync) {
-            AutoSync.ALWAYS -> SyncPreference(NetworkType.CONNECTED)
-            AutoSync.WIFI_ONLY -> SyncPreference(NetworkType.UNMETERED)
-            AutoSync.WIFI_PLUGGED_IN -> SyncPreference(NetworkType.UNMETERED, pluggedIn = true)
-        }
-        val isCompleted = jobScheduler?.allPendingJobs
-            ?.any { it.id == Constants.JOB_ID_SYNC } == false
-        if (force || isCompleted) {
-            val period = 12.hours.inWholeMilliseconds
-            val job = SyncService.Job.create(
-                context = this,
-                periodMillis = period,
-                networkType = syncConditions.toJobNetworkType(),
-                isCharging = syncConditions.pluggedIn,
-                isBatteryLow = syncConditions.batteryNotLow,
-            )
-            jobScheduler?.schedule(job)
-        }
-    }
-
-    private fun forceSyncAll() {
-        Database.RepositoryAdapter.getAll().forEach {
-            if (it.lastModified.isNotEmpty() || it.entityTag.isNotEmpty()) {
-                Database.RepositoryAdapter.put(it.copy(lastModified = "", entityTag = ""))
-            }
-        }
-        Connection(
-            SyncService::class.java,
-            onBind = { connection, binder ->
-                binder.sync(SyncService.SyncRequest.FORCE)
-                connection.unbind(this)
-            },
-        ).bind(this)
-    }
-
-    class BootReceiver : BroadcastReceiver() {
-        @SuppressLint("UnsafeProtectedBroadcastReceiver")
-        override fun onReceive(context: Context, intent: Intent) = Unit
     }
 
     override val workManagerConfiguration: Configuration

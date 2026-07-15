@@ -38,7 +38,7 @@
         tools:ignore="UnusedAttribute">
 
         <receiver
-            android:name=".Droidify$BootReceiver"
+            android:name=".receivers.BootReceiver"
             android:exported="true">
 
             <intent-filter>
