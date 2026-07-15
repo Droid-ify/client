@@ -18,22 +18,21 @@ import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.exceptCancellation
-import com.looker.droidify.utility.common.generateMonthlyFileNames
+import com.looker.droidify.utility.common.monthlyFileNamesSince
 import com.looker.droidify.utility.common.toForegroundInfo
 import com.looker.droidify.utility.notifications.createDownloadStatsNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import java.io.File
+import java.net.HttpURLConnection.HTTP_NOT_MODIFIED
+import java.util.*
+import kotlin.concurrent.atomics.ExperimentalAtomicApi
+import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.net.HttpURLConnection.HTTP_NOT_MODIFIED
-import java.util.*
-import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.concurrent.atomics.ExperimentalAtomicApi
-import kotlin.time.ExperimentalTime
 
 @HiltWorker
 class DownloadStatsWorker @AssistedInject constructor(
@@ -68,44 +67,34 @@ class DownloadStatsWorker @AssistedInject constructor(
         }
     }
 
-    @OptIn(ExperimentalAtomicApi::class)
     private suspend fun fetchData(settings: Settings) = withContext(Dispatchers.IO) {
         supervisorScope {
             val lastModified = settings.lastModifiedDownloadStats
-            val fileNames = ConcurrentLinkedQueue(
-                generateMonthlyFileNames(lastModified),
-            )
+            val fileNames = monthlyFileNamesSince(lastModified)
 
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
-            while (fileNames.isNotEmpty()) {
-                if (downloadSemaphores.tryAcquire()) {
-                    launch {
-                        val fileName = fileNames.poll()
-                        if (fileName == null) {
-                            downloadSemaphores.release()
-                        } else {
-                            val target = Cache.getTemporaryFile(context)
-                            try {
-                                Log.i(TAG, "Downloading $fileName")
-                                val response = downloadFile(fileName, target)
-                                Log.i(TAG, "Downloaded $fileName with $response")
+            fileNames.forEach { fileName ->
+                downloadSemaphores.acquire()
+                launch {
+                    var target: File? = null
+                    try {
+                        target = Cache.getTemporaryFile(context)
+                        Log.i(TAG, "Downloading $fileName")
+                        val response = downloadFile(fileName, target)
+                        Log.i(TAG, "Downloaded $fileName with $response")
 
-                                if (response is NetworkResponse.Success) {
-                                    val isModified =
-                                        response.statusCode != HTTP_NOT_MODIFIED
-                                    if (isModified) {
-                                        processDownloadStats(
-                                            response = response,
-                                            fileName = fileName,
-                                            target = target,
-                                        )
-                                    }
-                                }
-                            } finally {
-                                target.delete()
-                                downloadSemaphores.release()
-                            }
+                        if (response is NetworkResponse.Success
+                            && response.statusCode != HTTP_NOT_MODIFIED
+                        ) {
+                            processDownloadStats(
+                                response = response,
+                                fileName = fileName,
+                                target = target,
+                            )
                         }
+                    } finally {
+                        target?.delete()
+                        downloadSemaphores.release()
                     }
                 }
             }

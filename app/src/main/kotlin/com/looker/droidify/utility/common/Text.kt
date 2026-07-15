@@ -25,7 +25,7 @@ fun formatDate(millis: Long): String = DateFormat
     .apply { timeZone = UTC }
     .format(Date(millis))
 
-fun generateMonthlyFileNames(since: Long?): List<String> = buildList {
+fun monthlyFileNamesSince(since: Long?): List<String> = buildList {
     val calendar = Calendar.getInstance(UTC)
     val currentYear = calendar.get(Calendar.YEAR)
     val currentMonth = calendar.get(Calendar.MONTH) + 1
