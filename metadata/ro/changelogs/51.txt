@@ -1,0 +1,2 @@
+- Butonul "Derulează în sus" acum va derula lin
+- Câteva limbi au fost actualizate: odia, japoneză și croată
