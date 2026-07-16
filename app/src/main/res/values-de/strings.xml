@@ -77,7 +77,7 @@
     <string name="version">Version</string>
     <string name="versions">Versionen</string>
     <string name="whats_new">Neu hinzugefügt</string>
-    <string name="waiting_to_start_download">Warten auf den Start des Downloads …</string>
+    <string name="waiting_to_start_download">Warten auf den Start des Downloads …</string>
     <string name="validation_index_error_DESC">Index konnte nicht überprüft werden</string>
     <string name="website">Projektwebseite</string>
     <string name="changes">Änderungen</string>
@@ -187,7 +187,7 @@
     <string name="enable_repo">Paketquelle aktivieren</string>
     <string name="force_clean_up_DESC">Entfernt doppelte Dateien</string>
     <string name="installing">Wird installiert</string>
-    <string name="waiting_to_start_installation">Warten auf den Start der Installation …</string>
+    <string name="waiting_to_start_installation">Warten auf den Start der Installation …</string>
     <string name="auto_update">Apps automatisch aktualisieren</string>
     <string name="auto_update_apps">Updates automatisch installieren</string>
     <string name="has_non_free_components">Enthält nicht-freie Komponenten</string>
