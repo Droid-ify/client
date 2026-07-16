@@ -281,4 +281,14 @@
     <string name="custom_buttons_import">Импорт кнопок</string>
     <string name="custom_buttons_imported">Пользовательские кнопки импортированы</string>
     <string name="copied_to_clipboard">Скопировано</string>
+    <string name="proxy_restart_required">Для применения изменений требуется перезапуск.</string>
+    <string name="tap_to_resume_updates">Откройте приложение для возобновления обновления</string>
+    <string name="rb_badge_non_reproducible">Невоспроизводимая сборка</string>
+    <string name="rb_badge_unknown">Неизвестное состояние</string>
+    <string name="rb_badge_no_data">Нет данных о воспроизводимости сборки</string>
+    <string name="rb_what_is">Что такое воспроизводимые сборки?</string>
+    <string name="download_statistics_summary">Получение и отображение количества загрузок за месяц с IzzyOnDroid. При отключении существующая статистика загрузок удаляется.</string>
+    <string name="reproducibility_logs">Журналы воспроизводимости</string>
+    <string name="reproducibility_logs_summary">Получение и отображение журналов воспроизводимости с IzzyOnDroid. При отключении существующие журналы воспроизводимости удаляются.</string>
+    <string name="rb_badge_verified">Проверенная воспроизводимая сборка</string>
 </resources>
