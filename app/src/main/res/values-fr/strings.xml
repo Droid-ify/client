@@ -75,7 +75,7 @@
     <string name="version">Version</string>
     <string name="version_FORMAT">Version %s</string>
     <string name="versions">Versions</string>
-    <string name="waiting_to_start_download">En attente du lancement du téléchargement…</string>
+    <string name="waiting_to_start_download">Téléchargement en attente…</string>
     <string name="whats_new">Quoi de neuf</string>
     <string name="website">Site internet du projet</string>
     <string name="update">Mettre à jour</string>
@@ -190,7 +190,7 @@
     <string name="force_clean_up_DESC">Nettoyer les fichiers redondants</string>
     <string name="enable_repo">Activer dépôt</string>
     <string name="installing">En cours d\'installation</string>
-    <string name="waiting_to_start_installation">En attente du démarrage de l\'installation…</string>
+    <string name="waiting_to_start_installation">Installation en attente…</string>
     <string name="auto_update">Mise à jour automatique des applis</string>
     <string name="auto_update_apps">Installer les mises à jour automatiquement</string>
     <string name="has_non_free_components">A des composants non libres</string>
@@ -278,4 +278,14 @@
     <string name="custom_buttons_export">Exporter boutons</string>
     <string name="custom_buttons_import">Importer boutons</string>
     <string name="custom_buttons_imported">Boutons persos importés</string>
+    <string name="proxy_restart_required">Un redémarrage est nécessaire pour que les modifications prennent effet.</string>
+    <string name="tap_to_resume_updates">Ouvrez l\'application pour reprendre les mises à jour</string>
+    <string name="rb_badge_verified">Build reproductible vérifié</string>
+    <string name="rb_badge_non_reproducible">Build non reproductible</string>
+    <string name="rb_badge_unknown">État inconnu</string>
+    <string name="rb_badge_no_data">Aucune donnée de compilation reproductible</string>
+    <string name="rb_what_is">Qu\'est-ce que les builds reproductibles ?</string>
+    <string name="download_statistics_summary">Récupérer et afficher le nombre mensuel de téléchargements depuis IzzyOnDroid. La désactivation efface les statistiques de téléchargement existantes.</string>
+    <string name="reproducibility_logs">Journaux de reproductibilité</string>
+    <string name="reproducibility_logs_summary">Récupère et affiche les journaux de vérification de la reproductibilité des builds provenant d\'IzzyOnDroid. La désactivation efface les journaux de reproductibilité existants.</string>
 </resources>
