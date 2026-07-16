@@ -1,4 +1,5 @@
 Caracteristici:
+
 • Răsfoiește și instalează aplicații din depozitele F-Droid 
 • Actualizări automate ale aplicațiilor în fundal 
 • Metode de instalare multiple (sesiune, root, Shizuku)
