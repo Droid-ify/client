@@ -256,7 +256,6 @@
     <string name="repository_not_found_by_id">المستودع غير موجود</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">شارة البناء المضمون تطابقه</string>
-    <string name="rb_badge_info">علامة صح خضراء \t -&gt; أُكِّد أن البناء مضمون تطابقه\nعلامة صح حمراء \t -&gt; البناء غير مضمون تطابقه \nعلامة صح بنية \t -&gt; حالة غير معروفة</string>
     <string name="rb_info">إذا كان البناء مضمون تطابقه، فهذا يعني أن ملف apk المحدّد بُنيَ من المصدر المقدم</string>
     <string name="total_downloads">إجمالي التنزيلات</string>
     <string name="download_stats">إحصائيات التنزيل</string>

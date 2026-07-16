@@ -5,23 +5,34 @@ import com.looker.droidify.data.encryption.sha256
 import com.looker.droidify.data.model.hex
 import com.looker.droidify.model.Repository
 import com.looker.droidify.model.Repository.Companion.defaultRepository
+import org.xmlpull.v1.XmlPullParser
 import java.io.File
 import java.io.InputStream
-import org.xmlpull.v1.XmlPullParser
 
 /**
  * Direct copy of implementation from https://github.com/NeoApplications/Neo-Store/blob/master/src/main/kotlin/com/machiav3lli/fdroid/data/database/entity/Repository.kt
  * */
 object OemRepositoryParser {
 
-    private val rootDirs = arrayOf("/system", "/product", "/vendor", "/odm", "/oem")
-    private val supportedPackageNames = arrayOf("com.looker.droidify", "org.fdroid.fdroid")
+    private val paths = arrayOf(
+        // Droid-ify specific paths
+        "/system/etc/com.looker.droidify",
+        "/product/etc/com.looker.droidify",
+        "/vendor/etc/com.looker.droidify",
+        "/odm/etc/com.looker.droidify",
+        "/oem/etc/com.looker.droidify",
+        // General paths
+        "/system/etc/org.fdroid.fdroid",
+        "/product/etc/org.fdroid.fdroid",
+        "/vendor/etc/org.fdroid.fdroid",
+        "/odm/etc/org.fdroid.fdroid",
+        "/oem/etc/org.fdroid.fdroid",
+    )
+
     private const val FILE_NAME = "additional_repos.xml"
 
-    fun getSystemDefaultRepos() = rootDirs.flatMap { rootDir ->
-        supportedPackageNames.map { packageName -> "$rootDir/etc/$packageName/$FILE_NAME" }
-    }.flatMap { path ->
-        val file = File(path)
+    fun getSystemDefaultRepos() = paths.flatMap { path ->
+        val file = File(path, FILE_NAME)
         if (file.exists()) parse(file.inputStream()) else emptyList()
     }.takeIf { it.isNotEmpty() }
 
@@ -61,7 +72,9 @@ object OemRepositoryParser {
                         }
                         .toByteArray()
                     sha256(encoded).hex()
-                } else it
+                } else {
+                    it
+                }
             },
             authentication = "",
         )

@@ -1,0 +1,6 @@
+Naprawiono:
+- Powtarzające się prośby o pozwolenie na działanie w tle
+
+Zmieniono:
+- Przeniesiono pozwolenie na stronę ustawień
+- Nie prosi o pozwolenie, jeśli automatyczna synchronizacja jest wyłączona

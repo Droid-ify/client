@@ -11,30 +11,27 @@ import androidx.work.WorkerParameters
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.local.model.DownloadStatsData
 import com.looker.droidify.data.local.model.DownloadStatsData.Companion.toEpochMillis
+import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.utility.common.Constants
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.extension.exceptCancellation
-import com.looker.droidify.utility.common.generateMonthlyFileNames
+import com.looker.droidify.utility.common.monthlyFileNamesSince
 import com.looker.droidify.utility.common.toForegroundInfo
 import com.looker.droidify.utility.notifications.createDownloadStatsNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.ktor.http.HttpStatusCode
 import java.io.File
+import java.net.HttpURLConnection.HTTP_NOT_MODIFIED
 import java.util.*
-import java.util.concurrent.ConcurrentLinkedQueue
-import kotlin.concurrent.atomics.AtomicInt
 import kotlin.concurrent.atomics.ExperimentalAtomicApi
-import kotlin.concurrent.atomics.incrementAndFetch
 import kotlin.time.ExperimentalTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 import kotlinx.coroutines.sync.Semaphore
-import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withContext
 
 @HiltWorker
@@ -49,13 +46,18 @@ class DownloadStatsWorker @AssistedInject constructor(
     val downloadSemaphores = Semaphore(2)
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+        val settings = settingsRepo.getInitial()
+        if (!settings.dlStatsEnabled) {
+            Log.i(TAG, "Download statistics disabled, skipping")
+            return@withContext Result.success()
+        }
         try {
             setForegroundAsync(
                 context
                     .createDownloadStatsNotification()
-                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD)
+                    .toForegroundInfo(Constants.NOTIFICATION_ID_STATS_DOWNLOAD),
             )
-            fetchData()
+            fetchData(settings)
             Log.i(TAG, "Successfully processed download stats monthly files")
             Result.success()
         } catch (e: Exception) {
@@ -65,40 +67,34 @@ class DownloadStatsWorker @AssistedInject constructor(
         }
     }
 
-    @OptIn(ExperimentalAtomicApi::class)
-    private suspend fun fetchData() = withContext(Dispatchers.IO) {
+    private suspend fun fetchData(settings: Settings) = withContext(Dispatchers.IO) {
         supervisorScope {
-            val lastModified = settingsRepo.getInitial().lastModifiedDownloadStats
-            val fileNames = ConcurrentLinkedQueue(generateMonthlyFileNames(lastModified))
-            val successfulResults = AtomicInt(0)
-            val updatedResults = AtomicInt(0)
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = System.currentTimeMillis()
+            val lastModified = settings.lastModifiedDownloadStats
+            val fileNames = monthlyFileNamesSince(lastModified)
 
             Log.d(TAG, "Fetching ${fileNames.size} monthly files")
-            while (fileNames.isNotEmpty()) {
+            fileNames.forEach { fileName ->
+                downloadSemaphores.acquire()
                 launch {
-                    downloadSemaphores.withPermit {
-                        val fileName = fileNames.poll() ?: return@withPermit
-                        val target = Cache.getTemporaryFile(context)
-
+                    var target: File? = null
+                    try {
+                        target = Cache.getTemporaryFile(context)
                         Log.i(TAG, "Downloading $fileName")
                         val response = downloadFile(fileName, target)
                         Log.i(TAG, "Downloaded $fileName with $response")
 
-                        if (response is NetworkResponse.Success) {
-                            successfulResults.incrementAndFetch()
-                            val isModified = response.statusCode != HttpStatusCode.NotModified.value
-                            if (isModified) {
-                                processDownloadStats(
-                                    response = response,
-                                    fileName = fileName,
-                                    target = target
-                                )
-                                updatedResults.incrementAndFetch()
-                            }
+                        if (response is NetworkResponse.Success
+                            && response.statusCode != HTTP_NOT_MODIFIED
+                        ) {
+                            processDownloadStats(
+                                response = response,
+                                fileName = fileName,
+                                target = target,
+                            )
                         }
-                        target.delete()
+                    } finally {
+                        target?.delete()
+                        downloadSemaphores.release()
                     }
                 }
             }

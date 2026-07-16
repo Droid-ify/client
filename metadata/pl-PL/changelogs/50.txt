@@ -1,0 +1,50 @@
+- Aplikacja wymaga ponownej instalacji (to całkowicie moja wina, przepraszam)
+- Obsługa systemu Android 13
+- Dodano ikonę tematyczną dla systemu Android 13
+- Poprawiono niektóre animacje i inne zmiany w interfejsie użytkownika/UX
+- Poprawiono czyszczenie pamięci podręcznej
+- Poprawiono kolor paska nawigacyjnego
+- Zastąpiono „Dostępne” -> „Eksploruj”
+- Dodano „Kod źródłowy” do sekcji „Linki”
+- Poprawiono instalator Root/Shizuku (Instalator Shizuku jest obecnie bardzo niestabilny).
+- Naprawiono losowe awarie podczas powrotu do aplikacji.
+- Usunięto repozytorium Alefvanoon.
+- Naprawiono podwójne monity dotyczące instalacji.
+- Nagłówek aplikacji zostanie podświetlony, jeśli aplikacja wymaga aktualizacji.
+- Dodano przycisk „Przewiń do góry”.
+- Dodano języki:
+      bengalski
+      kataloński
+      chorwacki
+      galicyjski
+      hebrajski
+      japoński
+      litewski
+      odia
+      szwedzki
+- Zaktualizowano języki:
+      arabski
+      bułgarski
+      chiński (uproszczony)
+      chiński (tradycyjny)
+      Czeski
+      Fiński
+      Francuski
+      Galicyjski
+      Niemiecki
+      Grecki
+      Hindi
+      Węgierski
+      Włoski
+      Norweski Bokmal
+      Perski
+      Polski
+      Portugalski
+      Portugalski (Brazylia)
+      Rosyjski
+      Hiszpański
+      Tagalog
+      Turecki
+      Ukraiński
+- Aktualizacja zależności
+- Czyszczenie niektórych fragmentów kodu

@@ -4,12 +4,13 @@ import android.content.Context
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.ProgressListener
+import com.looker.droidify.network.header.authentication
+import com.looker.droidify.network.header.ifModifiedSince
 import com.looker.droidify.utility.common.cache.Cache
-
-import java.io.File
-import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.util.*
 
 suspend fun Downloader.downloadIndex(
     context: Context,

@@ -14,10 +14,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -93,13 +89,13 @@ fun RepoDetailScreen(
                 actions = {
                     IconButton(onClick = { onEditClick(viewModel.repoId) }) {
                         Icon(
-                            imageVector = Icons.Default.Edit,
+                            painter = painterResource(R.drawable.ic_edit),
                             contentDescription = "Edit",
                         )
                     }
                     IconButton(onClick = { showDeleteDialog = true }) {
                         Icon(
-                            imageVector = Icons.Default.Delete,
+                            painter = painterResource(R.drawable.ic_delete),
                             contentDescription = "Delete",
                         )
                     }
@@ -178,7 +174,7 @@ private fun RepoDetails(
             Column {
                 Text(
                     text = repo.description.toAnnotatedString(
-                        onUrlClick = { handler.openUri(it) }
+                        onUrlClick = { handler.openUri(it) },
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -210,8 +206,8 @@ private fun RepoDetails(
                 .align(Alignment.CenterHorizontally),
         ) {
             Icon(
-                imageVector = Icons.Default.Check,
-                contentDescription = null
+                painter = painterResource(R.drawable.ic_check),
+                contentDescription = null,
             )
         }
 
@@ -231,7 +227,7 @@ private fun FingerprintCard(
         border = BorderStroke(
             width = 1.dp,
             color = MaterialTheme.colorScheme.surfaceVariant,
-        )
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -270,7 +266,7 @@ private fun DeleteRepositoryDialog(
                         color = MaterialTheme.colorScheme.outlineVariant,
                         shape = CircleShape,
                     )
-                    .padding(12.dp)
+                    .padding(12.dp),
             )
         },
         title = { Text("Delete Repository") },

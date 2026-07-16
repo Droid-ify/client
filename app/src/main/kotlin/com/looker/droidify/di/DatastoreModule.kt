@@ -20,10 +20,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.json.Json
+import javax.inject.Singleton
 
 private const val PREFERENCES = "settings_file"
 
@@ -50,8 +50,8 @@ object DatastoreModule {
         oldDatastore: DataStore<Settings>,
     ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
         migrations = listOf(
-            ProtoToPreferenceMigration(oldDatastore)
-        )
+            ProtoToPreferenceMigration(oldDatastore),
+        ),
     ) {
         context.preferencesDataStoreFile(SETTINGS)
     }
@@ -61,7 +61,7 @@ object DatastoreModule {
     fun provideSettingsExporter(
         @ApplicationContext context: Context,
         @ApplicationScope scope: CoroutineScope,
-        @IoDispatcher dispatcher: CoroutineDispatcher
+        @IoDispatcher dispatcher: CoroutineDispatcher,
     ): Exporter<Settings> = SettingsExporter(
         context = context,
         scope = scope,
@@ -69,20 +69,20 @@ object DatastoreModule {
         json = Json {
             encodeDefaults = true
             prettyPrint = true
-        }
+        },
     )
 
     @Singleton
     @Provides
     fun provideEncryptionStorage(
         dataStore: DataStore<Preferences>,
-        @IoDispatcher dispatcher: CoroutineDispatcher
+        @IoDispatcher dispatcher: CoroutineDispatcher,
     ): EncryptionStorage = EncryptionStorage(dataStore, dispatcher)
 
     @Singleton
     @Provides
     fun provideSettingsRepository(
         dataStore: DataStore<Preferences>,
-        exporter: Exporter<Settings>
+        exporter: Exporter<Settings>,
     ): SettingsRepository = PreferenceSettingsRepository(dataStore, exporter)
 }

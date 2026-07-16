@@ -1,0 +1,5 @@
+- Shizuku nie jest przestarzałe w wersjach starszych niż Android 11
+- Poprawiono ikony wielu aplikacji
+- Wprowadzono pewne zmiany w interfejsie użytkownika strony repozytorium
+- Naprawiono dziwne zachowanie spowodowane przełącznikiem Material You
+- Zapoznaj się ze starym dziennikiem zmian pod adresem - https://github.com/Iamlooker/Droid-ify/releases/tag/v0.5.2

@@ -247,7 +247,6 @@
     <string name="repository_not_found_by_id">Repozitář nenalezen</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Odznak reprodukovatelného sestavení</string>
-    <string name="rb_badge_info">Zelená fajfka\t-&gt; Ověřené reprodukovatelné sestavení\nČervená fajfka\t-&gt; Nereprodukovatelné sestavení\nHnědá fajfka\t-&gt; Neznámý stav</string>
     <string name="rb_info">Pokud je sestavení reprodukovatelné, znamená to, že je daný soubor APK sestaven z poskytnutého zdroje</string>
     <string name="total_downloads">Celkem stažení</string>
     <string name="download_stats">Statistika stahování</string>

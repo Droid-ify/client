@@ -15,17 +15,17 @@ import com.looker.droidify.sync.v2.model.IndexV2
 import com.looker.droidify.sync.v2.model.MetadataV2
 import com.looker.droidify.sync.v2.model.PackageV2
 import com.looker.droidify.sync.v2.model.VersionV2
-import kotlin.system.measureTimeMillis
-import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import kotlin.system.measureTimeMillis
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(AndroidJUnit4::class)
 class V1SyncableTest {
@@ -121,8 +121,6 @@ class V1SyncableTest {
             println(data.metadata.donate)
             print("bit: ")
             println(data.metadata.bitcoin)
-            print("flattr: ")
-            println(data.metadata.flattrID)
             print("Open: ")
             println(data.metadata.openCollective)
             print("LiteCoin: ")
@@ -186,13 +184,9 @@ class V1SyncableTest {
     }
 }
 
-/*
-* Cannot assert following:
-* - `name` => because fdroidserver behaves weirdly
-* */
 private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: MetadataV2) {
     assertEquals(expectedMetaData.preferredSigner, foundMetadata.preferredSigner)
-//    assertLocalizedString(expectedMetaData.name, foundMetadata.name)
+    assertLocalizedString(expectedMetaData.name, foundMetadata.name)
     assertLocalizedString(expectedMetaData.summary, foundMetadata.summary)
     assertLocalizedString(expectedMetaData.description, foundMetadata.description)
     assertContentEquals(expectedMetaData.categories, foundMetadata.categories)
@@ -208,7 +202,6 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     // Donate
     assertEquals(expectedMetaData.bitcoin, foundMetadata.bitcoin)
     assertEquals(expectedMetaData.liberapay, foundMetadata.liberapay)
-    assertEquals(expectedMetaData.flattrID, foundMetadata.flattrID)
     assertEquals(expectedMetaData.openCollective, foundMetadata.openCollective)
     assertEquals(expectedMetaData.litecoin, foundMetadata.litecoin)
     assertContentEquals(expectedMetaData.donate, foundMetadata.donate)
@@ -230,37 +223,37 @@ private fun assertMetadata(expectedMetaData: MetadataV2, foundMetadata: Metadata
     }
     assertLocalized(
         expectedMetaData.featureGraphic,
-        foundMetadata.featureGraphic
+        foundMetadata.featureGraphic,
     ) { expected, found ->
         assertEquals(expected.name, found.name)
     }
     assertLocalized(
         expectedMetaData.screenshots?.phone,
-        foundMetadata.screenshots?.phone
+        foundMetadata.screenshots?.phone,
     ) { expected, found ->
         assertFiles(expected, found)
     }
     assertLocalized(
         expectedMetaData.screenshots?.sevenInch,
-        foundMetadata.screenshots?.sevenInch
+        foundMetadata.screenshots?.sevenInch,
     ) { expected, found ->
         assertFiles(expected, found)
     }
     assertLocalized(
         expectedMetaData.screenshots?.tenInch,
-        foundMetadata.screenshots?.tenInch
+        foundMetadata.screenshots?.tenInch,
     ) { expected, found ->
         assertFiles(expected, found)
     }
     assertLocalized(
         expectedMetaData.screenshots?.tv,
-        foundMetadata.screenshots?.tv
+        foundMetadata.screenshots?.tv,
     ) { expected, found ->
         assertFiles(expected, found)
     }
     assertLocalized(
         expectedMetaData.screenshots?.wear,
-        foundMetadata.screenshots?.wear
+        foundMetadata.screenshots?.wear,
     ) { expected, found ->
         assertFiles(expected, found)
     }

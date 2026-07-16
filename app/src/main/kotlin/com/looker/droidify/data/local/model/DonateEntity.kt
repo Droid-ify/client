@@ -42,9 +42,6 @@ fun MetadataV2.donateEntity(appId: Int): List<DonateEntity>? {
         if (openCollective != null) {
             add(DonateEntity(OPEN_COLLECTIVE_ID, openCollective, appId))
         }
-        if (flattrID != null) {
-            add(DonateEntity(FLATTR_ID, flattrID, appId))
-        }
         if (!donate.isNullOrEmpty()) {
             add(DonateEntity(REGULAR, donate.joinToString(STRING_LIST_SEPARATOR), appId))
         }

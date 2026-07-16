@@ -3,24 +3,19 @@ package com.looker.droidify.sync
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.ProgressListener
-import com.looker.droidify.network.header.HeadersBuilder
-import com.looker.droidify.network.validation.FileValidator
+import okhttp3.Headers
 import com.looker.droidify.sync.common.assets
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.InputStream
-import java.net.Proxy
 
 val FakeDownloader = object : Downloader {
-    override fun setProxy(proxy: Proxy) {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun headCall(
         url: String,
-        headers: HeadersBuilder.() -> Unit
+        headers: Headers.Builder.() -> Unit,
     ): NetworkResponse {
         TODO("Not yet implemented")
     }
@@ -28,12 +23,12 @@ val FakeDownloader = object : Downloader {
     override suspend fun downloadToFile(
         url: String,
         target: File,
-        validator: FileValidator?,
-        headers: HeadersBuilder.() -> Unit,
-        block: ProgressListener?
+        headers: Headers.Builder.() -> Unit,
+        block: ProgressListener?,
     ): NetworkResponse {
-        return if (url.endsWith("fail")) NetworkResponse.Error.Unknown(Exception("You asked for it"))
-        else {
+        return if (url.endsWith("fail")) {
+            NetworkResponse.Error.Unknown(Exception("You asked for it"))
+        } else {
             val index = when {
                 url.endsWith("fdroid-index-v1.jar") -> assets("fdroid_index_v1.jar")
                 url.endsWith("fdroid-index-v1.json") -> assets("fdroid_index_v1.json")

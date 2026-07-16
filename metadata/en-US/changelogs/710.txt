@@ -1,0 +1,14 @@
+Added:
+
+- Ability to disable RB logs and Download Stats
+- Added incompatible version disclaimer for such apps (#1259): Rohan Lakhera
+- Icons/Screenshots go through the proxy
+
+Fixes:
+
+- Going back from app detail causing search query loss
+- Open link in browser if handler app fails (#1267): Netrifier
+- Icons failing to load for a lot of apps in first page
+- Delete on Install disabled for Legacy installer
+
+Full changelog: https://github.com/Droid-ify/client/releases/tag/v0.7.1

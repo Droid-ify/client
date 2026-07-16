@@ -1,0 +1,4 @@
+- Poprawiono: Ikona zastępcza zrzutu ekranu
+- Poprawiono: Awaria oprogramowania podczas uruchamiania AppDetails
+- Poprawiono: Uruchamianie tylko jednej instancji instalatora root
+- Poprawiono: Instalator root

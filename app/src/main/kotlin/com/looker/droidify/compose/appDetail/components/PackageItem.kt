@@ -1,7 +1,5 @@
 package com.looker.droidify.compose.appDetail.components
 
-import android.content.Context
-import android.text.format.DateFormat
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,18 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.looker.droidify.R
 import com.looker.droidify.data.model.Package
 import com.looker.droidify.data.model.Repo
+import com.looker.droidify.utility.common.formatDate
 import com.looker.droidify.utility.common.sdkName
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @Composable
 fun PackageItem(
@@ -52,13 +46,13 @@ fun PackageItem(
                 onClick = onClick,
                 onLongClick = onLongClick,
                 role = Role.Button,
-            )
+            ),
     ) {
         Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp)) {
             Column(Modifier.weight(1F)) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
                         text = stringResource(R.string.version_FORMAT, item.manifest.versionName).uppercase(),
@@ -75,15 +69,14 @@ fun PackageItem(
                     text = stringResource(
                         R.string.label_sdk_version,
                         sdkName[item.manifest.usesSDKs.target]!!,
-                        sdkName[item.manifest.usesSDKs.min]!!
+                        sdkName[item.manifest.usesSDKs.min]!!,
                     ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.outline,
                 )
             }
             Column(horizontalAlignment = Alignment.End) {
-                val context = LocalContext.current
-                val date = remember { formatDate(context, item.added) }
+                val date = remember { formatDate(item.added) }
                 Text(
                     text = date,
                     style = MaterialTheme.typography.bodyMedium,
@@ -96,14 +89,5 @@ fun PackageItem(
                 )
             }
         }
-    }
-}
-
-private fun formatDate(context: Context, instant: Long): String {
-    val dateTime = LocalDateTime.ofEpochSecond(instant / 1000, 0, ZoneOffset.UTC)
-    return try {
-        dateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
-    } catch (_: Exception) {
-        DateFormat.getDateFormat(context).format(instant)
     }
 }

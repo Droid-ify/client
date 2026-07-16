@@ -6,7 +6,8 @@ enum class InstallerType {
     LEGACY,
     SESSION,
     SHIZUKU,
-    ROOT;
+    ROOT,
+    ;
 
     companion object {
         val Default: InstallerType

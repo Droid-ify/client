@@ -1,0 +1,47 @@
+name: Notify Mastodon on Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version name (e.g. v0.7.1)'
+        required: true
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version info
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+          else
+            VERSION_NAME="${{ github.event.release.tag_name }}"
+          fi
+          VERSION_CODE=$(grep 'versionCode\s*=' app/build.gradle.kts | grep -o '[0-9]\+')
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
+
+      - name: Build message
+        id: message
+        run: |
+          export VERSION_NAME="${{ steps.version.outputs.name }}"
+          export CHANGELOG
+          CHANGELOG=$(cat "metadata/en-US/changelogs/${{ steps.version.outputs.code }}.txt")
+          MESSAGE=$(envsubst < ".github/assets/mastodon_message.txt")
+          echo "content<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MESSAGE" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Post to Mastodon
+        uses: cbrgm/mastodon-github-action@v2
+        with:
+          access-token: ${{ secrets.MASTODON_TOKEN }}
+          url: 'https://mastodon.social'
+          message: ${{ steps.message.outputs.content }}

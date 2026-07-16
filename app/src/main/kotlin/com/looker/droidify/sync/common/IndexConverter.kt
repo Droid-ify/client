@@ -41,23 +41,26 @@ internal fun IndexV1.toV2(): IndexV2 {
         val versions = packages[app.packageName]
         val preferredSigner = versions?.firstOrNull()?.signer
         val whatsNew: LocalizedString? = app.localized
-            ?.localizedString(null) { it.whatsNew }
+            .localizedString(null) { it.whatsNew }
         val packageV2 = PackageV2(
             versions = versions?.associate { packageV1 ->
                 packageV1.hash to packageV1.toVersionV2(
                     whatsNew = whatsNew,
-                    packageAntiFeatures = app.antiFeatures + (packageV1.antiFeatures ?: emptyList())
+                    packageAntiFeatures = app.antiFeatures + (
+                        packageV1.antiFeatures
+                            ?: emptyList()
+                        ),
                 )
             } ?: emptyMap(),
-            metadata = app.toV2(preferredSigner)
+            metadata = app.toV2(preferredSigner),
         )
-        packagesV2.putIfAbsent(app.packageName, packageV2)
+        if (app.packageName !in packagesV2) packagesV2[app.packageName] = packageV2
     }
 
     return IndexV2(
         repo = repo.toRepoV2(
             categories = categories,
-            antiFeatures = antiFeatures
+            antiFeatures = antiFeatures,
         ),
         packages = packagesV2,
     )
@@ -96,9 +99,9 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     added = added ?: 0L,
     lastUpdated = lastUpdated ?: 0L,
     icon = localized?.localizedIcon(packageName, icon) { it.icon },
-    name = localized?.localizedString(name) { it.name } ?: emptyMap(),
-    description = localized?.localizedString(description) { it.description },
-    summary = localized?.localizedString(summary) { it.summary },
+    name = localized.localizedString(name) { it.name } ?: emptyMap(),
+    description = localized.localizedString(description) { it.description },
+    summary = localized.localizedString(summary) { it.summary },
     authorEmail = authorEmail,
     authorName = authorName,
     authorPhone = authorPhone,
@@ -108,7 +111,6 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     changelog = changelog,
     donate = if (donate != null) listOf(donate) else emptyList(),
     featureGraphic = localized?.localizedIcon(packageName) { it.featureGraphic },
-    flattrID = flattrID,
     issueTracker = issueTracker,
     liberapay = liberapay,
     license = license,
@@ -120,7 +122,7 @@ private fun AppV1.toV2(preferredSigner: String?): MetadataV2 = MetadataV2(
     sourceCode = sourceCode,
     translation = translation,
     tvBanner = localized?.localizedIcon(packageName) { it.tvBanner },
-    video = localized?.localizedString(null) { it.video },
+    video = localized.localizedString(null) { it.video },
     webSite = webSite,
 )
 
@@ -176,7 +178,7 @@ private fun PackageV1.toVersionV2(
         usesPermission = usesPermission.map { PermissionV2(it.name, it.maxSdk) },
         usesPermissionSdk23 = usesPermission23.map { PermissionV2(it.name, it.maxSdk) },
         features = features?.map { FeatureV2(it) } ?: emptyList(),
-        nativecode = nativeCode ?: emptyList()
+        nativecode = nativeCode ?: emptyList(),
     ),
 )
 
@@ -191,24 +193,20 @@ private fun PackageV1.sdkV2(): UsesSdkV2? {
     }
 }
 
-private inline fun Map<String, Localized>.localizedString(
+private inline fun Map<String, Localized>?.localizedString(
     default: String?,
     crossinline block: (Localized) -> String?,
 ): LocalizedString? {
-    // Because top level fields are null if there are localized fields underneath
-    // Turns out no
-    if (isEmpty() && default != null) {
+    // In index-v1 a top-level name/summary/description overrides all localized values
+    // https://gitlab.com/fdroid/fdroidserver/-/issues/1241
+    // https://github.com/Droid-ify/client/issues/980
+    if (default != null) {
         return mapOf(V1_LOCALE to default)
     }
-    val checkDefault = get(V1_LOCALE)?.let { block(it) }
-    if (checkDefault == null && default != null) {
-        return mapOf(V1_LOCALE to default)
-    }
-    return mapValuesNotNull { (_, localized) ->
+    return this?.mapValuesNotNull { (_, localized) ->
         block(localized)
-    }.takeIf { it.isNotEmpty() }
+    }?.takeIf { it.isNotEmpty() }
 }
-
 
 private inline fun Map<String, Localized>.localizedIcon(
     packageName: String,
@@ -234,13 +232,16 @@ private inline fun Map<String, Localized>.localizedScreenshots(
 ): LocalizedFiles? {
     return mapValuesNotNull { (locale, localized) ->
         val files = block(locale, localized)
-        if (files.isNullOrEmpty()) null
-        else files.map(::FileV2)
+        if (files.isNullOrEmpty()) {
+            null
+        } else {
+            files.map(::FileV2)
+        }
     }.takeIf { it.isNotEmpty() }
 }
 
 private inline fun <K, V, M> Map<K, V>.mapValuesNotNull(
-    block: (Map.Entry<K, V>) -> M?
+    block: (Map.Entry<K, V>) -> M?,
 ): Map<K, M> {
     val map = HashMap<K, M>()
     forEach { entry ->

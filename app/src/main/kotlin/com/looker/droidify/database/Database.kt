@@ -8,6 +8,8 @@ import android.os.CancellationSignal
 import androidx.core.database.sqlite.transaction
 import com.fasterxml.jackson.core.JsonGenerator
 import com.fasterxml.jackson.core.JsonParser
+import com.looker.droidify.data.local.model.DownloadStats
+import com.looker.droidify.data.local.model.RBLog
 import com.looker.droidify.database.table.DatabaseHelper
 import com.looker.droidify.database.table.Table
 import com.looker.droidify.datastore.model.SortOrder
@@ -24,7 +26,6 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -37,6 +38,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayOutputStream
 
 object Database {
     fun init(context: Context): Boolean {
@@ -143,6 +145,56 @@ object Database {
       """
         }
 
+        object RBLog : Table {
+            const val ROW_HASH = "hash"
+            const val ROW_REPOSITORY = "repository"
+            const val ROW_APK_URL = "apk_url"
+            const val ROW_PACKAGE_NAME = "package_name"
+            const val ROW_VERSION_CODE = "version_code"
+            const val ROW_VERSION_NAME = "version_name"
+            const val ROW_TAG = "tag"
+            const val ROW_COMMIT = "commit_hash"
+            const val ROW_TIMESTAMP = "timestamp"
+            const val ROW_REPRODUCIBLE = "reproducible"
+            const val ROW_ERROR = "error"
+
+            override val memory = false
+            override val innerName = "rblog"
+            override val createTable = """
+        $ROW_HASH TEXT NOT NULL,
+        $ROW_REPOSITORY TEXT NOT NULL,
+        $ROW_APK_URL TEXT NOT NULL,
+        $ROW_PACKAGE_NAME TEXT NOT NULL,
+        $ROW_VERSION_CODE INTEGER NOT NULL,
+        $ROW_VERSION_NAME TEXT NOT NULL,
+        $ROW_TAG TEXT NOT NULL,
+        $ROW_COMMIT TEXT NOT NULL,
+        $ROW_TIMESTAMP INTEGER NOT NULL,
+        $ROW_REPRODUCIBLE INTEGER,
+        $ROW_ERROR TEXT,
+        PRIMARY KEY ($ROW_HASH, $ROW_PACKAGE_NAME, $ROW_TIMESTAMP)
+      """
+            override val createIndex = ROW_PACKAGE_NAME
+        }
+
+        object DownloadStats : Table {
+            const val ROW_PACKAGE_NAME = "package_name"
+            const val ROW_SOURCE = "source"
+            const val ROW_TIMESTAMP = "timestamp"
+            const val ROW_DOWNLOADS = "downloads"
+
+            override val memory = false
+            override val innerName = "download_stats"
+            override val createTable = """
+        $ROW_PACKAGE_NAME TEXT NOT NULL,
+        $ROW_SOURCE TEXT NOT NULL,
+        $ROW_TIMESTAMP INTEGER NOT NULL,
+        $ROW_DOWNLOADS INTEGER NOT NULL,
+        PRIMARY KEY ($ROW_PACKAGE_NAME, $ROW_SOURCE, $ROW_TIMESTAMP)
+      """
+            override val createIndex = ROW_PACKAGE_NAME
+        }
+
         object Synthetic {
             const val ROW_CAN_UPDATE = "can_update"
             const val ROW_MATCH_RANK = "match_rank"
@@ -153,6 +205,8 @@ object Database {
         data object Repositories : Subject()
         data class Repository(val id: Long) : Subject()
         data object Products : Subject()
+        data object RBLogs : Subject()
+        data object DownloadStats : Subject()
     }
 
     private val observers = mutableMapOf<Subject, MutableSet<() -> Unit>>()
@@ -307,7 +361,7 @@ object Database {
                 Schema.Repository.name,
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} != 0 AND " +
-                            "${Schema.Repository.ROW_DELETED} == 0",
+                        "${Schema.Repository.ROW_DELETED} == 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -333,7 +387,7 @@ object Database {
                 columns = arrayOf(Schema.Repository.ROW_ID, Schema.Repository.ROW_DELETED),
                 selection = Pair(
                     "${Schema.Repository.ROW_ENABLED} == 0 OR " +
-                            "${Schema.Repository.ROW_DELETED} != 0",
+                        "${Schema.Repository.ROW_DELETED} != 0",
                     emptyArray(),
                 ),
                 signal = null,
@@ -514,10 +568,13 @@ object Database {
         ): Cursor {
             val builder = QueryBuilder()
 
-            val signatureMatches = if (skipSignatureCheck) "1"
-            else """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
+            val signatureMatches = if (skipSignatureCheck) {
+                "1"
+            } else {
+                """installed.${Schema.Installed.ROW_SIGNATURE} IS NOT NULL AND
                 product.${Schema.Product.ROW_SIGNATURES} LIKE ('%.' || installed.${Schema.Installed.ROW_SIGNATURE} || '.%') AND
                 product.${Schema.Product.ROW_SIGNATURES} != ''"""
+            }
 
             builder += """SELECT product.rowid AS _id, product.${Schema.Product.ROW_REPOSITORY_ID},
         product.${Schema.Product.ROW_PACKAGE_NAME}, product.${Schema.Product.ROW_NAME},
@@ -679,7 +736,7 @@ object Database {
                     ),
                     selection = Pair(
                         "${Schema.Installed.ROW_PACKAGE_NAME} = ?",
-                        arrayOf(packageName)
+                        arrayOf(packageName),
                     ),
                     signal = signal,
                 ).use { it.firstOrNull()?.let(::transform) }
@@ -830,11 +887,11 @@ object Database {
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Product.name} SELECT * " +
-                                "FROM ${Schema.Product.temporaryName}",
+                            "FROM ${Schema.Product.temporaryName}",
                     )
                     db.execSQL(
                         "INSERT INTO ${Schema.Category.name} SELECT * " +
-                                "FROM ${Schema.Category.temporaryName}",
+                            "FROM ${Schema.Category.temporaryName}",
                     )
                     RepositoryAdapter.putWithoutNotification(repository, true, db)
                     db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
@@ -849,6 +906,116 @@ object Database {
                 db.execSQL("DROP TABLE IF EXISTS ${Schema.Product.temporaryName}")
                 db.execSQL("DROP TABLE IF EXISTS ${Schema.Category.temporaryName}")
             }
+        }
+    }
+
+    object RBLogAdapter {
+
+        fun getStream(packageName: String): Flow<List<RBLog>> = flowOf(Unit)
+            .onCompletion { if (it == null) emitAll(flowCollection(Subject.RBLogs)) }
+            .map { get(packageName) }
+            .flowOn(Dispatchers.IO)
+
+        fun get(packageName: String): List<RBLog> {
+            return db.query(
+                Schema.RBLog.name,
+                selection = Pair("${Schema.RBLog.ROW_PACKAGE_NAME} = ?", arrayOf(packageName)),
+            ).use { it.asSequence().map(::transform).toList() }
+        }
+
+        fun upsert(logs: List<RBLog>) {
+            db.transaction {
+                for (log in logs) {
+                    db.insertOrReplace(true, Schema.RBLog.name, log.toContentValues())
+                }
+            }
+            notifyChanged(Subject.RBLogs)
+        }
+
+        fun deleteAll() {
+            db.delete(Schema.RBLog.name, null, null)
+            notifyChanged(Subject.RBLogs)
+        }
+
+        private fun RBLog.toContentValues(): ContentValues = ContentValues().apply {
+            put(Schema.RBLog.ROW_HASH, hash)
+            put(Schema.RBLog.ROW_REPOSITORY, repository)
+            put(Schema.RBLog.ROW_APK_URL, apkUrl)
+            put(Schema.RBLog.ROW_PACKAGE_NAME, packageName)
+            put(Schema.RBLog.ROW_VERSION_CODE, versionCode)
+            put(Schema.RBLog.ROW_VERSION_NAME, versionName)
+            put(Schema.RBLog.ROW_TAG, tag)
+            put(Schema.RBLog.ROW_COMMIT, commit)
+            put(Schema.RBLog.ROW_TIMESTAMP, timestamp)
+            put(Schema.RBLog.ROW_REPRODUCIBLE, reproducible?.let { if (it) 1 else 0 })
+            put(Schema.RBLog.ROW_ERROR, error)
+        }
+
+        private fun transform(cursor: Cursor): RBLog {
+            val reproducibleIndex = cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_REPRODUCIBLE)
+            val errorIndex = cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_ERROR)
+            return RBLog(
+                hash = cursor.getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_HASH)),
+                repository = cursor
+                    .getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_REPOSITORY)),
+                apkUrl = cursor.getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_APK_URL)),
+                packageName = cursor
+                    .getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_PACKAGE_NAME)),
+                versionCode = cursor
+                    .getInt(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_VERSION_CODE)),
+                versionName = cursor
+                    .getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_VERSION_NAME)),
+                tag = cursor.getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_TAG)),
+                commit = cursor.getString(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_COMMIT)),
+                timestamp = cursor
+                    .getLong(cursor.getColumnIndexOrThrow(Schema.RBLog.ROW_TIMESTAMP)),
+                reproducible = if (cursor.isNull(reproducibleIndex)) {
+                    null
+                } else {
+                    cursor.getInt(reproducibleIndex) != 0
+                },
+                error = if (cursor.isNull(errorIndex)) null else cursor.getString(errorIndex),
+            )
+        }
+    }
+
+    object DownloadStatsAdapter {
+
+        fun totalStream(packageName: String): Flow<Long> = flowOf(Unit)
+            .onCompletion { if (it == null) emitAll(flowCollection(Subject.DownloadStats)) }
+            .map { total(packageName) }
+            .flowOn(Dispatchers.IO)
+
+        fun total(packageName: String): Long {
+            return db.query(
+                Schema.DownloadStats.name,
+                columns = arrayOf("SUM(${Schema.DownloadStats.ROW_DOWNLOADS})"),
+                selection = Pair(
+                    "${Schema.DownloadStats.ROW_PACKAGE_NAME} = ?",
+                    arrayOf(packageName),
+                ),
+            ).use { it.firstOrNull()?.getLong(0) ?: 0L }
+        }
+
+        fun insert(stats: List<DownloadStats>) {
+            db.transaction {
+                for (stat in stats) {
+                    db.insertOrReplace(true, Schema.DownloadStats.name, stat.toContentValues())
+                }
+            }
+            notifyChanged(Subject.DownloadStats)
+        }
+
+        fun deleteAll() {
+            db.delete(Schema.DownloadStats.name, null, null)
+            notifyChanged(Subject.DownloadStats)
+        }
+
+        private fun DownloadStats.toContentValues(): ContentValues = ContentValues().apply {
+            put(Schema.DownloadStats.ROW_PACKAGE_NAME, packageName)
+            put(Schema.DownloadStats.ROW_SOURCE, source)
+            put(Schema.DownloadStats.ROW_TIMESTAMP, timestamp)
+            put(Schema.DownloadStats.ROW_DOWNLOADS, downloads)
         }
     }
 }

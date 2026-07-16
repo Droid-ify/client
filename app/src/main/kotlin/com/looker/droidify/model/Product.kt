@@ -46,7 +46,7 @@ data class Product(
             SMALL_TABLET("smallTablet"),
             LARGE_TABLET("largeTablet"),
             WEAR("wear"),
-            TV("tv")
+            TV("tv"),
         }
 
         val identifier: String
@@ -57,8 +57,10 @@ data class Product(
             repository: Repository,
             packageName: String,
         ): Any {
-            if (type == Type.VIDEO) return context.videoPlaceHolder.apply {
-                setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurfaceInverse))
+            if (type == Type.VIDEO) {
+                return context.videoPlaceHolder.apply {
+                    setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurfaceInverse))
+                }
             }
             val phoneType = when (type) {
                 Type.PHONE -> "phoneScreenshots"
@@ -102,13 +104,13 @@ data class Product(
             installedVersion = "",
             compatible = compatible,
             canUpdate = false,
-            matchRank = 0
+            matchRank = 0,
         )
     }
 
     fun canUpdate(installedItem: InstalledItem?): Boolean {
         return installedItem != null && compatible && versionCode > installedItem.versionCode &&
-                installedItem.signature in signatures
+            installedItem.signature in signatures
     }
 }
 
@@ -122,6 +124,6 @@ fun List<Pair<Product, Repository>>.findSuggested(
         },
         { (product, _) ->
             product.versionCode
-        }
-    )
+        },
+    ),
 )

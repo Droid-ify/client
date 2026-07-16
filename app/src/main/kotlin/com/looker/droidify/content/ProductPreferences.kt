@@ -2,24 +2,26 @@ package com.looker.droidify.content
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.looker.droidify.database.Database
+import com.looker.droidify.model.ProductPreference
 import com.looker.droidify.utility.common.extension.Json
 import com.looker.droidify.utility.common.extension.parseDictionary
 import com.looker.droidify.utility.common.extension.writeDictionary
-import com.looker.droidify.model.ProductPreference
-import com.looker.droidify.database.Database
 import com.looker.droidify.utility.serialization.productPreference
 import com.looker.droidify.utility.serialization.serialize
-import java.io.ByteArrayOutputStream
-import java.nio.charset.Charset
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
+import java.nio.charset.Charset
 
 object ProductPreferences {
     private val defaultProductPreference = ProductPreference(false, 0L)
     private lateinit var preferences: SharedPreferences
-    private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>()
+    private val mutableSubject = MutableSharedFlow<Pair<String, Long?>>(
+        extraBufferCapacity = Int.MAX_VALUE,
+    )
     private val subject = mutableSubject.asSharedFlow()
 
     fun init(context: Context, scope: CoroutineScope) {
@@ -27,7 +29,7 @@ object ProductPreferences {
         Database.LockAdapter.putAll(
             preferences.all.keys.mapNotNull { packageName ->
                 this[packageName].databaseVersionCode?.let { Pair(packageName, it) }
-            }
+            },
         )
         scope.launch {
             subject.collect { (packageName, versionCode) ->
@@ -68,7 +70,7 @@ object ProductPreferences {
             ByteArrayOutputStream().apply {
                 Json.factory.createGenerator(this)
                     .use { it.writeDictionary(productPreference::serialize) }
-            }.toByteArray().toString(Charset.defaultCharset())
+            }.toByteArray().toString(Charset.defaultCharset()),
         ).apply()
         if (oldProductPreference.ignoreUpdates != productPreference.ignoreUpdates ||
             oldProductPreference.ignoreVersionCode != productPreference.ignoreVersionCode

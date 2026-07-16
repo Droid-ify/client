@@ -255,7 +255,6 @@
     <string name="always_choose">Scegli sempre</string>
     <string name="title_activity_main_compose">MainComposeActivity</string>
     <string name="rb_badge">Badge di build riproducibile</string>
-    <string name="rb_badge_info">Spunta verde \t -&gt; Build riproducibile verificata\nSpunta rossa \t -&gt; Build non riproducibile\nSpunta marrone \t -&gt; Stato sconosciuto</string>
     <string name="rb_info">Se una build è riproducibile, significa che l’apk dato è compilato dalla sorgente fornita</string>
     <string name="total_downloads">Download totali</string>
     <string name="download_stats">Statistiche di download</string>

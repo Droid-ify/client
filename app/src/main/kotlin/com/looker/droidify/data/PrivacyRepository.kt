@@ -1,34 +1,41 @@
 package com.looker.droidify.data
 
-import com.looker.droidify.data.local.dao.DownloadStatsDao
-import com.looker.droidify.data.local.dao.RBLogDao
 import com.looker.droidify.data.local.model.DownloadStats
-import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.RBLog
+import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
-import java.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.withContext
+import java.util.*
 
 class PrivacyRepository(
-    private val rbDao: RBLogDao,
-    private val downloadStatsDao: DownloadStatsDao,
     private val settingsRepo: SettingsRepository,
 ) {
     private val cc = Dispatchers.IO
 
-    fun getRBLogs(packageName: String): Flow<List<RBLogEntity>> = rbDao.getFlow(packageName)
-        .flowOn(cc)
+    fun getRBLogs(packageName: String): Flow<List<RBLog>> =
+        Database.RBLogAdapter.getStream(packageName)
 
     fun getLatestDownloadStats(packageName: String): Flow<Long> =
-        downloadStatsDao.total(packageName).flowOn(cc)
+        Database.DownloadStatsAdapter.totalStream(packageName)
 
-    suspend fun upsertRBLogs(lastModified: Date, logs: List<RBLogEntity>) {
+    suspend fun upsertRBLogs(lastModified: Date, logs: List<RBLog>) {
         settingsRepo.setRbLogLastModified(lastModified)
-        rbDao.upsert(logs)
+        withContext(cc) { Database.RBLogAdapter.upsert(logs) }
     }
 
     suspend fun save(downloadStats: List<DownloadStats>) {
-        downloadStatsDao.insert(downloadStats)
+        withContext(cc) { Database.DownloadStatsAdapter.insert(downloadStats) }
+    }
+
+    suspend fun clearDownloadStats() {
+        withContext(cc) { Database.DownloadStatsAdapter.deleteAll() }
+        settingsRepo.clearDownloadStatsLastModified()
+    }
+
+    suspend fun clearRbLogs() {
+        withContext(cc) { Database.RBLogAdapter.deleteAll() }
+        settingsRepo.clearRbLogLastModified()
     }
 }

@@ -50,11 +50,16 @@ fun Html.format(
             val flags = builder.getSpanFlags(span)
             val url = span.url
             builder.removeSpan(span)
-            builder.setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    onUrlClick.invoke(url)
-                }
-            }, start, end, flags)
+            builder.setSpan(
+                object : ClickableSpan() {
+                    override fun onClick(widget: View) {
+                        onUrlClick.invoke(url)
+                    }
+                },
+                start,
+                end,
+                flags,
+            )
         }
     }
 

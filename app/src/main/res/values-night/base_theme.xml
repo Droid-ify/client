@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="MainTheme" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.MainTheme.Night" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:colorBackground">@color/md_theme_d_background</item>
         <item name="colorSurface">?android:attr/colorBackground</item>
         <item name="android:colorPrimaryDark">?android:attr/colorBackground</item>
+    </style>
+    <style name="MainTheme" parent="Base.MainTheme.Night">
+        <item name="colorError">@color/md_theme_d_error</item>
     </style>
 </resources>

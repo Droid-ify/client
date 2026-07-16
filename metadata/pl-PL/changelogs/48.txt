@@ -1,0 +1,5 @@
+- Nowy backend ustawień (Twoje stare ustawienia zostaną usunięte)
+- Dodano opcję dodawania czasu trwania czyszczenia
+- Naprawiono puste zrzuty ekranu
+- Naprawiono awarię w dolnej części ekranu
+- Naprawiono powiadomienie „Zainstalowano”

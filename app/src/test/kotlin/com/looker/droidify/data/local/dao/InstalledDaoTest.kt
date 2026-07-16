@@ -6,10 +6,7 @@ import kotlinx.coroutines.flow.first
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-@RunWith(RobolectricTestRunner::class)
 class InstalledDaoTest : BaseDatabaseTest() {
 
     private lateinit var installedDao: InstalledDao
@@ -25,7 +22,7 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
 
         // When
@@ -52,7 +49,7 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         installedDao.insert(entity)
 
@@ -70,13 +67,13 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app1",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         val entity2 = InstalledEntity(
             packageName = "com.example.app2",
             version = "2.0.0",
             versionCode = 200,
-            signature = "ghijkl789012"
+            signature = "ghijkl789012",
         )
         installedDao.insertAll(listOf(entity1, entity2))
 
@@ -95,13 +92,13 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app1",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         val entity2 = InstalledEntity(
             packageName = "com.example.app2",
             version = "2.0.0",
             versionCode = 200,
-            signature = "ghijkl789012"
+            signature = "ghijkl789012",
         )
 
         // When
@@ -121,13 +118,13 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app1",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         val entity2 = InstalledEntity(
             packageName = "com.example.app2",
             version = "2.0.0",
             versionCode = 200,
-            signature = "ghijkl789012"
+            signature = "ghijkl789012",
         )
         installedDao.insertAll(listOf(entity1, entity2))
 
@@ -135,7 +132,7 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app3",
             version = "3.0.0",
             versionCode = 300,
-            signature = "mnopqr345678"
+            signature = "mnopqr345678",
         )
 
         // When
@@ -156,7 +153,7 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         installedDao.insert(entity)
 
@@ -176,13 +173,13 @@ class InstalledDaoTest : BaseDatabaseTest() {
             packageName = "com.example.app1",
             version = "1.0.0",
             versionCode = 100,
-            signature = "abcdef123456"
+            signature = "abcdef123456",
         )
         val entity2 = InstalledEntity(
             packageName = "com.example.app2",
             version = "2.0.0",
             versionCode = 200,
-            signature = "ghijkl789012"
+            signature = "ghijkl789012",
         )
         installedDao.insertAll(listOf(entity1, entity2))
 

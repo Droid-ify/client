@@ -249,7 +249,6 @@
     <string name="copy_error_details">Kopeeri vea üksikasjad</string>
     <string name="copied_to_clipboard">Kopeeritud</string>
     <string name="rb_badge">Tarkvara taasloodavuse märk</string>
-    <string name="rb_badge_info">Roheline märk \t-&gt; Kinnitatud taasloodatav kooste\nPunane märk \t-&gt; Mittetaasloodatav kooste\nPruun märk \t-&gt; Tundmatu olek</string>
     <string name="rb_info">Kui kooste on taasloodatav, tähendab see, et pakutav apk on koostatud esitatud lähtekoodist</string>
     <string name="total_downloads">Allalaadimisi kokku</string>
     <string name="download_stats">Allalaadimiste statistika</string>

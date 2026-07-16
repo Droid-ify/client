@@ -1,0 +1,14 @@
+Added:
+
+- [BREAKING] Randomly select RB logs: https://github.com/Droid-ify/client/issues/1354
+- Better RB popup
+
+Fixes:
+
+- Shizuku lossing permission
+- Background service crashing after timeout
+- Ignore this version toggle not working as expected
+- Scrolling and visibility direction of screenshots in RTL
+- UI fixes and crashes
+
+Full changelog: https://github.com/Droid-ify/client/releases/tag/v0.7.3

@@ -10,14 +10,14 @@ import com.looker.droidify.sync.FakeDownloader
 import com.looker.droidify.sync.common.Izzy
 import com.looker.droidify.sync.common.benchmark
 import com.looker.droidify.sync.common.downloadIndex
-import java.io.File
-import kotlin.system.measureTimeMillis
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.io.File
+import kotlin.system.measureTimeMillis
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest
@@ -69,7 +69,6 @@ class RepositoryUpdaterTest {
             lastModified = "",
             entityTag = "",
             callback = { stage, current, total ->
-
             },
         )
     }

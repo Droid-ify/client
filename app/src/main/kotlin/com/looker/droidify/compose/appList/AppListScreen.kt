@@ -33,10 +33,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
-import androidx.compose.material.icons.automirrored.filled.Sort
-import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FilterChip
@@ -67,6 +63,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
+import com.looker.droidify.R
 import com.looker.droidify.data.model.AppMinimal
 import com.looker.droidify.sync.v2.model.DefaultName
 
@@ -92,7 +89,7 @@ fun AppListScreen(
                     Text("Droid-ify")
                 },
             )
-        }
+        },
     ) { contentPadding ->
         LazyColumn(
             state = listState,
@@ -103,7 +100,7 @@ fun AppListScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                     ) {
                         val favSelected by viewModel.favouritesOnly.collectAsStateWithLifecycle()
                         FilterChip(
@@ -223,21 +220,21 @@ private fun AppListTopBar(
                 onClick = { expanded = true },
                 modifier = Modifier.size(smallContainerSize(Narrow)),
             ) {
-                Icon(Icons.Filled.Sync, contentDescription = "Sync")
+                Icon(painterResource(R.drawable.ic_sync), contentDescription = "Sync")
             }
             Spacer(Modifier.width(4.dp))
             IconButton(
                 onClick = { expanded = true },
                 modifier = Modifier.size(smallContainerSize(Narrow)),
             ) {
-                Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = "Sort")
+                Icon(painterResource(R.drawable.ic_sort), contentDescription = "Sort")
             }
             Spacer(Modifier.width(4.dp))
             IconButton(
                 onClick = onNavigateToRepos,
                 modifier = Modifier.size(smallContainerSize(Narrow)),
             ) {
-                Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Repos")
+                Icon(painterResource(R.drawable.ic_list), contentDescription = "Repos")
             }
             Spacer(Modifier.width(4.dp))
         },
@@ -293,7 +290,7 @@ private fun AppItem(
                     .aspectRatio(1F, true)
                     .background(
                         color = MaterialTheme.colorScheme.surfaceContainerLow,
-                        shape = MaterialTheme.shapes.small
+                        shape = MaterialTheme.shapes.small,
                     ),
             ) {
                 Image(

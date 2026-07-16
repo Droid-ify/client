@@ -26,7 +26,6 @@ value class Key(val secretKey: ByteArray) {
         val encrypted = cipher.doFinal(input.toByteArray())
         return Encrypted(Base64.encode(encrypted)) to iv
     }
-
 }
 
 fun Key() = Key(

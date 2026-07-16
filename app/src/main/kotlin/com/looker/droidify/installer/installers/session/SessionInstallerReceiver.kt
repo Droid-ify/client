@@ -50,7 +50,7 @@ class SessionInstallerReceiver : BroadcastReceiver() {
 
         context.createNotificationChannel(
             id = NOTIFICATION_CHANNEL_INSTALL,
-            name = context.getString(R.string.install)
+            name = context.getString(R.string.install),
         )
 
         val status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, -1)
@@ -93,7 +93,7 @@ class SessionInstallerReceiver : BroadcastReceiver() {
                     }
                     notificationManager?.installNotification(
                         packageName = packageName,
-                        notification = notification
+                        notification = notification,
                     )
                 }
             }

@@ -269,7 +269,6 @@
     <string name="force_sync_repositories">Pakota ohjelmavarastojen synkronointi</string>
     <string name="copy_error_details">Kopioi virheen tiedot</string>
     <string name="copied_to_clipboard">Kopioitu</string>
-    <string name="rb_badge_info">Vihreä symboli \t-&gt; Vahvistettu uudelleenluotava build\nPunainen symboli \t-&gt; Ei-uudelleenluotava build\nRuskea symboli \t-&gt; Tuntematon tila</string>
     <string name="rb_info">Jos build on uudelleenluotava, se tarkoittaa, että kyseisen apk:n build on kyseisestä lähteestä</string>
     <string name="custom_buttons_section">Sovelluksen lisätietojen linkit</string>
     <string name="custom_button_label">Merkki</string>

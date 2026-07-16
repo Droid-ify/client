@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.data.PrivacyRepository
-import com.looker.droidify.data.local.model.RBLogEntity
+import com.looker.droidify.data.local.model.RBLog
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.CustomButtonRepository
@@ -27,12 +27,11 @@ import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
@@ -64,7 +63,7 @@ class AppDetailViewModel @Inject constructor(
             privacyRepository.getRBLogs(packageName),
             privacyRepository.getLatestDownloadStats(packageName),
             repoAddress,
-            settingsRepository.data
+            settingsRepository.data,
         ) { products, repositories, installedItem, rblogs, downloads, suggestedAddress, settings ->
             val idAndRepos = repositories.associateBy { it.id }
             val filteredProducts = products.filter { product ->
@@ -97,7 +96,9 @@ class AppDetailViewModel @Inject constructor(
             } else {
                 runBlocking { requestPermissionListener() }
             }
-        } else false
+        } else {
+            false
+        }
         return ShizukuState(
             isNotInstalled = !isShizukuInstalled(context),
             isNotGranted = !isGranted,
@@ -157,7 +158,7 @@ data class ShizukuState(
 data class AppDetailUiState(
     val products: List<Product> = emptyList(),
     val repos: List<Repository> = emptyList(),
-    val rblogs: List<RBLogEntity> = emptyList(),
+    val rblogs: List<RBLog> = emptyList(),
     val downloads: Long = -1,
     val installedItem: InstalledItem? = null,
     val isSelf: Boolean = false,

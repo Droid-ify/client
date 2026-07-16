@@ -9,5 +9,4 @@ interface Installer : AutoCloseable {
     suspend fun install(installItem: InstallItem): InstallState
 
     suspend fun uninstall(packageName: PackageName)
-
 }

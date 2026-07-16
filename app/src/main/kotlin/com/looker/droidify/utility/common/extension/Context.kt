@@ -2,6 +2,7 @@ package com.looker.droidify.utility.common.extension
 
 import android.app.NotificationManager
 import android.app.job.JobScheduler
+import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -9,6 +10,7 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.drawable.Drawable
 import android.os.PowerManager
+import android.util.Log
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -17,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import androidx.core.net.toUri
 import com.looker.droidify.R
+import com.looker.droidify.utility.common.log
 
 inline val Context.clipboardManager: ClipboardManager?
     get() = getSystemService()
@@ -39,9 +42,23 @@ fun Context.copyToClipboard(clip: String) {
 
 fun Context.openLink(url: String) {
     val intent = intent(Intent.ACTION_VIEW) {
-        setData(url.toUri())
+        data = url.toUri()
     }
-    startActivity(intent)
+    try {
+        startActivity(intent)
+    } catch (_: ActivityNotFoundException) {
+        log("Failed to find dedicated app for $url, trying browser", "OpenLink", Log.WARN)
+        // If no app found try to force open in browser
+        intent.selector = intent(Intent.ACTION_VIEW) {
+            data = "https://".toUri()
+            addCategory(Intent.CATEGORY_BROWSABLE)
+        }
+        try {
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            e.printStackTrace()
+        }
+    }
 }
 
 val Context.corneredBackground: Drawable
@@ -67,7 +84,9 @@ val Context.videoPlaceHolder: Drawable
 
 val Context.aspectRatio: Float
     get() = with(resources.displayMetrics) {
-        (heightPixels / widthPixels).toFloat()
+        val longSide = maxOf(widthPixels, heightPixels).toFloat()
+        val shortSide = minOf(widthPixels, heightPixels).toFloat()
+        if (shortSide > 0f) longSide / shortSide else 16f / 9f
     }
 
 fun Context.getMutatedIcon(@DrawableRes id: Int): Drawable = getDrawableCompat(id).mutate()
@@ -86,8 +105,8 @@ fun Context.getDrawableCompat(@DrawableRes resId: Int = R.drawable.background_bo
     requireNotNull(
         AppCompatResources.getDrawable(
             this,
-            resId
-        )
+            resId,
+        ),
     ) { "Cannot find drawable, ID: $resId" }
 
 fun Context.getColorFromAttr(@AttrRes attrResId: Int): ColorStateList {

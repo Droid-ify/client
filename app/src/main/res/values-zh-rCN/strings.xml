@@ -241,7 +241,6 @@
     <string name="repository_not_found_by_id">未找到储存库</string>
     <string name="title_activity_main_compose">基于Compose的主要活动</string>
     <string name="rb_badge">可复现构建徽章</string>
-    <string name="rb_badge_info">绿色勾 -&gt; 可验证可重现的构建\n红色勾 -&gt; 不可重现的构建\n棕色勾 -&gt; 状态未知</string>
     <string name="rb_info">如果一个构建是可复现的，这意味着给定的 APK 是从提供的源代码构建的</string>
     <string name="total_downloads">总下载量</string>
     <string name="download_stats">下载统计</string>

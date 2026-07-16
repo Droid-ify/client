@@ -15,13 +15,13 @@ import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
@@ -39,16 +39,12 @@ class AppListViewModel
 
     private val sections = MutableStateFlow<ProductItem.Section>(All)
 
-    val searchQuery = MutableStateFlow("")
-
     val state = combine(
         skipSignatureStream,
         sortOrderFlow,
         sections,
-        searchQuery,
-    ) { skipSignature, sortOrder, section, query ->
+    ) { skipSignature, sortOrder, section ->
         AppListState(
-            searchQuery = query,
             sections = section,
             sortOrder = sortOrder,
             skipSignatureCheck = skipSignature,
@@ -79,21 +75,14 @@ class AppListViewModel
             sections.emit(newSection)
         }
     }
-
-    fun setSearchQuery(newSearchQuery: String) {
-        viewModelScope.launch {
-            searchQuery.emit(newSearchQuery)
-        }
-    }
 }
 
 data class AppListState(
-    val searchQuery: String = "",
     val sections: ProductItem.Section = All,
     val sortOrder: SortOrder = SortOrder.UPDATED,
     val skipSignatureCheck: Boolean = false,
 ) {
-    fun toRequest(source: AppListFragment.Source) = when(source) {
+    fun toRequest(source: AppListFragment.Source, searchQuery: String) = when (source) {
         AppListFragment.Source.AVAILABLE -> Available(
             searchQuery = searchQuery,
             section = sections,

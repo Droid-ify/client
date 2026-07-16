@@ -7,11 +7,11 @@ import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.datastore.model.Theme
-import java.util.*
-import kotlin.time.Duration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import java.util.*
+import kotlin.time.Duration
 
 interface SettingsRepository {
 
@@ -59,6 +59,8 @@ interface SettingsRepository {
 
     suspend fun setRbLogLastModified(date: Date)
 
+    suspend fun setRbLogMirrorIndex(index: Int)
+
     suspend fun updateLastModifiedDownloadStats(date: Date)
 
     suspend fun setHomeScreenSwiping(value: Boolean)
@@ -72,6 +74,14 @@ interface SettingsRepository {
     suspend fun isRepoEnabled(repoId: Int): Boolean
 
     suspend fun setDeleteApkOnInstall(enable: Boolean)
+
+    suspend fun setDownloadStatisticsEnabled(enabled: Boolean)
+
+    suspend fun clearDownloadStatsLastModified()
+
+    suspend fun setRBLogsEnabled(enabled: Boolean)
+
+    suspend fun clearRbLogLastModified()
 }
 
 inline fun <T> SettingsRepository.get(crossinline block: suspend Settings.() -> T): Flow<T> {

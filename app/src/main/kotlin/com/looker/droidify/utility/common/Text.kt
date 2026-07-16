@@ -1,14 +1,12 @@
 package com.looker.droidify.utility.common
 
 import android.util.Log
-import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
-import kotlin.time.Instant
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.YearMonth
-import kotlinx.datetime.plusMonth
-import kotlinx.datetime.toLocalDateTime
-import kotlinx.datetime.yearMonth
+import java.text.DateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.TimeZone
+
+private val UTC: TimeZone = TimeZone.getTimeZone("UTC")
 
 fun <T : CharSequence> T.nullIfEmpty(): T? {
     return if (isNullOrBlank()) null else this
@@ -22,20 +20,31 @@ fun Any.log(
     Log.println(type, tag, message.toString())
 }
 
-@OptIn(ExperimentalTime::class)
-fun generateMonthlyFileNames(since: Long?): List<String> = buildList {
-    val current = Clock.System.now()
-        .toLocalDateTime(TimeZone.UTC)
-        .date.yearMonth
+fun formatDate(millis: Long): String = DateFormat
+    .getDateInstance(DateFormat.SHORT)
+    .apply { timeZone = UTC }
+    .format(Date(millis))
+
+fun monthlyFileNamesSince(since: Long?): List<String> = buildList {
+    val calendar = Calendar.getInstance(UTC)
+    val currentYear = calendar.get(Calendar.YEAR)
+    val currentMonth = calendar.get(Calendar.MONTH) + 1
 
     // Download stats project started on `Dec 2024`
-    var ym = if (since == null) {
-        YearMonth(2024, 12)
-    } else {
-        Instant.fromEpochMilliseconds(since).toLocalDateTime(TimeZone.UTC).date.yearMonth
+    var year = 2024
+    var month = 12
+    if (since != null) {
+        calendar.timeInMillis = since
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH) + 1
     }
-    while (ym <= current) {
-        add("$ym.json")
-        ym = ym.plusMonth()
+    while (year < currentYear || (year == currentYear && month <= currentMonth)) {
+        add("%04d-%02d.json".format(year, month))
+        if (month == 12) {
+            year += 1
+            month = 1
+        } else {
+            month += 1
+        }
     }
 }

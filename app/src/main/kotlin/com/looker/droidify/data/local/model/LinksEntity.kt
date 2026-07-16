@@ -45,7 +45,9 @@ fun MetadataV2.linkEntity(appId: Int) = if (!isLinkNull()) {
         sourceCode = sourceCode,
         webSite = webSite,
     )
-} else null
+} else {
+    null
+}
 
 fun LinksEntity.toLinks() = Links(
     changelog = changelog,

@@ -35,7 +35,7 @@ object IndexV1Parser {
             name: String,
             description: String,
             version: Int,
-            timestamp: Long
+            timestamp: Long,
         )
 
         fun onProduct(product: Product)
@@ -57,12 +57,12 @@ object IndexV1Parser {
         val description: String,
         val whatsNew: String,
         val metadataIcon: String,
-        val screenshots: Screenshots?
+        val screenshots: Screenshots?,
     )
 
     private fun <T> Map<String, Localized>.getAndCall(
         key: String,
-        callback: (String, Localized) -> T?
+        callback: (String, Localized) -> T?,
     ): T? {
         return this[key]?.let { callback(key, it) }
     }
@@ -115,22 +115,22 @@ object IndexV1Parser {
 
     private fun Map<String, Localized>.findString(
         fallback: String,
-        callback: (Localized) -> String
+        callback: (Localized) -> String,
     ): String {
         return (find { _, localized -> callback(localized).nullIfEmpty() } ?: fallback).trim()
     }
 
     private fun Map<String, Localized>.findLocalizedString(
         fallback: String,
-        callback: (Localized) -> String
+        callback: (Localized) -> String,
     ): String {
+        // In index-v1 a top-level name/summary/description overrides all localized values
+        // https://gitlab.com/fdroid/fdroidserver/-/issues/1241
+        // https://github.com/Droid-ify/client/issues/980
+        if (fallback.isNotBlank()) return fallback.trim()
         // @BLumia: it's possible a key of a certain Localized object is empty, so we still need a fallback
-        return (
-            findLocalized { localized -> callback(localized).trim().nullIfEmpty() } ?: findString(
-                fallback,
-                callback
-            )
-            ).trim()
+        return findLocalized { localized -> callback(localized).trim().nullIfEmpty() }
+            ?: findString("", callback).trim()
     }
 
     internal object DonateComparator : Comparator<Product.Donate> {
@@ -139,7 +139,7 @@ object IndexV1Parser {
             Bitcoin::class,
             Litecoin::class,
             Liberapay::class,
-            OpenCollective::class
+            OpenCollective::class,
         )
 
         override fun compare(donate1: Product.Donate, donate2: Product.Donate): Int {
@@ -181,8 +181,9 @@ object IndexV1Parser {
                         forEachKey {
                             when {
                                 it.string(KEY_REPO_ADDRESS) -> address = valueAsString
-                                it.array(KEY_REPO_MIRRORS) -> mirrors =
-                                    collectDistinctNotEmptyStrings()
+                                it.array(KEY_REPO_MIRRORS) ->
+                                    mirrors =
+                                        collectDistinctNotEmptyStrings()
 
                                 it.string(KEY_REPO_NAME) -> name = valueAsString
                                 it.string(KEY_REPO_DESC) -> description = valueAsString
@@ -203,7 +204,7 @@ object IndexV1Parser {
                             name = name,
                             description = description,
                             version = version,
-                            timestamp = timestamp
+                            timestamp = timestamp,
                         )
                     }
 
@@ -302,8 +303,9 @@ object IndexV1Parser {
                         valueAsString.toLongOrNull() ?: 0L
 
                 key.array(KEY_PRODUCT_CATEGORIES) -> categories = collectDistinctNotEmptyStrings()
-                key.array(KEY_PRODUCT_ANTIFEATURES) -> antiFeatures =
-                    collectDistinctNotEmptyStrings()
+                key.array(KEY_PRODUCT_ANTIFEATURES) ->
+                    antiFeatures =
+                        collectDistinctNotEmptyStrings()
 
                 key.string(KEY_PRODUCT_LICENSE) -> licenses += valueAsString.split(',')
                     .filter { it.isNotEmpty() }
@@ -385,7 +387,7 @@ object IndexV1Parser {
         val description =
             localizedMap.findLocalizedString(descriptionFallback) { it.description }.replace(
                 "\n",
-                "<br/>"
+                "<br/>",
             )
         val whatsNew = localizedMap.findLocalizedString("") { it.whatsNew }
         val metadataIcon = localizedMap.findLocalizedString("") { it.metadataIcon }.ifEmpty {
@@ -423,7 +425,7 @@ object IndexV1Parser {
             licenses = licenses,
             donates = donates.sortedWith(DonateComparator),
             screenshots = screenshots,
-            releases = emptyList()
+            releases = emptyList(),
         )
     }
 
@@ -520,7 +522,7 @@ object IndexV1Parser {
             permissions = permissions.toList(),
             features = features,
             platforms = platforms,
-            incompatibilities = emptyList()
+            incompatibilities = emptyList(),
         )
     }
 

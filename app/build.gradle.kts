@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.6.8"
+    val latestVersionName = "0.7.4"
     namespace = "com.looker.droidify"
     compileSdk {
         version = release(36)
@@ -20,34 +20,17 @@ android {
         applicationId = "com.looker.droidify"
         minSdk = 23
         versionName = latestVersionName
-        versionCode = versionCode(versionName)
+        versionCode = 740
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
 
-    compileOptions.isCoreLibraryDesugaringEnabled = true
     androidResources.generateLocaleConfig = true
-
-    ksp {
-        arg("room.schemaLocation", "$projectDir/schemas")
-        arg("room.generateKotlin", "true")
-    }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard.pro",
-            )
-        }
-        create("alpha") {
-            initWith(getByName("debug"))
-            applicationIdSuffix = ".alpha"
-            versionNameSuffix = ".a"
-            isMinifyEnabled = true
-            isDebuggable = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard.pro",
@@ -81,13 +64,6 @@ android {
         }
     }
 
-    kotlin {
-        compilerOptions {
-            freeCompilerArgs.addAll("-Xcontext-parameters")
-            optIn.add("kotlin.RequiresOptIn")
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -103,11 +79,40 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+            isReturnDefaultValues = true
+            all {
+                it.useJUnitPlatform()
+                val processor = Runtime.getRuntime().availableProcessors() / 2
+                if (processor > 1) it.maxParallelForks = processor
+            }
+        }
+    }
+}
+
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.generateKotlin", "true")
+}
+
+kotlin {
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xcontext-parameters")
+        optIn.add("kotlin.RequiresOptIn")
+    }
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+        vendor.set(JvmVendorSpec.JETBRAINS)
+    }
 }
 
 dependencies {
-    coreLibraryDesugaring(libs.desugaring)
-
     implementation(libs.material)
     implementation(libs.core.ktx)
     implementation(libs.activity)
@@ -124,7 +129,6 @@ dependencies {
     implementation(libs.datastore.proto)
 
     implementation(libs.kotlin.stdlib)
-    implementation(libs.datetime)
 
     implementation(libs.bundles.coroutines)
 
@@ -134,7 +138,7 @@ dependencies {
     implementation(libs.jackson.core)
     implementation(libs.serialization)
 
-    implementation(libs.bundles.ktor)
+    implementation(libs.okhttp)
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
 
@@ -158,7 +162,12 @@ dependencies {
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
     testImplementation(libs.test.core.ktx)
+    testImplementation(libs.mockk)
+    testImplementation(libs.turbine)
+    testImplementation(libs.hilt.test)
     testRuntimeOnly(libs.junit.platform)
+    testRuntimeOnly(libs.junit.vintage.engine)
+    kspTest(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.test)
     androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
@@ -186,18 +195,3 @@ task("detectAndroidLocals") {
     android.defaultConfig.buildConfigField("String[]", "DETECTED_LOCALES", langsListString)
 }
 tasks.preBuild.dependsOn("detectAndroidLocals")
-
-fun versionCode(version: String?): Int? {
-    if (version == null) return null
-    val (major, minor, patch) = version
-        .substringBefore('-')
-        .trim()
-        .split('.')
-        .map { it.toUIntOrNull() }
-
-    require(major != null && minor != null && patch != null) {
-        "Each segment must be within 0..99 for mapping, was: '$version'"
-    }
-
-    return (major * 1000u + minor * 100u + patch * 10u).toInt()
-}

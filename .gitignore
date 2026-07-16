@@ -18,5 +18,4 @@ local.properties
 /build-logic/structure/build/
 /core-datastore/build/
 /app/release/
-/app/alpha/
 /.kotlin/

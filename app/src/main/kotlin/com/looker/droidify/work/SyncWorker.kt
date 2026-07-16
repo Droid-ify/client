@@ -21,15 +21,15 @@ import com.looker.droidify.R
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.sync.SyncState
 import com.looker.droidify.utility.common.createNotificationChannel
+import com.looker.droidify.utility.common.extension.exceptCancellation
 import com.looker.droidify.utility.common.toForegroundInfo
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import io.ktor.client.utils.unwrapCancellationException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 import kotlin.time.Duration
 import kotlin.time.toJavaDuration
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @HiltWorker
 class SyncWorker @AssistedInject constructor(
@@ -40,7 +40,9 @@ class SyncWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val repoId = if (inputData.hasKeyWithValueOfType<Int>(KEY_REPO_ID)) {
             inputData.getInt(KEY_REPO_ID, -1).takeIf { it >= 0 }
-        } else null
+        } else {
+            null
+        }
         Log.i(TAG, "SyncWorker started (repoId=$repoId)")
         try {
             val success = if (repoId != null) {
@@ -67,7 +69,7 @@ class SyncWorker @AssistedInject constructor(
                 Result.retry()
             }
         } catch (t: Throwable) {
-            t.unwrapCancellationException()
+            t.exceptCancellation()
             Log.e(TAG, "Sync failed with exception", t)
             Result.retry()
         }
