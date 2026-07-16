@@ -1,0 +1,12 @@
+Novinky:
+- DŮLEŽITÉ: Ověření podpisu SHA256
+- Vlastní akce
+- Kopírování podrobností o chybě při selhání synchronizace
+- Přepínač pro odstranění souboru APK po instalaci
+
+Opraveno:
+- Zaseknutý stav „Instalace probíhá“ a logika instalačního programu Shizuku
+- Různé pády aplikace
++ další
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/latest
