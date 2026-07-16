@@ -26,6 +26,7 @@ okhttp = "5.1.0"
 libsu = "6.0.0"
 room = "2.8.4"
 shizuku = "13.0.0"
+sqldelight = "2.3.2"
 image-viewer = "1.0.1"
 junit-jupiter = "6.0.3"
 robolectric = "4.16.1"
@@ -81,6 +82,10 @@ room-compiler = { group = "androidx.room", name = "room-compiler", version.ref =
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-test = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
+sqldelight-dialect-sqlite318 = { group = "app.cash.sqldelight", name = "sqlite-3-18-dialect", version.ref = "sqldelight" }
+sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-primitive-adapters = { group = "app.cash.sqldelight", name = "primitive-adapters", version.ref = "sqldelight" }
 shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
 shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
 image-viewer = { module = "com.github.stfalcon-studio:StfalconImageViewer", version.ref = "image-viewer" }
@@ -113,10 +118,12 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
 room = ["room-runtime", "room-ktx"]
+sqldelight = ["sqldelight-android-driver", "sqldelight-coroutines", "sqldelight-primitive-adapters"]
 shizuku = ["shizuku-provider", "shizuku-api"]
 coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]
 coil = ["coil-core", "coil-compose", "coil-network"]

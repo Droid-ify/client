@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose)
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -98,6 +99,19 @@ ksp {
     arg("room.generateKotlin", "true")
 }
 
+sqldelight {
+    databases {
+        create("DroidifyDb") {
+            packageName.set("com.looker.droidify.data.local.sql")
+            // Lowest dialect SQLDelight offers; still newer than minSdk 23's
+            // SQLite 3.8.10, so avoid post-3.8 syntax (UPSERT, row values, ...).
+            dialect(libs.sqldelight.dialect.sqlite318)
+            schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+            verifyMigrations.set(true)
+        }
+    }
+}
+
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xcontext-parameters")
@@ -141,6 +155,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.bundles.room)
     ksp(libs.room.compiler)
+    implementation(libs.bundles.sqldelight)
 
     implementation(libs.work.ktx)
 
