@@ -11,11 +11,11 @@ import com.looker.droidify.model.ProductItem
 import com.looker.droidify.ui.tabsFragment.TabsFragment.BackAction
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class TabsViewModel @Inject constructor(
@@ -34,24 +34,18 @@ class TabsViewModel @Inject constructor(
         .get { homeScreenSwiping }
         .asStateFlow(false)
 
-    val sections =
-        combine(
-            Database.CategoryAdapter.getAllStream(),
-            Database.RepositoryAdapter.getEnabledStream(),
-        ) { categories, repos ->
-            val productCategories = categories
-                .asSequence()
-                .sorted()
-                .map(ProductItem.Section::Category)
-                .toList()
-
-            val enabledRepositories = repos
-                .map { ProductItem.Section.Repository(it.id, it.name) }
-            enabledRepositories.ifEmpty { setSection(ProductItem.Section.All) }
-            listOf(ProductItem.Section.All) + productCategories + enabledRepositories
+    val sections = combine(
+        Database.CategoryAdapter.getAllStream(),
+        Database.RepositoryAdapter.getEnabledStream(),
+    ) { categories, repos ->
+        if (repos.isEmpty()) setSection(ProductItem.Section.All)
+        buildList {
+            add(ProductItem.Section.All)
+            categories.sorted().mapTo(this, ProductItem.Section::Category)
+            repos.mapTo(this) { ProductItem.Section.Repository(it.id, it.name) }
         }
-            .catch { it.printStackTrace() }
-            .asStateFlow(emptyList())
+    }.catch { it.printStackTrace() }
+        .asStateFlow(emptyList())
 
     val isSearchActionItemExpanded = MutableStateFlow(false)
 
