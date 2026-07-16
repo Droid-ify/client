@@ -166,7 +166,7 @@
     <string name="version">الإصدار</string>
     <string name="version_FORMAT">الإصدار %s</string>
     <string name="versions">الإصدارات</string>
-    <string name="waiting_to_start_download">في انتظار بدء التنزيل…</string>
+    <string name="waiting_to_start_download">التنزيل قيد الانتظار…</string>
     <string name="whats_new">ما الجديد</string>
     <string name="website">الموقع الإلكتروني</string>
     <string name="prefs_language_title">اللغة</string>
@@ -199,7 +199,7 @@
     <string name="force_clean_up_DESC">ينظِّف الملفَّات المتكرِّرة</string>
     <string name="enable_repo">فعِّل المستودع</string>
     <string name="installing">يثبّت</string>
-    <string name="waiting_to_start_installation">في انتظار بدء التثبيت…</string>
+    <string name="waiting_to_start_installation">التثبيت قيد الانتظار…</string>
     <string name="auto_update">حدِّث التطبيقات تلقائيًّا</string>
     <string name="auto_update_apps">ثبِّت التحديثات تلقائيًّا</string>
     <string name="has_non_free_components">يحتوي على مكونات غير حرة</string>
@@ -287,4 +287,14 @@
     <string name="custom_buttons_import">استورد أزرار</string>
     <string name="custom_buttons_imported">استوردت الأزرار المخصّصة</string>
     <string name="copied_to_clipboard">نُسخ</string>
+    <string name="proxy_restart_required">مطلوب إعادة التشغيل حتى تصبح التغييرات سارية المفعول.</string>
+    <string name="tap_to_resume_updates">افتح التطبيق لاستئناف التحديثات</string>
+    <string name="rb_badge_verified">تحققَ من البناء المضمون تطابقه</string>
+    <string name="rb_badge_non_reproducible">البناء غير مضمون تطابقه</string>
+    <string name="rb_badge_unknown">حالة مجهولة</string>
+    <string name="rb_badge_no_data">لا بيانات من البناء المضمون تطابقه</string>
+    <string name="rb_what_is">ما هو البناء المضمون تطابقه؟</string>
+    <string name="download_statistics_summary">استرداد وعرض أعداد التنزيلات الشهرية من IzzyOnDroid. يؤدي تعطيل هذه الميزة إلى مسح إحصائيات التنزيل الحالية.</string>
+    <string name="reproducibility_logs">سجلّات البناء المضمون تطابقه</string>
+    <string name="reproducibility_logs_summary">استرداد وعرض سجلّات التحقق من البناء المضمون تطابقه من IzzyOnDroid. يؤدي التعطيل إلى مسح سجلّات البناء المضمون تطابقه.</string>
 </resources>
