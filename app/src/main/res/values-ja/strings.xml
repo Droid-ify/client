@@ -10,7 +10,7 @@
     <string name="has_non_free_dependencies">不自由な依存関係を含む</string>
     <string name="downloading">ダウンロード中</string>
     <string name="downloading_FORMAT">%s をダウンロード中…</string>
-    <string name="edit_repository">リポジトリを編集</string>
+    <string name="edit_repository">編集</string>
     <string name="file_format_error_DESC">無効なファイル形式です。</string>
     <string name="fingerprint">フィンガープリント</string>
     <string name="has_advertising">広告を含む</string>
@@ -165,7 +165,7 @@
     <string name="available">探索</string>
     <string name="cleanup_title">APK の自動クリーンアップ間隔</string>
     <string name="incompatible_features_DESC">機能が不足しています。</string>
-    <string name="cant_edit_sync_DESC">現在同期中のため、リポジトリを編集できません。</string>
+    <string name="cant_edit_sync_DESC">同期中はリポジトリを編集できません</string>
     <string name="credits">クレジット</string>
     <string name="legacy_installer">レガシーインストーラー</string>
     <string name="session_installer">セッションインストーラー</string>
@@ -176,8 +176,8 @@
     <string name="proxy_port">プロキシポート</string>
     <string name="proxy_type">プロキシタイプ</string>
     <string name="io_error_DESC">特定のアクションを実行できません。</string>
-    <string name="auto_update">アプリの自動更新</string>
-    <string name="auto_update_apps">アップデートを自動的にインストールします</string>
+    <string name="auto_update">アプリを自動更新</string>
+    <string name="auto_update_apps">アップデートを自動的にインストール</string>
     <string name="installing">インストール中</string>
     <string name="waiting_to_start_installation">インストール開始を待機中…</string>
     <string name="favourites">お気に入り</string>
@@ -199,7 +199,7 @@
     <string name="special_credits">スペシャルクレジット</string>
     <string name="shizuku_not_installed">Shizuku はインストールされていません</string>
     <string name="import_settings_title">設定をインポート</string>
-    <string name="import_export">インポート / エクスポート</string>
+    <string name="import_export">バックアップと復元</string>
     <string name="import_settings_DESC">ファイルから設定とお気に入りをインポートする</string>
     <string name="export_settings_title">設定をエクスポート</string>
     <string name="export_repos_DESC">全てのリポジトリをファイルにエクスポートする</string>
@@ -217,4 +217,10 @@
     <string name="cannot_open_link">リンクを開けません</string>
     <string name="require_background_access">バックグラウンドのアクセスが必要です</string>
     <string name="require_background_access_DESC">バックグラウンドでの使用を可能にするには、バックグランドのアクセスを許可する必要があります</string>
+    <string name="error_shizuku_service_unavailable">Shizuku/Sui サービスが実行されていません</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku/Sui サービスが実行されていません</string>
+    <string name="error_shizuku_not_granted">Shizuku/Sui の権限が許可されていません</string>
+    <string name="error_shizuku_not_granted_DESC">Shizuku/Sui の権限が許可されていません</string>
+    <string name="error_shizuku_not_installed">Shizuku/Sui がインストールされていません</string>
+    <string name="error_shizuku_not_installed_DESC">Shizuku/Sui がインストールされていません</string>
 </resources>
