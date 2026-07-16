@@ -257,4 +257,8 @@
     <string name="downloading_rb_logs">Descărcați jurnalele pentru reproductibilitate</string>
     <string name="downloading_download_stats">Descărcați statisticile pentru descărcări</string>
     <string name="delete_apk_on_install">Șterge APK-urile la instalare</string>
+    <string name="delete_apk_on_install_summary">Șterge automat fișierele APK după instalări reușite</string>
+    <string name="proxy_restart_required">Repornire necesară pentru ca modificările să aibă efect.</string>
+    <string name="requires_authentication">Necesită autentificare?</string>
+    <string name="force_sync_repositories">Sincronizează forțat depozitele</string>
 </resources>
