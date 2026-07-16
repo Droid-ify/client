@@ -256,4 +256,5 @@
     <string name="monthly">Lunare</string>
     <string name="downloading_rb_logs">Descărcați jurnalele pentru reproductibilitate</string>
     <string name="downloading_download_stats">Descărcați statisticile pentru descărcări</string>
+    <string name="delete_apk_on_install">Șterge APK-urile la instalare</string>
 </resources>
