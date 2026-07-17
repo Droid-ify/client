@@ -29,3 +29,15 @@ CREATE TABLE localized_app (
         OR description IS NOT NULL
     )
 );
+
+insertApp:
+INSERT OR IGNORE INTO app(added, lastUpdated, preferredSigner, packageName, authorId, repoId)
+VALUES (?, ?, ?, ?, ?, ?);
+
+selectAppId:
+SELECT id FROM app
+WHERE packageName = ? AND repoId = ?;
+
+insertLocalizedApp:
+INSERT OR REPLACE INTO localized_app(appId, locale, name, summary, iconName, iconSha256, iconSize, description)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);

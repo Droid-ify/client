@@ -44,3 +44,22 @@ CREATE TABLE authentication (
     initializationVector BLOB NOT NULL,
     repoId INTEGER NOT NULL PRIMARY KEY REFERENCES repository(id) ON DELETE CASCADE
 );
+
+insertRepo:
+INSERT INTO repository(address, webBaseUrl, fingerprint, timestamp)
+VALUES (?, ?, ?, ?);
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+
+insertLocalizedRepo:
+INSERT OR REPLACE INTO localized_repo(repoId, locale, name, description, iconName, iconSha256, iconSize)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertMirror:
+INSERT OR REPLACE INTO mirror(url, countryCode, isPrimary, repoId)
+VALUES (?, ?, ?, ?);
+
+insertAuthentication:
+INSERT OR REPLACE INTO authentication(password, username, initializationVector, repoId)
+VALUES (?, ?, ?, ?);

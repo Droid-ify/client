@@ -20,3 +20,15 @@ CREATE TABLE category_repo_relation (
     defaultName TEXT NOT NULL,
     PRIMARY KEY(repoId, defaultName)
 ) WITHOUT ROWID;
+
+insertCategory:
+INSERT OR REPLACE INTO category(icon, name, description, locale, defaultName)
+VALUES (?, ?, ?, ?, ?);
+
+insertCategoryAppRelation:
+INSERT OR IGNORE INTO category_app_relation(appId, defaultName)
+VALUES (?, ?);
+
+insertCategoryRepoRelation:
+INSERT OR IGNORE INTO category_repo_relation(repoId, defaultName)
+VALUES (?, ?);

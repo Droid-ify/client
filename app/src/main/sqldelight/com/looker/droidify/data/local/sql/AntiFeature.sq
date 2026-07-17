@@ -21,3 +21,15 @@ CREATE TABLE anti_feature_repo_relation (
     tag TEXT NOT NULL,
     PRIMARY KEY(repoId, tag)
 ) WITHOUT ROWID;
+
+insertAntiFeature:
+INSERT OR REPLACE INTO anti_feature(icon, name, description, locale, tag)
+VALUES (?, ?, ?, ?, ?);
+
+insertAntiFeatureAppRelation:
+INSERT OR IGNORE INTO anti_features_app_relation(tag, reason, versionId)
+VALUES (?, ?, ?);
+
+insertAntiFeatureRepoRelation:
+INSERT OR IGNORE INTO anti_feature_repo_relation(repoId, tag)
+VALUES (?, ?);

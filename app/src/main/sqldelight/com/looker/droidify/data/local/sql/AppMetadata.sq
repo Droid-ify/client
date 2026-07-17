@@ -41,3 +41,27 @@ CREATE TABLE donate (
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     PRIMARY KEY(appId, type, value)
 ) WITHOUT ROWID;
+
+insertAuthor:
+INSERT OR IGNORE INTO author(email, name, website)
+VALUES (?, ?, ?);
+
+selectAuthorId:
+SELECT id FROM author
+WHERE email = ? AND name = ? AND website = ?;
+
+insertLinks:
+INSERT OR REPLACE INTO links(license, changelog, issueTracker, translation, sourceCode, webSite, appId)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertGraphic:
+INSERT OR REPLACE INTO graphic(url, type, locale, appId)
+VALUES (?, ?, ?, ?);
+
+insertScreenshot:
+INSERT OR IGNORE INTO screenshot(path, type, locale, appId)
+VALUES (?, ?, ?, ?);
+
+insertDonate:
+INSERT OR IGNORE INTO donate(type, value, appId)
+VALUES (?, ?, ?);

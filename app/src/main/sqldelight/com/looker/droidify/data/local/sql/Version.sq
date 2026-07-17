@@ -38,6 +38,14 @@ CREATE TABLE native_code (
     PRIMARY KEY(versionId, abi)
 ) WITHOUT ROWID;
 
+insertVersion:
+INSERT OR IGNORE INTO version(added, whatsNew, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+selectVersionId:
+SELECT id FROM version
+WHERE appId = ? AND apkSha256 = ?;
+
 insertPermission:
 INSERT OR IGNORE INTO permission(name, maxSdkVersion, versionId)
 VALUES (?, ?, ?);
