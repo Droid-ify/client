@@ -1,5 +1,4 @@
 import com.looker.droidify.sync.v2.model.LocalizedString;
-import com.looker.droidify.sync.v2.model.PermissionV2;
 import kotlin.Int;
 import kotlin.String;
 import kotlin.collections.List;
@@ -14,8 +13,6 @@ CREATE TABLE version (
     targetSdkVersion INTEGER AS Int NOT NULL,
     features TEXT AS List<String> NOT NULL,
     nativeCode TEXT AS List<String> NOT NULL,
-    permissions TEXT AS List<PermissionV2> NOT NULL,
-    permissionsSdk23 TEXT AS List<PermissionV2> NOT NULL,
     apkName TEXT NOT NULL,
     apkSha256 BLOB NOT NULL,
     apkSize INTEGER NOT NULL,
@@ -28,3 +25,14 @@ CREATE TABLE version (
 
 CREATE UNIQUE INDEX index_version_appId_apkSha256 ON version(appId, apkSha256);
 CREATE INDEX index_version_appId ON version(appId);
+
+CREATE TABLE permission (
+    name TEXT NOT NULL,
+    maxSdkVersion INTEGER AS Int,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, name)
+) WITHOUT ROWID;
+
+insertPermission:
+INSERT OR IGNORE INTO permission(name, maxSdkVersion, versionId)
+VALUES (?, ?, ?);
