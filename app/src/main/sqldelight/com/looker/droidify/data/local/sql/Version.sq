@@ -16,9 +16,6 @@ CREATE TABLE version (
     apkName TEXT NOT NULL,
     apkSha256 BLOB NOT NULL,
     apkSize INTEGER NOT NULL,
-    srcName TEXT,
-    srcSha256 BLOB,
-    srcSize INTEGER,
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     id INTEGER NOT NULL PRIMARY KEY
 );
