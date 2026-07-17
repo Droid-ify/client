@@ -1,5 +1,4 @@
 import com.looker.droidify.sync.v2.model.AntiFeatureReason;
-import kotlin.Int;
 
 CREATE TABLE anti_feature (
     icon TEXT,
@@ -13,12 +12,12 @@ CREATE TABLE anti_feature (
 CREATE TABLE anti_features_app_relation (
     tag TEXT NOT NULL,
     reason TEXT AS AntiFeatureReason NOT NULL,
-    versionId INTEGER AS Int NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
     PRIMARY KEY(versionId, tag)
 ) WITHOUT ROWID;
 
 CREATE TABLE anti_feature_repo_relation (
-    repoId INTEGER AS Int NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
     tag TEXT NOT NULL,
     PRIMARY KEY(repoId, tag)
 ) WITHOUT ROWID;

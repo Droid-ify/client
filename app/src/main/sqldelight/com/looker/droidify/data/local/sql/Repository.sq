@@ -1,20 +1,19 @@
 import com.looker.droidify.data.encryption.Encrypted;
 import com.looker.droidify.data.model.Fingerprint;
 import kotlin.Boolean;
-import kotlin.Int;
 
 CREATE TABLE repository (
     address TEXT NOT NULL,
     webBaseUrl TEXT,
     fingerprint TEXT AS Fingerprint NOT NULL,
     timestamp INTEGER,
-    id INTEGER AS Int NOT NULL PRIMARY KEY
+    id INTEGER NOT NULL PRIMARY KEY
 );
 
 CREATE UNIQUE INDEX index_repository_address ON repository(address);
 
 CREATE TABLE localized_repo (
-    repoId INTEGER AS Int NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
     locale TEXT NOT NULL,
     name TEXT,
     description TEXT,
@@ -33,7 +32,7 @@ CREATE TABLE mirror (
     url TEXT NOT NULL,
     countryCode TEXT,
     isPrimary INTEGER AS Boolean NOT NULL,
-    repoId INTEGER AS Int NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
     PRIMARY KEY(repoId, url)
 ) WITHOUT ROWID;
 
@@ -43,5 +42,5 @@ CREATE TABLE authentication (
     password TEXT AS Encrypted NOT NULL,
     username TEXT NOT NULL,
     initializationVector BLOB NOT NULL,
-    repoId INTEGER AS Int NOT NULL PRIMARY KEY REFERENCES repository(id) ON DELETE CASCADE
+    repoId INTEGER NOT NULL PRIMARY KEY REFERENCES repository(id) ON DELETE CASCADE
 );

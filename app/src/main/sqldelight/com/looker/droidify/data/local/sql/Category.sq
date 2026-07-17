@@ -1,5 +1,3 @@
-import kotlin.Int;
-
 CREATE TABLE category (
     icon TEXT,
     name TEXT NOT NULL,
@@ -10,7 +8,7 @@ CREATE TABLE category (
 ) WITHOUT ROWID;
 
 CREATE TABLE category_app_relation (
-    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     defaultName TEXT NOT NULL,
     PRIMARY KEY(appId, defaultName)
 ) WITHOUT ROWID;
@@ -18,7 +16,7 @@ CREATE TABLE category_app_relation (
 CREATE INDEX index_category_app_relation_defaultName ON category_app_relation(defaultName);
 
 CREATE TABLE category_repo_relation (
-    repoId INTEGER AS Int NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
     defaultName TEXT NOT NULL,
     PRIMARY KEY(repoId, defaultName)
 ) WITHOUT ROWID;

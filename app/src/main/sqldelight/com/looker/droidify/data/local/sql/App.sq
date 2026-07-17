@@ -1,13 +1,11 @@
-import kotlin.Int;
-
 CREATE TABLE app (
     added INTEGER NOT NULL,
     lastUpdated INTEGER NOT NULL,
     preferredSigner TEXT,
     packageName TEXT NOT NULL,
-    authorId INTEGER AS Int NOT NULL REFERENCES author(id) ON DELETE RESTRICT,
-    repoId INTEGER AS Int NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
-    id INTEGER AS Int NOT NULL PRIMARY KEY
+    authorId INTEGER NOT NULL REFERENCES author(id) ON DELETE RESTRICT,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    id INTEGER NOT NULL PRIMARY KEY
 );
 
 CREATE UNIQUE INDEX index_app_packageName_repoId ON app(packageName, repoId);
@@ -15,7 +13,7 @@ CREATE INDEX index_app_repoId ON app(repoId);
 CREATE INDEX index_app_authorId ON app(authorId);
 
 CREATE TABLE localized_app (
-    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     locale TEXT NOT NULL,
     name TEXT,
     summary TEXT,

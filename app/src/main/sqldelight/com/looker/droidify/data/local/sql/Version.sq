@@ -22,8 +22,8 @@ CREATE TABLE version (
     srcName TEXT,
     srcSha256 TEXT,
     srcSize INTEGER,
-    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
-    id INTEGER AS Int NOT NULL PRIMARY KEY
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    id INTEGER NOT NULL PRIMARY KEY
 );
 
 CREATE UNIQUE INDEX index_version_appId_apkSha256 ON version(appId, apkSha256);
