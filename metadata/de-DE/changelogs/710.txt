@@ -1,0 +1,14 @@
+Hinzugefügt:
+
+- Möglichkeit, RB-Protokolle und Download-Statistiken zu deaktivieren
+- Hinweis auf inkompatible Versionen für solche Apps hinzugefügt (#1259): Rohan Lakhera
+- Symbole/Screenshots laufen über den Proxy
+
+Korrekturen:
+
+- Beim Zurückkehren aus der App-Detailansicht ging die Suchanfrage verloren
+- Link im Browser öffnen, wenn die Handler-App fehlschlägt (#1267): Netrifier
+- Symbole wurden für viele Apps auf der ersten Seite nicht geladen
+- „Bei Installation löschen“ für Legacy-Installer deaktiviert
+
+Alle Änderungen: https://github.com/Droid-ify/client/releases/tag/v0.7.1

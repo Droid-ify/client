@@ -1,0 +1,12 @@
+Neu:
+- EXTRA: SHA256-Signaturprüfung
+- Benutzerdefinierte Aktionen
+- Fehlerdetails bei Synchronisierungsfehlern kopieren
+- Umschalter zum Löschen der APK nach der Installation
+
+Behoben:
+- Hängenbleiben im Status „Wird installiert“ und Shizuku-Installationslogik
+- Verschiedene Abstürze
++ Sonstiges
+
+Alle Änderungen: https://github.com/Droid-ify/client/releases/latest
