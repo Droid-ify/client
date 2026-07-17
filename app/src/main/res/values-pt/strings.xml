@@ -93,7 +93,7 @@
     <string name="upstream_source_code_is_not_free">O código fonte original não é livre</string>
     <string name="version_FORMAT">Versão %s</string>
     <string name="versions">Versões</string>
-    <string name="waiting_to_start_download">À espera para descarregar…</string>
+    <string name="waiting_to_start_download">Descarga colocada na fila…</string>
     <string name="website">Site do projeto</string>
     <string name="add_repository">Adicionar repositório</string>
     <string name="delete_repository_DESC">Remover este repositório\?</string>
@@ -189,7 +189,7 @@
     <string name="force_clean_up">Forçar limpeza</string>
     <string name="force_clean_up_DESC">Limpar ficheiros redundantes</string>
     <string name="enable_repo">Ativar o repositório</string>
-    <string name="waiting_to_start_installation">À espera para começar a instalação…</string>
+    <string name="waiting_to_start_installation">Instalação colocada na fila…</string>
     <string name="installing">A instalar</string>
     <string name="auto_update">Atualizar aplicações automaticamente</string>
     <string name="auto_update_apps">Instalar atualizações automaticamente</string>
@@ -277,4 +277,11 @@
     <string name="copied_to_clipboard">Copiado</string>
     <string name="rb_info">Se a complicação puder ser reproduzida, isto significa que a apk foi compilada através do código fonte</string>
     <string name="downloading_rb_logs">A descarregar registos de reprodutibilidade</string>
+    <string name="proxy_restart_required">Reinicie a aplicação para aplicar as alterações.</string>
+    <string name="tap_to_resume_updates">Abra a aplicação para retomar as atualizações</string>
+    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="rb_badge_unknown">Estado desconhecido</string>
+    <string name="rb_what_is">O que são compilações passíveis de reprodução?</string>
+    <string name="download_statistics_summary">Obter e mostrar as estatísticas de descargas mensais de IzzyOnDroid. Se desativar, eliminar as estatísticas existentes localmente.</string>
+    <string name="reproducibility_logs">Registos de reprodução</string>
 </resources>
