@@ -5,7 +5,7 @@ import kotlin.Boolean;
 CREATE TABLE repository (
     address TEXT NOT NULL,
     webBaseUrl TEXT,
-    fingerprint TEXT AS Fingerprint NOT NULL,
+    fingerprint BLOB AS Fingerprint NOT NULL,
     timestamp INTEGER,
     id INTEGER NOT NULL PRIMARY KEY
 );
@@ -18,7 +18,7 @@ CREATE TABLE localized_repo (
     name TEXT,
     description TEXT,
     iconName TEXT,
-    iconSha256 TEXT,
+    iconSha256 BLOB,
     iconSize INTEGER,
     PRIMARY KEY(repoId, locale),
     CHECK (

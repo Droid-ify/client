@@ -17,10 +17,10 @@ CREATE TABLE version (
     permissions TEXT AS List<PermissionV2> NOT NULL,
     permissionsSdk23 TEXT AS List<PermissionV2> NOT NULL,
     apkName TEXT NOT NULL,
-    apkSha256 TEXT NOT NULL,
+    apkSha256 BLOB NOT NULL,
     apkSize INTEGER NOT NULL,
     srcName TEXT,
-    srcSha256 TEXT,
+    srcSha256 BLOB,
     srcSize INTEGER,
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     id INTEGER NOT NULL PRIMARY KEY

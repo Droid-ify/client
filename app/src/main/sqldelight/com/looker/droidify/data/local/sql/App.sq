@@ -1,7 +1,7 @@
 CREATE TABLE app (
     added INTEGER NOT NULL,
     lastUpdated INTEGER NOT NULL,
-    preferredSigner TEXT,
+    preferredSigner BLOB,
     packageName TEXT NOT NULL,
     authorId INTEGER NOT NULL REFERENCES author(id) ON DELETE RESTRICT,
     repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
@@ -18,7 +18,7 @@ CREATE TABLE localized_app (
     name TEXT,
     summary TEXT,
     iconName TEXT,
-    iconSha256 TEXT,
+    iconSha256 BLOB,
     iconSize INTEGER,
     description TEXT,
     PRIMARY KEY(appId, locale),
