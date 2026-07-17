@@ -1,7 +1,5 @@
 import com.looker.droidify.sync.v2.model.LocalizedString;
 import kotlin.Int;
-import kotlin.String;
-import kotlin.collections.List;
 
 CREATE TABLE version (
     added INTEGER NOT NULL,
@@ -11,8 +9,6 @@ CREATE TABLE version (
     maxSdkVersion INTEGER AS Int,
     minSdkVersion INTEGER AS Int NOT NULL,
     targetSdkVersion INTEGER AS Int NOT NULL,
-    features TEXT AS List<String> NOT NULL,
-    nativeCode TEXT AS List<String> NOT NULL,
     apkName TEXT NOT NULL,
     apkSha256 BLOB NOT NULL,
     apkSize INTEGER NOT NULL,
@@ -30,6 +26,26 @@ CREATE TABLE permission (
     PRIMARY KEY(versionId, name)
 ) WITHOUT ROWID;
 
+CREATE TABLE feature (
+    name TEXT NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, name)
+) WITHOUT ROWID;
+
+CREATE TABLE native_code (
+    abi TEXT NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, abi)
+) WITHOUT ROWID;
+
 insertPermission:
 INSERT OR IGNORE INTO permission(name, maxSdkVersion, versionId)
 VALUES (?, ?, ?);
+
+insertFeature:
+INSERT OR IGNORE INTO feature(name, versionId)
+VALUES (?, ?);
+
+insertNativeCode:
+INSERT OR IGNORE INTO native_code(abi, versionId)
+VALUES (?, ?);
