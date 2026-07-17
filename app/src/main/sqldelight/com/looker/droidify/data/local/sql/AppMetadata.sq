@@ -1,0 +1,43 @@
+import kotlin.Int;
+
+CREATE TABLE author (
+    email TEXT NOT NULL DEFAULT '',
+    name TEXT NOT NULL DEFAULT '',
+    website TEXT NOT NULL DEFAULT '',
+    id INTEGER AS Int NOT NULL PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX index_author_email_name_website ON author(email, name, website);
+
+CREATE TABLE links (
+    license TEXT,
+    changelog TEXT,
+    issueTracker TEXT,
+    translation TEXT,
+    sourceCode TEXT,
+    webSite TEXT,
+    appId INTEGER AS Int NOT NULL PRIMARY KEY REFERENCES app(id) ON DELETE CASCADE
+);
+
+CREATE TABLE graphic (
+    url TEXT NOT NULL,
+    type INTEGER AS Int NOT NULL,
+    locale TEXT NOT NULL,
+    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, locale, type)
+) WITHOUT ROWID;
+
+CREATE TABLE screenshot (
+    path TEXT NOT NULL,
+    type INTEGER AS Int NOT NULL,
+    locale TEXT NOT NULL,
+    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, locale, type, path)
+) WITHOUT ROWID;
+
+CREATE TABLE donate (
+    type INTEGER AS Int NOT NULL,
+    value TEXT NOT NULL,
+    appId INTEGER AS Int NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, type, value)
+) WITHOUT ROWID;
