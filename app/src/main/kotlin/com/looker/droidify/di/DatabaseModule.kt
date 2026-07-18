@@ -5,6 +5,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.looker.droidify.data.PrivacyRepository
+import com.looker.droidify.data.RepoRepository
+import com.looker.droidify.data.encryption.EncryptionStorage
 import com.looker.droidify.data.local.droidifyDb
 import com.looker.droidify.data.local.sql.DroidifyDb
 import com.looker.droidify.datastore.SettingsRepository
@@ -13,6 +15,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
 
 private const val DB_NAME = "droidify_v2.db"
@@ -40,6 +43,18 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideDroidifyDb(driver: SqlDriver): DroidifyDb = droidifyDb(driver)
+
+    @Singleton
+    @Provides
+    fun provideRepoRepository(
+        db: DroidifyDb,
+        encryptionStorage: EncryptionStorage,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+    ): RepoRepository = RepoRepository(
+        db = db,
+        encryptionStorage = encryptionStorage,
+        dispatcher = dispatcher,
+    )
 
     @Singleton
     @Provides
