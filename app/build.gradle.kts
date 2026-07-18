@@ -170,6 +170,7 @@ dependencies {
     testImplementation(libs.test.core)
     testImplementation(libs.test.core.ktx)
     testImplementation(libs.mockk)
+    testImplementation(libs.sqldelight.sqlite.driver)
     testImplementation(libs.turbine)
     testImplementation(libs.hilt.test)
     testRuntimeOnly(libs.junit.platform)
