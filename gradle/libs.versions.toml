@@ -24,7 +24,6 @@ serialization = "1.10.0"
 ksp = "2.3.6"
 okhttp = "5.1.0"
 libsu = "6.0.0"
-room = "2.8.4"
 shizuku = "13.0.0"
 sqldelight = "2.3.2"
 image-viewer = "1.0.1"
@@ -78,10 +77,6 @@ serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhttp" }
 okhttp-mockwebserver = { group = "com.squareup.okhttp3", name = "mockwebserver3", version.ref = "okhttp" }
 libsu-core = { group = "com.github.topjohnwu.libsu", name = "core", version.ref = "libsu" }
-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-room-test = { group = "androidx.room", name = "room-testing", version.ref = "room" }
 sqldelight-android-driver = { group = "app.cash.sqldelight", name = "android-driver", version.ref = "sqldelight" }
 sqldelight-dialect-sqlite318 = { group = "app.cash.sqldelight", name = "sqlite-3-18-dialect", version.ref = "sqldelight" }
 sqldelight-coroutines = { group = "app.cash.sqldelight", name = "coroutines-extensions", version.ref = "sqldelight" }
@@ -122,7 +117,6 @@ sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
-room = ["room-runtime", "room-ktx"]
 sqldelight = ["sqldelight-android-driver", "sqldelight-coroutines", "sqldelight-primitive-adapters"]
 shizuku = ["shizuku-provider", "shizuku-api"]
 coroutines = ["coroutines-core", "coroutines-android", "coroutines-guava"]

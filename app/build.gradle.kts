@@ -94,11 +94,6 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.generateKotlin", "true")
-}
-
 sqldelight {
     databases {
         create("DroidifyDb") {
@@ -153,8 +148,6 @@ dependencies {
     implementation(libs.serialization)
 
     implementation(libs.okhttp)
-    implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
     implementation(libs.bundles.sqldelight)
 
     implementation(libs.work.ktx)
@@ -172,7 +165,6 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
-    testImplementation(libs.room.test)
     testImplementation(libs.robolectric)
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
@@ -184,7 +176,6 @@ dependencies {
     testRuntimeOnly(libs.junit.vintage.engine)
     kspTest(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.test)
-    androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
     kspAndroidTest(libs.hilt.compiler)
 

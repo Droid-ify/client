@@ -5,7 +5,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.core.net.toUri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.network.Downloader
 import com.looker.droidify.network.NetworkResponse
 import com.looker.droidify.network.header.authentication
@@ -15,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URI
@@ -26,7 +24,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RepoEditViewModel @Inject constructor(
-    private val repoRepository: RepoRepository,
     private val downloader: Downloader,
 ) : ViewModel() {
 
@@ -46,9 +43,8 @@ class RepoEditViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
-    private val takenAddresses: StateFlow<Set<String>> = repoRepository.addresses.map {
-        it.map { address -> stripPathSuffix(address) }.toSet()
-    }.asStateFlow(emptySet())
+    // TODO(sqldelight): reimplement with SQLDelight-backed repository
+    private val takenAddresses: StateFlow<Set<String>> = MutableStateFlow(emptySet())
 
     private val addressFlow = snapshotFlow { addressState.text.toString() }
     private val fingerprintFlow = snapshotFlow { fingerprintState.text.toString() }
@@ -73,21 +69,8 @@ class RepoEditViewModel @Inject constructor(
     private val addressSuffixes = arrayOf("fdroid/repo", "repo")
 
     fun loadRepo(repoId: Int) {
-        viewModelScope.launch {
-            _repoId.value = repoId
-            val repo = repoRepository.getRepo(repoId)
-            repo?.let {
-                addressState.edit { this.append(it.address) }
-                it.fingerprint?.let { fingerprint ->
-                    fingerprintState.edit { this.append(formatFingerprint(fingerprint.value)) }
-                }
-                it.authentication?.let { auth ->
-                    _authEnabled.value = true
-                    usernameState.edit { this.append(auth.username) }
-                    passwordState.edit { this.append(auth.password) }
-                }
-            }
-        }
+        _repoId.value = repoId
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 
     fun setAuthEnabled(enabled: Boolean) {
@@ -195,14 +178,7 @@ class RepoEditViewModel @Inject constructor(
         username: String?,
         password: String?,
     ) {
-        viewModelScope.launch {
-            repoRepository.insertRepo(
-                address = address,
-                fingerprint = fingerprint.ifEmpty { null },
-                username = username,
-                password = password,
-            )
-        }
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 
     private fun addressError(address: String): String? {
