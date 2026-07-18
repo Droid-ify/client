@@ -5,8 +5,10 @@ import kotlin.Boolean;
 CREATE TABLE repository (
     address TEXT NOT NULL,
     webBaseUrl TEXT,
-    fingerprint BLOB AS Fingerprint NOT NULL,
+    fingerprint BLOB AS Fingerprint,
+    etag TEXT,
     timestamp INTEGER,
+    enabled INTEGER AS Boolean NOT NULL DEFAULT 1,
     id INTEGER NOT NULL PRIMARY KEY
 );
 
@@ -46,8 +48,20 @@ CREATE TABLE authentication (
 );
 
 insertRepo:
-INSERT INTO repository(address, webBaseUrl, fingerprint, timestamp)
-VALUES (?, ?, ?, ?);
+INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, enabled)
+VALUES (?, ?, ?, ?, ?, ?);
+
+updateRepoEnabled:
+UPDATE repository SET enabled = ? WHERE id = ?;
+
+updateRepoVersionInfo:
+UPDATE repository SET fingerprint = ?, etag = ?, timestamp = ? WHERE id = ?;
+
+deleteRepo:
+DELETE FROM repository WHERE id = ?;
+
+deleteMirrors:
+DELETE FROM mirror WHERE repoId = ?;
 
 lastInsertRowId:
 SELECT last_insert_rowid();
