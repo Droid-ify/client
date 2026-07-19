@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.looker.droidify.data.IndexRepository
 import com.looker.droidify.data.PrivacyRepository
 import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.encryption.EncryptionStorage
@@ -53,6 +54,16 @@ object DatabaseModule {
     ): RepoRepository = RepoRepository(
         db = db,
         encryptionStorage = encryptionStorage,
+        dispatcher = dispatcher,
+    )
+
+    @Singleton
+    @Provides
+    fun provideIndexRepository(
+        db: DroidifyDb,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+    ): IndexRepository = IndexRepository(
+        db = db,
         dispatcher = dispatcher,
     )
 

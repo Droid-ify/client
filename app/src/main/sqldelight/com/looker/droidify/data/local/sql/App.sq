@@ -30,9 +30,13 @@ CREATE TABLE localized_app (
     )
 );
 
-insertApp:
-INSERT OR IGNORE INTO app(added, lastUpdated, preferredSigner, packageName, authorId, repoId)
-VALUES (?, ?, ?, ?, ?, ?);
+insertApp {
+  INSERT OR IGNORE INTO app(added, lastUpdated, preferredSigner, packageName, authorId, repoId)
+  VALUES (:added, :lastUpdated, :preferredSigner, :packageName, :authorId, :repoId);
+
+  SELECT id FROM app
+  WHERE packageName = :packageName AND repoId = :repoId;
+}
 
 selectAppId:
 SELECT id FROM app

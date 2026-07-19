@@ -38,9 +38,13 @@ CREATE TABLE native_code (
     PRIMARY KEY(versionId, abi)
 ) WITHOUT ROWID;
 
-insertVersion:
-INSERT OR IGNORE INTO version(added, whatsNew, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+insertVersion {
+  INSERT OR IGNORE INTO version(added, whatsNew, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
+  VALUES (:added, :whatsNew, :versionName, :versionCode, :maxSdkVersion, :minSdkVersion, :targetSdkVersion, :apkName, :apkSha256, :apkSize, :appId);
+
+  SELECT id FROM version
+  WHERE appId = :appId AND apkSha256 = :apkSha256;
+}
 
 selectVersionId:
 SELECT id FROM version

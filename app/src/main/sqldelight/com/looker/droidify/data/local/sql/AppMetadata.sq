@@ -42,9 +42,13 @@ CREATE TABLE donate (
     PRIMARY KEY(appId, type, value)
 ) WITHOUT ROWID;
 
-insertAuthor:
-INSERT OR IGNORE INTO author(email, name, website)
-VALUES (?, ?, ?);
+insertAuthor {
+  INSERT OR IGNORE INTO author(email, name, website)
+  VALUES (:email, :name, :website);
+
+  SELECT id FROM author
+  WHERE email = :email AND name = :name AND website = :website;
+}
 
 selectAuthorId:
 SELECT id FROM author
