@@ -1,0 +1,35 @@
+import com.looker.droidify.sync.v2.model.AntiFeatureReason;
+
+CREATE TABLE anti_feature (
+    icon TEXT,
+    name TEXT NOT NULL,
+    description TEXT,
+    locale TEXT NOT NULL,
+    tag TEXT NOT NULL,
+    PRIMARY KEY(tag, locale)
+) WITHOUT ROWID;
+
+CREATE TABLE anti_features_app_relation (
+    tag TEXT NOT NULL,
+    reason TEXT AS AntiFeatureReason NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, tag)
+) WITHOUT ROWID;
+
+CREATE TABLE anti_feature_repo_relation (
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    tag TEXT NOT NULL,
+    PRIMARY KEY(repoId, tag)
+) WITHOUT ROWID;
+
+insertAntiFeature:
+INSERT OR REPLACE INTO anti_feature(icon, name, description, locale, tag)
+VALUES (?, ?, ?, ?, ?);
+
+insertAntiFeatureAppRelation:
+INSERT OR IGNORE INTO anti_features_app_relation(tag, reason, versionId)
+VALUES (?, ?, ?);
+
+insertAntiFeatureRepoRelation:
+INSERT OR IGNORE INTO anti_feature_repo_relation(repoId, tag)
+VALUES (?, ?);

@@ -2,25 +2,19 @@ package com.looker.droidify.compose.appDetail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.looker.droidify.data.AppRepository
-import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.model.App
 import com.looker.droidify.data.model.Package
-import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.data.model.Repo
 import com.looker.droidify.datastore.CustomButtonRepository
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
-    private val appRepository: AppRepository,
-    private val repoRepository: RepoRepository,
     private val customButtonRepository: CustomButtonRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -32,26 +26,8 @@ class AppDetailViewModel @Inject constructor(
     val customButtons: StateFlow<List<CustomButton>> = customButtonRepository.buttons
         .asStateFlow(emptyList())
 
-    val state: StateFlow<AppDetailState> = appRepository
-        .getApp(PackageName(packageName))
-        .map { apps ->
-            when {
-                apps.isEmpty() -> AppDetailState.Error("No app found for $packageName")
-                else -> AppDetailState.Success(
-                    app = apps.first(),
-                    packages = apps.flatMap {
-                        val repo = repoRepository.getRepo(it.repoId.toInt())
-                        if (repo != null && it.packages != null) {
-                            it.packages.map { pkg -> pkg to repo }
-                        } else {
-                            emptyList()
-                        }
-                    }.sortedByDescending { (pkg, _) -> pkg.manifest.versionCode },
-                )
-            }
-        }
-        .onStart { emit(AppDetailState.Loading) }
-        .asStateFlow(AppDetailState.Loading)
+    // TODO(sqldelight): reimplement with SQLDelight-backed repository
+    val state: StateFlow<AppDetailState> = MutableStateFlow(AppDetailState.Loading)
 }
 
 sealed interface AppDetailState {

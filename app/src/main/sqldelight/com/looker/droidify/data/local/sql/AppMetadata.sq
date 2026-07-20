@@ -1,0 +1,71 @@
+import kotlin.Int;
+
+CREATE TABLE author (
+    email TEXT NOT NULL DEFAULT '',
+    name TEXT NOT NULL DEFAULT '',
+    website TEXT NOT NULL DEFAULT '',
+    id INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX index_author_email_name_website ON author(email, name, website);
+
+CREATE TABLE links (
+    license TEXT,
+    changelog TEXT,
+    issueTracker TEXT,
+    translation TEXT,
+    sourceCode TEXT,
+    webSite TEXT,
+    appId INTEGER NOT NULL PRIMARY KEY REFERENCES app(id) ON DELETE CASCADE
+);
+
+CREATE TABLE graphic (
+    url TEXT NOT NULL,
+    type INTEGER AS Int NOT NULL,
+    locale TEXT NOT NULL,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, locale, type)
+) WITHOUT ROWID;
+
+CREATE TABLE screenshot (
+    path TEXT NOT NULL,
+    type INTEGER AS Int NOT NULL,
+    locale TEXT NOT NULL,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, locale, type, path)
+) WITHOUT ROWID;
+
+CREATE TABLE donate (
+    type INTEGER AS Int NOT NULL,
+    value TEXT NOT NULL,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    PRIMARY KEY(appId, type, value)
+) WITHOUT ROWID;
+
+insertAuthor {
+  INSERT OR IGNORE INTO author(email, name, website)
+  VALUES (:email, :name, :website);
+
+  SELECT id FROM author
+  WHERE email = :email AND name = :name AND website = :website;
+}
+
+selectAuthorId:
+SELECT id FROM author
+WHERE email = ? AND name = ? AND website = ?;
+
+insertLinks:
+INSERT OR REPLACE INTO links(license, changelog, issueTracker, translation, sourceCode, webSite, appId)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertGraphic:
+INSERT OR REPLACE INTO graphic(url, type, locale, appId)
+VALUES (?, ?, ?, ?);
+
+insertScreenshot:
+INSERT OR IGNORE INTO screenshot(path, type, locale, appId)
+VALUES (?, ?, ?, ?);
+
+insertDonate:
+INSERT OR IGNORE INTO donate(type, value, appId)
+VALUES (?, ?, ?);

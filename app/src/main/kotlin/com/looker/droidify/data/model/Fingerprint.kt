@@ -26,13 +26,15 @@ value class Fingerprint(val value: String) {
     }
 }
 
+fun Fingerprint(blob: ByteArray) = Fingerprint(blob.hex())
+
 suspend inline fun JarEntry.fingerprint(): Fingerprint? = withContext(Dispatchers.IO) {
     codeSignerOrNull?.certificateOrNull?.fingerprint()
 }
 
 inline fun Certificate.fingerprint(): Fingerprint? {
     val bytes = this.encoded.takeIf { it.size >= 256 } ?: return null
-    return Fingerprint(sha256(bytes).hex().uppercase()).takeIf { it.isValid }
+    return Fingerprint(sha256(bytes).hex()).takeIf { it.isValid }
 }
 
 inline fun ByteArray.hex(): String = joinToString(separator = "") { byte ->

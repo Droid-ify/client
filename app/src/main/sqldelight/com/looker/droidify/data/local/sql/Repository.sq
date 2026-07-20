@@ -1,0 +1,79 @@
+import com.looker.droidify.data.encryption.Encrypted;
+import com.looker.droidify.data.model.Fingerprint;
+import kotlin.Boolean;
+
+CREATE TABLE repository (
+    address TEXT NOT NULL,
+    webBaseUrl TEXT,
+    fingerprint BLOB AS Fingerprint,
+    etag TEXT,
+    timestamp INTEGER,
+    enabled INTEGER AS Boolean NOT NULL DEFAULT 1,
+    id INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX index_repository_address ON repository(address);
+
+CREATE TABLE localized_repo (
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    locale TEXT NOT NULL,
+    name TEXT,
+    description TEXT,
+    iconName TEXT,
+    iconSha256 BLOB,
+    iconSize INTEGER,
+    PRIMARY KEY(repoId, locale),
+    CHECK (
+        name IS NOT NULL
+        OR description IS NOT NULL
+        OR iconName IS NOT NULL
+    )
+);
+
+CREATE TABLE mirror (
+    url TEXT NOT NULL,
+    countryCode TEXT,
+    isPrimary INTEGER AS Boolean NOT NULL,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    PRIMARY KEY(repoId, url)
+) WITHOUT ROWID;
+
+CREATE UNIQUE INDEX index_mirror_primary ON mirror(repoId) WHERE isPrimary = 1;
+
+CREATE TABLE authentication (
+    password TEXT AS Encrypted NOT NULL,
+    username TEXT NOT NULL,
+    initializationVector BLOB NOT NULL,
+    repoId INTEGER NOT NULL PRIMARY KEY REFERENCES repository(id) ON DELETE CASCADE
+);
+
+insertRepo:
+INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, enabled)
+VALUES (?, ?, ?, ?, ?, ?);
+
+updateRepoEnabled:
+UPDATE repository SET enabled = ? WHERE id = ?;
+
+updateRepoVersionInfo:
+UPDATE repository SET fingerprint = ?, etag = ?, timestamp = ? WHERE id = ?;
+
+deleteRepo:
+DELETE FROM repository WHERE id = ?;
+
+deleteMirrors:
+DELETE FROM mirror WHERE repoId = ?;
+
+lastInsertRowId:
+SELECT last_insert_rowid();
+
+insertLocalizedRepo:
+INSERT OR REPLACE INTO localized_repo(repoId, locale, name, description, iconName, iconSha256, iconSize)
+VALUES (?, ?, ?, ?, ?, ?, ?);
+
+insertMirror:
+INSERT OR REPLACE INTO mirror(url, countryCode, isPrimary, repoId)
+VALUES (?, ?, ?, ?);
+
+insertAuthentication:
+INSERT OR REPLACE INTO authentication(password, username, initializationVector, repoId)
+VALUES (?, ?, ?, ?);

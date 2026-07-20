@@ -1,0 +1,34 @@
+CREATE TABLE category (
+    icon TEXT,
+    name TEXT NOT NULL,
+    description TEXT,
+    locale TEXT NOT NULL,
+    defaultName TEXT NOT NULL,
+    PRIMARY KEY(defaultName, locale)
+) WITHOUT ROWID;
+
+CREATE TABLE category_app_relation (
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    defaultName TEXT NOT NULL,
+    PRIMARY KEY(appId, defaultName)
+) WITHOUT ROWID;
+
+CREATE INDEX index_category_app_relation_defaultName ON category_app_relation(defaultName);
+
+CREATE TABLE category_repo_relation (
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    defaultName TEXT NOT NULL,
+    PRIMARY KEY(repoId, defaultName)
+) WITHOUT ROWID;
+
+insertCategory:
+INSERT OR REPLACE INTO category(icon, name, description, locale, defaultName)
+VALUES (?, ?, ?, ?, ?);
+
+insertCategoryAppRelation:
+INSERT OR IGNORE INTO category_app_relation(appId, defaultName)
+VALUES (?, ?);
+
+insertCategoryRepoRelation:
+INSERT OR IGNORE INTO category_repo_relation(repoId, defaultName)
+VALUES (?, ?);

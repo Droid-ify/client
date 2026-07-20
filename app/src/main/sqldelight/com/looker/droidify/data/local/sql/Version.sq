@@ -1,0 +1,63 @@
+import com.looker.droidify.sync.v2.model.LocalizedString;
+import kotlin.Int;
+
+CREATE TABLE version (
+    added INTEGER NOT NULL,
+    whatsNew TEXT AS LocalizedString NOT NULL,
+    versionName TEXT NOT NULL,
+    versionCode INTEGER NOT NULL,
+    maxSdkVersion INTEGER AS Int,
+    minSdkVersion INTEGER AS Int NOT NULL,
+    targetSdkVersion INTEGER AS Int NOT NULL,
+    apkName TEXT NOT NULL,
+    apkSha256 BLOB NOT NULL,
+    apkSize INTEGER NOT NULL,
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    id INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX index_version_appId_apkSha256 ON version(appId, apkSha256);
+CREATE INDEX index_version_appId ON version(appId);
+
+CREATE TABLE permission (
+    name TEXT NOT NULL,
+    maxSdkVersion INTEGER AS Int,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, name)
+) WITHOUT ROWID;
+
+CREATE TABLE feature (
+    name TEXT NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, name)
+) WITHOUT ROWID;
+
+CREATE TABLE native_code (
+    abi TEXT NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, abi)
+) WITHOUT ROWID;
+
+insertVersion {
+  INSERT OR IGNORE INTO version(added, whatsNew, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
+  VALUES (:added, :whatsNew, :versionName, :versionCode, :maxSdkVersion, :minSdkVersion, :targetSdkVersion, :apkName, :apkSha256, :apkSize, :appId);
+
+  SELECT id FROM version
+  WHERE appId = :appId AND apkSha256 = :apkSha256;
+}
+
+selectVersionId:
+SELECT id FROM version
+WHERE appId = ? AND apkSha256 = ?;
+
+insertPermission:
+INSERT OR IGNORE INTO permission(name, maxSdkVersion, versionId)
+VALUES (?, ?, ?);
+
+insertFeature:
+INSERT OR IGNORE INTO feature(name, versionId)
+VALUES (?, ?);
+
+insertNativeCode:
+INSERT OR IGNORE INTO native_code(abi, versionId)
+VALUES (?, ?);

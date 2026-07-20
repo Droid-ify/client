@@ -1,0 +1,47 @@
+CREATE TABLE app (
+    added INTEGER NOT NULL,
+    lastUpdated INTEGER NOT NULL,
+    preferredSigner BLOB,
+    packageName TEXT NOT NULL,
+    authorId INTEGER NOT NULL REFERENCES author(id) ON DELETE RESTRICT,
+    repoId INTEGER NOT NULL REFERENCES repository(id) ON DELETE CASCADE,
+    id INTEGER NOT NULL PRIMARY KEY
+);
+
+CREATE UNIQUE INDEX index_app_packageName_repoId ON app(packageName, repoId);
+CREATE INDEX index_app_repoId ON app(repoId);
+CREATE INDEX index_app_authorId ON app(authorId);
+
+CREATE TABLE localized_app (
+    appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
+    locale TEXT NOT NULL,
+    name TEXT,
+    summary TEXT,
+    iconName TEXT,
+    iconSha256 BLOB,
+    iconSize INTEGER,
+    description TEXT,
+    PRIMARY KEY(appId, locale),
+    CHECK (
+        name IS NOT NULL
+        OR summary IS NOT NULL
+        OR iconName IS NOT NULL
+        OR description IS NOT NULL
+    )
+);
+
+insertApp {
+  INSERT OR IGNORE INTO app(added, lastUpdated, preferredSigner, packageName, authorId, repoId)
+  VALUES (:added, :lastUpdated, :preferredSigner, :packageName, :authorId, :repoId);
+
+  SELECT id FROM app
+  WHERE packageName = :packageName AND repoId = :repoId;
+}
+
+selectAppId:
+SELECT id FROM app
+WHERE packageName = ? AND repoId = ?;
+
+insertLocalizedApp:
+INSERT OR REPLACE INTO localized_app(appId, locale, name, summary, iconName, iconSha256, iconSize, description)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);

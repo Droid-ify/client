@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.compose)
+    alias(libs.plugins.sqldelight)
 }
 
 android {
@@ -93,9 +94,17 @@ android {
     }
 }
 
-ksp {
-    arg("room.schemaLocation", "$projectDir/schemas")
-    arg("room.generateKotlin", "true")
+sqldelight {
+    databases {
+        create("DroidifyDb") {
+            packageName.set("com.looker.droidify.data.local.sql")
+            // Lowest dialect SQLDelight offers; still newer than minSdk 23's
+            // SQLite 3.8.10, so avoid post-3.8 syntax (UPSERT, row values, ...).
+            dialect(libs.sqldelight.dialect.sqlite318)
+            schemaOutputDirectory.set(file("src/main/sqldelight/databases"))
+            verifyMigrations.set(true)
+        }
+    }
 }
 
 kotlin {
@@ -139,8 +148,7 @@ dependencies {
     implementation(libs.serialization)
 
     implementation(libs.okhttp)
-    implementation(libs.bundles.room)
-    ksp(libs.room.compiler)
+    implementation(libs.bundles.sqldelight)
 
     implementation(libs.work.ktx)
 
@@ -157,19 +165,18 @@ dependencies {
 
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.bundles.test.unit)
-    testImplementation(libs.room.test)
     testImplementation(libs.robolectric)
     testImplementation(libs.arch.core.testing)
     testImplementation(libs.test.core)
     testImplementation(libs.test.core.ktx)
     testImplementation(libs.mockk)
+    testImplementation(libs.sqldelight.sqlite.driver)
     testImplementation(libs.turbine)
     testImplementation(libs.hilt.test)
     testRuntimeOnly(libs.junit.platform)
     testRuntimeOnly(libs.junit.vintage.engine)
     kspTest(libs.hilt.compiler)
     androidTestImplementation(libs.hilt.test)
-    androidTestImplementation(libs.room.test)
     androidTestImplementation(libs.bundles.test.android)
     kspAndroidTest(libs.hilt.compiler)
 
