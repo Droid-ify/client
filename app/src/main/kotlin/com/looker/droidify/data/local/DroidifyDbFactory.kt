@@ -17,6 +17,25 @@ import com.looker.droidify.data.model.Fingerprint
 import com.looker.droidify.sync.JsonParser
 import com.looker.droidify.sync.v2.model.LocalizedString
 
+fun droidifyDb(driver: SqlDriver): DroidifyDb = DroidifyDb(
+    driver = driver,
+    anti_features_app_relationAdapter = Anti_features_app_relation.Adapter(
+        reasonAdapter = localizedStringAdapter,
+    ),
+    authenticationAdapter = Authentication.Adapter(passwordAdapter = encryptedAdapter),
+    donateAdapter = Donate.Adapter(typeAdapter = IntColumnAdapter),
+    graphicAdapter = Graphic.Adapter(typeAdapter = IntColumnAdapter),
+    permissionAdapter = Permission.Adapter(maxSdkVersionAdapter = IntColumnAdapter),
+    repositoryAdapter = Repository.Adapter(fingerprintAdapter = fingerprintAdapter),
+    screenshotAdapter = Screenshot.Adapter(typeAdapter = IntColumnAdapter),
+    versionAdapter = Version.Adapter(
+        whatsNewAdapter = localizedStringAdapter,
+        maxSdkVersionAdapter = IntColumnAdapter,
+        minSdkVersionAdapter = IntColumnAdapter,
+        targetSdkVersionAdapter = IntColumnAdapter,
+    ),
+)
+
 private val localizedStringAdapter = object : ColumnAdapter<LocalizedString, String> {
     override fun decode(databaseValue: String): LocalizedString =
         JsonParser.decodeFromString(databaseValue)
@@ -37,22 +56,3 @@ private val encryptedAdapter = object : ColumnAdapter<Encrypted, String> {
 
     override fun encode(value: Encrypted): String = value.value
 }
-
-fun droidifyDb(driver: SqlDriver): DroidifyDb = DroidifyDb(
-    driver = driver,
-    anti_features_app_relationAdapter = Anti_features_app_relation.Adapter(
-        reasonAdapter = localizedStringAdapter,
-    ),
-    authenticationAdapter = Authentication.Adapter(passwordAdapter = encryptedAdapter),
-    donateAdapter = Donate.Adapter(typeAdapter = IntColumnAdapter),
-    graphicAdapter = Graphic.Adapter(typeAdapter = IntColumnAdapter),
-    permissionAdapter = Permission.Adapter(maxSdkVersionAdapter = IntColumnAdapter),
-    repositoryAdapter = Repository.Adapter(fingerprintAdapter = fingerprintAdapter),
-    screenshotAdapter = Screenshot.Adapter(typeAdapter = IntColumnAdapter),
-    versionAdapter = Version.Adapter(
-        whatsNewAdapter = localizedStringAdapter,
-        maxSdkVersionAdapter = IntColumnAdapter,
-        minSdkVersionAdapter = IntColumnAdapter,
-        targetSdkVersionAdapter = IntColumnAdapter,
-    ),
-)
