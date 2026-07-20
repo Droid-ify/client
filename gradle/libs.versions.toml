@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.0"
 material = "1.13.0"
 activity = "1.12.4"
 app-compat = "1.7.1"
