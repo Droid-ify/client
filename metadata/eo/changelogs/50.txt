@@ -1,0 +1,50 @@
+- La apo bezonas reinstaladon (Ĉi tio estas tute mia kulpo, mi pardonpetas)
+- Android 13 estas nun subtenata
+- Aldonado de tajlorebla bildeto por Android 13
+- Korekto de iuj animacioj kaj interfacaj ŝanĝoj
+- Korekto de vakigado de kaŝmemoro
+- Korekto de koloro de navigacia breto
+- Anstataŭigo: "Haveblaj" -> "Esplori"
+- Aldonado de "Fontkodo" al sekcio `Ligiloj`
+- Korekto de administrila kaj Shizuku-bazita instaliloj (Instalilo Shizuku estas tre difekta nun)
+- Korekto de hazarda kraŝo dum reveno al aplikaĵo
+- Forigado de deponejo Alefvanoon
+- Korekto de duobla peto por instalado
+- Kapo de aplikaĵo informos, se la apo bezonas ĝisdatigon
+- Aldonado de butono "Rulumi al supro"
+- Aldonitaj lingvoj:
+      la bengala
+      la galega
+      la hebrea
+      la japana
+      la kataluna
+      la kroata
+      la litova
+      la odia
+      la sveda
+- Ĝisdatigitaj lingvoj:
+      la araba
+      la bulgara
+      la ĉeĥa
+      la ĉina (simpligita)
+      la ĉina (tradicia)
+      la finna
+      la franca
+      la galega
+      la germana
+      la greka
+      la hindia
+      la hispana
+      la hungara
+      la itala
+      la norvega libra (Bokmål)
+      la persa
+      la pola
+      la portugala
+      la portugala (brazila)
+      la rusa
+      la tagaloga
+      la turka
+      la ukraina
+- Ĝisdatigo de dependaĵoj
+- Purigado de iu kodo

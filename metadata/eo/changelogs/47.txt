@@ -1,0 +1,12 @@
+- Aldonado de instalilo Shizuku
+- Pliigado de minimuma versio de Android al Android 6
+- Korekto de operacio "Montri malpli" (#15)
+- Asimilado de dato-formato (#24)
+- Forigado de deponejo UnifiedPush (#23)
+- Nova kapo por aplikaĵaj informoj
+- Supra breto estas rondigita
+- Sciigoj malfermos la paĝon de apo
+- Malpeza elŝutilo
+- Malfarado de kaŝmemoro por konservi datumojn
+- Forigado de "ekde-randa-ĝis-randa" montrado (#27)
+- Iuj etaj plibonigoj

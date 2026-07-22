@@ -1,0 +1,5 @@
+- Nova interna interfaco por agordoj (Viaj malnovaj agordoj estos forigitaj)
+- Aldonado de agordo por daŭro de vakigado
+- Korekto de malplenaj ekrankopioj
+- Korekto de kraŝo sur malsupro de la ekrano
+- Korekto de sciigo `Instalita`
