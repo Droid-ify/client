@@ -1,0 +1,50 @@
+- Aplicația trebuie reinstalată (Asta este numai vina mea, scuze)
+- Android 13 este acum suportat
+- S-a adăugat pictogramă themed pentru Android 13
+- S-au remediat câteva animații și alte modificări legate de UI/UX
+- S-a remediat curățarea cache-ului
+- S-a remediat culoarea barei de navigare
+- S-a redenumit fila "Disponibile" la "Explorați"
+- S-a adăugat "Cod sursă" în secțiunea`Linkuri`
+- S-a remediat instalatorul prin Root/Shizuku (instalatorul prin Shizuku are multe probleme acum)
+- S-a remediat un crash aleatoriu la întoarcerea în aplicație
+- S-a eliminat depozitul Alefvanoon
+- S-a remediat solicitarea dublă pentru instalare
+- Antetul aplicației va evidenția dacă aplicația trebuie actualizată
+- S-a adăugat butonul "Derulează sus"
+- Limbi adăugate:
+      Bengaleză
+      Catalană
+      Croată
+      Galiciană
+      Ebraică
+      Japoneză
+      Lituaniană
+      Odia
+      Suedeză
+- Limbi actualizate:
+      Arabă
+      Bulgară
+      Chineză (simplificată)
+      Chineză (tradițională)
+      Cehă
+      Finlandeză
+      Franceză
+      Galiciană
+      Germană
+      Greacă
+      Hindi
+      Maghiară
+      Italiană
+      Norvegiană bokmală
+      Persană
+      Poloneză
+      Portugheză
+      Portugheză (Brazilia)
+      Rusă
+      Spaniolă
+      Tagalog
+      Turcă
+      Ucraineană
+- S-au actualizat dependențele
+- S-a curățat codul

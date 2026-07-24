@@ -1,0 +1,6 @@
+Opravy:
+
+- Pád aplikace na některých zařízeních s orientací na šířku
+- Nesynchronizace repozitáře IronFox
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.4

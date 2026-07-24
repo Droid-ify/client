@@ -104,7 +104,7 @@
     <string name="username">Потребителско име</string>
     <string name="version">Версия</string>
     <string name="versions">Версии</string>
-    <string name="waiting_to_start_download">В очакване да започне изтеглянето…</string>
+    <string name="waiting_to_start_download">Изтеглянето е на опашката…</string>
     <string name="whats_new">Какво е ново</string>
     <string name="show_less">Покажи по-малко</string>
     <string name="update_all">Инсталирай всички</string>
@@ -184,7 +184,7 @@
     <string name="auto_update">Автоматично актуализиране на приложения</string>
     <string name="installing">Инсталиране</string>
     <string name="auto_update_apps">Автоматично инсталиране на актуализации</string>
-    <string name="waiting_to_start_installation">Изчакване за стартиране на инсталацията…</string>
+    <string name="waiting_to_start_installation">Инсталацията е на опашката…</string>
     <string name="favourites">Любими</string>
     <string name="enable_repo">Активиране на хранилище</string>
     <string name="force_clean_up">Принудително почистване</string>
@@ -275,4 +275,14 @@
     <string name="custom_buttons_export">Бутони за изнасяне</string>
     <string name="custom_buttons_import">Бутони за внасяне</string>
     <string name="custom_buttons_imported">Внасяне на персонализирани бутони</string>
+    <string name="proxy_restart_required">Необходимо е рестартиране, за да влязат промените в сила.</string>
+    <string name="tap_to_resume_updates">Отворете приложението, за да възобновите актуализациите</string>
+    <string name="rb_badge_verified">Проверена възпроизводима компилация</string>
+    <string name="rb_badge_non_reproducible">Невъзпроизводима компилация</string>
+    <string name="rb_badge_unknown">Неизвестно състояние</string>
+    <string name="rb_badge_no_data">Липсват данни за възпроизводима компилация</string>
+    <string name="rb_what_is">Какво представляват възпроизводимите компилации?</string>
+    <string name="download_statistics_summary">Извличане и показване на месечните данни за броя изтегляния от IzzyOnDroid. Деактивирането изчиства съществуващите статистически данни за изтеглянията.</string>
+    <string name="reproducibility_logs">Регистри за възпроизводимост</string>
+    <string name="reproducibility_logs_summary">Извличане и показване на възпроизводими регистри за проверка на компилации от IzzyOnDroid. Деактивирането изчиства съществуващите регистри за възпроизводимост.</string>
 </resources>

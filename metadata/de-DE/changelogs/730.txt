@@ -1,0 +1,14 @@
+Hinzugefügt:
+
+- [BREAKING] Zufällige Auswahl von RB-Protokollen: https://github.com/Droid-ify/client/issues/1354
+- Verbessertes RB-Popup
+
+Korrekturen:
+
+- Shizuku verliert Berechtigung
+- Hintergrunddienst stürzt nach Zeitüberschreitung ab
+- Schalter „Diese Version ignorieren“ funktioniert nicht wie erwartet
+- Bildlauf und Anzeigerichtung von Screenshots in RTL
+- Korrekturen an der Benutzeroberfläche und Abstürze
+
+Vollständiges Änderungsprotokoll: https://github.com/Droid-ify/client/releases/tag/v0.7.3

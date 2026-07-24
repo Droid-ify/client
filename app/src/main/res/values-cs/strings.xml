@@ -148,7 +148,7 @@
     <string name="version">Verze</string>
     <string name="version_FORMAT">Verze %s</string>
     <string name="versions">Verze</string>
-    <string name="waiting_to_start_download">Čekám na zahájení stahování…</string>
+    <string name="waiting_to_start_download">Stahování ve frontě…</string>
     <string name="whats_new">Co je nového</string>
     <string name="website">Web projektu</string>
     <string name="prefs_language_title">Jazyk</string>
@@ -189,7 +189,7 @@
     <string name="force_clean_up">Vynutit vyčištění</string>
     <string name="repository_unreachable">Repozitář nedostupný</string>
     <string name="enable_repo">Povolit repozitář</string>
-    <string name="waiting_to_start_installation">Čekání na spuštění instalace…</string>
+    <string name="waiting_to_start_installation">Instalace ve frontě…</string>
     <string name="installing">Instalace</string>
     <string name="auto_update">Automaticky aktualizovat aplikace</string>
     <string name="auto_update_apps">Automaticky instalovat aktualizace</string>
@@ -278,4 +278,14 @@
     <string name="custom_buttons_import">Importovat tlačítka</string>
     <string name="custom_buttons_imported">Vlastní tlačítka importována</string>
     <string name="copied_to_clipboard">Zkopírováno</string>
+    <string name="proxy_restart_required">Pro použití změn je vyžadován restart.</string>
+    <string name="tap_to_resume_updates">Otevřete aplikaci pro pokračování v aktualizacích</string>
+    <string name="rb_badge_verified">Ověřené reprodukovatelné sestavení</string>
+    <string name="rb_badge_non_reproducible">Nereprodukovatelné sestavení</string>
+    <string name="rb_badge_unknown">Neznámý stav</string>
+    <string name="rb_badge_no_data">Žádná data o reprodukovatelném sestavení</string>
+    <string name="rb_what_is">Co jsou reprodukovatelná sestavení?</string>
+    <string name="download_statistics_summary">Načítat a zobrazovat měsíční počty stažení z IzzyOnDroid. Zakázání vymaže existující statistiky.</string>
+    <string name="reproducibility_logs">Protokoly o reprodukovatelnosti</string>
+    <string name="reproducibility_logs_summary">Načítat a zobrazovat protokoly o ověření reprodukovatelnosti z IzzyOnDroid. Zakázání vymaže existující protokoly.</string>
 </resources>

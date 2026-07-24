@@ -1,0 +1,6 @@
+- Pli da fasonado laŭ Material Design 3
+- Korekto: Administranta kaj defaŭlta instalilo
+- Korekto: Forigado de kaŝmemora dosiero post malinstalo
+- Korekto: Kraŝo dum premado de elŝut-butono dum senreta
+- Ĝisdatigi tradukoj por pli ol 17 lingvoj
+- Multaj etaj korektoj kaj alĝustigoj…

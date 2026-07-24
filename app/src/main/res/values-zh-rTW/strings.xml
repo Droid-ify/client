@@ -160,7 +160,7 @@
     <string name="version">版本</string>
     <string name="version_FORMAT">版本 %s</string>
     <string name="versions">版本</string>
-    <string name="waiting_to_start_download">等待開始下載……</string>
+    <string name="waiting_to_start_download">下載已排入佇列……</string>
     <string name="whats_new">最近上架</string>
     <string name="website">專案網站</string>
     <string name="prefs_language_title">語言</string>
@@ -186,7 +186,7 @@
     <string name="auto_update">自動更新程式</string>
     <string name="auto_update_apps">自動安裝更新</string>
     <string name="installing">安裝</string>
-    <string name="waiting_to_start_installation">等待開始安裝…</string>
+    <string name="waiting_to_start_installation">安裝已排入佇列…</string>
     <string name="has_non_free_components">具有非自由元件</string>
     <string name="connection_error_DESC">無法連線至伺服器</string>
     <string name="socket_error_DESC">伺服器未能提供新封包</string>
@@ -248,7 +248,7 @@
     <string name="total">總計</string>
     <string name="by_client">按客戶端</string>
     <string name="monthly">每月</string>
-    <string name="downloading_rb_logs">下載可復現性日誌</string>
+    <string name="downloading_rb_logs">正在下載可復現性日誌</string>
     <string name="downloading_download_stats">正在下載下載量統計</string>
     <string name="requires_authentication">需要身份驗證？</string>
     <string name="force_sync_repositories">強制同步軟體庫</string>
@@ -272,4 +272,14 @@
     <string name="custom_buttons_export">匯出按鈕</string>
     <string name="custom_buttons_import">匯入按鈕</string>
     <string name="custom_buttons_imported">自訂按鈕已匯入</string>
+    <string name="proxy_restart_required">需要重新啟動才能使變更生效。</string>
+    <string name="tap_to_resume_updates">開啟應用程式以繼續更新</string>
+    <string name="rb_badge_verified">已驗證的可復現建置</string>
+    <string name="rb_badge_non_reproducible">不可復現的建置</string>
+    <string name="rb_badge_unknown">未知狀態</string>
+    <string name="rb_badge_no_data">沒有可復現的建置資料</string>
+    <string name="rb_what_is">什麼是可復現建置？</string>
+    <string name="download_statistics_summary">從 IzzyOnDroid 取得並顯示每月下載次數。停用後會清除現有下載的統計資料。</string>
+    <string name="reproducibility_logs">可復現性日誌</string>
+    <string name="reproducibility_logs_summary">從 IzzyOnDroid 取得並顯示可復現建置驗證記錄。停用後會清除現有的可復現性記錄。</string>
 </resources>
