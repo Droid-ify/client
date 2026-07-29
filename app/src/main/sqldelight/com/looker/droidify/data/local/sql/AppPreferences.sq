@@ -1,0 +1,17 @@
+import kotlin.Boolean;
+
+CREATE TABLE preferences (
+    preferredRepoId INTEGER REFERENCES repository(id) ON DELETE SET NULL,
+    -- NULL -> NOTHING
+    -- -1 -> IGNORE ALL
+    -- Number -> IGNORE <Number>
+    ignoreUpdate INTEGER,
+    favorite INTEGER AS Boolean NOT NULL DEFAULT 0,
+    packageName TEXT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE installed (
+    versionCode INTEGER NOT NULL,
+    signature BLOB NOT NULL,
+    packageName TEXT NOT NULL PRIMARY KEY
+);
