@@ -82,7 +82,7 @@
         <item quantity="one">hour</item>
         <item quantity="other">hours</item>
     </plurals>
-    <string name="http_error_DESC">Invalid server response</string>
+    <string name="http_error_DESC">Invalid server response: %s</string>
     <string name="socket_error_DESC">Server failed to provide new packet</string>
     <string name="connection_error_DESC">Couldn\'t connect to server</string>
     <string name="http_proxy">HTTP proxy</string>
