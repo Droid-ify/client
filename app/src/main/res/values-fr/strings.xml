@@ -108,7 +108,7 @@
     <string name="link_copied_to_clipboard">Lien copié</string>
     <string name="incompatible_version">Version incompatible</string>
     <string name="has_advertising">Contient des pubs</string>
-    <string name="http_error_DESC">Réponse du serveur non valide</string>
+    <string name="http_error_DESC">Réponse du serveur non valide : %s</string>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="incompatible_features_DESC">Fonctionnalités manquantes</string>
     <string name="incompatible_older_DESC">Cette version est plus ancienne que celle installée sur votre appareil</string>
