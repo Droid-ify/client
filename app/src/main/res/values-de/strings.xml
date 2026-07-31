@@ -31,7 +31,7 @@
     <string name="fingerprint">Fingerabdruck</string>
     <string name="has_advertising">Enthält Werbung</string>
     <string name="has_security_vulnerabilities">Enthält bekannte Sicherheitslücken</string>
-    <string name="http_error_DESC">Ungültige Antwort des Servers</string>
+    <string name="http_error_DESC">Ungültige Antwort des Servers: %s</string>
     <string name="http_proxy">HTTP-Proxy</string>
     <string name="incompatible_api_max_DESC_FORMAT">Die maximale API-Version ist %d</string>
     <string name="incompatible_features_DESC">Fehlende Funktionen</string>
