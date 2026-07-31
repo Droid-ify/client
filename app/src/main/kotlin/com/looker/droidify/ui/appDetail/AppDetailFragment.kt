@@ -262,7 +262,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     when (incompatibility) {
                         is Release.Incompatibility.MinSdk,
                         is Release.Incompatibility.MaxSdk,
-                        -> getString(
+                            -> getString(
                             stringRes.incompatible_with_FORMAT,
                             name,
                         )
@@ -401,7 +401,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         when (action) {
             AppDetailAdapter.Action.INSTALL,
             AppDetailAdapter.Action.UPDATE,
-            -> {
+                -> {
                 if (Cache.getEmptySpace(requireContext()) < products.first().first.releases.first().size) {
                     MessageDialog(Message.InsufficientStorage).show(childFragmentManager)
                     return
@@ -515,10 +515,11 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     override fun onScreenshotClick(position: Int) {
         if (imageViewer == null) {
             val productRepository = products.findSuggested(installed?.installedItem) ?: return
-            val isRTL = context!!.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
-            val screenshots = productRepository.first.screenshots.filterNot { it.type == Product.Screenshot.Type.VIDEO }.run {
-                if (isRTL) reversed() else this
-            }
+            val isRTL = requireContext().resources.configuration.layoutDirection ==
+                View.LAYOUT_DIRECTION_RTL
+            val screenshots = productRepository.first.screenshots
+                .filterNot { it.type == Product.Screenshot.Type.VIDEO }
+                .run { if (isRTL) reversed() else this }
             imageViewer = StfalconImageViewer
                 .Builder(context, screenshots) { view, current ->
                     val screenshotUrl = current.url(

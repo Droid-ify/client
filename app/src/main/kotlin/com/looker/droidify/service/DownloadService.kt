@@ -472,13 +472,14 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 is NetworkResponse.Error -> {
                     updateCurrentState(State.Error(task.packageName))
                     val description = when (response) {
-                        is NetworkResponse.Error.ConnectionTimeout -> connection_error_DESC
-                        is NetworkResponse.Error.Http -> http_error_DESC
-                        is NetworkResponse.Error.IO -> io_error_DESC
-                        is NetworkResponse.Error.SocketTimeout -> socket_error_DESC
-                        is NetworkResponse.Error.Unknown -> unknown_error_DESC
+                        is NetworkResponse.Error.ConnectionTimeout -> getString(connection_error_DESC)
+                        is NetworkResponse.Error.Http ->
+                            getString(http_error_DESC, "HTTP ${response.statusCode}")
+                        is NetworkResponse.Error.IO -> getString(io_error_DESC)
+                        is NetworkResponse.Error.SocketTimeout -> getString(socket_error_DESC)
+                        is NetworkResponse.Error.Unknown -> getString(unknown_error_DESC)
                     }
-                    showErrorNotification(task, could_not_download_FORMAT, getString(description))
+                    showErrorNotification(task, could_not_download_FORMAT, description)
                 }
             }
         } finally {

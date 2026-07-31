@@ -55,7 +55,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
@@ -329,14 +328,16 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     private fun showNotificationError(repository: Repository, exception: Exception) {
         val errorTypeDesc = when (exception) {
-            is RepositoryUpdater.UpdateException -> getString(
-                when (exception.errorType) {
-                    RepositoryUpdater.ErrorType.NETWORK -> stringRes.network_error_DESC
-                    RepositoryUpdater.ErrorType.HTTP -> stringRes.http_error_DESC
-                    RepositoryUpdater.ErrorType.VALIDATION -> stringRes.validation_index_error_DESC
-                    RepositoryUpdater.ErrorType.PARSING -> stringRes.parsing_index_error_DESC
-                },
-            )
+            is RepositoryUpdater.UpdateException -> when (exception.errorType) {
+                RepositoryUpdater.ErrorType.NETWORK -> getString(stringRes.network_error_DESC)
+                RepositoryUpdater.ErrorType.HTTP -> getString(
+                    stringRes.http_error_DESC,
+                    exception.message.orEmpty(),
+                )
+
+                RepositoryUpdater.ErrorType.VALIDATION -> getString(stringRes.validation_index_error_DESC)
+                RepositoryUpdater.ErrorType.PARSING -> getString(stringRes.parsing_index_error_DESC)
+            }
 
             else -> getString(stringRes.unknown_error_DESC)
         }
