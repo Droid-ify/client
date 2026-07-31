@@ -53,7 +53,7 @@
     <string name="has_advertising">Obsahuje reklamy</string>
     <string name="has_non_free_dependencies">Závisí na jiných nesvobodných aplikacích</string>
     <string name="has_security_vulnerabilities">Má známé zranitelnosti v zabezpečení</string>
-    <string name="http_error_DESC">Neplatná odpověď serveru</string>
+    <string name="http_error_DESC">Neplatná odpověď serveru: %s</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Ignorovat nové verze</string>
     <string name="ignore_this_update">Ignorovat tuto verzi</string>
