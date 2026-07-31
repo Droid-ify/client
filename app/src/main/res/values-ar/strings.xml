@@ -52,7 +52,7 @@
     <string name="has_advertising">يحتوي على إعلانات</string>
     <string name="has_non_free_dependencies">يحتوي على تبعيات غير حرة</string>
     <string name="has_security_vulnerabilities">يحتوي على ثغرات أمنية</string>
-    <string name="http_error_DESC">استجابة الخادم غير صحيحة</string>
+    <string name="http_error_DESC">استجابة الخادم غير صحيحة: %s</string>
     <string name="ignore_all_updates">تجاهل الإصدارات الجديدة</string>
     <string name="ignore_this_update">تجاهل هذا الإصدار</string>
     <string name="incompatible_api_DESC_FORMAT">%1$s (إصدار API %2$d) غير مدعوم. %3$s</string>
