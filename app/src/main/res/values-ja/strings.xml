@@ -50,7 +50,7 @@
     <plurals name="hours">
         <item quantity="other">時間</item>
     </plurals>
-    <string name="http_error_DESC">サーバーの応答が無効です</string>
+    <string name="http_error_DESC">サーバーの応答が無効です: %s</string>
     <string name="http_proxy">HTTP プロキシ</string>
     <string name="ignore_all_updates">新しいバージョンを無視</string>
     <string name="ignore_this_update">このバージョンを無視</string>
