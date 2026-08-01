@@ -41,7 +41,7 @@
     <string name="file_format_error_DESC">Недійсний формат файлу</string>
     <string name="has_advertising">Містить рекламу</string>
     <string name="has_non_free_dependencies">Залежить від інших платних програм</string>
-    <string name="http_error_DESC">Недійсна відповідь сервера</string>
+    <string name="http_error_DESC">Недійсна відповідь сервера: %s</string>
     <string name="http_proxy">HTTP проксі</string>
     <string name="ignore_all_updates">Ігнорувати нові версії</string>
     <string name="ignore_this_update">Ігнорувати цю версію</string>
