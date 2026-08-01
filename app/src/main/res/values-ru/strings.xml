@@ -43,7 +43,7 @@
     <string name="has_advertising">Содержит рекламу</string>
     <string name="has_non_free_dependencies">Зависит от других несвободных приложений</string>
     <string name="has_security_vulnerabilities">Имеет известные уязвимости безопасности</string>
-    <string name="http_error_DESC">Некорректный ответ сервера</string>
+    <string name="http_error_DESC">Неправильный ответ сервера: %s</string>
     <string name="http_proxy">HTTP-прокси</string>
     <string name="ignore_all_updates">Игнорировать новые версии</string>
     <string name="ignore_this_update">Игнорировать эту версию</string>
