@@ -1,0 +1,2 @@
+- S-a remediat transformarea ciudată a pictogramei #83
+- S-a remediat un crash atunci când depozitele furnizează un index corupt #77

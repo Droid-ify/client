@@ -1,4 +1,5 @@
 Features:
+
 • Apps aus F-Droid-Paketquellen durchsuchen und installieren
 • Automatische App-Updates im Hintergrund 
 • Zahlreiche Installationsmethoden (Session, Root, Shizuku)

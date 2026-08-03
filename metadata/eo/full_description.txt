@@ -1,0 +1,11 @@
+Funkcioj:
+
+• Foliumado kaj instalado de aplikaĵoj de deponejoj F-Droid
+• Aŭtomata fona ĝisdatigo de aplikaĵoj
+• Multaj metodoj por instalado (Session, administranto, Shizuku)
+• Aldonado de propraj deponejoj per unu frapeto
+• Funkcias tute senrete post komenca sinkronigado
+
+Disponebla en 63 lingvoj, inkluzive la angla, la germana, la franca, la hispana kaj la ĉina.
+
+Rajtocedita libera programo, licencita per permesilo GPLv3+.

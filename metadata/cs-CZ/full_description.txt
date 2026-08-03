@@ -1,4 +1,5 @@
 Funkce:
+
 • Procházejte a instalujte aplikace z repozitářů F-Droid
 • Automatické aktualizace aplikací na pozadí
 • Několik způsobů instalace (relace, root, Shizuku)
