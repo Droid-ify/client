@@ -65,7 +65,7 @@
     <string name="fingerprint">指紋</string>
     <string name="has_advertising">包含廣告</string>
     <string name="has_security_vulnerabilities">包含已知安全漏洞</string>
-    <string name="http_error_DESC">伺服器回應無效</string>
+    <string name="http_error_DESC">伺服器回應無效： %s</string>
     <string name="has_non_free_dependencies">包含非自由依賴</string>
     <string name="http_proxy">HTTP 代理</string>
     <string name="ignore_all_updates">忽略新版本</string>
