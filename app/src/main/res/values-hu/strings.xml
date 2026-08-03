@@ -156,7 +156,7 @@
     <string name="incompatible_older_DESC">Ez a verzió régebbi mint az eszközre telepített</string>
     <string name="incompatible_platforms_DESC_FORMAT">Az architektúra nem támogatott: %1$s. Támogatott architektúrák: %2$s</string>
     <string name="saving_details">Részletek mentése…</string>
-    <string name="waiting_to_start_download">Várakozás a letöltés elindítására…</string>
+    <string name="waiting_to_start_download">Letöltés sorban áll…</string>
     <string name="incompatible_signature_DESC">Ez a verzió a jelenleg az eszközére telepített verziójától eltérő aláírással rendelkezik</string>
     <string name="processing_FORMAT">%1$s feldolgozása…</string>
     <string name="syncing_FORMAT">%s szinkronizálása…</string>
@@ -181,7 +181,7 @@
     <string name="io_error_DESC">Bizonyos műveleteket nem lehet végrehajtani</string>
     <string name="auto_update_apps">Telepítse automatikusan a frissítéseket</string>
     <string name="installing">Telepítés alatt</string>
-    <string name="waiting_to_start_installation">Várakozás a telepítés megkezdésére …</string>
+    <string name="waiting_to_start_installation">Telepítés várakozik…</string>
     <string name="favourites">Kedvencek</string>
     <string name="force_clean_up_DESC">Eltakarítja a fölösleges fájlokat</string>
     <string name="force_clean_up">Kényszerített takarítás</string>
@@ -275,4 +275,14 @@
     <string name="custom_buttons_import">Gombok importálása</string>
     <string name="custom_buttons_imported">Egyéni gombok importálva</string>
     <string name="copied_to_clipboard">Másolva</string>
+    <string name="proxy_restart_required">A módosítások érvényesítéséhez újraindítás szükséges.</string>
+    <string name="tap_to_resume_updates">Koppintson a frissítések folytatásához</string>
+    <string name="rb_badge_verified">Ellenőrzött reprodukálható összeállítás</string>
+    <string name="rb_badge_non_reproducible">Nem reprodukálható összeállítás</string>
+    <string name="rb_badge_unknown">Ismeretlen állapot</string>
+    <string name="rb_badge_no_data">Nincsenek reprodukálható összeállítási adatok</string>
+    <string name="rb_what_is">Mik azok a reprodukálható összeállítások?</string>
+    <string name="download_statistics_summary">Az IzzyOnDroid havi letöltésszámainak lekérése és megjelenítése. Kikapcsoláskor a meglévő letöltési statisztikák törlődnek.</string>
+    <string name="reproducibility_logs">Reprodukálhatósági naplók</string>
+    <string name="reproducibility_logs_summary">Az IzzyOnDroid reprodukálható összeállítás-ellenőrzési naplóinak lekérése és megjelenítése. Kikapcsoláskor a meglévő reprodukálhatósági naplók törlődnek.</string>
 </resources>

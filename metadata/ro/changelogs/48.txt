@@ -1,0 +1,5 @@
+- Nou backend pentru setări (setările dvs. vechi vor fi șterse)
+- S-a adăugat o opțiune pentru modificarea duratei de curățare
+- S-au remediat capturile de ecran goale
+- S-a remediat crash-ul din partea de jos a ecranului
+- S-a remediat notificarea pentru aplicațiile instalate

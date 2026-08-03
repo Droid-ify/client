@@ -1,0 +1,14 @@
+Přidáno:
+
+- Možnost zakázat protokoly RB a statistiky stahování
+- Přidáno upozornění na nekompatibilní verze (#1259): Rohan Lakhera
+- Ikony a obrázky procházejí přes proxy
+
+Opravy:
+
+- Návrat z detailů aplikace způsobil ztrátu vyhledávacího dotazu
+- Otevření odkazu v prohlížeči (#1267): Netrifier
+- Ikony se u mnoha aplikací na první stránce nenačítaly
+- Odstranění při instalaci odebráno pro starší instalátor
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.1

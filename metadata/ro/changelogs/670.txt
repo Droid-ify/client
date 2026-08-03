@@ -1,4 +1,4 @@
-S-a adăugat:
+S-au adăugat:
 - Statistici de descărcare pentru IzzyOnDroid (https://dlstats.izzyondroid.org/)
 - Insignă pentru build-uri reproductibile
 - Fixarea certificatelor pentru 9 depozite
@@ -8,7 +8,6 @@ S-a adăugat:
 Modificări:
 - Interfața depozitelor (probleme cu UX-ul)
 - droidify.eu.org a fost mutat la droidify.app
-
 
 Remediate:
 - Încărcarea în pagina de pornire

@@ -16,7 +16,7 @@
     <string name="available">Keşfet</string>
     <string name="bug_tracker">Hata izleme</string>
     <string name="cancel">İptal et</string>
-    <string name="cant_edit_sync_DESC">Depo şuan senkronize edildiği için düzenlenemiyor.</string>
+    <string name="cant_edit_sync_DESC">Depo şuan senkronize edildiği için düzenlenemiyor</string>
     <string name="changelog">Değişim Günlüğü</string>
     <string name="changes">Değişiklikler</string>
     <string name="checking_repository">Depo denetleniyor…</string>
@@ -43,7 +43,7 @@
     <string name="has_advertising">Reklam içerir</string>
     <string name="has_non_free_dependencies">Özgür olmayan bağımlılıklar içerir</string>
     <string name="has_security_vulnerabilities">Bilindik güvenlik açıklarına sahip</string>
-    <string name="http_error_DESC">Geçersiz sunucu yanıtı</string>
+    <string name="http_error_DESC">Geçersiz sunucu yanıtı: %s</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Yeni sürümleri yoksay</string>
     <string name="ignore_this_update">Bu sürümü yoksay</string>
@@ -52,8 +52,8 @@
     <string name="incompatible_api_min_DESC_FORMAT">En düşük API sürümü %d</string>
     <string name="incompatible_features_DESC">Eksik özellikler</string>
     <string name="incompatible_older_DESC">Bu sürüm aygıtınızda kurulu sürümden daha eski</string>
-    <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s mimariniz desteklenmemektedir. Desteklenen mimariler: %2$s.</string>
-    <string name="incompatible_signature_DESC">Bu sürüm aygıtınızda kurulu sürümden farklı bir sertifika ile imzalanmış.</string>
+    <string name="incompatible_platforms_DESC_FORMAT">%1$s mimariniz desteklenmiyor. Desteklenen mimariler: %2$s</string>
+    <string name="incompatible_signature_DESC">Bu sürüm aygıtınızda kurulu sürümden farklı bir sertifika ile imzalanmış</string>
     <string name="incompatible_version">Uyumsuz sürüm</string>
     <string name="incompatible_versions">Uyumsuz sürümler</string>
     <string name="incompatible_versions_summary">Aygıtla uyumlu olmayan uygulama sürümlerini göster</string>
@@ -156,7 +156,7 @@
     <string name="version">Sürüm</string>
     <string name="version_FORMAT">Sürüm %s</string>
     <string name="versions">Sürümler</string>
-    <string name="waiting_to_start_download">İndirmenin başlaması bekleniyor…</string>
+    <string name="waiting_to_start_download">İndirme sıraya alındı…</string>
     <string name="whats_new">Yeniler</string>
     <string name="website">Proje sitesi</string>
     <string name="prefs_language_title">Dil</string>
@@ -187,7 +187,7 @@
     <string name="force_clean_up_DESC">Gereksiz dosyaları temizler</string>
     <string name="enable_repo">Depoyu etkinleştir</string>
     <string name="installing">Kuruluyor</string>
-    <string name="waiting_to_start_installation">Kurulumun başlatılması bekleniyor…</string>
+    <string name="waiting_to_start_installation">Kurulum sıraya alındı…</string>
     <string name="auto_update">Uygulamaları otomatik güncelle</string>
     <string name="auto_update_apps">Güncellemeleri otomatik yükle</string>
     <string name="has_non_free_components">Özgür olmayan bileşenlere sahip</string>
@@ -275,4 +275,14 @@
     <string name="custom_buttons_export">Butonları dışa aktar</string>
     <string name="custom_buttons_import">Butonları içe aktar</string>
     <string name="custom_buttons_imported">Özel butonlar içe aktarıldı</string>
+    <string name="proxy_restart_required">Değişikliklerin etkili olması için yeniden başlatma gerekli.</string>
+    <string name="tap_to_resume_updates">Güncellemeleri devam ettirmek için uygulamayı aç</string>
+    <string name="rb_badge_verified">Doğrulanmış, tekrarlanabilir derleme</string>
+    <string name="rb_badge_non_reproducible">Tekrarlanamaz derleme</string>
+    <string name="rb_badge_unknown">Durum bilinmiyor</string>
+    <string name="rb_badge_no_data">Tekrarlanabilir derleme verisi yok</string>
+    <string name="rb_what_is">Tekrarlanabilir derlemeler nedir?</string>
+    <string name="download_statistics_summary">IzzyOnDroid\'dan aylık indirme sayılarını getirip göster. Devre dışı bırakıldığında var olan indirme istatistikleri silinir.</string>
+    <string name="reproducibility_logs">Tekrarlanabilirlik Günlükleri</string>
+    <string name="reproducibility_logs_summary">IzzyOnDroid\'dan tekrarlanabilir derleme doğrulama günlüklerini getirip göster. Devre dışı bırakıldığında var olan tekrarlanabilirlik günlükleri silinir.</string>
 </resources>

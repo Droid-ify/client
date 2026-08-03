@@ -1,0 +1,14 @@
+Přidáno:
+
+- [DŮLEŽITÉ] Náhodný výběr protokolů RB: https://github.com/Droid-ify/client/issues/1354
+- Vylepšené vyskakovací okno RB
+
+Opravy:
+
+- Ztráta oprávnění u Shizuku
+- Pád služby na pozadí po uplynutí časového limitu
+- Přepínač „Ignorovat tuto verzi“ nefungoval podle očekávání
+- Směr posouvání a zobrazení snímků obrazovky v režimu RTL
+- Opravy uživatelského rozhraní a pády aplikace
+
+Kompletní seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.3
