@@ -34,7 +34,7 @@
     <string name="edit_repository">Редактиране</string>
     <string name="has_advertising">Съдържа реклама</string>
     <string name="has_security_vulnerabilities">Има известни уязвимости в сигурността</string>
-    <string name="http_error_DESC">Невалиден отговор от сървъра</string>
+    <string name="http_error_DESC">Невалиден отговор от сървъра: %s</string>
     <string name="http_proxy">HTTP прокси</string>
     <string name="ignore_all_updates">Игнориране на нови версии</string>
     <string name="incompatible_api_max_DESC_FORMAT">Максималната версия на API е %d</string>
