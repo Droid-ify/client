@@ -79,16 +79,33 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     @Inject
     lateinit var installer: InstallManager
 
-    sealed class State(val packageName: String) {
+    sealed class State(
+        val packageName: String,
+        open val appName: String = packageName,
+    ) {
         data object Idle : State("")
-        data class Connecting(val name: String) : State(name)
-        data class Downloading(val name: String, val read: DataSize, val total: DataSize?) : State(
+        data class Connecting(
+            val name: String,
+            override val appName: String = name,
+        ) : State(name, appName)
+
+        data class Downloading(
+            val name: String,
+            val read: DataSize,
+            val total: DataSize?,
+            override val appName: String = name,
+        ) : State(
             name,
+            appName,
         )
 
-        data class Error(val name: String) : State(name)
-        data class Cancel(val name: String) : State(name)
-        data class Success(val name: String, val release: Release) : State(name)
+        data class Error(val name: String, override val appName: String = name) : State(name, appName)
+        data class Cancel(val name: String, override val appName: String = name) : State(name, appName)
+        data class Success(
+            val name: String,
+            val release: Release,
+            override val appName: String = name,
+        ) : State(name, appName)
     }
 
     data class DownloadState(
@@ -298,7 +315,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private suspend fun publishSuccess(task: Task) {
         val currentInstaller = installerType.first()
         updateCurrentQueue { add("") }
-        updateCurrentState(State.Success(task.packageName, task.release))
+        updateCurrentState(State.Success(task.packageName, task.release, task.name))
         val autoInstallWithSessionInstaller =
             SdkCheck.canAutoInstall(task.release.targetSdkVersion) &&
                 currentInstaller == InstallerType.SESSION &&
@@ -413,7 +430,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             return
         }
         val task = tasks.removeAt(0)
-        val connectionState = State.Connecting(task.packageName)
+        val connectionState = State.Connecting(task.packageName, task.name)
         currentTask = CurrentTask(task, connectionState)
         with(stateNotificationBuilder) {
             setWhen(System.currentTimeMillis())
@@ -423,7 +440,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         val partialReleaseFile = Cache.getPartialReleaseFile(this, task.release.cacheFileName)
         val job = lifecycleScope.downloadFile(task, partialReleaseFile)
         currentTask = currentTask?.copy(job = job)
-        updateCurrentState(State.Connecting(task.packageName))
+        updateCurrentState(State.Connecting(task.packageName, task.name))
     }
 
     private fun createNotificationIntent(packageName: String): PendingIntent? =
@@ -444,7 +461,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 headers = { if (task.authentication.isNotEmpty()) authentication(task.authentication) },
             ) { read, total ->
                 yield()
-                updateCurrentState(State.Downloading(task.packageName, read, total))
+                updateCurrentState(State.Downloading(task.packageName, read, total, task.name))
             }
 
             when (response) {
@@ -457,7 +474,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     val result = releaseValidator.validate(target)
                     if (result is ValidationResult.Invalid) {
                         target.delete()
-                        updateCurrentState(State.Error(task.packageName))
+                        updateCurrentState(State.Error(task.packageName, task.name))
                         showErrorNotification(task, could_not_validate_FORMAT, result.message)
                         return@launch
                     }
@@ -470,7 +487,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                 }
 
                 is NetworkResponse.Error -> {
-                    updateCurrentState(State.Error(task.packageName))
+                    updateCurrentState(State.Error(task.packageName, task.name))
                     val description = when (response) {
                         is NetworkResponse.Error.ConnectionTimeout -> getString(connection_error_DESC)
                         is NetworkResponse.Error.Http ->

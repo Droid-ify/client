@@ -18,6 +18,9 @@ import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.model.ProductItem
+import com.looker.droidify.network.percentBy
+import com.looker.droidify.service.Connection
+import com.looker.droidify.service.DownloadService
 import com.looker.droidify.utility.common.Scroller
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
@@ -67,6 +70,15 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     private var layoutManagerState: Parcelable? = null
 
     private var searchQuery: String = ""
+
+    private val downloadConnection = Connection(
+        serviceClass = DownloadService::class.java,
+        onBind = { _, binder ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                binder.downloadState.collect(::updateDownloadState)
+            }
+        },
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -140,6 +152,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             callback = this,
             request = viewModel.state.value.toRequest(source, searchQuery),
         )
+        if (source.updateAll) {
+            downloadConnection.bind(requireContext())
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
@@ -171,6 +186,9 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.syncConnection.unbind(requireContext())
+        if (source.updateAll) {
+            downloadConnection.unbind(requireContext())
+        }
         _binding = null
         scroller = null
         mainActivity.cursorOwner.detach(this)
@@ -208,5 +226,49 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     fun setSection(section: ProductItem.Section) {
         viewModel.setSection(section)
+    }
+
+    private fun updateDownloadState(state: DownloadService.DownloadState) {
+        if (!source.updateAll || _binding == null) return
+
+        val currentItem = state.currentItem
+        val hasQueuedItems = state.queue.any(String::isNotEmpty)
+        val isDownloading = currentItem is DownloadService.State.Connecting ||
+            currentItem is DownloadService.State.Downloading
+        val isActive = isDownloading || hasQueuedItems
+
+        binding.updateStatus.isVisible = isActive
+        binding.updateProgress.isVisible = isActive
+        binding.scrollUp.isEnabled = !isActive
+
+        if (!isActive) return
+
+        when (currentItem) {
+            is DownloadService.State.Downloading -> {
+                val total = currentItem.total
+                if (total == null) {
+                    binding.updateProgress.isIndeterminate = true
+                    binding.updateStatus.text = getString(
+                        stringRes.downloading_FORMAT,
+                        currentItem.appName,
+                    )
+                } else {
+                    binding.updateProgress.isIndeterminate = false
+                    binding.updateProgress.setProgressCompat(
+                        (currentItem.read.value percentBy total.value).coerceIn(0, 100),
+                        true,
+                    )
+                    binding.updateStatus.text = getString(
+                        stringRes.downloading_FORMAT,
+                        currentItem.appName,
+                    ) + " ${currentItem.read} / $total"
+                }
+            }
+
+            else -> {
+                binding.updateProgress.isIndeterminate = true
+                binding.updateStatus.text = getString(stringRes.waiting_to_start_download)
+            }
+        }
     }
 }
