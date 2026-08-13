@@ -1,9 +1,5 @@
 package com.looker.droidify.data.local.model
 
-/**
- * Stable integer discriminators for the `type` columns of the `graphic`,
- * `screenshot` and `donate` tables. Never reorder — values are persisted.
- */
 enum class GraphicType(val value: Int) {
     FEATURE_GRAPHIC(0),
     PROMO_GRAPHIC(1),
