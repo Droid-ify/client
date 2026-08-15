@@ -4,7 +4,7 @@ import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
 
-interface Installer : AutoCloseable {
+interface Installer {
 
     suspend fun install(installItem: InstallItem): InstallState
 
