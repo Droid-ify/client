@@ -81,7 +81,7 @@
         <item quantity="other">de ore</item>
     </plurals>
     <string name="downloading_FORMAT">Se descarcă %s…</string>
-    <string name="http_error_DESC">Răspuns server nevalid</string>
+    <string name="http_error_DESC">Răspuns server nevalid: %s</string>
     <string name="ignore_all_updates">Ignoră versiunile noi</string>
     <string name="ignore_this_update">Ignoră această versiune</string>
     <string name="incompatible_api_DESC_FORMAT">Versiunea %1$s (versiunea API %2$d) nu este suportată. %3$s</string>
