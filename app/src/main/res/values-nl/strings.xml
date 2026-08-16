@@ -238,4 +238,14 @@
     <string name="unspecified">Niet gespecificeerd</string>
     <string name="always_choose">Altijd kiezen</string>
     <string name="label_sdk_version">Doel: Android %1$s | Minimaal: Android %2$s</string>
+    <string name="delete_apk_on_install">Verwijder APK na installatie</string>
+    <string name="delete_apk_on_install_summary">Verwijder APK-bestanden automatische na succesvolle installatie</string>
+    <string name="proxy_restart_required">Een herstart is vereist om de wijzigingen door te voeren.</string>
+    <string name="requires_authentication">Vereist authenticatie?</string>
+    <string name="action_sync_repo">Synchroniseren</string>
+    <string name="action_enable_repo">Inschakelen</string>
+    <string name="force_sync_repositories">Synchronisatie van repositories afdwingen</string>
+    <string name="copy_error_details">Kopieer details van fout</string>
+    <string name="copied_to_clipboard">Gekopieerd</string>
+    <string name="tap_to_resume_updates">Open de app om de updates te hervatten</string>
 </resources>

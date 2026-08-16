@@ -1,6 +1,7 @@
 package com.looker.droidify.installer
 
 import android.content.Context
+import android.util.Log
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.Database
 import com.looker.droidify.datastore.SettingsRepository
@@ -20,21 +21,20 @@ import com.looker.droidify.utility.common.extension.addAndCompute
 import com.looker.droidify.utility.common.extension.filter
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.updateAsMutable
+import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.notifications.createInstallNotification
 import com.looker.droidify.utility.notifications.installNotification
 import com.looker.droidify.utility.notifications.removeInstallNotification
 import com.looker.droidify.utility.notifications.updatesAvailableNotification
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 class InstallManager(
     private val context: Context,
@@ -46,27 +46,17 @@ class InstallManager(
 
     val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
 
-    private var _installer: Installer? = null
-        set(value) {
-            field?.close()
-            field = value
-        }
-    private val installer: Installer get() = _installer!!
-
-    private val lock = Mutex()
     private val skipSignature = settingsRepository.get { ignoreSignature }
     private val installerPreference = settingsRepository.get { installerType }
     private val deleteApkPreference = settingsRepository.get { deleteApkOnInstall }
     private val notificationManager by lazy { context.notificationManager }
 
     suspend operator fun invoke() = coroutineScope {
-        setupInstaller()
         installer()
         uninstaller()
     }
 
     fun close() {
-        _installer = null
         uninstallItems.close()
         installItems.close()
     }
@@ -87,10 +77,6 @@ class InstallManager(
         updateState { put(packageName, InstallState.Failed) }
     }
 
-    private fun CoroutineScope.setupInstaller() = launch {
-        installerPreference.collectLatest(::setInstaller)
-    }
-
     private fun CoroutineScope.installer() = launch {
         val currentQueue = mutableSetOf<String>()
         installItems.filter { item ->
@@ -109,7 +95,20 @@ class InstallManager(
                         state = InstallState.Installing,
                     ),
                 )
-                val result = installer.use { it.install(item) }
+                val installer = currentInstaller()
+
+                val result = try {
+                    installer.install(item)
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    Log.e(
+                        "InstallManager",
+                        "Install failed for ${item.packageName.name}",
+                        e,
+                    )
+                    InstallState.Failed
+                }
                 if (result == InstallState.Installed && installer !is LegacyInstaller) {
                     if (deleteApkPreference.first()) {
                         val apkFile = Cache.getReleaseFile(context, item.installFileName)
@@ -140,20 +139,27 @@ class InstallManager(
 
     private fun CoroutineScope.uninstaller() = launch {
         uninstallItems.consumeEach {
-            installer.uninstall(it)
-        }
-    }
-
-    private suspend fun setInstaller(installerType: InstallerType) {
-        lock.withLock {
-            _installer = when (installerType) {
-                InstallerType.LEGACY -> LegacyInstaller(context, settingsRepository)
-                InstallerType.SESSION -> SessionInstaller(context)
-                InstallerType.SHIZUKU -> ShizukuInstaller(context)
-                InstallerType.ROOT -> RootInstaller(context)
+            try {
+                currentInstaller().uninstall(it)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                Log.e(
+                    "InstallManager",
+                    "Uninstall failed for ${it.name}",
+                    e,
+                )
             }
         }
     }
+
+    private suspend fun currentInstaller(): Installer =
+        when (installerPreference.first()) {
+            InstallerType.LEGACY -> LegacyInstaller(context, settingsRepository)
+            InstallerType.SESSION -> SessionInstaller(context)
+            InstallerType.SHIZUKU -> ShizukuInstaller(context)
+            InstallerType.ROOT -> RootInstaller(context)
+        }
 
     private inline fun updateState(block: MutableMap<PackageName, InstallState>.() -> Unit) {
         state.update { it.updateAsMutable(block) }

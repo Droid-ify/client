@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="action_failed">Не атрымалася выканаць дзеянне</string>
+    <string name="action_failed">Не ўдалося выканаць дзеянне</string>
     <string name="application_not_found">Праграма не знойдзена</string>
     <string name="author_website">Сайт аўтара</string>
     <string name="auto_update">Аўтаабнаўленне праграм</string>
@@ -70,7 +70,7 @@
     <string name="promotes_non_free_network_services">Рэкламуе ці цалкам залежыць ад несвабодных сеткавых сэрвісаў</string>
     <string name="invalid_signature_error_DESC">Няправільны подпіс</string>
     <string name="no_applications_installed">Няма ўсталяваных праграм</string>
-    <string name="http_error_DESC">Некарэктны адказ сервероў</string>
+    <string name="http_error_DESC">Некарэктны адказ сервера: %s</string>
     <string name="notify_about_updates_summary">Паказваць апавяшчэнне, калі новыя версіі праграмы даступны</string>
     <string name="permissions">Дазволы</string>
     <string name="new_updates_available">Даступныя новыя версіі</string>
@@ -159,7 +159,7 @@
     <string name="tracks_or_reports_your_activity">Адсочвае або паведамляе аб вашай дзейнасці</string>
     <string name="website">Вэб-сайт</string>
     <string name="merging_FORMAT">Аб\'яднанне %s</string>
-    <string name="waiting_to_start_download">Чаканне пачатку загрузкі…</string>
+    <string name="waiting_to_start_download">У чарзе на спампоўванне…</string>
     <string name="suggested">Рэкамендуецца</string>
     <string name="open_DESC_FORMAT">Адкрыць %s?</string>
     <string name="validation_index_error_DESC">Не ўдалося праверыць індэкс</string>
@@ -171,7 +171,7 @@
     <string name="theme">Тэма</string>
     <string name="socks_proxy">SOCKS проксі</string>
     <string name="material_you">Material You</string>
-    <string name="waiting_to_start_installation">Чаканне пачатку ўстаноўкі…</string>
+    <string name="waiting_to_start_installation">У чарзе на ўсталяванне…</string>
     <string name="signed_using_unsafe_algorithm">Падпісана з выкарыстаннем небяспечнага алгарытму</string>
     <string name="source_code">Зыходны код</string>
     <string name="username">Імя карыстальніка</string>
@@ -244,4 +244,51 @@
     <string name="always_choose">Заўсёды выбіраць</string>
     <string name="select_installer">Выбраць усталёўшчык</string>
     <string name="label_unknown_sdk">Невядомая (%d)</string>
+    <string name="delete_apk_on_install">Выдаляць APK пасля ўсталявання</string>
+    <string name="delete_apk_on_install_summary">Аўтаматычна выдаляць APK-файлы пасля паспяховага ўсталявання</string>
+    <string name="proxy_restart_required">Патрабуецца перазапуск, каб змены набылі моц.</string>
+    <string name="requires_authentication">Патрабуецца аўтэнтыфікацыя?</string>
+    <string name="repository_not_synced_or_enabled">Рэпазіторый не ўключаны і не сінхранізаваны</string>
+    <string name="action_sync_repo">Сінхранізаваць</string>
+    <string name="action_enable_repo">Уключыць</string>
+    <string name="repository_not_found_by_id">Рэпазіторый не знойдзены</string>
+    <string name="copy_error_details">Скапіяваць падрабязнасці памылкі</string>
+    <string name="copied_to_clipboard">Скапіявана</string>
+    <string name="tap_to_resume_updates">Адкрыйце праграму, каб аднавіць абнаўленні</string>
+    <string name="rb_badge">Значок узнаўляльнай зборкі</string>
+    <string name="rb_badge_verified">Пацверджаная узнаўляльная зборка</string>
+    <string name="rb_badge_non_reproducible">Неўзнаўляльная зборка</string>
+    <string name="rb_badge_unknown">Невядомы стан</string>
+    <string name="rb_badge_no_data">Няма даных пра ўзнаўляльную зборку</string>
+    <string name="rb_what_is">Што такое ўзнаўляльныя зборкі?</string>
+    <string name="rb_info">Калі зборка ўзнаўляльная, гэта азначае, што дадзены APK-файл сабраны з нададзенага зыходнага кода</string>
+    <string name="total_downloads">Усяго спамповак</string>
+    <string name="download_stats">Статыстыка спамповак</string>
+    <string name="download_stats_from_izzy">Крыніца: IzzyOnDroid</string>
+    <string name="total">Усяго</string>
+    <string name="by_client">Паводле кліентаў</string>
+    <string name="monthly">Штомесяц</string>
+    <string name="downloading_rb_logs">Спампоўванне логаў адтваральнасці</string>
+    <string name="downloading_download_stats">Спампоўванне статыстыкі спамповак</string>
+    <string name="download_statistics_summary">Атрымліваць і паказваць штомесячную колькасць спамповак з IzzyOnDroid. Адключэнне ачышчае наяўную статыстыку спамповак.</string>
+    <string name="reproducibility_logs">Логі адтваральнасці</string>
+    <string name="reproducibility_logs_summary">Атрымліваць і паказваць логі праверкі адтваральнасці зборак з IzzyOnDroid. Адключэнне ачышчае наяўныя логі адтваральнасці.</string>
+    <string name="custom_buttons">Карыстальніцкія кнопкі</string>
+    <string name="custom_buttons_description">Дадаць хуткія спасылкі на вонкавыя сэрвісы ў звесткі пра прыкладанне</string>
+    <string name="custom_buttons_section">Спасылкі ў звестках пра прыкладанне</string>
+    <string name="custom_button_add">Дадаць кнопку</string>
+    <string name="custom_button_edit">Рэдагаваць кнопку</string>
+    <string name="custom_button_label">Назва</string>
+    <string name="custom_button_label_hint">напрыклад, Exodus Privacy</string>
+    <string name="custom_button_url">Шаблон URL</string>
+    <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="custom_button_url_description">Выкарыстоўвайце {{package_name}}, {{app_name}} або {{author_name}} у якасці заменнікаў</string>
+    <string name="custom_button_templates">Шаблоны</string>
+    <string name="custom_button_icon">Значок</string>
+    <string name="custom_button_delete_confirmation">Выдаліць кнопку «%1$s»?</string>
+    <string name="custom_buttons_export">Экспартаваць кнопкі</string>
+    <string name="custom_buttons_import">Імпартаваць кнопкі</string>
+    <string name="custom_buttons_imported">Карыстальніцкія кнопкі імпартаваны</string>
+    <string name="force_sync_repositories">Прымусова сінхранізаваць рэпазіторыі</string>
+    <string name="title_activity_main_compose">Галоўны экран</string>
 </resources>

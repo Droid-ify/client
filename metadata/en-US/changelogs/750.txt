@@ -1,0 +1,14 @@
+Fixed:
+
+- Initial launch slow-down and crashes
+- Installer flakiness
+- App detail UI
+
+Changed:
+
+- Better sync failure notifications
+- Better network reliability
+- App data parsing
+- Translation changes
+
+Full changelog: https://github.com/Droid-ify/client/releases/tag/v0.7.5

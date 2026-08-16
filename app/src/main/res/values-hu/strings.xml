@@ -53,7 +53,7 @@
     <string name="has_advertising">Reklámot tartalmaz</string>
     <string name="has_non_free_dependencies">Más, nem szabad alkalmazásoktól függ</string>
     <string name="has_security_vulnerabilities">Biztonsági sérülékenységei vannak</string>
-    <string name="http_error_DESC">Érvénytelen kiszolgálóválasz</string>
+    <string name="http_error_DESC">Érvénytelen kiszolgálóválasz: %s</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Új verziók mellőzése</string>
     <string name="ignore_this_update">Ezen verzió mellőzése</string>

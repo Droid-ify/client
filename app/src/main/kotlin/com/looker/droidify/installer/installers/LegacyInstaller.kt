@@ -84,8 +84,6 @@ class LegacyInstaller(
 
     override suspend fun uninstall(packageName: PackageName) =
         context.uninstallPackage(packageName)
-
-    override fun close() {}
 }
 
 @Suppress("DEPRECATION")
