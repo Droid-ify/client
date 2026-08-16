@@ -1,82 +1,79 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # Default values
-version=""
 changelog_directory="./metadata/en-US/changelogs"
 kotlin_file="./app/build.gradle.kts"
 
-# Pull commits from origin
-echo "Pulling commits from GitHub"
-git pull --rebase
-
-# Parse command-line arguments
-while [[ $# -gt 0 ]]; do
-  case $1 in
-    -v=*|--version=*)
-      version="${1#*=}"
-      shift
-      ;;
-    *)
-      echo "Invalid argument: $1"
-      exit 1
-      ;;
-  esac
-  shift
-done
-
-# Validate version format
-if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
-  echo "Invalid version format. Please use -v=X.Y.Z or --version=X.Y.Z.W"
-  exit 1
+if [ "$#" -ne 1 ]; then
+	echo "Usage: $0 -v=X.Y.Z or $0 --version=X.Y.Z"
+	exit 1
 fi
 
-# Extract major, minor, release, and patch numbers
-IFS='.' read -r -a version_parts <<< "$version"
+case "$1" in
+-v=* | --version=*)
+	version="${1#*=}"
+	;;
+*)
+	echo "Usage: $0 -v=X.Y.Z or $0 --version=X.Y.Z"
+	exit 1
+	;;
+esac
+
+if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+	echo "Invalid version format. Please use X.Y.Z; eg: 0.7.5"
+	exit 1
+fi
+
+IFS='.' read -r -a version_parts <<<"$version"
 major="${version_parts[0]}"
 minor="${version_parts[1]}"
-release="${version_parts[2]}"
-patch="${version_parts[3]-0}"
+patch="${version_parts[2]}"
 
-# Calculate version code
-version_code="$((major * 1000 + minor * 100 + release * 10 + patch))"
+version_code="$((major * 1000 + minor * 100 + patch * 10))"
 
-# Generate version name
-if [ -z "$patch" ]; then
-  version_name="$major.$minor.$release"
-else
-  if [ "$patch" -eq 0 ]; then
-    version_name="$major.$minor.$release"
-  else
-    version_name="$major.$minor.$release Patch $patch"
-  fi
-fi
+version_name="$version"
 changelog_file="$changelog_directory/$version_code.txt"
 git_tag="v$version"
 
-# Update the Kotlin file with new version code and name
+if [ -n "$(git status --porcelain)" ]; then
+	echo "Working tree is dirty. Commit or stash your changes first."
+	exit 1
+fi
+
+if git rev-parse -q --verify "refs/tags/$git_tag" >/dev/null; then
+	echo "Git tag '$git_tag' already exists."
+	exit 1
+fi
+
+echo "Pulling commits from GitHub"
+git pull --rebase
+
 sed -i "s/versionCode = [0-9]*/versionCode = $version_code/" "$kotlin_file"
 sed -i "s/val latestVersionName = \"[^\"]*\"/val latestVersionName = \"$version_name\"/" "$kotlin_file"
 
-# Create a changelog file
 mkdir -p "$changelog_directory"
-git log "$(git describe --tags --abbrev=0)"..HEAD --format="%s: %an" | sed "s/: LooKeR//" >> $changelog_file
-echo "Full changelog: https://github.com/Droid-ify/client/releases/tag/$git_tag" >> $changelog_file
+if [ -f "$changelog_file" ]; then
+	echo "Changelog already exists, keeping it as is: $changelog_file"
+else
+	git log "$(git describe --tags --abbrev=0)"..HEAD --format="%s: %an" | sed "s/: LooKeR//" >>"$changelog_file"
+	echo "Full changelog: https://github.com/Droid-ify/client/releases/tag/$git_tag" >>"$changelog_file"
+fi
 
 echo "Version Code: $version_code"
 echo "Version Name: $version_name"
 echo "Changelog file name: $changelog_file"
 echo "Git tag: $git_tag"
 
-nvim $changelog_file
+$EDITOR "$changelog_file"
 
-# Ask for confirmation before creating a Git tag
 read -p "Do you want to create a Git tag for version $git_tag? (y/n): " -r
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-  git add -A
-  git commit -m "Release $version_name"
-  # Create a Git tag
-  git tag -a "$git_tag" -m "Release $version_name"
-  echo "Git tag '$git_tag' created."
+	git add "$kotlin_file" "$changelog_file"
+	git commit -m "Release $version_name"
+	git tag -a "$git_tag" -m "Release $version_name"
+	echo "Git tag '$git_tag' created."
 else
-  echo "Git tag not created."
+	echo "Git tag not created."
 fi
