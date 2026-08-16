@@ -75,7 +75,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
   git add -A
   git commit -m "Release $version_name"
   # Create a Git tag
-  git tag "$git_tag"
+  git tag -a "$git_tag" -m "Release $version_name"
   echo "Git tag '$git_tag' created."
 else
   echo "Git tag not created."
