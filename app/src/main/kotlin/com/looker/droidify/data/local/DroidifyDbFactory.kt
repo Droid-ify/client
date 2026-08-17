@@ -48,12 +48,10 @@ private val localizedStringAdapter = object : ColumnAdapter<LocalizedString, Str
 @OptIn(ExperimentalStdlibApi::class)
 private val fingerprintAdapter = object : ColumnAdapter<Fingerprint, ByteArray> {
     override fun decode(databaseValue: ByteArray): Fingerprint = Fingerprint(databaseValue)
-
-    override fun encode(value: Fingerprint): ByteArray = value.value.hexToByteArray()
+    override fun encode(value: Fingerprint): ByteArray = value.bytes()
 }
 
 private val encryptedAdapter = object : ColumnAdapter<Encrypted, String> {
     override fun decode(databaseValue: String): Encrypted = Encrypted(databaseValue)
-
     override fun encode(value: Encrypted): String = value.value
 }
