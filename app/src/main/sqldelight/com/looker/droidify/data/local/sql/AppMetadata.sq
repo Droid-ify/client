@@ -1,4 +1,6 @@
-import kotlin.Int;
+import com.looker.droidify.data.local.model.DonateType;
+import com.looker.droidify.data.local.model.GraphicType;
+import com.looker.droidify.data.local.model.ScreenshotType;
 
 CREATE TABLE author (
     email TEXT NOT NULL DEFAULT '',
@@ -21,7 +23,7 @@ CREATE TABLE links (
 
 CREATE TABLE graphic (
     url TEXT NOT NULL,
-    type INTEGER AS Int NOT NULL,
+    type TEXT AS GraphicType NOT NULL,
     locale TEXT NOT NULL,
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     PRIMARY KEY(appId, locale, type)
@@ -29,14 +31,14 @@ CREATE TABLE graphic (
 
 CREATE TABLE screenshot (
     path TEXT NOT NULL,
-    type INTEGER AS Int NOT NULL,
+    type TEXT AS ScreenshotType NOT NULL,
     locale TEXT NOT NULL,
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     PRIMARY KEY(appId, locale, type, path)
 ) WITHOUT ROWID;
 
 CREATE TABLE donate (
-    type INTEGER AS Int NOT NULL,
+    type TEXT AS DonateType NOT NULL,
     value TEXT NOT NULL,
     appId INTEGER NOT NULL REFERENCES app(id) ON DELETE CASCADE,
     PRIMARY KEY(appId, type, value)

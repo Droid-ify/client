@@ -1,6 +1,7 @@
 package com.looker.droidify.data.local
 
 import app.cash.sqldelight.ColumnAdapter
+import app.cash.sqldelight.EnumColumnAdapter
 import app.cash.sqldelight.adapter.primitive.IntColumnAdapter
 import app.cash.sqldelight.db.SqlDriver
 import com.looker.droidify.data.encryption.Encrypted
@@ -23,11 +24,11 @@ fun droidifyDb(driver: SqlDriver): DroidifyDb = DroidifyDb(
         reasonAdapter = localizedStringAdapter,
     ),
     authenticationAdapter = Authentication.Adapter(passwordAdapter = encryptedAdapter),
-    donateAdapter = Donate.Adapter(typeAdapter = IntColumnAdapter),
-    graphicAdapter = Graphic.Adapter(typeAdapter = IntColumnAdapter),
+    donateAdapter = Donate.Adapter(typeAdapter = EnumColumnAdapter()),
+    graphicAdapter = Graphic.Adapter(typeAdapter = EnumColumnAdapter()),
     permissionAdapter = Permission.Adapter(maxSdkVersionAdapter = IntColumnAdapter),
     repositoryAdapter = Repository.Adapter(fingerprintAdapter = fingerprintAdapter),
-    screenshotAdapter = Screenshot.Adapter(typeAdapter = IntColumnAdapter),
+    screenshotAdapter = Screenshot.Adapter(typeAdapter = EnumColumnAdapter()),
     versionAdapter = Version.Adapter(
         whatsNewAdapter = localizedStringAdapter,
         maxSdkVersionAdapter = IntColumnAdapter,

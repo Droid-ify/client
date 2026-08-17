@@ -171,7 +171,7 @@ class IndexRepository(
         fun LocalizedIcon?.insert(type: GraphicType) = this?.forEach { (locale, file) ->
             db.appMetadataQueries.insertGraphic(
                 url = file.name,
-                type = type.value,
+                type = type,
                 locale = locale,
                 appId = appId,
             )
@@ -182,7 +182,7 @@ class IndexRepository(
         metadata.video?.forEach { (locale, url) ->
             db.appMetadataQueries.insertGraphic(
                 url = url,
-                type = GraphicType.VIDEO.value,
+                type = GraphicType.VIDEO,
                 locale = locale,
                 appId = appId,
             )
@@ -194,7 +194,7 @@ class IndexRepository(
             files.forEach { file ->
                 db.appMetadataQueries.insertScreenshot(
                     path = file.name,
-                    type = type.value,
+                    type = type,
                     locale = locale,
                     appId = appId,
                 )
@@ -210,7 +210,7 @@ class IndexRepository(
 
     private fun insertDonations(appId: Long, metadata: MetadataV2) {
         fun String?.insert(type: DonateType) = this?.let { value ->
-            db.appMetadataQueries.insertDonate(type = type.value, value_ = value, appId = appId)
+            db.appMetadataQueries.insertDonate(type = type, value_ = value, appId = appId)
         }
         metadata.donate.forEach { url -> url.insert(DonateType.REGULAR) }
         metadata.bitcoin.insert(DonateType.BITCOIN)
