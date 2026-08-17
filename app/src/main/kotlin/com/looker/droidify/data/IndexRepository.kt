@@ -227,7 +227,6 @@ class IndexRepository(
         }
         val versionId = db.versionQueries.insertVersion(
             added = version.added,
-            whatsNew = version.whatsNew,
             versionName = manifest.versionName,
             versionCode = manifest.versionCode,
             maxSdkVersion = manifest.maxSdkVersion,
@@ -239,6 +238,13 @@ class IndexRepository(
             appId = appId,
         ).executeAsOne()
 
+        version.whatsNew.forEach { (locale, whatsNew) ->
+            db.versionQueries.insertWhatsNew(
+                whatsNew = whatsNew,
+                locale = locale,
+                versionId = versionId,
+            )
+        }
         (manifest.usesPermission + manifest.usesPermissionSdk23).forEach { permission ->
             db.versionQueries.insertPermission(
                 name = permission.name,
@@ -252,12 +258,19 @@ class IndexRepository(
         manifest.nativecode.forEach { abi ->
             db.versionQueries.insertNativeCode(abi = abi, versionId = versionId)
         }
-        version.antiFeatures.forEach { (tag, reason) ->
+        version.antiFeatures.forEach { (tag, reasons) ->
             db.antiFeatureQueries.insertAntiFeatureAppRelation(
                 tag = tag,
-                reason = reason,
                 versionId = versionId,
             )
+            reasons.forEach { (locale, reason) ->
+                db.antiFeatureQueries.insertAntiFeatureReason(
+                    reason = reason,
+                    locale = locale,
+                    tag = tag,
+                    versionId = versionId,
+                )
+            }
         }
     }
 }

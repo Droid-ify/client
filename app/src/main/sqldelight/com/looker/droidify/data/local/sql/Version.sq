@@ -1,9 +1,7 @@
-import com.looker.droidify.sync.v2.model.LocalizedString;
 import kotlin.Int;
 
 CREATE TABLE version (
     added INTEGER NOT NULL,
-    whatsNew TEXT AS LocalizedString NOT NULL,
     versionName TEXT NOT NULL,
     versionCode INTEGER NOT NULL,
     maxSdkVersion INTEGER AS Int,
@@ -38,9 +36,16 @@ CREATE TABLE native_code (
     PRIMARY KEY(versionId, abi)
 ) WITHOUT ROWID;
 
+CREATE TABLE whats_new (
+    whatsNew TEXT NOT NULL,
+    locale TEXT NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, locale)
+) WITHOUT ROWID;
+
 insertVersion {
-  INSERT OR IGNORE INTO version(added, whatsNew, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
-  VALUES (:added, :whatsNew, :versionName, :versionCode, :maxSdkVersion, :minSdkVersion, :targetSdkVersion, :apkName, :apkSha256, :apkSize, :appId);
+  INSERT OR IGNORE INTO version(added, versionName, versionCode, maxSdkVersion, minSdkVersion, targetSdkVersion, apkName, apkSha256, apkSize, appId)
+  VALUES (:added, :versionName, :versionCode, :maxSdkVersion, :minSdkVersion, :targetSdkVersion, :apkName, :apkSha256, :apkSize, :appId);
 
   SELECT id FROM version
   WHERE appId = :appId AND apkSha256 = :apkSha256;
@@ -61,3 +66,7 @@ VALUES (?, ?);
 insertNativeCode:
 INSERT OR IGNORE INTO native_code(abi, versionId)
 VALUES (?, ?);
+
+insertWhatsNew:
+INSERT OR IGNORE INTO whats_new(whatsNew, locale, versionId)
+VALUES (?, ?, ?);
