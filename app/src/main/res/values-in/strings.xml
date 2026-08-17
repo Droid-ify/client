@@ -31,7 +31,7 @@
     <string name="connecting">Menghubungkan…</string>
     <string name="has_non_free_dependencies">Tergantung pada aplikasi tidak-bebas lainnya</string>
     <string name="has_security_vulnerabilities">Memiliki kerentanan keamanan yang diketahui</string>
-    <string name="http_error_DESC">Respon server tidak valid</string>
+    <string name="http_error_DESC">Respons server tidak valid: %s</string>
     <string name="http_proxy">Proksi HTTP</string>
     <string name="ignore_all_updates">Abaikan versi baru</string>
     <string name="ignore_this_update">Abaikan versi ini</string>
@@ -161,7 +161,7 @@
     <string name="show_less">Tampilkan sedikit</string>
     <string name="version">Versi</string>
     <string name="version_FORMAT">Versi %s</string>
-    <string name="waiting_to_start_download">Menunggu untuk memulai pengunduhan…</string>
+    <string name="waiting_to_start_download">Pengunduhan dimasukkan ke antrean…</string>
     <string name="prefs_personalization">Personalisasi</string>
     <string name="versions">Versi</string>
     <string name="update_all">Perbarui semua</string>
@@ -184,7 +184,7 @@
     <string name="force_clean_up_DESC">Bersihkan file tidak penting</string>
     <string name="repository_unreachable">Repositori tidak terjangkau</string>
     <string name="installing">Memasang</string>
-    <string name="waiting_to_start_installation">Menunggu untuk memulai pemasangan…</string>
+    <string name="waiting_to_start_installation">Instalasi dimasukkan ke antrean…</string>
     <string name="auto_update">Perbarui aplikasi secara otomatis</string>
     <string name="auto_update_apps">Instal pembaruan secara otomatis</string>
     <string name="has_non_free_components">Memiliki komponen tidak-bebas</string>
@@ -271,4 +271,15 @@
     <string name="custom_buttons_export">Ekspor tombol</string>
     <string name="custom_buttons_import">Impor tombol</string>
     <string name="custom_buttons_imported">Tombol kustom diimpor</string>
+    <string name="proxy_restart_required">Mulai ulang diperlukan agar perubahan diterapkan.</string>
+    <string name="copied_to_clipboard">Disalin</string>
+    <string name="tap_to_resume_updates">Buka aplikasi untuk melanjutkan pembaruan</string>
+    <string name="rb_badge_verified">Build yang dapat direproduksi terverifikasi</string>
+    <string name="rb_badge_non_reproducible">Build yang tidak dapat direproduksi</string>
+    <string name="rb_badge_unknown">Status tidak diketahui</string>
+    <string name="rb_badge_no_data">Tidak ada data build yang dapat direproduksi</string>
+    <string name="rb_what_is">Apa itu build yang dapat direproduksi?</string>
+    <string name="download_statistics_summary">Ambil dan tampilkan jumlah unduhan bulanan dari IzzyOnDroid. Menonaktifkan fitur ini akan menghapus statistik unduhan yang ada.</string>
+    <string name="reproducibility_logs">Log Reproduksibilitas</string>
+    <string name="reproducibility_logs_summary">Ambil dan tampilkan log verifikasi build yang dapat direproduksi dari IzzyOnDroid. Menonaktifkan fitur ini akan menghapus log reproduksibilitas yang ada.</string>
 </resources>
