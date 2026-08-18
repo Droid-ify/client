@@ -43,7 +43,7 @@
     <string name="has_advertising">包含广告</string>
     <string name="has_non_free_dependencies">依赖其他非自由应用</string>
     <string name="has_security_vulnerabilities">包含已知安全漏洞</string>
-    <string name="http_error_DESC">服务器响应无效</string>
+    <string name="http_error_DESC">服务器响应无效：%s</string>
     <string name="http_proxy">HTTP 代理</string>
     <string name="ignore_all_updates">忽略新版本</string>
     <string name="ignore_this_update">忽略此版本</string>
