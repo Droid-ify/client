@@ -8,7 +8,9 @@ CREATE TABLE repository (
     fingerprint BLOB AS Fingerprint,
     etag TEXT,
     timestamp INTEGER,
-    enabled INTEGER AS Boolean NOT NULL DEFAULT 1,
+    deleted INTEGER AS Boolean NOT NULL,
+    trusted INTEGER AS Boolean NOT NULL,
+    enabled INTEGER AS Boolean NOT NULL,
     id INTEGER NOT NULL PRIMARY KEY
 );
 
@@ -48,8 +50,8 @@ CREATE TABLE authentication (
 );
 
 insertRepo:
-INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, enabled)
-VALUES (?, ?, ?, ?, ?, ?);
+INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, deleted, trusted, enabled)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 
 updateRepoEnabled:
 UPDATE repository SET enabled = ? WHERE id = ?;
