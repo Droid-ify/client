@@ -1,12 +1,11 @@
-import kotlin.Boolean;
-
 CREATE TABLE preferences (
     preferredRepoId INTEGER REFERENCES repository(id) ON DELETE SET NULL,
     -- NULL -> NOTHING
     -- -1 -> IGNORE ALL
     -- Number -> IGNORE <Number>
     ignoreUpdate INTEGER,
-    favorite INTEGER AS Boolean NOT NULL DEFAULT 0,
+    -- epoch millis
+    favorite INTEGER DEFAULT NULL,
     packageName TEXT NOT NULL PRIMARY KEY
 );
 
