@@ -8,7 +8,10 @@ CREATE TABLE repository (
     fingerprint BLOB AS Fingerprint,
     etag TEXT,
     timestamp INTEGER,
+    -- Cleaned up on next sync
     deleted INTEGER AS Boolean NOT NULL,
+    -- Should be sync trusted in background and untrusted only on manual?
+    -- Or we should always sync but show warning around apps from these repos?
     trusted INTEGER AS Boolean NOT NULL,
     enabled INTEGER AS Boolean NOT NULL,
     id INTEGER NOT NULL PRIMARY KEY
