@@ -10,9 +10,6 @@ CREATE TABLE repository (
     timestamp INTEGER,
     -- Cleaned up on next sync
     deleted INTEGER AS Boolean NOT NULL,
-    -- Should be sync trusted in background and untrusted only on manual?
-    -- Or we should always sync but show warning around apps from these repos?
-    trusted INTEGER AS Boolean NOT NULL,
     enabled INTEGER AS Boolean NOT NULL,
     id INTEGER NOT NULL PRIMARY KEY
 );
@@ -53,8 +50,8 @@ CREATE TABLE authentication (
 );
 
 insertRepo:
-INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, deleted, trusted, enabled)
-VALUES (?, ?, ?, ?, ?, ?, ?, ?);
+INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, deleted, enabled)
+VALUES (?, ?, ?, ?, ?, ?, ?);
 
 updateRepoEnabled:
 UPDATE repository SET enabled = ? WHERE id = ?;
