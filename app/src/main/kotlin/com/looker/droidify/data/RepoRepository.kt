@@ -33,6 +33,7 @@ class RepoRepository(
                 etag = null,
                 timestamp = null,
                 enabled = enabled,
+                deleted = false,
             )
             val repoId = db.repositoryQueries.lastInsertRowId().executeAsOne()
             if (key != null && username != null && password != null) {
@@ -67,6 +68,9 @@ class RepoRepository(
     }
 
     suspend fun delete(repoId: Long) = withContext(dispatcher) {
-        db.repositoryQueries.deleteRepo(repoId)
+        db.repositoryQueries.markRepoDeleted(repoId)
+        // TODO: schedule delete, maybe a workmanager or next sync
+        // db.repositoryQueries.deleteRepo(repoId)
+        // db.repositoryQueries.vacuum()
     }
 }
