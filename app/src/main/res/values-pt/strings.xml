@@ -47,7 +47,7 @@
     <string name="dark">Escuro</string>
     <string name="downloading_FORMAT">A descarregar %s…</string>
     <string name="fingerprint">Impressão digital</string>
-    <string name="http_error_DESC">Resposta inválida do servidor</string>
+    <string name="http_error_DESC">Resposta inválida do servidor: %s</string>
     <string name="anti_features">Anti-funcionalidades</string>
     <string name="application">Aplicação</string>
     <string name="changes">Alterações</string>
