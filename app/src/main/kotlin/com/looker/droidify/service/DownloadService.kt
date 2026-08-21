@@ -44,6 +44,8 @@ import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.notifications.createInstallNotification
 import com.looker.droidify.utility.notifications.installNotification
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -57,8 +59,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.yield
-import java.io.File
-import javax.inject.Inject
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -473,8 +473,12 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
                     updateCurrentState(State.Error(task.packageName))
                     val description = when (response) {
                         is NetworkResponse.Error.ConnectionTimeout -> getString(connection_error_DESC)
-                        is NetworkResponse.Error.Http ->
+
+                        is NetworkResponse.Error.Http -> {
+                            target.delete()
                             getString(http_error_DESC, "HTTP ${response.statusCode}")
+                        }
+
                         is NetworkResponse.Error.IO -> getString(io_error_DESC)
                         is NetworkResponse.Error.SocketTimeout -> getString(socket_error_DESC)
                         is NetworkResponse.Error.Unknown -> getString(unknown_error_DESC)
