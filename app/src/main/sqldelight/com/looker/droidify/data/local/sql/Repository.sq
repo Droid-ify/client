@@ -49,6 +49,33 @@ CREATE TABLE authentication (
     repoId INTEGER NOT NULL PRIMARY KEY REFERENCES repository(id) ON DELETE CASCADE
 );
 
+selectAll:
+SELECT * FROM repository
+WHERE deleted = 0;
+
+selectById:
+SELECT * FROM repository
+WHERE id = ? AND deleted = 0;
+
+selectEnabled:
+SELECT * FROM repository
+WHERE enabled = 1 AND deleted = 0;
+
+selectLocalized:
+SELECT * FROM localized_repo
+WHERE repoId IN ?;
+
+selectAllMirrors:
+SELECT * FROM mirror;
+
+selectMirrors:
+SELECT url, countryCode, isPrimary FROM mirror
+WHERE repoId = ?;
+
+selectAuthentication:
+SELECT username, password, initializationVector FROM authentication
+WHERE repoId = ?;
+
 insertRepo:
 INSERT INTO repository(address, webBaseUrl, fingerprint, etag, timestamp, deleted, enabled)
 VALUES (?, ?, ?, ?, ?, ?, ?);
