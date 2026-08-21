@@ -21,6 +21,13 @@ CREATE TABLE category_repo_relation (
     PRIMARY KEY(repoId, defaultName)
 ) WITHOUT ROWID;
 
+selectAllNames:
+SELECT DISTINCT category_app_relation.defaultName
+FROM category_app_relation
+JOIN app ON app.id = category_app_relation.appId
+JOIN repository ON repository.id = app.repoId
+WHERE repository.enabled = 1 AND repository.deleted = 0;
+
 insertCategory:
 INSERT OR REPLACE INTO category(icon, name, description, locale, defaultName)
 VALUES (?, ?, ?, ?, ?);
