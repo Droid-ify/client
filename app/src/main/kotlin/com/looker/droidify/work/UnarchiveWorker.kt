@@ -41,7 +41,7 @@ class UnarchiveWorker @AssistedInject constructor(
     private val installManager: InstallManager,
 ) : CoroutineWorker(context, workerParams) {
     companion object {
-        private const val TAG = "CleanUpWorker"
+        private const val TAG = "UnarchiveWorker"
 
         fun updateNow(context: Context, packageName: String, unarchiveId: Int, allUsers: Boolean) {
             val data = Data.Builder()
