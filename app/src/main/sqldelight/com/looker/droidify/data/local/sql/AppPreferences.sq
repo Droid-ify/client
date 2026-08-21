@@ -14,3 +14,23 @@ CREATE TABLE installed (
     signature BLOB NOT NULL,
     packageName TEXT NOT NULL PRIMARY KEY
 );
+
+insertPreferences:
+INSERT OR REPLACE INTO preferences(preferredRepoId, ignoreUpdate, favorite, packageName)
+VALUES (?, ?, ?, ?);
+
+insertInstalled:
+INSERT OR REPLACE INTO installed(versionCode, signature, packageName)
+VALUES (?, ?, ?);
+
+updatePreferredRepoId:
+UPDATE preferences SET preferredRepoId = ?
+WHERE packageName = ?;
+
+updateIgnoreUpdates:
+UPDATE preferences SET ignoreUpdate = ?
+WHERE packageName = ?;
+
+updateFavorite:
+UPDATE preferences SET favorite = ?
+WHERE packageName = ?;
