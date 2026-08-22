@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import coil3.load
 import com.google.android.material.color.MaterialColors
 import com.looker.droidify.R
 import com.looker.droidify.database.Database
 import com.looker.droidify.databinding.RepositoryItemBinding
 import com.looker.droidify.model.Repository
+import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.widget.CursorRecyclerAdapter
 
 class RepositoriesAdapter(
@@ -89,8 +91,8 @@ class RepositoriesAdapter(
             holder.repoState.backgroundTintList = ColorStateList.valueOf(colorSurfaceContainer)
         }
 
-        // TODO: fetch repo icon
-        holder.repoIcon.setImageIcon(null)
-        holder.repoIcon.visibility = View.GONE
+        holder.repoIcon.load(repository.address + "/icons/icon.png") {
+            authentication(repository.authentication)
+        }
     }
 }
