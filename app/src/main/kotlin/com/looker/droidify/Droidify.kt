@@ -125,7 +125,7 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
                 }
             }
             launch {
-                settingsRepository.get { cleanUpInterval }.drop(1).collect {
+                settingsRepository.get { cleanUpInterval }.collect {
                     if (it == INFINITE) {
                         CleanUpWorker.removeAllSchedules(applicationContext)
                     } else {

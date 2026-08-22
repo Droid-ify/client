@@ -36,6 +36,8 @@ turbine = "1.2.1"
 compose-bom = "2026.02.00"
 compose-material = "1.5.0-alpha15"
 compose-navigation = "2.9.7"
+quickieFoss = "1.18.1"
+desugar_jdk_libs = "2.1.5"
 
 [libraries]
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -94,6 +96,8 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockk-android = { group = "io.mockk", name = "mockk-android", version.ref = "mockk" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
 junit-vintage-engine = { group = "org.junit.vintage", name = "junit-vintage-engine" }
+quickie-foss = { module = "com.github.T8RIN.QuickieExtended:quickie-foss", version.ref = "quickieFoss" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 
 # Compose dependencies
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }

@@ -68,6 +68,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
 
     buildFeatures {
@@ -133,6 +134,9 @@ dependencies {
 
     implementation(libs.image.viewer)
     implementation(libs.bundles.coil)
+    implementation(libs.quickie.foss)
+    // Required for QuickieFOSS
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     implementation(libs.datastore.core)
     implementation(libs.datastore.proto)

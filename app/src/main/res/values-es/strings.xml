@@ -43,7 +43,7 @@
     <string name="has_advertising">Contiene publicidad</string>
     <string name="has_non_free_dependencies">Depende de otras apps no libres</string>
     <string name="has_security_vulnerabilities">Contiene vulnerabilidades de seguridad conocidas</string>
-    <string name="http_error_DESC">Respuesta del servidor inválida</string>
+    <string name="http_error_DESC">Respuesta inválida del servidor: %s</string>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="ignore_all_updates">Ignorar nuevas versiones</string>
     <string name="ignore_this_update">Ignorar esta versión</string>
@@ -152,7 +152,7 @@
     <string name="version">Versión</string>
     <string name="version_FORMAT">Versión %s</string>
     <string name="versions">Versiones</string>
-    <string name="waiting_to_start_download">Esperando para iniciar la descarga…</string>
+    <string name="waiting_to_start_download">Descargas en cola…</string>
     <string name="whats_new">Novedades</string>
     <string name="website">Página web del proyecto</string>
     <plurals name="new_updates_DESC_FORMAT">
@@ -190,7 +190,7 @@
     <string name="force_clean_up_DESC">Limpiar archivos redundantes</string>
     <string name="enable_repo">Habilitar repositorio</string>
     <string name="installing">Instalando</string>
-    <string name="waiting_to_start_installation">Esperando para iniciar la instalación…</string>
+    <string name="waiting_to_start_installation">Instalación en cola…</string>
     <string name="auto_update">Actualizar automáticamente las aplicaciones</string>
     <string name="auto_update_apps">Instalar actualizaciones automáticamente</string>
     <string name="has_non_free_components">Contiene componentes no libres</string>
@@ -278,4 +278,14 @@
     <string name="custom_buttons_imported">Botones personalizados importados</string>
     <string name="copied_to_clipboard">Copiado</string>
     <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
+    <string name="proxy_restart_required">Se requiere reiniciar para que los cambios entren en vigor.</string>
+    <string name="tap_to_resume_updates">Abre la app para reanudar las actualizaciones</string>
+    <string name="rb_badge_verified">Compilación reproducible verificada</string>
+    <string name="rb_badge_non_reproducible">Construcción no reproducible</string>
+    <string name="rb_badge_unknown">Estado desconocido</string>
+    <string name="rb_badge_no_data">No hay datos de compilación reproducibles</string>
+    <string name="rb_what_is">¿Qué son las construcciones reproducibles?</string>
+    <string name="download_statistics_summary">Recoge y muestra los conteos mensuales de descargas desde IzzyOnDroid. Desactivar elimina las estadísticas de descarga existentes.</string>
+    <string name="reproducibility_logs">Registros de reproducibilidad</string>
+    <string name="reproducibility_logs_summary">Obtened y mostrad registros de verificación de compilación reproducibles desde IzzyOnDroid. Desactivar borra los registros de reproducibilidad existentes.</string>
 </resources>

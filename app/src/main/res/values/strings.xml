@@ -294,4 +294,7 @@
     <string name="custom_buttons_export">Export buttons</string>
     <string name="custom_buttons_import">Import buttons</string>
     <string name="custom_buttons_imported">Custom buttons imported</string>
+    <string name="scan_qr_code">Scan QR code</string>
+    <string name="qr_camera_permission_required">Camera permission is required to scan QR codes</string>
+    <string name="qr_scan_failed">Failed to scan QR code</string>
 </resources>
