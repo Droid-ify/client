@@ -363,7 +363,7 @@ class TabsFragment : ScreenFragment() {
             val margins = 8.dp
             (layoutParams as ViewGroup.MarginLayoutParams).setMargins(margins, margins, margins, 0)
             visibility = View.GONE
-            systemBarsPadding(includeFab = false)
+            systemBarsPadding(fabPadding = 0)
         }
         this.sectionsList = sectionsList
 
