@@ -6,23 +6,25 @@ set -euo pipefail
 changelog_directory="./metadata/en-US/changelogs"
 kotlin_file="./app/build.gradle.kts"
 
+usage() {
+	cat <<EOF
+Usage: ./release.sh [NAME]
+
+NAME: Should not be prefixed
+- 0.7.5
+
+EOF
+}
+
 if [ "$#" -ne 1 ]; then
-	echo "Usage: $0 -v=X.Y.Z or $0 --version=X.Y.Z"
+	usage
 	exit 1
 fi
 
-case "$1" in
--v=* | --version=*)
-	version="${1#*=}"
-	;;
-*)
-	echo "Usage: $0 -v=X.Y.Z or $0 --version=X.Y.Z"
-	exit 1
-	;;
-esac
+version="$1"
 
 if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-	echo "Invalid version format. Please use X.Y.Z; eg: 0.7.5"
+	usage
 	exit 1
 fi
 
