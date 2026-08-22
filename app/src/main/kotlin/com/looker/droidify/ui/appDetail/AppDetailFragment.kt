@@ -155,7 +155,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 }
                 layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
                 recyclerView = this
-                systemBarsPadding(includeFab = false)
+                systemBarsPadding(fabPadding = 0)
             },
         )
         viewLifecycleOwner.lifecycleScope.launch {

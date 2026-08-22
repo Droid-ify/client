@@ -45,7 +45,7 @@ class FavouritesFragment : ScreenFragment() {
                     recyclerViewAdapter =
                         FavouriteFragmentAdapter { mainActivity.navigateProduct(it) }
                     this.adapter = recyclerViewAdapter
-                    systemBarsPadding(includeFab = false)
+                    systemBarsPadding(fabPadding = 0)
                     recyclerView = this
                 },
             )

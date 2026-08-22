@@ -34,8 +34,6 @@ import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.mainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.github.g00fy2.quickie.QRResult
-import io.github.g00fy2.quickie.ScanQRCode
 import java.net.URI
 import java.net.URISyntaxException
 import java.net.URL
@@ -77,53 +75,6 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     @Inject
     lateinit var downloader: Downloader
-
-    private val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
-        when (result) {
-            is QRResult.QRSuccess -> {
-                val content = result.content.rawValue?.trim().orEmpty()
-                if (content.isEmpty()) {
-                    Snackbar.make(requireView(), R.string.invalid_address, Snackbar.LENGTH_SHORT).show()
-                    return@registerForActivityResult
-                }
-
-                val (addressText, fingerprintText) = parseRepoUrl(content)
-
-                if (addressText != null) {
-                    binding.address.setText(addressText)
-                    binding.fingerprint.setText(fingerprintText.orEmpty())
-
-                    invalidateAddress()
-                    invalidateFingerprint()
-                    binding.address.requestFocus()
-                } else {
-                    binding.address.setText(content)
-                    invalidateAddress()
-                    Snackbar.make(
-                        requireView(),
-                        R.string.invalid_address,
-                        Snackbar.LENGTH_SHORT
-                    ).show()
-                }
-            }
-            is QRResult.QRUserCanceled -> Unit
-            is QRResult.QRMissingPermission -> {
-                Snackbar.make(
-                    requireView(),
-                    R.string.qr_camera_permission_required,
-                    Snackbar.LENGTH_LONG
-                ).show()
-            }
-
-            is QRResult.QRError -> {
-                Snackbar.make(
-                    requireView(),
-                    R.string.qr_scan_failed,
-                    Snackbar.LENGTH_SHORT
-                ).show()
-            }
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -269,10 +220,6 @@ class EditRepositoryFragment() : ScreenFragment() {
                 checkJob?.cancel()
                 onSaveRepositoryClick(false)
             }
-        }
-
-        binding.scanQr.setOnClickListener {
-            scanQrCodeLauncher.launch(null)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

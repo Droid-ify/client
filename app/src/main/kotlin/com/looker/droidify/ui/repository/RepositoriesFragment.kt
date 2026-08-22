@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
-import com.looker.droidify.databinding.RecyclerViewWithFabBinding
+import com.looker.droidify.databinding.ScreenRepositoriesBinding
 import com.looker.droidify.service.Connection
 import com.looker.droidify.service.SyncService
 import com.looker.droidify.ui.ScreenFragment
@@ -17,13 +18,50 @@ import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.widget.addDivider
+import io.github.g00fy2.quickie.QRResult
+import io.github.g00fy2.quickie.ScanQRCode
 
 class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
 
-    private var _binding: RecyclerViewWithFabBinding? = null
+    private var _binding: ScreenRepositoriesBinding? = null
     private val binding get() = _binding!!
 
     private val syncConnection = Connection(SyncService::class.java)
+
+    private val scanQrCodeLauncher = registerForActivityResult(ScanQRCode()) { result ->
+        when (result) {
+            is QRResult.QRSuccess -> {
+                val content = result.content.rawValue?.trim().orEmpty()
+                if (content.isEmpty()) {
+                    Snackbar
+                        .make(
+                            requireView(),
+                            R.string.invalid_address,
+                            Snackbar.LENGTH_SHORT,
+                        ).show()
+                    return@registerForActivityResult
+                }
+                EditRepositoryFragment(null, content)
+            }
+
+            is QRResult.QRUserCanceled -> Unit
+            is QRResult.QRMissingPermission -> {
+                Snackbar.make(
+                    requireView(),
+                    R.string.qr_camera_permission_required,
+                    Snackbar.LENGTH_LONG,
+                ).show()
+            }
+
+            is QRResult.QRError -> {
+                Snackbar.make(
+                    requireView(),
+                    R.string.qr_scan_failed,
+                    Snackbar.LENGTH_SHORT,
+                ).show()
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,11 +69,12 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
         savedInstanceState: Bundle?,
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        _binding = RecyclerViewWithFabBinding.inflate(inflater, container, false)
+        _binding = ScreenRepositoriesBinding.inflate(inflater, container, false)
         val view = fragmentBinding.root.apply {
-            binding.scrollUp.apply {
-                setIconResource(R.drawable.ic_add)
-                setText(R.string.add_repository)
+            binding.scanQr.apply {
+                setOnClickListener { scanQrCodeLauncher.launch(null) }
+            }
+            binding.addRepo.apply {
                 setOnClickListener { mainActivity.navigateAddRepository() }
                 systemBarsMargin(16.dp)
             }
@@ -68,9 +107,11 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
     private fun handleFab() {
         binding.recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY) {
-                binding.scrollUp.shrink()
+                binding.addRepo.shrink()
+                binding.scanQr.hide()
             } else {
-                binding.scrollUp.extend()
+                binding.addRepo.extend()
+                binding.scanQr.show()
             }
         }
     }
