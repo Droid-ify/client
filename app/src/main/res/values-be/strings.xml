@@ -80,7 +80,7 @@
     <string name="incompatible_features_DESC">Адсутныя функцыі</string>
     <string name="no_applications_available">Няма даступных праграм</string>
     <string name="password_missing">Пароль адсутнічае</string>
-    <string name="installed">Ўсталявана</string>
+    <string name="installed">Усталявана</string>
     <string name="name">Назва</string>
     <string name="connection_error_DESC">Не ўдалося падключыцца да сервера</string>
     <string name="proxy_port">Порт проксі</string>
