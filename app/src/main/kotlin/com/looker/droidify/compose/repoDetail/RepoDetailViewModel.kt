@@ -2,36 +2,30 @@ package com.looker.droidify.compose.repoDetail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.looker.droidify.compose.repoDetail.navigation.RepoDetail
-import com.looker.droidify.data.RepoRepository
-import com.looker.droidify.utility.common.extension.asStateFlow
+import com.looker.droidify.data.model.Repo
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class RepoDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val repoRepository: RepoRepository,
 ) : ViewModel() {
 
     private val route: RepoDetail = savedStateHandle.toRoute()
     val repoId = route.repoId
 
-    val repo = repoRepository.repo(repoId).asStateFlow(null)
+    // TODO(sqldelight): reimplement with SQLDelight-backed repository
+    val repo: StateFlow<Repo?> = MutableStateFlow(null)
 
     fun enableRepository(enable: Boolean) {
-        viewModelScope.launch {
-            repo.value?.let { repoRepository.enableRepository(it, enable) }
-        }
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 
     fun deleteRepository(onDelete: () -> Unit) {
-        viewModelScope.launch {
-            repoRepository.deleteRepo(repoId)
-            onDelete()
-        }
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 }

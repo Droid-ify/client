@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.looker.droidify.compose.appDetail.navigation.appDetail
@@ -25,32 +24,18 @@ import com.looker.droidify.compose.repoList.navigation.repoList
 import com.looker.droidify.compose.settings.navigation.navigateToSettings
 import com.looker.droidify.compose.settings.navigation.settings
 import com.looker.droidify.compose.theme.DroidifyTheme
-import com.looker.droidify.data.RepoRepository
-import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.requestNotificationPermission
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainComposeActivity : ComponentActivity() {
-
-    @Inject
-    lateinit var repository: RepoRepository
 
     private val notificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        lifecycleScope.launch {
-            if (repository.repos.first().isEmpty()) {
-                Repository.defaultRepositories.forEach {
-                    repository.insertRepo(it.address, it.fingerprint, null, null, it.name, it.description)
-                }
-            }
-        }
+        // TODO(sqldelight): seed default repositories via SQLDelight-backed repository
         enableEdgeToEdge()
         requestNotificationPermission(request = notificationPermission::launch)
         setContent {

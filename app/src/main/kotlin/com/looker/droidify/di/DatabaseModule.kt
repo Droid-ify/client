@@ -1,21 +1,25 @@
 package com.looker.droidify.di
 
 import android.content.Context
+import androidx.sqlite.db.SupportSQLiteDatabase
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
+import com.looker.droidify.data.IndexRepository
 import com.looker.droidify.data.PrivacyRepository
-import com.looker.droidify.data.local.DroidifyDatabase
-import com.looker.droidify.data.local.dao.AppDao
-import com.looker.droidify.data.local.dao.AuthDao
-import com.looker.droidify.data.local.dao.IndexDao
-import com.looker.droidify.data.local.dao.InstalledDao
-import com.looker.droidify.data.local.dao.RepoDao
-import com.looker.droidify.data.local.droidifyDatabase
+import com.looker.droidify.data.RepoRepository
+import com.looker.droidify.data.encryption.EncryptionStorage
+import com.looker.droidify.data.local.droidifyDb
+import com.looker.droidify.data.local.sql.DroidifyDb
 import com.looker.droidify.datastore.SettingsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Singleton
+
+private const val DB_NAME = "droidify_v2.db"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -23,40 +27,45 @@ object DatabaseModule {
 
     @Singleton
     @Provides
-    fun provideDatabase(
-        @ApplicationContext
-        context: Context,
-    ): DroidifyDatabase = droidifyDatabase(context)
+    fun provideSqlDriver(
+        @ApplicationContext context: Context,
+    ): SqlDriver = AndroidSqliteDriver(
+        schema = DroidifyDb.Schema,
+        context = context,
+        name = DB_NAME,
+        callback = object : AndroidSqliteDriver.Callback(DroidifyDb.Schema) {
+            override fun onConfigure(db: SupportSQLiteDatabase) {
+                super.onConfigure(db)
+                db.setForeignKeyConstraintsEnabled(true)
+            }
+        },
+    )
 
     @Singleton
     @Provides
-    fun provideAppDao(
-        db: DroidifyDatabase,
-    ): AppDao = db.appDao()
+    fun provideDroidifyDb(driver: SqlDriver): DroidifyDb = droidifyDb(driver)
 
     @Singleton
     @Provides
-    fun provideRepoDao(
-        db: DroidifyDatabase,
-    ): RepoDao = db.repoDao()
+    fun provideRepoRepository(
+        db: DroidifyDb,
+        encryptionStorage: EncryptionStorage,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+    ): RepoRepository = RepoRepository(
+        db = db,
+        encryptionStorage = encryptionStorage,
+        dispatcher = dispatcher,
+    )
 
     @Singleton
     @Provides
-    fun provideAuthDao(
-        db: DroidifyDatabase,
-    ): AuthDao = db.authDao()
-
-    @Singleton
-    @Provides
-    fun provideInstallDao(
-        db: DroidifyDatabase,
-    ): InstalledDao = db.installedDao()
-
-    @Singleton
-    @Provides
-    fun provideIndexDao(
-        db: DroidifyDatabase,
-    ): IndexDao = db.indexDao()
+    fun provideIndexRepository(
+        db: DroidifyDb,
+        @IoDispatcher dispatcher: CoroutineDispatcher,
+    ): IndexRepository = IndexRepository(
+        db = db,
+        dispatcher = dispatcher,
+    )
 
     @Singleton
     @Provides

@@ -1,0 +1,52 @@
+import kotlin.Boolean;
+
+CREATE TABLE rb_log (
+    packageName TEXT NOT NULL,
+    versionCode INTEGER NOT NULL,
+    versionName TEXT NOT NULL,
+    apkUrl TEXT NOT NULL,
+    tag TEXT NOT NULL,
+    commitHash TEXT NOT NULL,
+    timestamp INTEGER NOT NULL,
+    -- NULL -> rebuild attempted, verdict unknown
+    reproducible INTEGER AS Boolean,
+    error TEXT,
+    hash TEXT NOT NULL,
+    repository TEXT NOT NULL,
+    PRIMARY KEY(hash, repository)
+);
+
+CREATE INDEX index_rb_log_packageName ON rb_log(packageName, versionCode);
+
+CREATE TABLE download_stats (
+    downloads INTEGER NOT NULL,
+    timestamp INTEGER NOT NULL,
+    packageName TEXT NOT NULL,
+    source TEXT NOT NULL,
+    PRIMARY KEY(packageName, source)
+) WITHOUT ROWID;
+
+insertRBLog:
+INSERT OR REPLACE INTO rb_log(packageName, versionCode, versionName, apkUrl, tag, commitHash, timestamp, reproducible, error, hash, repository)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+rbLogs:
+SELECT *
+FROM rb_log
+WHERE packageName = ?
+ORDER BY versionCode DESC, timestamp DESC;
+
+deleteAllRBLogs:
+DELETE FROM rb_log;
+
+insertDownloadStats:
+INSERT OR REPLACE INTO download_stats(downloads, timestamp, packageName, source)
+VALUES (?, ?, ?, ?);
+
+totalDownloads:
+SELECT COALESCE(SUM(downloads), 0)
+FROM download_stats
+WHERE packageName = ?;
+
+deleteAllDownloadStats:
+DELETE FROM download_stats;
