@@ -1,0 +1,15 @@
+Added:
+
+- Scan QR Code to add repository
+- Show repo icons
+
+Fixed:
+
+- Cleanup not scheduling
+
+Changed:
+
+- Repository list page UI improvements
+- Translation changes
+
+Full changelog: https://github.com/Droid-ify/client/releases/tag/v0.7.6
