@@ -49,6 +49,7 @@ jobs:
         name: Create Release
         id: publish_release
         with:
+          token: ${{ secrets.RELEASE_PAT }}
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           name: Release ${{ github.event.inputs.tag || github.ref_name }}
           files: ${{steps.sign_app.outputs.signedReleaseFile}}
