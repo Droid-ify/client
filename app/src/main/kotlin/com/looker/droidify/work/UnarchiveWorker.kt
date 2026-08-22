@@ -29,9 +29,14 @@ import com.looker.droidify.utility.common.extension.singleSignature
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
+
+internal suspend fun Flow<DownloadService.DownloadState>.waitForCompletion(
+    packageName: String,
+): DownloadService.DownloadState = first { it isComplete packageName }
 
 @HiltWorker
 @RequiresApi(Build.VERSION_CODES.VANILLA_ICE_CREAM)
@@ -82,8 +87,7 @@ class UnarchiveWorker @AssistedInject constructor(
             product.releases.first(),
         )
 
-        // Wait until the download completes
-        val downloadResult = binder.downloadState.last()
+        val downloadResult = binder.downloadState.waitForCompletion(packageName)
         connection.unbind(context)
         return downloadResult
     }
