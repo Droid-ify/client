@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:animateLayoutChanges="true">
 
     <androidx.core.widget.NestedScrollView
@@ -18,18 +17,6 @@
             android:paddingHorizontal="12dp"
             android:paddingTop="4dp"
             android:paddingBottom="12dp">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/scan_qr"
-                style="?materialIconButtonFilledTonalStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:text="@string/scan_qr_code"
-                app:icon="@drawable/qr_code"
-                app:iconGravity="textStart"
-                app:iconPadding="12dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/address_container"
