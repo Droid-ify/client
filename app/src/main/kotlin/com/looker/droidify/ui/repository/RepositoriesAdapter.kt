@@ -82,11 +82,9 @@ class RepositoriesAdapter(
 
         holder.isChecked = repository.enabled
         if (holder.isChecked) {
-            holder.repoState.setImageResource(R.drawable.ic_check)
             holder.repoState.imageTintList = ColorStateList.valueOf(colorSurfaceContainer)
             holder.repoState.backgroundTintList = ColorStateList.valueOf(colorOnSurface)
         } else {
-            holder.repoState.setImageResource(R.drawable.ic_cancel)
             holder.repoState.imageTintList = ColorStateList.valueOf(colorOnSurface)
             holder.repoState.backgroundTintList = ColorStateList.valueOf(colorSurfaceContainer)
         }
