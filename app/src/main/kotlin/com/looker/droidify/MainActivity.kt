@@ -29,12 +29,12 @@ import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabsFragment.TabsFragment
 import com.looker.droidify.utility.common.DeeplinkType
-import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.deeplinkType
 import com.looker.droidify.utility.common.extension.homeAsUp
 import com.looker.droidify.utility.common.extension.inputManager
 import com.looker.droidify.utility.common.getInstallPackageName
 import com.looker.droidify.utility.common.requestNotificationPermission
+import com.looker.droidify.utility.getParcelableArrayListCompat
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.findFragmentByTag(CursorOwner::class.java.name) as CursorOwner
         }
 
-        savedInstanceState?.getParcelableArrayList<FragmentStackItem>(STATE_FRAGMENT_STACK)
+        savedInstanceState?.getParcelableArrayListCompat<FragmentStackItem>(STATE_FRAGMENT_STACK)
             ?.let { fragmentStack += it }
         if (savedInstanceState == null) {
             replaceFragment(TabsFragment(), null)
@@ -151,11 +151,17 @@ class MainActivity : AppCompatActivity() {
                 handleIntent(intent)
             }
         }
-        if (SdkCheck.isR) {
+
+        @Suppress("DEPRECATION")
+        if (
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.R
+            && Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM
+        ) {
             window.statusBarColor = resources.getColor(android.R.color.transparent, theme)
             window.navigationBarColor = resources.getColor(android.R.color.transparent, theme)
             WindowCompat.setDecorFitsSystemWindows(window, false)
         }
+
         backHandler()
     }
 

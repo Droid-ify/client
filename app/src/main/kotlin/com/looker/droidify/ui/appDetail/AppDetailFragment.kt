@@ -53,6 +53,7 @@ import com.looker.droidify.utility.extension.android.Android.name
 import com.looker.droidify.utility.extension.android.Android.primaryPlatform
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.utility.getParcelableCompat
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -150,10 +151,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 adapter = detailAdapter
                 (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
                 if (detailAdapter != null) {
-                    savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+                    savedInstanceState?.getParcelableCompat<AppDetailAdapter.SavedState>(STATE_ADAPTER)
                         ?.let(detailAdapter!!::restoreState)
                 }
-                layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+                layoutManagerState = savedInstanceState?.getParcelableCompat(STATE_LAYOUT_MANAGER)
                 recyclerView = this
                 systemBarsPadding(fabPadding = 0)
             },

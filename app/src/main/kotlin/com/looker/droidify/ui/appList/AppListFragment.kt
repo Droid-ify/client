@@ -24,6 +24,7 @@ import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
+import com.looker.droidify.utility.getParcelableCompat
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
@@ -135,7 +136,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+        layoutManagerState = savedInstanceState?.getParcelableCompat(STATE_LAYOUT_MANAGER)
         mainActivity.cursorOwner.attach(
             callback = this,
             request = viewModel.state.value.toRequest(source, searchQuery),
