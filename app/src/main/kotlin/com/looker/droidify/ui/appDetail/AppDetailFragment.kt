@@ -7,6 +7,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -63,9 +64,10 @@ import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
-    companion object {
-        private const val STATE_LAYOUT_MANAGER = "layoutManager"
-        private const val STATE_ADAPTER = "adapter"
+    private companion object {
+        const val TAG = "AppDetailFragment"
+        const val STATE_LAYOUT_MANAGER = "layoutManager"
+        const val STATE_ADAPTER = "adapter"
     }
 
     constructor(packageName: String, repoAddress: String? = null) : this() {
@@ -151,7 +153,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 adapter = detailAdapter
                 (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
                 if (detailAdapter != null) {
-                    savedInstanceState?.getParcelableCompat<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+                    savedInstanceState?.getParcelableCompat<AppDetailAdapter.SavedState>(
+                        STATE_ADAPTER,
+                    )
                         ?.let(detailAdapter!!::restoreState)
                 }
                 layoutManagerState = savedInstanceState?.getParcelableCompat(STATE_LAYOUT_MANAGER)
@@ -280,7 +284,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     }
                 }
 
-                installedItem != null && selectedRelease != null && installedItem.signature != selectedRelease.signature -> {
+                installedItem != null
+                    && selectedRelease != null
+                    && installedItem.signature != selectedRelease.signature -> {
                     getString(stringRes.incompatible_signature_DESC)
                 }
 
@@ -603,7 +609,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 startActivity(Intent(Intent.ACTION_VIEW, uri))
                 true
             } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
+                Log.e(TAG, "Failed to open url: $uri", e)
                 false
             }
         }

@@ -68,7 +68,7 @@ class UnarchiveWorker @AssistedInject constructor(
             val c = Connection(
                 serviceClass = DownloadService::class.java,
                 onBind = { _, binder ->
-                    cont.resume(binder) { cause, _, _ -> connection.unbind(context) }
+                    cont.resume(binder) { _, _, _ -> connection.unbind(context) }
                 },
             )
             connection = c
