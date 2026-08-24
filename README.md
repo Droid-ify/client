@@ -17,7 +17,7 @@
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify)
 [![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
 
-<img src="metadata/en-US/images/phoneScreenshots/1.png" width="13%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="13%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="13%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="13%" />
+<img src="metadata/en-US/images/phoneScreenshots/1.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="15%" />
 
 </div>
 
@@ -31,9 +31,10 @@
 
 ### Installation
 
-- [IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify)
-- [F-Droid](https://f-droid.org/packages/com.looker.droidify)
-- [GitHub](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroidButtonGreyBorder_nofont.png" height="80" alt="Get it on IzzyOnDroid">](https://apt.izzysoft.de/packages/com.looker.droidify)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.looker.droidify/)
+
+[GitHub](https://github.com/Iamlooker/Droid-ify/releases/latest)
 
 **Signature:**
 ```
