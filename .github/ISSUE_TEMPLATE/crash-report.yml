@@ -1,12 +1,12 @@
-name: Bug Report
-description: Something does not work as expected
-title: "[BUG] "
-labels: [ "bug" ]
+name: Crash Report
+description: App crashed unexpectedly
+title: "[Crash] "
+labels: [ "crash" ]
 type: bug
 body:
   - type: markdown
     attributes:
-      value: App bug report
+      value: App crash report
 
   - type: checkboxes
     id: checklist
@@ -14,16 +14,16 @@ body:
       label: Guidelines
       description: Confirm before submitting
       options:
-        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are related to the bug report I want to file, without success.
+        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are related to the crash report I want to file, without success.
           required: true
-        - label: I'm on the [latest](https://github.com/Droid-ify/client/releases/latest) released version.
+        - label: I'm on the [latest](https://github.com/Droid-ify/client/releases/latest) release
           required: true
 
   - type: textarea
     id: description
     attributes:
       label: What happened
-      description: Describe the bug
+      description: Describe the crash
     validations:
       required: true
 
@@ -31,30 +31,17 @@ body:
     id: reproduce
     attributes:
       label: Steps to reproduce
-      description: Steps to reproduce the bug. The issue might be closed if we fail to reproduce it.
+      description: Steps to reproduce the crash. The issue might be closed if we fail to reproduce it.
       placeholder: |
-        1. Open the app and go to...
+        1. Open app, go to...
         2. Tap on...
-        3. See the error
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected behavior
-      description: What should have happened instead?
-      placeholder: Normally it would...
-
-  - type: textarea
-    id: screenshots
-    attributes:
-      label: Screenshots
-      description: Add screenshots here if relevant to the bug report
+        3. Crash
 
   - type: input
     id: device
     attributes:
       label: Device
-      description: On what device did you encounter this bug?
+      description: On what device did you encounter this crash?
       placeholder: e.g. Pixel 6
     validations:
       required: true
@@ -91,10 +78,3 @@ body:
         ```
 
         </details>
-
-  - type: textarea
-    id: additional
-    attributes:
-      label: Additional context
-      description: Repos you have added, things you've tried, etc.
-      placeholder: Any other details that might help...
