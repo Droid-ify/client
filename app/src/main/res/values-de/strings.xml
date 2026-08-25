@@ -285,4 +285,7 @@
     <string name="reproducibility_logs_summary">Überprüfungsprotokolle für reproduzierbare Builds von IzzyOnDroid abrufen und anzeigen. Durch Deaktivieren werden vorhandene Reproduzierbarkeitsprotokolle gelöscht.</string>
     <string name="rb_badge_verified">Überprüftes reproduzierbares Build</string>
     <string name="rb_badge_non_reproducible">Nicht reproduzierbares Build</string>
+    <string name="scan_qr_code">QR-Code scannen</string>
+    <string name="qr_camera_permission_required">Für das Scannen von QR-Codes ist die Kameraberechtigung erforderlich</string>
+    <string name="qr_scan_failed">QR-Code konnte nicht gescannt werden</string>
 </resources>

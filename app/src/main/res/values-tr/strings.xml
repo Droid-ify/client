@@ -261,7 +261,7 @@
     <string name="copied_to_clipboard">Kopyalandı</string>
     <string name="custom_buttons">Özel butonlar</string>
     <string name="custom_buttons_description">Uygulama detaylarına ekstra servislerin linkini ekleyin</string>
-    <string name="custom_buttons_section">Uygulama detay linkleri</string>
+    <string name="custom_buttons_section">Uygulama ayrıntı bağlantıları</string>
     <string name="custom_button_add">Buton ekle</string>
     <string name="custom_button_edit">Buton düzenle</string>
     <string name="custom_button_label">Etiket</string>
@@ -285,4 +285,7 @@
     <string name="download_statistics_summary">IzzyOnDroid\'dan aylık indirme sayılarını getirip göster. Devre dışı bırakıldığında var olan indirme istatistikleri silinir.</string>
     <string name="reproducibility_logs">Tekrarlanabilirlik Günlükleri</string>
     <string name="reproducibility_logs_summary">IzzyOnDroid\'dan tekrarlanabilir derleme doğrulama günlüklerini getirip göster. Devre dışı bırakıldığında var olan tekrarlanabilirlik günlükleri silinir.</string>
+    <string name="scan_qr_code">QR kodu tara</string>
+    <string name="qr_camera_permission_required">QR kodu taramak için kamera izni gereklidir</string>
+    <string name="qr_scan_failed">QR kodu taranamadı</string>
 </resources>

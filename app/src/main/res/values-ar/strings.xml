@@ -297,4 +297,7 @@
     <string name="download_statistics_summary">استرداد وعرض أعداد التنزيلات الشهرية من IzzyOnDroid. يؤدي تعطيل هذه الميزة إلى مسح إحصائيات التنزيل الحالية.</string>
     <string name="reproducibility_logs">سجلّات البناء المضمون تطابقه</string>
     <string name="reproducibility_logs_summary">استرداد وعرض سجلّات التحقق من البناء المضمون تطابقه من IzzyOnDroid. يؤدي التعطيل إلى مسح سجلّات البناء المضمون تطابقه.</string>
+    <string name="scan_qr_code">امسح رمز QR</string>
+    <string name="qr_camera_permission_required">يلزم الحصول على إذن الكاميرا لمسح رموز QR</string>
+    <string name="qr_scan_failed">فشل مسح رمز QR</string>
 </resources>

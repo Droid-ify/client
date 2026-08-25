@@ -291,4 +291,7 @@
     <string name="custom_button_delete_confirmation">Видалити кнопку «%1$s»?</string>
     <string name="custom_buttons_export">Експортувати кнопки</string>
     <string name="custom_buttons_import">Імпортувати кнопки</string>
+    <string name="scan_qr_code">Сканувати QR-код</string>
+    <string name="qr_camera_permission_required">Для сканування QR-кодів потрібен доступ до камери</string>
+    <string name="qr_scan_failed">Не вдалося просканувати QR-код</string>
 </resources>

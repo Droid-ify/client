@@ -291,4 +291,7 @@
     <string name="reproducibility_logs">Журналы воспроизводимости</string>
     <string name="reproducibility_logs_summary">Получение и отображение журналов воспроизводимости с IzzyOnDroid. При отключении существующие журналы воспроизводимости удаляются.</string>
     <string name="rb_badge_verified">Проверенная воспроизводимая сборка</string>
+    <string name="scan_qr_code">Сканировать QR-код</string>
+    <string name="qr_camera_permission_required">Для сканирования QR-кодов требуется разрешение на доступ к камере</string>
+    <string name="qr_scan_failed">Невозможно сканировать QR-код</string>
 </resources>
