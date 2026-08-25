@@ -282,4 +282,7 @@
     <string name="download_statistics_summary">從 IzzyOnDroid 取得並顯示每月下載次數。停用後會清除現有下載的統計資料。</string>
     <string name="reproducibility_logs">可復現性日誌</string>
     <string name="reproducibility_logs_summary">從 IzzyOnDroid 取得並顯示可復現建置驗證記錄。停用後會清除現有的可復現性記錄。</string>
+    <string name="scan_qr_code">掃描 QR code</string>
+    <string name="qr_camera_permission_required">需要相機權限才能掃描 QR codes</string>
+    <string name="qr_scan_failed">QR code 掃描失敗</string>
 </resources>
