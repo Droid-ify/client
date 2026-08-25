@@ -73,8 +73,8 @@ body:
         <details>
         <summary>Logs</summary>
 
-        ```
-        Paste logs here
+        ```kotlin
+        // paste logs here and remove this line
         ```
 
         </details>
