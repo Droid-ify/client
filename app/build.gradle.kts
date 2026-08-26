@@ -106,13 +106,6 @@ kotlin {
     }
 }
 
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-        vendor.set(JvmVendorSpec.JETBRAINS)
-    }
-}
-
 dependencies {
     implementation(libs.material)
     implementation(libs.core.ktx)
