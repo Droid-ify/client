@@ -18,13 +18,15 @@ Code contributions are welcome and guidelines are provided in sections below
 
 ## AI Contribution
 
-AI/LLM are still relatively new form of code generation, with questionable training ethics and practices. I am not strongly opposed to AI-generated contributions if you have interacted with the community, for example have a chat with an issue creator and project maintainer regarding the said issue, understand their expectation of a fix/implementation and then start working on it. Before sending a random PR create a issue if it does not exist yet and discuss about it, I am a eternally offline being, please understand that I do a job and also contribute to multiple projects so I might not respond for a long while.
+AI/LLM are still relatively new form of code generation, with questionable training ethics and practices. I am not strongly opposed to AI-generated contributions if you have interacted with the community, for example have a chat with an issue creator and project maintainer regarding the said issue, understand their expectation of a fix/implementation and then start working on it.
 
 One of my plan is to move to [Codeberg](https://codeberg.org) which strictly bans LLM contributions, atleast on large scales due to its unclear copyright and ehtics. We already have a [codeberg organization](https://codeberg.org/droidify) but due to large number of issues in GitHub the migration is delayed.
 
 ## Submitting changes
 
 Please send a [GitHub Pull Request to Droid-ify](https://github.com/Droid-ify/client/pull/new/main) with a clear list of what you've done. When you send a pull request, we will love you forever if you include some proof of implementation, this can be screenshots for UI implementation or screen recording for crash fixes. We can always use more test coverage. Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit).
+
+Before sending a PR create a issue if it does not exist yet and discuss about it, I am a eternally offline being, please understand that I do a job and also contribute to multiple projects so I might not respond for a while.
 
 Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
 
