@@ -308,6 +308,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
         showNotificationInstall(task)
         if (currentInstaller == InstallerType.ROOT ||
             currentInstaller == InstallerType.SHIZUKU ||
+            currentInstaller == InstallerType.DHIZUKU ||
             autoInstallWithSessionInstaller
         ) {
             val installItem = InstallItem(

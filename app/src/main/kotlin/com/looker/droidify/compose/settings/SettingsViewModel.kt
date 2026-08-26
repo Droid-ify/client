@@ -23,6 +23,10 @@ import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.datastore.model.LegacyInstallerComponent
 import com.looker.droidify.datastore.model.ProxyType
 import com.looker.droidify.datastore.model.Theme
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuAvailable
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuGranted
+import com.looker.droidify.installer.installers.dhizuku.isDhizukuInstalled
+import com.looker.droidify.installer.installers.dhizuku.requestDhizukuPermission
 import com.looker.droidify.installer.installers.initSui
 import com.looker.droidify.installer.installers.isMagiskGranted
 import com.looker.droidify.installer.installers.isShizukuAlive
@@ -150,6 +154,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             when (installerType) {
                 InstallerType.SHIZUKU -> handleShizukuInstaller(context, installerType)
+                InstallerType.DHIZUKU -> handleDhizukuInstaller(context, installerType)
                 InstallerType.ROOT -> handleRootInstaller(installerType)
                 InstallerType.LEGACY -> {
                     settingsRepository.setDeleteApkOnInstall(false)
@@ -173,6 +178,28 @@ class SettingsViewModel @Inject constructor(
             }
         } else {
             showSnackbar(R.string.shizuku_not_installed)
+        }
+    }
+
+    private suspend fun handleDhizukuInstaller(context: Context, installerType: InstallerType) {
+        if (!isDhizukuInstalled(context)) {
+            showSnackbar(R.string.dhizuku_not_installed)
+            return
+        }
+        val available = isDhizukuAvailable(context)
+        if (!available) {
+            showSnackbar(R.string.dhizuku_not_available)
+            return
+        }
+        when {
+            isDhizukuGranted() -> settingsRepository.setInstallerType(installerType)
+            else -> {
+                if (requestDhizukuPermission()) {
+                    settingsRepository.setInstallerType(installerType)
+                } else {
+                    showSnackbar(R.string.dhizuku_permission_denied)
+                }
+            }
         }
     }
 

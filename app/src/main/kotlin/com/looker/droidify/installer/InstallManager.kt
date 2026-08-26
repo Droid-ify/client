@@ -9,6 +9,7 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.LegacyInstaller
+import com.looker.droidify.installer.installers.dhizuku.DhizukuInstaller
 import com.looker.droidify.installer.installers.root.RootInstaller
 import com.looker.droidify.installer.installers.session.SessionInstaller
 import com.looker.droidify.installer.installers.shizuku.ShizukuInstaller
@@ -157,6 +158,7 @@ class InstallManager(
             InstallerType.LEGACY -> LegacyInstaller(context, settingsRepository)
             InstallerType.SESSION -> SessionInstaller(context)
             InstallerType.SHIZUKU -> ShizukuInstaller(context)
+            InstallerType.DHIZUKU -> DhizukuInstaller(context)
             InstallerType.ROOT -> RootInstaller(context)
         }
 
