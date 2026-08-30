@@ -288,4 +288,7 @@
     <string name="download_statistics_summary">Recoge y muestra los conteos mensuales de descargas desde IzzyOnDroid. Desactivar elimina las estadísticas de descarga existentes.</string>
     <string name="reproducibility_logs">Registros de reproducibilidad</string>
     <string name="reproducibility_logs_summary">Obtened y mostrad registros de verificación de compilación reproducibles desde IzzyOnDroid. Desactivar borra los registros de reproducibilidad existentes.</string>
+    <string name="scan_qr_code">Escanear código QR</string>
+    <string name="qr_camera_permission_required">Se requiere permiso de cámara para escanear códigos QR</string>
+    <string name="qr_scan_failed">No se ha podido escanear el código QR</string>
 </resources>
