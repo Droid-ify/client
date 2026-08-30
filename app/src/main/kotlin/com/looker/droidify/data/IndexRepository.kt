@@ -238,6 +238,11 @@ class IndexRepository(
             appId = appId,
         ).executeAsOne()
 
+        manifest.signer?.sha256?.forEach { sha256 ->
+            val signerSha256 = sha256.hexOrNull() ?: return@forEach
+            db.versionQueries.insertSigner(sha256 = signerSha256, versionId = versionId)
+        }
+
         version.whatsNew.forEach { (locale, whatsNew) ->
             db.versionQueries.insertWhatsNew(
                 whatsNew = whatsNew,

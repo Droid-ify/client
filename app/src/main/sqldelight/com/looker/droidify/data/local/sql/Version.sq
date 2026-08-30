@@ -17,6 +17,12 @@ CREATE TABLE version (
 CREATE UNIQUE INDEX index_version_appId_apkSha256 ON version(appId, apkSha256);
 CREATE INDEX index_version_appId ON version(appId);
 
+CREATE TABLE signer (
+    sha256 BLOB NOT NULL,
+    versionId INTEGER NOT NULL REFERENCES version(id) ON DELETE CASCADE,
+    PRIMARY KEY(versionId, sha256)
+) WITHOUT ROWID;
+
 CREATE TABLE permission (
     name TEXT NOT NULL,
     maxSdkVersion INTEGER AS Int,
@@ -54,6 +60,10 @@ insertVersion {
 selectVersionId:
 SELECT id FROM version
 WHERE appId = ? AND apkSha256 = ?;
+
+insertSigner:
+INSERT OR IGNORE INTO signer(sha256, versionId)
+VALUES (?, ?);
 
 insertPermission:
 INSERT OR IGNORE INTO permission(name, maxSdkVersion, versionId)
