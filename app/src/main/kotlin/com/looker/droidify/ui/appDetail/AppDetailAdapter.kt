@@ -1484,15 +1484,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                 holder as ScreenShotViewHolder
                 item as Item.ScreenshotItem
                 holder.screenshotsRecycler.run {
-                    val isRTL =
-                        context.resources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL
                     if (layoutManager == null) {
                         setHasFixedSize(true)
                         isNestedScrollingEnabled = false
                         clipToPadding = false
                         val padding = 8.dp
                         setPadding(padding, padding, padding, padding)
-                        layoutManager = LinearLayoutManager(context, HORIZONTAL, isRTL)
+                        layoutManager = LinearLayoutManager(context, HORIZONTAL, false)
                     }
                     adapter = ScreenshotsAdapter(
                         onScreenshotClick = callbacks::onScreenshotClick,
