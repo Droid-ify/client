@@ -54,9 +54,9 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -368,19 +368,17 @@ class TabsFragment : ScreenFragment() {
         this.sectionsList = sectionsList
 
         var lastContentHeight = -1
-        content.viewTreeObserver.addOnGlobalLayoutListener {
-            if (this.view != null) {
-                val initial = lastContentHeight <= 0
-                val contentHeight = content.height
-                if (lastContentHeight != contentHeight) {
-                    lastContentHeight = contentHeight
-                    if (initial) {
-                        sectionsList.layoutParams.height = if (showSections) contentHeight else 0
-                        sectionsList.isVisible = showSections
-                        sectionsList.requestLayout()
-                    } else {
-                        animateSectionsList()
-                    }
+        content.addOnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+            val initial = lastContentHeight <= 0
+            val contentHeight = bottom - top
+            if (lastContentHeight != contentHeight) {
+                lastContentHeight = contentHeight
+                if (initial) {
+                    sectionsList.layoutParams.height = if (showSections) contentHeight else 0
+                    sectionsList.isVisible = showSections
+                    sectionsList.requestLayout()
+                } else {
+                    animateSectionsList()
                 }
             }
         }
