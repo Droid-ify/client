@@ -170,7 +170,7 @@ dependencies {
     androidTestImplementation(libs.bundles.test.android)
     kspAndroidTest(libs.hilt.compiler)
 
-//    debugImplementation(libs.leakcanary)
+    debugImplementation(libs.leakcanary)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs
