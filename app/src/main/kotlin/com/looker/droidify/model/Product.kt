@@ -1,10 +1,5 @@
 package com.looker.droidify.model
 
-import android.content.Context
-import com.looker.droidify.utility.common.extension.getColorFromAttr
-import com.looker.droidify.utility.common.extension.videoPlaceHolder
-import com.google.android.material.R as MaterialR
-
 data class Product(
     var repositoryId: Long,
     val packageName: String,
@@ -53,21 +48,16 @@ data class Product(
             get() = "$locale.${type.name}.$path"
 
         fun url(
-            context: Context,
             repository: Repository,
             packageName: String,
-        ): Any {
-            if (type == Type.VIDEO) {
-                return context.videoPlaceHolder.apply {
-                    setTintList(context.getColorFromAttr(MaterialR.attr.colorOnSurfaceInverse))
-                }
-            }
+        ): String {
             val phoneType = when (type) {
                 Type.PHONE -> "phoneScreenshots"
                 Type.SMALL_TABLET -> "sevenInchScreenshots"
                 Type.LARGE_TABLET -> "tenInchScreenshots"
                 Type.WEAR -> "wearScreenshots"
                 Type.TV -> "tvScreenshots"
+                Type.VIDEO -> return path
             }
             return "${repository.address}/$packageName/$locale/$phoneType/$path"
         }

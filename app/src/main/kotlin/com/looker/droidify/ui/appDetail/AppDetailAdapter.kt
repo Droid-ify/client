@@ -36,6 +36,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL
 import androidx.recyclerview.widget.RecyclerView
 import coil3.load
 import com.google.android.material.button.MaterialButton
@@ -101,6 +102,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
         fun onPreferenceChanged(preference: ProductPreference)
         fun onPermissionsClick(group: String?, permissions: List<String>)
         fun onScreenshotClick(position: Int)
+        fun onVideoClick(url: String)
         fun onReleaseClick(release: Release)
         fun onRequestAddRepository(address: String)
         fun onUriClick(uri: Uri, shouldConfirm: Boolean): Boolean
@@ -1490,15 +1492,14 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         clipToPadding = false
                         val padding = 8.dp
                         setPadding(padding, padding, padding, padding)
-                        layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, isRTL)
+                        layoutManager = LinearLayoutManager(context, HORIZONTAL, isRTL)
                     }
-                    val screenshotsAdapter = (adapter as? ScreenshotsAdapter)
-                        ?: ScreenshotsAdapter(callbacks::onScreenshotClick).also { adapter = it }
-                    screenshotsAdapter.setScreenshots(
-                        item.repository,
-                        item.packageName,
-                        if (isRTL) item.screenshots.reversed() else item.screenshots,
+                    adapter = ScreenshotsAdapter(
+                        onScreenshotClick = callbacks::onScreenshotClick,
+                        onVideoClick = callbacks::onVideoClick,
+                        packageName = item.packageName,
+                        repository = item.repository,
+                        screenshots = item.screenshots,
                     )
                 }
             }
@@ -1514,7 +1515,7 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         val padding = 8.dp
                         setPadding(padding, 0, padding, padding)
                         layoutManager =
-                            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            LinearLayoutManager(context, HORIZONTAL, false)
                     }
                     val buttonsAdapter = (adapter as? CustomButtonsAdapter)
                         ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
