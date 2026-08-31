@@ -191,7 +191,7 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             }
         }
 
-        suspend fun updateAllApps() {
+        suspend fun updateAllApps() = withContext(Dispatchers.IO) {
             val skipSignature = settingsRepository.getInitial().ignoreSignature
             val updates = Database.ProductAdapter.getUpdates(skipSignature)
             updateAllAppsInternal(updates)
@@ -618,7 +618,9 @@ class SyncService : ConnectionService<SyncService.Binder>() {
         }
     }
 
-    private suspend fun updateAllAppsInternal(updates: List<ProductItem>) {
+    private suspend fun updateAllAppsInternal(
+        updates: List<ProductItem>,
+    ) = withContext(Dispatchers.IO) {
         updates
             // Update Droid-ify the last
             .sortedBy { if (it.packageName == packageName) 1 else -1 }

@@ -11,17 +11,15 @@ import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.SortOrder
 import com.looker.droidify.model.ProductItem
 import com.looker.droidify.model.ProductItem.Section.All
-import com.looker.droidify.service.Connection
-import com.looker.droidify.service.SyncService
 import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @HiltViewModel
 class AppListViewModel
@@ -61,14 +59,6 @@ class AppListViewModel
             .getUpdatesStream(skip)
             .map { it.isNotEmpty() }
     }.asStateFlow(false)
-
-    val syncConnection = Connection(SyncService::class.java)
-
-    fun updateAll() {
-        viewModelScope.launch {
-            syncConnection.binder?.updateAllApps()
-        }
-    }
 
     fun setSection(newSection: ProductItem.Section) {
         viewModelScope.launch {

@@ -103,10 +103,10 @@ class TabsFragment : ScreenFragment() {
             if (field != value) {
                 field = value
                 viewModel.showSections.value = value
-                val layout = layout
                 layout?.tabs?.let {
-                    (0 until it.childCount)
-                        .forEach { index -> it.getChildAt(index)!!.isEnabled = !value }
+                    for (index in 0..<it.childCount) {
+                        it.getChildAt(index)!!.isEnabled = !value
+                    }
                 }
                 layout?.sectionIcon?.scaleY = if (value) -1f else 1f
                 if (((sectionsList?.parent as? View)?.height ?: 0) > 0) {
@@ -464,6 +464,10 @@ class TabsFragment : ScreenFragment() {
     }
 
     internal fun selectUpdates() = selectUpdatesInternal(true)
+
+    internal fun updateAll() {
+        lifecycleScope.launch { syncConnection.binder?.updateAllApps() }
+    }
 
     private fun updateUpdateNotificationBlocker(activeSource: AppListFragment.Source) {
         val blockerFragment = if (activeSource == AppListFragment.Source.UPDATES) {

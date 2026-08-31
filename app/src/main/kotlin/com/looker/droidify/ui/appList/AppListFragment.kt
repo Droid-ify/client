@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.model.ProductItem
+import com.looker.droidify.ui.tabsFragment.TabsFragment
 import com.looker.droidify.utility.common.Scroller
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.systemBarsMargin
@@ -80,7 +81,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         searchQuery = savedInstanceState?.getString(EXTRA_SEARCH_QUERY).orEmpty()
 
         val viewModel = viewModel
-        viewModel.syncConnection.bind(requireContext())
 
         recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -94,7 +94,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         }
         with(binding.updateAll) {
             if (source.updateAll) {
-                setOnClickListener { viewModel.updateAll() }
+                setOnClickListener { (parentFragment as? TabsFragment)?.updateAll() }
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.showUpdateAllButton.collect {
                         isVisible = it
@@ -143,7 +143,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.syncConnection.unbind(requireContext())
         _binding = null
         scroller = null
         mainActivity.cursorOwner.detach(this)
