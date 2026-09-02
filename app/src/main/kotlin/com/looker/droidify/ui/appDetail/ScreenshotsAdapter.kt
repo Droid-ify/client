@@ -23,19 +23,30 @@ import com.looker.droidify.utility.common.extension.camera
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.layoutInflater
-import com.looker.droidify.utility.common.extension.openLink
 import com.looker.droidify.utility.common.extension.selectableBackground
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.google.android.material.R as MaterialR
 import com.looker.droidify.R.dimen as dimenRes
 
-class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
-    StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
+class ScreenshotsAdapter(
+    private val onScreenshotClick: (position: Int) -> Unit,
+    private val onVideoClick: (url: String) -> Unit,
+    packageName: String,
+    repository: Repository,
+    screenshots: List<Product.Screenshot>,
+) : StableRecyclerAdapter<ScreenshotsAdapter.ViewType, RecyclerView.ViewHolder>() {
+
     enum class ViewType { SCREENSHOT, VIDEO }
 
-    private val items = mutableListOf<Item>()
+    private val items = screenshots.map {
+        if (it.type == Product.Screenshot.Type.VIDEO) {
+            Item.VideoItem(it.path)
+        } else {
+            Item.ScreenshotItem(repository, packageName, it)
+        }
+    }
 
-    private inner class VideoViewHolder(
+    private class VideoViewHolder(
         binding: VideoButtonBinding,
     ) : RecyclerView.ViewHolder(binding.root) {
         val button = binding.videoButton
@@ -46,15 +57,11 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                     RecyclerView.LayoutParams.WRAP_CONTENT,
                     150.dp,
                 )
-                setOnClickListener {
-                    val item = items[absoluteAdapterPosition] as Item.VideoItem
-                    it.context?.openLink(item.videoUrl)
-                }
             }
         }
     }
 
-    private inner class ScreenshotViewHolder(
+    private class ScreenshotViewHolder(
         context: Context,
     ) : RecyclerView.ViewHolder(FrameLayout(context)) {
         val image = ShapeableImageView(context)
@@ -92,32 +99,8 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                     marginEnd = radius.toInt()
                 }
                 foregroundGravity = Gravity.CENTER
-                setOnClickListener {
-                    val position = if (items.any { it.viewType == ViewType.VIDEO }) {
-                        absoluteAdapterPosition - 1
-                    } else {
-                        absoluteAdapterPosition
-                    }
-                    onClick(position)
-                }
             }
         }
-    }
-
-    fun setScreenshots(
-        repository: Repository,
-        packageName: String,
-        screenshots: List<Product.Screenshot>,
-    ) {
-        items.clear()
-        items += screenshots.map {
-            if (it.type == Product.Screenshot.Type.VIDEO) {
-                Item.VideoItem(it.path)
-            } else {
-                Item.ScreenshotItem(repository, packageName, it)
-            }
-        }
-        notifyDataSetChanged()
     }
 
     override val viewTypeClass: Class<ViewType> get() = ViewType::class.java
@@ -142,16 +125,21 @@ class ScreenshotsAdapter(private val onClick: (position: Int) -> Unit) :
                 val item = items[position] as Item.ScreenshotItem
                 with(holder.image) {
                     setImageDrawable(null)
-                    load(item.screenshot.url(context, item.repository, item.packageName)) {
+                    load(item.screenshot.url(item.repository, item.packageName)) {
                         authentication(item.repository.authentication)
                         scale(Scale.FIT)
                         placeholder(holder.placeholder)
                         error(holder.placeholder.asImage())
                     }
+                    setOnClickListener { onScreenshotClick(position) }
                 }
             }
 
-            ViewType.VIDEO -> {}
+            ViewType.VIDEO -> {
+                holder as VideoViewHolder
+                val item = items[position] as Item.VideoItem
+                holder.button.setOnClickListener { onVideoClick(item.videoUrl) }
+            }
         }
     }
 
