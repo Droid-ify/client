@@ -14,10 +14,11 @@ import java.util.jar.JarEntry
 @JvmInline
 value class Fingerprint(val value: String) {
 
-    inline val isValid: Boolean
-        get() = value.isNotBlank() && value.length == Length
+    inline fun isValid(): Boolean = value.isNotBlank() && value.length == Length
 
     inline fun assert(other: Fingerprint): Boolean = other.value.equals(value, ignoreCase = true)
+
+    fun bytes(): ByteArray = value.hexToByteArray()
 
     override fun toString(): String = value
 
@@ -26,13 +27,15 @@ value class Fingerprint(val value: String) {
     }
 }
 
+fun Fingerprint(blob: ByteArray) = Fingerprint(blob.hex())
+
 suspend inline fun JarEntry.fingerprint(): Fingerprint? = withContext(Dispatchers.IO) {
     codeSignerOrNull?.certificateOrNull?.fingerprint()
 }
 
 inline fun Certificate.fingerprint(): Fingerprint? {
     val bytes = this.encoded.takeIf { it.size >= 256 } ?: return null
-    return Fingerprint(sha256(bytes).hex().uppercase()).takeIf { it.isValid }
+    return Fingerprint(sha256(bytes).hex()).takeIf(Fingerprint::isValid)
 }
 
 inline fun ByteArray.hex(): String = joinToString(separator = "") { byte ->

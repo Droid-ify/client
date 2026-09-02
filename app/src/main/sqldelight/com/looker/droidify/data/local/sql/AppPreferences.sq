@@ -1,0 +1,37 @@
+CREATE TABLE preferences (
+    preferredRepoId INTEGER REFERENCES repository(id) ON DELETE SET NULL,
+    -- NULL -> NOTHING
+    -- -1 -> IGNORE ALL
+    -- Number -> IGNORE <Number>
+    ignoreUpdate INTEGER,
+    -- epoch millis
+    favorite INTEGER DEFAULT NULL,
+    packageName TEXT NOT NULL PRIMARY KEY
+);
+
+CREATE TABLE installed (
+    versionCode INTEGER NOT NULL,
+    versionName TEXT NOT NULL,
+    signature BLOB NOT NULL,
+    packageName TEXT NOT NULL PRIMARY KEY
+);
+
+insertPreferences:
+INSERT OR REPLACE INTO preferences(preferredRepoId, ignoreUpdate, favorite, packageName)
+VALUES (?, ?, ?, ?);
+
+insertInstalled:
+INSERT OR REPLACE INTO installed(versionCode, versionName, signature, packageName)
+VALUES (?, ?, ?, ?);
+
+updatePreferredRepoId:
+UPDATE preferences SET preferredRepoId = ?
+WHERE packageName = ?;
+
+updateIgnoreUpdates:
+UPDATE preferences SET ignoreUpdate = ?
+WHERE packageName = ?;
+
+updateFavorite:
+UPDATE preferences SET favorite = ?
+WHERE packageName = ?;

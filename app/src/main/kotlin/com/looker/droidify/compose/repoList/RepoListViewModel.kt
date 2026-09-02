@@ -1,31 +1,23 @@
 package com.looker.droidify.compose.repoList
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.looker.droidify.data.RepoRepository
 import com.looker.droidify.data.model.Repo
-import com.looker.droidify.utility.common.extension.asStateFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class RepoListViewModel @Inject constructor(
-    private val repository: RepoRepository,
-) : ViewModel() {
+class RepoListViewModel @Inject constructor() : ViewModel() {
 
-    val stream = repository.repos
-        .asStateFlow(emptyList())
+    // TODO(sqldelight): reimplement with SQLDelight-backed repository
+    val stream: StateFlow<List<Repo>> = MutableStateFlow(emptyList())
 
     fun toggleRepo(repo: Repo) {
-        viewModelScope.launch {
-            repository.enableRepository(repo, !repo.enabled)
-        }
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 
     fun deleteRepo(repoId: Int) {
-        viewModelScope.launch {
-            repository.deleteRepo(repoId)
-        }
+        // TODO(sqldelight): reimplement with SQLDelight-backed repository
     }
 }
