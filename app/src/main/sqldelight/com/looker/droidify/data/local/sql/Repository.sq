@@ -87,7 +87,7 @@ updateRepoVersionInfo:
 UPDATE repository SET fingerprint = ?, etag = ?, timestamp = ? WHERE id = ?;
 
 markRepoDeleted:
-UPDATE repository SET enabled = 1, deleted = 1 WHERE id = ?;
+UPDATE repository SET enabled = 0, deleted = 1 WHERE id = ?;
 
 deleteRepo:
 DELETE FROM repository WHERE id = ?;
