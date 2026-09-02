@@ -13,12 +13,12 @@ android {
     val latestVersionName = "0.7.6"
     namespace = "com.looker.droidify"
     compileSdk {
-        version = release(36)
+        version = release(37)
     }
 
     defaultConfig {
         applicationId = "com.looker.droidify"
-        minSdk = 23
+        minSdk = 26
         versionName = latestVersionName
         versionCode = 760
 
@@ -131,6 +131,8 @@ dependencies {
 
     implementation(libs.libsu.core)
     implementation(libs.bundles.shizuku)
+    implementation(libs.dhizuku.api)
+    implementation(libs.hiddenapibypass)
 
     implementation(libs.jackson.core)
     implementation(libs.serialization)

@@ -67,6 +67,10 @@ class Droidify : Application(), SingletonImageLoader.Factory, Configuration.Prov
 
     override fun onCreate() {
         super.onCreate()
+        // Allow reflection on hidden PackageInstaller.mSession for Dhizuku (Android 9+)
+        try {
+            org.lsposed.hiddenapibypass.HiddenApiBypass.addHiddenApiExemptions("L")
+        } catch (_: Throwable) {}
 
         val databaseUpdated = Database.init(this)
         ProductPreferences.init(this, appScope)
