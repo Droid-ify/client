@@ -288,4 +288,7 @@
     <string name="rb_badge_non_reproducible">Compilação não reproduzível</string>
     <string name="rb_badge_no_data">Não existem dados de compilação reproduzível</string>
     <string name="reproducibility_logs_summary">Obter e mostrar registos de compilação reproduzível de IzzyOnDroid. Se desativar, elimina todos os registos existentes localmente.</string>
+    <string name="scan_qr_code">Digitalizar código QR</string>
+    <string name="qr_camera_permission_required">Requer acesso à câmara para poder digitalizar códigos QR</string>
+    <string name="qr_scan_failed">Erro ao digitalizar o código QR</string>
 </resources>
