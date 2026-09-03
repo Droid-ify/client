@@ -441,10 +441,17 @@ object Database {
 
         fun importRepos(list: List<Repository>) {
             db.transaction {
-                val currentAddresses = getAll().map { it.address }
-                val newRepos = list
-                    .filter { it.address !in currentAddresses }
-                newRepos.forEach { put(it) }
+                val currentRepos = getAll().associateBy { it.address }
+                list.forEach { imported ->
+                    val current = currentRepos[imported.address]
+                    when {
+                        current == null -> put(imported)
+                        // Keep the existing repository, but restore the backed up state.
+                        // `enable` resets the sync cursor so the repository is indexed again.
+                        current.enabled != imported.enabled ->
+                            put(current.enable(imported.enabled))
+                    }
+                }
                 removeDuplicates()
             }
         }
