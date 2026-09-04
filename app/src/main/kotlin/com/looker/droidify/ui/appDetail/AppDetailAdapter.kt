@@ -1515,15 +1515,13 @@ class AppDetailAdapter(private val callbacks: Callbacks) :
                         layoutManager =
                             LinearLayoutManager(context, HORIZONTAL, false)
                     }
-                    val buttonsAdapter = (adapter as? CustomButtonsAdapter)
-                        ?: CustomButtonsAdapter { url -> callbacks.onCustomButtonClick(url) }
-                            .also { adapter = it }
-                    buttonsAdapter.setButtons(
-                        buttons = item.buttons,
-                        packageName = item.packageName,
-                        appName = item.appName,
-                        authorName = item.authorName,
-                    )
+                    if (adapter == null) {
+                        adapter = CustomButtonsAdapter(
+                            buttons = item.buttons,
+                            product = product!!,
+                            onButtonClick = { url -> callbacks.onCustomButtonClick(url) },
+                        )
+                    }
                 }
             }
 

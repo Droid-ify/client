@@ -27,15 +27,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.looker.droidify.compose.settings.components.toDrawableRes
+import com.looker.droidify.data.model.App
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.CustomButtonIcon
 
 @Composable
 fun CustomButtonsRow(
     buttons: List<CustomButton>,
-    packageName: String,
-    appName: String,
-    authorName: String?,
+    app: App,
     onButtonClick: (url: String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -48,7 +47,12 @@ fun CustomButtonsRow(
             CustomButtonItem(
                 button = button,
                 onClick = {
-                    val resolvedUrl = button.resolveUrl(packageName, appName, authorName ?: "")
+                    val resolvedUrl = button.resolveUrl(
+                        packageName = app.metadata.packageName.name,
+                        appName = app.metadata.name,
+                        authorName = app.author?.name ?: "",
+                        sourceCode = app.links?.sourceCode ?: "",
+                    )
                     onButtonClick(resolvedUrl)
                 },
             )

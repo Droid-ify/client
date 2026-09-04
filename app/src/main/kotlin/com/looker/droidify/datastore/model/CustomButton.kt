@@ -14,9 +14,11 @@ data class CustomButton(
         packageName: String,
         appName: String,
         authorName: String,
+        sourceCode: String,
     ): String {
         val encodedAppName = Uri.encode(appName)
         val encodedAuthorName = Uri.encode(authorName)
+        val encodedSourceCode = Uri.encode(sourceCode)
 
         return urlTemplate
             .replace("{{package_name}}", packageName)
@@ -25,6 +27,8 @@ data class CustomButton(
             .replace("{{ app_name }}", encodedAppName)
             .replace("{{author_name}}", encodedAuthorName)
             .replace("{{ author_name }}", encodedAuthorName)
+            .replace("{{source_code}}", encodedSourceCode)
+            .replace("{{ source_code }}", encodedSourceCode)
     }
 
     companion object {

@@ -2,15 +2,14 @@ package com.looker.droidify.compose.settings.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -50,7 +49,6 @@ fun CustomButtonEditor(
     var label by remember { mutableStateOf(existingButton?.label ?: "") }
     var urlTemplate by remember { mutableStateOf(existingButton?.urlTemplate ?: "") }
     var selectedIcon by remember { mutableStateOf(existingButton?.icon ?: CustomButtonIcon.LINK) }
-    var showTemplates by remember { mutableStateOf(false) }
 
     val isValid = label.isNotBlank() && urlTemplate.isNotBlank()
 
@@ -68,6 +66,7 @@ fun CustomButtonEditor(
         },
         text = {
             Column(
+                verticalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.verticalScroll(rememberScrollState()),
             ) {
                 OutlinedTextField(
@@ -79,72 +78,39 @@ fun CustomButtonEditor(
                     modifier = Modifier.fillMaxWidth(),
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
-
                 OutlinedTextField(
                     value = urlTemplate,
                     onValueChange = { urlTemplate = it },
                     label = { Text(stringResource(R.string.custom_button_url)) },
                     placeholder = { Text(stringResource(R.string.custom_button_url_hint)) },
-                    supportingText = {
-                        Text(stringResource(R.string.custom_button_url_description))
-                    },
+                    supportingText = { Text(stringResource(R.string.custom_button_url_description)) },
                     modifier = Modifier.fillMaxWidth(),
                     minLines = 2,
                     maxLines = 4,
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
-
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                    modifier = Modifier.horizontalScroll(rememberScrollState()),
                 ) {
-                    Text(
-                        text = stringResource(R.string.custom_button_templates),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    TextButton(onClick = { showTemplates = !showTemplates }) {
-                        Text(
-                            if (showTemplates) {
-                                stringResource(R.string.show_less)
-                            } else {
-                                stringResource(R.string.show_more)
+                    CustomButton.TEMPLATES.forEach { template ->
+                        FilterChip(
+                            selected = false,
+                            onClick = {
+                                label = template.label
+                                urlTemplate = template.urlTemplate
+                                selectedIcon = template.icon
                             },
+                            label = { Text(template.label) },
                         )
                     }
                 }
-
-                if (showTemplates) {
-                    FlowRow(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        verticalArrangement = Arrangement.spacedBy(4.dp),
-                    ) {
-                        CustomButton.TEMPLATES.forEach { template ->
-                            FilterChip(
-                                selected = false,
-                                onClick = {
-                                    label = template.label
-                                    urlTemplate = template.urlTemplate
-                                    selectedIcon = template.icon
-                                },
-                                label = { Text(template.label) },
-                            )
-                        }
-                    }
-                }
-
-                Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = stringResource(R.string.custom_button_icon),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
-
-                Spacer(modifier = Modifier.height(8.dp))
 
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
