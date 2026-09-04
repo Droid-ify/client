@@ -288,4 +288,7 @@
     <string name="custom_buttons_export">Exportați butoanele</string>
     <string name="custom_buttons_import">Importați butoanele</string>
     <string name="custom_buttons_imported">Butoanele personalizate au fost importate</string>
+    <string name="scan_qr_code">Scanează codul QR</string>
+    <string name="qr_camera_permission_required">Este necesară permisiunea camerei pentru scanarea codurilor QR</string>
+    <string name="qr_scan_failed">Scanarea codului QR a eșuat</string>
 </resources>
