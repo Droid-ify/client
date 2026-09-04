@@ -24,7 +24,7 @@ jobs:
           else
             VERSION_NAME="${{ github.event.release.tag_name }}"
           fi
-          VERSION_CODE=$(grep 'versionCode\s*=' app/build.gradle.kts | grep -o '[0-9]\+')
+          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
           echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
           echo "code=$VERSION_CODE" >> "$GITHUB_OUTPUT"
 
