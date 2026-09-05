@@ -14,10 +14,14 @@ import androidx.core.view.WindowCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.R as MaterialR
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.extension.getThemeRes
+import com.looker.droidify.datastore.extension.isAmoledTheme
+import com.looker.droidify.datastore.extension.isDarkTheme
+import com.looker.droidify.datastore.model.Theme
 import com.looker.droidify.datastore.get
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallItem
@@ -29,6 +33,7 @@ import com.looker.droidify.ui.repository.RepositoryFragment
 import com.looker.droidify.ui.settings.SettingsFragment
 import com.looker.droidify.ui.tabsFragment.TabsFragment
 import com.looker.droidify.utility.common.DeeplinkType
+import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.deeplinkType
 import com.looker.droidify.utility.common.extension.homeAsUp
 import com.looker.droidify.utility.common.extension.inputManager
@@ -94,24 +99,29 @@ class MainActivity : AppCompatActivity() {
             EntryPointAccessors.fromApplication(this, CustomUserRepositoryInjector::class.java)
         val newSettings = hiltEntryPoint.settingsRepository().get { theme to dynamicTheme }
         runBlocking {
-            val theme = newSettings.first()
-            setTheme(
-                resources.configuration.getThemeRes(
-                    theme = theme.first,
-                    dynamicTheme = theme.second,
-                ),
-            )
+            val (theme, dynamicTheme) = newSettings.first()
+            applyTheme(theme, dynamicTheme)
         }
         lifecycleScope.launch {
-            newSettings.drop(1).collect { themeAndDynamic ->
-                setTheme(
-                    resources.configuration.getThemeRes(
-                        theme = themeAndDynamic.first,
-                        dynamicTheme = themeAndDynamic.second,
-                    ),
-                )
+            newSettings.drop(1).collect { (theme, dynamicTheme) ->
+                applyTheme(theme, dynamicTheme)
                 recreate()
             }
+        }
+    }
+
+    private fun applyTheme(theme: Theme, dynamicTheme: Boolean) {
+        val configuration = resources.configuration
+        setTheme(configuration.getThemeRes(theme, dynamicTheme))
+        if (!SdkCheck.isSnowCake || !dynamicTheme) return
+        val overlay = if (configuration.isDarkTheme(theme)) {
+            MaterialR.style.ThemeOverlay_Material3_DynamicColors_Dark
+        } else {
+            MaterialR.style.ThemeOverlay_Material3_DynamicColors_Light
+        }
+        this.theme.applyStyle(overlay, true)
+        if (configuration.isAmoledTheme(theme)) {
+            this.theme.applyStyle(R.style.ThemeOverlay_Main_Amoled, true)
         }
     }
 
