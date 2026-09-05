@@ -60,3 +60,15 @@ jobs:
           make_latest: true
           prerelease: false
           draft: true
+
+      - name: Publish release link
+        shell: bash
+        env:
+          RELEASE_URL: ${{ steps.publish_release.outputs.url }}
+        run: |
+          echo "::notice title=Release created::${RELEASE_URL}"
+          {
+            echo "## Release"
+            echo ""
+            echo "[Open release page](${RELEASE_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"
