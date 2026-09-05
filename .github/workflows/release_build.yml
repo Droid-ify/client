@@ -45,6 +45,19 @@ jobs:
           name: release
           path: ${{steps.sign_app.outputs.signedReleaseFile}}
 
+      - name: Rename signed APK
+        run: mv "${{ steps.sign_app.outputs.signedReleaseFile }}" "app-release.apk"
+
+      - name: Resolve changelog file
+        id: changelog
+        shell: bash
+        run: |
+          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
+          CHANGELOG="metadata/en-US/changelogs/${VERSION_CODE}.txt"
+          if [ -f "$CHANGELOG" ]; then
+            echo "path=$CHANGELOG" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: softprops/action-gh-release@v2
         name: Create Release
         id: publish_release
@@ -52,8 +65,21 @@ jobs:
           token: ${{ secrets.RELEASE_PAT }}
           tag_name: ${{ github.event.inputs.tag || github.ref_name }}
           name: Release ${{ github.event.inputs.tag || github.ref_name }}
-          files: ${{steps.sign_app.outputs.signedReleaseFile}}
+          files: app-release.apk
+          body_path: ${{ steps.changelog.outputs.path }}
           generate_release_notes: true
           make_latest: true
           prerelease: false
           draft: true
+
+      - name: Publish release link
+        shell: bash
+        env:
+          RELEASE_URL: ${{ steps.publish_release.outputs.url }}
+        run: |
+          echo "::notice title=Release created::${RELEASE_URL}"
+          {
+            echo "## Release"
+            echo ""
+            echo "[Open release page](${RELEASE_URL})"
+          } >> "$GITHUB_STEP_SUMMARY"

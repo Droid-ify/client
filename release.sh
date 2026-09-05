@@ -59,8 +59,12 @@ mkdir -p "$changelog_directory"
 if [ -f "$changelog_file" ]; then
 	echo "Changelog already exists, keeping it as is: $changelog_file"
 else
-	git log "$(git describe --tags --abbrev=0)"..HEAD --format="%s: %an" | sed "s/: LooKeR//" >>"$changelog_file"
+	echo "Added:" >>"$changelog_file"
+	echo "Fixed:" >>"$changelog_file"
+	echo "Changed:" >>"$changelog_file"
 	echo "Full changelog: https://github.com/Droid-ify/client/releases/tag/$git_tag" >>"$changelog_file"
+	echo "---"
+	git log "$(git describe --tags --abbrev=0)"..HEAD --format="%s: %an" | sed "s/: LooKeR//" >>"$changelog_file"
 fi
 
 echo "Version Code: $version_code"
