@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -29,7 +28,7 @@ class MessageDialog() : DialogFragment() {
     }
 
     constructor(message: Message) : this() {
-        arguments = bundleOf(EXTRA_MESSAGE to message)
+        arguments = Bundle().apply { putParcelable(EXTRA_MESSAGE, message) }
     }
 
     fun show(fragmentManager: FragmentManager) {

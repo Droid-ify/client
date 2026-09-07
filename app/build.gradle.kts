@@ -101,7 +101,6 @@ ksp {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xcontext-parameters")
         optIn.add("kotlin.RequiresOptIn")
     }
 }
