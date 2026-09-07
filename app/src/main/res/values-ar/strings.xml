@@ -174,20 +174,20 @@
     <string name="update_all">حدِّث الكل</string>
     <string name="cleanup_title">مدة تنظيف ملفات APK</string>
     <plurals name="days">
-        <item quantity="zero">أقل من يوم</item>
-        <item quantity="one">يوم</item>
-        <item quantity="two">يومان</item>
-        <item quantity="few">أيام</item>
-        <item quantity="many">يومًا</item>
-        <item quantity="other">يوم</item>
+        <item quantity="zero">%d أقل من يوم</item>
+        <item quantity="one">%d يوم</item>
+        <item quantity="two">%d يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="zero">أقل من ساعة</item>
-        <item quantity="one">ساعة</item>
-        <item quantity="two">ساعتان</item>
-        <item quantity="few">ساعات</item>
-        <item quantity="many">ساعةً</item>
-        <item quantity="other">ساعة</item>
+        <item quantity="zero">%d أقل من ساعة</item>
+        <item quantity="one">%d ساعة</item>
+        <item quantity="two">%d ساعتان</item>
+        <item quantity="few">%d ساعات</item>
+        <item quantity="many">%d ساعةً</item>
+        <item quantity="other">%d ساعة</item>
     </plurals>
     <string name="only_on_wifi_with_charging">فقط على شبكة واي-فاي وعند الشحن</string>
     <string name="io_error_DESC">تعذَّر أداء بعض الإجراءات</string>

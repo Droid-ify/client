@@ -37,8 +37,8 @@
     <string name="force_clean_up_DESC">Nililinis ang mga redundant na file</string>
     <string name="incompatible_older_DESC">Mas luma ang bersyong ito kaysa sa naka-install sa iyong device. I-uninstall muna yan.</string>
     <plurals name="days">
-        <item quantity="one">Araw</item>
-        <item quantity="other">Mga araw</item>
+        <item quantity="one">%d Araw</item>
+        <item quantity="other">%d Mga araw</item>
     </plurals>
     <string name="install">I-install</string>
     <string name="invalid_username_format">Di-wastong format ng username</string>
@@ -80,8 +80,8 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="has_advertising">May advertising</string>
     <plurals name="hours">
-        <item quantity="one">Oras</item>
-        <item quantity="other">Oras</item>
+        <item quantity="one">%d Oras</item>
+        <item quantity="other">%d Oras</item>
     </plurals>
     <string name="enable_repo">Paganahin ang repositoryo</string>
     <string name="incompatible_signature_DESC">Ang bersyon na ito ay nilagdaan gamit ang isang certificate na iba kaysa sa naka-install sa iyong device. I-uninstall muna yan.</string>
@@ -97,7 +97,7 @@
     <string name="bug_tracker">Bug tracker</string>
     <string name="cancel">Kanselahin</string>
     <string name="invalid_permissions_error_DESC">Mga di-wastong pahintulot.</string>
-    <string name="http_error_DESC">Di-wastong tugon ng server.</string>
+    <string name="http_error_DESC">Di-wastong tugon ng server: %s</string>
     <string name="incompatible_platforms_DESC_FORMAT">Ang iyong %1$s platform ay hindi suportado. Mga sinusuportahang platform: %2$s.</string>
     <string name="ignore_all_updates">Huwag pansinin ang lahat ng mga bagong bersyon</string>
     <string name="incompatible_with_FORMAT">Hindi tugma sa %s</string>

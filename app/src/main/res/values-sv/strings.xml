@@ -110,7 +110,7 @@
     <string name="downloading_FORMAT">Laddar ner %s…</string>
     <string name="edit_repository">Redigera</string>
     <string name="file_format_error_DESC">Ogiltigt filformat</string>
-    <string name="http_error_DESC">Ogiltigt serversvar</string>
+    <string name="http_error_DESC">Ogiltigt serversvar: %s</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="ignore_all_updates">Ignorera nya versioner</string>
     <string name="ignore_this_update">Ignorera den här versionen</string>
@@ -143,12 +143,12 @@
     <string name="has_non_free_dependencies">Beror på andra icke-fria appar</string>
     <string name="downloaded_FORMAT">Laddade ned %s</string>
     <plurals name="days">
-        <item quantity="one">dag</item>
-        <item quantity="other">dagar</item>
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dagar</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">timme</item>
-        <item quantity="other">timmar</item>
+        <item quantity="one">%d timme</item>
+        <item quantity="other">%d timmar</item>
     </plurals>
     <string name="downloading">Laddar ner</string>
     <string name="no_description_available_DESC">Ingen beskrivning finns tillgänglig</string>

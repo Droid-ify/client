@@ -10,9 +10,10 @@
     <string name="changes">Pakeitimai</string>
     <string name="dark">Tamsi</string>
     <plurals name="days">
-        <item quantity="one">Diena</item>
-        <item quantity="few">Dienos</item>
-        <item quantity="other">Dienų</item>
+        <item quantity="one">%d Diena</item>
+        <item quantity="few">%d Dienos</item>
+        <item quantity="many">%d Dienų</item>
+        <item quantity="other">%d Dienų</item>
     </plurals>
     <string name="delete">Ištrinti</string>
     <string name="description">Aprašymas</string>
@@ -92,9 +93,10 @@
     <string name="has_advertising">Turi reklamų</string>
     <string name="has_security_vulnerabilities">Turi saugumo spragų</string>
     <plurals name="hours">
-        <item quantity="one">Valanda</item>
-        <item quantity="few">Valandos</item>
-        <item quantity="other">Valandų</item>
+        <item quantity="one">%d Valanda</item>
+        <item quantity="few">%d Valandos</item>
+        <item quantity="many">%d Valandų</item>
+        <item quantity="other">%d Valandų</item>
     </plurals>
     <string name="ok">Gerai</string>
     <string name="only_on_wifi">Tik per Wi-Fi</string>
@@ -136,6 +138,7 @@
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d programėlė turi naują versiją.</item>
         <item quantity="few">%d programėlės turi naujas versijas.</item>
+        <item quantity="many">%d programėlių turi naujas versijas.</item>
         <item quantity="other">%d programėlių turi naujas versijas.</item>
     </plurals>
     <string name="no_applications_available">Nėra pasiekiamų programėlių</string>
@@ -155,7 +158,7 @@
     <string name="edit_repository">Redaguoti repozitoriją</string>
     <string name="fingerprint">Pirštų atspaudai</string>
     <string name="has_non_free_dependencies">Turi ne „libre“ priklausomybių</string>
-    <string name="http_error_DESC">Netinkamas serverio atsakymas.</string>
+    <string name="http_error_DESC">Netinkamas serverio atsakymas: %s</string>
     <string name="http_proxy">HTTP įgaliotasis serveris</string>
     <string name="incompatible_features_DESC">Trūkstamos funkcijos.</string>
     <string name="install">Įdiegti</string>

@@ -43,7 +43,7 @@
     <string name="has_advertising">Sisältää mainoksia</string>
     <string name="has_non_free_dependencies">Ei-vapaita riippuvuuksia</string>
     <string name="has_security_vulnerabilities">Sisältää tietoturva-aukkoja</string>
-    <string name="http_error_DESC">Palvelimen vastaus on virheellinen</string>
+    <string name="http_error_DESC">Palvelimen vastaus on virheellinen: %s</string>
     <string name="http_proxy">HTTP-välityspalvelin</string>
     <string name="ignore_all_updates">Jätä kaikki uudet versiot huomiotta</string>
     <string name="ignore_this_update">Jätä tämä versio huomiotta</string>
@@ -170,12 +170,12 @@
     <string name="shizuku_installer">Shizuku-asentaja</string>
     <string name="cleanup_title">APK:n puhdistusväli</string>
     <plurals name="days">
-        <item quantity="one">Päivä</item>
-        <item quantity="other">Päivää</item>
+        <item quantity="one">%d Päivä</item>
+        <item quantity="other">%d Päivää</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">tunti</item>
-        <item quantity="other">tuntia</item>
+        <item quantity="one">%d tunti</item>
+        <item quantity="other">%d tuntia</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Vain Wi-Fi verkossa latauksessa ollessa</string>
     <string name="io_error_DESC">Tiettyjä toimia ei voida suorittaa</string>

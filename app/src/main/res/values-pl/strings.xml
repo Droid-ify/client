@@ -57,7 +57,7 @@
     <string name="sync_repositories">Synchronizacja repozytoriów</string>
     <string name="invalid_signature_error_DESC">Nieprawidłowa sygnatura</string>
     <string name="incompatible_version">Niezgodna wersja</string>
-    <string name="http_error_DESC">Nieprawidłowa odpowiedź serwera</string>
+    <string name="http_error_DESC">Nieprawidłowa odpowiedź serwera: %s</string>
     <string name="cancel">Anuluj</string>
     <string name="has_non_free_dependencies">Zależne od innych aplikacji niewolnych</string>
     <string name="donate">Darowizna</string>
@@ -172,17 +172,17 @@
     <string name="update_all">Aktualizuj wszystkie</string>
     <string name="cleanup_title">Interwał oczyszczania plików apk</string>
     <plurals name="days">
-        <item quantity="one">dzień</item>
-        <item quantity="few">dni</item>
-        <item quantity="many">dni</item>
-        <item quantity="other">dni</item>
+        <item quantity="one">%d dzień</item>
+        <item quantity="few">%d dni</item>
+        <item quantity="many">%d dni</item>
+        <item quantity="other">%d dni</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Tylko na Wi-Fi podczas ładowania</string>
     <plurals name="hours">
-        <item quantity="one">godzina</item>
-        <item quantity="few">godziny</item>
-        <item quantity="many">godzin</item>
-        <item quantity="other">godzin</item>
+        <item quantity="one">%d godzina</item>
+        <item quantity="few">%d godziny</item>
+        <item quantity="many">%d godzin</item>
+        <item quantity="other">%d godzin</item>
     </plurals>
     <string name="io_error_DESC">Nie można wykonać niektórych działań</string>
     <string name="material_you_desc">Użyj kolorów Material You</string>

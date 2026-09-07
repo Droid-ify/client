@@ -169,14 +169,14 @@
     <string name="root_installer">Root инсталатор</string>
     <string name="shizuku_installer">Shizuku/Sui инсталатор</string>
     <plurals name="days">
-        <item quantity="one">ден</item>
-        <item quantity="other">дни</item>
+        <item quantity="one">%d ден</item>
+        <item quantity="other">%d дни</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Само при Wi-Fi и зареждане</string>
     <string name="cleanup_title">Интервал за почистване на APK</string>
     <plurals name="hours">
-        <item quantity="one">час</item>
-        <item quantity="other">часа</item>
+        <item quantity="one">%d час</item>
+        <item quantity="other">%d часа</item>
     </plurals>
     <string name="io_error_DESC">Невъзможност за извършване на определени действия</string>
     <string name="material_you_desc">Използване на Material You цветове</string>

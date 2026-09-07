@@ -74,9 +74,9 @@
     <string name="credits">Zasluge</string>
     <string name="dark">Tamno</string>
     <plurals name="days">
-        <item quantity="one">dan</item>
-        <item quantity="few">dana</item>
-        <item quantity="other">dana</item>
+        <item quantity="one">%d dan</item>
+        <item quantity="few">%d dana</item>
+        <item quantity="other">%d dana</item>
     </plurals>
     <string name="description">Opis</string>
     <string name="downloading_FORMAT">Preuzimanje %s…</string>
@@ -85,9 +85,9 @@
     <string name="has_advertising">Sadrži reklame</string>
     <string name="has_non_free_dependencies">Ovisi od drugih aplikacija koje nisu besplatne</string>
     <plurals name="hours">
-        <item quantity="one">sat</item>
-        <item quantity="few">sata</item>
-        <item quantity="other">sati</item>
+        <item quantity="one">%d sat</item>
+        <item quantity="few">%d sata</item>
+        <item quantity="other">%d sati</item>
     </plurals>
     <string name="ignore_all_updates">Zanemari nove inačice</string>
     <string name="incompatible_api_DESC_FORMAT">Vaš %1$s (API inačica %2$d) nije podržana. %3$s</string>
@@ -178,7 +178,7 @@
     <string name="incompatible_features_DESC">Značajke koje nedostaju</string>
     <string name="no_applications_available">Nema dostupnih aplikacija</string>
     <string name="has_security_vulnerabilities">Sadrži poznate sigurnosne probleme</string>
-    <string name="http_error_DESC">Neispravan odgovor poslužitelja</string>
+    <string name="http_error_DESC">Neispravan odgovor poslužitelja: %s</string>
     <string name="http_proxy">HTTP proxy</string>
     <string name="never">Nikad</string>
     <string name="io_error_DESC">Nije moguće izvršiti određene radnje</string>

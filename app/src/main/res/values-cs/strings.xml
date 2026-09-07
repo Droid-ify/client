@@ -86,6 +86,7 @@
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d aplikace má dostupné aktualizace</item>
         <item quantity="few">%d aplikace mají dostupné aktualizace</item>
+        <item quantity="many">%d aplikací má dostupné aktualizace</item>
         <item quantity="other">%d aplikací má dostupné aktualizace</item>
     </plurals>
     <string name="no_applications_available">Žádné dostupné aplikace</string>
@@ -170,14 +171,16 @@
     <string name="unstable_updates_summary">Navrhovat instalaci nestabilních verzí aplikací</string>
     <string name="select_mirror">Vybrat mirror</string>
     <plurals name="days">
-        <item quantity="one">den</item>
-        <item quantity="few">dny</item>
-        <item quantity="other">dní</item>
+        <item quantity="one">%d den</item>
+        <item quantity="few">%d dny</item>
+        <item quantity="many">%d dní</item>
+        <item quantity="other">%d dní</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">hodina</item>
-        <item quantity="few">hodiny</item>
-        <item quantity="other">hodin</item>
+        <item quantity="one">%d hodina</item>
+        <item quantity="few">%d hodiny</item>
+        <item quantity="many">%d hodin</item>
+        <item quantity="other">%d hodin</item>
     </plurals>
     <string name="cleanup_title">Interval čištění APK</string>
     <string name="only_on_wifi_with_charging">Pouze na Wi-Fi při nabíjení</string>

@@ -5,8 +5,8 @@
     <string name="auto_update_apps">Essayar le installation de actualisationes automaticamente</string>
     <string name="all_applications_up_to_date">Tote le applicationes es actualisate</string>
     <plurals name="days">
-        <item quantity="one">Die</item>
-        <item quantity="other">Dies</item>
+        <item quantity="one">%d Die</item>
+        <item quantity="other">%d Dies</item>
     </plurals>
     <string name="connecting">Connectente…</string>
     <string name="description">Description</string>
@@ -140,14 +140,14 @@
     <string name="session_installer">Installator de session</string>
     <string name="incompatible_version">Version incompatibile</string>
     <plurals name="hours">
-        <item quantity="one">Hora</item>
-        <item quantity="other">Horas</item>
+        <item quantity="one">%d Hora</item>
+        <item quantity="other">%d Horas</item>
     </plurals>
     <string name="sync_repositories_automatically">Synchronisar repositorios automaticamente</string>
     <string name="sync_repositories">Synchronisar repositorios</string>
     <string name="installer">Installator</string>
     <string name="syncing_FORMAT">Synchronisante %s…</string>
-    <string name="http_error_DESC">Responsa de servitor non valide.</string>
+    <string name="http_error_DESC">Responsa de servitor non valide: %s</string>
     <string name="waiting_to_start_download">Attendente pro le initio del discargamento…</string>
     <string name="waiting_to_start_installation">Attendente pro le initio del installation…</string>
     <string name="connection_error_DESC">Non poteva connecter al servitor</string>

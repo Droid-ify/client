@@ -68,7 +68,7 @@
     <string name="versions">نسخه‌ها</string>
     <string name="cleanup_title">وقفه پاکسازی APK</string>
     <string name="has_security_vulnerabilities">دارای حفره‌های امنیتی شناخته شده</string>
-    <string name="http_error_DESC">پاسخ نادرست از مرکز</string>
+    <string name="http_error_DESC">پاسخ نادرست از مرکز: %s</string>
     <string name="incompatible_versions">نسخه‌های ناسازگار</string>
     <string name="incompatible_with_FORMAT">ناسازگاری با %s</string>
     <string name="invalid_signature_error_DESC">امضای نادرست</string>
@@ -141,12 +141,12 @@
         <item quantity="other">بروزرسانی برای %d ‌کاره موجود می باشد</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">روز</item>
-        <item quantity="other">روز</item>
+        <item quantity="one">%d روز</item>
+        <item quantity="other">%d روز</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">ساعت</item>
-        <item quantity="other">ساعت</item>
+        <item quantity="one">%d ساعت</item>
+        <item quantity="other">%d ساعت</item>
     </plurals>
     <string name="donate">حمایت‌مالی</string>
     <string name="delete_repository_DESC">این مخزن پاک شود؟</string>

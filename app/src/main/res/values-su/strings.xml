@@ -20,7 +20,7 @@
     <string name="credits">Kredit</string>
     <string name="dark">Poék</string>
     <plurals name="days">
-        <item quantity="other">poé</item>
+        <item quantity="other">%d poé</item>
     </plurals>
     <string name="enable_repo">Aktipkeun repositori</string>
     <string name="fingerprint">Sidik</string>
@@ -29,7 +29,7 @@
     <string name="has_tethered_network">Depéndensi kana layanan jaringan tangtu</string>
     <string name="home_screen_swiping_DESC">Gésér kénca atawa katuhu jang mindahkeun kaca</string>
     <plurals name="hours">
-        <item quantity="other">jam</item>
+        <item quantity="other">%d jam</item>
     </plurals>
     <string name="ignore_all_updates">Abaikeun vérsi anyar</string>
     <string name="incompatible_api_DESC_FORMAT">%1$s anjeun (Vérsi API %2$d) teu dirojong. %3$s</string>
@@ -128,7 +128,7 @@
     <string name="has_non_free_dependencies">Depéndensi ti apl bayar nu lain</string>
     <string name="has_non_free_components">Aya komponén teu gratis</string>
     <string name="home_screen_swiping">Kaca gésér</string>
-    <string name="http_error_DESC">Tanggepan server teu valid</string>
+    <string name="http_error_DESC">Tanggepan server teu valid: %s</string>
     <string name="incompatible_api_min_DESC_FORMAT">Minimal vérsi API nyaéta %d</string>
     <string name="socket_error_DESC">Server gagal nyadiaan pakét anyar</string>
     <string name="connection_error_DESC">Gagal nyambung kana server</string>

@@ -43,7 +43,7 @@
     <string name="has_advertising">Contém anúncio</string>
     <string name="has_non_free_dependencies">Depende de outros aplicativos não livres/gratuitos</string>
     <string name="has_security_vulnerabilities">Possui vulnerabilidades de segurança</string>
-    <string name="http_error_DESC">Resposta de servidor inválida</string>
+    <string name="http_error_DESC">Resposta de servidor inválida: %s</string>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="ignore_all_updates">Ignorar novas versões</string>
     <string name="ignore_this_update">Ignorar esta versão</string>
@@ -171,14 +171,14 @@
     <string name="session_installer">Instalador de sessão</string>
     <string name="cleanup_title">Intervalo de limpeza do APK</string>
     <plurals name="days">
-        <item quantity="one">dia</item>
-        <item quantity="many">dias</item>
-        <item quantity="other">dias</item>
+        <item quantity="one">%d dia</item>
+        <item quantity="many">%d dias</item>
+        <item quantity="other">%d dias</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">hora</item>
-        <item quantity="many">horas</item>
-        <item quantity="other">horas</item>
+        <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
+        <item quantity="other">%d horas</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Apenas no Wi-Fi e carregando</string>
     <string name="io_error_DESC">Incapaz de executar certas ações</string>

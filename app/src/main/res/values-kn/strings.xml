@@ -24,8 +24,8 @@
     <string name="credits">ಕ್ರೆಡಿಟ್‌ಗಳು</string>
     <string name="dark">ಕತ್ತಲು</string>
     <plurals name="days">
-        <item quantity="one">ದಿನ</item>
-        <item quantity="other">ದಿನಗಳು</item>
+        <item quantity="one">%d ದಿನ</item>
+        <item quantity="other">%d ದಿನಗಳು</item>
     </plurals>
     <string name="delete">ಅಳಿಸಿ</string>
     <string name="delete_repository_DESC">ರೆಪೊಸಿಟರಿಯನ್ನು ಅಳಿಸುವುದೇ\?</string>
@@ -39,10 +39,10 @@
     <string name="has_advertising">ಜಾಹೀರಾತು ಹೊಂದಿದೆ</string>
     <string name="has_security_vulnerabilities">ಭದ್ರತಾ ದೋಷಗಳನ್ನು ಹೊಂದಿದೆ</string>
     <plurals name="hours">
-        <item quantity="one">ಘಂಟೆ</item>
-        <item quantity="other">ಘಂಟೆಗಳು</item>
+        <item quantity="one">%d ಘಂಟೆ</item>
+        <item quantity="other">%d ಘಂಟೆಗಳು</item>
     </plurals>
-    <string name="http_error_DESC">ಅಮಾನ್ಯ ಸರ್ವರ್ ಪ್ರತಿಕ್ರಿಯೆ.</string>
+    <string name="http_error_DESC">ಅಮಾನ್ಯ ಸರ್ವರ್ ಪ್ರತಿಕ್ರಿಯೆ: %s</string>
     <string name="http_proxy">HTTP ಪ್ರಾಕ್ಸಿ</string>
     <string name="incompatible_api_max_DESC_FORMAT">ಗರಿಷ್ಠ API ಆವೃತ್ತಿಯು %d ಆಗಿದೆ.</string>
     <string name="incompatible_api_min_DESC_FORMAT">ಕನಿಷ್ಠ API ಆವೃತ್ತಿಯು %d ಆಗಿದೆ.</string>

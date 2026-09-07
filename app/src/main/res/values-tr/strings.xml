@@ -170,13 +170,13 @@
     <string name="shizuku_installer">Shizuku/Sui kurucusu</string>
     <string name="cleanup_title">APK temizleme aralığı</string>
     <plurals name="days">
-        <item quantity="one">gün</item>
-        <item quantity="other">gün</item>
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Şarj olurken sadece Wi-Fi üzerinden</string>
     <plurals name="hours">
-        <item quantity="one">saat</item>
-        <item quantity="other">saat</item>
+        <item quantity="one">%d saat</item>
+        <item quantity="other">%d saat</item>
     </plurals>
     <string name="io_error_DESC">Belirli eylemler gerçekleştirilemiyor</string>
     <string name="material_you_desc">Material You renklerini kullan</string>

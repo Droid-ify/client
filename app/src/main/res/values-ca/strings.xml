@@ -23,9 +23,9 @@
     <string name="could_not_validate_FORMAT">No podria validar %s</string>
     <string name="credits">Crèdits</string>
     <plurals name="days">
-        <item quantity="one">Dia</item>
-        <item quantity="many">Dies</item>
-        <item quantity="other">Dies</item>
+        <item quantity="one">%d Dia</item>
+        <item quantity="many">%d Dies</item>
+        <item quantity="other">%d Dies</item>
     </plurals>
     <string name="delete">Esborra</string>
     <string name="delete_repository_DESC">Esborra el repositori?</string>
@@ -36,11 +36,11 @@
     <string name="has_non_free_dependencies">Té dependènciesnolliures</string>
     <string name="has_security_vulnerabilities">Té vulnerabilitats de seguretat</string>
     <plurals name="hours">
-        <item quantity="one">Hora</item>
+        <item quantity="one">%d Hora</item>
         <item quantity="many"/>
-        <item quantity="other">Hores</item>
+        <item quantity="other">%d Hores</item>
     </plurals>
-    <string name="http_error_DESC">Resposta de servidor nul.</string>
+    <string name="http_error_DESC">Resposta de servidor nul: %s</string>
     <string name="http_proxy">proxy d\'HTTP</string>
     <string name="incompatible_api_max_DESC_FORMAT">El max API la versió és %d.</string>
     <string name="incompatible_version">Versió incompatible</string>

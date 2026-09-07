@@ -171,14 +171,14 @@
     <string name="shizuku_installer">Installateur Shizuku/Sui</string>
     <string name="cleanup_title">Intervalle de nettoyage des APK</string>
     <plurals name="days">
-        <item quantity="one">jour</item>
-        <item quantity="many">jours</item>
-        <item quantity="other">jours</item>
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">heure</item>
-        <item quantity="many">heures</item>
-        <item quantity="other">heures</item>
+        <item quantity="one">%d heure</item>
+        <item quantity="many">%d heures</item>
+        <item quantity="other">%d heures</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Uniquement sur Wi-Fi et en charge</string>
     <string name="io_error_DESC">Impossible d’effectuer certaines actions</string>

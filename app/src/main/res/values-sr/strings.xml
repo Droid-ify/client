@@ -7,9 +7,9 @@
     <string name="fingerprint">Отисак прста</string>
     <string name="incompatible_version">Некомпатибилна верзија</string>
     <plurals name="hours">
-        <item quantity="one">сат</item>
-        <item quantity="few">сата</item>
-        <item quantity="other">сати</item>
+        <item quantity="one">%d сат</item>
+        <item quantity="few">%d сата</item>
+        <item quantity="other">%d сати</item>
     </plurals>
     <string name="could_not_download_FORMAT">Није могуће преузети %s</string>
     <string name="source_code_no_longer_available">Изворни кôд више није доступан</string>
@@ -43,7 +43,7 @@
     <string name="website">Веб-сајт пројекта</string>
     <string name="no_applications_installed">Нема инсталираних апликација</string>
     <string name="anti_features">Непоуздане функције</string>
-    <string name="http_error_DESC">Неважећи одговор сервера</string>
+    <string name="http_error_DESC">Неважећи одговор сервера: %s</string>
     <string name="merging_FORMAT">Спајање %s</string>
     <string name="waiting_to_start_download">Чека се почетак преузимања…</string>
     <string name="auto_update_apps">Покушајте да аутоматски инсталирате ажурирања</string>
@@ -60,9 +60,9 @@
     <string name="shizuku_not_alive">Shizuku/Sui није покренут</string>
     <string name="unknown">Непознато</string>
     <plurals name="days">
-        <item quantity="one">дан</item>
-        <item quantity="few">дана</item>
-        <item quantity="other">дана</item>
+        <item quantity="one">%d дан</item>
+        <item quantity="few">%d дана</item>
+        <item quantity="other">%d дана</item>
     </plurals>
     <string name="could_not_sync_FORMAT">Није могуће синхронизовати %s</string>
     <string name="installing">Инсталирање</string>

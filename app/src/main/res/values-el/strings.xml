@@ -170,12 +170,12 @@
     <string name="update_all">Ενημέρωση όλων</string>
     <string name="cleanup_title">Διάστημα διαγραφής APK</string>
     <plurals name="days">
-        <item quantity="one">ημέρα</item>
-        <item quantity="other">ημέρες</item>
+        <item quantity="one">%d ημέρα</item>
+        <item quantity="other">%d ημέρες</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">ώρα</item>
-        <item quantity="other">ώρες</item>
+        <item quantity="one">%d ώρα</item>
+        <item quantity="other">%d ώρες</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Μόνο σε Wi-Fi κατά τη φόρτιση</string>
     <string name="io_error_DESC">Δεν είναι δυνατή η εκτέλεση ορισμένων ενεργειών</string>

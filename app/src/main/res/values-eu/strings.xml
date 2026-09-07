@@ -45,8 +45,8 @@
     <string name="could_not_sync_FORMAT">Ezin izan da %s sinkronizatu</string>
     <string name="compiled_for_debugging">Arazketarako konpilatua</string>
     <plurals name="days">
-        <item quantity="one">egun</item>
-        <item quantity="other">egun</item>
+        <item quantity="one">%d egun</item>
+        <item quantity="other">%d egun</item>
     </plurals>
     <string name="downloading">Deskargatzen</string>
     <string name="delete">Ezabatu</string>
@@ -63,11 +63,11 @@
     <string name="has_non_free_dependencies">Dependentzia ez-libreak ditu</string>
     <string name="connection_error_DESC">Ezin izan da zerbitzariarekin konektatu</string>
     <string name="has_non_free_components">Osagai ez-libreak ditu</string>
-    <string name="http_error_DESC">Zerbitzari-erantzun baliogabea.</string>
+    <string name="http_error_DESC">Zerbitzari-erantzun baliogabea: %s</string>
     <string name="has_tethered_network">Lotu sare-zerbitzu jakin batekin</string>
     <plurals name="hours">
-        <item quantity="one">ordu</item>
-        <item quantity="other">ordu</item>
+        <item quantity="one">%d ordu</item>
+        <item quantity="other">%d ordu</item>
     </plurals>
     <string name="cant_edit_sync_DESC">Ezin da biltegia editatu, unean sinkronizatzen ari delako.</string>
 </resources>

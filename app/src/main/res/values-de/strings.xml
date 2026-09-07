@@ -164,12 +164,12 @@
     <string name="show_less">Weniger anzeigen</string>
     <string name="update_all">Alle aktualisieren</string>
     <plurals name="days">
-        <item quantity="one">Tag</item>
-        <item quantity="other">Tage</item>
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Stunde</item>
-        <item quantity="other">Stunden</item>
+        <item quantity="one">%d Stunde</item>
+        <item quantity="other">%d Stunden</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Nur mit WLAN während des Aufladens</string>
     <string name="installer">Installation</string>

@@ -61,9 +61,9 @@
     <string name="credits">Credite</string>
     <string name="dark">Întunecat</string>
     <plurals name="days">
-        <item quantity="one">zi</item>
-        <item quantity="few">zile</item>
-        <item quantity="other">de zile</item>
+        <item quantity="one">%d zi</item>
+        <item quantity="few">%d zile</item>
+        <item quantity="other">%d de zile</item>
     </plurals>
     <string name="edit_repository">Editează</string>
     <string name="enable_repo">Activează depozitul</string>
@@ -76,9 +76,9 @@
     <string name="has_non_free_dependencies">Depinde de alte aplicații non-libre</string>
     <string name="has_security_vulnerabilities">Are vulnerabilități de securitate cunoscute</string>
     <plurals name="hours">
-        <item quantity="one">oră</item>
-        <item quantity="few">ore</item>
-        <item quantity="other">de ore</item>
+        <item quantity="one">%d oră</item>
+        <item quantity="few">%d ore</item>
+        <item quantity="other">%d de ore</item>
     </plurals>
     <string name="downloading_FORMAT">Se descarcă %s…</string>
     <string name="http_error_DESC">Răspuns server nevalid: %s</string>

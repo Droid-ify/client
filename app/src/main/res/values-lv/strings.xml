@@ -44,9 +44,9 @@
     <string name="credits">Kredīts</string>
     <string name="dark">Tumšs</string>
     <plurals name="days">
-        <item quantity="zero">dienām</item>
-        <item quantity="one">dienas</item>
-        <item quantity="other">dienām</item>
+        <item quantity="zero">%d dienām</item>
+        <item quantity="one">%d dienas</item>
+        <item quantity="other">%d dienām</item>
     </plurals>
     <string name="delete">Dzēst</string>
     <string name="description">Apraksts</string>
@@ -58,11 +58,11 @@
     <string name="fingerprint">Pirkstu nospiedums</string>
     <string name="has_non_free_dependencies">Ir nebrīvas atkarības</string>
     <string name="has_security_vulnerabilities">Ir drošības ievainojamības</string>
-    <string name="http_error_DESC">Nederīga servera atbilde</string>
+    <string name="http_error_DESC">Nederīga servera atbilde: %s</string>
     <plurals name="hours">
-        <item quantity="zero">stundām</item>
-        <item quantity="one">stundas</item>
-        <item quantity="other">stundām</item>
+        <item quantity="zero">%d stundām</item>
+        <item quantity="one">%d stundas</item>
+        <item quantity="other">%d stundām</item>
     </plurals>
     <string name="ignore_this_update">Ignorēt šo versiju</string>
     <string name="incompatible_api_DESC_FORMAT">Jūsu %1$s (API versija %2$d) netiek atbalstīta. %3$s</string>

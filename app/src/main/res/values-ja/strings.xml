@@ -48,7 +48,7 @@
     <string name="donate">寄付</string>
     <string name="has_security_vulnerabilities">既知のセキュリティ脆弱性あり</string>
     <plurals name="hours">
-        <item quantity="other">時間</item>
+        <item quantity="other">%d 時間</item>
     </plurals>
     <string name="http_error_DESC">サーバーの応答が無効です: %s</string>
     <string name="http_proxy">HTTP プロキシ</string>
@@ -61,7 +61,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">お使いの端末の%1$sアーキテクチャはサポートされていません。対応アーキテクチャ: %2$s</string>
     <string name="incompatible_signature_DESC">このバージョンの署名は、デバイスにインストール済みのバージョンとは異なります</string>
     <plurals name="days">
-        <item quantity="other">日</item>
+        <item quantity="other">%d 日</item>
     </plurals>
     <string name="incompatible_version">互換性のないバージョン</string>
     <string name="incompatible_versions">互換性のないバージョン</string>

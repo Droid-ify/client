@@ -21,8 +21,8 @@
     <string name="cannot_open_link">Сілтемені ашу мүмкін емес</string>
     <string name="cant_edit_sync_DESC">Синхрондау кезінде репозиторийді өңдеу мүмкін емес</string>
     <plurals name="days">
-        <item quantity="one">күн</item>
-        <item quantity="other">күн</item>
+        <item quantity="one">%d күн</item>
+        <item quantity="other">%d күн</item>
     </plurals>
     <string name="delete">Жою</string>
     <string name="delete_repository_DESC">Репозиторийді жою керек пе?</string>

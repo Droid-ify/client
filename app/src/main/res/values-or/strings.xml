@@ -57,8 +57,8 @@
     <string name="could_not_validate_FORMAT">%s ବୈଧତା ହୋଇପାରିଲା ନାହିଁ</string>
     <string name="credits">ଶ୍ରେୟ</string>
     <plurals name="days">
-        <item quantity="one">ଦିନ</item>
-        <item quantity="other">ଦିନ</item>
+        <item quantity="one">%d ଦିନ</item>
+        <item quantity="other">%d ଦିନ</item>
     </plurals>
     <string name="delete">ବିଲୋପ କରନ୍ତୁ</string>
     <string name="delete_repository_DESC">ସଂଗ୍ରହାଳୟ ବିଲୋପ କରିବେ ?</string>
@@ -71,10 +71,10 @@
     <string name="has_non_free_dependencies">ଅଣ ମୁକ୍ତ ନିର୍ଭରଶୀଳତା ଅଛି</string>
     <string name="has_security_vulnerabilities">ସୁରକ୍ଷା ଦୁର୍ବଳତା ଅଛି</string>
     <plurals name="hours">
-        <item quantity="one">ଘଣ୍ଟା</item>
-        <item quantity="other">ଘଣ୍ଟା</item>
+        <item quantity="one">%d ଘଣ୍ଟା</item>
+        <item quantity="other">%d ଘଣ୍ଟା</item>
     </plurals>
-    <string name="http_error_DESC">ଅବୈଧ ସର୍ଭର ପ୍ରତିକ୍ରିୟା ।</string>
+    <string name="http_error_DESC">ଅବୈଧ ସର୍ଭର ପ୍ରତିକ୍ରିୟା: %s</string>
     <string name="http_proxy">HTTP ପ୍ରକ୍ସି</string>
     <string name="ignore_all_updates">ସମସ୍ତ ନୂତନ ସଂସ୍କରଣକୁ ଉପେକ୍ଷା କରନ୍ତୁ</string>
     <string name="ignore_this_update">ଏହି ସଂସ୍କରଣକୁ ଅଗ୍ରାହ୍ୟ କରନ୍ତୁ</string>

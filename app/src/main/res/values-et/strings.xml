@@ -58,8 +58,8 @@
     <string name="home_screen_swiping">Lehel nipsamine</string>
     <string name="home_screen_swiping_DESC">Lehtede vahetamiseks nipsa vasakule või paremale</string>
     <plurals name="hours">
-        <item quantity="one">tund</item>
-        <item quantity="other">tundi</item>
+        <item quantity="one">%d tund</item>
+        <item quantity="other">%d tundi</item>
     </plurals>
     <string name="connection_error_DESC">Serveriga ei õnnestunud ühendust luua</string>
     <string name="http_proxy">HTTP puhverserver</string>
@@ -70,8 +70,8 @@
     <string name="action_failed">Toiming nurjus</string>
     <string name="all_applications_up_to_date">Kõik rakendused on ajakohased</string>
     <plurals name="days">
-        <item quantity="one">päev</item>
-        <item quantity="other">päeva</item>
+        <item quantity="one">%d päev</item>
+        <item quantity="other">%d päeva</item>
     </plurals>
     <string name="application_not_found">Seda rakendust ei leitud</string>
     <string name="error_shizuku_not_granted_DESC">Shizuku/Sui teenusele pole luba antud</string>
@@ -91,7 +91,7 @@
     <string name="incompatible_platforms_DESC_FORMAT">Sinu %1$s platvormi ei toetata. Toetatud platvormid: %2$s</string>
     <string name="ignore_all_updates">Eira uusi versioone</string>
     <string name="ignore_this_update">Eira seda versiooni</string>
-    <string name="http_error_DESC">Vigane serveri vastus</string>
+    <string name="http_error_DESC">Vigane serveri vastus: %s</string>
     <string name="incompatible_signature_DESC">See versioon on allkirjastatud erineva sertifikaadiga kui seadmesse paigaldatu</string>
     <string name="uninstalled_application">Eemaldatud</string>
     <string name="integrity_check_error_DESC">Terviklikkust ei saanud kontrollida</string>

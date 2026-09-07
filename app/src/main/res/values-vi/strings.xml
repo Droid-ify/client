@@ -97,7 +97,7 @@
     <string name="downloading_FORMAT">Đang tải về %s…</string>
     <string name="has_security_vulnerabilities">Có lỗ hổng bảo mật</string>
     <string name="downloaded_FORMAT">Đã tải về %s</string>
-    <string name="http_error_DESC">Máy chủ không phản hồi</string>
+    <string name="http_error_DESC">Máy chủ không phản hồi: %s</string>
     <string name="ignore_this_update">Bỏ qua phiên bản này</string>
     <string name="incompatible_api_max_DESC_FORMAT">Phiên vản API tối đa là %d</string>
     <string name="incompatible_features_DESC">Tính năng bị thiếu</string>
@@ -164,10 +164,10 @@
     <string name="all_applications">Tất cả ứng dụng</string>
     <string name="cleanup_title">Khoảng thời gian dọn dẹp APK</string>
     <plurals name="days">
-        <item quantity="other">Ngày</item>
+        <item quantity="other">%d Ngày</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">Giờ</item>
+        <item quantity="other">%d Giờ</item>
     </plurals>
     <string name="installer">Trình cài đặt</string>
     <string name="legacy_installer">Trình cài đặt cũ</string>

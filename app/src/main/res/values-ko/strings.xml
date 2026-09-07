@@ -39,12 +39,12 @@
     <string name="enable_repo">저장소 켜기</string>
     <string name="has_security_vulnerabilities">보안 취약점이 있음</string>
     <plurals name="hours">
-        <item quantity="other">시간</item>
+        <item quantity="other">%d 시간</item>
     </plurals>
     <string name="name">이름</string>
     <string name="ignore_this_update">이 버전 무시</string>
     <string name="force_clean_up_DESC">중복 파일 정리</string>
-    <string name="http_error_DESC">잘못된 서버 응답입니다.</string>
+    <string name="http_error_DESC">잘못된 서버 응답입니다: %s</string>
     <string name="incompatible_api_DESC_FORMAT">귀하의 %1$s(API 버전 %2$d)는 지원되지 않습니다. %3$s</string>
     <string name="incompatible_features_DESC">기능이 없습니다.</string>
     <string name="incompatible_api_max_DESC_FORMAT">최대 API 버전은 %d입니다.</string>
@@ -60,7 +60,7 @@
     <string name="no_description_available_DESC">가능한 설명이 없습니다</string>
     <string name="no_matching_applications_found">지원하는 앱을 찾지 못했습니다.</string>
     <plurals name="days">
-        <item quantity="other">일</item>
+        <item quantity="other">%d 일</item>
     </plurals>
     <string name="delete">삭제</string>
     <string name="delete_repository_DESC">저장소를 삭제하시겠습니까\?</string>

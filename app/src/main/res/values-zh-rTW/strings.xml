@@ -169,10 +169,10 @@
     <string name="installer">安裝程式</string>
     <string name="cleanup_title">APK 清理時間間隔</string>
     <plurals name="hours">
-        <item quantity="other">小時</item>
+        <item quantity="other">%d 小時</item>
     </plurals>
     <plurals name="days">
-        <item quantity="other">天數</item>
+        <item quantity="other">%d 天數</item>
     </plurals>
     <string name="only_on_wifi_with_charging">僅在連到 Wi-Fi 且正在充電時</string>
     <string name="io_error_DESC">無法執行某些特定操作</string>

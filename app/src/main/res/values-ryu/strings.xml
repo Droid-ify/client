@@ -48,10 +48,10 @@
     <string name="donate">ちーふ</string>
     <string name="has_security_vulnerabilities">セキュリティじょうぬしちじゃいちゅるゆいがあいびーん</string>
     <plurals name="hours">
-        <item quantity="one">じがん</item>
-        <item quantity="other">じがん</item>
+        <item quantity="one">%d じがん</item>
+        <item quantity="other">%d じがん</item>
     </plurals>
-    <string name="http_error_DESC">サーバーぬういんとうがんーかやいびーん。</string>
+    <string name="http_error_DESC">サーバーぬういんとうがんーかやいびーん: %s</string>
     <string name="http_proxy">HTTPプロキシ</string>
     <string name="ignore_all_updates">まじりぬみーさるバージョンむしすん</string>
     <string name="ignore_this_update">くぬバージョンむしすん</string>
@@ -62,8 +62,8 @@
     <string name="incompatible_platforms_DESC_FORMAT">うんじゅが %1$s プラットフォームーサポートさりやびらん。サポートさりとーるプラットフォーム： %2$s 。</string>
     <string name="incompatible_signature_DESC">くぬバージョンー，デバイスんかいインストールさりとーるアプリぬしーょうめいしょとぅはくとぅなるしょうめいしょでぃしょめいさりとーいびーん。さきんかいすちらアンインストールしみそーれー。</string>
     <plurals name="days">
-        <item quantity="one">ふぃい</item>
-        <item quantity="other">ふぃい</item>
+        <item quantity="one">%d ふぃい</item>
+        <item quantity="other">%d ふぃい</item>
     </plurals>
     <string name="incompatible_version">ぐかんゆいぬねーんバージョン</string>
     <string name="incompatible_versions">ぐかんゆいぬねーんバージョン</string>

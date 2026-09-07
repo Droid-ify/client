@@ -171,15 +171,15 @@
     <string name="session_installer">Instalador de sessão</string>
     <string name="cleanup_title">Intervalo de limpeza de APK</string>
     <plurals name="days">
-        <item quantity="one">dia</item>
-        <item quantity="many">dias</item>
-        <item quantity="other">dias</item>
+        <item quantity="one">%d dia</item>
+        <item quantity="many">%d dias</item>
+        <item quantity="other">%d dias</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Apenas no Wi-Fi se estiver a carregar</string>
     <plurals name="hours">
-        <item quantity="one">hora</item>
-        <item quantity="many">horas</item>
-        <item quantity="other">horas</item>
+        <item quantity="one">%d hora</item>
+        <item quantity="many">%d horas</item>
+        <item quantity="other">%d horas</item>
     </plurals>
     <string name="io_error_DESC">Incapaz de executar algumas ações</string>
     <string name="material_you_desc">Usar cores Material You</string>

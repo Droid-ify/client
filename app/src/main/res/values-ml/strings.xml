@@ -3,8 +3,8 @@
     <string name="cancel">റദ്ദാക്കുക</string>
     <string name="address">വിലാസം</string>
     <plurals name="days">
-        <item quantity="one">ദിവസം</item>
-        <item quantity="other">ദിവസങ്ങൾ</item>
+        <item quantity="one">%d ദിവസം</item>
+        <item quantity="other">%d ദിവസങ്ങൾ</item>
     </plurals>
     <string name="details">വിശദാംശങ്ങൾ</string>
     <string name="donate">സംഭാവനചെയ്യുക</string>
@@ -28,8 +28,8 @@
     <string name="cleanup_title">APK cleanup interval</string>
     <string name="could_not_validate_FORMAT">%s സാധൂകരിക്കാൻ കഴിഞ്ഞില്ല</string>
     <plurals name="hours">
-        <item quantity="one">മണിക്കൂർ</item>
-        <item quantity="other">മണിക്കൂറുകൾ</item>
+        <item quantity="one">%d മണിക്കൂർ</item>
+        <item quantity="other">%d മണിക്കൂറുകൾ</item>
     </plurals>
     <string name="http_proxy">HTTP പ്രോക്സി</string>
     <string name="session_installer">സെഷൻ ഇൻസ്റ്റാളർ</string>
@@ -84,7 +84,7 @@
     <string name="credits">ക്രെഡിറ്റുകൾ</string>
     <string name="edit_repository">ശേഖരം എഡിറ്റ് ചെയ്യുക</string>
     <string name="has_security_vulnerabilities">സുരക്ഷാ പാളിച്ചകൾ ഉണ്ട്</string>
-    <string name="http_error_DESC">അസാധുവായ സെർവർ പ്രതികരണം.</string>
+    <string name="http_error_DESC">അസാധുവായ സെർവർ പ്രതികരണം: %s</string>
     <string name="author_email">രചയിതാവിന്റെ ഇമെയിൽ</string>
     <string name="author_website">രചയിതാവിന്റെ വെബ്സൈറ്റ്</string>
     <string name="could_not_download_FORMAT">%s ഡൗൺലോഡ് ചെയ്യാനായില്ല</string>

@@ -20,7 +20,7 @@
     <string name="has_advertising">Har reklame</string>
     <string name="has_non_free_dependencies">Har ufrie avhengigheter</string>
     <string name="has_security_vulnerabilities">Har sikkerhetssårbarheter</string>
-    <string name="http_error_DESC">Ugyldig tjenersvar.</string>
+    <string name="http_error_DESC">Ugyldig tjenersvar: %s</string>
     <string name="ignore_all_updates">Ignorer alle nye versjoner</string>
     <string name="ignore_this_update">Ignorer denne versjonen</string>
     <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-versjon %2$d) støttes ikke. %3$s</string>
@@ -164,12 +164,12 @@
     <string name="show_less">Vis mindre</string>
     <string name="cleanup_title">Opprenskningsintervall</string>
     <plurals name="days">
-        <item quantity="one">Dag</item>
-        <item quantity="other">Dager</item>
+        <item quantity="one">%d Dag</item>
+        <item quantity="other">%d Dager</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Time</item>
-        <item quantity="other">Timer</item>
+        <item quantity="one">%d Time</item>
+        <item quantity="other">%d Timer</item>
     </plurals>
     <string name="installer">Installasjonsprogram</string>
     <string name="legacy_installer">Gammeldags</string>

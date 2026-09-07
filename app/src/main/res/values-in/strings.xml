@@ -166,10 +166,10 @@
     <string name="versions">Versi</string>
     <string name="update_all">Perbarui semua</string>
     <plurals name="days">
-        <item quantity="other">hari</item>
+        <item quantity="other">%d hari</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="other">jam</item>
+        <item quantity="other">%d jam</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Hanya pada Wi-Fi saat mengisi daya</string>
     <string name="compiled_for_debugging">Dikompilasi untuk debugging</string>

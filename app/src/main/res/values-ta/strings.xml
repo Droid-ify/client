@@ -37,8 +37,8 @@
     <string name="dark">இருண்ட</string>
     <string name="could_not_validate_FORMAT">%s ஐ சரிபார்க்க முடியவில்லை</string>
     <plurals name="days">
-        <item quantity="one">நாள்</item>
-        <item quantity="other">நாட்கள்</item>
+        <item quantity="one">%d நாள்</item>
+        <item quantity="other">%d நாட்கள்</item>
     </plurals>
     <string name="delete">நீக்கு</string>
     <string name="delete_repository_DESC">களஞ்சியத்தை நீக்கவா?</string>
@@ -72,10 +72,10 @@
     <string name="home_screen_swiping">முகப்புத் திரை ச்வைப்</string>
     <string name="home_screen_swiping_DESC">முகப்புத் திரையில் பக்கங்களுக்கு இடையில் ச்வைப் செய்ய பயனரை அனுமதிக்கவும்</string>
     <plurals name="hours">
-        <item quantity="one">மணி</item>
-        <item quantity="other">மணி</item>
+        <item quantity="one">%d மணி</item>
+        <item quantity="other">%d மணி</item>
     </plurals>
-    <string name="http_error_DESC">தவறான சேவையக பதில்.</string>
+    <string name="http_error_DESC">தவறான சேவையக பதில்: %s</string>
     <string name="socket_error_DESC">புதிய பாக்கெட்டை வழங்க சேவையகம் தவறிவிட்டது.</string>
     <string name="connection_error_DESC">சேவையகத்துடன் இணைக்க முடியவில்லை</string>
     <string name="http_proxy">HTTP பதிலாள்</string>

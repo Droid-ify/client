@@ -43,7 +43,7 @@
     <string name="has_advertising">Contiene annunci</string>
     <string name="has_non_free_dependencies">Dipende da altre app non libere</string>
     <string name="has_security_vulnerabilities">Contiene vulnerabilità di sicurezza note</string>
-    <string name="http_error_DESC">Risposta del server non valida</string>
+    <string name="http_error_DESC">Risposta del server non valida: %s</string>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="ignore_all_updates">Ignora le nuove versioni</string>
     <string name="ignore_this_update">Ignora questa versione</string>
@@ -170,14 +170,14 @@
     <string name="legacy_installer">Installatore legacy</string>
     <string name="root_installer">Installatore root</string>
     <plurals name="days">
-        <item quantity="one">giorno</item>
-        <item quantity="many">giorni</item>
-        <item quantity="other">giorni</item>
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">ora</item>
-        <item quantity="many">ore</item>
-        <item quantity="other">ore</item>
+        <item quantity="one">%d ora</item>
+        <item quantity="many">%d ore</item>
+        <item quantity="other">%d ore</item>
     </plurals>
     <string name="cleanup_title">Intervallo di pulizia APK</string>
     <string name="only_on_wifi_with_charging">Solo su Wi-Fi quando in carica</string>

@@ -171,12 +171,12 @@
     <string name="shizuku_installer">Shizuku/Sui telepítő</string>
     <string name="cleanup_title">Időközi APK eltávolítás</string>
     <plurals name="hours">
-        <item quantity="one">óra</item>
-        <item quantity="other">óra</item>
+        <item quantity="one">%d óra</item>
+        <item quantity="other">%d óra</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">nap</item>
-        <item quantity="other">napok</item>
+        <item quantity="one">%d nap</item>
+        <item quantity="other">%d napok</item>
     </plurals>
     <string name="io_error_DESC">Bizonyos műveleteket nem lehet végrehajtani</string>
     <string name="auto_update_apps">Telepítse automatikusan a frissítéseket</string>

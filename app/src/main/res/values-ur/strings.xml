@@ -34,8 +34,8 @@
     <string name="credits">کریڈٹس</string>
     <string name="dark">اندھیرا</string>
     <plurals name="days">
-        <item quantity="one">دن</item>
-        <item quantity="other">دنوں</item>
+        <item quantity="one">%d دن</item>
+        <item quantity="other">%d دنوں</item>
     </plurals>
     <string name="delete">Delete</string>
     <string name="delete_repository_DESC">ذخیرہ کو حذف کریں؟</string>

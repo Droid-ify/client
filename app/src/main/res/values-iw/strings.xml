@@ -20,9 +20,9 @@
     <string name="could_not_download_FORMAT">לא ניתן היה להוריד את %s</string>
     <string name="could_not_sync_FORMAT">לא ניתן היה לסנכרן את %s</string>
     <plurals name="days">
-        <item quantity="one">יום</item>
-        <item quantity="two">ימים</item>
-        <item quantity="other">ימים</item>
+        <item quantity="one">%d יום</item>
+        <item quantity="two">%d ימים</item>
+        <item quantity="other">%d ימים</item>
     </plurals>
     <string name="delete">מחק</string>
     <string name="delete_repository_DESC">למחוק את המאגר\?</string>
@@ -127,13 +127,13 @@
     <string name="downloading_FORMAT">מוריד את %s…</string>
     <string name="fingerprint">טביעת אצבע</string>
     <string name="has_non_free_dependencies">תלוי באפליקציות אחרות שאינן חופשיות</string>
-    <string name="http_error_DESC">תגובת שרת לא חוקית</string>
+    <string name="http_error_DESC">תגובת שרת לא חוקית: %s</string>
     <string name="has_advertising">מכיל פרסומות</string>
     <string name="incompatible_older_DESC">גרסה זו ישנה יותר מזו המותקנת במכשיר שלך</string>
     <plurals name="hours">
-        <item quantity="one">שעה</item>
-        <item quantity="two">שעות</item>
-        <item quantity="other">שעות</item>
+        <item quantity="one">%d שעה</item>
+        <item quantity="two">%d שעות</item>
+        <item quantity="other">%d שעות</item>
     </plurals>
     <string name="ignore_all_updates">התעלם מגרסאות חדשות</string>
     <string name="incompatible_versions">גרסאות לא תואמות</string>

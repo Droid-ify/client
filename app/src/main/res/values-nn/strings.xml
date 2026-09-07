@@ -22,10 +22,10 @@
     <string name="fingerprint">Fingermerke</string>
     <string name="has_advertising">Har reklame</string>
     <plurals name="hours">
-        <item quantity="one">Time</item>
-        <item quantity="other">Timar</item>
+        <item quantity="one">%d Time</item>
+        <item quantity="other">%d Timar</item>
     </plurals>
-    <string name="http_error_DESC">Urett tenarsvar.</string>
+    <string name="http_error_DESC">Urett tenarsvar: %s</string>
     <string name="edit_repository">Brigde samling</string>
     <string name="ignore_all_updates">Hopp over nye utgåver</string>
     <string name="has_non_free_dependencies">Har ufrie trongar</string>
@@ -129,8 +129,8 @@
     <string name="invalid_username_format">Urett brukarnamnsformat</string>
     <string name="dark">Mørk</string>
     <plurals name="days">
-        <item quantity="one">Dag</item>
-        <item quantity="other">Dagar</item>
+        <item quantity="one">%d Dag</item>
+        <item quantity="other">%d Dagar</item>
     </plurals>
     <string name="delete">Slett</string>
     <string name="description">Utgreiing</string>

@@ -171,16 +171,16 @@
     <string name="shizuku_installer">Shizuku/Sui інсталятор</string>
     <string name="session_installer">Сесійний інсталятор</string>
     <plurals name="hours">
-        <item quantity="one">година</item>
-        <item quantity="few">години</item>
-        <item quantity="many">годин</item>
-        <item quantity="other">годин</item>
+        <item quantity="one">%d година</item>
+        <item quantity="few">%d години</item>
+        <item quantity="many">%d годин</item>
+        <item quantity="other">%d годин</item>
     </plurals>
     <plurals name="days">
-        <item quantity="one">день</item>
-        <item quantity="few">дні</item>
-        <item quantity="many">днів</item>
-        <item quantity="other">днів</item>
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d днів</item>
+        <item quantity="other">%d днів</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Тільки через Wi-Fi під час заряджання</string>
     <string name="cleanup_title">Періодичність очищення APK</string>

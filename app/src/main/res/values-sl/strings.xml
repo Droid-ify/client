@@ -31,7 +31,7 @@
     <string name="fingerprint">Prstni odtis</string>
     <string name="has_advertising">Vsebuje oglaševanje</string>
     <string name="has_security_vulnerabilities">Vsebuje varnostne ranljivosti</string>
-    <string name="http_error_DESC">Neveljaven odgovor strežnika.</string>
+    <string name="http_error_DESC">Neveljaven odgovor strežnika: %s</string>
     <string name="http_proxy">HTTP proksi</string>
     <string name="incompatible_api_max_DESC_FORMAT">Največja različica API-ja je %d.</string>
     <string name="incompatible_features_DESC">Manjkajoče funkcije.</string>
@@ -166,16 +166,16 @@
     <string name="show_less">Pokaži manj</string>
     <string name="update_all">Posodobi vse</string>
     <plurals name="days">
-        <item quantity="one">Dan</item>
-        <item quantity="two">Dneva</item>
-        <item quantity="few">Dni</item>
-        <item quantity="other">Dni</item>
+        <item quantity="one">%d Dan</item>
+        <item quantity="two">%d Dneva</item>
+        <item quantity="few">%d Dni</item>
+        <item quantity="other">%d Dni</item>
     </plurals>
     <plurals name="hours">
-        <item quantity="one">Ura</item>
-        <item quantity="two">Uri</item>
-        <item quantity="few">Ure</item>
-        <item quantity="other">Ur</item>
+        <item quantity="one">%d Ura</item>
+        <item quantity="two">%d Uri</item>
+        <item quantity="few">%d Ure</item>
+        <item quantity="other">%d Ur</item>
     </plurals>
     <string name="only_on_wifi_with_charging">Samo med polnjenjem in aktiviranim Wi-Fi-jem</string>
     <string name="installer">Namestitveni program</string>

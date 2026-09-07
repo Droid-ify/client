@@ -28,7 +28,7 @@
     <string name="delete_repository_DESC">Padam repositori?</string>
     <string name="details">Butiran</string>
     <plurals name="days">
-        <item quantity="other">Hari</item>
+        <item quantity="other">%d Hari</item>
     </plurals>
     <string name="downloading_FORMAT">Sedang memuat turun %s…</string>
     <string name="edit_repository">Ubah repositori</string>
@@ -135,10 +135,10 @@
     <string name="has_tethered_network">Terikat kepada perkhidmatan rangkaian tertentu</string>
     <string name="home_screen_swiping">Leretan Skrin Utama</string>
     <plurals name="hours">
-        <item quantity="other">Jam</item>
+        <item quantity="other">%d Jam</item>
     </plurals>
     <string name="home_screen_swiping_DESC">Benarkan pengguna meleret antara halaman dalam skrin utama</string>
-    <string name="http_error_DESC">Respons pelayan tidak sah.</string>
+    <string name="http_error_DESC">Respons pelayan tidak sah: %s</string>
     <string name="socket_error_DESC">Pelayan gagal menyediakan paket baharu.</string>
     <string name="connection_error_DESC">Tidak dapat menyambung ke pelayan</string>
     <string name="http_proxy">Proksi HTTP</string>

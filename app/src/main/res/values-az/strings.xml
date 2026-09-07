@@ -27,8 +27,8 @@
     <string name="credits">Qatqı Edənlər</string>
     <string name="dark">Tünd</string>
     <plurals name="days">
-        <item quantity="one">Gün</item>
-        <item quantity="other">Günlər</item>
+        <item quantity="one">%d Gün</item>
+        <item quantity="other">%d Günlər</item>
     </plurals>
     <string name="delete">Sil</string>
     <string name="delete_repository_DESC">Repozitoriya silinsinmi?</string>
@@ -111,10 +111,10 @@
     <string name="favourites">Favoritlər</string>
     <string name="file_format_error_DESC">Uyğunsuz fayl formatı</string>
     <plurals name="hours">
-        <item quantity="one">Saat</item>
-        <item quantity="other">Saatlar</item>
+        <item quantity="one">%d Saat</item>
+        <item quantity="other">%d Saatlar</item>
     </plurals>
-    <string name="http_error_DESC">Uyğunsuz server cavabı</string>
+    <string name="http_error_DESC">Uyğunsuz server cavabı: %s</string>
     <string name="incompatible_api_max_DESC_FORMAT">Maksimum API versiyası %d-dır</string>
     <string name="incompatible_platforms_DESC_FORMAT">Sizin %1$s cihazınız dəstəklənməməkdədir. Dəstəklənən cihazlar: %2$s.</string>
     <string name="install">Quraşdır</string>

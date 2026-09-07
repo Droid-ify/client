@@ -28,10 +28,10 @@
     <string name="checking_repository">Праверка рэпазіторыя…</string>
     <string name="could_not_sync_FORMAT">Не ўдалося сінхранізаваць %s</string>
     <plurals name="days">
-        <item quantity="one">дзень</item>
-        <item quantity="few">дні</item>
-        <item quantity="many">дзён</item>
-        <item quantity="other">дзён</item>
+        <item quantity="one">%d дзень</item>
+        <item quantity="few">%d дні</item>
+        <item quantity="many">%d дзён</item>
+        <item quantity="other">%d дзён</item>
     </plurals>
     <string name="dark">Цёмная</string>
     <string name="donate">Ахвяраваць</string>
@@ -136,10 +136,10 @@
     <string name="size">Памер</string>
     <string name="session_installer">Сеансавы ўстаноўшчык</string>
     <plurals name="hours">
-        <item quantity="one">гадзіна</item>
-        <item quantity="few">гадзіны</item>
-        <item quantity="many">гадзін</item>
-        <item quantity="other">гадзін</item>
+        <item quantity="one">%d гадзіна</item>
+        <item quantity="few">%d гадзіны</item>
+        <item quantity="many">%d гадзін</item>
+        <item quantity="other">%d гадзін</item>
     </plurals>
     <string name="source_code_no_longer_available">Зыходны код больш не даступны</string>
     <string name="save">Захаваць</string>

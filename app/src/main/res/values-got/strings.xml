@@ -9,8 +9,8 @@
     <string name="changes">𐌹𐌽𐌼𐌰𐌹𐌳𐌴𐌹𐌽𐍉𐍃</string>
     <string name="dark">𐍂𐌹𐌵𐌹𐌶𐌴𐌹𐌽</string>
     <plurals name="days">
-        <item quantity="one">𐌳𐌰𐌲𐍃</item>
-        <item quantity="other">𐌳𐌰𐌲𐍉𐍃</item>
+        <item quantity="one">%d 𐌳𐌰𐌲𐍃</item>
+        <item quantity="other">%d 𐌳𐌰𐌲𐍉𐍃</item>
     </plurals>
     <string name="delete">𐌿𐍃𐌵𐌹𐍃𐍄𐌾𐌰𐌽</string>
     <string name="edit_repository">𐌹𐌽𐌼𐌰𐌹𐌳𐌾𐌰𐌽</string>
@@ -47,7 +47,7 @@
     <string name="import_export">𐌱𐌰𐌹𐌺-𐌰𐍀 𐌾𐌰𐌷 𐌲𐌰𐌽𐌰𐍃𐌾𐌰𐌽</string>
     <string name="import_settings_title">𐌸𐍉 𐌻𐌹𐌿𐌱𐍉𐍃𐍄𐍉𐌽𐌰 𐌾𐌰𐌷 𐌻𐌰𐌲𐌴𐌹𐌽𐌹𐌽𐍃 𐌹𐌽𐌽𐌰𐍄𐌱𐌰𐌹𐍂𐌰𐌽</string>
     <string name="fingerprint">𐍆𐌹𐌲𐍂𐌰𐌸𐍂𐌿𐌺𐍃</string>
-    <string name="http_error_DESC">𐌰𐌽𐌳𐌰𐌷𐌰𐍆𐍄𐍃 𐌿𐌽𐍂𐌰𐌹𐌷𐍄𐌰 𐍃𐌺𐌰𐌻𐌺𐌰𐌸𐌴𐍅𐌹𐌶𐌹𐍃</string>
+    <string name="http_error_DESC">𐌰𐌽𐌳𐌰𐌷𐌰𐍆𐍄𐍃 𐌿𐌽𐍂𐌰𐌹𐌷𐍄𐌰 𐍃𐌺𐌰𐌻𐌺𐌰𐌸𐌴𐍅𐌹𐌶𐌹𐍃: %s</string>
     <string name="http_proxy">𐌷𐍄𐍄𐍀 𐍀𐍂𐌰𐌿𐌺𐍃𐌴𐌹</string>
     <string name="incompatible_version">𐌿𐍃𐌼𐌴𐍂𐌹 𐌿𐌽𐌲𐌰𐍄𐌹𐌻</string>
     <string name="incompatible_versions">𐌿𐍃𐌼𐌴𐍂𐌾𐌰 𐌿𐌽𐌲𐌰𐍄𐌹𐌻𐌰</string>
@@ -109,8 +109,8 @@
     <string name="import_settings_DESC">𐌻𐌰𐌲𐌴𐌹𐌽𐌹𐌽𐍃 𐌾𐌰𐌷 𐌻𐌹𐌿𐌱𐍉𐍃𐍄𐍉𐌽𐌰 𐍆𐌰𐌾𐌻𐌹𐍃 𐌹𐌽𐌽𐌰𐍄𐌱𐌰𐌹𐍂𐌰𐌽</string>
     <string name="has_non_free_components">𐌷𐌰𐌱𐌰𐌹𐌸 𐌽𐌹-𐍆𐍂𐌹𐌾𐍉𐍃 𐌳𐌰𐌹𐌻𐌹𐌽𐍃</string>
     <plurals name="hours">
-        <item quantity="one">𐍈𐌴𐌹𐌻𐌰</item>
-        <item quantity="other">𐍈𐌴𐌹𐌻𐍉𐍃</item>
+        <item quantity="one">%d 𐍈𐌴𐌹𐌻𐌰</item>
+        <item quantity="other">%d 𐍈𐌴𐌹𐌻𐍉𐍃</item>
     </plurals>
     <string name="root_installer">𐍅𐌰𐌿𐍂𐍄𐌹𐍃 𐌲𐌰𐍃𐌿𐌻𐌾𐌰</string>
     <string name="invalid_metadata_error_DESC">𐌼𐌴𐍄𐌰𐌳𐌰𐍄𐌰 𐌿𐌽𐍂𐌰𐌹𐌷𐍄𐌰</string>

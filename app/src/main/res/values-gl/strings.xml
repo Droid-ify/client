@@ -22,8 +22,8 @@
     <string name="credits">Créditos</string>
     <string name="dark">Escuro</string>
     <plurals name="days">
-        <item quantity="one">día</item>
-        <item quantity="other">días</item>
+        <item quantity="one">%d día</item>
+        <item quantity="other">%d días</item>
     </plurals>
     <string name="delete">Eliminar</string>
     <string name="delete_repository_DESC">Queres eliminar o repositorio\?</string>
@@ -119,7 +119,7 @@
     <string name="application_not_found">Non se puido atopar a aplicación</string>
     <string name="could_not_validate_FORMAT">Non se puido validar %s</string>
     <string name="details">Detalles</string>
-    <string name="http_error_DESC">Resposta do servidor inválida.</string>
+    <string name="http_error_DESC">Resposta do servidor inválida: %s</string>
     <string name="installed">Instalado</string>
     <string name="donate">Doar</string>
     <string name="edit_repository">Editar</string>
@@ -127,8 +127,8 @@
     <string name="has_advertising">Ten publicidade</string>
     <string name="has_non_free_dependencies">Ten dependencias non libres</string>
     <plurals name="hours">
-        <item quantity="one">Hora</item>
-        <item quantity="other">Horas</item>
+        <item quantity="one">%d Hora</item>
+        <item quantity="other">%d Horas</item>
     </plurals>
     <string name="http_proxy">Proxy HTTP</string>
     <string name="has_security_vulnerabilities">Ten vulnerabilidades de seguridade</string>

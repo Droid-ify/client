@@ -7,8 +7,8 @@
     <string name="fingerprint">Fingrospuro</string>
     <string name="incompatible_version">Nekongrua versio</string>
     <plurals name="hours">
-        <item quantity="one">horo</item>
-        <item quantity="other">horoj</item>
+        <item quantity="one">%d horo</item>
+        <item quantity="other">%d horoj</item>
     </plurals>
     <string name="could_not_download_FORMAT">Ne eblis elŝuti: %s</string>
     <string name="source_code_no_longer_available">Fontkodo ne plu disponebla</string>
@@ -42,7 +42,7 @@
     <string name="website">Retejo de projekto</string>
     <string name="no_applications_installed">Neniuj instalitaj aplikaĵoj</string>
     <string name="anti_features">Kontraŭ-funkcioj</string>
-    <string name="http_error_DESC">Nevalida servila respondo</string>
+    <string name="http_error_DESC">Nevalida servila respondo: %s</string>
     <string name="merging_FORMAT">Kunfandi %s</string>
     <string name="waiting_to_start_download">Elŝutado envicigita…</string>
     <string name="auto_update_apps">Instali ĝisdatigojn aŭtomate</string>
@@ -59,8 +59,8 @@
     <string name="shizuku_not_alive">Shizuku/Sui ne funkcias nun</string>
     <string name="unknown">Nekonata</string>
     <plurals name="days">
-        <item quantity="one">tago</item>
-        <item quantity="other">tagoj</item>
+        <item quantity="one">%d tago</item>
+        <item quantity="other">%d tagoj</item>
     </plurals>
     <string name="could_not_sync_FORMAT">Ne eblis sinkronigi: %s</string>
     <string name="installing">Instalado</string>

@@ -30,8 +30,8 @@
     <string name="could_not_validate_FORMAT">Kunne ikke validere %s</string>
     <string name="dark">Mørk</string>
     <plurals name="days">
-        <item quantity="one">dag</item>
-        <item quantity="other">dage</item>
+        <item quantity="one">%d dag</item>
+        <item quantity="other">%d dage</item>
     </plurals>
     <string name="delete">Slet</string>
     <string name="description">Beskrivelse</string>
@@ -53,10 +53,10 @@
     <string name="cant_edit_sync_DESC">Kan ikke redigere repository, imens den synkroniserer</string>
     <string name="force_clean_up">Tving oprydning</string>
     <plurals name="hours">
-        <item quantity="one">time</item>
-        <item quantity="other">timer</item>
+        <item quantity="one">%d time</item>
+        <item quantity="other">%d timer</item>
     </plurals>
-    <string name="http_error_DESC">Ugyldigt serversvar</string>
+    <string name="http_error_DESC">Ugyldigt serversvar: %s</string>
     <string name="connection_error_DESC">Kunne ikke forbinde til server</string>
     <string name="ignore_all_updates">Ignorer nye versioner</string>
     <string name="incompatible_api_DESC_FORMAT">Din %1$s (API-version %2$d) understøttes ikke. %3$s</string>

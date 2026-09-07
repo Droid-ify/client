@@ -36,8 +36,8 @@
     <string name="credits">Credits</string>
     <string name="dark">Dark</string>
     <plurals name="days">
-        <item quantity="one">day</item>
-        <item quantity="other">days</item>
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
     </plurals>
     <string name="delete">Delete</string>
     <string name="delete_repository_DESC">Delete the repository?</string>
@@ -79,8 +79,8 @@
     <string name="home_screen_swiping">Page swiping</string>
     <string name="home_screen_swiping_DESC">Swipe left or right to switch the page</string>
     <plurals name="hours">
-        <item quantity="one">hour</item>
-        <item quantity="other">hours</item>
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
     </plurals>
     <string name="http_error_DESC">Invalid server response: %s</string>
     <string name="socket_error_DESC">Server failed to provide new packet</string>

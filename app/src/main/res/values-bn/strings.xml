@@ -10,8 +10,8 @@
     <string name="file_format_error_DESC">অকার্যকর ফাইলের ধরণ।</string>
     <string name="fingerprint">ফিঙ্গারপ্রিন্ট</string>
     <plurals name="days">
-        <item quantity="one">দিন</item>
-        <item quantity="other">দিন</item>
+        <item quantity="one">%d দিন</item>
+        <item quantity="other">%d দিন</item>
     </plurals>
     <string name="action_failed">ক্রিয়া ব্যর্থ</string>
     <string name="add_repository">ভাণ্ডার যোগ করো</string>
@@ -25,8 +25,8 @@
     <string name="donate">অনুদান</string>
     <string name="description">বর্ণনা</string>
     <plurals name="hours">
-        <item quantity="one">ঘণ্টা</item>
-        <item quantity="other">ঘণ্টা</item>
+        <item quantity="one">%d ঘণ্টা</item>
+        <item quantity="other">%d ঘণ্টা</item>
     </plurals>
     <string name="incompatible_api_max_DESC_FORMAT">সর্বোচ্চ এপিআই সংস্করণ %d।</string>
     <string name="anti_features">অপবৈশিষ্ট্য</string>
@@ -40,7 +40,7 @@
     <string name="author_email">লেখকের ইমেইল</string>
     <string name="author_website">লেখকের ওয়েবসাইট</string>
     <string name="downloaded_FORMAT">%s ডাউনলোড সম্পন্ন হয়েছে</string>
-    <string name="http_error_DESC">সার্ভারের অকার্যকর প্রতিক্রিয়া।</string>
+    <string name="http_error_DESC">সার্ভারের অকার্যকর প্রতিক্রিয়া: %s</string>
     <string name="ignore_all_updates">সকল নতুন সংস্করণ অগ্রাহ্য করুন</string>
     <string name="available">অন্বেষণ</string>
     <string name="cancel">বাতিল</string>

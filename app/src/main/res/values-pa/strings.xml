@@ -41,8 +41,8 @@
     <string name="credits">ਕ੍ਰੈਡਿਟ</string>
     <string name="dark">ਗਹਿਰਾ</string>
     <plurals name="days">
-        <item quantity="one">ਦਿਨ</item>
-        <item quantity="other">ਦਿਨ</item>
+        <item quantity="one">%d ਦਿਨ</item>
+        <item quantity="other">%d ਦਿਨ</item>
     </plurals>
     <string name="delete">ਮਿਟਾਓ</string>
     <string name="description">ਵਰਣਨ</string>
@@ -53,10 +53,10 @@
     <string name="fingerprint">ਫਿੰਗਰਪ੍ਰਿੰਟ</string>
     <string name="has_non_free_dependencies">ਗੈਰ-ਮੁਕਤ ਨਿਰਭਰਤਾ ਹੈ</string>
     <plurals name="hours">
-        <item quantity="one">ਘੰਟਾ</item>
-        <item quantity="other">ਘੰਟੇ</item>
+        <item quantity="one">%d ਘੰਟਾ</item>
+        <item quantity="other">%d ਘੰਟੇ</item>
     </plurals>
-    <string name="http_error_DESC">ਅਵੈਧ ਸਰਵਰ ਜਵਾਬ।</string>
+    <string name="http_error_DESC">ਅਵੈਧ ਸਰਵਰ ਜਵਾਬ: %s</string>
     <string name="http_proxy">HTTP ਪਰੌਕਸੀ</string>
     <string name="incompatible_api_max_DESC_FORMAT">ਅਧਿਕਤਮ API ਸੰਸਕਰਣ %d ਹੈ।</string>
     <string name="incompatible_features_DESC">ਲੁਪਤ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ।</string>

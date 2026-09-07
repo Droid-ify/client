@@ -542,11 +542,11 @@ private fun ProxyTypeSetting(
 private fun Duration.toDisplayString(): String {
     if (this == Duration.INFINITE) return stringResource(R.string.never)
     val hours = inWholeHours.toInt()
-    val days = inWholeDays.toInt()
     return if (hours >= 24) {
-        "$days " + pluralStringResource(R.plurals.days, days)
+        val days = inWholeDays.toInt()
+        pluralStringResource(R.plurals.days, days, days)
     } else {
-        "$hours " + pluralStringResource(R.plurals.hours, hours)
+        pluralStringResource(R.plurals.hours, hours, hours)
     }
 }
 
