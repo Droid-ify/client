@@ -282,4 +282,7 @@
     <string name="custom_buttons_export">ボタンをエクスポート</string>
     <string name="custom_buttons_import">ボタンをインポート</string>
     <string name="custom_buttons_imported">カスタムボタンをインポートしました</string>
+    <string name="scan_qr_code">QRコードをスキャン</string>
+    <string name="qr_camera_permission_required">QRコードをスキャンするにはカメラの権限が必要です</string>
+    <string name="qr_scan_failed">QRコードのスキャンに失敗しました</string>
 </resources>

@@ -54,9 +54,9 @@ import com.looker.droidify.widget.FocusSearchView
 import com.looker.droidify.widget.StableRecyclerAdapter
 import com.looker.droidify.widget.addDivider
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
@@ -103,10 +103,10 @@ class TabsFragment : ScreenFragment() {
             if (field != value) {
                 field = value
                 viewModel.showSections.value = value
-                val layout = layout
                 layout?.tabs?.let {
-                    (0 until it.childCount)
-                        .forEach { index -> it.getChildAt(index)!!.isEnabled = !value }
+                    for (index in 0..<it.childCount) {
+                        it.getChildAt(index)!!.isEnabled = !value
+                    }
                 }
                 layout?.sectionIcon?.scaleY = if (value) -1f else 1f
                 if (((sectionsList?.parent as? View)?.height ?: 0) > 0) {
@@ -368,19 +368,17 @@ class TabsFragment : ScreenFragment() {
         this.sectionsList = sectionsList
 
         var lastContentHeight = -1
-        content.viewTreeObserver.addOnGlobalLayoutListener {
-            if (this.view != null) {
-                val initial = lastContentHeight <= 0
-                val contentHeight = content.height
-                if (lastContentHeight != contentHeight) {
-                    lastContentHeight = contentHeight
-                    if (initial) {
-                        sectionsList.layoutParams.height = if (showSections) contentHeight else 0
-                        sectionsList.isVisible = showSections
-                        sectionsList.requestLayout()
-                    } else {
-                        animateSectionsList()
-                    }
+        content.addOnLayoutChangeListener { _, _, top, _, bottom, _, _, _, _ ->
+            val initial = lastContentHeight <= 0
+            val contentHeight = bottom - top
+            if (lastContentHeight != contentHeight) {
+                lastContentHeight = contentHeight
+                if (initial) {
+                    sectionsList.layoutParams.height = if (showSections) contentHeight else 0
+                    sectionsList.isVisible = showSections
+                    sectionsList.requestLayout()
+                } else {
+                    animateSectionsList()
                 }
             }
         }
@@ -466,6 +464,10 @@ class TabsFragment : ScreenFragment() {
     }
 
     internal fun selectUpdates() = selectUpdatesInternal(true)
+
+    internal fun updateAll() {
+        lifecycleScope.launch { syncConnection.binder?.updateAllApps() }
+    }
 
     private fun updateUpdateNotificationBlocker(activeSource: AppListFragment.Source) {
         val blockerFragment = if (activeSource == AppListFragment.Source.UPDATES) {

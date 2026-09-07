@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
@@ -52,8 +51,10 @@ import com.looker.droidify.R.string as stringRes
 class EditRepositoryFragment() : ScreenFragment() {
 
     constructor(repositoryId: Long?, repoAddress: String?) : this() {
-        arguments =
-            bundleOf(EXTRA_REPOSITORY_ID to repositoryId, EXTRA_REPOSITORY_ADDRESS to repoAddress)
+        arguments = Bundle().apply {
+            if (repositoryId != null) putLong(EXTRA_REPOSITORY_ID, repositoryId)
+            if (repoAddress != null) putString(EXTRA_REPOSITORY_ADDRESS, repoAddress)
+        }
     }
 
     private var _binding: EditRepositoryBinding? = null
@@ -481,7 +482,7 @@ class EditRepositoryFragment() : ScreenFragment() {
 
     class SelectMirrorDialog() : DialogFragment() {
         constructor(mirrors: List<String>) : this() {
-            arguments = bundleOf(EXTRA_MIRRORS to ArrayList(mirrors))
+            arguments = Bundle().apply { putStringArrayList(EXTRA_MIRRORS, ArrayList(mirrors)) }
         }
 
         override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {

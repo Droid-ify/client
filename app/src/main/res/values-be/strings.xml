@@ -278,7 +278,7 @@
     <string name="custom_buttons_section">Спасылкі ў звестках пра прыкладанне</string>
     <string name="custom_button_add">Дадаць кнопку</string>
     <string name="custom_button_edit">Рэдагаваць кнопку</string>
-    <string name="custom_button_label">Назва</string>
+    <string name="custom_button_label">Метка</string>
     <string name="custom_button_label_hint">напрыклад, Exodus Privacy</string>
     <string name="custom_button_url">Шаблон URL</string>
     <string name="custom_button_url_hint">https://example.com/{{package_name}}</string>
@@ -291,4 +291,7 @@
     <string name="custom_buttons_imported">Карыстальніцкія кнопкі імпартаваны</string>
     <string name="force_sync_repositories">Прымусова сінхранізаваць рэпазіторыі</string>
     <string name="title_activity_main_compose">Галоўны экран</string>
+    <string name="scan_qr_code">Адсканаваць QR-код</string>
+    <string name="qr_camera_permission_required">Для сканавання QR-кодаў патрабуецца дазвол на доступ да камеры</string>
+    <string name="qr_scan_failed">Не ўдалося адсканаваць QR-код</string>
 </resources>

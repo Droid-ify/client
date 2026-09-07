@@ -7,11 +7,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -41,6 +41,7 @@ import com.looker.droidify.ui.ScreenFragment
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_PACKAGE_NAME
 import com.looker.droidify.ui.appDetail.AppDetailViewModel.Companion.ARG_REPO_ADDRESS
 import com.looker.droidify.utility.common.cache.Cache
+import com.looker.droidify.utility.common.extension.authentication
 import com.looker.droidify.utility.common.extension.getLauncherActivities
 import com.looker.droidify.utility.common.extension.getMutatedIcon
 import com.looker.droidify.utility.common.extension.isFirstItemVisible
@@ -53,6 +54,7 @@ import com.looker.droidify.utility.extension.android.Android.name
 import com.looker.droidify.utility.extension.android.Android.primaryPlatform
 import com.looker.droidify.utility.extension.mainActivity
 import com.looker.droidify.utility.extension.startUpdate
+import com.looker.droidify.utility.getParcelableCompat
 import com.stfalcon.imageviewer.StfalconImageViewer
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -62,16 +64,17 @@ import com.looker.droidify.R.string as stringRes
 
 @AndroidEntryPoint
 class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
-    companion object {
-        private const val STATE_LAYOUT_MANAGER = "layoutManager"
-        private const val STATE_ADAPTER = "adapter"
+    private companion object {
+        const val TAG = "AppDetailFragment"
+        const val STATE_LAYOUT_MANAGER = "layoutManager"
+        const val STATE_ADAPTER = "adapter"
     }
 
     constructor(packageName: String, repoAddress: String? = null) : this() {
-        arguments = bundleOf(
-            ARG_PACKAGE_NAME to packageName,
-            ARG_REPO_ADDRESS to repoAddress,
-        )
+        arguments = Bundle().apply {
+            putString(ARG_PACKAGE_NAME, packageName)
+            if (repoAddress != null) putString(ARG_REPO_ADDRESS, repoAddress)
+        }
     }
 
     private enum class Action(
@@ -150,10 +153,12 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 adapter = detailAdapter
                 (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
                 if (detailAdapter != null) {
-                    savedInstanceState?.getParcelable<AppDetailAdapter.SavedState>(STATE_ADAPTER)
+                    savedInstanceState?.getParcelableCompat<AppDetailAdapter.SavedState>(
+                        STATE_ADAPTER,
+                    )
                         ?.let(detailAdapter!!::restoreState)
                 }
-                layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+                layoutManagerState = savedInstanceState?.getParcelableCompat(STATE_LAYOUT_MANAGER)
                 recyclerView = this
                 systemBarsPadding(fabPadding = 0)
             },
@@ -279,7 +284,9 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                     }
                 }
 
-                installedItem != null && selectedRelease != null && installedItem.signature != selectedRelease.signature -> {
+                installedItem != null
+                    && selectedRelease != null
+                    && installedItem.signature != selectedRelease.signature -> {
                     getString(stringRes.incompatible_signature_DESC)
                 }
 
@@ -513,27 +520,36 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     }
 
     override fun onScreenshotClick(position: Int) {
+        val (product, repository) = products.findSuggested(installed?.installedItem) ?: return
+        val screenshots = product.screenshots
+        val size = screenshots.count { it.type != Product.Screenshot.Type.VIDEO }
+        val isRTL = context?.resources?.configuration?.layoutDirection == View.LAYOUT_DIRECTION_RTL
         if (imageViewer == null) {
-            val productRepository = products.findSuggested(installed?.installedItem) ?: return
-            val isRTL = requireContext().resources.configuration.layoutDirection ==
-                View.LAYOUT_DIRECTION_RTL
-            val screenshots = productRepository.first.screenshots
-                .filterNot { it.type == Product.Screenshot.Type.VIDEO }
-                .run { if (isRTL) reversed() else this }
+            val images = screenshots.filterNot { it.type == Product.Screenshot.Type.VIDEO }
+                .let { if (isRTL) it.reversed() else it }
             imageViewer = StfalconImageViewer
-                .Builder(context, screenshots) { view, current ->
+                .Builder(context, images) { view, current ->
                     val screenshotUrl = current.url(
-                        context = requireContext(),
-                        repository = productRepository.second,
+                        repository = repository,
                         packageName = viewModel.packageName,
                     )
                     view.load(screenshotUrl) {
+                        authentication(repository.authentication)
                         allowHardware(false)
                     }
                 }
         }
-        imageViewer?.withStartPosition(position)
+        val i = if (screenshots.any { it.type == Product.Screenshot.Type.VIDEO }) {
+            position - 1
+        } else {
+            position
+        }
+        imageViewer?.withStartPosition(if (isRTL) size - 1 - i else i)
         imageViewer?.show()
+    }
+
+    override fun onVideoClick(url: String) {
+        context?.openLink(url)
     }
 
     override fun onReleaseClick(release: Release) {
@@ -602,7 +618,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
                 startActivity(Intent(Intent.ACTION_VIEW, uri))
                 true
             } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
+                Log.e(TAG, "Failed to open url: $uri", e)
                 false
             }
         }

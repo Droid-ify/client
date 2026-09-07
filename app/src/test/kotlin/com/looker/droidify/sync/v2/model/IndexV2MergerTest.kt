@@ -12,6 +12,7 @@ import java.io.File
 import java.nio.file.Path
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
@@ -492,7 +493,7 @@ class IndexV2MergerTest {
             assertEquals("Neuer Repo Name", resultIndex?.repo?.name?.get("de"))
 
             // NonFreeNet removed, Tracking added, Games category name updated, Productivity added
-            assertFalse(resultIndex?.repo?.antiFeatures?.containsKey("NonFreeNet") == true)
+            assertNotEquals(resultIndex?.repo?.antiFeatures?.containsKey("NonFreeNet"), true)
             assertTrue(resultIndex?.repo?.antiFeatures?.containsKey("Tracking") == true)
             assertEquals(
                 "Games & Entertainment",
@@ -555,7 +556,7 @@ class IndexV2MergerTest {
     }
 
     private fun loadResourceFile(resourcePath: String): String {
-        return this::class.java.classLoader.getResourceAsStream(resourcePath)?.use { inputStream ->
+        return this::class.java.classLoader?.getResourceAsStream(resourcePath)?.use { inputStream ->
             inputStream.bufferedReader().readText()
         } ?: throw IllegalArgumentException("Resource file not found: $resourcePath")
     }

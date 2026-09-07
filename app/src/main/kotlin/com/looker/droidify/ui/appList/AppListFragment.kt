@@ -14,16 +14,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.looker.droidify.R
 import com.looker.droidify.database.CursorOwner
 import com.looker.droidify.databinding.RecyclerViewWithFabBinding
 import com.looker.droidify.model.ProductItem
+import com.looker.droidify.ui.tabsFragment.TabsFragment
 import com.looker.droidify.utility.common.Scroller
 import com.looker.droidify.utility.common.extension.dp
-import com.looker.droidify.utility.common.extension.isFirstItemVisible
 import com.looker.droidify.utility.common.extension.systemBarsMargin
 import com.looker.droidify.utility.common.extension.systemBarsPadding
 import com.looker.droidify.utility.extension.mainActivity
+import com.looker.droidify.utility.getParcelableCompat
+import com.looker.droidify.widget.RecyclerFastScroller
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import com.looker.droidify.R.string as stringRes
@@ -80,7 +81,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
         searchQuery = savedInstanceState?.getString(EXTRA_SEARCH_QUERY).orEmpty()
 
         val viewModel = viewModel
-        viewModel.syncConnection.bind(requireContext())
 
         recyclerView = binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(context)
@@ -90,44 +90,17 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
             appListAdapter = AppListAdapter(source, mainActivity::navigateProduct)
             adapter = appListAdapter
             systemBarsPadding()
+            RecyclerFastScroller(this)
         }
-        val fab = binding.scrollUp
-        with(fab) {
+        with(binding.updateAll) {
             if (source.updateAll) {
-                text = getString(stringRes.update_all)
-                setOnClickListener { viewModel.updateAll() }
-                setIconResource(R.drawable.ic_download)
-                alpha = 1f
+                setOnClickListener { (parentFragment as? TabsFragment)?.updateAll() }
                 viewLifecycleOwner.lifecycleScope.launch {
                     viewModel.showUpdateAllButton.collect {
                         isVisible = it
                     }
                 }
                 systemBarsMargin(16.dp)
-            } else {
-                text = null
-                setIconResource(R.drawable.arrow_up)
-                setOnClickListener {
-                    if (scroller == null) {
-                        scroller = Scroller(requireContext())
-                    }
-                    scroller!!.targetPosition = 0
-                    recyclerView.layoutManager?.startSmoothScroll(scroller)
-                }
-                alpha = 0f
-                isVisible = true
-                systemBarsMargin(16.dp)
-            }
-        }
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            if (!source.updateAll) {
-                recyclerView.isFirstItemVisible.collect { showFab ->
-                    fab.animate()
-                        .alpha(if (!showFab) 1f else 0f)
-                        .setDuration(shortAnimationDuration.toLong())
-                        .setListener(null)
-                }
             }
         }
         return binding.root
@@ -135,7 +108,7 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        layoutManagerState = savedInstanceState?.getParcelable(STATE_LAYOUT_MANAGER)
+        layoutManagerState = savedInstanceState?.getParcelableCompat(STATE_LAYOUT_MANAGER)
         mainActivity.cursorOwner.attach(
             callback = this,
             request = viewModel.state.value.toRequest(source, searchQuery),
@@ -170,7 +143,6 @@ class AppListFragment() : Fragment(), CursorOwner.Callback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        viewModel.syncConnection.unbind(requireContext())
         _binding = null
         scroller = null
         mainActivity.cursorOwner.detach(this)

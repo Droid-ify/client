@@ -282,4 +282,7 @@
     <string name="copy_error_details">复制错误详情</string>
     <string name="copied_to_clipboard">已复制</string>
     <string name="tap_to_resume_updates">打开应用以继续更新</string>
+    <string name="scan_qr_code">显示二维码</string>
+    <string name="qr_camera_permission_required">扫描二维码需要相机权限</string>
+    <string name="qr_scan_failed">未能扫描二维码</string>
 </resources>

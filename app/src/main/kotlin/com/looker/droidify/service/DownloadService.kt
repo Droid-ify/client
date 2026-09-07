@@ -15,12 +15,13 @@ import com.looker.droidify.R.string.http_error_DESC
 import com.looker.droidify.R.string.io_error_DESC
 import com.looker.droidify.R.string.socket_error_DESC
 import com.looker.droidify.R.string.unknown_error_DESC
+import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.datastore.SettingsRepository
 import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.InstallManager
+import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.model.Release
 import com.looker.droidify.model.Repository
 import com.looker.droidify.network.DataSize
@@ -309,7 +310,10 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
             currentInstaller == InstallerType.SHIZUKU ||
             autoInstallWithSessionInstaller
         ) {
-            val installItem = task.packageName installFrom task.release.cacheFileName
+            val installItem = InstallItem(
+                packageName = task.packageName.toPackageName(),
+                installFileName = task.release.cacheFileName,
+            )
             installer install installItem
         }
     }

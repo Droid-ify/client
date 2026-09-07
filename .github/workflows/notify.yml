@@ -1,0 +1,79 @@
+name: Notify on Release
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_name:
+        description: 'Version name (e.g. v0.7.1)'
+        required: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      mastodon_content: ${{ steps.mastodon_message.outputs.content }}
+      telegram_content: ${{ steps.telegram_message.outputs.content }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version info
+        id: version
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION_NAME="${{ github.event.inputs.version_name }}"
+          else
+            VERSION_NAME="${{ github.event.release.tag_name }}"
+          fi
+          VERSION_CODE=$(grep -oP 'versionCode\s*=\s*\K\d+' app/build.gradle.kts)
+          echo "name=$VERSION_NAME" >> "$GITHUB_OUTPUT"
+          echo "changelog<<EOF" >> "$GITHUB_OUTPUT"
+          cat "metadata/en-US/changelogs/$VERSION_CODE.txt" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Build Mastodon message
+        id: mastodon_message
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          CHANGELOG: ${{ steps.version.outputs.changelog }}
+        run: |
+          MESSAGE=$(envsubst < ".github/assets/mastodon_message.txt")
+          echo "content<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MESSAGE" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Build Telegram message
+        id: telegram_message
+        env:
+          VERSION_NAME: ${{ steps.version.outputs.name }}
+          CHANGELOG: ${{ steps.version.outputs.changelog }}
+        run: |
+          MESSAGE=$(envsubst < ".github/assets/telegram_message.txt")
+          echo "content<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$MESSAGE" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+  mastodon:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Mastodon
+        uses: cbrgm/mastodon-github-action@v2
+        with:
+          access-token: ${{ secrets.MASTODON_TOKEN }}
+          url: 'https://mastodon.social'
+          message: ${{ needs.prepare.outputs.mastodon_content }}
+
+  telegram:
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post to Telegram
+        uses: appleboy/telegram-action@v1.0.0
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          format: html
+          message: ${{ needs.prepare.outputs.telegram_content }}
+          disable_web_page_preview: true

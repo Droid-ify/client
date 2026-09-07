@@ -29,7 +29,7 @@ import com.looker.droidify.utility.common.extension.singleSignature
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 
@@ -68,7 +68,7 @@ class UnarchiveWorker @AssistedInject constructor(
             val c = Connection(
                 serviceClass = DownloadService::class.java,
                 onBind = { _, binder ->
-                    cont.resume(binder) { cause, _, _ -> connection.unbind(context) }
+                    cont.resume(binder) { _, _, _ -> connection.unbind(context) }
                 },
             )
             connection = c
@@ -83,7 +83,7 @@ class UnarchiveWorker @AssistedInject constructor(
         )
 
         // Wait until the download completes
-        val downloadResult = binder.downloadState.last()
+        val downloadResult = binder.downloadState.first { it isComplete packageName }
         connection.unbind(context)
         return downloadResult
     }

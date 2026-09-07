@@ -2,6 +2,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Main.Light" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="colorPrimary">@color/md_theme_l_primary</item>
         <item name="colorOnPrimary">@color/md_theme_l_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_l_primaryContainer</item>
@@ -63,6 +65,8 @@
     </style>
 
     <style name="Theme.Main.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="colorPrimary">@color/md_theme_d_primary</item>
         <item name="colorOnPrimary">@color/md_theme_d_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_d_primaryContainer</item>
@@ -122,6 +126,8 @@
     </style>
 
     <style name="Theme.Main.Amoled" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:fastScrollThumbDrawable">@drawable/scrollbar_thumb</item>
+        <item name="android:fastScrollTrackDrawable">@drawable/scrollbar_track</item>
         <item name="colorPrimary">@color/md_theme_d_primary_mediumContrast</item>
         <item name="colorOnPrimary">@color/md_theme_d_onPrimary_mediumContrast</item>
         <item name="colorPrimaryContainer">@color/md_theme_d_primaryContainer_mediumContrast</item>

@@ -1,0 +1,80 @@
+name: Crash Report
+description: App crashed unexpectedly
+title: "[Crash] "
+labels: [ "crash" ]
+type: bug
+body:
+  - type: markdown
+    attributes:
+      value: App crash report
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Guidelines
+      description: Confirm before submitting
+      options:
+        - label: I have searched the issue tracker for [open](https://github.com/Droid-ify/client/issues) and [closed](https://github.com/Droid-ify/client/issues?q=is%3Aissue+is%3Aclosed) issues that are related to the crash report I want to file, without success.
+          required: true
+        - label: I'm on the [latest](https://github.com/Droid-ify/client/releases/latest) release
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened
+      description: Describe the crash
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the crash. The issue might be closed if we fail to reproduce it.
+      placeholder: |
+        1. Open app, go to...
+        2. Tap on...
+        3. Crash
+
+  - type: input
+    id: device
+    attributes:
+      label: Device
+      description: On what device did you encounter this crash?
+      placeholder: e.g. Pixel 6
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Android version
+      description: What version of Android are you on?
+      placeholder: e.g. Android 14
+    validations:
+      required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: Droid-ify version
+      description: Check in Settings -> Credits
+      placeholder: e.g. v0.7.6
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: Paste your logs below, or drag and drop a log file.
+      value: |
+        <details>
+        <summary>Logs</summary>
+
+        ```kotlin
+        // paste logs here and remove this line
+        ```
+
+        </details>

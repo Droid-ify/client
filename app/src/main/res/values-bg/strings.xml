@@ -285,4 +285,7 @@
     <string name="download_statistics_summary">Извличане и показване на месечните данни за броя изтегляния от IzzyOnDroid. Деактивирането изчиства съществуващите статистически данни за изтеглянията.</string>
     <string name="reproducibility_logs">Регистри за възпроизводимост</string>
     <string name="reproducibility_logs_summary">Извличане и показване на възпроизводими регистри за проверка на компилации от IzzyOnDroid. Деактивирането изчиства съществуващите регистри за възпроизводимост.</string>
+    <string name="scan_qr_code">Сканиране на QR код</string>
+    <string name="qr_camera_permission_required">За сканиране на QR кодове се изисква разрешение за достъп до камерата</string>
+    <string name="qr_scan_failed">Неуспешно сканиране на QR кода</string>
 </resources>

@@ -34,7 +34,7 @@ class DownloadStatsData(val stats: Map<String, Long>) {
         fun fromStream(inst: InputStream) =
             DownloadStatsData(JsonParser.decodeFromStream<Map<String, Long>>(inst))
 
-        @OptIn(ExperimentalTime::class)
+        @Suppress("DEPRECATION")
         fun String.toEpochMillis(): Long {
             val parts = split("-")
             val year = parts[0].toInt() - 1900

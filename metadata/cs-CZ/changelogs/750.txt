@@ -1,0 +1,14 @@
+Opraveno:
+
+- Zpomalení při prvním spuštění a pády aplikace
+- Nestabilita instalačního programu
+- UI s podrobnostmi o aplikaci
+
+Změněno:
+
+- Vylepšena oznámení o selhání synchronizace
+- Vylepšena spolehlivost připojení k síti
+- Analýza dat aplikace
+- Změny v překladu
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.5

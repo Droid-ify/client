@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -40,7 +39,7 @@ class RepositoryFragment() : ScreenFragment() {
     private val viewModel: RepositoryViewModel by viewModels()
 
     constructor(repositoryId: Long) : this() {
-        arguments = bundleOf(RepositoryViewModel.ARG_REPO_ID to repositoryId)
+        arguments = Bundle().apply { putLong(RepositoryViewModel.ARG_REPO_ID, repositoryId) }
     }
 
     private var layout: LinearLayout? = null

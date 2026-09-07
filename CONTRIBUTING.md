@@ -1,157 +1,43 @@
-# 🤝 Contributing to Droid-ify
+# How to contribute
 
-Thank you for your interest in contributing to Droid-ify! This document provides guidelines for
-contributors.
+In this document, **I** refers to project author _LooKeR_. I'm really glad you're reading this, because we need volunteer developers to help this project come to fruition.
 
-## 🌟 Ways to Contribute
+## Forms of contributions
 
-### 🐛 Bug Reports
+### Translations
 
-- Search existing issues before creating new ones
-- Use bug report templates when available
-- Include system information and reproduction steps
-- Add screenshots when applicable
+Help us translate Droid-ify at [Weblate](https://hosted.weblate.org/engage/droidify)
 
-### 💡 Feature Requests
+### Bug reports
 
-- Check for existing requests to avoid duplicates
-- Clearly describe the feature and its use case
-- Explain why it would be valuable
+Help us improve Droid-ify experience by filing [bug reports](https://github.com/Droid-ify/client/issues/new/choose)
 
-### 🔧 Code Contributions
+### Code
 
-- **Bug fixes** - Fix reported issues
-- **New features** - Implement requested features
-- **Performance improvements** - Optimize existing code
-- **Code refactoring** - Improve code quality
+Code contributions are welcome and guidelines are provided in sections below
 
-### 🌐 Translations
+## AI Contribution
 
-Help translate Droid-ify via [Weblate](https://hosted.weblate.org/engage/droidify/)
+AI/LLM are still relatively new form of code generation, with questionable training ethics and practices. I am not strongly opposed to AI-generated contributions if you have interacted with the community, for example have a chat with an issue creator and project maintainer regarding the said issue, understand their expectation of a fix/implementation and then start working on it.
 
-### 📖 Documentation
+One of my plan is to move to [Codeberg](https://codeberg.org) which strictly bans LLM contributions, atleast on large scales due to its unclear copyright and ehtics. We already have a [codeberg organization](https://codeberg.org/droidify) but due to large number of issues in GitHub the migration is delayed.
 
-Improve README, guides, and code comments
+## Submitting changes
 
-## 🚀 Getting Started
+Please send a [GitHub Pull Request to Droid-ify](https://github.com/Droid-ify/client/pull/new/main) with a clear list of what you've done. When you send a pull request, we will love you forever if you include some proof of implementation, this can be screenshots for UI implementation or screen recording for crash fixes. We can always use more test coverage. Please follow our coding conventions (below) and make sure all of your commits are atomic (one feature per commit).
 
-1. **Fork and clone** the repository
-2. **Set up environment** following [Building from Source](docs/building.md)
-3. **Create a branch** for your contribution
-4. **Make changes** following our guidelines
-5. **Test thoroughly** on different Android versions
-6. **Create a pull request**
+Before sending a PR create a issue if it does not exist yet and discuss about it, I am a eternally offline being, please understand that I do a job and also contribute to multiple projects so I might not respond for a while.
 
-## 📋 Development Guidelines
+Always write a clear log message for your commits. One-line messages are fine for small changes, but bigger changes should look like this:
 
-### Code Style
-
-- Follow [Kotlin Coding Conventions](https://kotlinlang.org/docs/coding-conventions.html)
-- Use meaningful variable and function names
-- Prefer `val` over `var` when possible
-- Use Android Studio's default formatting (Ctrl+Alt+L)
-- 4 spaces for indentation, 120 character line limit
-- Organize imports and remove unused ones
-
-### Architecture
-
-- Follow Clean Architecture principles
-- **Domain layer**: Business logic and models
-- **Data layer**: Repository implementations and data sources
-- **Presentation layer**: UI components and ViewModels
-- Use Hilt for dependency injection
-- Write meaningful tests for business logic
-
-### Git Workflow
-
-Use [Conventional Commits](https://www.conventionalcommits.org/) format:
-
-```
-<type>: <description>
+```sh
+git commit -m "fix: A brief summary of the commit" -m "A paragraph describing what changed and its impact"
 ```
 
-**Types**: `feat`, `fix`, `docs`, `style`, `refactor`, `chore`
+## Coding conventions
 
-**Branch naming**:
-
-- `feature/description`
-- `fix/description`
-- `docs/description`
-
-## 📝 Pull Request Guidelines
-
-### Before Submitting
-
-- [ ] Run tests and ensure they pass
-- [ ] Update documentation if needed
-- [ ] Test on actual devices when possible
-- [ ] Rebase on latest main branch
-
-### Pull Request Content
-
-- Clear title summarizing the change
-- Description of what was changed and why
-- Issue reference (e.g., "Fixes #123")
-- Testing notes and screenshots for UI changes
-
-## 🏷️ Issue Labels
-
-| Type               | Description                |
-|--------------------|----------------------------|
-| `bug`              | Something isn't working    |
-| `enhancement`      | New feature or improvement |
-| `documentation`    | Documentation related      |
-| `help wanted`      | Community help needed      |
-| `good first issue` | Good for newcomers         |
-
-| Priority   | Description         |
-|------------|---------------------|
-| `critical` | Urgent fixes needed |
-| `high`     | Important issues    |
-| `medium`   | Standard priority   |
-| `low`      | Nice to have        |
-
-## 🎯 Project Priorities
-
-### Current Focus Areas
-
-1. **Index V2 implementation** - Modern repository format support
-2. **Performance improvements** - Faster sync and better UX
-3. **Test coverage** - More comprehensive testing
-4. **Code quality** - Refactoring and modernization
-
-### Areas Needing Help
-
-- **Translation updates** - Keep all languages current
-- **Documentation improvements** - Better guides and examples
-- **Bug triage** - Help categorize and prioritize issues
-- **Testing on different devices** - Ensure broad compatibility
-
-## 🔐 Security
-
-**Do not** report security vulnerabilities through public GitHub issues. Send details
-to `iamlooker@proton.me` instead.
-
-## 📞 Getting Help
-
-- **GitHub Issues** - Bug reports and feature requests
-- **GitHub Discussions** - General questions
-- **Weblate** - Translation questions
-
-Search existing issues and documentation before asking for help.
-
-## 📚 Resources
-
-- [Android Developer Documentation](https://developer.android.com/docs)
-- [Kotlin Documentation](https://kotlinlang.org/docs/home.html)
-- [F-Droid Documentation](https://f-droid.org/docs/)
-- [Hilt Documentation](https://dagger.dev/hilt/)
-
-## 📜 Code of Conduct
-
-This project adheres to a [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected
-to uphold this code.
+We do not follow any strict coding conventions, that being said I prefer to use Data-driven style over Object-oriented because that is what computers are supposed to do, i.e. work with data. Some good rule of thumbs are provided by Gerard Holzmann in **The Power of 10 Rules**, [wiki](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code), these can help us write safer code but there is a small gap between expectation from NASA vs Droid-ify we can work with less strict guidelines which are more focused towards modern compilers (please provide me some suggestions for such minimal coding conventions).
 
 ---
 
-**Thank you for contributing to Droid-ify!** 🚀
+Part of this document was inspired by [opengovernment CONTRIBUTING.md](https://github.com/opengovernment/opengovernment/blob/master/CONTRIBUTING.md)

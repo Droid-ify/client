@@ -1,0 +1,3 @@
+-Remediată căderea la revenirea din pagina de setări
+-Shizuku este permis pe Android 7+
+-Câteva actualizări paginii cu Depozite (Repository)

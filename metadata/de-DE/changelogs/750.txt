@@ -1,0 +1,14 @@
+Behoben:
+
+- Verzögerungen beim ersten Start und Abstürze
+- Unzuverlässigkeit des Installationsprogramms
+- Benutzeroberfläche für App-Details
+
+Geändert:
+
+- Bessere Benachrichtigungen bei Synchronisierungsfehlern
+- Höhere Netzwerkzuverlässigkeit
+- Auswertung von App-Daten
+- Änderungen an Übersetzungen
+
+Alle Änderungen: https://github.com/Droid-ify/client/releases/tag/v0.7.5

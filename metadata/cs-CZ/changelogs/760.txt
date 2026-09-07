@@ -1,0 +1,15 @@
+Přidáno:
+
+- Naskenování QR kódu pro přidání repozitáře
+- Zobrazení ikon repozitářů
+
+Opraveno:
+
+- Čištění se nespouštělo
+
+Změněno:
+
+- Vylepšeno uživatelské rozhraní stránky se seznamem repozitářů
+- Změny v překladu
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.6

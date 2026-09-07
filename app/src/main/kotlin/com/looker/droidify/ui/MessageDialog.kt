@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.appcompat.app.AlertDialog
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,6 +16,7 @@ import com.looker.droidify.utility.PackageItemResolver
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.nullIfEmpty
 import com.looker.droidify.utility.extension.android.Android
+import com.looker.droidify.utility.getParcelableCompat
 import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.TypeParceler
@@ -28,7 +28,7 @@ class MessageDialog() : DialogFragment() {
     }
 
     constructor(message: Message) : this() {
-        arguments = bundleOf(EXTRA_MESSAGE to message)
+        arguments = Bundle().apply { putParcelable(EXTRA_MESSAGE, message) }
     }
 
     fun show(fragmentManager: FragmentManager) {
@@ -37,11 +37,8 @@ class MessageDialog() : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         val dialog = MaterialAlertDialogBuilder(requireContext())
-        val message = if (SdkCheck.isTiramisu) {
-            arguments?.getParcelable(EXTRA_MESSAGE, Message::class.java)!!
-        } else {
-            arguments?.getParcelable(EXTRA_MESSAGE)!!
-        }
+        val message =
+            arguments?.getParcelableCompat<Message>(EXTRA_MESSAGE) ?: return dialog.create()
         when (message) {
             is Message.DeleteRepositoryConfirm -> {
                 dialog.setTitle(stringRes.confirmation)
@@ -84,7 +81,7 @@ class MessageDialog() : DialogFragment() {
                             localCache,
                             permissionGroupInfo,
                         )?.nullIfEmpty()?.let { if (it == message.group) null else it }
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
                         null
                     }
                     name ?: getString(stringRes.unknown)
@@ -160,7 +157,7 @@ class MessageDialog() : DialogFragment() {
                     ).append("\n\n")
                 }
                 val features =
-                    message.incompatibilities.mapNotNull { it as? Release.Incompatibility.Feature }
+                    message.incompatibilities.filterIsInstance<Release.Incompatibility.Feature>()
                 if (features.isNotEmpty()) {
                     builder.append(getString(stringRes.incompatible_features_DESC))
                     for (feature in features) {

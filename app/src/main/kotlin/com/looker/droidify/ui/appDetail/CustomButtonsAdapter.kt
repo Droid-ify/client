@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.looker.droidify.compose.settings.components.toDrawableRes
 import com.looker.droidify.datastore.model.CustomButton
 import com.looker.droidify.datastore.model.CustomButtonIcon
+import com.looker.droidify.model.Product
 import com.looker.droidify.utility.common.extension.dp
 import com.looker.droidify.utility.common.extension.getColorFromAttr
 import com.looker.droidify.utility.common.extension.setTextSizeScaled
@@ -18,26 +19,10 @@ import com.looker.droidify.utility.extension.resources.TypefaceExtra
 import com.google.android.material.R as MaterialR
 
 class CustomButtonsAdapter(
+    private val product: Product,
+    private val buttons: List<CustomButton>,
     private val onButtonClick: (url: String) -> Unit,
 ) : RecyclerView.Adapter<CustomButtonsAdapter.ViewHolder>() {
-
-    private var buttons: List<CustomButton> = emptyList()
-    private var packageName: String = ""
-    private var appName: String = ""
-    private var authorName: String = ""
-
-    fun setButtons(
-        buttons: List<CustomButton>,
-        packageName: String,
-        appName: String,
-        authorName: String,
-    ) {
-        this.buttons = buttons
-        this.packageName = packageName
-        this.appName = appName
-        this.authorName = authorName
-        notifyDataSetChanged()
-    }
 
     override fun getItemCount(): Int = buttons.size
 
@@ -47,7 +32,7 @@ class CustomButtonsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val button = buttons[position]
-        holder.bind(button, packageName, appName, authorName, onButtonClick)
+        holder.bind(button, product, onButtonClick)
     }
 
     class ViewHolder(context: android.content.Context) : RecyclerView.ViewHolder(
@@ -128,13 +113,9 @@ class CustomButtonsAdapter(
 
         fun bind(
             button: CustomButton,
-            packageName: String,
-            appName: String,
-            authorName: String,
+            product: Product,
             onButtonClick: (url: String) -> Unit,
         ) {
-            val context = itemView.context
-
             if (button.icon == CustomButtonIcon.TEXT_ONLY) {
                 iconView.visibility = View.GONE
                 textView.visibility = View.VISIBLE
@@ -151,7 +132,12 @@ class CustomButtonsAdapter(
             labelView.text = button.label
 
             itemView.setOnClickListener {
-                val resolvedUrl = button.resolveUrl(packageName, appName, authorName)
+                val resolvedUrl = button.resolveUrl(
+                    packageName = product.packageName,
+                    appName = product.name,
+                    authorName = product.author.name,
+                    sourceCode = product.source,
+                )
                 onButtonClick(resolvedUrl)
             }
         }

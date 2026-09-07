@@ -288,4 +288,7 @@
     <string name="download_statistics_summary">Načítat a zobrazovat měsíční počty stažení z IzzyOnDroid. Zakázání vymaže existující statistiky.</string>
     <string name="reproducibility_logs">Protokoly o reprodukovatelnosti</string>
     <string name="reproducibility_logs_summary">Načítat a zobrazovat protokoly o ověření reprodukovatelnosti z IzzyOnDroid. Zakázání vymaže existující protokoly.</string>
+    <string name="scan_qr_code">Naskenovat QR kód</string>
+    <string name="qr_camera_permission_required">Pro skenování QR kódů je vyžadováno oprávnění k fotoaparátu</string>
+    <string name="qr_scan_failed">Nepodařilo se naskenovat QR kód</string>
 </resources>

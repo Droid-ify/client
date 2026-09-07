@@ -19,25 +19,25 @@ import com.looker.droidify.installer.installers.isShizukuGranted
 import com.looker.droidify.installer.installers.isShizukuInstalled
 import com.looker.droidify.installer.installers.isSuiAvailable
 import com.looker.droidify.installer.installers.requestPermissionListener
+import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
-import com.looker.droidify.installer.model.installFrom
 import com.looker.droidify.model.InstalledItem
 import com.looker.droidify.model.Product
 import com.looker.droidify.model.Repository
 import com.looker.droidify.utility.common.extension.asStateFlow
 import com.looker.droidify.utility.extension.combine
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
 
 @HiltViewModel
 class AppDetailViewModel @Inject constructor(
     private val installer: InstallManager,
     private val settingsRepository: SettingsRepository,
-    private val customButtonRepository: CustomButtonRepository,
+    customButtonRepository: CustomButtonRepository,
     privacyRepository: PrivacyRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -124,7 +124,11 @@ class AppDetailViewModel @Inject constructor(
 
     fun installPackage(packageName: String, fileName: String) {
         viewModelScope.launch {
-            installer install (packageName installFrom fileName)
+            val installItem = InstallItem(
+                packageName = packageName.toPackageName(),
+                installFileName = fileName,
+            )
+            installer install installItem
         }
     }
 

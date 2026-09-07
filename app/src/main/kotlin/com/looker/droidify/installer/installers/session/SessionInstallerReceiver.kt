@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
+import android.os.Build
 import com.looker.droidify.R
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.installer.InstallManager
@@ -12,6 +13,8 @@ import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.createNotificationChannel
 import com.looker.droidify.utility.common.extension.getPackageName
 import com.looker.droidify.utility.common.extension.notificationManager
+import com.looker.droidify.utility.getParcelableCompat
+import com.looker.droidify.utility.getParcelableExtraCompat
 import com.looker.droidify.utility.notifications.createInstallNotification
 import com.looker.droidify.utility.notifications.installNotification
 import com.looker.droidify.utility.notifications.removeInstallNotification
@@ -30,7 +33,7 @@ class SessionInstallerReceiver : BroadcastReceiver() {
 
         if (status == PackageInstaller.STATUS_PENDING_USER_ACTION) {
             // prompts user to enable unknown source
-            val promptIntent: Intent? = intent.getParcelableExtra(Intent.EXTRA_INTENT)
+            val promptIntent: Intent? = intent.getParcelableExtraCompat(Intent.EXTRA_INTENT)
 
             promptIntent?.let {
                 it.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true)

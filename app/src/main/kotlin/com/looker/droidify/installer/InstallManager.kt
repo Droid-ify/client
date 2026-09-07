@@ -21,7 +21,6 @@ import com.looker.droidify.utility.common.extension.addAndCompute
 import com.looker.droidify.utility.common.extension.filter
 import com.looker.droidify.utility.common.extension.notificationManager
 import com.looker.droidify.utility.common.extension.updateAsMutable
-import com.looker.droidify.utility.common.log
 import com.looker.droidify.utility.notifications.createInstallNotification
 import com.looker.droidify.utility.notifications.installNotification
 import com.looker.droidify.utility.notifications.removeInstallNotification

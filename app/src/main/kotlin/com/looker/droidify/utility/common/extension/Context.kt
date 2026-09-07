@@ -70,6 +70,12 @@ val Context.divider: Drawable
 val Context.homeAsUp: Drawable
     get() = getDrawableFromAttr(android.R.attr.homeAsUpIndicator)
 
+val Context.scrollbarThumb: Drawable
+    get() = getDrawableFromAttr(android.R.attr.fastScrollThumbDrawable)
+
+val Context.scrollbarTrack: Drawable
+    get() = getDrawableFromAttr(android.R.attr.fastScrollTrackDrawable)
+
 val Context.open: Drawable
     get() = getDrawableCompat(R.drawable.ic_launch)
 

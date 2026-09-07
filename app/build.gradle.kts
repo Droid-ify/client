@@ -11,17 +11,19 @@ plugins {
 }
 
 android {
-    val latestVersionName = "0.7.5"
+    val latestVersionName = "0.7.7"
     namespace = "com.looker.droidify"
     compileSdk {
-        version = release(36)
+        version = release(37) {
+            minorApiLevel = 1
+        }
     }
 
     defaultConfig {
         applicationId = "com.looker.droidify"
         minSdk = 23
         versionName = latestVersionName
-        versionCode = 750
+        versionCode = 770
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
@@ -110,15 +112,7 @@ sqldelight {
 
 kotlin {
     compilerOptions {
-        freeCompilerArgs.addAll("-Xcontext-parameters")
         optIn.add("kotlin.RequiresOptIn")
-    }
-}
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-        vendor.set(JvmVendorSpec.JETBRAINS)
     }
 }
 
@@ -184,7 +178,7 @@ dependencies {
     androidTestImplementation(libs.bundles.test.android)
     kspAndroidTest(libs.hilt.compiler)
 
-//    debugImplementation(libs.leakcanary)
+    debugImplementation(libs.leakcanary)
 }
 
 // using a task as a preBuild dependency instead of a function that takes some time insures that it runs

@@ -1,0 +1,15 @@
+Hinzugefügt:
+
+- QR-Code scannen, um ein Repository hinzuzufügen
+- Repository-Symbole anzeigen
+
+Behoben:
+
+- Bereinigung wurde nicht geplant
+
+Geändert:
+
+- Verbesserungen der Repository-Liste in der GUI
+- Änderungen an Übersetzungen
+
+Alle Änderungen: https://github.com/Droid-ify/client/releases/tag/v0.7.6

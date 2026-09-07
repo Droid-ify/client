@@ -29,6 +29,7 @@ fun ImageRequest.Builder.authentication(base64: String) {
     }
 }
 
+@Suppress("DEPRECATION")
 fun TextView.setTextSizeScaled(size: Int) {
     val realSize = (size * resources.displayMetrics.scaledDensity).roundToInt()
     setTextSize(TypedValue.COMPLEX_UNIT_PX, realSize.toFloat())

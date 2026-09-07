@@ -6,7 +6,7 @@
     <string name="all_applications">Összes alkalmazás</string>
     <string name="amoled">Fekete</string>
     <string name="credits">Köszönet</string>
-    <string name="donate">Támogatás</string>
+    <string name="donate">Adakozás</string>
     <string name="install_types">Telepítés</string>
     <plurals name="new_updates_DESC_FORMAT">
         <item quantity="one">%d alkalmazás új verziója érhető el</item>
@@ -75,8 +75,8 @@
     <string name="invalid_signature_error_DESC">Érvénytelen aláírás</string>
     <string name="invalid_username_format">Érvénytelen felhasználónév formátum</string>
     <string name="launch">Indítás</string>
-    <string name="license">Licensz</string>
-    <string name="license_FORMAT">%s licensz</string>
+    <string name="license">Licenc</string>
+    <string name="license_FORMAT">%s licenc</string>
     <string name="light">Világos</string>
     <string name="link_copied_to_clipboard">Hivatkozás másolva</string>
     <string name="links">Hivatkozások</string>
@@ -116,7 +116,7 @@
     <string name="requires_FORMAT">%s szükséges</string>
     <string name="save">Mentés</string>
     <string name="search">Keresés</string>
-    <string name="select_mirror">Válasszon egy címet</string>
+    <string name="select_mirror">Tükör kiválasztása</string>
     <string name="show_more">Továbbiak megjelenítése</string>
     <string name="show_older_versions">Régebbi verziók megjelenítése</string>
     <string name="signature_FORMAT">%s aláírás</string>
@@ -141,7 +141,7 @@
     <string name="unstable_updates">Instabil frissítések</string>
     <string name="unstable_updates_summary">Instabil alkalmazásverziók telepítésének javaslata</string>
     <string name="update">Frissítés</string>
-    <string name="upstream_source_code_is_not_free">Upstream forráskód nem szabad</string>
+    <string name="upstream_source_code_is_not_free">Az upstream forráskód nem szabad</string>
     <string name="username">Felhasználónév</string>
     <string name="username_missing">Hiányzó felhasználónév</string>
     <string name="validation_index_error_DESC">Az index nem ellenőrizhető</string>
@@ -212,8 +212,8 @@
     <string name="import_repos_DESC">Tárolók importálása fájlból</string>
     <string name="export_repos_title">Tárolók exportálása</string>
     <string name="export_repos_DESC">Tárolók exportálása fájlba</string>
-    <string name="require_background_access">Akkumulátor-optimalizálás letiltása</string>
-    <string name="require_background_access_DESC">Az akkumulátor-optimalizálás kikapcsolása szükséges a háttér-szinkronizálás megfelelő működéséhez</string>
+    <string name="require_background_access">Akkumulátoroptimalizálás letiltása</string>
+    <string name="require_background_access_DESC">Az akkumulátoroptimalizálás kikapcsolása szükséges a háttérszinkronizálás megfelelő működéséhez</string>
     <string name="ignore_signature_summary">Aláírás figyelmen kívül hagyása az alkalmazás telepítésekor</string>
     <string name="installation_failed">Sikertelen telepítés</string>
     <string name="installation_failed_DESC">%s telepítése sikertelen</string>
@@ -285,4 +285,7 @@
     <string name="download_statistics_summary">Az IzzyOnDroid havi letöltésszámainak lekérése és megjelenítése. Kikapcsoláskor a meglévő letöltési statisztikák törlődnek.</string>
     <string name="reproducibility_logs">Reprodukálhatósági naplók</string>
     <string name="reproducibility_logs_summary">Az IzzyOnDroid reprodukálható összeállítás-ellenőrzési naplóinak lekérése és megjelenítése. Kikapcsoláskor a meglévő reprodukálhatósági naplók törlődnek.</string>
+    <string name="scan_qr_code">QR-kód beolvasása</string>
+    <string name="qr_camera_permission_required">A QR-kódok beolvasásához kameraengedély szükséges</string>
+    <string name="qr_scan_failed">A QR-kód beolvasása nem sikerült</string>
 </resources>
