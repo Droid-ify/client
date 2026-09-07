@@ -20,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -54,7 +53,6 @@ fun ReleaseItem(
     onLongClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val incompatibility = remember(release) { release.incompatibilities.firstOrNull() }
     val singlePlatform = remember(release) {
         if (release.platforms.size == 1) release.platforms.first() else null
@@ -185,14 +183,15 @@ fun ReleaseItem(
 
             // Signature
             if (showSignature && release.signature.isNotEmpty()) {
-                val signatureText = remember(release.signature) {
+                val signaturePrefix = stringResource(R.string.signature_FORMAT, "")
+                val signatureText = remember(release.signature, signaturePrefix) {
                     val bytes = release.signature
                         .uppercase(Locale.US)
                         .windowed(2, 2, false)
                         .take(8)
                     val signature = bytes.joinToString(separator = " ")
                     buildAnnotatedString {
-                        append(context.getString(R.string.signature_FORMAT, ""))
+                        append(signaturePrefix)
                         withStyle(SpanStyle(fontFamily = FontFamily.Monospace)) {
                             append(signature)
                         }
@@ -210,29 +209,27 @@ fun ReleaseItem(
 
             // (In)Compatibility
             if (incompatibility != null || singlePlatform != null) {
-                val compatibilityText = remember(incompatibility, singlePlatform) {
-                    when {
-                        incompatibility != null -> when (incompatibility) {
-                            is Release.Incompatibility.MinSdk,
-                            is Release.Incompatibility.MaxSdk,
-                            ->
-                                context.getString(R.string.incompatible_with_FORMAT, Android.name)
+                val compatibilityText = when {
+                    incompatibility != null -> when (incompatibility) {
+                        is Release.Incompatibility.MinSdk,
+                        is Release.Incompatibility.MaxSdk,
+                        ->
+                            stringResource(R.string.incompatible_with_FORMAT, Android.name)
 
-                            is Release.Incompatibility.Platform ->
-                                context.getString(
-                                    R.string.incompatible_with_FORMAT,
-                                    Android.primaryPlatform ?: context.getString(R.string.unknown),
-                                )
+                        is Release.Incompatibility.Platform ->
+                            stringResource(
+                                R.string.incompatible_with_FORMAT,
+                                Android.primaryPlatform ?: stringResource(R.string.unknown),
+                            )
 
-                            is Release.Incompatibility.Feature ->
-                                context.getString(R.string.requires_FORMAT, incompatibility.feature)
-                        }
-
-                        singlePlatform != null ->
-                            context.getString(R.string.only_compatible_with_FORMAT, singlePlatform)
-
-                        else -> ""
+                        is Release.Incompatibility.Feature ->
+                            stringResource(R.string.requires_FORMAT, incompatibility.feature)
                     }
+
+                    singlePlatform != null ->
+                        stringResource(R.string.only_compatible_with_FORMAT, singlePlatform)
+
+                    else -> ""
                 }
                 Text(
                     text = compatibilityText,
