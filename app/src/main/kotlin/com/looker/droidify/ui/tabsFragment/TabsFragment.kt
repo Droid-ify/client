@@ -533,7 +533,7 @@ class TabsFragment : ScreenFragment() {
                     sectionsList.apply {
                         val height = ((parent as View).height * newValue).toInt()
                         val visible = height > 0
-                        if ((visibility == View.VISIBLE) != visible) isVisible = visible
+                        if (isVisible != visible) isVisible = visible
                         if (layoutParams.height != height) {
                             layoutParams.height = height
                             requestLayout()
