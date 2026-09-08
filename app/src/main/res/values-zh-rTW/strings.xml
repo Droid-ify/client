@@ -218,7 +218,7 @@
     <string name="ignore_signature">忽略簽名驗證</string>
     <string name="ignore_signature_summary">安裝應用程式時忽略簽名驗證</string>
     <string name="error_shizuku_service_unavailable">Shizuku/Sui 服務未運行</string>
-    <string name="error_shizuku_not_running_DESC">Shizuku/Sui 服務未運行。</string>
+    <string name="error_shizuku_not_running_DESC">Shizuku/Sui 服務未運行</string>
     <string name="error_shizuku_not_granted">缺少 Shizuku/Sui 權限</string>
     <string name="error_shizuku_not_granted_DESC">尚未授予 Shizuku/Sui 權限</string>
     <string name="error_shizuku_not_installed">未安裝 Shizuku/Sui</string>
@@ -239,7 +239,7 @@
     <string name="action_sync_repo">同步</string>
     <string name="action_enable_repo">啟用</string>
     <string name="repository_not_found_by_id">找不到儲存庫</string>
-    <string name="title_activity_main_compose">MainComposeActivity</string>
+    <string name="title_activity_main_compose">基於 Compose 的主要 Activity</string>
     <string name="rb_badge">可復現建置徽章</string>
     <string name="rb_info">如果一個建置是可復現的，這代表 apk 是從提供的原始碼建置的</string>
     <string name="total_downloads">總下載</string>
