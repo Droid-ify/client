@@ -26,9 +26,9 @@
 ### Installation
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80" alt="Get it on IzzyOnDroid">](https://apt.izzysoft.de/packages/com.looker.droidify)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.looker.droidify/)
-
-[GitHub](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="80" alt="Get it on F-Droid">](https://f-droid.org/packages/com.looker.droidify/)
+[<img src="https://raw.githubusercontent.com/vadret/android/master/assets/get-github.png" height="80" alt="Get it on GitHub">](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[<img src="https://unifiedpush.org/img/codeberg-badge.png" height=80 alt="Get it on Codeberg">](https://codeberg.org/droidify/client/releases/latest)
 
 **Signature:**
 
