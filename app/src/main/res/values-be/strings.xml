@@ -54,7 +54,7 @@
     <string name="credits">Падзякі</string>
     <string name="delete_repository_DESC">Выдаліць рэпазіторый?</string>
     <string name="file_format_error_DESC">Няправільны фармат файла</string>
-    <string name="has_non_free_dependencies">Палагаецца на несвабодныя праграмы</string>
+    <string name="has_non_free_dependencies">Залежыць ад іншых несвабодных праграм</string>
     <string name="has_security_vulnerabilities">Мае вядомыя ўразлівасці бяспекі</string>
     <string name="license_FORMAT">Ліцэнзія %s</string>
     <string name="incompatible_version">Несумяшчальная версія</string>
