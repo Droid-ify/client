@@ -65,7 +65,7 @@ No actual way to say that but I will try to pick the best possible time for migr
 
 ### Links
 
-Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues) (will soon try to move this to codeberg as well)
+Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues)
 
 Pull Requests: [Codeberg](https://codeberg.org/droidify/client/pulls)
 
