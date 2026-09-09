@@ -37,6 +37,7 @@
 [GitHub](https://github.com/Iamlooker/Droid-ify/releases/latest)
 
 **Signature:**
+
 ```
 ED:88:59:C5:5A:F3:11:16:26:58:B9:4A:F9:82:B9:F0:91:DC:D2:76:28:D4:DE:34:86:D1:21:7E:BF:3C:99:35
 ```
@@ -56,6 +57,20 @@ cd droidify
 
 Code contribution: [CONTRIBUTING.md](CONTRIBUTING.md)
 Translation: [Weblate](https://hosted.weblate.org/engage/droidify)
+
+## Source Code
+
+Currently source code exists in both [GitHub](https://github.com/Droid-ify/client/issues) and [Codeberg](https://codeberg.org/droidify/client/pulls), although GitHub is just a mirror for the Codeberg repo now.
+
+Releases will only be created on GitHub until the migration finishes.
+
+**When is migration considered finished?**
+No actual way to say that but I will try to pick the best possible time for migration of each component and call it done when it seems good enough.
+
+### Links
+
+Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues) (will soon try to move this to codeberg as well)
+Pull Requests: [Codeberg](https://codeberg.org/droidify/client/pulls)
 
 ### License
 
