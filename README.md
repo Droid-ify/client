@@ -7,7 +7,7 @@
 
 <div align="center">
 
-<img width="" src="assets/Banner.jpg" alt="Droid-ify" align="center">
+<img width="" src="assets/Banner.svg" alt="Droid-ify" align="center">
 
 **Clutterfree F-Droid client**
 
