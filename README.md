@@ -9,13 +9,13 @@
 
 <img width="" src="assets/banner.svg" alt="Droid-ify" align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
-[![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
-[![GitHub](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
-[![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify)
-[![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
-
 </div>
+
+<!-- [![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/) -->
+<!-- [![GitHub](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest) -->
+<!-- [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify) -->
+<!-- [![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify) -->
+<!-- [![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers) -->
 
 * Browse and install apps from F-Droid repositories
 * Automatic app updates in the background
