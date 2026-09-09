@@ -9,8 +9,6 @@
 
 <img width="" src="assets/banner.svg" alt="Droid-ify" align="center">
 
-**Clutterfree F-Droid client**
-
 [![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
 [![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
 [![GitHub](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
