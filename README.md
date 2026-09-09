@@ -15,8 +15,6 @@
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify)
 [![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
 
-<img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
-
 </div>
 
 <div align="left">
@@ -26,6 +24,11 @@
 * Multiple installation methods (Session, Root, Shizuku)
 * Add custom repositories with one tap
 * Browse offline after initial sync
+
+<img src="metadata/en-US/images/phoneScreenshots/1.png" width="25%" />
+<img src="metadata/en-US/images/phoneScreenshots/2.png" width="25%" />
+<img src="metadata/en-US/images/phoneScreenshots/3.png" width="25%" />
+<img src="metadata/en-US/images/phoneScreenshots/4.png" width="25%" />
 
 ### Installation
 
