@@ -50,6 +50,7 @@ cd droidify
 ### Contribute
 
 Code contribution: [CONTRIBUTING.md](CONTRIBUTING.md)
+
 Translation: [Weblate](https://hosted.weblate.org/engage/droidify)
 
 ## Source Code
@@ -59,11 +60,13 @@ Currently source code exists in both [GitHub](https://github.com/Droid-ify/clien
 Releases will only be created on GitHub until the migration finishes.
 
 **When is migration considered finished?**
+
 No actual way to say that but I will try to pick the best possible time for migration of each component and call it done when it seems good enough.
 
 ### Links
 
 Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues) (will soon try to move this to codeberg as well)
+
 Pull Requests: [Codeberg](https://codeberg.org/droidify/client/pulls)
 
 ### License
