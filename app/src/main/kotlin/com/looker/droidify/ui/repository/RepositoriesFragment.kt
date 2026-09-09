@@ -41,7 +41,7 @@ class RepositoriesFragment : ScreenFragment(), CursorOwner.Callback {
                         ).show()
                     return@registerForActivityResult
                 }
-                EditRepositoryFragment(null, content)
+                mainActivity.navigateAddRepository(repoAddress = content)
             }
 
             is QRResult.QRUserCanceled -> Unit
