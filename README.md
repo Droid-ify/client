@@ -7,21 +7,15 @@
 
 <div align="center">
 
-<img width="" src="metadata/en-US/images/featureGraphic.png" alt="Droid-ify" align="center">
-
-**Clutterfree F-Droid client**
-
-[![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers)
-[![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/)
-[![GitHub](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest)
-[![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify)
-[![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify)
-
-<img src="metadata/en-US/images/phoneScreenshots/1.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/2.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/3.png" width="15%" /><img src="metadata/en-US/images/phoneScreenshots/4.png" width="15%" />
+<img width="" src="assets/banner.svg" alt="Droid-ify" align="center">
 
 </div>
 
-<div align="left">
+<!-- [![GitHub downloads](https://img.shields.io/github/downloads/Iamlooker/Droid-ify/total.svg?color=%236f9645&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/) -->
+<!-- [![GitHub](https://img.shields.io/github/v/release/Iamlooker/Droid-ify?display_name=tag&color=%23d97706&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/releases/latest) -->
+<!-- [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.looker.droidify&label=IzzyOnDroid&style=for-the-badge)](https://apt.izzysoft.de/fdroid/index/apk/com.looker.droidify) -->
+<!-- [![F-Droid](https://img.shields.io/f-droid/v/com.looker.droidify?color=%23ea9010&style=for-the-badge)](https://f-droid.org/packages/com.looker.droidify) -->
+<!-- [![GitHub stars](https://img.shields.io/github/stars/Iamlooker/Droid-ify?color=%2359a14f&style=for-the-badge)](https://github.com/Iamlooker/Droid-ify/stargazers) -->
 
 * Browse and install apps from F-Droid repositories
 * Automatic app updates in the background
@@ -32,9 +26,9 @@
 ### Installation
 
 [<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80" alt="Get it on IzzyOnDroid">](https://apt.izzysoft.de/packages/com.looker.droidify)
-[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80">](https://f-droid.org/packages/com.looker.droidify/)
-
-[GitHub](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[<img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" height="80" alt="Get it on F-Droid">](https://f-droid.org/packages/com.looker.droidify/)
+[<img src="https://raw.githubusercontent.com/vadret/android/master/assets/get-github.png" height="80" alt="Get it on GitHub">](https://github.com/Iamlooker/Droid-ify/releases/latest)
+[<img src="https://unifiedpush.org/img/codeberg-badge.png" height=80 alt="Get it on Codeberg">](https://codeberg.org/droidify/client/releases/latest)
 
 **Signature:**
 
@@ -56,6 +50,7 @@ cd droidify
 ### Contribute
 
 Code contribution: [CONTRIBUTING.md](CONTRIBUTING.md)
+
 Translation: [Weblate](https://hosted.weblate.org/engage/droidify)
 
 ## Source Code
@@ -65,11 +60,13 @@ Currently source code exists in both [GitHub](https://github.com/Droid-ify/clien
 Releases will only be created on GitHub until the migration finishes.
 
 **When is migration considered finished?**
+
 No actual way to say that but I will try to pick the best possible time for migration of each component and call it done when it seems good enough.
 
 ### Links
 
-Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues) (will soon try to move this to codeberg as well)
+Issue Tracker: [GitHub](https://github.com/Droid-ify/client/issues)
+
 Pull Requests: [Codeberg](https://codeberg.org/droidify/client/pulls)
 
 ### License
