@@ -26,6 +26,7 @@ import com.looker.droidify.utility.serialization.product
 import com.looker.droidify.utility.serialization.productItem
 import com.looker.droidify.utility.serialization.repository
 import com.looker.droidify.utility.serialization.serialize
+import java.io.ByteArrayOutputStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.delay
@@ -38,7 +39,6 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 
 object Database {
     fun init(context: Context): Boolean {
@@ -439,13 +439,19 @@ object Database {
             }
         }
 
-        fun importRepos(list: List<Repository>) {
+        fun importRepos(imports: List<Repository>) {
             db.transaction {
-                val currentAddresses = getAll().map { it.address }
-                val newRepos = list
-                    .filter { it.address !in currentAddresses }
-                newRepos.forEach { put(it) }
-                removeDuplicates()
+                val existing = getAll().associateBy { it.address }
+                imports.distinctBy { it.address }.map { repo ->
+                    val current = existing[repo.address] ?: return@map repo
+                    val shouldForceUpdate = current.enabled != repo.enabled
+                    current.copy(
+                        enabled = repo.enabled,
+                        authentication = repo.authentication,
+                        lastModified = if (shouldForceUpdate) "" else current.lastModified,
+                        entityTag = if (shouldForceUpdate) "" else current.entityTag,
+                    )
+                }.forEach(RepositoryAdapter::put)
             }
         }
 
