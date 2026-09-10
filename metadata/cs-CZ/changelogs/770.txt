@@ -1,0 +1,17 @@
+Přidáno:
+
+- Podpora odkazů na zdrojový kód u vlastních tlačítek
+
+Opraveno:
+
+- Únik paměti na úvodní obrazovce
+- Nezavření procesu rozbalování archivu
+- Nesprávné obrácení rozložení snímku obrazovky pro RTL
+
+Změny:
+
+- Vylepšení uživatelského rozhraní vlastních tlačítek
+- Posuvník nahrazuje FAB pro posun nahoru
+- Změny v překladu
+
+Úplný seznam změn: https://github.com/Droid-ify/client/releases/tag/v0.7.7
