@@ -1,0 +1,7 @@
+Fixed:
+- Repo state after import
+- QR Scanner working
+- Root installer deleting APK
+- Material You theming
+
+Full changelog: https://github.com/Droid-ify/client/releases/tag/v0.7.8

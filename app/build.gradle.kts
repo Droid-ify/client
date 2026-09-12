@@ -20,8 +20,8 @@ android {
     defaultConfig {
         applicationId = "com.looker.droidify"
         minSdk = 23
-        versionName = "0.7.7"
-        versionCode = 770
+        versionName = "0.7.8"
+        versionCode = 780
 
         testInstrumentationRunner = "com.looker.droidify.TestRunner"
     }
