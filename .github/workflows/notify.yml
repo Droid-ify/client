@@ -13,6 +13,7 @@ jobs:
   prepare:
     runs-on: ubuntu-latest
     outputs:
+      version_name: ${{ steps.version.outputs.name }}
       mastodon_content: ${{ steps.mastodon_message.outputs.content }}
       telegram_content: ${{ steps.telegram_message.outputs.content }}
     steps:
@@ -77,3 +78,32 @@ jobs:
           format: html
           message: ${{ needs.prepare.outputs.telegram_content }}
           disable_web_page_preview: true
+
+  codeberg:
+    needs: prepare
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.prepare.outputs.version_name }}
+    steps:
+      - name: Fetch GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json name --jq '.name' > name.txt
+          gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json body --jq '.body' > body.md
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern '*.apk' --dir assets
+          echo "name=$(cat name.txt)" >> "$GITHUB_OUTPUT"
+        id: gh_release
+
+      - name: Create Codeberg release
+        uses: akkuman/gitea-release-action@v1
+        with:
+          server_url: https://codeberg.org
+          repository: droidify/client
+          token: ${{ secrets.CODEBERG_TOKEN }}
+          tag_name: ${{ env.TAG }}
+          name: ${{ steps.gh_release.outputs.name }}
+          body_path: body.md
+          files: assets/*.apk
+          draft: false
+          prerelease: false
