@@ -286,6 +286,6 @@
     <string name="reproducibility_logs">Reprodukálhatósági naplók</string>
     <string name="reproducibility_logs_summary">Az IzzyOnDroid reprodukálható összeállítás-ellenőrzési naplóinak lekérése és megjelenítése. Kikapcsoláskor a meglévő reprodukálhatósági naplók törlődnek.</string>
     <string name="scan_qr_code">QR-kód beolvasása</string>
-    <string name="qr_camera_permission_required">A QR-kódok beolvasásához kameraengedély szükséges</string>
+    <string name="qr_camera_permission_required">A QR-kódok beolvasásához kamera-hozzáférési engedély szükséges</string>
     <string name="qr_scan_failed">A QR-kód beolvasása nem sikerült</string>
 </resources>
