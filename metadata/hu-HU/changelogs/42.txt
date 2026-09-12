@@ -1,0 +1,6 @@
+- Több Material Design 3 elem
+- Javítva: a root és az alapértelmezett telepítő működése
+- Javítva: a gyorsítótárazott fájl törlése az eltávolítás után
+- Javítva: összeomlás, amikor offline módban a letöltés gombra kattint
+- Több mint 17 nyelv fordításainak frissítése
+- Számos apró javítás és finomhangolás…

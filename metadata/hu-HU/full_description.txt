@@ -1,0 +1,11 @@
+Funkciók:
+
+ • Alkalmazások böngészése és telepítése F-Droid-tárolókból
+ • Alkalmazások automatikus frissítése a háttérben
+ • Többféle telepítési mód (Session, Root, Shizuku)
+ • Egyéni tárolók hozzáadása egyetlen érintéssel
+ • A kezdeti szinkronizálás után teljesen offline is működik
+
+ 63 nyelven érhető el, többek között angolul, németül, franciául, spanyolul és kínaiul.
+
+ Copyleft szabad szoftver, GPLv3 vagy újabb licenc alatt.
