@@ -1,0 +1,17 @@
+Hinzugefügt:
+
+- Unterstützung für Quellcode-Links für eigenen Schaltflächen
+
+Behoben:
+
+- Speicherleck auf dem Startbildschirm
+- Der Worker zum Entpacken wurde nicht geschlossen
+- Das Screenshot-Layout war bei RTL vertauscht
+
+Geändert:
+
+- UX-Verbesserungen bei eigenen Schaltflächen
+- Bildlaufleiste ersetzt den FAB zum Hochscrollen
+- Änderungen an den Übersetzungen
+
+Alle Änderungen: https://github.com/Droid-ify/client/releases/tag/v0.7.7

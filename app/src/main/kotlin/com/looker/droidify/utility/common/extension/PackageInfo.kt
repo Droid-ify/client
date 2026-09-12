@@ -85,6 +85,9 @@ private val signaturesFlagCompat: Int
         }
         ) or PackageManager.GET_SIGNATURES
 
+/**
+ * Null [packageName] is not found
+ */
 fun PackageManager.getPackageInfoCompat(
     packageName: String,
     signatureFlag: Int = signaturesFlagCompat,
