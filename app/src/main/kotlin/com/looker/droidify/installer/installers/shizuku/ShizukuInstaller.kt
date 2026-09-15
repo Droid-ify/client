@@ -1,6 +1,7 @@
 package com.looker.droidify.installer.installers.shizuku
 
 import android.content.Context
+import android.util.Log
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.uninstallPackage
@@ -8,64 +9,69 @@ import com.looker.droidify.installer.model.InstallItem
 import com.looker.droidify.installer.model.InstallState
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
-import com.looker.droidify.utility.common.extension.size
-import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.BufferedReader
 import java.io.InputStream
-import kotlin.coroutines.resume
+import kotlinx.coroutines.CancellationException
 
 class ShizukuInstaller(private val context: Context) : Installer {
 
     companion object {
+        private const val TAG = "ShizukuInstaller"
         private val SESSION_ID_REGEX = Regex("(?<=\\[).+?(?=])")
     }
 
     override suspend fun install(
         installItem: InstallItem,
-    ): InstallState = suspendCancellableCoroutine { cont ->
-        var sessionId: String? = null
+    ): InstallState {
         val file = Cache.getReleaseFile(context, installItem.installFileName)
-        try {
-            val fileSize = file.length()
-            if (fileSize == 0L) {
-                cont.cancel()
-                error("File is not valid: Size ${file.size}")
-            }
-            if (cont.isCompleted) return@suspendCancellableCoroutine
-            val installerPackage = context.packageName
-            file.inputStream().use {
-                val createCommand =
-                    if (SdkCheck.isNougat) {
-                        "pm install-create --user current -i $installerPackage -S $fileSize"
-                    } else {
-                        "pm install-create -i $installerPackage -S $fileSize"
-                    }
-                val createResult = exec(createCommand)
-                sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
-                    ?: run {
-                        cont.cancel()
-                        error("Failed to create install session")
-                    }
-                if (cont.isCompleted) return@suspendCancellableCoroutine
+        val fileSize = try {
+            file.length()
+        } catch (e: SecurityException) {
+            Log.e(TAG, "Security manager denied access to ${file.path}", e)
+            return InstallState.Failed
+        }
+        if (fileSize == 0L) {
+            Log.e(TAG, "File is not valid: ${file.path}")
+            return InstallState.Failed
+        }
 
-                val writeResult = exec("pm install-write -S $fileSize $sessionId base -", it)
-                if (writeResult.resultCode != 0) {
-                    cont.cancel()
-                    error("Failed to write APK to session $sessionId")
-                }
-                if (cont.isCompleted) return@suspendCancellableCoroutine
+        val installerPackage = context.packageName
 
-                val commitResult = exec("pm install-commit $sessionId")
-                if (commitResult.resultCode != 0) {
-                    cont.cancel()
-                    error("Failed to commit install session $sessionId")
-                }
-                if (cont.isCompleted) return@suspendCancellableCoroutine
-                cont.resume(InstallState.Installed)
+        val createCommand = if (SdkCheck.isNougat) {
+            "pm install-create --user current -i $installerPackage -S $fileSize"
+        } else {
+            "pm install-create -i $installerPackage -S $fileSize"
+        }
+        val createResult = exec(createCommand)
+
+        val sessionId = SESSION_ID_REGEX.find(createResult.out)?.value
+        if (sessionId == null) {
+            Log.e(TAG, "Failed to create install session: ${createResult.out}")
+            return InstallState.Failed
+        }
+
+        return try {
+            val writeResult = file.inputStream().use { stream ->
+                exec("pm install-write -S $fileSize $sessionId base -", stream)
             }
-        } catch (_: Exception) {
-            if (sessionId != null) exec("pm install-abandon $sessionId")
-            cont.resume(InstallState.Failed)
+            check(writeResult.resultCode == 0) {
+                "Failed to write APK to session $sessionId: ${writeResult.out}"
+            }
+            val commitResult = exec("pm install-commit $sessionId")
+            check(commitResult.resultCode == 0) {
+                "Failed to commit install session $sessionId: ${commitResult.out}"
+            }
+            InstallState.Installed
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Log.e(TAG, "Install failed for ${installItem.packageName.name}", e)
+            try {
+                exec("pm install-abandon $sessionId")
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to abandon session $sessionId", e)
+            }
+            InstallState.Failed
         }
     }
 

@@ -3,7 +3,6 @@ package com.looker.droidify.utility.common.cache
 import android.content.ContentProvider
 import android.content.ContentValues
 import android.content.Context
-import android.content.pm.PackageManager
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.net.Uri
@@ -11,7 +10,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.provider.OpenableColumns
 import android.system.Os
-import com.looker.droidify.utility.common.extension.getPackageInfoCompat
+import com.looker.droidify.BuildConfig
 import com.looker.droidify.utility.common.sdkAbove
 import java.io.File
 import java.util.UUID
@@ -79,21 +78,6 @@ object Cache {
         }
     }
 
-    fun getReleaseUri(context: Context, cacheFileName: String): Uri {
-        val file = getReleaseFile(context, cacheFileName)
-        val packageInfo = context.packageManager.getPackageInfoCompat(
-            packageName = context.packageName,
-            signatureFlag = PackageManager.GET_PROVIDERS,
-        )
-        val authority =
-            packageInfo?.providers?.find { it.name == Provider::class.java.name }!!.authority
-        return Uri.Builder()
-            .scheme("content")
-            .authority(authority)
-            .encodedPath(file.path.drop(context.cacheDir.path.length))
-            .build()
-    }
-
     fun getTemporaryFile(context: Context): File {
         return File(ensureCacheDir(context, TEMP_DIR), UUID.randomUUID().toString())
     }
@@ -158,6 +142,7 @@ object Cache {
 
     class Provider : ContentProvider() {
         companion object {
+            const val AUTHORITY = "${BuildConfig.APPLICATION_ID}.provider.cache"
             private val defaultColumns = arrayOf(OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE)
         }
 

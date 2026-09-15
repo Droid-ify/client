@@ -1,17 +1,12 @@
 package com.looker.droidify.utility.common.extension
 
 import android.content.Context
-import com.looker.droidify.utility.common.cache.Cache
+import android.net.Uri
+import com.looker.droidify.utility.common.cache.Cache.Provider
 import java.io.File
 
-val File.size: Long?
-    get() = if (exists()) length().takeIf { it > 0L } else null
-
-inline fun <T> Context.tempFile(block: (file: File) -> T): T {
-    val file = Cache.getTemporaryFile(this)
-    return try {
-        block(file)
-    } finally {
-        file.delete()
-    }
-}
+fun File.contentUri(context: Context, base: File = context.cacheDir): Uri = Uri.Builder()
+    .scheme("content")
+    .authority(Provider.AUTHORITY)
+    .encodedPath(path.drop(base.path.length))
+    .build()

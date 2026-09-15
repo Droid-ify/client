@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.looker.droidify.data.model.PackageName
 import com.looker.droidify.database.Database
+import com.looker.droidify.datastore.Settings
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.installers.Installer
 import com.looker.droidify.installer.installers.LegacyInstaller
@@ -27,13 +27,14 @@ import com.looker.droidify.utility.notifications.removeInstallNotification
 import com.looker.droidify.utility.notifications.updatesAvailableNotification
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InstallManager(
     private val context: Context,
@@ -45,9 +46,6 @@ class InstallManager(
 
     val state = MutableStateFlow<Map<PackageName, InstallState>>(emptyMap())
 
-    private val skipSignature = settingsRepository.get { ignoreSignature }
-    private val installerPreference = settingsRepository.get { installerType }
-    private val deleteApkPreference = settingsRepository.get { deleteApkOnInstall }
     private val notificationManager by lazy { context.notificationManager }
 
     suspend operator fun invoke() = coroutineScope {
@@ -94,10 +92,11 @@ class InstallManager(
                         state = InstallState.Installing,
                     ),
                 )
-                val installer = currentInstaller()
+                val settings = settingsRepository.getInitial()
+                val installer = currentInstaller(settings)
 
                 val result = try {
-                    installer.install(item)
+                    withContext(Dispatchers.IO) { installer.install(item) }
                 } catch (e: CancellationException) {
                     throw e
                 } catch (e: Exception) {
@@ -109,13 +108,13 @@ class InstallManager(
                     InstallState.Failed
                 }
                 if (result == InstallState.Installed && installer !is LegacyInstaller) {
-                    if (deleteApkPreference.first()) {
+                    if (settings.deleteApkOnInstall) {
                         val apkFile = Cache.getReleaseFile(context, item.installFileName)
                         apkFile.delete()
                     }
                 }
                 if (result == InstallState.Installed && SyncService.autoUpdating) {
-                    val updates = Database.ProductAdapter.getUpdates(skipSignature.first())
+                    val updates = Database.ProductAdapter.getUpdates(settings.ignoreSignature)
                     when {
                         updates.isEmpty() -> {
                             SyncService.autoUpdating = false
@@ -139,7 +138,8 @@ class InstallManager(
     private fun CoroutineScope.uninstaller() = launch {
         uninstallItems.consumeEach {
             try {
-                currentInstaller().uninstall(it)
+                val settings = settingsRepository.getInitial()
+                withContext(Dispatchers.IO) { currentInstaller(settings).uninstall(it) }
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
@@ -152,9 +152,9 @@ class InstallManager(
         }
     }
 
-    private suspend fun currentInstaller(): Installer =
-        when (installerPreference.first()) {
-            InstallerType.LEGACY -> LegacyInstaller(context, settingsRepository)
+    private fun currentInstaller(settings: Settings): Installer =
+        when (settings.installerType) {
+            InstallerType.LEGACY -> LegacyInstaller(context, settings.legacyInstallerComponent)
             InstallerType.SESSION -> SessionInstaller(context)
             InstallerType.SHIZUKU -> ShizukuInstaller(context)
             InstallerType.ROOT -> RootInstaller(context)
