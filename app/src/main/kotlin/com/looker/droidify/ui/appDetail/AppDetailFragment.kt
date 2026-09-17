@@ -339,10 +339,10 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
         isActionVisible: Boolean = (recyclerView?.layoutManager as LinearLayoutManager)
             .findFirstVisibleItemPosition() == 0,
     ) {
-        toolbar.title = if (isActionVisible) {
-            getString(stringRes.application)
-        } else {
+        toolbar.title = if (!isActionVisible) {
             products.firstOrNull()?.first?.name ?: getString(stringRes.application)
+        } else {
+            null
         }
         val (actions, primaryAction) = actions
         val displayActions = actions.updateAsMutable {
