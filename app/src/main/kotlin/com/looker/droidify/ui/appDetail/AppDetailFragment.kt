@@ -114,7 +114,7 @@ class AppDetailFragment() : ScreenFragment(), AppDetailAdapter.Callbacks {
     private val downloadConnection = Connection(
         serviceClass = DownloadService::class.java,
         onBind = { _, binder ->
-            lifecycleScope.launch {
+            viewLifecycleOwner.lifecycleScope.launch {
                 binder.downloadState.collect(::updateDownloadState)
             }
         },
