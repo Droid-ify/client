@@ -200,7 +200,8 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     override fun onTimeout(startId: Int) {
         super.onTimeout(startId)
-        onDestroy()
+        cancelTasks(null)
+        cancelCurrentTask(null)
         stopSelf()
     }
 

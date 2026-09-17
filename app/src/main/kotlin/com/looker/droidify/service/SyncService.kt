@@ -274,7 +274,8 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     override fun onTimeout(startId: Int) {
         super.onTimeout(startId)
-        onDestroy()
+        cancelTasks { true }
+        cancelCurrentTask { true }
         stopSelf()
     }
 
