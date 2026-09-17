@@ -55,6 +55,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.launch
@@ -262,14 +263,15 @@ class SyncService : ConnectionService<SyncService.Binder>() {
             name = getString(stringRes.updates),
         )
 
-        downloadConnection.bind(this)
         lifecycleScope.launch {
             syncState
+                .filter { currentTask != null }
                 .sample(NOTIFICATION_UPDATE_SAMPLING.milliseconds)
                 .collectLatest {
                     publishForegroundState(false, it)
                 }
         }
+        downloadConnection.bind(this)
     }
 
     override fun onTimeout(startId: Int) {

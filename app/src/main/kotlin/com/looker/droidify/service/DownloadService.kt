@@ -31,7 +31,6 @@ import com.looker.droidify.network.header.authentication
 import com.looker.droidify.network.percentBy
 import com.looker.droidify.network.validation.ValidationResult
 import com.looker.droidify.utility.common.Constants
-import com.looker.droidify.utility.common.Constants.NOTIFICATION_CHANNEL_INSTALL
 import com.looker.droidify.utility.common.SdkCheck
 import com.looker.droidify.utility.common.cache.Cache
 import com.looker.droidify.utility.common.createNotificationChannel
@@ -47,7 +46,9 @@ import com.looker.droidify.utility.notifications.installNotification
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -66,6 +67,7 @@ import com.looker.droidify.R.string as stringRes
 class DownloadService : ConnectionService<DownloadService.Binder>() {
     companion object {
         private const val ACTION_CANCEL = "${BuildConfig.APPLICATION_ID}.intent.action.CANCEL"
+        private const val NOTIFICATION_UPDATE_SAMPLING = 400L
     }
 
     @Inject
@@ -177,21 +179,23 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     private val binder = Binder()
     override fun onBind(intent: Intent): Binder = binder
 
+    @OptIn(FlowPreview::class)
     override fun onCreate() {
         super.onCreate()
+
         createNotificationChannel(
             id = Constants.NOTIFICATION_CHANNEL_DOWNLOADING,
             name = getString(stringRes.downloading),
         )
         createNotificationChannel(
-            id = NOTIFICATION_CHANNEL_INSTALL,
+            id = Constants.NOTIFICATION_CHANNEL_INSTALL,
             name = getString(stringRes.install),
         )
 
         lifecycleScope.launch {
             _downloadState
                 .filter { currentTask != null }
-                .sample(400)
+                .sample(NOTIFICATION_UPDATE_SAMPLING.milliseconds)
                 .collectLatest {
                     publishForegroundState(false, it.currentItem)
                 }
