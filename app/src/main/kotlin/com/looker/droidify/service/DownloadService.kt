@@ -17,7 +17,6 @@ import com.looker.droidify.R.string.socket_error_DESC
 import com.looker.droidify.R.string.unknown_error_DESC
 import com.looker.droidify.data.model.toPackageName
 import com.looker.droidify.datastore.SettingsRepository
-import com.looker.droidify.datastore.get
 import com.looker.droidify.datastore.model.InstallerType
 import com.looker.droidify.installer.InstallManager
 import com.looker.droidify.installer.model.InstallItem
@@ -54,7 +53,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -75,9 +73,6 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
 
     @Inject
     lateinit var downloader: Downloader
-
-    private val installerType
-        get() = settingsRepository.get { installerType }
 
     @Inject
     lateinit var installer: InstallManager
@@ -302,7 +297,7 @@ class DownloadService : ConnectionService<DownloadService.Binder>() {
     }
 
     private suspend fun publishSuccess(task: Task) {
-        val currentInstaller = installerType.first()
+        val currentInstaller = settingsRepository.getInitial().installerType
         updateCurrentQueue { add("") }
         updateCurrentState(State.Success(task.packageName, task.release))
         val autoInstallWithSessionInstaller =
