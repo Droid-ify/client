@@ -428,72 +428,70 @@ class SyncService : ConnectionService<SyncService.Binder>() {
 
     private fun publishForegroundState(force: Boolean, state: State) {
         if (foregroundFailed) return
-        if (force || currentTask?.lastState != state) {
-            currentTask = currentTask?.copy(lastState = state)
-            if (started == Started.MANUAL) {
-                val promoted = startForegroundSafe(
-                    id = Constants.NOTIFICATION_ID_SYNCING,
-                    notification = stateNotificationBuilder.apply {
-                        setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
-                        when (state) {
-                            is State.Connecting -> {
-                                setContentText(getString(stringRes.connecting))
-                                setProgress(0, 0, true)
-                            }
+        if (!force && currentTask?.lastState == state) return
+        currentTask = currentTask?.copy(lastState = state)
+        if (started != Started.MANUAL) return
+        val promoted = startForegroundSafe(
+            id = Constants.NOTIFICATION_ID_SYNCING,
+            notification = stateNotificationBuilder.apply {
+                setContentTitle(getString(stringRes.syncing_FORMAT, state.name))
+                when (state) {
+                    is State.Connecting -> {
+                        setContentText(getString(stringRes.connecting))
+                        setProgress(0, 0, true)
+                    }
 
-                            is State.Syncing -> {
-                                when (state.stage) {
-                                    RepositoryUpdater.Stage.DOWNLOAD -> {
-                                        if (state.total != null) {
-                                            setContentText("${state.read} / ${state.total}")
-                                            setProgress(
-                                                MAX_PROGRESS,
-                                                state.read percentBy state.total,
-                                                false,
-                                            )
-                                        } else {
-                                            setContentText(state.read.toString())
-                                            setProgress(0, 0, true)
-                                        }
-                                    }
-
-                                    RepositoryUpdater.Stage.PROCESS -> {
-                                        val progress = (state.read percentBy state.total)
-                                            .takeIf { it != -1 }
-                                        setContentText(
-                                            getString(
-                                                stringRes.processing_FORMAT,
-                                                "${progress ?: 0}%",
-                                            ),
-                                        )
-                                        setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
-                                    }
-
-                                    RepositoryUpdater.Stage.MERGE -> {
-                                        val progress = (state.read percentBy state.total)
-                                        setContentText(
-                                            getString(
-                                                stringRes.merging_FORMAT,
-                                                "${state.read.value} / ${state.total?.value ?: state.read.value}",
-                                            ),
-                                        )
-                                        setProgress(MAX_PROGRESS, progress, false)
-                                    }
-
-                                    RepositoryUpdater.Stage.COMMIT -> {
-                                        setContentText(getString(stringRes.saving_details))
-                                        setProgress(0, 0, true)
-                                    }
+                    is State.Syncing -> {
+                        when (state.stage) {
+                            RepositoryUpdater.Stage.DOWNLOAD -> {
+                                if (state.total != null) {
+                                    setContentText("${state.read} / ${state.total}")
+                                    setProgress(
+                                        MAX_PROGRESS,
+                                        state.read percentBy state.total,
+                                        false,
+                                    )
+                                } else {
+                                    setContentText(state.read.toString())
+                                    setProgress(0, 0, true)
                                 }
                             }
 
-                            is State.Finish -> {}
+                            RepositoryUpdater.Stage.PROCESS -> {
+                                val progress = (state.read percentBy state.total)
+                                    .takeIf { it != -1 }
+                                setContentText(
+                                    getString(
+                                        stringRes.processing_FORMAT,
+                                        "${progress ?: 0}%",
+                                    ),
+                                )
+                                setProgress(MAX_PROGRESS, progress ?: 0, progress == null)
+                            }
+
+                            RepositoryUpdater.Stage.MERGE -> {
+                                val progress = (state.read percentBy state.total)
+                                setContentText(
+                                    getString(
+                                        stringRes.merging_FORMAT,
+                                        "${state.read.value} / ${state.total?.value ?: state.read.value}",
+                                    ),
+                                )
+                                setProgress(MAX_PROGRESS, progress, false)
+                            }
+
+                            RepositoryUpdater.Stage.COMMIT -> {
+                                setContentText(getString(stringRes.saving_details))
+                                setProgress(0, 0, true)
+                            }
                         }
-                    }.build(),
-                )
-                if (!promoted) handleForegroundDenied()
-            }
-        }
+                    }
+
+                    is State.Finish -> {}
+                }
+            }.build(),
+        )
+        if (!promoted) handleForegroundDenied()
     }
 
     private fun handleForegroundDenied() {
