@@ -7,10 +7,9 @@ import com.looker.droidify.network.ProgressListener
 import com.looker.droidify.network.header.authentication
 import com.looker.droidify.network.header.ifModifiedSince
 import com.looker.droidify.utility.common.cache.Cache
+import java.io.File
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.io.File
-import java.util.*
 
 suspend fun Downloader.downloadIndex(
     context: Context,
@@ -26,17 +25,8 @@ suspend fun Downloader.downloadIndex(
         target = indexFile,
         block = onProgress,
         headers = {
-            if (repo.shouldAuthenticate) {
-                with(requireNotNull(repo.authentication)) {
-                    authentication(
-                        username = username,
-                        password = password,
-                    )
-                }
-            }
-            if (repo.versionInfo != null && repo.versionInfo.timestamp > 0L && !diff) {
-                ifModifiedSince(Date(repo.versionInfo.timestamp))
-            }
+            authentication(repo.authentication)
+            if (!diff) ifModifiedSince(repo.versionInfo)
         },
     )
     indexFile
