@@ -13,7 +13,7 @@ import android.system.Os
 import com.looker.droidify.BuildConfig
 import com.looker.droidify.utility.common.sdkAbove
 import java.io.File
-import java.util.UUID
+import java.util.*
 import kotlin.math.min
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -82,60 +82,39 @@ object Cache {
         return File(ensureCacheDir(context, TEMP_DIR), UUID.randomUUID().toString())
     }
 
-    suspend fun cleanup(context: Context) = withContext(Dispatchers.IO) {
-        cleanup(
-            context,
-            Pair(IMAGES_DIR, 7.days),
-            Pair(INDEX_DIR, Duration.INFINITE),
-            Pair(PARTIAL_DIR, 1.days),
-            Pair(RELEASE_DIR, 1.days),
-            Pair(TEMP_DIR, 1.hours),
-        )
-    }
+    private val DirectoryExpiration = mapOf(
+        IMAGES_DIR to 7.days,
+        PARTIAL_DIR to 1.days,
+        RELEASE_DIR to 1.days,
+        TEMP_DIR to 1.hours,
+    )
 
-    private fun cleanup(context: Context, vararg dirHours: Pair<String, Duration>) {
-        val knownNames = dirHours.asSequence().map { it.first }.toSet()
-        val files = context.cacheDir.listFiles().orEmpty()
-        files.asSequence().filter { it.name !in knownNames }.forEach {
-            if (it.isDirectory) {
-                cleanupDir(it, Duration.ZERO)
-                it.delete()
-            } else {
-                it.delete()
-            }
-        }
+    suspend fun cleanup(
+        context: Context,
+        dirHours: Map<String, Duration> = DirectoryExpiration,
+    ) = withContext(Dispatchers.IO) {
+        context.cacheDir
+            .listFiles { it.name !in dirHours.keys }
+            ?.forEach(File::deleteRecursively)
+
         dirHours.forEach { (name, duration) ->
-            val file = File(context.cacheDir, name)
-            if (file.exists()) {
-                if (file.isDirectory) {
-                    cleanupDir(file, duration)
-                } else {
-                    file.delete()
-                }
+            val dir = File(context.cacheDir, name)
+            if (dir.exists()) {
+                require(dir.isDirectory) { "Not a directory: ${dir.path}" }
+                dir.deleteOlderThan(duration)
             }
         }
     }
 
-    private fun cleanupDir(dir: File, duration: Duration) {
-        dir.listFiles()?.forEach {
-            val older = duration <= Duration.ZERO || run {
-                val olderThan = System.currentTimeMillis() / 1000L - duration.inWholeSeconds
-                try {
-                    val stat = Os.lstat(it.path)
-                    stat.st_atime < olderThan
-                } catch (e: Exception) {
-                    false
-                }
-            }
-            if (older) {
-                if (it.isDirectory) {
-                    cleanupDir(it, duration)
-                    if (it.isDirectory) {
-                        it.delete()
-                    }
-                } else {
-                    it.delete()
-                }
+    private fun File.deleteOlderThan(duration: Duration) {
+        val olderThan = System.currentTimeMillis() - duration.inWholeMilliseconds
+        listFiles()?.forEach { file ->
+            if (file.isDirectory) {
+                file.deleteOlderThan(duration)
+                file.delete()
+            } else {
+                val lastModified = file.lastModified()
+                if (lastModified != 0L && lastModified < olderThan) file.delete()
             }
         }
     }
