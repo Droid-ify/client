@@ -75,17 +75,15 @@ object IndexV1Parser {
         if (isNullOrEmpty()) return null
         val firstMatch = localeList.getFirstMatch(keys.toTypedArray()) ?: return null
         val tag = firstMatch.toLanguageTag()
-        // try first matched tag first (usually has region tag, e.g. de-DE)
-        return get(tag) ?: run {
-            // split away stuff like script and try language and region only
-            val langCountryTag = "${firstMatch.language}-${firstMatch.country}"
-            getOrStartsWith(langCountryTag) ?: run {
-                // split away region tag and try language only
-                val langTag = firstMatch.language
-                // try language, then English and then just take the first of the list
-                getOrStartsWith(langTag) ?: get("en-US") ?: get("en") ?: values.first()
-            }
-        }
+        val langTag = firstMatch.language
+        val country = firstMatch.country
+        return get(tag)
+            ?: run { if (country.isNotEmpty()) getOrStartsWith("$langTag-$country") else null }
+            ?: get(langTag)
+            ?: get("en-US")
+            ?: get("en")
+            ?: getOrStartsWith(langTag)
+            ?: values.first()
     }
 
     /**
