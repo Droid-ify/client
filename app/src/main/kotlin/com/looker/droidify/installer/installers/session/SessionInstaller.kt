@@ -88,6 +88,7 @@ class SessionInstaller(private val context: Context) : Installer {
 
     private fun sessionParams(installItem: InstallItem) =
         PackageInstaller.SessionParams(MODE_FULL_INSTALL).apply {
+            setAppPackageName(installItem.packageName.name)
             sdkAbove(sdk = Build.VERSION_CODES.S) {
                 setRequireUserAction(PackageInstaller.SessionParams.USER_ACTION_NOT_REQUIRED)
             }
