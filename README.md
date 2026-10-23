@@ -1,3 +1,6 @@
+> [!Important]
+> Project is on hold for rest of 2026. I am taking a break for little while. The break might spill to first quarter of 2027.
+
 > [!Warning]
 > **Free and Open-Source Android is under threat.**
 >
